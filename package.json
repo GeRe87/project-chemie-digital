@@ -1,0 +1,17 @@
+{
+  "name": "project-chemie-digital",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Semantic learning-content platform with Reveal.js as a presentation renderer.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "check:json": "node scripts/check-json.mjs",
+    "test": "npm run check:json"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
