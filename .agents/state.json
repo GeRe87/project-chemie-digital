@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": 1,
   "expectedDeliverable": "Review the QA/DevOps follow-up on draft PR #2, inspect the latest GitHub Actions status, require a successful remote npm test run before acceptance, and do not merge automatically.",
   "lastCompletedTurn": "worker: issue #1 QA/DevOps follow-up, draft PR #2, workflow .github/workflows/validate.yml, handoff .agents/handoffs/2026-07-15-issue-1-qa-ci.md; remote check pending",
-  "lastUpdated": "2026-07-15T23:30:00+02:00",
+  "lastUpdated": "2026-07-16T00:33:34+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260716T003334+0200",
+    "claimedAt": "2026-07-16T00:33:34+02:00",
+    "expiresAt": "2026-07-16T02:33:34+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 3,
+  "stateRevision": 4,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -37,6 +37,13 @@
       "to": "ready/manager",
       "actor": "scheduled-worker-20260715T232627+0200",
       "reason": "Added the minimal read-only CI workflow and QA handoff to draft PR #2; returned control for manager review with the remote GitHub Actions result explicitly pending."
+    },
+    {
+      "at": "2026-07-16T00:33:34+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "scheduled-manager-20260716T003334+0200",
+      "reason": "Claimed the manager review of the issue #1 QA/DevOps follow-up and draft PR #2 under the configured 120-minute lease."
     }
   ]
 }
