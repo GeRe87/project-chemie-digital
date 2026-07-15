@@ -1,0 +1,21 @@
+{
+  "workflow_id": "project-chemie-digital",
+  "core": {
+    "repository": "GeRe87/agent-workflow-core",
+    "ref": "c68eca289d51bc6f74edd6d1f8cea23ffea97004",
+    "protocol": "protocols/scheduled-dispatcher.md"
+  },
+  "state_file": ".agents/state.json",
+  "state_schema": ".agents/state.schema.json",
+  "project_protocol": ".agents/dispatcher-protocol.md",
+  "manager_role_profile": "AGENTS.md",
+  "maximum_turns_per_run": 1,
+  "lease_minutes": 120,
+  "transition_history_limit": 25,
+  "work_model": "github-issues",
+  "notification_policy": ".agents/dispatcher-protocol.md#notifications",
+  "additional_core_governance": [
+    "governance/role-governance.md",
+    "governance/repository-safety.md"
+  ]
+}
