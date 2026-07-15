@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "cd": "https://w3id.org/project-chemie-digital/ontology/",
+    "ex": "https://w3id.org/project-chemie-digital/resource/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "type": "@type",
+    "id": "@id",
+    "label": "skos:prefLabel",
+    "broader": { "@id": "skos:broader", "@type": "@id" },
+    "hasDefinition": { "@id": "cd:hasDefinition", "@type": "@id" },
+    "hasMathExpression": { "@id": "cd:hasMathExpression", "@type": "@id" },
+    "hasSymbol": { "@id": "cd:hasSymbol", "@type": "@id" },
+    "hasExample": { "@id": "cd:hasExample", "@type": "@id" },
+    "hasExercise": { "@id": "cd:hasExercise", "@type": "@id" },
+    "hasSource": { "@id": "cd:hasSource", "@type": "@id" }
+  },
+  "id": "ex:standard-deviation",
+  "type": "cd:Concept",
+  "label": [
+    { "@value": "Standardabweichung", "@language": "de" },
+    { "@value": "Standard deviation", "@language": "en" }
+  ],
+  "broader": "ex:statistical-base-terms",
+  "hasDefinition": "ex:standard-deviation-definition-basic",
+  "hasMathExpression": "ex:sample-standard-deviation-expression",
+  "hasSymbol": [
+    "ex:symbol-s",
+    "ex:symbol-n",
+    "ex:symbol-x-i",
+    "ex:symbol-x-bar"
+  ],
+  "hasExample": [
+    "ex:standard-deviation-example-replicates",
+    "ex:standard-deviation-example-sensor"
+  ],
+  "hasExercise": "ex:standard-deviation-exercise-01",
+  "hasSource": "ex:reference-statistics-01"
+}
