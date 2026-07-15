@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "qa-devops-engineer",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 1,
-  "expectedDeliverable": "Update draft PR #2 on branch agent/1-shacl-validation with one minimal GitHub Actions workflow that installs requirements-dev.txt, runs npm test with contents: read permissions, records the exact remote check status, and adds or updates a structured handoff without merging.",
-  "lastCompletedTurn": "worker: issue #1, draft PR #2, handoff .agents/handoffs/2026-07-15-issue-1.md",
-  "lastUpdated": "2026-07-15T23:26:27+02:00",
+  "expectedDeliverable": "Review the QA/DevOps follow-up on draft PR #2, inspect the latest GitHub Actions status, require a successful remote npm test run before acceptance, and do not merge automatically.",
+  "lastCompletedTurn": "worker: issue #1 QA/DevOps follow-up, draft PR #2, workflow .github/workflows/validate.yml, handoff .agents/handoffs/2026-07-15-issue-1-qa-ci.md; remote check pending",
+  "lastUpdated": "2026-07-15T23:30:00+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260715T232627+0200",
-    "claimedAt": "2026-07-15T23:26:27+02:00",
-    "expiresAt": "2026-07-16T01:26:27+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 2,
+  "stateRevision": 3,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -30,6 +30,13 @@
       "to": "busy/worker",
       "actor": "scheduled-worker-20260715T232627+0200",
       "reason": "Claimed the QA/DevOps follow-up for issue #1 under the configured 120-minute lease."
+    },
+    {
+      "at": "2026-07-15T23:30:00+02:00",
+      "from": "busy/worker",
+      "to": "ready/manager",
+      "actor": "scheduled-worker-20260715T232627+0200",
+      "reason": "Added the minimal read-only CI workflow and QA handoff to draft PR #2; returned control for manager review with the remote GitHub Actions result explicitly pending."
     }
   ]
 }
