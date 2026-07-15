@@ -1,0 +1,31 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cd:Concept a rdfs:Class ; rdfs:subClassOf skos:Concept .
+cd:LearningResource a rdfs:Class .
+cd:Definition a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
+cd:MathExpression a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
+cd:MathSymbol a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
+cd:WorkedExample a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
+cd:Exercise a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
+cd:LearningPath a rdfs:Class .
+cd:PathStep a rdfs:Class .
+cd:Source a rdfs:Class .
+
+cd:hasDefinition a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
+cd:hasMathExpression a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:MathExpression .
+cd:hasSymbol a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:MathSymbol .
+cd:hasExample a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:WorkedExample .
+cd:hasExercise a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
+cd:hasSource a rdf:Property ; rdfs:range cd:Source .
+cd:forTopic a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
+cd:hasStep a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
+cd:usesResource a rdf:Property ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
+cd:position a rdf:Property ; rdfs:domain cd:PathStep ; rdfs:range xsd:integer .
+cd:body a rdf:Property ; rdfs:range rdf:langString .
+cd:latex a rdf:Property ; rdfs:range xsd:string .
+cd:symbol a rdf:Property ; rdfs:range xsd:string .
+cd:viewType a rdf:Property ; rdfs:range xsd:string .
