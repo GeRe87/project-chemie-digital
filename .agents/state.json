@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "cycle": 1,
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
+  "nextTurn": "worker",
+  "activeRole": "semantic-web-engineer",
+  "activeIssue": 1,
+  "expectedDeliverable": "Draft PR with a reproducible SHACL validation command for the complete standard-deviation semantic slice, minimal semantic fixes if required, documentation, negative verification evidence, and a structured handoff.",
   "lastCompletedTurn": null,
-  "lastUpdated": "2026-07-15T00:00:00+02:00"
+  "lastUpdated": "2026-07-15T17:31:45+02:00"
 }
