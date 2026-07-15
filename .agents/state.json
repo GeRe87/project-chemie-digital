@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "cycle": 1,
+  "nextTurn": "manager",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": null,
+  "lastUpdated": "2026-07-15T00:00:00+02:00"
+}
