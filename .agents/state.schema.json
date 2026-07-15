@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project Chemie Digital Dispatcher State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "cycle",
+    "status",
+    "turn",
+    "nextTurn",
+    "activeRole",
+    "activeIssue",
+    "expectedDeliverable",
+    "lastCompletedTurn",
+    "lastUpdated",
+    "lease",
+    "blockedBy",
+    "stateRevision",
+    "transitionHistory"
+  ],
+  "properties": {
+    "schemaVersion": {"type": "integer", "minimum": 1},
+    "cycle": {"type": "integer", "minimum": 0},
+    "status": {"type": "string", "enum": ["ready", "busy", "blocked", "complete"]},
+    "turn": {"type": "string", "enum": ["manager", "worker"]},
+    "nextTurn": {"type": "string", "enum": ["manager", "worker"]},
+    "activeRole": {"type": ["string", "null"]},
+    "activeIssue": {"type": ["integer", "null"], "minimum": 1},
+    "expectedDeliverable": {"type": ["string", "null"]},
+    "lastCompletedTurn": {"type": ["string", "null"]},
+    "lastUpdated": {"type": "string", "format": "date-time"},
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "claimedAt", "expiresAt"],
+      "properties": {
+        "owner": {"type": ["string", "null"]},
+        "claimedAt": {"type": ["string", "null"], "format": "date-time"},
+        "expiresAt": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "blockedBy": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "stateRevision": {"type": "integer", "minimum": 0},
+    "transitionHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["at", "from", "to", "actor", "reason"],
+        "properties": {
+          "at": {"type": "string", "format": "date-time"},
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "actor": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}
