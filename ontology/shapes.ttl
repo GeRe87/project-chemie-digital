@@ -1,0 +1,41 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cd:ConceptShape a sh:NodeShape ;
+  sh:targetClass cd:Concept ;
+  sh:property [
+    sh:path skos:prefLabel ;
+    sh:minCount 1 ;
+    sh:uniqueLang true
+  ] ;
+  sh:property [
+    sh:path cd:hasDefinition ;
+    sh:minCount 1
+  ] .
+
+cd:LearningPathShape a sh:NodeShape ;
+  sh:targetClass cd:LearningPath ;
+  sh:property [
+    sh:path cd:forTopic ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path cd:hasStep ;
+    sh:minCount 1
+  ] .
+
+cd:PathStepShape a sh:NodeShape ;
+  sh:targetClass cd:PathStep ;
+  sh:property [
+    sh:path cd:position ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path cd:usesResource ;
+    sh:minCount 1
+  ] .
