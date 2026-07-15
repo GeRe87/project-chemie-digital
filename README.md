@@ -23,6 +23,23 @@ The technical proof of concept uses the topic **standard deviation**:
 - Reveal.js rendering,
 - a generated knowledge-network view.
 
+## Semantic validation
+
+The complete standard-deviation slice is validated as one RDF graph against the repository's SHACL shapes. The graph includes `ontology/learning.ttl` and all three JSON-LD files under `content/` for the concept, resources, and default path.
+
+```bash
+python -m pip install -r requirements-dev.txt
+npm run check:semantics
+```
+
+The command exits with status `0` when the graph conforms, `1` for SHACL violations, and `2` when parsing or validation cannot run. Positive and deliberately invalid negative cases can be checked with:
+
+```bash
+npm run test:semantics
+```
+
+Path order is represented by each `cd:PathStep`'s integer `cd:position`; `cd:hasStep` is an unordered RDF relation and does not create an RDF list node.
+
 ## Repository principles
 
 - `main` remains reviewable and stable.
