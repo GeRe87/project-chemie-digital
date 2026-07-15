@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "cd": "https://w3id.org/project-chemie-digital/ontology/",
+    "ex": "https://w3id.org/project-chemie-digital/resource/",
+    "schema": "https://schema.org/",
+    "type": "@type",
+    "id": "@id",
+    "body": "cd:body",
+    "latex": "cd:latex",
+    "symbol": "cd:symbol",
+    "hasSource": { "@id": "cd:hasSource", "@type": "@id" }
+  },
+  "@graph": [
+    {
+      "id": "ex:standard-deviation-definition-basic",
+      "type": "cd:Definition",
+      "body": { "@value": "Die Standardabweichung beschreibt die typische Streuung einzelner Beobachtungen um ihren arithmetischen Mittelwert.", "@language": "de" },
+      "hasSource": "ex:reference-statistics-01"
+    },
+    {
+      "id": "ex:sample-standard-deviation-expression",
+      "type": "cd:MathExpression",
+      "latex": "s = \\sqrt{\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2}"
+    },
+    { "id": "ex:symbol-s", "type": "cd:MathSymbol", "symbol": "s" },
+    { "id": "ex:symbol-n", "type": "cd:MathSymbol", "symbol": "n" },
+    { "id": "ex:symbol-x-i", "type": "cd:MathSymbol", "symbol": "x_i" },
+    { "id": "ex:symbol-x-bar", "type": "cd:MathSymbol", "symbol": "x̄" },
+    {
+      "id": "ex:standard-deviation-example-replicates",
+      "type": "cd:WorkedExample",
+      "body": { "@value": "Fünf Wiederholmessungen einer Kalibrierlösung werden genutzt, um Präzision und Standardabweichung zu bestimmen.", "@language": "de" }
+    },
+    {
+      "id": "ex:standard-deviation-example-sensor",
+      "type": "cd:WorkedExample",
+      "body": { "@value": "Temperaturmessungen eines Minireaktors werden auf zufällige Schwankungen und Sensorstabilität untersucht.", "@language": "de" }
+    },
+    {
+      "id": "ex:standard-deviation-exercise-01",
+      "type": "cd:Exercise",
+      "body": { "@value": "Berechnen und interpretieren Sie die Stichprobenstandardabweichung der Messwerte 9,8; 10,1; 10,0; 10,2; 9,9 mg/L.", "@language": "de" }
+    },
+    {
+      "id": "ex:reference-statistics-01",
+      "type": "cd:Source",
+      "schema:name": "Einführende Statistikreferenz",
+      "schema:url": "https://example.org/reference/statistics"
+    }
+  ]
+}
