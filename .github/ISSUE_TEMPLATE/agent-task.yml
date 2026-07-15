@@ -1,0 +1,42 @@
+name: Agent task
+about: One bounded task for an hourly specialist turn
+labels: ["agent-task"]
+body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Assigned role
+      options:
+        - Software Architect
+        - Semantic Web Engineer
+        - Frontend Engineer
+        - Backend Engineer
+        - QA/DevOps Engineer
+        - Chemistry Lecturer
+        - Instructional Designer
+        - Student Reviewer
+        - Independent Reviewer
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: One concrete outcome for one worker turn.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints and relevant files
+  - type: textarea
+    id: verification
+    attributes:
+      label: Required verification
