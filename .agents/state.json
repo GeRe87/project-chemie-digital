@@ -1,19 +1,18 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "backend-engineer",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 11,
-  "expectedDeliverable": "A draft pull request implementing the bounded deterministic offline scene composer and minimal additive ResolvedResource boundary for the five-step standard-deviation slice, with golden equality, deterministic-order, atomic-diagnostic tests, full validation, and a structured backend-engineer handoff.",
-  "lastCompletedTurn": "manager: created issue #11 and assigned the bounded deterministic scene-composer implementation to the Backend and Data Integration Engineer",
-  "lastUpdated": "2026-07-17T01:28:03+02:00",
-  "lease": {"owner":"scheduled-worker-20260717T012803+0200","claimedAt":"2026-07-17T01:28:03+02:00","expiresAt":"2026-07-17T03:28:03+02:00"},
+  "expectedDeliverable": "Review draft PR #12 implementing the bounded deterministic offline scene composer and minimal additive ResolvedResource boundary, including the golden fixture tests, atomic diagnostics, documentation, and backend-engineer handoff; remote validation is pending.",
+  "lastCompletedTurn": "worker: implemented the bounded deterministic scene composer for issue #11, opened draft PR #12, and recorded the backend-engineer handoff",
+  "lastUpdated": "2026-07-17T01:40:00+02:00",
+  "lease": {"owner":null,"claimedAt":null,"expiresAt":null},
   "blockedBy": [],
-  "stateRevision": 42,
+  "stateRevision": 43,
   "transitionHistory": [
-    {"at":"2026-07-16T13:26:48+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T132648+0200","reason":"Claimed the bounded architecture-first backlog review and next worker assignment turn under the configured 120-minute lease."},
     {"at":"2026-07-16T13:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260716T132648+0200","reason":"Created issue #5 and assigned a bounded documentation-only ADR defining semantic learning-compiler layers and contracts to the Software Architect before scene-composer implementation."},
     {"at":"2026-07-16T14:27:15+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260716T142715+0200","reason":"Claimed the bounded documentation-only software architect assignment for issue #5 under the configured 120-minute lease."},
     {"at":"2026-07-16T14:35:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260716T142715+0200","reason":"Proposed ADR-0002, made the architecture-first backlog sequence explicit, opened draft PR #6, recorded the structured handoff, and returned control for manager review with remote CI pending."},
@@ -37,6 +36,7 @@
     {"at":"2026-07-16T23:35:15+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260716T233202+0200","reason":"Accepted issue #9 after successful Validate run #59, recorded the formal verdict, marked PR #10 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for the next bounded architecture-first selection."},
     {"at":"2026-07-17T00:29:26+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T002926+0200","reason":"Claimed the bounded architecture-first backlog review and next worker assignment turn after acceptance of deterministic scene-composition rules."},
     {"at":"2026-07-17T00:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T002926+0200","reason":"Created issue #11 and assigned the bounded deterministic offline scene-composer implementation and minimal additive ResolvedResource boundary to the Backend and Data Integration Engineer."},
-    {"at":"2026-07-17T01:28:03+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T012803+0200","reason":"Claimed the bounded backend-engineer assignment for issue #11 under the configured 120-minute lease."}
+    {"at":"2026-07-17T01:28:03+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T012803+0200","reason":"Claimed the bounded backend-engineer assignment for issue #11 under the configured 120-minute lease."},
+    {"at":"2026-07-17T01:40:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T012803+0200","reason":"Implemented the bounded deterministic offline scene composer and normalized resource boundary, added golden and negative tests plus documentation, opened draft PR #12, recorded the structured backend-engineer handoff, and returned control for manager review with remote validation pending."}
   ]
 }
