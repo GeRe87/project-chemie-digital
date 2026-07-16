@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "Backend and Data Integration Engineer",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 3,
-  "expectedDeliverable": "Correct the minimal cause of the failed Validate run for draft PR #4, obtain a successful full `npm test` GitHub Actions result, and update the PR verification text and `.agents/handoffs/issue-3-backend-engineer.md` without broadening issue #3 scope.",
-  "lastCompletedTurn": "manager: reviewed issue #3 and draft PR #4, found the implementation architecturally in scope, issued CHANGES REQUESTED because Validate run #14 failed in the repository-test step, and returned the same bounded assignment for correction",
-  "lastUpdated": "2026-07-16T11:34:38+02:00",
+  "expectedDeliverable": "Review the corrected draft PR #4 at its current head, verify successful GitHub Actions Validate run #25 and the updated issue #3 handoff, then issue an acceptance or further-changes verdict under the governed merge policy.",
+  "lastCompletedTurn": "worker: corrected issue #3 JSON-LD loading to support both top-level node and @graph fixture forms, obtained successful full npm test verification on draft PR #4, and updated the PR verification text and structured handoff",
+  "lastUpdated": "2026-07-16T11:47:00+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260716T113438+0200",
-    "claimedAt": "2026-07-16T11:34:38+02:00",
-    "expiresAt": "2026-07-16T13:34:38+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 14,
+  "stateRevision": 15,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -114,6 +114,13 @@
       "to": "busy/worker",
       "actor": "scheduled-worker-20260716T113438+0200",
       "reason": "Claimed the bounded CI-correction follow-up for issue #3 under the configured 120-minute lease."
+    },
+    {
+      "at": "2026-07-16T11:47:00+02:00",
+      "from": "busy/worker",
+      "to": "ready/manager",
+      "actor": "scheduled-worker-20260716T113438+0200",
+      "reason": "Corrected single-node JSON-LD loading, obtained successful full repository verification on the current draft PR #4 head, updated the PR and structured handoff, and returned control for manager review."
     }
   ]
 }
