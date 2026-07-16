@@ -1,21 +1,17 @@
 {
   "schemaVersion": 2,
-  "cycle": 4,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Select the next bounded architecture-first task after reviewing the updated backlog and ADRs, prioritizing the semantic learning-compiler separation before broader implementation.",
-  "lastCompletedTurn": "manager: accepted corrected issue #3 after successful Validate run #25, marked PR #4 ready, squash-merged it into main with an expected-head guard, and confirmed issue #3 closed",
-  "lastUpdated": "2026-07-16T13:26:48+02:00",
-  "lease": {
-    "owner": "scheduled-manager-20260716T132648+0200",
-    "claimedAt": "2026-07-16T13:26:48+02:00",
-    "expiresAt": "2026-07-16T15:26:48+02:00"
-  },
+  "cycle": 5,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "software-architect",
+  "activeIssue": 5,
+  "expectedDeliverable": "Proposed ADR-0002 defining the six semantic learning-compiler layers, dependency direction, renderer-neutral contracts, offline external-reference policy, and explicit backlog sequencing, plus a draft PR and structured handoff.",
+  "lastCompletedTurn": "manager: reviewed the merged path-resolver increment, current backlog and ADR-0001; created and assigned issue #5 for a bounded architecture-only learning-compiler ADR",
+  "lastUpdated": "2026-07-16T13:31:00+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
   "blockedBy": [],
-  "stateRevision": 18,
+  "stateRevision": 19,
   "transitionHistory": [
     {"at":"2026-07-15T22:49:00+02:00","from":"legacy/worker","to":"ready/worker","actor":"workflow-core-migration","reason":"Added the shared lease-aware state envelope while preserving the active QA/DevOps issue assignment and next worker turn."},
     {"at":"2026-07-15T23:26:27+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260715T232627+0200","reason":"Claimed the QA/DevOps follow-up for issue #1 under the configured 120-minute lease."},
@@ -34,6 +30,7 @@
     {"at":"2026-07-16T11:47:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260716T113438+0200","reason":"Corrected single-node JSON-LD loading, obtained successful full repository verification on the current draft PR #4 head, updated the PR and structured handoff, and returned control for manager review."},
     {"at":"2026-07-16T12:30:34+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T123034+0200","reason":"Claimed the manager re-review of corrected issue #3, draft PR #4, the updated handoff, and successful remote validation evidence under the configured 120-minute lease."},
     {"at":"2026-07-16T12:34:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260716T123034+0200","reason":"Accepted corrected issue #3 after successful Validate run #25, marked PR #4 ready, squash-merged it into main with the current-head guard, confirmed issue closure, and returned control for the next bounded architecture-first selection."},
-    {"at":"2026-07-16T13:26:48+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T132648+0200","reason":"Claimed the bounded architecture-first backlog review and next worker assignment turn under the configured 120-minute lease."}
+    {"at":"2026-07-16T13:26:48+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T132648+0200","reason":"Claimed the bounded architecture-first backlog review and next worker assignment turn under the configured 120-minute lease."},
+    {"at":"2026-07-16T13:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260716T132648+0200","reason":"Created issue #5 and assigned a bounded documentation-only ADR defining semantic learning-compiler layers and contracts to the Software Architect before scene-composer implementation."}
   ]
 }
