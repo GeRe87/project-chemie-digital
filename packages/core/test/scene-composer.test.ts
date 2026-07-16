@@ -3,11 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import type { ResolvedLearningPath } from "../src/path-resolver.ts";
-import {
-  composeSceneDocument,
-  type CompositionDiagnosticCode,
-  type ResolvedResource,
-} from "../src/scene-composer.ts";
+import { composeSceneDocument, type CompositionDiagnosticCode, type ResolvedResource } from "../src/scene-composer.ts";
 import type { SceneDocument } from "../src/scene-document.ts";
 
 const path: ResolvedLearningPath = {
@@ -63,7 +59,9 @@ test("is repeatable and independent of resource-index insertion order", () => {
 
 test("fails atomically for a missing resource", () => {
   const values = resourceValues.filter((resource) => resource.id !== "ex:standard-deviation-exercise-01");
-  expectOnly("MISSING_RESOURCE", composeSceneDocument({ path, resources: resources(values) }));
+  const result = composeSceneDocument({ path, resources: resources(values) });
+  assert.equal(result.document, undefined);
+  assert.ok(result.diagnostics.some((item) => item.code === "MISSING_RESOURCE"));
 });
 
 test("diagnoses unsupported view types", () => {
@@ -83,13 +81,10 @@ test("diagnoses incompatible cardinality", () => {
 test("diagnoses unsupported kinds, missing payloads, accessibility, and narration", () => {
   const unsupported = resourceValues.map((resource) => resource.id === "ex:standard-deviation-definition-basic" ? { ...resource, kind: "Video" } : resource);
   assert.ok(composeSceneDocument({ path, resources: resources(unsupported) }).diagnostics.some((item) => item.code === "UNSUPPORTED_RESOURCE_KIND"));
-
   const payload = resourceValues.map((resource) => resource.id === "ex:standard-deviation-definition-basic" ? { ...resource, body: "" } : resource);
   assert.ok(composeSceneDocument({ path, resources: resources(payload) }).diagnostics.some((item) => item.code === "MISSING_REQUIRED_PAYLOAD"));
-
   const accessible = resourceValues.map((resource) => resource.id === "ex:sample-standard-deviation-expression" ? { ...resource, spokenText: "" } : resource);
   assert.ok(composeSceneDocument({ path, resources: resources(accessible) }).diagnostics.some((item) => item.code === "MISSING_ACCESSIBLE_ALTERNATIVE"));
-
   const narration = resourceValues.map((resource) => resource.id === "ex:standard-deviation-definition-basic" ? { ...resource, narrationRequired: true } : resource);
   assert.ok(composeSceneDocument({ path, resources: resources(narration) }).diagnostics.some((item) => item.code === "MISSING_NARRATION_PAYLOAD"));
 });
