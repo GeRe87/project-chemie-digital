@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 3,
   "expectedDeliverable": "Correct the minimal cause of the failed Validate run for draft PR #4, obtain a successful full `npm test` GitHub Actions result, and update the PR verification text and `.agents/handoffs/issue-3-backend-engineer.md` without broadening issue #3 scope.",
   "lastCompletedTurn": "manager: reviewed issue #3 and draft PR #4, found the implementation architecturally in scope, issued CHANGES REQUESTED because Validate run #14 failed in the repository-test step, and returned the same bounded assignment for correction",
-  "lastUpdated": "2026-07-16T10:39:30+02:00",
+  "lastUpdated": "2026-07-16T11:34:38+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260716T113438+0200",
+    "claimedAt": "2026-07-16T11:34:38+02:00",
+    "expiresAt": "2026-07-16T13:34:38+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 13,
+  "stateRevision": 14,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -107,6 +107,13 @@
       "to": "ready/worker",
       "actor": "scheduled-manager-20260716T103436+0200",
       "reason": "Issued a formal CHANGES REQUESTED verdict on draft PR #4 because Validate run #14 failed in the repository-test step, then returned the same bounded issue #3 assignment for minimal CI correction and renewed verification."
+    },
+    {
+      "at": "2026-07-16T11:34:38+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "scheduled-worker-20260716T113438+0200",
+      "reason": "Claimed the bounded CI-correction follow-up for issue #3 under the configured 120-minute lease."
     }
   ]
 }
