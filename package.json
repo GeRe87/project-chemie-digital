@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "check:json": "node scripts/check-json.mjs",
-    "test": "npm run check:json"
+    "check:semantics": "python scripts/validate_semantics.py",
+    "test:semantics": "python -m unittest discover -s tests -v",
+    "test": "npm run check:json && npm run check:semantics && npm run test:semantics"
   },
   "engines": {
     "node": ">=22"

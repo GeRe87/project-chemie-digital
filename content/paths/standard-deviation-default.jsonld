@@ -5,7 +5,7 @@
     "type": "@type",
     "id": "@id",
     "forTopic": { "@id": "cd:forTopic", "@type": "@id" },
-    "hasStep": { "@id": "cd:hasStep", "@type": "@id", "@container": "@list" },
+    "hasStep": { "@id": "cd:hasStep", "@type": "@id" },
     "position": "cd:position",
     "usesResource": { "@id": "cd:usesResource", "@type": "@id" },
     "viewType": "cd:viewType"
