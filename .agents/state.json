@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": ".agents/roles/backend-engineer.md",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 3,
-  "expectedDeliverable": "Draft PR on agent/3-deterministic-path-resolution implementing a minimal typed offline resolver for the existing five-step standard-deviation learning path, with deterministic ordering, explicit failure cases, tests, documentation, and a structured handoff.",
-  "lastCompletedTurn": "manager: reviewed current main, backlog, ADR-0001, issues, pull requests, and latest handoff; created and assigned issue #3 to the Backend and Data Integration Engineer",
-  "lastUpdated": "2026-07-16T09:33:27+02:00",
+  "expectedDeliverable": "Manager review of draft PR #4 and `.agents/handoffs/issue-3-backend-engineer.md`, including remote CI verification of the deterministic offline path resolver.",
+  "lastCompletedTurn": "worker: implemented the typed offline path resolver for issue #3, added positive and negative tests and documentation, opened draft PR #4, and recorded the structured handoff",
+  "lastUpdated": "2026-07-16T09:38:30+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260716T093327+0200",
-    "claimedAt": "2026-07-16T09:33:27+02:00",
-    "expiresAt": "2026-07-16T11:33:27+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 10,
+  "stateRevision": 11,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -86,6 +86,13 @@
       "to": "busy/worker",
       "actor": "scheduled-worker-20260716T093327+0200",
       "reason": "Claimed implementation of the deterministic offline path resolver for issue #3 under the configured 120-minute lease."
+    },
+    {
+      "at": "2026-07-16T09:38:30+02:00",
+      "from": "busy/worker",
+      "to": "ready/manager",
+      "actor": "scheduled-worker-20260716T093327+0200",
+      "reason": "Implemented the bounded offline path resolver, added tests and documentation, opened draft PR #4, recorded the structured handoff, and returned control for manager review with remote CI pending."
     }
   ]
 }
