@@ -2,7 +2,7 @@
   "workflow_id": "project-chemie-digital",
   "core": {
     "repository": "GeRe87/agent-workflow-core",
-    "ref": "e45c0071d921295119d073f16584af18ebedabdd",
+    "ref": "33838fd1d133e342ab8b52675fa8ef882aeecc13",
     "schema": "schemas/workflow-config.schema.json",
     "protocol": "protocols/scheduled-dispatcher.md",
     "governance": [
@@ -10,7 +10,8 @@
       "governance/repository-safety.md",
       "governance/external-research.md",
       "governance/human-approval-gates.md",
-      "governance/notifications.md"
+      "governance/notifications.md",
+      "governance/pull-request-merging.md"
     ]
   },
   "state_file": ".agents/state.json",
@@ -21,5 +22,13 @@
   "lease_minutes": 120,
   "transition_history_limit": 25,
   "work_model": "github-issues",
-  "notification_policy": ".agents/dispatcher-protocol.md#notifications"
+  "notification_policy": ".agents/dispatcher-protocol.md#notifications",
+  "merge_policy": {
+    "agent_merge_enabled": true,
+    "base_branch": "main",
+    "manager_only": true,
+    "require_successful_checks": true,
+    "require_accepted_review": true,
+    "merge_method": "squash"
+  }
 }
