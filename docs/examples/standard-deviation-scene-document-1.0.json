@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "id": "ex:standard-deviation-default-path--scene-document",
+  "sourcePathId": "ex:standard-deviation-default-path",
+  "scenes": [
+    {
+      "id": "ex:sd-step-definition--scene",
+      "source": [{"resourceId":"ex:standard-deviation-definition-basic","provenanceIds":["ex:reference-statistics-01"]}],
+      "blocks": [{
+        "id": "ex:sd-step-definition--block-1",
+        "kind": "prose",
+        "source": [{"resourceId":"ex:standard-deviation-definition-basic","provenanceIds":["ex:reference-statistics-01"]}],
+        "text": "Die Standardabweichung beschreibt die typische Streuung einzelner Beobachtungen um ihren arithmetischen Mittelwert.",
+        "format": "plain",
+        "disclosure": {"order":0,"mode":"initial"},
+        "emphasis": "primary",
+        "intent": {"kind":"introduce"}
+      }],
+      "readingOrder": ["ex:sd-step-definition--block-1"],
+      "accessibility": {"label":"Standardabweichung: Definition"}
+    },
+    {
+      "id": "ex:sd-step-expression--scene",
+      "source": [{"resourceId":"ex:sample-standard-deviation-expression"}],
+      "blocks": [{
+        "id": "ex:sd-step-expression--block-1",
+        "kind": "math",
+        "source": [{"resourceId":"ex:sample-standard-deviation-expression"}],
+        "expression": "s = \\sqrt{\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2}",
+        "spokenText": "s ist die Quadratwurzel aus eins durch n minus eins, multipliziert mit der Summe der quadrierten Abweichungen von x i vom arithmetischen Mittelwert x quer.",
+        "disclosure": {"order":0,"mode":"initial"},
+        "emphasis": "primary",
+        "intent": {"kind":"explain"}
+      }],
+      "readingOrder": ["ex:sd-step-expression--block-1"],
+      "accessibility": {"label":"Stichprobenstandardabweichung: Formel"}
+    },
+    {
+      "id": "ex:sd-step-symbols--scene",
+      "source": [
+        {"resourceId":"ex:symbol-n"},
+        {"resourceId":"ex:symbol-s"},
+        {"resourceId":"ex:symbol-x-bar"},
+        {"resourceId":"ex:symbol-x-i"}
+      ],
+      "blocks": [
+        {"id":"ex:sd-step-symbols--block-1","kind":"math","source":[{"resourceId":"ex:symbol-n"}],"expression":"n","spokenText":"n","disclosure":{"order":0,"mode":"initial"},"intent":{"kind":"explain"}},
+        {"id":"ex:sd-step-symbols--block-2","kind":"math","source":[{"resourceId":"ex:symbol-s"}],"expression":"s","spokenText":"s","disclosure":{"order":1,"mode":"initial"},"intent":{"kind":"explain"}},
+        {"id":"ex:sd-step-symbols--block-3","kind":"math","source":[{"resourceId":"ex:symbol-x-bar"}],"expression":"\\bar{x}","spokenText":"x quer","disclosure":{"order":2,"mode":"initial"},"intent":{"kind":"explain"}},
+        {"id":"ex:sd-step-symbols--block-4","kind":"math","source":[{"resourceId":"ex:symbol-x-i"}],"expression":"x_i","spokenText":"x Index i","disclosure":{"order":3,"mode":"initial"},"intent":{"kind":"explain"}}
+      ],
+      "readingOrder": ["ex:sd-step-symbols--block-1","ex:sd-step-symbols--block-2","ex:sd-step-symbols--block-3","ex:sd-step-symbols--block-4"],
+      "accessibility": {"label":"Formelzeichen der Stichprobenstandardabweichung"}
+    },
+    {
+      "id": "ex:sd-step-examples--scene",
+      "source": [
+        {"resourceId":"ex:standard-deviation-example-replicates"},
+        {"resourceId":"ex:standard-deviation-example-sensor"}
+      ],
+      "blocks": [
+        {"id":"ex:sd-step-examples--block-1","kind":"prose","source":[{"resourceId":"ex:standard-deviation-example-replicates"}],"text":"Fünf Wiederholmessungen einer Kalibrierlösung werden genutzt, um Präzision und Standardabweichung zu bestimmen.","format":"plain","disclosure":{"order":0,"mode":"initial"},"intent":{"kind":"explain"}},
+        {"id":"ex:sd-step-examples--block-2","kind":"prose","source":[{"resourceId":"ex:standard-deviation-example-sensor"}],"text":"Temperaturmessungen eines Minireaktors werden auf zufällige Schwankungen und Sensorstabilität untersucht.","format":"plain","disclosure":{"order":1,"mode":"initial"},"intent":{"kind":"explain"}}
+      ],
+      "readingOrder": ["ex:sd-step-examples--block-1","ex:sd-step-examples--block-2"],
+      "accessibility": {"label":"Anwendungsbeispiele zur Standardabweichung"}
+    },
+    {
+      "id": "ex:sd-step-exercise--scene",
+      "source": [{"resourceId":"ex:standard-deviation-exercise-01"}],
+      "blocks": [{
+        "id": "ex:sd-step-exercise--block-1",
+        "kind": "prompt",
+        "source": [{"resourceId":"ex:standard-deviation-exercise-01"}],
+        "prompt": "Berechnen und interpretieren Sie die Stichprobenstandardabweichung der Messwerte 9,8; 10,1; 10,0; 10,2; 9,9 mg/L.",
+        "responseMode": "free-text",
+        "fallback": "Aufgabe: Berechnen und interpretieren Sie die Stichprobenstandardabweichung der Messwerte 9,8; 10,1; 10,0; 10,2; 9,9 mg/L.",
+        "disclosure": {"order":0,"mode":"initial"},
+        "emphasis": "primary",
+        "intent": {"kind":"practice"}
+      }],
+      "readingOrder": ["ex:sd-step-exercise--block-1"],
+      "accessibility": {"label":"Übung zur Stichprobenstandardabweichung"}
+    }
+  ]
+}
