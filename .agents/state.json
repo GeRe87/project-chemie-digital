@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 5,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": 5,
-  "expectedDeliverable": "Select and assign the next bounded architecture-first task after accepted ADR-0002, beginning with the minimal renderer-neutral scene-document contract and primitives before composer implementation.",
-  "lastCompletedTurn": "manager: accepted issue #5, recorded the formal verdict, marked PR #6 ready, squash-merged it after successful validation, and confirmed issue closure",
-  "lastUpdated": "2026-07-16T16:31:28+02:00",
+  "cycle": 6,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "software-architect",
+  "activeIssue": 7,
+  "expectedDeliverable": "Define and validate the minimal versioned renderer-neutral SceneDocument contract and primitive set for the standard-deviation slice, open a draft PR, and record a structured software-architect handoff without implementing the composer or a renderer.",
+  "lastCompletedTurn": "manager: created issue #7 and assigned the bounded renderer-neutral scene-document contract definition to the Software Architect",
+  "lastUpdated": "2026-07-16T16:35:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260716T163128+0200",
-    "claimedAt": "2026-07-16T16:31:28+02:00",
-    "expiresAt": "2026-07-16T18:31:28+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 24,
+  "stateRevision": 25,
   "transitionHistory": [
     {"at":"2026-07-15T22:49:00+02:00","from":"legacy/worker","to":"ready/worker","actor":"workflow-core-migration","reason":"Added the shared lease-aware state envelope while preserving the active QA/DevOps issue assignment and next worker turn."},
     {"at":"2026-07-15T23:26:27+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260715T232627+0200","reason":"Claimed the QA/DevOps follow-up for issue #1 under the configured 120-minute lease."},
@@ -40,6 +40,7 @@
     {"at":"2026-07-16T14:35:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260716T142715+0200","reason":"Proposed ADR-0002, made the architecture-first backlog sequence explicit, opened draft PR #6, recorded the structured handoff, and returned control for manager review with remote CI pending."},
     {"at":"2026-07-16T15:34:36+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T153436+0200","reason":"Claimed the manager review of issue #5, draft PR #6, proposed ADR-0002, backlog sequencing, handoff, and current validation evidence under the configured 120-minute lease."},
     {"at":"2026-07-16T15:39:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260716T153436+0200","reason":"Accepted issue #5 after successful Validate run #34, recorded the formal verdict, marked PR #6 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for the next bounded scene-contract selection."},
-    {"at":"2026-07-16T16:31:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T163128+0200","reason":"Claimed the bounded scene-document contract selection and worker-assignment turn under the configured 120-minute lease."}
+    {"at":"2026-07-16T16:31:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T163128+0200","reason":"Claimed the bounded scene-document contract selection and worker-assignment turn under the configured 120-minute lease."},
+    {"at":"2026-07-16T16:35:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260716T163128+0200","reason":"Created issue #7 and assigned the minimal renderer-neutral scene-document contract and primitive definition to the Software Architect before composer implementation."}
   ]
 }
