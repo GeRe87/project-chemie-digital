@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": ".agents/roles/backend-engineer.md",
   "activeIssue": 3,
   "expectedDeliverable": "Draft PR on agent/3-deterministic-path-resolution implementing a minimal typed offline resolver for the existing five-step standard-deviation learning path, with deterministic ordering, explicit failure cases, tests, documentation, and a structured handoff.",
   "lastCompletedTurn": "manager: reviewed current main, backlog, ADR-0001, issues, pull requests, and latest handoff; created and assigned issue #3 to the Backend and Data Integration Engineer",
-  "lastUpdated": "2026-07-16T08:33:00+02:00",
+  "lastUpdated": "2026-07-16T09:33:27+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260716T093327+0200",
+    "claimedAt": "2026-07-16T09:33:27+02:00",
+    "expiresAt": "2026-07-16T11:33:27+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 9,
+  "stateRevision": 10,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -79,6 +79,13 @@
       "to": "ready/worker",
       "actor": "scheduled-manager-20260716T082850+0200",
       "reason": "Created issue #3 for the next bounded Phase 1 increment and assigned deterministic offline path resolution to the Backend and Data Integration Engineer."
+    },
+    {
+      "at": "2026-07-16T09:33:27+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "scheduled-worker-20260716T093327+0200",
+      "reason": "Claimed implementation of the deterministic offline path resolver for issue #3 under the configured 120-minute lease."
     }
   ]
 }
