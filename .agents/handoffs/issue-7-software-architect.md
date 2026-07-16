@@ -29,7 +29,7 @@
 ## Verification
 
 - [x] Automated tests added, including scene-level and nested-group disclosure-order tie cases
-- [ ] Complete repository validation — Validate run #49 is queued for the corrected PR head
+- [x] Complete repository validation — Validate run #50 completed successfully on the corrected PR head
 - [ ] Manual browser check — not applicable; no renderer or browser implementation
 - [x] Accessibility check — reading order and non-visual alternatives are contract invariants
 - [x] Documentation updated
@@ -45,8 +45,7 @@
 ## Risks or unresolved questions
 
 - The future composer must define deterministic rules for mapping existing `viewType` values and resource kinds to these primitives.
-- The corrected remote validation result must be reviewed on the current draft PR head.
 
 ## Recommended manager action
 
-`review after Validate run #49 completes`
+`review`
