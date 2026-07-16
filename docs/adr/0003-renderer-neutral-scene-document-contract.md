@@ -23,7 +23,7 @@ The minimal block vocabulary is:
 
 Every scene and block retains at least one source-resource identifier. Optional provenance identifiers preserve traceability without changing the issue #3 `ResolvedLearningPath` contract.
 
-Didactic purpose is represented by a small `DidacticIntent` vocabulary. It states why material is presented, not which renderer component implements it. Progressive disclosure is represented by renderer-neutral `mode` and integer `order` metadata. Adapters may map this to animation, sequential print states, expandable content, or an immediately visible accessible fallback.
+Didactic purpose is represented by a small `DidacticIntent` vocabulary. It states why material is presented, not which renderer component implements it. Progressive disclosure is represented by renderer-neutral `mode` and integer `order` metadata. Within every direct sibling collection — a scene's `blocks` and each group's `children` — all blocks that define disclosure metadata must use distinct `order` values. Disclosure modes do not create separate ordering namespaces, and gaps are allowed. This makes the sequence unambiguous without an adapter-specific tie-break. Adapters may map the ordered states to animation, sequential print states, expandable content, or an immediately visible accessible fallback.
 
 Unsupported interactions or disclosure modes must degrade to readable static content using the block's semantic reading order and, for prompts, its mandatory `fallback`. Adapters must not drop source content merely because a concrete interaction is unavailable.
 
@@ -34,6 +34,7 @@ Unsupported interactions or disclosure modes must degrade to readable static con
 - source-resource traceability is mandatory for every scene and block;
 - reading-order lists are complete, unique and reference only direct children;
 - disclosure order is a non-negative integer;
+- disclosure order is unique among all disclosed blocks in each direct sibling collection, including nested group children;
 - mathematical and media content provide non-visual alternatives;
 - prompts provide a static fallback;
 - version `1.0` is validated explicitly;
