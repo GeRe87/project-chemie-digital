@@ -36,6 +36,7 @@ The manager must:
 5. Create or update one GitHub issue with acceptance criteria, constraints, relevant files, and the selected role.
 6. Set `.agents/state.json` to `nextTurn: worker`, recording `activeRole`, `activeIssue`, and the expected deliverable.
 7. Avoid implementation changes. The manager may update planning, state, issue metadata, and ADR proposals.
+8. After accepting a reviewed pull request, merge it into `main` only when `.agents/workflow-config.json` explicitly enables governed agent merging and every required check and core merge-policy condition is satisfied.
 
 ### Worker turn
 
@@ -55,14 +56,15 @@ The worker must:
 
 Agents must not independently:
 
-- merge pull requests,
 - publish public releases or OER materials,
-- change repository visibility,
+- change repository visibility, access, protected settings, or deployment targets,
 - add secrets or credentials,
 - make breaking ontology changes after version `0.1.0`,
 - remove accepted requirements,
 - make legal, examination-regulation, or data-protection decisions,
 - claim pedagogical effectiveness without evidence.
+
+Pull-request merging into `main` is not a human approval gate when governed agent merging is explicitly enabled in `.agents/workflow-config.json`. Only the manager may merge, and only after an explicit acceptance verdict, successful required checks, a mergeable current PR head, and satisfaction of the pinned core merge policy.
 
 ## Definition of done
 
