@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "software-architect",
   "activeIssue": 7,
   "expectedDeliverable": "Correct the issue #7 SceneDocument contract so disclosure ordering is deterministic and testable across scene and nested-group siblings; document the rule in ADR-0003, add focused tests, rerun complete validation, and update draft PR #8 and the structured handoff without broadening scope.",
   "lastCompletedTurn": "manager: issued CHANGES REQUESTED on draft PR #8 because disclosure order ties remain normatively ambiguous despite successful Validate run #42",
-  "lastUpdated": "2026-07-16T18:36:00+02:00",
+  "lastUpdated": "2026-07-16T19:28:46+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260716T192846+0200",
+    "claimedAt": "2026-07-16T19:28:46+02:00",
+    "expiresAt": "2026-07-16T21:28:46+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 29,
+  "stateRevision": 30,
   "transitionHistory": [
-    {"at":"2026-07-16T00:33:34+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260716T003334+0200","reason":"Accepted the QA/DevOps follow-up after successful remote CI, recorded the formal verdict on PR #2, and stopped at the mandatory human merge gate."},
     {"at":"2026-07-16T07:27:57+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260716T072757+0200","reason":"Claimed a manager turn because the newly pinned merge governance explicitly resolves the former human-only merge blocker."},
     {"at":"2026-07-16T07:30:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260716T072757+0200","reason":"Marked accepted PR #2 ready, reverified successful CI and merge safety conditions, squash-merged it into main, confirmed issue #1 closed, and returned control for selection of the next bounded task."},
     {"at":"2026-07-16T08:28:50+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T082850+0200","reason":"Claimed the next bounded backlog-selection and worker-assignment turn under the configured 120-minute lease."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-16T17:31:45+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260716T173145+0200","reason":"Claimed the bounded software architect assignment for issue #7 under the configured 120-minute lease."},
     {"at":"2026-07-16T17:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260716T173145+0200","reason":"Defined the versioned renderer-neutral SceneDocument contract and minimal primitives, added focused invariant tests and ADR-0003, opened draft PR #8, recorded the structured handoff, and returned control for manager review with remote validation pending."},
     {"at":"2026-07-16T18:31:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T183130+0200","reason":"Claimed the manager review of issue #7, draft PR #8, ADR-0003, the structured handoff, and current repository validation evidence under the configured 120-minute lease."},
-    {"at":"2026-07-16T18:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260716T183130+0200","reason":"Issued a repository-backed CHANGES REQUESTED verdict on draft PR #8 because duplicate disclosure-order values remain ambiguous across adapters, then returned the same bounded issue #7 assignment for deterministic ordering clarification, focused tests, and renewed validation."}
+    {"at":"2026-07-16T18:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260716T183130+0200","reason":"Issued a repository-backed CHANGES REQUESTED verdict on draft PR #8 because duplicate disclosure-order values remain ambiguous across adapters, then returned the same bounded issue #7 assignment for deterministic ordering clarification, focused tests, and renewed validation."},
+    {"at":"2026-07-16T19:28:46+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260716T192846+0200","reason":"Claimed the bounded deterministic disclosure-order correction for issue #7 under the configured 120-minute lease."}
   ]
 }
