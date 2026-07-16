@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
-  "activeIssue": 3,
-  "expectedDeliverable": "Review the corrected draft PR #4 at its current head, verify successful GitHub Actions Validate run #25 and the updated issue #3 handoff, then issue an acceptance or further-changes verdict under the governed merge policy.",
-  "lastCompletedTurn": "worker: corrected issue #3 JSON-LD loading to support both top-level node and @graph fixture forms, obtained successful full npm test verification on draft PR #4, and updated the PR verification text and structured handoff",
-  "lastUpdated": "2026-07-16T12:30:34+02:00",
+  "activeIssue": null,
+  "expectedDeliverable": "Select the next bounded architecture-first task after reviewing the updated backlog and ADRs, prioritizing the semantic learning-compiler separation before broader implementation.",
+  "lastCompletedTurn": "manager: accepted corrected issue #3 after successful Validate run #25, marked PR #4 ready, squash-merged it into main with an expected-head guard, and confirmed issue #3 closed",
+  "lastUpdated": "2026-07-16T12:34:30+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260716T123034+0200",
-    "claimedAt": "2026-07-16T12:30:34+02:00",
-    "expiresAt": "2026-07-16T14:30:34+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 16,
+  "stateRevision": 17,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -128,6 +128,13 @@
       "to": "busy/manager",
       "actor": "scheduled-manager-20260716T123034+0200",
       "reason": "Claimed the manager re-review of corrected issue #3, draft PR #4, the updated handoff, and successful remote validation evidence under the configured 120-minute lease."
+    },
+    {
+      "at": "2026-07-16T12:34:30+02:00",
+      "from": "busy/manager",
+      "to": "ready/manager",
+      "actor": "scheduled-manager-20260716T123034+0200",
+      "reason": "Accepted corrected issue #3 after successful Validate run #25, marked PR #4 ready, squash-merged it into main with the current-head guard, confirmed issue closure, and returned control for the next bounded architecture-first selection."
     }
   ]
 }
