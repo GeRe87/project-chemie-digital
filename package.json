@@ -11,7 +11,7 @@
     "check:json": "node scripts/check-json.mjs",
     "check:semantics": "python scripts/validate_semantics.py",
     "test:semantics": "python -m unittest discover -s tests -v",
-    "test:core": "npm --workspace @project-chemie-digital/core test",
+    "test:core": "npm --prefix packages/core test",
     "test": "npm run check:json && npm run check:semantics && npm run test:semantics && npm run test:core"
   },
   "engines": {
