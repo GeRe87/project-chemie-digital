@@ -4,7 +4,7 @@ export interface JsonLdNode {
   [key: string]: unknown;
 }
 
-export interface JsonLdDocument {
+export interface JsonLdDocument extends JsonLdNode {
   "@graph"?: unknown;
 }
 
@@ -30,10 +30,13 @@ export class PathResolutionError extends Error {
 
 function graphNodes(documents: readonly JsonLdDocument[]): JsonLdNode[] {
   return documents.flatMap((document, index) => {
-    if (!Array.isArray(document["@graph"])) {
-      throw new PathResolutionError(`Document ${index} has no JSON-LD @graph array`);
+    if (Array.isArray(document["@graph"])) {
+      return document["@graph"] as JsonLdNode[];
     }
-    return document["@graph"] as JsonLdNode[];
+    if (typeof document.id === "string" && document.id.length > 0) {
+      return [document];
+    }
+    throw new PathResolutionError(`Document ${index} must be a JSON-LD node or contain an @graph array`);
   });
 }
 
