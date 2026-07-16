@@ -12,7 +12,7 @@
     "check:semantics": "python scripts/validate_semantics.py",
     "test:semantics": "python -m unittest discover -s tests -v",
     "test:core": "npm --prefix packages/core test",
-    "test": "npm run check:json && npm run check:semantics && npm run test:semantics && npm run test:core"
+    "test": "npm run test:core && npm run check:json && npm run check:semantics && npm run test:semantics"
   },
   "engines": {
     "node": ">=22"
