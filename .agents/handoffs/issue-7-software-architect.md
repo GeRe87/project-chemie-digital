@@ -14,7 +14,9 @@
 - Defined five minimal primitives: prose, math, media reference, group and prompt.
 - Added explicit semantic reading order, progressive disclosure, didactic intent, emphasis, narration, accessibility alternatives and source/provenance traceability.
 - Added a runtime invariant validator and focused contract tests.
-- Recorded the normative decision and adapter fallback requirements in ADR-0003.
+- Corrected the manager-review finding by requiring disclosure-order values to be unique within every direct sibling collection, including nested group children.
+- Added focused tests for tied disclosure orders at scene and nested-group levels.
+- Recorded the normative disclosure-order rule and adapter fallback requirements in ADR-0003.
 - Preserved the existing resolved-path contract and `cd:position` semantics unchanged.
 
 ## Files or resources changed
@@ -26,15 +28,16 @@
 
 ## Verification
 
-- [x] Automated tests added; remote repository validation is pending on the draft PR
-- [ ] Semantic validation result pending on the draft PR
+- [x] Automated tests added, including scene-level and nested-group disclosure-order tie cases
+- [ ] Complete repository validation — Validate run #49 is queued for the corrected PR head
 - [ ] Manual browser check — not applicable; no renderer or browser implementation
 - [x] Accessibility check — reading order and non-visual alternatives are contract invariants
 - [x] Documentation updated
 
 ## Decisions and assumptions
 
-- Array order is the deterministic scene/block/disclosure sequence; explicit `readingOrder` provides semantic non-visual traversal.
+- Array order is the deterministic scene/block presentation-state order; explicit `readingOrder` provides semantic non-visual traversal.
+- Disclosure-order values are unique among all disclosed blocks in each direct sibling collection. Disclosure modes do not form separate order namespaces; gaps are allowed.
 - Every scene and block must retain source identity; provenance identifiers are additive metadata.
 - Unsupported interactions degrade to readable static content; prompts require a fallback string.
 - No new runtime dependency, ontology change, composer implementation or renderer integration was introduced.
@@ -42,8 +45,8 @@
 ## Risks or unresolved questions
 
 - The future composer must define deterministic rules for mapping existing `viewType` values and resource kinds to these primitives.
-- Remote CI is not yet available at handoff creation and must be reviewed by the manager.
+- The corrected remote validation result must be reviewed on the current draft PR head.
 
 ## Recommended manager action
 
-`review`
+`review after Validate run #49 completes`
