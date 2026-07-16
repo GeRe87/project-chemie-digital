@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": 3,
   "expectedDeliverable": "Review the corrected draft PR #4 at its current head, verify successful GitHub Actions Validate run #25 and the updated issue #3 handoff, then issue an acceptance or further-changes verdict under the governed merge policy.",
   "lastCompletedTurn": "worker: corrected issue #3 JSON-LD loading to support both top-level node and @graph fixture forms, obtained successful full npm test verification on draft PR #4, and updated the PR verification text and structured handoff",
-  "lastUpdated": "2026-07-16T11:47:00+02:00",
+  "lastUpdated": "2026-07-16T12:30:34+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260716T123034+0200",
+    "claimedAt": "2026-07-16T12:30:34+02:00",
+    "expiresAt": "2026-07-16T14:30:34+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 15,
+  "stateRevision": 16,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -121,6 +121,13 @@
       "to": "ready/manager",
       "actor": "scheduled-worker-20260716T113438+0200",
       "reason": "Corrected single-node JSON-LD loading, obtained successful full repository verification on the current draft PR #4 head, updated the PR and structured handoff, and returned control for manager review."
+    },
+    {
+      "at": "2026-07-16T12:30:34+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "scheduled-manager-20260716T123034+0200",
+      "reason": "Claimed the manager re-review of corrected issue #3, draft PR #4, the updated handoff, and successful remote validation evidence under the configured 120-minute lease."
     }
   ]
 }
