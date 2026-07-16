@@ -114,9 +114,18 @@ function validateOrderedIds(ids: readonly string[], actualIds: readonly string[]
   for (const id of ids) if (!actualIds.includes(id)) throw new SceneContractError(`${label} references unknown id ${id}`);
 }
 
+function validateDisclosureOrders(blocks: readonly SceneBlock[], label: string): void {
+  const disclosedBlocks = blocks.filter((block) => block.disclosure !== undefined);
+  const orders = disclosedBlocks.map((block) => block.disclosure!.order);
+  if (new Set(orders).size !== orders.length) {
+    throw new SceneContractError(`${label} disclosure orders must be unique among siblings`);
+  }
+}
+
 function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
+  validateDisclosureOrders(blocks, label);
 
   for (const block of blocks) {
     requireNonEmpty(block.id, `${label} block id`);
