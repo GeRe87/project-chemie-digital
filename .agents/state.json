@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": 1,
-  "expectedDeliverable": "Human owner decides whether to merge draft PR #2. After authoritative merge evidence is present, a manager turn may close issue #1 and select the next bounded backlog task.",
+  "expectedDeliverable": "Re-evaluate and, if all governed merge conditions remain satisfied, merge accepted draft PR #2 into main using squash; then record the exact next workflow action.",
   "lastCompletedTurn": "manager: accepted the issue #1 QA/DevOps follow-up after successful GitHub Actions Validate run #2; acceptance verdict recorded on draft PR #2; no merge performed",
-  "lastUpdated": "2026-07-16T00:33:34+02:00",
+  "lastUpdated": "2026-07-16T07:27:57+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260716T072757+0200",
+    "claimedAt": "2026-07-16T07:27:57+02:00",
+    "expiresAt": "2026-07-16T09:27:57+02:00"
   },
-  "blockedBy": [
-    "Human approval gate: draft PR #2 is accepted by the manager but remains open, draft, and unmerged pending the repository owner's merge decision."
-  ],
-  "stateRevision": 5,
+  "blockedBy": [],
+  "stateRevision": 6,
   "transitionHistory": [
     {
       "at": "2026-07-15T22:49:00+02:00",
@@ -53,6 +51,13 @@
       "to": "blocked/manager",
       "actor": "scheduled-manager-20260716T003334+0200",
       "reason": "Accepted the QA/DevOps follow-up after successful remote CI, recorded the formal verdict on PR #2, and stopped at the mandatory human merge gate."
+    },
+    {
+      "at": "2026-07-16T07:27:57+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "scheduled-manager-20260716T072757+0200",
+      "reason": "Claimed a manager turn because the newly pinned merge governance explicitly resolves the former human-only merge blocker."
     }
   ]
 }
