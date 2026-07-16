@@ -77,3 +77,40 @@ test("requires deterministic disclosure order values", () => {
     value.scenes[0].blocks[1].disclosure = { order: 1.5, mode: "progressive" };
   }, /disclosure order must be a non-negative integer/);
 });
+
+test("rejects tied disclosure orders among scene blocks", () => {
+  expectError((value) => {
+    value.scenes[0].blocks[0].disclosure = { order: 1, mode: "initial" };
+  }, /disclosure orders must be unique among siblings/);
+});
+
+test("rejects tied disclosure orders among nested group children", () => {
+  expectError((value) => {
+    value.scenes[0].blocks = [
+      {
+        kind: "group",
+        id: "group:explanation",
+        source: [{ resourceId: "ex:standard-deviation" }],
+        children: [
+          {
+            kind: "prose",
+            id: "block:group-definition",
+            source: [{ resourceId: "ex:standard-deviation-definition" }],
+            text: "Definition",
+            disclosure: { order: 2, mode: "progressive" },
+          },
+          {
+            kind: "math",
+            id: "block:group-formula",
+            source: [{ resourceId: "ex:standard-deviation-expression" }],
+            expression: "s",
+            spokenText: "s",
+            disclosure: { order: 2, mode: "optional" },
+          },
+        ],
+        readingOrder: ["block:group-definition", "block:group-formula"],
+      },
+    ];
+    value.scenes[0].readingOrder = ["group:explanation"];
+  }, /group group:explanation disclosure orders must be unique among siblings/);
+});
