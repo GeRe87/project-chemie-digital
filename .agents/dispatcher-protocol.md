@@ -29,9 +29,11 @@ The common core state concepts map to the project state as follows:
 
 ## Manager turn
 
-The manager follows `AGENTS.md` and may perform only planning, review, issue assignment and workflow-state changes. It must not implement feature code or merge a pull request.
+The manager follows `AGENTS.md` and may perform planning, review, issue assignment, workflow-state changes, and a governed merge of an accepted pull request when the project configuration explicitly enables it. It must not implement feature code.
 
 Before assignment, the manager must verify the selected issue, role profile, dependencies, current branches and open pull requests. It assigns at most one issue and one role. A worker assignment sets both `turn: worker` and `nextTurn: worker`.
+
+A manager may merge only the exact accepted pull request into `main`, only after all required checks pass and all conditions in the pinned core pull-request-merging policy are satisfied. The manager must use the configured merge method and an expected-head guard when supported. A merge does not authorise assignment or execution of a worker task in the same turn.
 
 ## Worker turn
 
@@ -51,8 +53,8 @@ After the handoff, the worker returns control by setting both `turn: manager` an
 
 ## Human approval gates
 
-All gates in `AGENTS.md` remain binding. In particular, scheduled agents do not merge pull requests, publish releases or OER, alter visibility, add credentials, or make legal, examination-regulation or data-protection decisions.
+All gates in `AGENTS.md` remain binding. Governed manager merging is allowed only when explicitly enabled in `.agents/workflow-config.json`. Agents still do not publish releases or OER, alter visibility or access, add credentials, change protected repository settings, deploy, or make legal, examination-regulation or data-protection decisions.
 
 ## Notifications
 
-Report only a completed or blocked worker result, a manager review verdict, a new worker assignment, a workflow blocked or complete transition, or an expired lease requiring intervention. Do not notify for unchanged state, an unexpired lease or a no-op check.
+Report only a completed or blocked worker result, a manager review verdict, a merge result, a new worker assignment, a workflow blocked or complete transition, or an expired lease requiring intervention. Do not notify for unchanged state, an unexpired lease or a no-op check.
