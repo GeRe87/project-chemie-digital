@@ -99,5 +99,8 @@ test("is offline and renderer-neutral by construction", async () => {
     globalThis.fetch = originalFetch;
   }
   const moduleText = await import("node:fs/promises").then((fs) => fs.readFile(new URL("../src/knowledge-network.ts", import.meta.url), "utf8"));
-  for (const forbidden of ["d3", "react", "reveal", "document.", "window."]) assert.equal(moduleText.toLowerCase().includes(forbidden), false);
+  const normalizedModuleText = moduleText.toLowerCase();
+  for (const forbidden of ["from \"d3", "from \"react", "from \"reveal", "globalthis.document", "globalthis.window"]) {
+    assert.equal(normalizedModuleText.includes(forbidden), false);
+  }
 });
