@@ -16,19 +16,21 @@
 9. Implement scene-composition rules from resolved paths to scene documents.
 10. Record ADR-0005: deterministic Reveal.js adapter boundary, adapter-owned render plan, lifecycle ownership, accessibility and offline fallback rules.
 11. Implement the bounded Reveal.js adapter for `SceneDocument` 1.0 according to ADR-0005 without importing Reveal.js concepts into upstream layers.
-12. Generate a D3 knowledge-network view from the same semantic resources.
+12. Record ADR-0006: deterministic renderer-neutral knowledge-network projection and D3 adapter boundary.
+13. Implement the pure offline logical-RDF-dataset to `KnowledgeNetworkDocument` 1.0 projector with determinism, dependency-direction, accessibility and no-network tests.
+14. Implement the bounded D3 adapter and accessible static fallback without importing D3, React, DOM or force-layout concepts into upstream layers.
 
 ## Phase 2 — Pitch vertical slice
 
-13. Model the pitch content semantically.
-14. Define the pitch narrative path.
-15. Implement UDE/chemistry presentation theme and accessible components.
-16. Add presenter mode and optional detail paths.
-17. Perform lecturer, student, pedagogical, technical, privacy, and accessibility reviews.
+15. Model the pitch content semantically.
+16. Define the pitch narrative path.
+17. Implement UDE/chemistry presentation theme and accessible components.
+18. Add presenter mode and optional detail paths.
+19. Perform lecturer, student, pedagogical, technical, privacy, and accessibility reviews.
 
 ## Phase 3 — Platform foundation
 
-18. Add Fuseki local deployment and typed SPARQL query layer.
-19. Add semantic authoring workflow and validation feedback.
-20. Add self-study renderer.
-21. Add local learner-state export without mandatory accounts.
+20. Add Fuseki local deployment and typed SPARQL query layer.
+21. Add semantic authoring workflow and validation feedback.
+22. Add self-study renderer.
+23. Add local learner-state export without mandatory accounts.
