@@ -1,34 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 19,
-  "expectedDeliverable": "Review draft PR #20 for the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector, including deterministic, accessibility, diagnostics, dependency-direction and no-network tests plus the structured backend-engineer handoff and current validation evidence.",
-  "lastCompletedTurn": "worker: implemented the bounded ADR-0006 knowledge-network projector in the neutral core package, added tests and documentation, recorded the structured handoff, and opened draft PR #20",
-  "lastUpdated": "2026-07-17T16:31:09+02:00",
+  "expectedDeliverable": "Diagnose and minimally correct the failed required Validate run #106 for draft PR #20 on the existing agent/19-implement-knowledge-network-projector branch; preserve the accepted ADR-0006 scope, update tests or implementation only as necessary, update the structured handoff with exact validation evidence, and return the same PR for manager re-review after all required checks pass.",
+  "lastCompletedTurn": "manager: reviewed issue #19 and draft PR #20, confirmed the bounded ADR-0006 scope and structured handoff, and issued CHANGES REQUESTED because required Validate run #106 failed in the repository test step; no merge was permitted",
+  "lastUpdated": "2026-07-17T16:39:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260717T163109+0200",
-    "claimedAt": "2026-07-17T16:31:09+02:00",
-    "expiresAt": "2026-07-17T18:31:09+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 73,
+  "stateRevision": 74,
   "transitionHistory": [
-    {"at":"2026-07-17T04:36:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T042834+0200","reason":"Proposed ADR-0005, defined deterministic Reveal.js adapter boundaries and the normative five-scene render-plan mapping, updated backlog sequencing, opened draft PR #14, recorded the structured handoff, and returned control for manager review with Validate run #75 in progress."},
-    {"at":"2026-07-17T05:25:56+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T052556+0200","reason":"Claimed the manager review of issue #13, ADR-0005, backlog sequencing, normative five-scene Reveal render-plan mapping, draft PR #14, structured handoff, and current repository validation evidence under the configured 120-minute lease."},
-    {"at":"2026-07-17T05:30:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T052556+0200","reason":"Accepted issue #13 after successful Validate run #75, recorded the formal verdict, marked PR #14 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for selection of the next bounded ADR-defined Reveal.js adapter implementation task."},
-    {"at":"2026-07-17T06:28:58+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T062858+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one ADR-defined Reveal.js adapter implementation assignment."},
-    {"at":"2026-07-17T06:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T062858+0200","reason":"Created issue #15 and assigned the bounded deterministic offline SceneDocument 1.0 to RevealRenderPlan 1.0 adapter implementation to the Frontend and Reveal Renderer Engineer under ADR-0005."},
-    {"at":"2026-07-17T07:27:30+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T072730+0200","reason":"Claimed the bounded frontend-engineer assignment for issue #15 under the configured 120-minute lease."},
-    {"at":"2026-07-17T07:37:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T072730+0200","reason":"Implemented the bounded deterministic offline Reveal render-plan adapter for SceneDocument 1.0, added golden and invariant tests plus documentation, opened draft PR #16, recorded the structured frontend-engineer handoff, and returned control for manager review with remote validation pending."},
-    {"at":"2026-07-17T08:35:12+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T083512+0200","reason":"Claimed the manager review of issue #15, draft PR #16, the bounded deterministic Reveal render-plan adapter, structured handoff, and current validation evidence under the configured 120-minute lease."},
-    {"at":"2026-07-17T08:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T083512+0200","reason":"Reviewed issue #15 and draft PR #16, confirmed the bounded ADR-0005 scope and complete handoff, recorded a CHANGES REQUESTED verdict because required Validate run #83 failed in repository tests, and returned the same assignment to the Frontend and Reveal Renderer Engineer for a minimal correction and successful validation."},
-    {"at":"2026-07-17T09:38:37+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T093837+0200","reason":"Claimed the exact Issue #15 correction turn for draft PR #16 to diagnose and minimally fix Validate run #83, update validation evidence and handoff, and return the same assignment for manager re-review."},
-    {"at":"2026-07-17T09:48:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T093837+0200","reason":"Diagnosed the Node type-stripping incompatibility in AdapterError constructor parameter properties, applied the minimal explicit-field correction on the existing Issue #15 branch, updated the structured handoff, confirmed successful Validate runs #88 and #89, and returned draft PR #16 for manager re-review."},
-    {"at":"2026-07-17T10:30:17+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Claimed the manager re-review of issue #15 and corrected draft PR #16, including the minimal Node type-stripping compatibility fix, updated structured handoff, and successful Validate run #89 under the governed merge policy."},
     {"at":"2026-07-17T10:38:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Accepted the corrected issue #15 adapter increment after confirming the minimal behavior-neutral Node type-stripping fix, complete handoff and successful Validate run #89; recorded the manager verdict and prepared governed squash merge of PR #16 into main."},
     {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."},
     {"at":"2026-07-17T11:25:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T112549+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next architecture-first semantic learning-compiler assignment after acceptance and merge of issue #15."},
@@ -41,6 +29,7 @@
     {"at":"2026-07-17T14:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T143106+0200","reason":"Created issue #19 and assigned the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector implementation to the Backend and Data Integration Engineer, with deterministic, accessibility, dependency-direction and no-network acceptance criteria."},
     {"at":"2026-07-17T15:42:11+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T154211+0200","reason":"Claimed the bounded Backend and Data Integration Engineer assignment for issue #19 to implement the pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
     {"at":"2026-07-17T15:50:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T154211+0200","reason":"Implemented the bounded pure offline ADR-0006 KnowledgeNetworkDocument 1.0 projector in the neutral core package, added deterministic, accessibility, diagnostics, dependency-direction and no-network tests plus documentation, recorded the structured handoff, opened draft PR #20, and returned control for manager review with remote validation pending."},
-    {"at":"2026-07-17T16:31:09+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T163109+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the bounded ADR-0006 knowledge-network projector, structured handoff and current validation evidence under the configured 120-minute lease."}
+    {"at":"2026-07-17T16:31:09+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T163109+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the bounded ADR-0006 knowledge-network projector, structured handoff and current validation evidence under the configured 120-minute lease."},
+    {"at":"2026-07-17T16:39:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T163109+0200","reason":"Reviewed issue #19 and draft PR #20, confirmed the bounded ADR-0006 scope and structured handoff, issued CHANGES REQUESTED because required Validate run #106 failed in the repository test step, and returned the same assignment to the Backend and Data Integration Engineer for a minimal correction and successful validation."}
   ]
 }
