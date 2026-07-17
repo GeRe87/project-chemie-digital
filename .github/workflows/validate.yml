@@ -8,6 +8,11 @@ on:
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
+
+env:
+  CI_DIAGNOSTIC_MARKER: '<!-- project-chemie-digital-ci-diagnostic -->'
 
 jobs:
   test:
@@ -30,4 +35,106 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
 
       - name: Run repository tests
-        run: npm test
+        id: repository-tests
+        shell: bash
+        run: |
+          set +e
+          npm test 2>&1 | tee ci-output.log
+          status=${PIPESTATUS[0]}
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+
+      - name: Prepare connector-readable diagnostic
+        if: failure()
+        shell: bash
+        env:
+          VALIDATION_EXIT_CODE: ${{ steps.repository-tests.outputs.exit_code }}
+        run: |
+          set -euo pipefail
+
+          if [[ -f ci-output.log ]]; then
+            sed -E \
+              -e 's/((authorization|token|password|secret|cookie)[^[:space:]]*[=:][[:space:]]*)[^[:space:]]+/\1[REDACTED]/Ig' \
+              -e 's/(Bearer[[:space:]]+)[A-Za-z0-9._~+\/-]+/\1[REDACTED]/g' \
+              ci-output.log > ci-output-redacted.log
+          else
+            printf '%s\n' 'The validation command did not create ci-output.log.' > ci-output-redacted.log
+          fi
+
+          {
+            echo "$CI_DIAGNOSTIC_MARKER"
+            echo "## CI diagnostic"
+            echo
+            echo "- Workflow: \`${GITHUB_WORKFLOW}\`"
+            echo "- Run: \`#${GITHUB_RUN_NUMBER}\`"
+            echo "- Job: \`${GITHUB_JOB}\`"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Command: \`npm test\`"
+            echo "- Exit code: \`${VALIDATION_EXIT_CODE:-unknown}\`"
+            echo
+            echo "### Matched failure context"
+            echo '```text'
+            grep -Ein -B 3 -A 12 \
+              'not ok|fail(ed|ure)?|error:|assertion|exception|syntaxerror|typeerror|referenceerror|ERR_[A-Z0-9_]+' \
+              ci-output-redacted.log | tail -n 160 || true
+            echo '```'
+            echo
+            echo "### Terminal output"
+            echo '```text'
+            tail -n 180 ci-output-redacted.log
+            echo '```'
+          } > ci-diagnostic.md
+
+          head -c 60000 ci-diagnostic.md > ci-diagnostic-bounded.md
+          mv ci-diagnostic-bounded.md ci-diagnostic.md
+          cat ci-diagnostic.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload complete redacted validation output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostic-${{ github.run_id }}
+          path: |
+            ci-output-redacted.log
+            ci-diagnostic.md
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Publish diagnostic on pull request
+        if: failure() && github.event_name == 'pull_request'
+        continue-on-error: true
+        uses: actions/github-script@v7
+        env:
+          DIAGNOSTIC_MARKER: ${{ env.CI_DIAGNOSTIC_MARKER }}
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = process.env.DIAGNOSTIC_MARKER;
+            const diagnostic = fs.readFileSync('ci-diagnostic.md', 'utf8');
+            const body = diagnostic.includes(marker)
+              ? diagnostic
+              : `${marker}\n${diagnostic}`;
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number, per_page: 100 },
+            );
+            const previous = comments.find((comment) =>
+              comment.body && comment.body.includes(marker),
+            );
+            if (previous) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: previous.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }
