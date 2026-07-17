@@ -1,23 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": 19,
   "expectedDeliverable": "Obtain and store either the terminal repository-test output from failed Validate run #118 for draft PR #20 at head 1c78c161de3dbfcaff609a4162001f5eb2fa4e84 or an authoritative root npm test reproduction for that exact head. Only then may the same bounded issue #19 assignment be resumed for a log-led minimal correction and manager re-review.",
   "lastCompletedTurn": "manager: reviewed issue #19, draft PR #20, ADR-0006, the latest backend-engineer handoff and current Validate run #118; issued a formal BLOCKED verdict because the required repository-test failure remains unavailable beyond the connector's truncated setup-only log and no safe correction can be authorised",
-  "lastUpdated": "2026-07-17T21:40:00+02:00",
+  "lastUpdated": "2026-07-17T23:31:03+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260717T233103+0200",
+    "claimedAt": "2026-07-17T23:31:03+02:00",
+    "expiresAt": "2026-07-18T01:31:03+02:00"
   },
   "blockedBy": [
     "Required Validate run #118 for draft PR #20 at head 1c78c161de3dbfcaff609a4162001f5eb2fa4e84 fails in Run repository tests, while the GitHub connector returns only the initial 116 of 434 decoded job-log lines and omits the terminal test failure. The terminal log portion or an authoritative root npm test reproduction for the exact PR head is required before a safe correction can be selected."
   ],
-  "stateRevision": 82,
+  "stateRevision": 83,
   "transitionHistory": [
     {"at":"2026-07-17T10:38:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Accepted the corrected issue #15 adapter increment after confirming the minimal behavior-neutral Node type-stripping fix, complete handoff and successful Validate run #89; recorded the manager verdict and prepared governed squash merge of PR #16 into main."},
     {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."},
@@ -40,6 +40,7 @@
     {"at":"2026-07-17T20:30:32+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T203032+0200","reason":"Claimed the exact issue #19 correction turn for draft PR #20 to inspect complete Validate run #113 terminal output, identify the precise repository-test failure, apply only the smallest permitted correction, update validation evidence and handoff, and return the same assignment for manager re-review."},
     {"at":"2026-07-17T20:40:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T203032+0200","reason":"Inspected Validate run #113 and failed job 87927124292, confirmed failure remains in Run repository tests, documented that the GitHub connector truncates the decoded 434-line log after 116 setup lines before terminal test output, made no speculative code change, updated the structured handoff, and returned control for manager review with the authoritative-log blocker preserved."},
     {"at":"2026-07-17T21:33:44+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the updated backend-engineer handoff and available authoritative validation evidence to determine the exact safe next action under the existing bounded assignment."},
-    {"at":"2026-07-17T21:40:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Reviewed current PR #20 head and Validate run #118, confirmed the required repository-test step still fails while the connector truncates the log before terminal output, issued a formal BLOCKED verdict, kept PR #20 draft and unmerged, and required authoritative terminal output or an exact-head root npm test reproduction before resuming issue #19."}
+    {"at":"2026-07-17T21:40:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Reviewed current PR #20 head and Validate run #118, confirmed the required repository-test step still fails while the connector truncates the log before terminal output, issued a formal BLOCKED verdict, kept PR #20 draft and unmerged, and required authoritative terminal output or an exact-head root npm test reproduction before resuming issue #19."},
+    {"at":"2026-07-17T23:31:03+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260717T233103+0200","reason":"Claimed one bounded manager unblock turn because new authoritative connector-readable CI evidence on draft PR #20 now exposes the exact repository-test failure required by the recorded blocker."}
   ]
 }
