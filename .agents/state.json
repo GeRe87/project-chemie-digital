@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 19,
   "expectedDeliverable": "Implement the bounded pure offline logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector defined by ADR-0006, with deterministic golden, diagnostics, accessibility, dependency-direction and no-network tests, documentation, a structured handoff and draft PR.",
   "lastCompletedTurn": "manager: created issue #19 and assigned the bounded ADR-0006 KnowledgeNetworkDocument projector implementation to the Backend and Data Integration Engineer after verifying no open issues or pull requests",
-  "lastUpdated": "2026-07-17T14:36:00+02:00",
+  "lastUpdated": "2026-07-17T15:42:11+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260717T154211+0200",
+    "claimedAt": "2026-07-17T15:42:11+02:00",
+    "expiresAt": "2026-07-17T17:42:11+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 70,
+  "stateRevision": 71,
   "transitionHistory": [
-    {"at":"2026-07-17T03:31:08+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T033108+0200","reason":"Claimed the bounded backlog, ADR, current-issue and open-PR review to select exactly one next architecture-first or adapter-boundary worker assignment after acceptance of issue #11."},
     {"at":"2026-07-17T03:35:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T033108+0200","reason":"Created issue #13 and assigned the architecture-only Reveal.js adapter-boundary and deterministic scene-to-render-plan mapping task to the Software Architect before production adapter implementation."},
     {"at":"2026-07-17T04:28:34+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T042834+0200","reason":"Claimed the bounded software-architect assignment for issue #13 under the configured 120-minute lease."},
     {"at":"2026-07-17T04:36:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T042834+0200","reason":"Proposed ADR-0005, defined deterministic Reveal.js adapter boundaries and the normative five-scene render-plan mapping, updated backlog sequencing, opened draft PR #14, recorded the structured handoff, and returned control for manager review with Validate run #75 in progress."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-17T13:30:16+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T133016+0200","reason":"Claimed the manager review of issue #17, draft PR #18, ADR-0006, deterministic KnowledgeNetworkDocument projection boundary, backlog sequencing, structured handoff and current validation evidence under the configured 120-minute lease."},
     {"at":"2026-07-17T13:39:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T133016+0200","reason":"Accepted issue #17 after confirming ADR-0006 preserves the renderer-neutral semantic learning-compiler boundaries, complete backlog sequencing and handoff, and successful Validate run #98; recorded the formal verdict, marked PR #18 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for selection of the next bounded projector implementation assignment."},
     {"at":"2026-07-17T14:31:06+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T143106+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next worker assignment implementing the accepted ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
-    {"at":"2026-07-17T14:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T143106+0200","reason":"Created issue #19 and assigned the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector implementation to the Backend and Data Integration Engineer, with deterministic, accessibility, dependency-direction and no-network acceptance criteria."}
+    {"at":"2026-07-17T14:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T143106+0200","reason":"Created issue #19 and assigned the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector implementation to the Backend and Data Integration Engineer, with deterministic, accessibility, dependency-direction and no-network acceptance criteria."},
+    {"at":"2026-07-17T15:42:11+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T154211+0200","reason":"Claimed the bounded Backend and Data Integration Engineer assignment for issue #19 to implement the pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."}
   ]
 }
