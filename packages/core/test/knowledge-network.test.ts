@@ -77,7 +77,7 @@ test("fails atomically with stable diagnostics", () => {
     [fixture, { ...options, maximumDepth: -1 }, "INVALID_PROJECTION_OPTIONS"],
     [fixture, { ...options, rootEntityIds: ["ex:missing"] }, "UNKNOWN_ROOT_ENTITY"],
     [fixture, { ...options, includedPredicates: ["cd:unknown"] }, "UNSUPPORTED_PREDICATE"],
-    [{ ...fixture, entities: fixture.entities.map((entity) => entity.id === "ex:example" ? { ...entity, label: "" } : entity }, options, "MISSING_ACCESSIBLE_LABEL"],
+    [{ ...fixture, entities: fixture.entities.map((entity) => entity.id === "ex:example" ? { ...entity, label: "" } : entity) }, options, "MISSING_ACCESSIBLE_LABEL"],
     [{ ...fixture, statements: [...fixture.statements, { sourceEntityId: "ex:variance", predicateId: "cd:hasPrerequisite", targetEntityId: "ex:missing", predicateLabel: "has prerequisite", source, requiredReference: true }] }, options, "UNRESOLVED_REQUIRED_REFERENCE"],
   ];
   for (const [dataset, projection, code] of cases) {
