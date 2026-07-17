@@ -2,7 +2,7 @@
   "workflow_id": "project-chemie-digital",
   "core": {
     "repository": "GeRe87/agent-workflow-core",
-    "ref": "33838fd1d133e342ab8b52675fa8ef882aeecc13",
+    "ref": "54dd1fcc27fac14e425b2f015199f281e9e410d2",
     "schema": "schemas/workflow-config.schema.json",
     "protocol": "protocols/scheduled-dispatcher.md",
     "governance": [
@@ -11,7 +11,9 @@
       "governance/external-research.md",
       "governance/human-approval-gates.md",
       "governance/notifications.md",
-      "governance/pull-request-merging.md"
+      "governance/pull-request-merging.md",
+      "governance/blocker-management.md",
+      "governance/ci-diagnostics.md"
     ]
   },
   "state_file": ".agents/state.json",
