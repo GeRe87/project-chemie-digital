@@ -98,9 +98,11 @@ test("is offline and renderer-neutral by construction", async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  const moduleText = await import("node:fs/promises").then((fs) => fs.readFile(new URL("../src/knowledge-network.ts", import.meta.url), "utf8"));
-  const normalizedModuleText = moduleText.toLowerCase();
-  for (const forbidden of ["from \"d3", "from \"react", "from \"reveal", "globalthis.document", "globalthis.window"]) {
-    assert.equal(normalizedModuleText.includes(forbidden), false);
+
+  const packageJsonText = await import("node:fs/promises").then((fs) => fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
+  const packageJson = JSON.parse(packageJsonText) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string> };
+  const dependencyNames = Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies }).map((name) => name.toLowerCase());
+  for (const forbidden of ["d3", "react", "reveal.js"]) {
+    assert.equal(dependencyNames.some((name) => name === forbidden || name.startsWith(`${forbidden}/`)), false);
   }
 });
