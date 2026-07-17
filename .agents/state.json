@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "Software Architect",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 17,
-  "expectedDeliverable": "Propose ADR-0006 defining the deterministic renderer-neutral knowledge-network projection and D3 adapter boundary, update backlog sequencing only as needed, provide validation evidence, a structured handoff and a linked draft PR without implementing D3, React or browser runtime.",
-  "lastCompletedTurn": "manager: reviewed the accepted Phase 1 pipeline, confirmed no open issues or pull requests, created issue #17, and assigned the bounded knowledge-network renderer architecture task to the Software Architect",
-  "lastUpdated": "2026-07-17T12:28:22+02:00",
+  "expectedDeliverable": "Review draft PR #18 for ADR-0006, the deterministic renderer-neutral KnowledgeNetworkDocument 1.0 projection boundary, backlog sequencing, structured handoff and current validation evidence.",
+  "lastCompletedTurn": "worker: proposed ADR-0006, defined the additive deterministic logical-RDF-dataset to KnowledgeNetworkDocument boundary, sequenced projector and D3 adapter implementation, recorded the handoff and opened draft PR #18",
+  "lastUpdated": "2026-07-17T12:35:00+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260717T122822+0200",
-    "claimedAt": "2026-07-17T12:28:22+02:00",
-    "expiresAt": "2026-07-17T14:28:22+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 65,
+  "stateRevision": 66,
   "transitionHistory": [
-    {"at":"2026-07-17T00:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T002926+0200","reason":"Created issue #11 and assigned the bounded deterministic offline scene-composer implementation and minimal additive ResolvedResource boundary to the Backend and Data Integration Engineer."},
     {"at":"2026-07-17T01:28:03+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T012803+0200","reason":"Claimed the bounded backend-engineer assignment for issue #11 under the configured 120-minute lease."},
     {"at":"2026-07-17T01:40:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T012803+0200","reason":"Implemented the bounded deterministic offline scene composer and normalized resource boundary, added golden and negative tests plus documentation, opened draft PR #12, recorded the structured backend-engineer handoff, and returned control for manager review with remote validation pending."},
     {"at":"2026-07-17T02:32:31+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T023231+0200","reason":"Claimed the manager review of issue #11, draft PR #12, deterministic scene-composer implementation, structured handoff, and current repository validation evidence under the configured 120-minute lease."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."},
     {"at":"2026-07-17T11:25:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T112549+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next architecture-first semantic learning-compiler assignment after acceptance and merge of issue #15."},
     {"at":"2026-07-17T11:30:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T112549+0200","reason":"Created issue #17 and assigned the bounded architecture-only deterministic knowledge-network projection and D3 adapter-boundary decision to the Software Architect before any D3, React or browser implementation."},
-    {"at":"2026-07-17T12:28:22+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T122822+0200","reason":"Claimed the bounded Software Architect assignment for issue #17 to define ADR-0006 for the deterministic renderer-neutral knowledge-network projection and D3 adapter boundary."}
+    {"at":"2026-07-17T12:28:22+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T122822+0200","reason":"Claimed the bounded Software Architect assignment for issue #17 to define ADR-0006 for the deterministic renderer-neutral knowledge-network projection and D3 adapter boundary."},
+    {"at":"2026-07-17T12:35:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T122822+0200","reason":"Proposed ADR-0006 with an additive deterministic KnowledgeNetworkDocument 1.0 projection from the validated logical RDF dataset, sequenced pure projector and D3 adapter implementation, recorded the structured handoff, opened draft PR #18, and returned control for manager review with remote validation pending."}
   ]
 }
