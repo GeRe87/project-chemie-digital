@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": 15,
   "expectedDeliverable": "Select exactly one next bounded architecture-first or adapter-boundary task after acceptance and merge of issue #15 and PR #16; prioritize the next semantic learning-compiler layer without broad implementation or breaking ontology changes.",
   "lastCompletedTurn": "manager: accepted corrected PR #16 at reviewed head after successful Validate run #89, marked it ready, squash-merged it into main with the expected-head guard, and confirmed issue #15 closed",
-  "lastUpdated": "2026-07-17T10:40:00+02:00",
+  "lastUpdated": "2026-07-17T11:25:49+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260717T112549+0200",
+    "claimedAt": "2026-07-17T11:25:49+02:00",
+    "expiresAt": "2026-07-17T13:25:49+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 62,
+  "stateRevision": 63,
   "transitionHistory": [
-    {"at":"2026-07-16T23:32:02+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260716T233202+0200","reason":"Claimed the manager review of issue #9, draft PR #10, ADR-0004, the normative SceneDocument fixture, structured handoff, and current repository validation evidence under the configured 120-minute lease."},
     {"at":"2026-07-16T23:35:15+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260716T233202+0200","reason":"Accepted issue #9 after successful Validate run #59, recorded the formal verdict, marked PR #10 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for the next bounded architecture-first selection."},
     {"at":"2026-07-17T00:29:26+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T002926+0200","reason":"Claimed the bounded architecture-first backlog review and next worker assignment turn after acceptance of deterministic scene-composition rules."},
     {"at":"2026-07-17T00:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T002926+0200","reason":"Created issue #11 and assigned the bounded deterministic offline scene-composer implementation and minimal additive ResolvedResource boundary to the Backend and Data Integration Engineer."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-17T09:48:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T093837+0200","reason":"Diagnosed the Node type-stripping incompatibility in AdapterError constructor parameter properties, applied the minimal explicit-field correction on the existing Issue #15 branch, updated the structured handoff, confirmed successful Validate runs #88 and #89, and returned draft PR #16 for manager re-review."},
     {"at":"2026-07-17T10:30:17+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Claimed the manager re-review of issue #15 and corrected draft PR #16, including the minimal Node type-stripping compatibility fix, updated structured handoff, and successful Validate run #89 under the governed merge policy."},
     {"at":"2026-07-17T10:38:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Accepted the corrected issue #15 adapter increment after confirming the minimal behavior-neutral Node type-stripping fix, complete handoff and successful Validate run #89; recorded the manager verdict and prepared governed squash merge of PR #16 into main."},
-    {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."}
+    {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."},
+    {"at":"2026-07-17T11:25:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T112549+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next architecture-first semantic learning-compiler assignment after acceptance and merge of issue #15."}
   ]
 }
