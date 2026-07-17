@@ -1,23 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 19,
-  "expectedDeliverable": "Review the preserved issue #19 correction attempts on draft PR #20: test-only dependency-guard fixes were applied, but required Validate runs #111 and #112 still failed in the repository-test step. Inspect complete failing test output before returning the same bounded assignment; do not merge while validation fails.",
-  "lastCompletedTurn": "worker: investigated issue #19 Validate failure, applied two bounded test-only renderer-neutral dependency-guard corrections on the existing PR #20 branch, recorded updated handoff evidence, and returned control because required Validate runs #111 and #112 still failed",
-  "lastUpdated": "2026-07-17T18:33:02+02:00",
+  "expectedDeliverable": "On the existing agent/19-implement-knowledge-network-projector branch and draft PR #20, inspect the complete terminal failure output for current required Validate run #113, identify the exact failing repository test or runtime error, apply only the smallest correction within issue #19 permitted files, update the structured handoff with exact validation evidence, and return the same assignment for manager re-review. Do not broaden architecture, alter ontology or renderer layers, or merge.",
+  "lastCompletedTurn": "manager: re-reviewed issue #19 and draft PR #20, confirmed the bounded test-only corrections and current PR scope, issued CHANGES REQUESTED because current required Validate run #113 still fails in Run repository tests, and returned the same assignment for exact log-led diagnosis and minimal correction",
+  "lastUpdated": "2026-07-17T18:41:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260717T183302+0200",
-    "claimedAt": "2026-07-17T18:33:02+02:00",
-    "expiresAt": "2026-07-17T20:33:02+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [
-    "Required Validate run #112 for draft PR #20 still fails in the Run repository tests step; the complete terminal failure output must be inspected before another minimal correction."
+    "Required Validate run #113 for draft PR #20 fails in the Run repository tests step; the exact terminal failure must be identified and corrected before acceptance or merge."
   ],
-  "stateRevision": 77,
+  "stateRevision": 78,
   "transitionHistory": [
     {"at":"2026-07-17T10:38:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Accepted the corrected issue #15 adapter increment after confirming the minimal behavior-neutral Node type-stripping fix, complete handoff and successful Validate run #89; recorded the manager verdict and prepared governed squash merge of PR #16 into main."},
     {"at":"2026-07-17T10:40:00+02:00","from":"ready/manager","to":"ready/manager","actor":"scheduled-manager-20260717T103017+0200","reason":"Recorded the completed governed squash merge of accepted PR #16 into main at the reviewed head and confirmed issue #15 closed; retained manager control for selection of the next single bounded architecture-first task."},
@@ -35,6 +35,7 @@
     {"at":"2026-07-17T16:39:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T163109+0200","reason":"Reviewed issue #19 and draft PR #20, confirmed the bounded ADR-0006 scope and structured handoff, issued CHANGES REQUESTED because required Validate run #106 failed in the repository test step, and returned the same assignment to the Backend and Data Integration Engineer for a minimal correction and successful validation."},
     {"at":"2026-07-17T17:33:23+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T173323+0200","reason":"Claimed the exact issue #19 correction turn for draft PR #20 to diagnose and minimally fix failed Validate run #106, update validation evidence and handoff, and return the same assignment for manager re-review."},
     {"at":"2026-07-17T17:46:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T173323+0200","reason":"Applied two bounded test-only renderer-neutral dependency-guard corrections on the existing issue #19 branch, updated the structured handoff, and returned control for manager review because required Validate runs #111 and #112 still failed and the complete terminal failure output was not available through the connector response."},
-    {"at":"2026-07-17T18:33:02+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T183302+0200","reason":"Claimed the manager re-review of issue #19 and draft PR #20 to inspect complete failing Validate evidence after the bounded test-only dependency-guard corrections and determine the exact next action."}
+    {"at":"2026-07-17T18:33:02+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T183302+0200","reason":"Claimed the manager re-review of issue #19 and draft PR #20 to inspect complete failing Validate evidence after the bounded test-only dependency-guard corrections and determine the exact next action."},
+    {"at":"2026-07-17T18:41:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T183302+0200","reason":"Re-reviewed issue #19 and draft PR #20, confirmed the bounded correction scope and structured handoff, issued CHANGES REQUESTED because current required Validate run #113 still fails in Run repository tests, and returned the same Backend and Data Integration Engineer assignment for exact log-led diagnosis and the smallest permitted correction."}
   ]
 }
