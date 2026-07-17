@@ -205,12 +205,13 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
 }
 
 class AdapterError extends Error {
-  constructor(
-    readonly code: RevealAdapterDiagnosticCode,
-    message: string,
-    readonly blockId?: string,
-  ) {
+  readonly code: RevealAdapterDiagnosticCode;
+  readonly blockId?: string;
+
+  constructor(code: RevealAdapterDiagnosticCode, message: string, blockId?: string) {
     super(message);
+    this.code = code;
+    this.blockId = blockId;
   }
 }
 
