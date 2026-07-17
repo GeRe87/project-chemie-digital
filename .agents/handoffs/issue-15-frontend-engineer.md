@@ -17,6 +17,7 @@ Frontend and Reveal Renderer Engineer
 - Added atomic stable diagnostics for unsupported versions, invalid documents, unsupported primitives, missing alternatives, invalid disclosure order and render-plan invariant failures.
 - Added golden, determinism, accessibility, disclosure, static/reduced-motion, diagnostics, dependency-direction and no-network tests.
 - Added renderer package documentation and repository test wiring.
+- Corrected the Validate run #83 failure by replacing TypeScript constructor parameter properties in `AdapterError` with explicit class fields that are supported by Node's `--experimental-strip-types` execution mode; adapter behavior and public contracts remain unchanged.
 
 ## Files or resources changed
 
@@ -29,11 +30,19 @@ Frontend and Reveal Renderer Engineer
 
 ## Verification
 
-- [x] Automated tests added; full remote validation pending on the draft PR
-- [x] Semantic validation remains part of the root repository test command
-- [ ] Manual browser check — excluded because this increment contains no browser runtime or DOM renderer
-- [x] Accessibility check represented by preservation and fallback tests
-- [x] Documentation updated
+- [x] Automated tests added.
+- [x] Complete GitHub Actions validation passed in Validate run #88 on the corrected draft-PR head.
+- [x] Semantic validation remains part of the root repository test command.
+- [ ] Manual browser check — excluded because this increment contains no browser runtime or DOM renderer.
+- [x] Accessibility check represented by preservation and fallback tests.
+- [x] Documentation updated.
+
+## Failure cause and correction
+
+- Validate run #83 failed while Node executed the TypeScript tests with `--experimental-strip-types`.
+- `AdapterError` used TypeScript constructor parameter properties (`readonly code` and `readonly blockId`), which are not erasable type syntax in that execution mode.
+- The correction declares those members as explicit readonly class fields and assigns them in the constructor.
+- No mapping behavior, diagnostics, architecture boundary, ontology, semantic content, path resolution, scene composition, browser runtime or external dependency changed.
 
 ## Decisions and assumptions
 
@@ -44,9 +53,8 @@ Frontend and Reveal Renderer Engineer
 
 ## Risks or unresolved questions
 
-- Remote GitHub Actions validation must confirm Node workspace execution and the complete repository suite.
 - Runtime HTML/React rendering, keyboard controls and Reveal.js lifecycle integration remain intentionally outside this issue.
 
 ## Recommended manager action
 
-review
+review and accept after confirming Validate run #88 and the current draft-PR diff
