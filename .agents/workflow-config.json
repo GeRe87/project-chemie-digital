@@ -2,7 +2,7 @@
   "workflow_id": "project-chemie-digital",
   "core": {
     "repository": "GeRe87/agent-workflow-core",
-    "ref": "54dd1fcc27fac14e425b2f015199f281e9e410d2",
+    "ref": "a73e00c7b4cfd5355e456e0e3dec022766db61c2",
     "schema": "schemas/workflow-config.schema.json",
     "protocol": "protocols/scheduled-dispatcher.md",
     "governance": [
