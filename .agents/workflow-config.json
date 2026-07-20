@@ -2,7 +2,7 @@
   "workflow_id": "project-chemie-digital",
   "core": {
     "repository": "GeRe87/agent-workflow-core",
-    "ref": "54dd1fcc27fac14e425b2f015199f281e9e410d2",
+    "ref": "e04fddc8cf6de6e03da6305a475ff0a04ae29521",
     "schema": "schemas/workflow-config.schema.json",
     "protocol": "protocols/scheduled-dispatcher.md",
     "governance": [
@@ -25,6 +25,17 @@
   "transition_history_limit": 25,
   "work_model": "github-issues",
   "notification_policy": ".agents/dispatcher-protocol.md#notifications",
+  "validation": {
+    "provider": "external-commit-status",
+    "requiredContexts": [
+      "agent-validator/project-chemie-digital"
+    ],
+    "requireExactHead": true,
+    "evidence": {
+      "type": "pull-request-comment",
+      "marker": "<!-- agent-workflow-validator:project-chemie-digital -->"
+    }
+  },
   "merge_policy": {
     "agent_merge_enabled": true,
     "base_branch": "main",
