@@ -30,6 +30,14 @@ Resolution fails explicitly for a missing path, missing referenced step or resou
 
 Resource identifiers are sorted independently of map insertion order. Scene and block identities, source order, reading order, disclosure order, accessible alternatives, explicit narration, and available provenance are propagated deterministically. The composer performs no network access and contains no Reveal.js, React, HTML, CSS, browser, or concrete renderer concepts.
 
+## Offline knowledge-network projector
+
+`projectKnowledgeNetwork` accepts an explicitly supplied, already parsed and validated logical RDF dataset snapshot and versioned projection options. It performs deterministic breadth-first traversal across the merged dataset, restricts traversal to declared predicates and depth, deduplicates semantic entities and relations, and returns either one immutable `KnowledgeNetworkDocument 1.0` or one stable atomic diagnostic.
+
+Nodes, edges and optional semantic-type groups use canonical semantic identities and ordering. Labels, semantic types, source/provenance records and inert versioned external references are preserved. Accessibility metadata includes deterministic node and edge reading orders plus a complete textual fallback. `canonicalSerializeKnowledgeNetworkDocument` provides byte-stable canonical JSON independent of input statement or file ordering.
+
+The projector performs no network access or external-reference dereferencing. D3, React, DOM, coordinates, force simulation and browser lifecycle remain the responsibility of a later renderer adapter and do not enter the core contract.
+
 ## Verification
 
 From the repository root run:
@@ -38,4 +46,4 @@ From the repository root run:
 npm test
 ```
 
-The resolver and composer have no UI surface, user tracking, network access, or personal-data processing. Accessibility metadata and static interaction fallbacks are explicit inputs and are validated before successful composition.
+The resolver, composer and knowledge-network projector have no UI surface, user tracking, network access, or personal-data processing. Accessibility metadata and static alternatives are explicit contract values and are validated before successful transformation.
