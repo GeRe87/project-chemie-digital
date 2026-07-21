@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 9,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 26,
-  "expectedDeliverable": "Model the bounded repository-backed Studiendekanat pitch content as reusable semantic resources with provenance, deterministic SHACL validation, documentation, a structured handoff and draft PR, without narrative ordering or renderer implementation.",
-  "lastCompletedTurn": "manager: verified the completed Phase 1 baseline, no pre-existing open issues or pull requests, the Phase 2 backlog sequence and Semantic Web role authority; created issue #26 and assigned the bounded semantic pitch-content slice",
-  "lastUpdated": "2026-07-21T18:23:58+02:00",
+  "expectedDeliverable": "Manager review of draft PR #27 for the bounded repository-backed semantic pitch-content slice, including exact-head local validation evidence.",
+  "lastCompletedTurn": "worker: modeled the bounded Studiendekanat pitch proposition as reusable semantic resources with repository provenance, additive SHACL invariants, complete-graph validation, deterministic negative testing, documentation and draft PR #27",
+  "lastUpdated": "2026-07-21T18:32:30+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260721T182358+0200",
-    "claimedAt": "2026-07-21T18:23:58+02:00",
-    "expiresAt": "2026-07-21T20:23:58+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 102,
+  "stateRevision": 103,
   "transitionHistory": [
-    {"at":"2026-07-17T18:41:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T183302+0200","reason":"Re-reviewed issue #19 and draft PR #20, confirmed the bounded ADR-0006 scope and structured handoff, issued CHANGES REQUESTED because current required Validate run #113 still fails in Run repository tests, and returned the same Backend and Data Integration Engineer assignment for exact log-led diagnosis and the smallest permitted correction."},
     {"at":"2026-07-17T20:30:32+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T203032+0200","reason":"Claimed the exact issue #19 correction turn for draft PR #20 to inspect complete Validate run #113 terminal output, identify the precise repository-test failure, apply only the smallest permitted correction, update validation evidence and handoff, and return the same assignment for manager re-review."},
     {"at":"2026-07-17T20:40:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T203032+0200","reason":"Inspected Validate run #113 and failed job 87927124292, confirmed failure remains in Run repository tests, documented that the GitHub connector truncates the decoded 434-line log after 116 setup lines before any test command output or terminal assertion, made no speculative code change, updated the structured handoff, and returned control for manager review with the authoritative-log blocker preserved."},
     {"at":"2026-07-17T21:33:44+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the updated backend-engineer handoff and available authoritative validation evidence to determine the exact safe next action under the existing bounded assignment."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-21T16:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260721T162505+0200","reason":"Accepted issue #24 after exact-head local validation and final bounded review, recorded the formal verdict, marked PR #25 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn."},
     {"at":"2026-07-21T17:27:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T172701+0200","reason":"Claimed one bounded manager planning turn to verify the completed Phase 1 baseline, current issues and pull requests, Phase 2 backlog sequencing and the authorised semantic role before assigning the first pitch vertical-slice work item."},
     {"at":"2026-07-21T17:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260721T172701+0200","reason":"Verified the completed Phase 1 baseline, no pre-existing open issues or pull requests, selected Phase 2 backlog item 15, created issue #26 with bounded semantic-content, provenance, SHACL and no-renderer-coupling criteria, assigned the Semantic Web and Ontology Engineer, cleared the lease and returned control for worker execution."},
-    {"at":"2026-07-21T18:23:58+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T182358+0200","reason":"Claimed the bounded Semantic Web and Ontology Engineer assignment for issue #26 to model repository-backed Studiendekanat pitch content as reusable semantic resources with provenance and deterministic validation."}
+    {"at":"2026-07-21T18:23:58+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T182358+0200","reason":"Claimed the bounded Semantic Web and Ontology Engineer assignment for issue #26 to model repository-backed Studiendekanat pitch content as reusable semantic resources with provenance and deterministic validation."},
+    {"at":"2026-07-21T18:32:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T182358+0200","reason":"Modeled the bounded repository-backed pitch proposition as reusable semantic resources, added additive provenance vocabulary and SHACL invariants, extended complete-graph validation and negative testing, documented reuse and privacy, stored the structured handoff, opened draft PR #27 and returned control for exact-head validation and manager review."}
   ]
 }
