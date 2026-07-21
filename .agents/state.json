@@ -1,25 +1,22 @@
 {
   "schemaVersion": 2,
-  "cycle": 6,
-  "status": "blocked",
+  "cycle": 7,
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Backend and Data Integration Engineer",
-  "activeIssue": 19,
-  "expectedDeliverable": "Successful local exact-head validation for draft PR #20 under the required agent-validator/project-chemie-digital context, followed by a final manager review of the bounded knowledge-network projector increment.",
-  "lastCompletedTurn": "manager: reconciled draft PR #20 with the accepted local validator migration, removed the obsolete GitHub Actions workflow, updated the handoff and pull-request description, confirmed the pull request is mergeable, and classified the missing required external status as the sole remaining blocker",
-  "lastUpdated": "2026-07-20T19:12:02+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: accepted issue #19 after successful local exact-head validation, completed final scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, and returned control for one later bounded manager planning turn",
+  "lastUpdated": "2026-07-21T13:30:33+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "The required local exact-head status agent-validator/project-chemie-digital is missing for the current draft PR #20 head after branch reconciliation."
-  ],
-  "stateRevision": 92,
+  "blockedBy": [],
+  "stateRevision": 93,
   "transitionHistory": [
-    {"at":"2026-07-17T13:39:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260717T133016+0200","reason":"Accepted issue #17 after confirming ADR-0006 preserves the renderer-neutral semantic learning-compiler boundaries, complete backlog sequencing and handoff, and successful Validate run #98; recorded the formal verdict, marked PR #18 ready, squash-merged it into main with the reviewed head guard, confirmed issue closure, and returned control for selection of the next bounded projector implementation assignment."},
     {"at":"2026-07-17T14:31:06+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T143106+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next worker assignment implementing the accepted ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
     {"at":"2026-07-17T14:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T143106+0200","reason":"Created issue #19 and assigned the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector implementation to the Backend and Data Integration Engineer, with deterministic, accessibility, dependency-direction and no-network acceptance criteria."},
     {"at":"2026-07-17T15:42:11+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T154211+0200","reason":"Claimed the bounded Backend and Data Integration Engineer assignment for issue #19 to implement the pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
@@ -43,6 +40,7 @@
     {"at":"2026-07-18T02:29:37+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260718T022937+0200","reason":"Claimed the manager re-review of issue #19 and draft PR #20 to inspect completed Validate run #129 rerun attempt 2 and classify the remaining validation-evidence blocker without speculative implementation changes."},
     {"at":"2026-07-18T02:34:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260718T022937+0200","reason":"Reviewed Validate run #129 rerun attempt 2 for current PR #20 head, confirmed failure with no steps, no updated marker diagnostic, no artifact and BlobNotFound for the job log, classified the blocker as externally dependent after the one permitted rerun recovery was exhausted, recorded a formal BLOCKED verdict and preserved the draft PR without speculative changes."},
     {"at":"2026-07-20T18:51:32+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260720T185132+0200","reason":"Explicit human governance authorised the validation migration. Accepted and squash-merged PR #23 after exact-head local validation succeeded, retired the obsolete GitHub Actions evidence blocker, and preserved issue #19 and draft PR #20 for bounded reconciliation under the configured external status provider."},
-    {"at":"2026-07-20T19:12:02+02:00","from":"ready/manager","to":"blocked/manager","actor":"direct-manager-20260720T191202+0200","reason":"Reconciled draft PR #20 with the accepted local validator migration, removed the obsolete GitHub Actions workflow, updated the handoff and pull-request description, confirmed the pull request is mergeable, and blocked final acceptance because the required local exact-head status is missing."}
+    {"at":"2026-07-20T19:12:02+02:00","from":"ready/manager","to":"blocked/manager","actor":"direct-manager-20260720T191202+0200","reason":"Reconciled draft PR #20 with the accepted local validator migration, removed the obsolete GitHub Actions workflow, updated the handoff and pull-request description, confirmed the pull request is mergeable, and blocked final acceptance because the required local exact-head status is missing."},
+    {"at":"2026-07-21T13:30:33+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260721T133033+0200","reason":"Accepted issue #19 after successful local exact-head validation and final bounded scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, cleared the obsolete validation blocker and active assignment, and returned control for one later manager planning turn."}
   ]
 }
