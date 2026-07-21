@@ -15,6 +15,7 @@ cd:PitchResource a rdfs:Class ; rdfs:subClassOf cd:LearningResource .
 cd:LearningPath a rdfs:Class .
 cd:PathStep a rdfs:Class .
 cd:Source a rdfs:Class .
+cd:PitchSource a rdfs:Class ; rdfs:subClassOf cd:Source .
 
 cd:hasDefinition a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
 cd:hasMathExpression a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:MathExpression .
@@ -22,7 +23,7 @@ cd:hasSymbol a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:MathSymbol 
 cd:hasExample a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:WorkedExample .
 cd:hasExercise a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
 cd:hasSource a rdf:Property ; rdfs:range cd:Source .
-cd:sourcePath a rdf:Property ; rdfs:domain cd:Source ; rdfs:range xsd:string .
+cd:sourcePath a rdf:Property ; rdfs:domain cd:PitchSource ; rdfs:range xsd:string .
 cd:forTopic a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
 cd:hasStep a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
 cd:usesResource a rdf:Property ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
