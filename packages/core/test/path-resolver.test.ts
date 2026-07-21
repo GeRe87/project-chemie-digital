@@ -23,12 +23,20 @@ async function documents(): Promise<JsonLdDocument[]> {
   ];
 }
 
+async function pitchDocuments(): Promise<JsonLdDocument[]> {
+  return [
+    await fixture("content/concepts/chemie-digital-platform.jsonld"),
+    await fixture("content/resources/pitch-content.jsonld"),
+    await fixture("content/paths/studiendekanat-pitch.jsonld"),
+  ];
+}
+
 function clone<T>(value: T): T {
   return structuredClone(value);
 }
 
-function pathDocument(docs: JsonLdDocument[]): Record<string, unknown>[] {
-  return docs[2]["@graph"] as Record<string, unknown>[];
+function pathDocument(docs: JsonLdDocument[], index = 2): Record<string, unknown>[] {
+  return docs[index]["@graph"] as Record<string, unknown>[];
 }
 
 function expectResolutionError(action: () => unknown, message: RegExp): void {
@@ -50,6 +58,34 @@ test("resolves the five-step fixture by position, independent of source order", 
     "ex:symbol-x-i",
   ]);
   assert.equal(resolved.steps[0].viewType, "concept-introduction");
+});
+
+test("resolves the pitch narrative deterministically by semantic purpose", async () => {
+  const docs = await pitchDocuments();
+  pathDocument(docs).reverse();
+
+  const resolved = resolveLearningPath(docs, "ex:studiendekanat-pitch-path-v1");
+
+  assert.deepEqual(resolved.steps.map((step) => step.position), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  assert.deepEqual(resolved.steps.map((step) => step.viewType), [
+    "context-and-opportunity",
+    "core-proposition",
+    "architecture-layer-explanation",
+    "didactic-orchestration-explanation",
+    "transformation-boundary-explanation",
+    "separation-of-concerns",
+    "reuse-and-transfer",
+    "proof-of-concept",
+    "purpose-and-next-step",
+  ]);
+  assert.deepEqual(resolved.steps[7].resourceIds, ["ex:pitch-standard-deviation-proof"]);
+});
+
+test("rejects a duplicate pitch path position deterministically", async () => {
+  const docs = clone(await pitchDocuments());
+  const graph = pathDocument(docs);
+  graph.find((node) => node.id === "ex:pitch-step-knowledge-first")!.position = 1;
+  expectResolutionError(() => resolveLearningPath(docs, "ex:studiendekanat-pitch-path-v1"), /Duplicate path position/);
 });
 
 test("fails when the selected path is missing", async () => {
