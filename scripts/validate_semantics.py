@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the standard-deviation semantic slice with SHACL."""
+"""Validate the complete repository semantic content graph with SHACL."""
 from __future__ import annotations
 
 import sys
@@ -12,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_FILES = (
     ROOT / "ontology" / "learning.ttl",
     ROOT / "content" / "concepts" / "standard-deviation.jsonld",
+    ROOT / "content" / "concepts" / "chemie-digital-platform.jsonld",
     ROOT / "content" / "resources" / "standard-deviation-resources.jsonld",
+    ROOT / "content" / "resources" / "pitch-content.jsonld",
     ROOT / "content" / "paths" / "standard-deviation-default.jsonld",
 )
 SHAPES_FILE = ROOT / "ontology" / "shapes.ttl"
