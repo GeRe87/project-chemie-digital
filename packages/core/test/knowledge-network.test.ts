@@ -8,6 +8,7 @@ import {
 } from "../src/knowledge-network.ts";
 
 const source = [{ resourceId: "content:standard-deviation", provenanceIds: ["prov:reviewed"] }] as const;
+const secondarySource = [{ resourceId: "content:secondary-evidence", provenanceIds: ["prov:independent"] }] as const;
 
 const fixture: RdfDatasetSnapshot = {
   version: "1.0",
@@ -50,6 +51,30 @@ test("projects the standard-deviation logical dataset deterministically", () => 
   assert.equal(first.document.groups?.length, 3);
 });
 
+test("deduplicates repeated edges and preserves all provenance independent of statement order", () => {
+  const duplicate = {
+    sourceEntityId: "ex:standard-deviation",
+    predicateId: "cd:hasDefinition",
+    targetEntityId: "ex:definition",
+    predicateLabel: "has definition",
+    source: secondarySource,
+  } as const;
+  const forward = projectKnowledgeNetwork({ ...fixture, statements: [...fixture.statements, duplicate] }, options);
+  const reversed = projectKnowledgeNetwork({ ...fixture, statements: [duplicate, ...fixture.statements].reverse() }, options);
+  assert.deepEqual(forward.diagnostics, []);
+  assert.deepEqual(reversed.diagnostics, []);
+  assert.ok(forward.document);
+  assert.ok(reversed.document);
+  assert.equal(
+    canonicalSerializeKnowledgeNetworkDocument(forward.document),
+    canonicalSerializeKnowledgeNetworkDocument(reversed.document),
+  );
+  const definitionEdge = forward.document.edges.find((edge) => edge.predicateId === "cd:hasDefinition");
+  assert.ok(definitionEdge);
+  assert.equal(definitionEdge.source.length, 2);
+  assert.deepEqual(new Set(definitionEdge.source.map((entry) => entry.resourceId)), new Set(["content:standard-deviation", "content:secondary-evidence"]));
+});
+
 test("uses breadth-first traversal with a strict depth bound", () => {
   const deep: RdfDatasetSnapshot = {
     ...fixture,
@@ -79,6 +104,7 @@ test("fails atomically with stable diagnostics", () => {
     [fixture, { ...options, includedPredicates: ["cd:unknown"] }, "UNSUPPORTED_PREDICATE"],
     [{ ...fixture, entities: fixture.entities.map((entity) => entity.id === "ex:example" ? { ...entity, label: "" } : entity) }, options, "MISSING_ACCESSIBLE_LABEL"],
     [{ ...fixture, statements: [...fixture.statements, { sourceEntityId: "ex:variance", predicateId: "cd:hasPrerequisite", targetEntityId: "ex:missing", predicateLabel: "has prerequisite", source, requiredReference: true }] }, options, "UNRESOLVED_REQUIRED_REFERENCE"],
+    [{ ...fixture, statements: [...fixture.statements, { sourceEntityId: "ex:standard-deviation", predicateId: "cd:hasDefinition", targetEntityId: "ex:definition", predicateLabel: "defines", source }] }, options, "INVALID_DATASET"],
   ];
   for (const [dataset, projection, code] of cases) {
     const result = projectKnowledgeNetwork(dataset, projection);
