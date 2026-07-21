@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 10,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": null,
   "lastCompletedTurn": "manager: accepted issue #26 after successful exact-head local validation and final bounded semantic-content review, recorded the formal verdict, marked PR #27 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn",
-  "lastUpdated": "2026-07-21T19:30:14+02:00",
+  "lastUpdated": "2026-07-21T20:26:13+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260721T202613+0200",
+    "claimedAt": "2026-07-21T20:26:13+02:00",
+    "expiresAt": "2026-07-21T22:26:13+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 105,
+  "stateRevision": 106,
   "transitionHistory": [
-    {"at":"2026-07-17T21:33:44+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the updated backend-engineer handoff and available authoritative validation evidence to determine the exact safe next action under the existing bounded assignment."},
     {"at":"2026-07-17T21:40:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260717T213344+0200","reason":"Reviewed current PR #20 head and Validate run #118, confirmed the required repository-test step still fails while the connector truncates the log before terminal output, issued a formal BLOCKED verdict, kept PR #20 draft and unmerged, and required authoritative terminal output or an exact-head root npm test reproduction before resuming issue #19."},
     {"at":"2026-07-17T23:31:03+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260717T233103+0200","reason":"Claimed one bounded manager unblock turn because new authoritative connector-readable CI evidence on draft PR #20 now exposes the exact repository-test failure required by the recorded blocker."},
     {"at":"2026-07-17T23:38:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T233103+0200","reason":"Classified the prior log-access blocker as internally actionable after Validate run #124 published ERR_INVALID_TYPESCRIPT_SYNTAX at packages/core/test/knowledge-network.test.ts:80, recorded a bounded CHANGES REQUESTED verdict on PR #20, and returned the same issue #19 assignment to the Backend and Data Integration Engineer for the smallest test-only syntax correction and successful validation."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-21T18:23:58+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T182358+0200","reason":"Claimed the bounded Semantic Web and Ontology Engineer assignment for issue #26 to model repository-backed Studiendekanat pitch content as reusable semantic resources with provenance and deterministic validation."},
     {"at":"2026-07-21T18:32:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T182358+0200","reason":"Modeled the bounded repository-backed pitch proposition as reusable semantic resources, added additive provenance vocabulary and SHACL invariants, extended complete-graph validation and negative testing, documented reuse and privacy, stored the structured handoff, opened draft PR #27 and returned control for exact-head validation and manager review."},
     {"at":"2026-07-21T19:25:34+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T192534+0200","reason":"Claimed the manager review of issue #26, draft PR #27, the structured semantic-web handoff and exact-head local validation evidence."},
-    {"at":"2026-07-21T19:30:14+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260721T192534+0200","reason":"Accepted issue #26 after successful exact-head local validation and final bounded semantic-content review, recorded the formal verdict, marked PR #27 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn."}
+    {"at":"2026-07-21T19:30:14+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260721T192534+0200","reason":"Accepted issue #26 after successful exact-head local validation and final bounded semantic-content review, recorded the formal verdict, marked PR #27 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn."},
+    {"at":"2026-07-21T20:26:13+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T202613+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, Phase 2 sequencing, the accepted semantic pitch-content baseline and the authorised instructional-design role before assigning the next narrative-path increment."}
   ]
 }
