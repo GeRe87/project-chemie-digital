@@ -18,7 +18,9 @@ Backend and Data Integration Engineer
 - Documented the public contract, offline behavior and later D3 adapter boundary.
 - Corrected the renderer-neutral dependency guard so ordinary `document` variable access cannot be mistaken for a DOM dependency.
 - Replaced the source-substring dependency guard with a package-dependency assertion while retaining explicit D3, React and Reveal.js dependency-direction coverage.
-- Used the former connector-readable diagnostic to identify and correct the missing parenthesis in the `MISSING_ACCESSIBLE_LABEL` test fixture; projector behavior and contracts were unchanged.
+- Used the former connector-readable diagnostic to identify and correct the missing parenthesis in the `MISSING_ACCESSIBLE_LABEL` test fixture.
+- Corrected repeated-edge aggregation so edge identity deduplication retains every source/provenance reference and remains invariant under statement-order permutations.
+- Replaced locale-dependent ordering with an explicit canonical comparator and added a duplicate-edge provenance regression test.
 - Reconciled the branch with accepted ADR-0007 and the local exact-head validation contract.
 - Removed the obsolete `.github/workflows/validate.yml` from the branch and retained `npm test` as the authoritative project command.
 
@@ -37,6 +39,7 @@ The branch also contains the accepted validator-migration files from current `ma
 - [x] Automated tests added and wired through the root `npm test` command
 - [x] Semantic validation remains part of the root test command
 - [x] The previously diagnosed TypeScript syntax error was corrected with the smallest test-only change
+- [x] Duplicate-edge provenance and statement-order invariance are covered by a regression test
 - [x] GitHub Actions validation was removed from the branch
 - [ ] `agent-validator/project-chemie-digital` must report `success` on the exact current PR head
 - [ ] The marked local-validator diagnostic comment must correspond to the same exact head
@@ -48,9 +51,11 @@ The branch also contains the accepted validator-migration files from current `ma
 
 - The projector accepts an explicitly supplied, already parsed and validated logical dataset snapshot; RDF parsing and SHACL execution remain separate upstream responsibilities.
 - Traversal follows outgoing directed statements only and includes edges encountered before the configured maximum depth.
+- Repeated edges are identified by `(source, predicate, target)` and aggregate all canonical source/provenance references instead of selecting one input occurrence.
+- Predicate labels must be consistent for a predicate identity; conflicting labels fail atomically as an invalid dataset.
 - Stable identifiers are reversible deterministic encodings of semantic identities and versioned projection parameters; no random or runtime-dependent values are used.
 - Semantic-type groups are descriptive metadata only and carry no D3, layout or component semantics.
-- The corrections remain test-only and do not alter the accepted ADR-0006 implementation or broaden issue scope.
+- The correction remains within the accepted ADR-0006 deterministic deduplication and provenance-preservation scope.
 - The validator migration is governance and infrastructure reconciliation; it does not add feature behavior to the knowledge-network projector.
 
 ## Risks or unresolved questions
