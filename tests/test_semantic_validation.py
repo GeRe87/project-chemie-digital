@@ -17,7 +17,7 @@ SPEC.loader.exec_module(MODULE)
 
 
 class SemanticValidationTests(unittest.TestCase):
-    def test_standard_deviation_slice_conforms(self) -> None:
+    def test_complete_semantic_content_conforms(self) -> None:
         conforms, report = MODULE.run_validation()
         self.assertTrue(conforms, report)
 
@@ -30,6 +30,26 @@ class SemanticValidationTests(unittest.TestCase):
             "https://w3id.org/project-chemie-digital/ontology/hasDefinition"
         )
         graph.remove((concept, has_definition, None))
+        shapes = MODULE.load_graph((MODULE.SHAPES_FILE,))
+
+        conforms, _, report = validate(
+            data_graph=graph,
+            shacl_graph=shapes,
+            inference="rdfs",
+            meta_shacl=True,
+        )
+
+        self.assertFalse(conforms, str(report))
+
+    def test_pitch_resource_without_repository_source_is_rejected(self) -> None:
+        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        resource = URIRef(
+            "https://w3id.org/project-chemie-digital/resource/pitch-knowledge-first-proposition"
+        )
+        has_source = URIRef(
+            "https://w3id.org/project-chemie-digital/ontology/hasSource"
+        )
+        graph.remove((resource, has_source, None))
         shapes = MODULE.load_graph((MODULE.SHAPES_FILE,))
 
         conforms, _, report = validate(
