@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 24,
   "expectedDeliverable": "Implement the bounded downstream D3 knowledge-network adapter for KnowledgeNetworkDocument 1.0 with deterministic adapter-owned mapping, lifecycle cleanup, accessibility, dependency-direction and no-network tests, documentation, a structured handoff and draft PR.",
   "lastCompletedTurn": "manager: reviewed the current Phase 1 backlog, confirmed no open issues or pull requests, created issue #24 for the bounded D3 knowledge-network adapter, and assigned it to the Frontend and Reveal Renderer Engineer",
-  "lastUpdated": "2026-07-21T14:28:29+02:00",
+  "lastUpdated": "2026-07-21T15:24:14+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260721T152414+0200",
+    "claimedAt": "2026-07-21T15:24:14+02:00",
+    "expiresAt": "2026-07-21T17:24:14+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 95,
+  "stateRevision": 96,
   "transitionHistory": [
-    {"at":"2026-07-17T15:42:11+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T154211+0200","reason":"Claimed the bounded Backend and Data Integration Engineer assignment for issue #19 to implement the pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
     {"at":"2026-07-17T15:50:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T154211+0200","reason":"Implemented the bounded pure offline ADR-0006 KnowledgeNetworkDocument 1.0 projector in the neutral core package, added deterministic, accessibility, diagnostics, dependency-direction and no-network tests plus documentation, recorded the structured handoff, opened draft PR #20, and returned control for manager review with remote validation pending."},
     {"at":"2026-07-17T16:31:09+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T163109+0200","reason":"Claimed the manager review of issue #19, draft PR #20, the bounded ADR-0006 knowledge-network projector, structured handoff and current validation evidence under the configured 120-minute lease."},
     {"at":"2026-07-17T16:39:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T163109+0200","reason":"Reviewed issue #19 and draft PR #20, confirmed the bounded ADR-0006 scope and structured handoff, issued CHANGES REQUESTED because required Validate run #106 failed in the repository test step, and returned the same assignment to the Backend and Data Integration Engineer for a minimal correction and successful validation."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-20T19:12:02+02:00","from":"ready/manager","to":"blocked/manager","actor":"direct-manager-20260720T191202+0200","reason":"Reconciled draft PR #20 with the accepted local validator migration, removed the obsolete GitHub Actions workflow, updated the handoff and pull-request description, confirmed the pull request is mergeable, and blocked final acceptance because the required local exact-head status is missing."},
     {"at":"2026-07-21T13:30:33+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260721T133033+0200","reason":"Accepted issue #19 after successful local exact-head validation and final bounded scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, cleared the obsolete validation blocker and active assignment, and returned control for one later manager planning turn."},
     {"at":"2026-07-21T14:25:18+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T142518+0200","reason":"Claimed one bounded manager planning turn to verify current backlog, issues, pull requests, dependencies and role scope before selecting the next Phase 1 worker assignment."},
-    {"at":"2026-07-21T14:28:29+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260721T142518+0200","reason":"Verified no open issues or pull requests, selected backlog item 14 after the accepted KnowledgeNetworkDocument projector, created issue #24 with bounded D3-adapter, accessibility, lifecycle and dependency-direction acceptance criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."}
+    {"at":"2026-07-21T14:28:29+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260721T142518+0200","reason":"Verified no open issues or pull requests, selected backlog item 14 after the accepted KnowledgeNetworkDocument projector, created issue #24 with bounded D3-adapter, accessibility, lifecycle and dependency-direction acceptance criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."},
+    {"at":"2026-07-21T15:24:14+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T152414+0200","reason":"Claimed the bounded Frontend and Reveal Renderer Engineer assignment for issue #24 to implement the downstream deterministic D3 knowledge-network adapter, lifecycle, accessibility and offline tests."}
   ]
 }
