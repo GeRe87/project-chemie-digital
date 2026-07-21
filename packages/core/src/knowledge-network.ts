@@ -130,8 +130,12 @@ class ProjectionError extends Error {
   }
 }
 
+function compareCanonical(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 function canonicalStrings(values: readonly string[]): readonly string[] {
-  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+  return [...new Set(values)].sort(compareCanonical);
 }
 
 function canonicalSources(values: readonly SourceReference[]): readonly SourceReference[] {
@@ -141,7 +145,7 @@ function canonicalSources(values: readonly SourceReference[]): readonly SourceRe
     const normalized = { resourceId: value.resourceId, ...(provenanceIds ? { provenanceIds } : {}) };
     byKey.set(JSON.stringify(normalized), normalized);
   }
-  return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  return [...byKey.values()].sort((a, b) => compareCanonical(JSON.stringify(a), JSON.stringify(b)));
 }
 
 function canonicalExternalReferences(values: readonly VersionedExternalReference[]): readonly VersionedExternalReference[] {
@@ -152,7 +156,7 @@ function canonicalExternalReferences(values: readonly VersionedExternalReference
     ...(value.mediaType ? { mediaType: value.mediaType } : {}),
   }));
   return [...new Map(normalized.map((value) => [JSON.stringify(value), value])).values()].sort((a, b) =>
-    JSON.stringify(a).localeCompare(JSON.stringify(b)),
+    compareCanonical(JSON.stringify(a), JSON.stringify(b)),
   );
 }
 
@@ -162,6 +166,10 @@ function requireNonEmpty(value: string, code: KnowledgeNetworkDiagnosticCode, me
 
 function stableId(prefix: string, parts: readonly string[]): string {
   return `${prefix}:${parts.map((part) => encodeURIComponent(part)).join("|")}`;
+}
+
+function statementKey(statement: RdfDatasetStatement): string {
+  return `${statement.sourceEntityId}\u0000${statement.predicateId}\u0000${statement.targetEntityId}`;
 }
 
 function validateDataset(snapshot: RdfDatasetSnapshot): void {
@@ -188,11 +196,22 @@ function validateDataset(snapshot: RdfDatasetSnapshot): void {
 
   const supported = new Set(snapshot.supportedPredicates);
   for (const predicate of snapshot.supportedPredicates) requireNonEmpty(predicate, "INVALID_DATASET", "Supported predicate must be non-empty");
+  const predicateLabels = new Map<string, string>();
   for (const statement of snapshot.statements) {
     requireNonEmpty(statement.sourceEntityId, "INVALID_DATASET", "Statement source must be non-empty");
     requireNonEmpty(statement.targetEntityId, "INVALID_DATASET", "Statement target must be non-empty");
     requireNonEmpty(statement.predicateId, "INVALID_DATASET", "Statement predicate must be non-empty");
-    requireNonEmpty(statement.predicateLabel, "MISSING_ACCESSIBLE_LABEL", `Predicate ${statement.predicateId} requires a label`, undefined);
+    requireNonEmpty(statement.predicateLabel, "MISSING_ACCESSIBLE_LABEL", `Predicate ${statement.predicateId} requires a label`);
+    const knownLabel = predicateLabels.get(statement.predicateId);
+    if (knownLabel !== undefined && knownLabel !== statement.predicateLabel) {
+      throw new ProjectionError(
+        "INVALID_DATASET",
+        `Predicate ${statement.predicateId} has conflicting labels`,
+        undefined,
+        statement.predicateId,
+      );
+    }
+    predicateLabels.set(statement.predicateId, statement.predicateLabel);
     if (!entities.has(statement.sourceEntityId)) {
       throw new ProjectionError("INVALID_DATASET", `Unknown statement source ${statement.sourceEntityId}`, statement.sourceEntityId);
     }
@@ -244,6 +263,11 @@ function validateDocument(document: KnowledgeNetworkDocument): void {
       throw new ProjectionError("KNOWLEDGE_NETWORK_CONTRACT_VIOLATION", `Edge ${edge.id} references an unknown node`);
     }
   }
+  for (const group of document.groups ?? []) {
+    if (group.memberNodeIds.some((nodeId) => !nodeSet.has(nodeId))) {
+      throw new ProjectionError("KNOWLEDGE_NETWORK_CONTRACT_VIOLATION", `Group ${group.id} references an unknown node`);
+    }
+  }
   if (document.accessibility.nodeReadingOrder.join("\u0000") !== nodeIds.join("\u0000")) {
     throw new ProjectionError("KNOWLEDGE_NETWORK_CONTRACT_VIOLATION", "Node reading order is invalid");
   }
@@ -261,16 +285,35 @@ export function projectKnowledgeNetwork(
     const projection = normalizeOptions(snapshot, options);
     const entityById = new Map(snapshot.entities.map((entity) => [entity.id, entity]));
     const includedPredicates = new Set(projection.includedPredicates);
-    const outgoing = new Map<string, RdfDatasetStatement[]>();
+
+    const statementsByKey = new Map<string, RdfDatasetStatement>();
     for (const statement of snapshot.statements) {
       if (!includedPredicates.has(statement.predicateId)) continue;
+      const key = statementKey(statement);
+      const existing = statementsByKey.get(key);
+      statementsByKey.set(
+        key,
+        existing
+          ? {
+              ...existing,
+              source: canonicalSources([...existing.source, ...statement.source]),
+              requiredReference: existing.requiredReference === true || statement.requiredReference === true,
+            }
+          : { ...statement, source: canonicalSources(statement.source) },
+      );
+    }
+
+    const outgoing = new Map<string, RdfDatasetStatement[]>();
+    for (const statement of statementsByKey.values()) {
       const values = outgoing.get(statement.sourceEntityId) ?? [];
       values.push(statement);
       outgoing.set(statement.sourceEntityId, values);
     }
     for (const values of outgoing.values()) {
       values.sort((a, b) =>
-        a.predicateId.localeCompare(b.predicateId) || a.targetEntityId.localeCompare(b.targetEntityId) || a.sourceEntityId.localeCompare(b.sourceEntityId),
+        compareCanonical(a.predicateId, b.predicateId) ||
+        compareCanonical(a.targetEntityId, b.targetEntityId) ||
+        compareCanonical(a.sourceEntityId, b.sourceEntityId),
       );
     }
 
@@ -279,10 +322,9 @@ export function projectKnowledgeNetwork(
     let frontier = [...projection.rootEntityIds];
     for (let depth = 0; depth < projection.maximumDepth; depth += 1) {
       const next = new Set<string>();
-      for (const sourceId of [...frontier].sort((a, b) => a.localeCompare(b))) {
+      for (const sourceId of [...frontier].sort(compareCanonical)) {
         for (const statement of outgoing.get(sourceId) ?? []) {
-          const key = `${statement.sourceEntityId}\u0000${statement.predicateId}\u0000${statement.targetEntityId}`;
-          selectedEdges.set(key, statement);
+          selectedEdges.set(statementKey(statement), statement);
           if (!selected.has(statement.targetEntityId)) next.add(statement.targetEntityId);
           selected.add(statement.targetEntityId);
         }
@@ -295,7 +337,7 @@ export function projectKnowledgeNetwork(
     const groups: KnowledgeNetworkGroup[] = [];
     if (projection.groupingPolicy === "semantic-type") {
       const membersByType = new Map<string, string[]>();
-      for (const entityId of [...selected].sort((a, b) => a.localeCompare(b))) {
+      for (const entityId of [...selected].sort(compareCanonical)) {
         const entity = entityById.get(entityId)!;
         for (const semanticType of canonicalStrings(entity.semanticTypes)) {
           const members = membersByType.get(semanticType) ?? [];
@@ -306,12 +348,12 @@ export function projectKnowledgeNetwork(
           groupMembership.set(entityId, membership);
         }
       }
-      for (const [semanticType, memberNodeIds] of [...membersByType.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+      for (const [semanticType, memberNodeIds] of [...membersByType.entries()].sort(([a], [b]) => compareCanonical(a, b))) {
         groups.push({ id: stableId("kn-group", [semanticType]), label: semanticType, memberNodeIds: canonicalStrings(memberNodeIds) });
       }
     }
 
-    const nodes: KnowledgeNetworkNode[] = [...selected].sort((a, b) => a.localeCompare(b)).map((entityId) => {
+    const nodes: KnowledgeNetworkNode[] = [...selected].sort(compareCanonical).map((entityId) => {
       const entity = entityById.get(entityId)!;
       const externalReferences = entity.externalReferences ? canonicalExternalReferences(entity.externalReferences) : undefined;
       const groupIds = groupMembership.get(entityId) ? canonicalStrings(groupMembership.get(entityId)!) : undefined;
@@ -329,7 +371,9 @@ export function projectKnowledgeNetwork(
 
     const edges: KnowledgeNetworkEdge[] = [...selectedEdges.values()]
       .sort((a, b) =>
-        a.sourceEntityId.localeCompare(b.sourceEntityId) || a.predicateId.localeCompare(b.predicateId) || a.targetEntityId.localeCompare(b.targetEntityId),
+        compareCanonical(a.sourceEntityId, b.sourceEntityId) ||
+        compareCanonical(a.predicateId, b.predicateId) ||
+        compareCanonical(a.targetEntityId, b.targetEntityId),
       )
       .map((statement) => ({
         id: stableId("kn-edge", [statement.sourceEntityId, statement.predicateId, statement.targetEntityId]),
@@ -342,9 +386,9 @@ export function projectKnowledgeNetwork(
       }));
 
     const relationLines = edges.map((edge) => {
-      const source = nodes.find((node) => node.id === edge.sourceNodeId)!;
-      const target = nodes.find((node) => node.id === edge.targetNodeId)!;
-      return `${source.label} — ${edge.label} → ${target.label}`;
+      const sourceNode = nodes.find((node) => node.id === edge.sourceNodeId)!;
+      const targetNode = nodes.find((node) => node.id === edge.targetNodeId)!;
+      return `${sourceNode.label} — ${edge.label} → ${targetNode.label}`;
     });
     const staticFallback = [
       "Nodes:",
@@ -376,7 +420,14 @@ export function projectKnowledgeNetwork(
   } catch (error) {
     if (error instanceof ProjectionError) {
       return {
-        diagnostics: [{ code: error.code, message: error.message, ...(error.entityId ? { entityId: error.entityId } : {}), ...(error.predicateId ? { predicateId: error.predicateId } : {}) }],
+        diagnostics: [
+          {
+            code: error.code,
+            message: error.message,
+            ...(error.entityId ? { entityId: error.entityId } : {}),
+            ...(error.predicateId ? { predicateId: error.predicateId } : {}),
+          },
+        ],
       };
     }
     return { diagnostics: [{ code: "KNOWLEDGE_NETWORK_CONTRACT_VIOLATION", message: "Unexpected projector contract violation" }] };
@@ -393,7 +444,7 @@ function canonicalSerialize(value: unknown): string {
   if (value !== null && typeof value === "object") {
     const entries = Object.entries(value as Record<string, unknown>)
       .filter(([, item]) => item !== undefined)
-      .sort(([a], [b]) => a.localeCompare(b));
+      .sort(([a], [b]) => compareCanonical(a, b));
     return `{${entries.map(([key, item]) => `${JSON.stringify(key)}:${canonicalSerialize(item)}`).join(",")}}`;
   }
   return JSON.stringify(value);
