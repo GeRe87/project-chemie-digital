@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 11,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Instructional Designer",
   "activeIssue": 28,
   "expectedDeliverable": "Manager review of draft PR #29 for the bounded deterministic Studiendekanat pitch narrative path, including exact-head local validation evidence.",
   "lastCompletedTurn": "worker: defined the versioned nine-step renderer-neutral Studiendekanat pitch path from accepted semantic resources, added deterministic path-resolution and duplicate-position tests, documented narrative rationale, accessibility and privacy, stored the structured handoff and opened draft PR #29",
-  "lastUpdated": "2026-07-21T21:34:00+02:00",
+  "lastUpdated": "2026-07-21T22:25:19+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260721T222519+0200",
+    "claimedAt": "2026-07-21T22:25:19+02:00",
+    "expiresAt": "2026-07-22T00:25:19+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 109,
+  "stateRevision": 110,
   "transitionHistory": [
-    {"at":"2026-07-18T00:27:28+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260718T002728+0200","reason":"Claimed the exact issue #19 correction turn on draft PR #20 to apply only the connector-diagnosed TypeScript syntax fix in packages/core/test/knowledge-network.test.ts, update validation evidence and handoff, and return control for manager re-review."},
     {"at":"2026-07-18T00:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260718T002728+0200","reason":"Applied only the connector-diagnosed one-character parenthesis correction in the issue #19 diagnostic fixture, updated the structured handoff, observed current-head Validate run #129 complete with failure but no connector-readable steps, marker diagnostic or artifact, made no speculative second change, and returned control for manager re-review."},
     {"at":"2026-07-18T01:31:51+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260718T013151+0200","reason":"Claimed the manager re-review of issue #19 and draft PR #20 to classify Validate run #129's missing connector-readable evidence and perform exactly one safe bounded recovery action without speculative implementation changes."},
     {"at":"2026-07-18T01:34:10+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260718T013151+0200","reason":"Classified the absent run #129 steps, diagnostic comment, artifact and unavailable log blob as an internally actionable validation-evidence gap; reran only the failed Validate jobs as one bounded manager recovery action, observed queued rerun job 88015943029, preserved issue #19 scope and returned manager control for authoritative rerun review."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-21T20:26:13+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T202613+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, Phase 2 sequencing, the accepted semantic pitch-content baseline and the authorised instructional-design role before assigning the next narrative-path increment."},
     {"at":"2026-07-21T20:29:36+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260721T202613+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 16 after the accepted semantic pitch-content increment, created issue #28 with bounded narrative-path, determinism, accessibility and no-renderer-coupling criteria, assigned the Instructional Designer, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-21T21:26:15+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T212615+0200","reason":"Claimed the bounded Instructional Designer assignment for issue #28 to define the deterministic renderer-neutral Studiendekanat pitch narrative path from accepted semantic pitch resources."},
-    {"at":"2026-07-21T21:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T212615+0200","reason":"Defined the versioned nine-step renderer-neutral Studiendekanat pitch path from accepted semantic resources, added deterministic reversed-order and duplicate-position path-resolution tests, documented narrative rationale, accessibility and privacy, stored the structured handoff, opened draft PR #29 and returned control for exact-head validation and manager review."}
+    {"at":"2026-07-21T21:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T212615+0200","reason":"Defined the versioned nine-step renderer-neutral Studiendekanat pitch path from accepted semantic resources, added deterministic reversed-order and duplicate-position path-resolution tests, documented narrative rationale, accessibility and privacy, stored the structured handoff, opened draft PR #29 and returned control for exact-head validation and manager review."},
+    {"at":"2026-07-21T22:25:19+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T222519+0200","reason":"Claimed the manager review of issue #28, draft PR #29, the structured instructional-design handoff and exact-head local validation evidence."}
   ]
 }
