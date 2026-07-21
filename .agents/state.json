@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": null,
   "lastCompletedTurn": "manager: accepted issue #19 after successful local exact-head validation, completed final scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, and returned control for one later bounded manager planning turn",
-  "lastUpdated": "2026-07-21T13:30:33+02:00",
+  "lastUpdated": "2026-07-21T14:25:18+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260721T142518+0200",
+    "claimedAt": "2026-07-21T14:25:18+02:00",
+    "expiresAt": "2026-07-21T16:25:18+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 93,
+  "stateRevision": 94,
   "transitionHistory": [
-    {"at":"2026-07-17T14:31:06+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260717T143106+0200","reason":"Claimed the bounded backlog, ADR, issue, pull-request and role review to select exactly one next worker assignment implementing the accepted ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
     {"at":"2026-07-17T14:36:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260717T143106+0200","reason":"Created issue #19 and assigned the bounded pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector implementation to the Backend and Data Integration Engineer, with deterministic, accessibility, dependency-direction and no-network acceptance criteria."},
     {"at":"2026-07-17T15:42:11+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260717T154211+0200","reason":"Claimed the bounded Backend and Data Integration Engineer assignment for issue #19 to implement the pure offline ADR-0006 logical-RDF-dataset to KnowledgeNetworkDocument 1.0 projector."},
     {"at":"2026-07-17T15:50:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260717T154211+0200","reason":"Implemented the bounded pure offline ADR-0006 KnowledgeNetworkDocument 1.0 projector in the neutral core package, added deterministic, accessibility, diagnostics, dependency-direction and no-network tests plus documentation, recorded the structured handoff, opened draft PR #20, and returned control for manager review with remote validation pending."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-18T02:34:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"scheduled-manager-20260718T022937+0200","reason":"Reviewed Validate run #129 rerun attempt 2 for current PR #20 head, confirmed failure with no steps, no updated marker diagnostic, no artifact and BlobNotFound for the job log, classified the blocker as externally dependent after the one permitted rerun recovery was exhausted, recorded a formal BLOCKED verdict and preserved the draft PR without speculative changes."},
     {"at":"2026-07-20T18:51:32+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260720T185132+0200","reason":"Explicit human governance authorised the validation migration. Accepted and squash-merged PR #23 after exact-head local validation succeeded, retired the obsolete GitHub Actions evidence blocker, and preserved issue #19 and draft PR #20 for bounded reconciliation under the configured external status provider."},
     {"at":"2026-07-20T19:12:02+02:00","from":"ready/manager","to":"blocked/manager","actor":"direct-manager-20260720T191202+0200","reason":"Reconciled draft PR #20 with the accepted local validator migration, removed the obsolete GitHub Actions workflow, updated the handoff and pull-request description, confirmed the pull request is mergeable, and blocked final acceptance because the required local exact-head status is missing."},
-    {"at":"2026-07-21T13:30:33+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260721T133033+0200","reason":"Accepted issue #19 after successful local exact-head validation and final bounded scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, cleared the obsolete validation blocker and active assignment, and returned control for one later manager planning turn."}
+    {"at":"2026-07-21T13:30:33+02:00","from":"blocked/manager","to":"ready/manager","actor":"direct-manager-20260721T133033+0200","reason":"Accepted issue #19 after successful local exact-head validation and final bounded scope review, squash-merged PR #20 with an expected-head guard, confirmed issue closure, cleared the obsolete validation blocker and active assignment, and returned control for one later manager planning turn."},
+    {"at":"2026-07-21T14:25:18+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T142518+0200","reason":"Claimed one bounded manager planning turn to verify current backlog, issues, pull requests, dependencies and role scope before selecting the next Phase 1 worker assignment."}
   ]
 }
