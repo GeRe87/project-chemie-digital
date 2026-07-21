@@ -13,7 +13,8 @@
     "test:semantics": "python -m unittest discover -s tests -v",
     "test:core": "npm --workspace @project-chemie-digital/core test",
     "test:renderer-reveal": "npm --workspace @project-chemie-digital/renderer-reveal test",
-    "test": "npm run check:json && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:renderer-reveal"
+    "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
+    "test": "npm run check:json && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:renderer-reveal && npm run test:renderer-d3"
   },
   "engines": {
     "node": ">=22"
