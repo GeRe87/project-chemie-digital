@@ -27,8 +27,8 @@ cd:PitchResourceShape a sh:NodeShape ;
     sh:minCount 1
   ] .
 
-cd:SourceShape a sh:NodeShape ;
-  sh:targetClass cd:Source ;
+cd:PitchSourceShape a sh:NodeShape ;
+  sh:targetClass cd:PitchSource ;
   sh:property [
     sh:path cd:sourcePath ;
     sh:minCount 1 ;
