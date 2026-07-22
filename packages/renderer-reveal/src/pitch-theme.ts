@@ -96,6 +96,27 @@ function sourceIds(node: RevealNodePlan): readonly string[] {
   return node.source.map((entry) => entry.resourceId).sort();
 }
 
+function orderedSectionNodes(section: RevealSectionPlan): readonly RevealNodePlan[] {
+  const nodesBySourceBlockId = new Map<string, RevealNodePlan>();
+  for (const node of section.nodes) {
+    if (nodesBySourceBlockId.has(node.sourceBlockId)) {
+      throw new Error(`Section ${section.sourceSceneId} has duplicate sourceBlockId ${node.sourceBlockId}`);
+    }
+    nodesBySourceBlockId.set(node.sourceBlockId, node);
+  }
+
+  const uniqueReadingOrder = new Set(section.readingOrder);
+  if (
+    section.readingOrder.length !== section.nodes.length
+    || uniqueReadingOrder.size !== section.readingOrder.length
+    || section.readingOrder.some((sourceBlockId) => !nodesBySourceBlockId.has(sourceBlockId))
+  ) {
+    throw new Error(`Section ${section.sourceSceneId} has invalid reading order`);
+  }
+
+  return section.readingOrder.map((sourceBlockId) => nodesBySourceBlockId.get(sourceBlockId)!);
+}
+
 function mapNode(node: RevealNodePlan, index: number, reducedMotion: boolean): PitchComponentPlan {
   return {
     id: `pitch-component-${index}-${node.id}`,
@@ -128,7 +149,7 @@ function mapSection(section: RevealSectionPlan, index: number, reducedMotion: bo
     landmark: "region",
     label: section.semanticLabel,
     heading,
-    components: section.nodes.map((node, nodeIndex) => mapNode(node, nodeIndex, reducedMotion)),
+    components: orderedSectionNodes(section).map((node, nodeIndex) => mapNode(node, nodeIndex, reducedMotion)),
   };
 }
 
