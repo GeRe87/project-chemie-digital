@@ -112,6 +112,10 @@ function validateConfiguration(document: PitchComponentDocument, configuration: 
     if (!sectionIds.has(sectionId)) throw new PresenterContractError("UNKNOWN_SECTION", `Unknown presenter-note section ${sectionId}`);
   }
   const componentIds = new Set(components(document).map((component) => component.id));
+  const componentSectionIds = new Map<string, string>();
+  for (const section of document.sections) {
+    for (const component of section.components) componentSectionIds.set(component.id, section.id);
+  }
   const pathIds = configuration.detailPaths.map((path) => path.id);
   if (new Set(pathIds).size !== pathIds.length) {
     throw new PresenterContractError("DUPLICATE_DETAIL_PATH", "Detail path ids must be unique");
@@ -121,8 +125,17 @@ function validateConfiguration(document: PitchComponentDocument, configuration: 
     if (new Set(path.componentIds).size !== path.componentIds.length) {
       throw new PresenterContractError("DUPLICATE_DETAIL_COMPONENT", "Detail path component ids must be unique", path.id);
     }
-    for (const id of [path.entryComponentId, ...path.componentIds, path.returnComponentId]) {
+    const referencedIds = [path.entryComponentId, ...path.componentIds, path.returnComponentId];
+    for (const id of referencedIds) {
       if (!componentIds.has(id)) throw new PresenterContractError("UNKNOWN_COMPONENT", `Unknown component ${id}`, path.id);
+    }
+    const referencedSectionIds = new Set(referencedIds.map((id) => componentSectionIds.get(id)));
+    if (referencedSectionIds.size !== 1) {
+      throw new PresenterContractError(
+        "INVALID_DETAIL_PATH",
+        "Detail path entry, detail and return components must belong to the same canonical section",
+        path.id,
+      );
     }
     if (path.componentIds.includes(path.returnComponentId)) {
       throw new PresenterContractError("CYCLIC_DETAIL_PATH", "Detail path cannot return to a component inside itself", path.id);
@@ -212,10 +225,14 @@ export function reducePresenterState(
       case "PREVIOUS_SECTION":
         if (!state.activeDetailPathId) next = { ...state, canonicalSectionIndex: Math.max(state.canonicalSectionIndex - 1, 0), canonicalComponentId: undefined };
         break;
-      case "ENTER_DETAIL": { 
+      case "ENTER_DETAIL": {
         if (state.activeDetailPathId) throw new PresenterContractError("CYCLIC_DETAIL_PATH", "Nested detail paths are not supported", action.pathId);
         const path = configuration.detailPaths.find((candidate) => candidate.id === action.pathId);
         if (!path) throw new PresenterContractError("INVALID_DETAIL_PATH", `Unknown detail path ${action.pathId}`, action.pathId);
+        const section = document.sections[state.canonicalSectionIndex];
+        if (!section?.components.some((component) => component.id === path.entryComponentId)) {
+          throw new PresenterContractError("INVALID_DETAIL_PATH", "Detail path entry component is not in the current canonical section", path.id);
+        }
         next = { ...state, activeDetailPathId: path.id, detailIndex: 0, focusRestoreComponentId: path.returnComponentId, canonicalComponentId: path.entryComponentId };
         break;
       }
