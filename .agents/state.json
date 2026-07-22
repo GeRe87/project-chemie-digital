@@ -1,17 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 17,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 41,
   "expectedDeliverable": "Manager review of corrected draft PR #42 after exact-head local-validator success, including verification of the complete nine-item no-JavaScript fallback and strengthened child-removal cleanup regression.",
   "lastCompletedTurn": "worker: corrected PR #42 on head 003fe80d4e018b65b5295742a1b6949475ea69d3 with a complete nine-item static audience fallback, corrected documentation, fallback parity tests and actual child-removal cleanup evidence; exact-head local-validator status is still required before manager verdict",
-  "lastUpdated": "2026-07-22T21:31:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-07-22T22:23:49+02:00",
+  "lease": {
+    "owner": "scheduled-manager-20260722T222349+0200",
+    "claimedAt": "2026-07-22T22:23:49+02:00",
+    "expiresAt": "2026-07-23T00:23:49+02:00"
+  },
   "blockedBy": [],
-  "stateRevision": 158,
+  "stateRevision": 159,
   "transitionHistory": [
     {"at":"2026-07-22T11:23:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Claimed the bounded manager review of issue #34, draft PR #35, the repository-backed chemistry-lecturer review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
     {"at":"2026-07-22T11:27:11+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Accepted issue #34 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #35 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved findings CL-01 through CL-07 as inputs for later governed reviews, cleared the lease and returned control for one later bounded manager planning turn."},
@@ -35,6 +39,7 @@
     {"at":"2026-07-22T20:26:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T202601+0200","reason":"Claimed the bounded manager review of issue #41 and draft PR #42, subject to the accepted pitch contracts, current repository evidence, successful exact-head local-validator status and the configured manager-only merge policy."},
     {"at":"2026-07-22T20:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T202601+0200","reason":"Exact-head local validation succeeded for PR #42, but manager review requested bounded changes because the claimed complete static/no-JavaScript fallback is absent and the cleanup test does not actually verify child removal; recorded the verdict on the PR, retained issue #41 and role scope, cleared the lease and returned control for correction."},
     {"at":"2026-07-22T21:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T212451+0200","reason":"Claimed the bounded correction turn for issue #41 and draft PR #42 to add the complete nine-item static audience fallback, correct fallback documentation and strengthen mount/destroy cleanup regression evidence."},
-    {"at":"2026-07-22T21:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T212451+0200","reason":"Corrected draft PR #42 with a complete browser-readable no-JavaScript fallback for all nine canonical pitch items, updated fallback documentation, added deterministic fallback-parity tests and strengthened cleanup coverage to prove generated child removal; updated the handoff and PR description, cleared the lease and returned control for exact-head local validation and manager review."}
+    {"at":"2026-07-22T21:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T212451+0200","reason":"Corrected draft PR #42 with a complete browser-readable no-JavaScript fallback for all nine canonical pitch items, updated fallback documentation, added deterministic fallback-parity tests and strengthened cleanup coverage to prove generated child removal; updated the handoff and PR description, cleared the lease and returned control for exact-head local validation and manager review."},
+    {"at":"2026-07-22T22:23:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T222349+0200","reason":"Claimed the bounded manager review of corrected issue #41 and draft PR #42, subject to verification of the complete nine-item static fallback, strengthened cleanup regression, successful exact-head local-validator evidence and the configured manager-only merge policy."}
   ]
 }
