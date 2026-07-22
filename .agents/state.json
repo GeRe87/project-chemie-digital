@@ -1,17 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": "Plan at most one next bounded Phase 2 review or refinement increment from current repository evidence, preserving accepted findings and role boundaries.",
   "lastCompletedTurn": "manager: accepted issue #36 after successful exact-head local validation, recorded the bounded verdict, marked PR #37 ready and squash-merged it with an expected-head guard; preserved SR-01 through SR-08 and CL-01 through CL-07 as non-blocking governed inputs for later refinement and specialist reviews",
-  "lastUpdated": "2026-07-22T14:33:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-07-22T15:26:30+02:00",
+  "lease": {
+    "owner": "scheduled-manager-20260722T152630+0200",
+    "claimedAt": "2026-07-22T15:26:30+02:00",
+    "expiresAt": "2026-07-22T17:26:30+02:00"
+  },
   "blockedBy": [],
-  "stateRevision": 143,
+  "stateRevision": 144,
   "transitionHistory": [
     {"at":"2026-07-22T04:23:36+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T042336+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted pitch theme baseline, Phase 2 sequencing and the authorised frontend role before assigning presenter mode and optional detail-path work."},
     {"at":"2026-07-22T04:29:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T042336+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 18 after the accepted pitch theme and accessible-component increment, created issue #32 with bounded presenter-mode, optional-detail-path, determinism, accessibility, privacy, lifecycle and no-network criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."},
@@ -34,6 +38,7 @@
     {"at":"2026-07-22T13:25:17+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T132517+0200","reason":"Claimed the bounded Student Reviewer assignment for issue #36 to evaluate the accepted Phase 2 pitch from a realistic Bachelor chemistry student perspective using repository evidence only."},
     {"at":"2026-07-22T13:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T132517+0200","reason":"Completed the repository-only Bachelor chemistry student review with an accepted-with-non-blocking-findings verdict, eight severity-classified findings and explicit CL-01 through CL-07 dispositions; added the structured handoff, opened draft PR #37, cleared the lease and returned control for exact-head validation and manager review."},
     {"at":"2026-07-22T14:28:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T142801+0200","reason":"Claimed the bounded manager review of issue #36, draft PR #37, the repository-backed Bachelor chemistry student review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
-    {"at":"2026-07-22T14:33:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T142801+0200","reason":"Accepted issue #36 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #37 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved SR-01 through SR-08 and CL-01 through CL-07 as inputs for later governed refinement and specialist reviews, cleared the active assignment and returned control for one later bounded manager planning turn."}
+    {"at":"2026-07-22T14:33:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T142801+0200","reason":"Accepted issue #36 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #37 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved SR-01 through SR-08 and CL-01 through CL-07 as inputs for later governed refinement and specialist reviews, cleared the active assignment and returned control for one later bounded manager planning turn."},
+    {"at":"2026-07-22T15:26:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T152630+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, accepted Phase 2 reviews, review sequencing and an authorised next specialist role before assigning at most one next increment."}
   ]
 }
