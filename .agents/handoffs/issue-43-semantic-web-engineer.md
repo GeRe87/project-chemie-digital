@@ -12,8 +12,9 @@
 
 - Added the minimal RDF vocabulary for scene definitions, ordered scene items, renderer-neutral communicative roles, selection paths and an optional presentation-pattern hint.
 - Added a graph-backed standard-deviation definition-with-citation scene that selects the concept, existing definition and existing source without duplicating their prose.
-- Added SHACL constraints for referenced resources, supported roles and patterns, positive positions and unique ordering.
-- Added deterministic positive and negative semantic tests, including graph-relation trace checks and a no-duplicated-prose assertion.
+- Added SHACL constraints for supported resource classes, explicit authored-resource existence, supported roles and patterns, positive positions and unique ordering.
+- Corrected the manager finding by requiring every `cd:selectsResource` target to occur as an authored subject in the assembled semantic graph; a bare absent IRI is now rejected independently of the retained class constraint.
+- Added deterministic positive and negative semantic tests, including the absent-resource regression, a present typed-resource control, graph-relation trace checks and a no-duplicated-prose assertion.
 - Documented the boundary among canonical RDF resources, graph-backed scene definitions, compiled `SceneDocument` snapshots and renderer output, including the later browser scene-editor boundary.
 
 ## Files or resources changed
@@ -28,8 +29,9 @@
 
 ## Verification
 
-- [ ] Automated tests — exact-head local validator pending
-- [ ] Semantic validation — exact-head local validator pending
+- [ ] Automated tests — new exact-head local validator result pending
+- [ ] Semantic validation — new exact-head local validator result pending
+- [x] Focused regression coverage — absent selected resource is rejected and a present typed selected resource remains accepted
 - [x] Manual browser check — not applicable; renderer changes are excluded
 - [x] Accessibility check — no rendered UI introduced; semantic roles and order remain renderer-neutral
 - [x] Documentation updated
@@ -40,6 +42,7 @@
 - `cd:selectionPath` is a constrained, inspectable selector description used to preserve traceability until the separate compiler increment defines executable resolution behavior.
 - `cd:DefinitionWithCitation` is a communicative pattern hint only and does not encode a concrete renderer layout.
 - The heading item selects the focus concept and requests its German `skos:prefLabel`; the definition and citation items select the existing resources reached through the documented graph path.
+- Authored-resource existence is established by at least one triple with the selected IRI as subject. The existing `sh:or` class constraint remains authoritative for the allowed semantic resource classes.
 
 ## Risks or unresolved questions
 
@@ -48,4 +51,4 @@
 
 ## Recommended manager action
 
-`review`
+`review after new exact-head validator evidence`
