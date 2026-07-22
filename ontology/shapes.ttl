@@ -72,4 +72,13 @@ cd:SceneItemShape a sh:NodeShape ;
     sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:string ;
     sh:in ( "skos:prefLabel@de" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" )
+  ] ;
+  sh:sparql [
+    sh:message "A selected resource must exist as an authored subject in the assembled semantic graph." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this cd:selectsResource ?resource .
+        FILTER NOT EXISTS { ?resource ?predicate ?object . }
+      }
+    """
   ] .
