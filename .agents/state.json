@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 30,
-  "expectedDeliverable": "Manager re-review of corrected draft PR #31 after exact-head local validation, focusing on explicit RevealSectionPlan.readingOrder authority and invalid-input regression coverage.",
-  "lastCompletedTurn": "worker: corrected draft PR #31 to validate and follow explicit section reading order independent of node-array order, added permuted-node and invalid-input regression tests, updated the handoff and returned control for new exact-head validation and manager re-review",
-  "lastUpdated": "2026-07-22T03:25:41+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: accepted corrected issue #30 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #31 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn",
+  "lastUpdated": "2026-07-22T03:29:30+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260722T032541+0200",
-    "claimedAt": "2026-07-22T03:25:41+02:00",
-    "expiresAt": "2026-07-22T05:25:41+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 120,
+  "stateRevision": 121,
   "transitionHistory": [
-    {"at":"2026-07-21T15:24:14+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T152414+0200","reason":"Claimed the bounded Frontend and Reveal Renderer Engineer assignment for issue #24 to implement the downstream deterministic D3 knowledge-network adapter, lifecycle, accessibility and offline tests."},
     {"at":"2026-07-21T15:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T152414+0200","reason":"Implemented the bounded renderer-d3 package with deterministic mapping, strict runtime lifecycle ownership, keyboard accessibility, empty and invalid input handling, no-network tests and documentation; stored the structured handoff, opened draft PR #25 and returned control for exact-head validation and manager review."},
     {"at":"2026-07-21T16:25:05+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T162505+0200","reason":"Claimed the manager review of issue #24, draft PR #25, the structured frontend handoff and exact-head local validation evidence."},
     {"at":"2026-07-21T16:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260721T162505+0200","reason":"Accepted issue #24 after exact-head local validation and final bounded review, recorded the formal verdict, marked PR #25 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-22T01:31:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T012508+0200","reason":"Reviewed issue #30 and draft PR #31 on the exact successful validator head, confirmed the bounded renderer scope, issued CHANGES REQUESTED because the component adapter ignores RevealSectionPlan.readingOrder and lacks required invalid-input coverage, cleared the lease and returned the same assignment for a minimal correction and new exact-head validation."},
     {"at":"2026-07-22T02:25:55+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T022555+0200","reason":"Claimed the bounded issue #30 correction turn to make pitch components follow and validate RevealSectionPlan.readingOrder, add permuted-node and invalid-input regression coverage, update the handoff and return control for exact-head validation and manager re-review."},
     {"at":"2026-07-22T02:34:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T022555+0200","reason":"Corrected draft PR #31 so explicit RevealSectionPlan.readingOrder is validated and authoritative independent of node-array order, added permuted-node, malformed-order, duplicate-identity and unsupported-version regression tests, updated the handoff and PR description, cleared the lease and returned control for new exact-head validation and manager re-review."},
-    {"at":"2026-07-22T03:25:41+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T032541+0200","reason":"Claimed the manager re-review of corrected issue #30 draft PR #31, the updated frontend handoff and exact-head local validation evidence."}
+    {"at":"2026-07-22T03:25:41+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T032541+0200","reason":"Claimed the manager re-review of corrected issue #30 draft PR #31, the updated frontend handoff and exact-head local validation evidence."},
+    {"at":"2026-07-22T03:29:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T032541+0200","reason":"Accepted corrected issue #30 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #31 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the next bounded manager planning turn."}
   ]
 }
