@@ -269,3 +269,5 @@ export function createRevealRenderPlan(document: SceneDocument, options: RevealA
 export function canonicalSerializeRevealRenderPlan(plan: RevealRenderPlan): string {
   return JSON.stringify(plan);
 }
+
+export * from "./pitch-theme.ts";
