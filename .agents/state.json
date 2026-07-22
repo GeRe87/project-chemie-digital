@@ -1,17 +1,17 @@
 {
   "schemaVersion": 2,
   "cycle": 17,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 41,
   "expectedDeliverable": "Update draft PR #42 to provide a complete deterministic no-JavaScript/static audience fallback with all nine canonical pitch items in accepted order, correct the inaccurate fallback documentation, strengthen cleanup regression coverage, update the handoff and obtain new exact-head local-validator evidence.",
   "lastCompletedTurn": "manager: reviewed PR #42 on exact head b95fb1b6e6e66d4294f748cdec91c36b90399d09 with successful local-validator status and requested bounded changes for the missing complete static fallback and insufficient cleanup test evidence",
-  "lastUpdated": "2026-07-22T20:31:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-07-22T21:24:51+02:00",
+  "lease": {"owner":"scheduled-worker-20260722T212451+0200","claimedAt":"2026-07-22T21:24:51+02:00","expiresAt":"2026-07-22T23:24:51+02:00"},
   "blockedBy": [],
-  "stateRevision": 156,
+  "stateRevision": 157,
   "transitionHistory": [
     {"at":"2026-07-22T11:23:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Claimed the bounded manager review of issue #34, draft PR #35, the repository-backed chemistry-lecturer review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
     {"at":"2026-07-22T11:27:11+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Accepted issue #34 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #35 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved findings CL-01 through CL-07 as inputs for later governed reviews, cleared the lease and returned control for one later bounded manager planning turn."},
@@ -33,6 +33,7 @@
     {"at":"2026-07-22T19:24:03+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T192403+0200","reason":"Claimed the bounded Frontend and Reveal Renderer Engineer assignment for issue #41 to build the first locally startable browser-visible Reveal.js pitch preview while preserving accepted contracts, narrative order, accessibility, offline behaviour and the manager-only merge boundary."},
     {"at":"2026-07-22T19:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T192403+0200","reason":"Completed issue #41 with a repository-local Vite/Reveal.js browser preview, preserved the accepted nine-step pitch order and wording, added four deterministic layouts, accessibility, reduced-motion, cleanup, no-network and invalid-input coverage, documented the preview boundary, opened draft PR #42, cleared the lease and returned control for exact-head validation and manager review."},
     {"at":"2026-07-22T20:26:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T202601+0200","reason":"Claimed the bounded manager review of issue #41 and draft PR #42, subject to the accepted pitch contracts, current repository evidence, successful exact-head local-validator status and the configured manager-only merge policy."},
-    {"at":"2026-07-22T20:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T202601+0200","reason":"Exact-head local validation succeeded for PR #42, but manager review requested bounded changes because the claimed complete static/no-JavaScript fallback is absent and the cleanup test does not actually verify child removal; recorded the verdict on the PR, retained issue #41 and role scope, cleared the lease and returned control for correction."}
+    {"at":"2026-07-22T20:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T202601+0200","reason":"Exact-head local validation succeeded for PR #42, but manager review requested bounded changes because the claimed complete static/no-JavaScript fallback is absent and the cleanup test does not actually verify child removal; recorded the verdict on the PR, retained issue #41 and role scope, cleared the lease and returned control for correction."},
+    {"at":"2026-07-22T21:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T212451+0200","reason":"Claimed the bounded correction turn for issue #41 and draft PR #42 to add the complete nine-item static audience fallback, correct fallback documentation and strengthen mount/destroy cleanup regression evidence."}
   ]
 }
