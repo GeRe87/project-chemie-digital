@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Literal, URIRef
+from rdflib import Literal, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
@@ -55,6 +55,13 @@ class SceneSemanticValidationTests(unittest.TestCase):
         graph.remove((source, None, None))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
+
+    def test_present_typed_selected_resource_is_accepted(self) -> None:
+        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        source = URIRef(EX + "reference-statistics-01")
+        self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
+        conforms, report, _ = self.validate_graph(graph)
+        self.assertTrue(conforms, report)
 
     def test_duplicate_scene_item_position_is_rejected(self) -> None:
         graph = MODULE.load_graph(MODULE.DATA_FILES)
