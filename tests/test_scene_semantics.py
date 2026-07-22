@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import RDF, URIRef
+from rdflib import Literal, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
@@ -60,9 +60,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         graph = MODULE.load_graph(MODULE.DATA_FILES)
         item = URIRef(EX + "scene-standard-deviation-citation")
         position = URIRef(CD + "position")
-        graph.set((item, position, graph.namespace_manager.compute_qname("https://www.w3.org/2001/XMLSchema#integer") and None))
         graph.remove((item, position, None))
-        from rdflib import Literal
         graph.add((item, position, Literal(2)))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
