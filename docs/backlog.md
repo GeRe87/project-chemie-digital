@@ -28,9 +28,18 @@
 18. Add presenter mode and optional detail paths.
 19. Perform lecturer, student, pedagogical, technical, privacy, and accessibility reviews.
 
+## Phase 2b — Graph-backed scene correction
+
+20. Model graph-backed scene definitions and a complete standard-deviation definition-with-citation reference scene (#43).
+21. Compile graph-backed scene definitions deterministically into renderer-neutral `SceneDocument` snapshots (#44).
+22. Remove the renderer-authored `PitchSlide` content source and render compiled graph scenes in Reveal.js (#45).
+23. Specify presentation/knowledge-graph view switching, separate exploration state and the future semantic scene editor (#46).
+
+Every audience-visible scientific, explanatory or narrative statement must be authored as an RDF resource or resolved value. Renderers own presentation mechanics and generic UI chrome only; they must not become a second content store.
+
 ## Phase 3 — Platform foundation
 
-20. Add Fuseki local deployment and typed SPARQL query layer.
-21. Add semantic authoring workflow and validation feedback.
-22. Add self-study renderer.
-23. Add local learner-state export without mandatory accounts.
+24. Add Fuseki local deployment and typed SPARQL query layer.
+25. Add semantic authoring workflow and validation feedback.
+26. Add self-study renderer.
+27. Add local learner-state export without mandatory accounts.
