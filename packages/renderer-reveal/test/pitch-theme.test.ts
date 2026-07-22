@@ -57,6 +57,52 @@ test("maps a deterministic accessible component document", () => {
   assert.deepEqual(first.sections[0]?.components[0]?.sourceResourceIds, ["ex:knowledge-first"]);
 });
 
+test("follows explicit section reading order independent of node-array order", () => {
+  const permuted = structuredClone(plan);
+  permuted.sections[0]!.nodes.reverse();
+
+  const canonical = createPitchComponentDocument(plan);
+  const reordered = createPitchComponentDocument(permuted);
+
+  assert.equal(canonicalSerializePitchComponentDocument(reordered), canonicalSerializePitchComponentDocument(canonical));
+  assert.deepEqual(
+    reordered.sections[0]?.components.map((component) => component.sourceNodeId),
+    ["node-prose", "node-prompt"],
+  );
+  assert.deepEqual(
+    reordered.sections[0]?.components.map((component) => component.readingOrder),
+    [1, 2],
+  );
+});
+
+test("rejects invalid section reading-order contracts deterministically", () => {
+  const unknownBlock = structuredClone(plan);
+  unknownBlock.sections[0]!.readingOrder = ["prose-1", "missing-block"];
+  assert.throws(
+    () => createPitchComponentDocument(unknownBlock),
+    /Section scene-1 has invalid reading order/,
+  );
+
+  const duplicateOrder = structuredClone(plan);
+  duplicateOrder.sections[0]!.readingOrder = ["prose-1", "prose-1"];
+  assert.throws(
+    () => createPitchComponentDocument(duplicateOrder),
+    /Section scene-1 has invalid reading order/,
+  );
+
+  const duplicateNodeIdentity = structuredClone(plan);
+  duplicateNodeIdentity.sections[0]!.nodes[1]!.sourceBlockId = "prose-1";
+  assert.throws(
+    () => createPitchComponentDocument(duplicateNodeIdentity),
+    /Section scene-1 has duplicate sourceBlockId prose-1/,
+  );
+});
+
+test("rejects unsupported render-plan versions", () => {
+  const unsupported = { ...structuredClone(plan), version: "2.0" } as unknown as RevealRenderPlan;
+  assert.throws(() => createPitchComponentDocument(unsupported), /Unsupported RevealRenderPlan version/);
+});
+
 test("theme tokens meet documented readability invariants", () => {
   assert.ok(contrastRatio(udeChemistryPitchTheme.colors.foreground, udeChemistryPitchTheme.colors.background) >= 7);
   assert.ok(contrastRatio(udeChemistryPitchTheme.colors.accentForeground, udeChemistryPitchTheme.colors.accent) >= 4.5);
