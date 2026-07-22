@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 14,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: accepted corrected issue #32 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #33 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the Phase 2 review-planning turn",
-  "lastUpdated": "2026-07-22T09:26:49+02:00",
+  "cycle": 15,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
+  "activeIssue": 34,
+  "expectedDeliverable": "Produce a repository-backed Phase 2 chemistry-lecturer review covering scientific correctness, chemistry relevance, curriculum fit, terminology, prerequisites and mathematical proportionality, with severity-classified findings, explicit verdict, structured handoff and draft PR, without modifying accepted implementation or semantic sources.",
+  "lastCompletedTurn": "manager: verified no pre-existing open issues or pull requests, selected the first bounded Phase 2 review increment from backlog item 19, created issue #34 with repository-only scientific and curriculum-fit review criteria, assigned the Chemistry Lecturer and Subject-Matter Expert, cleared the lease and returned control for worker execution",
+  "lastUpdated": "2026-07-22T09:32:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260722T092649+0200",
-    "claimedAt": "2026-07-22T09:26:49+02:00",
-    "expiresAt": "2026-07-22T11:26:49+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 132,
+  "stateRevision": 133,
   "transitionHistory": [
     {"at":"2026-07-22T04:23:36+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T042336+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted pitch theme baseline, Phase 2 sequencing and the authorised frontend role before assigning presenter mode and optional detail-path work."},
     {"at":"2026-07-22T04:29:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T042336+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 18 after the accepted pitch theme and accessible-component increment, created issue #32 with bounded presenter-mode, optional-detail-path, determinism, accessibility, privacy, lifecycle and no-network criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."},
@@ -27,6 +27,7 @@
     {"at":"2026-07-22T07:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T072559+0200","reason":"Corrected draft PR #33 so every detail path is section-local and wrong-current-section entry is rejected, added cross-section and navigation regression tests, updated the structured handoff and PR description, cleared the lease and returned control for new exact-head validation and manager re-review."},
     {"at":"2026-07-22T08:28:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T082801+0200","reason":"Claimed the manager re-review of corrected issue #32 draft PR #33, the updated frontend handoff and exact-head local validation evidence."},
     {"at":"2026-07-22T08:33:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T082801+0200","reason":"Accepted corrected issue #32 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #33 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the Phase 2 review-planning turn."},
-    {"at":"2026-07-22T09:26:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T092649+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted Phase 2 pitch vertical slice, review sequencing and the Chemistry Lecturer role before assigning the first bounded review increment."}
+    {"at":"2026-07-22T09:26:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T092649+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted Phase 2 pitch vertical slice, review sequencing and the Chemistry Lecturer role before assigning the first bounded review increment."},
+    {"at":"2026-07-22T09:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T092649+0200","reason":"Verified no pre-existing open issues or pull requests, selected the first bounded Phase 2 review increment from backlog item 19, created issue #34 with repository-only scientific and curriculum-fit review criteria, assigned the Chemistry Lecturer and Subject-Matter Expert, cleared the lease and returned control for worker execution."}
   ]
 }
