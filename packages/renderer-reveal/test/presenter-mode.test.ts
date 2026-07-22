@@ -45,6 +45,7 @@ const renderPlan: RevealRenderPlan = {
 
 const componentDocument = createPitchComponentDocument(renderPlan);
 const [entry, detailA, detailB, returnComponent] = componentDocument.sections[0]!.components;
+const nextComponent = componentDocument.sections[1]!.components[0]!;
 const configuration: PresenterModeConfiguration = {
   version: "1.0",
   notesBySectionId: { "pitch-section-0-section-main": "Presenter-only note" },
@@ -89,6 +90,27 @@ test("rejects unknown, duplicate and cyclic detail definitions atomically", () =
   assert.equal(duplicate.diagnostics[0]?.code, "DUPLICATE_DETAIL_PATH");
   const cyclic = createPresenterModeDocument(componentDocument, { ...configuration, detailPaths: [{ ...configuration.detailPaths[0]!, componentIds: [returnComponent!.id] }] });
   assert.equal(cyclic.diagnostics[0]?.code, "CYCLIC_DETAIL_PATH");
+});
+
+test("rejects cross-section detail definitions before producing any presenter document", () => {
+  for (const invalidPath of [
+    { ...configuration.detailPaths[0]!, componentIds: [detailA!.id, nextComponent.id] },
+    { ...configuration.detailPaths[0]!, returnComponentId: nextComponent.id },
+    { ...configuration.detailPaths[0]!, entryComponentId: nextComponent.id },
+  ]) {
+    const result = createPresenterModeDocument(componentDocument, { ...configuration, detailPaths: [invalidPath] });
+    assert.equal(result.document, undefined);
+    assert.equal(result.diagnostics[0]?.code, "INVALID_DETAIL_PATH");
+    assert.equal(result.diagnostics[0]?.pathId, "detail-method");
+  }
+});
+
+test("cannot enter a valid detail path from a different canonical section", () => {
+  const initial = createPresenterModeDocument(componentDocument, configuration).document!;
+  const nextSection = reducePresenterState(componentDocument, configuration, initial.presenter.state, { type: "NEXT_SECTION" }).document!;
+  const result = reducePresenterState(componentDocument, configuration, nextSection.presenter.state, { type: "ENTER_DETAIL", pathId: "detail-method" });
+  assert.equal(result.document, undefined);
+  assert.equal(result.diagnostics[0]?.code, "INVALID_DETAIL_PATH");
 });
 
 test("mount owns keyboard, timer, focus and cleanup without network access", () => {
