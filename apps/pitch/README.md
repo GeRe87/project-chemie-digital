@@ -23,4 +23,6 @@ Sections receive stable headings, source identities and readable DOM order. Reve
 
 ## Static fallback
 
-The accepted wording is stored directly in `src/preview.ts` and remains inspectable without the running application. The preview does not include analytics, telemetry, learner persistence or Presenter Mode window integration.
+`index.html` contains a complete audience-facing `<noscript>` fallback with all nine accepted pitch items, their German headings and explanatory text in canonical order. It is readable directly by a browser when JavaScript is disabled and does not depend on TypeScript source inspection. Automated tests compare the fallback order and wording with the preview fixture and verify that repeated unmount cleanup removes generated DOM children.
+
+The preview does not include analytics, telemetry, learner persistence or Presenter Mode window integration.
