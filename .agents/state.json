@@ -1,17 +1,17 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Instructional Designer",
-  "activeIssue": 38,
-  "expectedDeliverable": "Review draft PR #39 for issue #38 against the repository-only instructional-design scope, structured handoff and exact-head local-validator evidence; issue the manager verdict and merge only if every governed condition is satisfied.",
-  "lastCompletedTurn": "worker: completed the repository-only Phase 2 instructional-design review with an accepted-with-non-blocking-findings verdict, eight severity-classified findings, explicit CL-01 through CL-07 and SR-01 through SR-08 dispositions, a structured handoff and draft PR #39; returned control for exact-head validation and manager review",
-  "lastUpdated": "2026-07-22T17:25:37+02:00",
-  "lease": {"owner": "scheduled-manager-20260722T172537+0200", "claimedAt": "2026-07-22T17:25:37+02:00", "expiresAt": "2026-07-22T19:25:37+02:00"},
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "Plan at most one next bounded Phase 2 review or refinement increment from the accepted CL, SR and ID findings, current backlog and authorised role profiles.",
+  "lastCompletedTurn": "manager: accepted issue #38 after successful exact-head local validation, recorded the formal verdict, marked PR #39 ready, squash-merged it with an expected-head guard, confirmed issue closure and preserved ID-01 through ID-08 plus all CL/SR dispositions as governed inputs for later refinement",
+  "lastUpdated": "2026-07-22T17:29:15+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
   "blockedBy": [],
-  "stateRevision": 148,
+  "stateRevision": 149,
   "transitionHistory": [
     {"at":"2026-07-22T11:23:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Claimed the bounded manager review of issue #34, draft PR #35, the repository-backed chemistry-lecturer review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
     {"at":"2026-07-22T11:27:11+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Accepted issue #34 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #35 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved findings CL-01 through CL-07 as inputs for later governed reviews, cleared the lease and returned control for one later bounded manager planning turn."},
@@ -25,6 +25,7 @@
     {"at":"2026-07-22T15:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T152630+0200","reason":"Verified no pre-existing open issue or pull request, selected the next bounded Phase 2 backlog item 19 review, created issue #38 with repository-only instructional-design and pedagogical-coherence criteria, made CL-01 through CL-07 and SR-01 through SR-08 explicit governed inputs, assigned the Instructional Designer, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-22T16:24:57+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T162457+0200","reason":"Claimed the bounded Instructional Designer assignment for issue #38 to review the accepted Phase 2 pitch for constructive alignment, cognitive load, narrative scaffolding, prerequisite signalling, optional detail paths and presentation-versus-self-study boundaries using repository evidence only."},
     {"at":"2026-07-22T16:33:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T162457+0200","reason":"Completed the repository-only Phase 2 instructional-design review with an accepted-with-non-blocking-findings verdict, eight severity-classified findings and explicit CL-01 through CL-07 and SR-01 through SR-08 dispositions; added the structured handoff, opened draft PR #39, cleared the lease and returned control for exact-head validation and manager review."},
-    {"at":"2026-07-22T17:25:37+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T172537+0200","reason":"Claimed the bounded manager review of issue #38, draft PR #39, the repository-backed instructional-design review and structured handoff, subject to successful exact-head local validation and configured merge policy."}
+    {"at":"2026-07-22T17:25:37+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T172537+0200","reason":"Claimed the bounded manager review of issue #38, draft PR #39, the repository-backed instructional-design review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
+    {"at":"2026-07-22T17:29:15+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T172537+0200","reason":"Accepted issue #38 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #39 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved ID-01 through ID-08 and all CL/SR dispositions as governed inputs for later refinement, cleared the lease and returned control for one later bounded manager planning turn."}
   ]
 }
