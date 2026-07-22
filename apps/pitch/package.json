@@ -1,0 +1,19 @@
+{
+  "name": "@project-chemie-digital/pitch",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  },
+  "dependencies": {
+    "reveal.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "vite": "^7.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
