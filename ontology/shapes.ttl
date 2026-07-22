@@ -60,3 +60,65 @@ cd:PathStepShape a sh:NodeShape ;
     sh:path cd:usesResource ;
     sh:minCount 1
   ] .
+
+cd:SceneDefinitionShape a sh:NodeShape ;
+  sh:targetClass cd:SceneDefinition ;
+  sh:property [
+    sh:path cd:focusConcept ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class cd:Concept ;
+    sh:nodeKind sh:IRI
+  ] ;
+  sh:property [
+    sh:path cd:hasSceneItem ;
+    sh:minCount 1 ;
+    sh:class cd:SceneItem ;
+    sh:nodeKind sh:IRI
+  ] ;
+  sh:property [
+    sh:path cd:presentationPattern ;
+    sh:maxCount 1 ;
+    sh:in ( cd:DefinitionWithCitation )
+  ] ;
+  sh:sparql [
+    sh:message "Scene item positions must be unique within a scene." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this cd:hasSceneItem ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }
+    """
+  ] .
+
+cd:SceneItemShape a sh:NodeShape ;
+  sh:targetClass cd:SceneItem ;
+  sh:property [
+    sh:path cd:position ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minExclusive 0
+  ] ;
+  sh:property [
+    sh:path cd:selectsResource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:class cd:LearningResource
+  ] ;
+  sh:property [
+    sh:path cd:communicativeRole ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole )
+  ] ;
+  sh:property [
+    sh:path cd:selectionPath ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:in ( "skos:prefLabel@de" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" )
+  ] .
