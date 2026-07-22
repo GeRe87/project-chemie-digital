@@ -16,6 +16,7 @@ DATA_FILES = (
     ROOT / "content" / "resources" / "standard-deviation-resources.jsonld",
     ROOT / "content" / "resources" / "pitch-content.jsonld",
     ROOT / "content" / "paths" / "standard-deviation-default.jsonld",
+    ROOT / "content" / "scenes" / "standard-deviation-definition-with-citation.jsonld",
 )
 SHAPES_FILE = ROOT / "ontology" / "shapes.ttl"
 
