@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 32,
-  "expectedDeliverable": "Manager re-review of corrected draft PR #33, including new exact-head local validation evidence for section-local detail-path enforcement.",
-  "lastCompletedTurn": "worker: corrected draft PR #33 so cross-section detail paths are rejected atomically, added section-boundary and wrong-current-section regression tests, updated the handoff and PR description, and returned control for new exact-head validation and manager re-review",
-  "lastUpdated": "2026-07-22T08:28:01+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: accepted corrected issue #32 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #33 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the Phase 2 review-planning turn",
+  "lastUpdated": "2026-07-22T08:33:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260722T082801+0200",
-    "claimedAt": "2026-07-22T08:28:01+02:00",
-    "expiresAt": "2026-07-22T10:28:01+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 130,
+  "stateRevision": 131,
   "transitionHistory": [
-    {"at":"2026-07-21T20:26:13+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260721T202613+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, Phase 2 sequencing, the accepted semantic pitch-content baseline and the authorised instructional-design role before assigning the next narrative-path increment."},
     {"at":"2026-07-21T20:29:36+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260721T202613+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 16 after the accepted semantic pitch-content increment, created issue #28 with bounded narrative-path, determinism, accessibility and no-renderer-coupling criteria, assigned the Instructional Designer, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-21T21:26:15+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260721T212615+0200","reason":"Claimed the bounded Instructional Designer assignment for issue #28 to define the deterministic renderer-neutral Studiendekanat pitch narrative path from accepted semantic resources."},
     {"at":"2026-07-21T21:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260721T212615+0200","reason":"Defined the versioned nine-step renderer-neutral Studiendekanat pitch path from accepted semantic resources, added deterministic reversed-order and duplicate-position path-resolution tests, documented narrative rationale, accessibility and privacy, stored the structured handoff, opened draft PR #29 and returned control for exact-head validation and manager review."},
@@ -41,6 +40,7 @@
     {"at":"2026-07-22T06:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T062518+0200","reason":"Reviewed draft PR #33 on the exact successful validator head and issued CHANGES REQUESTED because cross-section detail-path definitions pass creation-time validation but can fail later during section-bound fallback resolution; returned the same issue #32 assignment for an atomic validation fix, regression test, handoff update and new exact-head validation."},
     {"at":"2026-07-22T07:25:59+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T072559+0200","reason":"Claimed the bounded issue #32 correction turn to reject cross-section detail-path definitions atomically, add regression coverage, update the handoff and return control for new exact-head validation and manager re-review."},
     {"at":"2026-07-22T07:34:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T072559+0200","reason":"Corrected draft PR #33 so every detail path is section-local and wrong-current-section entry is rejected, added cross-section and navigation regression tests, updated the structured handoff and PR description, cleared the lease and returned control for new exact-head validation and manager re-review."},
-    {"at":"2026-07-22T08:28:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T082801+0200","reason":"Claimed the manager re-review of corrected issue #32 draft PR #33, the updated frontend handoff and exact-head local validation evidence."}
+    {"at":"2026-07-22T08:28:01+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T082801+0200","reason":"Claimed the manager re-review of corrected issue #32 draft PR #33, the updated frontend handoff and exact-head local validation evidence."},
+    {"at":"2026-07-22T08:33:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T082801+0200","reason":"Accepted corrected issue #32 after successful exact-head local validation and final bounded re-review, recorded the formal verdict, marked PR #33 ready, squash-merged it with an expected-head guard, confirmed issue closure, cleared the active assignment and returned control for the Phase 2 review-planning turn."}
   ]
 }
