@@ -271,3 +271,4 @@ export function canonicalSerializeRevealRenderPlan(plan: RevealRenderPlan): stri
 }
 
 export * from "./pitch-theme.ts";
+export * from "./presenter-mode.ts";
