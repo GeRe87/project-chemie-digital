@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 15,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
   "activeIssue": 34,
   "expectedDeliverable": "Review draft PR #35 and the repository-backed Phase 2 chemistry-lecturer verdict and findings against issue #34 after successful exact-head local validation; accept, request bounded changes or preserve explicit follow-up findings without broadening this review increment.",
   "lastCompletedTurn": "worker: completed the repository-only Phase 2 chemistry-lecturer review for issue #34, recorded an accepted-with-non-blocking-findings verdict with seven severity-classified dispositions, added the structured handoff, opened draft PR #35 and returned control for exact-head validation and manager review",
-  "lastUpdated": "2026-07-22T10:31:00+02:00",
+  "lastUpdated": "2026-07-22T11:23:28+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260722T112328+0200",
+    "claimedAt": "2026-07-22T11:23:28+02:00",
+    "expiresAt": "2026-07-22T13:23:28+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 135,
+  "stateRevision": 136,
   "transitionHistory": [
     {"at":"2026-07-22T04:23:36+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T042336+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted pitch theme baseline, Phase 2 sequencing and the authorised frontend role before assigning presenter mode and optional detail-path work."},
     {"at":"2026-07-22T04:29:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T042336+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 18 after the accepted pitch theme and accessible-component increment, created issue #32 with bounded presenter-mode, optional-detail-path, determinism, accessibility, privacy, lifecycle and no-network criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."},
@@ -30,6 +30,7 @@
     {"at":"2026-07-22T09:26:49+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T092649+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted Phase 2 pitch vertical slice, review sequencing and the Chemistry Lecturer role before assigning the first bounded review increment."},
     {"at":"2026-07-22T09:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T092649+0200","reason":"Verified no pre-existing open issues or pull requests, selected the first bounded Phase 2 review increment from backlog item 19, created issue #34 with repository-only scientific and curriculum-fit review criteria, assigned the Chemistry Lecturer and Subject-Matter Expert, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-22T10:23:21+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T102321+0200","reason":"Claimed the bounded Chemistry Lecturer and Subject-Matter Expert assignment for issue #34 to review the accepted Phase 2 pitch vertical slice for scientific correctness, chemistry relevance, curriculum fit, terminology, prerequisites and proportional mathematical depth using repository evidence only."},
-    {"at":"2026-07-22T10:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T102321+0200","reason":"Completed the repository-only Phase 2 chemistry-lecturer review with an accepted-with-non-blocking-findings verdict, seven severity-classified findings and bounded dispositions, documented deferred review ownership, added the structured handoff, opened draft PR #35, cleared the lease and returned control for exact-head validation and manager review."}
+    {"at":"2026-07-22T10:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T102321+0200","reason":"Completed the repository-only Phase 2 chemistry-lecturer review with an accepted-with-non-blocking-findings verdict, seven severity-classified findings and bounded dispositions, documented deferred review ownership, added the structured handoff, opened draft PR #35, cleared the lease and returned control for exact-head validation and manager review."},
+    {"at":"2026-07-22T11:23:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Claimed the bounded manager review of issue #34, draft PR #35, the repository-backed chemistry-lecturer review and structured handoff, subject to successful exact-head local validation and configured merge policy."}
   ]
 }
