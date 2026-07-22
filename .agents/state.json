@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 15,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Plan exactly one later bounded Phase 2 review increment using the accepted chemistry-lecturer review and findings CL-01 through CL-07 as explicit inputs without treating the pitch as final or publication-ready.",
-  "lastCompletedTurn": "manager: accepted issue #34 after successful exact-head local validation and bounded review, recorded the formal verdict, marked PR #35 ready, squash-merged it with an expected-head guard, confirmed issue closure and preserved findings CL-01 through CL-07 for later governed review and refinement work",
-  "lastUpdated": "2026-07-22T12:25:25+02:00",
+  "cycle": 16,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Student Reviewer",
+  "activeIssue": 36,
+  "expectedDeliverable": "Complete issue #36 as a bounded repository-only Bachelor chemistry student review, create docs/reviews/phase-2-student-review.md and .agents/handoffs/issue-36-student-reviewer.md, open a draft PR from agent/36-review-phase-2-pitch-student, and return control for exact-head validation and manager review.",
+  "lastCompletedTurn": "manager: verified no open issues or pull requests, selected the next bounded Phase 2 backlog item 19 review, created issue #36 using the accepted chemistry-lecturer review and CL-01 through CL-07 as explicit inputs, assigned the Student Reviewer role and returned control for worker execution",
+  "lastUpdated": "2026-07-22T12:29:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260722T122525+0200",
-    "claimedAt": "2026-07-22T12:25:25+02:00",
-    "expiresAt": "2026-07-22T14:25:25+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 138,
+  "stateRevision": 139,
   "transitionHistory": [
     {"at":"2026-07-22T04:23:36+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T042336+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted pitch theme baseline, Phase 2 sequencing and the authorised frontend role before assigning presenter mode and optional detail-path work."},
     {"at":"2026-07-22T04:29:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T042336+0200","reason":"Verified no pre-existing open issues or pull requests, selected Phase 2 backlog item 18 after the accepted pitch theme and accessible-component increment, created issue #32 with bounded presenter-mode, optional-detail-path, determinism, accessibility, privacy, lifecycle and no-network criteria, assigned the Frontend and Reveal Renderer Engineer, cleared the lease and returned control for worker execution."},
@@ -33,6 +33,7 @@
     {"at":"2026-07-22T10:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T102321+0200","reason":"Completed the repository-only Phase 2 chemistry-lecturer review with an accepted-with-non-blocking-findings verdict, seven severity-classified findings and bounded dispositions, documented deferred review ownership, added the structured handoff, opened draft PR #35, cleared the lease and returned control for exact-head validation and manager review."},
     {"at":"2026-07-22T11:23:28+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Claimed the bounded manager review of issue #34, draft PR #35, the repository-backed chemistry-lecturer review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
     {"at":"2026-07-22T11:27:11+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T112328+0200","reason":"Accepted issue #34 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #35 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved findings CL-01 through CL-07 as inputs for later governed reviews, cleared the lease and returned control for one later bounded manager planning turn."},
-    {"at":"2026-07-22T12:25:25+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T122525+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted chemistry-lecturer review, Phase 2 review sequencing and the authorised Student Reviewer role before assigning the next review increment."}
+    {"at":"2026-07-22T12:25:25+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T122525+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, the accepted chemistry-lecturer review, Phase 2 review sequencing and the authorised Student Reviewer role before assigning the next review increment."},
+    {"at":"2026-07-22T12:29:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T122525+0200","reason":"Verified no open issues or pull requests, selected the next bounded Phase 2 backlog item 19 review, created issue #36 with repository-only Bachelor chemistry student perspective criteria and CL-01 through CL-07 as explicit inputs, assigned the Student Reviewer role, cleared the lease and returned control for worker execution."}
   ]
 }
