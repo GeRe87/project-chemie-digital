@@ -1,10 +1,9 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
-@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-graph:shapes/core {
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
   cd:ConceptShape a sh:NodeShape ;
     sh:targetClass cd:Concept ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
