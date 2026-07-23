@@ -23,6 +23,19 @@ LEGACY_GRAPH_BASE = f"{GRAPH_BASE}legacy/"
 SHAPES_GRAPH_BASE = f"{GRAPH_BASE}shapes/"
 
 
+def populated_graph_ids(dataset: Dataset) -> tuple[URIRef, ...]:
+    """Return deterministic graph IDs that actually own at least one quad.
+
+    rdflib materializes an empty default context for every Dataset. It is not an
+    authored graph and therefore must not participate in ownership assertions or
+    canonical serialization. A populated default graph remains visible here and
+    is rejected by ``validate_dataset_contract`` because its identifier is not a
+    project-owned graph IRI.
+    """
+    identifiers = {graph for *_triple, graph in dataset.quads((None, None, None, None))}
+    return tuple(sorted(identifiers, key=str))
+
+
 def assemble_dataset(*, include_legacy: bool = True, trig_paths: tuple[Path, ...] | None = None) -> Dataset:
     dataset = Dataset(default_union=False)
     for path in sorted(trig_paths or CANONICAL_TRIG, key=lambda p: p.as_posix()):
@@ -50,9 +63,10 @@ def validate_dataset_contract(dataset: Dataset) -> None:
 
 def canonical_nquads(dataset: Dataset) -> str:
     rows: list[str] = []
-    for graph in sorted(dataset.contexts(), key=lambda item: str(item.identifier)):
+    for graph_id in populated_graph_ids(dataset):
+        graph = dataset.graph(graph_id)
         canonical = to_canonical_graph(graph)
-        gid = f"<{graph.identifier}>"
+        gid = f"<{graph_id}>"
         rows.extend(
             f"{subject.n3()} {predicate.n3()} {obj.n3()} {gid} ."
             for subject, predicate, obj in canonical
