@@ -37,9 +37,25 @@
 
 Every audience-visible scientific, explanatory or narrative statement must be authored as an RDF resource or resolved value. Renderers own presentation mechanics and generic UI chrome only; they must not become a second content store.
 
+## Phase 2c — Canonical TriG knowledge architecture
+
+24. Adopt TriG as the canonical RDF Dataset format and establish Core–Concept–Specification ontology layering with an explicit Cogniflow Meta-TBox reuse/mapping decision (#51).
+25. Build a comprehensive, source-backed and reusable Standardabweichung knowledge specification in TriG, including concept relations, learning resources, scenes and paths (#52).
+26. Perform a bounded chemistry/statistics and pedagogical review of the comprehensive Standardabweichung Dataset (#54).
+27. Migrate path resolution, scene compilation, graph projection and browser transport to the canonical TriG Dataset and remove manually maintained JSON-LD/TypeScript semantic copies (#53).
+
+TriG files are the authored semantic source. JSON-LD and compiled JSON/TypeScript artifacts may only be deterministic disposable transports generated from the canonical Dataset. Core ontology grammar, reusable concept vocabularies and concrete specifications must remain separate layers with stable named graph ownership.
+
+## Phase 2d — Presentation/graph interaction implementation
+
+28. Define renderer-neutral scene-to-RDF binding and view-switch state contracts.
+29. Implement a deterministic one-hop scene graph projector.
+30. Implement the accessible graph summary and presentation/graph switching shell.
+31. Add the optional visual graph adapter using the same projection document.
+
 ## Phase 3 — Platform foundation
 
-24. Add Fuseki local deployment and typed SPARQL query layer.
-25. Add semantic authoring workflow and validation feedback.
-26. Add self-study renderer.
-27. Add local learner-state export without mandatory accounts.
+32. Add Fuseki local deployment and typed SPARQL query layer.
+33. Add semantic authoring workflow and validation feedback.
+34. Add self-study renderer.
+35. Add local learner-state export without mandatory accounts.
