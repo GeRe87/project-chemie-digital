@@ -6,6 +6,7 @@
     "type": "@type",
     "id": "@id",
     "label": "skos:prefLabel",
+    "authoredResource": "cd:authoredResource",
     "broader": { "@id": "skos:broader", "@type": "@id" },
     "hasDefinition": { "@id": "cd:hasDefinition", "@type": "@id" },
     "hasMathExpression": { "@id": "cd:hasMathExpression", "@type": "@id" },
@@ -16,6 +17,7 @@
   },
   "id": "ex:standard-deviation",
   "type": "cd:Concept",
+  "authoredResource": true,
   "label": [
     { "@value": "Standardabweichung", "@language": "de" },
     { "@value": "Standard deviation", "@language": "en" }
