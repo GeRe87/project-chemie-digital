@@ -1,19 +1,18 @@
 {
   "schemaVersion": 2,
   "cycle": 19,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 45,
-  "expectedDeliverable": "Replace the renderer-authored pitch fixture with compiled graph-backed SceneDocument input, render the standard-deviation scene end to end with RDF identity and provenance, preserve presentation accessibility/offline/lifecycle behavior, add deterministic anti-duplication and mutation-propagation tests, update documentation and handoff, and open a draft PR from agent/45-render-compiled-graph-scenes without merging.",
-  "lastCompletedTurn": "worker: completed issue #45 graph-backed Reveal migration, opened draft PR #49 and added structured handoff; exact-head local validation remains pending",
-  "lastUpdated": "2026-07-23T10:23:09+02:00",
-  "lease": {"owner":"scheduled-manager-20260723T102309+0200","claimedAt":"2026-07-23T10:23:09+02:00","expiresAt":"2026-07-23T12:23:09+02:00"},
+  "expectedDeliverable": "Correct draft PR #49 so graph-backed RDF scene data is loaded through a deterministic repository-local boundary that works in both the browser build and the authoritative Node test command, preserves RDF source-of-truth and no-network behavior, executes mutation-propagation, anti-duplication, fallback, accessibility and cleanup regressions under npm test, updates handoff and verification notes, and returns for new exact-head local validation without merging.",
+  "lastCompletedTurn": "manager: requested changes on issue #45 and draft PR #49 because exact-head local validation failed when Node rejected direct .jsonld module imports before pitch tests could execute",
+  "lastUpdated": "2026-07-23T10:27:30+02:00",
+  "lease": {"owner":null,"claimedAt":null,"expiresAt":null},
   "blockedBy": [],
-  "stateRevision": 184,
+  "stateRevision": 185,
   "transitionHistory": [
-    {"at":"2026-07-22T22:27:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T222349+0200","reason":"Accepted corrected issue #41 after successful exact-head local validation and bounded review, recorded the formal verdict, marked PR #42 ready, squash-merged it with expected-head guard as 75a5310a7c82e4b7b8a4be5da9a6ad66418c91d1, confirmed issue closure, cleared the active assignment and returned control for one later bounded manager planning turn."},
     {"at":"2026-07-22T22:41:00+02:00","from":"ready/manager","to":"ready/worker","actor":"human-architecture-correction-20260722T224100+0200","reason":"Human review identified renderer-authored audience content as a second source of truth; added graph-backed scene correction issues #43 through #46, updated the backlog and assigned priority issue #43 to the Semantic Web and Ontology Engineer."},
     {"at":"2026-07-22T23:24:52+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T232452+0200","reason":"Claimed the bounded Semantic Web and Ontology Engineer assignment for issue #43 to model graph-backed scene definitions and the standard-deviation definition-with-citation reference scene without renderer changes."},
     {"at":"2026-07-22T23:32:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T232452+0200","reason":"Completed issue #43 with a minimal graph-backed scene vocabulary, a standard-deviation definition-with-citation scene that selects existing RDF resources without duplicated prose, SHACL constraints, deterministic semantic tests, architecture documentation and a structured handoff; opened draft PR #47, cleared the lease and returned control for exact-head validation and manager review."},
@@ -37,6 +36,7 @@
     {"at":"2026-07-23T08:31:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T082815+0200","reason":"Verified issue #44 is completed and merged, confirmed issue #45 is the next dependency-ready Phase 2b increment with no competing active assignment, validated its bounded graph-backed Reveal migration scope and Frontend and Reveal Renderer Engineer role, assigned exactly one worker task, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-23T09:29:14+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T092914+0200","reason":"Claimed the bounded Frontend and Reveal Renderer Engineer assignment for issue #45 to replace renderer-authored pitch content with compiled graph-backed SceneDocument input, preserve RDF identity and provenance, retain accessibility/offline/lifecycle behavior, add deterministic anti-duplication and mutation-propagation tests, documentation, draft PR and structured handoff without merging."},
     {"at":"2026-07-23T09:38:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T092914+0200","reason":"Completed issue #45 by replacing the active renderer-authored pitch fixture with browser-local compilation of the accepted graph-backed standard-deviation SceneDocument, rendering RDF-backed heading, definition and citation with identity and provenance, preserving accessibility/offline/static-fallback/lifecycle behavior, adding mutation-propagation and anti-duplication tests, structured handoff and draft PR #49; cleared the lease and returned control for exact-head local validation and manager review without merging."},
-    {"at":"2026-07-23T10:23:09+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T102309+0200","reason":"Claimed the bounded manager review of issue #45 and draft PR #49, subject to graph-backed SceneDocument rendering, preserved RDF identity and provenance, accessibility/offline/lifecycle regression coverage, successful exact-head local-validator evidence and the configured manager-only merge policy."}
+    {"at":"2026-07-23T10:23:09+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T102309+0200","reason":"Claimed the bounded manager review of issue #45 and draft PR #49, subject to graph-backed SceneDocument rendering, preserved RDF identity and provenance, accessibility/offline/lifecycle regression coverage, successful exact-head local-validator evidence and the configured manager-only merge policy."},
+    {"at":"2026-07-23T10:27:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T102309+0200","reason":"Exact-head local validation failed for draft PR #49 because direct .jsonld module imports are rejected by the authoritative Node pitch-test runtime before tests execute; recorded a bounded changes-requested verdict, retained issue #45 and the Frontend and Reveal Renderer Engineer role, cleared the lease and returned control for a portable repository-local data-loading correction."}
   ]
 }
