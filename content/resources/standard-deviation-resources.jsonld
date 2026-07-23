@@ -8,12 +8,14 @@
     "body": "cd:body",
     "latex": "cd:latex",
     "symbol": "cd:symbol",
+    "authoredResource": "cd:authoredResource",
     "hasSource": { "@id": "cd:hasSource", "@type": "@id" }
   },
   "@graph": [
     {
       "id": "ex:standard-deviation-definition-basic",
       "type": "cd:Definition",
+      "authoredResource": true,
       "body": { "@value": "Die Standardabweichung beschreibt die typische Streuung einzelner Beobachtungen um ihren arithmetischen Mittelwert.", "@language": "de" },
       "hasSource": "ex:reference-statistics-01"
     },
@@ -44,6 +46,7 @@
     {
       "id": "ex:reference-statistics-01",
       "type": "cd:Source",
+      "authoredResource": true,
       "schema:name": "Einführende Statistikreferenz",
       "schema:url": "https://example.org/reference/statistics"
     }

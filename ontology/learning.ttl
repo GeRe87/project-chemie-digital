@@ -16,6 +16,15 @@ cd:LearningPath a rdfs:Class .
 cd:PathStep a rdfs:Class .
 cd:Source a rdfs:Class .
 cd:PitchSource a rdfs:Class ; rdfs:subClassOf cd:Source .
+cd:SceneDefinition a rdfs:Class .
+cd:SceneItem a rdfs:Class .
+cd:CommunicativeRole a rdfs:Class .
+cd:PresentationPattern a rdfs:Class .
+
+cd:HeadingRole a cd:CommunicativeRole .
+cd:QuotationRole a cd:CommunicativeRole .
+cd:CitationRole a cd:CommunicativeRole .
+cd:DefinitionWithCitation a cd:PresentationPattern .
 
 cd:hasDefinition a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
 cd:hasMathExpression a rdf:Property ; rdfs:domain cd:Concept ; rdfs:range cd:MathExpression .
@@ -27,8 +36,17 @@ cd:sourcePath a rdf:Property ; rdfs:domain cd:PitchSource ; rdfs:range xsd:strin
 cd:forTopic a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
 cd:hasStep a rdf:Property ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
 cd:usesResource a rdf:Property ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
-cd:position a rdf:Property ; rdfs:domain cd:PathStep ; rdfs:range xsd:integer .
+cd:position a rdf:Property ; rdfs:range xsd:integer .
 cd:body a rdf:Property ; rdfs:range rdf:langString .
 cd:latex a rdf:Property ; rdfs:range xsd:string .
 cd:symbol a rdf:Property ; rdfs:range xsd:string .
 cd:viewType a rdf:Property ; rdfs:range xsd:string .
+cd:authoredResource a rdf:Property ; rdfs:range xsd:boolean .
+
+cd:focusConcept a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:Concept .
+cd:hasSceneItem a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:SceneItem .
+cd:presentationPattern a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:PresentationPattern .
+cd:selectsResource a rdf:Property ; rdfs:domain cd:SceneItem .
+cd:communicativeRole a rdf:Property ; rdfs:domain cd:SceneItem ; rdfs:range cd:CommunicativeRole .
+cd:selectionPath a rdf:Property ; rdfs:domain cd:SceneItem ; rdfs:range xsd:string .
+cd:language a rdf:Property ; rdfs:domain cd:SceneItem ; rdfs:range xsd:language .

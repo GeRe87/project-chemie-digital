@@ -1,0 +1,55 @@
+{
+  "@context": {
+    "cd": "https://w3id.org/project-chemie-digital/ontology/",
+    "ex": "https://w3id.org/project-chemie-digital/resource/",
+    "type": "@type",
+    "id": "@id",
+    "focusConcept": { "@id": "cd:focusConcept", "@type": "@id" },
+    "hasSceneItem": { "@id": "cd:hasSceneItem", "@type": "@id", "@container": "@set" },
+    "presentationPattern": { "@id": "cd:presentationPattern", "@type": "@id" },
+    "position": "cd:position",
+    "selectsResource": { "@id": "cd:selectsResource", "@type": "@id" },
+    "communicativeRole": { "@id": "cd:communicativeRole", "@type": "@id" },
+    "selectionPath": "cd:selectionPath",
+    "language": "cd:language"
+  },
+  "@graph": [
+    {
+      "id": "ex:scene-standard-deviation-definition-with-citation",
+      "type": "cd:SceneDefinition",
+      "focusConcept": "ex:standard-deviation",
+      "presentationPattern": "cd:DefinitionWithCitation",
+      "hasSceneItem": [
+        "ex:scene-standard-deviation-heading",
+        "ex:scene-standard-deviation-definition",
+        "ex:scene-standard-deviation-citation"
+      ]
+    },
+    {
+      "id": "ex:scene-standard-deviation-heading",
+      "type": "cd:SceneItem",
+      "position": 1,
+      "selectsResource": "ex:standard-deviation",
+      "communicativeRole": "cd:HeadingRole",
+      "selectionPath": "skos:prefLabel@de",
+      "language": "de"
+    },
+    {
+      "id": "ex:scene-standard-deviation-definition",
+      "type": "cd:SceneItem",
+      "position": 2,
+      "selectsResource": "ex:standard-deviation-definition-basic",
+      "communicativeRole": "cd:QuotationRole",
+      "selectionPath": "cd:hasDefinition",
+      "language": "de"
+    },
+    {
+      "id": "ex:scene-standard-deviation-citation",
+      "type": "cd:SceneItem",
+      "position": 3,
+      "selectsResource": "ex:reference-statistics-01",
+      "communicativeRole": "cd:CitationRole",
+      "selectionPath": "cd:hasDefinition/cd:hasSource"
+    }
+  ]
+}
