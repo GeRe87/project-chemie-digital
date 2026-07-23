@@ -35,7 +35,8 @@
     sh:property [ sh:path cd:presentationPattern ; sh:maxCount 1 ; sh:in ( cd:DefinitionWithCitation ) ] ;
     sh:sparql [
       sh:message "Scene item positions must be unique within a scene." ;
-      sh:select """SELECT $this WHERE {
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
         $this cd:hasSceneItem ?left, ?right .
         ?left cd:position ?position .
         ?right cd:position ?position .
