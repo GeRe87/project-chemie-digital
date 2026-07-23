@@ -1,0 +1,71 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Reusable scientific and learning-resource vocabulary.
+graph:concepts {
+  cd:LearningDomain a cdm:ConceptDomain ;
+    cdm:definesConcept cd:Concept, cd:LearningResource, cd:Definition,
+      cd:MathExpression, cd:MathSymbol, cd:WorkedExample, cd:Exercise,
+      cd:PitchResource, cd:LearningPath, cd:PathStep, cd:Source,
+      cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
+    cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
+      cd:hasExample, cd:hasExercise, cd:hasSource, cd:forTopic, cd:hasStep,
+      cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
+      cd:selectsResource, cd:communicativeRole ;
+    cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
+      cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language ;
+    cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
+      cd:CitationRole, cd:DefinitionWithCitation .
+
+  cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
+  cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
+  cd:Definition a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:MathExpression a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:MathSymbol a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:WorkedExample a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Exercise a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
+  cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
+  cd:Source a rdfs:Class, cdm:ConceptDescriptor .
+  cd:PitchSource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:Source .
+  cd:SceneDefinition a rdfs:Class, cdm:ConceptDescriptor .
+  cd:SceneItem a rdfs:Class, cdm:ConceptDescriptor .
+  cd:CommunicativeRole a rdfs:Class .
+  cd:PresentationPattern a rdfs:Class .
+
+  cd:HeadingRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:QuotationRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:CitationRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
+
+  cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
+  cd:hasMathExpression a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:MathExpression .
+  cd:hasSymbol a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:MathSymbol .
+  cd:hasExample a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:WorkedExample .
+  cd:hasExercise a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
+  cd:hasSource a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Source .
+  cd:forTopic a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
+  cd:hasStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
+  cd:usesResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
+  cd:focusConcept a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:Concept .
+  cd:hasSceneItem a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:SceneItem .
+  cd:presentationPattern a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:PresentationPattern .
+  cd:selectsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem .
+  cd:communicativeRole a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range cd:CommunicativeRole .
+
+  cd:sourcePath a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:PitchSource ; rdfs:range xsd:string .
+  cd:position a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:integer .
+  cd:body a rdf:Property, cdm:AttributeDescriptor ; rdfs:range rdf:langString .
+  cd:latex a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:symbol a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:viewType a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:authoredResource a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:boolean .
+  cd:selectionPath a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:string .
+  cd:language a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:language .
+}
