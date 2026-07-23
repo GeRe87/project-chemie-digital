@@ -6,12 +6,17 @@ import sys
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Dataset, Graph
-
-from rdf_dataset import assemble_dataset, dataset_fingerprint
+from rdflib import Dataset, Graph, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+from rdf_dataset import assemble_dataset, dataset_fingerprint  # noqa: E402
+
 SHAPES_FILE = ROOT / "ontology" / "shapes.ttl"
+SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core")
 
 # Backward-compatible names retained for existing tests during migration.
 DATA_FILES = (
@@ -32,30 +37,29 @@ def load_graph(paths: tuple[Path, ...]) -> Graph:
     return graph
 
 
-def dataset_union(dataset: Dataset) -> Graph:
+def dataset_union(dataset: Dataset, *, exclude_shapes: bool = True) -> Graph:
     graph = Graph()
-    for subject, predicate, obj, _ in dataset.quads((None, None, None, None)):
+    for subject, predicate, obj, context in dataset.quads((None, None, None, None)):
+        if exclude_shapes and str(context).startswith(
+            "https://w3id.org/project-chemie-digital/graph/shapes/"
+        ):
+            continue
         graph.add((subject, predicate, obj))
     return graph
 
 
 def run_validation() -> tuple[bool, str]:
     dataset = assemble_dataset(include_legacy=True)
-    data_graph = dataset_union(dataset)
-    # Existing SHACL remains a temporary compatibility input until its
-    # complete TriG migration; new authored semantic content is TriG-only.
-    shapes_graph = load_graph((SHAPES_FILE,))
     conforms, _, report_text = validate(
-        data_graph=data_graph,
-        shacl_graph=shapes_graph,
+        data_graph=dataset_union(dataset),
+        shacl_graph=dataset.graph(SHAPES_GRAPH),
         inference="rdfs",
         abort_on_first=False,
         allow_infos=False,
         allow_warnings=False,
         meta_shacl=True,
     )
-    report = f"Dataset fingerprint: {dataset_fingerprint(dataset)}\n{report_text}"
-    return bool(conforms), report
+    return bool(conforms), f"Dataset fingerprint: {dataset_fingerprint(dataset)}\n{report_text}"
 
 
 def main() -> int:
