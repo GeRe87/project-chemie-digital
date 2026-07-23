@@ -1,6 +1,8 @@
-import conceptDocument from "../../../content/concepts/standard-deviation.jsonld" with { type: "json" };
-import resourceDocument from "../../../content/resources/standard-deviation-resources.jsonld" with { type: "json" };
-import sceneDocument from "../../../content/scenes/standard-deviation-definition-with-citation.jsonld" with { type: "json" };
+import {
+  conceptDocument,
+  resourceDocument,
+  sceneDocument,
+} from "./generated/standard-deviation-scene-data.ts";
 import { compileGraphBackedScene } from "../../../packages/core/src/graph-scene-compiler.ts";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
 
