@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import {
   compileGraphBackedScene,
@@ -12,7 +13,7 @@ import {
 const sceneId = "ex:scene-standard-deviation-definition-with-citation";
 
 async function dataset(): Promise<GraphSceneDataset> {
-  return loadRepositoryStandardDeviationScene(new URL("../../..", import.meta.url).pathname);
+  return loadRepositoryStandardDeviationScene(fileURLToPath(new URL("../../..", import.meta.url)));
 }
 
 function clone(value: GraphSceneDataset): GraphSceneDataset {
