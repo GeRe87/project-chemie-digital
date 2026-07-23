@@ -26,6 +26,10 @@ EXPECTED_CANONICAL_GRAPHS = {
 }
 
 
+def populated_graph_names(dataset: Dataset) -> set[str]:
+    return {str(identifier) for identifier in MODULE.populated_graph_ids(dataset)}
+
+
 class RdfDatasetTests(unittest.TestCase):
     def test_every_canonical_trig_source_parses_independently(self) -> None:
         self.assertGreater(len(MODULE.CANONICAL_TRIG), 0)
@@ -33,14 +37,26 @@ class RdfDatasetTests(unittest.TestCase):
             with self.subTest(path=path.relative_to(ROOT).as_posix()):
                 parsed = Dataset(default_union=False)
                 parsed.parse(path, format="trig")
-                names = {str(graph.identifier) for graph in parsed.contexts()}
+                names = populated_graph_names(parsed)
                 self.assertTrue(names)
                 self.assertTrue(names <= EXPECTED_CANONICAL_GRAPHS)
 
     def test_canonical_dataset_uses_exact_stable_named_graphs(self) -> None:
         dataset = MODULE.assemble_dataset(include_legacy=False)
-        names = {str(graph.identifier) for graph in dataset.contexts()}
-        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, names)
+        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, populated_graph_names(dataset))
+
+    def test_empty_default_graph_is_not_an_owned_graph(self) -> None:
+        dataset = MODULE.assemble_dataset(include_legacy=False)
+        self.assertEqual(0, len(dataset.default_graph))
+        self.assertNotIn(str(dataset.default_graph.identifier), populated_graph_names(dataset))
+
+    def test_populated_default_graph_is_rejected(self) -> None:
+        dataset = Dataset(default_union=False)
+        dataset.default_graph.add(
+            (URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T"))
+        )
+        with self.assertRaisesRegex(ValueError, "Unsupported graph identity"):
+            MODULE.validate_dataset_contract(dataset)
 
     def test_assembled_dataset_validates_against_named_shapes_graph(self) -> None:
         conforms, report = VALIDATION_MODULE.run_validation()
@@ -49,7 +65,7 @@ class RdfDatasetTests(unittest.TestCase):
 
     def test_legacy_jsonld_is_isolated_in_explicit_compatibility_graphs(self) -> None:
         dataset = MODULE.assemble_dataset(include_legacy=True)
-        names = {str(graph.identifier) for graph in dataset.contexts()}
+        names = populated_graph_names(dataset)
         self.assertTrue(any(name.startswith(MODULE.LEGACY_GRAPH_BASE) for name in names))
 
     def test_fingerprint_is_independent_of_source_file_order(self) -> None:
