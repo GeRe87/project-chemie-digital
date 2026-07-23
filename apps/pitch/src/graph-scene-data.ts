@@ -6,7 +6,7 @@ import {
 import { compileGraphBackedScene } from "../../../packages/core/src/graph-scene-compiler.ts";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
 
-export const STANDARD_DEVIATION_SCENE_ID = "ex:standard-deviation-definition-with-citation-scene";
+export const STANDARD_DEVIATION_SCENE_ID = "ex:scene-standard-deviation-definition-with-citation";
 
 export function compilePitchSceneDocuments(): readonly SceneDocument[] {
   const result = compileGraphBackedScene({ conceptDocument, resourceDocument, sceneDocument }, STANDARD_DEVIATION_SCENE_ID);
