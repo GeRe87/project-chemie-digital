@@ -38,8 +38,12 @@ class SceneSemanticValidationTests(unittest.TestCase):
         concept = URIRef(EX + "standard-deviation")
         definition = URIRef(EX + "standard-deviation-definition-basic")
         source = URIRef(EX + "reference-statistics-01")
+        authored = URIRef(CD + "authoredResource")
         self.assertIn((concept, URIRef(CD + "hasDefinition"), definition), graph)
         self.assertIn((definition, URIRef(CD + "hasSource"), source), graph)
+        self.assertIn((concept, authored, Literal(True)), graph)
+        self.assertIn((definition, authored, Literal(True)), graph)
+        self.assertIn((source, authored, Literal(True)), graph)
 
     def test_scene_definition_contains_no_duplicated_audience_prose(self) -> None:
         path = ROOT / "content" / "scenes" / "standard-deviation-definition-with-citation.jsonld"
@@ -49,17 +53,28 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertNotIn("Einführende Statistikreferenz", serialized)
         self.assertNotIn("body", document["@context"])
 
-    def test_missing_selected_resource_is_rejected(self) -> None:
+    def test_missing_selected_resource_is_rejected_despite_rdfs_inference(self) -> None:
         graph = MODULE.load_graph(MODULE.DATA_FILES)
+        definition = URIRef(EX + "standard-deviation-definition-basic")
         source = URIRef(EX + "reference-statistics-01")
         graph.remove((source, None, None))
+        self.assertIn((definition, URIRef(CD + "hasSource"), source), graph)
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
-    def test_present_typed_selected_resource_is_accepted(self) -> None:
+    def test_typed_but_unmarked_selected_resource_is_rejected(self) -> None:
+        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        source = URIRef(EX + "reference-statistics-01")
+        graph.remove((source, URIRef(CD + "authoredResource"), None))
+        self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
+        conforms, _, _ = self.validate_graph(graph)
+        self.assertFalse(conforms)
+
+    def test_present_typed_and_authored_selected_resource_is_accepted(self) -> None:
         graph = MODULE.load_graph(MODULE.DATA_FILES)
         source = URIRef(EX + "reference-statistics-01")
         self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
+        self.assertIn((source, URIRef(CD + "authoredResource"), Literal(True)), graph)
         conforms, report, _ = self.validate_graph(graph)
         self.assertTrue(conforms, report)
 
