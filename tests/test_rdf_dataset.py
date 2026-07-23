@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import importlib.util
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,14 +12,28 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
+EXPECTED_CANONICAL_GRAPHS = {
+    "https://w3id.org/project-chemie-digital/graph/core",
+    "https://w3id.org/project-chemie-digital/graph/concepts",
+    "https://w3id.org/project-chemie-digital/graph/shapes/core",
+}
+
 
 class RdfDatasetTests(unittest.TestCase):
-    def test_canonical_dataset_uses_stable_named_graphs(self) -> None:
+    def test_every_canonical_trig_source_parses_independently(self) -> None:
+        self.assertGreater(len(MODULE.CANONICAL_TRIG), 0)
+        for path in MODULE.CANONICAL_TRIG:
+            with self.subTest(path=path.relative_to(ROOT).as_posix()):
+                parsed = Dataset(default_union=False)
+                parsed.parse(path, format="trig")
+                names = {str(graph.identifier) for graph in parsed.contexts()}
+                self.assertTrue(names)
+                self.assertTrue(names <= EXPECTED_CANONICAL_GRAPHS)
+
+    def test_canonical_dataset_uses_exact_stable_named_graphs(self) -> None:
         dataset = MODULE.assemble_dataset(include_legacy=False)
         names = {str(graph.identifier) for graph in dataset.contexts()}
-        self.assertIn("https://w3id.org/project-chemie-digital/graph/core", names)
-        self.assertIn("https://w3id.org/project-chemie-digital/graph/concepts", names)
-        self.assertIn("https://w3id.org/project-chemie-digital/graph/shapes/core", names)
+        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, names)
 
     def test_legacy_jsonld_is_isolated_in_explicit_compatibility_graphs(self) -> None:
         dataset = MODULE.assemble_dataset(include_legacy=True)
