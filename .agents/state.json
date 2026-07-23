@@ -1,23 +1,18 @@
 {
   "schemaVersion": 2,
   "cycle": 20,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 46,
   "expectedDeliverable": "A bounded product and architecture specification for presentation/knowledge-graph view switching, deterministic scene-block-to-RDF identity mapping, separate local exploration state, accessibility and privacy boundaries, staged implementation plan, structured handoff and draft PR without feature implementation or merge.",
-  "lastCompletedTurn": "manager: verified issue #45 dependency completion and no competing open pull request, bounded issue #46 as an architecture specification, assigned the Software Architect role and returned control for worker execution",
-  "lastUpdated": "2026-07-23T14:29:37+02:00",
-  "lease": {
-    "owner": "scheduled-worker-20260723T142937+0200",
-    "claimedAt": "2026-07-23T14:29:37+02:00",
-    "expiresAt": "2026-07-23T16:29:37+02:00"
-  },
+  "lastCompletedTurn": "worker: completed issue #46 architecture specification and opened draft PR #50 for manager review",
+  "lastUpdated": "2026-07-23T14:39:30+02:00",
+  "lease": {"owner":null,"claimedAt":null,"expiresAt":null},
   "blockedBy": [],
-  "stateRevision": 192,
+  "stateRevision": 193,
   "transitionHistory": [
-    {"at":"2026-07-23T02:29:52+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T022952+0200","reason":"Claimed the bounded manager review of corrected issue #43 and draft PR #47, subject to verification of authored-resource existence validation, exact-head local-validator success and the configured manager-only merge policy."},
     {"at":"2026-07-23T02:33:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T022952+0200","reason":"Exact-head local validation failed again for corrected PR #47 because the generic outgoing-triple existence constraint is satisfied by RDFS-inferred triples after authored source triples are removed; recorded a bounded changes-requested verdict, retained issue #43 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for an inference-safe correction."},
     {"at":"2026-07-23T03:26:27+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T032627+0200","reason":"Claimed the bounded inference-safe correction turn for issue #43 and draft PR #47 to replace generic inferred outgoing-triple existence with deterministic authored/class-specific evidence, preserve the allowed resource-class boundary, strengthen regression coverage and update the handoff without renderer changes or merge."},
     {"at":"2026-07-23T03:34:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T032627+0200","reason":"Corrected draft PR #47 by replacing the inference-sensitive generic outgoing-triple check with explicit cd:authoredResource evidence, preserved the independent Concept/LearningResource/Source class boundary, added inference-only and typed-but-unmarked regressions plus a typed-and-authored control, updated the structured handoff and PR verification notes, cleared the lease and returned control for new exact-head local validation and manager review."},
@@ -41,6 +36,7 @@
     {"at":"2026-07-23T12:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260723T122641+0200","reason":"Accepted corrected issue #45 after successful exact-head local validation and bounded review, recorded the formal manager verdict, marked PR #49 ready, squash-merged it with expected-head protection, confirmed issue closure, cleared the active assignment and returned control for one later bounded manager planning turn."},
     {"at":"2026-07-23T13:26:37+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T132637+0200","reason":"Claimed one bounded manager planning turn to verify issue #45 dependency completion, current issue and pull-request state, the Phase 2b view-switching specification scope and the authorised Software Architect role before assigning at most one next increment."},
     {"at":"2026-07-23T13:31:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T132637+0200","reason":"Verified issue #45 is completed and merged, confirmed issue #46 is the next dependency-ready Phase 2b increment with no competing open pull request, bounded it to a product and architecture specification, assigned the authorised Software Architect role, cleared the lease and returned control for worker execution without implementation."},
-    {"at":"2026-07-23T14:29:37+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T142937+0200","reason":"Claimed the bounded Software Architect assignment for issue #46 to produce the presentation/knowledge-graph view-switching product and architecture specification, deterministic RDF identity/provenance mapping, separate local exploration state, concrete accessibility and privacy boundaries, staged implementation plan, structured handoff and draft PR without feature implementation or merge."}
+    {"at":"2026-07-23T14:29:37+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T142937+0200","reason":"Claimed the bounded Software Architect assignment for issue #46 to produce the presentation/knowledge-graph view-switching product and architecture specification, deterministic RDF identity/provenance mapping, separate local exploration state, concrete accessibility and privacy boundaries, staged implementation plan, structured handoff and draft PR without feature implementation or merge."},
+    {"at":"2026-07-23T14:39:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T142937+0200","reason":"Completed issue #46 with a bounded product and architecture specification for presentation, visual graph and accessible graph-summary switching, deterministic SceneDocument-block-to-RDF identity and provenance mapping, separate revision-keyed local exploration state, concrete accessibility/privacy/failure contracts, a staged implementation plan, structured handoff and draft PR #50; cleared the lease and returned control for exact-head validation and manager review without implementation or merge."}
   ]
 }
