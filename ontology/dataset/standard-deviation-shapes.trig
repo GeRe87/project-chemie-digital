@@ -2,7 +2,6 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/shapes/core> {
@@ -15,13 +14,14 @@
     sh:property [ sh:path cd:hasSource ; sh:maxCount 0 ] .
 
   ex:DefinitionShape a sh:NodeShape ;
-    sh:targetClass cd:Definition ;
+    sh:targetNode ex:sd-definition-basic-de, ex:sd-definition-basic-en,
+      ex:sd-definition-university-de, ex:sd-definition-university-en ;
     sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:definitionScope ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("basic" "university") ] ;
     sh:property [ sh:path cd:hasSource ; sh:minCount 1 ; sh:class cd:Source ] .
 
   ex:FormulaShape a sh:NodeShape ;
-    sh:targetClass cd:MathExpression ;
+    sh:targetNode ex:sample-sd-formula, ex:population-sd-formula ;
     sh:property [ sh:path cd:latex ; sh:minCount 1 ; sh:maxCount 1 ] ;
     sh:property [ sh:path cd:formulaFamily ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("sample" "population") ] ;
     sh:property [ sh:path cd:hasSymbol ; sh:minCount 4 ; sh:class cd:MathSymbol ] ;
