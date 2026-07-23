@@ -41,6 +41,7 @@ cd:body a rdf:Property ; rdfs:range rdf:langString .
 cd:latex a rdf:Property ; rdfs:range xsd:string .
 cd:symbol a rdf:Property ; rdfs:range xsd:string .
 cd:viewType a rdf:Property ; rdfs:range xsd:string .
+cd:authoredResource a rdf:Property ; rdfs:range xsd:boolean .
 
 cd:focusConcept a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:Concept .
 cd:hasSceneItem a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:SceneItem .
