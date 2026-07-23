@@ -12,6 +12,13 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
+VALIDATION_SPEC = importlib.util.spec_from_file_location(
+    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
+)
+assert VALIDATION_SPEC and VALIDATION_SPEC.loader
+VALIDATION_MODULE = importlib.util.module_from_spec(VALIDATION_SPEC)
+VALIDATION_SPEC.loader.exec_module(VALIDATION_MODULE)
+
 EXPECTED_CANONICAL_GRAPHS = {
     "https://w3id.org/project-chemie-digital/graph/core",
     "https://w3id.org/project-chemie-digital/graph/concepts",
@@ -34,6 +41,11 @@ class RdfDatasetTests(unittest.TestCase):
         dataset = MODULE.assemble_dataset(include_legacy=False)
         names = {str(graph.identifier) for graph in dataset.contexts()}
         self.assertEqual(EXPECTED_CANONICAL_GRAPHS, names)
+
+    def test_assembled_dataset_validates_against_named_shapes_graph(self) -> None:
+        conforms, report = VALIDATION_MODULE.run_validation()
+        self.assertTrue(conforms, report)
+        self.assertIn("Dataset fingerprint:", report)
 
     def test_legacy_jsonld_is_isolated_in_explicit_compatibility_graphs(self) -> None:
         dataset = MODULE.assemble_dataset(include_legacy=True)
