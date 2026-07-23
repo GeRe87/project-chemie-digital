@@ -1,0 +1,54 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:ConceptShape a sh:NodeShape ;
+    sh:targetClass cd:Concept ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:hasDefinition ; sh:minCount 1 ] .
+
+  cd:PitchResourceShape a sh:NodeShape ;
+    sh:targetClass cd:PitchResource ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:hasSource ; sh:minCount 1 ] .
+
+  cd:PitchSourceShape a sh:NodeShape ;
+    sh:targetClass cd:PitchSource ;
+    sh:property [ sh:path cd:sourcePath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+  cd:LearningPathShape a sh:NodeShape ;
+    sh:targetClass cd:LearningPath ;
+    sh:property [ sh:path cd:forTopic ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:hasStep ; sh:minCount 1 ] .
+
+  cd:PathStepShape a sh:NodeShape ;
+    sh:targetClass cd:PathStep ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ;
+    sh:property [ sh:path cd:usesResource ; sh:minCount 1 ] .
+
+  cd:SceneDefinitionShape a sh:NodeShape ;
+    sh:targetClass cd:SceneDefinition ;
+    sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasSceneItem ; sh:minCount 1 ; sh:class cd:SceneItem ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:presentationPattern ; sh:maxCount 1 ; sh:in ( cd:DefinitionWithCitation ) ] ;
+    sh:sparql [
+      sh:message "Scene item positions must be unique within a scene." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasSceneItem ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] .
+
+  cd:SceneItemShape a sh:NodeShape ;
+    sh:targetClass cd:SceneItem ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
+    sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" ) ] .
+}
