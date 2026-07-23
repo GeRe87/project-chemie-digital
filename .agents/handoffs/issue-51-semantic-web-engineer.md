@@ -18,6 +18,8 @@
 - Corrected the SHACL named graph from the invalid prefixed name `graph:shapes/core` to the absolute stable IRI `<https://w3id.org/project-chemie-digital/graph/shapes/core>`.
 - Audited the introduced canonical TriG graph declarations and retained the exact stable graph identities `graph/core`, `graph/concepts` and `graph/shapes/core`.
 - Strengthened regression coverage so every canonical TriG source must parse independently and the assembled canonical Dataset must expose exactly the three expected stable graph IRIs.
+- Audited all embedded SHACL-SPARQL constraints in the canonical shapes graph. The single query now declares its `cd:` prefix inside the `sh:select` string and no longer relies on outer TriG prefix scope.
+- Added an executable regression that assembles the complete repository Dataset, selects the named shapes graph, runs the authoritative pySHACL configuration and requires conformance plus a deterministic dataset fingerprint in the report.
 - Documented graph ownership and migration rules; did not build the comprehensive Standardabweichung ABox.
 
 ## Files or resources changed
@@ -34,7 +36,8 @@
 ## Verification
 
 - [ ] Automated tests — new exact-head local validator evidence pending
-- [ ] Semantic validation — new exact-head local validator evidence pending
+- [x] Semantic validation regression executes the assembled Dataset against `graph/shapes/core`
+- [x] Every embedded SHACL-SPARQL query has query-local prefixes
 - [x] Canonical TriG parse regression added for every source
 - [x] Exact stable graph-IRI regression added
 - [ ] Manual browser check — not applicable; browser runtime intentionally unchanged
@@ -47,6 +50,7 @@
 - Existing JSON-LD is temporary migration input and remains independently readable only through explicitly named compatibility graphs.
 - SHACL internal blank nodes are allowed only within `graph/shapes/*`; canonical resource identities elsewhere must be IRIs.
 - Slash-bearing graph IRIs are written as absolute IRIs unless a syntactically suitable dedicated prefix is introduced; they are not encoded as invalid prefixed-name local parts.
+- Every embedded SPARQL query is a self-contained query document; serialization-level prefix declarations are not assumed to propagate into `sh:select` literals.
 - The clean project Meta-TBox uses descriptors to avoid collision between structural ontology grammar and scientific domain concepts.
 - No external network access, imported ontology, package dependency or license-bearing archive content is used.
 
