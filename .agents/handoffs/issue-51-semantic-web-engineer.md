@@ -15,7 +15,9 @@
 - Added a deterministic offline RDF Dataset assembler, named-graph ownership checks, canonical logical-quad serialization and SHA-256 fingerprinting.
 - Isolated existing JSON-LD documents in deterministic `graph/legacy/*` compatibility graphs.
 - Changed semantic validation to consume the assembled Dataset and its named SHACL graph.
-- Added regression tests for stable graph IRIs, source-order-independent fingerprints, legacy isolation, foreign graph rejection, unsupported blank-node identities and duplicate canonical ownership.
+- Corrected the SHACL named graph from the invalid prefixed name `graph:shapes/core` to the absolute stable IRI `<https://w3id.org/project-chemie-digital/graph/shapes/core>`.
+- Audited the introduced canonical TriG graph declarations and retained the exact stable graph identities `graph/core`, `graph/concepts` and `graph/shapes/core`.
+- Strengthened regression coverage so every canonical TriG source must parse independently and the assembled canonical Dataset must expose exactly the three expected stable graph IRIs.
 - Documented graph ownership and migration rules; did not build the comprehensive Standardabweichung ABox.
 
 ## Files or resources changed
@@ -31,8 +33,10 @@
 
 ## Verification
 
-- [ ] Automated tests — exact-head local validator pending
-- [ ] Semantic validation — exact-head local validator pending
+- [ ] Automated tests — new exact-head local validator evidence pending
+- [ ] Semantic validation — new exact-head local validator evidence pending
+- [x] Canonical TriG parse regression added for every source
+- [x] Exact stable graph-IRI regression added
 - [ ] Manual browser check — not applicable; browser runtime intentionally unchanged
 - [x] Accessibility check — no audience-facing UI introduced
 - [x] Documentation updated
@@ -42,12 +46,13 @@
 - TriG is the only format for newly authored semantic content.
 - Existing JSON-LD is temporary migration input and remains independently readable only through explicitly named compatibility graphs.
 - SHACL internal blank nodes are allowed only within `graph/shapes/*`; canonical resource identities elsewhere must be IRIs.
+- Slash-bearing graph IRIs are written as absolute IRIs unless a syntactically suitable dedicated prefix is introduced; they are not encoded as invalid prefixed-name local parts.
 - The clean project Meta-TBox uses descriptors to avoid collision between structural ontology grammar and scientific domain concepts.
 - No external network access, imported ontology, package dependency or license-bearing archive content is used.
 
 ## Risks or unresolved questions
 
-- The local exact-head validator must confirm the complete `npm test` command on the PR head.
+- The local exact-head validator must confirm the complete `npm test` command on the corrected PR head.
 - The next issue must migrate concrete Standardabweichung knowledge, scene, path and provenance specifications from legacy JSON-LD into owned TriG graphs.
 - `ontology/learning.ttl` and `ontology/shapes.ttl` remain compatibility files until all consumers have moved to the Dataset boundary.
 
