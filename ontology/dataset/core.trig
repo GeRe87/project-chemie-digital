@@ -1,0 +1,33 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Project-owned clean Meta-TBox. It is inspired by the verified CogniFlow
+# ConceptDomain/Concept/Attribute/Relation pattern but does not copy or import
+# the GPL-3 package and is independently versioned by this repository.
+graph:core {
+  cdm:OntologyModule a rdfs:Class .
+  cdm:ConceptDomain a rdfs:Class ; rdfs:subClassOf cdm:OntologyModule .
+  cdm:ConceptDescriptor a rdfs:Class .
+  cdm:AttributeDescriptor a rdfs:Class .
+  cdm:RelationDescriptor a rdfs:Class .
+  cdm:ControlledValue a rdfs:Class .
+  cdm:ShapeDescriptor a rdfs:Class .
+  cdm:ConceptShapeDescriptor a rdfs:Class ; rdfs:subClassOf cdm:ShapeDescriptor .
+  cdm:InstanceShapeDescriptor a rdfs:Class ; rdfs:subClassOf cdm:ShapeDescriptor .
+
+  cdm:definesConcept a rdf:Property ; rdfs:domain cdm:ConceptDomain ; rdfs:range cdm:ConceptDescriptor .
+  cdm:definesAttribute a rdf:Property ; rdfs:domain cdm:ConceptDomain ; rdfs:range cdm:AttributeDescriptor .
+  cdm:definesRelation a rdf:Property ; rdfs:domain cdm:ConceptDomain ; rdfs:range cdm:RelationDescriptor .
+  cdm:definesShape a rdf:Property ; rdfs:domain cdm:ConceptDomain ; rdfs:range cdm:ShapeDescriptor .
+  cdm:definesControlledValue a rdf:Property ; rdfs:domain cdm:ConceptDomain ; rdfs:range cdm:ControlledValue .
+  cdm:allowedValue a rdf:Property ; rdfs:range cdm:ControlledValue .
+
+  cdm:ProjectSemanticCore a owl:Ontology ;
+    owl:versionInfo "0.1.0-draft" ;
+    skos:note "Project-owned clean-room semantic core; no runtime or source dependency on the GPL-3 CogniFlow archive."@en .
+}
