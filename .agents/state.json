@@ -1,19 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 21,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 51,
   "expectedDeliverable": "Review corrected draft PR #55 after new exact-head local-validator evidence, verifying default-graph-aware populated graph enumeration, exact stable canonical graph ownership, rejection of populated default and unexpected graphs, and the configured manager-only merge policy.",
   "lastCompletedTurn": "worker: corrected draft PR #55 so graph ownership and canonical serialization derive from populated quads rather than rdflib's empty default implementation context; added regressions that ignore the empty default graph while rejecting populated default or unexpected graphs, updated the handoff and PR verification notes, and returned control for new exact-head local validation and manager review without merging",
-  "lastUpdated": "2026-07-23T22:36:00+02:00",
-  "lease": {"owner":null,"claimedAt":null,"expiresAt":null},
+  "lastUpdated": "2026-07-23T23:24:30+02:00",
+  "lease": {
+    "owner": "scheduled-manager-20260723T232430+0200",
+    "claimedAt": "2026-07-23T23:24:30+02:00",
+    "expiresAt": "2026-07-24T01:24:30+02:00"
+  },
   "blockedBy": [],
-  "stateRevision": 210,
+  "stateRevision": 211,
   "transitionHistory": [
-    {"at":"2026-07-23T11:27:02+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T112702+0200","reason":"Claimed the bounded correction turn for issue #45 and draft PR #49 to replace direct .jsonld module imports with a deterministic repository-local browser-and-Node-compatible data boundary, preserve RDF source-of-truth and no-network behavior, run all required regressions under npm test, and update the handoff without merging."},
     {"at":"2026-07-23T11:34:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T112702+0200","reason":"Corrected draft PR #49 by replacing direct .jsonld imports with a Vite-and-Node-compatible generated TypeScript transport guarded by complete JSON-LD parity tests, correcting the authored scene identifier and RDF mutation/provenance assertions, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
     {"at":"2026-07-23T12:26:41+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T122641+0200","reason":"Claimed the bounded manager review of corrected issue #45 and draft PR #49, subject to verification of the browser-and-Node-compatible graph-data boundary, complete JSON-LD parity and required regressions, successful exact-head local-validator evidence and the configured manager-only merge policy."},
     {"at":"2026-07-23T12:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260723T122641+0200","reason":"Accepted corrected issue #45 after successful exact-head local validation and bounded review, recorded the formal manager verdict, marked PR #49 ready, squash-merged it with expected-head protection, confirmed issue closure, cleared the active assignment and returned control for one later bounded manager planning turn."},
@@ -37,6 +40,7 @@
     {"at":"2026-07-23T21:26:22+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T212622+0200","reason":"Claimed the bounded manager review of corrected issue #51 and draft PR #55, subject to verification of self-contained SHACL-SPARQL prefixes, executable assembled-Dataset validation against the named shapes graph, successful exact-head local-validator evidence and the configured manager-only merge policy."},
     {"at":"2026-07-23T21:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T212622+0200","reason":"Exact-head local validation failed for draft PR #55 because the new canonical graph-identity tests include rdflib's empty default graph urn:x-rdflib:default when enumerating contexts; recorded a bounded formal CHANGES REQUESTED verdict, retained issue #51 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for default-graph-aware named-graph enumeration and regression coverage without merging."},
     {"at":"2026-07-23T22:25:00+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T222500+0200","reason":"Claimed the bounded correction turn for issue #51 and draft PR #55 to make graph-identity assertions default-graph-aware, preserve exact stable named-graph ownership, reject populated default or unexpected graphs, update deprecated graph enumeration where practical, refresh handoff and PR verification notes, and return control without merging."},
-    {"at":"2026-07-23T22:36:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T222500+0200","reason":"Corrected draft PR #55 by deriving ownership and canonical serialization from populated quads, excluding rdflib's empty default implementation context, retaining exact stable named-graph assertions, adding explicit rejection coverage for populated default and unexpected graphs, replacing deprecated contexts enumeration, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."}
+    {"at":"2026-07-23T22:36:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T222500+0200","reason":"Corrected draft PR #55 by deriving ownership and canonical serialization from populated quads, excluding rdflib's empty default implementation context, retaining exact stable named-graph assertions, adding explicit rejection coverage for populated default and unexpected graphs, replacing deprecated contexts enumeration, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
+    {"at":"2026-07-23T23:24:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T232430+0200","reason":"Claimed the bounded manager review of corrected issue #51 and draft PR #55, subject to verification of default-graph-aware populated graph enumeration, exact stable canonical graph ownership, rejection of populated default and unexpected graphs, successful exact-head local-validator evidence and the configured manager-only merge policy."}
   ]
 }
