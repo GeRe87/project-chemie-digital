@@ -17,9 +17,12 @@
 - Changed semantic validation to consume the assembled Dataset and its named SHACL graph.
 - Corrected the SHACL named graph from the invalid prefixed name `graph:shapes/core` to the absolute stable IRI `<https://w3id.org/project-chemie-digital/graph/shapes/core>`.
 - Audited the introduced canonical TriG graph declarations and retained the exact stable graph identities `graph/core`, `graph/concepts` and `graph/shapes/core`.
-- Strengthened regression coverage so every canonical TriG source must parse independently and the assembled canonical Dataset must expose exactly the three expected stable graph IRIs.
+- Strengthened regression coverage so every canonical TriG source must parse independently and the assembled canonical Dataset must expose exactly the three expected stable populated graph IRIs.
 - Audited all embedded SHACL-SPARQL constraints in the canonical shapes graph. The single query now declares its `cd:` prefix inside the `sh:select` string and no longer relies on outer TriG prefix scope.
 - Added an executable regression that assembles the complete repository Dataset, selects the named shapes graph, runs the authoritative pySHACL configuration and requires conformance plus a deterministic dataset fingerprint in the report.
+- Replaced deprecated `Dataset.contexts()` ownership enumeration with quad-derived `populated_graph_ids()`, so rdflib's automatically materialized but empty default graph is not treated as authored ownership.
+- Added explicit regressions proving that an empty default graph is ignored, while a populated default graph and any unexpected named graph remain rejected by the dataset contract.
+- Updated canonical serialization to iterate only populated graph identities, preserving stable fingerprints without serializing an empty implementation context.
 - Documented graph ownership and migration rules; did not build the comprehensive Standardabweichung ABox.
 
 ## Files or resources changed
@@ -39,7 +42,9 @@
 - [x] Semantic validation regression executes the assembled Dataset against `graph/shapes/core`
 - [x] Every embedded SHACL-SPARQL query has query-local prefixes
 - [x] Canonical TriG parse regression added for every source
-- [x] Exact stable graph-IRI regression added
+- [x] Exact stable populated graph-IRI regression added
+- [x] Empty default graph excluded from ownership and canonical serialization
+- [x] Populated default graph and unexpected named graph rejected
 - [ ] Manual browser check — not applicable; browser runtime intentionally unchanged
 - [x] Accessibility check — no audience-facing UI introduced
 - [x] Documentation updated
@@ -51,6 +56,7 @@
 - SHACL internal blank nodes are allowed only within `graph/shapes/*`; canonical resource identities elsewhere must be IRIs.
 - Slash-bearing graph IRIs are written as absolute IRIs unless a syntactically suitable dedicated prefix is introduced; they are not encoded as invalid prefixed-name local parts.
 - Every embedded SPARQL query is a self-contained query document; serialization-level prefix declarations are not assumed to propagate into `sh:select` literals.
+- Dataset ownership is defined by populated quads, not by rdflib implementation contexts. An empty default context is harmless; any quad in the default graph is a contract violation.
 - The clean project Meta-TBox uses descriptors to avoid collision between structural ontology grammar and scientific domain concepts.
 - No external network access, imported ontology, package dependency or license-bearing archive content is used.
 
