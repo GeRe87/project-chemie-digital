@@ -1,19 +1,18 @@
 {
   "schemaVersion": 2,
   "cycle": 17,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 43,
-  "expectedDeliverable": "Review corrected draft PR #47 after new exact-head local-validator evidence; verify that explicit cd:authoredResource evidence rejects inference-only and typed-but-unmarked selected resources while preserving the Concept/LearningResource/Source boundary, then issue the governed manager verdict without using GitHub Actions evidence.",
-  "lastCompletedTurn": "worker: corrected PR #47 with an inference-safe explicit authored-resource marker, preserved the allowed selected-resource class boundary, added inference-only and typed-but-unmarked regressions, updated the handoff and PR description, and returned control for exact-head validation and manager review",
-  "lastUpdated": "2026-07-23T04:26:18+02:00",
-  "lease": {"owner": "scheduled-manager-20260723T042618+0200", "claimedAt": "2026-07-23T04:26:18+02:00", "expiresAt": "2026-07-23T06:26:18+02:00"},
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: accepted corrected PR #47 after successful exact-head local validation, recorded the repository-backed verdict, marked the PR ready, squash-merged with expected-head guard, confirmed issue #43 closure, and returned control for one later bounded manager planning turn",
+  "lastUpdated": "2026-07-23T04:31:00+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
   "blockedBy": [],
-  "stateRevision": 172,
+  "stateRevision": 173,
   "transitionHistory": [
-    {"at":"2026-07-22T17:25:37+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T172537+0200","reason":"Claimed the bounded manager review of issue #38, draft PR #39, the repository-backed instructional-design review and structured handoff, subject to successful exact-head local validation and configured merge policy."},
     {"at":"2026-07-22T17:29:15+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260722T172537+0200","reason":"Accepted issue #38 after successful exact-head local validation and final bounded review, recorded the formal verdict, marked PR #39 ready, squash-merged it with an expected-head guard, confirmed issue closure, preserved ID-01 through ID-08 and all CL/SR dispositions as governed inputs for later refinement, cleared the lease and returned control for one later bounded manager planning turn."},
     {"at":"2026-07-22T18:25:51+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T182551+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, Phase 2 review sequencing, accepted CL/SR/ID findings and an authorised technical-review role before assigning at most one next increment."},
     {"at":"2026-07-22T18:29:10+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T182551+0200","reason":"Verified no pre-existing open issue or pull request, selected the next bounded Phase 2 backlog item 19 technical review, created issue #40 with repository-only architecture and contract-integrity criteria and CL/SR/ID findings as explicit governed inputs, assigned the Software Architect role, cleared the lease and returned control for worker execution."},
@@ -37,6 +36,7 @@
     {"at":"2026-07-23T02:33:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T022952+0200","reason":"Exact-head local validation failed again for corrected PR #47 because the generic outgoing-triple existence constraint is satisfied by RDFS-inferred triples after authored source triples are removed; recorded a bounded changes-requested verdict, retained issue #43 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for an inference-safe correction."},
     {"at":"2026-07-23T03:26:27+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T032627+0200","reason":"Claimed the bounded inference-safe correction turn for issue #43 and draft PR #47 to replace generic inferred outgoing-triple existence with deterministic authored/class-specific evidence, preserve the allowed resource-class boundary, strengthen regression coverage and update the handoff without renderer changes or merge."},
     {"at":"2026-07-23T03:34:30+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T032627+0200","reason":"Corrected draft PR #47 by replacing the inference-sensitive generic outgoing-triple check with explicit cd:authoredResource evidence, preserved the independent Concept/LearningResource/Source class boundary, added inference-only and typed-but-unmarked regressions plus a typed-and-authored control, updated the structured handoff and PR verification notes, cleared the lease and returned control for new exact-head local validation and manager review."},
-    {"at":"2026-07-23T04:26:18+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T042618+0200","reason":"Claimed the bounded manager review of corrected issue #43 and draft PR #47, subject to verification of explicit authored-resource evidence, exact-head local-validator success and the configured manager-only merge policy."}
+    {"at":"2026-07-23T04:26:18+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T042618+0200","reason":"Claimed the bounded manager review of corrected issue #43 and draft PR #47, subject to verification of explicit authored-resource evidence, exact-head local-validator success and the configured manager-only merge policy."},
+    {"at":"2026-07-23T04:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260723T042618+0200","reason":"Accepted corrected issue #43 after successful exact-head local validation and bounded review, recorded the repository-backed manager verdict, marked PR #47 ready, squash-merged it with expected-head guard as 6fbf092d005b417eb65872e939aa0a05aa3de760, confirmed issue closure, cleared the active assignment and returned control for one later bounded manager planning turn."}
   ]
 }
