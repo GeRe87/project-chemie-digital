@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 22,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 52,
   "expectedDeliverable": "Implement the comprehensive, source-backed Standardabweichung knowledge specification in canonical TriG under issue #52, including reusable concept and learning resources, named-graph scene/path specifications, SHACL and deterministic semantic tests, migration/deprecation mapping, a structured handoff, and a draft PR from agent/52-standard-deviation-knowledge-graph; do not merge.",
   "lastCompletedTurn": "manager: verified issue #52 is executable after accepted issue #51, confirmed the Semantic Web and Ontology Engineer role and bounded canonical-TriG scope, found no active assignment or blocker, and assigned exactly one next worker turn without implementing feature code",
-  "lastUpdated": "2026-07-24T00:29:30+02:00",
+  "lastUpdated": "2026-07-24T01:27:29+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-worker-20260724T012729+0200",
+    "claimedAt": "2026-07-24T01:27:29+02:00",
+    "expiresAt": "2026-07-24T03:27:29+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 214,
+  "stateRevision": 215,
   "transitionHistory": [
     {"at":"2026-07-23T18:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T182451+0200","reason":"Claimed the bounded correction turn for issue #51 and draft PR #55 to replace invalid prefixed named-graph paths with syntactically valid stable IRIs, audit all graph references and fixtures, strengthen parsing and exact-IRI regressions, update the handoff and PR verification notes, and return control without merging."},
     {"at":"2026-07-23T18:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T182451+0200","reason":"Corrected draft PR #55 by replacing the invalid graph:shapes/core prefixed name with the stable absolute SHACL graph IRI, auditing canonical graph declarations, adding independent parsing regressions for every TriG source and an exact canonical graph-IRI assertion, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
@@ -30,6 +30,7 @@
     {"at":"2026-07-23T23:24:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T232430+0200","reason":"Claimed the bounded manager review of corrected issue #51 and draft PR #55, subject to verification of default-graph-aware populated graph enumeration, exact stable canonical graph ownership, rejection of populated default and unexpected graphs, successful exact-head local-validator evidence and the configured manager-only merge policy."},
     {"at":"2026-07-23T23:32:00+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260723T232430+0200","reason":"Accepted corrected issue #51 after successful exact-head local validation and bounded review, recorded the formal manager verdict, marked PR #55 ready, squash-merged it with expected-head protection, confirmed issue closure, cleared the active assignment and returned control for one later bounded manager planning turn."},
     {"at":"2026-07-24T00:24:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T002430+0200","reason":"Claimed one bounded manager planning turn to verify issue #52 dependencies, role authority, repository planning evidence and competing work, then assign at most one executable next worker item without implementing feature code."},
-    {"at":"2026-07-24T00:29:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T002430+0200","reason":"Verified that issue #51 is completed and issue #52 is the next dependency-eligible Phase 2c item, confirmed its Semantic Web and Ontology Engineer role, comprehensive canonical-TriG scope, deterministic SHACL/test requirements and follow-up subject-matter review dependency, assigned exactly issue #52, cleared the lease and returned control for one worker turn without implementation or merge."}
+    {"at":"2026-07-24T00:29:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T002430+0200","reason":"Verified that issue #51 is completed and issue #52 is the next dependency-eligible Phase 2c item, confirmed its Semantic Web and Ontology Engineer role, comprehensive canonical-TriG scope, deterministic SHACL/test requirements and follow-up subject-matter review dependency, assigned exactly issue #52, cleared the lease and returned control for one worker turn without implementation or merge."},
+    {"at":"2026-07-24T01:27:29+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260724T012729+0200","reason":"Claimed the bounded implementation turn for issue #52 to build the comprehensive source-backed Standardabweichung knowledge specification in the accepted canonical TriG architecture, add SHACL and deterministic semantic regressions, migration mapping, a structured handoff and a draft PR, then return control without merging."}
   ]
 }
