@@ -1,23 +1,18 @@
 {
   "schemaVersion": 2,
   "cycle": 17,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 43,
-  "expectedDeliverable": "Implement the bounded graph-backed scene-definition model and complete standard-deviation definition-with-citation reference scene defined by issue #43, including SHACL, deterministic semantic tests, documentation and a structured handoff; open a draft PR and return control to the manager without renderer changes or merge.",
-  "lastCompletedTurn": "worker: corrected PR #47 with explicit authored-resource existence validation, preserved allowed semantic resource classes, added absent-versus-present selected-resource regression coverage, updated the handoff and returned control for new exact-head validation and manager review",
-  "lastUpdated": "2026-07-23T02:29:52+02:00",
-  "lease": {
-    "owner": "scheduled-manager-20260723T022952+0200",
-    "claimedAt": "2026-07-23T02:29:52+02:00",
-    "expiresAt": "2026-07-23T04:29:52+02:00"
-  },
+  "expectedDeliverable": "Correct draft PR #47 so selected-resource existence is validated deterministically against authored graph evidence rather than inference-materialized outgoing triples; preserve the allowed Concept/LearningResource/Source boundary, make the absent-resource regression fail conformantly under the authoritative validation configuration, update the handoff and return control for new exact-head validation and manager review without renderer changes or merge.",
+  "lastCompletedTurn": "manager: exact-head validation failed again for PR #47 because the new generic outgoing-triple SHACL test is satisfied by RDFS-inferred triples after authored source triples are removed; recorded changes requested and returned the bounded correction to the Semantic Web and Ontology Engineer",
+  "lastUpdated": "2026-07-23T02:33:30+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
   "blockedBy": [],
-  "stateRevision": 168,
+  "stateRevision": 169,
   "transitionHistory": [
-    {"at":"2026-07-22T15:26:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260722T152630+0200","reason":"Claimed one bounded manager planning turn to verify current issues, pull requests, accepted Phase 2 reviews, review sequencing and an authorised next specialist role before assigning at most one next increment."},
     {"at":"2026-07-22T15:33:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260722T152630+0200","reason":"Verified no pre-existing open issue or pull request, selected the next bounded Phase 2 backlog item 19 review, created issue #38 with repository-only instructional-design and pedagogical-coherence criteria, made CL-01 through CL-07 and SR-01 through SR-08 explicit governed inputs, assigned the Instructional Designer, cleared the lease and returned control for worker execution."},
     {"at":"2026-07-22T16:24:57+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260722T162457+0200","reason":"Claimed the bounded Instructional Designer assignment for issue #38 to review the accepted Phase 2 pitch for constructive alignment, cognitive load, narrative scaffolding, prerequisite signalling, optional detail paths and presentation-versus-self-study boundaries using repository evidence only."},
     {"at":"2026-07-22T16:33:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260722T162457+0200","reason":"Completed the repository-only Phase 2 instructional-design review with an accepted-with-non-blocking-findings verdict, eight severity-classified findings and explicit CL-01 through CL-07 and SR-01 through SR-08 dispositions; added the structured handoff, opened draft PR #39, cleared the lease and returned control for exact-head validation and manager review."},
@@ -41,6 +36,7 @@
     {"at":"2026-07-23T00:31:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T002649+0200","reason":"Exact-head local validation failed for draft PR #47 because the missing-selected-resource negative test conformed unexpectedly; recorded a bounded changes-requested verdict requiring explicit authored-resource existence validation, retained issue #43 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for correction."},
     {"at":"2026-07-23T01:25:15+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T012515+0200","reason":"Claimed the bounded correction turn for issue #43 and draft PR #47 to add explicit authored-resource existence validation for selected RDF resources, preserve the allowed resource-class boundary, strengthen semantic regression coverage and update the structured handoff without renderer changes or merge."},
     {"at":"2026-07-23T01:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T012515+0200","reason":"Corrected draft PR #47 by adding an explicit SHACL authored-subject existence constraint for every selected RDF resource while retaining the accepted Concept/LearningResource/Source class boundary, added absent-versus-present regression coverage, updated the structured handoff and PR verification notes, cleared the lease and returned control for new exact-head local validation and manager review."},
-    {"at":"2026-07-23T02:29:52+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T022952+0200","reason":"Claimed the bounded manager review of corrected issue #43 and draft PR #47, subject to verification of authored-resource existence validation, exact-head local-validator success and the configured manager-only merge policy."}
+    {"at":"2026-07-23T02:29:52+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260723T022952+0200","reason":"Claimed the bounded manager review of corrected issue #43 and draft PR #47, subject to verification of authored-resource existence validation, exact-head local-validator success and the configured manager-only merge policy."},
+    {"at":"2026-07-23T02:33:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260723T022952+0200","reason":"Exact-head local validation failed again for corrected PR #47 because the generic outgoing-triple existence constraint is satisfied by RDFS-inferred triples after authored source triples are removed; recorded a bounded changes-requested verdict, retained issue #43 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for an inference-safe correction."}
   ]
 }
