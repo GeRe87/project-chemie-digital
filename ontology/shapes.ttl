@@ -65,6 +65,11 @@ cd:SceneItemShape a sh:NodeShape ;
     sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] )
   ] ;
   sh:property [
+    sh:path ( cd:selectsResource cd:authoredResource ) ;
+    sh:hasValue true ;
+    sh:message "A selected resource must carry explicit authored-resource evidence."
+  ] ;
+  sh:property [
     sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ;
     sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole )
   ] ;
@@ -72,13 +77,4 @@ cd:SceneItemShape a sh:NodeShape ;
     sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:string ;
     sh:in ( "skos:prefLabel@de" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" )
-  ] ;
-  sh:sparql [
-    sh:message "A selected resource must exist as an authored subject in the assembled semantic graph." ;
-    sh:select """
-      SELECT $this WHERE {
-        $this cd:selectsResource ?resource .
-        FILTER NOT EXISTS { ?resource ?predicate ?object . }
-      }
-    """
   ] .
