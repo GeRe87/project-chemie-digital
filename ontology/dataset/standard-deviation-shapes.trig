@@ -1,0 +1,84 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  ex:StandardDeviationConceptShape a sh:NodeShape ;
+    sh:targetNode ex:standard-deviation ;
+    sh:property [ sh:path skos:prefLabel ; sh:languageIn ("de" "en") ; sh:uniqueLang true ; sh:minCount 2 ] ;
+    sh:property [ sh:path cd:hasDefinition ; sh:minCount 4 ] ;
+    sh:property [ sh:path cd:hasMathExpression ; sh:minCount 2 ] ;
+    sh:property [ sh:path cd:hasUnitRule ; sh:minCount 1 ] ;
+    sh:property [ sh:path cd:hasSource ; sh:maxCount 0 ] .
+
+  ex:DefinitionShape a sh:NodeShape ;
+    sh:targetClass cd:Definition ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:definitionScope ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("basic" "university") ] ;
+    sh:property [ sh:path cd:hasSource ; sh:minCount 1 ; sh:class cd:Source ] .
+
+  ex:FormulaShape a sh:NodeShape ;
+    sh:targetClass cd:MathExpression ;
+    sh:property [ sh:path cd:latex ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:formulaFamily ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("sample" "population") ] ;
+    sh:property [ sh:path cd:hasSymbol ; sh:minCount 4 ; sh:class cd:MathSymbol ] ;
+    sh:property [ sh:path cd:hasSource ; sh:minCount 1 ; sh:class cd:Source ] .
+
+  ex:ObservationShape a sh:NodeShape ;
+    sh:targetClass cd:Observation ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] .
+
+  ex:CalculationStepShape a sh:NodeShape ;
+    sh:targetClass cd:CalculationStep ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ] .
+
+  ex:SceneShape a sh:NodeShape ;
+    sh:targetClass cd:SceneDefinition ;
+    sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ] ;
+    sh:property [ sh:path cd:hasSceneItem ; sh:minCount 1 ; sh:class cd:SceneItem ] .
+
+  ex:SceneItemShape a sh:NodeShape ;
+    sh:targetClass cd:SceneItem ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:CommunicativeRole ] ;
+    sh:sparql [
+      sh:message "Scene-selected resources must exist and be explicitly authored." ;
+      sh:select """
+        PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+        SELECT $this WHERE {
+          $this cd:selectsResource ?resource .
+          FILTER NOT EXISTS { ?resource cd:authoredResource true }
+        }
+      """
+    ] .
+
+  ex:PrerequisiteAcyclicShape a sh:NodeShape ;
+    sh:targetClass cd:Concept ;
+    sh:sparql [
+      sh:message "Prerequisite relations must not contain a cycle." ;
+      sh:select """
+        PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+        SELECT $this WHERE { $this cd:prerequisite+ $this }
+      """
+    ] .
+
+  ex:NoForbiddenEquivalenceShape a sh:NodeShape ;
+    sh:targetNode ex:standard-deviation ;
+    sh:sparql [
+      sh:message "Standard deviation must not be declared equivalent to variance, standard error, accuracy or uncertainty." ;
+      sh:select """
+        PREFIX owl: <http://www.w3.org/2002/07/owl#>
+        PREFIX ex: <https://w3id.org/project-chemie-digital/resource/>
+        SELECT $this WHERE {
+          VALUES ?forbidden { ex:variance ex:standard-error ex:accuracy ex:measurement-uncertainty }
+          { $this owl:sameAs ?forbidden } UNION { ?forbidden owl:sameAs $this }
+        }
+      """
+    ] .
+}
