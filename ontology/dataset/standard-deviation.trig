@@ -1,74 +1,78 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
-@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Canonical scientific and learning-resource specifications.
 <https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation> {
-  ex:standard-deviation a cd:Concept ;
-    skos:prefLabel "Standardabweichung"@de, "standard deviation"@en ;
-    skos:broader ex:statistical-dispersion ;
-    skos:related ex:variance, ex:relative-standard-deviation, ex:standard-error, ex:measurement-precision, ex:measurement-uncertainty ;
+  ex:standard-deviation a cd:Concept ; skos:prefLabel "Standardabweichung"@de, "standard deviation"@en ;
+    skos:broader ex:statistical-dispersion ; skos:related ex:variance, ex:relative-standard-deviation, ex:standard-error, ex:measurement-precision, ex:measurement-uncertainty ;
     cd:hasDefinition ex:sd-definition-basic-de, ex:sd-definition-basic-en, ex:sd-definition-university-de, ex:sd-definition-university-en ;
-    cd:hasMathExpression ex:sample-sd-formula, ex:population-sd-formula ;
-    cd:hasSymbol ex:s-symbol, ex:sigma-symbol ;
-    cd:hasInterpretation ex:sd-spread-interpretation, ex:sd-context-interpretation, ex:sd-outlier-interpretation, ex:sd-zero-interpretation ;
-    cd:hasUnitRule ex:sd-unit-rule ;
+    cd:hasMathExpression ex:sample-sd-formula, ex:population-sd-formula ; cd:hasSymbol ex:s-symbol, ex:sigma-symbol ;
+    cd:hasInterpretation ex:sd-spread-interpretation, ex:sd-context-interpretation, ex:sd-outlier-interpretation, ex:sd-zero-interpretation ; cd:hasUnitRule ex:sd-unit-rule ;
     cd:hasMisconception ex:misconception-sd-uncertainty, ex:misconception-sd-accuracy, ex:misconception-sd-standard-error ;
-    cd:hasExample ex:worked-example-repeated-ph, ex:worked-example-caffeine ;
-    cd:hasExercise ex:exercise-calculate-s, ex:exercise-compare-series ;
-    cd:prerequisite ex:arithmetic-mean, ex:deviation-from-mean, ex:squared-deviation, ex:degrees-of-freedom ;
-    cd:authoredResource true .
+    cd:hasExample ex:worked-example-repeated-ph, ex:worked-example-caffeine ; cd:hasExercise ex:exercise-calculate-s, ex:exercise-compare-series ;
+    cd:prerequisite ex:arithmetic-mean, ex:deviation-from-mean, ex:squared-deviation, ex:degrees-of-freedom ; cd:authoredResource true .
 
-  ex:sample-standard-deviation a cd:Concept ;
-    skos:prefLabel "Stichprobenstandardabweichung"@de, "sample standard deviation"@en ;
-    skos:broader ex:standard-deviation ;
-    cd:hasMathExpression ex:sample-sd-formula ;
-    cd:usesDenominator ex:n-minus-one ;
-    cd:quantifiesProperty ex:statistical-dispersion ;
-    cd:authoredResource true .
-
-  ex:population-standard-deviation a cd:Concept ;
-    skos:prefLabel "Populationsstandardabweichung"@de, "population standard deviation"@en ;
-    skos:broader ex:standard-deviation ;
-    cd:hasMathExpression ex:population-sd-formula ;
-    cd:usesDenominator ex:population-size ;
-    cd:quantifiesProperty ex:statistical-dispersion ;
-    cd:authoredResource true .
-
-  ex:measurement-result a cd:Concept ; skos:prefLabel "Messwert"@de, "observed value"@en ; cd:authoredResource true .
-  ex:repeated-measurement a cd:Concept ; skos:prefLabel "Wiederholungsmessung"@de, "repeated measurement"@en ; cd:dependsOn ex:measurement-result ; cd:authoredResource true .
-  ex:measurement-series a cd:Concept ; skos:prefLabel "Messreihe"@de, "measurement series"@en ; cd:dependsOn ex:repeated-measurement ; cd:authoredResource true .
-  ex:sample a cd:Concept ; skos:prefLabel "Stichprobe"@de, "sample"@en ; skos:related ex:population ; cd:authoredResource true .
-  ex:population a cd:Concept ; skos:prefLabel "Grundgesamtheit"@de, "population"@en ; skos:related ex:sample ; cd:authoredResource true .
-  ex:sample-size a cd:Concept ; skos:prefLabel "Stichprobenumfang"@de, "sample size"@en ; cd:hasSymbol ex:n-symbol ; cd:authoredResource true .
-  ex:population-size a cd:Concept ; skos:prefLabel "Populationsumfang"@de, "population size"@en ; cd:hasSymbol ex:N-symbol ; cd:authoredResource true .
-  ex:arithmetic-mean a cd:Concept ; skos:prefLabel "arithmetisches Mittel"@de, "arithmetic mean"@en ; cd:hasSymbol ex:xbar-symbol, ex:mu-symbol ; cd:authoredResource true .
-  ex:deviation-from-mean a cd:Concept ; skos:prefLabel "Abweichung vom Mittelwert"@de, "deviation from the mean"@en ; cd:dependsOn ex:measurement-result, ex:arithmetic-mean ; cd:authoredResource true .
-  ex:squared-deviation a cd:Concept ; skos:prefLabel "quadrierte Abweichung"@de, "squared deviation"@en ; cd:derivedFrom ex:deviation-from-mean ; cd:authoredResource true .
-  ex:sum-of-squared-deviations a cd:Concept ; skos:prefLabel "Quadratsumme"@de, "sum of squared deviations"@en ; cd:dependsOn ex:squared-deviation ; cd:authoredResource true .
-  ex:degrees-of-freedom a cd:Concept ; skos:prefLabel "Freiheitsgrade"@de, "degrees of freedom"@en ; cd:hasSymbol ex:df-symbol ; cd:authoredResource true .
-  ex:n-minus-one a cd:Concept ; skos:prefLabel "Bessel-Korrektur (n − 1)"@de, "Bessel correction (n − 1)"@en ; skos:related ex:degrees-of-freedom ; cd:authoredResource true .
-  ex:statistical-dispersion a cd:Concept ; skos:prefLabel "statistische Streuung"@de, "statistical dispersion"@en ; cd:authoredResource true .
-  ex:variance a cd:Concept ; skos:prefLabel "Varianz"@de, "variance"@en ; skos:broader ex:statistical-dispersion ; cd:hasUnitRule ex:variance-unit-rule ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
-  ex:sample-variance a cd:Concept ; skos:prefLabel "Stichprobenvarianz"@de, "sample variance"@en ; skos:broader ex:variance ; cd:authoredResource true .
-  ex:population-variance a cd:Concept ; skos:prefLabel "Populationsvarianz"@de, "population variance"@en ; skos:broader ex:variance ; cd:authoredResource true .
-  ex:relative-standard-deviation a cd:Concept ; skos:prefLabel "relative Standardabweichung"@de, "relative standard deviation"@en ; skos:related ex:standard-deviation ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
-  ex:standard-error a cd:Concept ; skos:prefLabel "Standardfehler des Mittelwerts"@de, "standard error of the mean"@en ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
-  ex:measurement-precision a cd:Concept ; skos:prefLabel "Präzision"@de, "precision"@en ; skos:related ex:standard-deviation ; cd:authoredResource true .
-  ex:trueness a cd:Concept ; skos:prefLabel "Richtigkeit"@de, "trueness"@en ; cd:contrastsWith ex:measurement-precision ; cd:authoredResource true .
-  ex:accuracy a cd:Concept ; skos:prefLabel "Genauigkeit"@de, "accuracy"@en ; cd:contrastsWith ex:measurement-precision ; cd:authoredResource true .
-  ex:systematic-error a cd:Concept ; skos:prefLabel "systematische Abweichung"@de, "systematic error"@en ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
-  ex:measurement-uncertainty a cd:Concept ; skos:prefLabel "Messunsicherheit"@de, "measurement uncertainty"@en ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
+  ex:sample-standard-deviation a cd:Concept ; skos:prefLabel "Stichprobenstandardabweichung"@de, "sample standard deviation"@en ; cd:hasDefinition ex:def-sample-standard-deviation ; cd:hasMathExpression ex:sample-sd-formula ; cd:usesDenominator ex:n-minus-one ; cd:authoredResource true .
+  ex:population-standard-deviation a cd:Concept ; skos:prefLabel "Populationsstandardabweichung"@de, "population standard deviation"@en ; cd:hasDefinition ex:def-population-standard-deviation ; cd:hasMathExpression ex:population-sd-formula ; cd:usesDenominator ex:population-size ; cd:authoredResource true .
+  ex:measurement-result a cd:Concept ; skos:prefLabel "Messwert"@de, "observed value"@en ; cd:hasDefinition ex:def-measurement-result ; cd:authoredResource true .
+  ex:repeated-measurement a cd:Concept ; skos:prefLabel "Wiederholungsmessung"@de, "repeated measurement"@en ; cd:hasDefinition ex:def-repeated-measurement ; cd:dependsOn ex:measurement-result ; cd:authoredResource true .
+  ex:measurement-series a cd:Concept ; skos:prefLabel "Messreihe"@de, "measurement series"@en ; cd:hasDefinition ex:def-measurement-series ; cd:dependsOn ex:repeated-measurement ; cd:authoredResource true .
+  ex:sample a cd:Concept ; skos:prefLabel "Stichprobe"@de, "sample"@en ; cd:hasDefinition ex:def-sample ; skos:related ex:population ; cd:authoredResource true .
+  ex:population a cd:Concept ; skos:prefLabel "Grundgesamtheit"@de, "population"@en ; cd:hasDefinition ex:def-population ; skos:related ex:sample ; cd:authoredResource true .
+  ex:sample-size a cd:Concept ; skos:prefLabel "Stichprobenumfang"@de, "sample size"@en ; cd:hasDefinition ex:def-sample-size ; cd:hasSymbol ex:n-symbol ; cd:authoredResource true .
+  ex:population-size a cd:Concept ; skos:prefLabel "Populationsumfang"@de, "population size"@en ; cd:hasDefinition ex:def-population-size ; cd:hasSymbol ex:N-symbol ; cd:authoredResource true .
+  ex:arithmetic-mean a cd:Concept ; skos:prefLabel "arithmetisches Mittel"@de, "arithmetic mean"@en ; cd:hasDefinition ex:def-arithmetic-mean ; cd:hasSymbol ex:xbar-symbol, ex:mu-symbol ; cd:authoredResource true .
+  ex:deviation-from-mean a cd:Concept ; skos:prefLabel "Abweichung vom Mittelwert"@de, "deviation from the mean"@en ; cd:hasDefinition ex:def-deviation ; cd:dependsOn ex:measurement-result, ex:arithmetic-mean ; cd:authoredResource true .
+  ex:squared-deviation a cd:Concept ; skos:prefLabel "quadrierte Abweichung"@de, "squared deviation"@en ; cd:hasDefinition ex:def-squared-deviation ; cd:derivedFrom ex:deviation-from-mean ; cd:authoredResource true .
+  ex:sum-of-squared-deviations a cd:Concept ; skos:prefLabel "Quadratsumme"@de, "sum of squared deviations"@en ; cd:hasDefinition ex:def-sum-squared ; cd:dependsOn ex:squared-deviation ; cd:authoredResource true .
+  ex:degrees-of-freedom a cd:Concept ; skos:prefLabel "Freiheitsgrade"@de, "degrees of freedom"@en ; cd:hasDefinition ex:def-degrees-freedom ; cd:hasSymbol ex:df-symbol ; cd:authoredResource true .
+  ex:n-minus-one a cd:Concept ; skos:prefLabel "Bessel-Korrektur (n − 1)"@de, "Bessel correction (n − 1)"@en ; cd:hasDefinition ex:def-bessel ; cd:authoredResource true .
+  ex:statistical-dispersion a cd:Concept ; skos:prefLabel "statistische Streuung"@de, "statistical dispersion"@en ; cd:hasDefinition ex:def-dispersion ; cd:authoredResource true .
+  ex:variance a cd:Concept ; skos:prefLabel "Varianz"@de, "variance"@en ; cd:hasDefinition ex:def-variance ; cd:hasUnitRule ex:variance-unit-rule ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
+  ex:sample-variance a cd:Concept ; skos:prefLabel "Stichprobenvarianz"@de, "sample variance"@en ; cd:hasDefinition ex:def-sample-variance ; cd:authoredResource true .
+  ex:population-variance a cd:Concept ; skos:prefLabel "Populationsvarianz"@de, "population variance"@en ; cd:hasDefinition ex:def-population-variance ; cd:authoredResource true .
+  ex:relative-standard-deviation a cd:Concept ; skos:prefLabel "relative Standardabweichung"@de, "relative standard deviation"@en ; cd:hasDefinition ex:def-rsd ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
+  ex:standard-error a cd:Concept ; skos:prefLabel "Standardfehler des Mittelwerts"@de, "standard error of the mean"@en ; cd:hasDefinition ex:def-standard-error ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
+  ex:measurement-precision a cd:Concept ; skos:prefLabel "Präzision"@de, "precision"@en ; cd:hasDefinition ex:def-precision ; cd:authoredResource true .
+  ex:trueness a cd:Concept ; skos:prefLabel "Richtigkeit"@de, "trueness"@en ; cd:hasDefinition ex:def-trueness ; cd:contrastsWith ex:measurement-precision ; cd:authoredResource true .
+  ex:accuracy a cd:Concept ; skos:prefLabel "Genauigkeit"@de, "accuracy"@en ; cd:hasDefinition ex:def-accuracy ; cd:authoredResource true .
+  ex:systematic-error a cd:Concept ; skos:prefLabel "systematische Abweichung"@de, "systematic error"@en ; cd:hasDefinition ex:def-systematic-error ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
+  ex:measurement-uncertainty a cd:Concept ; skos:prefLabel "Messunsicherheit"@de, "measurement uncertainty"@en ; cd:hasDefinition ex:def-measurement-uncertainty ; cd:contrastsWith ex:standard-deviation ; cd:authoredResource true .
 
   ex:sd-definition-basic-de a cd:Definition ; cd:definitionScope "basic" ; cd:body "Die Standardabweichung beschreibt, wie stark Werte einer Messreihe typischerweise um ihren Mittelwert streuen."@de ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
   ex:sd-definition-basic-en a cd:Definition ; cd:definitionScope "basic" ; cd:body "Standard deviation describes how strongly values in a data series typically spread around their mean."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
-  ex:sd-definition-university-de a cd:Definition ; cd:definitionScope "university" ; cd:body "Die Standardabweichung ist die nichtnegative Quadratwurzel der Varianz. Für eine Stichprobe wird die Summe der quadrierten Abweichungen vom Stichprobenmittel durch n − 1 geteilt; für eine vollständig betrachtete Population durch N."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
-  ex:sd-definition-university-en a cd:Definition ; cd:definitionScope "university" ; cd:body "Standard deviation is the non-negative square root of variance. For a sample, the sum of squared deviations from the sample mean is divided by n − 1; for a fully observed population it is divided by N."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:sd-definition-university-de a cd:Definition ; cd:definitionScope "university" ; cd:body "Die Standardabweichung ist die nichtnegative Quadratwurzel der Varianz. Eine Stichprobe verwendet n − 1, eine vollständig betrachtete Population N."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:sd-definition-university-en a cd:Definition ; cd:definitionScope "university" ; cd:body "Standard deviation is the non-negative square root of variance. A sample uses n − 1, while a fully observed population uses N."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+
+  ex:def-sample-standard-deviation a cd:Definition ; cd:body "Streuungsmaß einer Stichprobe mit dem Nenner n − 1."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-population-standard-deviation a cd:Definition ; cd:body "Streuungsmaß einer vollständig betrachteten Population mit dem Nenner N."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-measurement-result a cd:Definition ; cd:body "Ein einzelner beobachteter Zahlenwert einer Messung."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-repeated-measurement a cd:Definition ; cd:body "Wiederholte Bestimmung derselben Messgröße unter festgelegten Bedingungen."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-measurement-series a cd:Definition ; cd:body "Geordnete Menge zusammengehöriger Messwerte."@de ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
+  ex:def-sample a cd:Definition ; cd:body "Teilmenge von Beobachtungen, aus der auf eine Population geschlossen wird."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-population a cd:Definition ; cd:body "Gesamtheit der für eine Fragestellung relevanten Einheiten oder Werte."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-sample-size a cd:Definition ; cd:body "Anzahl n der Beobachtungen in einer Stichprobe."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-population-size a cd:Definition ; cd:body "Anzahl N der Elemente einer Population."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-arithmetic-mean a cd:Definition ; cd:body "Summe der Werte geteilt durch ihre Anzahl."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-deviation a cd:Definition ; cd:body "Differenz eines Werts zum zugehörigen Mittelwert."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-squared-deviation a cd:Definition ; cd:body "Quadrat der Abweichung eines Werts vom Mittelwert."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-sum-squared a cd:Definition ; cd:body "Summe aller quadrierten Abweichungen."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-degrees-freedom a cd:Definition ; cd:body "Anzahl unabhängig variierbarer Informationen; bei der Stichprobenvarianz n − 1."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-bessel a cd:Definition ; cd:body "Korrektur des Varianzschätzers durch Division durch n − 1."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-dispersion a cd:Definition ; cd:body "Ausmaß, in dem Werte einer Verteilung auseinanderliegen."@de ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
+  ex:def-variance a cd:Definition ; cd:body "Mittlere beziehungsweise geschätzte quadrierte Abweichung vom Mittelwert."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-sample-variance a cd:Definition ; cd:body "Varianz einer Stichprobe mit dem Nenner n − 1."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-population-variance a cd:Definition ; cd:body "Varianz einer Population mit dem Nenner N."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-rsd a cd:Definition ; cd:body "Standardabweichung relativ zum Mittelwert, häufig in Prozent angegeben."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-standard-error a cd:Definition ; cd:body "Standardabweichung der Stichprobenverteilung eines Schätzers, etwa des Mittelwerts."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:def-precision a cd:Definition ; cd:body "Übereinstimmung wiederholter Messwerte unter festgelegten Bedingungen."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-trueness a cd:Definition ; cd:body "Nähe des Mittelwerts vieler Wiederholungsmessungen zu einem Referenzwert."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-accuracy a cd:Definition ; cd:body "Nähe eines Messwerts zum Referenzwert; nicht durch Streuung allein bestimmt."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-systematic-error a cd:Definition ; cd:body "Fehlerkomponente, die bei Wiederholung konstant bleibt oder vorhersagbar variiert."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:def-measurement-uncertainty a cd:Definition ; cd:body "Parameter, der die Streuung der einer Messgröße zugeordneten Werte kennzeichnet."@de ; cd:hasSource ex:source-gum ; cd:authoredResource true .
 
   ex:sample-sd-formula a cd:MathExpression ; cd:latex "s = \\sqrt{\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^2}{n-1}}" ; cd:formulaFamily "sample" ; cd:hasSymbol ex:s-symbol, ex:n-symbol, ex:xi-symbol, ex:xbar-symbol ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
   ex:population-sd-formula a cd:MathExpression ; cd:latex "\\sigma = \\sqrt{\\frac{\\sum_{i=1}^{N}(x_i-\\mu)^2}{N}}" ; cd:formulaFamily "population" ; cd:hasSymbol ex:sigma-symbol, ex:N-symbol, ex:xi-symbol, ex:mu-symbol ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
@@ -84,113 +88,99 @@
   ex:sd-unit-rule a cd:UnitRule ; cd:body "Die Standardabweichung besitzt dieselbe Einheit wie die Messwerte."@de, "Standard deviation has the same unit as the measured values."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
   ex:variance-unit-rule a cd:UnitRule ; cd:body "Die Varianz besitzt die quadrierte Einheit der Messwerte."@de, "Variance has the squared unit of the measured values."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
   ex:sd-spread-interpretation a cd:Interpretation ; cd:body "Die Standardabweichung ist ein Streuungsmaß und kein Maß der zentralen Lage."@de, "Standard deviation measures spread, not central tendency."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
-  ex:sd-context-interpretation a cd:Interpretation ; cd:body "Ihre fachliche Bedeutung hängt von Skala, Einheit, Verteilung und Anwendungskontext ab."@de, "Its practical meaning depends on scale, unit, distribution and application context."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
-  ex:sd-outlier-interpretation a cd:Interpretation ; cd:body "Durch die Quadrierung der Abweichungen reagiert die Standardabweichung empfindlich auf Ausreißer."@de, "Because deviations are squared, standard deviation is sensitive to outliers."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
-  ex:sd-zero-interpretation a cd:Interpretation ; cd:body "Die Standardabweichung ist nie negativ und ist genau dann null, wenn alle betrachteten Werte gleich sind."@de, "Standard deviation is never negative and equals zero exactly when all considered values are identical."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
-
+  ex:sd-context-interpretation a cd:Interpretation ; cd:body "Ihre Bedeutung hängt von Skala, Einheit, Verteilung und Anwendungskontext ab."@de, "Its meaning depends on scale, unit, distribution and context."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:sd-outlier-interpretation a cd:Interpretation ; cd:body "Durch die Quadrierung reagiert die Standardabweichung empfindlich auf Ausreißer."@de, "Because deviations are squared, standard deviation is sensitive to outliers."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
+  ex:sd-zero-interpretation a cd:Interpretation ; cd:body "Sie ist nichtnegativ und genau dann null, wenn alle Werte gleich sind."@de, "It is non-negative and zero exactly when all values are identical."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
   ex:misconception-sd-uncertainty a cd:Misconception ; cd:body "Standardabweichung und Messunsicherheit sind dasselbe."@de ; cd:hasCorrection ex:correction-sd-uncertainty ; cd:authoredResource true .
-  ex:correction-sd-uncertainty a cd:Correction ; cd:body "Die Standardabweichung kann eine Komponente einer Unsicherheitsbewertung sein, ist aber nicht mit Messunsicherheit gleichzusetzen."@de ; cd:hasSource ex:source-gum ; cd:authoredResource true .
-  ex:misconception-sd-accuracy a cd:Misconception ; cd:body "Eine kleine Standardabweichung beweist hohe Richtigkeit oder Genauigkeit."@de ; cd:hasCorrection ex:correction-sd-accuracy ; cd:authoredResource true .
-  ex:correction-sd-accuracy a cd:Correction ; cd:body "Eine kleine Streuung zeigt hohe Präzision; systematische Abweichungen zur Referenz können trotzdem bestehen."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:correction-sd-uncertainty a cd:Correction ; cd:body "Standardabweichung kann eine Unsicherheitskomponente sein, ist aber nicht mit Messunsicherheit gleichzusetzen."@de ; cd:hasSource ex:source-gum ; cd:authoredResource true .
+  ex:misconception-sd-accuracy a cd:Misconception ; cd:body "Eine kleine Standardabweichung beweist hohe Richtigkeit."@de ; cd:hasCorrection ex:correction-sd-accuracy ; cd:authoredResource true .
+  ex:correction-sd-accuracy a cd:Correction ; cd:body "Eine kleine Streuung zeigt Präzision; systematische Abweichungen können trotzdem bestehen."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
   ex:misconception-sd-standard-error a cd:Misconception ; cd:body "Stichprobenstandardabweichung und Standardfehler sind identisch."@de ; cd:hasCorrection ex:correction-sd-standard-error ; cd:authoredResource true .
-  ex:correction-sd-standard-error a cd:Correction ; cd:body "Die Stichprobenstandardabweichung beschreibt die Streuung einzelner Beobachtungen; der Standardfehler beschreibt die Streuung eines Schätzers, beispielsweise des Mittelwerts."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
-
-  ex:comparison-dispersion-measures a cd:Comparison ;
-    cd:body "Varianz: quadrierte Einheit; Standardabweichung: Originaleinheit; Standardfehler: Unsicherheit eines Schätzers; relative Standardabweichung: auf den Mittelwert normierte Streuung."@de ;
-    cd:compares ex:variance, ex:standard-deviation, ex:standard-error, ex:relative-standard-deviation ;
-    cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
-
-  ex:exercise-calculate-s a cd:Exercise ; cd:body "Berechnen Sie für die Messwerte 6, 8, 10 die Stichprobenstandardabweichung und dokumentieren Sie Mittelwert, Abweichungen und Quadratsumme."@de ; cd:hasExpectedResult ex:expected-calculate-s ; cd:authoredResource true .
+  ex:correction-sd-standard-error a cd:Correction ; cd:body "Die Standardabweichung beschreibt Einzelwerte, der Standardfehler die Streuung eines Schätzers."@de ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:comparison-dispersion-measures a cd:Comparison ; cd:body "Varianz: quadrierte Einheit; Standardabweichung: Originaleinheit; Standardfehler: Streuung eines Schätzers; relative Standardabweichung: normierte Streuung."@de ; cd:compares ex:variance, ex:standard-deviation, ex:standard-error, ex:relative-standard-deviation ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:exercise-calculate-s a cd:Exercise ; cd:body "Berechnen Sie für 6, 8, 10 die Stichprobenstandardabweichung und dokumentieren Sie die Zwischenschritte."@de ; cd:hasExpectedResult ex:expected-calculate-s ; cd:authoredResource true .
   ex:expected-calculate-s a cd:ExpectedResult ; cd:body "Mittelwert 8; Quadratsumme 8; Stichprobenvarianz 4; Stichprobenstandardabweichung 2."@de ; cd:authoredResource true .
-  ex:exercise-compare-series a cd:Exercise ; cd:body "Vergleichen Sie zwei Messreihen mit gleichem Mittelwert, aber unterschiedlicher Streuung, und begründen Sie, welche präziser ist."@de ; cd:hasAssessmentCriterion ex:criterion-compare-series ; cd:authoredResource true .
-  ex:criterion-compare-series a cd:AssessmentCriterion ; cd:body "Die Begründung trennt Mittelwert und Streuung, nennt die kleinere Standardabweichung als Hinweis auf höhere Präzision und macht keine Aussage zur Richtigkeit ohne Referenzwert."@de ; cd:authoredResource true .
+  ex:exercise-compare-series a cd:Exercise ; cd:body "Vergleichen Sie zwei Messreihen mit gleichem Mittelwert, aber unterschiedlicher Streuung."@de ; cd:hasAssessmentCriterion ex:criterion-compare-series ; cd:authoredResource true .
+  ex:criterion-compare-series a cd:AssessmentCriterion ; cd:body "Die kleinere Standardabweichung weist auf höhere Präzision hin; ohne Referenzwert folgt keine Aussage zur Richtigkeit."@de ; cd:authoredResource true .
 }
 
-# Concrete datasets and ordered calculation steps.
 <https://w3id.org/project-chemie-digital/graph/examples/standard-deviation> {
-  ex:worked-example-repeated-ph a cd:WorkedExample ; skos:prefLabel "Wiederholte pH-Messung"@de, "repeated pH measurement"@en ; cd:usesDataset ex:dataset-ph ; cd:hasCalculationStep ex:ph-step-1, ex:ph-step-2, ex:ph-step-3, ex:ph-step-4 ; cd:authoredResource true .
+  ex:worked-example-repeated-ph a cd:WorkedExample ; skos:prefLabel "Wiederholte pH-Messung"@de, "repeated pH measurement"@en ; cd:body "Fünf pH-Werte werden über Mittelwert, Abweichungen, Quadratsumme und Stichprobenstandardabweichung ausgewertet."@de ; cd:usesDataset ex:dataset-ph ; cd:hasCalculationStep ex:ph-step-1, ex:ph-step-2, ex:ph-step-3, ex:ph-step-4 ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
   ex:dataset-ph a cd:Dataset ; dct:description "Fünf wiederholte pH-Messungen einer Kontrolllösung."@de ; cd:unit "pH" ; cd:hasObservation ex:ph-v1, ex:ph-v2, ex:ph-v3, ex:ph-v4, ex:ph-v5 ; cd:authoredResource true .
   ex:ph-v1 a cd:Observation ; cd:position 1 ; cd:numericValue "6.98"^^xsd:decimal ; cd:authoredResource true .
   ex:ph-v2 a cd:Observation ; cd:position 2 ; cd:numericValue "7.01"^^xsd:decimal ; cd:authoredResource true .
   ex:ph-v3 a cd:Observation ; cd:position 3 ; cd:numericValue "7.00"^^xsd:decimal ; cd:authoredResource true .
   ex:ph-v4 a cd:Observation ; cd:position 4 ; cd:numericValue "7.02"^^xsd:decimal ; cd:authoredResource true .
   ex:ph-v5 a cd:Observation ; cd:position 5 ; cd:numericValue "6.99"^^xsd:decimal ; cd:authoredResource true .
-  ex:ph-step-1 a cd:CalculationStep ; cd:position 1 ; cd:body "Mittelwert berechnen: x̄ = 7,00."@de ; cd:authoredResource true .
-  ex:ph-step-2 a cd:CalculationStep ; cd:position 2 ; cd:body "Abweichungen bilden: −0,02; 0,01; 0,00; 0,02; −0,01."@de ; cd:authoredResource true .
-  ex:ph-step-3 a cd:CalculationStep ; cd:position 3 ; cd:body "Quadrierte Abweichungen summieren: 0,0010."@de ; cd:authoredResource true .
-  ex:ph-step-4 a cd:CalculationStep ; cd:position 4 ; cd:body "Durch n − 1 = 4 teilen und die Wurzel ziehen: s ≈ 0,0158 pH."@de ; cd:authoredResource true .
-  ex:worked-example-caffeine a cd:WorkedExample ; skos:prefLabel "Koffeinbestimmung in einer Qualitätskontrolle"@de, "caffeine determination in quality control"@en ; cd:body "Mehrfachbestimmungen einer Koffeinprobe werden mit Mittelwert und Stichprobenstandardabweichung berichtet; eine kleine Streuung beschreibt Präzision, nicht automatisch Richtigkeit."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:ph-step-1 a cd:CalculationStep ; cd:position 1 ; cd:body "Mittelwert: x̄ = 7,00."@de ; cd:authoredResource true .
+  ex:ph-step-2 a cd:CalculationStep ; cd:position 2 ; cd:body "Abweichungen: −0,02; 0,01; 0,00; 0,02; −0,01."@de ; cd:authoredResource true .
+  ex:ph-step-3 a cd:CalculationStep ; cd:position 3 ; cd:body "Quadratsumme: 0,0010."@de ; cd:authoredResource true .
+  ex:ph-step-4 a cd:CalculationStep ; cd:position 4 ; cd:body "Durch n − 1 = 4 teilen und Wurzel ziehen: s ≈ 0,0158 pH."@de ; cd:authoredResource true .
+  ex:worked-example-caffeine a cd:WorkedExample ; skos:prefLabel "Koffeinbestimmung"@de, "caffeine determination"@en ; cd:body "Mehrfachbestimmungen werden mit Mittelwert und Stichprobenstandardabweichung berichtet; geringe Streuung beschreibt Präzision, nicht automatisch Richtigkeit."@de ; cd:hasSource ex:source-vim ; cd:authoredResource true .
 }
 
-# Bibliographic provenance, authored independently from the supported claims.
 <https://w3id.org/project-chemie-digital/graph/sources/standard-deviation> {
   ex:source-nist-dispersion a cd:Source ; dct:title "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of Scale" ; dct:creator "National Institute of Standards and Technology" ; dct:identifier "NIST-SEMATECH-EDA-scale" ; dct:source <https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm> ; cd:supportsResource ex:sd-definition-basic-de, ex:sd-definition-basic-en, ex:sd-unit-rule, ex:variance-unit-rule, ex:sd-spread-interpretation, ex:sd-outlier-interpretation ; cd:authoredResource true .
-  ex:source-openstax-statistics a cd:Source ; dct:title "Introductory Statistics" ; dct:creator "OpenStax" ; dct:identifier "OpenStax-Introductory-Statistics" ; dct:source <https://openstax.org/details/books/introductory-statistics> ; cd:supportsResource ex:sd-definition-university-de, ex:sd-definition-university-en, ex:sample-sd-formula, ex:population-sd-formula, ex:sd-context-interpretation, ex:sd-zero-interpretation, ex:correction-sd-standard-error, ex:comparison-dispersion-measures ; cd:authoredResource true .
-  ex:source-gum a cd:Source ; dct:title "Evaluation of measurement data — Guide to the expression of uncertainty in measurement" ; dct:creator "Joint Committee for Guides in Metrology" ; dct:issued "2008" ; dct:identifier "JCGM 100:2008" ; dct:source <https://www.bipm.org/en/committees/jc/jcgm/publications> ; cd:supportsResource ex:correction-sd-uncertainty ; cd:authoredResource true .
-  ex:source-vim a cd:Source ; dct:title "International vocabulary of metrology — Basic and general concepts and associated terms" ; dct:creator "Joint Committee for Guides in Metrology" ; dct:issued "2012" ; dct:identifier "JCGM 200:2012" ; dct:source <https://www.bipm.org/en/committees/jc/jcgm/publications> ; cd:supportsResource ex:correction-sd-accuracy, ex:worked-example-caffeine ; cd:authoredResource true .
+  ex:source-openstax-statistics a cd:Source ; dct:title "Introductory Statistics" ; dct:creator "OpenStax" ; dct:identifier "OpenStax-Introductory-Statistics" ; dct:source <https://openstax.org/details/books/introductory-statistics> ; cd:supportsResource ex:sd-definition-university-de, ex:sd-definition-university-en, ex:sample-sd-formula, ex:population-sd-formula, ex:sd-context-interpretation, ex:sd-zero-interpretation, ex:correction-sd-standard-error, ex:comparison-dispersion-measures, ex:worked-example-repeated-ph ; cd:authoredResource true .
+  ex:source-gum a cd:Source ; dct:title "Evaluation of measurement data — Guide to the expression of uncertainty in measurement" ; dct:creator "Joint Committee for Guides in Metrology" ; dct:issued "2008" ; dct:identifier "JCGM 100:2008" ; dct:source <https://www.bipm.org/en/committees/jc/jcgm/publications> ; cd:supportsResource ex:def-measurement-uncertainty, ex:correction-sd-uncertainty ; cd:authoredResource true .
+  ex:source-vim a cd:Source ; dct:title "International vocabulary of metrology — Basic and general concepts and associated terms" ; dct:creator "Joint Committee for Guides in Metrology" ; dct:issued "2012" ; dct:identifier "JCGM 200:2012" ; dct:source <https://www.bipm.org/en/committees/jc/jcgm/publications> ; cd:supportsResource ex:def-measurement-result, ex:def-repeated-measurement, ex:def-precision, ex:def-trueness, ex:def-accuracy, ex:def-systematic-error, ex:correction-sd-accuracy, ex:worked-example-caffeine ; cd:authoredResource true .
 }
 
-# Reusable scenes select resources; audience-visible bodies remain in resources above.
+# All nine scenes use the accepted canonical SceneItem roles and selection paths.
 <https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation> {
-  ex:scene-sd-definition a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene1-i1, ex:scene1-i2, ex:scene1-i3 ; cd:authoredResource true .
-  ex:scene1-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:authoredResource true .
-  ex:scene1-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sd-definition-basic-de ; cd:communicativeRole cd:QuotationRole ; cd:authoredResource true .
-  ex:scene1-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-nist-dispersion ; cd:communicativeRole cd:CitationRole ; cd:authoredResource true .
+  ex:scene-sd-definition a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene1-i1, ex:scene1-i2, ex:scene1-i3 ; cd:authoredResource true .
+  ex:scene-sd-process a cd:SceneDefinition ; cd:focusConcept ex:repeated-measurement ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene2-i1, ex:scene2-i2, ex:scene2-i3 ; cd:authoredResource true .
+  ex:scene-sample-population a cd:SceneDefinition ; cd:focusConcept ex:sample-standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene3-i1, ex:scene3-i2, ex:scene3-i3 ; cd:authoredResource true .
+  ex:scene-formula-symbols a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene4-i1, ex:scene4-i2, ex:scene4-i3 ; cd:authoredResource true .
+  ex:scene-unit-interpretation a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene5-i1, ex:scene5-i2, ex:scene5-i3 ; cd:authoredResource true .
+  ex:scene-precision-trueness a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene6-i1, ex:scene6-i2, ex:scene6-i3 ; cd:authoredResource true .
+  ex:scene-dispersion-comparison a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene7-i1, ex:scene7-i2, ex:scene7-i3 ; cd:authoredResource true .
+  ex:scene-chemistry-example a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene8-i1, ex:scene8-i2, ex:scene8-i3 ; cd:authoredResource true .
+  ex:scene-exercise-recap a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:presentationPattern cd:DefinitionWithCitation ; cd:hasSceneItem ex:scene9-i1, ex:scene9-i2, ex:scene9-i3 ; cd:authoredResource true .
 
-  ex:scene-sd-process a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene2-i1, ex:scene2-i2, ex:scene2-i3, ex:scene2-i4, ex:scene2-i5 ; cd:authoredResource true .
-  ex:scene2-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:repeated-measurement ; cd:communicativeRole cd:HeadingRole ; cd:authoredResource true .
-  ex:scene2-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:arithmetic-mean ; cd:communicativeRole cd:ConceptRole ; cd:authoredResource true .
-  ex:scene2-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:deviation-from-mean ; cd:communicativeRole cd:ConceptRole ; cd:authoredResource true .
-  ex:scene2-i4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:variance ; cd:communicativeRole cd:ConceptRole ; cd:authoredResource true .
-  ex:scene2-i5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:ConceptRole ; cd:authoredResource true .
-
-  ex:scene-sample-population a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene3-i1, ex:scene3-i2 ; cd:authoredResource true .
-  ex:scene3-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:sample-standard-deviation ; cd:communicativeRole cd:ComparisonRole ; cd:authoredResource true .
-  ex:scene3-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:population-standard-deviation ; cd:communicativeRole cd:ComparisonRole ; cd:authoredResource true .
-
-  ex:scene-formula-symbols a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene4-i1, ex:scene4-i2, ex:scene4-i3 ; cd:authoredResource true .
-  ex:scene4-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:sample-sd-formula ; cd:communicativeRole cd:FormulaRole ; cd:authoredResource true .
-  ex:scene4-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:n-symbol ; cd:communicativeRole cd:SymbolRole ; cd:authoredResource true .
-  ex:scene4-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:xbar-symbol ; cd:communicativeRole cd:SymbolRole ; cd:authoredResource true .
-
-  ex:scene-unit-interpretation a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene5-i1, ex:scene5-i2 ; cd:authoredResource true .
-  ex:scene5-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:sd-unit-rule ; cd:communicativeRole cd:StatementRole ; cd:authoredResource true .
-  ex:scene5-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sd-context-interpretation ; cd:communicativeRole cd:StatementRole ; cd:authoredResource true .
-
-  ex:scene-precision-trueness a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:scene6-i1, ex:scene6-i2, ex:scene6-i3 ; cd:authoredResource true .
-  ex:scene6-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:measurement-precision ; cd:communicativeRole cd:ComparisonRole ; cd:authoredResource true .
-  ex:scene6-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:trueness ; cd:communicativeRole cd:ComparisonRole ; cd:authoredResource true .
-  ex:scene6-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:correction-sd-accuracy ; cd:communicativeRole cd:StatementRole ; cd:authoredResource true .
-
-  ex:scene-dispersion-comparison a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene7-i1 ; cd:authoredResource true .
-  ex:scene7-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:comparison-dispersion-measures ; cd:communicativeRole cd:ComparisonRole ; cd:authoredResource true .
-
-  ex:scene-chemistry-example a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene8-i1, ex:scene8-i2 ; cd:authoredResource true .
-  ex:scene8-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:worked-example-repeated-ph ; cd:communicativeRole cd:ExampleRole ; cd:authoredResource true .
-  ex:scene8-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:worked-example-caffeine ; cd:communicativeRole cd:ExampleRole ; cd:authoredResource true .
-
-  ex:scene-exercise-recap a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:scene9-i1, ex:scene9-i2 ; cd:authoredResource true .
-  ex:scene9-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:exercise-calculate-s ; cd:communicativeRole cd:ExerciseRole ; cd:authoredResource true .
-  ex:scene9-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:exercise-compare-series ; cd:communicativeRole cd:ExerciseRole ; cd:authoredResource true .
+  ex:scene1-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene1-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sd-definition-basic-de ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene1-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-nist-dispersion ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene2-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:repeated-measurement ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene2-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:worked-example-repeated-ph ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene2-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene3-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:sample-standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene3-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:def-population-standard-deviation ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene3-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene4-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene4-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sample-sd-formula ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene4-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene5-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene5-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sd-unit-rule ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene5-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-nist-dispersion ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene6-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:measurement-precision ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene6-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:correction-sd-accuracy ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene6-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-vim ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene7-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene7-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:comparison-dispersion-measures ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene7-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene8-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene8-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:worked-example-repeated-ph ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene8-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
+  ex:scene9-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene9-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:exercise-calculate-s ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene9-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
 }
 
-# Ordered path reuses the same scene and knowledge identities.
 <https://w3id.org/project-chemie-digital/graph/paths/standard-deviation> {
   ex:path-standard-deviation a cd:LearningPath ; cd:forTopic ex:standard-deviation ; cd:hasStep ex:path-step-1, ex:path-step-2, ex:path-step-3, ex:path-step-4, ex:path-step-5, ex:path-step-6, ex:path-step-7, ex:path-step-8, ex:path-step-9 ; cd:authoredResource true .
-  ex:path-step-1 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:scene-sd-definition ; cd:authoredResource true .
-  ex:path-step-2 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:scene-sd-process ; cd:authoredResource true .
-  ex:path-step-3 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:scene-sample-population ; cd:authoredResource true .
-  ex:path-step-4 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:scene-formula-symbols ; cd:authoredResource true .
-  ex:path-step-5 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:scene-unit-interpretation ; cd:authoredResource true .
-  ex:path-step-6 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:scene-precision-trueness ; cd:authoredResource true .
-  ex:path-step-7 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:scene-dispersion-comparison ; cd:authoredResource true .
-  ex:path-step-8 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:scene-chemistry-example ; cd:authoredResource true .
-  ex:path-step-9 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:scene-exercise-recap ; cd:authoredResource true .
+  ex:path-step-1 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:scene-sd-definition ; cd:usesResource ex:sd-definition-basic-de ; cd:authoredResource true .
+  ex:path-step-2 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:scene-sd-process ; cd:usesResource ex:worked-example-repeated-ph ; cd:authoredResource true .
+  ex:path-step-3 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:scene-sample-population ; cd:usesResource ex:def-population-standard-deviation ; cd:authoredResource true .
+  ex:path-step-4 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:scene-formula-symbols ; cd:usesResource ex:sample-sd-formula ; cd:authoredResource true .
+  ex:path-step-5 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:scene-unit-interpretation ; cd:usesResource ex:sd-unit-rule ; cd:authoredResource true .
+  ex:path-step-6 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:scene-precision-trueness ; cd:usesResource ex:correction-sd-accuracy ; cd:authoredResource true .
+  ex:path-step-7 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:scene-dispersion-comparison ; cd:usesResource ex:comparison-dispersion-measures ; cd:authoredResource true .
+  ex:path-step-8 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:scene-chemistry-example ; cd:usesResource ex:worked-example-repeated-ph ; cd:authoredResource true .
+  ex:path-step-9 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:scene-exercise-recap ; cd:usesResource ex:exercise-calculate-s ; cd:authoredResource true .
 }
 
-# Compatibility and deprecation mapping from earlier example resources.
 <https://w3id.org/project-chemie-digital/graph/migration/standard-deviation> {
-  ex:standard-deviation owl:sameAs ex:standard-deviation .
   ex:standard-deviation-definition owl:deprecated true ; dct:isReplacedBy ex:sd-definition-basic-de .
   ex:standard-deviation-expression owl:deprecated true ; dct:isReplacedBy ex:sample-sd-formula .
   ex:standard-deviation-source owl:deprecated true ; dct:isReplacedBy ex:source-nist-dispersion .
