@@ -19,9 +19,10 @@
 - Kept source provenance on definitions, formulas, interpretations and examples rather than directly on `ex:standard-deviation`.
 - Corrected canonical-plus-legacy assembly by suppressing subject-owned assertions for the promoted stable `ex:standard-deviation` resource in compatibility graphs while preserving references to that IRI as objects.
 - Added regressions proving that the complete assembled dataset contains exactly one German and one English preferred label for `ex:standard-deviation`, no direct concept `cd:hasSource`, and no superseded subject assertions in legacy graphs.
-- Retained SHACL meta-validation, prohibited-clause audit, forbidden-equivalence mutation coverage, scientific invariants, scene-contract checks and deterministic fingerprint tests.
+- Retained the prohibited-clause audit, forbidden-equivalence mutation coverage, scientific invariants, scene-contract checks and deterministic fingerprint tests.
 - Corrected the malformed comprehensive-scene prefix assertion by computing one deterministic `scene_prefix` string and using it for every scene filter, so the complete Python test module can import and execute under the authoritative command.
-- Preserved the migration/deprecation mappings and mandatory issue #54 Chemistry Lecturer/Statistics review boundary.
+- Corrected the named-shapes-graph meta-SHACL regression so it fails only when pySHACL reports a malformed SHACL graph; the ordinary validation result produced by applying project shapes to an empty data graph is no longer misinterpreted as the meta-conformance verdict.
+- Preserved the separate assembled-dataset validation against the named shapes graph and the mandatory issue #54 Chemistry Lecturer/Statistics review boundary.
 
 ## Files or resources changed
 
@@ -38,7 +39,8 @@
 
 - [ ] Automated tests — fresh exact-head local validator evidence pending for the corrected PR head
 - [x] Comprehensive semantic test module is syntactically importable after repairing the deterministic scene-prefix check
-- [x] Complete named-shapes-graph SHACL meta-validation regression retained
+- [x] Named-shapes-graph regression now isolates pySHACL meta-conformance failure from ordinary empty-data validation results
+- [x] Separate assembled-dataset validation against the named shapes graph remains in `tests/test_rdf_dataset.py`
 - [x] Embedded SHACL-SPARQL prohibited-clause audit regression retained
 - [x] Forbidden scientific-equivalence mutation regression retained
 - [x] Canonical scene-role, selection-path, ordering and source-ownership regressions retained
@@ -53,11 +55,12 @@
 - Canonical TriG ownership takes precedence once a stable resource has been promoted; legacy compatibility graphs may retain inbound references but not competing authored descriptions of that subject.
 - The accepted canonical scene contract and three bounded selection paths remain unchanged.
 - Source records use stable publications and paraphrased project-owned wording; no protected standard definition is copied verbatim.
+- pySHACL raises `ReportableRuntimeError` when the supplied shapes graph fails SHACL-SHACL validation. The meta-conformance regression therefore treats that exception as failure and deliberately does not use the subsequent ordinary empty-data conformance boolean as a shapes-graph verdict.
 - The new graphs remain draft semantic content until the required Chemistry Lecturer/Statistics review in issue #54.
 
 ## Risks or unresolved questions
 
-- The local exact-head validator must confirm TriG parsing, SHACL meta-validation, assembled-dataset conformance and the full `npm test` command on the corrected head.
+- The local exact-head validator must confirm SHACL meta-validation, separate assembled-dataset conformance and the full `npm test` command on the corrected head.
 - Scientific wording, numerical examples and pedagogical sequencing require the separately mandated issue #54 review before pedagogical acceptance.
 - The existing browser compiler still consumes the earlier compatibility transport; consumer migration is outside this issue.
 
