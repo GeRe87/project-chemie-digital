@@ -20,6 +20,7 @@
 - Corrected canonical-plus-legacy assembly by suppressing subject-owned assertions for the promoted stable `ex:standard-deviation` resource in compatibility graphs while preserving references to that IRI as objects.
 - Added regressions proving that the complete assembled dataset contains exactly one German and one English preferred label for `ex:standard-deviation`, no direct concept `cd:hasSource`, and no superseded subject assertions in legacy graphs.
 - Retained SHACL meta-validation, prohibited-clause audit, forbidden-equivalence mutation coverage, scientific invariants, scene-contract checks and deterministic fingerprint tests.
+- Corrected the malformed comprehensive-scene prefix assertion by computing one deterministic `scene_prefix` string and using it for every scene filter, so the complete Python test module can import and execute under the authoritative command.
 - Preserved the migration/deprecation mappings and mandatory issue #54 Chemistry Lecturer/Statistics review boundary.
 
 ## Files or resources changed
@@ -36,6 +37,7 @@
 ## Verification
 
 - [ ] Automated tests — fresh exact-head local validator evidence pending for the corrected PR head
+- [x] Comprehensive semantic test module is syntactically importable after repairing the deterministic scene-prefix check
 - [x] Complete named-shapes-graph SHACL meta-validation regression retained
 - [x] Embedded SHACL-SPARQL prohibited-clause audit regression retained
 - [x] Forbidden scientific-equivalence mutation regression retained
