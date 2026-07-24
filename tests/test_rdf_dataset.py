@@ -4,7 +4,7 @@ import importlib.util
 import unittest
 from pathlib import Path
 
-from rdflib import BNode, Dataset, RDF, URIRef
+from rdflib import BNode, Dataset, Literal, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("rdf_dataset", ROOT / "scripts" / "rdf_dataset.py")
@@ -30,6 +30,9 @@ EXPECTED_CANONICAL_GRAPHS = {
     "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation",
     "https://w3id.org/project-chemie-digital/graph/migration/standard-deviation",
 }
+STANDARD_DEVIATION = URIRef(f"{MODULE.RESOURCE_BASE}standard-deviation")
+PREF_LABEL = URIRef("http://www.w3.org/2004/02/skos/core#prefLabel")
+HAS_SOURCE = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
 
 
 def populated_graph_names(dataset: Dataset) -> set[str]:
@@ -73,6 +76,29 @@ class RdfDatasetTests(unittest.TestCase):
         dataset = MODULE.assemble_dataset(include_legacy=True)
         names = populated_graph_names(dataset)
         self.assertTrue(any(name.startswith(MODULE.LEGACY_GRAPH_BASE) for name in names))
+
+    def test_superseded_legacy_subject_assertions_are_removed(self) -> None:
+        dataset = MODULE.assemble_dataset(include_legacy=True)
+        for graph_id in MODULE.populated_graph_ids(dataset):
+            if str(graph_id).startswith(MODULE.LEGACY_GRAPH_BASE):
+                self.assertEqual([], list(dataset.graph(graph_id).triples((STANDARD_DEVIATION, None, None))))
+
+    def test_assembled_standard_deviation_has_exact_bilingual_labels_and_no_direct_source(self) -> None:
+        dataset = MODULE.assemble_dataset(include_legacy=True)
+        labels = {
+            obj
+            for _subject, _predicate, obj, _graph in dataset.quads(
+                (STANDARD_DEVIATION, PREF_LABEL, None, None)
+            )
+        }
+        self.assertEqual(
+            {Literal("Standardabweichung", lang="de"), Literal("standard deviation", lang="en")},
+            labels,
+        )
+        self.assertEqual(
+            [],
+            list(dataset.quads((STANDARD_DEVIATION, HAS_SOURCE, None, None))),
+        )
 
     def test_fingerprint_is_independent_of_source_file_order(self) -> None:
         forward = MODULE.assemble_dataset(include_legacy=False, trig_paths=MODULE.CANONICAL_TRIG)
