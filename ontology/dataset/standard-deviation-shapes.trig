@@ -76,8 +76,8 @@
         PREFIX owl: <http://www.w3.org/2002/07/owl#>
         PREFIX ex: <https://w3id.org/project-chemie-digital/resource/>
         SELECT $this WHERE {
-          VALUES ?forbidden { ex:variance ex:standard-error ex:accuracy ex:measurement-uncertainty }
           { $this owl:sameAs ?forbidden } UNION { ?forbidden owl:sameAs $this }
+          FILTER (?forbidden IN (ex:variance, ex:standard-error, ex:accuracy, ex:measurement-uncertainty))
         }
       """
     ] .
