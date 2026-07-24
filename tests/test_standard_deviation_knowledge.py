@@ -111,8 +111,9 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             Literal("cd:hasDefinition"),
             Literal("cd:hasDefinition/cd:hasSource"),
         }
+        scene_prefix = str(EX["scene-"])
         for scene in self.graph.subjects(RDF.type, CD.SceneDefinition):
-            if not str(scene).startswith(str(EX["scene-")):
+            if not str(scene).startswith(scene_prefix):
                 continue
             positions = []
             for item in self.graph.objects(scene, CD.hasSceneItem):
