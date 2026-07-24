@@ -23,6 +23,7 @@ VALIDATION_SPEC.loader.exec_module(VALIDATION)
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
+SH = Namespace("http://www.w3.org/ns/shacl#")
 SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core")
 
 
@@ -115,6 +116,26 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
         for source in sources:
             self.assertNotIn("example.org", str(source))
             self.assertTrue(any(self.graph.objects(source, CD.supportsResource)))
+
+    def test_named_shapes_graph_is_meta_shacl_conformant(self) -> None:
+        shapes = self.dataset.graph(SHAPES_GRAPH)
+        conforms, _, report = validate(
+            data_graph=Graph(),
+            shacl_graph=shapes,
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            meta_shacl=True,
+        )
+        self.assertTrue(bool(conforms), str(report))
+
+    def test_embedded_shacl_sparql_avoids_prohibited_clauses(self) -> None:
+        prohibited = ("VALUES", "MINUS", "SERVICE")
+        for query in self.dataset.graph(SHAPES_GRAPH).objects(None, SH.select):
+            normalized = str(query).upper()
+            for clause in prohibited:
+                self.assertNotIn(clause, normalized, f"{clause} found in SHACL-SPARQL query: {query}")
 
     def test_shacl_rejects_forbidden_equivalence_mutation(self) -> None:
         mutated = Graph()
