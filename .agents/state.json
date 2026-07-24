@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 22,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 52,
   "expectedDeliverable": "Review draft PR #56 for issue #52 against the comprehensive canonical-TriG knowledge specification, structured handoff and new exact-head agent-validator/project-chemie-digital evidence; require the separate issue #54 Chemistry Lecturer/Statistics review before pedagogical acceptance, and do not accept or merge without successful exact-head validation.",
   "lastCompletedTurn": "worker: implemented the comprehensive source-backed Standardabweichung knowledge network in canonical TriG, added separate specification/example/source/scene/path/migration graphs, reusable resources, nine scenes, SHACL and deterministic semantic regressions, migration documentation, handoff and draft PR #56; exact-head local validation remains pending",
-  "lastUpdated": "2026-07-24T01:39:00+02:00",
+  "lastUpdated": "2026-07-24T02:28:31+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "scheduled-manager-20260724T022831+0200",
+    "claimedAt": "2026-07-24T02:28:31+02:00",
+    "expiresAt": "2026-07-24T04:28:31+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 216,
+  "stateRevision": 217,
   "transitionHistory": [
     {"at":"2026-07-23T18:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T182451+0200","reason":"Claimed the bounded correction turn for issue #51 and draft PR #55 to replace invalid prefixed named-graph paths with syntactically valid stable IRIs, audit all graph references and fixtures, strengthen parsing and exact-IRI regressions, update the handoff and PR verification notes, and return control without merging."},
     {"at":"2026-07-23T18:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T182451+0200","reason":"Corrected draft PR #55 by replacing the invalid graph:shapes/core prefixed name with the stable absolute SHACL graph IRI, auditing canonical graph declarations, adding independent parsing regressions for every TriG source and an exact canonical graph-IRI assertion, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
@@ -32,6 +32,7 @@
     {"at":"2026-07-24T00:24:30+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T002430+0200","reason":"Claimed one bounded manager planning turn to verify issue #52 dependencies, role authority, repository planning evidence and competing work, then assign at most one executable next worker item without implementing feature code."},
     {"at":"2026-07-24T00:29:30+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T002430+0200","reason":"Verified that issue #51 is completed and issue #52 is the next dependency-eligible Phase 2c item, confirmed its Semantic Web and Ontology Engineer role, comprehensive canonical-TriG scope, deterministic SHACL/test requirements and follow-up subject-matter review dependency, assigned exactly issue #52, cleared the lease and returned control for one worker turn without implementation or merge."},
     {"at":"2026-07-24T01:27:29+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260724T012729+0200","reason":"Claimed the bounded implementation turn for issue #52 to build the comprehensive source-backed Standardabweichung knowledge specification in the accepted canonical TriG architecture, add SHACL and deterministic semantic regressions, migration mapping, a structured handoff and a draft PR, then return control without merging."},
-    {"at":"2026-07-24T01:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260724T012729+0200","reason":"Implemented issue #52 as a comprehensive canonical-TriG Standardabweichung network with separated knowledge, example, provenance, scene, path and migration graphs, reusable definitions/formulas/symbols/examples/exercises, nine graph-backed scenes, SHACL and deterministic semantic regressions, documentation, structured handoff and draft PR #56; cleared the lease and returned control for exact-head local validation, manager review and the required later issue #54 subject-matter review without merging."}
+    {"at":"2026-07-24T01:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260724T012729+0200","reason":"Implemented issue #52 as a comprehensive canonical-TriG Standardabweichung network with separated knowledge, example, provenance, scene, path and migration graphs, reusable definitions/formulas/symbols/examples/exercises, nine graph-backed scenes, SHACL and deterministic semantic regressions, documentation, structured handoff and draft PR #56; cleared the lease and returned control for exact-head local validation, manager review and the required later issue #54 subject-matter review without merging."},
+    {"at":"2026-07-24T02:28:31+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T022831+0200","reason":"Claimed the bounded manager review of issue #52 and draft PR #56, subject to the exact issue acceptance criteria, structured handoff, current exact-head local-validator evidence, manager-only merge policy and the required separate issue #54 Chemistry Lecturer/Statistics review before pedagogical acceptance."}
   ]
 }
