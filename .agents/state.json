@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 22,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 52,
-  "expectedDeliverable": "Correct draft PR #56 by replacing the prohibited VALUES clause in the SHACL-SPARQL forbidden-equivalence constraint with a SHACL-compliant deterministic formulation, audit all new sh:select queries for prohibited constructs, add complete named-shapes-graph meta-validation regression coverage, preserve scientific invariants and the issue #54 subject-matter review boundary, update the handoff and PR verification notes, and return for new exact-head agent-validator/project-chemie-digital evidence without merging.",
-  "lastCompletedTurn": "manager: reviewed draft PR #56 on exact head 35b68dd7c5f9728647b67c1e4e402978c4991775; exact-head local validation failed during SHACL meta-validation because NoForbiddenEquivalenceShape contains a prohibited SPARQL VALUES clause; recorded a formal CHANGES REQUESTED verdict and returned issue #52 for a bounded correction",
-  "lastUpdated": "2026-07-24T03:27:40+02:00",
+  "expectedDeliverable": "Review corrected draft PR #56 on its current head: verify the SHACL-compliant forbidden-equivalence formulation, complete embedded sh:select prohibited-clause audit, named-shapes-graph meta-validation regression, preserved scientific invariants and required issue #54 subject-matter review boundary; require new exact-head agent-validator/project-chemie-digital success before any acceptance or merge.",
+  "lastCompletedTurn": "worker: corrected draft PR #56 by replacing the SHACL-meta-invalid VALUES clause with a deterministic FILTER IN forbidden-equivalence constraint, audited all embedded sh:select queries, added prohibited-clause and complete named-shapes-graph meta-validation regressions, updated handoff and PR verification notes, and returned for new exact-head local validation without merging",
+  "lastUpdated": "2026-07-24T03:39:00+02:00",
   "lease": {
-    "owner": "scheduled-worker-20260724T032740+0200",
-    "claimedAt": "2026-07-24T03:27:40+02:00",
-    "expiresAt": "2026-07-24T05:27:40+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 219,
+  "stateRevision": 220,
   "transitionHistory": [
     {"at":"2026-07-23T18:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T182451+0200","reason":"Claimed the bounded correction turn for issue #51 and draft PR #55 to replace invalid prefixed named-graph paths with syntactically valid stable IRIs, audit all graph references and fixtures, strengthen parsing and exact-IRI regressions, update the handoff and PR verification notes, and return control without merging."},
     {"at":"2026-07-23T18:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T182451+0200","reason":"Corrected draft PR #55 by replacing the invalid graph:shapes/core prefixed name with the stable absolute SHACL graph IRI, auditing canonical graph declarations, adding independent parsing regressions for every TriG source and an exact canonical graph-IRI assertion, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
@@ -35,6 +35,7 @@
     {"at":"2026-07-24T01:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260724T012729+0200","reason":"Implemented issue #52 as a comprehensive canonical-TriG Standardabweichung network with separated knowledge, example, provenance, scene, path and migration graphs, reusable definitions/formulas/symbols/examples/exercises, nine graph-backed scenes, SHACL and deterministic semantic regressions, documentation, structured handoff and draft PR #56; cleared the lease and returned control for exact-head local validation, manager review and the required later issue #54 subject-matter review without merging."},
     {"at":"2026-07-24T02:28:31+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T022831+0200","reason":"Claimed the bounded manager review of issue #52 and draft PR #56, subject to the exact issue acceptance criteria, structured handoff, current exact-head local-validator evidence, manager-only merge policy and the required separate issue #54 Chemistry Lecturer/Statistics review before pedagogical acceptance."},
     {"at":"2026-07-24T02:34:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T022831+0200","reason":"Exact-head local validation failed for draft PR #56 because the new NoForbiddenEquivalenceShape contains a SPARQL VALUES clause prohibited by SHACL meta-validation; recorded a formal CHANGES REQUESTED verdict, retained issue #52 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for a SHACL-compliant deterministic rewrite, full sh:select audit and named-shapes-graph meta-validation regression without merging."},
-    {"at":"2026-07-24T03:27:40+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260724T032740+0200","reason":"Claimed the bounded correction turn for issue #52 and draft PR #56 to replace the SHACL-meta-invalid VALUES clause with a deterministic compliant forbidden-equivalence constraint, audit all new sh:select queries, add complete named-shapes-graph meta-validation regression coverage, preserve scientific invariants and the required issue #54 subject-matter review boundary, update handoff and PR verification notes, and return control without merging."}
+    {"at":"2026-07-24T03:27:40+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260724T032740+0200","reason":"Claimed the bounded correction turn for issue #52 and draft PR #56 to replace the SHACL-meta-invalid VALUES clause with a deterministic compliant forbidden-equivalence constraint, audit all new sh:select queries, add complete named-shapes-graph meta-validation regression coverage, preserve scientific invariants and the required issue #54 subject-matter review boundary, update handoff and PR verification notes, and return control without merging."},
+    {"at":"2026-07-24T03:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260724T032740+0200","reason":"Corrected draft PR #56 by replacing the prohibited SHACL-SPARQL VALUES clause with a deterministic FILTER IN forbidden-equivalence constraint, auditing every embedded sh:select query, adding prohibited-clause and complete named-shapes-graph meta-validation regressions, preserving scientific invariants and the required issue #54 subject-matter review boundary, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."}
   ]
 }
