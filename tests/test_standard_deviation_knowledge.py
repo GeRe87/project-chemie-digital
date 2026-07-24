@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
+from pyshacl.errors import ReportableRuntimeError
 from rdflib import Graph, Literal, Namespace, OWL, RDF, URIRef
 from rdflib.namespace import SKOS
 
@@ -142,16 +143,18 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
 
     def test_named_shapes_graph_is_meta_shacl_conformant(self) -> None:
         shapes = self.dataset.graph(SHAPES_GRAPH)
-        conforms, _, report = validate(
-            data_graph=Graph(),
-            shacl_graph=shapes,
-            inference="none",
-            abort_on_first=False,
-            allow_infos=False,
-            allow_warnings=False,
-            meta_shacl=True,
-        )
-        self.assertTrue(bool(conforms), str(report))
+        try:
+            validate(
+                data_graph=Graph(),
+                shacl_graph=shapes,
+                inference="none",
+                abort_on_first=False,
+                allow_infos=False,
+                allow_warnings=False,
+                meta_shacl=True,
+            )
+        except ReportableRuntimeError as error:
+            self.fail(f"Named shapes graph is not SHACL meta-conformant: {error}")
 
     def test_embedded_shacl_sparql_avoids_prohibited_clauses(self) -> None:
         prohibited = ("VALUES", "MINUS", "SERVICE")
