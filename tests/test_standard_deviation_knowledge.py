@@ -104,6 +104,28 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             selected = next(self.graph.objects(item, CD.selectsResource))
             self.assertIn(Literal(True), set(self.graph.objects(selected, CD.authoredResource)))
 
+    def test_all_comprehensive_scenes_obey_the_accepted_scene_item_contract(self) -> None:
+        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole}
+        allowed_paths = {
+            Literal("skos:prefLabel@de"),
+            Literal("cd:hasDefinition"),
+            Literal("cd:hasDefinition/cd:hasSource"),
+        }
+        for scene in self.graph.subjects(RDF.type, CD.SceneDefinition):
+            if not str(scene).startswith(str(EX["scene-")):
+                continue
+            positions = []
+            for item in self.graph.objects(scene, CD.hasSceneItem):
+                positions.append(int(next(self.graph.objects(item, CD.position))))
+                self.assertIn(next(self.graph.objects(item, CD.communicativeRole)), allowed_roles)
+                self.assertIn(next(self.graph.objects(item, CD.selectionPath)), allowed_paths)
+            self.assertEqual(list(range(1, len(positions) + 1)), sorted(positions), scene)
+
+    def test_standard_deviation_sources_are_owned_by_learning_resources(self) -> None:
+        self.assertEqual([], list(self.graph.objects(EX["standard-deviation"], CD.hasSource)))
+        for definition in self.graph.objects(EX["standard-deviation"], CD.hasDefinition):
+            self.assertTrue(any(self.graph.objects(definition, CD.hasSource)), definition)
+
     def test_definition_and_example_resources_are_reused(self) -> None:
         selected = list(self.graph.subjects(CD.selectsResource, EX["standard-deviation"]))
         referenced = list(self.graph.subjects(CD.focusConcept, EX["standard-deviation"]))
