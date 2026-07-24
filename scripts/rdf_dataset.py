@@ -21,6 +21,15 @@ LEGACY_INPUTS = (
 GRAPH_BASE = "https://w3id.org/project-chemie-digital/graph/"
 LEGACY_GRAPH_BASE = f"{GRAPH_BASE}legacy/"
 SHAPES_GRAPH_BASE = f"{GRAPH_BASE}shapes/"
+RESOURCE_BASE = "https://w3id.org/project-chemie-digital/resource/"
+
+# These stable resources have been promoted into canonical TriG ownership. Their
+# former JSON-LD descriptions remain repository history and compatibility input,
+# but may no longer contribute competing authored assertions to the assembled
+# logical dataset. References to them as objects remain intact.
+SUPERSEDED_LEGACY_SUBJECTS = frozenset(
+    {URIRef(f"{RESOURCE_BASE}standard-deviation")}
+)
 
 
 def populated_graph_ids(dataset: Dataset) -> tuple[URIRef, ...]:
@@ -36,13 +45,21 @@ def populated_graph_ids(dataset: Dataset) -> tuple[URIRef, ...]:
     return tuple(sorted(identifiers, key=str))
 
 
+def _remove_superseded_legacy_assertions(graph) -> None:
+    """Remove authored legacy descriptions superseded by canonical ownership."""
+    for subject in SUPERSEDED_LEGACY_SUBJECTS:
+        graph.remove((subject, None, None))
+
+
 def assemble_dataset(*, include_legacy: bool = True, trig_paths: tuple[Path, ...] | None = None) -> Dataset:
     dataset = Dataset(default_union=False)
     for path in sorted(trig_paths or CANONICAL_TRIG, key=lambda p: p.as_posix()):
         dataset.parse(path, format="trig")
     if include_legacy:
         for path in LEGACY_INPUTS:
-            dataset.graph(URIRef(f"{LEGACY_GRAPH_BASE}{path.stem}")).parse(path)
+            legacy_graph = dataset.graph(URIRef(f"{LEGACY_GRAPH_BASE}{path.stem}"))
+            legacy_graph.parse(path)
+            _remove_superseded_legacy_assertions(legacy_graph)
     validate_dataset_contract(dataset)
     return dataset
 

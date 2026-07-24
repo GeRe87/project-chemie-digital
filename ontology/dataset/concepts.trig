@@ -11,16 +11,25 @@ graph:concepts {
   cd:LearningDomain a cdm:ConceptDomain ;
     cdm:definesConcept cd:Concept, cd:LearningResource, cd:Definition,
       cd:MathExpression, cd:MathSymbol, cd:WorkedExample, cd:Exercise,
-      cd:PitchResource, cd:LearningPath, cd:PathStep, cd:Source,
-      cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
+      cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
+      cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
+      cd:CalculationStep, cd:PitchResource, cd:LearningPath, cd:PathStep,
+      cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
     cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
       cd:hasExample, cd:hasExercise, cd:hasSource, cd:forTopic, cd:hasStep,
       cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
-      cd:selectsResource, cd:communicativeRole ;
+      cd:selectsResource, cd:communicativeRole, cd:prerequisite, cd:dependsOn,
+      cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
+      cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
+      cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
+      cd:hasObservation, cd:hasCalculationStep, cd:supportsResource, cd:usesScene ;
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
-      cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language ;
+      cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
+      cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
-      cd:CitationRole, cd:DefinitionWithCitation .
+      cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
+      cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
+      cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
   cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
@@ -29,6 +38,16 @@ graph:concepts {
   cd:MathSymbol a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:WorkedExample a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:Exercise a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:ExpectedResult a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:AssessmentCriterion a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Interpretation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:UnitRule a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Misconception a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Correction a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Comparison a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Dataset a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Observation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:CalculationStep a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
   cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
@@ -42,11 +61,18 @@ graph:concepts {
   cd:HeadingRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:QuotationRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:CitationRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:ConceptRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:ComparisonRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:FormulaRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:SymbolRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:StatementRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:ExampleRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
 
   cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
   cd:hasMathExpression a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:MathExpression .
-  cd:hasSymbol a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:MathSymbol .
+  cd:hasSymbol a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:MathSymbol .
   cd:hasExample a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:WorkedExample .
   cd:hasExercise a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
   cd:hasSource a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Source .
@@ -58,6 +84,24 @@ graph:concepts {
   cd:presentationPattern a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:PresentationPattern .
   cd:selectsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem .
   cd:communicativeRole a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range cd:CommunicativeRole .
+  cd:prerequisite a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Concept .
+  cd:dependsOn a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:derivedFrom a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:quantifiesProperty a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:hasInterpretation a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Interpretation .
+  cd:hasUnitRule a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:UnitRule .
+  cd:contrastsWith a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:hasMisconception a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Misconception .
+  cd:hasCorrection a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Correction .
+  cd:usesDenominator a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:hasExpectedResult a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:ExpectedResult .
+  cd:hasAssessmentCriterion a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:AssessmentCriterion .
+  cd:compares a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:usesDataset a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Dataset .
+  cd:hasObservation a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Observation .
+  cd:hasCalculationStep a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:CalculationStep .
+  cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
+  cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 
   cd:sourcePath a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:PitchSource ; rdfs:range xsd:string .
   cd:position a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:integer .
@@ -68,4 +112,8 @@ graph:concepts {
   cd:authoredResource a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:boolean .
   cd:selectionPath a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:string .
   cd:language a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:language .
+  cd:definitionScope a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Definition ; rdfs:range xsd:string .
+  cd:formulaFamily a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:MathExpression ; rdfs:range xsd:string .
+  cd:numericValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+  cd:unit a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
 }
