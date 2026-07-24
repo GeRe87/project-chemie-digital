@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 22,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 52,
-  "expectedDeliverable": "Review corrected draft PR #56 on its current head: verify the SHACL-compliant forbidden-equivalence formulation, complete embedded sh:select prohibited-clause audit, named-shapes-graph meta-validation regression, preserved scientific invariants and required issue #54 subject-matter review boundary; require new exact-head agent-validator/project-chemie-digital success before any acceptance or merge.",
-  "lastCompletedTurn": "worker: corrected draft PR #56 by replacing the SHACL-meta-invalid VALUES clause with a deterministic FILTER IN forbidden-equivalence constraint, audited all embedded sh:select queries, added prohibited-clause and complete named-shapes-graph meta-validation regressions, updated handoff and PR verification notes, and returned for new exact-head local validation without merging",
-  "lastUpdated": "2026-07-24T04:24:43+02:00",
+  "expectedDeliverable": "Correct draft PR #56 on its current branch by reconciling all nine comprehensive scene specifications with the accepted canonical SceneDefinition/SceneItem SHACL contract (communicative roles, selection paths, selected-resource classes and authored-resource evidence), resolving the reported direct hasSource ownership violation without weakening source coverage, adding complete assembled-dataset regressions that preserve the previously accepted graph-backed scene, retaining the SHACL-compliant forbidden-equivalence query, prohibited-clause audit, named-shapes-graph meta-validation, scientific invariants, deterministic fingerprint and mandatory issue #54 subject-matter review boundary; update handoff and PR verification notes and return for new exact-head agent-validator/project-chemie-digital validation without merging.",
+  "lastCompletedTurn": "manager: reviewed corrected draft PR #56 at exact head 8b2f4938d2a8c2d03aae087b6dd7313e1f272684, confirmed the required external validator context failed, recorded a formal CHANGES REQUESTED verdict identifying incompatibility between the new scene roles/source assertions and the accepted canonical scene/source SHACL contract, preserved issue #54 as a mandatory later subject-matter review, and returned control for one bounded worker correction without merging",
+  "lastUpdated": "2026-07-24T04:31:00+02:00",
   "lease": {
-    "owner": "scheduled-manager-20260724T042443+0200",
-    "claimedAt": "2026-07-24T04:24:43+02:00",
-    "expiresAt": "2026-07-24T06:24:43+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 221,
+  "stateRevision": 222,
   "transitionHistory": [
     {"at":"2026-07-23T18:24:51+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260723T182451+0200","reason":"Claimed the bounded correction turn for issue #51 and draft PR #55 to replace invalid prefixed named-graph paths with syntactically valid stable IRIs, audit all graph references and fixtures, strengthen parsing and exact-IRI regressions, update the handoff and PR verification notes, and return control without merging."},
     {"at":"2026-07-23T18:31:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260723T182451+0200","reason":"Corrected draft PR #55 by replacing the invalid graph:shapes/core prefixed name with the stable absolute SHACL graph IRI, auditing canonical graph declarations, adding independent parsing regressions for every TriG source and an exact canonical graph-IRI assertion, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
@@ -37,6 +37,7 @@
     {"at":"2026-07-24T02:34:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T022831+0200","reason":"Exact-head local validation failed for draft PR #56 because the new NoForbiddenEquivalenceShape contains a SPARQL VALUES clause prohibited by SHACL meta-validation; recorded a formal CHANGES REQUESTED verdict, retained issue #52 and the Semantic Web and Ontology Engineer role, cleared the lease and returned control for a SHACL-compliant deterministic rewrite, full sh:select audit and named-shapes-graph meta-validation regression without merging."},
     {"at":"2026-07-24T03:27:40+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260724T032740+0200","reason":"Claimed the bounded correction turn for issue #52 and draft PR #56 to replace the SHACL-meta-invalid VALUES clause with a deterministic compliant forbidden-equivalence constraint, audit all new sh:select queries, add complete named-shapes-graph meta-validation regression coverage, preserve scientific invariants and the required issue #54 subject-matter review boundary, update handoff and PR verification notes, and return control without merging."},
     {"at":"2026-07-24T03:39:00+02:00","from":"busy/worker","to":"ready/manager","actor":"scheduled-worker-20260724T032740+0200","reason":"Corrected draft PR #56 by replacing the prohibited SHACL-SPARQL VALUES clause with a deterministic FILTER IN forbidden-equivalence constraint, auditing every embedded sh:select query, adding prohibited-clause and complete named-shapes-graph meta-validation regressions, preserving scientific invariants and the required issue #54 subject-matter review boundary, updating the structured handoff and PR verification notes, clearing the lease and returning control for new exact-head local validation and manager review without merging."},
-    {"at":"2026-07-24T04:24:43+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T042443+0200","reason":"Claimed the bounded manager review of corrected issue #52 and draft PR #56, subject to verification of the SHACL-compliant forbidden-equivalence rewrite, complete embedded sh:select prohibited-clause audit, named-shapes-graph meta-validation regression, preserved scientific invariants, exact-head local-validator evidence, manager-only merge policy and the required later issue #54 subject-matter review boundary."}
+    {"at":"2026-07-24T04:24:43+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260724T042443+0200","reason":"Claimed the bounded manager review of corrected issue #52 and draft PR #56, subject to verification of the SHACL-compliant forbidden-equivalence rewrite, complete embedded sh:select prohibited-clause audit, named-shapes-graph meta-validation regression, preserved scientific invariants, exact-head local-validator evidence, manager-only merge policy and the required later issue #54 subject-matter review boundary."},
+    {"at":"2026-07-24T04:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260724T042443+0200","reason":"Exact-head local validation failed for draft PR #56 because the comprehensive scene data conflicts with the accepted canonical SceneItem SHACL contract and a direct source assertion violates the concept/source ownership rule; recorded a formal CHANGES REQUESTED verdict, retained issue #52 and the Semantic Web and Ontology Engineer role, preserved the corrected SHACL-SPARQL and required issue #54 review boundaries, cleared the lease and returned control for one bounded compatibility correction without merging."}
   ]
 }
