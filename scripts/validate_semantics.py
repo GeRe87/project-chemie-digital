@@ -15,26 +15,7 @@ if str(SCRIPTS) not in sys.path:
 
 from rdf_dataset import assemble_dataset, dataset_fingerprint  # noqa: E402
 
-SHAPES_FILE = ROOT / "ontology" / "shapes.ttl"
 SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core")
-
-# Backward-compatible names retained for existing tests during migration.
-DATA_FILES = (
-    ROOT / "ontology" / "learning.ttl",
-    ROOT / "content" / "concepts" / "standard-deviation.jsonld",
-    ROOT / "content" / "concepts" / "chemie-digital-platform.jsonld",
-    ROOT / "content" / "resources" / "standard-deviation-resources.jsonld",
-    ROOT / "content" / "resources" / "pitch-content.jsonld",
-    ROOT / "content" / "paths" / "standard-deviation-default.jsonld",
-    ROOT / "content" / "scenes" / "standard-deviation-definition-with-citation.jsonld",
-)
-
-
-def load_graph(paths: tuple[Path, ...]) -> Graph:
-    graph = Graph()
-    for path in paths:
-        graph.parse(path)
-    return graph
 
 
 def dataset_union(dataset: Dataset, *, exclude_shapes: bool = True) -> Graph:
