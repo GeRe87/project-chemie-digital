@@ -16,13 +16,18 @@ MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
 
+def assembled_validation_graphs():
+    dataset = MODULE.assemble_dataset(include_legacy=True)
+    return MODULE.dataset_union(dataset), dataset.graph(MODULE.SHAPES_GRAPH)
+
+
 class SemanticValidationTests(unittest.TestCase):
     def test_complete_semantic_content_conforms(self) -> None:
         conforms, report = MODULE.run_validation()
         self.assertTrue(conforms, report)
 
     def test_missing_definition_is_rejected(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph, shapes = assembled_validation_graphs()
         concept = URIRef(
             "https://w3id.org/project-chemie-digital/resource/standard-deviation"
         )
@@ -30,7 +35,6 @@ class SemanticValidationTests(unittest.TestCase):
             "https://w3id.org/project-chemie-digital/ontology/hasDefinition"
         )
         graph.remove((concept, has_definition, None))
-        shapes = MODULE.load_graph((MODULE.SHAPES_FILE,))
 
         conforms, _, report = validate(
             data_graph=graph,
@@ -42,7 +46,7 @@ class SemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms, str(report))
 
     def test_pitch_resource_without_repository_source_is_rejected(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph, shapes = assembled_validation_graphs()
         resource = URIRef(
             "https://w3id.org/project-chemie-digital/resource/pitch-knowledge-first-proposition"
         )
@@ -50,7 +54,6 @@ class SemanticValidationTests(unittest.TestCase):
             "https://w3id.org/project-chemie-digital/ontology/hasSource"
         )
         graph.remove((resource, has_source, None))
-        shapes = MODULE.load_graph((MODULE.SHAPES_FILE,))
 
         conforms, _, report = validate(
             data_graph=graph,

@@ -18,5 +18,5 @@ The core grammar contains only ontology-module descriptors (`ConceptDomain`, con
 - Canonical graph subjects require stable IRIs; blank-node subjects are rejected at the dataset boundary.
 - Dataset assembly is repository-local, sorted by path, network-free and fingerprinted from canonical logical quads.
 - Existing JSON-LD remains temporarily readable in explicit `graph/legacy/*` named graphs.
-- `ontology/learning.ttl` and `ontology/shapes.ttl` remain temporary compatibility sources and must be retired by the migration plan; no new terms may be authored there.
+- The former `ontology/learning.ttl` and `ontology/shapes.ttl` compatibility sources are retired; active vocabulary and SHACL ownership now reside exclusively in canonical TriG named graphs.
 - Learner and graph-exploration state is never written into the canonical Dataset.

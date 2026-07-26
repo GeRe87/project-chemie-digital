@@ -18,8 +18,8 @@ The core graph must not mention chemistry, statistics, scenes, Reveal.js, render
 ## Migration rules
 
 1. Preserve existing public IRIs whenever their meaning is unchanged.
-2. Move vocabulary assertions from `ontology/learning.ttl` into project-owned TriG concept graphs.
-3. Move SHACL from `ontology/shapes.ttl` into one or more `graph/shapes/*` named graphs without changing constraints.
+2. Vocabulary assertions are owned by project TriG concept graphs; the former flat `ontology/learning.ttl` compatibility file has been removed.
+3. SHACL is owned by `graph/shapes/*` named graphs; the former `ontology/shapes.ttl` compatibility file has been removed.
 4. Convert each JSON-LD document to an owned TriG specification graph. Until converted, the compatibility loader assigns a deterministic `graph/legacy/<stem>` graph.
 5. An IRI change requires an explicit mapping note and manager review; no silent rewriting is permitted.
 6. Generated JSON-LD transport and `SceneDocument` JSON are reproducible derivatives, not authored authorities.
