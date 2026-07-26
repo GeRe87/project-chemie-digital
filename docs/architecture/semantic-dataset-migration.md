@@ -1,25 +1,30 @@
-# Semantic Dataset migration
+# Semantic Dataset migration contract
 
-## Canonical ownership
+## Graph ownership
 
-TriG files under `ontology/dataset/` are the authored semantic source of truth. They own project graph IRIs for the core Meta-TBox, reusable concept vocabulary, shapes, knowledge specifications, examples, sources, scenes, paths and migration declarations.
+| Graph IRI | Owner | Allowed content |
+|---|---|---|
+| `.../graph/core` | Meta-TBox | generic module grammar only |
+| `.../graph/concepts` | concept modules | reusable classes, properties and controlled values |
+| `.../graph/shapes/*` | validation modules | SHACL shapes |
+| `.../graph/knowledge/*` | knowledge specifications | concrete scientific and learning resources |
+| `.../graph/scenes/*` | scene specifications | scene instances and ordered items |
+| `.../graph/paths/*` | path specifications | learning paths and steps |
+| `.../graph/provenance/*` | provenance specifications | sources and provenance assertions |
+| `.../graph/legacy/*` | compatibility loader | existing JSON-LD during migration only |
 
-JSON-LD may remain temporarily readable as an explicitly isolated compatibility input. It must not independently own canonical assertions or be maintained as an equivalent authored source.
+The core graph must not mention chemistry, statistics, scenes, Reveal.js, renderer state or learner state. Concept modules may depend on the core grammar. Specifications may depend on concept modules, never the reverse.
 
-## Current migration status
+## Migration rules
 
-- Dataset assembly is repository-local, deterministic and network-free.
-- Canonical TriG graphs preserve named-graph identity and produce a stable logical-quad fingerprint.
-- Legacy JSON-LD inputs are isolated under `graph/legacy/*` and superseded canonical subject assertions are removed during assembly.
-- Vocabulary assertions are owned by project TriG concept graphs; the former flat `ontology/learning.ttl` compatibility file has been removed.
-- SHACL is owned by `graph/shapes/*` named graphs; the former `ontology/shapes.ttl` compatibility file has been removed.
-- The browser pitch still consumes a generated TypeScript compatibility transport derived from legacy JSON-LD. That boundary remains temporary and must be replaced by deterministic artifacts generated from the canonical Dataset.
+1. Preserve existing public IRIs whenever their meaning is unchanged.
+2. Vocabulary assertions are owned by project TriG concept graphs; the former flat `ontology/learning.ttl` compatibility file has been removed.
+3. SHACL is owned by `graph/shapes/*` named graphs; the former `ontology/shapes.ttl` compatibility file has been removed.
+4. Convert each JSON-LD document to an owned TriG specification graph. Until converted, the compatibility loader assigns a deterministic `graph/legacy/<stem>` graph.
+5. An IRI change requires an explicit mapping note and manager review; no silent rewriting is permitted.
+6. Generated JSON-LD transport and `SceneDocument` JSON are reproducible derivatives, not authored authorities.
+7. Local exploration, focus, expansion and presentation cursor state remain outside the Dataset.
 
-## Remaining migration rules
+## Determinism
 
-1. New semantic content is authored only in canonical TriG named graphs.
-2. Existing JSON-LD may be read only through explicit legacy graph identities.
-3. A legacy resource promoted into canonical ownership must have its competing subject assertions removed from compatibility graphs while object references remain intact.
-4. Compilers must consume a typed Dataset/quad abstraction with named graph identity preserved.
-5. Browser artifacts are disposable, deterministic outputs and may not become a second authored content store.
-6. Remove a legacy file only after all active compiler, validator, browser and test consumers have migrated and semantic equivalence has been verified.
+`assemble_dataset()` sorts source paths, performs no network access, enforces project graph IRIs, rejects blank-node subjects and conflicting canonical subject/predicate definitions, serializes canonical logical quads and emits a SHA-256 fingerprint independent of source-file order.
