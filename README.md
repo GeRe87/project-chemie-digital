@@ -51,7 +51,7 @@ The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm tes
 
 ## Semantic validation
 
-The complete standard-deviation slice is validated as one RDF graph against the repository's SHACL shapes. The graph includes `ontology/learning.ttl` and all JSON-LD content files for the concept, resources and default path.
+The complete semantic slice is assembled from canonical TriG files under `ontology/dataset/` plus explicitly isolated JSON-LD compatibility inputs that have not yet migrated. SHACL validation reads the named `graph/shapes/*` graphs from the assembled Dataset. The retired flat `ontology/learning.ttl` and `ontology/shapes.ttl` files are no longer validation inputs.
 
 ```bash
 python -m pip install -r requirements-dev.txt
