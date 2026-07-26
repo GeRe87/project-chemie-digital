@@ -20,12 +20,16 @@ CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 
 
+def assembled_data_graph():
+    return MODULE.dataset_union(MODULE.assemble_dataset(include_legacy=True))
+
+
 class SceneSemanticValidationTests(unittest.TestCase):
     def validate_graph(self, graph):
-        shapes = MODULE.load_graph((MODULE.SHAPES_FILE,))
+        dataset = MODULE.assemble_dataset(include_legacy=True)
         return validate(
             data_graph=graph,
-            shacl_graph=shapes,
+            shacl_graph=dataset.graph(MODULE.SHAPES_GRAPH),
             inference="rdfs",
             meta_shacl=True,
         )
@@ -34,7 +38,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         conforms, report = MODULE.run_validation()
         self.assertTrue(conforms, report)
 
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         concept = URIRef(EX + "standard-deviation")
         definition = URIRef(EX + "standard-deviation-definition-basic")
         source = URIRef(EX + "reference-statistics-01")
@@ -54,7 +58,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertNotIn("body", document["@context"])
 
     def test_missing_selected_resource_is_rejected_despite_rdfs_inference(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         definition = URIRef(EX + "standard-deviation-definition-basic")
         source = URIRef(EX + "reference-statistics-01")
         graph.remove((source, None, None))
@@ -63,7 +67,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms)
 
     def test_typed_but_unmarked_selected_resource_is_rejected(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         source = URIRef(EX + "reference-statistics-01")
         graph.remove((source, URIRef(CD + "authoredResource"), None))
         self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
@@ -71,7 +75,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms)
 
     def test_present_typed_and_authored_selected_resource_is_accepted(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         source = URIRef(EX + "reference-statistics-01")
         self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
         self.assertIn((source, URIRef(CD + "authoredResource"), Literal(True)), graph)
@@ -79,7 +83,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_duplicate_scene_item_position_is_rejected(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         item = URIRef(EX + "scene-standard-deviation-citation")
         position = URIRef(CD + "position")
         graph.remove((item, position, None))
@@ -88,7 +92,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms)
 
     def test_unsupported_communicative_role_is_rejected(self) -> None:
-        graph = MODULE.load_graph(MODULE.DATA_FILES)
+        graph = assembled_data_graph()
         item = URIRef(EX + "scene-standard-deviation-definition")
         role = URIRef(CD + "communicativeRole")
         graph.set((item, role, URIRef(CD + "UnsupportedRole")))
