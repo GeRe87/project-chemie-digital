@@ -19,7 +19,6 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
-GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 SCHEMA = "https://schema.org/"
 
 
@@ -76,13 +75,8 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
 
 def resource_text(dataset: Dataset, resource: URIRef, language: str | None) -> str:
     candidates = (
-        iri(CD, "body"),
-        iri(CD, "expression"),
-        iri(CD, "notation"),
-        DCTERMS.description,
-        SKOS.prefLabel,
-        DCTERMS.title,
-        iri(SCHEMA, "name"),
+        iri(CD, "body"), iri(CD, "expression"), iri(CD, "notation"),
+        DCTERMS.description, SKOS.prefLabel, DCTERMS.title, iri(SCHEMA, "name"),
     )
     for predicate in candidates:
         selected_language = language if predicate in {iri(CD, "body"), DCTERMS.description, SKOS.prefLabel} else None
@@ -114,14 +108,7 @@ def integer(dataset: Dataset, subject: URIRef, predicate: URIRef) -> int:
 
 
 def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
-    learning_paths = sorted(
-        {
-            subject
-            for subject, _predicate, _obj, _graph in dataset.quads((None, RDF.type, iri(CD, "LearningPath"), None))
-            if isinstance(subject, URIRef)
-        },
-        key=str,
-    )
+    learning_paths = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, iri(CD, "LearningPath"), None)) if isinstance(subject, URIRef)}, key=str)
     if len(learning_paths) != 1:
         raise ValueError(f"Expected exactly one canonical LearningPath, got {len(learning_paths)}")
     path = learning_paths[0]
@@ -156,58 +143,33 @@ def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
             block_id = f"{compact(item)}--block"
-            blocks.append(
-                {
-                    "id": block_id,
-                    "kind": "prose",
-                    "source": [source_reference(dataset, selected, relation_path)],
-                    "text": text,
-                    "format": "plain",
-                    "disclosure": {"order": position - 1, "mode": "initial"},
-                    "emphasis": emphasis,
-                    "intent": {"kind": intent},
-                }
-            )
+            blocks.append({
+                "id": block_id, "kind": "prose",
+                "source": [source_reference(dataset, selected, relation_path)],
+                "text": text, "format": "plain",
+                "disclosure": {"order": position - 1, "mode": "initial"},
+                "emphasis": emphasis, "intent": {"kind": intent},
+            })
         scene_compact = compact(scene_id)
-        scenes.append(
-            {
-                "id": f"{scene_compact}--scene",
-                "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
-                "blocks": blocks,
-                "readingOrder": [block["id"] for block in blocks],
-                "accessibility": {"label": blocks[0]["text"]},
-            }
-        )
-    return {
-        "version": "1.0",
-        "id": f"{compact(path)}--scene-document",
-        "sourcePathId": compact(path),
-        "scenes": scenes,
-    }
+        scenes.append({
+            "id": f"{scene_compact}--scene",
+            "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
+            "blocks": blocks,
+            "readingOrder": [block["id"] for block in blocks],
+            "accessibility": {"label": blocks[0]["text"]},
+        })
+    return {"version": "1.0", "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
 
 def dataset_snapshot(dataset: Dataset, fingerprint: str) -> dict[str, Any]:
-    typed_subjects = sorted(
-        {
-            subject
-            for subject, _predicate, _obj, _graph in dataset.quads((None, RDF.type, None, None))
-            if isinstance(subject, URIRef) and str(subject).startswith(EX)
-        },
-        key=str,
-    )
+    typed_subjects = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, None, None)) if isinstance(subject, URIRef) and str(subject).startswith(EX)}, key=str)
     entity_ids = set(typed_subjects)
     entities: list[dict[str, Any]] = []
     for subject in typed_subjects:
-        labels = (
-            literal(dataset, subject, SKOS.prefLabel, "de")
-            or literal(dataset, subject, DCTERMS.title)
-            or literal(dataset, subject, iri(SCHEMA, "name"))
-            or local_name(subject)
-        )
+        labels = literal(dataset, subject, SKOS.prefLabel, "de") or literal(dataset, subject, DCTERMS.title) or literal(dataset, subject, iri(SCHEMA, "name")) or local_name(subject)
         description = literal(dataset, subject, iri(CD, "body"), "de") or literal(dataset, subject, DCTERMS.description, "de")
         entity: dict[str, Any] = {
-            "id": compact(subject),
-            "label": labels,
+            "id": compact(subject), "label": labels,
             "semanticTypes": sorted(compact(value) for value in objects(dataset, subject, RDF.type) if isinstance(value, URIRef)),
             "source": [source_reference(dataset, subject)],
         }
@@ -222,33 +184,25 @@ def dataset_snapshot(dataset: Dataset, fingerprint: str) -> dict[str, Any]:
     for subject, predicate, target, graph in dataset.quads((None, None, None, None)):
         if subject not in entity_ids or target not in entity_ids or predicate == RDF.type:
             continue
-        statements.append(
-            {
-                "sourceEntityId": compact(subject),
-                "predicateId": compact(predicate),
-                "targetEntityId": compact(target),
-                "predicateLabel": local_name(predicate),
-                "source": [{"resourceId": compact(subject), "provenanceIds": [str(graph)]}],
-            }
-        )
+        statements.append({
+            "sourceEntityId": compact(subject), "predicateId": compact(predicate),
+            "targetEntityId": compact(target), "predicateLabel": local_name(predicate),
+            "source": [{"resourceId": compact(subject), "provenanceIds": [str(graph)]}],
+        })
     statements.sort(key=lambda item: (item["sourceEntityId"], item["predicateId"], item["targetEntityId"]))
-    supported = sorted({item["predicateId"] for item in statements})
     return {
-        "version": "1.0",
-        "identity": f"sha256:{fingerprint}",
-        "entities": entities,
-        "statements": statements,
-        "supportedPredicates": supported,
+        "version": "1.0", "identity": f"sha256:{fingerprint}",
+        "entities": entities, "statements": statements,
+        "supportedPredicates": sorted({item["predicateId"] for item in statements}),
         "source": [{"resourceId": "canonical-trig-dataset", "provenanceIds": sorted(str(path.relative_to(ROOT)) for path in (ROOT / "ontology" / "dataset").glob("*.trig"))}],
     }
 
 
 def build_artifact() -> dict[str, Any]:
-    dataset = assemble_dataset(include_legacy=False)
+    dataset = assemble_dataset()
     fingerprint = dataset_fingerprint(dataset)
     return {
-        "artifactVersion": "1.0",
-        "datasetFingerprint": f"sha256:{fingerprint}",
+        "artifactVersion": "1.0", "datasetFingerprint": f"sha256:{fingerprint}",
         "datasetSnapshot": dataset_snapshot(dataset, fingerprint),
         "sceneDocuments": [compile_scene_document(dataset)],
     }
