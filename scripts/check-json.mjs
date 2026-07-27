@@ -12,18 +12,21 @@ async function walk(directory) {
   return files;
 }
 
-const roots = ['content', '.agents'];
+const roots = ['.agents', 'apps', 'packages'];
+const explicitFiles = ['package.json', 'package-lock.json'];
+const candidates = [...explicitFiles];
+for (const root of roots) candidates.push(...await walk(root));
+
 let failures = 0;
-for (const root of roots) {
-  for (const file of await walk(root)) {
-    if (!['.json', '.jsonld'].includes(extname(file))) continue;
-    try {
-      JSON.parse(await readFile(file, 'utf8'));
-      console.log(`OK ${file}`);
-    } catch (error) {
-      failures += 1;
-      console.error(`INVALID ${file}: ${error.message}`);
-    }
+for (const file of candidates) {
+  if (!['.json', '.jsonld'].includes(extname(file))) continue;
+  try {
+    JSON.parse(await readFile(file, 'utf8'));
+    console.log(`OK ${file}`);
+  } catch (error) {
+    failures += 1;
+    console.error(`INVALID ${file}: ${error.message}`);
   }
 }
+
 process.exitCode = failures === 0 ? 0 : 1;
