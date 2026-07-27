@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "test": "node --experimental-strip-types --test test/*.test.ts"
+    "dev": "python ../../scripts/generate_canonical_runtime.py && vite --host 127.0.0.1",
+    "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {
     "reveal.js": "^5.2.1"
