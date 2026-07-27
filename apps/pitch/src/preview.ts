@@ -1,8 +1,11 @@
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof";
-const layoutBySourcePath: Readonly<Record<string, PitchLayout>> = Object.freeze({
-  "ex:standard-deviation-definition-with-citation-scene": "split-proof"
+const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
+  "ex:scene-sd-definition--scene": "opening",
+  "ex:scene-sd-process--scene": "process",
+  "ex:scene-formula-symbols--scene": "split-proof",
+  "ex:scene-chemistry-example--scene": "split-proof",
 });
 
 export interface MinimalElement {
@@ -17,7 +20,9 @@ export interface PitchDomPort { createElement(tag: string): MinimalElement; root
 function sourceAttributes(node: MinimalElement, sources: readonly SourceReference[]): void {
   node.setAttribute("data-resource-id", sources.map((source) => source.resourceId).join(" "));
   const provenance = sources.flatMap((source) => source.provenanceIds ?? []);
+  const relationPaths = sources.flatMap((source) => source.relationPath ? [source.relationPath] : []);
   if (provenance.length) node.setAttribute("data-provenance-ids", [...new Set(provenance)].sort().join(" "));
+  if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
 }
 function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBlock, headingId: string): void {
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
@@ -41,7 +46,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("id", scene.id);
     section.setAttribute("data-scene-document-id", document.id);
     section.setAttribute("data-source-path-id", document.sourcePathId);
-    section.setAttribute("data-layout", layoutBySourcePath[document.sourcePathId] ?? "statement");
+    section.setAttribute("data-layout", layoutByScene[scene.id] ?? "statement");
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
     for (const blockId of scene.readingOrder) {
