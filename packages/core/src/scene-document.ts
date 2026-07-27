@@ -5,6 +5,7 @@ export type SceneDocumentVersion = typeof SCENE_DOCUMENT_VERSION;
 export interface SourceReference {
   readonly resourceId: string;
   readonly provenanceIds?: readonly string[];
+  readonly relationPath?: string;
 }
 
 export interface AccessibilityMetadata {
@@ -104,7 +105,10 @@ function requireNonEmpty(value: string, label: string): void {
 
 function validateSource(source: readonly SourceReference[], label: string): void {
   if (source.length === 0) throw new SceneContractError(`${label} must retain at least one source resource`);
-  for (const item of source) requireNonEmpty(item.resourceId, `${label} resourceId`);
+  for (const item of source) {
+    requireNonEmpty(item.resourceId, `${label} resourceId`);
+    if (item.relationPath !== undefined) requireNonEmpty(item.relationPath, `${label} relationPath`);
+  }
 }
 
 function validateOrderedIds(ids: readonly string[], actualIds: readonly string[], label: string): void {
