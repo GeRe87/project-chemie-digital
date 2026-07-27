@@ -19,6 +19,9 @@
 - Added deterministic JSON-candidate discovery with `package.json` required and `package-lock.json` optional.
 - Added focused Node regressions proving candidate discovery both without and with a root lockfile, and included them in the authoritative `npm test` chain.
 - Replaced current active documentation that still described JSON-LD files or the retired JSON-LD-specific compiler as runtime inputs.
+- Retired the executable JSON-LD path resolver after confirming its only remaining runtime consumer was its own obsolete fixture test; retained only renderer-neutral `ResolvedLearningPath` and `ResolvedPathStep` contracts required by the scene composer.
+- Removed `packages/core/test/path-resolver.test.ts`, which executed deleted `content/**/*.jsonld` fixtures.
+- Added nine canonical Dataset path-resolution regressions covering authored nine-scene order, semantic resource selections and relation paths, missing path, step, scene and selected resource failures, and duplicate, non-integer and non-positive positions.
 - Preserved historical reviews and handoffs unchanged because they are evidence rather than executable consumers.
 
 ## Files or resources changed
@@ -30,8 +33,11 @@
 - `scripts/json-candidates.mjs`
 - `scripts/json-candidates.test.mjs`
 - `package.json`
+- `packages/core/src/path-resolver.ts`
 - `packages/core/src/scene-document.ts`
 - `packages/core/README.md`
+- `packages/core/test/path-resolver.test.ts` — deleted
+- `tests/test_canonical_runtime_path_resolution.py` — added
 - `apps/pitch/src/graph-scene-data.ts`
 - `apps/pitch/src/preview.ts`
 - `apps/pitch/README.md`
@@ -43,17 +49,19 @@
 
 ## Verification
 
-- [ ] Automated tests — fresh authoritative exact-head local validator required after the optional-lockfile correction commits
+- [ ] Automated tests — fresh authoritative exact-head local validator required after the canonical path-test migration
 - [ ] Semantic validation — fresh authoritative exact-head local validator required after the correction commits
 - [ ] Manual browser check — required for manager acceptance
 - [ ] Static fallback parity — required for manager acceptance
-- [x] Focused regression coverage — absent and present root `package-lock.json` discovery cases are now deterministic Node tests
+- [x] Focused path coverage — canonical Dataset tests preserve successful ordering and semantic selection plus missing and invalid dependency failure modes without JSON-LD fixtures
+- [x] Focused JSON discovery coverage — absent and present root `package-lock.json` discovery cases are deterministic Node tests
 - [x] Accessibility boundary — reading order, accessible scene labels and provenance-bearing DOM structure preserved in code/tests
 - [x] Active documentation updated to the canonical TriG runtime boundary
 
 ## Decisions and assumptions
 
 - Generated `canonical-runtime.json` is disposable, ignored by Git and regenerated before development/tests; it is not an authored semantic source.
+- Canonical path resolution and validation now belong to `scripts/generate_canonical_runtime.py` over the assembled RDF Dataset; TypeScript retains only the resolved-path contracts needed by renderer-neutral scene composition.
 - `check:json` validates JSON under `.agents`, `apps` and `packages` plus the required root `package.json`; a root `package-lock.json` is validated only when it exists.
 - No lockfile was generated or introduced because the repository does not currently define a maintained lockfile policy.
 - Candidate traversal and output order are deterministic.
