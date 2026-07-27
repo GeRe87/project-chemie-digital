@@ -1,25 +1,11 @@
-import { readdir, readFile } from 'node:fs/promises';
-import { extname, join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
-async function walk(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const path = join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await walk(path));
-    else files.push(path);
-  }
-  return files;
-}
+import { discoverJsonCandidates } from './json-candidates.mjs';
 
-const roots = ['.agents', 'apps', 'packages'];
-const explicitFiles = ['package.json', 'package-lock.json'];
-const candidates = [...explicitFiles];
-for (const root of roots) candidates.push(...await walk(root));
+const candidates = await discoverJsonCandidates();
 
 let failures = 0;
 for (const file of candidates) {
-  if (!['.json', '.jsonld'].includes(extname(file))) continue;
   try {
     JSON.parse(await readFile(file, 'utf8'));
     console.log(`OK ${file}`);
