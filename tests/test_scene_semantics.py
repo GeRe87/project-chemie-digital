@@ -94,7 +94,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
     def test_unsupported_communicative_role_is_rejected(self) -> None:
         graph = assembled_data_graph()
         item = URIRef(EX + "scene-standard-deviation-definition")
-        role = URIRef(EX + "communicativeRole")
+        role = URIRef(CD + "communicativeRole")
         graph.set((item, role, URIRef(CD + "UnsupportedRole")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
