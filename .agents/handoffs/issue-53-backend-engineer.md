@@ -15,7 +15,9 @@
 - Changed the Reveal pitch integration to consume the disposable generated artifact and expose all nine graph-backed scenes.
 - Added generation and stale-artifact commands to local development and validation.
 - Removed the active JSON-LD concept, resource, path and scene files, the manually parity-maintained TypeScript copy, and the retired JSON-LD graph-scene compiler/tests.
-- Corrected `scripts/check-json.mjs` so validation scans current JSON-bearing project roots and root package manifests without assuming the removed `content/` directory exists.
+- Corrected `scripts/check-json.mjs` so validation scans current JSON-bearing project roots without assuming the removed `content/` directory exists or requiring an absent root `package-lock.json`.
+- Added deterministic JSON-candidate discovery with `package.json` required and `package-lock.json` optional.
+- Added focused Node regressions proving candidate discovery both without and with a root lockfile, and included them in the authoritative `npm test` chain.
 - Replaced current active documentation that still described JSON-LD files or the retired JSON-LD-specific compiler as runtime inputs.
 - Preserved historical reviews and handoffs unchanged because they are evidence rather than executable consumers.
 
@@ -25,6 +27,9 @@
 - `scripts/rdf_dataset.py`
 - `scripts/validate_semantics.py`
 - `scripts/check-json.mjs`
+- `scripts/json-candidates.mjs`
+- `scripts/json-candidates.test.mjs`
+- `package.json`
 - `packages/core/src/scene-document.ts`
 - `packages/core/README.md`
 - `apps/pitch/src/graph-scene-data.ts`
@@ -38,17 +43,20 @@
 
 ## Verification
 
-- [ ] Automated tests — fresh authoritative exact-head local validator required after the correction commits
+- [ ] Automated tests — fresh authoritative exact-head local validator required after the optional-lockfile correction commits
 - [ ] Semantic validation — fresh authoritative exact-head local validator required after the correction commits
 - [ ] Manual browser check — required for manager acceptance
 - [ ] Static fallback parity — required for manager acceptance
+- [x] Focused regression coverage — absent and present root `package-lock.json` discovery cases are now deterministic Node tests
 - [x] Accessibility boundary — reading order, accessible scene labels and provenance-bearing DOM structure preserved in code/tests
 - [x] Active documentation updated to the canonical TriG runtime boundary
 
 ## Decisions and assumptions
 
 - Generated `canonical-runtime.json` is disposable, ignored by Git and regenerated before development/tests; it is not an authored semantic source.
-- `check:json` validates JSON under `.agents`, `apps` and `packages` plus the root package manifests; it no longer treats the deleted semantic `content/` tree as an expected root.
+- `check:json` validates JSON under `.agents`, `apps` and `packages` plus the required root `package.json`; a root `package-lock.json` is validated only when it exists.
+- No lockfile was generated or introduced because the repository does not currently define a maintained lockfile policy.
+- Candidate traversal and output order are deterministic.
 - Historical handoffs and reviews remain unchanged even when they mention deleted paths, because they are historical evidence rather than active consumers.
 - A temporary fail-closed `include_legacy=False` call-site compatibility parameter remains in the Dataset assembler solely to prevent stale tests from restoring legacy inputs; `include_legacy=True` is rejected.
 - No JSON-LD file or parity-maintained TypeScript semantic copy was restored.
