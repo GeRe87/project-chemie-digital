@@ -21,8 +21,19 @@ def populated_graph_ids(dataset: Dataset) -> tuple[URIRef, ...]:
     return tuple(sorted(identifiers, key=str))
 
 
-def assemble_dataset(*, trig_paths: tuple[Path, ...] | None = None) -> Dataset:
-    """Assemble the one canonical logical Dataset from repository-local TriG files."""
+def assemble_dataset(
+    *,
+    trig_paths: tuple[Path, ...] | None = None,
+    include_legacy: bool | None = None,
+) -> Dataset:
+    """Assemble the one canonical logical Dataset from repository-local TriG files.
+
+    ``include_legacy=False`` is accepted temporarily as a fail-safe call-site migration
+    aid. Requests to load retired legacy inputs fail closed instead of silently
+    restoring a parallel semantic source.
+    """
+    if include_legacy is True:
+        raise ValueError("Legacy JSON-LD dataset inputs have been retired; canonical TriG is the sole source")
     dataset = Dataset(default_union=False)
     for path in sorted(trig_paths or CANONICAL_TRIG, key=lambda item: item.as_posix()):
         dataset.parse(path, format="trig")
