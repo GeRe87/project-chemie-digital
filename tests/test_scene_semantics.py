@@ -40,8 +40,8 @@ class SceneSemanticValidationTests(unittest.TestCase):
 
         graph = assembled_data_graph()
         concept = URIRef(EX + "standard-deviation")
-        definition = URIRef(EX + "standard-deviation-definition-basic")
-        source = URIRef(EX + "reference-statistics-01")
+        definition = URIRef(EX + "sd-definition-basic-de")
+        source = URIRef(EX + "source-nist-dispersion")
         authored = URIRef(CD + "authoredResource")
         self.assertIn((concept, URIRef(CD + "hasDefinition"), definition), graph)
         self.assertIn((definition, URIRef(CD + "hasSource"), source), graph)
@@ -94,7 +94,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
     def test_unsupported_communicative_role_is_rejected(self) -> None:
         graph = assembled_data_graph()
         item = URIRef(EX + "scene-standard-deviation-definition")
-        role = URIRef(CD + "communicativeRole")
+        role = URIRef(EX + "communicativeRole")
         graph.set((item, role, URIRef(CD + "UnsupportedRole")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
