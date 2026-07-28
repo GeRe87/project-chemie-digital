@@ -7,7 +7,8 @@ Develop a semantic authoring and orchestration platform for chemistry education.
 ## Non-negotiable architecture
 
 - RDF is the semantic model.
-- JSON-LD and Turtle are accepted source serializations.
+- TriG files under `ontology/dataset/` are the sole authored semantic source and assemble into one logical RDF Dataset with preserved named-graph identity.
+- JSON is permitted only as disposable generated transport or non-semantic application configuration; retired JSON-LD/Turtle compatibility sources must not be restored.
 - Apache Jena Fuseki is the planned RDF database.
 - TypeScript is the primary application language.
 - React components provide interactive views.
