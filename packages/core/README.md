@@ -20,6 +20,12 @@ Compilation preserves stable RDF identifiers, named-graph provenance, relation p
 
 Resource identifiers are sorted independently of map insertion order. Scene and block identities, source order, reading order, disclosure order, accessible alternatives, explicit narration and available provenance are propagated deterministically.
 
+## Scene-to-RDF bindings and view state
+
+`scene-graph-view-contracts.ts` defines versioned `SceneResourceBinding`, `SceneGraphProjectionRequest` and `ViewSwitchState` contracts. Cross-view mappings use only stable absolute RDF identities, explicit provenance identities and authored relation paths. Identity collections are validated, deduplicated and canonically ordered before serialization.
+
+View state is keyed by the exact scene identity and deterministic scene revision. Matching revisions are preserved unchanged. A changed revision may be reconciled only against an explicit snapshot of available resource and block identities; state from another scene is rejected. The contracts contain no presentation-framework, graph-layout or persistence implementation concepts and perform no network access or canonical RDF mutation.
+
 ## Offline knowledge-network projector
 
 `projectKnowledgeNetwork` accepts an explicitly supplied, already parsed and validated logical RDF Dataset snapshot and versioned projection options. It performs deterministic breadth-first traversal across the merged Dataset, restricts traversal to declared predicates and depth, deduplicates semantic entities and relations, and returns either one immutable `KnowledgeNetworkDocument 1.0` or one stable atomic diagnostic.

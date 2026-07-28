@@ -7,7 +7,7 @@
 
 The platform must turn semantic chemistry knowledge into multiple educational views without allowing any renderer to shape the core domain model. ADR-0001 already establishes Reveal.js as an encapsulated renderer. The deterministic path resolver introduced for issue #3 now provides a typed, renderer-neutral resolved-path output, but the contracts surrounding it must be made explicit before scene composition is implemented.
 
-The source material is maintained as RDF. Individual JSON-LD or Turtle files are review units, not separate semantic authorities: together they form one logical RDF dataset whose merged graph is validated and compiled.
+The source material is maintained as one logical RDF Dataset authored exclusively in canonical TriG files under `ontology/dataset/`. File boundaries are review units, not separate semantic authorities; named-graph identity is preserved through validation and compilation. Retired JSON-LD and Turtle compatibility files are not active semantic inputs.
 
 ## Decision
 
@@ -126,7 +126,7 @@ Network acquisition, cache refresh and rights review are separate workflows outs
 
 ## Logical RDF dataset and source files
 
-The compiler treats all configured RDF source files as one logical dataset. File boundaries exist for authorship, review and maintenance. They must not determine semantic scope, identity or compilation order. Parsing and merging occur before SHACL validation and path resolution. Duplicate or conflicting statements are handled by explicit validation rules rather than file precedence.
+The compiler treats all canonical TriG files under `ontology/dataset/` as one logical Dataset while preserving their named-graph identities. File boundaries exist for authorship, review and maintenance. They must not determine semantic scope, identity or compilation order. Dataset assembly occurs before SHACL validation and path resolution. Duplicate or conflicting statements are handled by explicit validation rules rather than file precedence.
 
 ## Accessibility and privacy
 
