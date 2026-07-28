@@ -82,6 +82,6 @@
 
 ## Recommended manager action
 
-Final commit SHA: `fc01491f7c028161d111d90a61c21636aa179766`
+Final commit SHA: `30f80229fb8b145fc1437271fd96ae06bc66d655`
 
 Required final external status: `agent-validator/project-chemie-digital = success` on the exact final PR head. Remaining risks: none after that exact-head status is refreshed; PR #63 remains Draft and must not be merged by this worker.
