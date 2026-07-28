@@ -1,17 +1,19 @@
 # ADR-0006: Add a renderer-neutral knowledge-network projection before the D3 adapter
 
-- Status: Proposed
+- Status: Accepted and extended by Issues #64 and #66
 - Date: 2026-07-17
 
 ## Context
 
 The standard-deviation slice now compiles deterministic learning paths into `SceneDocument` 1.0 and then into an adapter-owned Reveal render plan. A knowledge-network view serves a different purpose: it exposes selected semantic relations as a graph rather than presenting a sequential didactic path. Forcing this view through `SceneDocument` would incorrectly introduce graph semantics into a sequential scene contract, while allowing D3 to query or interpret RDF directly would combine semantic selection, projection policy, layout and runtime behavior in one renderer.
 
-The source remains one validated logical RDF dataset assembled from reviewable JSON-LD or Turtle files. Existing path-resolution, scene-composition, `SceneDocument` 1.0 and `RevealRenderPlan` 1.0 contracts remain unchanged.
+The sole authored semantic source is the canonical TriG dataset under `ontology/dataset/`, assembled as one validated logical RDF Dataset with named-graph identity preserved. Generated JSON is disposable transport only. Existing path-resolution, scene-composition, `SceneDocument` 1.0 and `RevealRenderPlan` 1.0 contracts remain unchanged.
 
 ## Decision
 
 Introduce an additive renderer-neutral **KnowledgeNetworkDocument 1.0** projection contract in the core learning-compiler boundary. A pure deterministic projector consumes an explicitly supplied, already parsed and validated logical RDF dataset snapshot plus versioned projection options. It produces either one complete immutable document or stable diagnostics; partial documents are forbidden.
+
+For current-scene projection, the additive scene-context specialization consumes a validated `SceneGraphProjectionRequest`. It derives selected identities from scene resource and provenance bindings, projects only explicitly allowlisted incoming and outgoing one-hop relations, classifies nodes as `selected` or `related`, and retains the scene revision, block bindings, relation paths and provenance. It does not define a permanent product-wide relation allowlist.
 
 The two compatible downstream branches are:
 
@@ -88,15 +90,17 @@ interface KnowledgeNetworkAccessibility {
 ## Projection rules
 
 1. Validate the complete dataset snapshot and options before traversal.
-2. Resolve root identities against the merged logical dataset, never against file boundaries.
-3. Traverse only predicates explicitly allowed by the projection options and project policy.
-4. Apply a deterministic breadth-first traversal ordered by canonical semantic identity and predicate identity.
+2. Resolve root or selected identities against the merged logical dataset, never against source-file boundaries.
+3. Traverse only predicates explicitly allowed by the projection request and project policy.
+4. Apply deterministic lexical ordering by canonical semantic identity and predicate identity.
 5. Deduplicate nodes by semantic entity identity and edges by `(source, predicate, target)` identity.
 6. Generate document, node, edge and group identifiers solely from canonical source identities and versioned projection parameters; random identifiers are forbidden.
 7. Sort nodes by canonical semantic entity identity, edges by source identity, predicate identity and target identity, and groups by group identity.
-8. Preserve labels, semantic types, provenance and source references without inventing missing metadata.
-9. Optional grouping is descriptive metadata only. It must not prescribe screen position, cluster geometry or renderer components.
+8. Preserve labels, semantic types, provenance, source references, scene block bindings and relation paths without inventing missing metadata.
+9. Optional grouping and selected/related classification are descriptive metadata only. They must not prescribe screen position, cluster geometry or renderer components.
 10. Canonical serialization of identical validated inputs and options must be byte-for-byte stable.
+11. Scene-context projection is strictly one hop in both incoming and outgoing directions; deeper resources and non-allowlisted predicates are excluded.
+12. A selected resource always takes precedence over a related classification.
 
 ## Diagnostics
 
@@ -105,11 +109,15 @@ Projection fails atomically with stable codes including:
 - `UNSUPPORTED_DATASET_CONTRACT_VERSION`
 - `INVALID_DATASET`
 - `INVALID_PROJECTION_OPTIONS`
+- `INVALID_REQUEST`
 - `UNKNOWN_ROOT_ENTITY`
+- `UNKNOWN_SELECTED_RESOURCE`
 - `UNSUPPORTED_PREDICATE`
 - `MISSING_ACCESSIBLE_LABEL`
 - `UNRESOLVED_REQUIRED_REFERENCE`
+- `AMBIGUOUS_DATASET_METADATA`
 - `KNOWLEDGE_NETWORK_CONTRACT_VIOLATION`
+- `SCENE_GRAPH_PROJECTION_VIOLATION`
 
 Diagnostics identify relevant semantic entities or predicates where available, but do not include unstable parser or runtime text as normative identity.
 
@@ -138,7 +146,9 @@ The projector is pure and offline. It receives a dataset snapshot and options, p
 
 ## Compatibility
 
-This decision is additive. It does not modify ontology terms, SHACL constraints, resolver output, scene composition, `SceneDocument` 1.0 or the Reveal adapter. A future implementation may add neutral core types and a projector package without creating dependencies from existing upstream layers to D3 or React.
+This decision is additive. It does not modify ontology terms, SHACL constraints, resolver output, scene composition, `SceneDocument` 1.0 or the Reveal adapter. The scene-context specialization reuses the accepted generic document and projector contracts instead of creating a parallel graph source of truth.
+
+Retired JSON-LD and flat Turtle compatibility inputs are not active semantic sources and must not be restored. Historical references in reviews and handoffs remain historical evidence only.
 
 ## Rejected alternatives
 
@@ -158,6 +168,6 @@ Rejected because layout is renderer-owned, volatile and unrelated to semantic au
 
 - The sequential presentation pipeline remains unchanged.
 - Multiple graph renderers can consume one neutral document.
-- Semantic selection is deterministic and testable without a browser.
+- Semantic selection and current-scene one-hop projection are deterministic and testable without a browser.
 - D3 remains replaceable and isolated from domain content.
-- The next bounded task is implementation of the pure offline dataset-to-`KnowledgeNetworkDocument` 1.0 projector with golden, determinism, dependency-direction, accessibility and no-network tests; D3 runtime integration follows separately.
+- Accessible summary, view-switch UI and visual graph-adapter implementation remain separately governed follow-up stages.
