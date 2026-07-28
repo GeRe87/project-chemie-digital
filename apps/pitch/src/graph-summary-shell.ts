@@ -24,7 +24,11 @@ function absoluteIri(value: string): string {
 }
 
 function absoluteRelationPath(value: string): readonly string[] {
-  return Object.freeze(value.split("/").map((part) => absoluteIri(part.replace(/@[A-Za-z0-9-]+$/, ""))));
+  const normalized = value.replace(/@[A-Za-z0-9-]+$/, "");
+  if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(normalized) || normalized.startsWith("urn:")) {
+    return Object.freeze([normalized]);
+  }
+  return Object.freeze(normalized.split("/").filter(Boolean).map(absoluteIri));
 }
 
 function absoluteSource(source: SourceReference): SourceReference {
