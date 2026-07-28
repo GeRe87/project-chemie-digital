@@ -202,26 +202,44 @@ export function reconcileViewSwitchState(state: ViewSwitchState, snapshot: Scene
 
   const availableResources = new Set(canonicalUnique(snapshot.availableResourceIds, "snapshot.availableResourceIds", requireAbsoluteIri));
   const availableBlocks = new Set(canonicalUnique(snapshot.availableBlockIds, "snapshot.availableBlockIds", requireNonEmpty));
+  const referencedResources = Object.freeze(
+    [...new Set([
+      ...(canonical.graphCursor.focusedResourceId === null ? [] : [canonical.graphCursor.focusedResourceId]),
+      ...canonical.graphCursor.expandedResourceIds,
+      ...canonical.graphCursor.visitedResourceIds,
+    ])].sort(lexicalCompare),
+  );
+  const referencedBlocks = Object.freeze(
+    [...new Set([
+      ...(canonical.presentationCursor.blockId === null ? [] : [canonical.presentationCursor.blockId]),
+      ...(canonical.returnFocus.blockId === null ? [] : [canonical.returnFocus.blockId]),
+    ])].sort(lexicalCompare),
+  );
+
   if (canonical.sceneRevision === sceneRevision) {
+    const missingResourceId = referencedResources.find((identity) => !availableResources.has(identity));
+    if (missingResourceId !== undefined) {
+      throw new SceneGraphViewContractError(`Same-revision snapshot is missing referenced resource identity: ${missingResourceId}`);
+    }
+    const missingBlockId = referencedBlocks.find((identity) => !availableBlocks.has(identity));
+    if (missingBlockId !== undefined) {
+      throw new SceneGraphViewContractError(`Same-revision snapshot is missing referenced block identity: ${missingBlockId}`);
+    }
     return Object.freeze({ state: canonical, revised: false, discardedResourceIds: Object.freeze([]) });
   }
 
-  const referencedResources = [
-    ...(canonical.graphCursor.focusedResourceId === null ? [] : [canonical.graphCursor.focusedResourceId]),
-    ...canonical.graphCursor.expandedResourceIds,
-    ...canonical.graphCursor.visitedResourceIds,
-  ];
   const discardedResourceIds = Object.freeze(
-    [...new Set(referencedResources.filter((identity) => !availableResources.has(identity)))].sort(lexicalCompare),
+    referencedResources.filter((identity) => !availableResources.has(identity)),
   );
+  const presentationBlockId = canonical.presentationCursor.blockId !== null && availableBlocks.has(canonical.presentationCursor.blockId)
+    ? canonical.presentationCursor.blockId
+    : null;
   const reconciled = canonicalizeViewSwitchState({
     ...canonical,
     sceneRevision,
     presentationCursor: {
-      blockId: canonical.presentationCursor.blockId !== null && availableBlocks.has(canonical.presentationCursor.blockId)
-        ? canonical.presentationCursor.blockId
-        : null,
-      fragmentId: canonical.presentationCursor.fragmentId,
+      blockId: presentationBlockId,
+      fragmentId: presentationBlockId === null ? null : canonical.presentationCursor.fragmentId,
     },
     graphCursor: {
       focusedResourceId: canonical.graphCursor.focusedResourceId !== null && availableResources.has(canonical.graphCursor.focusedResourceId)
