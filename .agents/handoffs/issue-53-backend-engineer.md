@@ -22,6 +22,8 @@
 - Retired the executable JSON-LD path resolver after confirming its only remaining runtime consumer was its own obsolete fixture test; retained only renderer-neutral `ResolvedLearningPath` and `ResolvedPathStep` contracts required by the scene composer.
 - Removed `packages/core/test/path-resolver.test.ts`, which executed deleted `content/**/*.jsonld` fixtures.
 - Added nine canonical Dataset path-resolution regressions covering authored nine-scene order, semantic resource selections and relation paths, missing path, step, scene and selected resource failures, and duplicate, non-integer and non-positive positions.
+- Added `cd:latex` to the canonical audience-visible literal resolution boundary so the formula scene resolves `ex:sample-sd-formula` directly from authored TriG rather than from compiler or renderer content.
+- Added focused canonical runtime regressions proving the exact formula text, RDF resource identity, authored relation path and named-graph provenance, plus fail-closed behavior when the selected MathExpression has no audience-visible literal.
 - Preserved historical reviews and handoffs unchanged because they are evidence rather than executable consumers.
 
 ## Files or resources changed
@@ -37,7 +39,7 @@
 - `packages/core/src/scene-document.ts`
 - `packages/core/README.md`
 - `packages/core/test/path-resolver.test.ts` — deleted
-- `tests/test_canonical_runtime_path_resolution.py` — added
+- `tests/test_canonical_runtime_path_resolution.py` — added and extended for canonical `cd:latex`
 - `apps/pitch/src/graph-scene-data.ts`
 - `apps/pitch/src/preview.ts`
 - `apps/pitch/README.md`
@@ -49,11 +51,12 @@
 
 ## Verification
 
-- [ ] Automated tests — fresh authoritative exact-head local validator required after the canonical path-test migration
+- [ ] Automated tests — fresh authoritative exact-head local validator required after the canonical `cd:latex` correction
 - [ ] Semantic validation — fresh authoritative exact-head local validator required after the correction commits
 - [ ] Manual browser check — required for manager acceptance
 - [ ] Static fallback parity — required for manager acceptance
 - [x] Focused path coverage — canonical Dataset tests preserve successful ordering and semantic selection plus missing and invalid dependency failure modes without JSON-LD fixtures
+- [x] Focused formula coverage — canonical `cd:latex` is selected from TriG with exact RDF identity, relation path and specification-graph provenance; removing that literal fails closed
 - [x] Focused JSON discovery coverage — absent and present root `package-lock.json` discovery cases are deterministic Node tests
 - [x] Accessibility boundary — reading order, accessible scene labels and provenance-bearing DOM structure preserved in code/tests
 - [x] Active documentation updated to the canonical TriG runtime boundary
@@ -62,6 +65,7 @@
 
 - Generated `canonical-runtime.json` is disposable, ignored by Git and regenerated before development/tests; it is not an authored semantic source.
 - Canonical path resolution and validation now belong to `scripts/generate_canonical_runtime.py` over the assembled RDF Dataset; TypeScript retains only the resolved-path contracts needed by renderer-neutral scene composition.
+- `cd:latex` is an authored mathematical literal in the canonical Dataset and is resolved before older compatibility-style `cd:expression` or `cd:notation` predicates; no formula text is duplicated in Python, TypeScript or renderer code.
 - `check:json` validates JSON under `.agents`, `apps` and `packages` plus the required root `package.json`; a root `package-lock.json` is validated only when it exists.
 - No lockfile was generated or introduced because the repository does not currently define a maintained lockfile policy.
 - Candidate traversal and output order are deterministic.
