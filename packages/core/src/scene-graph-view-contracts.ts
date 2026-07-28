@@ -79,6 +79,12 @@ export class SceneGraphViewContractError extends Error {
 const ABSOLUTE_IRI = /^[A-Za-z][A-Za-z0-9+.-]*:[^\s]+$/;
 const LANGUAGE_TAG = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
 
+function lexicalCompare(left: string, right: string): number {
+  if (left < right) return -1;
+  if (left > right) return 1;
+  return 0;
+}
+
 function requireNonEmpty(value: string, label: string): string {
   if (value.length === 0 || value.trim() !== value || /\s/.test(value)) {
     throw new SceneGraphViewContractError(`${label} must be a non-empty whitespace-free identity`);
@@ -104,7 +110,7 @@ function canonicalUnique(values: readonly string[], label: string, validator: (v
   if (new Set(validated).size !== validated.length) {
     throw new SceneGraphViewContractError(`${label} must not contain duplicate identities`);
   }
-  return Object.freeze([...validated].sort((left, right) => left.localeCompare(right)));
+  return Object.freeze([...validated].sort(lexicalCompare));
 }
 
 function optionalIdentity(value: string | null, label: string): string | null {
@@ -135,7 +141,7 @@ export function canonicalizeSceneResourceBindings(bindings: readonly SceneResour
   if (new Set(blockIds).size !== blockIds.length) {
     throw new SceneGraphViewContractError("bindings must not contain duplicate blockId values");
   }
-  return Object.freeze([...canonical].sort((left, right) => left.blockId.localeCompare(right.blockId)));
+  return Object.freeze([...canonical].sort((left, right) => lexicalCompare(left.blockId, right.blockId)));
 }
 
 export function canonicalizeSceneGraphProjectionRequest(request: SceneGraphProjectionRequest): SceneGraphProjectionRequest {
@@ -162,7 +168,7 @@ export function canonicalizeViewSwitchState(state: ViewSwitchState): ViewSwitchS
   if (state.version !== VIEW_SWITCH_STATE_VERSION) {
     throw new SceneGraphViewContractError(`Unsupported ViewSwitchState version: ${state.version}`);
   }
-  if (!(["presentation", "graph", "graph-summary"] as readonly string[]).includes(state.mode)) {
+  if (!( ["presentation", "graph", "graph-summary"] as readonly string[]).includes(state.mode)) {
     throw new SceneGraphViewContractError(`Unsupported view mode: ${state.mode}`);
   }
   return Object.freeze({
@@ -206,7 +212,7 @@ export function reconcileViewSwitchState(state: ViewSwitchState, snapshot: Scene
     ...canonical.graphCursor.visitedResourceIds,
   ];
   const discardedResourceIds = Object.freeze(
-    [...new Set(referencedResources.filter((identity) => !availableResources.has(identity)))].sort((left, right) => left.localeCompare(right)),
+    [...new Set(referencedResources.filter((identity) => !availableResources.has(identity)))].sort(lexicalCompare),
   );
   const reconciled = canonicalizeViewSwitchState({
     ...canonical,
