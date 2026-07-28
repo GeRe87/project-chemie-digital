@@ -121,7 +121,7 @@ test("canonical view state is byte-identical for equivalent identity order", () 
   assert.equal(canonicalSerializeViewSwitchState(first), canonicalSerializeViewSwitchState(second));
 });
 
-test("accepts matching revision state without changing identities", () => {
+test("accepts matching revision state only when every referenced identity exists", () => {
   const state = canonicalizeViewSwitchState(viewState());
   const result = reconcileViewSwitchState(state, {
     sceneId: state.sceneId,
@@ -132,6 +132,29 @@ test("accepts matching revision state without changing identities", () => {
   assert.equal(result.revised, false);
   assert.deepEqual(result.state, state);
   assert.deepEqual(result.discardedResourceIds, []);
+});
+
+test("rejects an inconsistent same-revision resource or block snapshot", () => {
+  const state = viewState();
+  expectContractError(
+    () => reconcileViewSwitchState(state, {
+      sceneId: state.sceneId,
+      sceneRevision: state.sceneRevision,
+      availableResourceIds: [iri("sample-sd-formula"), iri("standard-deviation")],
+      availableBlockIds: ["block:formula"],
+    }),
+    /same-revision snapshot is missing referenced resource identity/i,
+  );
+
+  expectContractError(
+    () => reconcileViewSwitchState(state, {
+      sceneId: state.sceneId,
+      sceneRevision: state.sceneRevision,
+      availableResourceIds: [iri("sample-sd-formula"), iri("standard-deviation"), iri("source-nist-dispersion")],
+      availableBlockIds: ["block:definition"],
+    }),
+    /same-revision snapshot is missing referenced block identity/i,
+  );
 });
 
 test("reconciles a new revision by stable identity and discards missing resources", () => {
@@ -146,7 +169,19 @@ test("reconciles a new revision by stable identity and discards missing resource
   assert.equal(result.state.graphCursor.focusedResourceId, null);
   assert.deepEqual(result.state.graphCursor.expandedResourceIds, [iri("standard-deviation")]);
   assert.equal(result.state.presentationCursor.blockId, null);
+  assert.equal(result.state.presentationCursor.fragmentId, null);
   assert.deepEqual(result.discardedResourceIds, [iri("sample-sd-formula"), iri("source-nist-dispersion")]);
+});
+
+test("preserves a fragment only when its presentation block survives revision reconciliation", () => {
+  const result = reconcileViewSwitchState(viewState(), {
+    sceneId: iri("scene-standard-deviation-formula"),
+    sceneRevision: "sha256:scene-revision-2",
+    availableResourceIds: [iri("sample-sd-formula"), iri("standard-deviation"), iri("source-nist-dispersion")],
+    availableBlockIds: ["block:formula"],
+  });
+  assert.equal(result.state.presentationCursor.blockId, "block:formula");
+  assert.equal(result.state.presentationCursor.fragmentId, "fragment:1");
 });
 
 test("rejects state reconciliation across different scenes", () => {
