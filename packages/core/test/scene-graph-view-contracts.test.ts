@@ -180,3 +180,15 @@ test("contract helpers perform no network access and do not mutate inputs", () =
     globalThis.fetch = originalFetch;
   }
 });
+
+test("active architecture documentation identifies canonical TriG as the sole authored semantic source", async () => {
+  const documents = await Promise.all([
+    readFile(new URL("../../../AGENTS.md", import.meta.url), "utf8"),
+    readFile(new URL("../README.md", import.meta.url), "utf8"),
+    readFile(new URL("../../../docs/adr/0002-semantic-learning-compiler-layers.md", import.meta.url), "utf8"),
+  ]);
+  const combined = documents.join("\n");
+  assert.match(combined, /sole authored semantic source|authored exclusively in canonical TriG/i);
+  assert.doesNotMatch(combined, /JSON-LD and Turtle are accepted source serializations/);
+  assert.doesNotMatch(combined, /Individual JSON-LD or Turtle files are review units/);
+});
