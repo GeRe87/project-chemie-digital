@@ -57,13 +57,20 @@ export interface SceneGraphProjectionResult {
 }
 
 class ProjectionError extends Error {
+  readonly code: SceneGraphProjectionDiagnosticCode;
+  readonly resourceId?: string;
+  readonly predicateId?: string;
+
   constructor(
-    readonly code: SceneGraphProjectionDiagnosticCode,
+    code: SceneGraphProjectionDiagnosticCode,
     message: string,
-    readonly resourceId?: string,
-    readonly predicateId?: string,
+    resourceId?: string,
+    predicateId?: string,
   ) {
     super(message);
+    this.code = code;
+    this.resourceId = resourceId;
+    this.predicateId = predicateId;
   }
 }
 
