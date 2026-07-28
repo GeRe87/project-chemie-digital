@@ -16,7 +16,9 @@ Frontend and Reveal Renderer Engineer
 - Added bounded projection/state failure handling that keeps the prior presentation visible.
 - Preserved the Reveal scene position by leaving the deck mounted while the summary is active and restored focus to the invoking control on return.
 - Added keyboard-accessible controls, focus transfer to the summary heading, reduced-motion-compatible styling, offline operation and idempotent cleanup.
-- Added focused Node tests for selected/related ordering, switching, focus restoration, failure recovery and cleanup.
+- Corrected relation-path transport parsing so an already absolute HTTP(S) or URN predicate remains one path element instead of being split on URL slashes.
+- Preserved deterministic parsing of the canonical-runtime compact multi-step form, including removal of a terminal language suffix before CURIE expansion.
+- Added focused regressions for both absolute single-predicate IRIs and compact multi-step relation paths, in addition to selected/related ordering, switching, focus restoration, failure recovery and cleanup coverage.
 - Updated the active pitch documentation; no JSON-LD, Turtle, semantic parity copy, persistence, telemetry, D3 graph or ontology change was introduced.
 
 ## Files or resources changed
@@ -30,14 +32,16 @@ Frontend and Reveal Renderer Engineer
 
 ## Verification
 
-- [ ] Automated tests — authoritative `npm test` and exact-head external validator are pending.
+- [ ] Automated tests — authoritative `npm test` and fresh exact-head external validator result are pending on the corrected PR head.
 - [ ] Semantic validation — unchanged canonical TriG/SHACL boundary; authoritative suite pending.
 - [ ] Manual browser check — pending in an execution-capable local browser environment.
 - [x] Accessibility check — deterministic controller tests cover mode switching, summary focus, return focus and failure recovery; final manual keyboard/screen-reader inspection remains pending.
+- [x] Relation-path regressions — automated tests now exercise an absolute predicate IRI as one element and the accepted slash-delimited compact multi-step canonical-runtime representation.
 - [x] Documentation updated.
 
 ## Decisions and assumptions
 
+- Absolute HTTP(S) and URN identifiers are complete relation-path elements. Slash is interpreted as a step separator only for the compact canonical-runtime representation, never inside an absolute IRI.
 - Compact runtime CURIEs are expanded at the application integration boundary before the strict absolute-IRI projection contracts are invoked; this is deterministic transport adaptation, not authored semantic content.
 - The bounded relation allowlist is derived only from relation paths explicitly carried by the current scene bindings and supported by the generated Dataset snapshot. No permanent product-wide allowlist is selected here.
 - The Reveal deck remains mounted and retains its current slide while hidden, so scene position and presentation cursor are preserved without leaking Reveal identities into core contracts.
@@ -47,8 +51,8 @@ Frontend and Reveal Renderer Engineer
 
 - Manual browser evidence required by Issue #68 could not be produced through the GitHub-only worker environment. Manager acceptance must require local inspection of keyboard switching, focus restoration, selected/related wording, ordering, failure recovery and reduced-motion behavior.
 - The generated canonical runtime must contain resolvable entities for each current scene block source. The shell fails closed and keeps the presentation visible when this condition is not met.
-- Exact-head validation may identify TypeScript strip-only or canonical-runtime integration issues that require a bounded correction.
+- The corrected exact PR head still requires `agent-validator/project-chemie-digital = success`; this worker did not infer validation from code inspection.
 
 ## Recommended manager action
 
-`review` after exact-head validator success and documented manual browser/accessibility inspection; otherwise request the smallest bounded correction.
+`review` after fresh exact-head validator success and documented manual browser/accessibility inspection; otherwise request the smallest bounded correction.
