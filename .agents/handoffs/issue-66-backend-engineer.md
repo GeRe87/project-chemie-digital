@@ -18,6 +18,8 @@
 - Added atomic stable diagnostics for malformed requests, unknown selected identities, unsupported predicates, incomplete dataset metadata and conflicting metadata.
 - Added byte-stable canonical serialization, immutable output and no-network/renderer-neutral regression coverage.
 - Reconciled active README and ADR-0006 statements so canonical TriG under `ontology/dataset/` is the sole authored semantic source and retired JSON-LD/Turtle compatibility inputs are not described as active.
+- Corrected `ProjectionError` for the repository's Node strip-only TypeScript runtime by replacing constructor parameter properties with explicit `readonly` fields and ordinary constructor assignments.
+- Preserved diagnostic codes, messages, optional resource/predicate identities and all projection behavior unchanged; the existing projector test module remains the focused import/runtime coverage under `node --experimental-strip-types --test`.
 
 ## Files or resources changed
 
@@ -30,11 +32,12 @@
 
 ## Verification
 
-- [ ] Automated tests — exact-head external validator pending
-- [ ] Semantic validation — exact-head external validator pending; no ontology content changed
+- [ ] Automated tests — fresh exact-head external validator pending after the strip-only compatibility correction
+- [ ] Semantic validation — fresh exact-head external validator pending; no ontology content changed
 - [ ] Manual browser check — not applicable to this renderer-neutral core increment
 - [x] Accessibility check — deterministic reading orders and static fallback preserved in the neutral document
 - [x] Documentation updated
+- [x] Node strip-only compatibility correction is syntactically limited to standard class fields and constructor assignments; the authoritative test command imports the corrected module through `--experimental-strip-types`
 
 ## Decisions and assumptions
 
@@ -43,13 +46,14 @@
 - Provenance identities explicitly present in scene bindings are selected resources, not inferred scientific source relations.
 - Traversal is exactly one hop in both directions; deeper resources remain excluded even when connected by an allowlisted predicate.
 - Generated transport remains disposable and no JSON-LD, retired Turtle, old resolver or renderer-specific vocabulary was restored.
+- The strip-only compatibility correction changes only the private error-class declaration form and does not alter diagnostics or projection contracts.
 
 ## Risks or unresolved questions
 
-- The connector-only worker environment cannot execute `npm test`; the local exact-head validator must confirm TypeScript compilation and the complete project suite.
+- The connector-only worker environment cannot execute `npm test`; the local exact-head validator must confirm the corrected TypeScript import and the complete project suite.
 - Later semantic and chemistry review must establish any production relation allowlist.
 - Accessible summary, view-switch UI and visual D3 adapter remain separate stages.
 
 ## Recommended manager action
 
-`review after agent-validator/project-chemie-digital succeeds on the exact PR head; request bounded changes for any compile or contract regression`
+`review after agent-validator/project-chemie-digital succeeds on the exact corrected PR head; verify that the prior ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX is absent, then assess the unchanged projection contract and merge only under the governed exact-head policy`
