@@ -8,9 +8,7 @@ from pathlib import Path
 from rdflib import Graph, Literal, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location(
-    "rdf_dataset", ROOT / "scripts" / "rdf_dataset.py"
-)
+SPEC = importlib.util.spec_from_file_location("rdf_dataset", ROOT / "scripts" / "rdf_dataset.py")
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
@@ -25,7 +23,7 @@ def uri(namespace: str, local_name: str) -> URIRef:
 
 
 def assembled_data_graph() -> Graph:
-    dataset = MODULE.assemble_dataset(include_legacy=True)
+    dataset = MODULE.assemble_dataset()
     graph = Graph()
     for subject, predicate, obj, context in dataset.quads((None, None, None, None)):
         if not str(context).startswith(SHAPES):
@@ -34,22 +32,15 @@ def assembled_data_graph() -> Graph:
 
 
 def language_body(graph: Graph, resource: str, language: str) -> str:
-    bodies = [
-        str(value)
-        for value in graph.objects(uri(EX, resource), uri(CD, "body"))
-        if isinstance(value, Literal) and value.language == language
-    ]
+    bodies = [str(value) for value in graph.objects(uri(EX, resource), uri(CD, "body")) if isinstance(value, Literal) and value.language == language]
     if len(bodies) != 1:
-        raise AssertionError(
-            f"Expected one {language!r} body for {resource}, found {len(bodies)}"
-        )
+        raise AssertionError(f"Expected one {language!r} body for {resource}, found {len(bodies)}")
     return bodies[0]
 
 
 def ordered_values(graph: Graph, dataset_name: str) -> list[Decimal]:
-    observations = graph.objects(uri(EX, dataset_name), uri(CD, "hasObservation"))
     positioned: list[tuple[int, Decimal]] = []
-    for observation in observations:
+    for observation in graph.objects(uri(EX, dataset_name), uri(CD, "hasObservation")):
         position = graph.value(observation, uri(CD, "position"))
         value = graph.value(observation, uri(CD, "numericValue"))
         if position is None or value is None:
@@ -80,11 +71,8 @@ class StandardDeviationReviewCorrectionTests(unittest.TestCase):
     def test_estimator_purpose_is_qualified_in_german_and_english(self) -> None:
         german = language_body(self.graph, "sd-definition-university-de", "de")
         english = language_body(self.graph, "sd-definition-university-en", "en")
-        sample_definition = language_body(
-            self.graph, "def-sample-standard-deviation", "de"
-        )
+        sample_definition = language_body(self.graph, "def-sample-standard-deviation", "de")
         bessel_definition = language_body(self.graph, "def-bessel", "de")
-
         self.assertIn("Schätzung der Populationsvarianz", german)
         self.assertIn("nicht, dass jede rein deskriptive", german)
         self.assertIn("nicht automatisch einen unverzerrten Schätzer", german)
@@ -98,13 +86,7 @@ class StandardDeviationReviewCorrectionTests(unittest.TestCase):
 
     def test_comparison_exercise_has_two_ordered_executable_datasets(self) -> None:
         exercise = uri(EX, "exercise-compare-series")
-        datasets = set(self.graph.objects(exercise, uri(CD, "usesDataset")))
-        expected_datasets = {
-            uri(EX, "dataset-compare-series-a"),
-            uri(EX, "dataset-compare-series-b"),
-        }
-        self.assertEqual(datasets, expected_datasets)
-
+        self.assertEqual(set(self.graph.objects(exercise, uri(CD, "usesDataset"))), {uri(EX, "dataset-compare-series-a"), uri(EX, "dataset-compare-series-b")})
         values_a = ordered_values(self.graph, "dataset-compare-series-a")
         values_b = ordered_values(self.graph, "dataset-compare-series-b")
         self.assertEqual(values_a, [Decimal("9"), Decimal("10"), Decimal("11")])
@@ -113,7 +95,6 @@ class StandardDeviationReviewCorrectionTests(unittest.TestCase):
         self.assertEqual(mean(values_b), Decimal("10"))
         self.assertEqual(sample_standard_deviation(values_a), Decimal("1"))
         self.assertEqual(sample_standard_deviation(values_b), Decimal("5"))
-
         expected_result = language_body(self.graph, "expected-compare-series", "de")
         criterion = language_body(self.graph, "criterion-compare-series", "de")
         self.assertIn("s = 1 mg/L", expected_result)
@@ -137,37 +118,19 @@ class StandardDeviationReviewCorrectionTests(unittest.TestCase):
         self.assertIn((example, RDF.type, uri(CD, "WorkedExample")), self.graph)
         self.assertIn((example, uri(CD, "usesDataset"), dataset), self.graph)
         self.assertEqual(self.graph.value(dataset, uri(CD, "unit")), Literal("mg/L"))
-
         values = ordered_values(self.graph, "dataset-caffeine")
-        self.assertEqual(
-            values,
-            [
-                Decimal("99.8"),
-                Decimal("100.1"),
-                Decimal("100.0"),
-                Decimal("100.2"),
-                Decimal("99.9"),
-            ],
-        )
+        self.assertEqual(values, [Decimal("99.8"), Decimal("100.1"), Decimal("100.0"), Decimal("100.2"), Decimal("99.9")])
         self.assertEqual(mean(values), Decimal("100.0"))
-        self.assertAlmostEqual(
-            float(sample_standard_deviation(values)), 0.158113883, places=8
-        )
-
+        self.assertAlmostEqual(float(sample_standard_deviation(values)), 0.158113883, places=8)
         steps = list(self.graph.objects(example, uri(CD, "hasCalculationStep")))
-        positions = sorted(
-            int(self.graph.value(step, uri(CD, "position"))) for step in steps
-        )
-        self.assertEqual(positions, [1, 2, 3, 4])
+        self.assertEqual(sorted(int(self.graph.value(step, uri(CD, "position"))) for step in steps), [1, 2, 3, 4])
         interpretation = language_body(self.graph, "caffeine-step-4", "de")
         self.assertIn("≈ 0,158 mg/L", interpretation)
         self.assertIn("nicht Richtigkeit", interpretation)
         self.assertIn("kein Referenzwert oder Wiederfindungsergebnis", interpretation)
 
     def test_dataset_fingerprint_is_deterministic_after_corrections(self) -> None:
-        first = MODULE.dataset_fingerprint(MODULE.assemble_dataset(include_legacy=True))
-        second = MODULE.dataset_fingerprint(MODULE.assemble_dataset(include_legacy=True))
-        self.assertEqual(first, second)
+        self.assertEqual(MODULE.dataset_fingerprint(MODULE.assemble_dataset()), MODULE.dataset_fingerprint(MODULE.assemble_dataset()))
 
 
 if __name__ == "__main__":

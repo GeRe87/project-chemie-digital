@@ -12,9 +12,7 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
-)
+VALIDATION_SPEC = importlib.util.spec_from_file_location("validate_semantics", ROOT / "scripts" / "validate_semantics.py")
 assert VALIDATION_SPEC and VALIDATION_SPEC.loader
 VALIDATION_MODULE = importlib.util.module_from_spec(VALIDATION_SPEC)
 VALIDATION_SPEC.loader.exec_module(VALIDATION_MODULE)
@@ -51,19 +49,20 @@ class RdfDatasetTests(unittest.TestCase):
                 self.assertTrue(names <= EXPECTED_CANONICAL_GRAPHS)
 
     def test_canonical_dataset_uses_exact_stable_named_graphs(self) -> None:
-        dataset = MODULE.assemble_dataset(include_legacy=False)
-        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, populated_graph_names(dataset))
+        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, populated_graph_names(MODULE.assemble_dataset()))
+
+    def test_no_legacy_graphs_are_assembled(self) -> None:
+        names = populated_graph_names(MODULE.assemble_dataset())
+        self.assertFalse(any("/graph/legacy/" in name for name in names))
 
     def test_empty_default_graph_is_not_an_owned_graph(self) -> None:
-        dataset = MODULE.assemble_dataset(include_legacy=False)
+        dataset = MODULE.assemble_dataset()
         self.assertEqual(0, len(dataset.default_graph))
         self.assertNotIn(str(dataset.default_graph.identifier), populated_graph_names(dataset))
 
     def test_populated_default_graph_is_rejected(self) -> None:
         dataset = Dataset(default_union=False)
-        dataset.default_graph.add(
-            (URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T"))
-        )
+        dataset.default_graph.add((URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T")))
         with self.assertRaisesRegex(ValueError, "Unsupported graph identity"):
             MODULE.validate_dataset_contract(dataset)
 
@@ -72,54 +71,26 @@ class RdfDatasetTests(unittest.TestCase):
         self.assertTrue(conforms, report)
         self.assertIn("Dataset fingerprint:", report)
 
-    def test_legacy_jsonld_is_isolated_in_explicit_compatibility_graphs(self) -> None:
-        dataset = MODULE.assemble_dataset(include_legacy=True)
-        names = populated_graph_names(dataset)
-        self.assertTrue(any(name.startswith(MODULE.LEGACY_GRAPH_BASE) for name in names))
-
-    def test_superseded_legacy_subject_assertions_are_removed(self) -> None:
-        dataset = MODULE.assemble_dataset(include_legacy=True)
-        for graph_id in MODULE.populated_graph_ids(dataset):
-            if str(graph_id).startswith(MODULE.LEGACY_GRAPH_BASE):
-                self.assertEqual([], list(dataset.graph(graph_id).triples((STANDARD_DEVIATION, None, None))))
-
     def test_assembled_standard_deviation_has_exact_bilingual_labels_and_no_direct_source(self) -> None:
-        dataset = MODULE.assemble_dataset(include_legacy=True)
-        labels = {
-            obj
-            for _subject, _predicate, obj, _graph in dataset.quads(
-                (STANDARD_DEVIATION, PREF_LABEL, None, None)
-            )
-        }
-        self.assertEqual(
-            {Literal("Standardabweichung", lang="de"), Literal("standard deviation", lang="en")},
-            labels,
-        )
-        self.assertEqual(
-            [],
-            list(dataset.quads((STANDARD_DEVIATION, HAS_SOURCE, None, None))),
-        )
+        dataset = MODULE.assemble_dataset()
+        labels = {obj for _s, _p, obj, _g in dataset.quads((STANDARD_DEVIATION, PREF_LABEL, None, None))}
+        self.assertEqual({Literal("Standardabweichung", lang="de"), Literal("standard deviation", lang="en")}, labels)
+        self.assertEqual([], list(dataset.quads((STANDARD_DEVIATION, HAS_SOURCE, None, None))))
 
     def test_fingerprint_is_independent_of_source_file_order(self) -> None:
-        forward = MODULE.assemble_dataset(include_legacy=False, trig_paths=MODULE.CANONICAL_TRIG)
-        reverse = MODULE.assemble_dataset(
-            include_legacy=False, trig_paths=tuple(reversed(MODULE.CANONICAL_TRIG))
-        )
+        forward = MODULE.assemble_dataset(trig_paths=MODULE.CANONICAL_TRIG)
+        reverse = MODULE.assemble_dataset(trig_paths=tuple(reversed(MODULE.CANONICAL_TRIG)))
         self.assertEqual(MODULE.dataset_fingerprint(forward), MODULE.dataset_fingerprint(reverse))
 
     def test_non_project_graph_is_rejected(self) -> None:
         dataset = Dataset()
-        dataset.graph(URIRef("https://example.invalid/graph")).add(
-            (URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T"))
-        )
+        dataset.graph(URIRef("https://example.invalid/graph")).add((URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T")))
         with self.assertRaisesRegex(ValueError, "Unsupported graph identity"):
             MODULE.validate_dataset_contract(dataset)
 
     def test_blank_node_identity_outside_shapes_is_rejected(self) -> None:
         dataset = Dataset()
-        dataset.graph(URIRef(f"{MODULE.GRAPH_BASE}knowledge/test")).add(
-            (BNode(), RDF.type, URIRef("https://example.invalid/T"))
-        )
+        dataset.graph(URIRef(f"{MODULE.GRAPH_BASE}knowledge/test")).add((BNode(), RDF.type, URIRef("https://example.invalid/T")))
         with self.assertRaisesRegex(ValueError, "Blank-node subjects"):
             MODULE.validate_dataset_contract(dataset)
 

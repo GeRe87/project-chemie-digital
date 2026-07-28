@@ -1,12 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { compilePitchSceneDocuments, STANDARD_DEVIATION_SCENE_ID } from "../src/graph-scene-data.ts";
 import {
-  conceptDocument as generatedConceptDocument,
-  resourceDocument as generatedResourceDocument,
-  sceneDocument as generatedSceneDocument,
-} from "../src/generated/standard-deviation-scene-data.ts";
+  canonicalDatasetFingerprint,
+  canonicalDatasetSnapshot,
+  compilePitchSceneDocuments,
+  STANDARD_DEVIATION_PATH_ID,
+} from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
 
 class FakeElement implements MinimalElement {
@@ -17,56 +17,49 @@ class FakeElement implements MinimalElement {
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
 }
 
-function readJson(relativePath: string): unknown {
-  return JSON.parse(readFileSync(new URL(relativePath, import.meta.url), "utf8"));
-}
-
-test("portable browser data boundary remains identical to authored JSON-LD", () => {
-  assert.deepEqual(generatedConceptDocument, readJson("../../../content/concepts/standard-deviation.jsonld"));
-  assert.deepEqual(generatedResourceDocument, readJson("../../../content/resources/standard-deviation-resources.jsonld"));
-  assert.deepEqual(generatedSceneDocument, readJson("../../../content/scenes/standard-deviation-definition-with-citation.jsonld"));
+test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {
+  assert.match(canonicalDatasetFingerprint, /^sha256:[0-9a-f]{64}$/);
+  assert.equal(canonicalDatasetSnapshot.identity, canonicalDatasetFingerprint);
+  assert.ok(canonicalDatasetSnapshot.entities.some((entity) => entity.id === "ex:standard-deviation"));
+  assert.ok(canonicalDatasetSnapshot.statements.length > 0);
 });
 
-test("renders the compiled standard-deviation scene with RDF identity and provenance", () => {
+test("renders the complete nine-scene Standardabweichung path with RDF provenance", () => {
   const documents = compilePitchSceneDocuments();
+  assert.equal(documents.length, 1);
+  assert.equal(documents[0]?.sourcePathId, STANDARD_DEVIATION_PATH_ID);
+  assert.equal(documents[0]?.scenes.length, 9);
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
-  assert.equal(root.children.length, 1);
-  const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-source-path-id"), STANDARD_DEVIATION_SCENE_ID);
-  assert.equal(section.children[0]?.textContent, "Standardabweichung");
-  assert.equal(section.children[1]?.attributes.get("data-resource-id"), "ex:standard-deviation-definition-basic");
-  assert.match(section.children[1]?.attributes.get("data-provenance-ids") ?? "", /reference-statistics-01/);
+  assert.equal(root.children.length, 9);
+  const first = root.children[0]!;
+  assert.equal(first.attributes.get("data-source-path-id"), STANDARD_DEVIATION_PATH_ID);
+  assert.equal(first.children[0]?.textContent, "Standardabweichung");
+  assert.equal(first.children[1]?.attributes.get("data-resource-id"), "ex:sd-definition-basic-de");
+  assert.match(first.children[1]?.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
+  assert.equal(first.children[1]?.attributes.get("data-relation-path"), "cd:hasDefinition");
   destroy(); assert.equal(root.children.length, 0); destroy();
 });
 
-test("RDF definition mutation propagates without renderer edits", async () => {
-  const { compileGraphBackedScene } = await import("../../../packages/core/src/graph-scene-compiler.ts");
-  const conceptDocument = readJson("../../../content/concepts/standard-deviation.jsonld");
-  const resourceDocument = readJson("../../../content/resources/standard-deviation-resources.jsonld") as { "@graph": Array<Record<string, unknown>> };
-  const sceneDocument = readJson("../../../content/scenes/standard-deviation-definition-with-citation.jsonld");
-  const definition = resourceDocument["@graph"].find((node) => node.id === "ex:standard-deviation-definition-basic");
-  assert.ok(definition);
-  definition.body = { "@value": "Mutierte RDF-Definition", "@language": "de" };
-  const result = compileGraphBackedScene({ conceptDocument, resourceDocument, sceneDocument }, STANDARD_DEVIATION_SCENE_ID);
-  assert.ok(result.document, JSON.stringify(result.diagnostics));
-  const root = new FakeElement(); mountSceneDocuments({ root, createElement: () => new FakeElement() }, [result.document]);
-  assert.equal(root.children[0]?.children[1]?.textContent, "Mutierte RDF-Definition");
+test("renderer runtime contains no audience-authored Standardabweichung prose", () => {
+  const runtime = ["../src/preview.ts", "../src/main.ts", "../src/graph-scene-data.ts"]
+    .map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
+  assert.equal(runtime.includes("Die Standardabweichung beschreibt, wie stark Werte"), false);
+  assert.equal(runtime.includes("Koffeinbestimmung"), false);
 });
 
-test("renderer runtime contains no duplicated authored pitch prose", () => {
-  const runtime = ["../src/preview.ts", "../src/main.ts"].map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
-  const resources = readJson("../../../content/resources/standard-deviation-resources.jsonld") as { "@graph": Array<Record<string, unknown>> };
-  const definition = resources["@graph"].find((node) => node.id === "ex:standard-deviation-definition-basic");
-  assert.ok(definition);
-  const body = (definition.body as { "@value": string })["@value"];
-  assert.equal(runtime.includes(body), false);
-  assert.equal(runtime.includes("Standardabweichung"), false);
-});
-
-test("keeps the complete static fallback", () => {
+test("keeps a complete nine-item static fallback boundary", () => {
   const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-  assert.equal([...html.matchAll(/data-pitch-step=/g)].length, 9);
+  const documents = compilePitchSceneDocuments();
+  const sceneIds = [...html.matchAll(/data-pitch-step="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(sceneIds, documents[0]!.scenes.map((scene) => scene.id));
+  for (const scene of documents[0]!.scenes) {
+    for (const block of scene.blocks) {
+      assert.ok(html.includes(block.text), `static fallback is missing ${block.id}`);
+    }
+  }
+  assert.match(html, /cd:hasDefinition/);
+  assert.match(html, /Introductory Statistics|NIST\/SEMATECH/);
 });
 
 test("rejects missing compiled input before partial mounting", () => {

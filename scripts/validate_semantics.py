@@ -21,16 +21,14 @@ SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core
 def dataset_union(dataset: Dataset, *, exclude_shapes: bool = True) -> Graph:
     graph = Graph()
     for subject, predicate, obj, context in dataset.quads((None, None, None, None)):
-        if exclude_shapes and str(context).startswith(
-            "https://w3id.org/project-chemie-digital/graph/shapes/"
-        ):
+        if exclude_shapes and str(context).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
             continue
         graph.add((subject, predicate, obj))
     return graph
 
 
 def run_validation() -> tuple[bool, str]:
-    dataset = assemble_dataset(include_legacy=True)
+    dataset = assemble_dataset()
     conforms, _, report_text = validate(
         data_graph=dataset_union(dataset),
         shacl_graph=dataset.graph(SHAPES_GRAPH),

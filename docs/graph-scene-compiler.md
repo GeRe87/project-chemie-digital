@@ -1,37 +1,33 @@
-# Graph-backed scene compiler
+# Graph-backed scene compilation
 
-The graph scene compiler is the local application boundary between authored semantic resources and renderer-neutral `SceneDocument 1.0` output.
+The former JSON-LD-specific `compileGraphBackedScene()` implementation has been retired. Canonical scene compilation now starts from the assembled TriG RDF Dataset and produces renderer-neutral `SceneDocument 1.0` output through the deterministic runtime-generation pipeline.
 
 ## Authoritative input
 
-For the bounded standard-deviation reference scene, the compiler reads only these repository-local JSON-LD documents:
+All authored semantic content, scene specifications, path specifications and provenance are stored in canonical TriG files under `ontology/dataset/`. JSON-LD compatibility documents and the parity-maintained TypeScript semantic copy are no longer active inputs.
 
-- `content/concepts/standard-deviation.jsonld`
-- `content/resources/standard-deviation-resources.jsonld`
-- `content/scenes/standard-deviation-definition-with-citation.jsonld`
+## Current pipeline
 
-The scene definition selects resources and relation paths. Audience-visible wording remains authored only in RDF resources: the German heading is resolved from `skos:prefLabel`, the definition body from the target of `cd:hasDefinition`, and the citation label from the source reached through `cd:hasDefinition/cd:hasSource`. The compiler source contains no fallback audience wording.
+```text
+canonical TriG files
+        ↓
+deterministic RDF Dataset assembly
+        ↓
+SHACL and semantic validation
+        ↓
+path and scene resolution
+        ↓
+renderer-neutral SceneDocument output
+        ↓
+disposable browser runtime artifact
+```
 
-## Output contract
+Compilation preserves RDF resource identities, named-graph identities, relation paths and provenance. Audience-visible scientific wording remains authored in RDF resources rather than compiler or renderer source.
 
-`compileGraphBackedScene()` materializes one `SceneDocument 1.0` with ordered prose blocks. Every block retains the selected RDF resource ID. The definition block additionally retains the source resource as provenance. Scene-level sources retain both the scene-definition identity and focus-concept identity.
+The generated browser artifact is disposable output. It may be regenerated, checked and consumed by renderer adapters, but it must not be edited or maintained as a parallel source of truth.
 
-`canonicalSceneDocumentJson()` recursively sorts object keys while preserving semantically ordered arrays. Identical logical datasets and scene IDs therefore produce byte-stable JSON even when JSON-LD graph nodes or set-valued scene-item references are reordered.
+## Validation and failure behavior
 
-The compiled document is disposable output. It may be cached, inspected or passed to any renderer, but it is not an authored source of truth and must not be edited as a replacement for the RDF resources.
+Generation is offline and deterministic. Missing resources, invalid ordering, unsupported role mappings, incomplete relation paths, malformed Dataset dependencies or stale generated output fail the generation/check boundary rather than producing a partial silently substituted presentation.
 
-## Atomic rejection
-
-Compilation returns no partial document when any required invariant fails. A single bounded diagnostic is returned for:
-
-- unresolved resources;
-- ambiguous language selection;
-- missing `cd:hasDefinition` or `cd:hasSource` targets;
-- duplicate, non-positive or non-contiguous positions;
-- unsupported communicative roles;
-- unsupported or inconsistent selection paths;
-- malformed input or a final `SceneDocument` contract violation.
-
-## Local operation
-
-`loadRepositoryStandardDeviationScene()` uses Node's local file API only. It does not use HTTP, Fuseki or any network client. Fuseki integration and compilation of the full nine-step pitch remain follow-up work.
+See `docs/architecture/canonical-trig-runtime.md` for the active implementation contract and deletion inventory.

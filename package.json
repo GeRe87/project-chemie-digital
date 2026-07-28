@@ -9,14 +9,17 @@
   ],
   "scripts": {
     "check:json": "node scripts/check-json.mjs",
+    "test:json-discovery": "node --test scripts/json-candidates.test.mjs",
     "check:semantics": "python scripts/validate_semantics.py",
+    "generate:runtime": "python scripts/generate_canonical_runtime.py",
+    "check:runtime": "python scripts/generate_canonical_runtime.py --check",
     "test:semantics": "python -m unittest discover -s tests -v",
     "test:core": "npm --workspace @project-chemie-digital/core test",
     "test:renderer-reveal": "npm --workspace @project-chemie-digital/renderer-reveal test",
     "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
     "test:pitch": "npm --workspace @project-chemie-digital/pitch test",
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
-    "test": "npm run check:json && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:pitch"
+    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run generate:runtime && npm run check:runtime && npm run test:pitch"
   },
   "engines": {
     "node": ">=22"

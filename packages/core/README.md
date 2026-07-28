@@ -1,42 +1,32 @@
 # Core package
 
-Framework-independent domain types and deterministic transformations for semantic resources, learning paths, scenes, and renderer contracts.
+Framework-independent domain types and deterministic transformations for semantic resources, learning paths, scenes and renderer contracts.
 
-## Offline path resolver
+## Canonical RDF Dataset boundary
 
-`resolveLearningPath` converts the repository's compact JSON-LD graphs into a typed, renderer-neutral `ResolvedLearningPath`. It operates locally and does not contact Fuseki or any external service.
+The active runtime is authored exclusively in canonical TriG files under `ontology/dataset/`. Repository-local Dataset assembly preserves named graph identity and supplies validated logical statements to the path, scene and knowledge-network transformations. JSON-LD compatibility documents are not active core inputs.
 
-### Input
+Generated JSON is disposable renderer transport only and must not become a parallel authored source.
 
-Pass the concept, resource, and path JSON-LD documents together with the selected learning-path identifier. The current integration fixture is `ex:standard-deviation-default-path` from:
+## Offline path and scene compilation
 
-- `content/concepts/standard-deviation.jsonld`
-- `content/resources/standard-deviation-resources.jsonld`
-- `content/paths/standard-deviation-default.jsonld`
+The runtime generator resolves the canonical Standardabweichung path from the assembled Dataset, orders `cd:PathStep` resources by their positive integer `cd:position`, resolves the selected semantic resources and produces validated renderer-neutral `SceneDocument 1.0` values.
 
-### Output and ordering
-
-Resolved steps contain a stable identifier, positive integer position, renderer-neutral `viewType`, and referenced resource identifiers. Steps are sorted by ascending `cd:position`; the source order of `cd:hasStep` is not treated as RDF sequence semantics.
-
-Multiple `cd:usesResource` values are represented as a lexicographically sorted identifier array. This provides reproducible output only and explicitly does **not** claim authored presentation order. The scene composer applies the accepted deterministic composition rules.
-
-### Failure behavior
-
-Resolution fails explicitly for a missing path, missing referenced step or resource, duplicate step position, non-integer position, or non-positive position. It never invents placeholder nodes.
+Compilation preserves stable RDF identifiers, named-graph provenance, relation paths, reading order and accessible alternatives. It fails atomically for missing or ambiguous resources, invalid ordering, unsupported mappings or incomplete dependencies. The core performs no network access and contains no Reveal.js, React, HTML, CSS, browser or concrete renderer concepts.
 
 ## Offline scene composer
 
-`composeSceneDocument` accepts a `ResolvedLearningPath` and an immutable map of normalized `ResolvedResource` values. It supports exactly the five didactic mappings defined by ADR-0004 and returns either one validated renderer-neutral `SceneDocument` 1.0 or stable diagnostics without a partial document.
+`composeSceneDocument` accepts a `ResolvedLearningPath` and an immutable map of normalized `ResolvedResource` values. It supports the didactic mappings defined by ADR-0004 and returns either one validated renderer-neutral `SceneDocument 1.0` or stable diagnostics without a partial document.
 
-Resource identifiers are sorted independently of map insertion order. Scene and block identities, source order, reading order, disclosure order, accessible alternatives, explicit narration, and available provenance are propagated deterministically. The composer performs no network access and contains no Reveal.js, React, HTML, CSS, browser, or concrete renderer concepts.
+Resource identifiers are sorted independently of map insertion order. Scene and block identities, source order, reading order, disclosure order, accessible alternatives, explicit narration and available provenance are propagated deterministically.
 
 ## Offline knowledge-network projector
 
-`projectKnowledgeNetwork` accepts an explicitly supplied, already parsed and validated logical RDF dataset snapshot and versioned projection options. It performs deterministic breadth-first traversal across the merged dataset, restricts traversal to declared predicates and depth, deduplicates semantic entities and relations, and returns either one immutable `KnowledgeNetworkDocument 1.0` or one stable atomic diagnostic.
+`projectKnowledgeNetwork` accepts an explicitly supplied, already parsed and validated logical RDF Dataset snapshot and versioned projection options. It performs deterministic breadth-first traversal across the merged Dataset, restricts traversal to declared predicates and depth, deduplicates semantic entities and relations, and returns either one immutable `KnowledgeNetworkDocument 1.0` or one stable atomic diagnostic.
 
 Nodes, edges and optional semantic-type groups use canonical semantic identities and ordering. Labels, semantic types, source/provenance records and inert versioned external references are preserved. Accessibility metadata includes deterministic node and edge reading orders plus a complete textual fallback. `canonicalSerializeKnowledgeNetworkDocument` provides byte-stable canonical JSON independent of input statement or file ordering.
 
-The projector performs no network access or external-reference dereferencing. D3, React, DOM, coordinates, force simulation and browser lifecycle remain the responsibility of a later renderer adapter and do not enter the core contract.
+The projector performs no network access or external-reference dereferencing. D3, React, DOM, coordinates, force simulation and browser lifecycle remain the responsibility of renderer adapters and do not enter the core contract.
 
 ## Verification
 
@@ -46,4 +36,4 @@ From the repository root run:
 npm test
 ```
 
-The resolver, composer and knowledge-network projector have no UI surface, user tracking, network access, or personal-data processing. Accessibility metadata and static alternatives are explicit contract values and are validated before successful transformation.
+The path, scene and knowledge-network transformations have no UI surface, user tracking, network access or personal-data processing. Accessibility metadata and static alternatives are explicit contract values and are validated before successful transformation.
