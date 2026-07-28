@@ -13,8 +13,10 @@
 - Added versioned renderer-neutral `SceneResourceBinding`, `SceneGraphProjectionRequest` and `ViewSwitchState` contracts.
 - Added pure fail-closed validation and canonicalization for absolute RDF identities, provenance identities, relation paths, allowlists, block identities and revision-keyed state.
 - Added bounded revision reconciliation that preserves only identities present in an explicitly supplied snapshot and rejects state from another scene.
+- Corrected same-revision handling so every non-null resource and block identity referenced by state must exist in the explicit matching snapshot; inconsistent state/snapshot pairs now fail closed rather than being returned unchanged.
+- Kept identity filtering limited to changed revisions of the same scene and now clears `fragmentId` whenever its presentation block is removed; a fragment is retained only when that block survives.
 - Added canonical serializers with locale-independent lexical ordering and immutable outputs.
-- Added focused tests for input-order independence, duplicate and malformed identities, relation-path preservation, matching and changed revisions, foreign-scene rejection, framework neutrality, no network access and input immutability.
+- Added focused tests for input-order independence, duplicate and malformed identities, relation-path preservation, complete matching revisions, inconsistent same-revision resource and block snapshots, changed-revision identity filtering, fragment clearing and retention, foreign-scene rejection, framework neutrality, no network access and input immutability.
 - Reconciled active architecture guidance so canonical TriG under `ontology/dataset/` is the sole authored semantic source; no compatibility source was restored.
 
 ## Files or resources changed
@@ -28,7 +30,7 @@
 
 ## Verification
 
-- [ ] Automated tests — focused tests are wired into the existing core wildcard and therefore into `npm test`; exact-head external validation is pending.
+- [ ] Automated tests — focused tests are wired into the existing core wildcard and therefore into `npm test`; fresh exact-head external validation is pending after the reconciliation correction.
 - [ ] Semantic validation — no ontology or canonical TriG content changed; full exact-head validation remains pending.
 - [ ] Manual browser check — not applicable to this contract-only increment.
 - [x] Accessibility check — state preserves deterministic return-focus and accessible-summary mode identities without binding to a concrete interface implementation.
@@ -38,7 +40,9 @@
 
 - Scene and cross-view RDF identities must be absolute IRIs; blank-node identifiers are rejected.
 - `resourceIds`, provenance identities, bindings and relation allowlists are canonicalized lexically, while authored `relationPath` order is preserved.
+- A same-scene, same-revision snapshot is an integrity assertion rather than a reconciliation opportunity: every referenced resource and block identity must be present or the operation fails atomically.
 - Revision changes are reconciled only within the same scene identity and only against explicit available resource and block identities; another scene is rejected atomically.
+- A fragment cursor has meaning only while its presentation block survives the revision change, so both are cleared together.
 - The direct-relation allowlist is represented as versioned immutable configuration; traversal remains outside this issue.
 - No compiler-output extension was necessary because the contract can consume identities and relation paths already present in canonical TriG-derived scene metadata.
 
@@ -46,8 +50,8 @@
 
 - The exact relation allowlist contents and user-facing labels remain a later semantic/subject-matter decision.
 - The contract does not yet create bindings from a `SceneDocument`; the pure projector/input-builder increment should do that only after this contract is accepted.
-- Exact-head `agent-validator/project-chemie-digital` evidence is still required before acceptance.
+- Fresh exact-head `agent-validator/project-chemie-digital` evidence is required before acceptance.
 
 ## Recommended manager action
 
-`review`
+`review after fresh exact-head validation`
