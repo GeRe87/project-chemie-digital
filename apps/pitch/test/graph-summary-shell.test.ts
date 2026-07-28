@@ -32,7 +32,7 @@ const scene: Scene = {
   ],
 };
 
-test("projects and models selected and related resources in authoritative reading order", () => {
+test("preserves an absolute predicate IRI as one relation-path element", () => {
   const document = projectSceneSummary(snapshot, scene);
   const model = createGraphSummaryModel(document);
   assert.deepEqual(model.selected.map((node) => node.label), ["Definition", "Standardabweichung"]);
@@ -42,6 +42,30 @@ test("projects and models selected and related resources in authoritative readin
     "Standardabweichung — hat Definition → Definition",
   ]);
   assert.ok(model.selected.every((node) => Object.isFrozen(node)));
+});
+
+test("parses the compact multi-step canonical-runtime relation path deterministically", () => {
+  const relatedPredicate = `${CD}relatedTo`;
+  const compactSnapshot: RdfDatasetSnapshot = {
+    ...snapshot,
+    identity: "dataset:test:compact-path",
+    supportedPredicates: [`${CD}hasDefinition`, relatedPredicate],
+    statements: [
+      ...snapshot.statements,
+      { sourceEntityId: `${EX}definition`, predicateId: relatedPredicate, targetEntityId: `${EX}variance`, predicateLabel: "ist verwandt mit", source },
+    ],
+  };
+  const compactScene: Scene = {
+    ...scene,
+    blocks: scene.blocks.map((block) => block.id === "definition"
+      ? { ...block, source: [{ resourceId: "ex:definition", relationPath: "cd:hasDefinition/cd:relatedTo@de" }] }
+      : block),
+  };
+  const document = projectSceneSummary(compactSnapshot, compactScene);
+  assert.deepEqual([...new Set(document.edges.map((edge) => edge.predicateId))].sort(), [
+    `${CD}hasDefinition`,
+    relatedPredicate,
+  ]);
 });
 
 class Port implements GraphSummaryShellPort {
