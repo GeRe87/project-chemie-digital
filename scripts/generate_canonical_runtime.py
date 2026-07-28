@@ -7,7 +7,9 @@ only in ``ontology/dataset/*.trig``.
 from __future__ import annotations
 
 import argparse
+import html
 import json
+import re
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -17,6 +19,7 @@ from rdf_dataset import assemble_dataset, dataset_fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
+PITCH_INDEX = ROOT / "apps" / "pitch" / "index.html"
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 SCHEMA = "https://schema.org/"
@@ -212,19 +215,71 @@ def canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 
 
+def fallback_attributes(sources: list[dict[str, Any]]) -> str:
+    attributes = []
+    resource_ids = sorted({source["resourceId"] for source in sources})
+    provenance_ids = sorted({value for source in sources for value in source.get("provenanceIds", [])})
+    relation_paths = sorted({source["relationPath"] for source in sources if source.get("relationPath")})
+    if resource_ids:
+        attributes.append(f'data-resource-id="{html.escape(" ".join(resource_ids), quote=True)}"')
+    if provenance_ids:
+        attributes.append(f'data-provenance-ids="{html.escape(" ".join(provenance_ids), quote=True)}"')
+    if relation_paths:
+        attributes.append(f'data-relation-path="{html.escape(" ".join(relation_paths), quote=True)}"')
+    return " " + " ".join(attributes) if attributes else ""
+
+
+def static_fallback(artifact: dict[str, Any]) -> str:
+    document = artifact["sceneDocuments"][0]
+    articles = []
+    for scene in document["scenes"]:
+        blocks = []
+        for block in scene["blocks"]:
+            tag = "h2" if block["intent"]["kind"] == "introduce" else "blockquote" if block["intent"]["kind"] == "explain" else "cite"
+            class_name = ' class="lead"' if tag == "blockquote" else ' class="citation"' if tag == "cite" else ""
+            blocks.append(
+                f'<{tag}{class_name}{fallback_attributes(block["source"])}>'
+                f'{html.escape(block["text"])}'
+                f'</{tag}>'
+            )
+        articles.append(
+            f'<article data-pitch-step="{html.escape(scene["id"], quote=True)}" '
+            f'data-source-path-id="{html.escape(document["sourcePathId"], quote=True)}"{fallback_attributes(scene["source"])}>'
+            + "".join(blocks)
+            + "</article>"
+        )
+    return "\n".join(articles)
+
+
+def rendered_index(artifact: dict[str, Any]) -> str:
+    source = PITCH_INDEX.read_text(encoding="utf-8")
+    generated = static_fallback(artifact)
+    pattern = r"(?s)(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)"
+    replacement = lambda match: f"{match.group(1)}\n{generated}\n        {match.group(2)}"
+    updated, count = re.subn(pattern, replacement, source, count=1)
+    if count != 1:
+        raise ValueError("Missing canonical runtime fallback markers in apps/pitch/index.html")
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true", help="fail when an existing artifact differs")
     args = parser.parse_args()
-    rendered = canonical_json(build_artifact())
+    artifact = build_artifact()
+    rendered = canonical_json(artifact)
+    rendered_html = rendered_index(artifact)
     output = args.output if args.output.is_absolute() else ROOT / args.output
     if args.check:
         if not output.exists() or output.read_text(encoding="utf-8") != rendered:
             raise SystemExit(f"Stale or missing generated artifact: {output.relative_to(ROOT)}")
+        if PITCH_INDEX.read_text(encoding="utf-8") != rendered_html:
+            raise SystemExit("Stale canonical runtime static fallback: apps/pitch/index.html")
         return 0
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(rendered, encoding="utf-8")
+    PITCH_INDEX.write_text(rendered_html, encoding="utf-8")
     return 0
 
 

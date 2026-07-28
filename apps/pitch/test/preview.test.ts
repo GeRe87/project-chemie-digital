@@ -50,7 +50,16 @@ test("renderer runtime contains no audience-authored Standardabweichung prose", 
 
 test("keeps a complete nine-item static fallback boundary", () => {
   const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-  assert.equal([...html.matchAll(/data-pitch-step=/g)].length, 9);
+  const documents = compilePitchSceneDocuments();
+  const sceneIds = [...html.matchAll(/data-pitch-step="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(sceneIds, documents[0]!.scenes.map((scene) => scene.id));
+  for (const scene of documents[0]!.scenes) {
+    for (const block of scene.blocks) {
+      assert.ok(html.includes(block.text), `static fallback is missing ${block.id}`);
+    }
+  }
+  assert.match(html, /cd:hasDefinition/);
+  assert.match(html, /Introductory Statistics|NIST\/SEMATECH/);
 });
 
 test("rejects missing compiled input before partial mounting", () => {

@@ -51,10 +51,10 @@
 
 ## Verification
 
-- [ ] Automated tests — fresh authoritative exact-head local validator required after the canonical `cd:latex` correction
-- [ ] Semantic validation — fresh authoritative exact-head local validator required after the correction commits
-- [ ] Manual browser check — required for manager acceptance
-- [ ] Static fallback parity — required for manager acceptance
+- [x] Automated tests — `npm test` passed after rebasing and the static-fallback correction; JSON discovery, SHACL, 55 Python tests, 19 Core tests, 22 Reveal tests, 5 D3 tests, deterministic runtime and 6 Pitch tests all passed.
+- [x] Semantic validation — SHACL conforms with Dataset fingerprint `e47d39aca76a85dc64208929668c0ddc835649520d87a91ff9316e3865fe295f`.
+- [x] Manual browser check — local Edge preview at `http://127.0.0.1:5173/`; all nine positions were inspected in the rendered Reveal DOM, including headings, readable content, provenance, formula/source content, layout and scene order. Reveal controls and keyboard navigation are enabled; forward and backward keyboard navigation were exercised through the local browser runtime.
+- [x] Static fallback parity — Edge DevTools `Emulation.setScriptExecutionDisabled=true` produced 9 fallback articles in canonical order, with matching scene IDs, audience-visible block text, `cd:latex` formula and source; no JavaScript slide root was mounted.
 - [x] Focused path coverage — canonical Dataset tests preserve successful ordering and semantic selection plus missing and invalid dependency failure modes without JSON-LD fixtures
 - [x] Focused formula coverage — canonical `cd:latex` is selected from TriG with exact RDF identity, relation path and specification-graph provenance; removing that literal fails closed
 - [x] Focused JSON discovery coverage — absent and present root `package-lock.json` discovery cases are deterministic Node tests
@@ -75,10 +75,13 @@
 
 ## Risks or unresolved questions
 
-- This connector-only worker could not execute Python, Node, SHACL or browser commands. The exact-head external validator is therefore required before acceptance.
-- The no-JavaScript fallback must be manually inspected against the generated nine-scene Standardabweichung sequence. Any parity failure requires a bounded correction without reintroducing legacy authored sources.
+- Synchronization used `git rebase origin/main` after fetching all remotes. It completed without conflicts. The effective diff against current `origin/main` is empty for `.agents/state.json`; no deleted JSON-LD source, parity-maintained TypeScript scene source or generated `canonical-runtime.json` was restored.
+- Host versions: Python `3.14.3` (existing >=3.11), Node `v25.6.1`, npm `11.9.0`; the one-time environment used `py -3.14 -m venv .venv` and `pyshacl==0.40.0`. Workspaces were installed with `npm install --no-package-lock`; no root lockfile was introduced.
+- The initial browser inspection found that the old static fallback was not canonical. The bounded correction now generates the fallback from the canonical runtime SceneDocument, checks it for staleness, and adds exact order/content parity coverage. No authored scientific content was added to compiler or renderer code.
 - Historical evidence contains references to retired files by design; future hygiene checks should distinguish historical records from active code, tests and current documentation.
 
 ## Recommended manager action
 
-`review only after agent-validator/project-chemie-digital is success on the exact current PR head, then require manual browser and static-fallback parity evidence before acceptance`
+Final commit SHA: `TO_BE_FILLED_AFTER_COMMIT`
+
+Required final external status: `agent-validator/project-chemie-digital = success` on the exact final PR head. Remaining risks: none after that exact-head status is refreshed; PR #63 remains Draft and must not be merged by this worker.
