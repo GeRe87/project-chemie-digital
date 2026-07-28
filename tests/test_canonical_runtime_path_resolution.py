@@ -25,10 +25,14 @@ LEARNING_PATH = URIRef(f"{CD}LearningPath")
 HAS_STEP = URIRef(f"{CD}hasStep")
 POSITION = URIRef(f"{CD}position")
 USES_SCENE = URIRef(f"{CD}usesScene")
+LATEX = URIRef(f"{CD}latex")
 PATH = URIRef(f"{EX}path-standard-deviation")
 STEP_1 = URIRef(f"{EX}path-step-1")
 STEP_2 = URIRef(f"{EX}path-step-2")
 BASIC_DEFINITION = URIRef(f"{EX}sd-definition-basic-de")
+SAMPLE_FORMULA = URIRef(f"{EX}sample-sd-formula")
+SPECIFICATION_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
+SAMPLE_FORMULA_LATEX = r"s = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}}"
 
 EXPECTED_SCENES = [
     "ex:scene-sd-definition--scene",
@@ -84,6 +88,25 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             ],
             selected,
         )
+
+    def test_resolves_formula_exclusively_from_canonical_latex_with_provenance(self) -> None:
+        document = MODULE.compile_scene_document(dataset())
+        formula_block = document["scenes"][3]["blocks"][1]
+        self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["text"])
+        self.assertEqual(
+            {
+                "resourceId": "ex:sample-sd-formula",
+                "provenanceIds": [SPECIFICATION_GRAPH],
+                "relationPath": "cd:hasDefinition",
+            },
+            formula_block["source"][0],
+        )
+
+    def test_fails_closed_when_selected_formula_has_no_audience_visible_literal(self) -> None:
+        current = dataset()
+        current.remove((SAMPLE_FORMULA, LATEX, None, None))
+        with self.assertRaisesRegex(ValueError, "No audience-visible value for ex:sample-sd-formula"):
+            MODULE.compile_scene_document(current)
 
     def test_fails_when_the_canonical_learning_path_is_missing(self) -> None:
         current = dataset()
