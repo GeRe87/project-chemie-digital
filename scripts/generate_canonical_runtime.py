@@ -75,7 +75,7 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
 
 def resource_text(dataset: Dataset, resource: URIRef, language: str | None) -> str:
     candidates = (
-        iri(CD, "body"), iri(CD, "expression"), iri(CD, "notation"),
+        iri(CD, "body"), iri(CD, "latex"), iri(CD, "expression"), iri(CD, "notation"),
         DCTERMS.description, SKOS.prefLabel, DCTERMS.title, iri(SCHEMA, "name"),
     )
     for predicate in candidates:
