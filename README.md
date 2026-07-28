@@ -4,24 +4,23 @@ Private development project for the FCI-funded module **Digitalisierung in der C
 
 The project follows a knowledge-first architecture:
 
-1. Educational knowledge and resources are described semantically.
+1. Educational knowledge and resources are authored in canonical TriG datasets.
 2. Learning and narrative paths select and order relevant resources.
-3. A scene composer transforms a path into presentation states.
-4. Reveal.js renders live presentations as one output channel.
-5. Additional renderers may provide self-study, knowledge-network, print and OER views.
+3. A scene composer transforms a resolved path into renderer-neutral presentation states.
+4. Scene-to-RDF bindings support deterministic scene-context graph projections.
+5. Reveal.js renders live presentations as one output channel; additional adapters may provide self-study, knowledge-network, print and OER views.
 
 ## Initial vertical slice
 
-The first demonstrator is the pitch presentation for the Studiendekanat. It will be rendered with the same platform architecture planned for the later course.
+The first demonstrator is the pitch presentation for the Studiendekanat. It uses the same layered platform architecture planned for the later course.
 
 The technical proof of concept uses **standard deviation**:
 
-- concept and relations in RDF/JSON-LD,
+- concepts, relations, resources, paths and scenes authored solely in TriG under `ontology/dataset/`,
 - definition, formula, symbols, examples and exercises as reusable resources,
-- a default learning path,
-- scene composition,
-- Reveal.js rendering,
-- a generated knowledge-network view.
+- deterministic path resolution and scene composition,
+- Reveal.js rendering from disposable generated transport,
+- renderer-neutral one-hop scene graph projection with preserved RDF identity and provenance.
 
 ## Local validation
 
@@ -47,11 +46,11 @@ The local project command is:
 npm test
 ```
 
-The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm test` performs JSON checks, SHACL semantic validation, Python semantic tests, core tests and Reveal renderer tests.
+The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm test` performs JSON checks, SHACL semantic validation, Python semantic tests, core tests and renderer tests.
 
 ## Semantic validation
 
-The complete semantic slice is assembled from canonical TriG files under `ontology/dataset/` plus explicitly isolated JSON-LD compatibility inputs that have not yet migrated. SHACL validation reads the named `graph/shapes/*` graphs from the assembled Dataset. The retired flat `ontology/learning.ttl` and `ontology/shapes.ttl` files are no longer validation inputs.
+The complete semantic slice is assembled exclusively from canonical TriG files under `ontology/dataset/`. SHACL validation reads the named `graph/shapes/*` graphs from the assembled logical RDF Dataset. Retired JSON-LD and flat Turtle compatibility sources are not active inputs and must not be restored.
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -68,8 +67,9 @@ Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasSt
 - Workers never merge their own work.
 - Architectural decisions are recorded as ADRs.
 - Semantic content is validated with SHACL.
-- Content, didactic paths, scenes and rendering remain separate layers.
-- Reveal.js is a renderer dependency, not the platform domain model.
+- Domain knowledge, reusable resources, paths, scenes, view documents and renderer adapters remain separate layers.
+- Reveal.js, React and D3 are adapter dependencies, not the platform domain model.
+- Generated JSON is disposable transport, never an authored semantic source.
 - GitHub Actions workflows must not be added or restored.
 
 See `AGENTS.md` and `docs/agent-operating-model.md`.
