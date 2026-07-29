@@ -19,6 +19,7 @@ Frontend and Reveal Renderer Engineer
 - Corrected relation-path transport parsing so an already absolute HTTP(S) or URN predicate remains one path element instead of being split on URL slashes.
 - Preserved deterministic parsing of the canonical-runtime compact multi-step form, including removal of a terminal language suffix before CURIE expansion.
 - Added focused regressions for both absolute single-predicate IRIs and compact multi-step relation paths, in addition to selected/related ordering, switching, focus restoration, failure recovery and cleanup coverage.
+- Corrected the absolute-IRI regression expectation to follow the projector-owned authoritative `edgeReadingOrder`; no shell-side sorting or projector semantic change was introduced.
 - Updated the active pitch documentation; no JSON-LD, Turtle, semantic parity copy, persistence, telemetry, D3 graph or ontology change was introduced.
 
 ## Files or resources changed
@@ -36,7 +37,8 @@ Frontend and Reveal Renderer Engineer
 - [ ] Semantic validation — unchanged canonical TriG/SHACL boundary; authoritative suite pending.
 - [ ] Manual browser check — pending in an execution-capable local browser environment.
 - [x] Accessibility check — deterministic controller tests cover mode switching, summary focus, return focus and failure recovery; final manual keyboard/screen-reader inspection remains pending.
-- [x] Relation-path regressions — automated tests now exercise an absolute predicate IRI as one element and the accepted slash-delimited compact multi-step canonical-runtime representation.
+- [x] Relation-path regressions — automated tests exercise an absolute predicate IRI as one element and the accepted slash-delimited compact multi-step canonical-runtime representation.
+- [x] Ordering regression — expected relation text now follows the projector's deterministic edge reading order exactly, without any downstream reordering.
 - [x] Documentation updated.
 
 ## Decisions and assumptions
@@ -46,6 +48,7 @@ Frontend and Reveal Renderer Engineer
 - The bounded relation allowlist is derived only from relation paths explicitly carried by the current scene bindings and supported by the generated Dataset snapshot. No permanent product-wide allowlist is selected here.
 - The Reveal deck remains mounted and retains its current slide while hidden, so scene position and presentation cursor are preserved without leaking Reveal identities into core contracts.
 - Exploration state is ephemeral and in memory only.
+- `KnowledgeNetworkDocument.accessibility.edgeReadingOrder` remains the sole authority for relation presentation order; the application shell preserves it unchanged.
 
 ## Risks or unresolved questions
 
