@@ -38,8 +38,8 @@ test("preserves an absolute predicate IRI as one relation-path element", () => {
   assert.deepEqual(model.selected.map((node) => node.label), ["Definition", "Standardabweichung"]);
   assert.deepEqual(model.related.map((node) => node.label), ["Varianz"]);
   assert.deepEqual(model.relations.map((relation) => relation.text), [
-    "Varianz — hat Definition → Standardabweichung",
     "Standardabweichung — hat Definition → Definition",
+    "Varianz — hat Definition → Standardabweichung",
   ]);
   assert.ok(model.selected.every((node) => Object.isFrozen(node)));
 });
