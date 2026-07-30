@@ -26,17 +26,25 @@ path, scene and knowledge-network compilation
         ↓
 disposable canonical-runtime.json
         ↓
-Reveal.js renderer
+application shell
+        ├── Reveal.js presentation
+        └── accessible textual graph summary
 ```
 
-The app renders the ordered nine-scene Standardabweichung sequence while preserving RDF identities, named-graph provenance and authored relation paths. Reveal.js owns presentation mechanics and layout only; the core domain model and authored scientific content remain renderer-independent.
+The app renders the ordered nine-scene Standardabweichung sequence while preserving RDF identities, named-graph provenance and authored relation paths. Reveal.js owns presentation mechanics and layout only; the application shell owns ephemeral switching state, and the core domain model and authored scientific content remain renderer-independent.
+
+## Accessible graph summary
+
+The keyboard-accessible **Wissenskontext anzeigen** control projects the current scene through the accepted deterministic one-hop core boundary. The textual summary separates resources used in the current scene from directly related resources that have not been presented, follows the projection document reading orders, exposes semantic identities and available provenance, and returns focus to the invoking control when the presentation is restored.
+
+A projection or scene-state failure leaves the current presentation visible and reports a bounded accessible error. The summary does not query RDF or Fuseki directly, does not persist exploration state, and is not a second semantic content source. A visual D3 graph remains a separate later stage.
 
 ## Accessibility and lifecycle
 
-Sections receive stable headings, source identities and readable DOM order. Reveal.js keyboard navigation remains enabled, reduced-motion preferences disable transitions, and page teardown destroys Reveal.js, unmounts generated sections and restores guarded browser APIs.
+Sections receive stable headings, source identities and readable DOM order. Reveal.js keyboard navigation remains enabled, reduced-motion preferences disable transitions, the summary heading receives focus on entry, and page teardown destroys Reveal.js, unmounts both views and restores guarded browser APIs.
 
 ## Static fallback
 
-`index.html` contains a complete audience-facing `<noscript>` fallback. Automated tests must keep its scene order and audience-visible wording aligned with the generated canonical runtime. Manual browser inspection remains part of manager acceptance for this migration.
+`index.html` contains a complete audience-facing `<noscript>` fallback. Automated tests must keep its scene order and audience-visible wording aligned with the generated canonical runtime. Manual browser inspection remains part of manager acceptance.
 
 The preview does not include analytics, telemetry, learner persistence, Fuseki deployment or Presenter Mode window integration.
