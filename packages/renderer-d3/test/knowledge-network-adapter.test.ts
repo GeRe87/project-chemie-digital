@@ -11,7 +11,7 @@ import {
 
 const source = [{ resourceId: "content:standard-deviation", provenanceIds: ["prov:reviewed"] }] as const;
 
-const document: KnowledgeNetworkDocument = {
+const document = {
   version: "1.0",
   id: "knowledge-network:standard-deviation",
   datasetIdentity: "dataset:standard-deviation:v1",
@@ -23,8 +23,8 @@ const document: KnowledgeNetworkDocument = {
     groupingPolicy: "semantic-type",
   },
   nodes: [
-    { id: "node:definition", semanticEntityId: "ex:definition", semanticTypes: ["cd:Definition"], label: "Definition", source, groupIds: ["group:definition"] },
-    { id: "node:concept", semanticEntityId: "ex:standard-deviation", semanticTypes: ["cd:Concept"], label: "Standard deviation", source, groupIds: ["group:concept"] },
+    { id: "node:definition", semanticEntityId: "ex:definition", semanticTypes: ["cd:Definition"], label: "Definition", source, groupIds: ["group:definition"], classification: "selected" },
+    { id: "node:concept", semanticEntityId: "ex:standard-deviation", semanticTypes: ["cd:Concept"], label: "Standard deviation", source, groupIds: ["group:concept"], classification: "related" },
   ],
   edges: [
     { id: "edge:definition", sourceNodeId: "node:concept", targetNodeId: "node:definition", predicateId: "cd:hasDefinition", label: "has definition", directed: true, source },
@@ -41,7 +41,7 @@ const document: KnowledgeNetworkDocument = {
     staticFallback: "Nodes:\n- Standard deviation\n- Definition\nRelations:\n- Standard deviation — has definition → Definition",
   },
   source,
-};
+} as unknown as KnowledgeNetworkDocument;
 
 const options = { reducedMotion: true, interactionPolicy: "keyboard" as const };
 
@@ -58,6 +58,13 @@ test("maps deterministically without mutating the source document", () => {
   assert.equal(first.model.nodes[0].semanticEntityId, "ex:standard-deviation");
   assert.deepEqual(first.model.nodes[0].source, source);
   assert.deepEqual(first.model.groups.map((group) => group.id), ["group:concept", "group:definition"]);
+  assert.equal(first.model.nodes[0].classification, "related");
+  assert.equal(first.model.nodes[1].classification, "selected");
+  assert.equal(first.model.nodes[1].nonColorMarker, "double-ring");
+  assert.match(first.model.nodes[1].accessibleName, /selected/i);
+  assert.equal(first.model.edges[0].directed, true);
+  assert.equal(first.model.edges[0].id, "edge:definition");
+  assert.match(first.model.edges[0].accessibleName, /has definition/);
 });
 
 test("supports empty and minimal networks", () => {
@@ -96,20 +103,43 @@ test("owns repeated render cleanup and keyboard focus lifecycle", () => {
       mountedModels.push(model);
       return {
         focusNode(nodeId) { focused.push(nodeId); },
+        focusFirstNode(nodeId) { focused.push(nodeId ?? "<first>"); },
         destroy() { destroys += 1; },
       };
     },
   };
   const component = mountD3KnowledgeNetwork({}, document, options, runtime);
   assert.ok("handleKey" in component);
-  assert.equal(component.handleKey("ArrowRight"), true);
+  assert.equal(component.model.interactionPolicy, "keyboard");
   assert.deepEqual(focused, ["node:definition"]);
+  assert.equal(component.handleKey("ArrowRight"), true);
+  assert.deepEqual(focused, ["node:definition", "node:concept"]);
+  component.focusNode("node:definition");
+  assert.deepEqual(focused, ["node:definition", "node:concept", "node:definition"]);
   assert.ok(component.render(structuredClone(document)).model);
   assert.equal(destroys, 1);
+  assert.deepEqual(focused, ["node:definition", "node:concept", "node:definition", "node:definition"]);
   component.destroy();
   component.destroy();
   assert.equal(destroys, 2);
   assert.equal(mountedModels.length, 2);
+});
+
+test("supports static interaction mode without keyboard traversal", () => {
+  const runtime: D3RuntimePort = {
+    mount() {
+      return {
+        focusNode() {},
+        focusFirstNode() {},
+        destroy() {},
+      };
+    },
+  };
+  const component = mountD3KnowledgeNetwork({}, document, { reducedMotion: true, interactionPolicy: "static" }, runtime);
+  assert.ok("handleKey" in component);
+  assert.equal(component.model.reducedMotion, true);
+  assert.equal(component.model.interactionPolicy, "static");
+  assert.equal(component.handleKey("ArrowRight"), false);
 });
 
 test("performs no network requests", () => {

@@ -1,4 +1,4 @@
-import type { Scene, SceneBlock, SourceReference } from "../../../packages/core/src/scene-document.ts";
+import type { Scene, SourceReference } from "../../../packages/core/src/scene-document.ts";
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
 import {
   projectSceneKnowledgeNetwork,
@@ -6,6 +6,12 @@ import {
   type SceneKnowledgeNetworkNode,
 } from "../../../packages/core/src/scene-graph-projector.ts";
 import type { SceneGraphProjectionRequest, SceneResourceBinding } from "../../../packages/core/src/scene-graph-view-contracts.ts";
+import {
+  createSvgD3Runtime,
+  mountD3KnowledgeNetwork,
+  type D3KnowledgeNetworkComponent,
+  type D3KnowledgeNetworkOptions,
+} from "../../../packages/renderer-d3/src/index.ts";
 
 const PREFIXES: Readonly<Record<string, string>> = Object.freeze({
   ex: "https://w3id.org/project-chemie-digital/resource/",
@@ -130,39 +136,157 @@ export interface GraphSummaryShellPort {
   showPresentation(): void;
   hidePresentation(): void;
   renderSummary(model: GraphSummaryModel): void;
+  renderGraph(document: SceneKnowledgeNetworkDocument, options: D3KnowledgeNetworkOptions): void;
+  updateGraphMode(mode: "graph" | "summary"): void;
+  handleGraphKey(key: string): boolean;
   showError(message: string): void;
   focusSummaryHeading(): void;
+  focusGraphHeading(): void;
+  focusGraphNode(nodeId: string): void;
   focusInvoker(): void;
+}
+
+type ShellMode = "presentation" | "graph" | "summary";
+
+function findScene(documents: readonly { readonly scenes: readonly Scene[] }[], sceneId: string | null): Scene {
+  if (!sceneId) throw new Error("Die aktuelle Präsentationsszene konnte nicht bestimmt werden.");
+  const scene = documents.flatMap((document) => document.scenes).find((candidate) => candidate.id === sceneId);
+  if (!scene) throw new Error("Die aktuelle Präsentationsszene konnte nicht bestimmt werden.");
+  return scene;
+}
+
+function preferredNodeId(document: SceneKnowledgeNetworkDocument): string | null {
+  const selectedByOrder = document.accessibility.nodeReadingOrder.find((nodeId) =>
+    document.nodes.some((node) => node.id === nodeId && node.classification === "selected"),
+  );
+  if (selectedByOrder) return selectedByOrder;
+  return document.accessibility.nodeReadingOrder[0] ?? null;
 }
 
 export function createGraphSummaryShellController(options: {
   readonly documents: readonly { readonly scenes: readonly Scene[] }[];
   readonly snapshot: RdfDatasetSnapshot;
+  readonly reducedMotion: boolean;
   readonly port: GraphSummaryShellPort;
 }) {
   let destroyed = false;
+  let currentMode: ShellMode = "presentation";
+  let staticMode = options.reducedMotion;
+  let currentDocument: SceneKnowledgeNetworkDocument | null = null;
+  let currentSummary: GraphSummaryModel | null = null;
+
+  function hydrateCurrentScene(): { document: SceneKnowledgeNetworkDocument; summary: GraphSummaryModel } {
+    const scene = findScene(options.documents, options.port.currentSceneId());
+    const document = projectSceneSummary(options.snapshot, scene);
+    return { document, summary: createGraphSummaryModel(document) };
+  }
+
+  function graphOptions(): D3KnowledgeNetworkOptions {
+    return {
+      reducedMotion: options.reducedMotion,
+      interactionPolicy: staticMode ? "static" : "keyboard",
+    };
+  }
+
   return Object.freeze({
+    openGraph(): void {
+      if (destroyed) return;
+      try {
+        const hydrated = hydrateCurrentScene();
+        currentDocument = hydrated.document;
+        currentSummary = hydrated.summary;
+        options.port.renderSummary(hydrated.summary);
+        options.port.renderGraph(hydrated.document, graphOptions());
+        options.port.hidePresentation();
+        options.port.updateGraphMode("graph");
+        options.port.focusGraphHeading();
+        const nodeId = preferredNodeId(hydrated.document);
+        if (nodeId) options.port.focusGraphNode(nodeId);
+        currentMode = "graph";
+      } catch (error) {
+        if (currentSummary) {
+          options.port.hidePresentation();
+          options.port.updateGraphMode("summary");
+          options.port.focusSummaryHeading();
+          currentMode = "summary";
+        } else {
+          options.port.showPresentation();
+          currentMode = "presentation";
+        }
+        options.port.showError(error instanceof Error ? error.message : "Wissenskontext konnte nicht erzeugt werden.");
+      }
+    },
     open(): void {
       if (destroyed) return;
-      const sceneId = options.port.currentSceneId();
-      const scene = options.documents.flatMap((document) => document.scenes).find((candidate) => candidate.id === sceneId);
-      if (!scene) { options.port.showError("Die aktuelle Präsentationsszene konnte nicht bestimmt werden."); options.port.showPresentation(); return; }
       try {
-        const model = createGraphSummaryModel(projectSceneSummary(options.snapshot, scene));
-        options.port.renderSummary(model);
+        const hydrated = hydrateCurrentScene();
+        currentDocument = hydrated.document;
+        currentSummary = hydrated.summary;
+        options.port.renderSummary(hydrated.summary);
         options.port.hidePresentation();
+        options.port.updateGraphMode("summary");
         options.port.focusSummaryHeading();
+        currentMode = "summary";
       } catch (error) {
         options.port.showError(error instanceof Error ? error.message : "Wissenskontext konnte nicht erzeugt werden.");
         options.port.showPresentation();
+        currentMode = "presentation";
       }
+    },
+    switchToGraph(): void {
+      if (destroyed || !currentDocument) return;
+      try {
+        options.port.renderGraph(currentDocument, graphOptions());
+        options.port.updateGraphMode("graph");
+        options.port.focusGraphHeading();
+        const nodeId = preferredNodeId(currentDocument);
+        if (nodeId) options.port.focusGraphNode(nodeId);
+        currentMode = "graph";
+      } catch (error) {
+        options.port.showError(error instanceof Error ? error.message : "Graphansicht konnte nicht gerendert werden.");
+        options.port.updateGraphMode("summary");
+        options.port.focusSummaryHeading();
+        currentMode = "summary";
+      }
+    },
+    switchToSummary(): void {
+      if (destroyed) return;
+      options.port.updateGraphMode("summary");
+      options.port.focusSummaryHeading();
+      currentMode = "summary";
+    },
+    setStaticMode(value: boolean): void {
+      if (destroyed) return;
+      staticMode = value;
+      if (currentMode === "graph" && currentDocument) {
+        try {
+          options.port.renderGraph(currentDocument, graphOptions());
+          const nodeId = preferredNodeId(currentDocument);
+          if (nodeId) options.port.focusGraphNode(nodeId);
+        } catch (error) {
+          options.port.showError(error instanceof Error ? error.message : "Graphansicht konnte nicht aktualisiert werden.");
+          options.port.updateGraphMode("summary");
+          currentMode = "summary";
+        }
+      }
+    },
+    handleGraphKey(key: string): boolean {
+      if (destroyed || currentMode !== "graph") return false;
+      return options.port.handleGraphKey(key);
     },
     close(): void {
       if (destroyed) return;
       options.port.showPresentation();
       options.port.focusInvoker();
+      currentMode = "presentation";
     },
-    destroy(): void { destroyed = true; },
+    destroy(): void {
+      if (destroyed) return;
+      destroyed = true;
+      currentMode = "presentation";
+      currentDocument = null;
+      currentSummary = null;
+    },
   });
 }
 
@@ -192,28 +316,94 @@ export function mountGraphSummaryShell(options: {
   readonly currentSceneId: () => string | null;
 }): () => void {
   options.root.innerHTML = "";
+  const shellControls = document.createElement("div");
+  shellControls.className = "graph-shell-controls";
   const openButton = document.createElement("button");
   openButton.id = "open-graph-summary";
   openButton.type = "button";
-  openButton.textContent = "Wissenskontext anzeigen";
+  openButton.textContent = "Textzusammenfassung anzeigen";
   openButton.setAttribute("aria-pressed", "false");
-  const summary = document.createElement("main");
+  const openGraphButton = document.createElement("button");
+  openGraphButton.id = "open-graph-visual";
+  openGraphButton.type = "button";
+  openGraphButton.textContent = "Graphansicht anzeigen";
+  openGraphButton.setAttribute("aria-pressed", "false");
+
+  const panel = document.createElement("main");
+  panel.id = "graph-shell-panel";
+  panel.hidden = true;
+  panel.setAttribute("aria-live", "polite");
+  const heading = document.createElement("h1");
+  heading.tabIndex = -1;
+  heading.textContent = "Wissenskontext der aktuellen Szene";
+  const modeControls = document.createElement("div");
+  modeControls.className = "graph-mode-controls";
+  const switchSummaryButton = document.createElement("button");
+  switchSummaryButton.type = "button";
+  switchSummaryButton.textContent = "Textmodus";
+  const switchGraphButton = document.createElement("button");
+  switchGraphButton.type = "button";
+  switchGraphButton.textContent = "Graphmodus";
+  const staticToggleLabel = document.createElement("label");
+  staticToggleLabel.className = "graph-static-toggle";
+  const staticToggle = document.createElement("input");
+  staticToggle.type = "checkbox";
+  staticToggle.id = "graph-static-mode";
+  staticToggle.checked = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const staticToggleText = document.createElement("span");
+  staticToggleText.textContent = "Statischer Modus";
+  staticToggleLabel.append(staticToggle, staticToggleText);
+  modeControls.append(switchSummaryButton, switchGraphButton, staticToggleLabel);
+
+  const graphHost = document.createElement("section");
+  graphHost.id = "graph-visual";
+  graphHost.setAttribute("aria-label", "Graphische Wissensnetz-Ansicht");
+  graphHost.hidden = true;
+  const summary = document.createElement("section");
   summary.id = "graph-summary";
   summary.hidden = true;
-  summary.setAttribute("aria-live", "polite");
-  const heading = document.createElement("h1"); heading.tabIndex = -1; heading.textContent = "Wissenskontext der aktuellen Szene";
+  const summaryHeading = document.createElement("h2");
+  summaryHeading.tabIndex = -1;
+  summaryHeading.textContent = "Textuelle Zusammenfassung";
   const content = document.createElement("div");
-  const closeButton = document.createElement("button"); closeButton.type = "button"; closeButton.textContent = "Zur Präsentation zurück";
-  summary.append(heading, closeButton, content);
+  summary.append(summaryHeading, content);
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.textContent = "Zur Präsentation zurück";
+  panel.append(heading, modeControls, closeButton, graphHost, summary);
+
   const error = document.createElement("p"); error.hidden = true; error.setAttribute("role", "alert");
-  options.root.append(openButton, error, summary);
+  shellControls.append(openButton, openGraphButton);
+  options.root.append(shellControls, error, panel);
+
+  const runtime = createSvgD3Runtime();
+  let component: D3KnowledgeNetworkComponent | null = null;
+  let lastInvoker: HTMLButtonElement = openButton;
+
+  const destroyGraph = (): void => {
+    component?.destroy();
+    component = null;
+    graphHost.innerHTML = "";
+  };
 
   const port: GraphSummaryShellPort = {
     currentSceneId: options.currentSceneId,
-    showPresentation: () => { options.presentation.hidden = false; summary.hidden = true; openButton.setAttribute("aria-pressed", "false"); },
-    hidePresentation: () => { options.presentation.hidden = true; summary.hidden = false; error.hidden = true; openButton.setAttribute("aria-pressed", "true"); },
+    showPresentation: () => {
+      options.presentation.hidden = false;
+      panel.hidden = true;
+      openButton.setAttribute("aria-pressed", "false");
+      openGraphButton.setAttribute("aria-pressed", "false");
+      destroyGraph();
+    },
+    hidePresentation: () => {
+      options.presentation.hidden = true;
+      panel.hidden = false;
+      error.hidden = true;
+    },
     renderSummary: (model) => {
       heading.textContent = model.label;
+      summaryHeading.textContent = `${model.label} (autoritativ)`;
       content.innerHTML = "";
       appendNodeList(content, "In der aktuellen Szene verwendet", model.selected);
       appendNodeList(content, "Direkt verwandte, noch nicht präsentierte Ressourcen", model.related);
@@ -222,13 +412,84 @@ export function mountGraphSummaryShell(options: {
       if (model.relations.length) relations.append(list); else { const empty = document.createElement("p"); empty.textContent = "Keine freigegebenen direkten Relationen."; relations.append(empty); }
       content.append(relations);
     },
+    renderGraph: (document, renderOptions) => {
+      destroyGraph();
+      const mounted = mountD3KnowledgeNetwork(graphHost, document, renderOptions, runtime);
+      if (!("handleKey" in mounted)) {
+        throw new Error(mounted.diagnostics[0]?.message ?? "Graphansicht konnte nicht erzeugt werden.");
+      }
+      component = mounted;
+    },
+    updateGraphMode: (mode) => {
+      if (mode === "graph") {
+        graphHost.hidden = false;
+        summary.hidden = true;
+        openGraphButton.setAttribute("aria-pressed", "true");
+        openButton.setAttribute("aria-pressed", "false");
+      } else {
+        graphHost.hidden = true;
+        summary.hidden = false;
+        openGraphButton.setAttribute("aria-pressed", "false");
+        openButton.setAttribute("aria-pressed", "true");
+      }
+    },
+    handleGraphKey: (key) => component?.handleKey(key) ?? false,
     showError: (message) => { error.textContent = message; error.hidden = false; },
-    focusSummaryHeading: () => heading.focus(),
-    focusInvoker: () => openButton.focus(),
+    focusSummaryHeading: () => summaryHeading.focus(),
+    focusGraphHeading: () => heading.focus(),
+    focusGraphNode: (nodeId) => component?.focusNode(nodeId),
+    focusInvoker: () => lastInvoker.focus(),
   };
-  const controller = createGraphSummaryShellController({ documents: options.documents, snapshot: options.snapshot, port });
-  openButton.addEventListener("click", () => controller.open());
-  closeButton.addEventListener("click", () => controller.close());
+  const controller = createGraphSummaryShellController({
+    documents: options.documents,
+    snapshot: options.snapshot,
+    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    port,
+  });
+
+  const onSummaryOpen = (): void => {
+    lastInvoker = openButton;
+    controller.open();
+  };
+  const onGraphOpen = (): void => {
+    lastInvoker = openGraphButton;
+    controller.openGraph();
+  };
+  const onClose = (): void => controller.close();
+  const onSwitchSummary = (): void => controller.switchToSummary();
+  const onSwitchGraph = (): void => controller.switchToGraph();
+  const onStaticToggle = (): void => controller.setStaticMode(staticToggle.checked);
+  const onPanelKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      controller.close();
+      return;
+    }
+    if (controller.handleGraphKey(event.key)) event.preventDefault();
+  };
+
+  openButton.addEventListener("click", onSummaryOpen);
+  openGraphButton.addEventListener("click", onGraphOpen);
+  closeButton.addEventListener("click", onClose);
+  switchSummaryButton.addEventListener("click", onSwitchSummary);
+  switchGraphButton.addEventListener("click", onSwitchGraph);
+  staticToggle.addEventListener("change", onStaticToggle);
+  panel.addEventListener("keydown", onPanelKeyDown);
+
   let destroyed = false;
-  return () => { if (!destroyed) { destroyed = true; controller.destroy(); options.presentation.hidden = false; options.root.innerHTML = ""; } };
+  return () => {
+    if (destroyed) return;
+    destroyed = true;
+    panel.removeEventListener("keydown", onPanelKeyDown);
+    openButton.removeEventListener("click", onSummaryOpen);
+    openGraphButton.removeEventListener("click", onGraphOpen);
+    closeButton.removeEventListener("click", onClose);
+    switchSummaryButton.removeEventListener("click", onSwitchSummary);
+    switchGraphButton.removeEventListener("click", onSwitchGraph);
+    staticToggle.removeEventListener("change", onStaticToggle);
+    destroyGraph();
+    controller.destroy();
+    options.presentation.hidden = false;
+    options.root.innerHTML = "";
+  };
 }
