@@ -51,7 +51,7 @@ Frontend and Reveal Renderer Engineer
 		- `check:runtime`
 		- `test:pitch`
 - [x] Exact-head re-verification after push
-	- Commit under test: `35ebb5d65ef6670d162fd18319672ca582641a80`
+	- Implementation commit: `35ebb5d65ef6670d162fd18319672ca582641a80`
 	- Command: `(& .\.venv\Scripts\Activate.ps1) ; npm test`
 	- Result: pass (full pipeline)
 - [x] Repository scripts review
@@ -60,7 +60,7 @@ Frontend and Reveal Renderer Engineer
 - [x] Browser and accessibility evidence (local Vite)
 	- Command: `(& .\.venv\Scripts\Activate.ps1) ; npm run pitch:dev`
 	- URL: `http://127.0.0.1:5173/`
-	- Exact-head browser rerun: validated again on `35ebb5d65ef6670d162fd18319672ca582641a80` (keyboard flow, focus restoration, static toggle, fail-closed, cleanup cycles, no-network guard)
+	- Implementation-browser rerun: validated on `35ebb5d65ef6670d162fd18319672ca582641a80` (keyboard flow, focus restoration, static toggle, fail-closed, cleanup cycles, no-network guard)
 	- Full keyboard operation verified:
 		- `Tab` to graph switch controls
 		- `Enter` opens graph mode without mouse
@@ -103,17 +103,28 @@ Frontend and Reveal Renderer Engineer
 
 ## Risks or unresolved questions
 
-- Exact-head commit-status publication (`agent-validator/project-chemie-digital = success`) must still be posted for the final PR head by the external validator workflow.
 - This worker did not merge PR #71; it must remain Draft until independent manager review and successful exact-head external validation.
 
 ## Recommended manager action
 
 `review draft PR`
 
-1. Verify the exact current PR head for branch `agent/70-accessible-d3-graph-adapter` and publish `agent-validator/project-chemie-digital = success` on that exact SHA.
+1. Verify the exact current PR head for branch `agent/70-accessible-d3-graph-adapter` and ensure `agent-validator/project-chemie-digital = success` on that exact SHA.
 2. Confirm PR #71 remains Draft and contains this handoff evidence.
 3. Perform manager review against Issue #70 acceptance criteria.
 
-## Final head SHA
+## Implementation commit
 
 `35ebb5d65ef6670d162fd18319672ca582641a80`
+
+## Handoff documentation
+
+This handoff was updated by a subsequent documentation-only commit. A versioned handoff file must not claim to know its own eventual final PR-head SHA as a static value.
+
+## Exact-head validation source of truth
+
+At review time, resolve the current PR-head SHA dynamically from GitHub. The following artifacts must all reference that same dynamically resolved exact head:
+
+1. Commit status context `agent-validator/project-chemie-digital`
+2. Validator marker comment `<!-- agent-workflow-validator:project-chemie-digital -->`
+3. PR description section that records the exact head under review
