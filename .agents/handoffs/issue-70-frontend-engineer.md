@@ -50,12 +50,17 @@ Frontend and Reveal Renderer Engineer
 		- `generate:runtime`
 		- `check:runtime`
 		- `test:pitch`
+- [x] Exact-head re-verification after push
+	- Commit under test: `35ebb5d65ef6670d162fd18319672ca582641a80`
+	- Command: `(& .\.venv\Scripts\Activate.ps1) ; npm test`
+	- Result: pass (full pipeline)
 - [x] Repository scripts review
 	- Command: `npm run`
 	- Result: no additional documented format/lint/build scripts are defined beyond the validated checks above.
 - [x] Browser and accessibility evidence (local Vite)
 	- Command: `(& .\.venv\Scripts\Activate.ps1) ; npm run pitch:dev`
 	- URL: `http://127.0.0.1:5173/`
+	- Exact-head browser rerun: validated again on `35ebb5d65ef6670d162fd18319672ca582641a80` (keyboard flow, focus restoration, static toggle, fail-closed, cleanup cycles, no-network guard)
 	- Full keyboard operation verified:
 		- `Tab` to graph switch controls
 		- `Enter` opens graph mode without mouse
@@ -111,4 +116,4 @@ Frontend and Reveal Renderer Engineer
 
 ## Final head SHA
 
-`7fb80bc3956036498f527f11c1921481c6d6b501`
+`35ebb5d65ef6670d162fd18319672ca582641a80`
