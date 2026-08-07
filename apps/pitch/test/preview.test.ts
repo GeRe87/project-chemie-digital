@@ -41,6 +41,23 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   destroy(); assert.equal(root.children.length, 0); destroy();
 });
 
+test("renders the canonical formula locally as KaTeX math", () => {
+  const documents = compilePitchSceneDocuments();
+  const formulaBlock = documents[0]!.scenes[3]!.blocks[1]!;
+  assert.equal(formulaBlock.kind, "math");
+  if (formulaBlock.kind !== "math") throw new Error("expected math block");
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
+  const formulaNode = root.children[3]!.children[1]!;
+  assert.equal(formulaNode.className, "math-display");
+  assert.equal(formulaNode.attributes.get("role"), "math");
+  assert.equal(formulaNode.attributes.get("aria-label"), formulaBlock.spokenText);
+  assert.equal(formulaNode.attributes.get("data-resource-id"), "ex:sample-sd-formula");
+  assert.match(formulaNode.innerHTML, /class="katex-display"/);
+  assert.match(formulaNode.innerHTML, /<math/);
+  destroy();
+});
+
 test("renderer runtime contains no audience-authored Standardabweichung prose", () => {
   const runtime = ["../src/preview.ts", "../src/main.ts", "../src/graph-scene-data.ts"]
     .map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
@@ -55,10 +72,14 @@ test("keeps a complete nine-item static fallback boundary", () => {
   assert.deepEqual(sceneIds, documents[0]!.scenes.map((scene) => scene.id));
   for (const scene of documents[0]!.scenes) {
     for (const block of scene.blocks) {
-      assert.ok(html.includes(block.text), `static fallback is missing ${block.id}`);
+      if (block.kind === "prose") assert.ok(html.includes(block.text), `static fallback is missing ${block.id}`);
+      if (block.kind === "math") {
+        assert.ok(html.includes(block.expression), `static fallback is missing math expression ${block.id}`);
+        assert.ok(html.includes(block.spokenText), `static fallback is missing spoken math alternative ${block.id}`);
+      }
     }
   }
-  assert.match(html, /cd:hasDefinition/);
+  assert.match(html, /math-fallback/);
   assert.match(html, /Introductory Statistics|NIST\/SEMATECH/);
 });
 
