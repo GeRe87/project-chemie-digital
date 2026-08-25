@@ -10,7 +10,7 @@
 
 # Renderer-neutral programming resource vocabulary. Execution providers such as webR
 # remain deployment concerns and are intentionally not represented here.
-graph:concepts-code {
+graph:concepts {
   cd:LearningDomain
     cdm:definesConcept cd:CodeExample ;
     cdm:definesRelation cd:hasCodeExample ;
@@ -43,7 +43,7 @@ graph:concepts-code {
     rdfs:range xsd:boolean .
 }
 
-<https://w3id.org/project-chemie-digital/graph/specifications/interactive-code> {
+<https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation> {
   ex:sd-r-code-example a cd:CodeExample ;
     skos:prefLabel "Standardabweichung mit R berechnen"@de, "calculate standard deviation with R"@en ;
     cd:code """x <- c(6, 8, 10)
@@ -56,7 +56,7 @@ sd(x)""" ;
   ex:exercise-calculate-s cd:hasCodeExample ex:sd-r-code-example .
 }
 
-<https://w3id.org/project-chemie-digital/graph/scenes/interactive-code> {
+<https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation> {
   ex:scene-exercise-recap cd:hasSceneItem ex:scene9-code .
 
   ex:scene9-code a cd:SceneItem ;
