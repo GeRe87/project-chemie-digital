@@ -1,25 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 26,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "QA, DevOps, Security, and Accessibility Engineer",
-  "activeIssue": 72,
-  "expectedDeliverable": "Deploy merged agent-workflow-validator commit f6e53b33a7f1de9af8a8e051e575c230ecf27bc3 to the installed Windows runtime profile, then force exact-head validation of project-chemie-digital PR #73; if the exact current head succeeds, resume the required local Firefox math/accessibility/offline acceptance evidence.",
-  "lastCompletedTurn": "manager: accepted validator PR #6 exact head 75ec3e270218aeef8b8d581203b6a4426ea34be3 after owner-supplied local evidence showed 79/79 validator tests passing and compileall succeeding, marked the PR ready and squash-merged it as f6e53b33a7f1de9af8a8e051e575c230ecf27bc3; validator issue #5 closed",
-  "lastUpdated": "2026-08-25T16:09:30+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "In the next manager turn, select exactly one bounded Phase 2e follow-up after merged PR #73; the planned next integration is #74 / PR #75, which must be rebased/restacked onto current main and revalidated before acceptance.",
+  "lastCompletedTurn": "manager: accepted project-chemie-digital PR #73 exact head 8805d58453e6f16ee84465e695237f577fa4bb41 after exact-head validator success plus owner-reported Firefox math/accessibility/offline acceptance, marked it ready and squash-merged it as e950aee99908eba7b6e0ccd6d6fbffba39c8ee28; did not start #74 in the same turn",
+  "lastUpdated": "2026-08-25T16:27:30+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "The installed Windows validator runtime profile must be updated from merged agent-workflow-validator main so Chemie Digital runs trusted npm ci before npm test; repository main now contains the accepted bootstrap but the local deployment is external to this manager turn.",
-    "After deployment, force validation of project-chemie-digital PR #73 exact head 8805d58453e6f16ee84465e695237f577fa4bb41 because its existing terminal failure was produced before dependency bootstrap and must not be reused.",
-    "Required local Firefox verification for PR #73 remains pending after validator success: confirm visible KaTeX typesetting, role=math/spoken alternative, readable static/no-script fallback, and no runtime network request for mathematics."
-  ],
-  "stateRevision": 336,
+  "blockedBy": [],
+  "stateRevision": 338,
   "transitionHistory": [
     {"at":"2026-07-30T12:25:04+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Claimed one manager review turn after new authoritative PR evidence recorded the required local browser/accessibility inspection for Issue #68."},
     {"at":"2026-07-30T12:29:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Accepted exact PR #69 head after successful external validation and documented manual browser/accessibility evidence, marked it ready, squash-merged it into main and cleared Issue #68 without selecting another assignment in the same turn."},
@@ -37,6 +33,8 @@
     {"at":"2026-08-25T15:54:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260825T155400+0200","reason":"Claimed the bounded QA/DevOps worker turn for GeRe87/agent-workflow-validator#5 to add deterministic Chemie Digital npm dependency bootstrap before validation."},
     {"at":"2026-08-25T15:59:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260825T155400+0200","reason":"Implemented the bounded validator bootstrap fix and opened draft PR #6, then returned to the manager because local validator-suite execution and post-acceptance Windows deployment/revalidation remain external evidence gates."},
     {"at":"2026-08-25T16:03:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260825T160330+0200","reason":"Rechecked validator PR #6: exact head is unchanged and mergeable, but no local validator-suite or compile evidence has been recorded, so manager acceptance remains blocked."},
-    {"at":"2026-08-25T16:09:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260825T160730+0200","reason":"Accepted owner-supplied local validation evidence for validator PR #6 (79 tests OK plus compileall success), marked exact head 75ec3e270218aeef8b8d581203b6a4426ea34be3 ready and squash-merged it; remaining blockers are local deployment and fresh exact-head PR #73 validation/browser evidence."}
+    {"at":"2026-08-25T16:09:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260825T160730+0200","reason":"Accepted owner-supplied local validation evidence for validator PR #6 (79 tests OK plus compileall success), marked exact head 75ec3e270218aeef8b8d581203b6a4426ea34be3 ready and squash-merged it; remaining blockers are local deployment and fresh exact-head PR #73 validation/browser evidence."},
+    {"at":"2026-08-25T16:27:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260825T162700+0200","reason":"Claimed the manager acceptance turn after the installed validator reported success on PR #73 exact head and the project owner reported the required Firefox math/accessibility/offline checks clean."},
+    {"at":"2026-08-25T16:27:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260825T162700+0200","reason":"Recorded browser acceptance in PR metadata without moving the validated head, confirmed exact-head validator success and no review blockers, marked PR #73 ready, squash-merged it into main as e950aee99908eba7b6e0ccd6d6fbffba39c8ee28, and intentionally did not start #74 in the same turn."}
   ]
 }
