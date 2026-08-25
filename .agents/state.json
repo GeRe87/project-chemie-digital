@@ -1,24 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 26,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Semantic Web Engineer",
   "activeIssue": 74,
-  "expectedDeliverable": "Classify the exact-head PR #75 validator failure, preserve the canonical named-graph ownership contract, and assign at most one bounded repair without merging or broadening into #76.",
-  "lastCompletedTurn": "worker: cleanly restacked PR #75 onto current main as a direct feature increment, retargeted the draft PR to main, repaired the two evidence-backed SceneItem SHACL gaps by admitting cd:CodeRole and cd:hasCodeExample with positive/negative regression coverage, updated the issue-74 handoff and PR description, and returned without merging; final feature head 995f320c56b586f3e0d5028df0973b6444600b5c has no exact-head validator status yet",
-  "lastUpdated": "2026-08-25T16:56:30+02:00",
+  "expectedDeliverable": "On existing branch agent/74-codemirror-webr and draft PR #75, preserve the exact canonical named-graph registry by re-homing interactive-code.trig assertions into the existing graph/concepts, graph/specifications/standard-deviation and graph/scenes/standard-deviation owners, add only targeted regression coverage if needed, publish a new exact head, obtain authoritative validator evidence, update the issue-74 handoff, and return without merging or touching #76; Firefox acceptance waits until the new head is green.",
+  "lastCompletedTurn": "manager: classified PR #75 exact-head 995f320c56b586f3e0d5028df0973b6444600b5c failure as a canonical named-graph ownership defect rather than a SHACL defect; SHACL and the new CodeRole/hasCodeExample tests pass, while interactive-code.trig introduces three graph IRIs outside the exact stable registry; assigned a bounded Semantic Web Engineer repair that keeps the registry unchanged and re-homes assertions into existing canonical graphs",
+  "lastUpdated": "2026-08-25T16:59:30+02:00",
   "lease": {
-    "owner": "interactive-manager-20260825T165630+0200",
-    "claimedAt": "2026-08-25T16:56:30+02:00",
-    "expiresAt": "2026-08-25T17:26:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [
-    "PR #75 exact head 995f320c56b586f3e0d5028df0973b6444600b5c has agent-validator/project-chemie-digital = failure: the feature adds three new named graph IRIs that are outside the exact stable canonical graph inventory.",
-    "PR #75 still requires owner-reported Firefox acceptance after a new exact head validates successfully."
-  ],
-  "stateRevision": 342,
+  "blockedBy": [],
+  "stateRevision": 343,
   "transitionHistory": [
     {"at":"2026-07-30T12:25:04+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Claimed one manager review turn after new authoritative PR evidence recorded the required local browser/accessibility inspection for Issue #68."},
     {"at":"2026-07-30T12:29:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Accepted exact PR #69 head after successful external validation and documented manual browser/accessibility evidence, marked it ready, squash-merged it into main and cleared Issue #68 without selecting another assignment in the same turn."},
@@ -43,6 +40,7 @@
     {"at":"2026-08-25T16:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T163130+0200","reason":"Selected #74 / PR #75 as the second Phase 2e integration step; assigned the Frontend and Reveal Renderer Engineer to restack onto current main, repair the specific CodeRole/hasCodeExample SHACL contract gaps with regressions, obtain fresh exact-head validator and Firefox evidence, and return without merging or implementing #76."},
     {"at":"2026-08-25T16:38:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260825T163830+0200","reason":"Claimed the bounded #74 code-runtime integration turn to restack PR #75 onto current main, repair the specific SceneItem SHACL contract gaps, and obtain fresh exact-head evidence without merging or implementing #76."},
     {"at":"2026-08-25T16:51:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260825T163830+0200","reason":"Cleanly restacked PR #75 onto current main, retargeted it to main, repaired the CodeRole/hasCodeExample SceneItem SHACL allow-lists with targeted positive/negative regression coverage, updated the issue-74 handoff and PR metadata, and returned without merge because exact-head validator and Firefox evidence remain external gates."},
-    {"at":"2026-08-25T16:56:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260825T165630+0200","reason":"Claimed the manager turn after exact-head validation of PR #75 failed on canonical named-graph inventory tests despite SHACL conformance."}
+    {"at":"2026-08-25T16:56:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260825T165630+0200","reason":"Claimed the manager turn after exact-head validation of PR #75 failed on canonical named-graph inventory tests despite SHACL conformance."},
+    {"at":"2026-08-25T16:59:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T165630+0200","reason":"Classified the failure as a graph-ownership defect, kept the exact canonical graph registry closed, and assigned the Semantic Web Engineer to re-home the code vocabulary/resource/scene assertions into existing canonical graph owners before revalidation."}
   ]
 }
