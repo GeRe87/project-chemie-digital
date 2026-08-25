@@ -2,20 +2,20 @@
   "schemaVersion": 2,
   "cycle": 26,
   "status": "ready",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "In the next manager turn, select exactly one bounded Phase 2e follow-up after merged PR #73; the planned next integration is #74 / PR #75, which must be rebased/restacked onto current main and revalidated before acceptance.",
-  "lastCompletedTurn": "manager: accepted project-chemie-digital PR #73 exact head 8805d58453e6f16ee84465e695237f577fa4bb41 after exact-head validator success plus owner-reported Firefox math/accessibility/offline acceptance, marked it ready and squash-merged it as e950aee99908eba7b6e0ccd6d6fbffba39c8ee28; did not start #74 in the same turn",
-  "lastUpdated": "2026-08-25T16:27:30+02:00",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 74,
+  "expectedDeliverable": "On existing branch agent/74-codemirror-webr and draft PR #75, restack the bounded #74 code-runtime increment onto current main after squash-merged #73, retarget PR #75 to main, repair the real SceneItem SHACL contract gaps for cd:hasCodeExample and cd:CodeRole with regression coverage, obtain fresh exact-head validator evidence, perform the required Firefox static/connected-interactive checks, update the issue-74 handoff, and return control without merging or implementing #76.",
+  "lastCompletedTurn": "manager: selected #74 / PR #75 as the second Phase 2e integration step after merged #73, confirmed the old stacked branch diverges from current main and the old exact head fails semantic validation specifically because cd:hasCodeExample and cd:CodeRole are not admitted by the current SceneItem SHACL contract, updated Issue #74 with a bounded restack/semantic-repair/validation assignment for the Frontend and Reveal Renderer Engineer",
+  "lastUpdated": "2026-08-25T16:32:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 338,
+  "stateRevision": 339,
   "transitionHistory": [
     {"at":"2026-07-30T12:25:04+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Claimed one manager review turn after new authoritative PR evidence recorded the required local browser/accessibility inspection for Issue #68."},
     {"at":"2026-07-30T12:29:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Accepted exact PR #69 head after successful external validation and documented manual browser/accessibility evidence, marked it ready, squash-merged it into main and cleared Issue #68 without selecting another assignment in the same turn."},
@@ -35,6 +35,8 @@
     {"at":"2026-08-25T16:03:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260825T160330+0200","reason":"Rechecked validator PR #6: exact head is unchanged and mergeable, but no local validator-suite or compile evidence has been recorded, so manager acceptance remains blocked."},
     {"at":"2026-08-25T16:09:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260825T160730+0200","reason":"Accepted owner-supplied local validation evidence for validator PR #6 (79 tests OK plus compileall success), marked exact head 75ec3e270218aeef8b8d581203b6a4426ea34be3 ready and squash-merged it; remaining blockers are local deployment and fresh exact-head PR #73 validation/browser evidence."},
     {"at":"2026-08-25T16:27:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260825T162700+0200","reason":"Claimed the manager acceptance turn after the installed validator reported success on PR #73 exact head and the project owner reported the required Firefox math/accessibility/offline checks clean."},
-    {"at":"2026-08-25T16:27:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260825T162700+0200","reason":"Recorded browser acceptance in PR metadata without moving the validated head, confirmed exact-head validator success and no review blockers, marked PR #73 ready, squash-merged it into main as e950aee99908eba7b6e0ccd6d6fbffba39c8ee28, and intentionally did not start #74 in the same turn."}
+    {"at":"2026-08-25T16:27:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260825T162700+0200","reason":"Recorded browser acceptance in PR metadata without moving the validated head, confirmed exact-head validator success and no review blockers, marked PR #73 ready, squash-merged it into main as e950aee99908eba7b6e0ccd6d6fbffba39c8ee28, and intentionally did not start #74 in the same turn."},
+    {"at":"2026-08-25T16:31:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260825T163130+0200","reason":"Claimed the next Phase 2e planning turn after PR #73 merged to inspect #74 / PR #75, its stacked-branch relationship and exact semantic validation evidence."},
+    {"at":"2026-08-25T16:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T163130+0200","reason":"Selected #74 / PR #75 as the second Phase 2e integration step; assigned the Frontend and Reveal Renderer Engineer to restack onto current main, repair the specific CodeRole/hasCodeExample SHACL contract gaps with regressions, obtain fresh exact-head validator and Firefox evidence, and return without merging or implementing #76."}
   ]
 }
