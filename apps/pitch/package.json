@@ -8,6 +8,7 @@
     "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {
+    "katex": "0.16.22",
     "reveal.js": "^5.2.1"
   },
   "devDependencies": {

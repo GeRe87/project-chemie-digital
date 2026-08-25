@@ -1,3 +1,4 @@
+import katex from "katex";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof";
@@ -25,6 +26,22 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
   if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
 }
 function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBlock, headingId: string): void {
+  if (block.kind === "math") {
+    const node = dom.createElement("div");
+    node.className = "math-display";
+    node.setAttribute("role", "math");
+    node.setAttribute("aria-label", block.spokenText);
+    node.innerHTML = katex.renderToString(block.expression, {
+      displayMode: true,
+      output: "htmlAndMathml",
+      strict: "warn",
+      throwOnError: false,
+      trust: false,
+    });
+    sourceAttributes(node, block.source);
+    parent.appendChild(node);
+    return;
+  }
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);

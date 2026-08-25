@@ -1,5 +1,6 @@
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
+import "katex/dist/katex.min.css";
 import "./styles.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";

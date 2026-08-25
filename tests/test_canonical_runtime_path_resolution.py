@@ -89,10 +89,12 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             selected,
         )
 
-    def test_resolves_formula_exclusively_from_canonical_latex_with_provenance(self) -> None:
+    def test_resolves_formula_as_math_block_from_canonical_latex_with_provenance(self) -> None:
         document = MODULE.compile_scene_document(dataset())
         formula_block = document["scenes"][3]["blocks"][1]
-        self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["text"])
+        self.assertEqual("math", formula_block["kind"])
+        self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["expression"])
+        self.assertEqual("Mathematische Formel für Standardabweichung", formula_block["spokenText"])
         self.assertEqual(
             {
                 "resourceId": "ex:sample-sd-formula",
@@ -102,10 +104,18 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             formula_block["source"][0],
         )
 
-    def test_fails_closed_when_selected_formula_has_no_audience_visible_literal(self) -> None:
+    def test_static_fallback_keeps_math_readable_without_javascript(self) -> None:
+        artifact = MODULE.build_artifact()
+        fallback = MODULE.static_fallback(artifact)
+        self.assertIn('class="math-fallback"', fallback)
+        self.assertIn('role="math"', fallback)
+        self.assertIn("Mathematische Formel für Standardabweichung", fallback)
+        self.assertIn("\\sqrt", fallback)
+
+    def test_fails_closed_when_selected_formula_has_no_latex(self) -> None:
         current = dataset()
         current.remove((SAMPLE_FORMULA, LATEX, None, None))
-        with self.assertRaisesRegex(ValueError, "No audience-visible value for ex:sample-sd-formula"):
+        with self.assertRaisesRegex(ValueError, "Missing cd:latex for ex:sample-sd-formula"):
             MODULE.compile_scene_document(current)
 
     def test_fails_when_the_canonical_learning_path_is_missing(self) -> None:

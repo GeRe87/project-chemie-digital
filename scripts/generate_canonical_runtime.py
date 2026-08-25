@@ -110,6 +110,10 @@ def integer(dataset: Dataset, subject: URIRef, predicate: URIRef) -> int:
     return result
 
 
+def is_math_expression(dataset: Dataset, resource: URIRef) -> bool:
+    return any(obj == iri(CD, "MathExpression") for obj in objects(dataset, resource, RDF.type))
+
+
 def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
     learning_paths = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, iri(CD, "LearningPath"), None)) if isinstance(subject, URIRef)}, key=str)
     if len(learning_paths) != 1:
@@ -132,27 +136,52 @@ def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
             role = local_name(one(dataset, item, iri(CD, "communicativeRole")))
             relation_path = literal(dataset, item, iri(CD, "selectionPath"))
             language = literal(dataset, item, iri(CD, "language"))
+            block_id = f"{compact(item)}--block"
             if role == "HeadingRole":
                 if selected != focus or relation_path != "skos:prefLabel@de":
                     raise ValueError(f"Invalid heading selection in {compact(item)}")
                 text = resource_text(dataset, selected, language or "de")
-                intent, emphasis = "introduce", "primary"
+                block: dict[str, Any] = {
+                    "id": block_id, "kind": "prose",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "text": text, "format": "plain",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "introduce"},
+                }
+            elif is_math_expression(dataset, selected):
+                expression = literal(dataset, selected, iri(CD, "latex"))
+                if expression is None:
+                    raise ValueError(f"Missing cd:latex for {compact(selected)}")
+                focus_label = resource_text(dataset, focus, language or "de")
+                block = {
+                    "id": block_id, "kind": "math",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "expression": expression,
+                    "spokenText": f"Mathematische Formel für {focus_label}",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "explain"},
+                }
             elif role == "QuotationRole":
                 text = resource_text(dataset, selected, language or "de")
-                intent, emphasis = "explain", "primary"
+                block = {
+                    "id": block_id, "kind": "prose",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "text": text, "format": "plain",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "explain"},
+                }
             elif role == "CitationRole":
                 text = resource_text(dataset, selected, None)
-                intent, emphasis = "emphasize", "supporting"
+                block = {
+                    "id": block_id, "kind": "prose",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "text": text, "format": "plain",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "supporting", "intent": {"kind": "emphasize"},
+                }
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
-            block_id = f"{compact(item)}--block"
-            blocks.append({
-                "id": block_id, "kind": "prose",
-                "source": [source_reference(dataset, selected, relation_path)],
-                "text": text, "format": "plain",
-                "disclosure": {"order": position - 1, "mode": "initial"},
-                "emphasis": emphasis, "intent": {"kind": intent},
-            })
+            blocks.append(block)
         scene_compact = compact(scene_id)
         scenes.append({
             "id": f"{scene_compact}--scene",
@@ -235,6 +264,13 @@ def static_fallback(artifact: dict[str, Any]) -> str:
     for scene in document["scenes"]:
         blocks = []
         for block in scene["blocks"]:
+            if block["kind"] == "math":
+                blocks.append(
+                    f'<div class="math-fallback" role="math" aria-label="{html.escape(block["spokenText"], quote=True)}"{fallback_attributes(block["source"])}>'
+                    f'<code>{html.escape(block["expression"])}</code>'
+                    f'</div>'
+                )
+                continue
             tag = "h2" if block["intent"]["kind"] == "introduce" else "blockquote" if block["intent"]["kind"] == "explain" else "cite"
             class_name = ' class="lead"' if tag == "blockquote" else ' class="citation"' if tag == "cite" else ""
             blocks.append(
