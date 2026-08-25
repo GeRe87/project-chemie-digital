@@ -42,6 +42,23 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(node);
     return;
   }
+  if (block.kind === "code") {
+    const shell = dom.createElement("div");
+    shell.className = "code-block";
+    shell.setAttribute("data-code-block-id", block.id);
+    shell.setAttribute("data-language", block.language);
+    shell.setAttribute("data-editable", String(block.editable));
+    shell.setAttribute("data-executable", String(block.executable));
+    sourceAttributes(shell, block.source);
+    const pre = dom.createElement("pre");
+    pre.className = "code-static-fallback";
+    const code = dom.createElement("code");
+    code.textContent = block.fallback;
+    pre.appendChild(code);
+    shell.appendChild(pre);
+    parent.appendChild(shell);
+    return;
+  }
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);

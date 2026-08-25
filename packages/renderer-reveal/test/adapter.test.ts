@@ -69,6 +69,40 @@ test("source references, disclosure, intent and accessible alternatives are pres
   if (prompt.kind === "prompt") assert.equal(prompt.staticFallback, prompt.fallback);
 });
 
+test("executable code maps to an interactive Reveal node without naming webR", async () => {
+  const document = clone(await fixture()) as SceneDocument & { scenes: Array<{ blocks: Array<Record<string, unknown>>; readingOrder: string[] }> };
+  document.scenes[4]!.blocks.push({
+    kind: "code",
+    id: "block:r-example",
+    source: [{ resourceId: "ex:sd-r-code-example", provenanceIds: ["graph:interactive-code"], relationPath: "cd:hasCodeExample" }],
+    language: "r",
+    code: "x <- c(6, 8, 10)\nsd(x)",
+    editable: true,
+    executable: true,
+    fallback: "x <- c(6, 8, 10)\nsd(x)",
+    intent: { kind: "practice" },
+  });
+  document.scenes[4]!.readingOrder.push("block:r-example");
+
+  const interactivePlan = createRevealRenderPlan(document, interactive).plan!;
+  const node = interactivePlan.sections[4]!.nodes.at(-1)!;
+  assert.equal(node.kind, "code");
+  if (node.kind !== "code") throw new Error("expected code plan");
+  assert.equal(node.language, "r");
+  assert.equal(node.code, "x <- c(6, 8, 10)\nsd(x)");
+  assert.equal(node.editable, true);
+  assert.equal(node.executable, true);
+  assert.equal(node.interactive, true);
+  assert.equal(node.staticFallback, node.fallback);
+  assert.deepEqual(node.source, [{ resourceId: "ex:sd-r-code-example", provenanceIds: ["graph:interactive-code"], relationPath: "cd:hasCodeExample" }]);
+  assert.equal(JSON.stringify(node).includes("webR"), false);
+
+  const staticPlan = createRevealRenderPlan(document, { reducedMotion: false, interactionPolicy: "static" }).plan!;
+  const staticNode = staticPlan.sections[4]!.nodes.at(-1)!;
+  assert.equal(staticNode.kind, "code");
+  if (staticNode.kind === "code") assert.equal(staticNode.interactive, false);
+});
+
 test("static and reduced-motion modes retain complete semantic content without fragments", async () => {
   const document = await fixture();
   const progressive = clone(document);

@@ -2,8 +2,10 @@ import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "katex/dist/katex.min.css";
 import "./styles.css";
+import "./code-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
+import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
 
 const root = document.querySelector<HTMLElement>("#pitch-slides");
@@ -12,7 +14,8 @@ if (!root || !presentation) throw new Error("Missing pitch application root");
 const shellRoot = document.createElement("div");
 shellRoot.id = "view-switch-shell";
 presentation.before(shellRoot);
-const removeNetworkGuard = installNoNetworkGuard(window);
+const connectedInteractive = isConnectedInteractiveMode(window.location.search);
+const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window);
 const documents = compilePitchSceneDocuments();
 let unmountScenes: () => void;
 try {
@@ -26,6 +29,17 @@ try {
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const deck = new Reveal({ hash: true, keyboard: true, controls: true, progress: true, transition: reducedMotion ? "none" : "slide", backgroundTransition: reducedMotion ? "none" : "fade", center: false, width: 1440, height: 900, margin: 0.04 });
 await deck.initialize();
+
+let codeRuntime: CodeRuntimeController | undefined;
+if (connectedInteractive) {
+  try {
+    codeRuntime = await mountExecutableCodeBlocks(root);
+    deck.on("slidechanged", () => codeRuntime?.refresh());
+  } catch (error) {
+    console.warn("Connected interactive code runtime unavailable; static code fallback remains active.", error);
+  }
+}
+
 const unmountShell = mountGraphSummaryShell({
   root: shellRoot,
   presentation,
@@ -33,4 +47,11 @@ const unmountShell = mountGraphSummaryShell({
   snapshot: canonicalDatasetSnapshot,
   currentSceneId: () => deck.getCurrentSlide()?.id ?? null,
 });
-window.addEventListener("pagehide", () => { void deck.destroy(); unmountShell(); shellRoot.remove(); unmountScenes(); removeNetworkGuard(); }, { once: true });
+window.addEventListener("pagehide", () => {
+  codeRuntime?.destroy();
+  void deck.destroy();
+  unmountShell();
+  shellRoot.remove();
+  unmountScenes();
+  removeNetworkGuard();
+}, { once: true });

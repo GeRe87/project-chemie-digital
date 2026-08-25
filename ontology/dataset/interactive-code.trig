@@ -1,0 +1,83 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Renderer-neutral programming resource vocabulary. Execution providers such as webR
+# remain deployment concerns and are intentionally not represented here.
+graph:concepts-code {
+  cd:LearningDomain
+    cdm:definesConcept cd:CodeExample ;
+    cdm:definesRelation cd:hasCodeExample ;
+    cdm:definesAttribute cd:code, cd:programmingLanguage, cd:editable, cd:executable ;
+    cdm:definesControlledValue cd:CodeRole .
+
+  cd:CodeExample a rdfs:Class, cdm:ConceptDescriptor ;
+    rdfs:subClassOf cd:LearningResource .
+
+  cd:CodeRole a cd:CommunicativeRole, cdm:ControlledValue .
+
+  cd:hasCodeExample a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Exercise ;
+    rdfs:range cd:CodeExample .
+
+  cd:code a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:CodeExample ;
+    rdfs:range xsd:string .
+
+  cd:programmingLanguage a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:CodeExample ;
+    rdfs:range xsd:string .
+
+  cd:editable a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:CodeExample ;
+    rdfs:range xsd:boolean .
+
+  cd:executable a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:CodeExample ;
+    rdfs:range xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/interactive-code> {
+  ex:sd-r-code-example a cd:CodeExample ;
+    skos:prefLabel "Standardabweichung mit R berechnen"@de, "calculate standard deviation with R"@en ;
+    cd:code """x <- c(6, 8, 10)
+sd(x)""" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:authoredResource true .
+
+  ex:exercise-calculate-s cd:hasCodeExample ex:sd-r-code-example .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/interactive-code> {
+  ex:scene-exercise-recap cd:hasSceneItem ex:scene9-code .
+
+  ex:scene9-code a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sd-r-code-example ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:language "de" ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  ex:CodeExampleShape a sh:NodeShape ;
+    sh:targetClass cd:CodeExample ;
+    sh:property [ sh:path cd:code ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:programmingLanguage ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("r") ] ;
+    sh:property [ sh:path cd:editable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:executable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+
+  ex:InteractiveCodeSceneItemShape a sh:NodeShape ;
+    sh:targetNode ex:scene9-code ;
+    sh:property [ sh:path cd:communicativeRole ; sh:hasValue cd:CodeRole ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:hasValue "cd:hasCodeExample" ] .
+}

@@ -59,6 +59,16 @@ export interface RevealMathPlan extends RevealNodeBase {
   readonly spokenText: string;
 }
 
+export interface RevealCodePlan extends RevealNodeBase {
+  readonly kind: "code";
+  readonly language: string;
+  readonly code: string;
+  readonly editable: boolean;
+  readonly executable: boolean;
+  readonly interactive: boolean;
+  readonly fallback: string;
+}
+
 export interface RevealMediaPlan extends RevealNodeBase {
   readonly kind: "media-reference";
   readonly uri: string;
@@ -86,6 +96,7 @@ export interface RevealPromptPlan extends RevealNodeBase {
 export type RevealNodePlan =
   | RevealProsePlan
   | RevealMathPlan
+  | RevealCodePlan
   | RevealMediaPlan
   | RevealGroupPlan
   | RevealPromptPlan;
@@ -128,6 +139,7 @@ function sourceCopy(source: readonly SourceReference[]): readonly SourceReferenc
   return source.map((entry) => ({
     resourceId: entry.resourceId,
     ...(entry.provenanceIds ? { provenanceIds: [...entry.provenanceIds] } : {}),
+    ...(entry.relationPath ? { relationPath: entry.relationPath } : {}),
   }));
 }
 
@@ -167,6 +179,18 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         kind: "math",
         expression: block.expression,
         spokenText: block.spokenText,
+      };
+    case "code":
+      if (block.fallback.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Code requires a static fallback", block.id);
+      return {
+        ...baseFor(block, position, options, block.fallback),
+        kind: "code",
+        language: block.language,
+        code: block.code,
+        editable: block.editable,
+        executable: block.executable,
+        interactive: block.executable && options.interactionPolicy === "interactive-when-supported",
+        fallback: block.fallback,
       };
     case "media-reference":
       if (block.alternativeText.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Media requires alternativeText", block.id);

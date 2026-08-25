@@ -58,11 +58,34 @@ test("renders the canonical formula locally as KaTeX math", () => {
   destroy();
 });
 
+test("renders canonical R code as an executable static shell", () => {
+  const documents = compilePitchSceneDocuments();
+  const codeBlock = documents[0]!.scenes[8]!.blocks[3]!;
+  assert.equal(codeBlock.kind, "code");
+  if (codeBlock.kind !== "code") throw new Error("expected code block");
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
+  const exercise = root.children[8]!;
+  assert.equal(exercise.children.length, 4);
+  const shell = exercise.children[3]!;
+  assert.equal(shell.className, "code-block");
+  assert.equal(shell.attributes.get("data-code-block-id"), codeBlock.id);
+  assert.equal(shell.attributes.get("data-language"), "r");
+  assert.equal(shell.attributes.get("data-editable"), "true");
+  assert.equal(shell.attributes.get("data-executable"), "true");
+  assert.equal(shell.attributes.get("data-resource-id"), "ex:sd-r-code-example");
+  assert.equal(shell.attributes.get("data-relation-path"), "cd:hasCodeExample");
+  assert.equal(shell.children[0]?.className, "code-static-fallback");
+  assert.equal(shell.children[0]?.children[0]?.textContent, "x <- c(6, 8, 10)\nsd(x)");
+  destroy();
+});
+
 test("renderer runtime contains no audience-authored Standardabweichung prose", () => {
-  const runtime = ["../src/preview.ts", "../src/main.ts", "../src/graph-scene-data.ts"]
+  const runtime = ["../src/preview.ts", "../src/main.ts", "../src/graph-scene-data.ts", "../src/code-runtime.ts"]
     .map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
   assert.equal(runtime.includes("Die Standardabweichung beschreibt, wie stark Werte"), false);
   assert.equal(runtime.includes("Koffeinbestimmung"), false);
+  assert.equal(runtime.includes("x <- c(6, 8, 10)"), false);
 });
 
 test("keeps a complete nine-item static fallback boundary", () => {
@@ -77,9 +100,14 @@ test("keeps a complete nine-item static fallback boundary", () => {
         assert.ok(html.includes(block.expression), `static fallback is missing math expression ${block.id}`);
         assert.ok(html.includes(block.spokenText), `static fallback is missing spoken math alternative ${block.id}`);
       }
+      if (block.kind === "code") {
+        assert.ok(html.includes("x &lt;- c(6, 8, 10)"), `static fallback is missing code ${block.id}`);
+        assert.ok(html.includes('data-language="r"'), `static fallback is missing code language ${block.id}`);
+      }
     }
   }
   assert.match(html, /math-fallback/);
+  assert.match(html, /code-fallback/);
   assert.match(html, /Introductory Statistics|NIST\/SEMATECH/);
 });
 
