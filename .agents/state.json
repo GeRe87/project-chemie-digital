@@ -1,28 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 26,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web Engineer",
   "activeIssue": 74,
-  "expectedDeliverable": "Review PR #75 exact head 88a008ab3cd8ace7eebc1bd6657b018412d48cdb after authoritative validator evidence is available; the canonical named-graph registry is preserved and Firefox acceptance remains gated on exact-head success. Do not merge or broaden into #76 until both gates are satisfied.",
-  "lastCompletedTurn": "worker: repaired the canonical named-graph ownership defect on PR #75 by re-homing interactive-code vocabulary into graph/concepts, the R resource/relation into graph/specifications/standard-deviation, and scene9-code into graph/scenes/standard-deviation while leaving the closed graph registry unchanged; updated the issue-74 handoff and PR comment; final exact head 88a008ab3cd8ace7eebc1bd6657b018412d48cdb is mergeable but has no validator result yet",
-  "lastUpdated": "2026-08-25T17:04:30+02:00",
+  "expectedDeliverable": "On existing branch agent/74-codemirror-webr and PR #75 only, update the stale code-block provenance regression to expect the existing canonical specification graph after the accepted graph re-homing, remove the obsolete interactive-code graph constant if unused, publish a new exact head, let the installed validator poll validate it, update the handoff, and return without production changes, merge, Firefox acceptance, or #76 work.",
+  "lastCompletedTurn": "manager: reviewed exact-head PR #75 validation on 88a008ab3cd8ace7eebc1bd6657b018412d48cdb, confirmed SHACL and canonical graph inventory now pass, classified the sole remaining failure as a stale test expectation for the retired graph/specifications/interactive-code provenance, and assigned one bounded regression-only worker repair",
+  "lastUpdated": "2026-08-26T09:36:30+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "PR #75 exact head 88a008ab3cd8ace7eebc1bd6657b018412d48cdb has no agent-validator/project-chemie-digital result yet; run the installed validator against PR #75 and require success on this exact head.",
-    "PR #75 Firefox acceptance remains intentionally deferred until that exact head validates successfully; then verify default static/offline mode and connected ?interactive=1 CodeMirror/webR behavior before manager acceptance."
-  ],
-  "stateRevision": 345,
+  "blockedBy": [],
+  "stateRevision": 346,
   "transitionHistory": [
-    {"at":"2026-07-30T12:25:04+02:00","from":"blocked/manager","to":"busy/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Claimed one manager review turn after new authoritative PR evidence recorded the required local browser/accessibility inspection for Issue #68."},
-    {"at":"2026-07-30T12:29:30+02:00","from":"busy/manager","to":"ready/manager","actor":"scheduled-manager-20260730T122504+0200","reason":"Accepted exact PR #69 head after successful external validation and documented manual browser/accessibility evidence, marked it ready, squash-merged it into main and cleared Issue #68 without selecting another assignment in the same turn."},
-    {"at":"2026-07-30T13:32:43+02:00","from":"ready/manager","to":"busy/manager","actor":"scheduled-manager-20260730T133243+0200","reason":"Claimed one manager planning turn after Issue #68 and PR #69 completed, to inspect current planning, repository hygiene and select at most one bounded next assignment."},
     {"at":"2026-07-30T13:37:00+02:00","from":"busy/manager","to":"ready/worker","actor":"scheduled-manager-20260730T133243+0200","reason":"Created and assigned Issue #70 to the Frontend and Reveal Renderer Engineer for the bounded optional accessible D3 scene-context graph adapter using the accepted projection document, preserving textual fallback, renderer-neutral boundaries, TriG-only authorship and required exact-head plus manual browser evidence."},
     {"at":"2026-07-30T14:28:35+02:00","from":"ready/worker","to":"busy/worker","actor":"scheduled-worker-20260730T142835+0200","reason":"Claimed the bounded Issue #70 accessible D3 scene-context graph adapter worker turn."},
     {"at":"2026-07-30T14:34:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"scheduled-worker-20260730T142835+0200","reason":"Recorded Issue #70 as externally blocked after inspecting the D3 adapter scaffold and shell boundary: the GitHub-connector-only worker cannot install dependencies, execute npm test, run browser accessibility checks or publish exact-head validation; created structured handoff and draft PR #71 without speculative feature code."},
@@ -46,6 +40,7 @@
     {"at":"2026-08-25T16:56:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260825T165630+0200","reason":"Claimed the manager turn after exact-head validation of PR #75 failed on canonical named-graph inventory tests despite SHACL conformance."},
     {"at":"2026-08-25T16:59:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T165630+0200","reason":"Classified the failure as a graph-ownership defect, kept the exact canonical graph registry closed, and assigned the Semantic Web Engineer to re-home the code vocabulary/resource/scene assertions into existing canonical graph owners before revalidation."},
     {"at":"2026-08-25T17:01:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260825T170130+0200","reason":"Claimed the bounded Semantic Web Engineer turn to preserve the exact canonical graph registry by re-homing interactive-code assertions into existing graph owners before exact-head revalidation."},
-    {"at":"2026-08-25T17:04:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260825T170130+0200","reason":"Re-homed interactive-code vocabulary, resource and scene assertions into the existing canonical graph owners, kept EXPECTED_CANONICAL_GRAPHS unchanged, updated the handoff and PR evidence, and returned without merge because the new exact head still requires authoritative validator and subsequent Firefox acceptance evidence."}
+    {"at":"2026-08-25T17:04:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260825T170130+0200","reason":"Re-homed interactive-code vocabulary, resource and scene assertions into the existing canonical graph owners, kept EXPECTED_CANONICAL_GRAPHS unchanged, updated the handoff and PR evidence, and returned without merge because the new exact head still requires authoritative validator and subsequent Firefox acceptance evidence."},
+    {"at":"2026-08-26T09:36:30+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260826T093630+0200","reason":"Reviewed exact-head PR #75 failure after the graph-ownership repair, confirmed the canonical graph inventory and SHACL now pass, classified the only remaining failure as a stale provenance expectation in test_canonical_runtime_path_resolution.py, and assigned one regression-only Semantic Web Engineer repair with no production changes."}
   ]
 }
