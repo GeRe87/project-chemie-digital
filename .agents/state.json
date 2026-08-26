@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 28,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 78,
-  "expectedDeliverable": "Review validated PR #79 head 2554c4777237c41e661105734eabf69022686845 and resolve its non-mergeable divergence from current main before Firefox acceptance, without changing the bounded runtime-hardening feature content.",
-  "lastCompletedTurn": "worker: repaired the owner-reported Firefox bare-specifier failure in PR #79 by switching the local webR 0.6.0 browser entry from webr.mjs to the package-declared browser build webr.js, validating exports[\".\"].browser == ./dist/webr.js during vendor preparation, updating manifest/preflight and regressions to prevent browser-entry regression, updating the issue-78 handoff and publishing exact head 2554c4777237c41e661105734eabf69022686845; no semantic, poll, CodeMirror, merge or final-acceptance work was performed",
-  "lastUpdated": "2026-08-26T13:42:00+02:00",
+  "expectedDeliverable": "On existing agent/78-runtime-hardening / PR #79, perform a no-content-change restack of the exact seven-file runtime-hardening feature diff from validated head 2554c4777237c41e661105734eabf69022686845 onto the current main after this assignment state commit. Preserve every feature file byte-for-byte relative to 2554c477, including the webr.js browser-entry repair and handoff; do not modify TriG, SHACL, poll, CodeMirror behavior, runtime semantics, tests or documentation content. Replace the stale branch history with a clean current-main-based head, confirm PR #79 is mergeable and 0 commits behind main, publish the new exact head for automatic validation, and return to manager without Firefox acceptance or merge.",
+  "lastCompletedTurn": "manager: confirmed authoritative validator success on PR #79 repaired head 2554c4777237c41e661105734eabf69022686845, but found the PR non-mergeable because its branch was five dispatcher-only commits behind current main; deferred Firefox acceptance and assigned a no-content-change restack so final browser evidence can be collected on a mergeable exact head",
+  "lastUpdated": "2026-08-26T13:43:00+02:00",
   "lease": {
-    "owner": "interactive-manager-20260826T134200+0200",
-    "claimedAt": "2026-08-26T13:42:00+02:00",
-    "expiresAt": "2026-08-26T15:42:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 368,
+  "stateRevision": 369,
   "transitionHistory": [
     {"at":"2026-08-26T10:39:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T103500+0200","reason":"Accepted owner-reported Firefox evidence on PR #75 and squash-merged it."},
     {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn for Issue #76 / PR #77."},
@@ -33,6 +33,7 @@
     {"at":"2026-08-26T13:28:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260826T132800+0200","reason":"Classified the Firefox bare-specifier failure as wrong use of webr.mjs and assigned a bounded webr.js browser-entry repair."},
     {"at":"2026-08-26T13:29:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T132900+0200","reason":"Claimed the bounded Issue #78 browser-entry repair."},
     {"at":"2026-08-26T13:39:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T132900+0200","reason":"Switched the local webR browser entry to package-declared webr.js, added browser-export validation and regressions, updated handoff/evidence and published exact head 2554c4777237c41e661105734eabf69022686845 for fresh validation; no merge or final acceptance was performed."},
-    {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review after exact-head validator success on PR #79 and detected that the feature branch had diverged from current main through dispatcher-only commits, making the PR non-mergeable before Firefox acceptance."}
+    {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review after exact-head validator success on PR #79 and detected that the feature branch had diverged from current main through dispatcher-only commits, making the PR non-mergeable before Firefox acceptance."},
+    {"at":"2026-08-26T13:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T134200+0200","reason":"Confirmed the divergence is dispatcher-only and assigned a no-content-change Frontend restack of the exact seven-file PR #79 feature diff onto current main, deferring Firefox acceptance until the resulting mergeable exact head receives fresh validator success."}
   ]
 }
