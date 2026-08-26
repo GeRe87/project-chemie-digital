@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 29,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "QA, DevOps, Security, and Accessibility Engineer",
-  "activeIssue": null,
-  "expectedDeliverable": "Plan the final Phase 2e end-to-end acceptance milestone on current main after #78/#79 merged. Define a verification-only scope covering the complete canonical demonstrator in normal/static, connected-interactive and public-Internet-offline modes, including graph/navigation, local math, CodeMirror/webR, audience poll, accessibility/privacy and fail-closed behavior. Create one bounded acceptance issue and assign exactly one QA/DevOps worker; do not implement features or begin Phase 3 in this manager turn.",
-  "lastCompletedTurn": "manager: accepted owner-reported offline/Firefox evidence on unchanged validated PR #79 exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae, documented the evidence on the PR, confirmed authoritative validator success, mergeable true and no open review threads, marked the PR ready, squash-merged it into main as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and confirmed Issue #78 closed as completed; intentionally did not start the final Phase 2e acceptance milestone in the same turn",
-  "lastUpdated": "2026-08-26T14:27:00+02:00",
+  "activeIssue": 80,
+  "expectedDeliverable": "Execute Issue #80 as a verification/release-readiness worker. Create branch agent/80-phase2e-e2e-acceptance from current main, add a deterministic repository-tracked Phase 2e end-to-end acceptance/demo choreography plus a structured handoff, inspect current automated coverage and add only narrowly targeted acceptance coverage if an invariant is genuinely unguarded. Do not change semantic content, runtime behavior, poll semantics, visual design or Phase 3 architecture. If a production defect is found, stop and return evidence to the manager for a separate bounded repair instead of folding feature work into acceptance. Open a draft PR with the validator marker and return without merge or owner Firefox acceptance.",
+  "lastCompletedTurn": "manager: created Issue #80 as the final Phase 2e / Interactive Demonstrator v0.1 end-to-end acceptance step, selected QA/DevOps/Security/Accessibility as the verification role, defined the canonical/static/connected/offline/fail-closed/accessibility/privacy acceptance matrix and explicitly kept real UDE LimeSurvey credentials and Phase 3 outside scope; a transient empty noop file created by an incorrect connector endpoint during planning was immediately deleted and left no project-content change",
+  "lastUpdated": "2026-08-26T14:31:00+02:00",
   "lease": {
-    "owner": "interactive-manager-20260826T142700+0200",
-    "claimedAt": "2026-08-26T14:27:00+02:00",
-    "expiresAt": "2026-08-26T16:27:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 375,
+  "stateRevision": 376,
   "transitionHistory": [
     {"at":"2026-08-26T10:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T104100+0200","reason":"Assigned the bounded poll semantic integration repair."},
     {"at":"2026-08-26T11:02:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T104500+0200","reason":"Published repaired PR #77 head for validation."},
@@ -30,14 +30,15 @@
     {"at":"2026-08-26T13:02:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T130230+0200","reason":"Confirmed validator success for PR #79; Firefox acceptance remained."},
     {"at":"2026-08-26T13:28:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260826T132800+0200","reason":"Classified the Firefox bare-specifier failure as wrong use of webr.mjs and assigned a bounded webr.js browser-entry repair."},
     {"at":"2026-08-26T13:29:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T132900+0200","reason":"Claimed the bounded Issue #78 browser-entry repair."},
-    {"at":"2026-08-26T13:39:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T132900+0200","reason":"Switched the local webR browser entry to package-declared webr.js, added browser-export validation and regressions, updated handoff/evidence and published exact head 2554c4777237c41e661105734eabf69022686845 for fresh validation; no merge or final acceptance was performed."},
-    {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review after exact-head validator success on PR #79 and detected dispatcher-only branch divergence."},
+    {"at":"2026-08-26T13:39:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T132900+0200","reason":"Switched the local webR browser entry to package-declared webr.js and published repaired exact head."},
+    {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review and detected dispatcher-only branch divergence."},
     {"at":"2026-08-26T13:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T134200+0200","reason":"Assigned a no-content-change restack of PR #79 onto current main."},
     {"at":"2026-08-26T13:45:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Claimed the no-content-change Issue #78 restack turn."},
     {"at":"2026-08-26T13:46:00+02:00","from":"busy/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Recovered dispatcher state after an accidental malformed connector write during the restack; feature scope was unaffected."},
     {"at":"2026-08-26T13:48:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T134500+0200","reason":"Published clean PR #79 restack head 640cd836a5b512b8804ac136c65f67cdc2a42fae and returned without acceptance or merge."},
     {"at":"2026-08-26T14:12:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T141200+0200","reason":"Confirmed exact-head validator success for PR #79 and left Firefox acceptance as the only gate."},
     {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted offline/Firefox evidence, squash-merged PR #79 as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and closed Issue #78 without starting the next milestone."},
-    {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."}
+    {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
+    {"at":"2026-08-26T14:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T142700+0200","reason":"Created Issue #80 with the final canonical/static/connected/offline/fail-closed/accessibility/privacy acceptance matrix and assigned one QA/DevOps worker; no feature implementation or Phase 3 work was started."}
   ]
 }
