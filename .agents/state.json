@@ -1,21 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 28,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 78,
-  "expectedDeliverable": "On existing agent/78-runtime-hardening / PR #79, perform a no-content-change restack of the exact seven-file runtime-hardening feature diff from validated head 2554c4777237c41e661105734eabf69022686845 onto the current main after this assignment state commit. Preserve every feature file byte-for-byte relative to 2554c477, including the webr.js browser-entry repair and handoff; do not modify TriG, SHACL, poll, CodeMirror behavior, runtime semantics, tests or documentation content. Replace the stale branch history with a clean current-main-based head, confirm PR #79 is mergeable and 0 commits behind main, publish the new exact head for automatic validation, and return to manager without Firefox acceptance or merge.",
-  "lastCompletedTurn": "manager: confirmed authoritative validator success on PR #79 repaired head 2554c4777237c41e661105734eabf69022686845, but found the PR non-mergeable because its branch was five dispatcher-only commits behind current main; deferred Firefox acceptance and assigned a no-content-change restack so final browser evidence can be collected on a mergeable exact head",
-  "lastUpdated": "2026-08-26T13:46:00+02:00",
+  "expectedDeliverable": "Review PR #79 clean-restack exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae for fresh authoritative agent-validator/project-chemie-digital evidence. The restack was byte-for-byte for the exact seven feature files from validated head 2554c4777237c41e661105734eabf69022686845 and was mergeable with behind_by 0 before dispatcher return. If validation succeeds, repeat the forced vendor-cache refresh and offline Firefox acceptance on 640cd836 before merge.",
+  "lastCompletedTurn": "worker: performed a no-content-change restack of PR #79 by transplanting the exact seven feature blob SHAs from validated head 2554c4777237c41e661105734eabf69022686845 onto current main, force-reset the feature branch to clean head 640cd836a5b512b8804ac136c65f67cdc2a42fae, confirmed one commit / seven files / behind_by 0 / mergeable true, and published the new exact head for automatic validation; an accidental malformed dispatcher-state write and transient feature-branch README commits were immediately recovered/reset and are not present in PR #79; no Firefox acceptance or merge was performed",
+  "lastUpdated": "2026-08-26T13:48:00+02:00",
   "lease": {
-    "owner": "interactive-worker-20260826T134500+0200",
-    "claimedAt": "2026-08-26T13:45:00+02:00",
-    "expiresAt": "2026-08-26T15:45:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 371,
+  "blockedBy": [
+    "PR #79 clean-restack exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae has no agent-validator/project-chemie-digital result yet; wait for the installed five-minute poller.",
+    "Offline/Firefox acceptance must be repeated only after fresh exact-head validation, with npm run prepare:interactive-runtime -- --force so the local cache uses webr.js."
+  ],
+  "stateRevision": 372,
   "transitionHistory": [
     {"at":"2026-08-26T10:39:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T103500+0200","reason":"Accepted owner-reported Firefox evidence on PR #75 and squash-merged it."},
     {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn for Issue #76 / PR #77."},
@@ -36,6 +39,7 @@
     {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review after exact-head validator success on PR #79 and detected that the feature branch had diverged from current main through dispatcher-only commits, making the PR non-mergeable before Firefox acceptance."},
     {"at":"2026-08-26T13:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T134200+0200","reason":"Confirmed the divergence is dispatcher-only and assigned a no-content-change Frontend restack of the exact seven-file PR #79 feature diff onto current main, deferring Firefox acceptance until the resulting mergeable exact head receives fresh validator success."},
     {"at":"2026-08-26T13:45:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Claimed the no-content-change Issue #78 restack turn to transplant the exact seven-file validated feature diff onto current main without changing runtime, tests, docs or semantics."},
-    {"at":"2026-08-26T13:46:00+02:00","from":"busy/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Recovered dispatcher state immediately after an accidental malformed connector write during the restack; feature branch content and assigned scope were unaffected."}
+    {"at":"2026-08-26T13:46:00+02:00","from":"busy/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Recovered dispatcher state immediately after an accidental malformed connector write during the restack; feature branch content and assigned scope were unaffected."},
+    {"at":"2026-08-26T13:48:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T134500+0200","reason":"Published clean PR #79 restack head 640cd836a5b512b8804ac136c65f67cdc2a42fae with the exact seven validated feature blobs on current main, confirmed one commit / seven files / behind_by 0 / mergeable true, and returned without Firefox acceptance or merge."}
   ]
 }
