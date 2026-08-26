@@ -1,6 +1,6 @@
-const CODEMIRROR_VIEW_MODULE_URL = "https://cdn.jsdelivr.net/npm/@codemirror/view@6.43.6/+esm";
-const WEBR_MODULE_URL = "https://webr.r-wasm.org/v0.6.0/webr.mjs";
-const WEBR_BASE_URL = "https://webr.r-wasm.org/v0.6.0/";
+const CODEMIRROR_VIEW_MODULE_PATH = "/vendor/codemirror/view-6.43.6.mjs";
+const WEBR_MODULE_PATH = "/vendor/webr/v0.6.0/webr.js";
+const WEBR_BASE_PATH = "/vendor/webr/v0.6.0/";
 
 interface EditorHandle {
   readonly state: { readonly doc: { toString(): string } };
@@ -42,12 +42,16 @@ export function wrapRForCapturedOutput(code: string): string {
   return `paste(capture.output(print({\n${code}\n})), collapse="\\n")`;
 }
 
-async function importPinned<T>(url: string): Promise<T> {
-  return await import(/* @vite-ignore */ url) as T;
+function localBrowserUrl(path: string): string {
+  return new URL(path, window.location.origin).href;
+}
+
+async function importPinned<T>(path: string): Promise<T> {
+  return await import(/* @vite-ignore */ localBrowserUrl(path)) as T;
 }
 
 async function loadCodeMirrorView(): Promise<EditorViewConstructor> {
-  const module = await importPinned<CodeMirrorViewModule>(CODEMIRROR_VIEW_MODULE_URL);
+  const module = await importPinned<CodeMirrorViewModule>(CODEMIRROR_VIEW_MODULE_PATH);
   return module.EditorView;
 }
 
@@ -55,8 +59,8 @@ function createWebRExecutor(): { execute(code: string): Promise<string>; close()
   let instancePromise: Promise<WebRInstance> | undefined;
   const instance = (): Promise<WebRInstance> => {
     if (!instancePromise) {
-      instancePromise = importPinned<WebRModule>(WEBR_MODULE_URL).then(async ({ WebR, ChannelType }) => {
-        const webR = new WebR({ baseUrl: WEBR_BASE_URL, channelType: ChannelType.PostMessage });
+      instancePromise = importPinned<WebRModule>(WEBR_MODULE_PATH).then(async ({ WebR, ChannelType }) => {
+        const webR = new WebR({ baseUrl: localBrowserUrl(WEBR_BASE_PATH), channelType: ChannelType.PostMessage });
         await webR.init();
         return webR;
       });
@@ -79,10 +83,9 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
   const shells = [...root.querySelectorAll<HTMLElement>('.code-block[data-executable="true"]')];
   if (shells.length === 0) return { refresh: () => undefined, destroy: () => undefined };
 
-  // The connected prototype intentionally loads only @codemirror/view. Importing the
-  // aggregate `codemirror` package or independently bundled language/basic-setup
-  // extensions through CDN ESM can create multiple @codemirror/state instances and
-  // makes CodeMirror reject otherwise valid extensions via instanceof checks.
+  // The connected runtime intentionally loads only the pinned @codemirror/view entry.
+  // Its mirrored ESM dependency graph is prepared as one local tree so independently
+  // bundled @codemirror/state instances cannot re-enter through presentation-time CDNs.
   const EditorView = await loadCodeMirrorView();
   const executor = createWebRExecutor();
   const editors: EditorHandle[] = [];
@@ -180,4 +183,10 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
 export const interactiveRuntimeVersions = Object.freeze({
   codeMirrorView: "6.43.6",
   webR: "0.6.0",
+});
+
+export const interactiveRuntimeDestinations = Object.freeze({
+  codeMirrorView: CODEMIRROR_VIEW_MODULE_PATH,
+  webRModule: WEBR_MODULE_PATH,
+  webRBase: WEBR_BASE_PATH,
 });

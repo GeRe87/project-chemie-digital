@@ -8,3 +8,4 @@ coverage/
 *.log
 __pycache__/
 apps/pitch/src/generated/canonical-runtime.json
+apps/pitch/public/vendor/
