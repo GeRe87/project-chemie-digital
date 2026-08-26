@@ -34,7 +34,6 @@ BASIC_DEFINITION = URIRef(f"{EX}sd-definition-basic-de")
 SAMPLE_FORMULA = URIRef(f"{EX}sample-sd-formula")
 R_CODE_EXAMPLE = URIRef(f"{EX}sd-r-code-example")
 SPECIFICATION_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
-INTERACTIVE_CODE_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/interactive-code"
 SAMPLE_FORMULA_LATEX = r"s = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}}"
 R_CODE = "x <- c(6, 8, 10)\nsd(x)"
 
@@ -123,7 +122,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         self.assertEqual(
             {
                 "resourceId": "ex:sd-r-code-example",
-                "provenanceIds": [INTERACTIVE_CODE_GRAPH],
+                "provenanceIds": [SPECIFICATION_GRAPH],
                 "relationPath": "cd:hasCodeExample",
             },
             code_block["source"][0],
