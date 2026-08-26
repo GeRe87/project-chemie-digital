@@ -39,11 +39,11 @@ The old exact head `ade9b713a8e3a48e0512577e6cd4146beafc7a59` failed because the
 - added a positive semantic regression for `ex:scene9-code`;
 - retained unsupported-role rejection and added unsupported-selection-path rejection.
 
-The next exact-head validator run on `995f320c56b586f3e0d5028df0973b6444600b5c` confirmed this repair: SHACL reported `Conforms: True` and the new code-scene regressions passed.
+The exact-head validator run on `995f320c56b586f3e0d5028df0973b6444600b5c` confirmed this repair: SHACL reported `Conforms: True` and the new code-scene regressions passed.
 
 ## Canonical named-graph ownership repair
 
-That same validator run exposed a second, separate contract defect: `interactive-code.trig` introduced three new named graph IRIs (`graph/concepts-code`, `graph/specifications/interactive-code`, `graph/scenes/interactive-code`) outside the repository's exact stable canonical graph inventory.
+That validator run exposed a separate contract defect: `interactive-code.trig` introduced three new named graph IRIs (`graph/concepts-code`, `graph/specifications/interactive-code`, `graph/scenes/interactive-code`) outside the repository's exact stable canonical graph inventory.
 
 The Semantic Web worker repaired graph ownership without weakening the registry or changing resource IRIs:
 
@@ -51,9 +51,19 @@ The Semantic Web worker repaired graph ownership without weakening the registry 
 - `ex:sd-r-code-example` and the exercise-to-code relation now live in the existing `https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation` owner;
 - `ex:scene9-code` and its scene membership now live in the existing `https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation` owner;
 - SHACL remains in the existing `graph/shapes/core` owner;
-- `EXPECTED_CANONICAL_GRAPHS` was deliberately not expanded, so the existing exact-graph regression remains the guard for this repair.
+- `EXPECTED_CANONICAL_GRAPHS` was deliberately not expanded.
 
-The graph-ownership repair commit before this documentation-only handoff is `9acea3f73623c66ceafb97be6a1ef553dd6ba5a1`.
+The next exact-head run on `88a008ab3cd8ace7eebc1bd6657b018412d48cdb` confirmed that SHACL and the exact canonical graph inventory now pass. Its sole remaining failure was a stale regression expectation that still named the retired `graph/specifications/interactive-code` provenance.
+
+## Provenance regression repair
+
+This worker turn changed tests only:
+
+- removed the obsolete `INTERACTIVE_CODE_GRAPH` constant from `tests/test_canonical_runtime_path_resolution.py`;
+- updated the renderer-neutral R code block provenance expectation to `SPECIFICATION_GRAPH`, i.e. the canonical `graph/specifications/standard-deviation` owner;
+- made no production, TriG, compiler, renderer or runtime changes.
+
+Regression repair commit before this documentation-only handoff: `2f5bc486e040eb969323bc0e385c3d79c14f3b5d`.
 
 ## Architecture boundaries
 
@@ -70,19 +80,7 @@ The graph-ownership repair commit before this documentation-only handoff is `9ac
 
 ## Required exact-head verification
 
-The connector cannot execute the installed Windows validator. After this handoff commit, query the current PR #75 head and run:
-
-```powershell
-$root = "$env:LOCALAPPDATA\AgentWorkflowValidator"
-& "$root\scripts\run-validator.ps1" `
-  -RootPath $root `
-  -Mode validate `
-  -Repository GeRe87/project-chemie-digital `
-  -PullRequest 75 `
-  -Force
-```
-
-Require `agent-validator/project-chemie-digital = success` on that exact head before browser acceptance.
+The installed Windows validator polls every five minutes. After this handoff commit, require `agent-validator/project-chemie-digital = success` on the exact current PR #75 head before browser acceptance. A manual forced run is only needed if the automatic poll does not publish a result for the new head.
 
 ## Required Firefox acceptance after validator success
 
@@ -107,4 +105,4 @@ Check both modes:
 
 ## Worker result
 
-The named-graph ownership defect from exact head `995f320c...` is repaired narrowly and the closed canonical graph registry is preserved. No merge was performed. A fresh exact-head validator result and subsequent Firefox evidence remain external gates for manager acceptance.
+The stale provenance regression from exact head `88a008ab...` is repaired narrowly with no production changes. No merge was performed. A fresh exact-head validator result and subsequent Firefox evidence remain external gates for manager acceptance.
