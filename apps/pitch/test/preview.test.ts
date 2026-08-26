@@ -21,6 +21,7 @@ test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {
   assert.match(canonicalDatasetFingerprint, /^sha256:[0-9a-f]{64}$/);
   assert.equal(canonicalDatasetSnapshot.identity, canonicalDatasetFingerprint);
   assert.ok(canonicalDatasetSnapshot.entities.some((entity) => entity.id === "ex:standard-deviation"));
+  assert.ok(canonicalDatasetSnapshot.entities.some((entity) => entity.id === "ex:sd-precision-poll"));
   assert.ok(canonicalDatasetSnapshot.statements.length > 0);
 });
 
@@ -58,16 +59,43 @@ test("renders the canonical formula locally as KaTeX math", () => {
   destroy();
 });
 
+test("renders canonical graph-backed audience poll before the executable R code", () => {
+  const documents = compilePitchSceneDocuments();
+  const pollBlock = documents[0]!.scenes[8]!.blocks[3]!;
+  assert.equal(pollBlock.kind, "prompt");
+  if (pollBlock.kind !== "prompt") throw new Error("expected prompt block");
+  assert.equal(pollBlock.responseMode, "single-choice");
+  assert.deepEqual(pollBlock.options, ["Messreihe A", "Messreihe B"]);
+  assert.deepEqual(pollBlock.source.map((source) => source.resourceId), [
+    "ex:sd-precision-poll",
+    "ex:sd-precision-option-a",
+    "ex:sd-precision-option-b",
+  ]);
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
+  const exercise = root.children[8]!;
+  assert.equal(exercise.children.length, 5);
+  const shell = exercise.children[3]!;
+  assert.equal(shell.className, "live-poll");
+  assert.equal(shell.attributes.get("data-poll-key"), "ex:sd-precision-poll");
+  assert.equal(shell.attributes.get("data-poll-option-ids"), "ex:sd-precision-option-a ex:sd-precision-option-b");
+  assert.equal(shell.attributes.get("data-relation-path"), "cd:hasAudiencePoll cd:hasPollOption");
+  assert.match(shell.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
+  assert.match(shell.children[0]?.textContent ?? "", /Welche Messreihe ist präziser/);
+  assert.deepEqual(shell.children[1]?.children.map((item) => item.textContent), ["Messreihe A", "Messreihe B"]);
+  destroy();
+});
+
 test("renders canonical R code as an executable static shell", () => {
   const documents = compilePitchSceneDocuments();
-  const codeBlock = documents[0]!.scenes[8]!.blocks[3]!;
+  const codeBlock = documents[0]!.scenes[8]!.blocks[4]!;
   assert.equal(codeBlock.kind, "code");
   if (codeBlock.kind !== "code") throw new Error("expected code block");
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
   const exercise = root.children[8]!;
-  assert.equal(exercise.children.length, 4);
-  const shell = exercise.children[3]!;
+  assert.equal(exercise.children.length, 5);
+  const shell = exercise.children[4]!;
   assert.equal(shell.className, "code-block");
   assert.equal(shell.attributes.get("data-code-block-id"), codeBlock.id);
   assert.equal(shell.attributes.get("data-language"), "r");
@@ -81,11 +109,17 @@ test("renders canonical R code as an executable static shell", () => {
 });
 
 test("renderer runtime contains no audience-authored Standardabweichung prose", () => {
-  const runtime = ["../src/preview.ts", "../src/main.ts", "../src/graph-scene-data.ts", "../src/code-runtime.ts"]
-    .map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
+  const runtime = [
+    "../src/preview.ts",
+    "../src/main.ts",
+    "../src/graph-scene-data.ts",
+    "../src/code-runtime.ts",
+    "../src/poll-runtime.ts",
+  ].map((path) => readFileSync(new URL(path, import.meta.url), "utf8")).join("\n");
   assert.equal(runtime.includes("Die Standardabweichung beschreibt, wie stark Werte"), false);
   assert.equal(runtime.includes("Koffeinbestimmung"), false);
   assert.equal(runtime.includes("x <- c(6, 8, 10)"), false);
+  assert.equal(runtime.includes("Messreihe A: 9, 10, 11"), false);
 });
 
 test("keeps a complete nine-item static fallback boundary", () => {
@@ -100,6 +134,10 @@ test("keeps a complete nine-item static fallback boundary", () => {
         assert.ok(html.includes(block.expression), `static fallback is missing math expression ${block.id}`);
         assert.ok(html.includes(block.spokenText), `static fallback is missing spoken math alternative ${block.id}`);
       }
+      if (block.kind === "prompt") {
+        assert.ok(html.includes(block.prompt), `static fallback is missing poll prompt ${block.id}`);
+        for (const option of block.options ?? []) assert.ok(html.includes(option), `static fallback is missing poll option ${option}`);
+      }
       if (block.kind === "code") {
         assert.ok(html.includes("x &lt;- c(6, 8, 10)"), `static fallback is missing code ${block.id}`);
         assert.ok(html.includes('data-language="r"'), `static fallback is missing code language ${block.id}`);
@@ -107,6 +145,7 @@ test("keeps a complete nine-item static fallback boundary", () => {
     }
   }
   assert.match(html, /math-fallback/);
+  assert.match(html, /poll-fallback/);
   assert.match(html, /code-fallback/);
   assert.match(html, /Introductory Statistics|NIST\/SEMATECH/);
 });

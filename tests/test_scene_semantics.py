@@ -88,6 +88,28 @@ class SceneSemanticValidationTests(unittest.TestCase):
         conforms, report, _ = self.validate_graph(graph)
         self.assertTrue(conforms, report)
 
+    def test_poll_scene_item_role_and_selection_path_are_accepted(self) -> None:
+        graph = assembled_data_graph()
+        item = URIRef(EX + "scene9-poll")
+        self.assertIn((item, URIRef(CD + "communicativeRole"), URIRef(CD + "PollRole")), graph)
+        self.assertIn((item, URIRef(CD + "selectionPath"), Literal("cd:hasAudiencePoll")), graph)
+        conforms, report, _ = self.validate_graph(graph)
+        self.assertTrue(conforms, report)
+
+    def test_poll_scene_item_with_unsupported_role_is_rejected(self) -> None:
+        graph = assembled_data_graph()
+        item = URIRef(EX + "scene9-poll")
+        graph.set((item, URIRef(CD + "communicativeRole"), URIRef(CD + "UnsupportedRole")))
+        conforms, _, _ = self.validate_graph(graph)
+        self.assertFalse(conforms)
+
+    def test_poll_scene_item_with_unsupported_selection_path_is_rejected(self) -> None:
+        graph = assembled_data_graph()
+        item = URIRef(EX + "scene9-poll")
+        graph.set((item, URIRef(CD + "selectionPath"), Literal("cd:unsupportedPollPath")))
+        conforms, _, _ = self.validate_graph(graph)
+        self.assertFalse(conforms)
+
     def test_unsupported_communicative_role_is_rejected(self) -> None:
         graph = assembled_data_graph()
         item = URIRef(EX + "scene1-i2")

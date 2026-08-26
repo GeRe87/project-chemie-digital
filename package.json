@@ -19,6 +19,7 @@
     "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
     "test:pitch": "npm --workspace @project-chemie-digital/pitch test",
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
+    "poll:demo": "python scripts/limesurvey_poll_proxy.py --demo",
     "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run generate:runtime && npm run check:runtime && npm run test:pitch"
   },
   "engines": {

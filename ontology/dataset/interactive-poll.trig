@@ -1,0 +1,79 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Renderer-neutral audience polling vocabulary. LimeSurvey is deliberately not named
+# here: it is one deployment provider for an AudiencePoll, not part of the teaching model.
+graph:concepts {
+  cd:LearningDomain
+    cdm:definesConcept cd:AudiencePoll, cd:PollOption ;
+    cdm:definesRelation cd:hasAudiencePoll, cd:hasPollOption ;
+    cdm:definesControlledValue cd:PollRole .
+
+  cd:AudiencePoll a rdfs:Class, cdm:ConceptDescriptor ;
+    rdfs:subClassOf cd:LearningResource .
+
+  cd:PollOption a rdfs:Class, cdm:ConceptDescriptor ;
+    rdfs:subClassOf cd:LearningResource .
+
+  cd:PollRole a cd:CommunicativeRole, cdm:ControlledValue .
+
+  cd:hasAudiencePoll a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Concept ;
+    rdfs:range cd:AudiencePoll .
+
+  cd:hasPollOption a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:AudiencePoll ;
+    rdfs:range cd:PollOption .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation> {
+  ex:sd-precision-poll a cd:AudiencePoll ;
+    skos:prefLabel "Publikumsfrage zur Präzision"@de, "audience poll on precision"@en ;
+    cd:body "Messreihe A: 9, 10, 11. Messreihe B: 6, 8, 10. Welche Messreihe ist präziser?"@de ;
+    cd:hasPollOption ex:sd-precision-option-a, ex:sd-precision-option-b ;
+    cd:authoredResource true .
+
+  ex:sd-precision-option-a a cd:PollOption ;
+    skos:prefLabel "Messreihe A"@de ;
+    cd:authoredResource true .
+
+  ex:sd-precision-option-b a cd:PollOption ;
+    skos:prefLabel "Messreihe B"@de ;
+    cd:authoredResource true .
+
+  ex:standard-deviation cd:hasAudiencePoll ex:sd-precision-poll .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation> {
+  ex:scene-exercise-recap cd:hasSceneItem ex:scene9-poll .
+
+  ex:scene9-poll a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sd-precision-poll ;
+    cd:communicativeRole cd:PollRole ;
+    cd:selectionPath "cd:hasAudiencePoll" ;
+    cd:language "de" ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  ex:AudiencePollShape a sh:NodeShape ;
+    sh:targetClass cd:AudiencePoll ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:hasPollOption ; sh:minCount 2 ] .
+
+  ex:PollOptionShape a sh:NodeShape ;
+    sh:targetClass cd:PollOption ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] .
+
+  ex:InteractivePollSceneItemShape a sh:NodeShape ;
+    sh:targetNode ex:scene9-poll ;
+    sh:property [ sh:path cd:communicativeRole ; sh:hasValue cd:PollRole ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:hasValue "cd:hasAudiencePoll" ] .
+}

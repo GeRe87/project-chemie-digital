@@ -27,15 +27,19 @@ POSITION = URIRef(f"{CD}position")
 USES_SCENE = URIRef(f"{CD}usesScene")
 LATEX = URIRef(f"{CD}latex")
 CODE = URIRef(f"{CD}code")
+HAS_POLL_OPTION = URIRef(f"{CD}hasPollOption")
 PATH = URIRef(f"{EX}path-standard-deviation")
 STEP_1 = URIRef(f"{EX}path-step-1")
 STEP_2 = URIRef(f"{EX}path-step-2")
 BASIC_DEFINITION = URIRef(f"{EX}sd-definition-basic-de")
 SAMPLE_FORMULA = URIRef(f"{EX}sample-sd-formula")
 R_CODE_EXAMPLE = URIRef(f"{EX}sd-r-code-example")
+POLL = URIRef(f"{EX}sd-precision-poll")
+POLL_OPTION_B = URIRef(f"{EX}sd-precision-option-b")
 SPECIFICATION_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
 SAMPLE_FORMULA_LATEX = r"s = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}}"
 R_CODE = "x <- c(6, 8, 10)\nsd(x)"
+POLL_TEXT = "Messreihe A: 9, 10, 11. Messreihe B: 6, 8, 10. Welche Messreihe ist präziser?"
 
 EXPECTED_SCENES = [
     "ex:scene-sd-definition--scene",
@@ -107,11 +111,42 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             formula_block["source"][0],
         )
 
+    def test_resolves_audience_poll_as_renderer_neutral_prompt_block(self) -> None:
+        document = MODULE.compile_scene_document(dataset())
+        exercise_scene = document["scenes"][8]
+        self.assertEqual(5, len(exercise_scene["blocks"]))
+        poll_block = exercise_scene["blocks"][3]
+        self.assertEqual("prompt", poll_block["kind"])
+        self.assertEqual(POLL_TEXT, poll_block["prompt"])
+        self.assertEqual("single-choice", poll_block["responseMode"])
+        self.assertEqual(["Messreihe A", "Messreihe B"], poll_block["options"])
+        self.assertEqual({"kind": "practice"}, poll_block["intent"])
+        self.assertEqual(
+            [
+                {
+                    "resourceId": "ex:sd-precision-poll",
+                    "provenanceIds": [SPECIFICATION_GRAPH],
+                    "relationPath": "cd:hasAudiencePoll",
+                },
+                {
+                    "resourceId": "ex:sd-precision-option-a",
+                    "provenanceIds": [SPECIFICATION_GRAPH],
+                    "relationPath": "cd:hasPollOption",
+                },
+                {
+                    "resourceId": "ex:sd-precision-option-b",
+                    "provenanceIds": [SPECIFICATION_GRAPH],
+                    "relationPath": "cd:hasPollOption",
+                },
+            ],
+            poll_block["source"],
+        )
+
     def test_resolves_executable_r_code_as_renderer_neutral_code_block(self) -> None:
         document = MODULE.compile_scene_document(dataset())
         exercise_scene = document["scenes"][8]
-        self.assertEqual(4, len(exercise_scene["blocks"]))
-        code_block = exercise_scene["blocks"][3]
+        self.assertEqual(5, len(exercise_scene["blocks"]))
+        code_block = exercise_scene["blocks"][4]
         self.assertEqual("code", code_block["kind"])
         self.assertEqual("r", code_block["language"])
         self.assertEqual(R_CODE, code_block["code"])
@@ -128,13 +163,18 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             code_block["source"][0],
         )
 
-    def test_static_fallback_keeps_math_and_code_readable_without_javascript(self) -> None:
+    def test_static_fallback_keeps_math_poll_and_code_readable_without_javascript(self) -> None:
         artifact = MODULE.build_artifact()
         fallback = MODULE.static_fallback(artifact)
         self.assertIn('class="math-fallback"', fallback)
         self.assertIn('role="math"', fallback)
         self.assertIn("Mathematische Formel für Standardabweichung", fallback)
         self.assertIn("\\sqrt", fallback)
+        self.assertIn('class="poll-fallback"', fallback)
+        self.assertIn('data-poll-key="ex:sd-precision-poll"', fallback)
+        self.assertIn("Welche Messreihe ist präziser?", fallback)
+        self.assertIn("Messreihe A", fallback)
+        self.assertIn("Messreihe B", fallback)
         self.assertIn('class="code-fallback"', fallback)
         self.assertIn('data-language="r"', fallback)
         self.assertIn("x &lt;- c(6, 8, 10)", fallback)
@@ -150,6 +190,12 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         current = dataset()
         current.remove((R_CODE_EXAMPLE, CODE, None, None))
         with self.assertRaisesRegex(ValueError, "Incomplete executable code resource ex:sd-r-code-example"):
+            MODULE.compile_scene_document(current)
+
+    def test_fails_closed_when_audience_poll_has_fewer_than_two_options(self) -> None:
+        current = dataset()
+        current.remove((POLL, HAS_POLL_OPTION, POLL_OPTION_B, None))
+        with self.assertRaisesRegex(ValueError, "requires at least two options"):
             MODULE.compile_scene_document(current)
 
     def test_fails_when_the_canonical_learning_path_is_missing(self) -> None:

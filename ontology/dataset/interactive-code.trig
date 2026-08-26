@@ -60,7 +60,7 @@ sd(x)""" ;
   ex:scene-exercise-recap cd:hasSceneItem ex:scene9-code .
 
   ex:scene9-code a cd:SceneItem ;
-    cd:position 4 ;
+    cd:position 5 ;
     cd:selectsResource ex:sd-r-code-example ;
     cd:communicativeRole cd:CodeRole ;
     cd:selectionPath "cd:hasCodeExample" ;

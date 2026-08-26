@@ -59,6 +59,30 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(shell);
     return;
   }
+  if (block.kind === "prompt") {
+    const shell = dom.createElement("div");
+    shell.className = "live-poll";
+    shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
+    const optionIds = block.source.slice(1).map((source) => source.resourceId);
+    if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
+    sourceAttributes(shell, block.source);
+    const prompt = dom.createElement("p");
+    prompt.className = "poll-prompt";
+    prompt.textContent = block.prompt;
+    shell.appendChild(prompt);
+    if (block.options?.length) {
+      const list = dom.createElement("ul");
+      list.className = "poll-options";
+      for (const option of block.options) {
+        const item = dom.createElement("li");
+        item.textContent = option;
+        list.appendChild(item);
+      }
+      shell.appendChild(list);
+    }
+    parent.appendChild(shell);
+    return;
+  }
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
