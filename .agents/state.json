@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 28,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 78,
-  "expectedDeliverable": "Collect owner-reported offline/Firefox acceptance for validated PR #79 exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae. Refresh the local vendor cache with npm run prepare:interactive-runtime -- --force, verify network-free preflight, confirm Firefox loads local /vendor/webr/v0.6.0/webr.js without the prior bare-specifier error, verify expected sd() outputs, keyboard isolation, local-only CodeMirror/webR requests, missing-vendor fail-closed behavior and unchanged poll demo/fail-closed behavior. Do not merge before accepted browser evidence on this unchanged head.",
-  "lastCompletedTurn": "manager: confirmed authoritative agent-validator/project-chemie-digital success for clean-restack PR #79 exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae, rechecked GitHub mergeability after the expected single dispatcher-only behind commit and confirmed mergeable true; automated validation is complete and only repeated offline/Firefox acceptance remains before merge",
-  "lastUpdated": "2026-08-26T14:12:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "Issue #78 / PR #79 runtime hardening is merged and closed. In a later manager turn, plan the separate final Phase 2e end-to-end acceptance milestone without starting it in this merge turn.",
+  "lastCompletedTurn": "manager: accepted owner-reported offline/Firefox evidence on unchanged validated PR #79 exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae, documented the evidence on the PR, confirmed authoritative validator success, mergeable true and no open review threads, marked the PR ready, squash-merged it into main as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and confirmed Issue #78 closed as completed; intentionally did not start the final Phase 2e acceptance milestone in the same turn",
+  "lastUpdated": "2026-08-26T14:25:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "PR #79 offline/Firefox acceptance remains required on validated exact head 640cd836a5b512b8804ac136c65f67cdc2a42fae after forced vendor-cache refresh; confirm webr.js loads locally without the prior bare-specifier error and all runtime/fail-closed checks pass."
-  ],
-  "stateRevision": 373,
+  "blockedBy": [],
+  "stateRevision": 374,
   "transitionHistory": [
     {"at":"2026-08-26T10:39:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T103500+0200","reason":"Accepted owner-reported Firefox evidence on PR #75 and squash-merged it."},
     {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn for Issue #76 / PR #77."},
@@ -40,6 +38,7 @@
     {"at":"2026-08-26T13:45:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Claimed the no-content-change Issue #78 restack turn to transplant the exact seven-file validated feature diff onto current main without changing runtime, tests, docs or semantics."},
     {"at":"2026-08-26T13:46:00+02:00","from":"busy/worker","to":"busy/worker","actor":"interactive-worker-20260826T134500+0200","reason":"Recovered dispatcher state immediately after an accidental malformed connector write during the restack; feature branch content and assigned scope were unaffected."},
     {"at":"2026-08-26T13:48:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T134500+0200","reason":"Published clean PR #79 restack head 640cd836a5b512b8804ac136c65f67cdc2a42fae with the exact seven validated feature blobs on current main, confirmed one commit / seven files / behind_by 0 / mergeable true, and returned without Firefox acceptance or merge."},
-    {"at":"2026-08-26T14:12:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T141200+0200","reason":"Confirmed authoritative exact-head validator success for PR #79 head 640cd836a5b512b8804ac136c65f67cdc2a42fae and rechecked GitHub mergeability after the expected dispatcher-only behind commit; PR is mergeable and only repeated offline/Firefox acceptance remains before merge."}
+    {"at":"2026-08-26T14:12:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T141200+0200","reason":"Confirmed authoritative exact-head validator success for PR #79 head 640cd836a5b512b8804ac136c65f67cdc2a42fae and rechecked GitHub mergeability after the expected dispatcher-only behind commit; PR is mergeable and only repeated offline/Firefox acceptance remains before merge."},
+    {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted owner-reported offline/Firefox evidence on unchanged validated PR #79 exact head, documented the acceptance, confirmed mergeable true and no open review threads, marked the PR ready, squash-merged it as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and confirmed Issue #78 closed; no next milestone was started."}
   ]
 }
