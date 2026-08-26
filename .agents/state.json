@@ -1,24 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 28,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 78,
-  "expectedDeliverable": "Review PR #79 exact head 2554c4777237c41e661105734eabf69022686845 for fresh authoritative agent-validator/project-chemie-digital evidence after the bounded webR browser-entry repair. If validation succeeds, refresh the vendor cache with npm run prepare:interactive-runtime -- --force and repeat offline Firefox acceptance, confirming local /vendor/webr/v0.6.0/webr.js loads without the bare-specifier error, expected sd() outputs, keyboard isolation, local-only network behavior, missing-vendor fail-closed behavior and unchanged poll demo/fail-closed behavior. Do not merge before both gates pass.",
+  "expectedDeliverable": "Review validated PR #79 head 2554c4777237c41e661105734eabf69022686845 and resolve its non-mergeable divergence from current main before Firefox acceptance, without changing the bounded runtime-hardening feature content.",
   "lastCompletedTurn": "worker: repaired the owner-reported Firefox bare-specifier failure in PR #79 by switching the local webR 0.6.0 browser entry from webr.mjs to the package-declared browser build webr.js, validating exports[\".\"].browser == ./dist/webr.js during vendor preparation, updating manifest/preflight and regressions to prevent browser-entry regression, updating the issue-78 handoff and publishing exact head 2554c4777237c41e661105734eabf69022686845; no semantic, poll, CodeMirror, merge or final-acceptance work was performed",
-  "lastUpdated": "2026-08-26T13:39:30+02:00",
+  "lastUpdated": "2026-08-26T13:42:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260826T134200+0200",
+    "claimedAt": "2026-08-26T13:42:00+02:00",
+    "expiresAt": "2026-08-26T15:42:00+02:00"
   },
-  "blockedBy": [
-    "PR #79 exact head 2554c4777237c41e661105734eabf69022686845 has no fresh agent-validator/project-chemie-digital result yet; the previous success on 62b929ed68d4b18aec15775c991a5aa10323cbf6 is stale.",
-    "Offline/Firefox acceptance must be repeated only after fresh exact-head validation, with a forced vendor-cache refresh so runtime-manifest.json and the local webR browser entry use webr.js."
-  ],
-  "stateRevision": 367,
+  "blockedBy": [],
+  "stateRevision": 368,
   "transitionHistory": [
     {"at":"2026-08-26T10:39:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T103500+0200","reason":"Accepted owner-reported Firefox evidence on PR #75 and squash-merged it."},
     {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn for Issue #76 / PR #77."},
@@ -35,6 +32,7 @@
     {"at":"2026-08-26T13:02:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T130230+0200","reason":"Confirmed validator success for PR #79; Firefox acceptance remained."},
     {"at":"2026-08-26T13:28:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260826T132800+0200","reason":"Classified the Firefox bare-specifier failure as wrong use of webr.mjs and assigned a bounded webr.js browser-entry repair."},
     {"at":"2026-08-26T13:29:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T132900+0200","reason":"Claimed the bounded Issue #78 browser-entry repair."},
-    {"at":"2026-08-26T13:39:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T132900+0200","reason":"Switched the local webR browser entry to package-declared webr.js, added browser-export validation and regressions, updated handoff/evidence and published exact head 2554c4777237c41e661105734eabf69022686845 for fresh validation; no merge or final acceptance was performed."}
+    {"at":"2026-08-26T13:39:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T132900+0200","reason":"Switched the local webR browser entry to package-declared webr.js, added browser-export validation and regressions, updated handoff/evidence and published exact head 2554c4777237c41e661105734eabf69022686845 for fresh validation; no merge or final acceptance was performed."},
+    {"at":"2026-08-26T13:42:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260826T134200+0200","reason":"Claimed manager review after exact-head validator success on PR #79 and detected that the feature branch had diverged from current main through dispatcher-only commits, making the PR non-mergeable before Firefox acceptance."}
   ]
 }
