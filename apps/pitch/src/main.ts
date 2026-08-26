@@ -3,9 +3,11 @@ import "reveal.js/dist/reveal.css";
 import "katex/dist/katex.min.css";
 import "./styles.css";
 import "./code-runtime.css";
+import "./poll-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
+import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
 
 const root = document.querySelector<HTMLElement>("#pitch-slides");
@@ -31,13 +33,22 @@ const deck = new Reveal({ hash: true, keyboard: true, controls: true, progress: 
 await deck.initialize();
 
 let codeRuntime: CodeRuntimeController | undefined;
+let pollRuntime: PollRuntimeController | undefined;
 if (connectedInteractive) {
   try {
     codeRuntime = await mountExecutableCodeBlocks(root);
-    deck.on("slidechanged", () => codeRuntime?.refresh());
   } catch (error) {
     console.warn("Connected interactive code runtime unavailable; static code fallback remains active.", error);
   }
+  try {
+    pollRuntime = mountLivePolls(root, window.location.search);
+  } catch (error) {
+    console.warn("Connected live poll runtime unavailable; static poll fallback remains active.", error);
+  }
+  deck.on("slidechanged", () => {
+    codeRuntime?.refresh();
+    void pollRuntime?.refresh();
+  });
 }
 
 const unmountShell = mountGraphSummaryShell({
@@ -48,6 +59,7 @@ const unmountShell = mountGraphSummaryShell({
   currentSceneId: () => deck.getCurrentSlide()?.id ?? null,
 });
 window.addEventListener("pagehide", () => {
+  pollRuntime?.destroy();
   codeRuntime?.destroy();
   void deck.destroy();
   unmountShell();

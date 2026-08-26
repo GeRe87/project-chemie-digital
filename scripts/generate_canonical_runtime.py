@@ -188,6 +188,27 @@ def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "practice"},
                 }
+            elif is_resource_type(dataset, selected, "AudiencePoll"):
+                if role != "PollRole":
+                    raise ValueError(f"Audience poll {compact(selected)} requires PollRole")
+                prompt = resource_text(dataset, selected, language or "de")
+                option_resources = [value for value in objects(dataset, selected, iri(CD, "hasPollOption")) if isinstance(value, URIRef)]
+                if len(option_resources) < 2:
+                    raise ValueError(f"Audience poll {compact(selected)} requires at least two options")
+                options = [resource_text(dataset, option, language or "de") for option in option_resources]
+                sources = [source_reference(dataset, selected, relation_path)] + [
+                    source_reference(dataset, option, "cd:hasPollOption") for option in option_resources
+                ]
+                block = {
+                    "id": block_id, "kind": "prompt",
+                    "source": sources,
+                    "prompt": prompt,
+                    "responseMode": "single-choice",
+                    "options": options,
+                    "fallback": f'{prompt} {" / ".join(options)}',
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "practice"},
+                }
             elif role == "QuotationRole":
                 text = resource_text(dataset, selected, language or "de")
                 block = {
@@ -303,6 +324,17 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<div class="code-fallback" data-code-block-id="{html.escape(block["id"], quote=True)}" '
                     f'data-language="{html.escape(block["language"], quote=True)}"{fallback_attributes(block["source"])}>'
                     f'<pre><code>{html.escape(block["fallback"])}</code></pre>'
+                    f'</div>'
+                )
+                continue
+            if block["kind"] == "prompt":
+                poll_key = block["source"][0]["resourceId"]
+                option_ids = " ".join(source["resourceId"] for source in block["source"][1:])
+                options = "".join(f'<li>{html.escape(option)}</li>' for option in block["options"])
+                blocks.append(
+                    f'<div class="poll-fallback" data-poll-key="{html.escape(poll_key, quote=True)}" '
+                    f'data-poll-option-ids="{html.escape(option_ids, quote=True)}"{fallback_attributes(block["source"])}>'
+                    f'<p>{html.escape(block["prompt"])}</p><ul>{options}</ul>'
                     f'</div>'
                 )
                 continue

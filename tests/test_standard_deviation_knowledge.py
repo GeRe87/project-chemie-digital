@@ -106,12 +106,13 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             self.assertIn(Literal(True), set(self.graph.objects(selected, CD.authoredResource)))
 
     def test_all_comprehensive_scenes_obey_the_accepted_scene_item_contract(self) -> None:
-        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole, CD.CodeRole}
+        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole, CD.CodeRole, CD.PollRole}
         allowed_paths = {
             Literal("skos:prefLabel@de"),
             Literal("cd:hasDefinition"),
             Literal("cd:hasDefinition/cd:hasSource"),
             Literal("cd:hasCodeExample"),
+            Literal("cd:hasAudiencePoll"),
         }
         scene_prefix = str(EX["scene-"])
         for scene in self.graph.subjects(RDF.type, CD.SceneDefinition):
@@ -133,6 +134,20 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
         self.assertEqual("x <- c(6, 8, 10)\nsd(x)", str(next(self.graph.objects(code, CD.code))))
         self.assertIn(code, set(self.graph.objects(EX["exercise-calculate-s"], CD.hasCodeExample)))
         self.assertIn(EX["scene9-code"], set(self.graph.objects(EX["scene-exercise-recap"], CD.hasSceneItem)))
+        self.assertEqual({Literal(5)}, set(self.graph.objects(EX["scene9-code"], CD.position)))
+
+    def test_audience_poll_is_authored_with_graph_backed_options(self) -> None:
+        poll = EX["sd-precision-poll"]
+        options = {EX["sd-precision-option-a"], EX["sd-precision-option-b"]}
+        self.assertIn(CD.AudiencePoll, set(self.graph.objects(poll, RDF.type)))
+        self.assertEqual(options, set(self.graph.objects(poll, CD.hasPollOption)))
+        self.assertIn(poll, set(self.graph.objects(EX["standard-deviation"], CD.hasAudiencePoll)))
+        self.assertIn(EX["scene9-poll"], set(self.graph.objects(EX["scene-exercise-recap"], CD.hasSceneItem)))
+        self.assertEqual({Literal(4)}, set(self.graph.objects(EX["scene9-poll"], CD.position)))
+        self.assertEqual({CD.PollRole}, set(self.graph.objects(EX["scene9-poll"], CD.communicativeRole)))
+        for option in options:
+            self.assertIn(CD.PollOption, set(self.graph.objects(option, RDF.type)))
+            self.assertTrue(any(self.graph.objects(option, SKOS.prefLabel)))
 
     def test_standard_deviation_sources_are_owned_by_learning_resources(self) -> None:
         self.assertEqual([], list(self.graph.objects(EX["standard-deviation"], CD.hasSource)))
