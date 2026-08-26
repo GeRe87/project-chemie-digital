@@ -1,21 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 28,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 78,
-  "expectedDeliverable": "Implement Phase 2e runtime hardening for Issue #78 on a fresh agent/78-runtime-hardening branch: remove public CodeMirror and webR CDN dependencies from presentation-time connected mode using pinned local/self-hosted delivery, preserve lazy loading, default no-network behavior, Firefox keyboard/accessibility behavior and poll fail-closed boundaries, add targeted regressions and a handoff, publish a draft PR exact head for the installed validator, and return without merge or final Phase 2e end-to-end acceptance.",
-  "lastCompletedTurn": "manager: reviewed the Phase 2e sequence after merged #73/#75/#77, confirmed runtime hardening is the required fourth milestone step before final end-to-end acceptance, inspected current code-runtime CDN dependencies, created Issue #78 with a bounded local CodeMirror/webR delivery objective and assigned the Frontend and Reveal Renderer Engineer; no implementation was performed in this manager turn",
-  "lastUpdated": "2026-08-26T12:44:30+02:00",
+  "expectedDeliverable": "Review draft PR #79 exact head 62b929ed68d4b18aec15775c991a5aa10323cbf6 for authoritative agent-validator/project-chemie-digital evidence. If validation succeeds, collect manual Firefox/offline evidence after explicit npm run prepare:interactive-runtime: network-free pre-flight, local CodeMirror/webR requests only, expected sd() outputs, keyboard isolation, missing-vendor fail-closed behavior and unchanged poll demo/fail-closed behavior. Do not merge before both exact-head validation and accepted browser evidence.",
+  "lastCompletedTurn": "worker: implemented Issue #78 runtime hardening on fresh agent/78-runtime-hardening and draft PR #79, replacing presentation-time public CodeMirror/webR destinations with pinned local vendor paths, adding an explicit deterministic preparation/check workflow that mirrors CodeMirror 6.43.6 and extracts the webR 0.6.0 npm dist runtime ahead of presentation time, preserving lazy/default no-network, accessibility, keyboard and poll service boundaries, adding targeted pitch regressions and documentation, and publishing exact head 62b929ed68d4b18aec15775c991a5aa10323cbf6; no local npm test result, merge or final Phase 2e acceptance is claimed",
+  "lastUpdated": "2026-08-26T12:57:00+02:00",
   "lease": {
-    "owner": "interactive-worker-20260826T124430+0200",
-    "claimedAt": "2026-08-26T12:44:30+02:00",
-    "expiresAt": "2026-08-26T14:44:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 362,
+  "blockedBy": [
+    "PR #79 exact head 62b929ed68d4b18aec15775c991a5aa10323cbf6 has no agent-validator/project-chemie-digital result yet; wait for the installed five-minute poller.",
+    "Offline/Firefox runtime acceptance is deferred until exact-head validation succeeds; prepare the pinned vendor cache while online, then verify connected CodeMirror/webR with public Internet unavailable plus fail-closed and poll behavior."
+  ],
+  "stateRevision": 363,
   "transitionHistory": [
     {"at":"2026-08-25T16:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T163130+0200","reason":"Selected #74 / PR #75 as the second Phase 2e integration step; assigned the Frontend and Reveal Renderer Engineer to restack onto current main, repair the specific CodeRole/hasCodeExample SHACL contract gaps with regressions, obtain fresh exact-head validator and Firefox evidence, and return without merging or implementing #76."},
     {"at":"2026-08-25T16:38:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260825T163830+0200","reason":"Claimed the bounded #74 code-runtime integration turn to restack PR #75 onto current main, repair the specific SceneItem SHACL contract gaps, and obtain fresh exact-head evidence without merging or implementing #76."},
@@ -40,6 +43,7 @@
     {"at":"2026-08-26T12:29:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T122500+0200","reason":"Accepted owner-reported Firefox and credential-free demo evidence on the unchanged validated PR #77 head, confirmed no review blockers and exact-head validator success, marked the PR ready, squash-merged it into main as b6acbdf46b03813b66bbfc3c73a0a1f78ea17672, confirmed Issue #76 closed as completed, and intentionally did not start further Phase 2e work in the same turn."},
     {"at":"2026-08-26T12:33:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T123330+0200","reason":"Claimed the next Phase 2e manager planning turn after #77 merge to inspect the milestone sequence, current runtime-network dependencies and whether real UDE LimeSurvey configuration or runtime hardening should come next."},
     {"at":"2026-08-26T12:36:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T123330+0200","reason":"Confirmed #72 defines runtime hardening before final end-to-end acceptance, identified the current public jsDelivr CodeMirror and webr.r-wasm.org runtime dependencies, created Issue #78, and assigned the Frontend and Reveal Renderer Engineer to localize/pin interactive runtime delivery with targeted regressions and exact-head validation while preserving poll/service boundaries and deferring real UDE credentials plus final end-to-end acceptance."},
-    {"at":"2026-08-26T12:44:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T124430+0200","reason":"Claimed the bounded Issue #78 Frontend worker turn to replace public CodeMirror/webR presentation-time dependencies with pinned local delivery, preserve lazy/default no-network and fail-closed behavior, add targeted regressions and publish a draft PR exact head without merge or final end-to-end acceptance."}
+    {"at":"2026-08-26T12:44:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T124430+0200","reason":"Claimed the bounded Issue #78 Frontend worker turn to replace public CodeMirror/webR presentation-time dependencies with pinned local delivery, preserve lazy/default no-network and fail-closed behavior, add targeted regressions and publish a draft PR exact head without merge or final end-to-end acceptance."},
+    {"at":"2026-08-26T12:57:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T124430+0200","reason":"Implemented the bounded Issue #78 runtime-hardening slice, replaced public presentation-time CodeMirror/webR destinations with pinned local vendor paths, added explicit ahead-of-time vendor preparation and network-free pre-flight checking, preserved lazy/default no-network, accessibility, keyboard and poll boundaries, added regressions/docs/handoff, opened draft PR #79 and published exact head 62b929ed68d4b18aec15775c991a5aa10323cbf6 for automatic validation; no merge or final end-to-end acceptance was performed."}
   ]
 }
