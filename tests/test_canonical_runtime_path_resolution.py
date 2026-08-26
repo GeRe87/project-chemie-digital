@@ -26,13 +26,16 @@ HAS_STEP = URIRef(f"{CD}hasStep")
 POSITION = URIRef(f"{CD}position")
 USES_SCENE = URIRef(f"{CD}usesScene")
 LATEX = URIRef(f"{CD}latex")
+CODE = URIRef(f"{CD}code")
 PATH = URIRef(f"{EX}path-standard-deviation")
 STEP_1 = URIRef(f"{EX}path-step-1")
 STEP_2 = URIRef(f"{EX}path-step-2")
 BASIC_DEFINITION = URIRef(f"{EX}sd-definition-basic-de")
 SAMPLE_FORMULA = URIRef(f"{EX}sample-sd-formula")
+R_CODE_EXAMPLE = URIRef(f"{EX}sd-r-code-example")
 SPECIFICATION_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
 SAMPLE_FORMULA_LATEX = r"s = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}}"
+R_CODE = "x <- c(6, 8, 10)\nsd(x)"
 
 EXPECTED_SCENES = [
     "ex:scene-sd-definition--scene",
@@ -104,18 +107,49 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             formula_block["source"][0],
         )
 
-    def test_static_fallback_keeps_math_readable_without_javascript(self) -> None:
+    def test_resolves_executable_r_code_as_renderer_neutral_code_block(self) -> None:
+        document = MODULE.compile_scene_document(dataset())
+        exercise_scene = document["scenes"][8]
+        self.assertEqual(4, len(exercise_scene["blocks"]))
+        code_block = exercise_scene["blocks"][3]
+        self.assertEqual("code", code_block["kind"])
+        self.assertEqual("r", code_block["language"])
+        self.assertEqual(R_CODE, code_block["code"])
+        self.assertEqual(R_CODE, code_block["fallback"])
+        self.assertTrue(code_block["editable"])
+        self.assertTrue(code_block["executable"])
+        self.assertEqual({"kind": "practice"}, code_block["intent"])
+        self.assertEqual(
+            {
+                "resourceId": "ex:sd-r-code-example",
+                "provenanceIds": [SPECIFICATION_GRAPH],
+                "relationPath": "cd:hasCodeExample",
+            },
+            code_block["source"][0],
+        )
+
+    def test_static_fallback_keeps_math_and_code_readable_without_javascript(self) -> None:
         artifact = MODULE.build_artifact()
         fallback = MODULE.static_fallback(artifact)
         self.assertIn('class="math-fallback"', fallback)
         self.assertIn('role="math"', fallback)
         self.assertIn("Mathematische Formel für Standardabweichung", fallback)
         self.assertIn("\\sqrt", fallback)
+        self.assertIn('class="code-fallback"', fallback)
+        self.assertIn('data-language="r"', fallback)
+        self.assertIn("x &lt;- c(6, 8, 10)", fallback)
+        self.assertIn("sd(x)", fallback)
 
     def test_fails_closed_when_selected_formula_has_no_latex(self) -> None:
         current = dataset()
         current.remove((SAMPLE_FORMULA, LATEX, None, None))
         with self.assertRaisesRegex(ValueError, "Missing cd:latex for ex:sample-sd-formula"):
+            MODULE.compile_scene_document(current)
+
+    def test_fails_closed_when_executable_code_resource_has_no_code(self) -> None:
+        current = dataset()
+        current.remove((R_CODE_EXAMPLE, CODE, None, None))
+        with self.assertRaisesRegex(ValueError, "Incomplete executable code resource ex:sd-r-code-example"):
             MODULE.compile_scene_document(current)
 
     def test_fails_when_the_canonical_learning_path_is_missing(self) -> None:

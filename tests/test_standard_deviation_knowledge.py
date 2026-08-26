@@ -106,11 +106,12 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             self.assertIn(Literal(True), set(self.graph.objects(selected, CD.authoredResource)))
 
     def test_all_comprehensive_scenes_obey_the_accepted_scene_item_contract(self) -> None:
-        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole}
+        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole, CD.CodeRole}
         allowed_paths = {
             Literal("skos:prefLabel@de"),
             Literal("cd:hasDefinition"),
             Literal("cd:hasDefinition/cd:hasSource"),
+            Literal("cd:hasCodeExample"),
         }
         scene_prefix = str(EX["scene-"])
         for scene in self.graph.subjects(RDF.type, CD.SceneDefinition):
@@ -122,6 +123,16 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
                 self.assertIn(next(self.graph.objects(item, CD.communicativeRole)), allowed_roles)
                 self.assertIn(next(self.graph.objects(item, CD.selectionPath)), allowed_paths)
             self.assertEqual(list(range(1, len(positions) + 1)), sorted(positions), scene)
+
+    def test_r_code_example_is_authored_and_attached_to_the_exercise_scene(self) -> None:
+        code = EX["sd-r-code-example"]
+        self.assertIn(CD.CodeExample, set(self.graph.objects(code, RDF.type)))
+        self.assertEqual({Literal("r")}, set(self.graph.objects(code, CD.programmingLanguage)))
+        self.assertEqual({Literal(True)}, set(self.graph.objects(code, CD.editable)))
+        self.assertEqual({Literal(True)}, set(self.graph.objects(code, CD.executable)))
+        self.assertEqual("x <- c(6, 8, 10)\nsd(x)", str(next(self.graph.objects(code, CD.code))))
+        self.assertIn(code, set(self.graph.objects(EX["exercise-calculate-s"], CD.hasCodeExample)))
+        self.assertIn(EX["scene9-code"], set(self.graph.objects(EX["scene-exercise-recap"], CD.hasSceneItem)))
 
     def test_standard_deviation_sources_are_owned_by_learning_resources(self) -> None:
         self.assertEqual([], list(self.graph.objects(EX["standard-deviation"], CD.hasSource)))

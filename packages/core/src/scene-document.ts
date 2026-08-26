@@ -51,6 +51,15 @@ export interface MathBlock extends SceneBlockBase {
   readonly spokenText: string;
 }
 
+export interface CodeBlock extends SceneBlockBase {
+  readonly kind: "code";
+  readonly language: string;
+  readonly code: string;
+  readonly editable: boolean;
+  readonly executable: boolean;
+  readonly fallback: string;
+}
+
 export interface MediaReferenceBlock extends SceneBlockBase {
   readonly kind: "media-reference";
   readonly uri: string;
@@ -74,7 +83,7 @@ export interface PromptBlock extends SceneBlockBase {
   readonly fallback: string;
 }
 
-export type SceneBlock = ProseBlock | MathBlock | MediaReferenceBlock | GroupBlock | PromptBlock;
+export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | GroupBlock | PromptBlock;
 
 export interface Scene {
   readonly id: string;
@@ -142,6 +151,11 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
     }
     if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
+    if (block.kind === "code") {
+      requireNonEmpty(block.language, `${label} code ${block.id} language`);
+      requireNonEmpty(block.code, `${label} code ${block.id} code`);
+      requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
+    }
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
   }

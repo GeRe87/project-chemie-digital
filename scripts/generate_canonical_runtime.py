@@ -76,6 +76,15 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
     return str(values[0])
 
 
+def boolean_literal(dataset: Dataset, subject: URIRef, predicate: URIRef) -> bool:
+    value = literal(dataset, subject, predicate)
+    if value == "true":
+        return True
+    if value == "false":
+        return False
+    raise ValueError(f"Invalid boolean {compact(predicate)} for {compact(subject)}")
+
+
 def resource_text(dataset: Dataset, resource: URIRef, language: str | None) -> str:
     candidates = (
         iri(CD, "body"), iri(CD, "latex"), iri(CD, "expression"), iri(CD, "notation"),
@@ -110,8 +119,8 @@ def integer(dataset: Dataset, subject: URIRef, predicate: URIRef) -> int:
     return result
 
 
-def is_math_expression(dataset: Dataset, resource: URIRef) -> bool:
-    return any(obj == iri(CD, "MathExpression") for obj in objects(dataset, resource, RDF.type))
+def is_resource_type(dataset: Dataset, resource: URIRef, type_name: str) -> bool:
+    return any(obj == iri(CD, type_name) for obj in objects(dataset, resource, RDF.type))
 
 
 def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
@@ -148,7 +157,7 @@ def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "introduce"},
                 }
-            elif is_math_expression(dataset, selected):
+            elif is_resource_type(dataset, selected, "MathExpression"):
                 expression = literal(dataset, selected, iri(CD, "latex"))
                 if expression is None:
                     raise ValueError(f"Missing cd:latex for {compact(selected)}")
@@ -160,6 +169,24 @@ def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
                     "spokenText": f"Mathematische Formel für {focus_label}",
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "explain"},
+                }
+            elif is_resource_type(dataset, selected, "CodeExample"):
+                if role != "CodeRole":
+                    raise ValueError(f"Code example {compact(selected)} requires CodeRole")
+                code = literal(dataset, selected, iri(CD, "code"))
+                programming_language = literal(dataset, selected, iri(CD, "programmingLanguage"))
+                if code is None or programming_language is None:
+                    raise ValueError(f"Incomplete executable code resource {compact(selected)}")
+                block = {
+                    "id": block_id, "kind": "code",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "language": programming_language,
+                    "code": code,
+                    "editable": boolean_literal(dataset, selected, iri(CD, "editable")),
+                    "executable": boolean_literal(dataset, selected, iri(CD, "executable")),
+                    "fallback": code,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "practice"},
                 }
             elif role == "QuotationRole":
                 text = resource_text(dataset, selected, language or "de")
@@ -268,6 +295,14 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                 blocks.append(
                     f'<div class="math-fallback" role="math" aria-label="{html.escape(block["spokenText"], quote=True)}"{fallback_attributes(block["source"])}>'
                     f'<code>{html.escape(block["expression"])}</code>'
+                    f'</div>'
+                )
+                continue
+            if block["kind"] == "code":
+                blocks.append(
+                    f'<div class="code-fallback" data-code-block-id="{html.escape(block["id"], quote=True)}" '
+                    f'data-language="{html.escape(block["language"], quote=True)}"{fallback_attributes(block["source"])}>'
+                    f'<pre><code>{html.escape(block["fallback"])}</code></pre>'
                     f'</div>'
                 )
                 continue

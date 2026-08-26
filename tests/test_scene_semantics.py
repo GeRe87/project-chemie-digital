@@ -80,10 +80,25 @@ class SceneSemanticValidationTests(unittest.TestCase):
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
+    def test_code_scene_item_role_and_selection_path_are_accepted(self) -> None:
+        graph = assembled_data_graph()
+        item = URIRef(EX + "scene9-code")
+        self.assertIn((item, URIRef(CD + "communicativeRole"), URIRef(CD + "CodeRole")), graph)
+        self.assertIn((item, URIRef(CD + "selectionPath"), Literal("cd:hasCodeExample")), graph)
+        conforms, report, _ = self.validate_graph(graph)
+        self.assertTrue(conforms, report)
+
     def test_unsupported_communicative_role_is_rejected(self) -> None:
         graph = assembled_data_graph()
         item = URIRef(EX + "scene1-i2")
         graph.set((item, URIRef(CD + "communicativeRole"), URIRef(CD + "UnsupportedRole")))
+        conforms, _, _ = self.validate_graph(graph)
+        self.assertFalse(conforms)
+
+    def test_unsupported_selection_path_is_rejected(self) -> None:
+        graph = assembled_data_graph()
+        item = URIRef(EX + "scene9-code")
+        graph.set((item, URIRef(CD + "selectionPath"), Literal("cd:unsupportedPath")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 

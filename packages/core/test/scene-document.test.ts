@@ -53,6 +53,25 @@ test("accepts the minimal standard-deviation scene contract", () => {
   assert.doesNotThrow(() => validateSceneDocument(document()));
 });
 
+test("accepts a renderer-neutral executable R code block", () => {
+  const value = structuredClone(document()) as SceneDocument & { scenes: Array<{ blocks: Array<Record<string, unknown>>; readingOrder: string[] }> };
+  value.scenes[0]!.blocks.push({
+    kind: "code",
+    id: "block:r-example",
+    source: [{ resourceId: "ex:sd-r-code-example" }],
+    language: "r",
+    code: "x <- c(6, 8, 10)\nsd(x)",
+    editable: true,
+    executable: true,
+    fallback: "x <- c(6, 8, 10)\nsd(x)",
+    intent: { kind: "practice" },
+  });
+  value.scenes[0]!.readingOrder.push("block:r-example");
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  value.scenes[0]!.blocks[2]!.fallback = "";
+  assert.throws(() => validateSceneDocument(value), /code block:r-example fallback must be non-empty/);
+});
+
 test("requires deterministic complete reading order", () => {
   expectError((value) => {
     value.scenes[0].readingOrder = ["block:formula"];
