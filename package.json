@@ -13,6 +13,8 @@
     "check:semantics": "python scripts/validate_semantics.py",
     "generate:runtime": "python scripts/generate_canonical_runtime.py",
     "check:runtime": "python scripts/generate_canonical_runtime.py --check",
+    "prepare:interactive-runtime": "python scripts/prepare_interactive_runtime.py",
+    "check:interactive-runtime": "python scripts/prepare_interactive_runtime.py --check",
     "test:semantics": "python -m unittest discover -s tests -v",
     "test:core": "npm --workspace @project-chemie-digital/core test",
     "test:renderer-reveal": "npm --workspace @project-chemie-digital/renderer-reveal test",
