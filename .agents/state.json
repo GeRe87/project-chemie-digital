@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 27,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Select and bound the first Phase 2e Issue #76 integration worker after PR #75 merged, based on current PR #77 stack, semantic validator evidence, canonical graph ownership, and scene ordering.",
-  "lastCompletedTurn": "manager: accepted PR #75 exact head c20102453e341a6a11447ffa1aed7d73ebc62da2 after authoritative validator success and owner-reported Firefox acceptance, recorded the acceptance evidence, marked the PR ready, and squash-merged it into main as a21e1a4e856ef8f3ad3ca003c4a866973e3f0336; Issue #74 closed automatically and no #76 work was started",
-  "lastUpdated": "2026-08-26T10:41:00+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Semantic Web and Ontology Engineer",
+  "activeIssue": 76,
+  "expectedDeliverable": "On existing branch agent/76-limesurvey-live-poll and PR #77 only, cleanly restack the true polling increment onto current main after merged PR #75; retarget PR #77 to main; preserve the closed canonical graph registry by re-homing poll vocabulary into graph/concepts, the Standardabweichung poll/options/relation into graph/specifications/standard-deviation, and scene9-poll into graph/scenes/standard-deviation; extend the central SceneItemShape narrowly for cd:PollRole and cd:hasAudiencePoll with positive/negative semantic regressions; insert the poll at scene-9 position 4 and move the already-merged code block to position 5; preserve all provider-neutral, credential-boundary and offline/static contracts without broadening into real UDE credential configuration; publish a new exact head for automatic validator polling, update the issue-76 handoff, and return without merge or Firefox/runtime acceptance.",
+  "lastCompletedTurn": "manager: inspected Issue #76 and stale stacked PR #77 after PR #75 merged; determined the old exact-head failure contains inherited code SHACL defects already fixed on main plus poll-specific PollRole/hasAudiencePoll gaps, confirmed interactive-poll.trig introduces three noncanonical graph IRIs that must be re-homed rather than registered, and assigned one bounded semantic integration/restack worker turn",
+  "lastUpdated": "2026-08-26T10:43:00+02:00",
   "lease": {
-    "owner": "interactive-manager-20260826T104100+0200",
-    "claimedAt": "2026-08-26T10:41:00+02:00",
-    "expiresAt": "2026-08-26T12:41:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 351,
+  "stateRevision": 352,
   "transitionHistory": [
     {"at":"2026-08-25T16:32:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260825T163130+0200","reason":"Selected #74 / PR #75 as the second Phase 2e integration step; assigned the Frontend and Reveal Renderer Engineer to restack onto current main, repair the specific CodeRole/hasCodeExample SHACL contract gaps with regressions, obtain fresh exact-head validator and Firefox evidence, and return without merging or implementing #76."},
     {"at":"2026-08-25T16:38:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260825T163830+0200","reason":"Claimed the bounded #74 code-runtime integration turn to restack PR #75 onto current main, repair the specific SceneItem SHACL contract gaps, and obtain fresh exact-head evidence without merging or implementing #76."},
@@ -29,6 +29,7 @@
     {"at":"2026-08-26T10:22:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260826T102030+0200","reason":"Updated only the stale R code provenance regression to the accepted canonical specification graph, removed the obsolete test constant, updated the issue-74 handoff, and published exact head c20102453e341a6a11447ffa1aed7d73ebc62da2 for automatic five-minute validator polling; no production code changed and no merge or Firefox work was performed."},
     {"at":"2026-08-26T10:24:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260826T102430+0200","reason":"Confirmed authoritative exact-head success for PR #75 head c20102453e341a6a11447ffa1aed7d73ebc62da2 from the installed five-minute validator; automated validation is complete and the workflow remains blocked only on owner-reported Firefox acceptance."},
     {"at":"2026-08-26T10:39:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T103500+0200","reason":"Accepted owner-reported Firefox evidence on the unchanged validated PR #75 head, confirmed no review blockers and exact-head validator success, marked the PR ready, squash-merged it into main as a21e1a4e856ef8f3ad3ca003c4a866973e3f0336, and intentionally did not start Issue #76 in the same turn."},
-    {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn to inspect Issue #76 / PR #77 after PR #75 merged, including stale stack history, poll-specific SHACL gaps, canonical graph ownership and scene ordering."}
+    {"at":"2026-08-26T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T104100+0200","reason":"Claimed the next Phase 2e manager planning turn to inspect Issue #76 / PR #77 after PR #75 merged, including stale stack history, poll-specific SHACL gaps, canonical graph ownership and scene ordering."},
+    {"at":"2026-08-26T10:43:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T104100+0200","reason":"Selected Issue #76 / PR #77 for the third Phase 2e integration step and assigned the Semantic Web and Ontology Engineer to cleanly restack only the poll increment onto current main, re-home poll assertions into existing canonical graph owners, add the PollRole/hasAudiencePoll SceneItem contract with regressions, preserve poll-before-code scene ordering and credential boundaries, and publish a new exact head without merge or runtime acceptance."}
   ]
 }
