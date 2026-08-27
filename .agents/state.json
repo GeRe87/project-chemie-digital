@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 31,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 84,
   "expectedDeliverable": "Execute Issue #84 as the next bounded Phase 3 worker on branch agent/84-semantic-authoring-foundation. Implement a local non-authoritative authoring draft workflow for the canonical Standardabweichung scene-definition named graph: exact base Dataset fingerprint, single-target complete candidate graph, in-memory candidate replacement, existing Dataset-contract + SHACL validation, deterministic structured diagnostics, deterministic renderer-neutral scene preview, and a review-only promotion manifest. Keep ontology/dataset/*.trig untouched by authoring commands, keep Fuseki read-only with no SPARQL Update, add no browser/editor UI, self-study or learner-state work, add deterministic tests/docs/handoff, open a draft PR with the validator marker, and return to manager without merge.",
   "lastCompletedTurn": "manager: selected Phase 3 backlog item 33 after the merged Fuseki/query foundation, reconciled it with the accepted future semantic-editor architecture, deliberately bounded v0.1 to a local complete-candidate draft of the existing Standardabweichung scene named graph with structured SHACL feedback, deterministic preview and explicit review-only promotion preparation, assigned Semantic Web and Ontology Engineer, and created Issue #84 without implementing feature code",
-  "lastUpdated": "2026-08-27T11:02:00+02:00",
+  "lastUpdated": "2026-08-27T11:04:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-worker-20260827T110400+0200",
+    "claimedAt": "2026-08-27T11:04:00+02:00",
+    "expiresAt": "2026-08-27T13:04:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 392,
+  "stateRevision": 393,
   "transitionHistory": [
     {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted offline/Firefox evidence, squash-merged PR #79 as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and closed Issue #78 without starting the next milestone."},
     {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
@@ -35,6 +35,7 @@
     {"at":"2026-08-27T10:44:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T104430+0200","reason":"Confirmed authoritative validator success on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 and mergeable true; only owner snapshot regeneration plus local Fuseki start/typed-preflight acceptance remains before merge."},
     {"at":"2026-08-27T10:55:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260827T105500+0200","reason":"Accepted owner local Fuseki evidence on repaired exact head, documented it on PR #83, confirmed validator success and no review threads, squash-merged PR #83 as 02a54e6a7f351a00fba853a6031307dfba4b520c, and confirmed Issue #82 closed completed without starting the next Phase 3 item."},
     {"at":"2026-08-27T10:58:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260827T105800+0200","reason":"Claimed the next Phase 3 planning turn for backlog item 33 and selected Semantic Web/Ontology because the increment centers on draft graph semantics, SHACL feedback, identifiers, provenance and guarded promotion."},
-    {"at":"2026-08-27T11:02:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T105800+0200","reason":"Created Issue #84 for the first semantic-authoring foundation: local complete-candidate scene draft, exact base fingerprint, existing SHACL validation with structured diagnostics, deterministic compiler preview and explicit review-only promotion manifest; assigned one Semantic Web/Ontology worker and kept UI, SPARQL mutation, self-study and learner-state out of scope."}
+    {"at":"2026-08-27T11:02:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T105800+0200","reason":"Created Issue #84 for the first semantic-authoring foundation: local complete-candidate scene draft, exact base fingerprint, existing SHACL validation with structured diagnostics, deterministic compiler preview and explicit review-only promotion manifest; assigned one Semantic Web/Ontology worker and kept UI, SPARQL mutation, self-study and learner-state out of scope."},
+    {"at":"2026-08-27T11:04:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T110400+0200","reason":"Claimed the Issue #84 semantic-authoring foundation worker turn."}
   ]
 }
