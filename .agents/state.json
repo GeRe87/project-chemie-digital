@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 30,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Backend and Data Integration Engineer",
-  "activeIssue": 82,
-  "expectedDeliverable": "Collect owner local Fuseki acceptance for repaired draft PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119. Authoritative agent-validator/project-chemie-digital success and mergeable true are confirmed on this unchanged head. Owner must pull/reset to the repaired branch, rerun npm run fuseki:load to replace the invalid old snapshot, then run fuseki:doctor, fuseki:start and fuseki:check. Do not merge or start later Phase 3 work until the local typed Fuseki preflight succeeds.",
-  "lastCompletedTurn": "manager: confirmed repaired draft PR #83 remains on exact head 453a423316db6c16739b1dfad87a0f5890569119, authoritative agent-validator/project-chemie-digital is success on that head, and GitHub mergeability recalculated to true; only the owner local Fuseki snapshot-regeneration/start/typed-query preflight remains before merge",
-  "lastUpdated": "2026-08-27T10:44:30+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "Issue #82 / PR #83 is complete and merged. The first Phase 3 platform-foundation increment now provides a pinned localhost-only read-only Fuseki deployment, canonical named-graph snapshot loading and typed SPARQL query boundary while keeping canonical TriG and the deterministic offline compiler authoritative. A later manager turn may plan the next bounded Phase 3 backlog item; do not start it in this merge turn.",
+  "lastCompletedTurn": "manager: accepted owner local-service evidence on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 after successful snapshot regeneration, Fuseki 6.2.0 startup and typed preflight; confirmed authoritative exact-head validator success and no review threads, documented the acceptance, marked the PR ready, squash-merged it as 02a54e6a7f351a00fba853a6031307dfba4b520c, and confirmed Issue #82 closed completed",
+  "lastUpdated": "2026-08-27T10:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Owner must regenerate the repaired canonical snapshot with fuseki:load and repeat doctor/start/typed-preflight acceptance on PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 before merge."
-  ],
-  "stateRevision": 389,
+  "blockedBy": [],
+  "stateRevision": 390,
   "transitionHistory": [
     {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted offline/Firefox evidence, squash-merged PR #79 as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and closed Issue #78 without starting the next milestone."},
     {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
@@ -34,6 +32,7 @@
     {"at":"2026-08-27T10:32:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T103200+0200","reason":"Owner local Fuseki start exposed invalid N-Quads long-string serialization on validated PR #83; classified the exact canonical_nquads defect, documented it on the PR, rejected merge and assigned a bounded Backend/Data Integration serialization/regression repair on Issue #82."},
     {"at":"2026-08-27T10:33:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T103300+0200","reason":"Claimed the bounded Issue #82 N-Quads serialization repair worker turn after the owner-reproduced Jena RIOT long-string parse failure."},
     {"at":"2026-08-27T10:41:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T103300+0200","reason":"Published repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 with standards-compatible N-Quads literal escaping and parse-roundtrip regressions; returned for a fresh exact-head validator before any owner service retest or merge."},
-    {"at":"2026-08-27T10:44:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T104430+0200","reason":"Confirmed authoritative validator success on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 and mergeable true; only owner snapshot regeneration plus local Fuseki start/typed-preflight acceptance remains before merge."}
+    {"at":"2026-08-27T10:44:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T104430+0200","reason":"Confirmed authoritative validator success on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 and mergeable true; only owner snapshot regeneration plus local Fuseki start/typed-preflight acceptance remains before merge."},
+    {"at":"2026-08-27T10:55:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260827T105500+0200","reason":"Accepted owner local Fuseki evidence on repaired exact head, documented it on PR #83, confirmed validator success and no review threads, squash-merged PR #83 as 02a54e6a7f351a00fba853a6031307dfba4b520c, and confirmed Issue #82 closed completed without starting the next Phase 3 item."}
   ]
 }
