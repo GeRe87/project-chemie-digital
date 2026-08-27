@@ -6,18 +6,18 @@
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 86,
-  "expectedDeliverable": "PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a contains the bounded duplicate-anchor navigation repair: successful JavaScript enhancement removes the generated static fallback subtree only after all canonical documents mount, preventing hidden duplicate self-study-section ids; enhancement failure/no-JavaScript fallback remains complete. Require fresh authoritative agent-validator/project-chemie-digital success on this exact head before owner retest. After validator success, owner only needs to confirm section navigation links jump to visible sections and JavaScript-disabled mode retains complete readable static content. Do not merge before both gates succeed on the same exact head.",
-  "lastCompletedTurn": "worker: published the Issue #86 owner-navigation repair on PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a. Changed only apps/self-study/src/main.ts, apps/self-study/test/app.test.ts and the Issue #86 handoff relative to the previously validated head. The successful enhancement path now removes the static fallback subtree before revealing the enhanced root, eliminating duplicate anchor ids; the catch path does not clear fallback content. Added deterministic lifecycle-order regression. No repository-wide npm test or repaired-head browser acceptance is claimed; fresh exact-head validator is required.",
-  "lastUpdated": "2026-08-27T16:20:00+02:00",
+  "expectedDeliverable": "PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a has authoritative agent-validator/project-chemie-digital success and is currently mergeable true. Owner already confirmed the canonical section-9 radio prompt is selectable and resets on reload. Only the repaired browser navigation and no-JavaScript static-fallback gates remain: navigation links must jump to the visible target sections after enhancement, and disabling JavaScript must leave the complete generated static content readable. Do not merge before owner confirms both checks on this exact head.",
+  "lastCompletedTurn": "manager: confirmed PR #87 remains on exact head 91ae13cc3df78daec87551a5616fb27c41b4674a, received authoritative agent-validator/project-chemie-digital success for that head, and rechecked mergeable true. The navigation repair is therefore ready for the final owner retest; prior radio-control/reload-reset evidence remains accepted and need not be repeated.",
+  "lastUpdated": "2026-08-27T16:38:15+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Fresh authoritative agent-validator/project-chemie-digital result is required for PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a before repeating owner navigation and JavaScript-disabled fallback acceptance."
+    "Owner browser retest on exact head 91ae13cc3df78daec87551a5616fb27c41b4674a: section navigation links must jump to visible sections, and JavaScript-disabled mode must retain complete readable static content."
   ],
-  "stateRevision": 420,
+  "stateRevision": 421,
   "transitionHistory": [
     {"at":"2026-08-27T12:58:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T124800+0200","reason":"Created Issue #86 for a deterministic accessible self-study renderer foundation and standalone browser demonstrator over SceneDocument 1.0; assigned Frontend and Reveal Renderer Engineer while explicitly deferring learner-state persistence and new pedagogical/scientific content."},
     {"at":"2026-08-27T13:00:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T130000+0200","reason":"Claimed the Issue #86 self-study renderer foundation worker turn."},
@@ -32,6 +32,7 @@
     {"at":"2026-08-27T15:52:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T155200+0200","reason":"Reviewed owner screenshot and corrected the #86 browser gate: canonical compiler currently emits only initial disclosure, so no expanders are expected in the real path; remaining owner check is the canonical section-9 single-choice poll radio controls, reload reset, and JS-disabled static fallback."},
     {"at":"2026-08-27T16:15:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T161500+0200","reason":"Owner confirmed the canonical section-9 radio prompt works and resets on reload, but navigation links do not navigate. Isolated the browser defect to duplicate section ids retained simultaneously in hidden static fallback and enhanced DOM; assigned a bounded lifecycle/navigation repair without changing prompt, disclosure or semantic behavior."},
     {"at":"2026-08-27T16:16:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T161600+0200","reason":"Claimed the bounded Issue #86 duplicate-anchor lifecycle/navigation repair worker turn."},
-    {"at":"2026-08-27T16:20:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T161600+0200","reason":"Published PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a with the bounded successful-enhancement fallback-subtree removal and deterministic lifecycle regression, preserving failure/no-JavaScript fallback and confirmed prompt behavior; returned for fresh exact-head validation before owner retest."}
+    {"at":"2026-08-27T16:20:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T161600+0200","reason":"Published PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a with the bounded successful-enhancement fallback-subtree removal and deterministic lifecycle regression, preserving failure/no-JavaScript fallback and confirmed prompt behavior; returned for fresh exact-head validation before owner retest."},
+    {"at":"2026-08-27T16:38:15+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T163815+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a; only repaired navigation and JavaScript-disabled static-fallback owner checks remain before merge."}
   ]
 }
