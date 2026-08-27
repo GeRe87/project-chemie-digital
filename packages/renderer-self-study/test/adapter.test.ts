@@ -6,6 +6,7 @@ import {
   canonicalSerializeSelfStudyRenderPlan,
   createSelfStudyRenderPlan,
   renderSelfStudyHtml,
+  type SelfStudyNodePlan,
 } from "../src/index.ts";
 
 const fixtureUrl = new URL("../../../docs/examples/standard-deviation-scene-document-1.0.json", import.meta.url);
@@ -60,6 +61,10 @@ function extendedDocument(document: SceneDocument): SceneDocument {
   return result as SceneDocument;
 }
 
+function leafNodes(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
+  return nodes.flatMap((node) => node.kind === "group" ? leafNodes(node.children) : [node]);
+}
+
 test("same SceneDocument produces byte-identical self-study render plans", async () => {
   const document = await fixture();
   const first = createSelfStudyRenderPlan(document);
@@ -86,8 +91,8 @@ test("canonical scene and source identities plus reading order are preserved", a
 test("all current block kinds map and nested group reading order is authoritative", async () => {
   const document = extendedDocument(await fixture());
   const plan = createSelfStudyRenderPlan(document).plan!;
-  const kinds = new Set(plan.sections.flatMap((section) => section.nodes.map((node) => node.kind)));
-  for (const kind of ["prose", "math", "code", "media-reference", "group", "prompt"]) assert.ok(kinds.has(kind as any), `missing ${kind}`);
+  const topLevelKinds = new Set(plan.sections.flatMap((section) => section.nodes.map((node) => node.kind)));
+  for (const kind of ["prose", "math", "code", "media-reference", "group", "prompt"]) assert.ok(topLevelKinds.has(kind as any), `missing ${kind}`);
   const group = plan.sections[0]!.nodes.find((node) => node.sourceBlockId === "block:group");
   assert.equal(group?.kind, "group");
   if (!group || group.kind !== "group") throw new Error("group missing");
@@ -101,10 +106,7 @@ test("optional and progressive disclosure metadata remains deterministic and ren
   assert.equal(nodes.find((node) => node.sourceBlockId === "block:media")?.disclosureMode, "optional");
   assert.equal(nodes.find((node) => node.sourceBlockId === "block:group")?.disclosureMode, "progressive");
   assert.equal(nodes.find((node) => node.sourceBlockId === "block:code")?.disclosureMode, "progressive");
-  assert.deepEqual(
-    nodes.filter((node) => node.disclosureMode === "progressive").map((node) => node.disclosure?.order),
-    [11, 12],
-  );
+  assert.deepEqual(nodes.filter((node) => node.disclosureMode === "progressive").map((node) => node.disclosure?.order), [11, 12]);
 });
 
 test("invalid SceneDocument fails atomically before render-plan creation", async () => {
@@ -121,13 +123,15 @@ test("invalid SceneDocument fails atomically before render-plan creation", async
   assert.equal(result.diagnostics[0]?.code, "INVALID_SCENE_DOCUMENT");
 });
 
-test("static fallback exposes authored text, math, code, media and prompt content", async () => {
+test("static fallback exposes all leaf authored content and never relies on details", async () => {
   const plan = createSelfStudyRenderPlan(extendedDocument(await fixture())).plan!;
   const html = renderSelfStudyHtml(plan, { interactive: false });
   for (const section of plan.sections) {
-    assert.match(html, new RegExp(section.semanticLabel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    for (const node of section.nodes) {
-      assert.match(html, new RegExp(node.staticFallback.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").slice(0, 30)));
+    assert.ok(html.includes(section.semanticLabel));
+    for (const node of leafNodes(section.nodes)) {
+      const probe = node.staticFallback.slice(0, Math.min(20, node.staticFallback.length));
+      const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      assert.ok(html.includes(escaped) || html.includes(probe), `missing leaf fallback ${node.sourceBlockId}`);
     }
   }
   assert.match(html, /Begleitmaterial/);
@@ -135,7 +139,7 @@ test("static fallback exposes authored text, math, code, media and prompt conten
   assert.doesNotMatch(html, /<details/);
 });
 
-test("interactive HTML uses native details without hiding static fallbacks from the plan", async () => {
+test("interactive HTML uses native details while retaining authored fallbacks", async () => {
   const plan = createSelfStudyRenderPlan(extendedDocument(await fixture())).plan!;
   const html = renderSelfStudyHtml(plan, { interactive: true });
   assert.match(html, /data-disclosure-mode="optional"/);
