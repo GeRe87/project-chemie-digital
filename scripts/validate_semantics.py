@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the complete repository semantic RDF Dataset with SHACL."""
+"""Validate repository semantic RDF Datasets with the canonical SHACL policy."""
 from __future__ import annotations
 
 import sys
@@ -27,9 +27,9 @@ def dataset_union(dataset: Dataset, *, exclude_shapes: bool = True) -> Graph:
     return graph
 
 
-def run_validation() -> tuple[bool, str]:
-    dataset = assemble_dataset()
-    conforms, _, report_text = validate(
+def validate_dataset(dataset: Dataset) -> tuple[bool, Graph, str]:
+    """Apply the repository's one canonical SHACL policy to a supplied Dataset."""
+    conforms, report_graph, report_text = validate(
         data_graph=dataset_union(dataset),
         shacl_graph=dataset.graph(SHAPES_GRAPH),
         inference="rdfs",
@@ -38,6 +38,12 @@ def run_validation() -> tuple[bool, str]:
         allow_warnings=False,
         meta_shacl=True,
     )
+    return bool(conforms), report_graph, str(report_text)
+
+
+def run_validation() -> tuple[bool, str]:
+    dataset = assemble_dataset()
+    conforms, _report_graph, report_text = validate_dataset(dataset)
     return bool(conforms), f"Dataset fingerprint: {dataset_fingerprint(dataset)}\n{report_text}"
 
 
