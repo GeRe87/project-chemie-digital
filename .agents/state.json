@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 32,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Manager",
-  "activeIssue": null,
-  "expectedDeliverable": "Bound Phase 3 backlog item 34 as one implementable self-study-renderer increment, preserving SceneDocument 1.0 as the renderer-neutral input and explicitly excluding learner-state persistence, accounts, analytics, semantic-authoring changes and direct Fuseki access. Create one GitHub issue, assign one existing role, and hand off to a worker without implementing feature code in this manager turn.",
-  "lastCompletedTurn": "manager: accepted owner local semantic-authoring evidence on PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1, confirmed authoritative agent-validator/project-chemie-digital success and no open review threads, documented owner acceptance, marked the PR ready for review, squash-merged it as eb989c265fdff47f0e4ce7f5d56c563454c50216 with exact-head protection, and confirmed Issue #84 closed as completed.",
-  "lastUpdated": "2026-08-27T12:48:00+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 86,
+  "expectedDeliverable": "Implement Issue #86 on branch agent/86-self-study-renderer as one bounded self-study renderer foundation. Add a sibling renderer over validated SceneDocument 1.0 plus a standalone local browser demonstrator using the same canonical compiler output. Preserve all authored content/source/accessibility/reading-order semantics, provide deterministic accessible initial/optional/progressive disclosure with complete static fallbacks, and keep all interaction state ephemeral. Do not add learner-state persistence/export, accounts, analytics, direct Fuseki/SPARQL access, semantic-authoring changes or new scientific/pedagogical content. Add tests to root npm test, document local browser acceptance, open a draft PR with the validator marker, and return to manager without merge.",
+  "lastCompletedTurn": "manager: selected authoritative Phase 3 backlog item 34, reviewed SceneDocument 1.0, renderer dependency rules, frontend role constraints and the prior instructional-design boundary, then created Issue #86 'Establish deterministic self-study renderer foundation'. Bounded the work as a sibling renderer plus standalone browser demonstrator over the same canonical SceneDocument, explicitly excluding learner-state persistence, direct Fuseki access, semantic-content invention and changes to the Reveal interaction model. Assigned the existing Frontend and Reveal Renderer Engineer role without implementing feature code.",
+  "lastUpdated": "2026-08-27T12:58:00+02:00",
   "lease": {
-    "owner": "interactive-manager-20260827T124800+0200",
-    "claimedAt": "2026-08-27T12:48:00+02:00",
-    "expiresAt": "2026-08-27T14:48:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 406,
+  "stateRevision": 407,
   "transitionHistory": [
     {"at":"2026-08-27T10:41:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T103300+0200","reason":"Published repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 with standards-compatible N-Quads literal escaping and parse-roundtrip regressions."},
     {"at":"2026-08-27T10:44:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T104430+0200","reason":"Confirmed authoritative validator success on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119; owner local Fuseki acceptance remained."},
@@ -35,6 +35,7 @@
     {"at":"2026-08-27T12:31:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T122600+0200","reason":"Published PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1 with a detached SHACL validation boundary and explicit fingerprint/graph/quad/shapes observational-purity regression; returned for fresh exact-head validation before owner acceptance or merge."},
     {"at":"2026-08-27T12:35:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T123500+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1; only owner local semantic-authoring acceptance remains before merge."},
     {"at":"2026-08-27T12:45:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260827T124500+0200","reason":"Accepted owner local semantic-authoring evidence, documented the gate on PR #85, confirmed exact-head validator success and no open review threads, marked the PR ready, squash-merged exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1 as eb989c265fdff47f0e4ce7f5d56c563454c50216, and confirmed Issue #84 completed."},
-    {"at":"2026-08-27T12:48:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260827T124800+0200","reason":"Claimed the separate Phase 3 backlog item 34 planning turn for a bounded self-study renderer increment."}
+    {"at":"2026-08-27T12:48:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260827T124800+0200","reason":"Claimed the separate Phase 3 backlog item 34 planning turn for a bounded self-study renderer increment."},
+    {"at":"2026-08-27T12:58:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T124800+0200","reason":"Created Issue #86 for a deterministic accessible self-study renderer foundation and standalone browser demonstrator over SceneDocument 1.0; assigned Frontend and Reveal Renderer Engineer while explicitly deferring learner-state persistence and new pedagogical/scientific content."}
   ]
 }
