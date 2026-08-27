@@ -25,7 +25,7 @@ const rendered = artifact.sceneDocuments.map((documentValue) => {
 }).join("\n");
 
 const source = await readFile(indexPath, "utf8");
-const pattern = /(?s)(<!-- self-study-runtime-fallback:start -->).*?(<!-- self-study-runtime-fallback:end -->)/;
+const pattern = /(<!-- self-study-runtime-fallback:start -->).*?(<!-- self-study-runtime-fallback:end -->)/s;
 if (!pattern.test(source)) throw new Error("Missing self-study fallback markers");
 const updated = source.replace(pattern, `$1\n${rendered}\n      $2`);
 await writeFile(indexPath, updated, "utf8");
