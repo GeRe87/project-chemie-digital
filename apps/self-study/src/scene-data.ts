@@ -1,5 +1,5 @@
 import runtimeArtifact from "./generated/canonical-runtime.json" with { type: "json" };
-import { validateSceneDocument, type SceneDocument } from "@project-chemie-digital/core";
+import { validateSceneDocument, type SceneDocument } from "../../../packages/core/src/index.ts";
 
 interface CanonicalRuntimeArtifact {
   readonly artifactVersion: "1.0";
