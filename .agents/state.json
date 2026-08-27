@@ -6,19 +6,18 @@
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 86,
-  "expectedDeliverable": "Review repaired draft PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a for Issue #86. First require a fresh authoritative agent-validator/project-chemie-digital success on that unchanged head. Confirm the block-kind-aware static-fallback test and all pre-existing tests pass without Fuseki/network prerequisites. Only after validator success collect owner browser acceptance on http://127.0.0.1:4174/ using npm run self-study:dev, including canonical section order/readability, reload-reset ephemeral prompt state and complete JavaScript-disabled static fallback. Do not merge or start backlog item 35 before both gates succeed.",
-  "lastCompletedTurn": "worker: repaired PR #87 on exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with one bounded test-only commit relative to failed head ab7d62eae696a1a61e640ec39d62f092527b8e68. The static-fallback test now verifies math expression and spokenText separately, keeps media alternativeText+href checks, and retains strict visible fallback checks for prose/code/prompt plus the no-details static-mode gate. Renderer/app/semantic code was unchanged. Returned for fresh exact-head validation without claiming npm test or browser acceptance.",
-  "lastUpdated": "2026-08-27T15:41:00+02:00",
+  "expectedDeliverable": "PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a has authoritative agent-validator/project-chemie-digital success. Collect owner browser acceptance on http://127.0.0.1:4174/ using npm run self-study:dev on that exact head, including canonical section order/readability, learner-controlled disclosure, reload-reset ephemeral prompt state and complete JavaScript-disabled static fallback. Do not merge or start backlog item 35 before owner acceptance. After owner acceptance, fresh-check exact head, validator status, mergeability and review threads before marking ready and squash-merging with expected-head protection.",
+  "lastCompletedTurn": "manager: confirmed PR #87 remains on exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a and received authoritative agent-validator/project-chemie-digital success for that head. Validator comment reports dependency-bootstrap success and project-validation success. PR is currently mergeable true and remains draft. Only owner browser acceptance remains before merge.",
+  "lastUpdated": "2026-08-27T15:46:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "PR #87 repaired exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a requires a fresh authoritative agent-validator/project-chemie-digital success.",
-    "After exact-head validator success, owner browser acceptance of the self-study view on the same head remains required before merge."
+    "Owner browser acceptance of the self-study view on exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a remains required before merge."
   ],
-  "stateRevision": 415,
+  "stateRevision": 416,
   "transitionHistory": [
     {"at":"2026-08-27T12:09:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T115800+0200","reason":"Published PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b after correcting the duplicate-module semantic-authoring test boundary and adding explicit scene-graph isomorphism/triple-count, semantic-delta and compiler-purity regressions; production authoring/fingerprint/Fuseki/browser code was not changed by this second repair."},
     {"at":"2026-08-27T12:22:56+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T122256+0200","reason":"Third validator run proved scene checkout/reparse isomorphism is green but the no-op Dataset equality still differs only across the SHACL-validation boundary. Traced the consistent pre-validation ed9d... versus post-validation 132e... hashes to validate_dataset passing the live shapes graph into pySHACL; assigned a bounded validation-purity repair without weakening fingerprint equality."},
@@ -35,6 +34,7 @@
     {"at":"2026-08-27T15:13:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T151000+0200","reason":"Published repaired PR #87 exact head ab7d62eae696a1a61e640ec39d62f092527b8e68 with only the media-reference static-fallback test contract corrected; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."},
     {"at":"2026-08-27T15:33:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T153300+0200","reason":"Validator on repaired PR #87 advanced past the media case and isolated the next failure to the same generic staticFallback assumption for a math block. Verified math expression and spokenText are authored and rendered separately; assigned a bounded block-kind-aware test-contract repair without changing renderer semantics."},
     {"at":"2026-08-27T15:37:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T153700+0200","reason":"Claimed the bounded Issue #86 block-kind-aware static-fallback test-contract repair worker turn."},
-    {"at":"2026-08-27T15:41:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T153700+0200","reason":"Published repaired PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with only the block-kind-aware static-fallback test contract changed; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."}
+    {"at":"2026-08-27T15:41:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T153700+0200","reason":"Published repaired PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with only the block-kind-aware static-fallback test contract changed; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."},
+    {"at":"2026-08-27T15:46:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T154600+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a; only owner browser acceptance remains before merge."}
   ]
 }
