@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import type { SceneDocument } from "@project-chemie-digital/core";
-import { createSelfStudyRenderPlan, renderSelfStudyHtml } from "@project-chemie-digital/renderer-self-study";
+import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { createSelfStudyRenderPlan, renderSelfStudyHtml } from "../../../packages/renderer-self-study/src/index.ts";
 
 interface CanonicalRuntimeArtifact {
   readonly artifactVersion: "1.0";
