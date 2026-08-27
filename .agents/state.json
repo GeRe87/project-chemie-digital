@@ -1,21 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 30,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 82,
-  "expectedDeliverable": "Repair only the PR #83 N-Quads serialization defect on agent/82-fuseki-query-foundation: serialize multiline/control-character RDF literals with standards-compatible escaped N-Quads syntax, preserve deterministic ordering, named graphs, language/datatype literals and canonical blank nodes, add a regression using the actual multiline R literal plus N-Quads parse roundtrip, update the #82 handoff/PR, publish a new exact head, and return to manager without merge or owner service retest.",
-  "lastCompletedTurn": "manager: rejected merge of validated PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50 after the owner local-service gate reproduced a Jena RIOT parse failure at canonical-dataset.nq line 1315 ('Triple quoted string not permitted' for the multiline R code x <- c(6, 8, 10) / sd(x)); inspected canonical_nquads and confirmed it manually composes N-Quads using term.n3(), documented the failure and bounded repair criteria on PR #83, and assigned one Backend/Data Integration worker to repair only standards-compatible N-Quads serialization plus regression coverage before validator and owner retest",
-  "lastUpdated": "2026-08-27T10:33:00+02:00",
+  "expectedDeliverable": "Review repaired draft PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119. First require authoritative agent-validator/project-chemie-digital success on that unchanged head. Only after validator success, have the owner pull the repaired branch, rerun npm run fuseki:load to replace the invalid old snapshot, then run fuseki:doctor, fuseki:start and fuseki:check. Do not merge or start later Phase 3 work until the repaired exact-head validator and owner local Fuseki preflight both succeed.",
+  "lastCompletedTurn": "worker: repaired the owner-reproduced PR #83 N-Quads startup defect by replacing Literal.n3()-driven long-string output with standards-compatible short-string N-Quads escaping for multiline/control characters while preserving language tags, datatypes, named graphs, deterministic ordering and canonical blank nodes; added a full generated-snapshot N-Quads parse roundtrip covering the actual multiline R example plus quad-count/graph parity, added explicit language/datatype/control-character roundtrip coverage, updated the #82 handoff and PR description, confirmed changed-file scope contains no ontology or presentation files, and published repaired exact head 453a423316db6c16739b1dfad87a0f5890569119 without claiming repository-wide validator success, owner service retest or merge",
+  "lastUpdated": "2026-08-27T10:41:30+02:00",
   "lease": {
-    "owner": "interactive-worker-20260827T103300+0200",
-    "claimedAt": "2026-08-27T10:33:00+02:00",
-    "expiresAt": "2026-08-27T12:33:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 387,
+  "blockedBy": [
+    "Repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 requires authoritative agent-validator/project-chemie-digital success.",
+    "After validator success, owner must regenerate the local snapshot with fuseki:load and repeat doctor/start/typed-preflight acceptance before merge."
+  ],
+  "stateRevision": 388,
   "transitionHistory": [
     {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted offline/Firefox evidence, squash-merged PR #79 as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and closed Issue #78 without starting the next milestone."},
     {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
@@ -30,6 +33,7 @@
     {"at":"2026-08-27T10:00:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T094730+0200","reason":"Published draft PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50 with the local Fuseki, canonical snapshot and typed read-only SPARQL foundation; returned for exact-head validation before any owner service acceptance or merge."},
     {"at":"2026-08-27T10:21:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T102100+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success for PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50; only the owner local Fuseki service acceptance remains before merge."},
     {"at":"2026-08-27T10:32:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T103200+0200","reason":"Owner local Fuseki start exposed invalid N-Quads long-string serialization on validated PR #83; classified the exact canonical_nquads defect, documented it on the PR, rejected merge and assigned a bounded Backend/Data Integration serialization/regression repair on Issue #82."},
-    {"at":"2026-08-27T10:33:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T103300+0200","reason":"Claimed the bounded Issue #82 N-Quads serialization repair worker turn after the owner-reproduced Jena RIOT long-string parse failure."}
+    {"at":"2026-08-27T10:33:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T103300+0200","reason":"Claimed the bounded Issue #82 N-Quads serialization repair worker turn after the owner-reproduced Jena RIOT long-string parse failure."},
+    {"at":"2026-08-27T10:41:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T103300+0200","reason":"Published repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 with standards-compatible N-Quads literal escaping and parse-roundtrip regressions; returned for a fresh exact-head validator before any owner service retest or merge."}
   ]
 }
