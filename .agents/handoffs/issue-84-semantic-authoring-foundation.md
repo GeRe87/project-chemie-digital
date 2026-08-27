@@ -115,7 +115,7 @@ and writes only:
 .local/authoring/standard-deviation-scenes/preview.scene-document.json
 ```
 
-It does not replace the normal generated runtime artifact. A no-op checkout is regression-tested against the canonical compiled `SceneDocument`.
+It does not replace the normal generated runtime artifact. A no-op draft therefore compiles to the same semantic `SceneDocument` as the canonical Dataset.
 
 ### Review-only promotion preparation
 
@@ -162,6 +162,36 @@ Detailed behavior and cleanup are documented in `docs/semantic-authoring.md`.
 
 Because these tests are discovered by the existing Python/semantic-client test commands, ordinary root `npm test` remains service-free and network-free with respect to authoring. No authoring test requires Fuseki to be prepared or running.
 
+## Exact-head validator repair: stable Dataset identity across fresh parses
+
+The first published PR head `2884c9615c932867958949ebaadfca1e225a6900` failed the authoritative validator in the no-op authoring determinism test. Two independently assembled but semantically identical canonical Datasets produced different SHA-256 fingerprints. The failure exposed a real stale-base contract defect rather than an incorrect hard-coded expectation.
+
+Root cause boundary:
+
+- the previous `dataset_fingerprint()` hashed `canonical_nquads()` bytes;
+- canonical N-Quads intentionally materializes concrete blank-node labels after per-graph canonicalization;
+- SHACL graphs contain blank nodes, and concrete canonical labels are the wrong API-level identity primitive for an authoring stale-base token across independent parser instances.
+
+Repair:
+
+- `canonical_nquads()` remains the valid N-Quads serializer used by the local Fuseki snapshot and retains the earlier multiline/control-character escaping fix;
+- `dataset_fingerprint()` is now deliberately separate from serialization;
+- for every populated named graph it computes RDFLib's blank-node-aware `IsomorphicGraph.graph_digest()`;
+- the final SHA-256 hashes the deterministic ordered mapping `named graph IRI -> isomorphism-invariant graph digest`;
+- therefore SHACL content remains in scope and moving identical triples to another named graph changes the fingerprint, while parser-local blank-node identifiers do not.
+
+Additional `tests/test_rdf_dataset.py` regressions now require:
+
+1. four independent fresh `assemble_dataset()` calls to yield one fingerprint;
+2. equivalent graphs with different parser-local blank-node IDs to yield one fingerprint;
+3. identical triples in different named-graph IRIs to yield different fingerprints;
+4. source-file-order independence to remain true;
+5. the existing valid N-Quads literal/roundtrip regression to remain intact.
+
+The authoring no-op test is intentionally unchanged: it must still prove that an independently assembled canonical Dataset and a no-op authoring candidate have exactly the same logical Dataset fingerprint.
+
+No semantic source, SHACL rule, scene content, Fuseki write behavior or browser runtime was changed by this repair.
+
 ## Worker-side evidence and limitations
 
 Static branch/diff inspection confirms:
@@ -170,9 +200,9 @@ Static branch/diff inspection confirms:
 - no Reveal/browser/pitch file changed;
 - no Fuseki runtime/start/query implementation changed;
 - `.local/` was already ignored before this increment;
-- the feature diff is limited to authoring workflow/contracts/tests/docs plus the small canonical-SHACL-policy reuse refactor.
+- the feature diff is limited to authoring workflow/contracts/tests/docs plus the small canonical-SHACL-policy reuse refactor and the bounded Dataset-fingerprint repair.
 
-No repository-wide `npm test` result is claimed from this connector-only worker environment. The installed exact-head validator remains the authoritative automated merge gate.
+A synthetic worker-side check confirmed that equivalent graphs carrying different explicit blank-node identifiers produce the same new graph-digest-based Dataset fingerprint. No repository-wide `npm test` result is claimed from this connector-oriented worker environment. The installed exact-head validator remains the authoritative automated merge gate.
 
 ## Owner acceptance after exact-head validator success
 
