@@ -54,6 +54,25 @@ test("browser app has no semantic-store, persistence, account or telemetry integ
   }
 });
 
+test("successful enhancement removes static duplicate anchor targets only after all mounts", async () => {
+  const main = await readFile(new URL("src/main.ts", appRoot), "utf8");
+  const mountIndex = main.lastIndexOf("controllers.push(mountSelfStudyRenderPlan");
+  const clearFallbackIndex = main.indexOf("fallbackRoot.replaceChildren()");
+  const hideFallbackIndex = main.indexOf("fallbackRoot.hidden = true");
+  const showEnhancedIndex = main.indexOf("enhancedRoot.hidden = false");
+  const catchIndex = main.indexOf("} catch (error)");
+
+  assert.ok(mountIndex >= 0, "enhancement mount is missing");
+  assert.ok(clearFallbackIndex > mountIndex, "static fallback must only be removed after successful mounts");
+  assert.ok(clearFallbackIndex < hideFallbackIndex, "duplicate fallback ids must be removed before hiding the static root");
+  assert.ok(hideFallbackIndex < showEnhancedIndex, "enhanced root must only become visible after fallback targets are removed");
+  assert.ok(showEnhancedIndex < catchIndex, "success lifecycle must complete before the failure path");
+
+  const failurePath = main.slice(catchIndex);
+  assert.doesNotMatch(failurePath, /fallbackRoot\.replaceChildren\(\)/, "failure recovery must preserve generated static content");
+  assert.match(failurePath, /fallbackRoot\.hidden = false/, "failure recovery must restore the static root");
+});
+
 test("static fallback stays present when enhancement is unavailable", async () => {
   const index = await readFile(new URL("index.html", appRoot), "utf8");
   const main = await readFile(new URL("src/main.ts", appRoot), "utf8");
