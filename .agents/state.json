@@ -1,24 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 31,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 84,
-  "expectedDeliverable": "Review repaired draft PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b. Require a fresh authoritative agent-validator/project-chemie-digital success on that unchanged head. The second repair leaves production fingerprint/authoring code unchanged, reuses the exact canonical rdf_dataset/runtime module instances in the semantic-authoring test harness, and adds explicit target-scene triple-count/RDF-isomorphism, deterministic semantic-delta and compiler Dataset-purity regressions while retaining full no-op candidate-vs-canonical fingerprint equality. Verify these regressions plus the first fingerprint repair and Fuseki N-Quads/Jena regressions are green. Only after validator success, collect owner authoring checkout/validate/preview/prepare-promotion/git-status acceptance. Do not merge or start later Phase 3 items before both gates succeed.",
-  "lastCompletedTurn": "worker: investigated the second PR #85 validator failure and found no evidence of target-scene RDF term loss; the test harness was executing rdf_dataset and generate_canonical_runtime a second time under duplicate test-only module objects while semantic_authoring used the canonical normal-import instances. Repaired only the test/handoff boundary after head cc072671 by reusing the exact workflow module instances, added explicit checkout->parse target graph triple-count and RDF-isomorphism proof with deterministic semantic delta, retained full no-op rebuilt Dataset fingerprint equality, and added a compiler Dataset-fingerprint purity assertion. Production dataset_fingerprint, semantic authoring logic, canonical TriG, SHACL, Fuseki and browser code remain unchanged by this second repair. Published PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b without claiming repository-wide npm test or owner acceptance.",
-  "lastUpdated": "2026-08-27T12:09:00+02:00",
+  "expectedDeliverable": "Repair the third exact-head validator failure on draft PR #85. Preserve the now-green scene checkout/reparse isomorphism and Dataset fingerprint implementation. Make validate_semantics.py::validate_dataset(dataset) observationally pure with respect to the supplied Dataset: pySHACL must not mutate Dataset-visible shapes or other graph state. Use a detached/copied validation boundary, not a weakened fingerprint assertion. Add regression evidence that Dataset fingerprint, populated graph identities, quad count and shapes-graph isomorphism are unchanged before versus after canonical SHACL validation. Retain the unchanged no-op candidate-vs-canonical fingerprint equality assertion, structured SHACL diagnostics, fail-closed authoring checks, fresh-assembly/blank-node/named-graph fingerprint regressions and Fuseki N-Quads/Jena regressions. Do not modify canonical TriG/SHACL content, scientific content, browser behavior or Fuseki write behavior. Publish a new PR #85 exact head and return to manager for fresh exact-head validator; owner authoring acceptance remains blocked until validator success.",
+  "lastCompletedTurn": "manager: reviewed authoritative validator failure on PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b. Confirmed the newly added checkout/reparse target-scene triple-count and RDF-isomorphism regression passes, as do global fingerprint and Fuseki N-Quads/Jena regressions. The only remaining failure compares the raw canonical pre-validation fingerprint sha256:ed9dfcbe... with the candidate fingerprint sha256:132e1f73... computed after validate_dataset. Since validate_dataset passes a live dataset.graph(SHAPES_GRAPH) view to pySHACL and check:semantics also reports the post-validation hash, isolated the defect to SHACL validation mutating Dataset-visible state. Documented the bounded validation-purity repair on PR #85 and rejected weakening the equality gate or merging.",
+  "lastUpdated": "2026-08-27T12:22:56+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Repaired PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b requires a fresh authoritative agent-validator/project-chemie-digital success.",
-    "After exact-head validator success, owner local semantic-authoring checkout/validate/preview/promotion acceptance remains required before merge."
+    "PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b has authoritative validator failure isolated to canonical SHACL validation mutating Dataset-visible state; a bounded validation-purity worker repair and new exact head are required."
   ],
-  "stateRevision": 400,
+  "stateRevision": 401,
   "transitionHistory": [
     {"at":"2026-08-27T10:32:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T103200+0200","reason":"Owner local Fuseki start exposed invalid N-Quads long-string serialization on validated PR #83; classified the exact canonical_nquads defect and assigned a bounded repair."},
     {"at":"2026-08-27T10:33:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T103300+0200","reason":"Claimed the bounded Issue #82 N-Quads serialization repair worker turn."},
@@ -34,6 +33,7 @@
     {"at":"2026-08-27T11:50:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T114200+0200","reason":"Published repaired PR #85 exact head cc072671d37ee06e7d0d23f9cfe53621a9749359 with isomorphism-invariant named-graph-aware Dataset fingerprinting and regressions."},
     {"at":"2026-08-27T11:55:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T115500+0200","reason":"Second validator run confirmed the fingerprint repair itself is green but isolated a remaining no-op scene draft serialization/reparse mismatch; documented the exact bounded roundtrip repair on PR #85 and assigned Semantic Web/Ontology without weakening the no-op equality gate."},
     {"at":"2026-08-27T11:58:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T115800+0200","reason":"Claimed the bounded Issue #84 no-op scene graph roundtrip repair worker turn."},
-    {"at":"2026-08-27T12:09:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T115800+0200","reason":"Published PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b after correcting the duplicate-module semantic-authoring test boundary and adding explicit scene-graph isomorphism/triple-count, semantic-delta and compiler-purity regressions; production authoring/fingerprint/Fuseki/browser code was not changed by this second repair."}
+    {"at":"2026-08-27T12:09:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T115800+0200","reason":"Published PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b after correcting the duplicate-module semantic-authoring test boundary and adding explicit scene-graph isomorphism/triple-count, semantic-delta and compiler-purity regressions; production authoring/fingerprint/Fuseki/browser code was not changed by this second repair."},
+    {"at":"2026-08-27T12:22:56+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T122256+0200","reason":"Third validator run proved scene checkout/reparse isomorphism is green but the no-op Dataset equality still differs only across the SHACL-validation boundary. Traced the consistent pre-validation ed9d... versus post-validation 132e... hashes to validate_dataset passing the live shapes graph into pySHACL; assigned a bounded validation-purity repair without weakening fingerprint equality."}
   ]
 }
