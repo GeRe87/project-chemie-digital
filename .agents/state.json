@@ -1,23 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 30,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 82,
-  "expectedDeliverable": "Execute Issue #82 as the first bounded Phase 3 worker. Create branch agent/82-fuseki-query-foundation from current main; add an explicit pinned localhost-oriented Fuseki deployment/preparation boundary, an explicit loader from the canonical TriG Dataset preserving named graphs, and a typed read-only SPARQL query client with deterministic unit tests plus an opt-in local-service preflight/integration path. Keep ontology/dataset/*.trig authoritative, keep npm test and existing compiler/presentation fully functional without Fuseki, add no browser dependency, SPARQL Update, semantic authoring, self-study renderer or learner-state work. Document prepare/start/load/check/stop, add the structured handoff, open a draft PR with the validator marker, and return to manager without merge.",
-  "lastCompletedTurn": "manager: started Phase 3 planning from backlog item 32, confirmed ADR-0002 requires the canonical TriG Dataset and deterministic compiler to remain authoritative/offline, selected Backend and Data Integration Engineer because the role explicitly covers Fuseki access, semantic queries, typed interfaces and secure local deployment, and created Issue #82 as a read-only local Fuseki plus typed SPARQL foundation without beginning semantic authoring, self-study or learner-state work",
-  "lastUpdated": "2026-08-27T09:47:30+02:00",
+  "expectedDeliverable": "Review draft PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50 for Issue #82. Confirm authoritative agent-validator/project-chemie-digital success on that unchanged head. Only after validator success, collect the owner local-service evidence using the documented sequence: fuseki:prepare, fuseki:load, fuseki:doctor/fuseki:start, fuseki:check, then stop with Ctrl+C. Do not merge or start later Phase 3 items before both the exact-head validator and local Fuseki preflight succeed.",
+  "lastCompletedTurn": "worker: implemented the first Phase 3 local Fuseki and typed SPARQL foundation on agent/82-fuseki-query-foundation, pinning Apache Jena Fuseki 6.2.0 with SHA-512 verification and explicit network-only preparation, deriving a canonical named-graph N-Quads snapshot from the existing TriG Dataset assembly, starting localhost-only read-only Fuseki without admin UI/update, adding a typed semantic-client for resource/path/provenance SELECT queries plus an opt-in live preflight, deterministic unit/snapshot tests and full choreography documentation; isolated semantic-client tests passed 5/5 and Python sources syntax-compiled, no TriG/SHACL/browser/presentation code changed, draft PR #83 was opened at exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50, and no repository-wide validator result, owner service acceptance or merge was claimed",
+  "lastUpdated": "2026-08-27T10:00:30+02:00",
   "lease": {
-    "owner": "interactive-worker-20260827T094730+0200",
-    "claimedAt": "2026-08-27T09:47:30+02:00",
-    "expiresAt": "2026-08-27T11:47:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 383,
+  "blockedBy": [
+    "Draft PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50 requires authoritative agent-validator/project-chemie-digital success.",
+    "After validator success, owner local Fuseki prepare/load/start/typed-preflight acceptance remains required before merge."
+  ],
+  "stateRevision": 384,
   "transitionHistory": [
-    {"at":"2026-08-26T12:29:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T122500+0200","reason":"Accepted PR #77 Firefox/demo evidence and squash-merged it."},
     {"at":"2026-08-26T12:33:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T123330+0200","reason":"Claimed Phase 2e runtime-hardening planning."},
     {"at":"2026-08-26T12:36:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T123330+0200","reason":"Created Issue #78 and assigned Frontend runtime hardening."},
     {"at":"2026-08-26T12:44:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T124430+0200","reason":"Claimed the Issue #78 runtime-hardening worker turn."},
@@ -41,6 +43,7 @@
     {"at":"2026-08-27T09:36:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260827T093600+0200","reason":"Accepted current-head Edge end-to-end evidence together with prior Firefox evidence for unchanged production runtime, documented the combined browser gate, squash-merged PR #81 as 10e9b31b50a0c78dd61d1777e7b37ac6dcba65ce, confirmed Issue #80 completed, and declared Phase 2e / Interactive Demonstrator v0.1 complete."},
     {"at":"2026-08-27T09:40:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260827T094000+0200","reason":"Claimed the first Phase 3 platform-foundation planning turn and selected Backend/Data Integration for the local Fuseki plus typed SPARQL foundation."},
     {"at":"2026-08-27T09:46:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T094000+0200","reason":"Created Issue #82 as the first bounded Phase 3 implementation step and assigned one Backend/Data Integration worker for local Fuseki deployment, canonical Dataset loading and typed read-only SPARQL queries; later Phase 3 items remain out of scope."},
-    {"at":"2026-08-27T09:47:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T094730+0200","reason":"Claimed the Issue #82 Phase 3 worker turn for local Fuseki deployment, canonical Dataset loading and typed read-only SPARQL query foundation."}
+    {"at":"2026-08-27T09:47:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T094730+0200","reason":"Claimed the Issue #82 Phase 3 worker turn for local Fuseki deployment, canonical Dataset loading and typed read-only SPARQL query foundation."},
+    {"at":"2026-08-27T10:00:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T094730+0200","reason":"Published draft PR #83 exact head f404f06a431ccc2d62e2acb220bb59eadafb2b50 with the local Fuseki, canonical snapshot and typed read-only SPARQL foundation; returned for exact-head validation before any owner service acceptance or merge."}
   ]
 }
