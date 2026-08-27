@@ -82,6 +82,32 @@ class RdfDatasetTests(unittest.TestCase):
         reverse = MODULE.assemble_dataset(trig_paths=tuple(reversed(MODULE.CANONICAL_TRIG)))
         self.assertEqual(MODULE.dataset_fingerprint(forward), MODULE.dataset_fingerprint(reverse))
 
+    def test_fingerprint_is_stable_across_independent_fresh_assemblies(self) -> None:
+        fingerprints = {
+            MODULE.dataset_fingerprint(MODULE.assemble_dataset())
+            for _ in range(4)
+        }
+        self.assertEqual(1, len(fingerprints))
+
+    def test_fingerprint_ignores_parser_local_blank_node_identifiers(self) -> None:
+        graph = URIRef(f"{MODULE.GRAPH_BASE}shapes/fingerprint")
+        predicate = URIRef("https://example.invalid/predicate")
+        left = Dataset(default_union=False)
+        right = Dataset(default_union=False)
+        left.graph(graph).add((BNode("left-parser-id"), predicate, Literal("same structure")))
+        right.graph(graph).add((BNode("right-parser-id"), predicate, Literal("same structure")))
+        self.assertEqual(MODULE.dataset_fingerprint(left), MODULE.dataset_fingerprint(right))
+
+    def test_fingerprint_preserves_named_graph_identity(self) -> None:
+        subject = URIRef("https://example.invalid/subject")
+        predicate = URIRef("https://example.invalid/predicate")
+        obj = Literal("same triple")
+        left = Dataset(default_union=False)
+        right = Dataset(default_union=False)
+        left.graph(URIRef(f"{MODULE.GRAPH_BASE}tests/fingerprint-a")).add((subject, predicate, obj))
+        right.graph(URIRef(f"{MODULE.GRAPH_BASE}tests/fingerprint-b")).add((subject, predicate, obj))
+        self.assertNotEqual(MODULE.dataset_fingerprint(left), MODULE.dataset_fingerprint(right))
+
     def test_canonical_nquads_preserves_literal_metadata_and_control_escapes(self) -> None:
         dataset = Dataset(default_union=False)
         graph = URIRef(f"{MODULE.GRAPH_BASE}tests/nquads")
