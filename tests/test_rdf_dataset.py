@@ -82,6 +82,32 @@ class RdfDatasetTests(unittest.TestCase):
         reverse = MODULE.assemble_dataset(trig_paths=tuple(reversed(MODULE.CANONICAL_TRIG)))
         self.assertEqual(MODULE.dataset_fingerprint(forward), MODULE.dataset_fingerprint(reverse))
 
+    def test_canonical_nquads_preserves_literal_metadata_and_control_escapes(self) -> None:
+        dataset = Dataset(default_union=False)
+        graph = URIRef(f"{MODULE.GRAPH_BASE}tests/nquads")
+        subject = URIRef(f"{MODULE.RESOURCE_BASE}nquads-test")
+        language_predicate = URIRef("https://example.invalid/language")
+        datatype_predicate = URIRef("https://example.invalid/datatype")
+        language_literal = Literal('Zeile 1\n"Zeile 2"\\Ende', lang="de")
+        datatype_literal = Literal("42", datatype=URIRef("http://www.w3.org/2001/XMLSchema#integer"))
+        dataset.graph(graph).add((subject, language_predicate, language_literal))
+        dataset.graph(graph).add((subject, datatype_predicate, datatype_literal))
+
+        serialized = MODULE.canonical_nquads(dataset)
+        self.assertIn('"Zeile 1\\n\\"Zeile 2\\"\\\\Ende"@de', serialized)
+        self.assertIn('"42"^^<http://www.w3.org/2001/XMLSchema#integer>', serialized)
+
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=serialized, format="nquads")
+        self.assertIn(
+            (subject, language_predicate, language_literal, graph),
+            set(parsed.quads((subject, language_predicate, None, graph))),
+        )
+        self.assertIn(
+            (subject, datatype_predicate, datatype_literal, graph),
+            set(parsed.quads((subject, datatype_predicate, None, graph))),
+        )
+
     def test_non_project_graph_is_rejected(self) -> None:
         dataset = Dataset()
         dataset.graph(URIRef("https://example.invalid/graph")).add((URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T")))
