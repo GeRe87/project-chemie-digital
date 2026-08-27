@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
-import { createSelfStudyRenderPlan } from "../../../packages/renderer-self-study/src/index.ts";
+import { createSelfStudyRenderPlan, type SelfStudyNodePlan } from "../../../packages/renderer-self-study/src/index.ts";
 
 const appRoot = new URL("../", import.meta.url);
 
@@ -10,6 +10,10 @@ interface RuntimeArtifact {
   readonly artifactVersion: "1.0";
   readonly datasetFingerprint: string;
   readonly sceneDocuments: readonly SceneDocument[];
+}
+
+function leaves(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
+  return nodes.flatMap((node) => node.kind === "group" ? leaves(node.children) : [node]);
 }
 
 test("self-study app consumes a generated canonical SceneDocument transport", async () => {
@@ -24,7 +28,7 @@ test("self-study app consumes a generated canonical SceneDocument transport", as
   }
 });
 
-test("generated static-first shell contains all self-study fallback content", async () => {
+test("generated static-first shell contains all self-study leaf fallback content", async () => {
   const artifact = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8")) as RuntimeArtifact;
   const index = await readFile(new URL("index.html", appRoot), "utf8");
   assert.match(index, /self-study-runtime-fallback:start/);
@@ -34,7 +38,7 @@ test("generated static-first shell contains all self-study fallback content", as
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
       assert.ok(index.includes(section.semanticLabel), `missing static section ${section.semanticLabel}`);
-      for (const node of section.nodes) {
+      for (const node of leaves(section.nodes)) {
         const probe = node.staticFallback.slice(0, Math.min(24, node.staticFallback.length));
         const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         assert.ok(index.includes(escaped) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
