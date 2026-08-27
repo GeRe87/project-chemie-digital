@@ -27,6 +27,7 @@
     "test:semantics": "python -m unittest discover -s tests -v",
     "test:core": "npm --workspace @project-chemie-digital/core test",
     "test:semantic-client": "node --experimental-strip-types --test packages/semantic-client/test/*.test.mts",
+    "test:learner-state": "node --experimental-strip-types --test packages/learner-state/test/*.test.ts",
     "test:renderer-reveal": "npm --workspace @project-chemie-digital/renderer-reveal test",
     "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
     "test:renderer-self-study": "node --experimental-strip-types --test packages/renderer-self-study/test/*.test.ts",
@@ -36,7 +37,7 @@
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
     "self-study:dev": "npm run generate:self-study && vite apps/self-study --host 127.0.0.1 --port 4174 --strictPort",
     "poll:demo": "python scripts/limesurvey_poll_proxy.py --demo",
-    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
+    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:learner-state && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
   },
   "engines": {
     "node": ">=22"
