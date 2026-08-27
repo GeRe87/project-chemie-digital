@@ -19,6 +19,11 @@ try {
     enhancedRoot.append(documentRoot);
     controllers.push(mountSelfStudyRenderPlan(documentRoot, result.plan));
   }
+  // Commit the enhanced view only after every canonical document mounted successfully.
+  // Removing the generated fallback subtree prevents duplicate section ids from
+  // shadowing the visible navigation targets. Without JavaScript, or when mounting
+  // throws above, this line is never reached and the complete static fallback stays intact.
+  fallbackRoot.replaceChildren();
   fallbackRoot.hidden = true;
   enhancedRoot.hidden = false;
 } catch (error) {
