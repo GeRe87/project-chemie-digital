@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import type { SceneDocument } from "@project-chemie-digital/core";
-import { createSelfStudyRenderPlan } from "@project-chemie-digital/renderer-self-study";
+import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { createSelfStudyRenderPlan } from "../../../packages/renderer-self-study/src/index.ts";
 
 const appRoot = new URL("../", import.meta.url);
 
@@ -36,7 +36,8 @@ test("generated static-first shell contains all self-study fallback content", as
       assert.ok(index.includes(section.semanticLabel), `missing static section ${section.semanticLabel}`);
       for (const node of section.nodes) {
         const probe = node.staticFallback.slice(0, Math.min(24, node.staticFallback.length));
-        assert.ok(index.includes(probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
+        const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        assert.ok(index.includes(escaped) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
       }
     }
   }
