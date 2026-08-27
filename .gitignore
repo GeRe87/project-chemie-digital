@@ -9,4 +9,5 @@ coverage/
 __pycache__/
 .local/
 apps/pitch/src/generated/canonical-runtime.json
+apps/self-study/src/generated/canonical-runtime.json
 apps/pitch/public/vendor/
