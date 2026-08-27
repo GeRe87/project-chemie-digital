@@ -14,6 +14,11 @@ body { margin: 0; }
 .eyebrow { margin: 0; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); }
 .prototype-note { margin: 0; max-width: 52rem; }
+.learner-state-controls { margin: 0 0 1rem; padding: 1rem 1.25rem; background: white; border: 1px solid #d6dde2; border-radius: .6rem; }
+.learner-state-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.learner-state-actions button { font: inherit; padding: .55rem .8rem; cursor: pointer; }
+.learner-state-status { min-height: 1.5em; margin: .75rem 0 0; font-weight: 700; }
+.learner-state-privacy { margin: .4rem 0 0; font-size: .9rem; }
 .self-study-document { display: grid; gap: 1rem; padding-bottom: 4rem; }
 .self-study-navigation, .self-study-section { background: white; border: 1px solid #d6dde2; border-radius: .6rem; padding: 1.25rem; }
 .self-study-navigation ol { margin: .5rem 0 0; padding-left: 1.4rem; }
@@ -32,7 +37,7 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); }
 .self-study-prompt label { display: block; }
 .self-study-prompt textarea { width: 100%; min-height: 7rem; font: inherit; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-a:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible { outline: .2rem solid currentColor; outline-offset: .2rem; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible { outline: .2rem solid currentColor; outline-offset: .2rem; }
 [hidden] { display: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
