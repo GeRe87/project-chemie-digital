@@ -1,25 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 31,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 84,
   "expectedDeliverable": "Repair the exact-head validator failure on draft PR #85. Diagnose and fix canonical Dataset fingerprint instability across independent fresh assemble_dataset() parses, rather than hard-coding or weakening the failing authoring test. Preserve valid N-Quads, named-graph identity, literal metadata, the multiline-literal/Jena repair, Fuseki read-only behavior, canonical TriG authority and authoring stale-base semantics. Add regressions proving repeated independent assemblies yield one deterministic fingerprint, keep no-op authoring candidate fingerprint equal to the canonical fingerprint, publish a new PR #85 head, and return to manager for a fresh exact-head validator before any owner acceptance or merge.",
   "lastCompletedTurn": "manager: reviewed authoritative validator failure on PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900; isolated the sole failing new test and determined it exposes canonical Dataset fingerprint instability across independent fresh assemblies (038c8b... versus 956b9a...), which is a real stale-base contract defect rather than a test constant issue; documented the bounded repair on PR #85 and assigned the Semantic Web/Ontology worker to fix canonical fingerprint determinism without changing semantic content or merge policy",
-  "lastUpdated": "2026-08-27T11:35:00+02:00",
+  "lastUpdated": "2026-08-27T11:42:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-worker-20260827T114200+0200",
+    "claimedAt": "2026-08-27T11:42:00+02:00",
+    "expiresAt": "2026-08-27T13:42:00+02:00"
   },
-  "blockedBy": [
-    "PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 has authoritative validator failure caused by canonical Dataset fingerprint instability across independent fresh assemblies. A bounded worker repair and new exact head are required."
-  ],
-  "stateRevision": 395,
+  "blockedBy": [],
+  "stateRevision": 396,
   "transitionHistory": [
-    {"at":"2026-08-26T14:25:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260826T142500+0200","reason":"Accepted offline/Firefox evidence, squash-merged PR #79 as 6cbdbe4e8b44e444a418459263c9911f9d2c2f8b, and closed Issue #78 without starting the next milestone."},
     {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
     {"at":"2026-08-26T14:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T142700+0200","reason":"Created Issue #80 with the final canonical/static/connected/offline/fail-closed/accessibility/privacy acceptance matrix and assigned one QA/DevOps worker; no feature implementation or Phase 3 work was started."},
     {"at":"2026-08-26T14:33:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260826T143300+0200","reason":"Claimed the Issue #80 QA/release-readiness turn to create deterministic acceptance evidence without changing production semantics or runtime behavior."},
@@ -40,6 +37,7 @@
     {"at":"2026-08-27T11:02:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T105800+0200","reason":"Created Issue #84 for the first semantic-authoring foundation: local complete-candidate scene draft, exact base fingerprint, existing SHACL validation with structured diagnostics, deterministic compiler preview and explicit review-only promotion manifest; assigned one Semantic Web/Ontology worker and kept UI, SPARQL mutation, self-study and learner-state out of scope."},
     {"at":"2026-08-27T11:04:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T110400+0200","reason":"Claimed the Issue #84 semantic-authoring foundation worker turn."},
     {"at":"2026-08-27T11:16:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T110400+0200","reason":"Published draft PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 with the bounded validated semantic-authoring foundation, structured diagnostics, deterministic preview/promotion review artifacts, tests/docs/handoff and no canonical/Fuseki/browser mutation; returned for exact-head validator before owner acceptance or merge."},
-    {"at":"2026-08-27T11:35:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T113500+0200","reason":"Authoritative validator failed PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 in the no-op authoring determinism test; manager traced the mismatch to canonical Dataset fingerprint instability across independent fresh assemblies, documented the defect on PR #85, rejected any hard-coded-test workaround and assigned a bounded canonical fingerprint determinism repair."}
+    {"at":"2026-08-27T11:35:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T113500+0200","reason":"Authoritative validator failed PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 in the no-op authoring determinism test; manager traced the mismatch to canonical Dataset fingerprint instability across independent fresh assemblies, documented the defect on PR #85, rejected any hard-coded-test workaround and assigned a bounded canonical fingerprint determinism repair."},
+    {"at":"2026-08-27T11:42:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T114200+0200","reason":"Claimed the bounded Issue #84 canonical Dataset fingerprint determinism repair worker turn after the exact-head validator exposed instability across fresh RDF Dataset assemblies."}
   ]
 }
