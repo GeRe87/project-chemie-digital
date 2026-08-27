@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 32,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 86,
-  "expectedDeliverable": "PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a has authoritative validator success. Owner screenshot review proved the previous browser-acceptance wording was partly inapplicable to the real canonical path: compile_scene_document currently emits disclosure.mode=initial for every canonical block, so no optional/progressive disclosure controls are expected in the real Standardabweichung demonstrator; those adapter semantics are covered by deterministic synthetic tests. The canonical exercise scene does contain an AudiencePoll prompt with responseMode=single-choice and options Messreihe A/Messreihe B, so the remaining owner browser gate is to jump to section 9 and confirm two radio controls appear in JavaScript-enhanced mode, selecting one then reloading clears the selection, and disabling JavaScript leaves the full prompt/options/code/static content readable. If section 9 has no radio controls in JavaScript-enabled mode, treat that as a browser-enhancement defect and assign a bounded worker repair. Do not merge before this corrected owner gate succeeds.",
-  "lastCompletedTurn": "manager: reviewed the owner screenshot of PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a and did not accept it yet. Verified from the canonical compiler that all current real SceneBlocks are compiled with disclosure mode initial, so the earlier request to see expandable optional/progressive content in the canonical browser view was incorrect. Verified the canonical ninth exercise scene includes a single-choice AudiencePoll prompt (Messreihe A/Messreihe B), while the renderer maps interactive single-choice prompts to radio inputs. Remaining diagnostic is therefore whether those radio controls appear in section 9; absence there would prove the enhancement layer is not active or not mounting the prompt correctly.",
-  "lastUpdated": "2026-08-27T15:52:00+02:00",
+  "expectedDeliverable": "Repair PR #87 on branch agent/86-self-study-renderer after owner browser review of validated exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a. Preserve the confirmed-correct canonical prompt behavior: section 9 single-choice radio controls are selectable and selection resets on reload; do not add correctness feedback, persistence, or new disclosure semantics. Fix the real navigation defect caused by duplicate self-study-section ids existing simultaneously in the hidden static fallback and the enhanced render after successful JavaScript mount. Preserve complete static/no-JS fallback before enhancement and on enhancement failure. Add deterministic regression proving successful enhancement cannot leave duplicate/hidden anchor targets shadowing visible sections. Publish a new exact PR head and return to manager for fresh authoritative agent-validator/project-chemie-digital success, then repeat only the owner navigation and JS-disabled fallback checks before merge.",
+  "lastCompletedTurn": "manager: reviewed owner browser evidence on PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a. Confirmed the canonical section-9 single-choice prompt is correctly enhanced to radio controls and its selection resets on reload, satisfying the ephemeral-state requirement; no correctness feedback is expected in Issue #86. Isolated the remaining browser defect to navigation anchors: the generated static fallback stays hidden in the DOM with the same section ids as the enhanced render, so hash links can resolve to hidden duplicate targets. Documented a bounded lifecycle repair on PR #87 and assigned it to the Frontend and Reveal Renderer Engineer.",
+  "lastUpdated": "2026-08-27T16:15:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Corrected owner browser gate remains: on validated exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a, section 9 must show the canonical single-choice poll as radio controls in JavaScript-enabled mode; selection must reset on reload; JavaScript-disabled mode must retain complete readable static content."
-  ],
-  "stateRevision": 417,
+  "blockedBy": [],
+  "stateRevision": 418,
   "transitionHistory": [
     {"at":"2026-08-27T12:09:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T115800+0200","reason":"Published PR #85 exact head 011632492cb63a20d19f1921049fb5c0cb74758b after correcting the duplicate-module semantic-authoring test boundary and adding explicit scene-graph isomorphism/triple-count, semantic-delta and compiler-purity regressions; production authoring/fingerprint/Fuseki/browser code was not changed by this second repair."},
     {"at":"2026-08-27T12:22:56+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T122256+0200","reason":"Third validator run proved scene checkout/reparse isomorphism is green but the no-op Dataset equality still differs only across the SHACL-validation boundary. Traced the consistent pre-validation ed9d... versus post-validation 132e... hashes to validate_dataset passing the live shapes graph into pySHACL; assigned a bounded validation-purity repair without weakening fingerprint equality."},
@@ -36,6 +34,7 @@
     {"at":"2026-08-27T15:37:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T153700+0200","reason":"Claimed the bounded Issue #86 block-kind-aware static-fallback test-contract repair worker turn."},
     {"at":"2026-08-27T15:41:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T153700+0200","reason":"Published repaired PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with only the block-kind-aware static-fallback test contract changed; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."},
     {"at":"2026-08-27T15:46:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T154600+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a; only owner browser acceptance remains before merge."},
-    {"at":"2026-08-27T15:52:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T155200+0200","reason":"Reviewed owner screenshot and corrected the #86 browser gate: canonical compiler currently emits only initial disclosure, so no expanders are expected in the real path; remaining owner check is the canonical section-9 single-choice poll radio controls, reload reset, and JS-disabled static fallback."}
+    {"at":"2026-08-27T15:52:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T155200+0200","reason":"Reviewed owner screenshot and corrected the #86 browser gate: canonical compiler currently emits only initial disclosure, so no expanders are expected in the real path; remaining owner check is the canonical section-9 single-choice poll radio controls, reload reset, and JS-disabled static fallback."},
+    {"at":"2026-08-27T16:15:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T161500+0200","reason":"Owner confirmed the canonical section-9 radio prompt works and resets on reload, but navigation links do not navigate. Isolated the browser defect to duplicate section ids retained simultaneously in hidden static fallback and enhanced DOM; assigned a bounded lifecycle/navigation repair without changing prompt, disclosure or semantic behavior."}
   ]
 }
