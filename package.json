@@ -34,7 +34,7 @@
     "generate:self-study": "python scripts/generate_canonical_runtime.py --output apps/self-study/src/generated/canonical-runtime.json && node --experimental-strip-types apps/self-study/scripts/generate-static.mts",
     "test:self-study": "npm run generate:self-study && node --experimental-strip-types --test apps/self-study/test/*.test.ts",
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
-    "self-study:dev": "npm run generate:self-study && vite apps/self-study --host 127.0.0.1",
+    "self-study:dev": "npm run generate:self-study && vite apps/self-study --host 127.0.0.1 --port 4174 --strictPort",
     "poll:demo": "python scripts/limesurvey_poll_proxy.py --demo",
     "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
   },
