@@ -2,7 +2,7 @@
   "name": "project-chemie-digital",
   "version": "0.0.0",
   "private": true,
-  "description": "Semantic learning-content platform with Reveal.js as a presentation renderer.",
+  "description": "Semantic learning-content platform with Reveal.js and self-study renderers.",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -29,10 +29,13 @@
     "test:semantic-client": "node --experimental-strip-types --test packages/semantic-client/test/*.test.mts",
     "test:renderer-reveal": "npm --workspace @project-chemie-digital/renderer-reveal test",
     "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
+    "test:renderer-self-study": "npm --workspace @project-chemie-digital/renderer-self-study test",
     "test:pitch": "npm --workspace @project-chemie-digital/pitch test",
+    "test:self-study": "npm --workspace @project-chemie-digital/self-study test",
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
+    "self-study:dev": "npm --workspace @project-chemie-digital/self-study run dev",
     "poll:demo": "python scripts/limesurvey_poll_proxy.py --demo",
-    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run generate:runtime && npm run check:runtime && npm run test:pitch"
+    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
   },
   "engines": {
     "node": ">=22"
