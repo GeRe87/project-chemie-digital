@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 31,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 84,
-  "expectedDeliverable": "Collect owner local semantic-authoring acceptance for draft PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1. Authoritative agent-validator/project-chemie-digital success and GitHub mergeable true are confirmed on this unchanged head. Owner must pull/reset to the exact branch head, then run authoring:checkout -- --force, authoring:validate, authoring:preview, authoring:prepare-promotion and git status --short. Require conforming validation with no diagnostics, successful renderer-neutral preview, ready-for-human-review promotion with canonicalWritePerformed false, and no source/canonical working-tree changes caused by authoring. Do not merge or start later Phase 3 work until this owner gate succeeds.",
-  "lastCompletedTurn": "manager: confirmed PR #85 remains on exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1, GitHub mergeability is true, and authoritative agent-validator/project-chemie-digital is success on that head with dependency-bootstrap and repository-wide project-validation both successful. Documented the validator-green state on PR #85; only the owner local semantic-authoring checkout/validate/preview/promotion/git-status acceptance remains before merge.",
-  "lastUpdated": "2026-08-27T12:35:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "On the next separate manager turn, select and bound Phase 3 backlog item 34: add the self-study renderer. Do not start that work in the same turn that completed Issue #84 / PR #85.",
+  "lastCompletedTurn": "manager: accepted owner local semantic-authoring evidence on PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1, confirmed authoritative agent-validator/project-chemie-digital success and no open review threads, documented owner acceptance, marked the PR ready for review, squash-merged it as eb989c265fdff47f0e4ce7f5d56c563454c50216 with exact-head protection, and confirmed Issue #84 closed as completed.",
+  "lastUpdated": "2026-08-27T12:45:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Owner must complete the local semantic-authoring checkout/validate/preview/prepare-promotion/git-status acceptance on PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1 before merge."
-  ],
-  "stateRevision": 404,
+  "blockedBy": [],
+  "stateRevision": 405,
   "transitionHistory": [
     {"at":"2026-08-27T10:41:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T103300+0200","reason":"Published repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119 with standards-compatible N-Quads literal escaping and parse-roundtrip regressions."},
     {"at":"2026-08-27T10:44:30+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T104430+0200","reason":"Confirmed authoritative validator success on repaired PR #83 exact head 453a423316db6c16739b1dfad87a0f5890569119; owner local Fuseki acceptance remained."},
@@ -35,6 +33,7 @@
     {"at":"2026-08-27T12:22:56+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T122256+0200","reason":"Third validator run proved scene checkout/reparse isomorphism is green but the no-op Dataset equality still differs only across the SHACL-validation boundary. Traced the consistent pre-validation ed9d... versus post-validation 132e... hashes to validate_dataset passing the live shapes graph into pySHACL; assigned a bounded validation-purity repair without weakening fingerprint equality."},
     {"at":"2026-08-27T12:26:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T122600+0200","reason":"Claimed the bounded Issue #84 SHACL validation-purity repair worker turn."},
     {"at":"2026-08-27T12:31:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T122600+0200","reason":"Published PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1 with a detached SHACL validation boundary and explicit fingerprint/graph/quad/shapes observational-purity regression; returned for fresh exact-head validation before owner acceptance or merge."},
-    {"at":"2026-08-27T12:35:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T123500+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1; only owner local semantic-authoring acceptance remains before merge."}
+    {"at":"2026-08-27T12:35:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T123500+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #85 exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1; only owner local semantic-authoring acceptance remains before merge."},
+    {"at":"2026-08-27T12:45:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260827T124500+0200","reason":"Accepted owner local semantic-authoring evidence, documented the gate on PR #85, confirmed exact-head validator success and no open review threads, marked the PR ready, squash-merged exact head 77dfc816fcd9b480408a5b7b8c7f0abd912f4ca1 as eb989c265fdff47f0e4ce7f5d56c563454c50216, and confirmed Issue #84 completed."}
   ]
 }
