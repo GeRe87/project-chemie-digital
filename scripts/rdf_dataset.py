@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from rdflib import BNode, Dataset, RDF, URIRef
+from rdflib import BNode, Dataset, Literal, RDF, URIRef
 from rdflib.compare import to_canonical_graph
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,14 +55,58 @@ def validate_dataset_contract(dataset: Dataset) -> None:
                 raise ValueError(f"Canonical subject is defined in multiple owned graphs: {subject}")
 
 
+def _escape_nquads_literal(value: str) -> str:
+    """Escape an RDF literal lexical form for N-Triples/N-Quads short-string syntax.
+
+    RDFLib ``Literal.n3()`` may choose Turtle/TriG triple-quoted long strings for
+    multiline values. N-Quads does not permit that syntax, so the canonical snapshot
+    writer deliberately uses quoted short strings and ECHAR/UCHAR escapes instead.
+    """
+    escapes = {
+        "\\": "\\\\",
+        '"': '\\"',
+        "\t": "\\t",
+        "\b": "\\b",
+        "\n": "\\n",
+        "\r": "\\r",
+        "\f": "\\f",
+    }
+    encoded: list[str] = []
+    for character in value:
+        escaped = escapes.get(character)
+        if escaped is not None:
+            encoded.append(escaped)
+            continue
+        codepoint = ord(character)
+        if codepoint < 0x20 or codepoint == 0x7F:
+            encoded.append(f"\\u{codepoint:04X}")
+            continue
+        encoded.append(character)
+    return "".join(encoded)
+
+
+def _nquads_term(term: object) -> str:
+    """Serialize one RDF term using syntax accepted by an N-Quads parser."""
+    if isinstance(term, Literal):
+        lexical = f'"{_escape_nquads_literal(str(term))}"'
+        if term.language:
+            return f"{lexical}@{term.language}"
+        if term.datatype:
+            return f"{lexical}^^{term.datatype.n3()}"
+        return lexical
+    if isinstance(term, (URIRef, BNode)):
+        return term.n3()
+    raise TypeError(f"Unsupported RDF term for N-Quads serialization: {term!r}")
+
+
 def canonical_nquads(dataset: Dataset) -> str:
     rows: list[str] = []
     for graph_id in populated_graph_ids(dataset):
         graph = dataset.graph(graph_id)
         canonical = to_canonical_graph(graph)
-        gid = f"<{graph_id}>"
+        gid = _nquads_term(graph_id)
         rows.extend(
-            f"{subject.n3()} {predicate.n3()} {obj.n3()} {gid} ."
+            f"{_nquads_term(subject)} {_nquads_term(predicate)} {_nquads_term(obj)} {gid} ."
             for subject, predicate, obj in canonical
         )
     return "\n".join(sorted(rows)) + "\n"
