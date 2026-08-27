@@ -6,7 +6,7 @@ import hashlib
 from pathlib import Path
 
 from rdflib import BNode, Dataset, Literal, RDF, URIRef
-from rdflib.compare import to_canonical_graph
+from rdflib.compare import to_canonical_graph, to_isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_TRIG = tuple(sorted((ROOT / "ontology" / "dataset").glob("*.trig")))
@@ -100,6 +100,12 @@ def _nquads_term(term: object) -> str:
 
 
 def canonical_nquads(dataset: Dataset) -> str:
+    """Serialize the Dataset as valid deterministic-within-assembly N-Quads.
+
+    This representation is used for the local Fuseki snapshot. Blank-node labels are
+    canonicalized per named graph before serialization, while literal lexical forms use
+    N-Quads-compatible escaping.
+    """
     rows: list[str] = []
     for graph_id in populated_graph_ids(dataset):
         graph = dataset.graph(graph_id)
@@ -112,5 +118,29 @@ def canonical_nquads(dataset: Dataset) -> str:
     return "\n".join(sorted(rows)) + "\n"
 
 
+def _isomorphic_graph_digest(dataset: Dataset, graph_id: URIRef) -> str:
+    """Return an isomorphism-invariant digest for one named graph.
+
+    RDF blank-node identifiers are parser-local and must never participate directly in
+    an authoring stale-base fingerprint. RDFLib's IsomorphicGraph digest implements a
+    blank-node-aware graph digest; the named graph IRI is incorporated separately by
+    ``dataset_fingerprint`` so moving identical triples between graphs changes the
+    Dataset identity.
+    """
+    digest = to_isomorphic(dataset.graph(graph_id)).graph_digest()
+    return format(digest, "x")
+
+
 def dataset_fingerprint(dataset: Dataset) -> str:
-    return hashlib.sha256(canonical_nquads(dataset).encode("utf-8")).hexdigest()
+    """Return a stable SHA-256 identity for the logical named RDF Dataset.
+
+    The fingerprint is intentionally not a hash of serialized blank-node labels.
+    Instead it hashes the ordered mapping of each populated named-graph IRI to an
+    isomorphism-invariant graph digest. This keeps SHACL blank nodes and graph identity
+    in scope while remaining stable across independent fresh TriG parses.
+    """
+    records = [
+        f"{_nquads_term(graph_id)}\t{_isomorphic_graph_digest(dataset, graph_id)}\n"
+        for graph_id in populated_graph_ids(dataset)
+    ]
+    return hashlib.sha256("".join(records).encode("utf-8")).hexdigest()
