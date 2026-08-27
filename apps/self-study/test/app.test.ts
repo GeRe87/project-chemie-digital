@@ -2,7 +2,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { createLearnerStateDocument } from "../../../packages/learner-state/src/index.ts";
 import { createSelfStudyRenderPlan, type SelfStudyNodePlan } from "../../../packages/renderer-self-study/src/index.ts";
+import type { SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
+import {
+  createSelfStudyLearnerRuntime,
+  restoreSelfStudyLearnerStateAtomically,
+} from "../src/learner-state.ts";
 
 const appRoot = new URL("../", import.meta.url);
 
@@ -48,7 +54,7 @@ test("generated static-first shell contains all self-study leaf fallback content
 });
 
 test("browser app has no semantic-store, persistence, account or telemetry integration", async () => {
-  for (const path of ["src/main.ts", "src/scene-data.ts", "scripts/generate-static.mts"]) {
+  for (const path of ["src/main.ts", "src/scene-data.ts", "src/learner-state.ts", "scripts/generate-static.mts"]) {
     const source = await readFile(new URL(path, appRoot), "utf8");
     assert.doesNotMatch(source, /Fuseki|SPARQL|localStorage|indexedDB|document\.cookie|telemetry|analytics|account|fetch\s*\(/i);
   }
@@ -80,4 +86,44 @@ test("static fallback stays present when enhancement is unavailable", async () =
   assert.match(index, /id="self-study-enhanced"[^>]*hidden/);
   assert.match(main, /fallbackRoot\.hidden = true/);
   assert.match(main, /catch \(error\)[\s\S]*fallbackRoot\.hidden = false/);
+});
+
+test("learner-state runtime is derived only from renderer source identities", async () => {
+  const artifact = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8")) as RuntimeArtifact;
+  const plans = artifact.sceneDocuments.map((documentValue) => createSelfStudyRenderPlan(documentValue).plan!);
+  const runtime = createSelfStudyLearnerRuntime(artifact.datasetFingerprint, plans);
+  assert.equal(runtime.datasetFingerprint, artifact.datasetFingerprint);
+  assert.deepEqual(runtime.documents.map((item) => item.documentId), plans.map((plan) => plan.sourceDocumentId));
+  for (const [index, documentValue] of runtime.documents.entries()) {
+    assert.deepEqual(documentValue.sceneIds, plans[index]!.sections.map((section) => section.sourceSceneId));
+    assert.ok(documentValue.blocks.every((block) => block.sceneId && block.blockId));
+  }
+});
+
+test("restore preflights every controller before applying any learner-state mutation", () => {
+  let commits = 0;
+  const first: SelfStudyController = {
+    sourceDocumentId: "doc:first",
+    captureLearnerState: () => ({ documentId: "doc:first", promptResponses: [], disclosures: [] }),
+    prepareLearnerStateRestore: () => () => { commits += 1; },
+    destroy: () => undefined,
+  };
+  const second: SelfStudyController = {
+    sourceDocumentId: "doc:second",
+    captureLearnerState: () => ({ documentId: "doc:second", promptResponses: [], disclosures: [] }),
+    prepareLearnerStateRestore: () => { throw new Error("preflight failed"); },
+    destroy: () => undefined,
+  };
+  const documentValue = createLearnerStateDocument("sha256:test", []);
+  assert.throws(() => restoreSelfStudyLearnerStateAtomically(documentValue, [first, second]), /preflight failed/);
+  assert.equal(commits, 0);
+});
+
+test("explicit learner-state chrome is local-file based and reload remains ephemeral", async () => {
+  const source = await readFile(new URL("src/learner-state.ts", appRoot), "utf8");
+  assert.match(source, /Lernstand exportieren/);
+  assert.match(source, /Lernstand importieren/);
+  assert.match(source, /new Blob/);
+  assert.match(source, /file\.text\(\)/);
+  assert.doesNotMatch(source, /beforeunload|pagehide|visibilitychange/i);
 });
