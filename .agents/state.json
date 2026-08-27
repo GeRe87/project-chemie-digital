@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 32,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 86,
-  "expectedDeliverable": "Finalize PR #87 only if exact head 91ae13cc3df78daec87551a5616fb27c41b4674a remains unchanged, authoritative validator remains successful, mergeability is clean, no review blockers are open, and owner browser acceptance is documented. Then mark ready, squash-merge with expected-head protection, confirm Issue #86 closes, and return dispatcher to ready manager for the next Phase 3 backlog item.",
-  "lastCompletedTurn": "manager: owner confirmed repaired navigation and JavaScript-disabled static fallback are both clean on exact head 91ae13cc3df78daec87551a5616fb27c41b4674a. Browser acceptance is now complete; merge preflight is in progress.",
-  "lastUpdated": "2026-08-27T16:41:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "Issue #86 / Phase 3 backlog item 34 is complete. PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a passed authoritative validation and owner browser acceptance, then squash-merged as eeef71a09aa0efd5d94dc63efdb5e3c9652afb95. Next separate manager turn should scope Phase 3 backlog item 35 (learner-state export/persistence boundary) without starting implementation in the same turn.",
+  "lastCompletedTurn": "manager: documented final owner browser acceptance, confirmed no open review threads, marked PR #87 ready, revalidated exact head 91ae13cc3df78daec87551a5616fb27c41b4674a with agent-validator success and mergeable true, squash-merged it as eeef71a09aa0efd5d94dc63efdb5e3c9652afb95, and confirmed Issue #86 closed as completed.",
+  "lastUpdated": "2026-08-27T16:48:00+02:00",
   "lease": {
-    "owner": "interactive-manager-20260827T164100+0200",
-    "claimedAt": "2026-08-27T16:41:00+02:00",
-    "expiresAt": "2026-08-27T18:41:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 422,
+  "stateRevision": 423,
   "transitionHistory": [
     {"at":"2026-08-27T12:58:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T124800+0200","reason":"Created Issue #86 for a deterministic accessible self-study renderer foundation and standalone browser demonstrator over SceneDocument 1.0; assigned Frontend and Reveal Renderer Engineer while explicitly deferring learner-state persistence and new pedagogical/scientific content."},
     {"at":"2026-08-27T13:00:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T130000+0200","reason":"Claimed the Issue #86 self-study renderer foundation worker turn."},
@@ -32,6 +32,7 @@
     {"at":"2026-08-27T16:16:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T161600+0200","reason":"Claimed the bounded Issue #86 duplicate-anchor lifecycle/navigation repair worker turn."},
     {"at":"2026-08-27T16:20:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T161600+0200","reason":"Published PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a with the bounded successful-enhancement fallback-subtree removal and deterministic lifecycle regression, preserving failure/no-JavaScript fallback and confirmed prompt behavior; returned for fresh exact-head validation before owner retest."},
     {"at":"2026-08-27T16:38:15+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T163815+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head 91ae13cc3df78daec87551a5616fb27c41b4674a; only repaired navigation and JavaScript-disabled static-fallback owner checks remain before merge."},
-    {"at":"2026-08-27T16:41:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260827T164100+0200","reason":"Owner confirmed final navigation and no-JavaScript static-fallback browser gates on exact head 91ae13cc3df78daec87551a5616fb27c41b4674a; claimed final merge-preflight turn."}
+    {"at":"2026-08-27T16:41:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-manager-20260827T164100+0200","reason":"Owner confirmed final navigation and no-JavaScript static-fallback browser gates on exact head 91ae13cc3df78daec87551a5616fb27c41b4674a; claimed final merge-preflight turn."},
+    {"at":"2026-08-27T16:48:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260827T164100+0200","reason":"Documented owner browser acceptance, confirmed exact-head validator success and no review blockers, marked PR #87 ready, squash-merged exact head 91ae13cc3df78daec87551a5616fb27c41b4674a as eeef71a09aa0efd5d94dc63efdb5e3c9652afb95, and confirmed Issue #86 completed."}
   ]
 }
