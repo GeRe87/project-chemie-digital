@@ -143,9 +143,14 @@ test("static fallback exposes all leaf authored content and never relies on deta
         assert.ok(html.includes(`href="${escapeHtmlProbe(node.uri)}"`), `missing media href ${node.sourceBlockId}`);
         continue;
       }
+      if (node.kind === "math") {
+        assert.ok(html.includes(`<code>${escapeHtmlProbe(node.expression)}</code>`), `missing math expression ${node.sourceBlockId}`);
+        assert.ok(html.includes(`aria-label="${escapeHtmlProbe(node.spokenText)}"`), `missing math spoken text ${node.sourceBlockId}`);
+        continue;
+      }
       const probe = node.staticFallback.slice(0, Math.min(20, node.staticFallback.length));
       const escaped = escapeHtmlProbe(probe);
-      assert.ok(html.includes(escaped) || html.includes(probe), `missing leaf fallback ${node.sourceBlockId}`);
+      assert.ok(html.includes(escaped) || html.includes(probe), `missing visible fallback ${node.sourceBlockId}`);
     }
   }
   assert.match(html, /Begleitmaterial/);
