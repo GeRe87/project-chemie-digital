@@ -1,0 +1,21 @@
+{
+  "name": "@project-chemie-digital/self-study",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "python ../../scripts/generate_canonical_runtime.py --output apps/self-study/src/generated/canonical-runtime.json && node --experimental-strip-types scripts/generate-static.mts",
+    "dev": "npm run generate && vite --host 127.0.0.1",
+    "test": "npm run generate && node --experimental-strip-types --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@project-chemie-digital/core": "0.0.0",
+    "@project-chemie-digital/renderer-self-study": "0.0.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
