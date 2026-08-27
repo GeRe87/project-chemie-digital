@@ -65,6 +65,15 @@ function leafNodes(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
   return nodes.flatMap((node) => node.kind === "group" ? leafNodes(node.children) : [node]);
 }
 
+function escapeHtmlProbe(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 test("same SceneDocument produces byte-identical self-study render plans", async () => {
   const document = await fixture();
   const first = createSelfStudyRenderPlan(document);
@@ -129,8 +138,13 @@ test("static fallback exposes all leaf authored content and never relies on deta
   for (const section of plan.sections) {
     assert.ok(html.includes(section.semanticLabel));
     for (const node of leafNodes(section.nodes)) {
+      if (node.kind === "media-reference") {
+        assert.ok(html.includes(`>${escapeHtmlProbe(node.alternativeText)}</a>`), `missing media alternative text ${node.sourceBlockId}`);
+        assert.ok(html.includes(`href="${escapeHtmlProbe(node.uri)}"`), `missing media href ${node.sourceBlockId}`);
+        continue;
+      }
       const probe = node.staticFallback.slice(0, Math.min(20, node.staticFallback.length));
-      const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      const escaped = escapeHtmlProbe(probe);
       assert.ok(html.includes(escaped) || html.includes(probe), `missing leaf fallback ${node.sourceBlockId}`);
     }
   }
