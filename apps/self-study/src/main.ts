@@ -1,5 +1,5 @@
 import "./styles.css";
-import { createSelfStudyRenderPlan } from "@project-chemie-digital/renderer-self-study";
+import { createSelfStudyRenderPlan } from "../../../packages/renderer-self-study/src/index.ts";
 import { mountSelfStudyRenderPlan, type SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
 import { canonicalSelfStudySceneDocuments } from "./scene-data.ts";
 
