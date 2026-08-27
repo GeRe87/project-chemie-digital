@@ -45,90 +45,27 @@ A draft is a complete candidate replacement for that one graph, not a patch. Che
 
 Candidate assembly starts from the current canonical Dataset and replaces the supported scene graph **in memory only**.
 
-It rejects:
-
-- stale base Dataset fingerprints;
-- default-graph data;
-- wrong graph identity;
-- multiple populated named graphs;
-- malformed TriG;
-- unsupported metadata/target identities.
+It rejects stale base Dataset fingerprints, default-graph data, wrong graph identity, multiple populated named graphs, malformed TriG and unsupported metadata/target identities.
 
 No command writes `ontology/dataset/`, Git, GitHub or Fuseki.
 
 ### Existing Dataset contract and SHACL policy reused
 
-`scripts/validate_semantics.py` now exposes:
-
-```python
-validate_dataset(dataset)
-```
-
-using the same pySHACL configuration already used by canonical `check:semantics`:
-
-- existing shapes graph;
-- RDFS inference;
-- no warning/info acceptance relaxation;
-- meta-SHACL enabled;
-- full report rather than abort-on-first.
-
-The existing canonical `run_validation()` and CLI behavior remain on top of this same function.
-
-Authoring therefore does not maintain a parallel rule set.
+`scripts/validate_semantics.py` exposes `validate_dataset(dataset)` using the same pySHACL configuration already used by canonical `check:semantics`: existing shapes graph, RDFS inference, no warning/info relaxation, meta-SHACL enabled and full report behavior. Authoring therefore does not maintain a parallel rule set.
 
 ### Structured validation feedback
 
-A validation writes:
-
-```text
-validation.json
-validation.txt
-```
-
-The JSON result is authoritative for a future UI and contains deterministic diagnostics with:
-
-```text
-severity
-focusNode
-resultPath
-sourceShape
-sourceConstraintComponent
-value
-message[]
-```
-
-The pySHACL report graph is canonicalized before diagnostic extraction so blank-node-backed result identities are stable. Diagnostics/messages are sorted by RDF identity/path/message data rather than report iteration order.
+A validation writes `validation.json` and `validation.txt`. The JSON result is authoritative for a future UI and contains deterministic diagnostics with severity, focus node, result path, source shape, source constraint component, value and message data. The pySHACL report graph is canonicalized before diagnostic extraction.
 
 `packages/semantic-client/src/authoring-contract.mts` defines matching renderer-neutral TypeScript contracts and explicit `1.0` versions. It contains no Fuseki mutation or browser behavior.
 
 ### Deterministic renderer-neutral preview
 
-For a conforming draft, `authoring:preview` calls the existing:
-
-```python
-generate_canonical_runtime.py::compile_scene_document(candidate_dataset)
-```
-
-and writes only:
-
-```text
-.local/authoring/standard-deviation-scenes/preview.scene-document.json
-```
-
-It does not replace the normal generated runtime artifact. A no-op draft therefore compiles to the same semantic `SceneDocument` as the canonical Dataset.
+For a conforming draft, `authoring:preview` calls the existing `generate_canonical_runtime.py::compile_scene_document(candidate_dataset)` and writes only `.local/authoring/standard-deviation-scenes/preview.scene-document.json`. It does not replace the normal generated runtime artifact.
 
 ### Review-only promotion preparation
 
-`authoring:prepare-promotion` requires a non-stale conforming draft and writes a deterministic manifest containing:
-
-- exact base Dataset fingerprint;
-- target graph IRI;
-- candidate file SHA-256;
-- candidate Dataset fingerprint;
-- validation report SHA-256/conformance;
-- preview SHA-256/SceneDocument identity;
-- `status: ready-for-human-review`;
-- `canonicalWritePerformed: false`.
+`authoring:prepare-promotion` requires a non-stale conforming draft and writes a deterministic manifest containing exact base Dataset fingerprint, target graph IRI, candidate file SHA-256, candidate Dataset fingerprint, validation report identity, preview identity, `status: ready-for-human-review` and `canonicalWritePerformed: false`.
 
 There is intentionally no automatic promote/write/commit/push/SPARQL Update command.
 
@@ -143,66 +80,63 @@ npm run authoring:prepare-promotion
 
 Detailed behavior and cleanup are documented in `docs/semantic-authoring.md`.
 
-## Automated regression coverage added
+## Automated regression coverage
 
 `tests/test_semantic_authoring.py` covers:
 
-1. valid no-op checkout validates with no diagnostics;
-2. no-op candidate Dataset fingerprint equals the canonical Dataset fingerprint;
-3. no-op preview equals the canonical compiled SceneDocument;
-4. validation, preview and promotion outputs are byte/digest deterministic across repeated runs;
-5. authoring commands leave every canonical TriG source byte-identical;
-6. stale base fingerprints fail closed;
-7. wrong and multiple named-graph candidates fail closed;
-8. default-graph data fails closed;
-9. a deliberately invalid scene item with missing `cd:selectionPath` produces structured SHACL violation feedback containing stable focus/path/source identities;
-10. invalid drafts cannot produce preview or promotion artifacts.
+1. checkout candidate reparses to the same target-scene triple count and an RDF-isomorphic graph;
+2. no-op rebuilt candidate Dataset fingerprint equals the canonical Dataset fingerprint;
+3. `compile_scene_document()` leaves the supplied Dataset fingerprint unchanged;
+4. valid no-op checkout validates with no diagnostics;
+5. no-op preview equals the canonical compiled SceneDocument;
+6. validation, preview and promotion outputs are byte/digest deterministic across repeated runs;
+7. authoring commands leave every canonical TriG source byte-identical;
+8. stale base fingerprints fail closed;
+9. wrong and multiple named-graph candidates fail closed;
+10. default-graph data fails closed;
+11. a deliberately invalid scene item produces structured SHACL violation feedback and cannot preview/promote.
 
 `packages/semantic-client/test/authoring-contract.test.mts` guards the explicit contract versions.
 
-Because these tests are discovered by the existing Python/semantic-client test commands, ordinary root `npm test` remains service-free and network-free with respect to authoring. No authoring test requires Fuseki to be prepared or running.
+Because these tests are discovered by the existing Python/semantic-client test commands, ordinary root `npm test` remains Fuseki-service-free and authoring-network-free with respect to authoring. No authoring test requires Fuseki to be prepared or running.
 
-## Exact-head validator repair: stable Dataset identity across fresh parses
+## First validator repair — stable Dataset identity across fresh parses
 
-The first published PR head `2884c9615c932867958949ebaadfca1e225a6900` failed the authoritative validator in the no-op authoring determinism test. Two independently assembled but semantically identical canonical Datasets produced different SHA-256 fingerprints. The failure exposed a real stale-base contract defect rather than an incorrect hard-coded expectation.
-
-Root cause boundary:
-
-- the previous `dataset_fingerprint()` hashed `canonical_nquads()` bytes;
-- canonical N-Quads intentionally materializes concrete blank-node labels after per-graph canonicalization;
-- SHACL graphs contain blank nodes, and concrete canonical labels are the wrong API-level identity primitive for an authoring stale-base token across independent parser instances.
+The first published PR head `2884c9615c932867958949ebaadfca1e225a6900` failed because independently fresh canonical Dataset assemblies could receive different stale-base fingerprints when the old implementation hashed concrete canonical N-Quads blank-node labels.
 
 Repair:
 
-- `canonical_nquads()` remains the valid N-Quads serializer used by the local Fuseki snapshot and retains the earlier multiline/control-character escaping fix;
-- `dataset_fingerprint()` is now deliberately separate from serialization;
-- for every populated named graph it computes RDFLib's blank-node-aware `IsomorphicGraph.graph_digest()`;
-- the final SHA-256 hashes the deterministic ordered mapping `named graph IRI -> isomorphism-invariant graph digest`;
-- therefore SHACL content remains in scope and moving identical triples to another named graph changes the fingerprint, while parser-local blank-node identifiers do not.
+- `canonical_nquads()` remains the valid Fuseki snapshot serializer and retains the multiline/control-character escaping repair;
+- `dataset_fingerprint()` is separate from concrete serialization;
+- every populated named graph contributes RDFLib's blank-node-aware `IsomorphicGraph.graph_digest()` together with its named-graph IRI;
+- SHACL content remains in scope, named-graph moves change Dataset identity, parser-local blank-node identifiers do not.
 
-Additional `tests/test_rdf_dataset.py` regressions now require:
+Additional `tests/test_rdf_dataset.py` regressions require independent fresh assemblies to converge, equivalent blank-node graphs to hash equally, distinct graph identities to hash differently, source-file-order independence and the valid N-Quads roundtrip to remain intact.
 
-1. four independent fresh `assemble_dataset()` calls to yield one fingerprint;
-2. equivalent graphs with different parser-local blank-node IDs to yield one fingerprint;
-3. identical triples in different named-graph IRIs to yield different fingerprints;
-4. source-file-order independence to remain true;
-5. the existing valid N-Quads literal/roundtrip regression to remain intact.
+## Second validator repair — one canonical test module boundary plus explicit RDF roundtrip proof
 
-The authoring no-op test is intentionally unchanged: it must still prove that an independently assembled canonical Dataset and a no-op authoring candidate have exactly the same logical Dataset fingerprint.
+The repaired head `cc072671d37ee06e7d0d23f9cfe53621a9749359` passed every new Dataset-fingerprint regression and all Fuseki N-Quads/Jena regressions. The only remaining failure was the no-op authoring equality assertion.
 
-No semantic source, SHACL rule, scene content, Fuseki write behavior or browser runtime was changed by this repair.
+The second investigation found that `tests/test_semantic_authoring.py` executed `scripts/rdf_dataset.py` and `scripts/generate_canonical_runtime.py` a second time under duplicate test-only module objects even though `semantic_authoring.py` had already imported the canonical repository modules normally. The failing assertion therefore compared workflow output against a parallel test module boundary rather than the exact module boundary used by the workflow.
+
+The second repair does not weaken semantic equality:
+
+- the test reuses the exact `rdf_dataset` and `generate_canonical_runtime` module instances imported through the authoring workflow;
+- checkout/reparse is explicitly required to preserve target graph triple count and RDF isomorphism;
+- failures produce deterministic canonical-row missing/added diagnostics;
+- the full rebuilt no-op candidate Dataset fingerprint must still equal the canonical Dataset fingerprint;
+- the scene compiler is explicitly required not to mutate Dataset identity;
+- the production fingerprint implementation from the first repair remains unchanged.
+
+A separate repair note is recorded in `.agents/handoffs/issue-84-roundtrip-repair.md`.
+
+No semantic source, SHACL rule, scene content, Fuseki write behavior or browser runtime was changed by either validator repair.
 
 ## Worker-side evidence and limitations
 
-Static branch/diff inspection confirms:
+Static branch/diff inspection confirms no file under `ontology/dataset/`, no Reveal/browser/pitch file and no Fuseki runtime/start/query implementation changed. The feature diff remains limited to authoring workflow/contracts/tests/docs, the small canonical-SHACL-policy reuse refactor, the Dataset-fingerprint repair and its test/handoff evidence.
 
-- no file under `ontology/dataset/` changed;
-- no Reveal/browser/pitch file changed;
-- no Fuseki runtime/start/query implementation changed;
-- `.local/` was already ignored before this increment;
-- the feature diff is limited to authoring workflow/contracts/tests/docs plus the small canonical-SHACL-policy reuse refactor and the bounded Dataset-fingerprint repair.
-
-A synthetic worker-side check confirmed that equivalent graphs carrying different explicit blank-node identifiers produce the same new graph-digest-based Dataset fingerprint. No repository-wide `npm test` result is claimed from this connector-oriented worker environment. The installed exact-head validator remains the authoritative automated merge gate.
+No repository-wide `npm test` result is claimed from this connector-oriented worker environment. The installed exact-head validator remains the authoritative automated merge gate.
 
 ## Owner acceptance after exact-head validator success
 
@@ -235,15 +169,4 @@ Remove-Item -Recurse -Force .local\authoring\standard-deviation-scenes
 
 ## Explicit non-goals preserved
 
-Not implemented:
-
-- automatic canonical TriG overwrite;
-- automatic commit/PR generation;
-- Fuseki/SPARQL mutation;
-- browser/CodeMirror TriG editor;
-- arbitrary specification/scientific-content editing;
-- ontology/SHACL authoring;
-- multi-user/concurrent authoring or merge conflict resolution;
-- self-study renderer;
-- learner-state export;
-- accounts, collaboration or telemetry.
+Not implemented: automatic canonical TriG overwrite, automatic commit/PR generation, Fuseki/SPARQL mutation, browser/CodeMirror TriG editor, arbitrary specification/scientific-content editing, ontology/SHACL authoring, multi-user/concurrent authoring, self-study renderer, learner-state export, accounts, collaboration or telemetry.
