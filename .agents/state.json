@@ -1,21 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 31,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 84,
-  "expectedDeliverable": "Repair the exact-head validator failure on draft PR #85. Diagnose and fix canonical Dataset fingerprint instability across independent fresh assemble_dataset() parses, rather than hard-coding or weakening the failing authoring test. Preserve valid N-Quads, named-graph identity, literal metadata, the multiline-literal/Jena repair, Fuseki read-only behavior, canonical TriG authority and authoring stale-base semantics. Add regressions proving repeated independent assemblies yield one deterministic fingerprint, keep no-op authoring candidate fingerprint equal to the canonical fingerprint, publish a new PR #85 head, and return to manager for a fresh exact-head validator before any owner acceptance or merge.",
-  "lastCompletedTurn": "manager: reviewed authoritative validator failure on PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900; isolated the sole failing new test and determined it exposes canonical Dataset fingerprint instability across independent fresh assemblies (038c8b... versus 956b9a...), which is a real stale-base contract defect rather than a test constant issue; documented the bounded repair on PR #85 and assigned the Semantic Web/Ontology worker to fix canonical fingerprint determinism without changing semantic content or merge policy",
-  "lastUpdated": "2026-08-27T11:42:00+02:00",
+  "expectedDeliverable": "Review repaired draft PR #85 exact head cc072671d37ee06e7d0d23f9cfe53621a9749359. Require a fresh authoritative agent-validator/project-chemie-digital success on that unchanged head. The repair separates stale-base Dataset identity from concrete N-Quads blank-node labels by hashing the ordered mapping of named-graph IRI to RDFLib isomorphism-invariant graph digest; verify the new independent-fresh-assembly, blank-node-ID and named-graph-identity regressions pass while existing Fuseki N-Quads/Jena regressions remain green. Only after validator success, collect the documented owner authoring checkout/validate/preview/prepare-promotion/git-status acceptance. Do not merge or start later Phase 3 items before both gates succeed.",
+  "lastCompletedTurn": "worker: repaired the PR #85 exact-head fingerprint determinism defect without hard-coding a hash or excluding SHACL graphs. dataset_fingerprint now hashes the deterministic ordered named-graph IRI -> RDFLib IsomorphicGraph.graph_digest mapping, while canonical_nquads remains the Fuseki snapshot serializer with the prior multiline/Jena escaping behavior. Added regressions for four independent fresh assemblies, parser-local blank-node ID invariance and named-graph identity sensitivity; kept the original no-op authoring fingerprint equality assertion unchanged; documented the repair in the handoff and PR body; published repaired exact head cc072671d37ee06e7d0d23f9cfe53621a9749359 without claiming repository-wide npm test or owner acceptance",
+  "lastUpdated": "2026-08-27T11:50:00+02:00",
   "lease": {
-    "owner": "interactive-worker-20260827T114200+0200",
-    "claimedAt": "2026-08-27T11:42:00+02:00",
-    "expiresAt": "2026-08-27T13:42:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 396,
+  "blockedBy": [
+    "Repaired PR #85 exact head cc072671d37ee06e7d0d23f9cfe53621a9749359 requires a fresh authoritative agent-validator/project-chemie-digital success.",
+    "After exact-head validator success, owner local semantic-authoring checkout/validate/preview/promotion acceptance remains required before merge."
+  ],
+  "stateRevision": 397,
   "transitionHistory": [
     {"at":"2026-08-26T14:27:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260826T142700+0200","reason":"Claimed the separate final Phase 2e end-to-end acceptance planning turn and selected QA/DevOps/Security/Accessibility as the verification role."},
     {"at":"2026-08-26T14:31:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260826T142700+0200","reason":"Created Issue #80 with the final canonical/static/connected/offline/fail-closed/accessibility/privacy acceptance matrix and assigned one QA/DevOps worker; no feature implementation or Phase 3 work was started."},
@@ -38,6 +41,7 @@
     {"at":"2026-08-27T11:04:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T110400+0200","reason":"Claimed the Issue #84 semantic-authoring foundation worker turn."},
     {"at":"2026-08-27T11:16:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T110400+0200","reason":"Published draft PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 with the bounded validated semantic-authoring foundation, structured diagnostics, deterministic preview/promotion review artifacts, tests/docs/handoff and no canonical/Fuseki/browser mutation; returned for exact-head validator before owner acceptance or merge."},
     {"at":"2026-08-27T11:35:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-manager-20260827T113500+0200","reason":"Authoritative validator failed PR #85 exact head 2884c9615c932867958949ebaadfca1e225a6900 in the no-op authoring determinism test; manager traced the mismatch to canonical Dataset fingerprint instability across independent fresh assemblies, documented the defect on PR #85, rejected any hard-coded-test workaround and assigned a bounded canonical fingerprint determinism repair."},
-    {"at":"2026-08-27T11:42:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T114200+0200","reason":"Claimed the bounded Issue #84 canonical Dataset fingerprint determinism repair worker turn after the exact-head validator exposed instability across fresh RDF Dataset assemblies."}
+    {"at":"2026-08-27T11:42:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260827T114200+0200","reason":"Claimed the bounded Issue #84 canonical Dataset fingerprint determinism repair worker turn after the exact-head validator exposed instability across fresh RDF Dataset assemblies."},
+    {"at":"2026-08-27T11:50:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T114200+0200","reason":"Published repaired PR #85 exact head cc072671d37ee06e7d0d23f9cfe53621a9749359 with isomorphism-invariant named-graph-aware Dataset fingerprinting and explicit fresh-assembly/blank-node/graph-identity regressions; preserved Fuseki N-Quads serialization and returned for a fresh exact-head validator before owner acceptance or merge."}
   ]
 }
