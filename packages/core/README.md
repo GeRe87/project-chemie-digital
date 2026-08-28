@@ -10,7 +10,9 @@ Generated JSON is disposable renderer transport only and must not become a paral
 
 ## Offline path and scene compilation
 
-The runtime generator resolves the canonical Standardabweichung path from the assembled Dataset, orders `cd:PathStep` resources by their positive integer `cd:position`, resolves the selected semantic resources and produces validated renderer-neutral `SceneDocument 1.0` values.
+The active Python runtime first validates a renderer-neutral course/unit/path selection against one assembled Dataset snapshot. Offering, placement and learning-unit identities are checked before an exact path IRI + named-graph reference is normalized. Omitted path selection is permitted only for a true singleton candidate set; ambiguous multi-path contexts fail closed.
+
+The selected path reference is then delegated explicitly to scene compilation. The compiler no longer chooses a `LearningPath` by requiring global Dataset cardinality to equal one. It orders only the selected path's `cd:PathStep` resources by their positive integer `cd:position`, resolves the referenced semantic resources and produces the existing renderer-neutral `SceneDocument 1.0` value. The TypeScript `ResolvedLearningPath` and scene contracts remain unchanged.
 
 Compilation preserves stable RDF identifiers, named-graph provenance, relation paths, reading order and accessible alternatives. It fails atomically for missing or ambiguous resources, invalid ordering, unsupported mappings or incomplete dependencies. The core performs no network access and contains no Reveal.js, React, HTML, CSS, browser or concrete renderer concepts.
 
