@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 36,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": "Next manager planning turn: continue Phase 4 after accepted Issue #94. Review current main, backlog and the Issue #94 handoff, then choose exactly one bounded follow-up. The worker handoff recommends first defining a renderer-neutral course/unit/path selection boundary between the typed course-scale query and the existing path resolver, using stable semantic identities only and without authored navigation RDF, learner progress, a replacement ResolvedPath/SceneDocument contract or LMS coupling.",
   "lastCompletedTurn": "manager: reviewed PR #95 against Issue #94 and ADR-0008, confirmed authoritative exact-head validator success, no review threads and the exact five-file semantic-client-only scope, documented manager acceptance after GitHub correctly rejected formal self-approval, marked the PR ready and explicitly squash-merged it with expected-head protection. Issue #94 closed as completed; post-merge audit confirmed the resulting squash commit has a single parent. No follow-up work was assigned in this merge turn.",
-  "lastUpdated": "2026-08-28T12:47:46+02:00",
+  "lastUpdated": "2026-08-28T12:53:29+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260828T125329+0200",
+    "claimedAt": "2026-08-28T12:53:29+02:00",
+    "expiresAt": "2026-08-28T14:53:29+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 448,
+  "stateRevision": 449,
   "transitionHistory": [
     {"at":"2026-08-28T10:00:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T095100+0200","reason":"Reviewed the Issue #88 result after correcting only owner acceptance choreography and returned it for authoritative exact-head validation before browser acceptance or merge."},
     {"at":"2026-08-28T10:32:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260828T103200+0200","reason":"Owner browser acceptance passed and PR #89 retained authoritative validator success; manager merged Issue #88 content, then post-merge audit detected a regular two-parent merge although workflow-config requires squash, so continuation remained blocked for explicit owner governance disposition."},
@@ -38,6 +38,7 @@
     {"at":"2026-08-28T12:31:29+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T122411+0200","reason":"Implemented the bounded Issue #94 semantic-client query/decoder, deterministic offline test coverage, opt-in Fuseki preflight extension, documentation and structured handoff, then opened draft PR #95. Returned control to the manager because the required external validator context is still missing on the current PR head; no self-acceptance or speculative follow-up change is permitted."},
     {"at":"2026-08-28T12:42:55+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T124255+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on the current PR #95 head, resolving the external validation blocker and making the Issue #94 manager review turn executable."},
     {"at":"2026-08-28T12:43:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T124335+0200","reason":"Claimed the Issue #94 manager review turn after exact-head validator success became authoritative, to review PR #95 against ADR-0008, the issue acceptance criteria and merge policy."},
-    {"at":"2026-08-28T12:47:46+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T124335+0200","reason":"Accepted the Issue #94 result after exact-head validator success and clean review, documented manager acceptance, marked PR #95 ready and explicitly squash-merged it with expected-head protection. Issue #94 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."}
+    {"at":"2026-08-28T12:47:46+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T124335+0200","reason":"Accepted the Issue #94 result after exact-head validator success and clean review, documented manager acceptance, marked PR #95 ready and explicitly squash-merged it with expected-head protection. Issue #94 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."},
+    {"at":"2026-08-28T12:53:29+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T125329+0200","reason":"Claimed the next Phase 4 planning turn to define the missing renderer-neutral course/unit/path selection and delegation boundary before changing the runtime generator's current single-LearningPath assumption."}
   ]
 }
