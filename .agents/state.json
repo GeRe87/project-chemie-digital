@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 33,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
-  "expectedDeliverable": "Human governance decision on the PR #89 merge-method policy deviation. Issue #88 itself is complete: the exact accepted head passed the required validator and owner browser gate and is present in main. The project configuration requires squash merging, but the merge API call omitted the explicit merge_method and GitHub created a two-parent merge commit. Do not assign further work until the owner decides whether to accept the existing history as-is or authorises a separately reviewed history-correction procedure.",
-  "lastCompletedTurn": "manager: documented owner browser acceptance for Issue #88, re-confirmed agent-validator/project-chemie-digital success on the unchanged exact PR head, marked PR #89 ready and merged it with an expected-head guard; Issue #88 closed as completed. Post-merge audit confirmed the content is merged but detected that GitHub created a regular merge commit although workflow-config requires squash, so workflow continuation is blocked for explicit governance disposition rather than attempting an unsafe history rewrite autonomously.",
-  "lastUpdated": "2026-08-28T10:32:00+02:00",
+  "expectedDeliverable": "Next manager planning turn: review current main, open issues, backlog and ADRs after completed Issue #88, then select exactly one bounded Phase 3 task and one worker role. Preserve the owner-approved decision to leave PR #89's existing regular merge commit unchanged; future merges must explicitly use the configured squash method.",
+  "lastCompletedTurn": "manager governance disposition: owner explicitly accepted the existing PR #89 regular merge commit as-is and declined any history rewrite. Issue #88 remains completed and merged. The merge-method deviation is recorded as a one-off accepted history exception; workflow continuation is unblocked, and future manager merges must pass merge_method squash explicitly.",
+  "lastUpdated": "2026-08-28T10:38:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "PR #89 was merged as a regular two-parent merge commit although .agents/workflow-config.json requires merge_method squash. The feature result is accepted and Issue #88 is closed, but the dispatcher requires an explicit owner governance decision before continuing; no autonomous history rewrite will be attempted."
-  ],
-  "stateRevision": 428,
+  "blockedBy": [],
+  "stateRevision": 429,
   "transitionHistory": [
     {"at":"2026-08-27T15:41:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T153700+0200","reason":"Published repaired PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with only the block-kind-aware static-fallback test contract changed; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."},
     {"at":"2026-08-27T15:46:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T154600+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a; only owner browser acceptance remains before merge."},
@@ -32,6 +30,7 @@
     {"at":"2026-08-27T17:00:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T165000+0200","reason":"Created Issue #88 for deterministic local learner-state JSON export/import as a separate bounded context; assigned Backend and Data Integration Engineer with strict stale-state compatibility, atomic import, privacy/offline and no-account/no-auto-persistence constraints."},
     {"at":"2026-08-28T09:51:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T095100+0200","reason":"Resumed the already implemented Issue #88 worker branch after fresh dispatcher read; no PR was initially discovered, so the worker reviewed the existing learner-state implementation before locating the already-open draft PR #89."},
     {"at":"2026-08-28T10:00:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T095100+0200","reason":"Reviewed and froze PR #89 exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3. Corrected only the owner acceptance choreography to the real canonical single-choice interaction while retaining fixture coverage for free-text/multiple-choice/disclosure; returned for authoritative exact-head validator review before browser acceptance or merge."},
-    {"at":"2026-08-28T10:32:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260828T103200+0200","reason":"Owner browser acceptance passed and the exact PR #89 head retained authoritative validator success; manager documented acceptance, marked the PR ready and merged it with an expected-head guard, closing Issue #88. Post-merge audit found that the API produced a regular two-parent merge commit although workflow-config requires squash, so the workflow remains blocked for explicit owner governance disposition rather than attempting autonomous history rewriting."}
+    {"at":"2026-08-28T10:32:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260828T103200+0200","reason":"Owner browser acceptance passed and the exact PR #89 head retained authoritative validator success; manager documented acceptance, marked the PR ready and merged it with an expected-head guard, closing Issue #88. Post-merge audit found that the API produced a regular two-parent merge commit although workflow-config requires squash, so the workflow remains blocked for explicit owner governance disposition rather than attempting autonomous history rewriting."},
+    {"at":"2026-08-28T10:38:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T103800+0200","reason":"Owner explicitly chose to retain PR #89's existing regular merge commit as-is. Recorded the one-off merge-method history exception, prohibited any retrospective rewrite, cleared the blocker and returned the dispatcher to the next manager planning turn; future merges must explicitly use the configured squash method."}
   ]
 }
