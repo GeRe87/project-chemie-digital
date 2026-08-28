@@ -24,7 +24,11 @@ SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
-from generate_canonical_runtime import compile_scene_document  # noqa: E402
+from course_path_selection import select_course_unit_path  # noqa: E402
+from generate_canonical_runtime import (  # noqa: E402
+    compile_scene_document,
+    default_selection_request,
+)
 from rdf_dataset import (  # noqa: E402
     assemble_dataset,
     dataset_fingerprint,
@@ -257,7 +261,7 @@ def _render_validation_text(result: dict[str, Any]) -> str:
     if not result["diagnostics"]:
         lines.append("Diagnostics: none")
     else:
-        lines.append(f"Diagnostics: {len(result['diagnostics'])}")
+        lines.append(f"Diagnostics: {len(result['diagnostics'])")
         for index, diagnostic in enumerate(result["diagnostics"], start=1):
             lines.append(
                 f"{index}. [{diagnostic['severity']}] focus={diagnostic['focusNode'] or '-'} "
@@ -296,7 +300,8 @@ def preview_draft(draft_root: Path = DEFAULT_DRAFT_ROOT) -> dict[str, Any]:
     if not validation["conforms"]:
         raise NonConformingDraft("Draft does not conform; preview was not produced")
     candidate, _metadata = assemble_candidate_dataset(draft_root)
-    scene_document = compile_scene_document(candidate)
+    selection = select_course_unit_path(candidate, default_selection_request())
+    scene_document = compile_scene_document(candidate, selection.path)
     preview = {
         "contractVersion": PREVIEW_CONTRACT_VERSION,
         "draftId": DRAFT_ID,
