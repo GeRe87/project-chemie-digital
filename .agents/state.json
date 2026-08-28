@@ -1,23 +1,22 @@
 {
   "schemaVersion": 2,
-  "cycle": 37,
-  "status": "ready",
+  "cycle": 38,
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
-  "expectedDeliverable": "Next manager planning turn: continue Phase 4 after accepted ADR-0009 / Issue #96. Review current main, backlog and the Issue #96 handoff, then choose exactly one bounded implementation that replaces the canonical runtime generator's global single-LearningPath discovery with renderer-neutral course/unit/path selection and explicit selected-path delegation, while preserving ResolvedLearningPath, SceneDocument 1.0, canonical TriG/SHACL, renderer and learner-state contracts.",
+  "expectedDeliverable": "Plan exactly one bounded Phase 4 implementation after accepted ADR-0009: replace the canonical runtime generator's global single-LearningPath discovery with renderer-neutral course/unit/path selection and explicit selected-path delegation, selecting one appropriate worker role and preserving ResolvedLearningPath, SceneDocument 1.0, canonical TriG/SHACL, renderer, learner-state and LMS boundaries.",
   "lastCompletedTurn": "manager: reviewed PR #97 against Issue #96, ADR-0002 and ADR-0008, confirmed the exact two-file ADR-only scope, no review threads, and authoritative agent-validator/project-chemie-digital success on the unchanged exact head. Accepted ADR-0009's singleton-fallback and exact path-reference membership policy, documented manager acceptance, marked the PR ready, and explicitly squash-merged it with expected-head protection. Issue #96 closed as completed and post-merge audit confirmed the squash commit has one parent. No follow-up work was assigned in this merge turn.",
-  "lastUpdated": "2026-08-28T13:35:37+02:00",
+  "lastUpdated": "2026-08-28T13:39:07+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260828T133907+0200",
+    "claimedAt": "2026-08-28T13:39:07+02:00",
+    "expiresAt": "2026-08-28T15:39:07+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 455,
+  "stateRevision": 456,
   "transitionHistory": [
-    {"at":"2026-08-28T10:44:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260828T104100+0200","reason":"Opened Phase 4 course-scale semantic architecture, created Issue #90 for an ADR-only composition boundary and assigned the Software Architect role before any ontology or application implementation."},
     {"at":"2026-08-28T10:46:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T104600+0200","reason":"Claimed Issue #90 as Software Architect and began the bounded ADR-only course-scale semantic composition review."},
     {"at":"2026-08-28T10:52:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T104600+0200","reason":"Published draft PR #91 with only ADR-0008 and the structured handoff added; returned for authoritative exact-head validation with no runtime/browser gate because implementation behavior was unchanged."},
     {"at":"2026-08-28T11:01:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T105500+0200","reason":"Reviewed and accepted ADR-0008 after exact-head validator success, documented manager acceptance, explicitly squash-merged PR #91 with expected-head protection and confirmed Issue #90 completed with a single-parent squash commit."},
@@ -41,6 +40,7 @@
     {"at":"2026-08-28T13:06:44+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T130234+0200","reason":"Completed the Issue #96 ADR-only architecture result, added ADR-0009 and the structured handoff, and opened draft PR #97 with exactly those two files. Returned control to the manager because the required external validator context is missing on the current PR head; no self-acceptance or implementation follow-up is permitted."},
     {"at":"2026-08-28T13:31:45+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T133145+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on the current PR #97 head, resolving the sole external validation blocker and making the Issue #96 manager review turn executable."},
     {"at":"2026-08-28T13:32:36+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T133236+0200","reason":"Claimed the Issue #96 manager review turn after exact-head validator success became authoritative, to review PR #97 against ADR-0009 acceptance criteria, the two-file ADR-only scope and configured merge policy."},
-    {"at":"2026-08-28T13:35:37+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T133236+0200","reason":"Accepted ADR-0009 / Issue #96 after exact-head validator success and clean review, documented manager acceptance, marked PR #97 ready and explicitly squash-merged it with expected-head protection. Issue #96 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."}
+    {"at":"2026-08-28T13:35:37+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T133236+0200","reason":"Accepted ADR-0009 / Issue #96 after exact-head validator success and clean review, documented manager acceptance, marked PR #97 ready and explicitly squash-merged it with expected-head protection. Issue #96 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."},
+    {"at":"2026-08-28T13:39:07+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T133907+0200","reason":"Claimed the next Phase 4 planning turn to convert accepted ADR-0009 into exactly one bounded selector/delegator and runtime-migration implementation assignment without broadening renderer, ontology, learner-state or LMS scope."}
   ]
 }
