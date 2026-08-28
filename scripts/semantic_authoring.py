@@ -261,7 +261,7 @@ def _render_validation_text(result: dict[str, Any]) -> str:
     if not result["diagnostics"]:
         lines.append("Diagnostics: none")
     else:
-        lines.append(f"Diagnostics: {len(result['diagnostics'])")
+        lines.append(f"Diagnostics: {len(result['diagnostics'])}")
         for index, diagnostic in enumerate(result["diagnostics"], start=1):
             lines.append(
                 f"{index}. [{diagnostic['severity']}] focus={diagnostic['focusNode'] or '-'} "
