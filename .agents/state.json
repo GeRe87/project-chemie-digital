@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 33,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 88,
-  "expectedDeliverable": "Resume the already implemented Issue #88 branch agent/88-learner-state-export, review the existing learner-state bounded context against the issue invariants, publish the completed worker scope as a draft PR with validator marker if sound, record the exact frozen PR head, and return to manager without merging. Preserve deterministic LearnerStateDocument 1.0 JSON, explicit local export/import only, atomic compatibility validation, no account identity, no automatic browser persistence, no network/telemetry/grading/semantic mutation, and offline deterministic tests.",
-  "lastCompletedTurn": "manager: scoped Phase 3 backlog item 35 as Issue #88 Establish local learner-state export boundary. Selected Backend and Data Integration Engineer because the increment is primarily a versioned persistence/import-export contract with deterministic validation and secure local operation. The v1.0 boundary uses explicit JSON download/import only; learner-state remains outside RDF/SceneDocument, imports fail atomically on stale/incompatible identities, and automatic browser persistence/accounts/network/analytics/grading are explicitly out of scope.",
-  "lastUpdated": "2026-08-28T09:51:00+02:00",
+  "expectedDeliverable": "PR #89 exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3 is the frozen Issue #88 learner-state implementation. The worker reviewed the existing 12-commit branch against the issue invariants, corrected only the owner-acceptance handoff to match the real canonical Standardabweichung interactions, and kept the implementation scope bounded to deterministic LearnerStateDocument 1.0 plus explicit local export/import. Require authoritative agent-validator/project-chemie-digital success on this exact head before owner browser acceptance. After validator success, owner should test the existing section-9 single-choice state: export local JSON, reload reset, explicit import restore, stale/invalid import rejection without partial UI mutation, and no automatic restore on a later reload. Do not merge before both gates succeed on the same exact head.",
+  "lastCompletedTurn": "worker: resumed the already implemented Issue #88 branch, reviewed the DOM-free learner-state contract, strict compatibility validation, prepare/commit atomic restore boundary, local-only Blob/file browser integration, deterministic tests and forbidden-dependency constraints. Corrected the handoff/PR owner gate because the current canonical demo has only the section-9 single-choice prompt and no free-text or optional/progressive disclosure; those additional forms remain covered by deterministic fixtures. PR #89 remains draft and mergeable on exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3; validator was pending when handed back.",
+  "lastUpdated": "2026-08-28T10:00:00+02:00",
   "lease": {
-    "owner": "interactive-worker-20260828T095100+0200",
-    "claimedAt": "2026-08-28T09:51:00+02:00",
-    "expiresAt": "2026-08-28T11:51:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 426,
+  "blockedBy": [
+    "Authoritative agent-validator/project-chemie-digital result is pending for PR #89 exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3. Owner browser acceptance must wait for validator success."
+  ],
+  "stateRevision": 427,
   "transitionHistory": [
     {"at":"2026-08-27T15:41:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260827T153700+0200","reason":"Published repaired PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a with only the block-kind-aware static-fallback test contract changed; renderer/app/semantic code remained unchanged. Returned for fresh exact-head validation before owner browser acceptance or merge."},
     {"at":"2026-08-27T15:46:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260827T154600+0200","reason":"Confirmed authoritative agent-validator/project-chemie-digital success and mergeable true on unchanged PR #87 exact head e04bcc9ebe4b2a184219e51c8e8419f98104e09a; only owner browser acceptance remains before merge."},
@@ -28,6 +30,7 @@
     {"at":"2026-08-27T16:48:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260827T164100+0200","reason":"Documented owner browser acceptance, confirmed exact-head validator success and no review blockers, marked PR #87 ready, squash-merged exact head 91ae13cc3df78daec87551a5616fb27c41b4674a as eeef71a09aa0efd5d94dc63efdb5e3c9652afb95, and confirmed Issue #86 completed."},
     {"at":"2026-08-27T16:50:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260827T165000+0200","reason":"Claimed the separate Phase 3 backlog item 35 planning turn for a local learner-state export and persistence boundary without mandatory accounts."},
     {"at":"2026-08-27T17:00:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260827T165000+0200","reason":"Created Issue #88 for deterministic local learner-state JSON export/import as a separate bounded context; assigned Backend and Data Integration Engineer with strict stale-state compatibility, atomic import, privacy/offline and no-account/no-auto-persistence constraints."},
-    {"at":"2026-08-28T09:51:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T095100+0200","reason":"Resumed the already implemented Issue #88 worker branch after fresh dispatcher read; no PR existed yet, so the worker is reviewing the existing 11-commit learner-state implementation before publishing an exact-head draft PR."}
+    {"at":"2026-08-28T09:51:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T095100+0200","reason":"Resumed the already implemented Issue #88 worker branch after fresh dispatcher read; no PR was initially discovered, so the worker reviewed the existing learner-state implementation before locating the already-open draft PR #89."},
+    {"at":"2026-08-28T10:00:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T095100+0200","reason":"Reviewed and froze PR #89 exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3. Corrected only the owner acceptance choreography to the real canonical single-choice interaction while retaining fixture coverage for free-text/multiple-choice/disclosure; returned for authoritative exact-head validator review before browser acceptance or merge."}
   ]
 }
