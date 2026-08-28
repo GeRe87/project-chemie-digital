@@ -1,0 +1,21 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
+  ex:teaching-offering-digital-chemistry a cd:TeachingOffering ;
+    skos:prefLabel "Digitalisierung in der Chemie: Datenmanagement, Prozesse, KI"@de ;
+    cd:hasUnitPlacement ex:unit-placement-standard-deviation .
+
+  ex:learning-unit-standard-deviation a cd:LearningUnit ;
+    skos:prefLabel "Standardabweichung"@de ;
+    cd:hasFocusConcept ex:standard-deviation .
+
+  ex:unit-placement-standard-deviation a cd:UnitPlacement ;
+    cd:position 10 ;
+    cd:placesLearningUnit ex:learning-unit-standard-deviation .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/standard-deviation> {
+  ex:path-standard-deviation cd:forLearningUnit ex:learning-unit-standard-deviation .
+}
