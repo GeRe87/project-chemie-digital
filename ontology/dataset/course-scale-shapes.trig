@@ -1,0 +1,71 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:TeachingOfferingShape a sh:NodeShape ;
+    sh:targetClass cd:TeachingOffering ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path cd:hasUnitPlacement ;
+      sh:minCount 1 ;
+      sh:class cd:UnitPlacement ;
+      sh:nodeKind sh:IRI
+    ] ;
+    sh:sparql [
+      sh:message "Unit placement positions must be unique within a teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasUnitPlacement ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] .
+
+  cd:LearningUnitShape a sh:NodeShape ;
+    sh:targetClass cd:LearningUnit ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path cd:hasFocusConcept ;
+      sh:minCount 1 ;
+      sh:class cd:Concept ;
+      sh:nodeKind sh:IRI
+    ] .
+
+  cd:UnitPlacementShape a sh:NodeShape ;
+    sh:targetClass cd:UnitPlacement ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path cd:placesLearningUnit ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:class cd:LearningUnit ;
+      sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+      sh:path cd:position ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:integer ;
+      sh:minExclusive 0
+    ] ;
+    sh:sparql [
+      sh:message "A unit placement may belong to exactly one teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        ?left cd:hasUnitPlacement $this .
+        ?right cd:hasUnitPlacement $this .
+        FILTER (?left != ?right)
+      }"""
+    ] .
+
+  cd:LearningPathUnitShape a sh:NodeShape ;
+    sh:targetClass cd:LearningPath ;
+    sh:property [
+      sh:path cd:forLearningUnit ;
+      sh:maxCount 1 ;
+      sh:class cd:LearningUnit ;
+      sh:nodeKind sh:IRI
+    ] .
+}
