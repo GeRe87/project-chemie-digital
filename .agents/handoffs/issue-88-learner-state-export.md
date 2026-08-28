@@ -19,6 +19,7 @@ Branch: `agent/88-learner-state-export`
 ## Automated evidence
 
 - `packages/learner-state/test/learner-state.test.ts` covers stable serialization, prompt/disclosure round-trip, fingerprint mismatch, stale block, response-mode mismatch, invalid choice values, duplicate records, invalid state ownership, forbidden metadata fields and forbidden service/browser-store dependencies.
+- Contract fixtures explicitly cover free-text, single-choice, multiple-choice, optional disclosure and progressive disclosure even though the current canonical Standardabweichung demo does not expose all of those interaction forms.
 - `apps/self-study/test/app.test.ts` covers runtime identity derivation, explicit local-file chrome and atomic preflight-before-commit behavior.
 - Root `npm test` now includes `test:learner-state` in addition to the existing renderer and self-study suites.
 
@@ -26,11 +27,13 @@ Exact-head CI / validator evidence is to be recorded on the draft PR before mana
 
 ## Owner browser acceptance requested
 
+The current canonical Standardabweichung path contains a single-choice poll but no free-text prompt and no optional/progressive disclosure blocks. Do not invent those semantics for browser acceptance; their learner-state behavior is covered by the deterministic contract fixtures above.
+
 On the unchanged validated PR head:
 
-1. Start the self-study app and enter at least one free-text answer plus one choice answer.
-2. Open/advance at least one optional or progressive disclosure.
-3. Export via **Lernstand exportieren** and inspect that a local JSON file is produced.
-4. Reload the page and confirm the interaction state is reset.
-5. Import the exported file via **Lernstand importieren** and confirm the represented answers/disclosure state returns.
-6. Try an intentionally stale or modified file and confirm the import is rejected without partial UI changes.
+1. Start the self-study app and select one of the existing section-9 single-choice answers (`Messreihe A` / `Messreihe B`).
+2. Export via **Lernstand exportieren** and confirm a local `chemie-digital-lernstand.json` file is produced. Inspect that it contains `version: "1.0"`, the canonical `datasetFingerprint`, stable document/scene/block identities and the selected authored option, with no timestamp or user/account identifier.
+3. Reload the page and confirm the radio selection is reset without explicit import.
+4. Import the exported file via **Lernstand importieren** and confirm the represented radio selection returns.
+5. Modify a copy of the exported file so its `datasetFingerprint` is stale (or replace the selected option with a value that is not authored), import it, and confirm the import is rejected while the currently visible interaction state is not partially changed.
+6. Confirm the UI provides only explicit export/import actions and does not restore state automatically on another reload.
