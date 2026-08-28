@@ -124,6 +124,11 @@ def available_path_references(dataset: Dataset, unit_id: str) -> tuple[CoursePat
     for path, _predicate, _obj, graph_id in dataset.quads((None, RDF.type, iri("LearningPath"), None)):
         if not isinstance(path, URIRef) or not isinstance(graph_id, URIRef):
             continue
+        if not _valid_http_iri(str(path)) or not _valid_http_iri(str(graph_id)):
+            raise CoursePathSelectionError(
+                CoursePathSelectionErrorCode.INVALID_IDENTITY_CONTEXT,
+                "discovered path and path graph identities must be absolute HTTP(S) IRIs",
+            )
         graph = dataset.graph(graph_id)
         if (path, iri("forLearningUnit"), unit) in graph:
             references.add(CoursePathReference(str(path), str(graph_id)))
@@ -163,15 +168,8 @@ def select_course_unit_path(
             f"UnitPlacement does not belong to TeachingOffering: {placement}",
         )
 
-    placement_units = sorted(
-        {
-            obj
-            for obj in graph.objects(placement, iri("placesLearningUnit"))
-            if isinstance(obj, URIRef)
-        },
-        key=str,
-    )
-    if len(placement_units) != 1 or placement_units[0] != unit:
+    placement_units = sorted(set(graph.objects(placement, iri("placesLearningUnit"))), key=lambda value: value.n3())
+    if len(placement_units) != 1 or not isinstance(placement_units[0], URIRef) or placement_units[0] != unit:
         raise CoursePathSelectionError(
             CoursePathSelectionErrorCode.INCONSISTENT_UNIT_CONTEXT,
             f"UnitPlacement does not reference exactly the requested LearningUnit: {placement}",
