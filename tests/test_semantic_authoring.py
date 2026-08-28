@@ -93,12 +93,16 @@ class SemanticAuthoringTests(unittest.TestCase):
     def test_valid_noop_draft_validates_previews_and_prepares_deterministically(self) -> None:
         canonical = RDF_MODULE.assemble_dataset()
         fingerprint_before_compile = RDF_MODULE.dataset_fingerprint(canonical)
-        expected_scene_document = RUNTIME_MODULE.compile_scene_document(canonical)
+        selection = RUNTIME_MODULE.select_course_unit_path(
+            canonical,
+            RUNTIME_MODULE.default_selection_request(),
+        )
+        expected_scene_document = RUNTIME_MODULE.compile_scene_document(canonical, selection.path)
         fingerprint_after_compile = RDF_MODULE.dataset_fingerprint(canonical)
         self.assertEqual(
             fingerprint_before_compile,
             fingerprint_after_compile,
-            "compile_scene_document must not mutate the supplied RDF Dataset",
+            "path selection and compile_scene_document must not mutate the supplied RDF Dataset",
         )
         expected_fingerprint = "sha256:" + fingerprint_before_compile
 

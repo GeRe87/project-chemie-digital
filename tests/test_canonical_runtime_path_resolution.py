@@ -21,14 +21,17 @@ SPEC.loader.exec_module(MODULE)
 
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
+GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 LEARNING_PATH = URIRef(f"{CD}LearningPath")
-HAS_STEP = URIRef(f"{CD}hasStep")
+FOR_LEARNING_UNIT = URIRef(f"{CD}forLearningUnit")
 POSITION = URIRef(f"{CD}position")
 USES_SCENE = URIRef(f"{CD}usesScene")
 LATEX = URIRef(f"{CD}latex")
 CODE = URIRef(f"{CD}code")
 HAS_POLL_OPTION = URIRef(f"{CD}hasPollOption")
 PATH = URIRef(f"{EX}path-standard-deviation")
+PATH_GRAPH = f"{GRAPH}paths/standard-deviation"
+UNIT = URIRef(f"{EX}learning-unit-standard-deviation")
 STEP_1 = URIRef(f"{EX}path-step-1")
 STEP_2 = URIRef(f"{EX}path-step-2")
 BASIC_DEFINITION = URIRef(f"{EX}sd-definition-basic-de")
@@ -36,7 +39,7 @@ SAMPLE_FORMULA = URIRef(f"{EX}sample-sd-formula")
 R_CODE_EXAMPLE = URIRef(f"{EX}sd-r-code-example")
 POLL = URIRef(f"{EX}sd-precision-poll")
 POLL_OPTION_B = URIRef(f"{EX}sd-precision-option-b")
-SPECIFICATION_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
+SPECIFICATION_GRAPH = f"{GRAPH}specifications/standard-deviation"
 SAMPLE_FORMULA_LATEX = r"s = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}}"
 R_CODE = "x <- c(6, 8, 10)\nsd(x)"
 POLL_TEXT = "Messreihe A: 9, 10, 11. Messreihe B: 6, 8, 10. Welche Messreihe ist präziser?"
@@ -58,22 +61,26 @@ def dataset() -> Dataset:
     return MODULE.assemble_dataset()
 
 
+def selected_path() -> object:
+    return MODULE.CoursePathReference(str(PATH), PATH_GRAPH)
+
+
 def replace_position(value: Literal) -> Dataset:
     current = dataset()
     current.remove((STEP_2, POSITION, None, None))
-    graph = current.graph(URIRef("https://w3id.org/project-chemie-digital/graph/paths/standard-deviation"))
+    graph = current.graph(URIRef(PATH_GRAPH))
     graph.add((STEP_2, POSITION, value))
     return current
 
 
 class CanonicalRuntimePathResolutionTests(unittest.TestCase):
     def test_resolves_complete_canonical_path_in_authored_position_order(self) -> None:
-        document = MODULE.compile_scene_document(dataset())
+        document = MODULE.compile_scene_document(dataset(), selected_path())
         self.assertEqual("ex:path-standard-deviation--scene-document", document["id"])
         self.assertEqual(EXPECTED_SCENES, [scene["id"] for scene in document["scenes"]])
 
     def test_preserves_semantic_resource_selection_and_relation_paths(self) -> None:
-        document = MODULE.compile_scene_document(dataset())
+        document = MODULE.compile_scene_document(dataset(), selected_path())
         selected = [
             (
                 scene["blocks"][1]["source"][0]["resourceId"],
@@ -97,7 +104,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         )
 
     def test_resolves_formula_as_math_block_from_canonical_latex_with_provenance(self) -> None:
-        document = MODULE.compile_scene_document(dataset())
+        document = MODULE.compile_scene_document(dataset(), selected_path())
         formula_block = document["scenes"][3]["blocks"][1]
         self.assertEqual("math", formula_block["kind"])
         self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["expression"])
@@ -112,7 +119,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         )
 
     def test_resolves_audience_poll_as_renderer_neutral_prompt_block(self) -> None:
-        document = MODULE.compile_scene_document(dataset())
+        document = MODULE.compile_scene_document(dataset(), selected_path())
         exercise_scene = document["scenes"][8]
         self.assertEqual(5, len(exercise_scene["blocks"]))
         poll_block = exercise_scene["blocks"][3]
@@ -143,7 +150,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         )
 
     def test_resolves_executable_r_code_as_renderer_neutral_code_block(self) -> None:
-        document = MODULE.compile_scene_document(dataset())
+        document = MODULE.compile_scene_document(dataset(), selected_path())
         exercise_scene = document["scenes"][8]
         self.assertEqual(5, len(exercise_scene["blocks"]))
         code_block = exercise_scene["blocks"][4]
@@ -180,59 +187,88 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
         self.assertIn("x &lt;- c(6, 8, 10)", fallback)
         self.assertIn("sd(x)", fallback)
 
+    def test_unrelated_second_learning_path_does_not_break_explicit_selected_path(self) -> None:
+        current = dataset()
+        unrelated_path = URIRef(f"{EX}path-unrelated")
+        unrelated_graph = current.graph(URIRef(f"{GRAPH}paths/unrelated"))
+        unrelated_graph.add((unrelated_path, RDF.type, LEARNING_PATH))
+        unrelated_graph.add((unrelated_path, FOR_LEARNING_UNIT, URIRef(f"{EX}learning-unit-unrelated")))
+        document = MODULE.compile_scene_document(current, selected_path())
+        self.assertEqual("ex:path-standard-deviation", document["sourcePathId"])
+
+    def test_unresolvable_second_path_for_same_unit_does_not_break_exact_selection(self) -> None:
+        current = dataset()
+        second_path = URIRef(f"{EX}path-standard-deviation-review")
+        second_graph_id = f"{GRAPH}paths/standard-deviation-review"
+        second_graph = current.graph(URIRef(second_graph_id))
+        second_graph.add((second_path, RDF.type, LEARNING_PATH))
+        second_graph.add((second_path, FOR_LEARNING_UNIT, UNIT))
+        selection = MODULE.select_course_unit_path(
+            current,
+            MODULE.CourseUnitPathSelectionRequest(
+                offering_id=MODULE.DEFAULT_OFFERING_ID,
+                placement_id=MODULE.DEFAULT_PLACEMENT_ID,
+                unit_id=MODULE.DEFAULT_UNIT_ID,
+                requested_path_id=str(PATH),
+                requested_path_graph_id=PATH_GRAPH,
+            ),
+        )
+        document = MODULE.compile_scene_document(current, selection.path)
+        self.assertEqual("ex:path-standard-deviation", document["sourcePathId"])
+
     def test_fails_closed_when_selected_formula_has_no_latex(self) -> None:
         current = dataset()
         current.remove((SAMPLE_FORMULA, LATEX, None, None))
         with self.assertRaisesRegex(ValueError, "Missing cd:latex for ex:sample-sd-formula"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_fails_closed_when_executable_code_resource_has_no_code(self) -> None:
         current = dataset()
         current.remove((R_CODE_EXAMPLE, CODE, None, None))
         with self.assertRaisesRegex(ValueError, "Incomplete executable code resource ex:sd-r-code-example"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_fails_closed_when_audience_poll_has_fewer_than_two_options(self) -> None:
         current = dataset()
         current.remove((POLL, HAS_POLL_OPTION, POLL_OPTION_B, None))
         with self.assertRaisesRegex(ValueError, "requires at least two options"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
-    def test_fails_when_the_canonical_learning_path_is_missing(self) -> None:
+    def test_fails_when_selected_learning_path_is_not_defined_in_expected_graph(self) -> None:
         current = dataset()
-        current.remove((PATH, RDF.type, LEARNING_PATH, None))
-        with self.assertRaisesRegex(ValueError, "Expected exactly one canonical LearningPath, got 0"):
-            MODULE.compile_scene_document(current)
+        current.remove((PATH, RDF.type, LEARNING_PATH, URIRef(PATH_GRAPH)))
+        with self.assertRaisesRegex(ValueError, "Selected LearningPath ex:path-standard-deviation is not defined in expected graph"):
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_fails_when_a_referenced_path_step_is_missing(self) -> None:
         current = dataset()
         current.remove((STEP_1, None, None, None))
         with self.assertRaisesRegex(ValueError, "Missing cd:position for ex:path-step-1"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_fails_when_a_referenced_scene_is_missing(self) -> None:
         current = dataset()
         current.remove((STEP_1, USES_SCENE, None, None))
         with self.assertRaisesRegex(ValueError, "Missing cd:usesScene for ex:path-step-1"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_fails_when_a_selected_resource_is_missing(self) -> None:
         current = dataset()
         current.remove((BASIC_DEFINITION, None, None, None))
         with self.assertRaisesRegex(ValueError, "No audience-visible value for ex:sd-definition-basic-de"):
-            MODULE.compile_scene_document(current)
+            MODULE.compile_scene_document(current, selected_path())
 
     def test_rejects_duplicate_positions_deterministically(self) -> None:
         with self.assertRaisesRegex(ValueError, "Path positions must be unique and contiguous"):
-            MODULE.compile_scene_document(replace_position(Literal(1, datatype=XSD.integer)))
+            MODULE.compile_scene_document(replace_position(Literal(1, datatype=XSD.integer)), selected_path())
 
     def test_rejects_non_integer_positions(self) -> None:
         with self.assertRaisesRegex(ValueError, "Invalid integer cd:position for ex:path-step-2"):
-            MODULE.compile_scene_document(replace_position(Literal("1.5", datatype=XSD.decimal)))
+            MODULE.compile_scene_document(replace_position(Literal("1.5", datatype=XSD.decimal)), selected_path())
 
     def test_rejects_non_positive_positions(self) -> None:
         with self.assertRaisesRegex(ValueError, "Position must be positive for ex:path-step-2"):
-            MODULE.compile_scene_document(replace_position(Literal(0, datatype=XSD.integer)))
+            MODULE.compile_scene_document(replace_position(Literal(0, datatype=XSD.integer)), selected_path())
 
 
 if __name__ == "__main__":

@@ -15,6 +15,11 @@ from typing import Any, Iterable
 
 from rdflib import DCTERMS, RDF, SKOS, Dataset, Literal, URIRef
 
+from course_path_selection import (
+    CoursePathReference,
+    CourseUnitPathSelectionRequest,
+    select_course_unit_path,
+)
 from rdf_dataset import assemble_dataset, dataset_fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +28,10 @@ PITCH_INDEX = ROOT / "apps" / "pitch" / "index.html"
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 SCHEMA = "https://schema.org/"
+
+DEFAULT_OFFERING_ID = f"{EX}teaching-offering-digital-chemistry"
+DEFAULT_PLACEMENT_ID = f"{EX}unit-placement-standard-deviation"
+DEFAULT_UNIT_ID = f"{EX}learning-unit-standard-deviation"
 
 
 def iri(namespace: str, local: str) -> URIRef:
@@ -123,12 +132,17 @@ def is_resource_type(dataset: Dataset, resource: URIRef, type_name: str) -> bool
     return any(obj == iri(CD, type_name) for obj in objects(dataset, resource, RDF.type))
 
 
-def compile_scene_document(dataset: Dataset) -> dict[str, Any]:
-    learning_paths = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, iri(CD, "LearningPath"), None)) if isinstance(subject, URIRef)}, key=str)
-    if len(learning_paths) != 1:
-        raise ValueError(f"Expected exactly one canonical LearningPath, got {len(learning_paths)}")
-    path = learning_paths[0]
-    steps = sorted(objects(dataset, path, iri(CD, "hasStep")), key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)))
+def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
+    path = URIRef(selected_path.path_id)
+    path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
+    if (path, RDF.type, iri(CD, "LearningPath")) not in path_graph:
+        raise ValueError(
+            f"Selected LearningPath {compact(path)} is not defined in expected graph {selected_path.path_graph_id}"
+        )
+    steps = sorted(
+        set(path_graph.objects(path, iri(CD, "hasStep"))),
+        key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)),
+    )
     positions = [integer(dataset, step, iri(CD, "position")) for step in steps]
     if positions != list(range(1, len(steps) + 1)):
         raise ValueError("Path positions must be unique and contiguous")
@@ -278,13 +292,24 @@ def dataset_snapshot(dataset: Dataset, fingerprint: str) -> dict[str, Any]:
     }
 
 
-def build_artifact() -> dict[str, Any]:
+def default_selection_request() -> CourseUnitPathSelectionRequest:
+    return CourseUnitPathSelectionRequest(
+        offering_id=DEFAULT_OFFERING_ID,
+        placement_id=DEFAULT_PLACEMENT_ID,
+        unit_id=DEFAULT_UNIT_ID,
+    )
+
+
+def build_artifact(
+    selection_request: CourseUnitPathSelectionRequest | None = None,
+) -> dict[str, Any]:
     dataset = assemble_dataset()
+    selection = select_course_unit_path(dataset, selection_request or default_selection_request())
     fingerprint = dataset_fingerprint(dataset)
     return {
         "artifactVersion": "1.0", "datasetFingerprint": f"sha256:{fingerprint}",
         "datasetSnapshot": dataset_snapshot(dataset, fingerprint),
-        "sceneDocuments": [compile_scene_document(dataset)],
+        "sceneDocuments": [compile_scene_document(dataset, selection.path)],
     }
 
 
@@ -369,8 +394,21 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true", help="fail when an existing artifact differs")
+    parser.add_argument("--offering-id", default=DEFAULT_OFFERING_ID)
+    parser.add_argument("--placement-id", default=DEFAULT_PLACEMENT_ID)
+    parser.add_argument("--unit-id", default=DEFAULT_UNIT_ID)
+    parser.add_argument("--path-id")
+    parser.add_argument("--path-graph-id")
     args = parser.parse_args()
-    artifact = build_artifact()
+    artifact = build_artifact(
+        CourseUnitPathSelectionRequest(
+            offering_id=args.offering_id,
+            placement_id=args.placement_id,
+            unit_id=args.unit_id,
+            requested_path_id=args.path_id,
+            requested_path_graph_id=args.path_graph_id,
+        )
+    )
     rendered = canonical_json(artifact)
     rendered_html = rendered_index(artifact)
     output = args.output if args.output.is_absolute() else ROOT / args.output
