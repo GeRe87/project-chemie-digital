@@ -1,29 +1,30 @@
 {
   "schemaVersion": 2,
   "cycle": 34,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": "Next manager planning turn: continue Phase 4 from accepted ADR-0008. Review current main, open work and the Issue #90 handoff, then select exactly one bounded follow-up. The recommended next boundary is a Semantic Web Engineer implementation of only the TeachingOffering/LearningUnit/UnitPlacement vocabulary, SHACL invariants, one minimal Standardabweichung fixture and deterministic semantic/query tests; do not add navigation UI, learner-state changes, LMS integration or full curriculum content.",
-  "lastCompletedTurn": "manager: reviewed ADR-0008 and the Issue #90 handoff on exact PR #91 head 979b4cc416b748158840f9426567f6e0a753cd09, confirmed authoritative agent-validator success and clean mergeability, documented manager acceptance because GitHub cannot self-approve the owner-authored PR, marked the PR ready and explicitly squash-merged it with expected-head protection as 040e41b11f6d156aff0c1b7f8da8eff07b32a3e1. Issue #90 closed as completed; the resulting commit has one parent, confirming the configured squash policy was followed.",
-  "lastUpdated": "2026-08-28T11:01:00+02:00",
+  "lastCompletedTurn": "manager: reviewed ADR-0008 and the Issue #90 handoff, confirmed exact-head validator success and clean mergeability, documented manager acceptance because GitHub cannot self-approve the owner-authored PR, marked PR #91 ready and explicitly squash-merged it with expected-head protection. Issue #90 closed as completed; the resulting commit has one parent, confirming the configured squash policy was followed.",
+  "lastUpdated": "2026-08-28T11:05:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260828T110500+0200",
+    "claimedAt": "2026-08-28T11:05:00+02:00",
+    "expiresAt": "2026-08-28T13:05:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 434,
+  "stateRevision": 435,
   "transitionHistory": [
-    {"at":"2026-08-28T10:00:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T095100+0200","reason":"Reviewed and froze PR #89 exact head 87ab3ed10dd86fac876dae13b5d950c911eb15a3. Corrected only the owner acceptance choreography to the real canonical single-choice interaction while retaining fixture coverage for free-text/multiple-choice/disclosure; returned for authoritative exact-head validator review before browser acceptance or merge."},
-    {"at":"2026-08-28T10:32:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260828T103200+0200","reason":"Owner browser acceptance passed and the exact PR #89 head retained authoritative validator success; manager documented acceptance, marked the PR ready and merged it with an expected-head guard, closing Issue #88. Post-merge audit found that the API produced a regular two-parent merge commit although workflow-config requires squash, so the workflow remained blocked for explicit owner governance disposition."},
-    {"at":"2026-08-28T10:38:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T103800+0200","reason":"Owner explicitly chose to retain PR #89's existing regular merge commit as-is. Recorded the one-off merge-method history exception, prohibited any retrospective rewrite, cleared the blocker and required future manager merges to pass merge_method squash explicitly."},
-    {"at":"2026-08-28T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T104100+0200","reason":"Claimed the next planning turn after Phase 3 completion to identify one bounded platform-to-course scaling task, update planning if required and assign exactly one worker role."},
-    {"at":"2026-08-28T10:44:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260828T104100+0200","reason":"Confirmed Phase 3 complete with no open work, opened Phase 4 course-scale semantic architecture in the backlog, created Issue #90 for an ADR-only course/module/learning-unit composition boundary and assigned the Software Architect role before any ontology or application implementation."},
-    {"at":"2026-08-28T10:46:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T104600+0200","reason":"Claimed Issue #90 as Software Architect, created branch agent/90-course-scale-architecture from the assigned main head and began the bounded ADR-only course-scale semantic composition review."},
-    {"at":"2026-08-28T10:52:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T104600+0200","reason":"Published draft PR #91 exact head 979b4cc416b748158840f9426567f6e0a753cd09 with only ADR-0008 and the structured handoff added. Returned for authoritative exact-head validation; no runtime/browser gate was requested because ontology, SHACL, code, renderer and learner-state behavior were unchanged."},
-    {"at":"2026-08-28T11:01:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T105500+0200","reason":"Reviewed and accepted ADR-0008 on unchanged PR #91 head 979b4cc416b748158840f9426567f6e0a753cd09 after exact-head validator success. GitHub self-review was technically unavailable, so manager acceptance was recorded in the PR conversation. Marked the PR ready and explicitly squash-merged with expected-head protection as 040e41b11f6d156aff0c1b7f8da8eff07b32a3e1, closing Issue #90; post-merge audit confirmed a single-parent squash commit."}
+    {"at":"2026-08-28T10:00:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T095100+0200","reason":"Reviewed and froze PR #89 exact head after correcting only the owner acceptance choreography to the real canonical single-choice interaction; returned for authoritative exact-head validation before browser acceptance or merge."},
+    {"at":"2026-08-28T10:32:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-manager-20260828T103200+0200","reason":"Owner browser acceptance passed and PR #89 retained authoritative validator success; manager merged Issue #88 content, then post-merge audit detected a regular two-parent merge although workflow-config requires squash, so continuation remained blocked for explicit owner governance disposition."},
+    {"at":"2026-08-28T10:38:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T103800+0200","reason":"Owner explicitly chose to retain PR #89's existing regular merge commit as-is. Recorded the one-off merge-method history exception, prohibited retrospective rewrite, cleared the blocker and required future manager merges to pass merge_method squash explicitly."},
+    {"at":"2026-08-28T10:41:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T104100+0200","reason":"Claimed the planning turn after Phase 3 completion to identify one bounded platform-to-course scaling task and assign exactly one worker role."},
+    {"at":"2026-08-28T10:44:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260828T104100+0200","reason":"Opened Phase 4 course-scale semantic architecture, created Issue #90 for an ADR-only composition boundary and assigned the Software Architect role before any ontology or application implementation."},
+    {"at":"2026-08-28T10:46:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T104600+0200","reason":"Claimed Issue #90 as Software Architect and began the bounded ADR-only course-scale semantic composition review."},
+    {"at":"2026-08-28T10:52:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T104600+0200","reason":"Published draft PR #91 with only ADR-0008 and the structured handoff added; returned for authoritative exact-head validation with no runtime/browser gate because implementation behavior was unchanged."},
+    {"at":"2026-08-28T11:01:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T105500+0200","reason":"Reviewed and accepted ADR-0008 after exact-head validator success, documented manager acceptance, explicitly squash-merged PR #91 with expected-head protection and confirmed Issue #90 completed with a single-parent squash commit."},
+    {"at":"2026-08-28T11:05:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T110500+0200","reason":"Claimed the next Phase 4 planning turn to convert accepted ADR-0008 into exactly one bounded Semantic Web Engineer implementation assignment without introducing navigation UI, learner-state coupling, LMS integration or full curriculum content."}
   ]
 }
