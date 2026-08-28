@@ -48,6 +48,32 @@ npm test
 
 The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm test` performs JSON checks, SHACL semantic validation, Python semantic tests, core tests and renderer tests.
 
+## Offline course/unit/path selection
+
+Canonical runtime generation first validates a renderer-neutral `TeachingOffering → UnitPlacement → LearningUnit` context against the assembled immutable RDF Dataset. Available paths are exact `{path IRI, named-graph IRI}` references whose `rdf:type cd:LearningPath` and `cd:forLearningUnit` evidence occur in the same named graph.
+
+The default commands remain unchanged:
+
+```bash
+npm run generate:runtime
+npm run check:runtime
+```
+
+They use the current Digital Chemistry offering, Standardabweichung placement and learning unit. Because that unit currently exposes exactly one valid path reference, ADR-0009's singleton fallback selects it deterministically before scene compilation.
+
+For a future unit with multiple paths, the runtime accepts an exact explicit semantic selection:
+
+```bash
+python scripts/generate_canonical_runtime.py \
+  --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-digital-chemistry \
+  --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-standard-deviation \
+  --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-standard-deviation \
+  --path-id https://w3id.org/project-chemie-digital/resource/path-standard-deviation \
+  --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/standard-deviation
+```
+
+`--path-id` and `--path-graph-id` must be supplied together. All selection identities must be absolute HTTP(S) IRIs. Zero available paths and multi-path requests without an explicit selection fail closed; sorting, RDF/file order, labels, renderer type, routes, course position and path-step order never choose a winner. Selection is offline compiler/application context only: it does not add navigation RDF, learner state, accounts, personalization or LMS semantics.
+
 ## Connected interactive runtime
 
 The ordinary pitch remains static and does not prepare or fetch CodeMirror/webR assets. Connected mode (`?interactive=1`) uses a local vendor cache under `apps/pitch/public/vendor/`; that generated cache is intentionally not committed.
