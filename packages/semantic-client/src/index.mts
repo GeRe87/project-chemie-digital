@@ -3,6 +3,7 @@ export const STANDARD_DEVIATION_RESOURCE = "https://w3id.org/project-chemie-digi
 export const STANDARD_DEVIATION_PATH = "https://w3id.org/project-chemie-digital/resource/path-standard-deviation";
 export const STANDARD_DEVIATION_PATH_GRAPH = "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation";
 export const STANDARD_DEVIATION_SPEC_GRAPH = "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation";
+export const DIGITAL_CHEMISTRY_TEACHING_OFFERING = "https://w3id.org/project-chemie-digital/resource/teaching-offering-digital-chemistry";
 
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const SKOS_PREF_LABEL = "http://www.w3.org/2004/02/skos/core#prefLabel";
@@ -59,6 +60,24 @@ export interface StandardDeviationPathSummary {
   readonly steps: readonly StandardDeviationPathStep[];
 }
 
+export interface CourseScalePathReference {
+  readonly id: string;
+  readonly graphId: string;
+}
+
+export interface CourseScaleUnitPlacement {
+  readonly id: string;
+  readonly position: number;
+  readonly unitId: string;
+  readonly paths: readonly CourseScalePathReference[];
+}
+
+export interface TeachingOfferingComposition {
+  readonly id: string;
+  readonly graphId: string;
+  readonly placements: readonly CourseScaleUnitPlacement[];
+}
+
 export interface NamedGraphStatement {
   readonly graphId: string;
   readonly predicate: string;
@@ -107,6 +126,18 @@ function requireUri(
   return value.value;
 }
 
+function optionalUri(
+  row: Readonly<Record<string, SparqlBindingValue>>,
+  name: string,
+): string | undefined {
+  const value = row[name];
+  if (!value) return undefined;
+  if (value.type !== "uri") {
+    throw new Error(`SPARQL binding ?${name} must be an IRI`);
+  }
+  return value.value;
+}
+
 function optionalLiteral(
   row: Readonly<Record<string, SparqlBindingValue>>,
   name: string,
@@ -117,6 +148,21 @@ function optionalLiteral(
     throw new Error(`SPARQL binding ?${name} must be a literal`);
   }
   return value;
+}
+
+function positiveSafeInteger(
+  row: Readonly<Record<string, SparqlBindingValue>>,
+  name: string,
+): number {
+  const value = optionalLiteral(row, name);
+  if (!value) {
+    throw new Error(`SPARQL result is missing required binding ?${name}`);
+  }
+  const number = Number(value.value);
+  if (!Number.isSafeInteger(number) || number < 1) {
+    throw new Error(`Invalid ${name}: ${value.value}`);
+  }
+  return number;
 }
 
 function termFromBinding(value: SparqlBindingValue): RdfTerm {
@@ -160,6 +206,26 @@ export function standardDeviationPathQuery(): string {
   }
 }
 ORDER BY ?position STR(?step)`;
+}
+
+export function teachingOfferingCompositionQuery(offeringId: string): string {
+  const offering = iri(offeringId);
+  return `SELECT ?offering ?offeringGraph ?placement ?position ?unit ?pathGraph ?path WHERE {
+  BIND(${offering} AS ?offering)
+  GRAPH ?offeringGraph {
+    ?offering <${RDF_TYPE}> <${CD}TeachingOffering> ;
+              <${CD}hasUnitPlacement> ?placement .
+    ?placement <${CD}position> ?position ;
+               <${CD}placesLearningUnit> ?unit .
+  }
+  OPTIONAL {
+    GRAPH ?pathGraph {
+      ?path <${RDF_TYPE}> <${CD}LearningPath> ;
+            <${CD}forLearningUnit> ?unit .
+    }
+  }
+}
+ORDER BY ?position STR(?placement) STR(?path) STR(?pathGraph)`;
 }
 
 export function provenanceQuery(resourceId: string): string {
@@ -243,21 +309,11 @@ export class SemanticQueryClient {
 
   async standardDeviationPath(): Promise<StandardDeviationPathSummary> {
     const result = await this.#transport.select(standardDeviationPathQuery());
-    const steps = result.results.bindings.map((row) => {
-      const positionValue = optionalLiteral(row, "position");
-      if (!positionValue) {
-        throw new Error("SPARQL result is missing required binding ?position");
-      }
-      const position = Number(positionValue.value);
-      if (!Number.isSafeInteger(position) || position < 1) {
-        throw new Error(`Invalid path position: ${positionValue.value}`);
-      }
-      return {
-        id: requireUri(row, "step"),
-        position,
-        sceneId: requireUri(row, "scene"),
-      };
-    });
+    const steps = result.results.bindings.map((row) => ({
+      id: requireUri(row, "step"),
+      position: positiveSafeInteger(row, "position"),
+      sceneId: requireUri(row, "scene"),
+    }));
 
     steps.sort((left, right) =>
       left.position - right.position || left.id.localeCompare(right.id),
@@ -267,6 +323,103 @@ export class SemanticQueryClient {
       id: STANDARD_DEVIATION_PATH,
       graphId: STANDARD_DEVIATION_PATH_GRAPH,
       steps,
+    };
+  }
+
+  async teachingOfferingComposition(
+    offeringId: string,
+  ): Promise<TeachingOfferingComposition | null> {
+    const normalizedOfferingId = absoluteHttpIri(offeringId);
+    const result = await this.#transport.select(
+      teachingOfferingCompositionQuery(normalizedOfferingId),
+    );
+    if (result.results.bindings.length === 0) return null;
+
+    let offeringGraphId: string | undefined;
+    const placements = new Map<
+      string,
+      {
+        position: number;
+        unitId: string;
+        paths: Map<string, CourseScalePathReference>;
+      }
+    >();
+
+    for (const row of result.results.bindings) {
+      const rowOfferingId = requireUri(row, "offering");
+      if (rowOfferingId !== normalizedOfferingId) {
+        throw new Error(
+          `SPARQL result returned unexpected teaching offering: ${rowOfferingId}`,
+        );
+      }
+
+      const rowOfferingGraphId = requireUri(row, "offeringGraph");
+      if (offeringGraphId === undefined) {
+        offeringGraphId = rowOfferingGraphId;
+      } else if (offeringGraphId !== rowOfferingGraphId) {
+        throw new Error(
+          `Teaching offering composition spans multiple named graphs: ${offeringGraphId}, ${rowOfferingGraphId}`,
+        );
+      }
+
+      const placementId = requireUri(row, "placement");
+      const position = positiveSafeInteger(row, "position");
+      const unitId = requireUri(row, "unit");
+      const pathId = optionalUri(row, "path");
+      const pathGraphId = optionalUri(row, "pathGraph");
+      if ((pathId === undefined) !== (pathGraphId === undefined)) {
+        throw new Error(
+          `SPARQL result must bind ?path and ?pathGraph together for placement ${placementId}`,
+        );
+      }
+
+      let placement = placements.get(placementId);
+      if (!placement) {
+        placement = { position, unitId, paths: new Map() };
+        placements.set(placementId, placement);
+      } else if (placement.position !== position || placement.unitId !== unitId) {
+        throw new Error(`Contradictory rows for unit placement ${placementId}`);
+      }
+
+      if (pathId !== undefined && pathGraphId !== undefined) {
+        const key = `${pathId}\u0000${pathGraphId}`;
+        placement.paths.set(key, { id: pathId, graphId: pathGraphId });
+      }
+    }
+
+    if (offeringGraphId === undefined) {
+      throw new Error("Teaching offering composition is missing named-graph identity");
+    }
+
+    const orderedPlacements = [...placements.entries()]
+      .map(([id, placement]) => ({
+        id,
+        position: placement.position,
+        unitId: placement.unitId,
+        paths: [...placement.paths.values()].sort(
+          (left, right) =>
+            left.id.localeCompare(right.id) || left.graphId.localeCompare(right.graphId),
+        ),
+      }))
+      .sort(
+        (left, right) =>
+          left.position - right.position || left.id.localeCompare(right.id),
+      );
+
+    for (let index = 1; index < orderedPlacements.length; index += 1) {
+      const previous = orderedPlacements[index - 1];
+      const current = orderedPlacements[index];
+      if (previous && current && previous.position === current.position) {
+        throw new Error(
+          `Duplicate teaching-offering placement position ${current.position}: ${previous.id}, ${current.id}`,
+        );
+      }
+    }
+
+    return {
+      id: normalizedOfferingId,
+      graphId: offeringGraphId,
+      placements: orderedPlacements,
     };
   }
 
