@@ -1,0 +1,28 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://w3id.org/project-chemie-digital/graph/concepts/course-scale> {
+  cd:CourseScaleDomain a cdm:ConceptDomain ;
+    cdm:definesConcept cd:TeachingOffering, cd:LearningUnit, cd:UnitPlacement ;
+    cdm:definesRelation cd:hasUnitPlacement, cd:placesLearningUnit,
+      cd:hasFocusConcept, cd:forLearningUnit .
+
+  cd:TeachingOffering a rdfs:Class, cdm:ConceptDescriptor .
+  cd:LearningUnit a rdfs:Class, cdm:ConceptDescriptor .
+  cd:UnitPlacement a rdfs:Class, cdm:ConceptDescriptor .
+
+  # Target typing is governed by SHACL rather than rdfs:range. Repository
+  # validation runs with RDFS inference; declaring these ranges would infer
+  # the expected target type from the relation itself and make mistyped IRI
+  # targets impossible for SHACL to distinguish from asserted valid targets.
+  cd:hasUnitPlacement a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:TeachingOffering .
+  cd:placesLearningUnit a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:UnitPlacement .
+  cd:hasFocusConcept a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:LearningUnit .
+  cd:forLearningUnit a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:LearningPath .
+}
