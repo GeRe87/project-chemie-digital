@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 39,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Plan exactly one bounded Phase 4 follow-up after accepted Issue #98, based on current main, backlog and architecture. Prefer an architecture-first renderer-neutral course runtime/read-model boundary before any multi-unit navigation UI, while preserving authored TriG authority, explicit path selection, existing SceneDocument and learner-state contracts, and no LMS coupling.",
-  "lastCompletedTurn": "manager: reviewed PR #99 against Issue #98 and ADR-0009, confirmed authoritative exact-head validator success, no review threads, clean nine-file scope and correct explicit course/unit/path selection plus runtime delegation behavior. Documented manager acceptance because the connected GitHub identity owns the PR, marked it ready, and explicitly squash-merged it with expected-head protection. Issue #98 closed as completed; post-merge audit confirmed the resulting squash commit has exactly one parent. No follow-up work was assigned in this merge turn.",
-  "lastUpdated": "2026-08-28T14:36:47+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Software Architect",
+  "activeIssue": 100,
+  "expectedDeliverable": "Execute Issue #100 on agent/100-teaching-offering-runtime-architecture as Software Architect: produce ADR-0010 defining the versioned renderer-neutral TeachingOffering runtime/read-model boundary derived from validated course composition, including minimal stable offering/placement/unit/path identities, authored display metadata and language handling, deterministic course ordering, Dataset revision binding, separation from ADR-0009 current selection, SceneDocument/ResolvedLearningPath and LearnerStateDocument, compatibility strategy for canonical-runtime.json, accessibility/privacy implications, Standardabweichung plus hypothetical multi-unit/multi-path reference flows, structured handoff and draft PR. Do not implement runtime/compiler, semantic-client, renderer, ontology/TriG/SHACL, learner-state or LMS changes.",
+  "lastCompletedTurn": "manager: continued Phase 4 after accepted Issue #98, identified that the canonical course semantics, typed composition query and ADR-0009 selector still leave offline applications without a typed renderer-neutral TeachingOffering read model and would otherwise force future navigation code to query Fuseki at runtime or infer curriculum structure from the generic Dataset snapshot. Added backlog item 41 and created Issue #100 for an ADR-only TeachingOffering runtime/read-model boundary, assigned to the Software Architect. Verified no existing agent/100-teaching-offering-runtime-architecture branch or open PR; no feature code was changed in this manager turn.",
+  "lastUpdated": "2026-08-28T14:41:08+02:00",
   "lease": {
-    "owner": "interactive-manager-20260828T143647+0200",
-    "claimedAt": "2026-08-28T14:36:47+02:00",
-    "expiresAt": "2026-08-28T16:36:47+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 463,
+  "stateRevision": 464,
   "transitionHistory": [
     {"at":"2026-08-28T12:43:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T124335+0200","reason":"Claimed the Issue #94 manager review turn after exact-head validator success became authoritative, to review PR #95 against ADR-0008, the issue acceptance criteria and merge policy."},
     {"at":"2026-08-28T12:47:46+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T124335+0200","reason":"Accepted the Issue #94 result after exact-head validator success and clean review, documented manager acceptance, marked PR #95 ready and explicitly squash-merged it with expected-head protection. Issue #94 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."},
@@ -33,6 +33,7 @@
     {"at":"2026-08-28T14:18:51+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T141851+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on the unchanged PR #99 exact head, resolving the sole external validation blocker and making the Issue #98 manager review turn executable."},
     {"at":"2026-08-28T14:19:37+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T141937+0200","reason":"Claimed the Issue #98 manager review turn after exact-head validator success became authoritative, to review PR #99 against ADR-0009, Issue #98 acceptance criteria, the nine-file bounded scope and configured merge policy."},
     {"at":"2026-08-28T14:24:06+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260828T141937+0200","reason":"Accepted the Issue #98 result after exact-head validator success and clean review, documented manager acceptance, marked PR #99 ready and explicitly squash-merged it with expected-head protection. Issue #98 closed as completed and post-merge audit confirmed a single-parent squash commit; no follow-up work was assigned in this merge turn."},
-    {"at":"2026-08-28T14:36:47+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T143647+0200","reason":"Claimed the next Phase 4 planning turn to define the missing renderer-neutral course runtime/read-model boundary before any multi-unit navigation UI or additional course-scale renderer behavior is implemented."}
+    {"at":"2026-08-28T14:36:47+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T143647+0200","reason":"Claimed the next Phase 4 planning turn to define the missing renderer-neutral course runtime/read-model boundary before any multi-unit navigation UI or additional course-scale renderer behavior is implemented."},
+    {"at":"2026-08-28T14:41:08+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260828T143647+0200","reason":"Added Phase 4 backlog item 41 and created Issue #100 for ADR-0010, assigning the Software Architect to define a versioned renderer-neutral TeachingOffering runtime/read-model boundary before any multi-unit navigation or course-shell implementation."}
   ]
 }
