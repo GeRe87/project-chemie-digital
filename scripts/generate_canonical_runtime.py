@@ -139,7 +139,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
         raise ValueError(
             f"Selected LearningPath {compact(path)} is not defined in expected graph {selected_path.path_graph_id}"
         )
-    steps = sorted(objects(dataset, path, iri(CD, "hasStep")), key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)))
+    steps = sorted(
+        set(path_graph.objects(path, iri(CD, "hasStep"))),
+        key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)),
+    )
     positions = [integer(dataset, step, iri(CD, "position")) for step in steps]
     if positions != list(range(1, len(steps) + 1)):
         raise ValueError("Path positions must be unique and contiguous")
