@@ -63,5 +63,6 @@ TriG files are the authored semantic source. JSON-LD and compiled JSON/TypeScrip
 ## Phase 4 — Course-scale semantic architecture
 
 36. Record the renderer-neutral course/module/learning-unit composition boundary before introducing course-scale ontology or application code.
+37. Implement the minimal ADR-0008 course-scale semantic reference model: vocabulary, SHACL invariants, one Standardabweichung learning-unit fixture and deterministic semantic/query tests.
 
 Phase 4 scales the proven single-topic pipeline into the structure needed for the funded chemistry module. Course/module organization must select and relate reusable semantic resources and didactic paths without becoming a second content store, without embedding renderer navigation, and without coupling learner-state to authored course structure.
