@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 42,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 108,
-  "expectedDeliverable": "Execute Issue #108 only: migrate the reviewed reusable Chemometrics knowledge for Random Variables, Mean Values, and Variance and Dispersion into canonical TriG, with a repository-tracked REUSE/CREATE/PATH/RENDERER migration map, focused deterministic semantic/SHACL tests, a structured handoff and one draft PR. Apply the mandatory scientific review gates; do not add a Chemometrics LearningPath, SceneDefinition, renderer/application infrastructure, learner-state or LMS behavior, and do not merge.",
-  "lastCompletedTurn": "worker: completed the bounded Issue #108 Chemometrics reusable-content migration on the assigned agent branch, produced Draft PR #109 and the structured Issue #108 handoff, expanded reviewed canonical scientific resources with reuse-heavy concept mapping, recorded all 46 legacy slide occurrences with REUSE/CREATE/PATH/RENDERER separation, added focused semantic/SHACL regressions, and documented renderer-only needs without implementing System Track work. No Chemometrics LearningPath or SceneDefinition was authored and no merge or self-acceptance was performed; control is returned to the manager for exact-head validation and review.",
-  "lastUpdated": "2026-08-31T16:38:19+02:00",
+  "expectedDeliverable": "Correct PR #109 only for the manager-reviewed provenance governance defect: re-ground affected source relations using only repository or supplied legacy evidence already authorized by Issue #108, remove newly introduced externally researched NIST source resources/URLs where not already authorized evidence, update provenance-focused tests and the handoff, perform no new external research, preserve the otherwise accepted scientific corrections and six-file bounded content scope, and return for fresh exact-head validator review without merging.",
+  "lastCompletedTurn": "manager: reviewed Issue #108 / Draft PR #109 on the current exact head. The six-file content-only scope, reuse-heavy scientific identities, Mean/Expected-Value distinction, scoped LLN, geometric/harmonic-mean corrections, SEM/CV qualification, 46-slide migration map, no-path/no-scene boundary and focused tests were otherwise acceptable, and the required external validator context was successful with no review threads. Acceptance was withheld because the PR introduced newly researched NIST provenance while neither the active Issue #108 assignment nor the Semantic Web and Ontology Engineer role explicitly authorized external web research; the worker handoff explicitly confirmed current NIST material was checked. A narrow correction was recorded on PR #109: remove or re-ground that provenance using only already-authorized repository/legacy evidence, update tests/handoff, perform no new external research, and preserve the accepted scientific/content scope. GitHub cannot submit a formal REQUEST_CHANGES review on the account's own PR, so the manager verdict was recorded as a PR conversation comment. No merge was performed.",
+  "lastUpdated": "2026-08-31T16:42:33+02:00",
   "lease": {
-    "owner": "interactive-manager-20260831T163819+0200",
-    "claimedAt": "2026-08-31T16:38:19+02:00",
-    "expiresAt": "2026-08-31T18:38:19+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 506,
+  "stateRevision": 507,
   "transitionHistory": [
     {"at":"2026-08-31T14:15:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T141535+0200","reason":"Claimed the Issue #106 / PR #107 manager review turn for the parallel Chemometrics Content Track C1 after confirming the global dispatcher was idle, the exact PR head exists and the required external validator context is successful."},
     {"at":"2026-08-31T14:18:49+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T141535+0200","reason":"Reviewed Issue #106 / PR #107. The bounded Chemometrics course skeleton, concept reuse, migration inventory and no-path/runtime/UI scope were acceptable and exact-head validation was successful, but tests/test_rdf_dataset.py contained unrelated regression-test rewrites including removal of the canonical-N-Quads literal-metadata test. Requested a narrow worker correction to restore current main coverage and add only the new canonical graph whitelist entry; no acceptance or merge was performed."},
@@ -30,6 +30,7 @@
     {"at":"2026-08-31T15:52:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T155200+0200","reason":"Claimed the next bounded manager planning turn after verifying Issue #108 is the sole open issue, PR #107 is merged, no open pull requests exist, the intended Issue #108 branch does not exist, and the Semantic Web and Ontology Engineer role plus ADR boundaries match the detailed Chemometrics reusable-content migration scope."},
     {"at":"2026-08-31T15:58:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T155200+0200","reason":"Assigned Issue #108 to the Semantic Web and Ontology Engineer after confirming the dependency and repository state. The worker is bounded to detailed reusable Chemometrics content migration with REUSE/CREATE/PATH/RENDERER classification, mandatory scientific corrections, canonical TriG/tests/handoff/draft PR, while LearningPaths, scenes, renderer/application infrastructure, learner-state and merge remain out of scope."},
     {"at":"2026-08-31T16:34:35+02:00","from":"ready/worker","to":"ready/manager","actor":"interactive-worker-20260831T163435+0200","reason":"Completed the assigned Issue #108 worker turn with Draft PR #109 and the structured handoff already present. Returned dispatcher control to the manager while retaining activeIssue and activeRole as review evidence; no merge, self-acceptance, LearningPath/scene authoring or System Track implementation was performed."},
-    {"at":"2026-08-31T16:38:19+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T163819+0200","reason":"Claimed the Issue #108 / PR #109 manager review turn after the worker returned control, with the draft pull request, structured handoff and successful required external validator evidence already present for review."}
+    {"at":"2026-08-31T16:38:19+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T163819+0200","reason":"Claimed the Issue #108 / PR #109 manager review turn after the worker returned control, with the draft pull request, structured handoff and successful required external validator evidence already present for review."},
+    {"at":"2026-08-31T16:42:33+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T163819+0200","reason":"Reviewed Issue #108 / Draft PR #109 and found the six-file scientific/content scope otherwise acceptable with successful exact-head validation and no review threads, but withheld acceptance because newly researched NIST provenance was introduced without explicit external-research authorization in the assignment and role. Recorded one narrow PR correction request to re-ground or remove that provenance using only already-authorized repository/legacy evidence, update tests and handoff, perform no new external research, and preserve the accepted content scope; no merge was performed."}
   ]
 }
