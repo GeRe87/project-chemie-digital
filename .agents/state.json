@@ -1,23 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 42,
-  "status": "busy",
-  "turn": "worker",
+  "status": "blocked",
+  "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 106,
-  "expectedDeliverable": "Correct PR #107 without broadening Issue #106: restore tests/test_rdf_dataset.py to the current main regression suite and add only the chemometrics-basics canonical graph identity to EXPECTED_CANONICAL_GRAPHS, preserving the existing fingerprint, canonical-N-Quads and Dataset-contract tests unchanged. Keep the bounded Chemometrics TeachingOffering/course inventory/TriG work intact, update the handoff if needed, publish a new exact-head agent-validator/project-chemie-digital result, and return to manager review. Do not start Issue #108 before #107 is accepted and merged.",
-  "lastCompletedTurn": "manager: reviewed Issue #106 / PR #107 on exact head 2cca6cd41bbf6e16ec66823861567bc82d0ba5ad with successful required validator context and no review threads. The Chemometrics TeachingOffering, 10/20/30 placements, concept reuse, migration inventory and absence of premature LearningPaths/runtime/UI scope were acceptable, but tests/test_rdf_dataset.py contained unrelated rewrites that removed the existing canonical-N-Quads literal-metadata regression and changed multiple fingerprint/Dataset-contract fixtures. Requested a narrow worker correction: restore the current main test file and add only the new chemometrics-basics graph to the explicit canonical graph whitelist. No acceptance or merge was performed.",
-  "lastUpdated": "2026-08-31T14:25:29+02:00",
+  "expectedDeliverable": "Re-review corrected Issue #106 / PR #107 after authoritative exact-head agent-validator/project-chemie-digital success is available. Confirm tests/test_rdf_dataset.py now differs from current main only by the chemometrics-basics canonical graph whitelist entry, preserve the accepted six-file Chemometrics course-skeleton scope and existing regression coverage, require no unresolved review threads, then record manager acceptance and complete the configured guarded squash-merge flow when the PR is Ready for review. Do not start Issue #108 before #107 is merged.",
+  "lastCompletedTurn": "worker: completed the narrow Issue #106 correction requested by manager. Restored tests/test_rdf_dataset.py to the current main regression suite and retained only the additive chemometrics-basics entry in EXPECTED_CANONICAL_GRAPHS; the PR patch for that file is now one whitelist-line addition and the canonical-N-Quads, fingerprint and Dataset-contract tests are preserved unchanged. No other feature/source scope was modified. Returned to manager because the required exact-head validator context is pending on the corrected PR head.",
+  "lastUpdated": "2026-08-31T14:27:56+02:00",
   "lease": {
-    "owner": "interactive-worker-20260831T142529+0200",
-    "claimedAt": "2026-08-31T14:25:29+02:00",
-    "expiresAt": "2026-08-31T16:25:29+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 495,
+  "blockedBy": [
+    "agent-validator/project-chemie-digital is pending on the corrected PR #107 exact head"
+  ],
+  "stateRevision": 496,
   "transitionHistory": [
-    {"at":"2026-08-31T10:08:12+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T100812+0200","reason":"Claimed the Issue #100 merge-completion manager turn after the human UI action resolved the draft-state blocker, with the already-accepted ADR result, unchanged exact head, successful required validator context, unchanged two-file scope and no review threads."},
     {"at":"2026-08-31T10:12:46+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260831T100812+0200","reason":"Completed the already-accepted Issue #100 result after PR #101 was marked ready: reconfirmed the unchanged exact head and successful validator context, explicitly squash-merged with expected-head protection, verified Issue #100 closed as completed, and audited the resulting merge commit as single-parent. No follow-up work was assigned in this merge-completion turn."},
     {"at":"2026-08-31T10:24:23+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T102423+0200","reason":"Claimed the next Phase 4 planning turn to convert accepted ADR-0010 into exactly one bounded TeachingOfferingRuntimeDocument 1.0 offline projector and canonical-runtime packaging implementation assignment without broadening into course navigation, authored semantic changes, learner-state or LMS scope."},
     {"at":"2026-08-31T10:29:01+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T102423+0200","reason":"Added Phase 4 backlog item 42 and created Issue #102, assigning the Backend and Data Integration Engineer to implement a deterministic TeachingOfferingRuntimeDocument 1.0 offline projector and additive canonical-runtime teachingOfferingDocuments[] packaging with focused determinism/metadata/fingerprint tests, while keeping browser navigation, TypeScript/core validation, semantic-client, ontology, learner-state and LMS changes out of scope."},
@@ -41,6 +42,7 @@
     {"at":"2026-08-31T12:23:02+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260831T121926+0200","reason":"Completed the accepted Issue #104 / PR #105 result: reconfirmed exact-head validation, clean mergeability, accepted eight-file scope and no review threads; explicitly squash-merged with expected-head protection, verified Issue #104 closed as completed, confirmed the new canonical-runtime Core contract on main, and audited the resulting squash commit as single-parent. No follow-up work was assigned in this merge-completion turn."},
     {"at":"2026-08-31T14:15:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T141535+0200","reason":"Claimed the Issue #106 / PR #107 manager review turn for the parallel Chemometrics Content Track C1 after confirming the global dispatcher was idle, the exact PR head exists and the required external validator context is successful."},
     {"at":"2026-08-31T14:18:49+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T141535+0200","reason":"Reviewed Issue #106 / PR #107. The bounded Chemometrics course skeleton, concept reuse, migration inventory and no-path/runtime/UI scope were acceptable and exact-head validation was successful, but tests/test_rdf_dataset.py contained unrelated regression-test rewrites including removal of the canonical-N-Quads literal-metadata test. Requested a narrow worker correction to restore current main coverage and add only the new canonical graph whitelist entry; no acceptance or merge was performed."},
-    {"at":"2026-08-31T14:25:29+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T142529+0200","reason":"Claimed the narrow Issue #106 correction turn after confirming PR #107 is still open on the reviewed head and the requested regression-suite restoration remains outstanding. Work is limited to restoring tests/test_rdf_dataset.py from current main plus the single chemometrics-basics whitelist entry before returning for exact-head manager review."}
+    {"at":"2026-08-31T14:25:29+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T142529+0200","reason":"Claimed the narrow Issue #106 correction turn after confirming PR #107 is still open on the reviewed head and the requested regression-suite restoration remains outstanding. Work is limited to restoring tests/test_rdf_dataset.py from current main plus the single chemometrics-basics whitelist entry before returning for exact-head manager review."},
+    {"at":"2026-08-31T14:27:56+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260831T142529+0200","reason":"Completed the requested Issue #106 correction: restored tests/test_rdf_dataset.py from current main and retained only the additive chemometrics-basics named-graph whitelist entry, preserving all existing fingerprint, canonical-N-Quads and Dataset-contract regression coverage. The corrected PR now requires a fresh authoritative exact-head validator result before manager acceptance can resume."}
   ]
 }
