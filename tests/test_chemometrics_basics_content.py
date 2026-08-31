@@ -188,22 +188,54 @@ class ChemometricsBasicsContentTests(unittest.TestCase):
             with self.subTest(statement=statement):
                 self.assertNotIn(statement, text)
 
-    def test_new_definition_and_formula_sources_resolve_to_authored_sources(self) -> None:
+    def test_provenance_uses_only_repository_or_supplied_legacy_evidence(self) -> None:
+        expected_sources = {
+            EX["def-random-variable"]: {EX["source-openstax-statistics"]},
+            EX["def-expected-value"]: {EX["source-openstax-statistics"]},
+            EX["def-geometric-mean"]: {EX["source-legacy-mean-value"]},
+            EX["def-harmonic-mean"]: {EX["source-legacy-mean-value"]},
+            EX["def-median"]: {EX["source-legacy-mean-value"]},
+            EX["sem-estimated-formula"]: {EX["source-openstax-statistics"]},
+            EX["relative-standard-deviation-formula"]: {EX["source-legacy-variance"]},
+        }
+        for resource, expected in expected_sources.items():
+            with self.subTest(resource=resource):
+                self.assertEqual(expected, set(self.graph.objects(resource, CD.hasSource)))
+
+        for source in (EX["source-legacy-mean-value"], EX["source-legacy-variance"]):
+            with self.subTest(source=source):
+                self.assertIn(CD.Source, set(self.graph.objects(source, RDF.type)))
+                self.assertIn(Literal(True), set(self.graph.objects(source, CD.authoredResource)))
+                self.assertTrue(any(self.graph.objects(source, CD.supportsResource)))
+
+    def test_unauthorized_external_nist_provenance_is_absent(self) -> None:
+        forbidden_sources = {
+            EX["source-nist-location"],
+            EX["source-nist-geometric-mean"],
+            EX["source-nist-harmonic-mean"],
+            EX["source-nist-coefficient-variation"],
+        }
+        for source in forbidden_sources:
+            with self.subTest(source=source):
+                self.assertNotIn(CD.Source, set(self.graph.objects(source, RDF.type)))
+                self.assertEqual([], list(self.graph.subjects(CD.hasSource, source)))
+                self.assertEqual([], list(self.graph.objects(source, CD.supportsResource)))
+
+        text = "\n".join(str(term) for triple in self.chemometrics_graph for term in triple)
+        self.assertNotIn("itl.nist.gov", text)
+        self.assertNotIn("NIST Dataplot", text)
+        self.assertNotIn("NIST/SEMATECH", text)
+
+    def test_reviewed_corrections_do_not_claim_legacy_source_support_when_not_present(self) -> None:
         for resource in (
-            EX["def-random-variable"],
-            EX["def-expected-value"],
-            EX["def-geometric-mean"],
-            EX["def-harmonic-mean"],
-            EX["def-median"],
-            EX["sem-estimated-formula"],
-            EX["relative-standard-deviation-formula"],
+            EX["arithmetic-mean-applicability-interpretation"],
+            EX["geometric-mean-applicability-interpretation"],
+            EX["harmonic-mean-rate-interpretation"],
+            EX["median-robustness-interpretation"],
+            EX["relative-standard-deviation-scope-interpretation"],
         ):
             with self.subTest(resource=resource):
-                sources = set(self.graph.objects(resource, CD.hasSource))
-                self.assertTrue(sources)
-                for source in sources:
-                    self.assertIn(CD.Source, set(self.graph.objects(source, RDF.type)))
-                    self.assertIn(Literal(True), set(self.graph.objects(source, CD.authoredResource)))
+                self.assertEqual([], list(self.graph.objects(resource, CD.hasSource)))
 
     def test_no_chemometrics_learning_path_is_authored_in_content_migration(self) -> None:
         for unit in (
