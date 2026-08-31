@@ -20,6 +20,7 @@
   - `Mean Values` -> `ex:arithmetic-mean`
   - `Variance and Dispersion` -> `ex:variance`, `ex:standard-deviation`, `ex:standard-error`
 - Added only one new bounded scientific concept, `ex:random-variable`, in its own project-owned chemometrics specification graph. It carries the minimum SHACL-compliant authored definition required by the existing Concept contract; no detailed Random Variables lecture content was migrated in this turn.
+- Registered the new project-owned `graph/specifications/chemometrics-basics` identity in the existing explicit canonical-graph regression whitelist rather than weakening the graph-identity test.
 - Preserved the existing Digital Chemistry offering, Standardabweichung LearningUnit, placement and path association unchanged.
 - Added a repository-tracked migration inventory for all 17 supplied legacy Markdown files, including their declared frontmatter requirements, coarse scope, likely split pressure and migration categories.
 - Recorded the `Distributions.md` mismatch between frontmatter requirements (`Mean Values`, `Quantiles`) and the visible legacy Requirements slide (which additionally lists `Variance`) without silently normalizing it.
@@ -32,7 +33,8 @@
 - `ontology/dataset/course-scale.trig` — additive second TeachingOffering, three LearningUnits and three UnitPlacements.
 - `ontology/dataset/chemometrics-basics.trig` — bounded `ex:random-variable` canonical concept anchor plus its minimum authored definition required by the Concept SHACL contract.
 - `docs/migration/chemometrics-course-inventory.md` — inventory and migration boundary for the supplied 17 legacy Markdown files.
-- `tests/test_chemometrics_course_skeleton.py` — deterministic semantic/SHACL regression coverage.
+- `tests/test_chemometrics_course_skeleton.py` — deterministic semantic/SHACL regression coverage for the new offering.
+- `tests/test_rdf_dataset.py` — explicitly registers the new canonical Chemometrics specification graph in the stable named-graph contract.
 - `.agents/handoffs/issue-106-chemometrics-course-skeleton.md` — this handoff.
 
 ## Semantic decisions
@@ -49,6 +51,10 @@ The legacy `MeanValue.md` contains arithmetic, expected, geometric and harmonic 
 
 No matching canonical `random-variable` concept existed. `ex:random-variable` therefore carries a stable identity, English preferred label, authored-resource marker and one concise authored definition because the existing `ConceptShape` requires at least one `cd:hasDefinition`. Discrete/continuous subclasses, formulas, examples, exercises and related resources belong to the next detailed content issue.
 
+### The canonical graph whitelist remains explicit
+
+The repository intentionally tests the exact set of canonical named graphs. Introducing `graph/specifications/chemometrics-basics` therefore requires an explicit addition to `EXPECTED_CANONICAL_GRAPHS`; the test is not generalized or weakened. This preserves fail-closed detection of accidental graph identities.
+
 ### Legacy requirements are evidence, not canonical prerequisite assertions
 
 The repository currently has no reviewed LearningUnit-level prerequisite migration for these legacy strings. Requirements remain documented in the inventory and are not converted to RDF automatically.
@@ -64,8 +70,9 @@ The new LearningUnits deliberately have no `LearningPath` association. Legacy sl
 - [x] Focus-concept reuse reviewed against existing `standard-deviation.trig` identities.
 - [x] Legacy inventory derived from the supplied 17 Markdown files; 32,232 lines and 426 explicit `.slide:id` markers observed.
 - [x] Scope test added to reject accidental early LearningPath creation for the three new units.
-- [x] First validator failure diagnosed precisely: the initial `random-variable` anchor violated the existing `ConceptShape` because it lacked `cd:hasDefinition`; the branch now satisfies that contract without relaxing SHACL.
-- [ ] Authoritative root `npm test` / exact-head `agent-validator/project-chemie-digital` evidence is pending for the updated PR head.
+- [x] First validator failure diagnosed precisely: the initial `random-variable` anchor violated the existing `ConceptShape` because it lacked `cd:hasDefinition`; fixed without relaxing SHACL.
+- [x] Second validator run passed `check:semantics` and all new Chemometrics tests; its only reported failures were the expected canonical-graph whitelist not yet including `graph/specifications/chemometrics-basics`. The whitelist is now explicitly updated.
+- [ ] Authoritative root `npm test` / exact-head `agent-validator/project-chemie-digital` evidence is pending for the final updated PR head.
 
 ## Legacy source limitations
 
@@ -76,14 +83,14 @@ The new LearningUnits deliberately have no `LearningPath` association. Legacy sl
 
 ## Recommended next issue
 
-Migrate the detailed reusable scientific/resource content for:
+Issue #108 is prepared but blocked until this PR is accepted and merged. It migrates the detailed reusable scientific/resource content for:
 
 ```text
 Random Variables -> Mean Values -> Variance and Dispersion
 ```
 
-For each legacy element, explicitly classify it as `REUSE`, `CREATE`, `PATH` or `RENDERER`. The next issue should expand `ex:random-variable`, resolve the multiple mean concepts in `MeanValue.md`, and map `Variance.md` heavily onto existing canonical variance/standard-deviation/standard-error resources. It should still avoid authoring the lecture LearningPath until the reusable content review is complete.
+For each legacy element, it requires explicit `REUSE`, `CREATE`, `PATH` or `RENDERER` classification, scientific review of legacy statements, expansion of `ex:random-variable`, resolution of the multiple mean concepts in `MeanValue.md`, and reuse-heavy mapping of `Variance.md` onto existing canonical variance/standard-deviation/standard-error resources. It still excludes the lecture LearningPath.
 
 ## Recommended manager action
 
-Review after exact-head `agent-validator/project-chemie-digital` reports success. Confirm the five-file bounded scope, SHACL/course-order tests, concept reuse, absence of new paths/scenes/runtime UI, and the documented source gaps before merging.
+Review after exact-head `agent-validator/project-chemie-digital` reports success. Confirm the six-file bounded scope, SHACL/course-order tests, explicit graph whitelist update, concept reuse, absence of new paths/scenes/runtime UI, and the documented source gaps before merging.
