@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import {
+  validateCanonicalRuntimeArtifact,
+  type CanonicalRuntimeArtifact,
+} from "../../../packages/core/src/canonical-runtime.ts";
 import { createLearnerStateDocument } from "../../../packages/learner-state/src/index.ts";
 import { createSelfStudyRenderPlan, type SelfStudyNodePlan } from "../../../packages/renderer-self-study/src/index.ts";
 import type { SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
@@ -12,20 +15,19 @@ import {
 
 const appRoot = new URL("../", import.meta.url);
 
-interface RuntimeArtifact {
-  readonly artifactVersion: "1.0";
-  readonly datasetFingerprint: string;
-  readonly sceneDocuments: readonly SceneDocument[];
+async function readRuntimeArtifact(): Promise<CanonicalRuntimeArtifact> {
+  const source: unknown = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8"));
+  return validateCanonicalRuntimeArtifact(source);
 }
 
 function leaves(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
   return nodes.flatMap((node) => node.kind === "group" ? leaves(node.children) : [node]);
 }
 
-test("self-study app consumes a generated canonical SceneDocument transport", async () => {
-  const artifact = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8")) as RuntimeArtifact;
+test("self-study app consumes a validated generated canonical SceneDocument transport", async () => {
+  const artifact = await readRuntimeArtifact();
   assert.equal(artifact.artifactVersion, "1.0");
-  assert.match(artifact.datasetFingerprint, /^sha256:/);
+  assert.match(artifact.datasetFingerprint, /^sha256:[0-9a-f]{64}$/);
   assert.ok(artifact.sceneDocuments.length > 0);
   for (const documentValue of artifact.sceneDocuments) {
     const result = createSelfStudyRenderPlan(documentValue);
@@ -34,8 +36,48 @@ test("self-study app consumes a generated canonical SceneDocument transport", as
   }
 });
 
+test("generated runtime exposes the validated Standardabweichung TeachingOffering read model", async () => {
+  const artifact = await readRuntimeArtifact();
+  assert.equal(artifact.teachingOfferingDocuments.length, 1);
+  const documentValue = artifact.teachingOfferingDocuments[0]!;
+  assert.equal(documentValue.datasetFingerprint, artifact.datasetFingerprint);
+  assert.equal(
+    documentValue.offering.id,
+    "https://w3id.org/project-chemie-digital/resource/teaching-offering-digital-chemistry",
+  );
+  assert.deepEqual(documentValue.placements, [
+    {
+      id: "https://w3id.org/project-chemie-digital/resource/unit-placement-standard-deviation",
+      position: 10,
+      unitId: "https://w3id.org/project-chemie-digital/resource/learning-unit-standard-deviation",
+    },
+  ]);
+  assert.equal(documentValue.units.length, 1);
+  assert.deepEqual(documentValue.units[0]!.labels, [{ value: "Standardabweichung", language: "de" }]);
+  assert.deepEqual(documentValue.units[0]!.paths, [
+    {
+      id: "https://w3id.org/project-chemie-digital/resource/path-standard-deviation",
+      graphId: "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation",
+      labels: [],
+      descriptions: [],
+    },
+  ]);
+});
+
+test("browser and static loaders share the core runtime validator without app-local artifact schemas", async () => {
+  const browserSource = await readFile(new URL("src/scene-data.ts", appRoot), "utf8");
+  const staticSource = await readFile(new URL("scripts/generate-static.mts", appRoot), "utf8");
+  for (const source of [browserSource, staticSource]) {
+    assert.match(source, /validateCanonicalRuntimeArtifact/);
+    assert.doesNotMatch(source, /interface\s+(CanonicalRuntimeArtifact|RuntimeArtifact)/);
+    assert.doesNotMatch(source, /as\s+(CanonicalRuntimeArtifact|RuntimeArtifact)/);
+  }
+  assert.match(browserSource, /canonicalSelfStudyTeachingOfferingDocuments/);
+  assert.doesNotMatch(staticSource, /teachingOfferingDocuments\.(map|forEach)|canonicalSelfStudyTeachingOfferingDocuments/);
+});
+
 test("generated static-first shell contains all self-study leaf fallback content", async () => {
-  const artifact = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8")) as RuntimeArtifact;
+  const artifact = await readRuntimeArtifact();
   const index = await readFile(new URL("index.html", appRoot), "utf8");
   assert.match(index, /self-study-runtime-fallback:start/);
   assert.match(index, /self-study-runtime-fallback:end/);
@@ -89,7 +131,7 @@ test("static fallback stays present when enhancement is unavailable", async () =
 });
 
 test("learner-state runtime is derived only from renderer source identities", async () => {
-  const artifact = JSON.parse(await readFile(new URL("src/generated/canonical-runtime.json", appRoot), "utf8")) as RuntimeArtifact;
+  const artifact = await readRuntimeArtifact();
   const plans = artifact.sceneDocuments.map((documentValue) => createSelfStudyRenderPlan(documentValue).plan!);
   const runtime = createSelfStudyLearnerRuntime(artifact.datasetFingerprint, plans);
   assert.equal(runtime.datasetFingerprint, artifact.datasetFingerprint);
