@@ -19,7 +19,7 @@
 - Reused existing canonical scientific concepts instead of creating course-specific duplicates:
   - `Mean Values` -> `ex:arithmetic-mean`
   - `Variance and Dispersion` -> `ex:variance`, `ex:standard-deviation`, `ex:standard-error`
-- Added only one new minimal scientific anchor, `ex:random-variable`, in its own project-owned chemometrics specification graph. No detailed Random Variables lecture content was migrated in this turn.
+- Added only one new bounded scientific concept, `ex:random-variable`, in its own project-owned chemometrics specification graph. It carries the minimum SHACL-compliant authored definition required by the existing Concept contract; no detailed Random Variables lecture content was migrated in this turn.
 - Preserved the existing Digital Chemistry offering, Standardabweichung LearningUnit, placement and path association unchanged.
 - Added a repository-tracked migration inventory for all 17 supplied legacy Markdown files, including their declared frontmatter requirements, coarse scope, likely split pressure and migration categories.
 - Recorded the `Distributions.md` mismatch between frontmatter requirements (`Mean Values`, `Quantiles`) and the visible legacy Requirements slide (which additionally lists `Variance`) without silently normalizing it.
@@ -30,7 +30,7 @@
 ## Files changed
 
 - `ontology/dataset/course-scale.trig` — additive second TeachingOffering, three LearningUnits and three UnitPlacements.
-- `ontology/dataset/chemometrics-basics.trig` — minimal `ex:random-variable` canonical concept anchor.
+- `ontology/dataset/chemometrics-basics.trig` — bounded `ex:random-variable` canonical concept anchor plus its minimum authored definition required by the Concept SHACL contract.
 - `docs/migration/chemometrics-course-inventory.md` — inventory and migration boundary for the supplied 17 legacy Markdown files.
 - `tests/test_chemometrics_course_skeleton.py` — deterministic semantic/SHACL regression coverage.
 - `.agents/handoffs/issue-106-chemometrics-course-skeleton.md` — this handoff.
@@ -45,9 +45,9 @@ The existing `ex:learning-unit-standard-deviation` remains the Digital Chemistry
 
 The legacy `MeanValue.md` contains arithmetic, expected, geometric and harmonic means plus median/application material. The skeleton anchors the unit only to existing `ex:arithmetic-mean`; the next detailed content migration must decide which additional reusable concepts belong to this unit or whether the legacy file should be split.
 
-### Random Variables receives only a minimal new concept anchor
+### Random Variables receives only the minimum valid concept content
 
-No matching canonical `random-variable` concept existed. `ex:random-variable` therefore has only type, English preferred label and authored-resource marker in this increment. Definitions, discrete/continuous subclasses or related resources belong to the next detailed content issue.
+No matching canonical `random-variable` concept existed. `ex:random-variable` therefore carries a stable identity, English preferred label, authored-resource marker and one concise authored definition because the existing `ConceptShape` requires at least one `cd:hasDefinition`. Discrete/continuous subclasses, formulas, examples, exercises and related resources belong to the next detailed content issue.
 
 ### Legacy requirements are evidence, not canonical prerequisite assertions
 
@@ -64,7 +64,8 @@ The new LearningUnits deliberately have no `LearningPath` association. Legacy sl
 - [x] Focus-concept reuse reviewed against existing `standard-deviation.trig` identities.
 - [x] Legacy inventory derived from the supplied 17 Markdown files; 32,232 lines and 426 explicit `.slide:id` markers observed.
 - [x] Scope test added to reject accidental early LearningPath creation for the three new units.
-- [ ] Authoritative root `npm test` / exact-head `agent-validator/project-chemie-digital` evidence is pending until the draft PR validation runs.
+- [x] First validator failure diagnosed precisely: the initial `random-variable` anchor violated the existing `ConceptShape` because it lacked `cd:hasDefinition`; the branch now satisfies that contract without relaxing SHACL.
+- [ ] Authoritative root `npm test` / exact-head `agent-validator/project-chemie-digital` evidence is pending for the updated PR head.
 
 ## Legacy source limitations
 
