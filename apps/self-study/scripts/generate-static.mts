@@ -1,20 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { validateCanonicalRuntimeArtifact } from "../../../packages/core/src/canonical-runtime.ts";
 import { createSelfStudyRenderPlan, renderSelfStudyHtml } from "../../../packages/renderer-self-study/src/index.ts";
-
-interface CanonicalRuntimeArtifact {
-  readonly artifactVersion: "1.0";
-  readonly datasetFingerprint: string;
-  readonly sceneDocuments: readonly SceneDocument[];
-}
 
 const runtimePath = fileURLToPath(new URL("../src/generated/canonical-runtime.json", import.meta.url));
 const indexPath = fileURLToPath(new URL("../index.html", import.meta.url));
-const artifact = JSON.parse(await readFile(runtimePath, "utf8")) as CanonicalRuntimeArtifact;
-if (artifact.artifactVersion !== "1.0" || !artifact.datasetFingerprint.startsWith("sha256:")) {
-  throw new Error("Unsupported canonical runtime artifact");
-}
+const artifact = validateCanonicalRuntimeArtifact(JSON.parse(await readFile(runtimePath, "utf8")));
 
 const rendered = artifact.sceneDocuments.map((documentValue) => {
   const result = createSelfStudyRenderPlan(documentValue);
