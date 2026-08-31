@@ -74,6 +74,18 @@ python scripts/generate_canonical_runtime.py \
 
 `--path-id` and `--path-graph-id` must be supplied together. All selection identities must be absolute HTTP(S) IRIs. Zero available paths and multi-path requests without an explicit selection fail closed; sorting, RDF/file order, labels, renderer type, routes, course position and path-step order never choose a winner. Selection is offline compiler/application context only: it does not add navigation RDF, learner state, accounts, personalization or LMS semantics.
 
+## Generated TeachingOffering runtime read model
+
+The same offline generation now adds `teachingOfferingDocuments[]` to the existing `canonical-runtime` container without changing root `artifactVersion: "1.0"`. Each `TeachingOfferingRuntimeDocument 1.0` is disposable generated read state for one explicitly requested teaching offering and is derived from the same immutable canonical RDF Dataset snapshot as the root artifact and selected `SceneDocument`.
+
+The document preserves absolute TeachingOffering, UnitPlacement, LearningUnit and LearningPath IRIs, the validated offering composition graph, authored placement positions, and exact `{path id, graphId}` references. Offering and unit order remain separate responsibilities: `placements[]` follows authored `cd:position`, while normalized units and path references use deterministic serialization order only.
+
+Only explicitly supported authored display metadata is transported: `skos:prefLabel` as `labels[]` and `dct:description` as `descriptions[]`, with RDF language tags preserved. Missing values remain empty arrays. In particular, the current Standardabweichung path has no authored human-readable path label, so its runtime reference deliberately contains `labels: []` and `descriptions: []`; no IRI-local-name, filename, renderer or route fallback is fabricated.
+
+The course runtime document carries exactly the same `datasetFingerprint` as the root artifact. It lists available paths but contains no current, selected, preferred or default path, no URL/menu/router state and no learner progress, answers, scores, accounts or LMS data. ADR-0009 remains the separate path-selection/revalidation boundary. Existing pitch and self-study consumers continue to read `sceneDocuments[]`; course navigation is intentionally not implemented by this transport step.
+
+Canonical TriG remains the only authored semantic authority. `teachingOfferingDocuments[]` and the generic `datasetSnapshot` are generated transports and must not be edited as course content or promoted into parallel authored sources.
+
 ## Connected interactive runtime
 
 The ordinary pitch remains static and does not prepare or fetch CodeMirror/webR assets. Connected mode (`?interactive=1`) uses a local vendor cache under `apps/pitch/public/vendor/`; that generated cache is intentionally not committed.

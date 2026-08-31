@@ -21,6 +21,7 @@ from course_path_selection import (
     select_course_unit_path,
 )
 from rdf_dataset import assemble_dataset, dataset_fingerprint
+from teaching_offering_runtime import project_teaching_offering_runtime_document
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
@@ -303,12 +304,21 @@ def default_selection_request() -> CourseUnitPathSelectionRequest:
 def build_artifact(
     selection_request: CourseUnitPathSelectionRequest | None = None,
 ) -> dict[str, Any]:
+    request = selection_request or default_selection_request()
     dataset = assemble_dataset()
-    selection = select_course_unit_path(dataset, selection_request or default_selection_request())
+    selection = select_course_unit_path(dataset, request)
     fingerprint = dataset_fingerprint(dataset)
+    fingerprint_identity = f"sha256:{fingerprint}"
     return {
-        "artifactVersion": "1.0", "datasetFingerprint": f"sha256:{fingerprint}",
+        "artifactVersion": "1.0", "datasetFingerprint": fingerprint_identity,
         "datasetSnapshot": dataset_snapshot(dataset, fingerprint),
+        "teachingOfferingDocuments": [
+            project_teaching_offering_runtime_document(
+                dataset,
+                request.offering_id,
+                fingerprint_identity,
+            )
+        ],
         "sceneDocuments": [compile_scene_document(dataset, selection.path)],
     }
 
