@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 40,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 102,
   "expectedDeliverable": "Complete the already-accepted Issue #102 / PR #103 merge after PR #103 is explicitly marked Ready for review through a functioning GitHub mutation or human UI action. Re-read the current PR head, require agent-validator/project-chemie-digital success on that exact head, verify the five-file scope and absence of review blockers, then use the configured guarded squash merge and perform the single-parent post-merge audit.",
   "lastCompletedTurn": "manager: reviewed and accepted Issue #102 / PR #103 against ADR-0010 after authoritative exact-head validator success, a clean five-file scope and no review threads. The implementation preserves normalized placements/units, authored multilingual metadata, exact path graph references, zero-path read-model support, deterministic ordering, root fingerprint equality and unchanged SceneDocument/static fallback behavior. Manager acceptance was documented in the PR conversation. The connector then failed to mark the draft PR Ready for review because its GitHub GraphQL query references the unavailable Repository.fullDatabaseId field; no source workaround or merge was attempted while the PR remained draft.",
-  "lastUpdated": "2026-08-31T11:17:52+02:00",
+  "lastUpdated": "2026-08-31T11:18:39+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260831T111839+0200",
+    "claimedAt": "2026-08-31T11:18:39+02:00",
+    "expiresAt": "2026-08-31T13:18:39+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 480,
+  "stateRevision": 481,
   "transitionHistory": [
     {"at":"2026-08-31T09:25:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T092530+0200","reason":"Claimed Issue #100 as Software Architect after verifying the ADR-only assignment, mandatory architecture/runtime inputs, assigned role, absence of the worker branch and absence of an open pull request."},
     {"at":"2026-08-31T09:42:40+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260831T092530+0200","reason":"Completed the Issue #100 ADR-only architecture result, added ADR-0010 and the structured handoff, and opened draft PR #101 with exactly those two files. Returned control to the manager because the required external validator context is missing on the current PR head; no self-acceptance or implementation follow-up is permitted."},
@@ -32,6 +32,7 @@
     {"at":"2026-08-31T11:01:15+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T110115+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on the unchanged PR #103 exact head, resolving the sole external validation blocker and making the Issue #102 manager review turn executable."},
     {"at":"2026-08-31T11:02:25+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T110225+0200","reason":"Claimed the Issue #102 manager review turn after exact-head validator success became authoritative, to review PR #103 against ADR-0010, Issue #102 acceptance criteria, the exact five-file bounded scope and configured merge policy."},
     {"at":"2026-08-31T11:05:44+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-manager-20260831T110225+0200","reason":"Accepted Issue #102 / PR #103 after exact-head validator success, clean five-file review and no review threads, and documented manager acceptance. The connector then failed to mark PR #103 Ready for review because its GitHub GraphQL query references the unavailable Repository.fullDatabaseId field. Blocked without source changes or merge until a functioning mutation or explicit human GitHub UI action clears the draft state."},
-    {"at":"2026-08-31T11:17:52+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T111752+0200","reason":"PR #103 is now explicitly ready for review through human UI action; the current head remains unchanged, exact-head validation is successful, the five-file scope is unchanged and there are no review threads, resolving the sole draft-state infrastructure blocker."}
+    {"at":"2026-08-31T11:17:52+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T111752+0200","reason":"PR #103 is now explicitly ready for review through human UI action; the current head remains unchanged, exact-head validation is successful, the five-file scope is unchanged and there are no review threads, resolving the sole draft-state infrastructure blocker."},
+    {"at":"2026-08-31T11:18:39+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T111839+0200","reason":"Claimed the already-accepted Issue #102 / PR #103 merge-completion turn after the human UI action cleared the draft-state blocker, with the unchanged exact head, successful required validator context, unchanged five-file scope and no review threads."}
   ]
 }
