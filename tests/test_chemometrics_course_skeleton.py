@@ -93,27 +93,33 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             self._ordered_rows(self.dataset, DIGITAL_CHEMISTRY),
         )
 
-    def test_learning_units_reuse_existing_scientific_concepts(self) -> None:
+    def test_learning_units_reuse_reviewed_scientific_concepts(self) -> None:
         expected = {
-            EX["learning-unit-random-variables"]: {EX["random-variable"]},
-            EX["learning-unit-mean-values"]: {EX["arithmetic-mean"]},
+            EX["learning-unit-random-variables"]: {
+                EX["random-variable"],
+                EX["discrete-random-variable"],
+                EX["continuous-random-variable"],
+            },
+            EX["learning-unit-mean-values"]: {
+                EX["arithmetic-mean"],
+                EX["expected-value"],
+                EX["law-of-large-numbers"],
+                EX["geometric-mean"],
+                EX["harmonic-mean"],
+                EX["median"],
+            },
             EX["learning-unit-variance-dispersion"]: {
                 EX["variance"],
                 EX["standard-deviation"],
                 EX["standard-error"],
+                EX["relative-standard-deviation"],
             },
         }
         for unit, focus_concepts in expected.items():
             with self.subTest(unit=unit):
                 self.assertEqual(focus_concepts, set(self.graph.objects(unit, CD.hasFocusConcept)))
 
-        for concept in (
-            EX["random-variable"],
-            EX["arithmetic-mean"],
-            EX["variance"],
-            EX["standard-deviation"],
-            EX["standard-error"],
-        ):
+        for concept in set().union(*expected.values()):
             with self.subTest(concept=concept):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")

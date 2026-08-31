@@ -24,15 +24,17 @@
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
     skos:prefLabel "Random Variables"@en ;
-    cd:hasFocusConcept ex:random-variable .
+    cd:hasFocusConcept ex:random-variable, ex:discrete-random-variable, ex:continuous-random-variable .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;
     skos:prefLabel "Mean Values"@en ;
-    cd:hasFocusConcept ex:arithmetic-mean .
+    cd:hasFocusConcept ex:arithmetic-mean, ex:expected-value, ex:law-of-large-numbers,
+      ex:geometric-mean, ex:harmonic-mean, ex:median .
 
   ex:learning-unit-variance-dispersion a cd:LearningUnit ;
     skos:prefLabel "Variance and Dispersion"@en ;
-    cd:hasFocusConcept ex:variance, ex:standard-deviation, ex:standard-error .
+    cd:hasFocusConcept ex:variance, ex:standard-deviation, ex:standard-error,
+      ex:relative-standard-deviation .
 
   ex:unit-placement-chemometrics-random-variables a cd:UnitPlacement ;
     cd:position 10 ;

@@ -1,14 +1,401 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
+  # Random variables ---------------------------------------------------------
   ex:random-variable a cd:Concept ;
-    skos:prefLabel "random variable"@en ;
+    skos:prefLabel "random variable"@en, "Zufallsvariable"@de ;
     cd:hasDefinition ex:def-random-variable ;
+    cd:hasInterpretation ex:random-variable-realization-interpretation,
+      ex:random-measurement-model-interpretation ;
+    cd:hasExample ex:worked-example-discrete-colony-count,
+      ex:worked-example-continuous-concentration ;
+    cd:hasExercise ex:exercise-dice-realizations ;
+    cd:authoredResource true .
+
+  ex:discrete-random-variable a cd:Concept ;
+    skos:prefLabel "discrete random variable"@en, "diskrete Zufallsvariable"@de ;
+    skos:broader ex:random-variable ;
+    cd:hasDefinition ex:def-discrete-random-variable ;
+    cd:hasExample ex:worked-example-discrete-colony-count ;
+    cd:authoredResource true .
+
+  ex:continuous-random-variable a cd:Concept ;
+    skos:prefLabel "continuous random variable"@en, "stetige Zufallsvariable"@de ;
+    skos:broader ex:random-variable ;
+    cd:hasDefinition ex:def-continuous-random-variable ;
+    cd:hasExample ex:worked-example-continuous-concentration ;
     cd:authoredResource true .
 
   ex:def-random-variable a cd:Definition ;
-    cd:body "A random variable is a function that assigns a numerical value to each outcome of a random process; its range may be discrete or continuous."@en ;
+    cd:body "A real-valued random variable is a measurable function from the outcomes in a sample space to real numbers. Its probability distribution describes the probabilities associated with the values or sets of values it can take."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:def-discrete-random-variable a cd:Definition ;
+    cd:body "A discrete random variable takes values in a finite or countably infinite set; its distribution can be represented by probabilities assigned to those values."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:def-continuous-random-variable a cd:Definition ;
+    cd:body "A continuous random variable has a continuous distribution. In the common absolutely continuous case, probabilities are assigned to intervals by integrating a probability density, and any single exact value has probability zero."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:random-variable-realization-interpretation a cd:Interpretation ;
+    cd:body "A random variable is not one observed result. A die result or a measurement value is a realization of a random variable under the stated probabilistic model."@en ;
+    cd:authoredResource true .
+
+  ex:random-measurement-model-interpretation a cd:Interpretation ;
+    cd:body "A relation such as X = θ + ε is an additive measurement model, not a definition of a random variable. It is appropriate only when a stable quantity θ and an additive random error term ε are justified; measurement noise must not be identified with measurement uncertainty."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-discrete-colony-count a cd:WorkedExample ;
+    skos:prefLabel "colony count as a discrete random variable"@en ;
+    cd:body "For a fixed sampled volume and counting protocol, the observed number of colonies is integer-valued and can be modeled as a discrete random variable."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-continuous-concentration a cd:WorkedExample ;
+    skos:prefLabel "concentration as a continuous random variable"@en ;
+    cd:body "A measured concentration may be modeled as a continuous random variable over the physically admissible range when the measurement model treats concentration as continuously valued."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-dice-realizations a cd:Exercise ;
+    skos:prefLabel "distinguish a die random variable from its realizations"@en ;
+    cd:body "Run the supplied R expression repeatedly. Record several outcomes and explain why each output is a realization whereas the rule assigning the die-face value is the random variable."@en ;
+    cd:hasCodeExample ex:code-dice-roll-r ;
+    cd:authoredResource true .
+
+  ex:code-dice-roll-r a cd:CodeExample ;
+    skos:prefLabel "roll one six-sided die in R"@en ;
+    cd:code "sample(1:6, 1)" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:authoredResource true .
+
+  # Mean values and central location ----------------------------------------
+  ex:arithmetic-mean
+    cd:hasMathExpression ex:arithmetic-mean-formula ;
+    cd:hasInterpretation ex:arithmetic-mean-applicability-interpretation,
+      ex:sample-mean-estimator-interpretation .
+
+  ex:arithmetic-mean-formula a cd:MathExpression ;
+    cd:latex "\\bar{x} = \\frac{1}{n} \\sum_{i=1}^{n} x_i" ;
+    cd:formulaFamily "sample-arithmetic-mean" ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:arithmetic-mean-applicability-interpretation a cd:Interpretation ;
+    cd:body "The arithmetic mean is defined for numerical data for which addition and division by the number of observations are meaningful; normality is not a prerequisite for computing it. Its usefulness as a representative center can be reduced by strong skewness or extreme observations."@en ;
+    cd:authoredResource true .
+
+  ex:sample-mean-estimator-interpretation a cd:Interpretation ;
+    cd:body "The sample arithmetic mean is a statistic computed from observed data and can be used to estimate a population expected value under an appropriate sampling model. It is not semantically identical to the expected value of a random variable."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:expected-value a cd:Concept ;
+    skos:prefLabel "expected value"@en, "Erwartungswert"@de ;
+    cd:hasDefinition ex:def-expected-value ;
+    cd:hasMathExpression ex:discrete-expected-value-formula ;
+    cd:contrastsWith ex:arithmetic-mean ;
+    cd:prerequisite ex:random-variable ;
+    cd:authoredResource true .
+
+  ex:def-expected-value a cd:Definition ;
+    cd:body "The expected value of an integrable random variable is the probability-weighted average defined by its probability distribution. It is a property of that distribution, not the arithmetic mean of one particular observed sample."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:discrete-expected-value-formula a cd:MathExpression ;
+    cd:latex "\\operatorname{E}[X] = \\sum_{x \\in \\mathcal{S}} x\\,P(X=x)" ;
+    cd:formulaFamily "discrete-expected-value" ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:law-of-large-numbers a cd:Concept ;
+    skos:prefLabel "law of large numbers"@en, "Gesetz der großen Zahlen"@de ;
+    cd:hasDefinition ex:def-law-of-large-numbers ;
+    cd:prerequisite ex:random-variable, ex:arithmetic-mean, ex:expected-value ;
+    cd:hasInterpretation ex:lln-not-standard-error-interpretation ;
+    cd:authoredResource true .
+
+  ex:def-law-of-large-numbers a cd:Definition ;
+    cd:body "Under standard conditions such as independent identically distributed observations with a finite expected absolute value, the sample arithmetic mean converges to the expected value as the sample size grows."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:lln-not-standard-error-interpretation a cd:Interpretation ;
+    cd:body "The law of large numbers concerns convergence of sample averages. The formula for the standard error of a sample mean and the approximate normal shape of its sampling distribution are separate sampling-distribution results and must not be used as the definition of the law of large numbers."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:geometric-mean a cd:Concept ;
+    skos:prefLabel "geometric mean"@en, "geometrisches Mittel"@de ;
+    cd:hasDefinition ex:def-geometric-mean ;
+    cd:hasMathExpression ex:geometric-mean-product-formula,
+      ex:geometric-mean-log-formula ;
+    cd:hasInterpretation ex:geometric-mean-applicability-interpretation ;
+    cd:hasExample ex:worked-example-multiplicative-growth ;
+    cd:hasExercise ex:exercise-geometric-growth-factors ;
+    cd:contrastsWith ex:arithmetic-mean, ex:harmonic-mean ;
+    cd:authoredResource true .
+
+  ex:def-geometric-mean a cd:Definition ;
+    cd:body "For n strictly positive observations, the geometric mean is the nth root of their product, equivalently the exponential of the arithmetic mean of their logarithms."@en ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:geometric-mean-product-formula a cd:MathExpression ;
+    cd:latex "G = \\left(\\prod_{i=1}^{n} x_i\\right)^{1/n}, \\qquad x_i > 0" ;
+    cd:formulaFamily "geometric-mean-product" ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:geometric-mean-log-formula a cd:MathExpression ;
+    cd:latex "G = \\exp\\left(\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\right), \\qquad x_i > 0" ;
+    cd:formulaFamily "geometric-mean-log" ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:geometric-mean-applicability-interpretation a cd:Interpretation ;
+    cd:body "The geometric mean is appropriate for strictly positive quantities when equal weighting on a logarithmic scale is scientifically meaningful, for example multiplicative factors or ratios. It is not a universal replacement for the arithmetic mean for every quantity described as a rate."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-multiplicative-growth a cd:WorkedExample ;
+    skos:prefLabel "equivalent multiplicative growth factor"@en ;
+    cd:body "Two equal successive periods have multiplicative factors 2 and 8. Their geometric mean is 4, and applying factor 4 in each period preserves the total factor: 4 × 4 = 2 × 8 = 16."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-geometric-growth-factors a cd:Exercise ;
+    skos:prefLabel "compare arithmetic and geometric means of growth factors"@en ;
+    cd:body "For the positive multiplicative factors 2, 8 and 4, compute the arithmetic and geometric means and explain which average preserves the product over three equally weighted multiplicative periods."@en ;
+    cd:hasExpectedResult ex:expected-geometric-growth-factors ;
+    cd:hasCodeExample ex:code-geometric-mean-r ;
+    cd:authoredResource true .
+
+  ex:expected-geometric-growth-factors a cd:ExpectedResult ;
+    cd:body "The arithmetic mean is 14/3 ≈ 4.667 and the geometric mean is 4. The geometric mean preserves the product because 4^3 = 2 × 8 × 4 = 64."@en ;
+    cd:authoredResource true .
+
+  ex:code-geometric-mean-r a cd:CodeExample ;
+    skos:prefLabel "geometric mean of positive growth factors in R"@en ;
+    cd:code """growth_factors <- c(2, 8, 4)
+mean(growth_factors)
+exp(mean(log(growth_factors)))""" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:authoredResource true .
+
+  ex:harmonic-mean a cd:Concept ;
+    skos:prefLabel "harmonic mean"@en, "harmonisches Mittel"@de ;
+    cd:hasDefinition ex:def-harmonic-mean ;
+    cd:hasMathExpression ex:harmonic-mean-formula ;
+    cd:hasInterpretation ex:harmonic-mean-rate-interpretation ;
+    cd:hasExample ex:worked-example-equal-distance-speed ;
+    cd:contrastsWith ex:arithmetic-mean, ex:geometric-mean ;
+    cd:authoredResource true .
+
+  ex:def-harmonic-mean a cd:Definition ;
+    cd:body "For n nonzero observations whose reciprocal sum is nonzero, the harmonic mean is n divided by the sum of their reciprocals. In common rate applications the values are positive."@en ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:harmonic-mean-formula a cd:MathExpression ;
+    cd:latex "H = \\frac{n}{\\sum_{i=1}^{n} 1/x_i}" ;
+    cd:formulaFamily "harmonic-mean" ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:harmonic-mean-rate-interpretation a cd:Interpretation ;
+    cd:body "For positive rates applied over equal distances or, more generally, equal quantities in the rate denominator, the harmonic mean gives the overall average rate because the corresponding times or reciprocal contributions add. Equal time intervals instead lead to an arithmetic mean of the rates."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-equal-distance-speed a cd:WorkedExample ;
+    skos:prefLabel "average speed over equal-distance sections"@en ;
+    cd:body "A traveler covers two equal-distance sections at 10 m/s and 2 m/s. Total distance divided by total travel time gives 10/3 m/s ≈ 3.33 m/s, equal to the harmonic mean of the two speeds."@en ;
+    cd:authoredResource true .
+
+  ex:median a cd:Concept ;
+    skos:prefLabel "median"@en, "Median"@de ;
+    cd:hasDefinition ex:def-median ;
+    cd:hasMathExpression ex:sample-median-formula ;
+    cd:hasInterpretation ex:median-robustness-interpretation ;
+    cd:hasExample ex:worked-example-turbidity-median ;
+    cd:hasExercise ex:exercise-mean-median-outlier ;
+    cd:contrastsWith ex:arithmetic-mean ;
+    cd:authoredResource true .
+
+  ex:def-median a cd:Definition ;
+    cd:body "A median is a central value such that at least half of the observations are no greater and at least half are no smaller. For a finite ordered sample, the conventional sample median is the middle order statistic for odd n and the arithmetic mean of the two middle order statistics for even n."@en ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:sample-median-formula a cd:MathExpression ;
+    cd:latex "\\tilde{x}=\\begin{cases}x_{((n+1)/2)}, & n\\text{ odd}\\\\\\frac{x_{(n/2)}+x_{(n/2+1)}}{2}, & n\\text{ even}\\end{cases}" ;
+    cd:formulaFamily "sample-median" ;
+    cd:hasSource ex:source-legacy-mean-value ;
+    cd:authoredResource true .
+
+  ex:median-robustness-interpretation a cd:Interpretation ;
+    cd:body "Because the sample median depends on order rather than the magnitudes of all observations, it is substantially less sensitive to extreme values than the arithmetic mean. It is robust to outliers, but extreme observations are not guaranteed to have no effect in every dataset."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-turbidity-median a cd:WorkedExample ;
+    skos:prefLabel "turbidity data with one extreme observation"@en ;
+    cd:body "For 2.1, 2.3, 2.0, 2.2 and 45.0 NTU, the arithmetic mean is 10.72 NTU and the median is 2.2 NTU. The example illustrates the greater resistance of the median to one extreme observation; which summary is scientifically preferable still depends on the question being asked."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-mean-median-outlier a cd:Exercise ;
+    skos:prefLabel "compare mean and median with an extreme observation"@en ;
+    cd:body "Compute the arithmetic mean and median for 2.1, 2.3, 2.0, 2.2 and 45.0 NTU. Compare their sensitivity to the largest observation without assuming that either statistic is universally more representative."@en ;
+    cd:hasExpectedResult ex:expected-mean-median-outlier ;
+    cd:hasCodeExample ex:code-mean-median-r ;
+    cd:authoredResource true .
+
+  ex:expected-mean-median-outlier a cd:ExpectedResult ;
+    cd:body "Arithmetic mean 10.72 NTU; median 2.2 NTU. The difference demonstrates the mean's greater sensitivity to the extreme value."@en ;
+    cd:authoredResource true .
+
+  ex:code-mean-median-r a cd:CodeExample ;
+    skos:prefLabel "compare arithmetic mean and median in R"@en ;
+    cd:code """turbidity <- c(2.1, 2.3, 2.0, 2.2, 45.0)
+mean(turbidity)
+median(turbidity)""" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:authoredResource true .
+
+  # Variance and dispersion --------------------------------------------------
+  ex:variance
+    cd:hasMathExpression ex:population-variance-formula,
+      ex:sample-variance-formula ;
+    cd:hasExercise ex:exercise-summary-statistics-r .
+
+  ex:population-variance
+    cd:hasMathExpression ex:population-variance-formula .
+
+  ex:sample-variance
+    cd:hasMathExpression ex:sample-variance-formula .
+
+  ex:exercise-summary-statistics-r a cd:Exercise ;
+    skos:prefLabel "calculate reusable summary statistics in R"@en ;
+    cd:body "For the positive vector 10, 20, 50, 100 and 200, calculate arithmetic mean, Bessel-corrected sample variance, sample standard deviation, the plug-in estimate s/√n for the standard error of the mean under an iid sampling assumption, and the geometric and harmonic means. Interpret each quantity only when its scientific scale and sampling assumptions are appropriate."@en ;
+    cd:hasCodeExample ex:code-summary-statistics-r ;
+    cd:authoredResource true .
+
+  ex:code-summary-statistics-r a cd:CodeExample ;
+    skos:prefLabel "summary statistics for a positive vector in R"@en ;
+    cd:code """x <- c(10, 20, 50, 100, 200)
+mean(x)
+var(x)
+sd(x)
+sd(x) / sqrt(length(x))
+exp(mean(log(x)))
+1 / mean(1 / x)""" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:authoredResource true .
+
+  ex:population-variance-formula a cd:MathExpression ;
+    cd:latex "\\sigma^2 = \\frac{1}{N}\\sum_{i=1}^{N}(x_i-\\mu)^2" ;
+    cd:formulaFamily "finite-population-variance" ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:sample-variance-formula a cd:MathExpression ;
+    cd:latex "s^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2" ;
+    cd:formulaFamily "bessel-corrected-sample-variance" ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:standard-deviation
+    cd:hasInterpretation ex:normal-empirical-rule-interpretation .
+
+  ex:normal-empirical-rule-interpretation a cd:Interpretation ;
+    cd:body "For an approximately normal distribution, about 68%, 95% and 99.7% of values lie within one, two and three population standard deviations of the mean, respectively. These percentages are distribution-specific and are not a universal interpretation of standard deviation."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:standard-error
+    cd:hasMathExpression ex:sem-population-formula,
+      ex:sem-estimated-formula ;
+    cd:hasInterpretation ex:sem-scope-interpretation .
+
+  ex:sem-population-formula a cd:MathExpression ;
+    cd:latex "\\operatorname{SE}(\\bar{X}) = \\frac{\\sigma}{\\sqrt{n}}" ;
+    cd:formulaFamily "standard-error-of-mean-iid-known-sigma" ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:sem-estimated-formula a cd:MathExpression ;
+    cd:latex "\\widehat{\\operatorname{SE}}(\\bar{X}) = \\frac{s}{\\sqrt{n}}" ;
+    cd:formulaFamily "estimated-standard-error-of-mean-iid" ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:sem-scope-interpretation a cd:Interpretation ;
+    cd:body "For independent identically distributed observations with finite variance, the standard deviation of the sample mean is σ/√n; when σ is unknown it is commonly estimated by s/√n. This is a formula for the sample mean under those assumptions, not a universal formula for every standard error and not a synonym for measurement uncertainty."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
+    cd:authoredResource true .
+
+  ex:relative-standard-deviation
+    skos:altLabel "coefficient of variation"@en, "Variationskoeffizient"@de ;
+    cd:hasMathExpression ex:relative-standard-deviation-formula ;
+    cd:hasInterpretation ex:relative-standard-deviation-scope-interpretation .
+
+  ex:relative-standard-deviation-formula a cd:MathExpression ;
+    cd:latex "CV = \\frac{s}{\\bar{x}}" ;
+    cd:formulaFamily "sample-coefficient-of-variation" ;
+    cd:hasSource ex:source-legacy-variance ;
+    cd:authoredResource true .
+
+  ex:relative-standard-deviation-scope-interpretation a cd:Interpretation ;
+    cd:body "The coefficient of variation is a dimensionless ratio of a standard deviation to a nonzero mean. Cross-scale comparisons are meaningful only for ratio-scale quantities with a meaningful zero; the statistic becomes unstable when the mean is close to zero."@en ;
+    cd:authoredResource true .
+
+  # Source evidence ----------------------------------------------------------
+  # source-openstax-statistics is an existing repository-owned source identity.
+  ex:source-openstax-statistics
+    cd:supportsResource ex:def-random-variable,
+      ex:def-discrete-random-variable,
+      ex:def-continuous-random-variable,
+      ex:sample-mean-estimator-interpretation,
+      ex:def-expected-value,
+      ex:discrete-expected-value-formula,
+      ex:def-law-of-large-numbers,
+      ex:lln-not-standard-error-interpretation,
+      ex:population-variance-formula,
+      ex:sample-variance-formula,
+      ex:normal-empirical-rule-interpretation,
+      ex:sem-population-formula,
+      ex:sem-estimated-formula,
+      ex:sem-scope-interpretation .
+
+  # These two source resources record supplied legacy migration evidence only.
+  # They are not independent scientific authority and deliberately carry no external URL.
+  ex:source-legacy-mean-value a cd:Source ;
+    dct:title "MeanValue.md — supplied legacy migration evidence" ;
+    dct:identifier "legacy:MeanValue.md" ;
+    cd:supportsResource ex:arithmetic-mean-formula,
+      ex:def-geometric-mean,
+      ex:geometric-mean-product-formula,
+      ex:geometric-mean-log-formula,
+      ex:def-harmonic-mean,
+      ex:harmonic-mean-formula,
+      ex:def-median,
+      ex:sample-median-formula ;
+    cd:authoredResource true .
+
+  ex:source-legacy-variance a cd:Source ;
+    dct:title "Variance.md — supplied legacy migration evidence" ;
+    dct:identifier "legacy:Variance.md" ;
+    cd:supportsResource ex:relative-standard-deviation-formula ;
     cd:authoredResource true .
 }
