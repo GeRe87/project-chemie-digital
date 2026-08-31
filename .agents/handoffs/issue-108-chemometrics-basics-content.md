@@ -59,7 +59,24 @@ The Chemometrics specification graph now includes reviewed reusable:
 - interpretations that distinguish random variables from realizations, sample means from expected values, LLN from sampling-distribution results, and SD from estimator-specific SE;
 - selected worked examples for discrete/continuous variables, multiplicative growth, equal-distance speed and median robustness;
 - renderer-neutral R `CodeExample` resources attached to explicit `Exercise` resources;
-- real NIST source resources for location, geometric mean, harmonic mean and coefficient of variation, plus reuse of the existing OpenStax source identity.
+- provenance that uses only the already-existing repository `ex:source-openstax-statistics` identity plus explicit `MeanValue.md` and `Variance.md` source resources recording supplied legacy migration evidence, with no newly introduced external source URLs.
+
+## Provenance correction after manager review
+
+The first Draft PR head passed the project validator but was not accepted because the worker had introduced newly researched NIST source resources without explicit external-research authorization in both the active assignment and role profile.
+
+The narrow correction requested by the Manager has been applied without performing new external research:
+
+- removed `ex:source-nist-location`;
+- removed `ex:source-nist-geometric-mean`;
+- removed `ex:source-nist-harmonic-mean`;
+- removed `ex:source-nist-coefficient-variation`;
+- removed the corresponding external NIST URLs and identifiers;
+- retained existing repository provenance through `ex:source-openstax-statistics` where already available and authorized;
+- introduced `ex:source-legacy-mean-value` and `ex:source-legacy-variance` only to record the supplied Markdown files as migration provenance for formulas/definitions explicitly evidenced there;
+- left reviewed corrective interpretations without `cd:hasSource` when the supplied legacy material does not itself support the corrected wording, rather than inventing or overstating provenance.
+
+The two legacy source resources are migration evidence only, not independent scientific authority. This preserves the scientific corrections already accepted directionally by the Manager while making the provenance claim faithful to the authorized evidence boundary.
 
 ## Course-scale links
 
@@ -138,23 +155,27 @@ Renderer-only evidence includes the seven legacy chart scripts named in Issue #1
 
 ## Files changed
 
-- `ontology/dataset/chemometrics-basics.trig` — expanded reusable Chemometrics scientific/resource graph.
+The PR remains bounded to the same six files:
+
+- `ontology/dataset/chemometrics-basics.trig` — expanded reusable Chemometrics scientific/resource graph; provenance corrected to authorized repository/supplied-legacy evidence only.
 - `ontology/dataset/course-scale.trig` — additive focus-concept links from the existing three Chemometrics LearningUnits to the reviewed reusable concepts.
 - `docs/migration/chemometrics-basics-content-map.md` — complete 46-slide migration map and scientific review.
-- `tests/test_chemometrics_basics_content.py` — focused semantic identity, formula, correction, renderer-boundary and SHACL regression tests.
-- `tests/test_chemometrics_course_skeleton.py` — updates the exact focus-concept expectations to the now-expanded reviewed concept sets while preserving the original offering/order/no-path assertions.
+- `tests/test_chemometrics_basics_content.py` — focused semantic identity, formula, correction, renderer-boundary, provenance-governance and SHACL regression tests.
+- `tests/test_chemometrics_course_skeleton.py` — exact focus-concept expectations while preserving the original offering/order/no-path assertions.
 - `.agents/handoffs/issue-108-chemometrics-basics-content.md` — this handoff.
 
-## Verification performed before PR
+The manager-requested correction itself modifies only `chemometrics-basics.trig`, `test_chemometrics_basics_content.py` and this handoff.
 
-- [x] Source ZIP was recovered from the supplied conversation/library artifact and the three legacy Markdown files were inspected directly.
+## Verification performed
+
+- [x] Source ZIP was recovered from the supplied conversation/library artifact and the three legacy Markdown files were inspected directly during the original Issue #108 worker turn.
 - [x] Exactly 46 explicit slide occurrences are present in the detailed migration map: 5 Random Variables + 24 Mean Values + 17 Variance/Dispersion.
-- [x] New TriG syntax was parsed locally with RDFLib.
-- [x] Updated `course-scale.trig` syntax was parsed locally with RDFLib.
-- [x] New/updated Python test modules were syntax-compiled locally.
 - [x] Reuse was checked against the current canonical `standard-deviation.trig`, `concepts.trig`, `interactive-code.trig` and existing Chemometrics skeleton.
-- [x] Scientific corrections were checked against the existing OpenStax source conventions and current NIST material for measures of location, geometric mean, harmonic mean and coefficient of variation.
-- [ ] Authoritative repository-wide tests and exact-head validator evidence must come from the PR head after all files are committed.
+- [x] Manager review accepted the six-file scientific/content scope directionally and requested only the bounded provenance correction.
+- [x] Provenance correction used only repository evidence already present in the project and the supplied legacy Markdown evidence authorized by Issue #108.
+- [x] No new external research was performed during the correction.
+- [x] Provenance-focused tests now require the exact authorized source identities, reject all four unauthorized NIST source identities/URLs, and verify that corrected interpretations do not falsely claim legacy-source support.
+- [ ] Fresh authoritative exact-head `agent-validator/project-chemie-digital` evidence is required after the correction. The earlier success on the pre-correction PR head is stale by protocol.
 
 ## Open content problems intentionally deferred
 
@@ -166,16 +187,17 @@ Renderer-only evidence includes the seven legacy chart scripts named in Issue #1
 
 ## Validator status
 
-Pending exact-head `agent-validator/project-chemie-digital` evidence for the final Draft PR head. The worker must not accept or merge its own work.
+Fresh exact-head validation is pending for the corrected Draft PR head. The former success on `864f07c9019b9283d829bf001b630defaaa32304` is intentionally treated as stale after the provenance correction. The worker must not accept or merge its own work.
 
 ## Manager review requested
 
-After the exact-head validator reports success, review:
+After a fresh exact-head validator success, review:
 
-1. no duplicate scientific concept identities were introduced;
-2. the seven new concepts and `ex:random-variable` expansion are scientifically scoped as described;
-3. Mean/expected value, harmonic/geometric mean, median, SEM and CV corrections are acceptable;
-4. the 46-slide migration map covers the complete bounded source slice and preserves disputed legacy statements as review evidence rather than authority;
-5. the three LearningUnit focus sets are expanded without creating any Chemometrics `LearningPath` or Scene;
-6. no renderer/application/runtime file is changed;
-7. only after those checks should the Manager decide acceptance/merge.
+1. the four unauthorized NIST source identities and URLs are absent;
+2. legacy source identities are clearly limited to migration evidence and support only directly evidenced formulas/definitions;
+3. corrected scientific interpretations do not carry fabricated `cd:hasSource` relations;
+4. no duplicate scientific concept identities were introduced;
+5. the seven new concepts and `ex:random-variable` expansion remain scientifically scoped as previously reviewed;
+6. the 46-slide migration map remains complete and unchanged in scope;
+7. no Chemometrics LearningPath, Scene, renderer/application/runtime implementation or merge was introduced;
+8. only after those checks should the Manager decide acceptance/merge.
