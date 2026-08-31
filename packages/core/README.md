@@ -8,6 +8,16 @@ The active runtime is authored exclusively in canonical TriG files under `ontolo
 
 Generated JSON is disposable renderer transport only and must not become a parallel authored source.
 
+## Canonical runtime transport validation
+
+`canonical-runtime.ts` defines the shared renderer-neutral TypeScript consumption boundary for generated `canonical-runtime` JSON. Consumers pass untrusted/unknown parsed JSON to `validateCanonicalRuntimeArtifact()` before reading it. The validator accepts unrelated additive root fields but requires the established `artifactVersion: "1.0"`, canonical `sha256:<64 lowercase hex>` Dataset revision identity, the opaque `datasetSnapshot`, `TeachingOfferingRuntimeDocument 1.0` values and `SceneDocument 1.0` values.
+
+`datasetSnapshot` remains generic graph/exploration transport and is deliberately not interpreted as course structure. Course-scale application input comes only from validated `teachingOfferingDocuments[]`: stable absolute offering/placement/unit/path identities, authored placement order, normalized reusable units, exact path `{id, graphId}` pairs and authored localized labels/descriptions. Empty path metadata and zero-path units remain valid; serialization order is checked only for deterministic transport and never becomes locale or path preference.
+
+Every TeachingOffering document must carry exactly the root artifact's Dataset fingerprint. Mixed revisions fail closed before any course document or SceneDocument is exposed to an application. `SceneDocument` validation delegates to the existing `validateSceneDocument()` contract rather than duplicating scene rules. Offering identity inside the root collection is the authored offering IRI; `offering.graphId` remains provenance/ownership evidence, not a second semantic identity.
+
+This boundary adds no menu, routing, breadcrumb, current placement/unit/path state, path selection, locale negotiation, network access or learner state. Self-study browser and static loaders use the same validator; static generation still renders only `sceneDocuments[]`. Authored labels/languages are preserved for later accessible UI work, while the transport itself contains project-authored semantic/display data only and no personal or learner data.
+
 ## Offline path and scene compilation
 
 The active Python runtime first validates a renderer-neutral course/unit/path selection against one assembled Dataset snapshot. Offering, placement and learning-unit identities are checked before an exact path IRI + named-graph reference is normalized. Omitted path selection is permitted only for a true singleton candidate set; ambiguous multi-path contexts fail closed.
@@ -44,4 +54,4 @@ From the repository root run:
 npm test
 ```
 
-The path, scene and knowledge-network transformations have no UI surface, user tracking, network access or personal-data processing. Accessibility metadata and static alternatives are explicit contract values and are validated before successful transformation.
+The path, scene, course-runtime and knowledge-network transformations have no UI surface, user tracking, network access or personal-data processing. Accessibility metadata and authored localized course metadata remain explicit contract values and are validated before successful consumption.
