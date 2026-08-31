@@ -93,46 +93,69 @@ class RdfDatasetTests(unittest.TestCase):
         self.assertEqual(1, len(fingerprints))
 
     def test_fingerprint_ignores_parser_local_blank_node_identifiers(self) -> None:
-        first = Dataset(default_union=False)
-        second = Dataset(default_union=False)
-        graph_id = URIRef("https://w3id.org/project-chemie-digital/graph/test/blank-node-fingerprint")
-        predicate = URIRef("https://example.invalid/p")
-        first.graph(graph_id).add((BNode("alpha"), predicate, Literal("value")))
-        second.graph(graph_id).add((BNode("beta"), predicate, Literal("value")))
-        self.assertEqual(MODULE.dataset_fingerprint(first), MODULE.dataset_fingerprint(second))
+        graph = URIRef(f"{MODULE.GRAPH_BASE}shapes/fingerprint")
+        predicate = URIRef("https://example.invalid/predicate")
+        left = Dataset(default_union=False)
+        right = Dataset(default_union=False)
+        left.graph(graph).add((BNode("left-parser-id"), predicate, Literal("same structure")))
+        right.graph(graph).add((BNode("right-parser-id"), predicate, Literal("same structure")))
+        self.assertEqual(MODULE.dataset_fingerprint(left), MODULE.dataset_fingerprint(right))
 
     def test_fingerprint_preserves_named_graph_identity(self) -> None:
-        first = Dataset(default_union=False)
-        second = Dataset(default_union=False)
-        subject = URIRef("https://example.invalid/s")
-        predicate = URIRef("https://example.invalid/p")
+        subject = URIRef("https://example.invalid/subject")
+        predicate = URIRef("https://example.invalid/predicate")
         obj = Literal("same triple")
-        first.graph(URIRef("https://w3id.org/project-chemie-digital/graph/test/a")).add((subject, predicate, obj))
-        second.graph(URIRef("https://w3id.org/project-chemie-digital/graph/test/b")).add((subject, predicate, obj))
-        self.assertNotEqual(MODULE.dataset_fingerprint(first), MODULE.dataset_fingerprint(second))
+        left = Dataset(default_union=False)
+        right = Dataset(default_union=False)
+        left.graph(URIRef(f"{MODULE.GRAPH_BASE}tests/fingerprint-a")).add((subject, predicate, obj))
+        right.graph(URIRef(f"{MODULE.GRAPH_BASE}tests/fingerprint-b")).add((subject, predicate, obj))
+        self.assertNotEqual(MODULE.dataset_fingerprint(left), MODULE.dataset_fingerprint(right))
+
+    def test_canonical_nquads_preserves_literal_metadata_and_control_escapes(self) -> None:
+        dataset = Dataset(default_union=False)
+        graph = URIRef(f"{MODULE.GRAPH_BASE}tests/nquads")
+        subject = URIRef(f"{MODULE.RESOURCE_BASE}nquads-test")
+        language_predicate = URIRef("https://example.invalid/language")
+        datatype_predicate = URIRef("https://example.invalid/datatype")
+        language_literal = Literal('Zeile 1\n"Zeile 2"\\Ende', lang="de")
+        datatype_literal = Literal("42", datatype=URIRef("http://www.w3.org/2001/XMLSchema#integer"))
+        dataset.graph(graph).add((subject, language_predicate, language_literal))
+        dataset.graph(graph).add((subject, datatype_predicate, datatype_literal))
+
+        serialized = MODULE.canonical_nquads(dataset)
+        self.assertIn('"Zeile 1\\n\\"Zeile 2\\"\\\\Ende"@de', serialized)
+        self.assertIn('"42"^^<http://www.w3.org/2001/XMLSchema#integer>', serialized)
+
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=serialized, format="nquads")
+        self.assertIn(
+            (subject, language_predicate, language_literal, graph),
+            set(parsed.quads((subject, language_predicate, None, graph))),
+        )
+        self.assertIn(
+            (subject, datatype_predicate, datatype_literal, graph),
+            set(parsed.quads((subject, datatype_predicate, None, graph))),
+        )
+
+    def test_non_project_graph_is_rejected(self) -> None:
+        dataset = Dataset()
+        dataset.graph(URIRef("https://example.invalid/graph")).add((URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T")))
+        with self.assertRaisesRegex(ValueError, "Unsupported graph identity"):
+            MODULE.validate_dataset_contract(dataset)
 
     def test_blank_node_identity_outside_shapes_is_rejected(self) -> None:
-        dataset = Dataset(default_union=False)
-        graph = dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/test/blank-node"))
-        graph.add((BNode(), RDF.type, URIRef("https://example.invalid/Type")))
+        dataset = Dataset()
+        dataset.graph(URIRef(f"{MODULE.GRAPH_BASE}knowledge/test")).add((BNode(), RDF.type, URIRef("https://example.invalid/T")))
         with self.assertRaisesRegex(ValueError, "Blank-node subjects"):
             MODULE.validate_dataset_contract(dataset)
 
     def test_same_typed_subject_owned_by_two_canonical_graphs_is_rejected(self) -> None:
-        dataset = Dataset(default_union=False)
-        subject = URIRef("https://w3id.org/project-chemie-digital/resource/duplicated")
-        predicate = URIRef("https://example.invalid/Type")
-        dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/test/a")).add((subject, RDF.type, predicate))
-        dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/test/b")).add((subject, RDF.type, predicate))
-        with self.assertRaisesRegex(ValueError, "defined in multiple owned graphs"):
-            MODULE.validate_dataset_contract(dataset)
-
-    def test_non_project_graph_is_rejected(self) -> None:
-        dataset = Dataset(default_union=False)
-        dataset.graph(URIRef("https://example.invalid/graph")).add(
-            (URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T"))
-        )
-        with self.assertRaisesRegex(ValueError, "Unsupported graph identity"):
+        dataset = Dataset()
+        subject = URIRef("https://w3id.org/project-chemie-digital/resource/conflict")
+        object_type = URIRef("https://w3id.org/project-chemie-digital/ontology/Concept")
+        dataset.graph(URIRef(f"{MODULE.GRAPH_BASE}knowledge/a")).add((subject, RDF.type, object_type))
+        dataset.graph(URIRef(f"{MODULE.GRAPH_BASE}scenes/a")).add((subject, RDF.type, object_type))
+        with self.assertRaisesRegex(ValueError, "multiple owned graphs"):
             MODULE.validate_dataset_contract(dataset)
 
 
