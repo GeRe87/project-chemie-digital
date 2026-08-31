@@ -85,12 +85,11 @@
   ex:arithmetic-mean-formula a cd:MathExpression ;
     cd:latex "\\bar{x} = \\frac{1}{n} \\sum_{i=1}^{n} x_i" ;
     cd:formulaFamily "sample-arithmetic-mean" ;
-    cd:hasSource ex:source-nist-location ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:arithmetic-mean-applicability-interpretation a cd:Interpretation ;
     cd:body "The arithmetic mean is defined for numerical data for which addition and division by the number of observations are meaningful; normality is not a prerequisite for computing it. Its usefulness as a representative center can be reduced by strong skewness or extreme observations."@en ;
-    cd:hasSource ex:source-nist-location ;
     cd:authoredResource true .
 
   ex:sample-mean-estimator-interpretation a cd:Interpretation ;
@@ -147,19 +146,19 @@
 
   ex:def-geometric-mean a cd:Definition ;
     cd:body "For n strictly positive observations, the geometric mean is the nth root of their product, equivalently the exponential of the arithmetic mean of their logarithms."@en ;
-    cd:hasSource ex:source-nist-geometric-mean ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:geometric-mean-product-formula a cd:MathExpression ;
     cd:latex "G = \\left(\\prod_{i=1}^{n} x_i\\right)^{1/n}, \\qquad x_i > 0" ;
     cd:formulaFamily "geometric-mean-product" ;
-    cd:hasSource ex:source-nist-geometric-mean ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:geometric-mean-log-formula a cd:MathExpression ;
     cd:latex "G = \\exp\\left(\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\right), \\qquad x_i > 0" ;
     cd:formulaFamily "geometric-mean-log" ;
-    cd:hasSource ex:source-nist-geometric-mean ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:geometric-mean-applicability-interpretation a cd:Interpretation ;
@@ -203,13 +202,13 @@ exp(mean(log(growth_factors)))""" ;
 
   ex:def-harmonic-mean a cd:Definition ;
     cd:body "For n nonzero observations whose reciprocal sum is nonzero, the harmonic mean is n divided by the sum of their reciprocals. In common rate applications the values are positive."@en ;
-    cd:hasSource ex:source-nist-harmonic-mean ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:harmonic-mean-formula a cd:MathExpression ;
     cd:latex "H = \\frac{n}{\\sum_{i=1}^{n} 1/x_i}" ;
     cd:formulaFamily "harmonic-mean" ;
-    cd:hasSource ex:source-nist-harmonic-mean ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:harmonic-mean-rate-interpretation a cd:Interpretation ;
@@ -233,18 +232,17 @@ exp(mean(log(growth_factors)))""" ;
 
   ex:def-median a cd:Definition ;
     cd:body "A median is a central value such that at least half of the observations are no greater and at least half are no smaller. For a finite ordered sample, the conventional sample median is the middle order statistic for odd n and the arithmetic mean of the two middle order statistics for even n."@en ;
-    cd:hasSource ex:source-nist-location ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:sample-median-formula a cd:MathExpression ;
     cd:latex "\\tilde{x}=\\begin{cases}x_{((n+1)/2)}, & n\\text{ odd}\\\\\\frac{x_{(n/2)}+x_{(n/2+1)}}{2}, & n\\text{ even}\\end{cases}" ;
     cd:formulaFamily "sample-median" ;
-    cd:hasSource ex:source-nist-location ;
+    cd:hasSource ex:source-legacy-mean-value ;
     cd:authoredResource true .
 
   ex:median-robustness-interpretation a cd:Interpretation ;
     cd:body "Because the sample median depends on order rather than the magnitudes of all observations, it is substantially less sensitive to extreme values than the arithmetic mean. It is robust to outliers, but extreme observations are not guaranteed to have no effect in every dataset."@en ;
-    cd:hasSource ex:source-nist-location ;
     cd:authoredResource true .
 
   ex:worked-example-turbidity-median a cd:WorkedExample ;
@@ -355,15 +353,15 @@ exp(mean(log(x)))
   ex:relative-standard-deviation-formula a cd:MathExpression ;
     cd:latex "CV = \\frac{s}{\\bar{x}}" ;
     cd:formulaFamily "sample-coefficient-of-variation" ;
-    cd:hasSource ex:source-nist-coefficient-variation ;
+    cd:hasSource ex:source-legacy-variance ;
     cd:authoredResource true .
 
   ex:relative-standard-deviation-scope-interpretation a cd:Interpretation ;
     cd:body "The coefficient of variation is a dimensionless ratio of a standard deviation to a nonzero mean. Cross-scale comparisons are meaningful only for ratio-scale quantities with a meaningful zero; the statistic becomes unstable when the mean is close to zero."@en ;
-    cd:hasSource ex:source-nist-coefficient-variation ;
     cd:authoredResource true .
 
   # Source evidence ----------------------------------------------------------
+  # source-openstax-statistics is an existing repository-owned source identity.
   ex:source-openstax-statistics
     cd:supportsResource ex:def-random-variable,
       ex:def-discrete-random-variable,
@@ -380,43 +378,24 @@ exp(mean(log(x)))
       ex:sem-estimated-formula,
       ex:sem-scope-interpretation .
 
-  ex:source-nist-location a cd:Source ;
-    dct:title "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of Location" ;
-    dct:creator "National Institute of Standards and Technology" ;
-    dct:identifier "NIST-SEMATECH-EDA-location" ;
-    dct:source <https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm> ;
+  # These two source resources record supplied legacy migration evidence only.
+  # They are not independent scientific authority and deliberately carry no external URL.
+  ex:source-legacy-mean-value a cd:Source ;
+    dct:title "MeanValue.md — supplied legacy migration evidence" ;
+    dct:identifier "legacy:MeanValue.md" ;
     cd:supportsResource ex:arithmetic-mean-formula,
-      ex:arithmetic-mean-applicability-interpretation,
-      ex:def-median,
-      ex:sample-median-formula,
-      ex:median-robustness-interpretation ;
-    cd:authoredResource true .
-
-  ex:source-nist-geometric-mean a cd:Source ;
-    dct:title "NIST Dataplot: Geometric Mean" ;
-    dct:creator "National Institute of Standards and Technology" ;
-    dct:identifier "NIST-Dataplot-geometric-mean" ;
-    dct:source <https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/geommean.htm> ;
-    cd:supportsResource ex:def-geometric-mean,
+      ex:def-geometric-mean,
       ex:geometric-mean-product-formula,
-      ex:geometric-mean-log-formula ;
+      ex:geometric-mean-log-formula,
+      ex:def-harmonic-mean,
+      ex:harmonic-mean-formula,
+      ex:def-median,
+      ex:sample-median-formula ;
     cd:authoredResource true .
 
-  ex:source-nist-harmonic-mean a cd:Source ;
-    dct:title "NIST Dataplot: Harmonic Mean" ;
-    dct:creator "National Institute of Standards and Technology" ;
-    dct:identifier "NIST-Dataplot-harmonic-mean" ;
-    dct:source <https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/harmmean.htm> ;
-    cd:supportsResource ex:def-harmonic-mean,
-      ex:harmonic-mean-formula ;
-    cd:authoredResource true .
-
-  ex:source-nist-coefficient-variation a cd:Source ;
-    dct:title "NIST Dataplot: Coefficient of Variation" ;
-    dct:creator "National Institute of Standards and Technology" ;
-    dct:identifier "NIST-Dataplot-coefficient-of-variation" ;
-    dct:source <https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/coefvari.htm> ;
-    cd:supportsResource ex:relative-standard-deviation-formula,
-      ex:relative-standard-deviation-scope-interpretation ;
+  ex:source-legacy-variance a cd:Source ;
+    dct:title "Variance.md — supplied legacy migration evidence" ;
+    dct:identifier "legacy:Variance.md" ;
+    cd:supportsResource ex:relative-standard-deviation-formula ;
     cd:authoredResource true .
 }
