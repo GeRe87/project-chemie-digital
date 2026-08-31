@@ -1,0 +1,9 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
+  ex:random-variable a cd:Concept ;
+    skos:prefLabel "random variable"@en ;
+    cd:authoredResource true .
+}
