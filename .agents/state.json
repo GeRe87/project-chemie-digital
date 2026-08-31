@@ -1,23 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 40,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 102,
-  "expectedDeliverable": "Implement Issue #102 on agent/102-teaching-offering-runtime-document: add a deterministic renderer-neutral TeachingOfferingRuntimeDocument 1.0 projector over the immutable assembled canonical RDF Dataset, package one document for the active selection request's offering additively as teachingOfferingDocuments[] under canonical-runtime artifactVersion 1.0, preserve absolute offering/placement/unit/path identities, authored multilingual metadata, course ordering, exact path graph references and root Dataset fingerprint equality, add focused deterministic tests and documentation, and open a draft PR with the required validator marker. Do not add course navigation, TypeScript/core transport validation, semantic-client changes, ontology/SHACL changes, learner-state or LMS behavior.",
-  "lastCompletedTurn": "manager: claimed Phase 4 cycle 40, reviewed accepted ADR-0010, current runtime generation and consumers, added backlog item 42, and created Issue #102 for the Backend and Data Integration Engineer. The task is bounded to a Python TeachingOfferingRuntimeDocument 1.0 projector plus additive canonical-runtime teachingOfferingDocuments[] packaging and deterministic tests. TypeScript/core validation, application navigation/consumption, stale-fingerprint browser rejection, authored semantic changes, learner-state and LMS work remain explicitly out of scope. Verified the intended worker branch is absent and there are no open pull requests.",
-  "lastUpdated": "2026-08-31T10:36:00+02:00",
+  "expectedDeliverable": "Review Issue #102 / PR #103 once authoritative agent-validator/project-chemie-digital evidence is present on the exact current PR head. Verify the bounded five-file TeachingOfferingRuntimeDocument 1.0 projector/runtime packaging implementation against ADR-0010, including authored-only multilingual metadata, normalized placements/units, exact path graph references, zero-path support, deterministic ordering, root fingerprint equality and unchanged SceneDocument/static fallback behavior. Do not accept or merge while the required exact-head status is missing, pending, failure, error or stale.",
+  "lastCompletedTurn": "worker: completed Issue #102 as Backend and Data Integration Engineer on agent/102-teaching-offering-runtime-document. Added the deterministic offline TeachingOfferingRuntimeDocument 1.0 projector, additive canonical-runtime teachingOfferingDocuments[] packaging using the active request offering and root Dataset fingerprint, focused current/synthetic determinism and compatibility tests, README documentation and the structured handoff. Opened draft PR #103 with exactly five changed files and the required validator marker. Returned control to the manager because the required external exact-head validation context is currently missing; no self-acceptance or speculative follow-up source change was performed.",
+  "lastUpdated": "2026-08-31T10:53:31+02:00",
   "lease": {
-    "owner": "interactive-worker-20260831T103600+0200",
-    "claimedAt": "2026-08-31T10:36:00+02:00",
-    "expiresAt": "2026-08-31T12:36:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 475,
+  "blockedBy": [
+    "externally_dependent: PR #103 is open on the completed Issue #102 worker result, but agent-validator/project-chemie-digital is missing on the current exact PR head. Manager acceptance and merge require authoritative success on that exact head."
+  ],
+  "stateRevision": 476,
   "transitionHistory": [
-    {"at":"2026-08-28T13:02:34+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260828T130234+0200","reason":"Claimed Issue #96 as Software Architect after verifying the ADR-only assignment, mandatory architecture/runtime inputs, absence of an existing worker branch and absence of an open pull request."},
     {"at":"2026-08-28T13:06:44+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260828T130234+0200","reason":"Completed the Issue #96 ADR-only architecture result, added ADR-0009 and the structured handoff, and opened draft PR #97 with exactly those two files. Returned control to the manager because the required external validator context is missing on the current PR head; no self-acceptance or implementation follow-up is permitted."},
     {"at":"2026-08-28T13:31:45+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260828T133145+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on the current PR #97 head, resolving the sole external validation blocker and making the Issue #96 manager review turn executable."},
     {"at":"2026-08-28T13:32:36+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260828T133236+0200","reason":"Claimed the Issue #96 manager review turn after exact-head validator success became authoritative, to review PR #97 against ADR-0009 acceptance criteria, the two-file ADR-only scope and configured merge policy."},
@@ -41,6 +42,7 @@
     {"at":"2026-08-31T10:12:46+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260831T100812+0200","reason":"Completed the already-accepted Issue #100 result after PR #101 was marked ready: reconfirmed the unchanged exact head and successful validator context, explicitly squash-merged with expected-head protection, verified Issue #100 closed as completed, and audited the resulting merge commit as single-parent. No follow-up work was assigned in this merge-completion turn."},
     {"at":"2026-08-31T10:24:23+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T102423+0200","reason":"Claimed the next Phase 4 planning turn to convert accepted ADR-0010 into exactly one bounded TeachingOfferingRuntimeDocument 1.0 offline projector and canonical-runtime packaging implementation assignment without broadening into course navigation, authored semantic changes, learner-state or LMS scope."},
     {"at":"2026-08-31T10:29:01+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T102423+0200","reason":"Added Phase 4 backlog item 42 and created Issue #102, assigning the Backend and Data Integration Engineer to implement a deterministic TeachingOfferingRuntimeDocument 1.0 offline projector and additive canonical-runtime teachingOfferingDocuments[] packaging with focused determinism/metadata/fingerprint tests, while keeping browser navigation, TypeScript/core validation, semantic-client, ontology, learner-state and LMS changes out of scope."},
-    {"at":"2026-08-31T10:36:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T103600+0200","reason":"Claimed Issue #102 as Backend and Data Integration Engineer after verifying the open assignment, role, mandatory architecture inputs, absence of the intended worker branch and absence of any open pull request."}
+    {"at":"2026-08-31T10:36:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T103600+0200","reason":"Claimed Issue #102 as Backend and Data Integration Engineer after verifying the open assignment, role, mandatory architecture inputs, absence of the intended worker branch and absence of any open pull request."},
+    {"at":"2026-08-31T10:53:31+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260831T103600+0200","reason":"Completed Issue #102 with the deterministic TeachingOfferingRuntimeDocument 1.0 offline projector, additive canonical-runtime packaging, focused deterministic/compatibility tests, README documentation and structured handoff, and opened draft PR #103 with exactly five files. Returned control to the manager because the required external validator context is missing on the current PR head; no self-acceptance or speculative source change is permitted."}
   ]
 }
