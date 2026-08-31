@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 42,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 108,
-  "expectedDeliverable": "Review corrected PR #109 against Issue #108 and the manager-requested provenance correction using fresh exact-head validator evidence, current six-file scope, handoff, review threads and merge policy; accept and merge only if all current-head conditions are satisfied.",
-  "lastCompletedTurn": "manager: fresh authoritative agent-validator/project-chemie-digital success is now present on corrected PR #109 exact head after the provenance correction. The marker-based diagnostic comment is updated to the same head and reports both configured local validation phases successful, resolving the sole recorded validation blocker and making the corrected result eligible for manager review.",
-  "lastUpdated": "2026-08-31T17:03:00+02:00",
+  "expectedDeliverable": "Human GitHub UI action: mark accepted PR #109 Ready for review without changing its head. After that, manager must recheck the exact head, required validator success, six-file scope, review threads and mergeability before any squash merge.",
+  "lastCompletedTurn": "manager: accepted corrected Issue #108 / PR #109 on the current exact head after confirming the provenance correction is narrow and compliant, the full PR remains exactly six content-track files, the previously reviewed scientific corrections and no-path/no-runtime boundary remain intact, the required external validator context is successful on the exact current head, and there are no review threads or submitted change-request reviews. Recorded explicit manager acceptance on PR #109. The connector then failed to mark the draft PR Ready for review because its GitHub GraphQL mutation references unavailable Repository.fullDatabaseId; this is an externally dependent UI/infrastructure blocker, not a source-code defect. No merge was performed.",
+  "lastUpdated": "2026-08-31T17:05:31+02:00",
   "lease": {
-    "owner": "interactive-manager-20260831T170300+0200",
-    "claimedAt": "2026-08-31T17:03:00+02:00",
-    "expiresAt": "2026-08-31T19:03:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 511,
+  "blockedBy": [
+    "PR #109 is accepted but still Draft. The connector cannot mark it Ready for review because GitHub GraphQL rejects Repository.fullDatabaseId. A human must click Ready for review in the GitHub UI without changing the PR head."
+  ],
+  "stateRevision": 512,
   "transitionHistory": [
     {"at":"2026-08-31T14:15:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T141535+0200","reason":"Claimed the Issue #106 / PR #107 manager review turn for the parallel Chemometrics Content Track C1 after confirming the global dispatcher was idle, the exact PR head exists and the required external validator context is successful."},
     {"at":"2026-08-31T14:18:49+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T141535+0200","reason":"Reviewed Issue #106 / PR #107. The bounded Chemometrics course skeleton, concept reuse, migration inventory and no-path/runtime/UI scope were acceptable and exact-head validation was successful, but tests/test_rdf_dataset.py contained unrelated regression-test rewrites including removal of the canonical-N-Quads literal-metadata test. Requested a narrow worker correction to restore current main coverage and add only the new canonical graph whitelist entry; no acceptance or merge was performed."},
@@ -35,6 +37,7 @@
     {"at":"2026-08-31T16:48:23+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T164823+0200","reason":"Claimed the narrow Issue #108 / PR #109 provenance-correction turn. Work is restricted to removing or re-grounding newly researched NIST provenance with already-authorized repository or supplied legacy evidence, updating provenance-focused tests and handoff, performing no new external research, preserving the accepted scientific/content scope and returning to manager review without merge."},
     {"at":"2026-08-31T16:54:43+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260831T164823+0200","reason":"Completed the manager-requested Issue #108 provenance correction without external research: removed the unauthorized NIST provenance and external URLs, re-grounded directly evidenced resources to existing repository or supplied legacy migration evidence, updated provenance-focused tests and the handoff, and preserved the accepted six-file scientific/content scope. Returned control to the manager; fresh exact-head external validator success is the sole remaining blocker before review resumes."},
     {"at":"2026-08-31T17:02:32+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T170232+0200","reason":"Fresh agent-validator/project-chemie-digital success is present on the corrected PR #109 exact head and the marker-based diagnostic comment is updated to that same head with both configured local validations successful, resolving the sole validation blocker."},
-    {"at":"2026-08-31T17:03:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Claimed the corrected Issue #108 / PR #109 manager review turn after the provenance correction and fresh exact-head validator success, with the same six-file bounded content scope and current handoff ready for acceptance review."}
+    {"at":"2026-08-31T17:03:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Claimed the corrected Issue #108 / PR #109 manager review turn after the provenance correction and fresh exact-head validator success, with the same six-file bounded content scope and current handoff ready for acceptance review."},
+    {"at":"2026-08-31T17:05:31+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Accepted corrected Issue #108 / PR #109 on the current exact head after successful exact-head validation, narrow provenance correction, unchanged six-file bounded scope and no review threads, and recorded explicit manager acceptance. The connector then failed to mark the draft PR Ready for review because its GitHub GraphQL mutation references unavailable Repository.fullDatabaseId; blocked on an explicit human GitHub UI Ready-for-review action without source changes or merge."}
   ]
 }
