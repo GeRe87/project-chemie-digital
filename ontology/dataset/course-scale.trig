@@ -14,6 +14,37 @@
   ex:unit-placement-standard-deviation a cd:UnitPlacement ;
     cd:position 10 ;
     cd:placesLearningUnit ex:learning-unit-standard-deviation .
+
+  ex:teaching-offering-chemometrics-applied-statistics a cd:TeachingOffering ;
+    skos:prefLabel "Chemometrics and Applied Statistics"@en ;
+    cd:hasUnitPlacement
+      ex:unit-placement-chemometrics-random-variables,
+      ex:unit-placement-chemometrics-mean-values,
+      ex:unit-placement-chemometrics-variance-dispersion .
+
+  ex:learning-unit-random-variables a cd:LearningUnit ;
+    skos:prefLabel "Random Variables"@en ;
+    cd:hasFocusConcept ex:random-variable .
+
+  ex:learning-unit-mean-values a cd:LearningUnit ;
+    skos:prefLabel "Mean Values"@en ;
+    cd:hasFocusConcept ex:arithmetic-mean .
+
+  ex:learning-unit-variance-dispersion a cd:LearningUnit ;
+    skos:prefLabel "Variance and Dispersion"@en ;
+    cd:hasFocusConcept ex:variance, ex:standard-deviation, ex:standard-error .
+
+  ex:unit-placement-chemometrics-random-variables a cd:UnitPlacement ;
+    cd:position 10 ;
+    cd:placesLearningUnit ex:learning-unit-random-variables .
+
+  ex:unit-placement-chemometrics-mean-values a cd:UnitPlacement ;
+    cd:position 20 ;
+    cd:placesLearningUnit ex:learning-unit-mean-values .
+
+  ex:unit-placement-chemometrics-variance-dispersion a cd:UnitPlacement ;
+    cd:position 30 ;
+    cd:placesLearningUnit ex:learning-unit-variance-dispersion .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/standard-deviation> {

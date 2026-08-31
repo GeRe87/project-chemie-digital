@@ -24,6 +24,7 @@ EXPECTED_CANONICAL_GRAPHS = {
     "https://w3id.org/project-chemie-digital/graph/shapes/core",
     "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation",
     "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
+    "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics",
     "https://w3id.org/project-chemie-digital/graph/examples/standard-deviation",
     "https://w3id.org/project-chemie-digital/graph/sources/standard-deviation",
     "https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation",

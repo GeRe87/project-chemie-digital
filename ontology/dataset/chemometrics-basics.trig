@@ -1,0 +1,14 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
+  ex:random-variable a cd:Concept ;
+    skos:prefLabel "random variable"@en ;
+    cd:hasDefinition ex:def-random-variable ;
+    cd:authoredResource true .
+
+  ex:def-random-variable a cd:Definition ;
+    cd:body "A random variable is a function that assigns a numerical value to each outcome of a random process; its range may be discrete or continuous."@en ;
+    cd:authoredResource true .
+}
