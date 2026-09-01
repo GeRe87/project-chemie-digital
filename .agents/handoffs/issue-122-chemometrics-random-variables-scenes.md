@@ -150,20 +150,28 @@ Adds only the new canonical scene graph IRI to the exact named-graph whitelist.
 - no workflow-governance or validator configuration change;
 - no external research.
 
+## Deterministic shared-regression blocker discovered
+
+Current `main` still contains the pre-generalization regression `tests/test_scene_semantics.py::test_all_nine_scene_definitions_are_renderer_neutral`, which calculates all canonical `cd:SceneDefinition` subjects from the assembled Dataset and asserts `len(scenes) == 9`.
+
+`rdf_dataset.py` assembles every `ontology/dataset/*.trig` file automatically. Therefore the five SceneDefinitions required by Issue #122 necessarily increase the canonical total from 9 to 14. The existing shared test will deterministically fail even if all five new scenes satisfy the accepted renderer-neutral scene contract.
+
+That shared test file was not included in the manager-defined focused Issue #122 write scope. This worker therefore did **not** alter it or opportunistically change a shared System-era regression. A Manager decision is required to either:
+
+- authorize a narrow test-only migration of the stale fixed-count assertion (for example, preserve the renderer-neutral check while removing the frozen global count); or
+- route that shared regression correction through the appropriate bounded System/test issue.
+
+No runtime, SHACL, vocabulary or renderer contract change is required by this blocker.
+
 ## Verification state
 
-- [x] Branch diff before handoff contained only the five intended implementation/test files and was zero commits behind its worker-claim basis.
+- [x] Branch diff contains exactly the six intended Issue #122 files.
 - [x] Scene design follows the merged generic System scene semantics/runtime projection contract rather than introducing shared-contract changes.
-- [ ] Full repository validation is delegated to the authoritative `agent-validator/project-chemie-digital` on the Draft PR exact head.
+- [x] Static repository inspection proves the existing global `len(scenes) == 9` assertion is incompatible with adding the five required canonical scenes because canonical assembly glob-loads all `*.trig` files.
+- [ ] Local full-repository execution is unavailable because the execution container cannot resolve `github.com` for a checkout.
+- [ ] Fresh exact-head `agent-validator/project-chemie-digital` evidence has not yet appeared for the current PR head.
+- [ ] Full acceptance is blocked until the stale shared fixed-scene-count regression is manager-classified and corrected within an authorized scope.
 
 ## Manager review requested
 
-After fresh exact-head validator evidence is available, verify that:
-
-1. exactly five SceneDefinitions and the exact manager-approved item matrix are authored;
-2. each existing PathStep has exactly one matching `usesScene` target while positions and `usesResource` remain unchanged;
-3. `chemometrics-basics.trig` and all shared contracts remain unchanged;
-4. SHACL and exact five-scene runtime compilation regressions pass;
-5. PR scope remains limited to these six Issue #122 files;
-6. integration freshness remains valid;
-7. only the Manager decides acceptance/merge.
+Review the completed six-file Issue #122 scene implementation and classify the shared `test_scene_semantics.py` fixed-count blocker. Do not accept/merge until the authorized correction is integrated and fresh exact-head validation passes. The worker has not self-expanded into the shared regression file and has not self-accepted or merged.
