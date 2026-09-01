@@ -1,23 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 114,
-  "expectedDeliverable": "Author one unit-local Chemometrics Random Variables lecture LearningPath in a dedicated canonical path graph using only the five-step sequence and already-reviewed Issue #108 resources defined by Issue #114; preserve exact forTopic/forLearningUnit semantics, add focused deterministic tests and named-graph registration as needed, keep the scientific content graph path-free, author no scenes or runtime/application changes, perform no external research, produce a structured handoff and Draft PR with the validator marker, and return only the Chemometrics workflow to manager review without self-acceptance or merge.",
+  "expectedDeliverable": "Review Draft PR #115 for Issue #114 against the exact five-step Random Variables LearningPath scope, classify the exact-head validator failure and current cross-track dependency on System Issue #116, and perform one bounded manager action without implementing content. If the Chemometrics-specific regression failure is confirmed, return Issue #114 to the same worker for a narrow test correction while preserving the shared #116 reconciliation requirement.",
   "lastCompletedTurn": "worker: completed Chemometrics Issue #114 on agent/114-chemometrics-random-variables-path with Draft PR #115 and the structured handoff. Authored exactly one dedicated Random Variables LearningPath bound in the same graph to ex:random-variable and ex:learning-unit-random-variables, with exactly five stable ordered PathSteps using only the manager-approved Issue #108 resources. Preserved the Chemometrics scientific-content graph as path-free, left Mean Values and Variance/Dispersion without paths, added focused path/SHACL and canonical-graph regressions, authored no scenes or runtime/application changes, performed no external research, and did not self-accept or merge. Standalone RDFLib parsing and structural checks passed; fresh exact-head external validator success is still required before manager acceptance.",
-  "lastUpdated": "2026-09-01T11:24:00+02:00",
+  "lastUpdated": "2026-09-01T11:36:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-review-20260901T113600+0200",
+    "claimedAt": "2026-09-01T11:36:00+02:00",
+    "expiresAt": "2026-09-01T13:36:00+02:00"
   },
   "blockedBy": [
-    "Fresh agent-validator/project-chemie-digital success is required on the current Draft PR #115 head before Chemometrics manager acceptance can proceed."
+    "Draft PR #115 exact head has agent-validator/project-chemie-digital=failure; diagnostics must be classified before acceptance.",
+    "System Issue #116 changes shared repository validation infrastructure; after that fix merges, PR #115 must reconcile with current main and obtain fresh exact-head validation before acceptance."
   ],
-  "stateRevision": 5,
+  "stateRevision": 6,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -53,6 +54,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-20260901T111500+0200",
       "reason": "Completed Issue #114 with Draft PR #115 and structured handoff. The dedicated five-step Random Variables path reuses only accepted Issue #108 resources, keeps scientific content path-free, leaves sibling Chemometrics units without paths and adds no scenes/runtime/external research. Returned only the Chemometrics workflow to the manager; fresh exact-head external validator success is the sole remaining blocker."
+    },
+    {
+      "at": "2026-09-01T11:36:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-review-20260901T113600+0200",
+      "reason": "Claimed the blocked Chemometrics manager turn after PR #115 received exact-head validation failure and System Issue #116 introduced a shared validation-infrastructure dependency, to classify both blockers and perform one bounded review action."
     }
   ]
 }
