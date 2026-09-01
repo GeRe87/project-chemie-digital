@@ -52,7 +52,7 @@ def generic_scene_dataset(
     heading_language: str | None = "en",
     include_english_heading: bool = True,
 ) -> Dataset:
-    current = MODULE.assemble_dataset()
+    current = Dataset()
     path_graph = current.graph(URIRef(GENERIC_PATH_GRAPH))
     graph = current.graph(URIRef(GENERIC_RESOURCE_GRAPH))
 
