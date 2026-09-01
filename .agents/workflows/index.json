@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "legacy": {
+    "workflowConfig": ".agents/workflow-config.json",
+    "state": ".agents/state.json",
+    "postMigrationPurpose": "migration-audit-only",
+    "workerExecution": false
+  },
+  "workflows": [
+    {
+      "track": "system",
+      "workflowConfig": ".agents/workflows/system/workflow-config.json",
+      "state": ".agents/workflows/system/state.json"
+    },
+    {
+      "track": "chemometrics",
+      "workflowConfig": ".agents/workflows/chemometrics/workflow-config.json",
+      "state": ".agents/workflows/chemometrics/state.json"
+    }
+  ]
+}
