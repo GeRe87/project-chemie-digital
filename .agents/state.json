@@ -1,25 +1,25 @@
 {
   "schemaVersion": 2,
-  "cycle": 42,
-  "status": "ready",
+  "cycle": 43,
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
-  "expectedDeliverable": null,
+  "expectedDeliverable": "Define and dispatch one bounded workflow-architecture change that enables the System Track and Chemometrics Content Track to run as independent parallel workflow instances with separate state/lease boundaries while preserving the pinned Core one-turn rule, exact-head validation, manager-only acceptance/merge, and safe shared-main integration. Do not implement feature/content work in this manager turn.",
   "lastCompletedTurn": "manager: completed the already-accepted Issue #108 / PR #109 merge path after the human Ready-for-review action. Reconfirmed the unchanged accepted PR head, successful required agent-validator/project-chemie-digital context on that exact head, exact six-file content-track scope, no review threads or submitted change-request reviews, and clean mergeability; squash-merged with expected-head protection. PR #109 is merged, Issue #108 is closed as completed, and the resulting squash commit was audited as a single-parent commit. No follow-up issue or worker assignment was made in this merge-completion turn.",
-  "lastUpdated": "2026-08-31T19:40:30+02:00",
+  "lastUpdated": "2026-09-01T09:20:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260901T092000+0200",
+    "claimedAt": "2026-09-01T09:20:00+02:00",
+    "expiresAt": "2026-09-01T11:20:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 515,
+  "stateRevision": 516,
   "transitionHistory": [
     {"at":"2026-08-31T14:15:35+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T141535+0200","reason":"Claimed the Issue #106 / PR #107 manager review turn for the parallel Chemometrics Content Track C1 after confirming the global dispatcher was idle, the exact PR head exists and the required external validator context is successful."},
     {"at":"2026-08-31T14:18:49+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260831T141535+0200","reason":"Reviewed Issue #106 / PR #107. The bounded Chemometrics course skeleton, concept reuse, migration inventory and no-path/runtime/UI scope were acceptable and exact-head validation was successful, but tests/test_rdf_dataset.py contained unrelated regression-test rewrites including removal of the canonical-N-Quads literal-metadata test. Requested a narrow worker correction to restore current main coverage and add only the new canonical graph whitelist entry; no acceptance or merge was performed."},
-    {"at":"2026-08-31T14:25:29+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T142529+0200","reason":"Claimed the narrow Issue #106 correction turn after confirming PR #107 is still open on the reviewed head and the requested regression-suite restoration remains outstanding. Work is limited to restoring tests/test_rdf_dataset.py from current main plus the single chemometrics-basics whitelist entry before returning for exact-head manager review."},
+    {"at":"2026-08-31T14:25:29+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-worker-20260831T142529+0200","reason":"Claimed the narrow Issue #106 correction turn after confirming PR #107 is still open on the reviewed head and the requested regression-suite restoration remains outstanding. Work is limited to restoring tests/test_rdf_dataset.py from current main plus the single chemometrics-basics named-graph whitelist entry before returning for exact-head manager review."},
     {"at":"2026-08-31T14:27:56+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-worker-20260831T142529+0200","reason":"Completed the requested Issue #106 correction: restored tests/test_rdf_dataset.py from current main and retained only the additive chemometrics-basics named-graph whitelist entry, preserving all existing fingerprint, canonical-N-Quads and Dataset-contract regression coverage. The corrected PR now requires a fresh authoritative exact-head validator result before manager acceptance can resume."},
     {"at":"2026-08-31T15:10:40+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T151040+0200","reason":"Authoritative agent-validator/project-chemie-digital success is now present on corrected PR #107 exact head; the six-file scope is intact, the Dataset regression suite is restored with only the intended graph-whitelist addition, and there are no review threads, resolving the sole validation blocker."},
     {"at":"2026-08-31T15:10:40+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T151040+0200","reason":"Claimed the corrected Issue #106 / PR #107 manager review turn after exact-head validator success, restored Dataset regression coverage, exact six-file bounded scope and no review threads were confirmed."},
@@ -39,6 +39,7 @@
     {"at":"2026-08-31T17:05:31+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Accepted corrected Issue #108 / PR #109 on the current exact head after successful exact-head validation, narrow provenance correction, unchanged six-file bounded scope and no review threads, and recorded explicit manager acceptance. The connector then failed to mark the draft PR Ready for review because its GitHub GraphQL mutation references unavailable Repository.fullDatabaseId; blocked on an explicit human GitHub UI Ready-for-review action without source changes or merge."},
     {"at":"2026-08-31T19:36:30+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T193630+0200","reason":"PR #109 is now explicitly Ready for review through human UI action; the accepted exact head remains unchanged, the required validator context is still successful on that head, the exact six-file content-track scope is unchanged, there are no review threads or submitted change-request reviews, and the PR is mergeable, resolving the sole UI/infrastructure blocker."},
     {"at":"2026-08-31T19:37:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T193700+0200","reason":"Claimed the already-accepted Issue #108 / PR #109 merge-completion manager turn after the human UI action cleared the draft-state blocker, with unchanged exact head, successful required validator context, exact six-file accepted scope, no review threads or submitted change-request reviews, and clean mergeability confirmed."},
-    {"at":"2026-08-31T19:40:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260831T193700+0200","reason":"Completed the accepted Issue #108 / PR #109 result after the human Ready-for-review action: reconfirmed the unchanged exact head, successful required validator context, exact six-file scope, no review threads/reviews requesting changes and clean mergeability; squash-merged with expected-head protection, verified PR #109 merged and Issue #108 closed as completed, and audited the resulting merge commit as single-parent. No follow-up work was assigned in this merge-completion turn."}
+    {"at":"2026-08-31T19:40:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-manager-20260831T193700+0200","reason":"Completed the accepted Issue #108 / PR #109 result after the human Ready-for-review action: reconfirmed the unchanged exact head, successful required validator context, exact six-file scope, no review threads/reviews requesting changes and clean mergeability; squash-merged with expected-head protection, verified PR #109 merged and Issue #108 closed as completed, and audited the resulting merge commit as single-parent. No follow-up work was assigned in this merge-completion turn."},
+    {"at":"2026-09-01T09:20:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260901T092000+0200","reason":"Claimed a bounded workflow-architecture planning turn to replace the single global dispatcher bottleneck with Core-compliant independent System and Chemometrics workflow instances, after confirming no open issues or pull requests and that the current schema can express only one active issue/role/lease."}
   ]
 }
