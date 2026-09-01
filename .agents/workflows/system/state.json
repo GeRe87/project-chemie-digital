@@ -1,17 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 1,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
-  "expectedDeliverable": null,
+  "expectedDeliverable": "Create and assign one bounded System-track Software Architect issue defining the application-side TeachingOffering discovery and selection boundary over validated TeachingOfferingRuntimeDocument 1.0 values, preserving ADR-0008/0009/0010 boundaries and excluding implementation, renderer navigation, learner-state, ontology/content and external research.",
   "lastCompletedTurn": "migration: Issue #110 initialized the independent System workflow from the legacy global dispatcher; no active feature assignment or lease was migrated.",
-  "lastUpdated": "2026-09-01T09:45:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-09-01T10:38:20+02:00",
+  "lease": {
+    "owner": "interactive-manager-20260901T103820+0200",
+    "claimedAt": "2026-09-01T10:38:20+02:00",
+    "expiresAt": "2026-09-01T12:38:20+02:00"
+  },
   "blockedBy": [],
-  "stateRevision": 1,
+  "stateRevision": 2,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -19,6 +23,13 @@
       "to": "ready/manager",
       "actor": "issue-110-migration",
       "reason": "Initialized the independent System workflow with its own state and lease boundary; no in-flight work was transferred."
+    },
+    {
+      "at": "2026-09-01T10:38:20+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-manager-20260901T103820+0200",
+      "reason": "Claimed the first post-migration System manager turn to define and assign the TeachingOffering discovery/selection architecture boundary after ADR-0010 and Issue #104."
     }
   ]
 }
