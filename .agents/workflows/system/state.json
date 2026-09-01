@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 3,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "QA, DevOps, Security, and Accessibility Engineer",
   "activeIssue": 116,
   "expectedDeliverable": "Fix tests/test_parallel_workflows.py so it validates the documented lifecycle/state invariants instead of freezing live track states to the initial ready/manager migration snapshot. Preserve fail-closed checks for ready/busy/blocked lifecycle consistency, leases, timestamps, revisions and track independence; change no workflow state/schema/protocol/config, validator provider, ADR, feature/content/runtime code or Chemometrics state. Produce a structured handoff and Draft PR with the validator marker, then return only the System workflow to manager review. After this unblocker merges, PR #113 and PR #115 must reconcile with current main and obtain fresh exact-head validation.",
   "lastCompletedTurn": "manager: diagnosed PR #113 exact-head validator failure as an internally actionable shared test-harness defect, not an ADR-0011 defect. tests/test_parallel_workflows.py on main incorrectly requires every live track state to remain ready/manager with no assignment or lease, contradicting the documented runtime lifecycle. Created System unblocker Issue #116 and assigned it to the QA, DevOps, Security, and Accessibility Engineer. PR #113 remains pending; Chemometrics PR #115 is not modified and will require reconciliation/fresh validation after the shared test fix merges.",
-  "lastUpdated": "2026-09-01T11:25:30+02:00",
+  "lastUpdated": "2026-09-01T11:26:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-20260901T112600+0200",
+    "claimedAt": "2026-09-01T11:26:00+02:00",
+    "expiresAt": "2026-09-01T13:26:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 7,
+  "stateRevision": 8,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -65,6 +65,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-validator-triage-20260901T112300+0200",
       "reason": "Classified the PR #113 validator failure as an internally actionable lifecycle-test defect and created/assigned System Issue #116 to QA as the single bounded unblock action. ADR-0011 remains unchanged; both existing feature/content PRs require reconciliation after the shared test fix merges."
+    },
+    {
+      "at": "2026-09-01T11:26:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-20260901T112600+0200",
+      "reason": "Claimed System Issue #116 for the QA, DevOps, Security, and Accessibility Engineer. Work is limited to lifecycle-aware parallel-workflow test-harness correction and structured handoff; workflow states/schema/protocol/config, ADRs, feature/content/runtime code and Chemometrics state remain out of scope."
     }
   ]
 }
