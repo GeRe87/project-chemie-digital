@@ -133,6 +133,19 @@ def is_resource_type(dataset: Dataset, resource: URIRef, type_name: str) -> bool
     return any(obj == iri(CD, type_name) for obj in objects(dataset, resource, RDF.type))
 
 
+def selected_literal(
+    dataset: Dataset,
+    resource: URIRef,
+    predicate: URIRef,
+    selector: str,
+    language: str | None = None,
+) -> str:
+    value = literal(dataset, resource, predicate, language)
+    if value is None:
+        raise ValueError(f"Missing selected value {selector} for {compact(resource)}")
+    return value
+
+
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -162,9 +175,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             language = literal(dataset, item, iri(CD, "language"))
             block_id = f"{compact(item)}--block"
             if role == "HeadingRole":
-                if selected != focus or relation_path != "skos:prefLabel@de":
+                heading_languages = {
+                    "skos:prefLabel@de": "de",
+                    "skos:prefLabel@en": "en",
+                }
+                heading_language = heading_languages.get(relation_path)
+                if selected != focus or heading_language is None:
                     raise ValueError(f"Invalid heading selection in {compact(item)}")
-                text = resource_text(dataset, selected, language or "de")
+                if language is not None and language != heading_language:
+                    raise ValueError(f"Heading language does not match selector in {compact(item)}")
+                text = selected_literal(dataset, selected, SKOS.prefLabel, relation_path, heading_language)
                 block: dict[str, Any] = {
                     "id": block_id, "kind": "prose",
                     "source": [source_reference(dataset, selected, relation_path)],
@@ -172,6 +192,38 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "introduce"},
                 }
+            elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
+                if relation_path != "cd:body":
+                    raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")
+                if role == "StatementRole":
+                    if not (
+                        is_resource_type(dataset, selected, "Definition")
+                        or is_resource_type(dataset, selected, "Interpretation")
+                    ):
+                        raise ValueError(f"StatementRole requires Definition or Interpretation in {compact(item)}")
+                elif role == "ExampleRole" and not is_resource_type(dataset, selected, "WorkedExample"):
+                    raise ValueError(f"ExampleRole requires WorkedExample in {compact(item)}")
+                elif role == "ExerciseRole" and not is_resource_type(dataset, selected, "Exercise"):
+                    raise ValueError(f"ExerciseRole requires Exercise in {compact(item)}")
+                text = selected_literal(dataset, selected, iri(CD, "body"), relation_path, language)
+                if role == "ExerciseRole":
+                    block = {
+                        "id": block_id, "kind": "prompt",
+                        "source": [source_reference(dataset, selected, relation_path)],
+                        "prompt": text,
+                        "responseMode": "free-text",
+                        "fallback": text,
+                        "disclosure": {"order": position - 1, "mode": "initial"},
+                        "emphasis": "primary", "intent": {"kind": "practice"},
+                    }
+                else:
+                    block = {
+                        "id": block_id, "kind": "prose",
+                        "source": [source_reference(dataset, selected, relation_path)],
+                        "text": text, "format": "plain",
+                        "disclosure": {"order": position - 1, "mode": "initial"},
+                        "emphasis": "primary", "intent": {"kind": "explain"},
+                    }
             elif is_resource_type(dataset, selected, "MathExpression"):
                 expression = literal(dataset, selected, iri(CD, "latex"))
                 if expression is None:
