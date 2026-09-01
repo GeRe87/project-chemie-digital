@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 5,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 112,
-  "expectedDeliverable": "Reconcile the existing branch agent/112-teaching-offering-selection-architecture and Draft PR #113 with the latest main that now contains the merged Issue #116 lifecycle-aware shared validation test. Preserve ADR-0011 semantics and the architecture-only Issue #112 scope; do not add production runtime/application code, ontology/TriG, Chemometrics content, learner-state, workflow-governance or validator changes. The resulting PR diff against current main should remain limited to docs/adr/0011-teaching-offering-discovery-selection.md and .agents/handoffs/issue-112-teaching-offering-selection-architecture.md unless a purely reconciliation-mechanical adjustment is demonstrably required. Update the handoff only as needed to record reconciliation. Obtain fresh agent-validator/project-chemie-digital success on the new exact PR head; the old failure on 6f5d019a4488c88efedab35c6d7196e897bce4f6 is stale and must not be reused. Return only the System workflow to manager review; do not touch the Chemometrics workflow or PR #115 and do not self-accept or merge.",
-  "lastCompletedTurn": "manager: applied the post-#117 integration-freshness gate to Issue #112 / PR #113. The PR remains architecture-only, but its original base predates the merged shared tests/test_parallel_workflows.py correction from Issue #116. Current main is 24 commits ahead of the original base, with substantive non-state delta limited to that shared lifecycle test plus its handoff; therefore the old branch basis and old exact-head failure cannot authorize integration. Chemometrics Issue #114 remains blocked/manager on its separate reconciliation and has disjoint ontology/content scope. Returned only Issue #112 to the Software Architect for bounded current-main reconciliation and fresh exact-head validation.",
-  "lastUpdated": "2026-09-01T12:44:00+02:00",
+  "expectedDeliverable": "Review reconciled Draft PR #113 for Issue #112 on exact head dab4199590440e71ffd85248bce2d44f1384f2bd. Verify the current-main integration basis after merged Issue #116, exact two-file architecture-only scope, unchanged ADR-0011 semantics, deterministic TeachingOffering discovery/selection boundary and fresh exact-head agent-validator/project-chemie-digital success before acceptance. Do not accept or merge while the required status is missing, pending, failure, error or stale.",
+  "lastCompletedTurn": "worker: reconciled System Issue #112 / Draft PR #113 onto current main after merged Issue #116. The branch now descends directly from current main, ADR-0011 was carried forward unchanged, the handoff records the reconciliation, and the PR diff remains exactly docs/adr/0011-teaching-offering-discovery-selection.md plus .agents/handoffs/issue-112-teaching-offering-selection-architecture.md. PR #113 is mergeable on exact head dab4199590440e71ffd85248bce2d44f1384f2bd. The old validator failure is stale; the required external status is currently missing on the reconciled head, so no acceptance or merge was attempted. Chemometrics state/PR #115 was not modified.",
+  "lastUpdated": "2026-09-01T12:47:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-20260901T124400+0200",
-    "claimedAt": "2026-09-01T12:44:00+02:00",
-    "expiresAt": "2026-09-01T14:44:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 20,
+  "blockedBy": [
+    "Fresh agent-validator/project-chemie-digital success is required on reconciled Draft PR #113 exact head dab4199590440e71ffd85248bce2d44f1384f2bd before System manager acceptance can proceed."
+  ],
+  "stateRevision": 21,
   "transitionHistory": [
     {"at":"2026-09-01T11:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T110200+0200","reason":"Completed System Issue #112 with Draft PR #113, ADR-0011 and structured handoff. Returned only the System workflow to manager review; fresh exact-head external validation is the sole blocker. Chemometrics state/content and all production implementation remained untouched."},
     {"at":"2026-09-01T11:23:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-validator-triage-20260901T112300+0200","reason":"Claimed the blocked System manager turn after exact-head validation changed from missing to failure, to classify the failure and perform one bounded unblock action under blocker-management governance."},
@@ -32,6 +34,7 @@
     {"at":"2026-09-01T12:30:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T122530+0200","reason":"Accepted and squash-merged Issue #116 / PR #117 after all configured gates passed; verified the issue closed and the merge has one parent. Restored the System lane to manager review of original Issue #112. Because the shared validation test changed on main, PR #113 must reconcile with current main and obtain fresh exact-head validation in a later turn."},
     {"at":"2026-09-01T12:39:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-reconciliation-20260901T123931+0200","reason":"Claimed the System manager turn to apply the integration-freshness gate to original Issue #112 / PR #113 after the shared Issue #116 test-harness correction merged to main."},
     {"at":"2026-09-01T12:40:51+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-reconciliation-20260901T123931+0200","reason":"Integration-freshness review confirmed PR #113 must reconcile with current main because the merged Issue #116 changed the shared repository validation test. Returned only Issue #112 to the Software Architect for branch reconciliation with no architecture-scope expansion and fresh exact-head external validation."},
-    {"at":"2026-09-01T12:44:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T124400+0200","reason":"Claimed the bounded Issue #112 reconciliation turn. Work is limited to rebasing the existing ADR-0011/handoff-only PR onto current main after Issue #116, preserving architecture semantics and exact two-file scope; no Chemometrics state/PR mutation, production implementation, validator/governance or semantic-content change is permitted."}
+    {"at":"2026-09-01T12:44:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T124400+0200","reason":"Claimed the bounded Issue #112 reconciliation turn. Work is limited to rebasing the existing ADR-0011/handoff-only PR onto current main after Issue #116, preserving architecture semantics and exact two-file scope; no Chemometrics state/PR mutation, production implementation, validator/governance or semantic-content change is permitted."},
+    {"at":"2026-09-01T12:47:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T124400+0200","reason":"Reconciled Issue #112 / PR #113 directly onto current main after Issue #116 while preserving ADR-0011 unchanged and the exact two-file architecture-only scope. Returned only the System workflow to manager review; fresh exact-head external validator success on the new head is the sole blocker."}
   ]
 }
