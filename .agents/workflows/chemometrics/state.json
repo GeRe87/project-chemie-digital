@@ -1,24 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 2,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "cycle": 3,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 114,
-  "expectedDeliverable": "Review Draft PR #115 for Issue #114 against the exact five-step Random Variables LearningPath scope, classify the exact-head validator failure and current cross-track dependency on System Issue #116, and perform one bounded manager action without implementing content. If the Chemometrics-specific regression failure is confirmed, return Issue #114 to the same worker for a narrow test correction while preserving the shared #116 reconciliation requirement.",
-  "lastCompletedTurn": "worker: completed Chemometrics Issue #114 on agent/114-chemometrics-random-variables-path with Draft PR #115 and the structured handoff. Authored exactly one dedicated Random Variables LearningPath bound in the same graph to ex:random-variable and ex:learning-unit-random-variables, with exactly five stable ordered PathSteps using only the manager-approved Issue #108 resources. Preserved the Chemometrics scientific-content graph as path-free, left Mean Values and Variance/Dispersion without paths, added focused path/SHACL and canonical-graph regressions, authored no scenes or runtime/application changes, performed no external research, and did not self-accept or merge. Standalone RDFLib parsing and structural checks passed; fresh exact-head external validator success is still required before manager acceptance.",
-  "lastUpdated": "2026-09-01T11:36:00+02:00",
+  "expectedDeliverable": "Correct only the stale Chemometrics skeleton regression that still requires all three Chemometrics units to have zero LearningPaths. Update tests/test_chemometrics_course_skeleton.py so the intentionally authored Random Variables unit expects exactly ex:path-chemometrics-random-variables-lecture while Mean Values and Variance/Dispersion remain pathless; preserve the existing path TriG, Issue #108 scientific resources/provenance, course-scale semantics, no-scene/runtime boundary and all passing #114 path tests. Update the handoff as needed and return the same Draft PR #115 to Chemometrics manager review. Do not touch System workflow/test files or attempt to resolve Issue #116. After #116 merges, PR #115 must reconcile with current main and obtain fresh exact-head agent-validator/project-chemie-digital success before acceptance.",
+  "lastCompletedTurn": "manager: reviewed Draft PR #115 and found the authored five-step Random Variables LearningPath directionally correct: all new #114 path-specific tests and SHACL pass. Exact-head validation fails three tests: two shared parallel-workflow lifecycle failures already assigned to System Issue #116, plus one Chemometrics-specific stale #106 skeleton assertion that still requires Random Variables to have no path. Returned Issue #114 to the same Semantic Web and Ontology Engineer for only that regression correction; no content/path semantic change was requested.",
+  "lastUpdated": "2026-09-01T11:38:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-review-20260901T113600+0200",
-    "claimedAt": "2026-09-01T11:36:00+02:00",
-    "expiresAt": "2026-09-01T13:36:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [
-    "Draft PR #115 exact head has agent-validator/project-chemie-digital=failure; diagnostics must be classified before acceptance.",
-    "System Issue #116 changes shared repository validation infrastructure; after that fix merges, PR #115 must reconcile with current main and obtain fresh exact-head validation before acceptance."
-  ],
-  "stateRevision": 6,
+  "blockedBy": [],
+  "stateRevision": 7,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -61,6 +58,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-review-20260901T113600+0200",
       "reason": "Claimed the blocked Chemometrics manager turn after PR #115 received exact-head validation failure and System Issue #116 introduced a shared validation-infrastructure dependency, to classify both blockers and perform one bounded review action."
+    },
+    {
+      "at": "2026-09-01T11:38:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-review-20260901T113600+0200",
+      "reason": "Reviewed PR #115: the new path-specific semantics/tests are correct, but the legacy course-skeleton regression still expects Random Variables to be pathless. Returned Issue #114 to the same worker for that single test correction while preserving the separate post-#116 reconciliation/fresh-validation requirement."
     }
   ]
 }
