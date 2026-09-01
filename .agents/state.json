@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 43,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 110,
   "expectedDeliverable": "Review Draft PR #111 against Issue #110 and the current exact-head validator failure, determine the narrow internally actionable correction, and return only that correction to the Software Architect without accepting or merging.",
   "lastCompletedTurn": "manager: new authoritative validator evidence replaced the prior missing-status blocker for Issue #110 / Draft PR #111. On the unchanged current PR head, agent-validator/project-chemie-digital reports failure because test_parallel_workflows requires the exact System workflow config path in project instructions and docs/agent-operating-model.md presents that path split across lines rather than as one copyable path. This is an internally actionable project-contract correction, not validator infrastructure failure.",
-  "lastUpdated": "2026-09-01T09:51:30+02:00",
+  "lastUpdated": "2026-09-01T09:52:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-manager-20260901T095200+0200",
+    "claimedAt": "2026-09-01T09:52:00+02:00",
+    "expiresAt": "2026-09-01T11:52:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 520,
+  "stateRevision": 521,
   "transitionHistory": [
     {"at":"2026-08-31T17:02:32+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T170232+0200","reason":"Fresh agent-validator/project-chemie-digital success is present on the corrected PR #109 exact head and the marker-based diagnostic comment is updated to that same head with both configured local validations successful, resolving the sole validation blocker."},
     {"at":"2026-08-31T17:03:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Claimed the corrected Issue #108 / PR #109 manager review turn after the provenance correction and fresh exact-head validator success, with the same six-file bounded content scope and current handoff ready for acceptance review."},
@@ -27,6 +27,7 @@
     {"at":"2026-09-01T09:27:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260901T092000+0200","reason":"Created and assigned Issue #110 to the Software Architect to establish independent System and Chemometrics workflow instances with separate state/lease boundaries, explicit migration from the legacy global dispatcher, a cross-track conflict/dependency and integration-freshness gate, deterministic tests, preserved exact-head external validation and manager-only sequential merging. No feature/content implementation was performed."},
     {"at":"2026-09-01T09:30:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T093000+0200","reason":"Claimed the assigned Issue #110 Software Architect worker turn. Work is limited to the workflow-architecture migration for independent System and Chemometrics Core-compliant instances, migration compatibility, cross-track conflict/integration freshness rules, deterministic tests, draft PR and handoff; feature/runtime/content work, Core changes, external research, self-acceptance and merge remain out of scope."},
     {"at":"2026-09-01T09:42:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T093000+0200","reason":"Completed Issue #110 with Draft PR #111 and structured handoff. The final head has no required external commit status yet, so control returns to the manager blocked solely on fresh agent-validator/project-chemie-digital success; no self-acceptance or merge was performed."},
-    {"at":"2026-09-01T09:51:30+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260901T095130+0200","reason":"New authoritative exact-head validator evidence is now available for Draft PR #111 and is failure rather than missing. The bounded diagnostic identifies one failing parallel-workflow instruction-path regression test, making the blocker internally actionable for a manager review/correction turn."}
+    {"at":"2026-09-01T09:51:30+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260901T095130+0200","reason":"New authoritative exact-head validator evidence is now available for Draft PR #111 and is failure rather than missing. The bounded diagnostic identifies one failing parallel-workflow instruction-path regression test, making the blocker internally actionable for a manager review/correction turn."},
+    {"at":"2026-09-01T09:52:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260901T095200+0200","reason":"Claimed the Issue #110 / PR #111 manager correction-review turn after authoritative exact-head failure evidence identified a bounded workflow-instruction contract defect."}
   ]
 }
