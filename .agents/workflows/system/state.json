@@ -1,23 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 112,
-  "expectedDeliverable": "Define ADR-0011 for the renderer-neutral application TeachingOffering discovery/selection boundary over validated TeachingOfferingRuntimeDocument 1.0 values: specify explicit offeringId request/normalization, deterministic zero/singleton/multiple/known/unknown-id behavior, offering.id as sole selection identity, graphId as provenance only, compatibility with zero-path units and downstream ADR-0009, and explicit exclusion of production implementation, navigation/router/renderer semantics, learner-state, ontology/TriG, scientific content, workflow governance and external research. Produce a structured handoff and Draft PR with the validator marker; do not self-accept or merge and do not modify the Chemometrics state.",
+  "expectedDeliverable": "Classify the exact-head validator failure on PR #113 and perform one bounded manager unblock action without changing ADR-0011 implementation. The observed failure is in tests/test_parallel_workflows.py, which incorrectly freezes live track states to ready/manager; if confirmed on main, create and assign one QA test-harness unblocker and preserve PR #113 for later reconciliation and fresh exact-head validation.",
   "lastCompletedTurn": "worker: completed System Issue #112 with ADR-0011 and structured handoff on Draft PR #113. The two-file architecture-only scope defines deterministic TeachingOffering discovery/selection, sole offering.id identity, graphId provenance-only semantics, zero-path compatibility and ADR-0009 separation. The exact PR head currently has no required external commit status, so manager review is blocked on fresh agent-validator/project-chemie-digital evidence. No Chemometrics state/content, production runtime code, self-acceptance or merge was performed.",
-  "lastUpdated": "2026-09-01T11:07:00+02:00",
+  "lastUpdated": "2026-09-01T11:23:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-validator-triage-20260901T112300+0200",
+    "claimedAt": "2026-09-01T11:23:00+02:00",
+    "expiresAt": "2026-09-01T13:23:00+02:00"
   },
   "blockedBy": [
-    "Fresh agent-validator/project-chemie-digital status is missing for Draft PR #113 exact head 6f5d019a4488c88efedab35c6d7196e897bce4f6."
+    "PR #113 exact head 6f5d019a4488c88efedab35c6d7196e897bce4f6 has agent-validator/project-chemie-digital=failure: tests/test_parallel_workflows.py::test_track_states_reuse_existing_state_contract asserts status ready but the checked-out legitimate live System state is busy."
   ],
-  "stateRevision": 5,
+  "stateRevision": 6,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -53,6 +53,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-20260901T110200+0200",
       "reason": "Completed System Issue #112 with Draft PR #113, ADR-0011 and structured handoff. Returned only the System workflow to manager review; fresh exact-head external validation is the sole blocker. Chemometrics state/content and all production implementation remained untouched."
+    },
+    {
+      "at": "2026-09-01T11:23:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-validator-triage-20260901T112300+0200",
+      "reason": "Claimed the blocked System manager turn after exact-head validation changed from missing to failure, to classify the failure and perform one bounded unblock action under blocker-management governance."
     }
   ]
 }
