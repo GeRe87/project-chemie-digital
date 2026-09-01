@@ -1,26 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 4,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 112,
   "expectedDeliverable": "On the next System manager turn, re-open the original Issue #112 integration path after the shared Issue #116 test-harness correction. Inspect PR #113 against current main under the integration-freshness rule and, if reconciliation is required as recorded, return only Issue #112 to the Software Architect for a bounded current-main reconciliation followed by fresh exact-head external validation. Do not reuse pre-#116 validation evidence.",
   "lastCompletedTurn": "manager: accepted and squash-merged PR #117 for Issue #116 after Ready-for-review, exact-head validator success, mergeability and review-thread gates all passed. Issue #116 is closed completed and the squash merge has exactly one parent. The shared lifecycle-aware parallel-workflow test is now on main, so the older System PR #113 and Chemometrics PR #115 require current-main reconciliation and fresh exact-head validation before either can be accepted.",
-  "lastUpdated": "2026-09-01T12:30:00+02:00",
+  "lastUpdated": "2026-09-01T12:39:31+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-reconciliation-20260901T123931+0200",
+    "claimedAt": "2026-09-01T12:39:31+02:00",
+    "expiresAt": "2026-09-01T14:39:31+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 17,
+  "stateRevision": 18,
   "transitionHistory": [
-    {"at":"2026-09-01T09:45:00+02:00","from":"legacy/global","to":"ready/manager","actor":"issue-110-migration","reason":"Initialized the independent System workflow with its own state and lease boundary; no in-flight work was transferred."},
-    {"at":"2026-09-01T10:38:20+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260901T103820+0200","reason":"Claimed the first post-migration System manager turn to define and assign the TeachingOffering discovery/selection architecture boundary after ADR-0010 and Issue #104."},
-    {"at":"2026-09-01T10:40:36+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260901T103820+0200","reason":"Created and assigned System Issue #112 to the Software Architect with an architecture-only TeachingOffering discovery/selection scope and an explicit cross-track independence contract."},
-    {"at":"2026-09-01T11:02:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T110200+0200","reason":"Claimed System Issue #112 for the Software Architect. Work is limited to ADR-0011 and its structured handoff plus tightly bounded architecture-regression support; no production implementation, Chemometrics-state/content mutation, external research, self-acceptance or merge is permitted."},
     {"at":"2026-09-01T11:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T110200+0200","reason":"Completed System Issue #112 with Draft PR #113, ADR-0011 and structured handoff. Returned only the System workflow to manager review; fresh exact-head external validation is the sole blocker. Chemometrics state/content and all production implementation remained untouched."},
     {"at":"2026-09-01T11:23:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-validator-triage-20260901T112300+0200","reason":"Claimed the blocked System manager turn after exact-head validation changed from missing to failure, to classify the failure and perform one bounded unblock action under blocker-management governance."},
     {"at":"2026-09-01T11:25:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-validator-triage-20260901T112300+0200","reason":"Classified the PR #113 validator failure as an internally actionable lifecycle-test defect and created/assigned System Issue #116 to QA as the single bounded unblock action. ADR-0011 remains unchanged; both existing feature/content PRs require reconciliation after the shared test fix merges."},
@@ -33,6 +29,7 @@
     {"at":"2026-09-01T12:08:45+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260901T120845+0200","reason":"Claimed the System manager review because the worker supplied a corrected PR #117 head. Exact-head validation is currently pending; review may inspect scope and correctness but cannot accept or merge until the required status is success."},
     {"at":"2026-09-01T12:10:45+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260901T120845+0200","reason":"PR #117 is technically review-clean and exact-head validation succeeded, but the connector cannot transition the Draft PR to Ready for review due its Repository.fullDatabaseId GraphQL failure. Preserved the System lane blocked on that single external UI action; no acceptance or merge was issued."},
     {"at":"2026-09-01T12:25:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-merge-20260901T122530+0200","reason":"The external Ready-for-review action is now present. A new Copilot timestamp comment was classified as non-applicable to the repository's Python 3.11+ validation runtime, answered and resolved; the current PR remains mergeable and the required exact-head validator status is successful. Claimed the final acceptance/merge turn."},
-    {"at":"2026-09-01T12:30:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T122530+0200","reason":"Accepted and squash-merged Issue #116 / PR #117 after all configured gates passed; verified the issue closed and the merge has one parent. Restored the System lane to manager review of original Issue #112. Because the shared validation test changed on main, PR #113 must reconcile with current main and obtain fresh exact-head validation in a later turn."}
+    {"at":"2026-09-01T12:30:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T122530+0200","reason":"Accepted and squash-merged Issue #116 / PR #117 after all configured gates passed; verified the issue closed and the merge has one parent. Restored the System lane to manager review of original Issue #112. Because the shared validation test changed on main, PR #113 must reconcile with current main and obtain fresh exact-head validation in a later turn."},
+    {"at":"2026-09-01T12:39:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-reconciliation-20260901T123931+0200","reason":"Claimed the System manager turn to apply the integration-freshness gate to original Issue #112 / PR #113 after the shared Issue #116 test-harness correction merged to main."}
   ]
 }
