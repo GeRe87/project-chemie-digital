@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 43,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Software Architect",
   "activeIssue": 110,
   "expectedDeliverable": "Correct PR #111 only for the manager-reviewed workflow migration defects: make all four System/Chemometrics config/state paths literal and copyable in the operating instructions; reconcile with current main and remove the live root .agents/state.json from the PR diff; document registry-based root-lane deactivation plus manager-only final root terminalization in the merge-completion handoff; adjust focused tests and handoff accordingly; preserve the two independent workflow configs/states, cross-track conflict and integration-freshness rules, Core pin, external validator and merge policy; perform no feature/content work, external research, self-acceptance or merge. Return only after a fresh exact-head validator result is produced or explicitly pending/missing.",
   "lastCompletedTurn": "manager: reviewed Issue #110 / Draft PR #111 and found the independent System/Chemometrics workflow architecture otherwise directionally acceptable, but withheld acceptance for two bounded defects. The current validator failure shows the operating model does not contain all exact copyable track paths, and the PR is structurally dirty because it modifies the still-live root dispatcher state while legitimate manager/worker turns on main continue to update that same file. Recorded a PR correction request to keep the strong path test, remove the root state file from the PR, define registry-based root-lane deactivation and one-time manager terminalization after merge, adjust tests/handoff, and obtain fresh exact-head validation. No acceptance or merge was performed.",
-  "lastUpdated": "2026-09-01T09:56:00+02:00",
+  "lastUpdated": "2026-09-01T10:01:30+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-20260901T100130+0200",
+    "claimedAt": "2026-09-01T10:01:30+02:00",
+    "expiresAt": "2026-09-01T12:01:30+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 522,
+  "stateRevision": 523,
   "transitionHistory": [
     {"at":"2026-08-31T17:02:32+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260831T170232+0200","reason":"Fresh agent-validator/project-chemie-digital success is present on the corrected PR #109 exact head and the marker-based diagnostic comment is updated to that same head with both configured local validations successful, resolving the sole validation blocker."},
     {"at":"2026-08-31T17:03:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260831T170300+0200","reason":"Claimed the corrected Issue #108 / PR #109 manager review turn after the provenance correction and fresh exact-head validator success, with the same six-file bounded content scope and current handoff ready for acceptance review."},
@@ -29,6 +29,7 @@
     {"at":"2026-09-01T09:42:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T093000+0200","reason":"Completed Issue #110 with Draft PR #111 and structured handoff. The final head has no required external commit status yet, so control returns to the manager blocked solely on fresh agent-validator/project-chemie-digital success; no self-acceptance or merge was performed."},
     {"at":"2026-09-01T09:51:30+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-manager-20260901T095130+0200","reason":"New authoritative exact-head validator evidence is now available for Draft PR #111 and is failure rather than missing. The bounded diagnostic identifies one failing parallel-workflow instruction-path regression test, making the blocker internally actionable for a manager review/correction turn."},
     {"at":"2026-09-01T09:52:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-20260901T095200+0200","reason":"Claimed the Issue #110 / PR #111 manager correction-review turn after authoritative exact-head failure evidence identified a bounded workflow-instruction contract defect."},
-    {"at":"2026-09-01T09:56:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260901T095200+0200","reason":"Reviewed Issue #110 / Draft PR #111 and returned two bounded corrections to the Software Architect: make all track config/state paths literal in instructions, and remove the live root state from the PR while documenting registry-based root-lane deactivation plus manager-only final root terminalization after merge. Fresh exact-head validation and clean mergeability are required before acceptance."}
+    {"at":"2026-09-01T09:56:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-manager-20260901T095200+0200","reason":"Reviewed Issue #110 / Draft PR #111 and returned two bounded corrections to the Software Architect: make all track config/state paths literal in instructions, and remove the live root state from the PR while documenting registry-based root-lane deactivation plus manager-only final root terminalization after merge. Fresh exact-head validation and clean mergeability are required before acceptance."},
+    {"at":"2026-09-01T10:01:30+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T100130+0200","reason":"Claimed the narrow Issue #110 / PR #111 correction turn. Work is limited to literal copyable track paths, reconciliation with current main without a live root-state PR mutation, registry-based root-lane deactivation and manager-only final terminalization documentation, focused tests/handoff, and fresh exact-head validation; no feature/content work, external research, self-acceptance or merge is permitted."}
   ]
 }
