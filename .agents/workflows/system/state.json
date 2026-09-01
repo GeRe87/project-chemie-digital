@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 120,
-  "expectedDeliverable": "Review Draft PR #121 for Issue #120 on exact head 664616ef21c9e0399eebf739e4751ed4869efee1. Verify the exact three-file runtime-only scope, exact selector/language behavior, StatementRole/ExampleRole/ExerciseRole projection matrix, deterministic fail-closed regressions, unchanged Standardabweichung and SceneDocument 1.0 behavior, absence of Chemometrics/ontology/renderer/application/learner-state changes, mergeability and fresh exact-head agent-validator/project-chemie-digital success before acceptance. After integration, the Chemometrics manager may re-evaluate its blocked Random Variables scene-authoring prerequisite.",
-  "lastCompletedTurn": "worker: completed System Issue #120 on branch agent/120-generic-scene-runtime with Draft PR #121. compile_scene_document now resolves German/English headings exactly, projects StatementRole Definition/Interpretation and ExampleRole WorkedExample bodies to prose/explain, and ExerciseRole Exercise bodies to prompt/practice/free-text with exact fallback and source traceability. Focused synthetic regressions cover positive projections plus role/resource/selector mismatches and missing/ambiguous direct values. Existing Standardabweichung canonical files, ontology/SHACL, SceneDocument 1.0, renderer/application, learner-state and Chemometrics files are unchanged. PR #121 is mergeable with exactly three files; fresh exact-head external validator status is currently missing, so no self-acceptance or merge was performed.",
-  "lastUpdated": "2026-09-01T15:36:36+02:00",
+  "expectedDeliverable": "Perform the bounded System manager review of Issue #120 / PR #121. Verify current PR head and exact-head validator status, exact three-file runtime/test/handoff scope, projection and fail-closed behavior, unchanged SceneDocument 1.0 and Standardabweichung behavior, review threads, cross-track serialization and integration freshness. If technically clean but still Draft, do not accept or merge; preserve only the external Ready-for-review gate for a later final manager turn.",
+  "lastCompletedTurn": "worker: completed System Issue #120 with Draft PR #121. The graph-backed runtime projection now supports exact German/English headings, StatementRole Definition/Interpretation and ExampleRole WorkedExample prose/explain blocks, and ExerciseRole Exercise prompt/practice/free-text blocks with exact fallback and source traceability. Focused synthetic regressions cover positive projections plus role/resource/selector mismatches and missing/ambiguous direct values. Existing Standardabweichung canonical files, ontology/SHACL, SceneDocument 1.0, renderer/application, learner-state and Chemometrics files are unchanged. The worker returned control without self-acceptance or merge.",
+  "lastUpdated": "2026-09-01T15:47:34+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-review-20260901T154734+0200",
+    "claimedAt": "2026-09-01T15:47:34+02:00",
+    "expiresAt": "2026-09-01T17:47:34+02:00"
   },
-  "blockedBy": [
-    "Fresh agent-validator/project-chemie-digital status is missing for Draft PR #121 exact head 664616ef21c9e0399eebf739e4751ed4869efee1; manager acceptance requires success on this exact head."
-  ],
-  "stateRevision": 37,
+  "blockedBy": [],
+  "stateRevision": 38,
   "transitionHistory": [
     {"at":"2026-09-01T12:53:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260901T125300+0200","reason":"Fresh exact-head validator success was present for reconciled PR #113. Claimed the System manager review to verify scope, freshness, review threads, mergeability and Draft/Ready gate."},
     {"at":"2026-09-01T12:57:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260901T125300+0200","reason":"PR #113 was technically review-clean but remained Draft; connector mark-ready failed on Repository.fullDatabaseId, so no acceptance or merge was issued."},
@@ -34,6 +32,7 @@
     {"at":"2026-09-01T15:22:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-scene-runtime-20260901T152231+0200","reason":"Claimed the separate System manager turn to define and assign the bounded Backend/Data Integration runtime-projection prerequisite after Issue #118 integrated the generic scene SHACL semantics."},
     {"at":"2026-09-01T15:26:17+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-scene-runtime-20260901T152231+0200","reason":"Created System Issue #120 and assigned it to the Backend and Data Integration Engineer. Scope is limited to the deterministic graph-backed generic-role/selector projection into the existing SceneDocument 1.0 contract with focused runtime regressions; Chemometrics remains serialized and blocked until this System prerequisite integrates."},
     {"at":"2026-09-01T15:28:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T152800+0200","reason":"Claimed System Issue #120 for the Backend and Data Integration Engineer. Work is restricted to the deterministic graph-backed generic-role/selector projection and focused runtime regressions; no Chemometrics content/scene/path, ontology/SHACL, SceneDocument contract, renderer/application, learner-state, workflow-governance or external-research changes are permitted."},
-    {"at":"2026-09-01T15:36:36+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T152800+0200","reason":"Completed System Issue #120 with Draft PR #121 and structured handoff. The exact three-file runtime/test/handoff scope implements deterministic generic role/selector projection without changing shared contracts or Chemometrics content. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."}
+    {"at":"2026-09-01T15:36:36+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T152800+0200","reason":"Completed System Issue #120 with Draft PR #121 and structured handoff. The exact three-file runtime/test/handoff scope implements deterministic generic role/selector projection without changing shared contracts or Chemometrics content. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
+    {"at":"2026-09-01T15:47:34+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260901T154734+0200","reason":"Fresh exact-head external validator success is now available for PR #121, resolving the worker's sole pending-status blocker. Claimed the System manager review to verify implementation scope, projection semantics, regressions, review state, integration freshness and Draft/Ready gate."}
   ]
 }
