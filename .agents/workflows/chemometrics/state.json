@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 3,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 114,
-  "expectedDeliverable": "Perform the final manager acceptance and merge review for PR #115 after the external Ready-for-review gate. Re-read the current PR head, required exact-head validator context, changed-file scope, review threads/reviews, mergeability and integration freshness against current main. Accept and squash-merge only if the PR remains non-draft, open, mergeable, targets main, has no unresolved review blocker, exact-head validation remains successful, and all intervening main changes are harmless workflow-state/audit only. Do not assign follow-on work in this turn.",
-  "lastCompletedTurn": "manager: technically reviewed reconciled Issue #114 / PR #115. The required exact-head validator succeeded, the PR contained exactly the six allowed Issue #114 files, the canonical Random Variables path and non-handoff test files matched the previously reviewed versions, integration freshness was safe, System had no active issue, and no review threads existed. Formal acceptance and merge were withheld only because the PR was still Draft and the connector could not mark it Ready.",
-  "lastUpdated": "2026-09-01T13:55:30+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "On the next Chemometrics manager turn, select at most one next bounded content work item from current repository evidence after applying the cross-track gate. Issue #114 is complete and its Random Variables LearningPath is integrated; do not treat this merge as authorization for a same-turn follow-on assignment. A likely future increment may address explicit scene authoring for Random Variables, but that decision must be made in a separate manager turn from fresh repository evidence.",
+  "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #114 / PR #115 after the external Ready-for-review action. The current PR head remained unchanged, non-draft, open and mergeable before merge; the required exact-head validator context was successful; there were no unresolved review threads; the six-file Issue #114 scope and previously reviewed path/test semantics were unchanged; intervening main changes were limited to Chemometrics workflow-state/audit commits; and the System track had no active issue. Verified afterward that PR #115 is merged, Issue #114 is closed completed, and the squash merge commit has exactly one parent. No follow-on Chemometrics work was assigned in this merge turn.",
+  "lastUpdated": "2026-09-01T13:59:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-merge-20260901T135530+0200",
-    "claimedAt": "2026-09-01T13:55:30+02:00",
-    "expiresAt": "2026-09-01T15:55:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 18,
+  "stateRevision": 19,
   "transitionHistory": [
     {"at":"2026-09-01T09:45:00+02:00","from":"legacy/global","to":"ready/manager","actor":"issue-110-migration","reason":"Initialized the independent Chemometrics workflow with its own state and lease boundary; no in-flight work was transferred."},
     {"at":"2026-09-01T11:08:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-chemometrics-20260901T110800+0200","reason":"Claimed the first post-migration Chemometrics manager turn to define and assign a unit-local Random Variables lecture LearningPath from reviewed canonical resources after Issue #108."},
@@ -34,6 +34,7 @@
     {"at":"2026-09-01T13:35:00+02:00","from":"busy/worker","to":"ready/manager","actor":"interactive-chemometrics-worker-reconciliation-20260901T131800+0200","reason":"Reconciled PR #115 onto current main after merged #117 and #113 without scope or semantic expansion, verified the exact six-file diff and zero-behind integration basis, obtained fresh exact-head external validator success, and returned only the Chemometrics workflow to manager review without self-acceptance or merge."},
     {"at":"2026-09-01T13:45:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-review-20260901T134500+0200","reason":"Claimed the Chemometrics manager review for reconciled PR #115 after confirming the new exact head is mergeable, has the six allowed Issue #114 files, no review threads, fresh exact-head validator success, and only harmless Chemometrics state/audit movement on main since the reconciliation base."},
     {"at":"2026-09-01T13:49:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-review-20260901T134500+0200","reason":"Reconciled PR #115 is technically review-clean: exact-head validation succeeded, six-file scope is correct, path/test blobs match the previously reviewed versions, integration freshness is safe, System is idle and no review threads exist. The PR remains Draft and the connector cannot mark it Ready because of Repository.fullDatabaseId, so no formal acceptance or merge was issued; preserve the external Ready-for-review gate and re-read mergeability/head/status/threads afterward."},
-    {"at":"2026-09-01T13:55:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"The external Ready-for-review action is now present. Claimed the final Chemometrics manager acceptance/merge turn to re-check the current head, exact-head validation, review state, mergeability and integration freshness before any verdict."}
+    {"at":"2026-09-01T13:55:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"The external Ready-for-review action is now present. Claimed the final Chemometrics manager acceptance/merge turn to re-check the current head, exact-head validation, review state, mergeability and integration freshness before any verdict."},
+    {"at":"2026-09-01T13:59:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"Formally accepted and squash-merged Issue #114 / PR #115 after all configured gates passed. Verified the PR merged, Issue #114 closed completed and the squash result has exactly one parent. No follow-on Chemometrics work was assigned in this merge turn."}
   ]
 }
