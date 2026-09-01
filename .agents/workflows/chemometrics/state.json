@@ -1,24 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 3,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 114,
-  "expectedDeliverable": "PR #115 is technically review-clean on reconciled exact head d16b6e0ceb06d632c728f1a77a8c810df8b5f428: the required validator context is success, the changed-file set is exactly the six Issue #114 files, the path TriG and all four non-handoff test files are byte-identical to the already reviewed pre-reconciliation versions, the System track is idle, and no review threads exist. The remaining external gate is to mark Draft PR #115 Ready for review because the connector mark-ready mutation fails on Repository.fullDatabaseId. After that action, re-read the exact current head, required status, review threads and GitHub mergeability; accept/squash-merge only if the reviewed head remains unchanged, status remains success, all threads are resolved, the PR is non-draft and mergeable, and intervening main changes remain harmless workflow-state/audit only.",
-  "lastCompletedTurn": "manager: technically reviewed reconciled Issue #114 / PR #115. Current head d16b6e0ceb06d632c728f1a77a8c810df8b5f428 has fresh exact-head agent-validator/project-chemie-digital success. The PR contains exactly the six allowed Issue #114 files. The canonical Random Variables path TriG plus tests/test_chemometrics_basics_content.py, tests/test_chemometrics_course_skeleton.py, tests/test_chemometrics_random_variables_path.py and tests/test_rdf_dataset.py have identical blob SHAs to the previously reviewed pre-reconciliation versions; only the structured handoff changed to document reconciliation. Current main movement since the reconciled base is Chemometrics workflow-state/audit only, System has no active issue, and no review threads exist. No formal acceptance or merge was issued because PR #115 remains Draft and the connector cannot mark it Ready.",
-  "lastUpdated": "2026-09-01T13:49:30+02:00",
+  "expectedDeliverable": "Perform the final manager acceptance and merge review for PR #115 after the external Ready-for-review gate. Re-read the current PR head, required exact-head validator context, changed-file scope, review threads/reviews, mergeability and integration freshness against current main. Accept and squash-merge only if the PR remains non-draft, open, mergeable, targets main, has no unresolved review blocker, exact-head validation remains successful, and all intervening main changes are harmless workflow-state/audit only. Do not assign follow-on work in this turn.",
+  "lastCompletedTurn": "manager: technically reviewed reconciled Issue #114 / PR #115. The required exact-head validator succeeded, the PR contained exactly the six allowed Issue #114 files, the canonical Random Variables path and non-handoff test files matched the previously reviewed versions, integration freshness was safe, System had no active issue, and no review threads existed. Formal acceptance and merge were withheld only because the PR was still Draft and the connector could not mark it Ready.",
+  "lastUpdated": "2026-09-01T13:55:30+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-merge-20260901T135530+0200",
+    "claimedAt": "2026-09-01T13:55:30+02:00",
+    "expiresAt": "2026-09-01T15:55:30+02:00"
   },
-  "blockedBy": [
-    "External UI action required: mark Draft PR #115 Ready for review. The connector mark-ready mutation fails because its GraphQL response requests unsupported Repository.fullDatabaseId.",
-    "After Ready for review, GitHub mergeability must be re-read and must be true before acceptance/merge; the current post-state-write PR metadata reports mergeable=false and requires recomputation after the Ready action."
-  ],
-  "stateRevision": 17,
+  "blockedBy": [],
+  "stateRevision": 18,
   "transitionHistory": [
     {"at":"2026-09-01T09:45:00+02:00","from":"legacy/global","to":"ready/manager","actor":"issue-110-migration","reason":"Initialized the independent Chemometrics workflow with its own state and lease boundary; no in-flight work was transferred."},
     {"at":"2026-09-01T11:08:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-manager-chemometrics-20260901T110800+0200","reason":"Claimed the first post-migration Chemometrics manager turn to define and assign a unit-local Random Variables lecture LearningPath from reviewed canonical resources after Issue #108."},
@@ -36,6 +33,7 @@
     {"at":"2026-09-01T13:18:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-reconciliation-20260901T131800+0200","reason":"Claimed the bounded Issue #114 reconciliation turn. Work is limited to rebasing the existing PR #115 content/test/handoff scope onto current main after merged #117 and #113, preserving reviewed semantics exactly and requiring fresh exact-head external validation afterward."},
     {"at":"2026-09-01T13:35:00+02:00","from":"busy/worker","to":"ready/manager","actor":"interactive-chemometrics-worker-reconciliation-20260901T131800+0200","reason":"Reconciled PR #115 onto current main after merged #117 and #113 without scope or semantic expansion, verified the exact six-file diff and zero-behind integration basis, obtained fresh exact-head external validator success, and returned only the Chemometrics workflow to manager review without self-acceptance or merge."},
     {"at":"2026-09-01T13:45:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-review-20260901T134500+0200","reason":"Claimed the Chemometrics manager review for reconciled PR #115 after confirming the new exact head is mergeable, has the six allowed Issue #114 files, no review threads, fresh exact-head validator success, and only harmless Chemometrics state/audit movement on main since the reconciliation base."},
-    {"at":"2026-09-01T13:49:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-review-20260901T134500+0200","reason":"Reconciled PR #115 is technically review-clean: exact-head validation succeeded, six-file scope is correct, path/test blobs match the previously reviewed versions, integration freshness is safe, System is idle and no review threads exist. The PR remains Draft and the connector cannot mark it Ready because of Repository.fullDatabaseId, so no formal acceptance or merge was issued; preserve the external Ready-for-review gate and re-read mergeability/head/status/threads afterward."}
+    {"at":"2026-09-01T13:49:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-review-20260901T134500+0200","reason":"Reconciled PR #115 is technically review-clean: exact-head validation succeeded, six-file scope is correct, path/test blobs match the previously reviewed versions, integration freshness is safe, System is idle and no review threads exist. The PR remains Draft and the connector cannot mark it Ready because of Repository.fullDatabaseId, so no formal acceptance or merge was issued; preserve the external Ready-for-review gate and re-read mergeability/head/status/threads afterward."},
+    {"at":"2026-09-01T13:55:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"The external Ready-for-review action is now present. Claimed the final Chemometrics manager acceptance/merge turn to re-check the current head, exact-head validation, review state, mergeability and integration freshness before any verdict."}
   ]
 }
