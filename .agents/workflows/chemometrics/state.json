@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 2,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 114,
   "expectedDeliverable": "Author one unit-local Chemometrics Random Variables lecture LearningPath in a dedicated canonical path graph using only the five-step sequence and already-reviewed Issue #108 resources defined by Issue #114; preserve exact forTopic/forLearningUnit semantics, add focused deterministic tests and named-graph registration as needed, keep the scientific content graph path-free, author no scenes or runtime/application changes, perform no external research, produce a structured handoff and Draft PR with the validator marker, and return only the Chemometrics workflow to manager review without self-acceptance or merge.",
   "lastCompletedTurn": "manager: created and assigned Chemometrics Issue #114 'Author first Chemometrics Random Variables lecture LearningPath' to the Semantic Web and Ontology Engineer after confirming current System PR #113 changes only ADR-0011 and its handoff and therefore does not overlap the Chemometrics TriG/test scope. The issue deliberately authors only the Random Variables path; Mean Values and Variance/Dispersion remain zero-path units pending a separate topic/path decision.",
-  "lastUpdated": "2026-09-01T11:09:30+02:00",
+  "lastUpdated": "2026-09-01T11:15:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-20260901T111500+0200",
+    "claimedAt": "2026-09-01T11:15:00+02:00",
+    "expiresAt": "2026-09-01T13:15:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 3,
+  "stateRevision": 4,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -37,6 +37,13 @@
       "to": "ready/worker",
       "actor": "interactive-manager-chemometrics-20260901T110800+0200",
       "reason": "Created and assigned Chemometrics Issue #114 to the Semantic Web and Ontology Engineer with a reuse-only five-step Random Variables lecture-path scope after rechecking that current System PR #113 is disjoint."
+    },
+    {
+      "at": "2026-09-01T11:15:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-20260901T111500+0200",
+      "reason": "Claimed the assigned Chemometrics Issue #114 worker turn. Work is restricted to the first unit-local Random Variables LearningPath using the manager-defined five-step sequence and already-reviewed Issue #108 resources, with no scenes, runtime/application changes, external research, self-acceptance or merge."
     }
   ]
 }
