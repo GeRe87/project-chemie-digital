@@ -1,0 +1,45 @@
+{
+  "workflow_id": "project-chemie-digital-system",
+  "core": {
+    "repository": "GeRe87/agent-workflow-core",
+    "ref": "e04fddc8cf6de6e03da6305a475ff0a04ae29521",
+    "schema": "schemas/workflow-config.schema.json",
+    "protocol": "protocols/scheduled-dispatcher.md",
+    "governance": [
+      "governance/role-governance.md",
+      "governance/repository-safety.md",
+      "governance/external-research.md",
+      "governance/human-approval-gates.md",
+      "governance/notifications.md",
+      "governance/pull-request-merging.md",
+      "governance/blocker-management.md",
+      "governance/ci-diagnostics.md"
+    ]
+  },
+  "state_file": ".agents/workflows/system/state.json",
+  "state_schema": ".agents/state.schema.json",
+  "project_protocol": ".agents/dispatcher-protocol.md",
+  "manager_role_profile": "AGENTS.md",
+  "maximum_turns_per_run": 1,
+  "lease_minutes": 120,
+  "transition_history_limit": 25,
+  "work_model": "github-issues",
+  "notification_policy": ".agents/dispatcher-protocol.md#notifications",
+  "validation": {
+    "provider": "external-commit-status",
+    "requiredContexts": ["agent-validator/project-chemie-digital"],
+    "requireExactHead": true,
+    "evidence": {
+      "type": "pull-request-comment",
+      "marker": "<!-- agent-workflow-validator:project-chemie-digital -->"
+    }
+  },
+  "merge_policy": {
+    "agent_merge_enabled": true,
+    "base_branch": "main",
+    "manager_only": true,
+    "require_successful_checks": true,
+    "require_accepted_review": true,
+    "merge_method": "squash"
+  }
+}

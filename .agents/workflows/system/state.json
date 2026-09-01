@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "cycle": 1,
+  "status": "ready",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "migration: Issue #110 initialized the independent System workflow from the legacy global dispatcher; no active feature assignment or lease was migrated.",
+  "lastUpdated": "2026-09-01T09:45:00+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "blockedBy": [],
+  "stateRevision": 1,
+  "transitionHistory": [
+    {
+      "at": "2026-09-01T09:45:00+02:00",
+      "from": "legacy/global",
+      "to": "ready/manager",
+      "actor": "issue-110-migration",
+      "reason": "Initialized the independent System workflow with its own state and lease boundary; no in-flight work was transferred."
+    }
+  ]
+}
