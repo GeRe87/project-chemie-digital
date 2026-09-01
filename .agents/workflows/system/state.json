@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 118,
-  "expectedDeliverable": "Perform the final System manager acceptance/merge review for non-draft PR #119. Re-read the current PR head, required exact-head status, review threads/reviews, mergeability and integration freshness; if every configured gate remains satisfied, record an explicit manager acceptance and squash-merge with an expected-head guard. Verify PR merged, Issue #118 closed completed and the squash result has exactly one parent. Do not assign the Backend runtime-projection follow-up in this same merge turn.",
-  "lastCompletedTurn": "manager: technically reviewed Issue #118 / Draft PR #119. The exact three-file scope is correct: central SceneItem SHACL, focused scene-semantic tests and handoff only. The change additively activates already-defined StatementRole, ExampleRole and ExerciseRole plus skos:prefLabel@en and cd:body selectors; existing Standardabweichung/code/poll semantics, selected-resource/authorship constraints and position invariants are preserved. Focused positive/negative regressions are appropriate, Chemometrics/runtime/compiler/application surfaces are untouched, cross-track serialization remains correct, and the required validator context is success on the unchanged exact head. Intervening main changes are System workflow-state/audit only and therefore integration-fresh. No formal acceptance or merge was issued because the PR remained Draft; the connector could not mark it Ready due the known Repository.fullDatabaseId GraphQL failure.",
-  "lastUpdated": "2026-09-01T15:04:30+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "On the next separate System manager turn, define and assign at most one bounded Backend and Data Integration increment that extends the existing graph-to-SceneDocument 1.0 projection for the generic scene semantics now integrated by Issue #118: StatementRole/ExampleRole/ExerciseRole, skos:prefLabel@en and direct cd:body selection. Preserve SceneDocument 1.0, existing Standardabweichung output, offline determinism and all current renderer/application boundaries. Chemometrics remains blocked until that runtime/compiler prerequisite is integrated; do not author Chemometrics scenes in the System lane.",
+  "lastCompletedTurn": "manager: formally accepted and squash-merged System Issue #118 / PR #119 after the external Ready-for-review action. Acceptance was bound to the unchanged current PR head with successful exact-head agent-validator/project-chemie-digital status, no unresolved review threads, mergeable non-draft state, the exact three-file semantic/SHACL/test/handoff scope, and integration freshness because all intervening main changes were System workflow-state/audit only. Verified PR #119 merged, Issue #118 closed completed, and the squash merge result has exactly one parent. No Backend runtime-projection follow-up was assigned in this merge turn.",
+  "lastUpdated": "2026-09-01T15:13:30+02:00",
   "lease": {
-    "owner": "interactive-system-manager-merge-20260901T150430+0200",
-    "claimedAt": "2026-09-01T15:04:30+02:00",
-    "expiresAt": "2026-09-01T17:04:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 32,
+  "stateRevision": 33,
   "transitionHistory": [
     {"at":"2026-09-01T12:30:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T122530+0200","reason":"Accepted and squash-merged Issue #116 / PR #117 after all configured gates passed; verified the issue closed and the merge has one parent. Restored the System lane to manager review of original Issue #112. Because the shared validation test changed on main, PR #113 must reconcile with current main and obtain fresh exact-head validation in a later turn."},
     {"at":"2026-09-01T12:39:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-reconciliation-20260901T123931+0200","reason":"Claimed the System manager turn to apply the integration-freshness gate to original Issue #112 / PR #113 after the shared Issue #116 test-harness correction merged to main."},
@@ -32,6 +32,7 @@
     {"at":"2026-09-01T14:33:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T142700+0200","reason":"Completed System Issue #118 with Draft PR #119 and returned only the System workflow to manager review while exact-head external validation was pending."},
     {"at":"2026-09-01T14:55:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260901T145500+0200","reason":"Fresh exact-head validator success became available for PR #119, resolving the worker's pending-status blocker. Claimed the System manager review."},
     {"at":"2026-09-01T14:58:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260901T145500+0200","reason":"PR #119 is technically review-clean with exact-head validator success, correct three-file scope, safe cross-track serialization and only harmless System state/audit movement on main, but it remained Draft. Connector mark-ready again failed on Repository.fullDatabaseId, so no formal acceptance or merge was issued; preserved the external Ready-for-review gate and required a fresh final merge check afterward."},
-    {"at":"2026-09-01T15:04:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-merge-20260901T150430+0200","reason":"The external Ready-for-review action is now present for PR #119. Claimed the final System manager acceptance/merge turn to re-check the current head, exact-head validator status, review state, mergeability, cross-track dependency and integration freshness before any verdict."}
+    {"at":"2026-09-01T15:04:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-merge-20260901T150430+0200","reason":"The external Ready-for-review action is now present for PR #119. Claimed the final System manager acceptance/merge turn to re-check the current head, exact-head validator status, review state, mergeability, cross-track dependency and integration freshness before any verdict."},
+    {"at":"2026-09-01T15:13:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T150430+0200","reason":"Formally accepted and squash-merged Issue #118 / PR #119 after every configured gate passed. Verified the PR merged, Issue #118 closed completed and the squash result has exactly one parent. No Backend runtime-projection follow-up or Chemometrics work was assigned in this merge turn."}
   ]
 }
