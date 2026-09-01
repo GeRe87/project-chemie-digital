@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 1,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Create and assign one bounded System-track Software Architect issue defining the application-side TeachingOffering discovery and selection boundary over validated TeachingOfferingRuntimeDocument 1.0 values, preserving ADR-0008/0009/0010 boundaries and excluding implementation, renderer navigation, learner-state, ontology/content and external research.",
-  "lastCompletedTurn": "migration: Issue #110 initialized the independent System workflow from the legacy global dispatcher; no active feature assignment or lease was migrated.",
-  "lastUpdated": "2026-09-01T10:38:20+02:00",
+  "cycle": 2,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Software Architect",
+  "activeIssue": 112,
+  "expectedDeliverable": "Define ADR-0011 for the renderer-neutral application TeachingOffering discovery/selection boundary over validated TeachingOfferingRuntimeDocument 1.0 values: specify explicit offeringId request/normalization, deterministic zero/singleton/multiple/known/unknown-id behavior, offering.id as sole selection identity, graphId as provenance only, compatibility with zero-path units and downstream ADR-0009, and explicit exclusion of production implementation, navigation/router/renderer semantics, learner-state, ontology/TriG, scientific content, workflow governance and external research. Produce a structured handoff and Draft PR with the validator marker; do not self-accept or merge and do not modify the Chemometrics state.",
+  "lastCompletedTurn": "manager: created and assigned System Issue #112 'Define application TeachingOffering discovery and selection boundary' to the Software Architect after confirming the Chemometrics lane has no active issue/lease and the declared scopes/dependencies/shared-contract impacts permit independent work. No Chemometrics state or content was changed.",
+  "lastUpdated": "2026-09-01T10:40:36+02:00",
   "lease": {
-    "owner": "interactive-manager-20260901T103820+0200",
-    "claimedAt": "2026-09-01T10:38:20+02:00",
-    "expiresAt": "2026-09-01T12:38:20+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 2,
+  "stateRevision": 3,
   "transitionHistory": [
     {
       "at": "2026-09-01T09:45:00+02:00",
@@ -30,6 +30,13 @@
       "to": "busy/manager",
       "actor": "interactive-manager-20260901T103820+0200",
       "reason": "Claimed the first post-migration System manager turn to define and assign the TeachingOffering discovery/selection architecture boundary after ADR-0010 and Issue #104."
+    },
+    {
+      "at": "2026-09-01T10:40:36+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-manager-20260901T103820+0200",
+      "reason": "Created and assigned System Issue #112 to the Software Architect with an architecture-only TeachingOffering discovery/selection scope and an explicit cross-track independence contract."
     }
   ]
 }
