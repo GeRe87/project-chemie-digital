@@ -16,7 +16,8 @@
 - Preserved the rule that non-`busy` track states retain no active lease.
 - Removed the invalid global requirement that `activeIssue` and `activeRole` must always be null; populated assignments remain type/identity checked.
 - Added copied regression fixtures showing legitimate `busy` and `blocked` states pass while ready turn mismatch, missing busy lease, retained blocked lease and malformed timestamps fail.
-- Kept the System/Chemometrics mutation-independence test meaningful without assuming the Chemometrics lease owner is always null.
+- Corrected the manager-reviewed residual independence defect: `test_state_and_lease_mutations_are_independent` now compares the mutated System copy only with its own original and verifies the untouched Chemometrics copy only against its own original. It no longer requires unrelated track revisions or lease-owner values to differ, so coincident independent values remain valid.
+- Verified the shared `self.states` fixtures remain unchanged after the copied System mutation.
 
 ## Files or resources changed
 
@@ -25,9 +26,10 @@
 
 ## Verification
 
-- [ ] Automated tests — authoritative `npm test` / exact-head external validator result is required on the Draft PR head.
+- [ ] Automated tests — the previous PR head passed the required exact-head validator before manager review; this correction changes the head, so fresh `npm test` / `agent-validator/project-chemie-digital` evidence is required.
 - [x] Test-contract review — assertions map to `.agents/state.schema.json` and `.agents/dispatcher-protocol.md` without changing either authority.
 - [x] Regression cases — explicit copied fixtures cover valid `busy`/`blocked` and invalid lifecycle/lease/timestamp combinations.
+- [x] Independence regression review — no assertion now compares System and Chemometrics revision/lease values for inequality; independence is established by mutation isolation against each track's own original.
 - [ ] Semantic validation — not applicable to the source change; no RDF/TriG or semantic content changed.
 - [ ] Manual browser check — not applicable; no UI/application code changed.
 - [ ] Accessibility check — not applicable; no user-facing behavior changed.
@@ -39,14 +41,15 @@
 - `nextTurn == turn` is enforced for `ready` and `busy`, exactly as documented by the project protocol.
 - `blocked` and `complete` are non-busy lifecycle states and therefore must have a cleared lease; this does not force their active assignment evidence to be null.
 - Timestamp rejection is exercised through the same helper used for live state validation, so malformed fixture timestamps fail in the same way as malformed repository state.
-- No workflow semantics were broadened or weakened; the correction removes only the stale initial-state assumptions.
+- Track independence is structural mutation isolation. Equal `stateRevision` numbers or equal lease-owner strings across independent tracks are allowed by coincidence and carry no coupling semantics.
+- No workflow semantics were broadened or weakened; the correction removes only transient-state/value assumptions from the test harness.
 
 ## Risks or unresolved questions
 
-- Fresh exact-head `agent-validator/project-chemie-digital` evidence is still required before manager acceptance.
+- Fresh exact-head `agent-validator/project-chemie-digital` evidence is required after the narrow review correction before manager acceptance.
 - This shared validation change must merge before PR #113 and PR #115. After merge, both older PRs require reconciliation with current `main` and fresh exact-head validation as recorded in Issue #116.
 - No semantic/content gap was introduced or discovered.
 
 ## Recommended manager action
 
-`review` after fresh exact-head validator success; verify the two-file scope and merge this unblocker before reconciling PR #113 and PR #115.
+`review` after fresh exact-head validator success; verify the two-file scope, confirm the cross-track inequality assumptions are gone, and merge this unblocker before reconciling PR #113 and PR #115.
