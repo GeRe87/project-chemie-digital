@@ -34,6 +34,79 @@ class ParallelWorkflowContractTest(unittest.TestCase):
             for track, entry in cls.workflows.items()
         }
 
+    def assert_parseable_datetime(self, value, field_name):
+        self.assertIsInstance(value, str, f"{field_name} must be a string")
+        try:
+            return datetime.fromisoformat(value)
+        except (TypeError, ValueError):
+            self.fail(f"{field_name} must be a parseable ISO datetime: {value!r}")
+
+    def assert_track_state_contract(self, track, state):
+        state_keys = set(self.state_schema["properties"])
+        self.assertEqual(set(self.state_schema["required"]), state_keys)
+        lease_schema = self.state_schema["properties"]["lease"]
+        lease_keys = set(lease_schema["properties"])
+        self.assertEqual(set(lease_schema["required"]), lease_keys)
+        transition_schema = self.state_schema["properties"]["transitionHistory"]["items"]
+        transition_keys = set(transition_schema["properties"])
+        self.assertEqual(set(transition_schema["required"]), transition_keys)
+        valid_statuses = set(self.state_schema["properties"]["status"]["enum"])
+        valid_turns = set(self.state_schema["properties"]["turn"]["enum"])
+
+        self.assertEqual(set(state), state_keys)
+        self.assertEqual(set(state["lease"]), lease_keys)
+        self.assertIn(state["status"], valid_statuses)
+        self.assertIn(state["turn"], valid_turns)
+        self.assertIn(state["nextTurn"], valid_turns)
+
+        if state["status"] in {"ready", "busy"}:
+            self.assertEqual(
+                state["nextTurn"],
+                state["turn"],
+                "ready/busy state must keep nextTurn aligned with turn",
+            )
+
+        lease = state["lease"]
+        if state["status"] == "busy":
+            self.assertIsInstance(lease["owner"], str)
+            self.assertTrue(lease["owner"].strip(), "busy state requires a lease owner")
+            claimed_at = self.assert_parseable_datetime(
+                lease["claimedAt"], "lease.claimedAt"
+            )
+            expires_at = self.assert_parseable_datetime(
+                lease["expiresAt"], "lease.expiresAt"
+            )
+            self.assertGreater(
+                expires_at,
+                claimed_at,
+                "busy lease must expire after it was claimed",
+            )
+        else:
+            self.assertEqual(
+                lease,
+                {"owner": None, "claimedAt": None, "expiresAt": None},
+                "non-busy track state must not retain an active lease",
+            )
+
+        if state["activeIssue"] is not None:
+            self.assertIsInstance(state["activeIssue"], int)
+            self.assertGreaterEqual(state["activeIssue"], 1)
+        if state["activeRole"] is not None:
+            self.assertIsInstance(state["activeRole"], str)
+            self.assertTrue(state["activeRole"].strip())
+
+        self.assertGreaterEqual(state["stateRevision"], 0)
+        self.assertLessEqual(
+            len(state["transitionHistory"]),
+            self.configs[track]["transition_history_limit"],
+        )
+        self.assert_parseable_datetime(state["lastUpdated"], "lastUpdated")
+        for transition in state["transitionHistory"]:
+            self.assertEqual(set(transition), transition_keys)
+            self.assert_parseable_datetime(transition["at"], "transition.at")
+            for field in ("from", "to", "actor", "reason"):
+                self.assertIsInstance(transition[field], str)
+
     def test_registry_exposes_exactly_two_worker_lanes(self):
         self.assertEqual(set(self.workflows), {"system", "chemometrics"})
         self.assertFalse(self.index["legacy"]["workerExecution"])
@@ -72,49 +145,93 @@ class ParallelWorkflowContractTest(unittest.TestCase):
             self.assertEqual(config["merge_policy"]["base_branch"], "main")
 
     def test_track_states_reuse_existing_state_contract(self):
-        state_keys = set(self.state_schema["properties"])
-        self.assertEqual(set(self.state_schema["required"]), state_keys)
-        lease_keys = set(self.state_schema["properties"]["lease"]["properties"])
-        transition_keys = set(
-            self.state_schema["properties"]["transitionHistory"]["items"]["properties"]
-        )
-        valid_statuses = set(self.state_schema["properties"]["status"]["enum"])
-        valid_turns = set(self.state_schema["properties"]["turn"]["enum"])
-
         for track, state in self.states.items():
-            self.assertEqual(set(state), state_keys)
-            self.assertEqual(set(state["lease"]), lease_keys)
-            self.assertIn(state["status"], valid_statuses)
-            self.assertIn(state["turn"], valid_turns)
-            self.assertIn(state["nextTurn"], valid_turns)
-            self.assertEqual(state["status"], "ready")
-            self.assertEqual(state["turn"], "manager")
-            self.assertEqual(state["nextTurn"], "manager")
-            self.assertIsNone(state["activeRole"])
-            self.assertIsNone(state["activeIssue"])
-            self.assertEqual(state["lease"], {"owner": None, "claimedAt": None, "expiresAt": None})
-            self.assertGreaterEqual(state["stateRevision"], 0)
-            self.assertLessEqual(
-                len(state["transitionHistory"]),
-                self.configs[track]["transition_history_limit"],
-            )
-            datetime.fromisoformat(state["lastUpdated"])
-            for transition in state["transitionHistory"]:
-                self.assertEqual(set(transition), transition_keys)
-                datetime.fromisoformat(transition["at"])
+            self.assert_track_state_contract(track, state)
+
+    def test_lifecycle_regression_fixtures(self):
+        system_state = copy.deepcopy(self.states["system"])
+
+        busy = copy.deepcopy(system_state)
+        busy["status"] = "busy"
+        busy["turn"] = "worker"
+        busy["nextTurn"] = "worker"
+        busy["activeRole"] = "Test Worker"
+        busy["activeIssue"] = 999
+        busy["lastUpdated"] = "2026-09-01T10:00:00+02:00"
+        busy["lease"] = {
+            "owner": "fixture-worker",
+            "claimedAt": "2026-09-01T10:00:00+02:00",
+            "expiresAt": "2026-09-01T12:00:00+02:00",
+        }
+        self.assert_track_state_contract("system", busy)
+
+        blocked = copy.deepcopy(system_state)
+        blocked["status"] = "blocked"
+        blocked["turn"] = "manager"
+        blocked["nextTurn"] = "manager"
+        blocked["activeRole"] = "Reviewer"
+        blocked["activeIssue"] = 999
+        blocked["lastUpdated"] = "2026-09-01T10:05:00+02:00"
+        blocked["lease"] = {"owner": None, "claimedAt": None, "expiresAt": None}
+        self.assert_track_state_contract("system", blocked)
+
+        ready_turn_mismatch = copy.deepcopy(blocked)
+        ready_turn_mismatch["status"] = "ready"
+        ready_turn_mismatch["turn"] = "manager"
+        ready_turn_mismatch["nextTurn"] = "worker"
+        with self.assertRaises(AssertionError):
+            self.assert_track_state_contract("system", ready_turn_mismatch)
+
+        busy_without_lease = copy.deepcopy(busy)
+        busy_without_lease["lease"] = {
+            "owner": None,
+            "claimedAt": None,
+            "expiresAt": None,
+        }
+        with self.assertRaises(AssertionError):
+            self.assert_track_state_contract("system", busy_without_lease)
+
+        blocked_with_lease = copy.deepcopy(blocked)
+        blocked_with_lease["lease"] = copy.deepcopy(busy["lease"])
+        with self.assertRaises(AssertionError):
+            self.assert_track_state_contract("system", blocked_with_lease)
+
+        busy_with_bad_timestamp = copy.deepcopy(busy)
+        busy_with_bad_timestamp["lease"]["claimedAt"] = "not-a-timestamp"
+        with self.assertRaises(AssertionError):
+            self.assert_track_state_contract("system", busy_with_bad_timestamp)
+
+        bad_last_updated = copy.deepcopy(blocked)
+        bad_last_updated["lastUpdated"] = "not-a-timestamp"
+        with self.assertRaises(AssertionError):
+            self.assert_track_state_contract("system", bad_last_updated)
 
     def test_state_and_lease_mutations_are_independent(self):
-        system = copy.deepcopy(self.states["system"])
-        chemometrics = copy.deepcopy(self.states["chemometrics"])
+        system_original = copy.deepcopy(self.states["system"])
+        chemometrics_original = copy.deepcopy(self.states["chemometrics"])
+        system = copy.deepcopy(system_original)
+        chemometrics = copy.deepcopy(chemometrics_original)
+
         system["stateRevision"] += 1
         system["lease"]["owner"] = "system-worker"
+
+        self.assertNotEqual(
+            system,
+            system_original,
+            "the mutated System copy must differ from its own original",
+        )
+        self.assertEqual(
+            system["stateRevision"],
+            system_original["stateRevision"] + 1,
+        )
+        self.assertEqual(system["lease"]["owner"], "system-worker")
         self.assertEqual(
             chemometrics,
-            self.states["chemometrics"],
-            "mutating the System fixture must not alter Chemometrics state/lease evidence",
+            chemometrics_original,
+            "mutating the System copy must not alter the Chemometrics copy",
         )
-        self.assertNotEqual(system["stateRevision"], chemometrics["stateRevision"])
-        self.assertIsNone(chemometrics["lease"]["owner"])
+        self.assertEqual(self.states["system"], system_original)
+        self.assertEqual(self.states["chemometrics"], chemometrics_original)
 
     def test_instructions_pin_track_paths_and_disable_root_execution_lane(self):
         documents = [
