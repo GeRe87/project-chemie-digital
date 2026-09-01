@@ -237,13 +237,23 @@ class ChemometricsBasicsContentTests(unittest.TestCase):
             with self.subTest(resource=resource):
                 self.assertEqual([], list(self.graph.objects(resource, CD.hasSource)))
 
-    def test_no_chemometrics_learning_path_is_authored_in_content_migration(self) -> None:
-        for unit in (
-            EX["learning-unit-random-variables"],
-            EX["learning-unit-mean-values"],
-            EX["learning-unit-variance-dispersion"],
-        ):
-            self.assertEqual([], list(self.graph.subjects(CD.forLearningUnit, unit)))
+    def test_chemometrics_content_graph_remains_path_free(self) -> None:
+        self.assertEqual(
+            [],
+            list(self.chemometrics_graph.triples((None, RDF.type, CD.LearningPath))),
+        )
+        self.assertEqual(
+            [],
+            list(self.chemometrics_graph.triples((None, RDF.type, CD.PathStep))),
+        )
+        self.assertEqual(
+            [],
+            list(self.chemometrics_graph.triples((None, CD.forLearningUnit, None))),
+        )
+        self.assertEqual(
+            [],
+            list(self.chemometrics_graph.triples((None, CD.hasStep, None))),
+        )
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()

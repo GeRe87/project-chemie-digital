@@ -124,15 +124,17 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")
 
-    def test_new_units_do_not_prematurely_define_learning_paths(self) -> None:
+    def test_random_variables_has_first_path_while_sibling_units_remain_pathless(self) -> None:
+        self.assertEqual(
+            {EX["path-chemometrics-random-variables-lecture"]},
+            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
+        )
         for unit in (
-            EX["learning-unit-random-variables"],
             EX["learning-unit-mean-values"],
             EX["learning-unit-variance-dispersion"],
         ):
             with self.subTest(unit=unit):
-                paths = list(self.graph.subjects(CD.forLearningUnit, unit))
-                self.assertEqual([], paths)
+                self.assertEqual(set(), set(self.graph.subjects(CD.forLearningUnit, unit)))
 
     def test_course_order_is_independent_of_trig_file_order(self) -> None:
         forward = RDF_DATASET.assemble_dataset(include_legacy=False)

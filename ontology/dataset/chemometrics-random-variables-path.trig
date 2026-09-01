@@ -1,0 +1,44 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture> {
+  ex:path-chemometrics-random-variables-lecture a cd:LearningPath ;
+    skos:prefLabel "Chemometrics Random Variables lecture path"@en ;
+    cd:forTopic ex:random-variable ;
+    cd:forLearningUnit ex:learning-unit-random-variables ;
+    cd:hasStep ex:path-step-chemometrics-random-variables-opener,
+      ex:path-step-chemometrics-random-variables-core-distinction,
+      ex:path-step-chemometrics-random-variables-measurement-model,
+      ex:path-step-chemometrics-random-variables-discrete-case,
+      ex:path-step-chemometrics-random-variables-continuous-case ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-variables-opener a cd:PathStep ;
+    cd:position 1 ;
+    cd:usesResource ex:exercise-dice-realizations ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-variables-core-distinction a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:def-random-variable,
+      ex:random-variable-realization-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-variables-measurement-model a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:random-measurement-model-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-variables-discrete-case a cd:PathStep ;
+    cd:position 4 ;
+    cd:usesResource ex:def-discrete-random-variable,
+      ex:worked-example-discrete-colony-count ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-variables-continuous-case a cd:PathStep ;
+    cd:position 5 ;
+    cd:usesResource ex:def-continuous-random-variable,
+      ex:worked-example-continuous-concentration ;
+    cd:authoredResource true .
+}
