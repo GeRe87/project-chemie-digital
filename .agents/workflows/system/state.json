@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 6,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": "Define and assign at most one bounded Backend and Data Integration issue that extends the existing graph-to-SceneDocument 1.0 projection for the generic scene semantics integrated by Issue #118. The assignment must preserve SceneDocument 1.0, existing Standardabweichung runtime output, offline determinism, renderer/application boundaries and canonical RDF authority; it must not author Chemometrics scenes or scientific content.",
-  "lastCompletedTurn": "manager: formally accepted and squash-merged System Issue #118 / PR #119 after every configured gate passed. Verified PR merged, Issue #118 closed completed and the squash result has exactly one parent. No Backend runtime-projection follow-up or Chemometrics work was assigned in that merge turn.",
-  "lastUpdated": "2026-09-01T15:22:31+02:00",
+  "cycle": 7,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Backend and Data Integration Engineer",
+  "activeIssue": 120,
+  "expectedDeliverable": "Execute System Issue #120 only: extend the existing graph-backed SceneItem to SceneDocument 1.0 runtime projection for StatementRole, ExampleRole, ExerciseRole, skos:prefLabel@en and direct cd:body selection with deterministic fail-closed tests. Preserve current Standardabweichung output, SceneDocument 1.0, canonical RDF/SHACL, course-selection, renderer/application and learner-state contracts. Do not author Chemometrics scenes or scientific content. Produce a Draft PR, structured handoff and fresh exact-head external validation evidence, then return only the System workflow to manager review without self-acceptance or merge.",
+  "lastCompletedTurn": "manager: created and assigned System Issue #120 to the Backend and Data Integration Engineer after verifying that Issue #118 is integrated, compile_scene_document is the bounded runtime projection point, ADR-0003/0004 already define the required SceneDocument behavior, no open issues or PRs conflict, and the Chemometrics lane is safely serialized and remains blocked on this shared System prerequisite. No worker implementation or Chemometrics content change was performed in this turn.",
+  "lastUpdated": "2026-09-01T15:26:17+02:00",
   "lease": {
-    "owner": "interactive-system-manager-scene-runtime-20260901T152231+0200",
-    "claimedAt": "2026-09-01T15:22:31+02:00",
-    "expiresAt": "2026-09-01T17:22:31+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 34,
+  "stateRevision": 35,
   "transitionHistory": [
     {"at":"2026-09-01T12:53:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260901T125300+0200","reason":"Fresh exact-head validator success was present for reconciled PR #113. Claimed the System manager review to verify scope, freshness, review threads, mergeability and Draft/Ready gate."},
     {"at":"2026-09-01T12:57:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260901T125300+0200","reason":"PR #113 was technically review-clean but remained Draft; connector mark-ready failed on Repository.fullDatabaseId, so no acceptance or merge was issued."},
@@ -29,6 +29,7 @@
     {"at":"2026-09-01T14:58:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260901T145500+0200","reason":"PR #119 is technically review-clean with exact-head validator success, correct three-file scope, safe cross-track serialization and only harmless System state/audit movement on main, but it remained Draft. Connector mark-ready again failed on Repository.fullDatabaseId, so no formal acceptance or merge was issued; preserved the external Ready-for-review gate and required a fresh final merge check afterward."},
     {"at":"2026-09-01T15:04:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-merge-20260901T150430+0200","reason":"The external Ready-for-review action is now present for PR #119. Claimed the final System manager acceptance/merge turn to re-check the current head, exact-head validator status, review state, mergeability, cross-track dependency and integration freshness before any verdict."},
     {"at":"2026-09-01T15:13:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T150430+0200","reason":"Formally accepted and squash-merged Issue #118 / PR #119 after every configured gate passed. Verified the PR merged, Issue #118 closed completed and the squash result has exactly one parent. No Backend runtime-projection follow-up or Chemometrics work was assigned in this merge turn."},
-    {"at":"2026-09-01T15:22:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-scene-runtime-20260901T152231+0200","reason":"Claimed the separate System manager turn to define and assign the bounded Backend/Data Integration runtime-projection prerequisite after Issue #118 integrated the generic scene SHACL semantics."}
+    {"at":"2026-09-01T15:22:31+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-scene-runtime-20260901T152231+0200","reason":"Claimed the separate System manager turn to define and assign the bounded Backend/Data Integration runtime-projection prerequisite after Issue #118 integrated the generic scene SHACL semantics."},
+    {"at":"2026-09-01T15:26:17+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-scene-runtime-20260901T152231+0200","reason":"Created System Issue #120 and assigned it to the Backend and Data Integration Engineer. Scope is limited to the deterministic graph-backed generic-role/selector projection into the existing SceneDocument 1.0 contract with focused runtime regressions; Chemometrics remains serialized and blocked until this System prerequisite integrates."}
   ]
 }
