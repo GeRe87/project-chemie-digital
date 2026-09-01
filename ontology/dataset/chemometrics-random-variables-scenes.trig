@@ -1,0 +1,150 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture> {
+  ex:scene-chemometrics-random-variables-opener a cd:SceneDefinition ;
+    cd:focusConcept ex:random-variable ;
+    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-opener-heading,
+      ex:scene-item-chemometrics-random-variables-opener-exercise,
+      ex:scene-item-chemometrics-random-variables-opener-code ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-opener-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:random-variable ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-opener-exercise a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:exercise-dice-realizations ;
+    cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-opener-code a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:code-dice-roll-r ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-random-variables-core-distinction a cd:SceneDefinition ;
+    cd:focusConcept ex:random-variable ;
+    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-core-distinction-heading,
+      ex:scene-item-chemometrics-random-variables-core-distinction-definition,
+      ex:scene-item-chemometrics-random-variables-core-distinction-realization ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-core-distinction-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:random-variable ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-core-distinction-definition a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:def-random-variable ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-core-distinction-realization a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:random-variable-realization-interpretation ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-random-variables-measurement-model a cd:SceneDefinition ;
+    cd:focusConcept ex:random-variable ;
+    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-measurement-model-heading,
+      ex:scene-item-chemometrics-random-variables-measurement-model-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-measurement-model-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:random-variable ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-measurement-model-interpretation a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:random-measurement-model-interpretation ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-random-variables-discrete-case a cd:SceneDefinition ;
+    cd:focusConcept ex:discrete-random-variable ;
+    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-discrete-case-heading,
+      ex:scene-item-chemometrics-random-variables-discrete-case-definition,
+      ex:scene-item-chemometrics-random-variables-discrete-case-example ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-discrete-case-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:discrete-random-variable ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-discrete-case-definition a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:def-discrete-random-variable ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-discrete-case-example a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:worked-example-discrete-colony-count ;
+    cd:communicativeRole cd:ExampleRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-random-variables-continuous-case a cd:SceneDefinition ;
+    cd:focusConcept ex:continuous-random-variable ;
+    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-continuous-case-heading,
+      ex:scene-item-chemometrics-random-variables-continuous-case-definition,
+      ex:scene-item-chemometrics-random-variables-continuous-case-example ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-continuous-case-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:continuous-random-variable ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-continuous-case-definition a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:def-continuous-random-variable ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-random-variables-continuous-case-example a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:worked-example-continuous-concentration ;
+    cd:communicativeRole cd:ExampleRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
