@@ -19,6 +19,7 @@
 - Kept ADR-0009 downstream and unchanged: ADR-0011 selects only one TeachingOffering document and does not select placement, unit, path, scene or learner progression.
 - Kept normal selection offline over the validated runtime artifact; no live Fuseki/SPARQL lookup and no `datasetSnapshot.statements` reconstruction is permitted.
 - Documented current single-offering compatibility as a justified singleton fallback without creating a permanent default, and future multi-offering omission as fail-closed ambiguity.
+- Reconciled Draft PR #113 onto current `main` after the accepted Issue #116 / PR #117 lifecycle-aware validation-test correction. ADR-0011 itself was carried forward unchanged; the PR remains architecture-only and two-file scoped.
 
 ## Files or resources changed
 
@@ -29,7 +30,9 @@ No production application/runtime, renderer, ontology/TriG, scientific-content, 
 
 ## Verification
 
-- [ ] Root `npm test` — not executed by this connector-oriented architecture worker; authoritative exact-head `agent-validator/project-chemie-digital` evidence is required after the Draft PR is opened.
+- [ ] Root `npm test` — authoritative exact-head `agent-validator/project-chemie-digital` evidence is required on the reconciled Draft PR head.
+- [x] Reconciliation review — the branch was rebuilt directly on current `main`, which already contains the merged Issue #116 shared lifecycle-test correction; ADR-0011 was reused byte-for-byte from the previously reviewed branch.
+- [x] Scope review — the reconciled PR diff remains limited to ADR-0011 and this handoff.
 - [x] Architecture boundary review — checked the decision against ADR-0008 course composition, ADR-0009 course/unit/path selection, ADR-0010 runtime-document identity/provenance and Issue #104 shared runtime validation.
 - [x] Determinism review — all required zero/singleton/multiple/known/unknown rules and prohibited implicit heuristics are explicit.
 - [x] Offline-boundary review — selection consumes only the already validated runtime collection and does not traverse the generic Dataset snapshot or require network services.
@@ -61,12 +64,16 @@ Neither belongs in canonical RDF nor `LearnerStateDocument`. Selecting an offeri
 
 A later application boundary first identifies placement/unit context inside the selected runtime document and only then constructs `CourseUnitPathSelectionRequest`. ADR-0011 does not merge these responsibilities.
 
+### Reconciliation changes integration basis, not architecture
+
+Issue #116 changed shared repository validation infrastructure after PR #113 was first authored. The reconciled branch therefore uses current `main` as its parent while preserving the exact ADR-0011 content. The old exact-head validator result on `6f5d019a4488c88efedab35c6d7196e897bce4f6` is stale and must not be reused.
+
 ## Risks or unresolved questions
 
-- Authoritative exact-head validation is pending until `agent-validator/project-chemie-digital` is published for the final Draft PR head.
+- Fresh exact-head `agent-validator/project-chemie-digital` evidence is required on the reconciled PR head before manager acceptance.
 - No semantic/content blocker exists for the architecture contract itself. A future multi-offering UI could encounter missing authored human-readable offering/path metadata; such metadata must be handled by a separate semantic/content task rather than fabricated from IRIs.
 - Production type/error names are intentionally not implemented here; a later bounded System issue should implement the decision in the shared application/core boundary without changing the semantic rules.
 
 ## Recommended manager action
 
-`review` after fresh exact-head `agent-validator/project-chemie-digital` evidence is available. Verify the two-file architecture-only scope, deterministic fail-closed policy, sole `offering.id` identity, zero-path compatibility, ADR-0009 separation, offline boundary and absence of Chemometrics/content/runtime implementation changes before acceptance.
+`review` after fresh exact-head `agent-validator/project-chemie-digital` evidence is available. Verify the two-file architecture-only scope, current-main integration basis, deterministic fail-closed policy, sole `offering.id` identity, zero-path compatibility, ADR-0009 separation, offline boundary and absence of Chemometrics/content/runtime implementation changes before acceptance.
