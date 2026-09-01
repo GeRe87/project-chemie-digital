@@ -20,6 +20,7 @@
   - `ExerciseRole` + `Exercise` -> `prompt` / `practice` / `free-text` with exact static fallback.
 - Preserved source traceability for all new blocks, including the selected resource identity, provenance graph ids and the authored `relationPath`.
 - Added focused synthetic/in-memory runtime regressions in `tests/test_generic_scene_runtime.py`; no canonical Chemometrics scene or content statement is introduced.
+- After manager review, isolated those regression fixtures completely from the canonical Dataset: `generic_scene_dataset()` now starts with a fresh `rdflib.Dataset()` and adds only the minimal synthetic LearningPath, SceneDefinition, SceneItem, Concept and LearningResource triples required by `compile_scene_document()`. The test file no longer calls `MODULE.assemble_dataset()` and therefore no longer parses or validates canonical TriG as fixture setup.
 
 ## Projection matrix
 
@@ -60,6 +61,18 @@ Focused tests cover rejection of:
 - multiple directly selected body values in the requested language;
 - multiple body-language values when no item language disambiguates them.
 
+## Manager-review fixture correction
+
+The final manager review identified one applicable test-quality issue: the first synthetic fixture implementation started from `MODULE.assemble_dataset()`, so every focused test parsed and validated the complete canonical Dataset before adding its synthetic triples.
+
+That dependency is removed without touching runtime semantics:
+
+- fixture setup now uses `current = Dataset()`;
+- only the named synthetic path graph and synthetic resource graph are created;
+- no canonical RDF/TriG file is loaded by the focused fixture helper;
+- expected provenance remains deterministic because fixture resources exist only in `GENERIC_RESOURCE_GRAPH`;
+- the same positive and negative projection assertions are retained unchanged.
+
 ## Files changed
 
 - `scripts/generate_canonical_runtime.py`
@@ -79,9 +92,10 @@ Focused tests cover rejection of:
 ## Compatibility evidence
 
 - The implementation is additive at the role boundary: existing Standardabweichung HeadingRole (`skos:prefLabel@de`), MathExpression, CodeExample, AudiencePoll, QuotationRole and CitationRole branches remain intact.
-- The branch is based on the System worker-claim commit on current `main`; before PR creation the feature diff is zero commits behind `main`.
+- The original branch was based on the System worker-claim commit on current `main`; the later main movement during manager review/worker correction is System workflow state/audit only and does not affect runtime/tests/contracts.
 - Existing generated Standardabweichung RDF/scene files are not edited.
 - Generic runtime tests use a synthetic one-step LearningPath with a heading first, preserving the existing accessibility-label mechanism without redesigning accessibility.
+- The focused synthetic regression helper is now independent of canonical dataset assembly and contract validation.
 
 ## Verification
 
@@ -90,8 +104,9 @@ Focused tests cover rejection of:
 - [x] Source-traceability review: new blocks retain resource id, provenance and relation path.
 - [x] SceneDocument boundary review: no block kind, field or version was added.
 - [x] Chemometrics/content boundary review: no canonical Chemometrics scene/path/content statement was authored.
+- [x] Manager-review fixture correction: focused runtime fixtures use only a fresh in-memory `rdflib.Dataset()` and contain no `assemble_dataset()` call.
 - [ ] Local `npm test`: not executed in the connector worker because the execution container cannot resolve the GitHub repository mirror. The repository exact-head external validator is required and is authoritative for acceptance.
-- [ ] Fresh exact-head `agent-validator/project-chemie-digital`: required after the Draft PR is opened.
+- [ ] Fresh exact-head `agent-validator/project-chemie-digital`: required on the corrected PR head.
 
 ## Remaining dependency
 
@@ -99,4 +114,4 @@ This issue completes the second shared System prerequisite identified by the blo
 
 ## Recommended manager action
 
-Review the exact three-file runtime-only scope after fresh exact-head validator success. Confirm existing Standardabweichung behavior remains green, verify the new projection/failure matrix, and merge only through the configured manager-only gate. Do not unblock Chemometrics before this System increment is integrated.
+Review the exact three-file runtime-only scope after fresh exact-head validator success. Confirm existing Standardabweichung behavior remains green, verify the new projection/failure matrix and isolated fixture setup, and merge only through the configured manager-only gate. Do not unblock Chemometrics before this System increment is integrated.
