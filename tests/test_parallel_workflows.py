@@ -207,17 +207,31 @@ class ParallelWorkflowContractTest(unittest.TestCase):
             self.assert_track_state_contract("system", bad_last_updated)
 
     def test_state_and_lease_mutations_are_independent(self):
-        system = copy.deepcopy(self.states["system"])
-        chemometrics = copy.deepcopy(self.states["chemometrics"])
+        system_original = copy.deepcopy(self.states["system"])
+        chemometrics_original = copy.deepcopy(self.states["chemometrics"])
+        system = copy.deepcopy(system_original)
+        chemometrics = copy.deepcopy(chemometrics_original)
+
         system["stateRevision"] += 1
         system["lease"]["owner"] = "system-worker"
+
+        self.assertNotEqual(
+            system,
+            system_original,
+            "the mutated System copy must differ from its own original",
+        )
+        self.assertEqual(
+            system["stateRevision"],
+            system_original["stateRevision"] + 1,
+        )
+        self.assertEqual(system["lease"]["owner"], "system-worker")
         self.assertEqual(
             chemometrics,
-            self.states["chemometrics"],
-            "mutating the System fixture must not alter Chemometrics state/lease evidence",
+            chemometrics_original,
+            "mutating the System copy must not alter the Chemometrics copy",
         )
-        self.assertNotEqual(system["stateRevision"], chemometrics["stateRevision"])
-        self.assertNotEqual(system["lease"]["owner"], chemometrics["lease"]["owner"])
+        self.assertEqual(self.states["system"], system_original)
+        self.assertEqual(self.states["chemometrics"], chemometrics_original)
 
     def test_instructions_pin_track_paths_and_disable_root_execution_lane(self):
         documents = [
