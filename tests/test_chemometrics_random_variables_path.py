@@ -63,6 +63,24 @@ EXPECTED_STEPS = {
     ),
 }
 
+EXPECTED_SCENES = {
+    EX["path-step-chemometrics-random-variables-opener"]: EX[
+        "scene-chemometrics-random-variables-opener"
+    ],
+    EX["path-step-chemometrics-random-variables-core-distinction"]: EX[
+        "scene-chemometrics-random-variables-core-distinction"
+    ],
+    EX["path-step-chemometrics-random-variables-measurement-model"]: EX[
+        "scene-chemometrics-random-variables-measurement-model"
+    ],
+    EX["path-step-chemometrics-random-variables-discrete-case"]: EX[
+        "scene-chemometrics-random-variables-discrete-case"
+    ],
+    EX["path-step-chemometrics-random-variables-continuous-case"]: EX[
+        "scene-chemometrics-random-variables-continuous-case"
+    ],
+}
+
 
 class ChemometricsRandomVariablesPathTests(unittest.TestCase):
     @classmethod
@@ -124,8 +142,13 @@ class ChemometricsRandomVariablesPathTests(unittest.TestCase):
         }
         self.assertEqual(expected_typed_resources, typed_resources)
 
-    def test_path_is_path_only_and_contains_no_scene_semantics(self) -> None:
-        self.assertEqual([], list(self.path_graph.triples((None, CD.usesScene, None))))
+    def test_path_binds_each_step_to_exactly_one_scene_without_defining_scenes(self) -> None:
+        for step, expected_scene in EXPECTED_SCENES.items():
+            with self.subTest(step=step):
+                self.assertEqual(
+                    {expected_scene},
+                    set(self.path_graph.objects(step, CD.usesScene)),
+                )
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
