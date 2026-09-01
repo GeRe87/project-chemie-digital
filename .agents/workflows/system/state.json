@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 118,
-  "expectedDeliverable": "Implement Issue #118 on branch agent/118-generalize-scene-semantics: additively generalize the central graph-backed SceneItem SHACL semantics to permit the already-defined StatementRole, ExampleRole and ExerciseRole plus direct cd:body selection and English heading selection, preserve all existing Standardabweichung/code/poll scene semantics unchanged, add focused positive/negative semantic regressions, make no Chemometrics scene/content/path or runtime/compiler/application changes, open a Draft PR with the validator marker, add the structured handoff, and return only the System workflow to manager review. No external research; worker never self-accepts or merges.",
-  "lastCompletedTurn": "manager: from fresh repository evidence and the blocked Chemometrics cross-track prerequisite, created and assigned System Issue #118 to the Semantic Web and Ontology Engineer. The issue is deliberately limited to activating already-defined generic graph-backed scene roles/selectors in central SHACL with compatibility tests. Existing ADR-0003/0004 already establish prompt/practice semantics, so no new architecture decision or new ontology concept is requested. Runtime graph-to-SceneDocument mapping is explicitly deferred to a separate Backend/Data Integration worker after #118 integrates; Chemometrics remains blocked until both System prerequisites are complete.",
-  "lastUpdated": "2026-09-01T14:27:00+02:00",
+  "expectedDeliverable": "Review Draft PR #119 for Issue #118 on exact head 8fa32e899dc8d6c925be1eb7927886d1914aa178. Verify the exact three-file scope, additive SceneItem SHACL allow-list changes, unchanged existing Standardabweichung/code/poll semantics, focused generic positive/negative regressions, absence of Chemometrics/runtime/compiler/application changes, mergeability and fresh exact-head agent-validator/project-chemie-digital success before acceptance. If accepted and merged, assign the required separate Backend/Data Integration runtime-projection follow-up before unblocking Chemometrics scene authoring.",
+  "lastCompletedTurn": "worker: completed System Issue #118 on branch agent/118-generalize-scene-semantics with Draft PR #119. Central SceneItem SHACL now additionally permits existing StatementRole, ExampleRole and ExerciseRole plus skos:prefLabel@en and cd:body selectors while preserving all prior role/selector values, selected-resource class/authorship evidence, positive positions and per-scene uniqueness. Focused in-memory regressions cover English heading, Definition/Statement body, WorkedExample/Example body and Exercise/Exercise body; existing unsupported-role/selector tests remain. concepts.trig, canonical Standardabweichung scenes, Chemometrics content/path/scene files and all runtime/compiler/application contracts are unchanged. PR #119 is mergeable with exactly three files; exact-head validator status is pending, so no self-acceptance or merge was performed.",
+  "lastUpdated": "2026-09-01T14:33:30+02:00",
   "lease": {
-    "owner": "interactive-system-worker-20260901T142700+0200",
-    "claimedAt": "2026-09-01T14:27:00+02:00",
-    "expiresAt": "2026-09-01T16:27:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 28,
+  "blockedBy": [
+    "Fresh agent-validator/project-chemie-digital status is pending on Draft PR #119 exact head 8fa32e899dc8d6c925be1eb7927886d1914aa178; manager acceptance requires success on this exact head."
+  ],
+  "stateRevision": 29,
   "transitionHistory": [
     {"at":"2026-09-01T11:25:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-validator-triage-20260901T112300+0200","reason":"Classified the PR #113 validator failure as an internally actionable lifecycle-test defect and created/assigned System Issue #116 to QA as the single bounded unblock action. ADR-0011 remains unchanged; both existing feature/content PRs require reconciliation after the shared test fix merges."},
     {"at":"2026-09-01T11:26:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T112600+0200","reason":"Claimed System Issue #116 for the QA, DevOps, Security, and Accessibility Engineer. Work is limited to lifecycle-aware parallel-workflow test-harness correction and structured handoff; workflow states/schema/protocol/config, ADRs, feature/content/runtime code and Chemometrics state remain out of scope."},
@@ -38,6 +40,7 @@
     {"at":"2026-09-01T13:07:38+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-merge-20260901T130338+0200","reason":"Accepted and squash-merged Issue #112 / PR #113 after all configured gates passed. A late Copilot terminology thread was reviewed against established ADR-0009/0010 wording, answered and resolved without changing ADR-0011. Verified PR merged, Issue #112 closed completed and the squash commit has one parent. No follow-on assignment was made in this merge turn."},
     {"at":"2026-09-01T14:24:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-scene-semantics-20260901T142400+0200","reason":"Claimed the next System manager turn because the blocked Chemometrics lane supplied a concrete shared-contract prerequisite. Repository evidence shows the generic communicative roles already exist; this turn will create and assign at most one additive semantic/SHACL generalization without Chemometrics scene authoring or runtime implementation."},
     {"at":"2026-09-01T14:26:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-scene-semantics-20260901T142400+0200","reason":"Created System Issue #118 and assigned it to the Semantic Web and Ontology Engineer. The bounded scope activates existing generic scene roles/selectors in central SHACL with compatibility regressions only; runtime compilation and all Chemometrics scene authoring remain separate later turns."},
-    {"at":"2026-09-01T14:27:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T142700+0200","reason":"Claimed System Issue #118 for the Semantic Web and Ontology Engineer. Work is restricted to additive central SceneItem SHACL allow-list generalization, focused semantic regressions and structured handoff; no Chemometrics content/path/scene, runtime/compiler/application, workflow-governance, validator or external-research work is permitted."}
+    {"at":"2026-09-01T14:27:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260901T142700+0200","reason":"Claimed System Issue #118 for the Semantic Web and Ontology Engineer. Work is restricted to additive central SceneItem SHACL allow-list generalization, focused semantic regressions and structured handoff; no Chemometrics content/path/scene, runtime/compiler/application, workflow-governance, validator or external-research work is permitted."},
+    {"at":"2026-09-01T14:33:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260901T142700+0200","reason":"Completed System Issue #118 with Draft PR #119. The three-file additive SHACL/test/handoff scope is mergeable and preserves existing scene semantics; exact-head external validation is still pending, so returned only the System workflow to manager review without self-acceptance or merge."}
   ]
 }
