@@ -17,28 +17,33 @@
   ex:path-step-chemometrics-random-variables-opener a cd:PathStep ;
     cd:position 1 ;
     cd:usesResource ex:exercise-dice-realizations ;
+    cd:usesScene ex:scene-chemometrics-random-variables-opener ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-random-variables-core-distinction a cd:PathStep ;
     cd:position 2 ;
     cd:usesResource ex:def-random-variable,
       ex:random-variable-realization-interpretation ;
+    cd:usesScene ex:scene-chemometrics-random-variables-core-distinction ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-random-variables-measurement-model a cd:PathStep ;
     cd:position 3 ;
     cd:usesResource ex:random-measurement-model-interpretation ;
+    cd:usesScene ex:scene-chemometrics-random-variables-measurement-model ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-random-variables-discrete-case a cd:PathStep ;
     cd:position 4 ;
     cd:usesResource ex:def-discrete-random-variable,
       ex:worked-example-discrete-colony-count ;
+    cd:usesScene ex:scene-chemometrics-random-variables-discrete-case ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-random-variables-continuous-case a cd:PathStep ;
     cd:position 5 ;
     cd:usesResource ex:def-continuous-random-variable,
       ex:worked-example-continuous-concentration ;
+    cd:usesScene ex:scene-chemometrics-random-variables-continuous-case ;
     cd:authoredResource true .
 }

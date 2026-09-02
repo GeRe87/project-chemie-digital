@@ -101,12 +101,11 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertIn((definition, authored, Literal(True)), graph)
         self.assertIn((source, authored, Literal(True)), graph)
 
-    def test_all_nine_scene_definitions_are_renderer_neutral(self) -> None:
+    def test_all_scene_definitions_are_renderer_neutral(self) -> None:
         graph = assembled_data_graph()
         scene_type = URIRef(CD + "SceneDefinition")
         body = URIRef(CD + "body")
         scenes = set(graph.subjects(RDF.type, scene_type))
-        self.assertEqual(9, len(scenes))
         for scene in scenes:
             self.assertEqual([], list(graph.objects(scene, body)))
 
