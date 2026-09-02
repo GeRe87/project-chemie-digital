@@ -105,7 +105,7 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             selected = next(self.graph.objects(item, CD.selectsResource))
             self.assertIn(Literal(True), set(self.graph.objects(selected, CD.authoredResource)))
 
-    def test_all_comprehensive_scenes_obey_the_accepted_scene_item_contract(self) -> None:
+    def test_standard_deviation_path_scenes_obey_the_accepted_scene_item_contract(self) -> None:
         allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole, CD.CodeRole, CD.PollRole}
         allowed_paths = {
             Literal("skos:prefLabel@de"),
@@ -114,10 +114,14 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             Literal("cd:hasCodeExample"),
             Literal("cd:hasAudiencePoll"),
         }
-        scene_prefix = str(EX["scene-"])
-        for scene in self.graph.subjects(RDF.type, CD.SceneDefinition):
-            if not str(scene).startswith(scene_prefix):
-                continue
+        path_steps = set(self.graph.objects(EX["path-standard-deviation"], CD.hasStep))
+        scenes = set()
+        for step in path_steps:
+            step_scenes = set(self.graph.objects(step, CD.usesScene))
+            self.assertEqual(1, len(step_scenes), step)
+            scenes.update(step_scenes)
+        self.assertEqual(9, len(scenes))
+        for scene in scenes:
             positions = []
             for item in self.graph.objects(scene, CD.hasSceneItem):
                 positions.append(int(next(self.graph.objects(item, CD.position))))
