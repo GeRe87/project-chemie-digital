@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 5,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 126,
   "expectedDeliverable": "Execute Chemometrics Issue #126 exactly as assigned: author one dedicated Mean Values lecture LearningPath with exactly the six reviewed Mean Values focus Concepts as an unordered cd:forTopic set, exactly eight manager-specified ordered PathSteps over existing Issue #108 resources, focused semantic/course-discovery regressions and a structured handoff, open a Draft PR to main with the validator marker, and return only the Chemometrics workflow to manager review. Do not add or rewrite scientific resources, scenes/usesScene, shared ontology/SHACL, runtime/compiler, packages/apps, course-scale composition, System state, learner-state, workflow governance or validator configuration; no external research is authorised.",
   "lastCompletedTurn": "manager: resolved the prior Mean Values topic-contract blocker from current repository evidence after System Issue #124 / PR #125 merged the compatible one-or-more unordered cd:forTopic contract. Confirmed the System lane is idle and no project PR was open, then created Chemometrics Issue #126 with the exact six-topic set, eight-step reviewed-resource matrix, path-only/reuse-only boundaries, focused regressions and later-scene follow-up, and assigned it to the Semantic Web and Ontology Engineer without performing worker implementation.",
-  "lastUpdated": "2026-09-02T13:20:30+02:00",
+  "lastUpdated": "2026-09-02T13:38:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-mean-values-path-20260902T133800+0200",
+    "claimedAt": "2026-09-02T13:38:00+02:00",
+    "expiresAt": "2026-09-02T15:38:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 37,
+  "stateRevision": 38,
   "transitionHistory": [
     {"at":"2026-09-01T13:59:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"Formally accepted and squash-merged Issue #114 / PR #115 after all configured gates passed. Verified the PR merged, Issue #114 closed completed and the squash result has exactly one parent. No follow-on Chemometrics work was assigned in this merge turn."},
     {"at":"2026-09-01T14:01:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-scene-gate-20260901T140130+0200","reason":"Claimed the next Chemometrics manager turn to evaluate explicit Random Variables scene authoring against the current shared graph-backed scene semantics, runtime projection and cross-track contract gate before assigning any content worker."},
@@ -35,6 +35,7 @@
     {"at":"2026-09-02T10:12:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Claimed the next Chemometrics manager turn to evaluate the Mean Values lecture-path boundary against the current singular cd:forTopic contract and cross-track shared-contract rules before assigning any content worker."},
     {"at":"2026-09-02T10:15:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Mean Values is the next curriculum unit and its reviewed resources are ready, but direct path authoring would force an unsupported single-topic choice under the current exactly-one cd:forTopic contract. Classified this as a System-owned shared semantic-contract prerequisite and blocked only the Chemometrics lane; no content worker was assigned and System state was not mutated."},
     {"at":"2026-09-02T13:16:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-path-20260902T131630+0200","reason":"Merged System Issue #124 / PR #125 is now present on current main and establishes one-or-more unordered cd:forTopic values while preserving existing single-topic paths. The prior cross-track blocker is therefore resolved. Claimed the Chemometrics manager turn to define and assign at most one bounded Mean Values lecture LearningPath issue; System is idle and no open PR exists."},
-    {"at":"2026-09-02T13:20:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-mean-values-path-20260902T131630+0200","reason":"Resolved the prior System-owned topic-contract blocker from merged #124/#125, created Chemometrics Issue #126, and assigned it to the Semantic Web and Ontology Engineer for one dedicated Mean Values lecture LearningPath with exactly six unordered reviewed topic Concepts, eight exact reuse-only PathSteps, focused semantic/course-discovery regressions and structured handoff. Scene authoring, scientific-content edits, shared-contract/runtime/application changes, System-state mutation and external research remain out of scope. No worker implementation was performed in this manager turn."}
+    {"at":"2026-09-02T13:20:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-mean-values-path-20260902T131630+0200","reason":"Resolved the prior System-owned topic-contract blocker from merged #124/#125, created Chemometrics Issue #126, and assigned it to the Semantic Web and Ontology Engineer for one dedicated Mean Values lecture LearningPath with exactly six unordered reviewed topic Concepts, eight exact reuse-only PathSteps, focused semantic/course-discovery regressions and structured handoff. Scene authoring, scientific-content edits, shared-contract/runtime/application changes, System-state mutation and external research remain out of scope. No worker implementation was performed in this manager turn."},
+    {"at":"2026-09-02T13:38:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-path-20260902T133800+0200","reason":"Claimed Chemometrics Issue #126. Work is restricted to one path-only Mean Values LearningPath with exactly six unordered reviewed topics, eight manager-specified reuse-only PathSteps, focused semantic/course-discovery regressions and structured handoff; no scenes, scientific-content edits, shared-contract/runtime/application changes, System-state mutation or external research."}
   ]
 }
