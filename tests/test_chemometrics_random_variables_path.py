@@ -152,13 +152,13 @@ class ChemometricsRandomVariablesPathTests(unittest.TestCase):
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
-    def test_only_random_variables_unit_has_a_new_chemometrics_path(self) -> None:
+    def test_random_and_mean_values_units_have_paths_while_variance_remains_pathless(self) -> None:
         self.assertEqual(
             {PATH},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
         )
         self.assertEqual(
-            set(),
+            {EX["path-chemometrics-mean-values-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-mean-values"])),
         )
         self.assertEqual(
