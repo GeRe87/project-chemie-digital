@@ -1,0 +1,78 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture> {
+  ex:path-chemometrics-mean-values-lecture a cd:LearningPath ;
+    skos:prefLabel "Chemometrics Mean Values lecture path"@en ;
+    cd:forTopic ex:arithmetic-mean,
+      ex:expected-value,
+      ex:law-of-large-numbers,
+      ex:geometric-mean,
+      ex:harmonic-mean,
+      ex:median ;
+    cd:forLearningUnit ex:learning-unit-mean-values ;
+    cd:hasStep ex:path-step-chemometrics-mean-values-arithmetic-mean,
+      ex:path-step-chemometrics-mean-values-expected-value,
+      ex:path-step-chemometrics-mean-values-law-of-large-numbers,
+      ex:path-step-chemometrics-mean-values-geometric-mean,
+      ex:path-step-chemometrics-mean-values-geometric-practice,
+      ex:path-step-chemometrics-mean-values-harmonic-mean,
+      ex:path-step-chemometrics-mean-values-median,
+      ex:path-step-chemometrics-mean-values-median-practice ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-arithmetic-mean a cd:PathStep ;
+    cd:position 1 ;
+    cd:usesResource ex:arithmetic-mean-formula,
+      ex:arithmetic-mean-applicability-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-expected-value a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:def-expected-value,
+      ex:discrete-expected-value-formula,
+      ex:sample-mean-estimator-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-law-of-large-numbers a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:def-law-of-large-numbers,
+      ex:lln-not-standard-error-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-geometric-mean a cd:PathStep ;
+    cd:position 4 ;
+    cd:usesResource ex:def-geometric-mean,
+      ex:geometric-mean-product-formula,
+      ex:geometric-mean-log-formula,
+      ex:geometric-mean-applicability-interpretation,
+      ex:worked-example-multiplicative-growth ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-geometric-practice a cd:PathStep ;
+    cd:position 5 ;
+    cd:usesResource ex:exercise-geometric-growth-factors ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-harmonic-mean a cd:PathStep ;
+    cd:position 6 ;
+    cd:usesResource ex:worked-example-equal-distance-speed,
+      ex:def-harmonic-mean,
+      ex:harmonic-mean-formula,
+      ex:harmonic-mean-rate-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-median a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:worked-example-turbidity-median,
+      ex:def-median,
+      ex:sample-median-formula,
+      ex:median-robustness-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-mean-values-median-practice a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:exercise-mean-median-outlier ;
+    cd:authoredResource true .
+}
