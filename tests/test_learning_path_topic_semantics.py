@@ -41,7 +41,6 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
-        cls.shapes = VALIDATION.detached_graph(cls.dataset.graph(SHAPES_GRAPH))
 
     def _copy_graph(self) -> Graph:
         graph = Graph()
@@ -49,10 +48,13 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
             graph.add(triple)
         return graph
 
+    def _fresh_shapes(self) -> Graph:
+        return VALIDATION.detached_graph(self.dataset.graph(SHAPES_GRAPH))
+
     def _validate(self, graph: Graph) -> tuple[bool, str]:
         conforms, _, report = validate(
             data_graph=graph,
-            shacl_graph=self.shapes,
+            shacl_graph=self._fresh_shapes(),
             inference="rdfs",
             abort_on_first=False,
             allow_infos=False,
@@ -108,15 +110,16 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
                 )
 
     def test_learning_path_shape_keeps_minimum_and_removes_maximum_topic_cardinality(self) -> None:
+        shapes = self._fresh_shapes()
         property_shapes = [
             node
-            for node in self.shapes.objects(CD.LearningPathShape, SH.property)
-            if (node, SH.path, CD.forTopic) in self.shapes
+            for node in shapes.objects(CD.LearningPathShape, SH.property)
+            if (node, SH.path, CD.forTopic) in shapes
         ]
         self.assertEqual(1, len(property_shapes))
         topic_shape = property_shapes[0]
-        self.assertEqual([Literal(1)], list(self.shapes.objects(topic_shape, SH.minCount)))
-        self.assertEqual([], list(self.shapes.objects(topic_shape, SH.maxCount)))
+        self.assertEqual([Literal(1)], list(shapes.objects(topic_shape, SH.minCount)))
+        self.assertEqual([], list(shapes.objects(topic_shape, SH.maxCount)))
 
     def test_for_topic_vocabulary_relation_remains_learning_path_to_concept(self) -> None:
         self.assertIn((CD.forTopic, RDF.type, RDF.Property), self.graph)
