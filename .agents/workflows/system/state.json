@@ -1,17 +1,17 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 124,
   "expectedDeliverable": "Apply exactly one narrow correction to PR #125: isolate the SHACL graph fixture in tests/test_learning_path_topic_semantics.py so every pySHACL validation receives a fresh detached shapes graph rather than a cached graph that may be mutated across test calls. Preserve the reviewed LearningPath cd:forTopic cardinality semantics, vocabulary, authored paths and all runtime/application/package/learner-state/Chemometrics contracts. Update the existing handoff as needed, address the unresolved review thread, and obtain fresh exact-head agent-validator/project-chemie-digital success before returning only the System workflow to manager review.",
   "lastCompletedTurn": "manager: final merge review discovered a new applicable Copilot review after PR #125 became Ready. Repository validation code explicitly documents that pySHACL may enrich or mutate supplied SHACL graph objects, while the new regression test caches and reuses one detached shapes graph across validations. Acceptance and merge were withheld. Issue #124 is returned to the same Semantic Web and Ontology Engineer for test-fixture isolation only; no semantic-contract or Chemometrics change is authorized.",
-  "lastUpdated": "2026-09-02T11:28:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-09-02T12:30:00+02:00",
+  "lease": {"owner": "interactive-system-worker-20260902T123000+0200", "claimedAt": "2026-09-02T12:30:00+02:00", "expiresAt": "2026-09-02T14:30:00+02:00"},
   "blockedBy": [],
-  "stateRevision": 53,
+  "stateRevision": 54,
   "transitionHistory": [
     {"at":"2026-09-01T17:26:22+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Fresh exact-head validator success became available for corrected PR #121, resolving the worker's sole pending-status blocker. Claimed the final System manager acceptance/merge review and normalized state content to remove transient commit identifiers."},
     {"at":"2026-09-01T17:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Formally accepted and squash-merged Issue #120 / PR #121 after every configured gate passed, including the isolated synthetic fixture correction. Verified the PR merged, Issue #120 closed completed and the squash result has exactly one parent. No Chemometrics state change or follow-on assignment was made in this merge turn."},
@@ -22,6 +22,7 @@
     {"at":"2026-09-02T11:14:15+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-review-20260902T111415+0200","reason":"Fresh exact-head validator success became available for PR #125 and the System manager review was claimed."},
     {"at":"2026-09-02T11:18:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-review-20260902T111415+0200","reason":"PR #125 was technically review-clean but remained Draft, so acceptance and merge were withheld pending external Ready-for-review."},
     {"at":"2026-09-02T11:23:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-merge-20260902T112330+0200","reason":"The external Ready-for-review action was present for PR #125. Claimed the final System manager acceptance and merge turn."},
-    {"at":"2026-09-02T11:28:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-merge-20260902T112330+0200","reason":"A new unresolved Copilot review identified reuse of a mutable SHACL graph fixture across pySHACL validations. Repository validation code confirms the mutation risk is real. Withheld acceptance and merge, recorded the correction verdict, and returned Issue #124 for one test-fixture isolation correction plus fresh exact-head validation only."}
+    {"at":"2026-09-02T11:28:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-merge-20260902T112330+0200","reason":"A new unresolved Copilot review identified reuse of a mutable SHACL graph fixture across pySHACL validations. Repository validation code confirms the mutation risk is real. Withheld acceptance and merge, recorded the correction verdict, and returned Issue #124 for one test-fixture isolation correction plus fresh exact-head validation only."},
+    {"at":"2026-09-02T12:30:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260902T123000+0200","reason":"Claimed the narrow Issue #124 correction turn limited to isolating the SHACL graph fixture in tests/test_learning_path_topic_semantics.py, updating the existing handoff/review evidence and obtaining fresh exact-head validation. Multi-topic semantics, vocabulary, authored paths, runtime/application/package/learner-state and Chemometrics remain out of scope."}
   ]
 }
