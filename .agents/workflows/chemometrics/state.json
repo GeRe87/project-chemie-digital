@@ -1,23 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 5,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 122,
-  "expectedDeliverable": "Complete the Chemometrics manager review of corrected Draft PR #123 after fresh exact-head external validator success. Verify that the post-review delta is limited to the two manager-authorized shared-test migrations plus handoff, that the reviewed Random Variables scene/path/RDF feature files are unchanged, that cross-track and integration-freshness gates remain safe, and that reviews/threads and PR metadata satisfy governance. If technically clean but still Draft, preserve only the external Ready-for-review gate; do not accept or merge a Draft PR.",
-  "lastCompletedTurn": "worker: completed exactly the two manager-authorized stale-test migrations plus handoff update on PR #123 and returned the Chemometrics lane to manager review. New authoritative repository evidence now shows the required external validator succeeds on the current corrected PR head, resolving the prior validation-evidence blocker.",
-  "lastUpdated": "2026-09-02T09:41:30+02:00",
+  "expectedDeliverable": "PR #123 is technically review-clean after the manager-authorized shared-test migrations and fresh exact-head external validator success. The only remaining gate is that the PR is still Draft. Mark PR #123 Ready for review through the GitHub UI, then a separate Chemometrics manager turn must re-read the current head, exact-head status, review threads/reviews, mergeability, cross-track state and integration freshness before any acceptance verdict or squash merge. Do not change feature/content/test scope while waiting.",
+  "lastCompletedTurn": "manager: completed the final technical review of corrected PR #123. The post-review delta is exactly the two authorized shared-test migrations plus handoff; reviewed scene/path/RDF feature files are unchanged; the full eight-file PR scope is correct; current exact-head external validation succeeds; the diagnostic reports project-validation exit 0; no review threads exist; System is idle; and intervening main changes are Chemometrics workflow-state/audit only. A COMMENT review records this result. Acceptance and merge were withheld solely because the PR remains Draft; the connector Ready mutation failed with the known Repository.fullDatabaseId schema error.",
+  "lastUpdated": "2026-09-02T09:48:30+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-final-review-20260902T094130+0200",
-    "claimedAt": "2026-09-02T09:41:30+02:00",
-    "expiresAt": "2026-09-02T11:41:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 30,
+  "blockedBy": [
+    "External Ready-for-review gate: PR #123 remains Draft. The GitHub connector cannot mark it Ready because its GraphQL response selection references unsupported Repository.fullDatabaseId; use the GitHub UI to mark the existing PR Ready, then re-run the manager acceptance/merge checks."
+  ],
+  "stateRevision": 31,
   "transitionHistory": [
-    {"at":"2026-09-01T11:36:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-review-20260901T113600+0200","reason":"Claimed the blocked Chemometrics manager turn after PR #115 received exact-head validation failure and System Issue #116 introduced a shared validation-infrastructure dependency, to classify both blockers and perform one bounded review action."},
     {"at":"2026-09-01T11:38:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-review-20260901T113600+0200","reason":"Reviewed PR #115: the new path-specific semantics/tests are correct, but the legacy course-skeleton regression still expects Random Variables to be pathless. Returned Issue #114 to the same worker for that single test correction while preserving the separate post-#116 reconciliation/fresh-validation requirement."},
     {"at":"2026-09-01T11:40:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-20260901T114000+0200","reason":"Claimed the narrow Issue #114 correction turn limited to updating the stale Chemometrics course-skeleton LearningPath expectation and handoff, without changing path/content semantics or System Issue #116 surfaces."},
     {"at":"2026-09-01T11:46:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-20260901T114000+0200","reason":"Completed the requested stale skeleton-regression correction and handoff update on PR #115 without changing path/content semantics or System files. System Issue #116 / PR #117 remains unmerged, so returned only the Chemometrics workflow to the manager blocked on that integration dependency followed by current-main reconciliation and fresh exact-head validation."},
@@ -41,6 +42,7 @@
     {"at":"2026-09-02T09:04:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-review-20260902T085930+0200","reason":"Reviewed PR #123 as technically correct within its six-file scene-authoring scope. Exact-head validation fails only on two stale shared regressions, so authorized a bounded test-only correction in tests/test_scene_semantics.py and tests/test_standard_deviation_knowledge.py plus handoff update, with fresh exact-head validation required afterward. No acceptance or merge was issued."},
     {"at":"2026-09-02T09:15:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-regression-20260902T091500+0200","reason":"Claimed the manager-authorized Issue #122 test-only correction turn. Work is limited to removing the stale global scene-count assertion, scoping the Standardabweichung-specific role/selector regression to the nine scenes referenced by the Standardabweichung path, updating the existing handoff if needed, and obtaining fresh exact-head external validation without changing reviewed scene/path/RDF features or shared contracts."},
     {"at":"2026-09-02T09:22:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-regression-20260902T091500+0200","reason":"Completed exactly the two manager-authorized stale-test migrations plus handoff update on PR #123. Post-review comparison confirms no reviewed scene/path/RDF feature file changed and the full PR has the expected eight-file scope. Fresh exact-head validator evidence has not yet appeared for head 33920304597b1feff9c9f878402a7d7705413e17, so returned only the Chemometrics workflow to the manager blocked on that required acceptance evidence without self-acceptance or merge."},
-    {"at":"2026-09-02T09:41:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"Fresh exact-head external validator success is now present for corrected PR #123, resolving the worker's sole pending-evidence blocker. Claimed the Chemometrics manager review to verify the authorized test-only delta, review state, integration freshness and remaining Ready-for-review gate."}
+    {"at":"2026-09-02T09:41:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"Fresh exact-head external validator success is now present for corrected PR #123, resolving the worker's sole pending-evidence blocker. Claimed the Chemometrics manager review to verify the authorized test-only delta, review state, integration freshness and remaining Ready-for-review gate."},
+    {"at":"2026-09-02T09:48:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"Corrected PR #123 is technically review-clean with fresh exact-head validator success, expected eight-file scope, authorized test-only delta, no review threads, idle System lane and harmless state-only main movement. The PR remains Draft and the connector Ready mutation fails on Repository.fullDatabaseId, so no acceptance or merge was issued; preserve only the external Ready-for-review gate."}
   ]
 }
