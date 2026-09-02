@@ -108,6 +108,16 @@ Verifies:
 
 Migrates only the previous Mean-Values-zero-path assertion. It now expects the exact Mean Values path while retaining all Random Variables path/scene invariants and the Variance/Dispersion no-path boundary.
 
+### `tests/test_chemometrics_course_skeleton.py`
+
+After the first exact-head validator run confirmed the pre-#126 pathlessness assertion as the sole failure, the manager authorized exactly this narrow test-only migration. The course-skeleton regression now expects:
+
+- Random Variables -> exactly `ex:path-chemometrics-random-variables-lecture`;
+- Mean Values -> exactly `ex:path-chemometrics-mean-values-lecture`;
+- Variance/Dispersion -> no LearningPath.
+
+No course-scale RDF or path semantics changed in this correction.
+
 ### `tests/test_rdf_dataset.py`
 
 Adds only the exact new Mean Values path graph IRI to the canonical graph whitelist.
@@ -126,28 +136,19 @@ Adds only the exact new Mean Values path graph IRI to the canonical graph whitel
 - no learner-state, workflow-governance or validator changes;
 - no external research.
 
-## Hidden regression discovered during repository inspection
+## Validator evidence and authorized correction
 
-Current `main` contains `tests/test_chemometrics_course_skeleton.py::test_random_variables_has_first_path_while_sibling_units_remain_pathless`. That pre-#126 regression still asserts that both Mean Values and Variance/Dispersion have zero paths.
+The initial exact-head validation on `75a8f164e7b1479a337ad52f4ae862cb7ca2e89a` showed:
 
-Issue #126 explicitly authorizes migration of `tests/test_chemometrics_random_variables_path.py`, but `tests/test_chemometrics_course_skeleton.py` is not in the manager-defined intended write scope. Adding the required Mean Values path therefore makes that existing course-skeleton assertion deterministically stale.
+- complete canonical SHACL conformance;
+- all focused Issue #126 Mean Values path tests passing;
+- course-path discovery passing;
+- the sole failure in the pre-existing `tests/test_chemometrics_course_skeleton.py` assertion that still required Mean Values to be pathless.
 
-The worker did not broaden scope opportunistically. Manager classification is required to authorize a narrow test-only migration that expects:
+The manager classified that failure as a stale test-scope assumption and explicitly authorized only the course-skeleton test migration above plus this handoff/evidence update. The reviewed path/topic/step/resource semantics were not changed.
 
-- Random Variables -> exactly `ex:path-chemometrics-random-variables-lecture`;
-- Mean Values -> exactly `ex:path-chemometrics-mean-values-lecture`;
-- Variance/Dispersion -> no path.
-
-No scientific, ontology, SHACL, runtime or application change is required by this blocker.
-
-## Verification state
-
-- focused path structure is authored in the manager-defined scope;
-- the merged multi-topic SHACL contract on current `main` retains `sh:minCount 1` for `cd:forTopic` and no `sh:maxCount`;
-- all required named scientific resources were found in `chemometrics-basics.trig` during repository inspection;
-- full authoritative validation should be run on the Draft PR exact head;
-- acceptance is expected to remain blocked only by the stale course-skeleton zero-path assertion unless validation identifies another unrelated issue.
+Fresh exact-head `agent-validator/project-chemie-digital` success is required on the resulting corrected head before manager acceptance.
 
 ## Manager review requested
 
-Review the path/topic/step/resource implementation and classify the stale `tests/test_chemometrics_course_skeleton.py` Mean-Values-zero-path regression. Do not accept or merge until any authorized correction is integrated, fresh exact-head `agent-validator/project-chemie-digital` succeeds, and integration freshness is re-checked.
+Review the manager-authorized test-only correction together with the already reviewed path/topic/step/resource implementation. Do not accept or merge until fresh exact-head `agent-validator/project-chemie-digital` succeeds and integration freshness is re-checked.
