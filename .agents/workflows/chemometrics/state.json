@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 5,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
-  "expectedDeliverable": "Evaluate the next Chemometrics curriculum increment after integrated Issue #122. Mean Values is the next LearningUnit and its reviewed reusable resources are present, but before assigning a path worker resolve whether the current exactly-one cd:forTopic contract can truthfully represent its six focus Concepts without inventing an umbrella scientific concept or choosing an incidental single anchor. Apply the shared-contract and cross-track gates; do not implement content in this manager turn.",
-  "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #122 / PR #123 after the external Ready-for-review gate was satisfied and all configured gates were re-verified on the unchanged exact head. Required external validation was success, the PR was open/non-draft/mergeable, review threads were empty, Copilot recommended approval with zero comments, the eight-file scope and manager-authorized test-only delta were intact, System was idle, and integration freshness remained safe because intervening main movement was Chemometrics workflow-state/audit only. Post-merge verification confirmed the PR is merged, Issue #122 is closed completed and the squash result has exactly one parent. No follow-on assignment was made in this turn.",
-  "lastUpdated": "2026-09-02T10:12:00+02:00",
+  "expectedDeliverable": "Wait for a separate System-owned shared semantic-contract prerequisite before authoring the Mean Values lecture path. Review and generalize the LearningPath cd:forTopic contract so a path can truthfully identify the six reviewed Mean Values focus Concepts without inventing an unsupported umbrella Concept or selecting an incidental single anchor. The preferred bounded candidate to evaluate is one-or-more cd:forTopic values by removing only the current SHACL maxCount 1 while preserving minCount 1, Concept range, existing single-topic path behavior and focused compatibility tests. After that System prerequisite is merged, a separate Chemometrics manager turn may assign the Mean Values lecture LearningPath using only Issue #108 reviewed resources; scene authoring remains a later bounded turn.",
+  "lastCompletedTurn": "manager: evaluated the next Chemometrics curriculum increment after Issue #122. Repository evidence establishes Mean Values as the next LearningUnit at position 20 and confirms its six focus Concepts and reusable scientific resources were already reviewed in Issue #108. Direct path assignment is not semantically safe because the shared LearningPath SHACL contract requires exactly one cd:forTopic, Issue #114 explicitly deferred this multi-concept topic decision, and no supported umbrella Mean Values Concept exists. Choosing arithmetic mean as the sole topic would be incidental, while inventing a new umbrella scientific Concept would be unsupported. Classified the prerequisite as a System-owned shared semantic-contract dependency; no Chemometrics worker, content change or System-state mutation was performed.",
+  "lastUpdated": "2026-09-02T10:15:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200",
-    "claimedAt": "2026-09-02T10:12:00+02:00",
-    "expiresAt": "2026-09-02T12:12:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 34,
+  "blockedBy": [
+    "Cross-track shared semantic-contract prerequisite: cd:LearningPath currently requires exactly one cd:forTopic, but ex:learning-unit-mean-values intentionally spans six reviewed focus Concepts and has no supported umbrella Concept. A separate System manager/worker turn must decide and implement a compatible multi-topic LearningPath contract before Chemometrics Mean Values path authoring."
+  ],
+  "stateRevision": 35,
   "transitionHistory": [
     {"at":"2026-09-01T13:59:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"Formally accepted and squash-merged Issue #114 / PR #115 after all configured gates passed. Verified the PR merged, Issue #114 closed completed and the squash result has exactly one parent. No follow-on Chemometrics work was assigned in this merge turn."},
     {"at":"2026-09-01T14:01:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-scene-gate-20260901T140130+0200","reason":"Claimed the next Chemometrics manager turn to evaluate explicit Random Variables scene authoring against the current shared graph-backed scene semantics, runtime projection and cross-track contract gate before assigning any content worker."},
@@ -32,6 +34,7 @@
     {"at":"2026-09-02T09:48:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"Corrected PR #123 is technically review-clean with fresh exact-head validator success, expected eight-file scope, authorized test-only delta, no review threads, idle System lane and harmless state-only main movement. The PR remains Draft and the connector Ready mutation fails on Repository.fullDatabaseId, so no acceptance or merge was issued; preserve only the external Ready-for-review gate."},
     {"at":"2026-09-02T10:00:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-merge-20260902T100030+0200","reason":"The external Ready-for-review action is now present for PR #123. Claimed the final Chemometrics manager acceptance/merge turn to re-check the current head, exact-head validator status, reviews/threads, mergeability, cross-track state and integration freshness before any acceptance verdict."},
     {"at":"2026-09-02T10:06:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260902T100030+0200","reason":"Formally accepted and squash-merged Issue #122 / PR #123 after every configured gate passed. Verified the PR merged, Issue #122 closed completed and the squash result has exactly one parent. No follow-on assignment was made in this merge turn."},
-    {"at":"2026-09-02T10:12:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Claimed the next Chemometrics manager turn to evaluate the Mean Values lecture-path boundary against the current singular cd:forTopic contract and cross-track shared-contract rules before assigning any content worker."}
+    {"at":"2026-09-02T10:12:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Claimed the next Chemometrics manager turn to evaluate the Mean Values lecture-path boundary against the current singular cd:forTopic contract and cross-track shared-contract rules before assigning any content worker."},
+    {"at":"2026-09-02T10:15:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Mean Values is the next curriculum unit and its reviewed resources are ready, but direct path authoring would force an unsupported single-topic choice under the current exactly-one cd:forTopic contract. Classified this as a System-owned shared semantic-contract prerequisite and blocked only the Chemometrics lane; no content worker was assigned and System state was not mutated."}
   ]
 }
