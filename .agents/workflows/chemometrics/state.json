@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 5,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 126,
-  "expectedDeliverable": "Complete the final manager review of corrected PR #127: verify the authorized course-skeleton-only correction, exact-head validator success, six-file scope, review/thread state, mergeability, cross-track state and integration freshness. If all technical gates pass, require the PR to be Ready for review before acceptance/merge; do not expand scientific content, scenes, shared contracts, runtime/application or System state.",
-  "lastCompletedTurn": "worker: applied exactly the manager-authorized Issue #126 test-only course-skeleton migration plus handoff update on Draft PR #127. Comparison against the manager-reviewed failing head proves only those two files changed; the complete PR now contains the expected six files. The exact Random Variables and Mean Values path expectations are asserted while Variance/Dispersion remains pathless, with no change to reviewed path/topic/step/resource semantics or shared contracts. Fresh exact-head agent-validator/project-chemie-digital validation succeeded on 7269cf3caef25c18a2476fa7f11ba02baf68c276: dependency-bootstrap success and project-validation success. Returned only the Chemometrics workflow to manager review without self-acceptance or merge.",
-  "lastUpdated": "2026-09-02T14:10:30+02:00",
+  "expectedDeliverable": "PR #127 is technically review-clean and acceptance-ready except for the mandatory Ready-for-review gate. Once PR #127 is externally marked Ready, perform a final manager re-check of the unchanged exact head or any new exact head, agent-validator/project-chemie-digital status, review threads/reviews, mergeability, System-track idleness and integration freshness, then squash-merge only if every configured gate still passes.",
+  "lastCompletedTurn": "manager: completed the technical final review of corrected PR #127. Verified the manager-authorized course-skeleton correction exactly matches the requested Random Variables/Mean Values/Variance boundary, the full PR has the expected six-file scope, exact head 7269cf3caef25c18a2476fa7f11ba02baf68c276 has fresh agent-validator/project-chemie-digital success, no reviews or review threads exist, GitHub reports mergeable true, the System lane is idle, and main movement since the PR base is Chemometrics dispatcher-state activity only. Acceptance and merge were withheld solely because PR #127 remains Draft; the connector Ready mutation again failed on the known Repository.fullDatabaseId GraphQL incompatibility.",
+  "lastUpdated": "2026-09-02T14:13:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-final-20260902T141030+0200",
-    "claimedAt": "2026-09-02T14:10:30+02:00",
-    "expiresAt": "2026-09-02T14:40:30+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 44,
+  "blockedBy": [
+    "PR #127 remains Draft. Repository policy requires Ready for review before manager acceptance/merge, and the connector mark-ready mutation fails with the known Repository.fullDatabaseId GraphQL schema incompatibility. Mark PR #127 Ready externally, then run the final manager gate re-check."
+  ],
+  "stateRevision": 45,
   "transitionHistory": [
     {"at":"2026-09-01T13:59:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260901T135530+0200","reason":"Formally accepted and squash-merged Issue #114 / PR #115 after every configured gate passed. Verified the PR merged, Issue #114 closed completed and the squash result has exactly one parent. No follow-on assignment was made in this merge turn."},
     {"at":"2026-09-01T14:01:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-scene-gate-20260901T140130+0200","reason":"Claimed the next Chemometrics manager turn to evaluate explicit Random Variables scene authoring against the current shared graph-backed scene semantics, runtime projection and cross-track contract gate before assigning any content worker."},
@@ -42,6 +44,7 @@
     {"at":"2026-09-02T13:51:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-review-20260902T134900+0200","reason":"Reviewed PR #127 as technically correct within the assigned five-file Issue #126 scope. Exact-head validation confirms SHACL and all focused Mean Values path tests pass; the sole failure is the stale course-skeleton pathlessness assumption. Authorized exactly one test-only migration in tests/test_chemometrics_course_skeleton.py plus handoff/evidence update, preserving the reviewed path/topic/step/resource semantics unchanged and requiring fresh exact-head validation afterward. No acceptance or merge was issued."},
     {"at":"2026-09-02T13:54:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-regression-20260902T135400+0200","reason":"Claimed the manager-authorized Issue #126 stale course-skeleton regression turn. Work is limited to updating that one test to expect the exact Random Variables and Mean Values paths while retaining the Variance/Dispersion no-path boundary, updating the existing handoff/evidence, and obtaining fresh exact-head external validation without changing reviewed path semantics or shared contracts."},
     {"at":"2026-09-02T14:01:30+02:00","from":"busy/worker","to":"ready/manager","actor":"interactive-chemometrics-worker-mean-values-regression-20260902T135400+0200","reason":"Completed exactly the manager-authorized stale course-skeleton test migration plus handoff update on PR #127. Relative to the reviewed failing head only those two files changed; the full PR has the expected six-file scope, fresh exact-head agent-validator/project-chemie-digital validation succeeded, and the reviewed Mean Values path semantics remain unchanged. Returned only the Chemometrics workflow to manager review without self-acceptance or merge."},
-    {"at":"2026-09-02T14:10:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-20260902T141030+0200","reason":"Claimed the final Chemometrics manager review for corrected PR #127 after fresh exact-head validator success became available. Review is restricted to the manager-authorized test-only delta, six-file scope, review/thread state, mergeability, cross-track state, integration freshness and the mandatory Ready-for-review gate."}
+    {"at":"2026-09-02T14:10:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-20260902T141030+0200","reason":"Claimed the final Chemometrics manager review for corrected PR #127 after fresh exact-head validator success became available. Review is restricted to the manager-authorized test-only delta, six-file scope, review/thread state, mergeability, cross-track state, integration freshness and the mandatory Ready-for-review gate."},
+    {"at":"2026-09-02T14:13:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-final-20260902T141030+0200","reason":"Corrected PR #127 is technically review-clean: exact-head validator success is fresh, the six-file scope and authorized test-only delta are correct, no reviews or review threads exist, GitHub reports mergeable true, System is idle and main movement is dispatcher-state only. Acceptance and merge remain blocked solely because the PR is still Draft; the connector Ready mutation again fails on Repository.fullDatabaseId, so preserve only the external Ready-for-review gate."}
   ]
 }
