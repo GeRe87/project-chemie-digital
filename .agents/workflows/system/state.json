@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 124,
   "expectedDeliverable": "Implement System Issue #124 only: generalize the central LearningPath cd:forTopic SHACL cardinality from exactly one to one-or-more by preserving sh:minCount 1 and removing only sh:maxCount 1; preserve the existing LearningPath-to-Concept vocabulary relation, unchanged single-topic Standardabweichung and Random Variables paths, unordered topic semantics, ADR-0009 path selection and all runtime/application/learner-state contracts. Add focused semantic compatibility regressions and .agents/handoffs/issue-124-learning-path-multi-topic.md, open a Draft PR with the validator marker, obtain project validation evidence, and return only the System workflow to manager review. Do not author or modify Chemometrics Mean Values content/path/scenes and do not mutate the Chemometrics state.",
   "lastCompletedTurn": "manager: created and assigned System Issue #124 to the Semantic Web and Ontology Engineer after repository inspection confirmed the Mean Values blocker is a narrow shared semantic-contract cardinality issue. The issue permits only the central LearningPath forTopic SHACL relaxation plus focused semantic compatibility tests and handoff, preserves existing vocabulary and single-topic paths, and explicitly excludes Chemometrics content, runtime/packages/apps, path-selection semantics, learner-state and workflow governance. The blocked Chemometrics lane was not modified.",
-  "lastUpdated": "2026-09-02T10:37:00+02:00",
+  "lastUpdated": "2026-09-02T10:55:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-20260902T105500+0200",
+    "claimedAt": "2026-09-02T10:55:00+02:00",
+    "expiresAt": "2026-09-02T12:55:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 47,
+  "stateRevision": 48,
   "transitionHistory": [
     {"at":"2026-09-01T14:24:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-scene-semantics-20260901T142400+0200","reason":"Claimed the next System manager turn because the blocked Chemometrics lane supplied a concrete shared-contract prerequisite. Repository evidence showed generic communicative roles already existed."},
     {"at":"2026-09-01T14:26:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-scene-semantics-20260901T142400+0200","reason":"Created System Issue #118 and assigned it to the Semantic Web and Ontology Engineer. Scope was limited to activating existing generic scene roles/selectors in central SHACL with compatibility regressions; runtime compilation and Chemometrics scene authoring remained deferred."},
@@ -38,6 +38,7 @@
     {"at":"2026-09-01T17:26:22+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Fresh exact-head validator success became available for corrected PR #121, resolving the worker's sole pending-status blocker. Claimed the final System manager acceptance/merge review and normalized state content to remove transient commit identifiers."},
     {"at":"2026-09-01T17:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Formally accepted and squash-merged Issue #120 / PR #121 after every configured gate passed, including the isolated synthetic fixture correction. Verified the PR merged, Issue #120 closed completed and the squash result has exactly one parent. No Chemometrics state change or follow-on assignment was made in this merge turn."},
     {"at":"2026-09-02T10:35:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-multi-topic-20260902T103500+0200","reason":"Claimed the System manager turn to define the shared LearningPath multi-topic semantic prerequisite required by the blocked Chemometrics Mean Values path, after confirming the current singularity is confined to central SHACL/test/content semantics and not runtime/package consumers."},
-    {"at":"2026-09-02T10:37:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-multi-topic-20260902T103500+0200","reason":"Created System Issue #124 and assigned it to the Semantic Web and Ontology Engineer for the narrow shared LearningPath multi-topic SHACL cardinality relaxation and focused compatibility regressions. Chemometrics remains blocked and untouched until this prerequisite is integrated."}
+    {"at":"2026-09-02T10:37:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-multi-topic-20260902T103500+0200","reason":"Created System Issue #124 and assigned it to the Semantic Web and Ontology Engineer for the narrow shared LearningPath multi-topic SHACL cardinality relaxation and focused compatibility regressions. Chemometrics remains blocked and untouched until this prerequisite is integrated."},
+    {"at":"2026-09-02T10:55:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260902T105500+0200","reason":"Claimed System Issue #124 for the Semantic Web and Ontology Engineer. Work is restricted to removing only the LearningPath cd:forTopic sh:maxCount 1 constraint, adding focused semantic compatibility regressions and a structured handoff; no Chemometrics content/path/scene, runtime/application/package, learner-state, workflow-governance or external-research changes are permitted."}
   ]
 }
