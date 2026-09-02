@@ -102,14 +102,14 @@ The path graph remains ownership-clean: it contains the LearningPath, PathSteps 
 ### `tests/test_chemometrics_random_variables_path.py`
 
 - preserves exact five-step identities, positions and Issue #108 `usesResource` sets;
-- now requires exactly one specified `usesScene` target per PathStep;
+- requires exactly one specified `usesScene` target per PathStep;
 - preserves the path-graph boundary by requiring zero SceneDefinition/SceneItem definitions in the path graph;
 - keeps Mean Values and Variance/Dispersion pathless;
 - retains complete SHACL validation.
 
 ### `tests/test_chemometrics_random_variables_scenes.py`
 
-New focused regression suite verifies:
+The focused regression suite verifies:
 
 - exactly five scene identities in the dedicated named graph;
 - exact focus concept per scene;
@@ -123,6 +123,15 @@ New focused regression suite verifies:
 - the current unmodified runtime compiler compiles the exact Random Variables path into five ordered scenes;
 - compiled heading/Statement/Example/Exercise/Code blocks retain the expected projection semantics and source relation paths/provenance.
 
+### Manager-authorized shared regression migration
+
+Manager review of the first PR #123 exact-head validation identified exactly two stale test-scope assumptions and authorized a test-only correction:
+
+- `tests/test_scene_semantics.py`: removed the frozen global `len(scenes) == 9` assertion while retaining the invariant that every canonical `cd:SceneDefinition` remains renderer-neutral and owns no direct `cd:body`.
+- `tests/test_standard_deviation_knowledge.py`: retained the existing Standardabweichung-specific communicative-role and selection-path allow-lists unchanged, but now applies them only to the exactly nine scenes reached from `ex:path-standard-deviation` through its PathSteps and each step's `cd:usesScene` relation. Each Standardabweichung PathStep is also required to resolve to exactly one scene.
+
+No role/selector allow-list was broadened, and no shared scene, SHACL, runtime or renderer contract was changed.
+
 ### `tests/test_rdf_dataset.py`
 
 Adds only the new canonical scene graph IRI to the exact named-graph whitelist.
@@ -134,6 +143,8 @@ Adds only the new canonical scene graph IRI to the exact named-graph whitelist.
 - `tests/test_chemometrics_random_variables_path.py` — narrow migration of the previous scene-free path regression.
 - `tests/test_chemometrics_random_variables_scenes.py` — focused RDF and runtime-compilation regressions.
 - `tests/test_rdf_dataset.py` — additive graph-whitelist entry.
+- `tests/test_scene_semantics.py` — manager-authorized removal of the stale global fixed scene count only; renderer-neutral invariant retained.
+- `tests/test_standard_deviation_knowledge.py` — manager-authorized scoping of the existing Standardabweichung scene contract regression to its nine path-referenced scenes without allow-list changes.
 - `.agents/handoffs/issue-122-chemometrics-random-variables-scenes.md` — this handoff.
 
 ## Explicit unchanged boundaries
@@ -150,28 +161,13 @@ Adds only the new canonical scene graph IRI to the exact named-graph whitelist.
 - no workflow-governance or validator configuration change;
 - no external research.
 
-## Deterministic shared-regression blocker discovered
-
-Current `main` still contains the pre-generalization regression `tests/test_scene_semantics.py::test_all_nine_scene_definitions_are_renderer_neutral`, which calculates all canonical `cd:SceneDefinition` subjects from the assembled Dataset and asserts `len(scenes) == 9`.
-
-`rdf_dataset.py` assembles every `ontology/dataset/*.trig` file automatically. Therefore the five SceneDefinitions required by Issue #122 necessarily increase the canonical total from 9 to 14. The existing shared test will deterministically fail even if all five new scenes satisfy the accepted renderer-neutral scene contract.
-
-That shared test file was not included in the manager-defined focused Issue #122 write scope. This worker therefore did **not** alter it or opportunistically change a shared System-era regression. A Manager decision is required to either:
-
-- authorize a narrow test-only migration of the stale fixed-count assertion (for example, preserve the renderer-neutral check while removing the frozen global count); or
-- route that shared regression correction through the appropriate bounded System/test issue.
-
-No runtime, SHACL, vocabulary or renderer contract change is required by this blocker.
-
 ## Verification state
 
-- [x] Branch diff contains exactly the six intended Issue #122 files.
-- [x] Scene design follows the merged generic System scene semantics/runtime projection contract rather than introducing shared-contract changes.
-- [x] Static repository inspection proves the existing global `len(scenes) == 9` assertion is incompatible with adding the five required canonical scenes because canonical assembly glob-loads all `*.trig` files.
-- [ ] Local full-repository execution is unavailable because the execution container cannot resolve `github.com` for a checkout.
-- [ ] Fresh exact-head `agent-validator/project-chemie-digital` evidence has not yet appeared for the current PR head.
-- [ ] Full acceptance is blocked until the stale shared fixed-scene-count regression is manager-classified and corrected within an authorized scope.
+- [x] Initial six-file Issue #122 implementation was manager-reviewed as technically correct within scope.
+- [x] First exact-head validator failure was classified by the Manager as exactly two stale shared-test scope assumptions; the focused Chemometrics scene/path/runtime regressions and SHACL validation passed.
+- [x] Both manager-authorized test-only migrations are now applied without changing feature RDF or shared contracts.
+- [ ] Fresh exact-head `agent-validator/project-chemie-digital` success is required on the corrected PR head before acceptance.
 
 ## Manager review requested
 
-Review the completed six-file Issue #122 scene implementation and classify the shared `test_scene_semantics.py` fixed-count blocker. Do not accept/merge until the authorized correction is integrated and fresh exact-head validation passes. The worker has not self-expanded into the shared regression file and has not self-accepted or merged.
+After fresh exact-head validator evidence is available, verify that the only post-review changes are the two authorized shared-test migrations plus this handoff update, that the reviewed scene/path/RDF feature files remain unchanged, and that exact-head validation succeeds. Only the Manager may decide acceptance/merge.
