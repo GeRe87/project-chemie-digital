@@ -14,6 +14,7 @@
 - Preserved `sh:minCount 1` and removed only `sh:maxCount 1` from the `cd:forTopic` property shape.
 - Preserved the existing vocabulary relation `cd:forTopic` as `cd:LearningPath -> cd:Concept`; `ontology/dataset/concepts.trig` is unchanged.
 - Added focused compatibility regressions in `tests/test_learning_path_topic_semantics.py`.
+- Applied the manager-requested review correction so every pySHACL validation receives a fresh detached SHACL graph instead of reusing a cached graph that pySHACL may mutate.
 - Did not author or modify any Chemometrics Mean Values content, path, scene or workflow state.
 
 ## Exact contract delta
@@ -55,6 +56,19 @@ The topic values are an unordered RDF set of semantic focus Concepts. This incre
 
 The synthetic path reuses only existing test-safe resources and does not author persistent scientific content.
 
+## Review correction: detached SHACL fixture
+
+The final manager review identified one applicable test-isolation issue: `pyshacl.validate()` may enrich or mutate the SHACL graph supplied to it, while the original test class cached one detached graph in `cls.shapes` and reused it across validations.
+
+The correction is test-only:
+
+- removed the cached `cls.shapes` graph;
+- added `_fresh_shapes()`, which calls `VALIDATION.detached_graph(self.dataset.graph(SHAPES_GRAPH))` on demand;
+- `_validate()` now passes a new detached shapes graph to every pySHACL invocation;
+- the non-mutating shape-structure assertion also reads from its own fresh detached graph.
+
+No SHACL contract, vocabulary, authored path or runtime semantic was changed by this correction.
+
 ## Files changed
 
 - `ontology/dataset/shapes.trig`
@@ -78,13 +92,14 @@ The synthetic path reuses only existing test-safe resources and does not author 
 
 ## Verification status
 
-- [x] Scope review: before handoff, branch was zero commits behind current `main` and the feature diff contained only central SHACL plus the focused regression file.
+- [x] Scope review: feature PR remains limited to central SHACL, focused regression test and this handoff.
 - [x] Cardinality review: only the `cd:forTopic` `sh:maxCount 1` restriction was removed; `sh:minCount 1` remains.
 - [x] Vocabulary review: `cd:forTopic` remains LearningPath-to-Concept and `concepts.trig` is unchanged.
 - [x] Single-topic compatibility review: existing authored Standardabweichung and Random Variables paths are not modified.
 - [x] Unordered-membership review: regression coverage does not assign meaning to topic triple order.
+- [x] SHACL fixture isolation review: every pySHACL validation now receives a new detached SHACL graph, matching the repository validation boundary documented in `scripts/validate_semantics.py`.
 - [ ] Local `npm test`: not executed through the GitHub connector worker; authoritative repository validation is the configured exact-head external validator.
-- [ ] Fresh exact-head `agent-validator/project-chemie-digital`: required on the Draft PR head before manager acceptance.
+- [ ] Fresh exact-head `agent-validator/project-chemie-digital`: required on the corrected PR head before manager acceptance.
 
 ## Remaining cross-track dependency
 
@@ -92,4 +107,4 @@ This System increment addresses only the shared semantic-contract prerequisite f
 
 ## Recommended manager action
 
-Review the exact three-file scope, confirm that the SHACL delta is only removal of `sh:maxCount 1` for `cd:forTopic`, verify the focused regressions and unchanged vocabulary/single-topic paths, require fresh exact-head external validation success, and merge only through the configured manager-only gate.
+Review the exact three-file scope, confirm that the semantic SHACL delta is still only removal of `sh:maxCount 1` for `cd:forTopic`, verify the fresh-detached-SHACL test correction and resolved review thread, require fresh exact-head external validation success, and merge only through the configured manager-only gate.
