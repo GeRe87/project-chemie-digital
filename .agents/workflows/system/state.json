@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 124,
-  "expectedDeliverable": "Review corrected PR #125 for Issue #124. Verify that tests/test_learning_path_topic_semantics.py no longer caches a mutable SHACL graph and that every pySHACL validation receives a fresh detached copy matching scripts/validate_semantics.py; confirm the correction relative to the previously reviewed result is limited to test-fixture isolation plus handoff evidence, the original one-or-more cd:forTopic SHACL semantics and three-file scope remain unchanged, all review threads are resolved, integration freshness is safe, and fresh exact-head agent-validator/project-chemie-digital success is present before acceptance and again before merge. After integration, leave Chemometrics unchanged for a separate manager turn.",
-  "lastCompletedTurn": "worker: completed the narrow manager-requested Issue #124 SHACL-fixture correction on PR #125. Removed the cached shapes graph, added a fresh detached-shapes helper, and now supplies a new detached SHACL graph to every pySHACL validation; the shape-structure assertion also uses its own fresh copy. Updated the existing handoff, replied to and resolved the applicable Copilot review thread, confirmed the correction is limited to tests/test_learning_path_topic_semantics.py plus the handoff, and preserved the original three-file feature scope. Returned only the System workflow to manager review pending fresh exact-head validator evidence.",
-  "lastUpdated": "2026-09-02T12:55:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #124 / PR #125 after every configured gate passed, including the manager-requested detached SHACL fixture correction. Verified the PR merged, Issue #124 closed completed, the squash result has exactly one parent, the final feature scope remains three files, and no Chemometrics workflow mutation or follow-on assignment was performed in this System merge turn.",
+  "lastUpdated": "2026-09-02T13:05:30+02:00",
   "lease": {
-    "owner": "interactive-system-manager-final-20260902T125500+0200",
-    "claimedAt": "2026-09-02T12:55:00+02:00",
-    "expiresAt": "2026-09-02T14:55:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 56,
+  "stateRevision": 57,
   "transitionHistory": [
     {"at":"2026-09-01T17:26:22+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Fresh exact-head validator success became available for corrected PR #121, resolving the worker's sole pending-status blocker. Claimed the final System manager acceptance/merge review and normalized state content to remove transient commit identifiers."},
     {"at":"2026-09-01T17:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Formally accepted and squash-merged Issue #120 / PR #121 after every configured gate passed, including the isolated synthetic fixture correction. Verified the PR merged, Issue #120 closed completed and the squash result has exactly one parent. No Chemometrics state change or follow-on assignment was made in this merge turn."},
@@ -29,6 +29,7 @@
     {"at":"2026-09-02T11:28:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-merge-20260902T112330+0200","reason":"A new unresolved Copilot review identified reuse of a mutable SHACL graph fixture across pySHACL validations. Repository validation code confirms the mutation risk is real. Withheld acceptance and merge, recorded the correction verdict, and returned Issue #124 for one test-fixture isolation correction plus fresh exact-head validation only."},
     {"at":"2026-09-02T12:30:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260902T123000+0200","reason":"Claimed the narrow Issue #124 correction turn limited to isolating the SHACL graph fixture in tests/test_learning_path_topic_semantics.py, updating the existing handoff/review evidence and obtaining fresh exact-head validation. Multi-topic semantics, vocabulary, authored paths, runtime/application/package/learner-state and Chemometrics remain out of scope."},
     {"at":"2026-09-02T12:34:01+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-20260902T123000+0200","reason":"Completed the manager-requested Issue #124 SHACL fixture isolation correction on PR #125, updated handoff evidence, replied to and resolved the applicable review thread, and preserved all reviewed multi-topic semantics and three-file scope. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
-    {"at":"2026-09-02T12:55:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260902T125500+0200","reason":"Fresh exact-head external validator success became available for the corrected PR #125, resolving the worker's sole pending-evidence blocker. Claimed the System manager acceptance/merge review and normalized state content to remove transient commit identifiers."}
+    {"at":"2026-09-02T12:55:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260902T125500+0200","reason":"Fresh exact-head external validator success became available for the corrected PR #125, resolving the worker's sole pending-evidence blocker. Claimed the System manager acceptance/merge review and normalized state content to remove transient commit identifiers."},
+    {"at":"2026-09-02T13:05:30+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260902T125500+0200","reason":"Formally accepted and squash-merged Issue #124 / PR #125 after all configured gates passed, including the detached SHACL fixture correction. Verified the PR merged, Issue #124 closed completed and the squash result has exactly one parent. No Chemometrics state mutation or follow-on assignment was made in this System merge turn."}
   ]
 }
