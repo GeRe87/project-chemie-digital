@@ -168,7 +168,7 @@
   ex:scene3-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:def-population-standard-deviation ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
   ex:scene3-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
   ex:scene4-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
-  ex:scene4-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sample-sd-formula ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
+  ex:scene4-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sample-sd-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "de" ; cd:authoredResource true .
   ex:scene4-i3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ; cd:communicativeRole cd:CitationRole ; cd:selectionPath "cd:hasDefinition/cd:hasSource" ; cd:authoredResource true .
   ex:scene5-i1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:standard-deviation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@de" ; cd:language "de" ; cd:authoredResource true .
   ex:scene5-i2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sd-unit-rule ; cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ; cd:language "de" ; cd:authoredResource true .
