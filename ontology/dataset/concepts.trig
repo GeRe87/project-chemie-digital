@@ -13,10 +13,10 @@ graph:concepts {
       cd:MathExpression, cd:MathSymbol, cd:WorkedExample, cd:Exercise,
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
-      cd:CalculationStep, cd:PitchResource, cd:LearningPath, cd:PathStep,
+      cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
     cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
-      cd:hasExample, cd:hasExercise, cd:hasSource, cd:forTopic, cd:hasStep,
+      cd:hasExample, cd:hasExercise, cd:hasSource, cd:hasKeyPoint, cd:forTopic, cd:hasStep,
       cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
       cd:selectsResource, cd:communicativeRole, cd:prerequisite, cd:dependsOn,
       cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
@@ -29,7 +29,7 @@ graph:concepts {
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:DefinitionWithCitation .
+      cd:KeyPointRole, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
   cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
@@ -49,6 +49,7 @@ graph:concepts {
   cd:Observation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:CalculationStep a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:KeyPoint a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
   cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
   cd:Source a rdfs:Class, cdm:ConceptDescriptor .
@@ -68,6 +69,7 @@ graph:concepts {
   cd:StatementRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ExampleRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:KeyPointRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
 
   cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
@@ -76,6 +78,7 @@ graph:concepts {
   cd:hasExample a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:WorkedExample .
   cd:hasExercise a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
   cd:hasSource a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Source .
+  cd:hasKeyPoint a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range cd:KeyPoint .
   cd:forTopic a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
   cd:hasStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
   cd:usesResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
