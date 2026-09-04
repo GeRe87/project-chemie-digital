@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 130,
-  "expectedDeliverable": "Wait for the external Ready-for-review action on PR #131. Exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d is technically review-clean: fresh agent-validator/project-chemie-digital succeeded, the PR contains exactly six bounded Issue #130 files, no reviews or review threads are present, GitHub reports mergeable true, and the only main movement after the worker reconciliation is Chemometrics lifecycle state. Do not merge while the PR remains Draft. Once Ready-for-review is externally satisfied, perform one final manager acceptance/merge check on the then-current exact head and squash-merge only if every configured gate still passes.",
-  "lastCompletedTurn": "manager: completed technical review of Draft PR #131 on exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d. Fresh exact-head agent-validator/project-chemie-digital validation succeeded, including dependency bootstrap and project validation. The PR remains exactly six bounded files, has no review submissions or review threads, is mergeable, and main movement is lifecycle-only. Withheld acceptance and merge solely because PR #131 remains Draft; external Ready-for-review is the only remaining gate.",
-  "lastUpdated": "2026-09-04T13:47:00+02:00",
+  "expectedDeliverable": "Perform final acceptance and squash merge of Ready-for-review PR #131 on exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d. Fresh exact-head agent-validator/project-chemie-digital is success, the PR remains exactly six bounded Issue #130 files, no reviews or review threads are present, GitHub reports mergeable true, and only Chemometrics lifecycle-state commits moved main after worker reconciliation. Merge only with the expected head SHA, verify PR and Issue #130 closure and a single-parent squash result, then return the Chemometrics lane to idle manager state without mutating System state.",
+  "lastCompletedTurn": "manager: Ready-for-review is now externally satisfied for PR #131. Reconfirmed unchanged exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d, fresh validator success, six-file bounded scope and mergeable true. Claimed the final Chemometrics acceptance/merge turn; no implementation changes were made.",
+  "lastUpdated": "2026-09-04T13:50:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-final-merge-20260904T135000+0200",
+    "claimedAt": "2026-09-04T13:50:00+02:00",
+    "expiresAt": "2026-09-04T15:50:00+02:00"
   },
-  "blockedBy": [
-    "PR #131 is technically review-clean on exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d but remains Draft. External Ready-for-review is the sole remaining acceptance gate."
-  ],
-  "stateRevision": 56,
+  "blockedBy": [],
+  "stateRevision": 57,
   "transitionHistory": [
     {"at":"2026-09-03T09:04:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260903T090100+0200","reason":"Accepted and squash-merged Issue #126 / PR #127 after all gates passed."},
     {"at":"2026-09-03T09:10:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-scenes-gate-20260903T091000+0200","reason":"Claimed Mean Values scene-authoring contract evaluation."},
@@ -29,6 +27,7 @@
     {"at":"2026-09-04T13:36:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200","reason":"Claimed Chemometrics Issue #130 within the bounded eight-scene, eight-binding, focused-test and handoff scope. Scientific resources, shared contracts, System state and external research remain out of scope."},
     {"at":"2026-09-04T13:43:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200","reason":"Completed Issue #130 with Draft PR #131 and returned to manager review. The exact six-file feature diff contains eight Mean Values scenes, eight additive usesScene bindings, focused RDF/SHACL/runtime regressions, one graph-whitelist entry and the handoff; fresh exact-head validator evidence is still pending."},
     {"at":"2026-09-04T13:45:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-review-20260904T134500+0200","reason":"Fresh exact-head validator success is present for PR #131. Claimed Chemometrics manager review to verify six-file scope, formula semantics, review/thread state, mergeability, integration freshness and the mandatory Ready-for-review gate."},
-    {"at":"2026-09-04T13:47:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-review-20260904T134500+0200","reason":"PR #131 is technically review-clean on exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d: fresh validator success, exactly six bounded files, no reviews or threads, mergeable true and only lifecycle-state main movement. Withheld acceptance and merge solely because the PR remains Draft; external Ready-for-review is the sole remaining gate."}
+    {"at":"2026-09-04T13:47:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-review-20260904T134500+0200","reason":"PR #131 is technically review-clean on exact head 8a4cf2102c0e9d9f778af73405721d9b0e191d5d: fresh validator success, exactly six bounded files, no reviews or threads, mergeable true and only lifecycle-state main movement. Withheld acceptance and merge solely because the PR remains Draft; external Ready-for-review is the sole remaining gate."},
+    {"at":"2026-09-04T13:50:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-merge-20260904T135000+0200","reason":"External Ready-for-review is now satisfied for PR #131. Reconfirmed unchanged exact head, fresh validator success, six-file bounded scope and mergeable true; claimed final acceptance and squash-merge turn."}
   ]
 }
