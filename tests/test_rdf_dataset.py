@@ -26,6 +26,7 @@ EXPECTED_CANONICAL_GRAPHS = {
     "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
     "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics",
     "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture",
+    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-mean-values-lecture",
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
     "https://w3id.org/project-chemie-digital/graph/examples/standard-deviation",
@@ -89,10 +90,7 @@ class RdfDatasetTests(unittest.TestCase):
         self.assertEqual(MODULE.dataset_fingerprint(forward), MODULE.dataset_fingerprint(reverse))
 
     def test_fingerprint_is_stable_across_independent_fresh_assemblies(self) -> None:
-        fingerprints = {
-            MODULE.dataset_fingerprint(MODULE.assemble_dataset())
-            for _ in range(4)
-        }
+        fingerprints = {MODULE.dataset_fingerprint(MODULE.assemble_dataset()) for _ in range(4)}
         self.assertEqual(1, len(fingerprints))
 
     def test_fingerprint_ignores_parser_local_blank_node_identifiers(self) -> None:
@@ -124,21 +122,13 @@ class RdfDatasetTests(unittest.TestCase):
         datatype_literal = Literal("42", datatype=URIRef("http://www.w3.org/2001/XMLSchema#integer"))
         dataset.graph(graph).add((subject, language_predicate, language_literal))
         dataset.graph(graph).add((subject, datatype_predicate, datatype_literal))
-
         serialized = MODULE.canonical_nquads(dataset)
         self.assertIn('"Zeile 1\\n\\"Zeile 2\\"\\\\Ende"@de', serialized)
         self.assertIn('"42"^^<http://www.w3.org/2001/XMLSchema#integer>', serialized)
-
         parsed = Dataset(default_union=False)
         parsed.parse(data=serialized, format="nquads")
-        self.assertIn(
-            (subject, language_predicate, language_literal, graph),
-            set(parsed.quads((subject, language_predicate, None, graph))),
-        )
-        self.assertIn(
-            (subject, datatype_predicate, datatype_literal, graph),
-            set(parsed.quads((subject, datatype_predicate, None, graph))),
-        )
+        self.assertIn((subject, language_predicate, language_literal, graph), set(parsed.quads((subject, language_predicate, None, graph))))
+        self.assertIn((subject, datatype_predicate, datatype_literal, graph), set(parsed.quads((subject, datatype_predicate, None, graph))))
 
     def test_non_project_graph_is_rejected(self) -> None:
         dataset = Dataset()
