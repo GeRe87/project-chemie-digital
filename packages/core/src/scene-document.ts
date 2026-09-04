@@ -173,7 +173,12 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
       validateBlocks(block.children, `${label} group ${block.id}`);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
     }
-    if (block.kind === "list") validateListItems(block.items, `${label} list ${block.id}`);
+    if (block.kind === "list") {
+      if (block.listStyle !== "unordered" && block.listStyle !== "ordered") {
+        throw new SceneContractError(`${label} list ${block.id} listStyle must be ordered or unordered`);
+      }
+      validateListItems(block.items, `${label} list ${block.id}`);
+    }
     if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
     if (block.kind === "code") {
       requireNonEmpty(block.language, `${label} code ${block.id} language`);
