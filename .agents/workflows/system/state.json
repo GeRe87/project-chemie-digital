@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 8,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 128,
-  "expectedDeliverable": "Review Draft PR #129 for Issue #128 on exact head 7af75d27f38531ebd4f8f3ad02945fb5507f240e. Verify the exact seven-file SHACL/Standard-Deviation-metadata/runtime/test/handoff scope, activation only of existing FormulaRole plus direct cd:latex selection, migration only of ex:scene4-i2 role/selector metadata, strict fail-closed FormulaRole/MathExpression/cd:latex runtime coupling, preserved SceneDocument 1.0 math output and Random Variables compatibility, absence of Mean Values/Chemometrics/app/package/course/learner-state/governance/external-research expansion, review/thread state, mergeability, integration freshness and fresh exact-head agent-validator/project-chemie-digital success before acceptance. Chemometrics remains blocked until this System prerequisite is independently integrated.",
+  "expectedDeliverable": "Diagnose the fresh exact-head validator failure on Draft PR #129 without broadening Issue #128. Confirm whether the failure belongs to the formula-scene implementation or to an independent workflow-state contract, preserve Chemometrics ownership boundaries, and either authorize one narrow System correction or record the cross-track blocker without merging.",
   "lastCompletedTurn": "worker: completed System Issue #128 on branch agent/128-formula-scene-semantics with Draft PR #129 and structured handoff. Central SceneItem SHACL now admits the already-defined FormulaRole and direct cd:latex selector; only historical Standard Deviation ex:scene4-i2 was migrated from QuotationRole/cd:hasDefinition to FormulaRole/cd:latex while preserving position, selected sample-sd-formula, language and authored evidence. Runtime compilation now requires exact FormulaRole + MathExpression + cd:latex semantics, rejects historical/unrelated-role, wrong-selector and non-Math mismatches fail-closed, and preserves the existing math block representation and other role branches. Focused regressions cover exact allow-lists, canonical migration, full SHACL conformance, Standard Deviation compatibility, isolated positive/negative formula fixtures and Random Variables compatibility. The branch is zero commits behind main with exactly seven expected files and no Chemometrics/app/package/learner-state/governance changes. Connector execution cannot claim npm test; the configured exact-head validator has not yet published a status, so no self-acceptance or merge was performed.",
-  "lastUpdated": "2026-09-03T17:07:00+02:00",
+  "lastUpdated": "2026-09-04T10:34:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-validator-failure-20260904T103400+0200",
+    "claimedAt": "2026-09-04T10:34:00+02:00",
+    "expiresAt": "2026-09-04T12:34:00+02:00"
   },
-  "blockedBy": [
-    "Fresh agent-validator/project-chemie-digital status is missing for Draft PR #129 exact head 7af75d27f38531ebd4f8f3ad02945fb5507f240e; manager acceptance requires success on this exact head."
-  ],
-  "stateRevision": 61,
+  "blockedBy": [],
+  "stateRevision": 62,
   "transitionHistory": [
     {"at":"2026-09-01T17:26:22+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Fresh exact-head validator success became available for corrected PR #121, resolving the worker's sole pending-status blocker. Claimed the final System manager acceptance/merge review and normalized state content to remove transient commit identifiers."},
     {"at":"2026-09-01T17:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Formally accepted and squash-merged Issue #120 / PR #121 after every configured gate passed, including the isolated synthetic fixture correction. Verified the PR merged, Issue #120 closed completed and the squash result has exactly one parent. No Chemometrics state change or follow-on assignment was made in this merge turn."},
@@ -36,6 +34,7 @@
     {"at":"2026-09-03T15:01:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-formula-scene-20260903T150130+0200","reason":"Claimed the separate System manager turn requested by the blocked Chemometrics lane to define a bounded shared FormulaRole/cd:latex scene contract and runtime compatibility prerequisite before Mean Values formula scenes are authored."},
     {"at":"2026-09-03T15:08:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-formula-scene-20260903T150130+0200","reason":"Created System Issue #128 and assigned it to the Backend and Data Integration Engineer for the narrow FormulaRole/cd:latex SHACL activation, historical ex:scene4-i2 metadata migration, strict MathExpression runtime coupling and focused compatibility regressions. Chemometrics remains blocked and untouched until this shared prerequisite is independently integrated."},
     {"at":"2026-09-03T16:53:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Claimed System Issue #128 for the Backend and Data Integration Engineer within the exact FormulaRole/cd:latex SHACL, historical Standard Deviation formula-scene metadata migration, strict MathExpression runtime coupling, focused regression and handoff scope. Chemometrics state/content and external research remain out of scope."},
-    {"at":"2026-09-03T17:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Completed System Issue #128 with Draft PR #129 and structured handoff. The exact seven-file implementation activates FormulaRole/cd:latex semantics, migrates only the historical Standard Deviation formula SceneItem metadata, enforces strict fail-closed MathExpression runtime coupling and adds focused isolated compatibility regressions. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."}
+    {"at":"2026-09-03T17:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Completed System Issue #128 with Draft PR #129 and structured handoff. The exact seven-file implementation activates FormulaRole/cd:latex semantics, migrates only the historical Standard Deviation formula SceneItem metadata, enforces strict fail-closed MathExpression runtime coupling and adds focused isolated compatibility regressions. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
+    {"at":"2026-09-04T10:34:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-validator-failure-20260904T103400+0200","reason":"Fresh exact-head validation for PR #129 is now present and failing. Claimed the System manager diagnostic turn to classify the failure without broadening Issue #128 or mutating Chemometrics state."}
   ]
 }
