@@ -162,8 +162,14 @@ class KeyPointSemanticTests(unittest.TestCase):
     def test_multi_owner_keypoint_is_rejected(self) -> None:
         self.assert_violates(canonical_fixture(second_owner=True), "exactly one owning LearningResource")
 
+    def test_duplicate_keypoint_positions_are_rejected(self) -> None:
+        self.assert_violates(canonical_fixture(positions=(1, 1)), "positions must be unique")
+
     def test_non_contiguous_keypoint_sequence_is_rejected(self) -> None:
         self.assert_violates(canonical_fixture(positions=(1, 3)), "contiguous")
+
+    def test_keypoint_role_requires_linked_points(self) -> None:
+        self.assert_violates(canonical_fixture(include_points=False), "one or more linked KeyPoints")
 
     def test_keypoint_role_requires_keypoint_selector(self) -> None:
         self.assert_violates(canonical_fixture(selector="cd:body"), "KeyPointRole requires exactly the cd:hasKeyPoint selector")
@@ -184,6 +190,14 @@ class KeyPointSemanticTests(unittest.TestCase):
         self.assertEqual("cd:hasKeyPoint", block["source"][0]["relationPath"])
         self.assertEqual("ex:keypoint-system-point-one", block["items"][0]["source"][0]["resourceId"])
         self.assertEqual("cd:body", block["items"][0]["source"][0]["relationPath"])
+
+    def test_runtime_rejects_missing_keypoints(self) -> None:
+        with self.assertRaisesRegex(ValueError, "KeyPointRole requires linked KeyPoints"):
+            RUNTIME.compile_scene_document(runtime_fixture(include_points=False), selected_path())
+
+    def test_runtime_rejects_duplicate_positions(self) -> None:
+        with self.assertRaisesRegex(ValueError, "KeyPoint positions must be unique"):
+            RUNTIME.compile_scene_document(runtime_fixture(positions=(1, 1)), selected_path())
 
     def test_runtime_rejects_non_contiguous_sequence(self) -> None:
         with self.assertRaisesRegex(ValueError, "KeyPoint positions must be contiguous"):
