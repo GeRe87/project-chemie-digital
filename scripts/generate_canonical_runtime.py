@@ -519,7 +519,7 @@ def rendered_index(artifact: dict[str, Any]) -> str:
     generated = static_fallback(artifact)
     pattern = r"(?s)(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)"
     replacement = lambda match: f"{match.group(1)}\n{generated}\n        {match.group(2)}"
-    updated, count = re.subn(pattern, source, count=1)
+    updated, count = re.subn(pattern, replacement, source, count=1)
     if count != 1:
         raise ValueError("Missing canonical runtime fallback markers in apps/pitch/index.html")
     return updated
