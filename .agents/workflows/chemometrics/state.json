@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 6,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 130,
   "expectedDeliverable": "Implement Chemometrics Issue #130 exactly as assigned: author eight graph-backed Mean Values lecture SceneDefinitions in one dedicated scene graph, bind the eight existing Mean Values PathSteps one-to-one via additive cd:usesScene, preserve all Issue #126 positions and usesResource sets, reuse only reviewed scientific resources, and use cd:FormulaRole + direct cd:latex for every MathExpression. Add focused RDF/SHACL/runtime regressions and structured handoff, open a Draft PR with the validator marker and Closes #130, obtain fresh exact-head validation, then return only the Chemometrics workflow to manager review. Do not change scientific content, shared SHACL/runtime contracts, System state, renderer/apps, course selection, learner-state, governance, validator configuration or external-research surfaces. If a stale shared-test assumption is exposed, stop and return it to the Manager rather than broadening scope.",
   "lastCompletedTurn": "manager: verified merged System Issue #128 / PR #129 resolves the explicit FormulaRole + cd:latex prerequisite and the System lane is idle. Created Chemometrics Issue #130 for exactly eight graph-backed Mean Values scenes and eight existing PathStep usesScene bindings, with an exact scene/resource/role/selector matrix, mandatory FormulaRole + cd:latex formula semantics, bounded test/handoff scope and no scientific/shared-contract/System-state expansion. Assigned the issue to the Semantic Web and Ontology Engineer. No worker implementation was performed in this manager turn.",
-  "lastUpdated": "2026-09-04T13:30:00+02:00",
+  "lastUpdated": "2026-09-04T13:36:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200",
+    "claimedAt": "2026-09-04T13:36:00+02:00",
+    "expiresAt": "2026-09-04T15:36:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 52,
+  "stateRevision": 53,
   "transitionHistory": [
-    {"at":"2026-09-02T09:15:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-regression-20260902T091500+0200","reason":"Claimed the manager-authorized Issue #122 test-only correction turn."},
-    {"at":"2026-09-02T09:22:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-regression-20260902T091500+0200","reason":"Completed the manager-authorized Issue #122 test-only corrections and returned to manager pending fresh exact-head validation."},
-    {"at":"2026-09-02T09:41:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"Fresh exact-head validator success became available for corrected PR #123; claimed final Chemometrics review."},
-    {"at":"2026-09-02T09:48:30+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-final-review-20260902T094130+0200","reason":"PR #123 was technically clean but remained Draft; acceptance withheld pending external Ready-for-review."},
-    {"at":"2026-09-02T10:00:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-merge-20260902T100030+0200","reason":"External Ready-for-review was present; claimed final Chemometrics acceptance/merge turn."},
-    {"at":"2026-09-02T10:06:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260902T100030+0200","reason":"Accepted and squash-merged Issue #122 / PR #123 after all gates passed."},
-    {"at":"2026-09-02T10:12:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Claimed Mean Values path contract evaluation."},
-    {"at":"2026-09-02T10:15:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-mean-values-gate-20260902T101200+0200","reason":"Classified multi-topic LearningPath support as a System-owned prerequisite before Mean Values path authoring."},
-    {"at":"2026-09-02T13:16:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-path-20260902T131630+0200","reason":"Merged System #124/#125 resolved the multi-topic blocker; claimed Mean Values path assignment turn."},
-    {"at":"2026-09-02T13:20:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-mean-values-path-20260902T131630+0200","reason":"Created Issue #126 and assigned one bounded Mean Values LearningPath worker task."},
-    {"at":"2026-09-02T13:38:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-path-20260902T133800+0200","reason":"Claimed Chemometrics Issue #126 within the bounded path-only scope."},
-    {"at":"2026-09-02T13:46:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-mean-values-path-20260902T133800+0200","reason":"Completed Issue #126 path scope and returned for a narrow stale-test authorization."},
-    {"at":"2026-09-02T13:49:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-review-20260902T134900+0200","reason":"Claimed review of the sole stale course-skeleton regression on PR #127."},
-    {"at":"2026-09-02T13:51:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-review-20260902T134900+0200","reason":"Authorized exactly one test-only course-skeleton migration plus fresh validation."},
-    {"at":"2026-09-02T13:54:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-regression-20260902T135400+0200","reason":"Claimed the manager-authorized Issue #126 stale-test correction."},
-    {"at":"2026-09-02T14:01:30+02:00","from":"busy/worker","to":"ready/manager","actor":"interactive-chemometrics-worker-mean-values-regression-20260902T135400+0200","reason":"Completed the stale-test correction; fresh exact-head validation succeeded and returned to manager."},
     {"at":"2026-09-02T14:10:30+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-20260902T141030+0200","reason":"Claimed final review for corrected PR #127."},
     {"at":"2026-09-02T14:13:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-final-20260902T141030+0200","reason":"PR #127 technically clean but Draft; withheld merge pending Ready-for-review."},
     {"at":"2026-09-03T09:04:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260903T090100+0200","reason":"Accepted and squash-merged Issue #126 / PR #127 after all gates passed."},
@@ -41,6 +25,7 @@
     {"at":"2026-09-04T10:33:30+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-state-normalization-20260904T103330+0200","reason":"Claimed Chemometrics-only transitionHistory normalization to restore the configured 25-entry limit."},
     {"at":"2026-09-04T10:35:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-state-normalization-20260904T103330+0200","reason":"Completed Chemometrics transitionHistory normalization while preserving the Mean Values FormulaRole prerequisite blocker."},
     {"at":"2026-09-04T13:28:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-scenes-20260904T132800+0200","reason":"Merged System Issue #128 / PR #129 is present on main and explicitly activates FormulaRole + cd:latex with strict MathExpression runtime coupling. Claimed Chemometrics manager turn to define one bounded eight-scene Mean Values worker issue; no content implementation or System mutation in this manager turn."},
-    {"at":"2026-09-04T13:30:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-mean-values-scenes-20260904T132800+0200","reason":"Created Chemometrics Issue #130 and assigned it to the Semantic Web and Ontology Engineer for exactly eight graph-backed Mean Values scenes and eight existing PathStep usesScene bindings using the merged FormulaRole + cd:latex contract. No worker implementation, scientific-content change, shared-contract change or System-state mutation occurred in this manager turn."}
+    {"at":"2026-09-04T13:30:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-mean-values-scenes-20260904T132800+0200","reason":"Created Chemometrics Issue #130 and assigned it to the Semantic Web and Ontology Engineer for exactly eight graph-backed Mean Values scenes and eight existing PathStep usesScene bindings using the merged FormulaRole + cd:latex contract. No worker implementation, scientific-content change, shared-contract change or System-state mutation occurred in this manager turn."},
+    {"at":"2026-09-04T13:36:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200","reason":"Claimed Chemometrics Issue #130 within the bounded eight-scene, eight-binding, focused-test and handoff scope. Scientific resources, shared contracts, System state and external research remain out of scope."}
   ]
 }
