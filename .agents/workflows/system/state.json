@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
-  "cycle": 8,
-  "status": "ready",
+  "cycle": 9,
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": null,
+  "activeRole": "Software Architect",
   "activeIssue": null,
-  "expectedDeliverable": "System lane is idle after successful integration of Issue #128 / PR #129. The shared FormulaRole + cd:latex scene contract and strict MathExpression runtime coupling are now merged on main. A separate Chemometrics manager turn may now re-evaluate its blocked Mean Values scene-authoring prerequisite and assign that lane's next bounded issue; do not mutate Chemometrics state from this System completion.",
+  "expectedDeliverable": "Define one bounded System-owned architecture issue for authored concise KeyPoint semantics and renderer-neutral list projection. Preserve existing full cd:body resources for self-study, do not author Chemometrics scientific content in this manager turn, and keep Issue #132 parked as an independent preview/runtime fix.",
   "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #128 / PR #129 after every configured gate passed on exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. Fresh agent-validator/project-chemie-digital validation succeeded; the PR was Ready for review, mergeable, exactly seven reviewed files, with no unresolved review threads or change requests, and Copilot recommended approval. Verified PR #129 merged as squash commit 26aea2c4fb508767f038aac4732f8940c6d43d55, Issue #128 closed completed via Closes #128, and the squash commit has exactly one parent. No Chemometrics state mutation or follow-on assignment was performed in this System turn.",
-  "lastUpdated": "2026-09-04T13:23:00+02:00",
+  "lastUpdated": "2026-09-04T14:46:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-keypoints-20260904T144600+0200",
+    "claimedAt": "2026-09-04T14:46:00+02:00",
+    "expiresAt": "2026-09-04T16:46:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 75,
+  "stateRevision": 76,
   "transitionHistory": [
     {"at":"2026-09-03T16:53:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Claimed System Issue #128 for the Backend and Data Integration Engineer within the exact FormulaRole/cd:latex SHACL, historical Standard Deviation formula-scene metadata migration, strict MathExpression runtime coupling, focused regression and handoff scope. Chemometrics state/content and external research remain out of scope."},
     {"at":"2026-09-03T17:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Completed System Issue #128 with Draft PR #129 and structured handoff. The exact seven-file implementation activates FormulaRole/cd:latex semantics, migrates only the historical Standard Deviation formula SceneItem metadata, enforces strict fail-closed MathExpression runtime coupling and adds focused isolated compatibility regressions. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
@@ -32,6 +32,7 @@
     {"at":"2026-09-04T13:13:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Claimed the final manager-authorized reconciliation-only System worker turn for Ready-for-review PR #129. Scope is current-main ancestry only; the seven reviewed Issue #128 feature files and Chemometrics state/content remain untouched."},
     {"at":"2026-09-04T13:17:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Completed the final reconciliation-only refresh for Ready-for-review PR #129. Reconciled exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7 incorporated current main ancestry and preserved exactly the seven reviewed feature files; relative to the prior validated head only System workflow state changed. Fresh exact-head validation is pending, so returned to manager without self-acceptance or merge."},
     {"at":"2026-09-04T13:20:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Fresh exact-head validator success is present for Ready-for-review PR #129. Copilot recommends approval, no review threads or change requests exist, GitHub reports mergeable true, and the sole main movement since reconciliation is the explicitly exempt lifecycle-only worker-completion state commit. Claimed final acceptance and squash-merge turn."},
-    {"at":"2026-09-04T13:23:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Formally accepted and squash-merged Issue #128 / PR #129 after all configured gates passed. Verified PR merged, Issue #128 closed completed via Closes #128, and squash commit 26aea2c4fb508767f038aac4732f8940c6d43d55 has exactly one parent. System lane returned to idle manager state; Chemometrics state was not mutated."}
+    {"at":"2026-09-04T13:23:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Formally accepted and squash-merged Issue #128 / PR #129 after all configured gates passed. Verified PR merged, Issue #128 closed completed via Closes #128, and squash commit 26aea2c4fb508767f038aac4732f8940c6d43d55 has exactly one parent. System lane returned to idle manager state; Chemometrics state was not mutated."},
+    {"at":"2026-09-04T14:46:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-keypoints-20260904T144600+0200","reason":"Claimed one bounded System manager planning turn to define authored KeyPoint semantics and renderer-neutral list projection while preserving full-text self-study resources and keeping Issue #132 independent."}
   ]
 }
