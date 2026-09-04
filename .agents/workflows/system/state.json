@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 8,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Backend and Data Integration Engineer",
-  "activeIssue": 128,
-  "expectedDeliverable": "Perform the final acceptance and squash merge of Ready-for-review PR #129 on exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. Exact-head agent-validator/project-chemie-digital is success, the PR diff is exactly the seven reviewed Issue #128 feature files, reviews and threads are clean, and GitHub reports mergeable true. The worker-completion System state commit on main is lifecycle-only movement explicitly exempted from another reconciliation. Merge only with the expected head SHA, verify PR/Issue closure and single-parent squash result, then finalize the System lane without mutating Chemometrics state.",
-  "lastCompletedTurn": "worker: completed the final manager-authorized reconciliation-only refresh for Ready-for-review PR #129. Created a true merge commit with current main worker-claim ancestry, restoring zero commits behind at reconciled head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. The PR comparison contains exactly the original seven reviewed Issue #128 feature files, and comparison from the previously validated head 1bdab487324d846c788b58afc70a76e6426d7f71 to the new head shows only .agents/workflows/system/state.json changed. No FormulaRole/cd:latex semantics, Standard Deviation metadata, runtime, tests, handoff substance or Chemometrics state/content changed. Fresh exact-head validator status has now succeeded; manager acceptance is being performed.",
-  "lastUpdated": "2026-09-04T13:20:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "System lane is idle after successful integration of Issue #128 / PR #129. The shared FormulaRole + cd:latex scene contract and strict MathExpression runtime coupling are now merged on main. A separate Chemometrics manager turn may now re-evaluate its blocked Mean Values scene-authoring prerequisite and assign that lane's next bounded issue; do not mutate Chemometrics state from this System completion.",
+  "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #128 / PR #129 after every configured gate passed on exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. Fresh agent-validator/project-chemie-digital validation succeeded; the PR was Ready for review, mergeable, exactly seven reviewed files, with no unresolved review threads or change requests, and Copilot recommended approval. Verified PR #129 merged as squash commit 26aea2c4fb508767f038aac4732f8940c6d43d55, Issue #128 closed completed via Closes #128, and the squash commit has exactly one parent. No Chemometrics state mutation or follow-on assignment was performed in this System turn.",
+  "lastUpdated": "2026-09-04T13:23:00+02:00",
   "lease": {
-    "owner": "interactive-system-manager-final-merge-20260904T132000+0200",
-    "claimedAt": "2026-09-04T13:20:00+02:00",
-    "expiresAt": "2026-09-04T15:20:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 74,
+  "stateRevision": 75,
   "transitionHistory": [
     {"at":"2026-09-03T16:53:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Claimed System Issue #128 for the Backend and Data Integration Engineer within the exact FormulaRole/cd:latex SHACL, historical Standard Deviation formula-scene metadata migration, strict MathExpression runtime coupling, focused regression and handoff scope. Chemometrics state/content and external research remain out of scope."},
     {"at":"2026-09-03T17:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Completed System Issue #128 with Draft PR #129 and structured handoff. The exact seven-file implementation activates FormulaRole/cd:latex semantics, migrates only the historical Standard Deviation formula SceneItem metadata, enforces strict fail-closed MathExpression runtime coupling and adds focused isolated compatibility regressions. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
@@ -31,6 +31,7 @@
     {"at":"2026-09-04T13:07:20+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-final-freshness-20260904T130700+0200","reason":"Authorized exactly one final reconciliation-only System worker turn for Ready-for-review PR #129. The worker must incorporate current main ancestry only, preserve the seven reviewed feature files unchanged, obtain fresh exact-head validation and return to manager review without self-acceptance or merge."},
     {"at":"2026-09-04T13:13:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Claimed the final manager-authorized reconciliation-only System worker turn for Ready-for-review PR #129. Scope is current-main ancestry only; the seven reviewed Issue #128 feature files and Chemometrics state/content remain untouched."},
     {"at":"2026-09-04T13:17:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Completed the final reconciliation-only refresh for Ready-for-review PR #129. Reconciled exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7 incorporated current main ancestry and preserved exactly the seven reviewed feature files; relative to the prior validated head only System workflow state changed. Fresh exact-head validation is pending, so returned to manager without self-acceptance or merge."},
-    {"at":"2026-09-04T13:20:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Fresh exact-head validator success is present for Ready-for-review PR #129. Copilot recommends approval, no review threads or change requests exist, GitHub reports mergeable true, and the sole main movement since reconciliation is the explicitly exempt lifecycle-only worker-completion state commit. Claimed final acceptance and squash-merge turn."}
+    {"at":"2026-09-04T13:20:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Fresh exact-head validator success is present for Ready-for-review PR #129. Copilot recommends approval, no review threads or change requests exist, GitHub reports mergeable true, and the sole main movement since reconciliation is the explicitly exempt lifecycle-only worker-completion state commit. Claimed final acceptance and squash-merge turn."},
+    {"at":"2026-09-04T13:23:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-merge-20260904T132000+0200","reason":"Formally accepted and squash-merged Issue #128 / PR #129 after all configured gates passed. Verified PR merged, Issue #128 closed completed via Closes #128, and squash commit 26aea2c4fb508767f038aac4732f8940c6d43d55 has exactly one parent. System lane returned to idle manager state; Chemometrics state was not mutated."}
   ]
 }
