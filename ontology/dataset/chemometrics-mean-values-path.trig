@@ -26,6 +26,7 @@
     cd:position 1 ;
     cd:usesResource ex:arithmetic-mean-formula,
       ex:arithmetic-mean-applicability-interpretation ;
+    cd:usesScene ex:scene-chemometrics-mean-values-arithmetic-mean ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-expected-value a cd:PathStep ;
@@ -33,12 +34,14 @@
     cd:usesResource ex:def-expected-value,
       ex:discrete-expected-value-formula,
       ex:sample-mean-estimator-interpretation ;
+    cd:usesScene ex:scene-chemometrics-mean-values-expected-value ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-law-of-large-numbers a cd:PathStep ;
     cd:position 3 ;
     cd:usesResource ex:def-law-of-large-numbers,
       ex:lln-not-standard-error-interpretation ;
+    cd:usesScene ex:scene-chemometrics-mean-values-law-of-large-numbers ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-geometric-mean a cd:PathStep ;
@@ -48,11 +51,13 @@
       ex:geometric-mean-log-formula,
       ex:geometric-mean-applicability-interpretation,
       ex:worked-example-multiplicative-growth ;
+    cd:usesScene ex:scene-chemometrics-mean-values-geometric-mean ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-geometric-practice a cd:PathStep ;
     cd:position 5 ;
     cd:usesResource ex:exercise-geometric-growth-factors ;
+    cd:usesScene ex:scene-chemometrics-mean-values-geometric-practice ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-harmonic-mean a cd:PathStep ;
@@ -61,6 +66,7 @@
       ex:def-harmonic-mean,
       ex:harmonic-mean-formula,
       ex:harmonic-mean-rate-interpretation ;
+    cd:usesScene ex:scene-chemometrics-mean-values-harmonic-mean ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-median a cd:PathStep ;
@@ -69,10 +75,12 @@
       ex:def-median,
       ex:sample-median-formula,
       ex:median-robustness-interpretation ;
+    cd:usesScene ex:scene-chemometrics-mean-values-median ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-median-practice a cd:PathStep ;
     cd:position 8 ;
     cd:usesResource ex:exercise-mean-median-outlier ;
+    cd:usesScene ex:scene-chemometrics-mean-values-median-practice ;
     cd:authoredResource true .
 }
