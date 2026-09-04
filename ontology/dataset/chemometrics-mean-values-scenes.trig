@@ -1,0 +1,104 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-mean-values-lecture> {
+  ex:scene-chemometrics-mean-values-arithmetic-mean a cd:SceneDefinition ;
+    cd:focusConcept ex:arithmetic-mean ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-arithmetic-mean-heading,
+      ex:scene-item-chemometrics-mean-values-arithmetic-mean-formula,
+      ex:scene-item-chemometrics-mean-values-arithmetic-mean-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-arithmetic-mean-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:arithmetic-mean ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-arithmetic-mean-formula a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:arithmetic-mean-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-arithmetic-mean-interpretation a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:arithmetic-mean-applicability-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-expected-value a cd:SceneDefinition ;
+    cd:focusConcept ex:expected-value ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-expected-value-heading,
+      ex:scene-item-chemometrics-mean-values-expected-value-definition,
+      ex:scene-item-chemometrics-mean-values-expected-value-formula,
+      ex:scene-item-chemometrics-mean-values-expected-value-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-expected-value-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:expected-value ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-expected-value-definition a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:def-expected-value ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-expected-value-formula a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:discrete-expected-value-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-expected-value-interpretation a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:sample-mean-estimator-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-law-of-large-numbers a cd:SceneDefinition ;
+    cd:focusConcept ex:law-of-large-numbers ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-law-of-large-numbers-heading,
+      ex:scene-item-chemometrics-mean-values-law-of-large-numbers-definition,
+      ex:scene-item-chemometrics-mean-values-law-of-large-numbers-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:law-of-large-numbers ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-definition a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:def-law-of-large-numbers ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-interpretation a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:lln-not-standard-error-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-geometric-mean a cd:SceneDefinition ;
+    cd:focusConcept ex:geometric-mean ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-geometric-mean-heading,
+      ex:scene-item-chemometrics-mean-values-geometric-mean-definition,
+      ex:scene-item-chemometrics-mean-values-geometric-mean-product-formula,
+      ex:scene-item-chemometrics-mean-values-geometric-mean-log-formula,
+      ex:scene-item-chemometrics-mean-values-geometric-mean-interpretation,
+      ex:scene-item-chemometrics-mean-values-geometric-mean-example ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-geometric-mean-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:geometric-mean ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-mean-definition a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:def-geometric-mean ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-mean-product-formula a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:geometric-mean-product-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-mean-log-formula a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:geometric-mean-log-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-mean-interpretation a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:geometric-mean-applicability-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-mean-example a cd:SceneItem ; cd:position 6 ; cd:selectsResource ex:worked-example-multiplicative-growth ; cd:communicativeRole cd:ExampleRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-geometric-practice a cd:SceneDefinition ;
+    cd:focusConcept ex:geometric-mean ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-geometric-practice-heading,
+      ex:scene-item-chemometrics-mean-values-geometric-practice-exercise ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-geometric-practice-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:geometric-mean ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-geometric-practice-exercise a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:exercise-geometric-growth-factors ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-harmonic-mean a cd:SceneDefinition ;
+    cd:focusConcept ex:harmonic-mean ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-harmonic-mean-heading,
+      ex:scene-item-chemometrics-mean-values-harmonic-mean-example,
+      ex:scene-item-chemometrics-mean-values-harmonic-mean-definition,
+      ex:scene-item-chemometrics-mean-values-harmonic-mean-formula,
+      ex:scene-item-chemometrics-mean-values-harmonic-mean-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-harmonic-mean-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:harmonic-mean ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-harmonic-mean-example a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:worked-example-equal-distance-speed ; cd:communicativeRole cd:ExampleRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-harmonic-mean-definition a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:def-harmonic-mean ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-harmonic-mean-formula a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:harmonic-mean-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-harmonic-mean-interpretation a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:harmonic-mean-rate-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-median a cd:SceneDefinition ;
+    cd:focusConcept ex:median ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-median-heading,
+      ex:scene-item-chemometrics-mean-values-median-example,
+      ex:scene-item-chemometrics-mean-values-median-definition,
+      ex:scene-item-chemometrics-mean-values-median-formula,
+      ex:scene-item-chemometrics-mean-values-median-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-median-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:median ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-median-example a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:worked-example-turbidity-median ; cd:communicativeRole cd:ExampleRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-median-definition a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:def-median ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-median-formula a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:sample-median-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-median-interpretation a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:median-robustness-interpretation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-mean-values-median-practice a cd:SceneDefinition ;
+    cd:focusConcept ex:median ;
+    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-median-practice-heading,
+      ex:scene-item-chemometrics-mean-values-median-practice-exercise ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-mean-values-median-practice-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:median ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-chemometrics-mean-values-median-practice-exercise a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:exercise-mean-median-outlier ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

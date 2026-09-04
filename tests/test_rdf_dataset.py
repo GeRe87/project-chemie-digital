@@ -26,6 +26,7 @@ EXPECTED_CANONICAL_GRAPHS = {
     "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
     "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics",
     "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture",
+    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-mean-values-lecture",
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
     "https://w3id.org/project-chemie-digital/graph/examples/standard-deviation",

@@ -114,6 +114,17 @@ EXPECTED_STEPS = {
     ),
 }
 
+EXPECTED_SCENES = {
+    EX["path-step-chemometrics-mean-values-arithmetic-mean"]: EX["scene-chemometrics-mean-values-arithmetic-mean"],
+    EX["path-step-chemometrics-mean-values-expected-value"]: EX["scene-chemometrics-mean-values-expected-value"],
+    EX["path-step-chemometrics-mean-values-law-of-large-numbers"]: EX["scene-chemometrics-mean-values-law-of-large-numbers"],
+    EX["path-step-chemometrics-mean-values-geometric-mean"]: EX["scene-chemometrics-mean-values-geometric-mean"],
+    EX["path-step-chemometrics-mean-values-geometric-practice"]: EX["scene-chemometrics-mean-values-geometric-practice"],
+    EX["path-step-chemometrics-mean-values-harmonic-mean"]: EX["scene-chemometrics-mean-values-harmonic-mean"],
+    EX["path-step-chemometrics-mean-values-median"]: EX["scene-chemometrics-mean-values-median"],
+    EX["path-step-chemometrics-mean-values-median-practice"]: EX["scene-chemometrics-mean-values-median-practice"],
+}
+
 
 class ChemometricsMeanValuesPathTests(unittest.TestCase):
     @classmethod
@@ -187,8 +198,13 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         self.assertEqual(expected_typed, typed)
         self.assertEqual([], list(self.path_graph.triples((None, CD.body, None))))
 
-    def test_path_is_intentionally_scene_free(self) -> None:
-        self.assertEqual([], list(self.path_graph.triples((None, CD.usesScene, None))))
+    def test_path_has_exactly_one_scene_binding_per_step_and_no_scene_definitions(self) -> None:
+        for step, expected_scene in EXPECTED_SCENES.items():
+            with self.subTest(step=step):
+                self.assertEqual(
+                    {expected_scene},
+                    set(self.path_graph.objects(step, CD.usesScene)),
+                )
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
