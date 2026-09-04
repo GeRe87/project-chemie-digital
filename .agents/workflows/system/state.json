@@ -1,21 +1,23 @@
 {
   "schemaVersion": 2,
   "cycle": 8,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 128,
-  "expectedDeliverable": "Perform one final reconciliation-only refresh of Ready-for-review PR #129 against current main. Incorporate only the latest System workflow-state ancestry, preserve the seven reviewed Issue #128 feature files unchanged, keep Chemometrics state/content untouched, verify the PR diff remains exactly those seven feature files, and obtain a fresh exact-head agent-validator/project-chemie-digital success before returning to manager review. No self-acceptance or merge.",
-  "lastCompletedTurn": "manager: Ready-for-review is now satisfied and the reviewed PR #129 head remains technically green, mergeable, seven-file scoped, and review-clean. Current main nevertheless advanced by three System-manager lifecycle commits after the last validated reconciliation, so integration freshness failed the final gate. Withheld merge and authorized exactly one final reconciliation-only System worker turn; no feature content, tests, contracts or Chemometrics state were changed.",
-  "lastUpdated": "2026-09-04T13:13:00+02:00",
+  "expectedDeliverable": "Review Ready-for-review PR #129 on reconciled exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. The final reconciliation incorporated current main ancestry through the worker claim, left the seven reviewed Issue #128 feature files unchanged, and the PR diff against that merge base is exactly those seven files. Require fresh exact-head agent-validator/project-chemie-digital success; treat this worker-completion System state commit on main as lifecycle-only movement, not feature integration drift. If the validator succeeds and reviews/threads/mergeability remain clean, perform final manager acceptance and squash merge. No further reconciliation should be triggered solely by this completion-state commit.",
+  "lastCompletedTurn": "worker: completed the final manager-authorized reconciliation-only refresh for Ready-for-review PR #129. Created a true merge commit with current main worker-claim ancestry, restoring zero commits behind at reconciled head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7. The PR comparison contains exactly the original seven reviewed Issue #128 feature files, and comparison from the previously validated head 1bdab487324d846c788b58afc70a76e6426d7f71 to the new head shows only .agents/workflows/system/state.json changed. No FormulaRole/cd:latex semantics, Standard Deviation metadata, runtime, tests, handoff substance or Chemometrics state/content changed. Fresh exact-head validator status has not yet appeared; returned only the System workflow to manager review without self-acceptance or merge.",
+  "lastUpdated": "2026-09-04T13:17:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-final-reconcile-20260904T131300+0200",
-    "claimedAt": "2026-09-04T13:13:00+02:00",
-    "expiresAt": "2026-09-04T15:13:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 72,
+  "blockedBy": [
+    "Fresh agent-validator/project-chemie-digital status is required for Ready-for-review PR #129 exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7 before manager acceptance and squash merge."
+  ],
+  "stateRevision": 73,
   "transitionHistory": [
     {"at":"2026-09-03T16:53:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Claimed System Issue #128 for the Backend and Data Integration Engineer within the exact FormulaRole/cd:latex SHACL, historical Standard Deviation formula-scene metadata migration, strict MathExpression runtime coupling, focused regression and handoff scope. Chemometrics state/content and external research remain out of scope."},
     {"at":"2026-09-03T17:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-formula-scene-20260903T165300+0200","reason":"Completed System Issue #128 with Draft PR #129 and structured handoff. The exact seven-file implementation activates FormulaRole/cd:latex semantics, migrates only the historical Standard Deviation formula SceneItem metadata, enforces strict fail-closed MathExpression runtime coupling and adds focused isolated compatibility regressions. Returned only the System workflow to manager review; fresh exact-head external validator success is the sole blocker."},
@@ -29,6 +31,7 @@
     {"at":"2026-09-04T13:06:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-final-review-20260904T130400+0200","reason":"PR #129 is technically review-clean on the reconciled exact head: fresh exact-head validator success, exactly seven reviewed feature files, no feature-substance changes from the reviewed head, no review threads or change requests, mergeable and integration-fresh. Withheld acceptance and merge solely because the PR remains Draft; external Ready-for-review is the only remaining gate."},
     {"at":"2026-09-04T13:07:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-freshness-20260904T130700+0200","reason":"Ready-for-review is now satisfied and all technical gates remain green on the reviewed head, but current main has advanced by three System-manager state-only commits since the last reconciliation. Claimed a bounded manager freshness turn; merge is withheld until one final reconciliation-only worker refresh and fresh exact-head validation."},
     {"at":"2026-09-04T13:07:20+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-final-freshness-20260904T130700+0200","reason":"Authorized exactly one final reconciliation-only System worker turn for Ready-for-review PR #129. The worker must incorporate current main ancestry only, preserve the seven reviewed feature files unchanged, obtain fresh exact-head validation and return to manager review without self-acceptance or merge."},
-    {"at":"2026-09-04T13:13:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Claimed the final manager-authorized reconciliation-only System worker turn for Ready-for-review PR #129. Scope is current-main ancestry only; the seven reviewed Issue #128 feature files and Chemometrics state/content remain untouched."}
+    {"at":"2026-09-04T13:13:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Claimed the final manager-authorized reconciliation-only System worker turn for Ready-for-review PR #129. Scope is current-main ancestry only; the seven reviewed Issue #128 feature files and Chemometrics state/content remain untouched."},
+    {"at":"2026-09-04T13:17:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-final-reconcile-20260904T131300+0200","reason":"Completed the final reconciliation-only refresh for Ready-for-review PR #129. Reconciled exact head 93a09bcd8af27361c7b7c04ec3cebcb55a0251d7 incorporated current main ancestry and preserved exactly the seven reviewed feature files; relative to the prior validated head only System workflow state changed. Fresh exact-head validation is pending, so returned to manager without self-acceptance or merge."}
   ]
 }
