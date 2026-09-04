@@ -133,6 +133,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("ExampleRole"),
                 cd("ExerciseRole"),
                 cd("FormulaRole"),
+                cd("KeyPointRole"),
             },
             self.shacl_in_values(cd("communicativeRole")),
         )
@@ -148,6 +149,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 Literal("cd:hasAudiencePoll"),
                 Literal("cd:body"),
                 Literal("cd:latex"),
+                Literal("cd:hasKeyPoint"),
             },
             self.shacl_in_values(cd("selectionPath")),
         )
