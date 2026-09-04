@@ -174,7 +174,29 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             relation_path = literal(dataset, item, iri(CD, "selectionPath"))
             language = literal(dataset, item, iri(CD, "language"))
             block_id = f"{compact(item)}--block"
-            if role == "HeadingRole":
+            selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
+            if role == "FormulaRole":
+                if relation_path != "cd:latex":
+                    raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
+                if not selected_is_math_expression:
+                    raise ValueError(f"FormulaRole requires MathExpression in {compact(item)}")
+                expression = literal(dataset, selected, iri(CD, "latex"))
+                if expression is None:
+                    raise ValueError(f"Missing cd:latex for {compact(selected)}")
+                focus_label = resource_text(dataset, focus, language or "de")
+                block = {
+                    "id": block_id, "kind": "math",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "expression": expression,
+                    "spokenText": f"Mathematische Formel für {focus_label}",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary", "intent": {"kind": "explain"},
+                }
+            elif selected_is_math_expression:
+                raise ValueError(
+                    f"MathExpression {compact(selected)} requires FormulaRole with direct cd:latex selection"
+                )
+            elif role == "HeadingRole":
                 heading_languages = {
                     "skos:prefLabel@de": "de",
                     "skos:prefLabel@en": "en",
@@ -224,19 +246,6 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         "disclosure": {"order": position - 1, "mode": "initial"},
                         "emphasis": "primary", "intent": {"kind": "explain"},
                     }
-            elif is_resource_type(dataset, selected, "MathExpression"):
-                expression = literal(dataset, selected, iri(CD, "latex"))
-                if expression is None:
-                    raise ValueError(f"Missing cd:latex for {compact(selected)}")
-                focus_label = resource_text(dataset, focus, language or "de")
-                block = {
-                    "id": block_id, "kind": "math",
-                    "source": [source_reference(dataset, selected, relation_path)],
-                    "expression": expression,
-                    "spokenText": f"Mathematische Formel für {focus_label}",
-                    "disclosure": {"order": position - 1, "mode": "initial"},
-                    "emphasis": "primary", "intent": {"kind": "explain"},
-                }
             elif is_resource_type(dataset, selected, "CodeExample"):
                 if role != "CodeRole":
                     raise ValueError(f"Code example {compact(selected)} requires CodeRole")

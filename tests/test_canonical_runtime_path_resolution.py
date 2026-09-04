@@ -93,7 +93,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
                 ("ex:sd-definition-basic-de", "cd:hasDefinition"),
                 ("ex:worked-example-repeated-ph", "cd:hasDefinition"),
                 ("ex:def-population-standard-deviation", "cd:hasDefinition"),
-                ("ex:sample-sd-formula", "cd:hasDefinition"),
+                ("ex:sample-sd-formula", "cd:latex"),
                 ("ex:sd-unit-rule", "cd:hasDefinition"),
                 ("ex:correction-sd-accuracy", "cd:hasDefinition"),
                 ("ex:comparison-dispersion-measures", "cd:hasDefinition"),
@@ -113,7 +113,7 @@ class CanonicalRuntimePathResolutionTests(unittest.TestCase):
             {
                 "resourceId": "ex:sample-sd-formula",
                 "provenanceIds": [SPECIFICATION_GRAPH],
-                "relationPath": "cd:hasDefinition",
+                "relationPath": "cd:latex",
             },
             formula_block["source"][0],
         )

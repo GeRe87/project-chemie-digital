@@ -106,13 +106,21 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
             self.assertIn(Literal(True), set(self.graph.objects(selected, CD.authoredResource)))
 
     def test_standard_deviation_path_scenes_obey_the_accepted_scene_item_contract(self) -> None:
-        allowed_roles = {CD.HeadingRole, CD.QuotationRole, CD.CitationRole, CD.CodeRole, CD.PollRole}
+        allowed_roles = {
+            CD.HeadingRole,
+            CD.QuotationRole,
+            CD.CitationRole,
+            CD.CodeRole,
+            CD.PollRole,
+            CD.FormulaRole,
+        }
         allowed_paths = {
             Literal("skos:prefLabel@de"),
             Literal("cd:hasDefinition"),
             Literal("cd:hasDefinition/cd:hasSource"),
             Literal("cd:hasCodeExample"),
             Literal("cd:hasAudiencePoll"),
+            Literal("cd:latex"),
         }
         path_steps = set(self.graph.objects(EX["path-standard-deviation"], CD.hasStep))
         scenes = set()
@@ -128,6 +136,15 @@ class StandardDeviationKnowledgeTests(unittest.TestCase):
                 self.assertIn(next(self.graph.objects(item, CD.communicativeRole)), allowed_roles)
                 self.assertIn(next(self.graph.objects(item, CD.selectionPath)), allowed_paths)
             self.assertEqual(list(range(1, len(positions) + 1)), sorted(positions), scene)
+
+    def test_standard_deviation_formula_scene_uses_explicit_formula_semantics(self) -> None:
+        item = EX["scene4-i2"]
+        self.assertEqual({Literal(2)}, set(self.graph.objects(item, CD.position)))
+        self.assertEqual({EX["sample-sd-formula"]}, set(self.graph.objects(item, CD.selectsResource)))
+        self.assertEqual({CD.FormulaRole}, set(self.graph.objects(item, CD.communicativeRole)))
+        self.assertEqual({Literal("cd:latex")}, set(self.graph.objects(item, CD.selectionPath)))
+        self.assertEqual({Literal("de")}, set(self.graph.objects(item, CD.language)))
+        self.assertEqual({Literal(True)}, set(self.graph.objects(item, CD.authoredResource)))
 
     def test_r_code_example_is_authored_and_attached_to_the_exercise_scene(self) -> None:
         code = EX["sd-r-code-example"]
