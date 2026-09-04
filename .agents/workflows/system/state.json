@@ -1,23 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 8,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Backend and Data Integration Engineer",
   "activeIssue": 128,
-  "expectedDeliverable": "Review reconciled Draft PR #129 on exact head 1bdab487324d846c788b58afc70a76e6426d7f71. Verify the exact seven-file Issue #128 scope, no feature-substance change after reconciliation, fresh exact-head agent-validator/project-chemie-digital success, clean review/thread state, mergeability and integration freshness. If all technical gates pass but the PR remains Draft, block only on the external Ready-for-review gate and do not merge.",
-  "lastCompletedTurn": "worker: completed the manager-authorized reconciliation-only refresh for Issue #128 / PR #129. Synchronized current workflow-state ancestry, restored current main as merge base, preserved exactly the seven reviewed #128 feature files and returned to manager review pending fresh exact-head validation.",
-  "lastUpdated": "2026-09-04T13:04:00+02:00",
+  "expectedDeliverable": "Wait for the external Ready-for-review action on PR #129. The reconciled exact head 1bdab487324d846c788b58afc70a76e6426d7f71 is technically review-clean: exact-head agent-validator/project-chemie-digital succeeded, the PR diff is exactly the seven reviewed Issue #128 feature files, no feature substance changed during reconciliation, no review threads or change requests are present, the PR is mergeable and integration-fresh. Do not merge while the PR remains Draft. Once Ready-for-review is externally satisfied, perform one final manager acceptance/merge check on the then-current exact head and squash-merge only if every configured gate still passes.",
+  "lastCompletedTurn": "manager: completed the final technical review of reconciled PR #129 on exact head 1bdab487324d846c788b58afc70a76e6426d7f71. Fresh exact-head agent-validator/project-chemie-digital validation succeeded; the PR remains exactly seven reviewed #128 files, is mergeable and current with main, and has no review threads or change requests. Withheld acceptance and merge solely because PR #129 is still Draft. No code, tests, contracts, Chemometrics state or PR feature content were changed in this manager review.",
+  "lastUpdated": "2026-09-04T13:06:00+02:00",
   "lease": {
-    "owner": "interactive-system-manager-final-review-20260904T130400+0200",
-    "claimedAt": "2026-09-04T13:04:00+02:00",
-    "expiresAt": "2026-09-04T15:04:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 68,
+  "blockedBy": [
+    "PR #129 is technically review-clean on exact head 1bdab487324d846c788b58afc70a76e6426d7f71 but remains Draft. External Ready-for-review is the sole remaining acceptance gate."
+  ],
+  "stateRevision": 69,
   "transitionHistory": [
-    {"at":"2026-09-01T17:31:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-final-20260901T172622+0200","reason":"Formally accepted and squash-merged Issue #120 / PR #121 after every configured gate passed, including the isolated synthetic fixture correction. Verified the PR merged, Issue #120 closed completed and the squash result has exactly one parent. No Chemometrics state change or follow-on assignment was made in this merge turn."},
     {"at":"2026-09-02T10:35:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-multi-topic-20260902T103500+0200","reason":"Claimed the System manager turn to define the shared LearningPath multi-topic semantic prerequisite required by the blocked Chemometrics Mean Values path."},
     {"at":"2026-09-02T10:37:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-multi-topic-20260902T103500+0200","reason":"Created System Issue #124 and assigned it to the Semantic Web and Ontology Engineer for the narrow shared LearningPath multi-topic SHACL cardinality relaxation and focused compatibility regressions."},
     {"at":"2026-09-02T10:55:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-20260902T105500+0200","reason":"Claimed System Issue #124 for the Semantic Web and Ontology Engineer within the bounded SHACL/test/handoff scope."},
@@ -40,6 +41,7 @@
     {"at":"2026-09-04T11:07:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-reconcile-authorize-20260904T110600+0200","reason":"Authorized exactly one reconciliation-only System worker turn for Issue #128 / PR #129. The worker must refresh current workflow-state content into the branch, preserve all seven reviewed feature files unchanged, obtain fresh exact-head validation and return to manager review without self-acceptance or merge."},
     {"at":"2026-09-04T12:52:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-reconcile-20260904T125200+0200","reason":"Claimed the manager-authorized reconciliation-only System worker turn for Issue #128 / PR #129. Scope is limited to refreshing current workflow-state content into the PR branch while preserving all seven reviewed #128 feature files unchanged and obtaining fresh exact-head validation."},
     {"at":"2026-09-04T12:57:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-reconcile-20260904T125200+0200","reason":"Completed the reconciliation-only refresh for PR #129 with current main as merge base, zero commits behind, exactly seven reviewed feature files in the PR diff and no feature-substance changes relative to reviewed head 7af75d27f38531ebd4f8f3ad02945fb5507f240e. Fresh exact-head validator status is still missing for reconciled head 1bdab487324d846c788b58afc70a76e6426d7f71, so returned to manager review without self-acceptance or merge."},
-    {"at":"2026-09-04T13:04:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-review-20260904T130400+0200","reason":"Fresh exact-head validator success is present for reconciled PR #129. Claimed the final System manager technical review to verify seven-file scope, review/thread state, mergeability, integration freshness and the remaining Draft/Ready-for-review gate."}
+    {"at":"2026-09-04T13:04:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-review-20260904T130400+0200","reason":"Fresh exact-head validator success is present for reconciled PR #129. Claimed the final System manager technical review to verify seven-file scope, review/thread state, mergeability, integration freshness and the remaining Draft/Ready-for-review gate."},
+    {"at":"2026-09-04T13:06:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-final-review-20260904T130400+0200","reason":"PR #129 is technically review-clean on the reconciled exact head: fresh exact-head validator success, exactly seven reviewed feature files, no feature-substance changes from the reviewed head, no review threads or change requests, mergeable and integration-fresh. Withheld acceptance and merge solely because the PR remains Draft; external Ready-for-review is the only remaining gate."}
   ]
 }
