@@ -1,26 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 9,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
-  "activeIssue": 133,
-  "expectedDeliverable": "Final manager review of Ready-for-review PR #134 after the bounded review-fix turn. Verify fresh exact-head agent-validator/project-chemie-digital success, accepted-review gate, resolved review-thread state, mergeability and integration freshness. Merge only if all gates remain green. Issue #132 remains independent and Chemometrics content/state must not be mutated from this System review.",
-  "lastCompletedTurn": "worker: completed the manager-authorized bounded review-fix turn for Issue #133 / PR #134. Current main ancestry through 5a9192c13a3138448df9b6bf4bff518067f7d455 was incorporated without altering the reviewed KeyPoint semantic contract. The worker added the existing Reveal code kind to PitchComponentKind with focused regression coverage and preserved stable ListItem.id values in static KeyPoint list fallback via data-list-item-id with focused regression coverage. The free-text prompt fallback remains untouched and owned by Issue #132. The two accepted inline review findings were addressed; fresh exact-head validation and accepted external review remain required before manager merge.",
-  "lastUpdated": "2026-09-06T14:47:00+02:00",
+  "activeIssue": null,
+  "expectedDeliverable": "System lane is idle and ready for the next manager-planned increment. Issue #132 remains the next independent preview/runtime fix; Chemometrics scientific KeyPoint authoring belongs to the Chemometrics lane after shared System prerequisites are integrated.",
+  "lastCompletedTurn": "manager: formally accepted and squash-merged Issue #133 / PR #134 after the Ready-for-review external Copilot re-review reported zero new findings and the exact-head agent-validator/project-chemie-digital status was success for 7455c55a3494fe5907ad734745f7b97bd86158aa. Verified squash merge commit f21af04720d35abb2bdbe07243b07c3b0ed6e9b3 and automatic closure of Issue #133. The source-linked KeyPoint/list-block shared contract is now integrated; Issue #132 remains independent and Chemometrics state/content was not mutated.",
+  "lastUpdated": "2026-09-06T15:50:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Fresh exact-head agent-validator/project-chemie-digital validation is required for the review-fixed PR #134 head.",
-    "PR #134 still requires an accepted external review before merge."
-  ],
-  "stateRevision": 89,
+  "blockedBy": [],
+  "stateRevision": 90,
   "transitionHistory": [
-    {"at":"2026-09-04T11:07:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-reconcile-authorize-20260904T110600+0200","reason":"Authorized exactly one reconciliation-only System worker turn for Issue #128 / PR #129. The worker must refresh current workflow-state content into the PR branch while preserving all seven reviewed feature files unchanged and return to manager review without self-acceptance or merge."},
     {"at":"2026-09-04T12:52:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-reconcile-20260904T125200+0200","reason":"Claimed the manager-authorized reconciliation-only System worker turn for Issue #128 / PR #129. Scope is limited to refreshing current workflow-state content into the branch while preserving all seven reviewed #128 feature files unchanged and obtaining fresh exact-head validation."},
     {"at":"2026-09-04T12:57:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-reconcile-20260904T125200+0200","reason":"Completed the reconciliation-only refresh for PR #129 with current main as merge base, zero commits behind, exactly seven reviewed feature files in the PR diff and no feature-substance changes relative to reviewed head 7af75d27f38531ebd4f8f3ad02945fb5507f240e. Fresh exact-head validator status is still missing for reconciled head 1bdab487324d846c788b58afc70a76e6426d7f71, so returned to manager review without self-acceptance or merge."},
     {"at":"2026-09-04T13:04:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-final-review-20260904T130400+0200","reason":"Fresh exact-head validator success is present for reconciled PR #129. Claimed the final System manager technical review to verify seven-file scope, review/thread state, mergeability, integration freshness and the remaining Draft/Ready-for-review gate."},
@@ -44,6 +40,7 @@
     {"at":"2026-09-06T14:38:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-keypoint-review-triage-20260906T143800+0200","reason":"Fresh exact-head validation for reconciled PR #134 is successful. Claimed a bounded manager review-triage turn after Copilot posted two inline renderer-contract findings and a broader free-text prompt finding."},
     {"at":"2026-09-06T14:40:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-keypoint-review-triage-20260906T143800+0200","reason":"Accepted two bounded #133 findings: add the existing Reveal code kind to PitchComponentKind with regression coverage, and retain ListItem.id in static list fallback with regression coverage. Classified the free-text prompt fallback finding as valid but out of scope because it is already owned by independent Issue #132. Authorized exactly one worker correction turn; no implementation, Chemometrics mutation, acceptance or merge was performed."},
     {"at":"2026-09-06T14:42:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-keypoint-review-fixes-20260906T144200+0200","reason":"Claimed the manager-authorized bounded review-fix turn for Issue #133 / Ready-for-review PR #134. Scope is exactly the two accepted review findings plus focused regressions, review-thread closure, handoff/state updates and fresh exact-head validation; Issue #132 and Chemometrics content/state remain out of scope."},
-    {"at":"2026-09-06T14:47:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-keypoint-review-fixes-20260906T144200+0200","reason":"Completed the bounded review-fix turn for PR #134. Added code to PitchComponentKind with focused component-mapping regression and preserved stable ListItem.id in static KeyPoint list fallback with focused runtime regression. The free-text prompt fallback was left untouched for Issue #132. Returned to manager review without self-acceptance or merge; fresh exact-head validation and accepted external review remain required."}
+    {"at":"2026-09-06T14:47:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-keypoint-review-fixes-20260906T144200+0200","reason":"Completed the bounded review-fix turn for PR #134. Added code to PitchComponentKind with focused component-mapping regression and preserved stable ListItem.id in static KeyPoint list fallback with focused runtime regression. The free-text prompt fallback was left untouched for Issue #132. Returned to manager review without self-acceptance or merge; fresh exact-head validation and accepted external review remain required."},
+    {"at":"2026-09-06T15:50:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-keypoint-final-merge-20260906T155000+0200","reason":"Final manager gates passed for Issue #133 / PR #134: Ready-for-review external Copilot re-review reported zero new findings, exact-head agent-validator/project-chemie-digital was success for 7455c55a3494fe5907ad734745f7b97bd86158aa, prior inline findings were resolved, and GitHub reported mergeable true. Squash-merged PR #134 as f21af04720d35abb2bdbe07243b07c3b0ed6e9b3, verified Issue #133 closed completed, and returned the System lane to idle manager state without mutating Chemometrics content/state or Issue #132."}
   ]
 }
