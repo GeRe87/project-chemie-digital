@@ -60,9 +60,23 @@ For v1, each `cd:KeyPoint` has exactly one `cd:body` language literal. This keep
 - `tests/test_keypoint_scene_semantics.py`
 - `packages/core/test/list-block.test.ts`
 - `packages/renderer-reveal/test/list-block.test.ts`
+- `packages/renderer-reveal/test/pitch-theme.test.ts`
 - `packages/renderer-self-study/test/list-block.test.ts`
 - `apps/pitch/test/list-preview.test.ts`
 - `.agents/handoffs/issue-133-keypoint-semantics.md`
+
+## Review follow-up
+
+The post-reconciliation review identified two bounded #133 defects and one independent #132 defect.
+
+Addressed in the #133 review-fix turn:
+
+- `PitchComponentKind` now includes the already-supported Reveal `code` node kind; a focused regression maps a real code node through `createPitchComponentDocument()` and asserts the resulting component kind remains `code`.
+- Static KeyPoint list fallback now retains each stable `ListItem.id` as `data-list-item-id`; a focused runtime regression asserts both fixture item identities are present in the generated markup.
+
+Explicitly not addressed here:
+
+- The free-text prompt fallback defect remains owned by Issue #132 and branch `agent/132-generic-scene-preview`.
 
 ## Validation
 
@@ -72,7 +86,7 @@ Required manager evidence remains:
 
 - fresh `agent-validator/project-chemie-digital` success on the exact PR head;
 - PR scope/review/thread/mergeability checks;
-- external Ready-for-review gate before merge.
+- accepted external review before merge.
 
 ## Boundaries preserved
 
