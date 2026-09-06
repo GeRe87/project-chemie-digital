@@ -191,6 +191,12 @@ class KeyPointSemanticTests(unittest.TestCase):
         self.assertEqual("ex:keypoint-system-point-one", block["items"][0]["source"][0]["resourceId"])
         self.assertEqual("cd:body", block["items"][0]["source"][0]["relationPath"])
 
+    def test_static_fallback_preserves_stable_list_item_identity(self) -> None:
+        document = RUNTIME.compile_scene_document(runtime_fixture(), selected_path())
+        rendered = RUNTIME.static_fallback({"sceneDocuments": [document]})
+        self.assertIn('data-list-item-id="ex:keypoint-system-point-one--list-item"', rendered)
+        self.assertIn('data-list-item-id="ex:keypoint-system-point-two--list-item"', rendered)
+
     def test_runtime_rejects_missing_keypoints(self) -> None:
         with self.assertRaisesRegex(ValueError, "KeyPointRole requires linked KeyPoints"):
             RUNTIME.compile_scene_document(runtime_fixture(include_points=False), selected_path())

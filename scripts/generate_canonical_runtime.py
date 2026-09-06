@@ -480,7 +480,7 @@ def static_fallback(artifact: dict[str, Any]) -> str:
             if block["kind"] == "list":
                 tag = "ol" if block["listStyle"] == "ordered" else "ul"
                 items = "".join(
-                    f'<li{fallback_attributes(item["source"])}>{html.escape(item["text"])}</li>'
+                    f'<li data-list-item-id="{html.escape(item["id"], quote=True)}"{fallback_attributes(item["source"])}>{html.escape(item["text"])}</li>'
                     for item in block["items"]
                 )
                 blocks.append(
