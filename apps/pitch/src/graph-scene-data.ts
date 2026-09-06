@@ -2,7 +2,7 @@ import runtimeArtifact from "./generated/canonical-runtime.json" with { type: "j
 import { validateSceneDocument, type SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
 
-interface CanonicalRuntimeArtifact {
+export interface CanonicalRuntimeArtifact {
   readonly artifactVersion: "1.0";
   readonly datasetFingerprint: string;
   readonly datasetSnapshot: RdfDatasetSnapshot;
@@ -19,11 +19,18 @@ export const STANDARD_DEVIATION_PATH_ID = "ex:path-standard-deviation";
 export const canonicalDatasetSnapshot = artifact.datasetSnapshot;
 export const canonicalDatasetFingerprint = artifact.datasetFingerprint;
 
-export function compilePitchSceneDocuments(): readonly SceneDocument[] {
-  if (!artifact.datasetFingerprint.startsWith("sha256:")) throw new Error("Canonical Dataset fingerprint is missing");
-  if (artifact.sceneDocuments.length !== 1) throw new Error("Canonical runtime requires exactly one Standardabweichung SceneDocument");
-  const [document] = artifact.sceneDocuments;
-  if (!document || document.sourcePathId !== STANDARD_DEVIATION_PATH_ID) throw new Error("Canonical Standardabweichung path is missing");
+export function compilePitchSceneDocumentsFromArtifact(candidate: CanonicalRuntimeArtifact): readonly SceneDocument[] {
+  if (candidate.artifactVersion !== "1.0") {
+    throw new Error(`Unsupported canonical runtime artifact: ${String(candidate.artifactVersion)}`);
+  }
+  if (!candidate.datasetFingerprint.startsWith("sha256:")) throw new Error("Canonical Dataset fingerprint is missing");
+  if (candidate.sceneDocuments.length !== 1) throw new Error("Canonical runtime requires exactly one SceneDocument");
+  const [document] = candidate.sceneDocuments;
+  if (!document) throw new Error("Canonical SceneDocument is missing");
   validateSceneDocument(document);
-  return artifact.sceneDocuments;
+  return candidate.sceneDocuments;
+}
+
+export function compilePitchSceneDocuments(): readonly SceneDocument[] {
+  return compilePitchSceneDocumentsFromArtifact(artifact);
 }
