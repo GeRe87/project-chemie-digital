@@ -36,6 +36,27 @@ def artifact_with(block: dict[str, object]) -> dict[str, object]:
 
 
 class PromptStaticFallbackTests(unittest.TestCase):
+    def test_mean_values_runtime_static_fallback_handles_free_text_exercises(self) -> None:
+        artifact = RUNTIME.build_artifact(
+            RUNTIME.CourseUnitPathSelectionRequest(
+                offering_id=f"{RUNTIME.EX}teaching-offering-chemometrics-applied-statistics",
+                placement_id=f"{RUNTIME.EX}unit-placement-chemometrics-mean-values",
+                unit_id=f"{RUNTIME.EX}learning-unit-mean-values",
+                requested_path_id=f"{RUNTIME.EX}path-chemometrics-mean-values-lecture",
+                requested_path_graph_id=(
+                    "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture"
+                ),
+            )
+        )
+        self.assertEqual(
+            "ex:path-chemometrics-mean-values-lecture",
+            artifact["sceneDocuments"][0]["sourcePathId"],
+        )
+        self.assertEqual(8, len(artifact["sceneDocuments"][0]["scenes"]))
+        fallback = RUNTIME.static_fallback(artifact)
+        self.assertIn('class="prompt-fallback"', fallback)
+        self.assertIn('data-source-path-id="ex:path-chemometrics-mean-values-lecture"', fallback)
+
     def test_free_text_prompt_renders_without_options(self) -> None:
         fallback = RUNTIME.static_fallback(
             artifact_with(
