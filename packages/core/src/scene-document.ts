@@ -69,6 +69,18 @@ export interface MediaReferenceBlock extends SceneBlockBase {
   readonly alternativeText: string;
 }
 
+export interface ListItem {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface ListBlock extends SceneBlockBase {
+  readonly kind: "list";
+  readonly listStyle: "unordered" | "ordered";
+  readonly items: readonly ListItem[];
+}
+
 export interface GroupBlock extends SceneBlockBase {
   readonly kind: "group";
   readonly children: readonly SceneBlock[];
@@ -83,7 +95,7 @@ export interface PromptBlock extends SceneBlockBase {
   readonly fallback: string;
 }
 
-export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | GroupBlock | PromptBlock;
+export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock;
 
 export interface Scene {
   readonly id: string;
@@ -135,6 +147,17 @@ function validateDisclosureOrders(blocks: readonly SceneBlock[], label: string):
   }
 }
 
+function validateListItems(items: readonly ListItem[], label: string): void {
+  if (items.length === 0) throw new SceneContractError(`${label} must contain at least one item`);
+  const ids = items.map((item) => item.id);
+  if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate item ids`);
+  for (const item of items) {
+    requireNonEmpty(item.id, `${label} item id`);
+    requireNonEmpty(item.text, `${label} item ${item.id} text`);
+    validateSource(item.source, `${label} item ${item.id} source`);
+  }
+}
+
 function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
@@ -149,6 +172,12 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
     if (block.kind === "group") {
       validateBlocks(block.children, `${label} group ${block.id}`);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
+    }
+    if (block.kind === "list") {
+      if (block.listStyle !== "unordered" && block.listStyle !== "ordered") {
+        throw new SceneContractError(`${label} list ${block.id} listStyle must be ordered or unordered`);
+      }
+      validateListItems(block.items, `${label} list ${block.id}`);
     }
     if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
     if (block.kind === "code") {

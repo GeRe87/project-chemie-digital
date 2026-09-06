@@ -59,6 +59,20 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(shell);
     return;
   }
+  if (block.kind === "list") {
+    const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
+    list.className = "keypoint-list";
+    sourceAttributes(list, block.source);
+    for (const item of block.items) {
+      const listItem = dom.createElement("li");
+      listItem.textContent = item.text;
+      listItem.setAttribute("data-list-item-id", item.id);
+      sourceAttributes(listItem, item.source);
+      list.appendChild(listItem);
+    }
+    parent.appendChild(list);
+    return;
+  }
   if (block.kind === "prompt") {
     const shell = dom.createElement("div");
     shell.className = "live-poll";

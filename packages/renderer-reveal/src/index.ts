@@ -78,6 +78,18 @@ export interface RevealMediaPlan extends RevealNodeBase {
   readonly alternativeText: string;
 }
 
+export interface RevealListItemPlan {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealListPlan extends RevealNodeBase {
+  readonly kind: "list";
+  readonly listStyle: "unordered" | "ordered";
+  readonly items: readonly RevealListItemPlan[];
+}
+
 export interface RevealGroupPlan extends RevealNodeBase {
   readonly kind: "group";
   readonly children: readonly RevealNodePlan[];
@@ -98,6 +110,7 @@ export type RevealNodePlan =
   | RevealMathPlan
   | RevealCodePlan
   | RevealMediaPlan
+  | RevealListPlan
   | RevealGroupPlan
   | RevealPromptPlan;
 
@@ -202,6 +215,13 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         ...(block.version ? { version: block.version } : {}),
         ...(block.integrity ? { integrity: block.integrity } : {}),
         alternativeText: block.alternativeText,
+      };
+    case "list":
+      return {
+        ...baseFor(block, position, options, block.items.map((item) => item.text).join("\n")),
+        kind: "list",
+        listStyle: block.listStyle,
+        items: block.items.map((item) => ({ id: item.id, text: item.text, source: sourceCopy(item.source) })),
       };
     case "group": {
       const children = block.children.map((child, index) => mapBlock(child, index, options));

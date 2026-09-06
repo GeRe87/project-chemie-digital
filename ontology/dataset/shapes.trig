@@ -1,6 +1,7 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/shapes/core> {
@@ -28,6 +29,54 @@
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ;
     sh:property [ sh:path cd:usesResource ; sh:minCount 1 ] .
 
+  cd:KeyPointShape a sh:NodeShape ;
+    sh:targetClass cd:KeyPoint ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [
+      sh:path [ sh:inversePath cd:hasKeyPoint ] ;
+      sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:LearningResource ;
+      sh:message "A KeyPoint must have exactly one owning LearningResource through cd:hasKeyPoint."
+    ] .
+
+  cd:KeyPointOwnerShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:hasKeyPoint ;
+    sh:class cd:LearningResource ;
+    sh:property [ sh:path cd:hasKeyPoint ; sh:minCount 1 ; sh:class cd:KeyPoint ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "KeyPoint positions must be unique within one owning LearningResource." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasKeyPoint ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A KeyPoint sequence must start at position 1." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasKeyPoint ?point .
+        FILTER NOT EXISTS { $this cd:hasKeyPoint ?first . ?first cd:position 1 . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "KeyPoint positions must be contiguous within one owning LearningResource." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasKeyPoint ?point .
+        ?point cd:position ?position .
+        FILTER (?position > 1)
+        FILTER NOT EXISTS {
+          $this cd:hasKeyPoint ?previous .
+          ?previous cd:position ?previousPosition .
+          FILTER (?previousPosition = ?position - 1)
+        }
+      }"""
+    ] .
+
   cd:SceneDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:SceneDefinition ;
     sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
@@ -49,6 +98,30 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole ) ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" ) ] .
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" ) ] ;
+    sh:sparql [
+      sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:KeyPointRole ; cd:selectionPath ?selector .
+        FILTER (?selector != "cd:hasKeyPoint")
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "The cd:hasKeyPoint selector requires KeyPointRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectionPath "cd:hasKeyPoint" ; cd:communicativeRole ?role .
+        FILTER (?role != cd:KeyPointRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "KeyPointRole must select a LearningResource with one or more linked KeyPoints." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:KeyPointRole ; cd:selectsResource ?source .
+        FILTER NOT EXISTS { ?source cd:hasKeyPoint ?point . ?point a cd:KeyPoint . }
+      }"""
+    ] .
 }

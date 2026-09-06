@@ -68,6 +68,18 @@ export interface SelfStudyMediaPlan extends SelfStudyNodeBase {
   readonly alternativeText: string;
 }
 
+export interface SelfStudyListItemPlan {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyListPlan extends SelfStudyNodeBase {
+  readonly kind: "list";
+  readonly listStyle: "unordered" | "ordered";
+  readonly items: readonly SelfStudyListItemPlan[];
+}
+
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
   readonly children: readonly SelfStudyNodePlan[];
@@ -87,6 +99,7 @@ export type SelfStudyNodePlan =
   | SelfStudyMathPlan
   | SelfStudyCodePlan
   | SelfStudyMediaPlan
+  | SelfStudyListPlan
   | SelfStudyGroupPlan
   | SelfStudyPromptPlan;
 
@@ -195,6 +208,13 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         ...(block.version ? { version: block.version } : {}),
         ...(block.integrity ? { integrity: block.integrity } : {}),
         alternativeText: block.alternativeText,
+      };
+    case "list":
+      return {
+        ...baseFor(block, position, block.items.map((item) => item.text).join("\n")),
+        kind: "list",
+        listStyle: block.listStyle,
+        items: block.items.map((item) => ({ id: item.id, text: item.text, source: sourceCopy(item.source) })),
       };
     case "group": {
       const children = orderedBlocks(block.children, block.readingOrder).map((child, index) => mapBlock(child, index));
@@ -319,6 +339,11 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
       return `<p class="self-study-media"><a href="${escapeHtml(node.uri)}" rel="noreferrer noopener">${escapeHtml(node.alternativeText)}</a></p>`;
+    case "list": {
+      const tag = node.listStyle === "ordered" ? "ol" : "ul";
+      const items = node.items.map((item) => `<li data-list-item-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.text)}</li>`).join("");
+      return `<${tag} class="self-study-list">${items}</${tag}>`;
+    }
     case "group":
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
     case "prompt":

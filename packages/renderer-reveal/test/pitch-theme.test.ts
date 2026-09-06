@@ -57,6 +57,27 @@ test("maps a deterministic accessible component document", () => {
   assert.deepEqual(first.sections[0]?.components[0]?.sourceResourceIds, ["ex:knowledge-first"]);
 });
 
+test("preserves code node kind in the pitch component contract", () => {
+  const withCode = structuredClone(plan);
+  withCode.sections[0]!.nodes[0] = {
+    id: "node-code",
+    sourceBlockId: "prose-1",
+    source: [{ resourceId: "ex:code-example" }],
+    kind: "code",
+    language: "python",
+    code: "print(1)",
+    editable: false,
+    executable: false,
+    interactive: false,
+    fallback: "print(1)",
+    staticFallback: "print(1)",
+  };
+
+  const document = createPitchComponentDocument(withCode);
+  assert.equal(document.sections[0]?.components[0]?.kind, "code");
+  assert.equal(document.sections[0]?.components[0]?.sourceNodeId, "node-code");
+});
+
 test("follows explicit section reading order independent of node-array order", () => {
   const permuted = structuredClone(plan);
   permuted.sections[0]!.nodes.reverse();

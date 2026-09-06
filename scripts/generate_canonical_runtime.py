@@ -146,6 +146,39 @@ def selected_literal(
     return value
 
 
+def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> list[tuple[URIRef, int, str]]:
+    predicate = iri(CD, "hasKeyPoint")
+    linked = [value for value in objects(dataset, owner, predicate) if isinstance(value, URIRef)]
+    if not linked:
+        raise ValueError(f"KeyPointRole requires linked KeyPoints for {compact(owner)}")
+    records: list[tuple[URIRef, int, str]] = []
+    seen_positions: set[int] = set()
+    for point in linked:
+        if not is_resource_type(dataset, point, "KeyPoint"):
+            raise ValueError(f"Linked resource {compact(point)} is not a KeyPoint")
+        owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, predicate, point, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if owners != [owner]:
+            raise ValueError(f"KeyPoint {compact(point)} must have exactly one owning LearningResource")
+        position = integer(dataset, point, iri(CD, "position"))
+        if position in seen_positions:
+            raise ValueError(f"KeyPoint positions must be unique for {compact(owner)}")
+        seen_positions.add(position)
+        text = selected_literal(dataset, point, iri(CD, "body"), "cd:body", language)
+        records.append((point, position, text))
+    records.sort(key=lambda record: (record[1], str(record[0])))
+    positions = [position for _point, position, _text in records]
+    if positions != list(range(1, len(records) + 1)):
+        raise ValueError(f"KeyPoint positions must be contiguous for {compact(owner)}")
+    return records
+
+
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -213,6 +246,27 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "text": text, "format": "plain",
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "introduce"},
+                }
+            elif role == "KeyPointRole":
+                if relation_path != "cd:hasKeyPoint":
+                    raise ValueError(f"KeyPointRole requires direct cd:hasKeyPoint selection in {compact(item)}")
+                points = keypoint_sequence(dataset, selected, language)
+                block = {
+                    "id": block_id,
+                    "kind": "list",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "listStyle": "unordered",
+                    "items": [
+                        {
+                            "id": f"{compact(point)}--list-item",
+                            "text": text,
+                            "source": [source_reference(dataset, point, "cd:body")],
+                        }
+                        for point, _point_position, text in points
+                    ],
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
                 }
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
@@ -421,6 +475,16 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'data-language="{html.escape(block["language"], quote=True)}"{fallback_attributes(block["source"])}>'
                     f'<pre><code>{html.escape(block["fallback"])}</code></pre>'
                     f'</div>'
+                )
+                continue
+            if block["kind"] == "list":
+                tag = "ol" if block["listStyle"] == "ordered" else "ul"
+                items = "".join(
+                    f'<li data-list-item-id="{html.escape(item["id"], quote=True)}"{fallback_attributes(item["source"])}>{html.escape(item["text"])}</li>'
+                    for item in block["items"]
+                )
+                blocks.append(
+                    f'<{tag} class="keypoint-list"{fallback_attributes(block["source"])}>{items}</{tag}>'
                 )
                 continue
             if block["kind"] == "prompt":
