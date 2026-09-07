@@ -3,7 +3,7 @@ import { validateSceneDocument, type SceneDocument } from "../../../packages/cor
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
 
 export interface CanonicalRuntimeArtifact {
-  readonly artifactVersion: "1.0";
+  readonly artifactVersion: string;
   readonly datasetFingerprint: string;
   readonly datasetSnapshot: RdfDatasetSnapshot;
   readonly sceneDocuments: readonly SceneDocument[];
