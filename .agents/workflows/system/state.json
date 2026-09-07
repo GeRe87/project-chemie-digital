@@ -1,20 +1,17 @@
 {
   "schemaVersion": 2,
   "cycle": 11,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 138,
-  "expectedDeliverable": "Complete final manager gating for System Issue #138 / PR #139 after the two external review findings were addressed. Wait for fresh exact-head agent-validator/project-chemie-digital success and a clean external re-review on the repaired head; require zero unresolved review threads and mergeable/integration-fresh state before manager-only squash merge. System Issue #141 remains queued next as the prerequisite for Chemometrics #140.",
-  "lastCompletedTurn": "manager: reviewed Copilot's two concrete PR #139 findings and applied bounded renderer review repairs: hide the background world unless an enabled pack is active, and emit deduplicated runtime diagnostics/warnings for failed layer assets while keeping measurement/slide usability intact. Added focused regressions, replied to and resolved both review threads. No semantic or Chemometrics content changes were made. Fresh exact-head validation and external re-review are now required because the PR head changed.",
-  "lastUpdated": "2026-09-07T15:56:00+02:00",
-  "lease": {"owner": null,"claimedAt": null,"expiresAt": null},
-  "blockedBy": [
-    "PR #139 requires fresh exact-head agent-validator/project-chemie-digital success after the review-repair commits",
-    "PR #139 requires a clean configured external re-review on the repaired head before merge"
-  ],
-  "stateRevision": 123,
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": "Use the next System manager turn to plan and assign queued System Issue #141, the language-aware canonical dataset-snapshot / pitch-summary prerequisite for blocked Chemometrics Issue #140. Do not resume Chemometrics #140 until #141 is merged to main.",
+  "lastCompletedTurn": "manager: formally accepted and squash-merged System Issue #138 / PR #139 after exact-head validator success on a07237d663ff6886d59f65e66fb5ff313e968298, zero unresolved review threads, mergeable and integration-fresh state, no new Copilot code findings, and existing Firefox user-acceptance evidence for the browser runtime. Verified PR #139 merged as f1e2ba8ac030048f9ffb60590113a09623ad5f84, Issue #138 closed completed, and the squash commit has exactly one parent. Returned the System lane to idle manager state; #141 remains next and was not assigned in this turn.",
+  "lastUpdated": "2026-09-07T16:33:11+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "blockedBy": [],
+  "stateRevision": 124,
   "transitionHistory": [
     {"at":"2026-09-07T10:34:45+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-issue132-final-merge-20260907T103445+0200","reason":"Final gates passed on exact head 8bd3ba71e6f247a500e98ade1db11dde8e3bdc41: exact-head validator success, Copilot approval recommendation with zero new findings, all review threads resolved, mergeable true and integration-fresh. Squash-merged PR #135 as d841dfc063765f04d675f69b5dc487f5fe6688bb, verified Issue #132 closed completed, and returned the System lane to idle manager state."},
     {"at":"2026-09-07T10:52:05+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-layout-architecture-20260907T105205+0200","reason":"Claimed one bounded System manager planning turn for Issue #136 after confirming PR #135 is integrated, the System lane is idle, the Chemometrics lane is independently idle, and no open PR creates a cross-track or integration conflict."},
@@ -35,6 +32,7 @@
     {"at":"2026-09-07T15:26:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue138-reconcile-20260907T152600+0200","reason":"Claimed one bounded manager reconciliation turn after the user versioned all five tested neon-city WebP assets in PR #139. Scope is limited to integrating current main lifecycle state, confirming clean-clone asset packaging, and returning the PR to fresh exact-head validation/review gates without changing #138 behavior or Chemometrics content."},
     {"at":"2026-09-07T15:27:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-issue138-reconcile-20260907T152600+0200","reason":"Confirmed the five WebP assets are versioned in PR #139 and reconciled the branch with current main while preserving the #138 renderer implementation and blocked Chemometrics #140 state. Cleared packaging/integration blockers and returned to manager waiting only for fresh exact-head validator and configured external review evidence on the reconciled head."},
     {"at":"2026-09-07T15:43:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue138-review-repair-20260907T154300+0200","reason":"Claimed final #138 review gate after exact-head validation succeeded and PR #139 became Ready for review; external Copilot review then identified two bounded renderer-runtime findings requiring repair before merge."},
-    {"at":"2026-09-07T15:56:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-issue138-review-repair-20260907T154300+0200","reason":"Addressed both Copilot findings with bounded background-runtime repairs and focused regressions, replied to and resolved both review threads, and preserved presentation/content boundaries. Returned to manager gate waiting for fresh exact-head validator success and a clean external re-review on the repaired head; no merge performed."}
+    {"at":"2026-09-07T15:56:00+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-issue138-review-repair-20260907T154300+0200","reason":"Addressed both Copilot findings with bounded background-runtime repairs and focused regressions, replied to and resolved both review threads, and preserved presentation/content boundaries. Returned to manager gate waiting for fresh exact-head validator success and a clean external re-review on the repaired head; no merge performed."},
+    {"at":"2026-09-07T16:33:11+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-issue138-final-merge-20260907T163311+0200","reason":"Final #138 gates passed: exact-head validator success, zero unresolved review threads, mergeable and 0-behind integration basis, latest Copilot re-review with zero new findings, and existing Firefox user-acceptance evidence for the browser-runtime surfaces. Squash-merged PR #139 as f1e2ba8ac030048f9ffb60590113a09623ad5f84, verified Issue #138 closed completed and the squash commit has exactly one parent; returned System to idle manager state with #141 queued next."}
   ]
 }
