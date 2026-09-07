@@ -490,9 +490,12 @@ def static_fallback(artifact: dict[str, Any]) -> str:
             if block["kind"] == "prompt":
                 response_mode = block["responseMode"]
                 if response_mode == "single-choice":
+                    prompt_options = block.get("options")
+                    if not prompt_options:
+                        raise ValueError("single-choice prompt requires at least one option")
                     poll_key = block["source"][0]["resourceId"]
                     option_ids = " ".join(source["resourceId"] for source in block["source"][1:])
-                    options = "".join(f'<li>{html.escape(option)}</li>' for option in block["options"])
+                    options = "".join(f'<li>{html.escape(option)}</li>' for option in prompt_options)
                     blocks.append(
                         f'<div class="poll-fallback" data-poll-key="{html.escape(poll_key, quote=True)}" '
                         f'data-poll-option-ids="{html.escape(option_ids, quote=True)}"{fallback_attributes(block["source"])}>'
