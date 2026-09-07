@@ -1,0 +1,121 @@
+.pcd-background-world {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #07101f;
+}
+
+.pcd-background-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: opacity 320ms ease;
+}
+
+.pcd-background-layer {
+  position: absolute;
+  inset: -8vh -3vw;
+  pointer-events: none;
+  will-change: background-position;
+}
+
+.pcd-background-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(1, 6, 14, 0.08) 0%, rgba(1, 6, 14, 0.24) 58%, rgba(1, 6, 14, 0.58) 100%),
+    linear-gradient(180deg, rgba(3, 8, 18, 0.10), rgba(3, 8, 18, 0.42));
+}
+
+body.pcd-background-active {
+  background: #07101f;
+}
+
+body.pcd-background-active .reveal {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  color: #f6fbff;
+}
+
+body.pcd-background-active .reveal .slides section {
+  background: rgba(5, 8, 16, 0.76);
+  border: 1px solid rgba(98, 239, 255, 0.22);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(8px);
+}
+
+body.pcd-background-active .reveal h2 {
+  color: #62efff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+body.pcd-background-active .reveal .lead,
+body.pcd-background-active .reveal .citation,
+body.pcd-background-active .reveal li,
+body.pcd-background-active .reveal p,
+body.pcd-background-active .reveal code {
+  color: #f6fbff;
+}
+
+body.pcd-background-active .reveal .citation {
+  opacity: 0.74;
+}
+
+body.pcd-background-active #view-switch-shell {
+  position: relative;
+  z-index: 40;
+  background: rgba(5, 8, 16, 0.84);
+  color: #f6fbff;
+  border-bottom-color: rgba(98, 239, 255, 0.20);
+  backdrop-filter: blur(10px);
+}
+
+.appearance-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  font-size: 0.92rem;
+}
+
+.appearance-controls label {
+  font-weight: 700;
+}
+
+.appearance-controls select {
+  min-width: 14rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #738590;
+  border-radius: 0.35rem;
+  background: #ffffff;
+  color: #172026;
+  font: inherit;
+}
+
+.appearance-controls select:focus {
+  outline: 3px solid #9b4d00;
+  outline-offset: 3px;
+}
+
+.appearance-controls-hint {
+  opacity: 0.72;
+  font-size: 0.85em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcd-background-stage { transition: none !important; }
+  .pcd-background-layer { will-change: auto; }
+}
+
+@media (max-width: 900px) {
+  body.pcd-background-active .reveal .slides section {
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+  }
+  .appearance-controls { flex-wrap: wrap; }
+  .appearance-controls-hint { width: 100%; }
+}
