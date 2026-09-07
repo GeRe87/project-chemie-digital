@@ -50,11 +50,6 @@ function asDiagnostic(error: unknown, packId?: string): BackgroundDiagnostic {
   };
 }
 
-function backgroundSize(layer: BackgroundLayer): string {
-  if (layer.sizing === "cover-width") return "100% auto";
-  return layer.sizing;
-}
-
 function resolveBrowserAssetUrl(asset: string, packId: string, layerId: string): string {
   const base = document.baseURI || globalThis.location?.href;
   if (!base) {
@@ -77,7 +72,26 @@ function resolveBrowserAssetUrl(asset: string, packId: string, layerId: string):
   return resolved.href;
 }
 
-function createStage(pack: BackgroundPack): HTMLDivElement {
+function objectPosition(anchor: BackgroundLayer["anchor"]): string {
+  if (anchor === "left") return "left center";
+  if (anchor === "right") return "right center";
+  return "center center";
+}
+
+function createTile(assetUrl: string, layer: BackgroundLayer, onLoad: () => void): HTMLImageElement {
+  const image = document.createElement("img");
+  image.className = "pcd-background-tile";
+  image.src = assetUrl;
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  image.draggable = false;
+  image.decoding = "async";
+  image.style.objectPosition = objectPosition(layer.anchor);
+  image.addEventListener("load", onLoad, { once: true });
+  return image;
+}
+
+function createStage(pack: BackgroundPack, onAssetLoad: () => void): HTMLDivElement {
   const stage = document.createElement("div");
   stage.className = "pcd-background-stage";
   stage.dataset.backgroundPackId = pack.id;
@@ -88,15 +102,22 @@ function createStage(pack: BackgroundPack): HTMLDivElement {
     const node = document.createElement("div");
     node.className = "pcd-background-layer";
     node.dataset.backgroundLayerId = layer.id;
+    node.dataset.backgroundSizing = layer.sizing;
+    node.dataset.backgroundAnchor = layer.anchor;
+    node.dataset.backgroundRepeat = layer.repeat;
     const assetUrl = resolveBrowserAssetUrl(layer.asset, pack.id, layer.id);
     node.dataset.backgroundAssetUrl = assetUrl;
-    node.style.backgroundImage = `url("${assetUrl.replaceAll('"', "%22")}")`;
-    node.style.backgroundRepeat = layer.repeat === "y" ? "repeat-y" : "no-repeat";
-    node.style.backgroundPositionX = layer.anchor;
-    node.style.backgroundSize = backgroundSize(layer);
     node.style.opacity = String(layer.opacity);
     node.style.mixBlendMode = layer.blendMode ?? "normal";
     if (layer.filter) node.style.filter = layer.filter;
+
+    const strip = document.createElement("div");
+    strip.className = "pcd-background-strip";
+    const tileCount = layer.repeat === "y" ? 3 : 1;
+    for (let index = 0; index < tileCount; index += 1) {
+      strip.appendChild(createTile(assetUrl, layer, onAssetLoad));
+    }
+    node.appendChild(strip);
     stage.appendChild(node);
   }
 
@@ -104,6 +125,13 @@ function createStage(pack: BackgroundPack): HTMLDivElement {
   vignette.className = "pcd-background-vignette";
   stage.appendChild(vignette);
   return stage;
+}
+
+export function tiledLayerTranslation(offset: number, tileHeight: number): number {
+  if (!Number.isFinite(offset)) throw new BackgroundPackError("INVALID_BACKGROUND_PACK", "Background offset must be finite");
+  if (!Number.isFinite(tileHeight) || tileHeight <= 0) return offset;
+  const normalized = ((offset % tileHeight) + tileHeight) % tileHeight;
+  return normalized - tileHeight;
 }
 
 export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): BackgroundRuntimeHandle {
@@ -153,8 +181,13 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     for (const layer of pack.layers) {
       const node = nodes.find((candidate) => candidate.dataset.backgroundLayerId === layer.id);
       if (!node) continue;
+      const strip = node.querySelector<HTMLElement>(".pcd-background-strip");
+      const tile = node.querySelector<HTMLElement>(".pcd-background-tile");
+      if (!strip || !tile) continue;
       const y = layerOffset(layer, progress, options.reducedMotion);
-      node.style.backgroundPositionY = `${y}px`;
+      const tileHeight = tile.getBoundingClientRect().height;
+      const translatedY = layer.repeat === "y" ? tiledLayerTranslation(y, tileHeight) : y;
+      strip.style.transform = `translate3d(0, ${translatedY}px, 0)`;
     }
   };
 
@@ -193,7 +226,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
     let nextStage: HTMLDivElement;
     try {
-      nextStage = createStage(pack);
+      nextStage = createStage(pack, requestRender);
     } catch (error) {
       diagnostics.push(asDiagnostic(error, pack.id));
       updateActiveClass();
