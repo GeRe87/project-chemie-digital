@@ -65,6 +65,16 @@
     linear-gradient(180deg, rgba(3, 8, 18, 0.10), rgba(3, 8, 18, 0.42));
 }
 
+/* Reveal 5.2.x advances Scroll View by assigning viewport.scrollTop directly.
+   Let the browser animate those CSSOM navigation jumps while preserving normal
+   wheel/touch scrolling. The root rule covers viewport implementations that
+   delegate scrolling to the document element; the Reveal rule covers the
+   current body.reveal-viewport implementation. */
+html:has(body.reveal-viewport.reveal-scroll),
+.reveal-viewport.reveal-scroll {
+  scroll-behavior: smooth;
+}
+
 html:has(body.pcd-background-active) {
   background: #07101f;
 }
@@ -155,6 +165,11 @@ body.pcd-background-active #view-switch-shell {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html:has(body.reveal-viewport.reveal-scroll),
+  .reveal-viewport.reveal-scroll {
+    scroll-behavior: auto !important;
+  }
+
   .pcd-background-stage { transition: none !important; }
   .pcd-background-strip { will-change: auto; }
 }
