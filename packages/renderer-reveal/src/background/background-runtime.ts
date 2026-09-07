@@ -98,13 +98,14 @@ function createStage(pack: BackgroundPack, onAssetLoad: () => void): HTMLDivElem
   stage.setAttribute("aria-hidden", "true");
   stage.style.backgroundColor = pack.baseColor;
 
-  for (const layer of pack.layers) {
+  for (const [layerIndex, layer] of pack.layers.entries()) {
     const node = document.createElement("div");
     node.className = "pcd-background-layer";
     node.dataset.backgroundLayerId = layer.id;
     node.dataset.backgroundSizing = layer.sizing;
     node.dataset.backgroundAnchor = layer.anchor;
     node.dataset.backgroundRepeat = layer.repeat;
+    node.style.zIndex = String(layerIndex + 1);
     const assetUrl = resolveBrowserAssetUrl(layer.asset, pack.id, layer.id);
     node.dataset.backgroundAssetUrl = assetUrl;
     node.style.opacity = String(layer.opacity);
