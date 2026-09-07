@@ -1,21 +1,19 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 140,
-  "expectedDeliverable": "Implement Chemometrics Issue #140 on a dedicated agent branch: author source-linked KeyPoints for exactly eleven existing Mean Values explanatory resources while preserving their detailed cd:body values; switch only the corresponding Mean Values StatementRole/cd:body SceneItems to KeyPointRole/cd:hasKeyPoint; prove slide compilation yields ordered list blocks while text-summary/knowledge projection retains the detailed owner prose; preserve headings, formulas, examples, exercises, shared contracts, System state and active System Issue #138 / PR #139; add focused regressions, Draft PR and structured handoff.",
-  "lastCompletedTurn": "manager: created Chemometrics Issue #140 after confirming merged Issue #133 already provides the required source-linked KeyPoint/ListBlock contract and the existing summary projection can retain owner cd:body detail text from block-level sources. Assigned one bounded Semantic Web and Ontology Engineer worker turn for the eleven Mean Values explanatory resources only, with no System or renderer changes.",
-  "lastUpdated": "2026-09-07T14:34:00+02:00",
-  "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
-  },
-  "blockedBy": [],
-  "stateRevision": 60,
+  "expectedDeliverable": "Resume Chemometrics Issue #140 only after System Issue #141 is merged to main. Then author source-linked KeyPoints for the eleven specified Mean Values explanatory resources, switch only their SceneItems to KeyPointRole + cd:hasKeyPoint, and prove slides show concise lists while the text summary retains the original detailed owner cd:body.",
+  "lastCompletedTurn": "worker: inspected the merged KeyPoint/list contract before content mutation and found that the canonical dataset snapshot currently drops English Mean Values cd:body@en from entity descriptions because snapshot metadata is German-only. Returned #140 to manager without changing scientific content. System Issue #141 now tracks the required language-aware snapshot/summary prerequisite.",
+  "lastUpdated": "2026-09-07T15:02:00+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "blockedBy": [
+    "System Issue #141 must be merged to main before Chemometrics Issue #140 resumes"
+  ],
+  "stateRevision": 61,
   "transitionHistory": [
     {"at":"2026-09-03T09:04:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-merge-20260903T090100+0200","reason":"Accepted and squash-merged Issue #126 / PR #127 after all gates passed."},
     {"at":"2026-09-03T09:10:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-mean-values-scenes-gate-20260903T091000+0200","reason":"Claimed Mean Values scene-authoring contract evaluation."},
@@ -31,6 +29,8 @@
     {"at":"2026-09-04T13:50:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-final-merge-20260904T135000+0200","reason":"External Ready-for-review is now satisfied for PR #131. Reconfirmed unchanged exact head, fresh validator success, six-file bounded scope and mergeable true; claimed final acceptance and squash-merge turn."},
     {"at":"2026-09-04T13:52:00+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-chemometrics-manager-final-merge-20260904T135000+0200","reason":"Formally accepted and squash-merged Issue #130 / PR #131 after all gates passed. Verified PR merged, Issue #130 closed completed via Closes #130, and squash commit c4c87596e383ef1c4e53d2b1456d8e7358e1de29 has exactly one parent. Returned Chemometrics lane to idle manager state without System mutation."},
     {"at":"2026-09-07T14:33:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-chemometrics-manager-keypoints-20260907T143300+0200","reason":"Claimed one bounded Chemometrics manager turn for the user-requested KeyPoints-on-slides / detailed-text-in-summary behavior after confirming Issue #133 already supplies the shared semantic/runtime contract and the Chemometrics lane is independently idle."},
-    {"at":"2026-09-07T14:34:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-keypoints-20260907T143300+0200","reason":"Created Chemometrics Issue #140 and authorized exactly one Semantic Web and Ontology Engineer worker turn to author source-linked KeyPoints for eleven Mean Values explanatory resources and switch only their scene selectors to KeyPointRole + cd:hasKeyPoint, with focused regressions proving detailed owner prose remains available to the text summary. No System state or active #138/#139 work is touched."}
+    {"at":"2026-09-07T14:34:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-chemometrics-manager-keypoints-20260907T143300+0200","reason":"Created Chemometrics Issue #140 and authorized exactly one Semantic Web and Ontology Engineer worker turn to author source-linked KeyPoints for eleven Mean Values explanatory resources and switch only their scene selectors to KeyPointRole + cd:hasKeyPoint, with focused regressions proving detailed owner prose remains available to the text summary. No System state or active #138/#139 work is touched."},
+    {"at":"2026-09-07T14:47:00+02:00","from":"ready/worker","to":"blocked/manager","actor":"interactive-chemometrics-worker-keypoints-20260907T144700+0200","reason":"Stopped before scientific content mutation after proving the current canonical dataset snapshot omits English Mean Values cd:body@en from entity descriptions. Returned #140 to manager with a structured blocker handoff; no KeyPoints, SceneItems, formulas, examples or exercises were changed."},
+    {"at":"2026-09-07T15:02:00+02:00","from":"blocked/manager","to":"blocked/manager","actor":"interactive-chemometrics-manager-keypoints-blocker-20260907T150200+0200","reason":"Accepted the worker blocker classification and linked Chemometrics #140 to queued System prerequisite #141. #140 remains blocked with its original bounded content scope unchanged until #141 is merged to main."}
   ]
 }
