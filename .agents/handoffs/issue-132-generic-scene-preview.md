@@ -4,7 +4,7 @@
 
 System-owned Runtime/Application Engineer turn for Issue #132. The existing historical branch implementation was first rebased/reset onto the current `main` assigned by the manager, so the final diff is based on merged Issue #133 rather than the pre-KeyPoint September 4 snapshot.
 
-Draft PR: #135 — `Fix generic SceneDocument preview and free-text fallback`
+PR: #135 — `Fix generic SceneDocument preview and free-text fallback`
 Branch: `agent/132-generic-scene-preview`
 
 ## Implemented
@@ -14,6 +14,7 @@ Branch: `agent/132-generic-scene-preview`
 `scripts/generate_canonical_runtime.py` now branches `prompt` fallback rendering by `responseMode`:
 
 - `single-choice` retains the existing `poll-fallback`, `data-poll-key`, `data-poll-option-ids`, option list and source/provenance behavior;
+- `single-choice` now fails closed with a clear `ValueError` before rendering when `options` is missing or empty, addressing the accepted Copilot review finding without changing the SceneDocument contract;
 - `free-text` emits a `prompt-fallback` containing the authored prompt and source/provenance without accessing or requiring `options`;
 - any unsupported response mode raises `ValueError` and therefore fails closed.
 
@@ -21,7 +22,7 @@ The merged #133 `list` fallback remains immediately before the prompt branch and
 
 ### 2. Generic single-SceneDocument pitch loading
 
-`apps/pitch/src/graph-scene-data.ts` now exposes a small `compilePitchSceneDocumentsFromArtifact()` boundary used by the normal `compilePitchSceneDocuments()` path.
+`apps/pitch/src/graph-scene-data.ts` exposes a small `compilePitchSceneDocumentsFromArtifact()` boundary used by the normal `compilePitchSceneDocuments()` path.
 
 The loader still enforces:
 
@@ -31,27 +32,40 @@ The loader still enforces:
 - non-missing document;
 - `validateSceneDocument()`.
 
-It no longer requires the document's `sourcePathId` to equal `ex:path-standard-deviation`. `STANDARD_DEVIATION_PATH_ID` remains only as the historical fixture identity used by existing Standard Deviation regression assertions; it is not a loader gate.
+`CanonicalRuntimeArtifact.artifactVersion` is now typed as `string` rather than the literal `"1.0"`, so the explicit version guard remains meaningful for arbitrary candidate artifacts. This addresses the second accepted Copilot review finding without changing `SceneDocument 1.0`.
+
+The loader no longer requires the document's `sourcePathId` to equal `ex:path-standard-deviation`. `STANDARD_DEVIATION_PATH_ID` remains only as the historical fixture identity used by existing Standard Deviation regression assertions; it is not a loader gate.
 
 ## Regression coverage
 
 ### Python
 
-New `tests/test_prompt_static_fallback.py` covers:
+`tests/test_prompt_static_fallback.py` covers:
 
 - actual Chemometrics Mean Values selection through `CourseUnitPathSelectionRequest`, confirming eight scenes and a generated `prompt-fallback` without the previous `KeyError: 'options'`;
 - isolated free-text prompt fallback without an `options` field;
-- unchanged single-choice poll fallback metadata/options;
+- unchanged valid single-choice poll fallback metadata/options;
+- missing and empty single-choice `options` fail closed with the intended `ValueError`;
 - fail-closed unsupported prompt response modes;
 - preservation of the #133 KeyPoint list fallback and stable list-item identity.
 
 ### Pitch / TypeScript
 
-`apps/pitch/test/preview.test.ts` adds coverage that:
+`apps/pitch/test/preview.test.ts` covers that:
 
 - a valid single SceneDocument whose `sourcePathId` is changed to `ex:path-chemometrics-mean-values-lecture` is accepted by the generic loader;
 - exactly-one-SceneDocument cardinality remains enforced;
+- a candidate artifact with `artifactVersion: "2.0"` is rejected at runtime;
 - the existing Standard Deviation fixture tests remain unchanged and continue to exercise backwards compatibility.
+
+## Review resolution
+
+The two Copilot findings submitted on the reconciled Ready-for-review head were accepted by the manager and fixed in one bounded correction turn:
+
+1. missing/empty single-choice `options` now fail closed before rendering;
+2. runtime artifact version typing no longer makes the explicit version guard type-level dead code.
+
+Both inline review threads have been replied to with the implemented fix/regression and resolved. A fresh exact-head validator result and a clean external re-review remain required before manager merge.
 
 ## Boundaries preserved
 
@@ -69,14 +83,14 @@ That dev-start overwrite remains a separate follow-on concern and is not part of
 
 ## Validation / manager gates
 
-The worker environment did not provide an executable repository checkout, so no local test-success claim is made. The focused regressions are committed and PR #135 must receive fresh exact-head `agent-validator/project-chemie-digital` success before manager acceptance.
+The worker environment does not provide an executable repository checkout, so no local test-success claim is made. The focused regressions are committed and PR #135 must receive fresh exact-head `agent-validator/project-chemie-digital` success after the final workflow-state commit before manager acceptance.
 
 Manager review should additionally verify:
 
 1. final PR diff remains bounded to the two production fixes, focused regressions, this handoff and System workflow state;
-2. #133 list fallback remains unchanged in substance;
-3. no Chemometrics state/content or ontology/SHACL changes entered the PR;
-4. review/thread state and mergeability are clean;
-5. Ready-for-review/external review policy is satisfied before merge.
+2. both accepted Copilot review findings remain resolved and external re-review reports no new blockers;
+3. #133 list fallback remains unchanged in substance;
+4. no Chemometrics state/content or ontology/SHACL changes entered the PR;
+5. mergeability and integration freshness remain clean.
 
 The worker does not self-accept or merge.
