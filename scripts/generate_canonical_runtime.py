@@ -488,15 +488,30 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                 )
                 continue
             if block["kind"] == "prompt":
-                poll_key = block["source"][0]["resourceId"]
-                option_ids = " ".join(source["resourceId"] for source in block["source"][1:])
-                options = "".join(f'<li>{html.escape(option)}</li>' for option in block["options"])
-                blocks.append(
-                    f'<div class="poll-fallback" data-poll-key="{html.escape(poll_key, quote=True)}" '
-                    f'data-poll-option-ids="{html.escape(option_ids, quote=True)}"{fallback_attributes(block["source"])}>'
-                    f'<p>{html.escape(block["prompt"])}</p><ul>{options}</ul>'
-                    f'</div>'
-                )
+                response_mode = block.get("responseMode")
+                if response_mode is None:
+                    raise ValueError("Prompt block requires responseMode")
+                if response_mode == "single-choice":
+                    prompt_options = block.get("options")
+                    if not prompt_options:
+                        raise ValueError("single-choice prompt requires at least one option")
+                    poll_key = block["source"][0]["resourceId"]
+                    option_ids = " ".join(source["resourceId"] for source in block["source"][1:])
+                    options = "".join(f'<li>{html.escape(option)}</li>' for option in prompt_options)
+                    blocks.append(
+                        f'<div class="poll-fallback" data-poll-key="{html.escape(poll_key, quote=True)}" '
+                        f'data-poll-option-ids="{html.escape(option_ids, quote=True)}"{fallback_attributes(block["source"])}>'
+                        f'<p>{html.escape(block["prompt"])}</p><ul>{options}</ul>'
+                        f'</div>'
+                    )
+                elif response_mode == "free-text":
+                    blocks.append(
+                        f'<div class="prompt-fallback"{fallback_attributes(block["source"])}>'
+                        f'<p>{html.escape(block["prompt"])}</p>'
+                        f'</div>'
+                    )
+                else:
+                    raise ValueError(f"Unsupported prompt response mode: {response_mode}")
                 continue
             tag = "h2" if block["intent"]["kind"] == "introduce" else "blockquote" if block["intent"]["kind"] == "explain" else "cite"
             class_name = ' class="lead"' if tag == "blockquote" else ' class="citation"' if tag == "cite" else ""

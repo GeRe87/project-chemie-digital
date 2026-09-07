@@ -5,6 +5,7 @@ import {
   canonicalDatasetFingerprint,
   canonicalDatasetSnapshot,
   compilePitchSceneDocuments,
+  compilePitchSceneDocumentsFromArtifact,
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
@@ -23,6 +24,46 @@ test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {
   assert.ok(canonicalDatasetSnapshot.entities.some((entity) => entity.id === "ex:standard-deviation"));
   assert.ok(canonicalDatasetSnapshot.entities.some((entity) => entity.id === "ex:sd-precision-poll"));
   assert.ok(canonicalDatasetSnapshot.statements.length > 0);
+});
+
+test("accepts a valid single SceneDocument without Standard Deviation path coupling", () => {
+  const [standardDeviationDocument] = compilePitchSceneDocuments();
+  assert.ok(standardDeviationDocument);
+  const genericPathId = "ex:path-chemometrics-mean-values-lecture";
+  const documents = compilePitchSceneDocumentsFromArtifact({
+    artifactVersion: "1.0",
+    datasetFingerprint: canonicalDatasetFingerprint,
+    datasetSnapshot: canonicalDatasetSnapshot,
+    sceneDocuments: [{ ...standardDeviationDocument, sourcePathId: genericPathId }],
+  });
+  assert.equal(documents.length, 1);
+  assert.equal(documents[0]?.sourcePathId, genericPathId);
+});
+
+test("retains exactly-one SceneDocument cardinality for generic preview loading", () => {
+  assert.throws(
+    () => compilePitchSceneDocumentsFromArtifact({
+      artifactVersion: "1.0",
+      datasetFingerprint: canonicalDatasetFingerprint,
+      datasetSnapshot: canonicalDatasetSnapshot,
+      sceneDocuments: [],
+    }),
+    /exactly one SceneDocument/,
+  );
+});
+
+test("rejects unsupported canonical runtime artifact versions at runtime", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  assert.throws(
+    () => compilePitchSceneDocumentsFromArtifact({
+      artifactVersion: "2.0",
+      datasetFingerprint: canonicalDatasetFingerprint,
+      datasetSnapshot: canonicalDatasetSnapshot,
+      sceneDocuments: [document],
+    }),
+    /Unsupported canonical runtime artifact: 2\.0/,
+  );
 });
 
 test("renders the complete nine-scene Standardabweichung path with RDF provenance", () => {
