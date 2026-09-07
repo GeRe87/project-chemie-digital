@@ -1,7 +1,7 @@
 .pcd-background-world {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   overflow: hidden;
   pointer-events: none;
   background: #07101f;
@@ -10,6 +10,7 @@
 .pcd-background-stage {
   position: absolute;
   inset: 0;
+  z-index: 0;
   overflow: hidden;
   transition: opacity 320ms ease;
 }
@@ -57,20 +58,34 @@
 .pcd-background-vignette {
   position: absolute;
   inset: 0;
+  z-index: 100;
+  pointer-events: none;
   background:
     radial-gradient(circle at 50% 42%, rgba(1, 6, 14, 0.08) 0%, rgba(1, 6, 14, 0.24) 58%, rgba(1, 6, 14, 0.58) 100%),
     linear-gradient(180deg, rgba(3, 8, 18, 0.10), rgba(3, 8, 18, 0.42));
 }
 
-body.pcd-background-active {
+html:has(body.pcd-background-active) {
   background: #07101f;
+}
+
+body.pcd-background-active,
+body.pcd-background-active.reveal-viewport {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 body.pcd-background-active .reveal {
   position: relative;
   z-index: 2;
-  background: transparent;
+  background: transparent !important;
   color: #f6fbff;
+}
+
+body.pcd-background-active .reveal .backgrounds,
+body.pcd-background-active .reveal .slide-background {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 body.pcd-background-active .reveal .slides section {
