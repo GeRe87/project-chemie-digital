@@ -34,6 +34,19 @@ export interface BackgroundRuntimeHandle {
   destroy(): void;
 }
 
+interface LayerRuntimeBinding {
+  readonly layer: BackgroundLayer;
+  readonly strip: HTMLDivElement;
+  readonly tile: HTMLImageElement;
+  tileHeight: number;
+  lastTransform: string;
+}
+
+interface StageRuntime {
+  readonly element: HTMLDivElement;
+  readonly bindings: readonly LayerRuntimeBinding[];
+}
+
 function asDiagnostic(error: unknown, packId?: string): BackgroundDiagnostic {
   if (error instanceof BackgroundPackError) {
     return {
@@ -81,23 +94,24 @@ function objectPosition(anchor: BackgroundLayer["anchor"]): string {
 function createTile(assetUrl: string, layer: BackgroundLayer, onLoad: () => void): HTMLImageElement {
   const image = document.createElement("img");
   image.className = "pcd-background-tile";
-  image.src = assetUrl;
   image.alt = "";
   image.setAttribute("aria-hidden", "true");
   image.draggable = false;
   image.decoding = "async";
   image.style.objectPosition = objectPosition(layer.anchor);
   image.addEventListener("load", onLoad, { once: true });
+  image.src = assetUrl;
   return image;
 }
 
-function createStage(pack: BackgroundPack, onAssetLoad: () => void): HTMLDivElement {
+function createStage(pack: BackgroundPack, onAssetLoad: () => void): StageRuntime {
   const stage = document.createElement("div");
   stage.className = "pcd-background-stage";
   stage.dataset.backgroundPackId = pack.id;
   stage.setAttribute("aria-hidden", "true");
   stage.style.backgroundColor = pack.baseColor;
 
+  const bindings: LayerRuntimeBinding[] = [];
   for (const [layerIndex, layer] of pack.layers.entries()) {
     const node = document.createElement("div");
     node.className = "pcd-background-layer";
@@ -114,18 +128,20 @@ function createStage(pack: BackgroundPack, onAssetLoad: () => void): HTMLDivElem
 
     const strip = document.createElement("div");
     strip.className = "pcd-background-strip";
-    const tileCount = layer.repeat === "y" ? 3 : 1;
-    for (let index = 0; index < tileCount; index += 1) {
+    const primaryTile = createTile(assetUrl, layer, onAssetLoad);
+    strip.appendChild(primaryTile);
+    if (layer.repeat === "y") {
       strip.appendChild(createTile(assetUrl, layer, onAssetLoad));
     }
     node.appendChild(strip);
     stage.appendChild(node);
+    bindings.push({ layer, strip, tile: primaryTile, tileHeight: 0, lastTransform: "" });
   }
 
   const vignette = document.createElement("div");
   vignette.className = "pcd-background-vignette";
   stage.appendChild(vignette);
-  return stage;
+  return { element: stage, bindings };
 }
 
 export function tiledLayerTranslation(offset: number, tileHeight: number): number {
@@ -164,8 +180,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   let enabled = true;
   let activePackId: string | undefined;
   let progress = 0;
-  let currentStage: HTMLDivElement | undefined;
+  let currentStage: StageRuntime | undefined;
   let pendingFrame: number | undefined;
+  let pendingMeasurementFrame: number | undefined;
   let cleanupTimer: ReturnType<typeof globalThis.setTimeout> | undefined;
 
   const updateActiveClass = () => {
@@ -175,20 +192,19 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   const render = () => {
     pendingFrame = undefined;
     if (destroyed || !currentStage || !activePackId || !enabled) return;
-    const pack = packs.get(activePackId);
-    if (!pack) return;
 
-    const nodes = [...currentStage.querySelectorAll<HTMLElement>("[data-background-layer-id]")];
-    for (const layer of pack.layers) {
-      const node = nodes.find((candidate) => candidate.dataset.backgroundLayerId === layer.id);
-      if (!node) continue;
-      const strip = node.querySelector<HTMLElement>(".pcd-background-strip");
-      const tile = node.querySelector<HTMLElement>(".pcd-background-tile");
-      if (!strip || !tile) continue;
-      const y = layerOffset(layer, progress, options.reducedMotion);
-      const tileHeight = tile.getBoundingClientRect().height;
-      const translatedY = layer.repeat === "y" ? tiledLayerTranslation(y, tileHeight) : y;
-      strip.style.transform = `translate3d(0, ${translatedY}px, 0)`;
+    // Scroll hot path: style writes only. DOM queries and layout measurements are
+    // intentionally excluded so the browser can keep the moving layers on the compositor.
+    for (const binding of currentStage.bindings) {
+      const y = layerOffset(binding.layer, progress, options.reducedMotion);
+      const translatedY = binding.layer.repeat === "y"
+        ? tiledLayerTranslation(y, binding.tileHeight)
+        : y;
+      const transform = `translate3d(0, ${translatedY.toFixed(3)}px, 0)`;
+      if (transform !== binding.lastTransform) {
+        binding.strip.style.transform = transform;
+        binding.lastTransform = transform;
+      }
     }
   };
 
@@ -197,9 +213,27 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     pendingFrame = raf(render);
   };
 
-  const removeOldStage = (stage: HTMLDivElement | undefined) => {
+  const measureCurrentStage = () => {
+    pendingMeasurementFrame = undefined;
+    if (destroyed || !currentStage) return;
+    for (const binding of currentStage.bindings) {
+      const height = binding.tile.offsetHeight;
+      if (height > 0) binding.tileHeight = height;
+    }
+    requestRender();
+  };
+
+  const requestMeasurement = () => {
+    if (pendingMeasurementFrame !== undefined || destroyed) return;
+    pendingMeasurementFrame = raf(measureCurrentStage);
+  };
+
+  const onResize = () => requestMeasurement();
+  window.addEventListener("resize", onResize, { passive: true });
+
+  const removeOldStage = (stage: StageRuntime | undefined) => {
     if (!stage || stage === currentStage) return;
-    stage.remove();
+    stage.element.remove();
   };
 
   const setPack = (packId: string | undefined): readonly BackgroundDiagnostic[] => {
@@ -207,7 +241,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
     if (!packId) {
       activePackId = undefined;
-      currentStage?.remove();
+      currentStage?.element.remove();
       currentStage = undefined;
       world.dataset.backgroundPackId = "none";
       world.style.backgroundColor = "";
@@ -225,9 +259,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
       return [...diagnostics];
     }
 
-    let nextStage: HTMLDivElement;
+    let nextStage: StageRuntime;
     try {
-      nextStage = createStage(pack, requestRender);
+      nextStage = createStage(pack, requestMeasurement);
     } catch (error) {
       diagnostics.push(asDiagnostic(error, pack.id));
       updateActiveClass();
@@ -236,13 +270,14 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
     const previous = currentStage;
     const shouldCrossfade = !options.reducedMotion && Boolean(previous);
-    nextStage.style.opacity = shouldCrossfade ? "0" : "1";
-    world.appendChild(nextStage);
+    nextStage.element.style.opacity = shouldCrossfade ? "0" : "1";
+    world.appendChild(nextStage.element);
     currentStage = nextStage;
     activePackId = pack.id;
     world.dataset.backgroundPackId = pack.id;
     world.style.backgroundColor = pack.baseColor;
     updateActiveClass();
+    requestMeasurement();
     requestRender();
 
     if (!shouldCrossfade) {
@@ -250,8 +285,8 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     } else {
       raf(() => {
         if (destroyed || currentStage !== nextStage) return;
-        nextStage.style.opacity = "1";
-        if (previous) previous.style.opacity = "0";
+        nextStage.element.style.opacity = "1";
+        if (previous) previous.element.style.opacity = "0";
       });
       if (cleanupTimer !== undefined) cancelTimeout(cleanupTimer);
       cleanupTimer = scheduleTimeout(() => {
@@ -297,7 +332,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     destroy() {
       if (destroyed) return;
       destroyed = true;
+      window.removeEventListener("resize", onResize);
       if (pendingFrame !== undefined) cancelRaf(pendingFrame);
+      if (pendingMeasurementFrame !== undefined) cancelRaf(pendingMeasurementFrame);
       if (cleanupTimer !== undefined) cancelTimeout(cleanupTimer);
       world.remove();
       options.host.classList.remove("pcd-background-active");
