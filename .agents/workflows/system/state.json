@@ -1,21 +1,20 @@
 {
   "schemaVersion": 2,
   "cycle": 10,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "Software Architect",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": null,
   "activeIssue": 136,
-  "expectedDeliverable": "Reconciliation-only worker turn for System Issue #136 / Draft PR #137. Reconcile agent/136-responsive-layout-architecture onto current main without changing the accepted ADR-0012 architecture. Preserve docs/adr/0012-deterministic-responsive-layout-inference.md and the structured handoff in substance. Restore the historical Issue #132 transitionHistory reason exactly as it exists on current main; do not rewrite prior audit history. Keep the PR scope to ADR-0012, handoff and necessary System workflow lifecycle state only. Return to manager with a mergeable current integration basis; the changed final head then requires fresh exact-head agent-validator/project-chemie-digital success before Ready-for-review/acceptance. No production code, CSS/templates, SceneDocument schema, ontology/SHACL/TriG, Chemometrics, learner-state, navigation or layout-policy implementation changes are authorized.",
-  "lastCompletedTurn": "manager: technically reviewed Issue #136 / Draft PR #137 on head 111b8ddf0e94ee5682cfe50b03ea7e9bd06aea96. ADR-0012 and the handoff satisfy the architecture scope and Issue #136 acceptance intent: renderer-neutral SceneDocument evidence remains unchanged while responsive layout analysis, policy, candidate selection, diagnostics, overflow recovery and physical-frame realization remain renderer-owned. Exact-head agent-validator/project-chemie-digital succeeded and Chemometrics is independently idle. Ready-for-review was withheld because the branch is behind current main by System workflow-state lifecycle commits and the PR state diff also rewrites one historical Issue #132 transition reason. Authorized one reconciliation-only Software Architect turn; no architecture changes are requested.",
-  "lastUpdated": "2026-09-07T11:26:00+02:00",
-  "lease": {
-    "owner": "interactive-system-worker-issue136-reconcile-20260907T112600+0200",
-    "claimedAt": "2026-09-07T11:26:00+02:00",
-    "expiresAt": "2026-09-07T13:26:00+02:00"
-  },
-  "blockedBy": [],
-  "stateRevision": 112,
+  "expectedDeliverable": "Manager review of reconciled Draft PR #137 for System Issue #136. Re-read the final PR head, verify fresh exact-head agent-validator/project-chemie-digital success after reconciliation, confirm the PR remains scoped to ADR-0012 plus the structured handoff, verify Ready-for-review and configured accepted-review gates, zero unresolved review blockers, mergeability and integration freshness, then squash-merge only if every gate is green. No architecture/content changes are requested.",
+  "lastCompletedTurn": "worker: completed the manager-authorized reconciliation-only turn for Issue #136 / Draft PR #137. Merged current main lifecycle state into agent/136-responsive-layout-architecture without changing ADR-0012 or the handoff, restored the historical Issue #132 transitionHistory text exactly from current main, and verified the reconciled branch was zero commits behind main with a two-file feature diff containing only ADR-0012 and the handoff before final dispatcher return. No production code, CSS/templates, SceneDocument schema, ontology/SHACL/TriG, Chemometrics, learner-state, navigation or layout-policy implementation changed. Fresh exact-head validation is required on the final PR head; worker did not self-accept or merge.",
+  "lastUpdated": "2026-09-07T11:27:30+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "blockedBy": [
+    "Fresh exact-head agent-validator/project-chemie-digital success is required for the reconciled final PR #137 head.",
+    "PR #137 remains Draft; Ready-for-review plus the configured accepted-review gate are required before manager acceptance/merge."
+  ],
+  "stateRevision": 113,
   "transitionHistory": [
     {"at":"2026-09-06T15:50:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-keypoint-final-merge-20260906T155000+0200","reason":"Final manager gates passed for Issue #133 / PR #134; squash-merged PR #134 and returned the System lane to idle manager state without mutating Chemometrics content/state or Issue #132."},
     {"at":"2026-09-06T15:56:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-issue132-plan-20260906T155600+0200","reason":"Claimed one bounded System manager planning turn for open Issue #132 and inspected the existing implementation branch against current main."},
@@ -39,6 +38,7 @@
     {"at":"2026-09-07T11:06:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue136-layout-architecture-20260907T105900+0200","reason":"Completed Issue #136 architecture work with ADR-0012, structured handoff and Draft PR #137. Returned to manager without self-acceptance or merge; fresh exact-head validator success, Ready-for-review and configured review/merge gates remain required."},
     {"at":"2026-09-07T11:22:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue136-review-20260907T112200+0200","reason":"Fresh exact-head validator success is now present for PR #137. Claimed one bounded manager review turn to verify ADR-0012 scope/architecture, Ready-for-review, external review state, mergeability and cross-track integration freshness."},
     {"at":"2026-09-07T11:24:30+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-issue136-review-20260907T112200+0200","reason":"ADR-0012 is technically review-clean and the exact-head validator succeeded, but Ready-for-review was withheld because the branch is behind current main by System workflow-state lifecycle commits and the PR state diff rewrites one historical Issue #132 transition reason. Authorized exactly one reconciliation-only Software Architect turn; no architecture/content change is requested."},
-    {"at":"2026-09-07T11:26:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue136-reconcile-20260907T112600+0200","reason":"Claimed the manager-authorized reconciliation-only Software Architect turn for Issue #136 / Draft PR #137. Scope is limited to integrating current main lifecycle state, restoring exact historical audit text and returning a fresh mergeable branch without changing ADR-0012 or any production/semantic content."}
+    {"at":"2026-09-07T11:26:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue136-reconcile-20260907T112600+0200","reason":"Claimed the manager-authorized reconciliation-only Software Architect turn for Issue #136 / Draft PR #137. Scope is limited to integrating current main lifecycle state, restoring exact historical audit text and returning a fresh mergeable branch without changing ADR-0012 or any production/semantic content."},
+    {"at":"2026-09-07T11:27:30+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue136-reconcile-20260907T112600+0200","reason":"Completed reconciliation-only Issue #136 turn: merged current main lifecycle state into PR #137, restored exact historical #132 audit text, preserved ADR-0012 and handoff unchanged, and verified a two-file feature diff with zero branch lag before final dispatcher return. Fresh exact-head validation and external review gates remain mandatory; no self-acceptance or merge performed."}
   ]
 }
