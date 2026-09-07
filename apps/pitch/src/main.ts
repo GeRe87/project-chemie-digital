@@ -78,7 +78,7 @@ const deck = new Reveal({
   height: 900,
   margin: 0.04,
   ...(appearance.view === "scroll"
-    ? { view: "scroll", scrollProgress: true, scrollSnap: "proximity", scrollLayout: "full" }
+    ? { view: "scroll", scrollProgress: true, scrollSnap: false, scrollLayout: "full" }
     : { scrollActivationWidth: 0 }),
 });
 await deck.initialize();
