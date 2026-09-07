@@ -91,7 +91,33 @@ function objectPosition(anchor: BackgroundLayer["anchor"]): string {
   return "center center";
 }
 
-function createTile(assetUrl: string, layer: BackgroundLayer, onLoad: () => void): HTMLImageElement {
+export function shouldShowBackgroundWorld(enabled: boolean, activePackId: string | undefined): boolean {
+  return enabled && Boolean(activePackId);
+}
+
+export function registerBackgroundAssetFailure(
+  seenFailures: Set<string>,
+  packId: string,
+  layerId: string,
+  assetUrl: string,
+): BackgroundDiagnostic | undefined {
+  const key = JSON.stringify([packId, layerId, assetUrl]);
+  if (seenFailures.has(key)) return undefined;
+  seenFailures.add(key);
+  return {
+    code: "INVALID_BACKGROUND_LAYER_ASSET",
+    message: `Failed to load background layer asset ${assetUrl}`,
+    packId,
+    layerId,
+  };
+}
+
+function createTile(
+  assetUrl: string,
+  layer: BackgroundLayer,
+  onLoad: () => void,
+  onError: () => void,
+): HTMLImageElement {
   const image = document.createElement("img");
   image.className = "pcd-background-tile";
   image.alt = "";
@@ -100,11 +126,19 @@ function createTile(assetUrl: string, layer: BackgroundLayer, onLoad: () => void
   image.decoding = "async";
   image.style.objectPosition = objectPosition(layer.anchor);
   image.addEventListener("load", onLoad, { once: true });
+  image.addEventListener("error", () => {
+    onError();
+    onLoad();
+  }, { once: true });
   image.src = assetUrl;
   return image;
 }
 
-function createStage(pack: BackgroundPack, onAssetLoad: () => void): StageRuntime {
+function createStage(
+  pack: BackgroundPack,
+  onAssetLoad: () => void,
+  onAssetError: (packId: string, layerId: string, assetUrl: string) => void,
+): StageRuntime {
   const stage = document.createElement("div");
   stage.className = "pcd-background-stage";
   stage.dataset.backgroundPackId = pack.id;
@@ -128,10 +162,11 @@ function createStage(pack: BackgroundPack, onAssetLoad: () => void): StageRuntim
 
     const strip = document.createElement("div");
     strip.className = "pcd-background-strip";
-    const primaryTile = createTile(assetUrl, layer, onAssetLoad);
+    const reportError = () => onAssetError(pack.id, layer.id, assetUrl);
+    const primaryTile = createTile(assetUrl, layer, onAssetLoad, reportError);
     strip.appendChild(primaryTile);
     if (layer.repeat === "y") {
-      strip.appendChild(createTile(assetUrl, layer, onAssetLoad));
+      strip.appendChild(createTile(assetUrl, layer, onAssetLoad, reportError));
     }
     node.appendChild(strip);
     stage.appendChild(node);
@@ -158,6 +193,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   const cancelTimeout = options.clearTimeout ?? globalThis.clearTimeout.bind(globalThis);
   const packs = new Map<string, BackgroundPack>();
   const diagnostics: BackgroundDiagnostic[] = [];
+  const failedAssets = new Set<string>();
 
   for (const pack of options.packs) {
     try {
@@ -174,6 +210,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   const world = document.createElement("div");
   world.className = "pcd-background-world";
   world.setAttribute("aria-hidden", "true");
+  world.hidden = true;
   options.host.prepend(world);
 
   let destroyed = false;
@@ -186,7 +223,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   let cleanupTimer: ReturnType<typeof globalThis.setTimeout> | undefined;
 
   const updateActiveClass = () => {
-    options.host.classList.toggle("pcd-background-active", enabled && Boolean(activePackId));
+    const active = shouldShowBackgroundWorld(enabled, activePackId);
+    options.host.classList.toggle("pcd-background-active", active);
+    world.hidden = !active;
   };
 
   const render = () => {
@@ -228,6 +267,13 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     pendingMeasurementFrame = raf(measureCurrentStage);
   };
 
+  const reportAssetFailure = (packId: string, layerId: string, assetUrl: string) => {
+    const diagnostic = registerBackgroundAssetFailure(failedAssets, packId, layerId, assetUrl);
+    if (!diagnostic) return;
+    diagnostics.push(diagnostic);
+    globalThis.console?.warn(`[pcd-background] ${diagnostic.message}`);
+  };
+
   const onResize = () => requestMeasurement();
   window.addEventListener("resize", onResize, { passive: true });
 
@@ -261,7 +307,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
     let nextStage: StageRuntime;
     try {
-      nextStage = createStage(pack, requestMeasurement);
+      nextStage = createStage(pack, requestMeasurement, reportAssetFailure);
     } catch (error) {
       diagnostics.push(asDiagnostic(error, pack.id));
       updateActiveClass();
@@ -299,7 +345,6 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
   const setEnabled = (next: boolean) => {
     enabled = next;
-    world.hidden = !enabled;
     updateActiveClass();
     if (enabled) requestRender();
   };
