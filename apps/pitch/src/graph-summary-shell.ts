@@ -21,6 +21,8 @@ const PREFIXES: Readonly<Record<string, string>> = Object.freeze({
   rdfs: "http://www.w3.org/2000/01/rdf-schema#",
 });
 
+const LANGUAGE_SUFFIX = /@([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)$/;
+
 function absoluteIri(value: string): string {
   if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(value) || value.startsWith("urn:")) return value;
   const separator = value.indexOf(":");
@@ -78,6 +80,23 @@ function blockBindings(scene: Scene, snapshot: RdfDatasetSnapshot): readonly Sce
   }).filter((binding) => binding.resourceIds.length + binding.provenanceResourceIds.length > 0));
 }
 
+export function sceneProjectionLanguage(scene: Scene): string {
+  const languages = [...new Set(scene.blocks.flatMap((block) =>
+    block.source.flatMap((source) => {
+      if (!source.relationPath) return [];
+      const match = LANGUAGE_SUFFIX.exec(source.relationPath);
+      return match?.[1] ? [match[1].toLowerCase()] : [];
+    }),
+  ))].sort();
+  if (languages.length === 0) {
+    throw new Error(`Scene ${scene.id} has no authored language-bearing relation path`);
+  }
+  if (languages.length !== 1) {
+    throw new Error(`Scene ${scene.id} has conflicting authored languages: ${languages.join(", ")}`);
+  }
+  return languages[0]!;
+}
+
 export function projectSceneSummary(snapshotInput: RdfDatasetSnapshot, scene: Scene): SceneKnowledgeNetworkDocument {
   const snapshot = absolutizeDatasetSnapshot(snapshotInput);
   const bindings = blockBindings(scene, snapshot);
@@ -89,7 +108,7 @@ export function projectSceneSummary(snapshotInput: RdfDatasetSnapshot, scene: Sc
     sceneRevision: snapshot.identity,
     bindings,
     directRelationAllowlist: Object.freeze({ version: "scene-relation-paths-1", relationIds: Object.freeze(relationIds) }),
-    language: "de",
+    language: sceneProjectionLanguage(scene),
   });
   const result = projectSceneKnowledgeNetwork(snapshot, request);
   if (!result.document) throw new Error(result.diagnostics[0]?.message ?? "Wissenskontext konnte nicht erzeugt werden.");
