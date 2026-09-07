@@ -61,10 +61,11 @@ const BLENDS = new Set<BackgroundBlendMode>(["normal", "screen"]);
 const SIZINGS = new Set<BackgroundSizing>(["cover-width", "cover", "contain"]);
 
 function assertLocalAsset(asset: string, packId: string, layerId: string): void {
-  if (!asset || !asset.trim()) {
+  const normalized = asset.trim();
+  if (!normalized) {
     throw new BackgroundPackError("INVALID_BACKGROUND_LAYER_ASSET", "Background layer asset must be non-empty", packId, layerId);
   }
-  if (/^(?:https?:|data:|javascript:|blob:)/i.test(asset.trim())) {
+  if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(normalized)) {
     throw new BackgroundPackError(
       "INVALID_BACKGROUND_LAYER_ASSET",
       "Background layer asset must resolve from the local application bundle",
