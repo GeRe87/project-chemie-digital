@@ -17,8 +17,41 @@
 .pcd-background-layer {
   position: absolute;
   inset: -8vh -3vw;
+  overflow: hidden;
   pointer-events: none;
-  will-change: background-position;
+}
+
+.pcd-background-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pcd-background-tile {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pcd-background-layer[data-background-sizing="cover"] .pcd-background-tile {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.pcd-background-layer[data-background-sizing="contain"] .pcd-background-tile {
+  width: 100%;
+  height: 100vh;
+  object-fit: contain;
 }
 
 .pcd-background-vignette {
@@ -108,7 +141,7 @@ body.pcd-background-active #view-switch-shell {
 
 @media (prefers-reduced-motion: reduce) {
   .pcd-background-stage { transition: none !important; }
-  .pcd-background-layer { will-change: auto; }
+  .pcd-background-strip { will-change: auto; }
 }
 
 @media (max-width: 900px) {
