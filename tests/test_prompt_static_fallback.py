@@ -121,6 +121,20 @@ class PromptStaticFallbackTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "single-choice prompt requires at least one option"):
                     RUNTIME.static_fallback(artifact_with(block))
 
+    def test_prompt_without_response_mode_fails_closed(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Prompt block requires responseMode"):
+            RUNTIME.static_fallback(
+                artifact_with(
+                    {
+                        "id": "ex:missing-response-mode--block",
+                        "kind": "prompt",
+                        "source": [{"resourceId": "ex:missing-response-mode"}],
+                        "prompt": "Malformed prompt.",
+                        "fallback": "Malformed prompt.",
+                    }
+                )
+            )
+
     def test_unsupported_prompt_response_mode_fails_closed(self) -> None:
         with self.assertRaisesRegex(ValueError, "Unsupported prompt response mode: multiple-choice"):
             RUNTIME.static_fallback(
