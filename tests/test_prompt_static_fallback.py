@@ -105,6 +105,22 @@ class PromptStaticFallbackTests(unittest.TestCase):
         self.assertIn('data-poll-option-ids="ex:option-a ex:option-b"', fallback)
         self.assertIn("<li>A</li><li>B</li>", fallback)
 
+    def test_single_choice_prompt_without_options_fails_closed(self) -> None:
+        for options in (None, []):
+            block: dict[str, object] = {
+                "id": "ex:poll--block",
+                "kind": "prompt",
+                "source": [{"resourceId": "ex:poll", "relationPath": "cd:hasAudiencePoll"}],
+                "prompt": "Choose one.",
+                "responseMode": "single-choice",
+                "fallback": "Choose one.",
+            }
+            if options is not None:
+                block["options"] = options
+            with self.subTest(options=options):
+                with self.assertRaisesRegex(ValueError, "single-choice prompt requires at least one option"):
+                    RUNTIME.static_fallback(artifact_with(block))
+
     def test_unsupported_prompt_response_mode_fails_closed(self) -> None:
         with self.assertRaisesRegex(ValueError, "Unsupported prompt response mode: multiple-choice"):
             RUNTIME.static_fallback(
