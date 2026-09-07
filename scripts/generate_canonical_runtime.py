@@ -488,7 +488,9 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                 )
                 continue
             if block["kind"] == "prompt":
-                response_mode = block["responseMode"]
+                response_mode = block.get("responseMode")
+                if response_mode is None:
+                    raise ValueError("Prompt block requires responseMode")
                 if response_mode == "single-choice":
                     prompt_options = block.get("options")
                     if not prompt_options:
