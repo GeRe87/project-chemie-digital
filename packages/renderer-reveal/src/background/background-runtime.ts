@@ -112,6 +112,14 @@ export function registerBackgroundAssetFailure(
   };
 }
 
+export function collectStaleBackgroundStages<T>(
+  mountedStages: Iterable<T>,
+  nextStage: T,
+  previousStage: T | undefined,
+): T[] {
+  return [...mountedStages].filter((stage) => stage !== nextStage && stage !== previousStage);
+}
+
 function createTile(
   assetUrl: string,
   layer: BackgroundLayer,
@@ -221,6 +229,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   let pendingFrame: number | undefined;
   let pendingMeasurementFrame: number | undefined;
   let cleanupTimer: ReturnType<typeof globalThis.setTimeout> | undefined;
+  const mountedStages = new Set<StageRuntime>();
 
   const updateActiveClass = () => {
     const active = shouldShowBackgroundWorld(enabled, activePackId);
@@ -277,9 +286,15 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   const onResize = () => requestMeasurement();
   window.addEventListener("resize", onResize, { passive: true });
 
+  const removeStage = (stage: StageRuntime | undefined) => {
+    if (!stage) return;
+    stage.element.remove();
+    mountedStages.delete(stage);
+  };
+
   const removeOldStage = (stage: StageRuntime | undefined) => {
     if (!stage || stage === currentStage) return;
-    stage.element.remove();
+    removeStage(stage);
   };
 
   const setPack = (packId: string | undefined): readonly BackgroundDiagnostic[] => {
@@ -287,8 +302,12 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
 
     if (!packId) {
       activePackId = undefined;
-      currentStage?.element.remove();
       currentStage = undefined;
+      for (const stage of [...mountedStages]) removeStage(stage);
+      if (cleanupTimer !== undefined) {
+        cancelTimeout(cleanupTimer);
+        cleanupTimer = undefined;
+      }
       world.dataset.backgroundPackId = "none";
       world.style.backgroundColor = "";
       updateActiveClass();
@@ -318,10 +337,20 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     const shouldCrossfade = !options.reducedMotion && Boolean(previous);
     nextStage.element.style.opacity = shouldCrossfade ? "0" : "1";
     world.appendChild(nextStage.element);
+    mountedStages.add(nextStage);
     currentStage = nextStage;
     activePackId = pack.id;
     world.dataset.backgroundPackId = pack.id;
     world.style.backgroundColor = pack.baseColor;
+
+    if (cleanupTimer !== undefined) {
+      cancelTimeout(cleanupTimer);
+      cleanupTimer = undefined;
+    }
+    for (const staleStage of collectStaleBackgroundStages(mountedStages, nextStage, previous)) {
+      removeStage(staleStage);
+    }
+
     updateActiveClass();
     requestMeasurement();
     requestRender();
@@ -334,7 +363,6 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
         nextStage.element.style.opacity = "1";
         if (previous) previous.element.style.opacity = "0";
       });
-      if (cleanupTimer !== undefined) cancelTimeout(cleanupTimer);
       cleanupTimer = scheduleTimeout(() => {
         cleanupTimer = undefined;
         removeOldStage(previous);
@@ -381,6 +409,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
       if (pendingFrame !== undefined) cancelRaf(pendingFrame);
       if (pendingMeasurementFrame !== undefined) cancelRaf(pendingMeasurementFrame);
       if (cleanupTimer !== undefined) cancelTimeout(cleanupTimer);
+      mountedStages.clear();
       world.remove();
       options.host.classList.remove("pcd-background-active");
       currentStage = undefined;
