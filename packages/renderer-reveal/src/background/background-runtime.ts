@@ -200,8 +200,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
       return [...diagnostics];
     }
 
-    nextStage.style.opacity = options.reducedMotion ? "1" : "0";
     const previous = currentStage;
+    const shouldCrossfade = !options.reducedMotion && Boolean(previous);
+    nextStage.style.opacity = shouldCrossfade ? "0" : "1";
     world.appendChild(nextStage);
     currentStage = nextStage;
     activePackId = pack.id;
@@ -210,7 +211,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     updateActiveClass();
     requestRender();
 
-    if (options.reducedMotion) {
+    if (!shouldCrossfade) {
       removeOldStage(previous);
     } else {
       raf(() => {
