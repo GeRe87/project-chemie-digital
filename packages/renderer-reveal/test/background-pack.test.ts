@@ -11,6 +11,7 @@ import {
   createScrollProgressSource,
 } from "../src/background/background-progress.ts";
 import {
+  collectStaleBackgroundStages,
   registerBackgroundAssetFailure,
   shouldShowBackgroundWorld,
   tiledLayerTranslation,
@@ -61,6 +62,20 @@ test("asset-load failures are diagnosed at most once per pack/layer/asset", () =
   assert.equal(seen.size, 2);
 });
 
+test("rapid pack switching keeps only the next and immediately fading previous stages", () => {
+  const stageA = { id: "a" };
+  const stageB = { id: "b" };
+  const stageC = { id: "c" };
+  assert.deepEqual(
+    collectStaleBackgroundStages([stageA, stageB, stageC], stageC, stageB),
+    [stageA],
+  );
+  assert.deepEqual(
+    collectStaleBackgroundStages([stageB, stageC], stageC, undefined),
+    [stageB],
+  );
+});
+
 test("BackgroundPack rejects duplicate layer ids", () => {
   const invalid: BackgroundPack = { ...pack, layers: [pack.layers[0]!, { ...pack.layers[0]! }] };
   assert.throws(() => validateBackgroundPack(invalid), (error) => error instanceof BackgroundPackError && error.code === "DUPLICATE_BACKGROUND_LAYER_ID");
@@ -69,6 +84,10 @@ test("BackgroundPack rejects duplicate layer ids", () => {
 test("BackgroundPack rejects remote assets and invalid opacity", () => {
   assert.throws(
     () => validateBackgroundPack({ ...pack, layers: [{ ...pack.layers[0]!, asset: "https://example.test/layer.webp" }] }),
+    (error) => error instanceof BackgroundPackError && error.code === "INVALID_BACKGROUND_LAYER_ASSET",
+  );
+  assert.throws(
+    () => validateBackgroundPack({ ...pack, layers: [{ ...pack.layers[0]!, asset: "//example.test/layer.webp" }] }),
     (error) => error instanceof BackgroundPackError && error.code === "INVALID_BACKGROUND_LAYER_ASSET",
   );
   assert.throws(
