@@ -10,6 +10,7 @@ import {
   createDeckProgressSource,
   createScrollProgressSource,
 } from "../src/background/background-progress.ts";
+import { tiledLayerTranslation } from "../src/background/background-runtime.ts";
 
 const pack: BackgroundPack = {
   version: "1.0",
@@ -23,6 +24,13 @@ test("BackgroundPack 1.0 validates deterministic local layers", () => {
   assert.doesNotThrow(() => validateBackgroundPack(pack));
   assert.equal(layerOffset(pack.layers[0]!, 400), -200);
   assert.equal(layerOffset(pack.layers[0]!, 400, true), 0);
+});
+
+test("tiled layer translation wraps negative parallax offsets without a visible gap", () => {
+  assert.equal(tiledLayerTranslation(0, 1000), -1000);
+  assert.equal(tiledLayerTranslation(-200, 1000), -200);
+  assert.equal(tiledLayerTranslation(-1200, 1000), -200);
+  assert.equal(tiledLayerTranslation(250, 1000), -750);
 });
 
 test("BackgroundPack rejects duplicate layer ids", () => {
