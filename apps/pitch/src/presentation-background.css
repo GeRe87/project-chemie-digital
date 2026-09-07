@@ -5,6 +5,7 @@
   overflow: hidden;
   pointer-events: none;
   background: #07101f;
+  contain: strict;
 }
 
 .pcd-background-stage {
@@ -13,6 +14,7 @@
   z-index: 0;
   overflow: hidden;
   transition: opacity 320ms ease;
+  contain: paint;
 }
 
 .pcd-background-layer {
@@ -20,6 +22,7 @@
   inset: -8vh -3vw;
   overflow: hidden;
   pointer-events: none;
+  contain: paint;
 }
 
 .pcd-background-strip {
@@ -29,6 +32,7 @@
   width: 100%;
   pointer-events: none;
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .pcd-background-tile {
@@ -67,9 +71,7 @@
 
 /* Reveal 5.2.x advances Scroll View by assigning viewport.scrollTop directly.
    Let the browser animate those CSSOM navigation jumps while preserving normal
-   wheel/touch scrolling. The root rule covers viewport implementations that
-   delegate scrolling to the document element; the Reveal rule covers the
-   current body.reveal-viewport implementation. */
+   wheel/touch scrolling. */
 html:has(body.reveal-viewport.reveal-scroll),
 .reveal-viewport.reveal-scroll {
   scroll-behavior: smooth;
@@ -106,6 +108,19 @@ body.pcd-background-active .reveal .slides section {
   backdrop-filter: blur(8px);
 }
 
+/* Full-screen backdrop filters and blend modes force expensive repaint/composite
+   work while the Scroll View is moving. In scroll mode we keep the same visual
+   hierarchy with a slightly more opaque panel but stay on compositor-only transforms. */
+body.pcd-background-active.reveal-scroll .reveal .slides section {
+  background: rgba(5, 8, 16, 0.86);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+  backdrop-filter: none;
+}
+
+body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="rain-fog"] {
+  mix-blend-mode: normal !important;
+}
+
 body.pcd-background-active .reveal h2 {
   color: #62efff;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
@@ -130,6 +145,11 @@ body.pcd-background-active #view-switch-shell {
   color: #f6fbff;
   border-bottom-color: rgba(98, 239, 255, 0.20);
   backdrop-filter: blur(10px);
+}
+
+body.pcd-background-active.reveal-scroll #view-switch-shell {
+  background: rgba(5, 8, 16, 0.95);
+  backdrop-filter: none;
 }
 
 .appearance-controls {
@@ -177,6 +197,8 @@ body.pcd-background-active #view-switch-shell {
 @media (max-width: 900px) {
   body.pcd-background-active .reveal .slides section {
     border-radius: 12px;
+  }
+  body.pcd-background-active:not(.reveal-scroll) .reveal .slides section {
     backdrop-filter: blur(5px);
   }
   .appearance-controls { flex-wrap: wrap; }
