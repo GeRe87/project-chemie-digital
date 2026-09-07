@@ -55,6 +55,28 @@ function backgroundSize(layer: BackgroundLayer): string {
   return layer.sizing;
 }
 
+function resolveBrowserAssetUrl(asset: string, packId: string, layerId: string): string {
+  const base = document.baseURI || globalThis.location?.href;
+  if (!base) {
+    throw new BackgroundPackError(
+      "INVALID_BACKGROUND_PACK",
+      `Cannot resolve browser asset URL for background layer ${layerId}`,
+      packId,
+      layerId,
+    );
+  }
+  const resolved = new URL(asset, base);
+  if (resolved.protocol !== "http:" && resolved.protocol !== "https:") {
+    throw new BackgroundPackError(
+      "INVALID_BACKGROUND_PACK",
+      `Background layer ${layerId} resolved to unsupported URL scheme ${resolved.protocol}`,
+      packId,
+      layerId,
+    );
+  }
+  return resolved.href;
+}
+
 function createStage(pack: BackgroundPack): HTMLDivElement {
   const stage = document.createElement("div");
   stage.className = "pcd-background-stage";
@@ -66,7 +88,9 @@ function createStage(pack: BackgroundPack): HTMLDivElement {
     const node = document.createElement("div");
     node.className = "pcd-background-layer";
     node.dataset.backgroundLayerId = layer.id;
-    node.style.backgroundImage = `url("${layer.asset.replaceAll('"', "%22")}")`;
+    const assetUrl = resolveBrowserAssetUrl(layer.asset, pack.id, layer.id);
+    node.dataset.backgroundAssetUrl = assetUrl;
+    node.style.backgroundImage = `url("${assetUrl.replaceAll('"', "%22")}")`;
     node.style.backgroundRepeat = layer.repeat === "y" ? "repeat-y" : "no-repeat";
     node.style.backgroundPositionX = layer.anchor;
     node.style.backgroundSize = backgroundSize(layer);
@@ -167,7 +191,15 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
       return [...diagnostics];
     }
 
-    const nextStage = createStage(pack);
+    let nextStage: HTMLDivElement;
+    try {
+      nextStage = createStage(pack);
+    } catch (error) {
+      diagnostics.push(asDiagnostic(error, pack.id));
+      updateActiveClass();
+      return [...diagnostics];
+    }
+
     nextStage.style.opacity = options.reducedMotion ? "1" : "0";
     const previous = currentStage;
     world.appendChild(nextStage);
