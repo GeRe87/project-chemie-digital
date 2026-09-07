@@ -77,6 +77,14 @@ html:has(body.reveal-viewport.reveal-scroll),
   scroll-behavior: smooth;
 }
 
+/* Keep programmatic Next/Previous navigation on Reveal's generated trigger grid.
+   mandatory snapping prevents relative scrollTop updates from accumulating drift,
+   while scroll-snap-stop ensures one trigger cannot be skipped by a single step. */
+.reveal-viewport.reveal-scroll .scroll-snap-point,
+.reveal-viewport.reveal-scroll .scroll-page {
+  scroll-snap-stop: always;
+}
+
 html:has(body.pcd-background-active) {
   background: #07101f;
 }
