@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "python ../../scripts/generate_canonical_runtime.py && vite --host 127.0.0.1",
+    "generate:chemometrics": "python ../../scripts/generate_canonical_runtime.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-mean-values --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-mean-values --path-id https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
+    "dev": "npm run generate:chemometrics && vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:standard-deviation": "python ../../scripts/generate_canonical_runtime.py && vite --host 127.0.0.1 --port 5173 --strictPort",
     "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {

@@ -1,50 +1,131 @@
-# Standardabweichung pitch preview
+# Chemometrics Reveal preview
 
-This app is the browser-visible Reveal.js renderer for the canonical Standardabweichung learning path. Audience-visible semantic content is authored only in the TriG Dataset under `ontology/dataset/`.
+This app is the browser-visible Reveal.js renderer for the canonical course content. Audience-visible scientific content remains authored only in the TriG Dataset under `ontology/dataset/`.
 
-## Start locally
+For local presentation work, the default development script now selects the canonical **Chemometrics and Applied Statistics → Mean Values** learning path and applies the renderer-owned Chemometrics presentation profile:
 
-```bash
+- native Reveal.js scroll view by default;
+- reusable multi-layer `chemometrics-neon-city` background pack;
+- deck-view override for classical presenting;
+- runtime background switching without changing semantic content.
+
+## Start locally on Windows
+
+From the repository root:
+
+```powershell
 npm install
 npm run pitch:dev
 ```
 
-The development command first regenerates `apps/pitch/src/generated/canonical-runtime.json` from the canonical TriG Dataset and then starts Vite. The generated JSON is disposable, ignored by Git and checked for deterministic freshness during validation; it is not an authored content source.
+Vite is pinned to:
 
-Open the local URL printed by Vite. The runtime installs a no-network guard before Reveal.js initialisation, so all dependencies and assets must be available from the local workspace.
+```text
+http://127.0.0.1:5173/
+```
+
+The command first generates the disposable runtime artifact for:
+
+```text
+TeachingOffering: ex:teaching-offering-chemometrics-applied-statistics
+LearningUnit:     ex:learning-unit-mean-values
+LearningPath:     ex:path-chemometrics-mean-values-lecture
+```
+
+and then starts Vite.
+
+## Useful URLs
+
+Default Chemometrics scroll view with the neon-city parallax background:
+
+```text
+http://127.0.0.1:5173/
+```
+
+Explicit scroll view:
+
+```text
+http://127.0.0.1:5173/?view=scroll&background=chemometrics-neon-city
+```
+
+Classical Reveal deck view with the same background:
+
+```text
+http://127.0.0.1:5173/?view=deck&background=chemometrics-neon-city
+```
+
+Scroll view without a presentation background:
+
+```text
+http://127.0.0.1:5173/?view=scroll&background=none
+```
+
+To inspect the historical Standard Deviation preview instead:
+
+```powershell
+npm --workspace @project-chemie-digital/pitch run dev:standard-deviation
+```
+
+## Switching the background while presenting
+
+The control bar contains a labelled **Background** selector. Changing it swaps the renderer-owned background pack while preserving the current Reveal navigation/scroll position.
+
+`Alt+B` toggles between the first registered background pack and `None`.
+
+The active selection is ephemeral presentation state. It is not written to `SceneDocument`, RDF, learner state or analytics.
+
+## Background-pack architecture
+
+```text
+canonical RDF / TriG
+        ↓
+SceneDocument
+        ↓
+Reveal renderer / layout
+        ↓
+slide content
+
+PresentationProfile
+        ↓
+BackgroundPack registry
+        ↓
+Background runtime
+   ├── scroll progress source
+   └── deck progress source
+```
+
+A `BackgroundPack 1.0` is a renderer-owned declarative bundle of local visual layers. The first pack lives at:
+
+```text
+apps/pitch/public/presentation-backgrounds/chemometrics-neon-city/
+```
+
+with:
+
+```text
+bg-skyline.webp
+facade-left.webp
+facade-right.webp
+bridges.webp
+rain-fog.webp
+```
+
+The five layers use independent vertical speed factors `0.08`, `0.22`, `0.27`, `0.44`, and `0.72`, matching the supplied parallax MWE. Images repeat vertically and are loaded only from the local Vite application; there is no remote image/CDN dependency.
+
+To add another course background later:
+
+1. place its local assets under `apps/pitch/public/presentation-backgrounds/<pack-id>/`;
+2. add one `BackgroundPack` entry to `backgroundPackRegistry` in `src/presentation-profile.ts`;
+3. reference that pack from the relevant renderer-owned `PresentationProfile`.
+
+No scientific RDF, SceneDocument schema or layout semantics need to change.
+
+## Reduced motion and accessibility
+
+The background world is `aria-hidden`, non-focusable and pointer-inert. The appearance selector is keyboard reachable and labelled. When `prefers-reduced-motion: reduce` is active, the full background composition remains visible but parallax offsets and crossfade motion are disabled.
+
+The slide DOM reading order, block identities, provenance and Reveal navigation remain independent of the presentation background.
 
 ## Runtime boundary
 
-The canonical flow is:
-
-```text
-ontology/dataset/*.trig
-        ↓
-deterministic Dataset assembly and SHACL validation
-        ↓
-path, scene and knowledge-network compilation
-        ↓
-disposable canonical-runtime.json
-        ↓
-application shell
-        ├── Reveal.js presentation
-        └── accessible textual graph summary
-```
-
-The app renders the ordered nine-scene Standardabweichung sequence while preserving RDF identities, named-graph provenance and authored relation paths. Reveal.js owns presentation mechanics and layout only; the application shell owns ephemeral switching state, and the core domain model and authored scientific content remain renderer-independent.
-
-## Accessible graph summary
-
-The keyboard-accessible **Wissenskontext anzeigen** control projects the current scene through the accepted deterministic one-hop core boundary. The textual summary separates resources used in the current scene from directly related resources that have not been presented, follows the projection document reading orders, exposes semantic identities and available provenance, and returns focus to the invoking control when the presentation is restored.
-
-A projection or scene-state failure leaves the current presentation visible and reports a bounded accessible error. The summary does not query RDF or Fuseki directly, does not persist exploration state, and is not a second semantic content source. A visual D3 graph remains a separate later stage.
-
-## Accessibility and lifecycle
-
-Sections receive stable headings, source identities and readable DOM order. Reveal.js keyboard navigation remains enabled, reduced-motion preferences disable transitions, the summary heading receives focus on entry, and page teardown destroys Reveal.js, unmounts both views and restores guarded browser APIs.
-
-## Static fallback
-
-`index.html` contains a complete audience-facing `<noscript>` fallback. Automated tests must keep its scene order and audience-visible wording aligned with the generated canonical runtime. Manual browser inspection remains part of manager acceptance.
-
-The preview does not include analytics, telemetry, learner persistence, Fuseki deployment or Presenter Mode window integration.
+The runtime keeps the existing no-network guard. Generated `canonical-runtime.json` is disposable transport and is not an authored content source. The app may render the selected canonical path in Reveal and provide the existing accessible graph summary without querying Fuseki directly.

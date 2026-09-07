@@ -1,0 +1,214 @@
+.pcd-background-world {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #07101f;
+  contain: strict;
+}
+
+.pcd-background-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transition: opacity 320ms ease;
+  contain: paint;
+}
+
+.pcd-background-layer {
+  position: absolute;
+  inset: -8vh -3vw;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+}
+
+.pcd-background-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.pcd-background-tile {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pcd-background-layer[data-background-sizing="cover"] .pcd-background-tile {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.pcd-background-layer[data-background-sizing="contain"] .pcd-background-tile {
+  width: 100%;
+  height: 100vh;
+  object-fit: contain;
+}
+
+.pcd-background-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(1, 6, 14, 0.08) 0%, rgba(1, 6, 14, 0.24) 58%, rgba(1, 6, 14, 0.58) 100%),
+    linear-gradient(180deg, rgba(3, 8, 18, 0.10), rgba(3, 8, 18, 0.42));
+}
+
+/* Reveal 5.2.x advances Scroll View by assigning viewport.scrollTop directly.
+   Let the browser animate those CSSOM navigation jumps while preserving normal
+   wheel/touch scrolling. */
+html:has(body.reveal-viewport.reveal-scroll),
+.reveal-viewport.reveal-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Keep programmatic Next/Previous navigation on Reveal's generated trigger grid.
+   mandatory snapping prevents relative scrollTop updates from accumulating drift,
+   while scroll-snap-stop ensures one trigger cannot be skipped by a single step. */
+.reveal-viewport.reveal-scroll .scroll-snap-point,
+.reveal-viewport.reveal-scroll .scroll-page {
+  scroll-snap-stop: always;
+}
+
+html:has(body.pcd-background-active) {
+  background: #07101f;
+}
+
+body.pcd-background-active,
+body.pcd-background-active.reveal-viewport {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body.pcd-background-active .reveal {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  color: #f6fbff;
+}
+
+body.pcd-background-active .reveal .backgrounds,
+body.pcd-background-active .reveal .slide-background {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body.pcd-background-active .reveal .slides section {
+  background: rgba(5, 8, 16, 0.76);
+  border: 1px solid rgba(98, 239, 255, 0.22);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(8px);
+}
+
+/* Full-screen backdrop filters and blend modes force expensive repaint/composite
+   work while the Scroll View is moving. In scroll mode we keep the same visual
+   hierarchy with a slightly more opaque panel but stay on compositor-only transforms. */
+body.pcd-background-active.reveal-scroll .reveal .slides section {
+  background: rgba(5, 8, 16, 0.86);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+  backdrop-filter: none;
+}
+
+body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="rain-fog"] {
+  mix-blend-mode: normal !important;
+}
+
+body.pcd-background-active .reveal h2 {
+  color: #62efff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+body.pcd-background-active .reveal .lead,
+body.pcd-background-active .reveal .citation,
+body.pcd-background-active .reveal li,
+body.pcd-background-active .reveal p,
+body.pcd-background-active .reveal code {
+  color: #f6fbff;
+}
+
+body.pcd-background-active .reveal .citation {
+  opacity: 0.74;
+}
+
+body.pcd-background-active #view-switch-shell {
+  position: relative;
+  z-index: 40;
+  background: rgba(5, 8, 16, 0.84);
+  color: #f6fbff;
+  border-bottom-color: rgba(98, 239, 255, 0.20);
+  backdrop-filter: blur(10px);
+}
+
+body.pcd-background-active.reveal-scroll #view-switch-shell {
+  background: rgba(5, 8, 16, 0.95);
+  backdrop-filter: none;
+}
+
+.appearance-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  font-size: 0.92rem;
+}
+
+.appearance-controls label {
+  font-weight: 700;
+}
+
+.appearance-controls select {
+  min-width: 14rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #738590;
+  border-radius: 0.35rem;
+  background: #ffffff;
+  color: #172026;
+  font: inherit;
+}
+
+.appearance-controls select:focus {
+  outline: 3px solid #9b4d00;
+  outline-offset: 3px;
+}
+
+.appearance-controls-hint {
+  opacity: 0.72;
+  font-size: 0.85em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.reveal-viewport.reveal-scroll),
+  .reveal-viewport.reveal-scroll {
+    scroll-behavior: auto !important;
+  }
+
+  .pcd-background-stage { transition: none !important; }
+  .pcd-background-strip { will-change: auto; }
+}
+
+@media (max-width: 900px) {
+  body.pcd-background-active .reveal .slides section {
+    border-radius: 12px;
+  }
+  body.pcd-background-active:not(.reveal-scroll) .reveal .slides section {
+    backdrop-filter: blur(5px);
+  }
+  .appearance-controls { flex-wrap: wrap; }
+  .appearance-controls-hint { width: 100%; }
+}
