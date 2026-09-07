@@ -52,6 +52,20 @@ test("retains exactly-one SceneDocument cardinality for generic preview loading"
   );
 });
 
+test("rejects unsupported canonical runtime artifact versions at runtime", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  assert.throws(
+    () => compilePitchSceneDocumentsFromArtifact({
+      artifactVersion: "2.0",
+      datasetFingerprint: canonicalDatasetFingerprint,
+      datasetSnapshot: canonicalDatasetSnapshot,
+      sceneDocuments: [document],
+    }),
+    /Unsupported canonical runtime artifact: 2\.0/,
+  );
+});
+
 test("renders the complete nine-scene Standardabweichung path with RDF provenance", () => {
   const documents = compilePitchSceneDocuments();
   assert.equal(documents.length, 1);
