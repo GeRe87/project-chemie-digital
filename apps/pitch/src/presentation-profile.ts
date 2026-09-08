@@ -16,6 +16,9 @@ export interface ResolvedPresentationAppearance {
   readonly diagnostics: readonly string[];
 }
 
+export const CHEMOMETRICS_SOURCE_PATH_ID = "ex:path-chemometrics-mean-values-lecture";
+export const COGNIFLOW_SOURCE_PATH_ID = "ex:path-cogniflow-standardized-data-processing";
+
 export const chemometricsNeonCityPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-neon-city",
@@ -39,10 +42,27 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
   defaultBackgroundPackId: chemometricsNeonCityPack.id,
 });
 
-export function resolvePresentationAppearance(search: string): ResolvedPresentationAppearance {
+export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
+  id: "cogniflow-standardized-data-processing",
+  label: "Standardized Data Processing - Project CogniFlow",
+  defaultView: "scroll",
+});
+
+const profileBySourcePathId: ReadonlyMap<string, PresentationProfile> = new Map([
+  [CHEMOMETRICS_SOURCE_PATH_ID, chemometricsPresentationProfile],
+  [COGNIFLOW_SOURCE_PATH_ID, cogniflowPresentationProfile],
+]);
+
+export function resolvePresentationAppearance(search: string, sourcePathId?: string): ResolvedPresentationAppearance {
   const params = new URLSearchParams(search);
   const diagnostics: string[] = [];
-  const profile = chemometricsPresentationProfile;
+  const profile = sourcePathId === undefined
+    ? chemometricsPresentationProfile
+    : profileBySourcePathId.get(sourcePathId) ?? chemometricsPresentationProfile;
+  if (sourcePathId !== undefined && !profileBySourcePathId.has(sourcePathId)) {
+    diagnostics.push(`Unknown source path '${sourcePathId}', using '${profile.id}' presentation profile.`);
+  }
+
   const requestedView = params.get("view");
   const view: PresentationView = requestedView === "deck" || requestedView === "scroll" ? requestedView : profile.defaultView;
   if (requestedView && requestedView !== "deck" && requestedView !== "scroll") diagnostics.push(`Unsupported view '${requestedView}', using '${view}'.`);
