@@ -5,7 +5,7 @@ import sys
 import unittest
 from pathlib import Path
 
-from rdflib import Dataset, Literal, Namespace, RDF, URIRef
+from rdflib import DCTERMS, SKOS, Dataset, Literal, Namespace, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
@@ -25,6 +25,7 @@ DATASET_SPEC.loader.exec_module(RDF_DATASET)
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
+SCHEMA = Namespace("https://schema.org/")
 MEAN_PATH = EX["path-chemometrics-mean-values-lecture"]
 MEAN_PATH_GRAPH = URIRef(
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture"
@@ -97,6 +98,25 @@ class SummaryLanguageProjectionTests(unittest.TestCase):
         self.assertEqual(first, second)
         entity = next(item for item in first["entities"] if item["id"] == "ex:fallback-definition")
         self.assertEqual("Texte de repli", entity["description"])
+
+    def test_label_fallback_preserves_title_name_local_order_before_foreign_pref_label(self) -> None:
+        dataset = Dataset()
+        graph = dataset.graph(URIRef("urn:test:labels"))
+        titled = EX["fallback-title"]
+        named = EX["fallback-name"]
+        local = EX["fallback-local"]
+        for resource in (titled, named, local):
+            graph.add((resource, RDF.type, CD.Definition))
+            graph.add((resource, SKOS.prefLabel, Literal("Libellé étranger", lang="fr")))
+        graph.add((titled, DCTERMS.title, Literal("Authored title")))
+        graph.add((titled, SCHEMA.name, Literal("Schema name must not win")))
+        graph.add((named, SCHEMA.name, Literal("Authored schema name")))
+
+        snapshot = RUNTIME.dataset_snapshot(dataset, "test-label-order", "en")
+        entities = {entity["id"]: entity for entity in snapshot["entities"]}
+        self.assertEqual("Authored title", entities["ex:fallback-title"]["label"])
+        self.assertEqual("Authored schema name", entities["ex:fallback-name"]["label"])
+        self.assertEqual("fallback local", entities["ex:fallback-local"]["label"])
 
     def test_conflicting_explicit_path_languages_fail_closed(self) -> None:
         dataset = Dataset()
