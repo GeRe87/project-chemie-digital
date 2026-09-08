@@ -40,6 +40,11 @@
       sh:message "A KeyPoint must have exactly one owning LearningResource through cd:hasKeyPoint."
     ] .
 
+  cd:AttributionShape a sh:NodeShape ;
+    sh:targetClass cd:Attribution ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
   cd:KeyPointOwnerShape a sh:NodeShape ;
     sh:targetSubjectsOf cd:hasKeyPoint ;
     sh:class cd:LearningResource ;
@@ -98,7 +103,7 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole ) ] ;
     sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
@@ -122,6 +127,31 @@ SELECT $this WHERE {
 SELECT $this WHERE {
         $this cd:communicativeRole cd:KeyPointRole ; cd:selectsResource ?source .
         FILTER NOT EXISTS { ?source cd:hasKeyPoint ?point . ?point a cd:KeyPoint . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "AttributionRole requires exactly the cd:body selector." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:AttributionRole ; cd:selectionPath ?selector .
+        FILTER (?selector != "cd:body")
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "AttributionRole must select an Attribution resource." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:AttributionRole ; cd:selectsResource ?source .
+        FILTER NOT EXISTS { ?source a cd:Attribution . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "An Attribution selected by a scene item requires AttributionRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectsResource ?source ; cd:communicativeRole ?role .
+        ?source a cd:Attribution .
+        FILTER (?role != cd:AttributionRole)
       }"""
     ] .
 }
