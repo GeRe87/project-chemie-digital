@@ -134,6 +134,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("ExerciseRole"),
                 cd("FormulaRole"),
                 cd("KeyPointRole"),
+                cd("AttributionRole"),
             },
             self.shacl_in_values(cd("communicativeRole")),
         )

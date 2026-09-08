@@ -16,6 +16,9 @@ export interface ResolvedPresentationAppearance {
   readonly diagnostics: readonly string[];
 }
 
+export const CHEMOMETRICS_SOURCE_PATH_ID = "ex:path-chemometrics-mean-values-lecture";
+export const COGNIFLOW_SOURCE_PATH_ID = "ex:path-cogniflow-standardized-data-processing";
+
 export const chemometricsNeonCityPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-neon-city",
@@ -39,10 +42,19 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
   defaultBackgroundPackId: chemometricsNeonCityPack.id,
 });
 
-export function resolvePresentationAppearance(search: string): ResolvedPresentationAppearance {
+export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
+  id: "cogniflow-standardized-data-processing",
+  label: "Standardized Data Processing - Project CogniFlow",
+  defaultView: "scroll",
+});
+
+export function resolvePresentationAppearance(search: string, sourcePathId?: string): ResolvedPresentationAppearance {
   const params = new URLSearchParams(search);
   const diagnostics: string[] = [];
-  const profile = chemometricsPresentationProfile;
+  const profile = sourcePathId === COGNIFLOW_SOURCE_PATH_ID
+    ? cogniflowPresentationProfile
+    : chemometricsPresentationProfile;
+
   const requestedView = params.get("view");
   const view: PresentationView = requestedView === "deck" || requestedView === "scroll" ? requestedView : profile.defaultView;
   if (requestedView && requestedView !== "deck" && requestedView !== "scroll") diagnostics.push(`Unsupported view '${requestedView}', using '${view}'.`);

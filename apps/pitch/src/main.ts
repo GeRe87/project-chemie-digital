@@ -44,7 +44,7 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const appearance = resolvePresentationAppearance(window.location.search);
+const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
 const backgroundRuntime = mountBackgroundRuntime({
