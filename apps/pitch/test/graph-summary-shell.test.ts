@@ -7,6 +7,7 @@ import {
   createGraphSummaryModel,
   createGraphSummaryShellController,
   projectSceneSummary,
+  sceneProjectionLanguage,
   type GraphSummaryModel,
   type GraphSummaryShellPort,
 } from "../src/graph-summary-shell.ts";
@@ -34,10 +35,31 @@ const scene: Scene = {
   source,
   readingOrder: ["heading", "definition"],
   blocks: [
-    { id: "heading", kind: "prose", text: "Standardabweichung", intent: { kind: "introduce" }, source: [{ resourceId: `${EX}standard-deviation` }] },
+    { id: "heading", kind: "prose", text: "Standardabweichung", intent: { kind: "introduce" }, source: [{ resourceId: `${EX}standard-deviation`, relationPath: "skos:prefLabel@de" }] },
     { id: "definition", kind: "prose", text: "Definition", intent: { kind: "explain" }, source: [{ resourceId: `${EX}definition`, relationPath: `${CD}hasDefinition` }] },
   ],
 };
+
+test("derives graph-summary language from the authored scene selector", () => {
+  assert.equal(sceneProjectionLanguage(scene), "de");
+  const englishScene: Scene = {
+    ...scene,
+    blocks: scene.blocks.map((block) => block.id === "heading"
+      ? { ...block, source: [{ resourceId: `${EX}standard-deviation`, relationPath: "skos:prefLabel@en" }] }
+      : block),
+  };
+  assert.equal(sceneProjectionLanguage(englishScene), "en");
+});
+
+test("fails closed when a scene exposes conflicting authored languages", () => {
+  const conflicting: Scene = {
+    ...scene,
+    blocks: scene.blocks.map((block) => block.id === "definition"
+      ? { ...block, source: [{ resourceId: `${EX}definition`, relationPath: `${CD}hasDefinition@en` }] }
+      : block),
+  };
+  assert.throws(() => sceneProjectionLanguage(conflicting), /conflicting authored languages: de, en/);
+});
 
 test("preserves an absolute predicate IRI as one relation-path element", () => {
   const document = projectSceneSummary(snapshot, scene);

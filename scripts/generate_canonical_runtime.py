@@ -86,6 +86,23 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
     return str(values[0])
 
 
+def deterministic_authored_literal(
+    dataset: Dataset,
+    subject: URIRef,
+    predicate: URIRef,
+    preferred_language: str | None = None,
+) -> str | None:
+    if preferred_language is not None:
+        preferred = literal(dataset, subject, predicate, preferred_language)
+        if preferred is not None:
+            return preferred
+    values = [value for value in objects(dataset, subject, predicate) if isinstance(value, Literal)]
+    if not values:
+        return None
+    values.sort(key=lambda value: (value.language or "", str(value.datatype or ""), str(value), value.n3()))
+    return str(values[0])
+
+
 def boolean_literal(dataset: Dataset, subject: URIRef, predicate: URIRef) -> bool:
     value = literal(dataset, subject, predicate)
     if value == "true":
@@ -177,6 +194,48 @@ def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> 
     if positions != list(range(1, len(records) + 1)):
         raise ValueError(f"KeyPoint positions must be contiguous for {compact(owner)}")
     return records
+
+
+def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
+    path = URIRef(selected_path.path_id)
+    path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
+    if (path, RDF.type, iri(CD, "LearningPath")) not in path_graph:
+        raise ValueError(
+            f"Selected LearningPath {compact(path)} is not defined in expected graph {selected_path.path_graph_id}"
+        )
+    steps = sorted(
+        set(path_graph.objects(path, iri(CD, "hasStep"))),
+        key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)),
+    )
+    items: list[URIRef] = []
+    for step in steps:
+        scene_id = one(dataset, step, iri(CD, "usesScene"))
+        items.extend(
+            item
+            for item in sorted(
+                objects(dataset, scene_id, iri(CD, "hasSceneItem")),
+                key=lambda candidate: (integer(dataset, candidate, iri(CD, "position")), str(candidate)),
+            )
+            if isinstance(item, URIRef)
+        )
+    return items
+
+
+def effective_path_language(dataset: Dataset, selected_path: CoursePathReference) -> str:
+    languages = sorted(
+        {
+            value
+            for item in selected_path_scene_items(dataset, selected_path)
+            if (value := literal(dataset, item, iri(CD, "language"))) is not None
+        }
+    )
+    if not languages:
+        raise ValueError(f"Selected LearningPath {compact(selected_path.path_id)} has no explicit cd:language")
+    if len(languages) != 1:
+        raise ValueError(
+            f"Conflicting explicit cd:language values for selected LearningPath {compact(selected_path.path_id)}: {', '.join(languages)}"
+        )
+    return languages[0]
 
 
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
@@ -371,13 +430,23 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
     return {"version": "1.0", "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
 
-def dataset_snapshot(dataset: Dataset, fingerprint: str) -> dict[str, Any]:
+def dataset_snapshot(dataset: Dataset, fingerprint: str, language: str) -> dict[str, Any]:
     typed_subjects = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, None, None)) if isinstance(subject, URIRef) and str(subject).startswith(EX)}, key=str)
     entity_ids = set(typed_subjects)
     entities: list[dict[str, Any]] = []
     for subject in typed_subjects:
-        labels = literal(dataset, subject, SKOS.prefLabel, "de") or literal(dataset, subject, DCTERMS.title) or literal(dataset, subject, iri(SCHEMA, "name")) or local_name(subject)
-        description = literal(dataset, subject, iri(CD, "body"), "de") or literal(dataset, subject, DCTERMS.description, "de")
+        labels = (
+            literal(dataset, subject, SKOS.prefLabel, language)
+            or deterministic_authored_literal(dataset, subject, DCTERMS.title)
+            or deterministic_authored_literal(dataset, subject, iri(SCHEMA, "name"))
+            or local_name(subject)
+        )
+        description = (
+            literal(dataset, subject, iri(CD, "body"), language)
+            or literal(dataset, subject, DCTERMS.description, language)
+            or deterministic_authored_literal(dataset, subject, iri(CD, "body"))
+            or deterministic_authored_literal(dataset, subject, DCTERMS.description)
+        )
         entity: dict[str, Any] = {
             "id": compact(subject), "label": labels,
             "semanticTypes": sorted(compact(value) for value in objects(dataset, subject, RDF.type) if isinstance(value, URIRef)),
@@ -422,11 +491,12 @@ def build_artifact(
     request = selection_request or default_selection_request()
     dataset = assemble_dataset()
     selection = select_course_unit_path(dataset, request)
+    language = effective_path_language(dataset, selection.path)
     fingerprint = dataset_fingerprint(dataset)
     fingerprint_identity = f"sha256:{fingerprint}"
     return {
         "artifactVersion": "1.0", "datasetFingerprint": fingerprint_identity,
-        "datasetSnapshot": dataset_snapshot(dataset, fingerprint),
+        "datasetSnapshot": dataset_snapshot(dataset, fingerprint, language),
         "teachingOfferingDocuments": [
             project_teaching_offering_runtime_document(
                 dataset,
