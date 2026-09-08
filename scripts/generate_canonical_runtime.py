@@ -437,7 +437,6 @@ def dataset_snapshot(dataset: Dataset, fingerprint: str, language: str) -> dict[
     for subject in typed_subjects:
         labels = (
             literal(dataset, subject, SKOS.prefLabel, language)
-            or deterministic_authored_literal(dataset, subject, SKOS.prefLabel)
             or deterministic_authored_literal(dataset, subject, DCTERMS.title)
             or deterministic_authored_literal(dataset, subject, iri(SCHEMA, "name"))
             or local_name(subject)
