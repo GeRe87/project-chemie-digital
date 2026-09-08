@@ -29,3 +29,13 @@ Mapping and lifecycle orchestration perform no network requests, dereference no 
 ## Explicit exclusions
 
 This package does not query RDF or Fuseki, change ontology or SHACL content, alter `KnowledgeNetworkDocument 1.0`, render Reveal.js scenes, claim pedagogical effectiveness or publish a visual design system.
+
+## Flow diagrams
+
+`createD3FlowRenderModel` and `mountD3FlowDiagram` consume neutral `DiagramBlock` content. The SVG runtime preserves labels, directed relations, emphasis and provenance. Pitch supplies light/dark teal/amber pixel palettes, stepped vector frames and hard offset shadows; no image, remote font or new dependency is required. Live theme switching changes CSS color variables only, so text metrics and geometry remain stable.
+
+Text is measured with SVG font metrics outside potentially hidden presentation slides. Node titles have reserved space for the number panel, status marker and frame. Relation capsules grow to their measured text width; longer labels wrap into `tspan` lines and increase shape height, including unspaced identifiers. Actual text bounding boxes determine vertical centering. Font loading triggers remeasurement. Text sizes use SVG user units rather than Reveal-dependent `rem` values.
+
+Below 900 pixels of available host/viewport width the renderer changes from a horizontal row to a vertical sequence with relation capsules in the gaps. `viewBox` and `preserveAspectRatio` scale the entire layout consistently. Pitch lets diagram-only vertical scroll pages grow naturally instead of clipping them in Reveal's transformed viewport-sized wrapper. Use scroll view on phones to read the full vertical sequence; a fixed-height deck shows a scaled overview. Resize/font observers are disposed on unmount. Keyboard focus remains separate from the authored primary emphasis.
+
+Validation: `npm run test:renderer-d3`. For a browser check, run `npm --workspace @project-chemie-digital/pitch run dev:cogniflow` and inspect the second scene in scroll and `?view=deck` modes, at desktop and phone widths, with both themes. Check title/number/capsule bounding boxes, long labels, arrow-key focus and the browser console. The start command regenerates disposable runtime content and the HTML static fallback.

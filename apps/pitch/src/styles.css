@@ -356,130 +356,202 @@
 }
 
 .d3-flow-svg {
+  --flow-ink: #084b54;
+  --flow-edge: #12616b;
+  --flow-rim: #31929b;
+  --flow-paper: #e1f1ed;
+  --flow-panel: #c2e3df;
+  --flow-shadow: #367a7d;
+  --flow-backdrop: #f0f3ed;
+  --flow-confetti: #bad5d5;
+  --flow-pill-rim: #bcd8d7;
+  --flow-pill-paper: #e8f2ed;
+  --flow-glint: #faffed;
+  --flow-inner-rim: #b4ded9;
+  --flow-bevel-rim: #79bcbc;
   width: 100%;
   height: auto;
   min-height: 0;
-  aspect-ratio: 1120 / 260;
   display: block;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .d3-flow-backdrop {
-  fill: rgba(241, 248, 250, 0.38);
+  fill: var(--flow-backdrop);
 }
 
-.d3-flow-grid {
-  fill: none;
-  stroke: rgba(95, 119, 134, 0.12);
-  stroke-width: 1;
+/* Fixed-height decks show an overview; scroll view keeps the readable full height. */
+.reveal-viewport:not(.reveal-scroll) .d3-flow-svg[data-orientation="vertical"] {
+  max-height: 650px;
 }
 
-.d3-flow-rail {
-  stroke: rgba(0, 90, 120, 0.18);
-  stroke-width: 2;
-  stroke-dasharray: 5 10;
+@media (max-width: 900px) {
+  /* Reveal's viewport-sized, transformed scroll pages would crop a tall sequence. */
+  .reveal-scroll .scroll-page:has([data-diagram-only="true"] .d3-flow-svg[data-orientation="vertical"]),
+  .reveal-scroll .scroll-page:has([data-diagram-only="true"] .d3-flow-svg[data-orientation="vertical"]) .scroll-page-sticky,
+  .reveal-scroll .scroll-page:has([data-diagram-only="true"] .d3-flow-svg[data-orientation="vertical"]) .scroll-page-content {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .reveal-scroll .scroll-page section[data-diagram-only="true"]:has(.d3-flow-svg[data-orientation="vertical"]) {
+    position: relative !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  .reveal-scroll .d3-flow-svg[data-orientation="vertical"] {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+}
+
+.d3-flow-svg path,
+.d3-flow-svg rect,
+.d3-flow-svg line {
+  shape-rendering: crispEdges;
+  stroke-linejoin: miter;
+}
+
+.d3-flow-confetti {
+  fill: var(--flow-confetti);
+  opacity: 0.5;
+}
+
+.d3-flow-spark {
+  fill: #edc678;
+}
+
+.d3-flow-shadow {
+  fill: var(--flow-shadow);
+  opacity: 0.18;
+}
+
+.d3-flow-shadow-far {
+  opacity: 0.08;
 }
 
 .d3-flow-connector {
-  fill: #d6edf0;
-  stroke: #005a78;
-  stroke-width: 2;
+  fill: var(--flow-rim);
+  stroke: var(--flow-edge);
+  stroke-width: 4;
+}
+
+.d3-flow-connector-glint {
+  fill: var(--flow-glint);
 }
 
 .d3-flow-label-stem {
-  stroke: #005a78;
-  stroke-width: 3;
-  stroke-dasharray: 5 7;
-}
-
-.d3-flow-edge {
-  stroke: #5f7786;
-  stroke-width: 3;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 3px rgba(0, 90, 120, 0.18));
+  stroke: var(--flow-stem, var(--flow-edge));
+  stroke-width: 8;
+  stroke-dasharray: 8 12;
 }
 
 .d3-flow-edge-arrow {
-  fill: #5f7786;
-}
-
-.d3-flow-edge-label {
-  fill: #20303a;
-  font-size: 0.76rem;
-  font-weight: 700;
-  text-anchor: middle;
-}
-
-.d3-flow-edge-label-backdrop {
-  fill: rgba(255, 255, 255, 0.92);
-  stroke: rgba(0, 90, 120, 0.18);
-  stroke-width: 1;
-}
-
-.d3-flow-node-shape {
-  fill: #ffffff;
-  stroke: #005a78;
+  fill: none;
+  stroke: var(--flow-ink);
   stroke-width: 3;
 }
 
+.d3-flow-edge-label,
+.d3-flow-node-label,
+.d3-flow-node-step {
+  fill: var(--flow-ink);
+  font-family: "Bahnschrift", "Arial Narrow", Arial, sans-serif;
+  /* SVG user units: independent of Reveal's rem size and viewport scaling. */
+  font-size: 26px;
+  font-weight: 700;
+  font-kerning: normal;
+  letter-spacing: 0;
+  text-rendering: geometricPrecision;
+}
+
+.d3-flow-edge-label-backdrop {
+  fill: var(--flow-pill-rim);
+  stroke: var(--flow-rim);
+  stroke-width: 4;
+}
+
+.d3-flow-edge-label-inset {
+  fill: var(--flow-pill-paper);
+  stroke: var(--flow-glint);
+  stroke-width: 3;
+}
+
+.d3-flow-node-shape {
+  fill: var(--flow-paper);
+  stroke: var(--flow-inner-rim);
+  stroke-width: 4;
+}
+
 .d3-flow-node-outline {
-  fill: none;
-  stroke: rgba(0, 90, 120, 0.2);
-  stroke-width: 2;
+  fill: var(--flow-edge);
+  stroke: var(--flow-ink);
+  stroke-width: 4;
+}
+
+.d3-flow-node-bevel {
+  fill: var(--flow-rim);
+  stroke: var(--flow-bevel-rim);
+  stroke-width: 3;
 }
 
 .d3-flow-node-index-panel {
-  fill: rgba(214, 237, 240, 0.85);
+  fill: var(--flow-panel);
 }
 
 .d3-flow-node-divider {
-  stroke: rgba(0, 90, 120, 0.3);
-  stroke-width: 1.5;
+  stroke: var(--flow-rim);
+  stroke-opacity: 0.25;
+  stroke-width: 4;
 }
 
-.d3-flow-node-primary .d3-flow-node-shape {
-  fill: #fff1d9;
-  stroke: #b56a00;
+.d3-flow-node-primary {
+  --flow-ink: #794405;
+  --flow-edge: #996008;
+  --flow-rim: #d89624;
+  --flow-paper: #ffedb5;
+  --flow-panel: #f9d888;
+  --flow-shadow: #92681c;
+  --flow-inner-rim: #f5cb6c;
+  --flow-bevel-rim: #f5cb6c;
 }
 
-.d3-flow-node-accent {
-  fill: #005a78;
-}
-
-.d3-flow-node-primary .d3-flow-node-accent {
-  fill: #f0a72e;
+.d3-flow-node-glint {
+  fill: none;
+  stroke: var(--flow-glint);
+  stroke-width: 4;
 }
 
 .d3-flow-node-step {
-  fill: #4d5a63;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 32px;
 }
 
 .d3-flow-node-status {
-  fill: #7d9aa6;
+  fill: var(--flow-rim);
+  stroke: var(--flow-edge);
+  stroke-width: 3;
 }
 
-.d3-flow-node-primary .d3-flow-node-status {
-  fill: #f0a72e;
+.d3-flow-node:focus {
+  outline: none;
 }
 
-.d3-flow-node-label {
-  fill: #15262e;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.d3-flow-node:focus .d3-flow-node-shape,
-.d3-flow-node-active .d3-flow-node-shape {
-  stroke-width: 4;
+.d3-flow-node:focus .d3-flow-node-outline,
+.d3-flow-node-active .d3-flow-node-outline {
+  stroke-width: 8;
+  stroke-dasharray: 12 4;
 }
 
 .d3-flow-caption {
   margin-top: 0.5rem;
   color: #3c4e58;
   font-size: 0.95rem;
+  overflow-wrap: anywhere;
 }
 
 .d3-flow-static-fallback {

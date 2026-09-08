@@ -31,6 +31,9 @@ if (!root || !presentation) throw new Error("Missing pitch application root");
 
 const shellRoot = document.createElement("div");
 shellRoot.id = "view-switch-shell";
+// The graph shell clears its host; keep live appearance controls in a sibling.
+const graphShellRoot = document.createElement("div");
+shellRoot.append(graphShellRoot);
 presentation.before(shellRoot);
 
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
@@ -167,7 +170,7 @@ if (connectedInteractive) {
 }
 
 const unmountShell = mountGraphSummaryShell({
-  root: shellRoot,
+  root: graphShellRoot,
   presentation,
   documents,
   snapshot: canonicalDatasetSnapshot,

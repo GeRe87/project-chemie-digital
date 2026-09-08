@@ -15,6 +15,7 @@ import {
   type SimulationLinkDatum,
   type SimulationNodeDatum,
 } from "d3-force";
+import { flowPixelPath, wrapFlowText } from "./flow-layout.ts";
 
 export interface D3KnowledgeNetworkOptions {
   readonly reducedMotion: boolean;
@@ -668,12 +669,6 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3Knowledg
   }
 }
 
-function flowNodePosition(index: number, count: number): { x: number; y: number } {
-  const horizontalPadding = 120;
-  const width = 1120 - horizontalPadding * 2;
-  return { x: count === 1 ? 560 : horizontalPadding + (width * index) / (count - 1), y: 150 };
-}
-
 export function mountD3FlowDiagram(host: unknown, model: D3FlowRenderModel): D3FlowComponent {
   if (!(host instanceof HTMLElement)) throw new Error("D3 flow host must be an HTMLElement");
   const svgNamespace = "http://www.w3.org/2000/svg";
@@ -687,199 +682,201 @@ export function mountD3FlowDiagram(host: unknown, model: D3FlowRenderModel): D3F
   caption.textContent = model.description;
   const svg = document.createElementNS(svgNamespace, "svg");
   svg.classList.add("d3-flow-svg");
-  svg.setAttribute("viewBox", "0 0 1120 260");
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", model.label);
-  const defs = document.createElementNS(svgNamespace, "defs");
-  const marker = document.createElementNS(svgNamespace, "marker");
-  const markerId = `flow-marker-${encodeURIComponent(model.sourceBlockId)}`;
-  marker.setAttribute("id", markerId);
-  marker.setAttribute("viewBox", "0 0 10 10");
-  marker.setAttribute("refX", "8");
-  marker.setAttribute("refY", "5");
-  marker.setAttribute("markerWidth", "6");
-  marker.setAttribute("markerHeight", "6");
-  marker.setAttribute("orient", "auto");
-  const markerPath = document.createElementNS(svgNamespace, "path");
-  markerPath.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
-  markerPath.classList.add("d3-flow-edge-arrow");
-  marker.append(markerPath);
-  defs.append(marker);
-  const gridPattern = document.createElementNS(svgNamespace, "pattern");
-  const gridId = `flow-grid-${encodeURIComponent(model.sourceBlockId)}`;
-  gridPattern.setAttribute("id", gridId);
-  gridPattern.setAttribute("width", "32");
-  gridPattern.setAttribute("height", "32");
-  gridPattern.setAttribute("patternUnits", "userSpaceOnUse");
-  const gridPath = document.createElementNS(svgNamespace, "path");
-  gridPath.setAttribute("d", "M 32 0 L 0 0 0 32");
-  gridPath.classList.add("d3-flow-grid");
-  gridPattern.append(gridPath);
-  defs.append(gridPattern);
-  svg.append(defs);
-  const backdrop = document.createElementNS(svgNamespace, "rect");
-  backdrop.classList.add("d3-flow-backdrop");
-  backdrop.setAttribute("x", "0");
-  backdrop.setAttribute("y", "0");
-  backdrop.setAttribute("width", "1120");
-  backdrop.setAttribute("height", "260");
-  backdrop.setAttribute("fill", `url(#${gridId})`);
-  const rail = document.createElementNS(svgNamespace, "line");
-  rail.classList.add("d3-flow-rail");
-  rail.setAttribute("x1", "120");
-  rail.setAttribute("y1", "150");
-  rail.setAttribute("x2", "1000");
-  rail.setAttribute("y2", "150");
-  svg.append(backdrop, rail);
-  const edgeLayer = document.createElementNS(svgNamespace, "g");
-  const edgeLabelLayer = document.createElementNS(svgNamespace, "g");
-  const nodeLayer = document.createElementNS(svgNamespace, "g");
-  edgeLayer.classList.add("d3-flow-edge-layer");
-  edgeLabelLayer.classList.add("d3-flow-edge-label-layer");
-  nodeLayer.classList.add("d3-flow-node-layer");
-  svg.append(edgeLayer, edgeLabelLayer, nodeLayer);
   figure.append(svg, caption);
   wrapper.append(figure);
   host.append(wrapper);
 
-  const positions = new Map(model.nodes.map((node, index) => [node.id, flowNodePosition(index, model.nodes.length)]));
   const nodeElements = new Map<string, SVGGElement>();
-  for (const edge of model.edges) {
-    const source = positions.get(edge.sourceNodeId)!;
-    const target = positions.get(edge.targetNodeId)!;
-    const line = document.createElementNS(svgNamespace, "line");
-    line.classList.add("d3-flow-edge");
-    line.setAttribute("x1", String(source.x));
-    line.setAttribute("y1", String(source.y));
-    line.setAttribute("x2", String(target.x));
-    line.setAttribute("y2", String(target.y));
-    line.setAttribute("marker-end", `url(#${markerId})`);
-    line.setAttribute("aria-label", edge.label);
-    line.setAttribute("data-resource-id", edge.source.map((source) => source.resourceId).join(" "));
-    const edgeProvenance = edge.source.flatMap((source) => source.provenanceIds ?? []);
-    if (edgeProvenance.length) line.setAttribute("data-provenance-ids", edgeProvenance.join(" "));
-    edgeLayer.append(line);
-    const connectorStart = Math.min(source.x, target.x) + 100;
-    const connectorEnd = Math.max(source.x, target.x) - 100;
-    const connector = document.createElementNS(svgNamespace, "rect");
-    connector.classList.add("d3-flow-connector");
-    connector.setAttribute("x", String(connectorStart));
-    connector.setAttribute("y", String(source.y - 10));
-    connector.setAttribute("width", String(Math.max(14, connectorEnd - connectorStart)));
-    connector.setAttribute("height", "20");
-    connector.setAttribute("rx", "4");
-    edgeLayer.append(connector);
-    const labelGroup = document.createElementNS(svgNamespace, "g");
-    labelGroup.classList.add("d3-flow-edge-label-group");
-    const labelWidth = Math.min(180, Math.max(112, edge.label.length * 7 + 24));
-    const labelStem = document.createElementNS(svgNamespace, "line");
-    labelStem.classList.add("d3-flow-label-stem");
-    labelStem.setAttribute("x1", String((source.x + target.x) / 2));
-    labelStem.setAttribute("y1", String(source.y - 132 + 34));
-    labelStem.setAttribute("x2", String((source.x + target.x) / 2));
-    labelStem.setAttribute("y2", String(source.y - 45));
-    edgeLabelLayer.append(labelStem);
-    const labelBackdrop = document.createElementNS(svgNamespace, "rect");
-    labelBackdrop.classList.add("d3-flow-edge-label-backdrop");
-    labelBackdrop.setAttribute("x", String((source.x + target.x) / 2 - labelWidth / 2));
-    labelBackdrop.setAttribute("y", String(source.y - 132));
-    labelBackdrop.setAttribute("width", String(labelWidth));
-    labelBackdrop.setAttribute("height", "34");
-    labelBackdrop.setAttribute("rx", "17");
-    const label = document.createElementNS(svgNamespace, "text");
-    label.classList.add("d3-flow-edge-label");
-    label.textContent = edge.label;
-    label.setAttribute("x", String((source.x + target.x) / 2));
-    label.setAttribute("y", String(source.y - 109));
-    labelGroup.append(labelBackdrop, label);
-    edgeLabelLayer.append(labelGroup);
-  }
-  for (const node of model.nodes) {
-    const position = positions.get(node.id)!;
-    const group = document.createElementNS(svgNamespace, "g");
-    group.classList.add("d3-flow-node", `d3-flow-node-${node.emphasis ?? "normal"}`);
-    group.setAttribute("data-node-id", node.id);
-    group.setAttribute("tabindex", "0");
-    group.setAttribute("role", "button");
-    group.setAttribute("aria-label", node.label);
-    group.setAttribute("data-resource-id", node.source.map((source) => source.resourceId).join(" "));
-    const nodeProvenance = node.source.flatMap((source) => source.provenanceIds ?? []);
-    if (nodeProvenance.length) group.setAttribute("data-provenance-ids", nodeProvenance.join(" "));
-    group.setAttribute("transform", `translate(${position.x} ${position.y})`);
-    const shape = document.createElementNS(svgNamespace, "rect");
-    shape.classList.add("d3-flow-node-shape");
-    shape.setAttribute("x", "-100");
-    shape.setAttribute("y", "-36");
-    shape.setAttribute("width", "200");
-    shape.setAttribute("height", "72");
-    shape.setAttribute("rx", "18");
-    const outline = document.createElementNS(svgNamespace, "rect");
-    outline.classList.add("d3-flow-node-outline");
-    outline.setAttribute("x", "-106");
-    outline.setAttribute("y", "-43");
-    outline.setAttribute("width", "212");
-    outline.setAttribute("height", "86");
-    outline.setAttribute("rx", "21");
-    const indexPanel = document.createElementNS(svgNamespace, "rect");
-    indexPanel.classList.add("d3-flow-node-index-panel");
-    indexPanel.setAttribute("x", "-100");
-    indexPanel.setAttribute("y", "-36");
-    indexPanel.setAttribute("width", "62");
-    indexPanel.setAttribute("height", "72");
-    indexPanel.setAttribute("rx", "16");
-    const divider = document.createElementNS(svgNamespace, "line");
-    divider.classList.add("d3-flow-node-divider");
-    divider.setAttribute("x1", "-38");
-    divider.setAttribute("y1", "-30");
-    divider.setAttribute("x2", "-38");
-    divider.setAttribute("y2", "30");
-    const accent = document.createElementNS(svgNamespace, "rect");
-    accent.classList.add("d3-flow-node-accent");
-    accent.setAttribute("x", "-100");
-    accent.setAttribute("y", "-36");
-    accent.setAttribute("width", "200");
-    accent.setAttribute("height", "7");
-    accent.setAttribute("rx", "3");
-    const step = document.createElementNS(svgNamespace, "text");
-    step.classList.add("d3-flow-node-step");
-    step.textContent = String(node.readingIndex + 1).padStart(2, "0");
-    step.setAttribute("x", "-78");
-    step.setAttribute("y", "-8");
-    const text = document.createElementNS(svgNamespace, "text");
-    text.classList.add("d3-flow-node-label");
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("y", "11");
-    text.textContent = node.label;
-    const status = document.createElementNS(svgNamespace, "circle");
-    status.classList.add("d3-flow-node-status");
-    status.setAttribute("cx", "80");
-    status.setAttribute("cy", "-14");
-    status.setAttribute("r", "5");
-    group.append(outline, shape, indexPanel, divider, accent, step, text, status);
-    nodeLayer.append(group);
-    nodeElements.set(node.id, group);
-  }
+  const element = <K extends keyof SVGElementTagNameMap>(parent: SVGElement, tag: K, className: string, attributes: Record<string, string | number> = {}): SVGElementTagNameMap[K] => {
+    const child = document.createElementNS(svgNamespace, tag);
+    child.setAttribute("class", className);
+    for (const [key, value] of Object.entries(attributes)) child.setAttribute(key, String(value));
+    parent.append(child);
+    return child;
+  };
+  const pixel = (parent: SVGElement, className: string, x: number, y: number, width: number, height: number, step = 4) =>
+    element(parent, "path", className, { d: flowPixelPath(x, y, width, height, step) });
+  let destroyed = false;
+  let compact: boolean | undefined;
+  let activeNodeId: string | undefined;
+  const render = (force = false): void => {
+    if (destroyed) return;
+    // Limit the host's layout width by the viewport, including scaled presentation hosts.
+    const nextCompact = Math.min(host.clientWidth || window.innerWidth, window.innerWidth) < 900;
+    if (!force && compact === nextCompact) return;
+    compact = nextCompact;
+    const focusedId = (document.activeElement as Element | null)?.getAttribute("data-node-id");
+    svg.replaceChildren();
+    nodeElements.clear();
+    svg.dataset.orientation = compact ? "vertical" : "horizontal";
+
+    // Measure outside the slide: inactive Reveal slides can be display:none.
+    const ruler = document.createElementNS(svgNamespace, "svg");
+    ruler.classList.add("d3-flow-svg");
+    ruler.style.cssText = "position:fixed;width:0;height:0;overflow:hidden;visibility:hidden";
+    ruler.setAttribute("aria-hidden", "true");
+    document.body.append(ruler);
+    const probe = element(ruler, "text", "d3-flow-node-label");
+    const measure = (value: string): number => {
+      probe.textContent = value;
+      const bounds = probe.getBBox();
+      return Math.max(probe.getComputedTextLength(), bounds.width + Math.abs(bounds.x));
+    };
+    const grid = (value: number) => Math.ceil(value / 4) * 4;
+    const nodeWidth = grid(Math.max(320, Math.min(384, Math.max(...model.nodes.map((node) => measure(node.label))) + 112)));
+    const nodeLines = model.nodes.map((node) => wrapFlowText(node.label, nodeWidth - 112, measure));
+    const nodeHeight = grid(Math.max(132, ...nodeLines.map((lines) => lines.length * 32 + 80)));
+    probe.setAttribute("class", "d3-flow-edge-label");
+    const edgeLabels = model.edges.map((edge) => {
+      const lines = wrapFlowText(edge.label, nodeWidth - 48, measure);
+      return { lines, width: grid(Math.max(216, ...lines.map((line) => measure(line) + 48))), height: grid(Math.max(64, lines.length * 32 + 24)) };
+    });
+    const labelHeight = Math.max(64, ...edgeLabels.map((label) => label.height));
+    const gap = 44;
+    const nodeTop = 140 + labelHeight + 80;
+    const rowGap = labelHeight + 64;
+    const width = compact ? nodeWidth + 64 : 64 + model.nodes.length * nodeWidth + (model.nodes.length - 1) * gap;
+    const height = compact ? 64 + model.nodes.length * nodeHeight + (model.nodes.length - 1) * rowGap : nodeTop + nodeHeight + 180;
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    svg.style.aspectRatio = `${width} / ${height}`;
+    const desc = element(svg, "desc", "");
+    desc.textContent = model.staticFallback;
+    element(svg, "rect", "d3-flow-backdrop", { width, height });
+    const decoration = element(svg, "g", "d3-flow-decoration", { "aria-hidden": "true" });
+    if (!compact) {
+      for (const [x, y] of [[32, 32], [width - 160, 48], [32, height - 100]]) {
+        for (let col = 0; col < 6; col++) for (let row = 0; row < 3; row++) {
+          element(decoration, "rect", "d3-flow-confetti", { x: x + col * 22, y: y + row * 22, width: 10, height: 10 });
+        }
+      }
+      for (const [x, y] of [[220, 72], [width - 220, height - 76]]) {
+        element(decoration, "path", "d3-flow-spark", { d: `M ${x} ${y - 20} h 8 v 16 h 16 v 8 h -16 v 16 h -8 v -16 h -16 v -8 h 16 Z` });
+      }
+      element(decoration, "rect", "d3-flow-confetti", { x: width * 0.18, y: height - 56, width: width * 0.64, height: 12 });
+    }
+    const positions = new Map(model.nodes.map((node, index) => [node.id, {
+      x: compact ? 32 : 32 + index * (nodeWidth + gap),
+      y: compact ? 32 + index * (nodeHeight + rowGap) : nodeTop,
+    }]));
+    const edgeLayer = element(svg, "g", "d3-flow-edge-layer");
+    const nodeLayer = element(svg, "g", "d3-flow-node-layer");
+    const text = (parent: SVGElement, className: string, lines: string[], x: number, y: number): SVGTextElement => {
+      const label = element(parent, "text", className, { "text-anchor": "middle", "dominant-baseline": "alphabetic" });
+      lines.forEach((line, index) => {
+        const span = element(label, "tspan", "", { x, y: index * 32 });
+        span.textContent = line;
+      });
+      // Center the actual ink box, including ascenders/descenders, not a guessed baseline.
+      const measured = label.cloneNode(true) as SVGTextElement;
+      ruler.append(measured);
+      const bounds = measured.getBBox();
+      measured.remove();
+      label.setAttribute("transform", `translate(${x - (bounds.x + bounds.width / 2)} ${y - (bounds.y + bounds.height / 2)})`);
+      return label;
+    };
+    for (const [index, edge] of model.edges.entries()) {
+      const source = positions.get(edge.sourceNodeId)!;
+      const target = positions.get(edge.targetNodeId)!;
+      const { lines, width: labelWidth, height: pillHeight } = edgeLabels[index]!;
+      const forward = compact ? target.y > source.y : target.x > source.x;
+      const x1 = compact ? source.x + nodeWidth / 2 : source.x + (forward ? nodeWidth : 0);
+      const y1 = compact ? source.y + (forward ? nodeHeight : 0) : source.y + nodeHeight / 2;
+      const x2 = compact ? target.x + nodeWidth / 2 : target.x + (forward ? 0 : nodeWidth);
+      const y2 = compact ? target.y + (forward ? 0 : nodeHeight) : target.y + nodeHeight / 2;
+      const group = element(edgeLayer, "g", "d3-flow-edge", {
+        "data-edge-id": edge.id, "aria-label": edge.label,
+        "data-resource-id": edge.source.map((source) => source.resourceId).join(" "),
+        "data-provenance-ids": edge.source.flatMap((source) => source.provenanceIds ?? []).join(" "),
+      });
+      element(group, "rect", "d3-flow-connector", {
+        x: compact ? x1 - 10 : Math.min(x1, x2), y: compact ? Math.min(y1, y2) : y1 - 10,
+        width: compact ? 20 : Math.abs(x2 - x1), height: compact ? Math.abs(y2 - y1) : 20,
+      });
+      const cx = (x1 + x2) / 2;
+      const cy = compact ? (y1 + y2) / 2 : 140 + labelHeight / 2;
+      if (!compact) {
+        element(group, "line", "d3-flow-label-stem", { x1: cx, y1: cy + pillHeight / 2 + 12, x2: cx, y2: nodeTop - 12 });
+        pixel(group, "d3-flow-connector", cx - 10, y1 - 14, 20, 28, 2);
+        element(group, "rect", "d3-flow-connector-glint", { x: cx - 4, y: y1 - 8, width: 8, height: 8 });
+      }
+      const labelGroup = element(group, "g", "d3-flow-edge-label-group", { transform: `translate(${cx - labelWidth / 2} ${cy - pillHeight / 2})` });
+      pixel(labelGroup, "d3-flow-shadow", 0, 12, labelWidth, pillHeight);
+      pixel(labelGroup, "d3-flow-edge-label-backdrop", 0, 0, labelWidth, pillHeight);
+      pixel(labelGroup, "d3-flow-edge-label-inset", 6, 6, labelWidth - 12, pillHeight - 14, 3);
+      text(labelGroup, "d3-flow-edge-label", lines, labelWidth / 2, pillHeight / 2);
+      // Small directional chevrons keep the authored edge direction explicit.
+      element(group, "path", "d3-flow-edge-arrow", { d: compact
+        ? `M ${x2 - 6} ${y2 - (forward ? 12 : -12)} l 6 ${forward ? 6 : -6} l 6 ${forward ? -6 : 6}`
+        : `M ${x2 - (forward ? 12 : -12)} ${y2 - 6} l ${forward ? 6 : -6} 6 l ${forward ? -6 : 6} 6` });
+    }
+    for (const [index, node] of model.nodes.entries()) {
+      const position = positions.get(node.id)!;
+      const group = element(nodeLayer, "g", `d3-flow-node d3-flow-node-${node.emphasis ?? "normal"}`, {
+        "data-node-id": node.id, role: "group", "aria-label": node.label,
+        "data-resource-id": node.source.map((source) => source.resourceId).join(" "),
+        "data-provenance-ids": node.source.flatMap((source) => source.provenanceIds ?? []).join(" "),
+        transform: `translate(${position.x} ${position.y})`,
+        ...(model.interactionPolicy === "keyboard" ? { tabindex: 0 } : {}),
+      });
+      pixel(group, "d3-flow-shadow d3-flow-shadow-far", 0, 24, nodeWidth, nodeHeight);
+      pixel(group, "d3-flow-shadow", 0, 12, nodeWidth, nodeHeight);
+      pixel(group, "d3-flow-node-outline", 0, 0, nodeWidth, nodeHeight);
+      pixel(group, "d3-flow-node-bevel", 4, 4, nodeWidth - 8, nodeHeight - 12);
+      pixel(group, "d3-flow-node-shape", 12, 16, nodeWidth - 24, nodeHeight - 32, 3);
+      element(group, "path", "d3-flow-node-index-panel", { d: `M 24 20 H 76 V ${nodeHeight - 20} H 24 V ${nodeHeight - 24} H 20 V 24 H 24 Z` });
+      element(group, "line", "d3-flow-node-divider", { x1: 76, y1: 20, x2: 76, y2: nodeHeight - 20 });
+      element(group, "path", "d3-flow-node-glint", { d: `M 28 20 H ${nodeWidth - 28} M 16 32 V ${nodeHeight - 32}` });
+      text(group, "d3-flow-node-step", [String(node.readingIndex + 1).padStart(2, "0")], 48, 50);
+      text(group, "d3-flow-node-label", nodeLines[index]!, 88 + (nodeWidth - 112) / 2, nodeHeight / 2 + 16);
+      pixel(group, "d3-flow-node-status", nodeWidth - 40, 28, 16, 20, 2);
+      element(group, "rect", "d3-flow-connector-glint", { x: nodeWidth - 36, y: 30, width: 6, height: 6 });
+      group.classList.toggle("d3-flow-node-active", activeNodeId === node.id);
+      nodeElements.set(node.id, group);
+    }
+    ruler.remove();
+    if (focusedId) nodeElements.get(focusedId)?.focus({ preventScroll: true });
+  };
+  render();
+  let resizeFrame = 0;
+  const onResize = (): void => {
+    cancelAnimationFrame(resizeFrame);
+    // Coalesce host resize and presentation relayout notifications.
+    resizeFrame = requestAnimationFrame(() => render());
+  };
+  const observer = new ResizeObserver(onResize);
+  observer.observe(host);
+  window.addEventListener("resize", onResize);
+  const onFontsLoaded = (): void => render(true);
+  void document.fonts.ready.then(onFontsLoaded);
+  document.fonts.addEventListener("loadingdone", onFontsLoaded);
   const focusNode = (nodeId?: string): void => {
+    activeNodeId = nodeId;
     for (const [id, element] of nodeElements) element.classList.toggle("d3-flow-node-active", id === nodeId);
     if (nodeId) nodeElements.get(nodeId)?.focus();
   };
   let focusIndex = 0;
   const onKeyDown = (event: KeyboardEvent): void => {
+    if (model.interactionPolicy !== "keyboard") return;
     if (event.key !== "ArrowRight" && event.key !== "ArrowDown" && event.key !== "ArrowLeft" && event.key !== "ArrowUp") return;
     event.preventDefault();
+    const focusedId = document.activeElement?.getAttribute("data-node-id");
+    const currentIndex = model.nodes.findIndex((node) => node.id === focusedId);
+    if (currentIndex >= 0) focusIndex = currentIndex;
     focusIndex = event.key === "ArrowRight" || event.key === "ArrowDown"
       ? (focusIndex + 1) % model.nodes.length
       : (focusIndex - 1 + model.nodes.length) % model.nodes.length;
     focusNode(model.nodes[focusIndex]?.id);
   };
   svg.addEventListener("keydown", onKeyDown);
-  let destroyed = false;
   return {
     model,
     staticFallback: model.staticFallback,
     focusNode,
     handleKey(key) {
-      if (destroyed) return false;
+      if (destroyed || model.interactionPolicy !== "keyboard") return false;
       if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(key)) return false;
       onKeyDown(new KeyboardEvent("keydown", { key }));
       return true;
@@ -887,6 +884,10 @@ export function mountD3FlowDiagram(host: unknown, model: D3FlowRenderModel): D3F
     destroy() {
       if (destroyed) return;
       destroyed = true;
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
+      document.fonts.removeEventListener("loadingdone", onFontsLoaded);
       svg.removeEventListener("keydown", onKeyDown);
       wrapper.remove();
     },

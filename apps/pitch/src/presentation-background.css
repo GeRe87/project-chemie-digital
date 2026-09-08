@@ -185,87 +185,38 @@ body.pcd-background-active .d3-flow-runtime {
   border: 0;
 }
 
-body.pcd-background-active .d3-flow-edge {
-  stroke: #62efff;
+/* Theme changes are paint-only: SVG measurements and pixel geometry stay stable. */
+body:not(.pcd-theme-light) .d3-flow-svg {
+  --flow-ink: #d6f5ec;
+  --flow-edge: #23565f;
+  --flow-rim: #388d98;
+  --flow-paper: #183a43;
+  --flow-panel: #20515b;
+  --flow-shadow: #000b12;
+  --flow-backdrop: #10262e;
+  --flow-confetti: #31545b;
+  --flow-pill-rim: #2c626b;
+  --flow-pill-paper: #1c3942;
+  --flow-glint: #89c9c5;
+  --flow-inner-rim: #41777e;
+  --flow-bevel-rim: #72b2b7;
+  --flow-stem: #4e9ba4;
 }
 
-body.pcd-background-active .d3-flow-edge-arrow {
-  fill: #62efff;
+body:not(.pcd-theme-light) .d3-flow-node-primary {
+  --flow-ink: #ffe9b0;
+  --flow-edge: #855313;
+  --flow-rim: #bf862a;
+  --flow-paper: #493817;
+  --flow-panel: #62481c;
+  --flow-shadow: #000b12;
+  --flow-glint: #f3cc78;
+  --flow-inner-rim: #9c7533;
+  --flow-bevel-rim: #e8b74e;
 }
 
-body.pcd-background-active .d3-flow-backdrop {
-  fill: rgba(5, 8, 16, 0.16);
-}
-
-body.pcd-background-active .d3-flow-grid {
-  stroke: rgba(98, 239, 255, 0.1);
-}
-
-body.pcd-background-active .d3-flow-rail {
-  stroke: rgba(98, 239, 255, 0.28);
-}
-
-body.pcd-background-active .d3-flow-connector {
-  fill: #173c4b;
-  stroke: #62efff;
-}
-
-body.pcd-background-active .d3-flow-label-stem {
-  stroke: #62efff;
-}
-
-body.pcd-background-active .d3-flow-edge-label,
 body.pcd-background-active .d3-flow-caption {
-  fill: #d8faff;
   color: #d8faff;
-}
-
-body.pcd-background-active .d3-flow-edge-label-backdrop {
-  fill: rgba(5, 8, 16, 0.9);
-  stroke: rgba(98, 239, 255, 0.32);
-}
-
-body.pcd-background-active .d3-flow-node-shape {
-  fill: #102235;
-  stroke: #62efff;
-}
-
-body.pcd-background-active .d3-flow-node-outline {
-  stroke: rgba(98, 239, 255, 0.28);
-}
-
-body.pcd-background-active .d3-flow-node-index-panel {
-  fill: rgba(23, 60, 75, 0.92);
-}
-
-body.pcd-background-active .d3-flow-node-divider {
-  stroke: rgba(98, 239, 255, 0.3);
-}
-
-body.pcd-background-active .d3-flow-node-primary .d3-flow-node-shape {
-  fill: #3a2814;
-  stroke: #ffbf5a;
-}
-
-body.pcd-background-active .d3-flow-node-label {
-  fill: #f6fbff;
-}
-
-body.pcd-background-active .d3-flow-node-accent {
-  fill: #62efff;
-}
-
-body.pcd-background-active .d3-flow-node-primary .d3-flow-node-accent,
-body.pcd-background-active .d3-flow-node-primary .d3-flow-node-status {
-  fill: #ffbf5a;
-}
-
-body.pcd-background-active .d3-flow-node-step {
-  fill: #9eefff;
-}
-
-body.pcd-background-active .d3-flow-node-status {
-  fill: #7bceda;
 }
 
 html:has(body.pcd-theme-light),
@@ -342,87 +293,8 @@ body.pcd-theme-light .d3-flow-runtime {
   border: 0;
 }
 
-body.pcd-theme-light .d3-flow-edge {
-  stroke: #187079;
-}
-
-body.pcd-theme-light .d3-flow-edge-arrow {
-  fill: #187079;
-}
-
-body.pcd-theme-light .d3-flow-backdrop {
-  fill: rgba(238, 247, 248, 0.26);
-}
-
-body.pcd-theme-light .d3-flow-grid {
-  stroke: rgba(24, 112, 121, 0.1);
-}
-
-body.pcd-theme-light .d3-flow-rail {
-  stroke: rgba(24, 112, 121, 0.25);
-}
-
-body.pcd-theme-light .d3-flow-connector {
-  fill: #d6edf0;
-  stroke: #187079;
-}
-
-body.pcd-theme-light .d3-flow-label-stem {
-  stroke: #187079;
-}
-
-body.pcd-theme-light .d3-flow-edge-label,
 body.pcd-theme-light .d3-flow-caption {
-  fill: #17343d;
   color: #17343d;
-}
-
-body.pcd-theme-light .d3-flow-edge-label-backdrop {
-  fill: rgba(255, 255, 255, 0.9);
-  stroke: rgba(24, 112, 121, 0.25);
-}
-
-body.pcd-theme-light .d3-flow-node-shape {
-  fill: #ffffff;
-  stroke: #187079;
-}
-
-body.pcd-theme-light .d3-flow-node-outline {
-  stroke: rgba(24, 112, 121, 0.24);
-}
-
-body.pcd-theme-light .d3-flow-node-index-panel {
-  fill: rgba(214, 237, 240, 0.88);
-}
-
-body.pcd-theme-light .d3-flow-node-divider {
-  stroke: rgba(24, 112, 121, 0.3);
-}
-
-body.pcd-theme-light .d3-flow-node-primary .d3-flow-node-shape {
-  fill: #fff1d9;
-  stroke: #b56a00;
-}
-
-body.pcd-theme-light .d3-flow-node-label {
-  fill: #17343d;
-}
-
-body.pcd-theme-light .d3-flow-node-accent {
-  fill: #187079;
-}
-
-body.pcd-theme-light .d3-flow-node-primary .d3-flow-node-accent,
-body.pcd-theme-light .d3-flow-node-primary .d3-flow-node-status {
-  fill: #b56a00;
-}
-
-body.pcd-theme-light .d3-flow-node-step {
-  fill: #4d6972;
-}
-
-body.pcd-theme-light .d3-flow-node-status {
-  fill: #7d9aa6;
 }
 
 .appearance-controls {
