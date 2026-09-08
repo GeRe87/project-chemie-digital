@@ -267,6 +267,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             language = literal(dataset, item, iri(CD, "language"))
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
+            selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
+            if selected_is_attribution and role != "AttributionRole":
+                raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
             if role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
@@ -326,6 +329,19 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
+                }
+            elif role == "AttributionRole":
+                if relation_path != "cd:body":
+                    raise ValueError(f"AttributionRole requires direct cd:body selection in {compact(item)}")
+                if not selected_is_attribution:
+                    raise ValueError(f"AttributionRole requires Attribution in {compact(item)}")
+                text = selected_literal(dataset, selected, iri(CD, "body"), relation_path, language)
+                block = {
+                    "id": block_id, "kind": "prose",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "text": text, "format": "plain",
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "supporting", "intent": {"kind": "emphasize"},
                 }
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
