@@ -25,6 +25,14 @@ test("Chemometrics source path preserves the existing presentation profile", () 
   assert.deepEqual(resolved.diagnostics, []);
 });
 
+test("other existing Chemometrics paths preserve the default profile without warnings", () => {
+  const resolved = resolvePresentationAppearance("", "ex:path-chemometrics-random-variables-lecture");
+  assert.equal(resolved.profile, chemometricsPresentationProfile);
+  assert.equal(resolved.view, "scroll");
+  assert.equal(resolved.backgroundPackId, "chemometrics-neon-city");
+  assert.deepEqual(resolved.diagnostics, []);
+});
+
 test("CogniFlow source path selects a neutral scroll profile with no default background", () => {
   const resolved = resolvePresentationAppearance("", COGNIFLOW_SOURCE_PATH_ID);
   assert.equal(resolved.profile, cogniflowPresentationProfile);
@@ -48,11 +56,10 @@ test("unknown appearance overrides fail closed to profile defaults", () => {
   assert.equal(resolved.diagnostics.length, 2);
 });
 
-test("unknown source paths fall back deterministically with a diagnostic", () => {
+test("unregistered source paths preserve the historical default profile silently", () => {
   const resolved = resolvePresentationAppearance("", "ex:path-not-registered");
   assert.equal(resolved.profile, chemometricsPresentationProfile);
-  assert.equal(resolved.diagnostics.length, 1);
-  assert.match(resolved.diagnostics[0]!, /Unknown source path/);
+  assert.deepEqual(resolved.diagnostics, []);
 });
 
 test("Chemometrics pack preserves the supplied five-layer parallax speed model", () => {
