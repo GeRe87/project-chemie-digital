@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   backgroundPackRegistry,
+  CHEMOMETRICS_SOURCE_PATH_ID,
+  COGNIFLOW_SOURCE_PATH_ID,
   chemometricsPresentationProfile,
+  cogniflowPresentationProfile,
   resolvePresentationAppearance,
 } from "../src/presentation-profile.ts";
 
@@ -11,6 +14,23 @@ test("Chemometrics presentation defaults to Reveal scroll view and neon-city pac
   assert.equal(resolved.profile.id, "chemometrics");
   assert.equal(resolved.view, "scroll");
   assert.equal(resolved.backgroundPackId, "chemometrics-neon-city");
+  assert.deepEqual(resolved.diagnostics, []);
+});
+
+test("Chemometrics source path preserves the existing presentation profile", () => {
+  const resolved = resolvePresentationAppearance("", CHEMOMETRICS_SOURCE_PATH_ID);
+  assert.equal(resolved.profile, chemometricsPresentationProfile);
+  assert.equal(resolved.view, "scroll");
+  assert.equal(resolved.backgroundPackId, "chemometrics-neon-city");
+  assert.deepEqual(resolved.diagnostics, []);
+});
+
+test("CogniFlow source path selects a neutral scroll profile with no default background", () => {
+  const resolved = resolvePresentationAppearance("", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(resolved.profile, cogniflowPresentationProfile);
+  assert.equal(resolved.profile.id, "cogniflow-standardized-data-processing");
+  assert.equal(resolved.view, "scroll");
+  assert.equal(resolved.backgroundPackId, undefined);
   assert.deepEqual(resolved.diagnostics, []);
 });
 
@@ -26,6 +46,13 @@ test("unknown appearance overrides fail closed to profile defaults", () => {
   assert.equal(resolved.view, chemometricsPresentationProfile.defaultView);
   assert.equal(resolved.backgroundPackId, chemometricsPresentationProfile.defaultBackgroundPackId);
   assert.equal(resolved.diagnostics.length, 2);
+});
+
+test("unknown source paths fall back deterministically with a diagnostic", () => {
+  const resolved = resolvePresentationAppearance("", "ex:path-not-registered");
+  assert.equal(resolved.profile, chemometricsPresentationProfile);
+  assert.equal(resolved.diagnostics.length, 1);
+  assert.match(resolved.diagnostics[0]!, /Unknown source path/);
 });
 
 test("Chemometrics pack preserves the supplied five-layer parallax speed model", () => {
