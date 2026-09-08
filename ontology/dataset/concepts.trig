@@ -13,7 +13,7 @@ graph:concepts {
       cd:MathExpression, cd:MathSymbol, cd:WorkedExample, cd:Exercise,
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
-      cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:LearningPath, cd:PathStep,
+      cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution, cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
     cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
       cd:hasExample, cd:hasExercise, cd:hasSource, cd:hasKeyPoint, cd:forTopic, cd:hasStep,
@@ -29,7 +29,7 @@ graph:concepts {
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:KeyPointRole, cd:DefinitionWithCitation .
+      cd:KeyPointRole, cd:AttributionRole, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
   cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
@@ -50,6 +50,7 @@ graph:concepts {
   cd:CalculationStep a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:KeyPoint a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:Attribution a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
   cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
   cd:Source a rdfs:Class, cdm:ConceptDescriptor .
@@ -70,6 +71,7 @@ graph:concepts {
   cd:ExampleRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:KeyPointRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:AttributionRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
 
   cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
