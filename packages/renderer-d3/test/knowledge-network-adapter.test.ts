@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { KnowledgeNetworkDocument } from "../../core/src/index.ts";
+import type { DiagramBlock, KnowledgeNetworkDocument } from "../../core/src/index.ts";
 import {
   canonicalSerializeD3RenderModel,
+  createD3FlowRenderModel,
   createD3KnowledgeNetworkRenderModel,
   mountD3KnowledgeNetwork,
   type D3KnowledgeNetworkRenderModel,
@@ -152,4 +153,34 @@ test("performs no network requests", () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+const flowBlock: DiagramBlock = {
+  kind: "diagram",
+  id: "block:analytical-flow",
+  source: [{ resourceId: "ex:analytical-flow" }],
+  diagramType: "flow",
+  label: "Analytical process",
+  description: "Sampling to interpretation with a data-processing gap.",
+  nodes: [
+    { id: "sampling", label: "Sampling", source: [{ resourceId: "ex:sampling" }] },
+    { id: "processing", label: "Data processing", emphasis: "primary", source: [{ resourceId: "ex:processing" }] },
+    { id: "interpretation", label: "Interpretation", source: [{ resourceId: "ex:interpretation" }] },
+  ],
+  edges: [
+    { id: "sampling-processing", sourceNodeId: "sampling", targetNodeId: "processing", label: "produces data for", source: [{ resourceId: "ex:edge-one" }] },
+    { id: "processing-interpretation", sourceNodeId: "processing", targetNodeId: "interpretation", label: "supports", source: [{ resourceId: "ex:edge-two" }] },
+  ],
+};
+
+test("creates a deterministic accessible flow model and preserves the semantic focus node", () => {
+  const first = createD3FlowRenderModel(flowBlock, options);
+  const second = createD3FlowRenderModel(structuredClone(flowBlock), options);
+  assert.ok(first.model);
+  assert.ok(second.model);
+  assert.equal(JSON.stringify(first.model), JSON.stringify(second.model));
+  assert.deepEqual(first.model.nodeReadingOrder, ["sampling", "processing", "interpretation"]);
+  assert.equal(first.model.nodes[1]?.emphasis, "primary");
+  assert.match(first.model.staticFallback, /Data processing/);
+  assert.match(first.model.staticFallback, /produces data for/);
 });

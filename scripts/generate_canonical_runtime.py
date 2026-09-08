@@ -196,6 +196,50 @@ def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> 
     return records
 
 
+def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str | None) -> dict[str, Any]:
+    node_records = sorted(
+        [node for node in objects(dataset, diagram, iri(CD, "hasDiagramNode")) if isinstance(node, URIRef)],
+        key=lambda node: (integer(dataset, node, iri(CD, "position")), str(node)),
+    )
+    edge_records = sorted(
+        [edge for edge in objects(dataset, diagram, iri(CD, "hasDiagramEdge")) if isinstance(edge, URIRef)],
+        key=lambda edge: (integer(dataset, edge, iri(CD, "position")), str(edge)),
+    )
+    if len(node_records) < 2:
+        raise ValueError(f"FlowDiagram {compact(diagram)} requires at least two DiagramNodes")
+    focus_node = one(dataset, diagram, iri(CD, "focusNode"))
+    node_ids = {node for node in node_records}
+    nodes = [
+        {
+            "id": compact(node),
+            "label": selected_literal(dataset, node, SKOS.prefLabel, "skos:prefLabel@en", language),
+            "source": [source_reference(dataset, node, "skos:prefLabel@en")],
+            **({"emphasis": "primary"} if node == focus_node else {}),
+        }
+        for node in node_records
+    ]
+    edges = []
+    for edge in edge_records:
+        source_node = one(dataset, edge, iri(CD, "sourceNode"))
+        target_node = one(dataset, edge, iri(CD, "targetNode"))
+        if source_node not in node_ids or target_node not in node_ids:
+            raise ValueError(f"FlowDiagram edge {compact(edge)} references a node outside {compact(diagram)}")
+        edges.append({
+            "id": compact(edge),
+            "sourceNodeId": compact(source_node),
+            "targetNodeId": compact(target_node),
+            "label": selected_literal(dataset, edge, SKOS.prefLabel, "skos:prefLabel@en", language),
+            "source": [source_reference(dataset, edge, "skos:prefLabel@en")],
+        })
+    return {
+        "diagramType": "flow",
+        "label": selected_literal(dataset, diagram, SKOS.prefLabel, "skos:prefLabel@en", language),
+        "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -343,6 +387,21 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "supporting", "intent": {"kind": "emphasize"},
                 }
+            elif role == "DiagramRole":
+                if relation_path != "cd:body":
+                    raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
+                if not is_resource_type(dataset, selected, "FlowDiagram"):
+                    raise ValueError(f"DiagramRole requires FlowDiagram in {compact(item)}")
+                payload = flow_diagram_payload(dataset, selected, language)
+                block = {
+                    "id": block_id,
+                    "kind": "diagram",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
                     raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")
@@ -441,7 +500,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
             "blocks": blocks,
             "readingOrder": [block["id"] for block in blocks],
-            "accessibility": {"label": blocks[0]["text"]},
+            "accessibility": {"label": blocks[0].get("text", blocks[0].get("label", "Scene"))},
         })
     return {"version": "1.0", "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
@@ -598,6 +657,25 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     )
                 else:
                     raise ValueError(f"Unsupported prompt response mode: {response_mode}")
+                continue
+            if block["kind"] == "diagram":
+                labels = {node["id"]: node["label"] for node in block["nodes"]}
+                nodes = "".join(
+                    f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}">{html.escape(node["label"])}</li>'
+                    for node in block["nodes"]
+                )
+                relations = "".join(
+                    f'<li data-diagram-edge-id="{html.escape(edge["id"], quote=True)}">'
+                    f'{html.escape(labels[edge["sourceNodeId"]])} — {html.escape(edge["label"])} → '
+                    f'{html.escape(labels[edge["targetNodeId"]])}</li>'
+                    for edge in block["edges"]
+                )
+                blocks.append(
+                    f'<section class="diagram-fallback" data-diagram-type="{html.escape(block["diagramType"], quote=True)}"{fallback_attributes(block["source"])}>'
+                    f'<h3>{html.escape(block["label"])}</h3><p>{html.escape(block["description"])}</p>'
+                    f'<ol class="diagram-fallback-nodes">{nodes}</ol><ul class="diagram-fallback-edges">{relations}</ul>'
+                    f'</section>'
+                )
                 continue
             tag = "h2" if block["intent"]["kind"] == "introduce" else "blockquote" if block["intent"]["kind"] == "explain" else "cite"
             class_name = ' class="lead"' if tag == "blockquote" else ' class="citation"' if tag == "cite" else ""

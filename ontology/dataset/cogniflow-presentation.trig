@@ -12,12 +12,108 @@
     cd:body "Standardized Data Processing - Project CogniFlow"@en ;
     cd:authoredResource true .
 
+  ex:cogniflow-analytical-process-problem a cd:Concept ;
+    skos:prefLabel "The standardization gap in analytical data processing"@en ;
+    cd:hasDefinition ex:def-cogniflow-analytical-process-problem ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-standardized-procedures,
+      ex:keypoint-cogniflow-measurement-quality,
+      ex:keypoint-cogniflow-processing-gap ;
+    cd:hasDiagram ex:diagram-cogniflow-analytical-process ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-analytical-process-problem a cd:Definition ;
+    cd:body "From sampling to interpretation, many steps of an analytical process are already governed by standardized procedures. The gap becomes visible in data processing: measured data must be transformed into comparable, traceable and interpretable results, but this part is not standardized to the same extent."@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-standardized-procedures a cd:KeyPoint ;
+    cd:body "Sampling and preparation follow standards."@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-measurement-quality a cd:KeyPoint ;
+    cd:body "Measurement uses standardized methods and criteria."@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-processing-gap a cd:KeyPoint ;
+    cd:body "Data processing lacks shared standards."@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-analytical-process a cd:FlowDiagram ;
+    skos:prefLabel "Analytical process from sampling to interpretation"@en ;
+    cd:body "The analytical process from sampling to interpretation, with data processing as the standardization gap."@en ;
+    cd:hasDiagramNode ex:diagram-node-cogniflow-sampling,
+      ex:diagram-node-cogniflow-sample-preparation,
+      ex:diagram-node-cogniflow-measurement,
+      ex:diagram-node-cogniflow-data-processing,
+      ex:diagram-node-cogniflow-interpretation ;
+    cd:hasDiagramEdge ex:diagram-edge-cogniflow-sampling-preparation,
+      ex:diagram-edge-cogniflow-preparation-measurement,
+      ex:diagram-edge-cogniflow-measurement-processing,
+      ex:diagram-edge-cogniflow-processing-interpretation ;
+    cd:focusNode ex:diagram-node-cogniflow-data-processing ;
+    cd:authoredResource true .
+
+  ex:diagram-node-cogniflow-sampling a cd:DiagramNode ;
+    skos:prefLabel "Sampling"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:diagram-node-cogniflow-sample-preparation a cd:DiagramNode ;
+    skos:prefLabel "Sample preparation"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:diagram-node-cogniflow-measurement a cd:DiagramNode ;
+    skos:prefLabel "Measurement"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:diagram-node-cogniflow-data-processing a cd:DiagramNode ;
+    skos:prefLabel "Data processing"@en ;
+    cd:position 4 ;
+    cd:authoredResource true .
+
+  ex:diagram-node-cogniflow-interpretation a cd:DiagramNode ;
+    skos:prefLabel "Interpretation"@en ;
+    cd:position 5 ;
+    cd:authoredResource true .
+
+  ex:diagram-edge-cogniflow-sampling-preparation a cd:DiagramEdge ;
+    skos:prefLabel "passes to"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:diagram-node-cogniflow-sampling ;
+    cd:targetNode ex:diagram-node-cogniflow-sample-preparation ;
+    cd:authoredResource true .
+
+  ex:diagram-edge-cogniflow-preparation-measurement a cd:DiagramEdge ;
+    skos:prefLabel "produces material for"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:diagram-node-cogniflow-sample-preparation ;
+    cd:targetNode ex:diagram-node-cogniflow-measurement ;
+    cd:authoredResource true .
+
+  ex:diagram-edge-cogniflow-measurement-processing a cd:DiagramEdge ;
+    skos:prefLabel "produces data for"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:diagram-node-cogniflow-measurement ;
+    cd:targetNode ex:diagram-node-cogniflow-data-processing ;
+    cd:authoredResource true .
+
+  ex:diagram-edge-cogniflow-processing-interpretation a cd:DiagramEdge ;
+    skos:prefLabel "supports"@en ;
+    cd:position 4 ;
+    cd:sourceNode ex:diagram-node-cogniflow-data-processing ;
+    cd:targetNode ex:diagram-node-cogniflow-interpretation ;
+    cd:authoredResource true .
+
   ex:attribution-cogniflow-gerrit-renner a cd:Attribution ;
     cd:body "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
     cd:authoredResource true .
 
   ex:attribution-cogniflow-ricardo-cunha a cd:Attribution ;
-    cd:body "Ricardo Cunha — IUTA"@en ;
+    cd:body "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"@en ;
     cd:authoredResource true .
 }
 
@@ -28,7 +124,8 @@
 
   ex:learning-unit-cogniflow-standardized-data-processing a cd:LearningUnit ;
     skos:prefLabel "Project CogniFlow presentation"@en ;
-    cd:hasFocusConcept ex:cogniflow-standardized-data-processing .
+    cd:hasFocusConcept ex:cogniflow-standardized-data-processing,
+      ex:cogniflow-analytical-process-problem .
 
   ex:unit-placement-cogniflow-standardized-data-processing a cd:UnitPlacement ;
     cd:position 1 ;
@@ -40,7 +137,8 @@
     skos:prefLabel "Project CogniFlow presentation path"@en ;
     cd:forTopic ex:cogniflow-standardized-data-processing ;
     cd:forLearningUnit ex:learning-unit-cogniflow-standardized-data-processing ;
-    cd:hasStep ex:path-step-cogniflow-title ;
+     cd:hasStep ex:path-step-cogniflow-title,
+       ex:path-step-cogniflow-problem ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-title a cd:PathStep ;
@@ -49,14 +147,37 @@
       ex:attribution-cogniflow-ricardo-cunha ;
     cd:usesScene ex:scene-cogniflow-title ;
     cd:authoredResource true .
+
+  ex:path-step-cogniflow-problem a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:def-cogniflow-analytical-process-problem,
+      ex:keypoint-cogniflow-standardized-procedures,
+      ex:keypoint-cogniflow-measurement-quality,
+      ex:keypoint-cogniflow-processing-gap,
+      ex:diagram-cogniflow-analytical-process ;
+    cd:usesScene ex:scene-cogniflow-problem ;
+    cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing> {
   ex:scene-cogniflow-title a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-standardized-data-processing ;
-    cd:hasSceneItem ex:scene-item-cogniflow-title-heading,
-      ex:scene-item-cogniflow-title-gerrit-renner,
-      ex:scene-item-cogniflow-title-ricardo-cunha ;
+     cd:hasSceneItem ex:scene-item-cogniflow-title-heading,
+       ex:scene-item-cogniflow-title-gerrit-renner,
+       ex:scene-item-cogniflow-title-ricardo-cunha ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-problem a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-analytical-process-problem ;
+    cd:hasSceneItem ex:scene-item-cogniflow-problem-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-problem-diagram a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:diagram-cogniflow-analytical-process ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-title-heading a cd:SceneItem ;

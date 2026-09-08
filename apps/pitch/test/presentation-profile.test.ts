@@ -33,20 +33,41 @@ test("other existing Chemometrics paths preserve the default profile without war
   assert.deepEqual(resolved.diagnostics, []);
 });
 
-test("CogniFlow source path selects a neutral scroll profile with no default background", () => {
+test("CogniFlow source path selects the shared scroll profile and neon-city background", () => {
   const resolved = resolvePresentationAppearance("", COGNIFLOW_SOURCE_PATH_ID);
   assert.equal(resolved.profile, cogniflowPresentationProfile);
   assert.equal(resolved.profile.id, "cogniflow-standardized-data-processing");
   assert.equal(resolved.view, "scroll");
-  assert.equal(resolved.backgroundPackId, undefined);
+  assert.equal(resolved.backgroundPackId, "chemometrics-neon-city");
   assert.deepEqual(resolved.diagnostics, []);
 });
 
 test("query overrides can force deck view and disable the presentation background", () => {
   const resolved = resolvePresentationAppearance("?view=deck&background=none");
   assert.equal(resolved.view, "deck");
+  assert.equal(resolved.theme, "dark");
   assert.equal(resolved.backgroundPackId, undefined);
   assert.deepEqual(resolved.diagnostics, []);
+});
+
+test("light theme selects the local Eco City pack and remains overrideable", () => {
+  const resolved = resolvePresentationAppearance("?theme=light", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(resolved.theme, "light");
+  assert.equal(resolved.backgroundPackId, "eco-city-light");
+  assert.deepEqual(resolved.diagnostics, []);
+
+  const noBackground = resolvePresentationAppearance("?theme=light&background=none", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(noBackground.theme, "light");
+  assert.equal(noBackground.backgroundPackId, undefined);
+  assert.deepEqual(noBackground.diagnostics, []);
+});
+
+test("unsupported themes fail closed to dark mode", () => {
+  const resolved = resolvePresentationAppearance("?theme=sepia", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(resolved.theme, "dark");
+  assert.equal(resolved.backgroundPackId, "chemometrics-neon-city");
+  assert.equal(resolved.diagnostics.length, 1);
+  assert.match(resolved.diagnostics[0]!, /Unsupported theme/);
 });
 
 test("unknown appearance overrides fail closed to profile defaults", () => {
@@ -73,4 +94,11 @@ test("Chemometrics pack preserves the supplied five-layer parallax speed model",
     ["rain-fog", 0.72],
   ]);
   assert.ok(pack.layers.every((layer) => !layer.asset.startsWith("http")));
+});
+
+test("Light pack preserves five local vertical-city layers", () => {
+  const pack = backgroundPackRegistry.find((candidate) => candidate.id === "eco-city-light");
+  assert.ok(pack);
+  assert.deepEqual(pack.layers.map((layer) => layer.id), ["skyline", "facade-left", "facade-right", "bridges", "sunbeam"]);
+  assert.ok(pack.layers.every((layer) => layer.asset.startsWith("/presentation-backgrounds/eco-city-light/")));
 });

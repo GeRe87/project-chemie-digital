@@ -9,7 +9,7 @@ import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-sc
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
-import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
+import { installNoNetworkGuard, mountFlowDiagrams, mountSceneDocuments } from "./preview.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
   createDeckProgressSource,
@@ -18,8 +18,11 @@ import {
 } from "../../../packages/renderer-reveal/src/background/background-progress.ts";
 import {
   backgroundPackRegistry,
+  CHEMOMETRICS_BACKGROUND_PACK_ID,
+  LIGHT_BACKGROUND_PACK_ID,
   mountAppearanceControls,
   resolvePresentationAppearance,
+  type PresentationTheme,
 } from "./presentation-profile.ts";
 
 const root = document.querySelector<HTMLElement>("#pitch-slides");
@@ -44,8 +47,18 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const unmountFlowDiagrams = mountFlowDiagrams(root, documents, reducedMotion);
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
+
+function applyPresentationTheme(theme: PresentationTheme): void {
+  document.body.dataset.presentationTheme = theme;
+  document.body.classList.toggle("pcd-theme-light", theme === "light");
+}
+
+let currentTheme = appearance.theme;
+let currentBackgroundPackId = appearance.backgroundPackId;
+applyPresentationTheme(currentTheme);
 
 const backgroundRuntime = mountBackgroundRuntime({
   host: document.body,
@@ -58,10 +71,25 @@ for (const diagnostic of backgroundRuntime.getDiagnostics()) console.warn(`[${di
 const appearanceControls = mountAppearanceControls({
   root: shellRoot,
   currentPackId: appearance.backgroundPackId,
+  currentTheme,
   onBackgroundChange: (packId) => {
+    currentBackgroundPackId = packId;
     backgroundRuntime.setPack(packId);
     const url = new URL(window.location.href);
     url.searchParams.set("background", packId ?? "none");
+    window.history.replaceState({}, "", url);
+  },
+  onThemeChange: (theme) => {
+    currentTheme = theme;
+    applyPresentationTheme(theme);
+    const followsThemeBackground = currentBackgroundPackId === CHEMOMETRICS_BACKGROUND_PACK_ID || currentBackgroundPackId === LIGHT_BACKGROUND_PACK_ID;
+    if (followsThemeBackground) {
+      currentBackgroundPackId = theme === "light" ? LIGHT_BACKGROUND_PACK_ID : CHEMOMETRICS_BACKGROUND_PACK_ID;
+      backgroundRuntime.setPack(currentBackgroundPackId);
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set("theme", theme);
+    if (followsThemeBackground) url.searchParams.set("background", currentBackgroundPackId ?? "none");
     window.history.replaceState({}, "", url);
   },
 });
@@ -153,8 +181,9 @@ window.addEventListener("pagehide", () => {
   appearanceControls.destroy();
   backgroundRuntime.destroy();
   void deck.destroy();
-  unmountShell();
-  shellRoot.remove();
+   unmountShell();
+   unmountFlowDiagrams();
+   shellRoot.remove();
   unmountScenes();
   removeNetworkGuard();
 }, { once: true });

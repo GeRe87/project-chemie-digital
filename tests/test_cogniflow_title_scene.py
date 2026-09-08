@@ -36,7 +36,7 @@ PATH_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/paths/cognifl
 SCENE_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing")
 TITLE = "Standardized Data Processing - Project CogniFlow"
 GERRIT = "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"
-RICARDO = "Ricardo Cunha — IUTA"
+RICARDO = "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"
 
 
 def request():
@@ -76,7 +76,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", document["sourcePathId"])
-        self.assertEqual(1, len(document["scenes"]))
+        self.assertEqual(2, len(document["scenes"]))
         scene = document["scenes"][0]
         self.assertEqual("ex:scene-cogniflow-title--scene", scene["id"])
         self.assertEqual([TITLE, GERRIT, RICARDO], [block["text"] for block in scene["blocks"]])
@@ -95,7 +95,33 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn(TITLE, fallback)
         self.assertIn(GERRIT, fallback)
-        self.assertIn(RICARDO, fallback)
+        self.assertIn(RICARDO.replace("&", "&amp;"), fallback)
+
+    def test_problem_scene_compiles_detail_keypoints_and_flow_diagram(self) -> None:
+        artifact = RUNTIME.build_artifact(request())
+        scene = artifact["sceneDocuments"][0]["scenes"][1]
+        self.assertEqual("ex:scene-cogniflow-problem--scene", scene["id"])
+        self.assertEqual(["diagram"], [block["kind"] for block in scene["blocks"]])
+        diagram = scene["blocks"][0]
+        self.assertEqual("flow", diagram["diagramType"])
+        self.assertEqual(5, len(diagram["nodes"]))
+        self.assertEqual(4, len(diagram["edges"]))
+        self.assertEqual("primary", next(node for node in diagram["nodes"] if node["label"] == "Data processing")["emphasis"])
+        self.assertEqual("ex:diagram-cogniflow-analytical-process", diagram["source"][0]["resourceId"])
+        fallback = RUNTIME.static_fallback(artifact)
+        self.assertIn("Sampling", fallback)
+        self.assertIn("Data processing", fallback)
+        self.assertIn("Interpretation", fallback)
+        specification = self.dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-standardized-data-processing"))
+        self.assertEqual([
+            "Sampling and preparation follow standards.",
+            "Measurement uses standardized methods and criteria.",
+            "Data processing lacks shared standards.",
+        ], [str(specification.value(EX[key], CD.body)) for key in (
+            "keypoint-cogniflow-standardized-procedures",
+            "keypoint-cogniflow-measurement-quality",
+            "keypoint-cogniflow-processing-gap",
+        )])
 
     def test_attribution_role_rejects_wrong_selector(self) -> None:
         dataset = copy_dataset(self.dataset)

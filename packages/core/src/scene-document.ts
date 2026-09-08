@@ -95,7 +95,31 @@ export interface PromptBlock extends SceneBlockBase {
   readonly fallback: string;
 }
 
-export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock;
+export interface DiagramNode {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly emphasis?: "normal" | "supporting" | "primary";
+}
+
+export interface DiagramEdge {
+  readonly id: string;
+  readonly sourceNodeId: string;
+  readonly targetNodeId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface DiagramBlock extends SceneBlockBase {
+  readonly kind: "diagram";
+  readonly diagramType: "flow";
+  readonly label: string;
+  readonly description: string;
+  readonly nodes: readonly DiagramNode[];
+  readonly edges: readonly DiagramEdge[];
+}
+
+export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock | DiagramBlock;
 
 export interface Scene {
   readonly id: string;
@@ -158,6 +182,30 @@ function validateListItems(items: readonly ListItem[], label: string): void {
   }
 }
 
+function validateDiagram(block: DiagramBlock, label: string): void {
+  requireNonEmpty(block.label, `${label} diagram label`);
+  requireNonEmpty(block.description, `${label} diagram description`);
+  if (block.diagramType !== "flow") throw new SceneContractError(`${label} diagram type must be flow`);
+  if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
+  const nodeIds = block.nodes.map((node) => node.id);
+  if (new Set(nodeIds).size !== nodeIds.length) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
+  for (const node of block.nodes) {
+    requireNonEmpty(node.id, `${label} diagram node id`);
+    requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
+    validateSource(node.source, `${label} diagram node ${node.id} source`);
+  }
+  const edgeIds = block.edges.map((edge) => edge.id);
+  if (new Set(edgeIds).size !== edgeIds.length) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
+  for (const edge of block.edges) {
+    requireNonEmpty(edge.id, `${label} diagram edge id`);
+    requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
+    if (!nodeIds.includes(edge.sourceNodeId) || !nodeIds.includes(edge.targetNodeId)) {
+      throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
+    }
+    validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
+  }
+}
+
 function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
@@ -187,6 +235,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
     }
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+    if (block.kind === "diagram") validateDiagram(block, `${label} block ${block.id}`);
   }
 }
 

@@ -8,7 +8,8 @@ import {
   compilePitchSceneDocumentsFromArtifact,
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
-import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+import { inferPitchLayout, installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+import type { Scene } from "../../../packages/core/src/scene-document.ts";
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -50,6 +51,80 @@ test("retains exactly-one SceneDocument cardinality for generic preview loading"
     }),
     /exactly one SceneDocument/,
   );
+});
+
+test("infers an opening layout from a heading and supporting attribution blocks", () => {
+  const scene: Scene = {
+    id: "ex:scene-unseen-title--scene",
+    source: [{ resourceId: "ex:scene-unseen-title" }],
+    readingOrder: ["heading", "author-one", "author-two"],
+    blocks: [
+      { id: "heading", kind: "prose", text: "A graph-backed title", intent: { kind: "introduce" }, emphasis: "primary", source: [{ resourceId: "ex:title" }] },
+      { id: "author-one", kind: "prose", text: "Author One", intent: { kind: "emphasize" }, emphasis: "supporting", source: [{ resourceId: "ex:author-one" }] },
+      { id: "author-two", kind: "prose", text: "Author Two", intent: { kind: "emphasize" }, emphasis: "supporting", source: [{ resourceId: "ex:author-two" }] },
+    ],
+  };
+  assert.equal(inferPitchLayout(scene), "opening");
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{
+    version: "1.0",
+    id: "ex:document",
+    sourcePathId: "ex:path",
+    scenes: [scene],
+  }]);
+  assert.equal(root.children[0]?.attributes.get("data-layout"), "opening");
+  assert.equal(root.children[0]?.children[1]?.className, "citation");
+  destroy();
+});
+
+test("does not use a scene identifier to recognize a generic opening", () => {
+  const scene: Scene = {
+    id: "ex:another-scene-id",
+    source: [{ resourceId: "ex:scene" }],
+    readingOrder: ["heading", "attribution"],
+    blocks: [
+      { id: "heading", kind: "prose", text: "Title", intent: { kind: "introduce" }, source: [{ resourceId: "ex:title" }] },
+      { id: "attribution", kind: "prose", text: "Author", intent: { kind: "emphasize" }, emphasis: "supporting", source: [{ resourceId: "ex:author" }] },
+    ],
+  };
+  assert.equal(inferPitchLayout(scene), "opening");
+});
+
+test("infers a process layout from a renderer-neutral flow diagram block", () => {
+  const scene: Scene = {
+    id: "ex:scene-process",
+    source: [{ resourceId: "ex:scene-process" }],
+    readingOrder: ["heading", "detail", "diagram"],
+    blocks: [
+      { id: "heading", kind: "prose", text: "Analytical process", intent: { kind: "introduce" }, source: [{ resourceId: "ex:heading" }] },
+      { id: "detail", kind: "prose", text: "The process contains a standardization gap.", intent: { kind: "explain" }, source: [{ resourceId: "ex:detail" }] },
+      {
+        id: "diagram",
+        kind: "diagram",
+        diagramType: "flow",
+        label: "Analytical process",
+        description: "Flow",
+        source: [{ resourceId: "ex:diagram" }],
+        nodes: [
+          { id: "one", label: "One", source: [{ resourceId: "ex:one" }] },
+          { id: "two", label: "Two", source: [{ resourceId: "ex:two" }] },
+        ],
+        edges: [{ id: "edge", sourceNodeId: "one", targetNodeId: "two", label: "to", source: [{ resourceId: "ex:edge" }] }],
+      },
+    ],
+  };
+  assert.equal(inferPitchLayout(scene), "process");
+  const diagramOnlyScene: Scene = { ...scene, blocks: [scene.blocks[2]!], readingOrder: ["diagram"] };
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{
+    version: "1.0",
+    id: "ex:document",
+    sourcePathId: "ex:path",
+    scenes: [diagramOnlyScene],
+  }]);
+  assert.equal(root.children[0]?.attributes.get("data-diagram-only"), "true");
+  assert.equal(root.children[0]?.attributes.get("aria-label"), "Analytical process");
+  destroy();
 });
 
 test("rejects unsupported canonical runtime artifact versions at runtime", () => {

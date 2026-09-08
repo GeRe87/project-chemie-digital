@@ -82,6 +82,29 @@ SELECT $this WHERE {
       }"""
     ] .
 
+  cd:FlowDiagramShape a sh:NodeShape ;
+    sh:targetClass cd:FlowDiagram ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:hasDiagramNode ; sh:minCount 2 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasDiagramEdge ; sh:minCount 1 ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:focusNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] .
+
+  cd:DiagramNodeShape a sh:NodeShape ;
+    sh:targetClass cd:DiagramNode ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:DiagramEdgeShape a sh:NodeShape ;
+    sh:targetClass cd:DiagramEdge ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:sourceNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:targetNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] .
+
   cd:SceneDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:SceneDefinition ;
     sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
@@ -103,7 +126,7 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole cd:DiagramRole ) ] ;
     sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
@@ -152,6 +175,23 @@ SELECT $this WHERE {
         $this cd:selectsResource ?source ; cd:communicativeRole ?role .
         ?source a cd:Attribution .
         FILTER (?role != cd:AttributionRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramRole requires a FlowDiagram resource and direct cd:body selection." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:DiagramRole ; cd:selectionPath ?selector ; cd:selectsResource ?source .
+        FILTER (?selector != "cd:body" || NOT EXISTS { ?source a cd:FlowDiagram . })
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A FlowDiagram selected by a scene item requires DiagramRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectsResource ?source ; cd:communicativeRole ?role .
+        ?source a cd:FlowDiagram .
+        FILTER (?role != cd:DiagramRole)
       }"""
     ] .
 }
