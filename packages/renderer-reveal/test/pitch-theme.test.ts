@@ -10,7 +10,7 @@ import {
 } from "../src/index.ts";
 
 const plan: RevealRenderPlan = {
-  version: "1.0",
+  version: "1.1",
   sourceDocumentId: "pitch-scene-document",
   sourcePathId: "ex:studiendekanat-pitch-path-v1",
   reducedMotion: true,
