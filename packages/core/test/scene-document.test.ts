@@ -133,6 +133,17 @@ test("flow diagram references fail closed", () => {
   }, /focusNodeId references an unknown node/);
 });
 
+test("flow diagram edge endpoints must be non-empty", () => {
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.edges[0]!.sourceNodeId = "";
+  }, /sourceNodeId must be non-empty/);
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.edges[0]!.targetNodeId = "";
+  }, /targetNodeId must be non-empty/);
+});
+
 test("flow diagram node and edge identities must be unique", () => {
   expectFlowError((value) => {
     const block = value.scenes[0]!.blocks[0]!;
