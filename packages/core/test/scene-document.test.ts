@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   type SceneDocument,
@@ -40,6 +41,39 @@ function document(): SceneDocument {
   };
 }
 
+function flowDocument(): SceneDocument {
+  return {
+    version: SCENE_DOCUMENT_FLOW_VERSION,
+    id: "scene:flow",
+    sourcePathId: "ex:path-flow",
+    scenes: [
+      {
+        id: "scene:flow-process",
+        source: [{ resourceId: "ex:flow" }],
+        blocks: [
+          {
+            kind: "diagram",
+            id: "block:flow",
+            source: [{ resourceId: "ex:flow", provenanceIds: ["graph:flow"], relationPath: "cd:body" }],
+            diagramType: "flow",
+            label: "Analytical process",
+            description: "A deterministic process flow.",
+            focusNodeId: "node:processing",
+            nodes: [
+              { id: "node:measurement", label: "Measurement", source: [{ resourceId: "ex:measurement", relationPath: "skos:prefLabel@en" }] },
+              { id: "node:processing", label: "Data processing", source: [{ resourceId: "ex:processing", relationPath: "skos:prefLabel@en" }], emphasis: "primary" },
+            ],
+            edges: [
+              { id: "edge:data", sourceNodeId: "node:measurement", targetNodeId: "node:processing", label: "produces data for", source: [{ resourceId: "ex:edge-data", relationPath: "skos:prefLabel@en" }] },
+            ],
+          },
+        ],
+        readingOrder: ["block:flow"],
+      },
+    ],
+  };
+}
+
 function expectError(mutator: (value: SceneDocument) => void, message: RegExp): void {
   const value = structuredClone(document());
   mutator(value);
@@ -49,7 +83,16 @@ function expectError(mutator: (value: SceneDocument) => void, message: RegExp): 
   );
 }
 
-test("accepts the minimal standard-deviation scene contract", () => {
+function expectFlowError(mutator: (value: SceneDocument) => void, message: RegExp): void {
+  const value = structuredClone(flowDocument());
+  mutator(value);
+  assert.throws(
+    () => validateSceneDocument(value),
+    (error: unknown) => error instanceof SceneContractError && message.test(error.message),
+  );
+}
+
+test("accepts the minimal standard-deviation SceneDocument 1.0 contract", () => {
   assert.doesNotThrow(() => validateSceneDocument(document()));
 });
 
@@ -70,6 +113,35 @@ test("accepts a renderer-neutral executable R code block", () => {
   assert.doesNotThrow(() => validateSceneDocument(value));
   value.scenes[0]!.blocks[2]!.fallback = "";
   assert.throws(() => validateSceneDocument(value), /code block:r-example fallback must be non-empty/);
+});
+
+test("accepts a source-linked flow diagram only in SceneDocument 1.1", () => {
+  assert.doesNotThrow(() => validateSceneDocument(flowDocument()));
+  const legacy = structuredClone(flowDocument()) as SceneDocument & { version: string };
+  legacy.version = SCENE_DOCUMENT_VERSION;
+  assert.throws(() => validateSceneDocument(legacy as SceneDocument), /diagram requires SceneDocument 1\.1/);
+});
+
+test("flow diagram references fail closed", () => {
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.edges[0]!.targetNodeId = "node:missing";
+  }, /references an unknown node/);
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.focusNodeId = "node:missing";
+  }, /focusNodeId references an unknown node/);
+});
+
+test("flow diagram node and edge identities must be unique", () => {
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.nodes = [block.nodes[0]!, { ...block.nodes[1]!, id: block.nodes[0]!.id }];
+  }, /duplicate node ids/);
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") block.edges = [block.edges[0]!, { ...block.edges[0]! }];
+  }, /duplicate edge ids/);
 });
 
 test("requires deterministic complete reading order", () => {
