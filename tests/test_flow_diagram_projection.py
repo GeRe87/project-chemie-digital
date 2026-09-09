@@ -35,6 +35,7 @@ DIAGRAM = URIRef(f"{EX}flow-diagram-projection")
 NODE_ONE = URIRef(f"{EX}flow-projection-node-one")
 NODE_TWO = URIRef(f"{EX}flow-projection-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-projection-edge-one")
+EDGE_TWO = URIRef(f"{EX}flow-projection-edge-two")
 OUTSIDE_NODE = URIRef(f"{EX}flow-projection-node-outside")
 
 
@@ -152,6 +153,41 @@ class FlowDiagramProjectionTests(unittest.TestCase):
         )
         self.assertEqual("1.1", document["version"])
         self.assertEqual("Prozessfluss", document["scenes"][0]["accessibility"]["label"])
+
+    def test_static_fallback_preserves_flow_structure_order_focus_and_sources(self) -> None:
+        dataset = flow_scene_dataset(include_focus=True, include_heading=False)
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((DIAGRAM, cd("hasDiagramEdge"), EDGE_TWO))
+        graph.add((EDGE_TWO, RDF.type, cd("DiagramEdge")))
+        graph.add((EDGE_TWO, SKOS.prefLabel, Literal("zurück zu", lang="de")))
+        graph.add((EDGE_TWO, cd("position"), Literal(2, datatype=XSD.integer)))
+        graph.add((EDGE_TWO, cd("sourceNode"), NODE_TWO))
+        graph.add((EDGE_TWO, cd("targetNode"), NODE_ONE))
+        graph.add((EDGE_TWO, cd("authoredResource"), Literal(True)))
+
+        document = RUNTIME.compile_scene_document(dataset, selected_path())
+        fallback = RUNTIME.static_fallback({"sceneDocuments": [document]})
+
+        self.assertIn('<figure class="diagram-fallback" data-diagram-type="flow"', fallback)
+        self.assertIn('data-focus-node-id="ex:flow-projection-node-two"', fallback)
+        self.assertIn("<strong>Prozessfluss</strong>", fallback)
+        self.assertIn("<span>Renderer-neutrale Beschreibung.</span>", fallback)
+        self.assertLess(
+            fallback.index('data-diagram-node-id="ex:flow-projection-node-one"'),
+            fallback.index('data-diagram-node-id="ex:flow-projection-node-two"'),
+        )
+        self.assertLess(
+            fallback.index('data-diagram-edge-id="ex:flow-projection-edge-one"'),
+            fallback.index('data-diagram-edge-id="ex:flow-projection-edge-two"'),
+        )
+        self.assertIn("Eingang — führt zu → Ausgangstitel", fallback)
+        self.assertIn("Ausgangstitel — zurück zu → Eingang", fallback)
+        self.assertIn('data-resource-id="ex:flow-diagram-projection"', fallback)
+        self.assertIn('data-relation-path="cd:body skos:prefLabel@de"', fallback)
+        self.assertIn('data-resource-id="ex:flow-projection-node-two"', fallback)
+        self.assertIn('data-relation-path="dct:title"', fallback)
+        self.assertIn('data-resource-id="ex:flow-projection-edge-two"', fallback)
+        self.assertIn('data-relation-path="skos:prefLabel@de"', fallback)
 
     def test_external_edge_endpoint_fails_closed(self) -> None:
         dataset = flow_scene_dataset()
