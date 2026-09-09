@@ -191,19 +191,20 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
   if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
 
-  const nodeIds = block.nodes.map((node) => node.id);
-  const nodeIdSet = new Set(nodeIds);
-  if (nodeIdSet.size !== nodeIds.length) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
+  const nodeIdSet = new Set<string>();
   for (const node of block.nodes) {
     requireNonEmpty(node.id, `${label} diagram node id`);
+    if (nodeIdSet.has(node.id)) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
+    nodeIdSet.add(node.id);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }
 
-  const edgeIds = block.edges.map((edge) => edge.id);
-  if (new Set(edgeIds).size !== edgeIds.length) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
+  const edgeIdSet = new Set<string>();
   for (const edge of block.edges) {
     requireNonEmpty(edge.id, `${label} diagram edge id`);
+    if (edgeIdSet.has(edge.id)) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
+    edgeIdSet.add(edge.id);
     requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
     requireNonEmpty(edge.sourceNodeId, `${label} diagram edge ${edge.id} sourceNodeId`);
     requireNonEmpty(edge.targetNodeId, `${label} diagram edge ${edge.id} targetNodeId`);
