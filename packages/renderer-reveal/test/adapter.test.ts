@@ -24,7 +24,7 @@ test("golden plan preserves all five standard-deviation scenes and semantic iden
   const result = createRevealRenderPlan(document, interactive);
   assert.deepEqual(result.diagnostics, []);
   assert.ok(result.plan);
-  assert.equal(result.plan.version, "1.0");
+  assert.equal(result.plan.version, "1.1");
   assert.equal(result.plan.sourceDocumentId, document.id);
   assert.equal(result.plan.sourcePathId, document.sourcePathId);
   assert.equal(result.plan.sections.length, 5);

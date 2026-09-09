@@ -1,5 +1,7 @@
 import type { RevealNodePlan, RevealRenderPlan, RevealSectionPlan } from "./index.ts";
 
+export const PITCH_COMPONENT_DOCUMENT_VERSION = "1.1" as const;
+
 export interface PitchThemeTokens {
   readonly version: "1.0";
   readonly typography: {
@@ -46,7 +48,7 @@ export const udeChemistryPitchTheme: PitchThemeTokens = Object.freeze({
   chemistryTreatment: "structural-grid",
 });
 
-export type PitchComponentKind = "heading" | "prose" | "math" | "code" | "media" | "list" | "group" | "prompt";
+export type PitchComponentKind = "heading" | "prose" | "math" | "code" | "media" | "list" | "group" | "prompt" | "diagram";
 
 export interface PitchComponentPlan {
   readonly id: string;
@@ -70,7 +72,7 @@ export interface PitchSectionComponentPlan {
 }
 
 export interface PitchComponentDocument {
-  readonly version: "1.0";
+  readonly version: typeof PITCH_COMPONENT_DOCUMENT_VERSION;
   readonly theme: PitchThemeTokens;
   readonly sourceRenderPlanId: string;
   readonly sections: readonly PitchSectionComponentPlan[];
@@ -154,9 +156,9 @@ function mapSection(section: RevealSectionPlan, index: number, reducedMotion: bo
 }
 
 export function createPitchComponentDocument(plan: RevealRenderPlan): PitchComponentDocument {
-  if (plan.version !== "1.0") throw new Error("Unsupported RevealRenderPlan version");
+  if (plan.version !== "1.1") throw new Error("Unsupported RevealRenderPlan version");
   return {
-    version: "1.0",
+    version: PITCH_COMPONENT_DOCUMENT_VERSION,
     theme: udeChemistryPitchTheme,
     sourceRenderPlanId: plan.sourceDocumentId,
     sections: plan.sections.map((section, index) => mapSection(section, index, plan.reducedMotion)),

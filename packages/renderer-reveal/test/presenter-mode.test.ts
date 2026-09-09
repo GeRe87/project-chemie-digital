@@ -13,7 +13,7 @@ import type { RevealRenderPlan } from "../src/index.ts";
 
 const source = [{ resourceId: "ex:pitch" }];
 const renderPlan: RevealRenderPlan = {
-  version: "1.0",
+  version: "1.1",
   sourceDocumentId: "pitch-document",
   sourcePathId: "pitch-path",
   reducedMotion: false,

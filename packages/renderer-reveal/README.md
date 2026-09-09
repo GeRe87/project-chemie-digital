@@ -1,6 +1,6 @@
 # Reveal renderer adapter
 
-`@project-chemie-digital/renderer-reveal` is the bounded, offline adapter from validated `SceneDocument 1.0` values to immutable `RevealRenderPlan 1.0` values.
+`@project-chemie-digital/renderer-reveal` is the bounded, offline adapter from validated `SceneDocument 1.0` and `SceneDocument 1.1` values to immutable `RevealRenderPlan 1.1` values.
 
 The package owns all Reveal-specific planning metadata. It does not query semantic stores, download assets, capture learner state, or alter the renderer-neutral core model.
 
@@ -8,7 +8,7 @@ The package owns all Reveal-specific planning metadata. It does not query semant
 
 - `createRevealRenderPlan(document, options)` validates and maps atomically.
 - `canonicalSerializeRevealRenderPlan(plan)` emits deterministic JSON.
-- `createPitchComponentDocument(plan)` maps a validated render plan to renderer-owned accessible component records.
+- `createPitchComponentDocument(plan)` maps a validated `RevealRenderPlan 1.1` to renderer-owned accessible `PitchComponentDocument 1.1` records.
 - `canonicalSerializePitchComponentDocument(document)` emits byte-stable JSON for deterministic review.
 - `mountPitchComponents(document, runtime)` owns keyboard listeners and optional animation cleanup through an injected browser-runtime port.
 - `createPresenterModeDocument(document, configuration)` validates presenter notes and optional detail paths atomically.
@@ -24,6 +24,8 @@ The `1.0` theme is a repository-owned design interpretation for the chemistry St
 The theme contract covers typography, spacing, surfaces, emphasis, focus and contrast tokens. Tests enforce documented numerical readability invariants but do not claim accessibility certification.
 
 ## Accessible component contract
+
+`PitchComponentDocument 1.1` is the first pitch-component wire contract that permits the `diagram` component kind. Existing non-diagram component semantics remain unchanged; the version bump makes the new serialized component kind explicit to downstream consumers.
 
 Each section maps to a labelled `region` landmark and a deterministic heading. Components preserve source identities, labels, explicit reading order and complete static fallbacks. Prompt components are keyboard-focusable. Reduced-motion render plans suppress optional animation startup.
 
@@ -41,4 +43,4 @@ The runtime port owns keyboard listeners, timers, focus operations and transitio
 
 ## Boundaries
 
-The package does not modify semantic pitch claims, narrative order, `SceneDocument 1.0` or `RevealRenderPlan 1.0`. Presenter mode is a local renderer capability, not semantic state. Deployment, public release, OER publication, accounts, analytics and Phase 2 review execution remain outside this package.
+The package does not modify semantic pitch claims, narrative order, or renderer-neutral `SceneDocument` content. It accepts validated `SceneDocument 1.0` and `1.1`, normalizes to `RevealRenderPlan 1.1`, and emits `PitchComponentDocument 1.1` for the pitch-component projection. Presenter mode is a local renderer capability, not semantic state. Deployment, public release, OER publication, accounts, analytics and Phase 2 review execution remain outside this package.

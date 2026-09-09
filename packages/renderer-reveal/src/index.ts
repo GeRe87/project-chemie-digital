@@ -1,4 +1,6 @@
 import {
+  SCENE_DOCUMENT_FLOW_VERSION,
+  SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
   type AccessibilityMetadata,
@@ -105,6 +107,31 @@ export interface RevealPromptPlan extends RevealNodeBase {
   readonly interactive: boolean;
 }
 
+export interface RevealDiagramNodePlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly emphasis?: "normal" | "supporting" | "primary";
+}
+
+export interface RevealDiagramEdgePlan {
+  readonly id: string;
+  readonly sourceNodeId: string;
+  readonly targetNodeId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealDiagramPlan extends RevealNodeBase {
+  readonly kind: "diagram";
+  readonly diagramType: "flow";
+  readonly label: string;
+  readonly description: string;
+  readonly nodes: readonly RevealDiagramNodePlan[];
+  readonly edges: readonly RevealDiagramEdgePlan[];
+  readonly focusNodeId?: string;
+}
+
 export type RevealNodePlan =
   | RevealProsePlan
   | RevealMathPlan
@@ -112,7 +139,8 @@ export type RevealNodePlan =
   | RevealMediaPlan
   | RevealListPlan
   | RevealGroupPlan
-  | RevealPromptPlan;
+  | RevealPromptPlan
+  | RevealDiagramPlan;
 
 export interface RevealSectionPlan {
   readonly id: string;
@@ -126,7 +154,7 @@ export interface RevealSectionPlan {
 }
 
 export interface RevealRenderPlan {
-  readonly version: "1.0";
+  readonly version: "1.1";
   readonly sourceDocumentId: string;
   readonly sourcePathId: string;
   readonly reducedMotion: boolean;
@@ -174,6 +202,18 @@ function baseFor(block: SceneBlock, position: number, options: RevealAdapterOpti
     ...(block.accessibility ? { accessibility: { ...block.accessibility } } : {}),
     staticFallback: fallback,
   };
+}
+
+function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
+  return [
+    block.label,
+    block.description,
+    "Nodes:",
+    ...block.nodes.map((node) => `- ${node.label}`),
+    "Relations:",
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+  ].join("\n");
 }
 
 function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOptions): RevealNodePlan {
@@ -243,6 +283,28 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         fallback: block.fallback,
         interactive: options.interactionPolicy === "interactive-when-supported",
       };
+    case "diagram":
+      return {
+        ...baseFor(block, position, options, diagramStaticFallback(block)),
+        kind: "diagram",
+        diagramType: block.diagramType,
+        label: block.label,
+        description: block.description,
+        nodes: block.nodes.map((node) => ({
+          id: node.id,
+          label: node.label,
+          source: sourceCopy(node.source),
+          ...(node.emphasis ? { emphasis: node.emphasis } : {}),
+        })),
+        edges: block.edges.map((edge) => ({
+          id: edge.id,
+          sourceNodeId: edge.sourceNodeId,
+          targetNodeId: edge.targetNodeId,
+          label: edge.label,
+          source: sourceCopy(edge.source),
+        })),
+        ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
+      };
     default:
       throw new AdapterError("UNSUPPORTED_PRIMITIVE", `Unsupported primitive ${(block as { kind?: unknown }).kind ?? "unknown"}`, (block as { id?: string }).id);
   }
@@ -271,8 +333,9 @@ function validatePlan(plan: RevealRenderPlan): void {
 }
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
-  if ((document as { version?: unknown }).version !== "1.0") {
-    return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String((document as { version?: unknown }).version)}`);
+  const version = (document as { version?: unknown }).version;
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION) {
+    return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
   try {
@@ -285,7 +348,7 @@ export function createRevealRenderPlan(document: SceneDocument, options: RevealA
 
   try {
     const plan: RevealRenderPlan = {
-      version: "1.0",
+      version: "1.1",
       sourceDocumentId: document.id,
       sourcePathId: document.sourcePathId,
       reducedMotion: options.reducedMotion,

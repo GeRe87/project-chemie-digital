@@ -1,4 +1,6 @@
 import {
+  SCENE_DOCUMENT_FLOW_VERSION,
+  SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
   type AccessibilityMetadata,
@@ -9,7 +11,7 @@ import {
   type SourceReference,
 } from "../../core/src/scene-document.ts";
 
-export const SELF_STUDY_RENDER_PLAN_VERSION = "1.0" as const;
+export const SELF_STUDY_RENDER_PLAN_VERSION = "1.1" as const;
 
 export type SelfStudyDiagnosticCode =
   | "UNSUPPORTED_SCENE_DOCUMENT_VERSION"
@@ -94,6 +96,31 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
   readonly fallback: string;
 }
 
+export interface SelfStudyDiagramNodePlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly emphasis?: "normal" | "supporting" | "primary";
+}
+
+export interface SelfStudyDiagramEdgePlan {
+  readonly id: string;
+  readonly sourceNodeId: string;
+  readonly targetNodeId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
+  readonly kind: "diagram";
+  readonly diagramType: "flow";
+  readonly label: string;
+  readonly description: string;
+  readonly nodes: readonly SelfStudyDiagramNodePlan[];
+  readonly edges: readonly SelfStudyDiagramEdgePlan[];
+  readonly focusNodeId?: string;
+}
+
 export type SelfStudyNodePlan =
   | SelfStudyProsePlan
   | SelfStudyMathPlan
@@ -101,7 +128,8 @@ export type SelfStudyNodePlan =
   | SelfStudyMediaPlan
   | SelfStudyListPlan
   | SelfStudyGroupPlan
-  | SelfStudyPromptPlan;
+  | SelfStudyPromptPlan
+  | SelfStudyDiagramPlan;
 
 export interface SelfStudySectionPlan {
   readonly id: string;
@@ -178,6 +206,18 @@ function orderedBlocks(blocks: readonly SceneBlock[], readingOrder: readonly str
   });
 }
 
+function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
+  return [
+    block.label,
+    block.description,
+    "Nodes:",
+    ...block.nodes.map((node) => `- ${node.label}`),
+    "Relations:",
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+  ].join("\n");
+}
+
 function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
   switch (block.kind) {
     case "prose":
@@ -234,6 +274,28 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         ...(block.options ? { options: [...block.options] } : {}),
         fallback: block.fallback,
       };
+    case "diagram":
+      return {
+        ...baseFor(block, position, diagramStaticFallback(block)),
+        kind: "diagram",
+        diagramType: block.diagramType,
+        label: block.label,
+        description: block.description,
+        nodes: block.nodes.map((node) => ({
+          id: node.id,
+          label: node.label,
+          source: sourceCopy(node.source),
+          ...(node.emphasis ? { emphasis: node.emphasis } : {}),
+        })),
+        edges: block.edges.map((edge) => ({
+          id: edge.id,
+          sourceNodeId: edge.sourceNodeId,
+          targetNodeId: edge.targetNodeId,
+          label: edge.label,
+          source: sourceCopy(edge.source),
+        })),
+        ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
+      };
     default:
       throw new SelfStudyAdapterError(
         "UNSUPPORTED_PRIMITIVE",
@@ -257,8 +319,9 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 }
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
-  if ((document as { version?: unknown }).version !== "1.0") {
-    return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String((document as { version?: unknown }).version)}`);
+  const version = (document as { version?: unknown }).version;
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION) {
+    return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
   try {
@@ -329,6 +392,13 @@ function renderPrompt(node: SelfStudyPromptPlan, interactive: boolean): string {
   return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p></fieldset>`;
 }
 
+function renderDiagram(node: SelfStudyDiagramPlan): string {
+  const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
+  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
+  const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)} — ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
+  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol></figure>`;
+}
+
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
   switch (node.kind) {
     case "prose":
@@ -348,6 +418,8 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
     case "prompt":
       return renderPrompt(node, interactive);
+    case "diagram":
+      return renderDiagram(node);
   }
 }
 

@@ -10,7 +10,7 @@ import {
 } from "../src/index.ts";
 
 const plan: RevealRenderPlan = {
-  version: "1.0",
+  version: "1.1",
   sourceDocumentId: "pitch-scene-document",
   sourcePathId: "ex:studiendekanat-pitch-path-v1",
   reducedMotion: true,
@@ -50,6 +50,7 @@ test("maps a deterministic accessible component document", () => {
   const first = createPitchComponentDocument(plan);
   const second = createPitchComponentDocument(structuredClone(plan));
   assert.equal(canonicalSerializePitchComponentDocument(first), canonicalSerializePitchComponentDocument(second));
+  assert.equal(first.version, "1.1");
   assert.equal(first.sections[0]?.heading.headingLevel, 1);
   assert.equal(first.sections[0]?.landmark, "region");
   assert.equal(first.sections[0]?.components[1]?.focusable, true);

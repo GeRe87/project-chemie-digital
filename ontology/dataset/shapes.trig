@@ -82,6 +82,117 @@ SELECT $this WHERE {
       }"""
     ] .
 
+  cd:FlowDiagramShape a sh:NodeShape ;
+    sh:targetClass cd:FlowDiagram ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:hasDiagramNode ; sh:minCount 2 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasDiagramEdge ; sh:minCount 1 ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:focusNode ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "FlowDiagram focusNode must belong to the diagram's own node set." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:focusNode ?focus .
+        FILTER NOT EXISTS { $this cd:hasDiagramNode ?focus . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Every DiagramEdge endpoint must belong to the owning FlowDiagram node set." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramEdge ?edge .
+        {
+          ?edge cd:sourceNode ?node .
+          FILTER NOT EXISTS { $this cd:hasDiagramNode ?node . }
+        }
+        UNION
+        {
+          ?edge cd:targetNode ?node .
+          FILTER NOT EXISTS { $this cd:hasDiagramNode ?node . }
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramNode positions must be unique within one FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramNode ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A FlowDiagram node sequence must start at position 1." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramNode ?node .
+        FILTER NOT EXISTS { $this cd:hasDiagramNode ?first . ?first cd:position 1 . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramNode positions must be contiguous within one FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramNode ?node .
+        ?node cd:position ?position .
+        FILTER (?position > 1)
+        FILTER NOT EXISTS {
+          $this cd:hasDiagramNode ?previous .
+          ?previous cd:position ?previousPosition .
+          FILTER (?previousPosition = ?position - 1)
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramEdge positions must be unique within one FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramEdge ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A FlowDiagram edge sequence must start at position 1." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramEdge ?edge .
+        FILTER NOT EXISTS { $this cd:hasDiagramEdge ?first . ?first cd:position 1 . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramEdge positions must be contiguous within one FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramEdge ?edge .
+        ?edge cd:position ?position .
+        FILTER (?position > 1)
+        FILTER NOT EXISTS {
+          $this cd:hasDiagramEdge ?previous .
+          ?previous cd:position ?previousPosition .
+          FILTER (?previousPosition = ?position - 1)
+        }
+      }"""
+    ] .
+
+  cd:DiagramNodeShape a sh:NodeShape ;
+    sh:targetClass cd:DiagramNode ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:DiagramEdgeShape a sh:NodeShape ;
+    sh:targetClass cd:DiagramEdge ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:sourceNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:targetNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] .
+
   cd:SceneDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:SceneDefinition ;
     sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
