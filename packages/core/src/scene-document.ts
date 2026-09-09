@@ -1,6 +1,7 @@
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
+export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 
-export type SceneDocumentVersion = typeof SCENE_DOCUMENT_VERSION;
+export type SceneDocumentVersion = typeof SCENE_DOCUMENT_VERSION | typeof SCENE_DOCUMENT_FLOW_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -95,7 +96,32 @@ export interface PromptBlock extends SceneBlockBase {
   readonly fallback: string;
 }
 
-export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock;
+export interface DiagramNode {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly emphasis?: "normal" | "supporting" | "primary";
+}
+
+export interface DiagramEdge {
+  readonly id: string;
+  readonly sourceNodeId: string;
+  readonly targetNodeId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface DiagramBlock extends SceneBlockBase {
+  readonly kind: "diagram";
+  readonly diagramType: "flow";
+  readonly label: string;
+  readonly description: string;
+  readonly nodes: readonly DiagramNode[];
+  readonly edges: readonly DiagramEdge[];
+  readonly focusNodeId?: string;
+}
+
+export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock | DiagramBlock;
 
 export interface Scene {
   readonly id: string;
@@ -158,7 +184,39 @@ function validateListItems(items: readonly ListItem[], label: string): void {
   }
 }
 
-function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
+function validateDiagram(block: DiagramBlock, label: string): void {
+  requireNonEmpty(block.label, `${label} diagram label`);
+  requireNonEmpty(block.description, `${label} diagram description`);
+  if (block.diagramType !== "flow") throw new SceneContractError(`${label} diagram type must be flow`);
+  if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
+  if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+
+  const nodeIds = block.nodes.map((node) => node.id);
+  if (new Set(nodeIds).size !== nodeIds.length) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
+  for (const node of block.nodes) {
+    requireNonEmpty(node.id, `${label} diagram node id`);
+    requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
+    validateSource(node.source, `${label} diagram node ${node.id} source`);
+  }
+
+  const edgeIds = block.edges.map((edge) => edge.id);
+  if (new Set(edgeIds).size !== edgeIds.length) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
+  for (const edge of block.edges) {
+    requireNonEmpty(edge.id, `${label} diagram edge id`);
+    requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
+    if (!nodeIds.includes(edge.sourceNodeId) || !nodeIds.includes(edge.targetNodeId)) {
+      throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
+    }
+    validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
+  }
+
+  if (block.focusNodeId !== undefined) {
+    requireNonEmpty(block.focusNodeId, `${label} diagram focusNodeId`);
+    if (!nodeIds.includes(block.focusNodeId)) throw new SceneContractError(`${label} diagram focusNodeId references an unknown node`);
+  }
+}
+
+function validateBlocks(blocks: readonly SceneBlock[], label: string, version: SceneDocumentVersion): void {
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
   validateDisclosureOrders(blocks, label);
@@ -170,7 +228,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
       throw new SceneContractError(`${label} block ${block.id} disclosure order must be a non-negative integer`);
     }
     if (block.kind === "group") {
-      validateBlocks(block.children, `${label} group ${block.id}`);
+      validateBlocks(block.children, `${label} group ${block.id}`, version);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
     }
     if (block.kind === "list") {
@@ -187,11 +245,19 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string): void {
     }
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+    if (block.kind === "diagram") {
+      if (version !== SCENE_DOCUMENT_FLOW_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION}`);
+      }
+      validateDiagram(block, `${label} block ${block.id}`);
+    }
   }
 }
 
 export function validateSceneDocument(document: SceneDocument): void {
-  if (document.version !== SCENE_DOCUMENT_VERSION) throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
+  if (document.version !== SCENE_DOCUMENT_VERSION && document.version !== SCENE_DOCUMENT_FLOW_VERSION) {
+    throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
+  }
   requireNonEmpty(document.id, "SceneDocument id");
   requireNonEmpty(document.sourcePathId, "SceneDocument sourcePathId");
 
@@ -201,7 +267,7 @@ export function validateSceneDocument(document: SceneDocument): void {
   for (const scene of document.scenes) {
     requireNonEmpty(scene.id, "Scene id");
     validateSource(scene.source, `Scene ${scene.id} source`);
-    validateBlocks(scene.blocks, `Scene ${scene.id}`);
+    validateBlocks(scene.blocks, `Scene ${scene.id}`, document.version);
     validateOrderedIds(scene.readingOrder, scene.blocks.map((block) => block.id), `Scene ${scene.id} readingOrder`);
   }
 }
