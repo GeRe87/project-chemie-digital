@@ -155,6 +155,27 @@ test("flow diagram node and edge identities must be unique", () => {
   }, /duplicate edge ids/);
 });
 
+test("flow diagram identity validation reports empty ids before duplicate ids", () => {
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") {
+      block.nodes = [
+        { ...block.nodes[0]!, id: "" },
+        { ...block.nodes[1]!, id: "" },
+      ];
+    }
+  }, /diagram node id must be non-empty/);
+  expectFlowError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "diagram") {
+      block.edges = [
+        { ...block.edges[0]!, id: "" },
+        { ...block.edges[0]!, id: "" },
+      ];
+    }
+  }, /diagram edge id must be non-empty/);
+});
+
 test("requires deterministic complete reading order", () => {
   expectError((value) => {
     value.scenes[0].readingOrder = ["block:formula"];
