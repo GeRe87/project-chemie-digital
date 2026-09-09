@@ -196,6 +196,90 @@ def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> 
     return records
 
 
+def selected_label_reference(dataset: Dataset, resource: URIRef, language: str | None) -> tuple[str, str | None]:
+    if language is not None:
+        preferred = literal(dataset, resource, SKOS.prefLabel, language)
+        if preferred is not None:
+            return preferred, f"skos:prefLabel@{language}"
+    for predicate, relation_path in (
+        (DCTERMS.title, "dct:title"),
+        (iri(SCHEMA, "name"), "schema:name"),
+    ):
+        fallback = deterministic_authored_literal(dataset, resource, predicate)
+        if fallback is not None:
+            return fallback, relation_path
+    return local_name(resource), None
+
+
+def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    node_records = [
+        (node, integer(dataset, node, iri(CD, "position")))
+        for node in objects(dataset, diagram, iri(CD, "hasDiagramNode"))
+        if isinstance(node, URIRef)
+    ]
+    edge_records = [
+        (edge, integer(dataset, edge, iri(CD, "position")))
+        for edge in objects(dataset, diagram, iri(CD, "hasDiagramEdge"))
+        if isinstance(edge, URIRef)
+    ]
+    node_records.sort(key=lambda record: (record[1], str(record[0])))
+    edge_records.sort(key=lambda record: (record[1], str(record[0])))
+    if len(node_records) < 2:
+        raise ValueError(f"FlowDiagram {compact(diagram)} requires at least two DiagramNodes")
+    if not edge_records:
+        raise ValueError(f"FlowDiagram {compact(diagram)} requires at least one DiagramEdge")
+    node_positions = [position for _node, position in node_records]
+    if node_positions != list(range(1, len(node_records) + 1)):
+        raise ValueError(f"DiagramNode positions must be unique and contiguous for {compact(diagram)}")
+    edge_positions = [position for _edge, position in edge_records]
+    if edge_positions != list(range(1, len(edge_records) + 1)):
+        raise ValueError(f"DiagramEdge positions must be unique and contiguous for {compact(diagram)}")
+
+    node_ids = {node for node, _position in node_records}
+    focus_node = one(dataset, diagram, iri(CD, "focusNode"), required=False)
+    if focus_node is not None and focus_node not in node_ids:
+        raise ValueError(f"FlowDiagram focusNode {compact(focus_node)} is outside {compact(diagram)}")
+
+    nodes: list[dict[str, Any]] = []
+    for node, _position in node_records:
+        label, relation_path = selected_label_reference(dataset, node, language)
+        node_value: dict[str, Any] = {
+            "id": compact(node),
+            "label": label,
+            "source": [source_reference(dataset, node, relation_path)],
+        }
+        if node == focus_node:
+            node_value["emphasis"] = "primary"
+        nodes.append(node_value)
+
+    edges: list[dict[str, Any]] = []
+    for edge, _position in edge_records:
+        source_node = one(dataset, edge, iri(CD, "sourceNode"))
+        target_node = one(dataset, edge, iri(CD, "targetNode"))
+        if source_node not in node_ids or target_node not in node_ids:
+            raise ValueError(f"FlowDiagram edge {compact(edge)} references a node outside {compact(diagram)}")
+        label, relation_path = selected_label_reference(dataset, edge, language)
+        edges.append({
+            "id": compact(edge),
+            "sourceNodeId": compact(source_node),
+            "targetNodeId": compact(target_node),
+            "label": label,
+            "source": [source_reference(dataset, edge, relation_path)],
+        })
+
+    label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    payload: dict[str, Any] = {
+        "diagramType": "flow",
+        "label": label,
+        "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
+        "nodes": nodes,
+        "edges": edges,
+    }
+    if focus_node is not None:
+        payload["focusNodeId"] = compact(focus_node)
+    return payload, label_relation_path
+
+
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -253,6 +337,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
     if positions != list(range(1, len(steps) + 1)):
         raise ValueError("Path positions must be unique and contiguous")
 
+    document_version = "1.0"
     scenes: list[dict[str, Any]] = []
     for step in steps:
         scene_id = one(dataset, step, iri(CD, "usesScene"))
@@ -268,8 +353,11 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
+            selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
+            if selected_is_flow_diagram and role != "DiagramRole":
+                raise ValueError(f"FlowDiagram {compact(selected)} requires DiagramRole in {compact(item)}")
             if role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
@@ -343,6 +431,28 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "supporting", "intent": {"kind": "emphasize"},
                 }
+            elif role == "DiagramRole":
+                if relation_path != "cd:body":
+                    raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
+                if not selected_is_flow_diagram:
+                    raise ValueError(f"DiagramRole requires FlowDiagram in {compact(item)}")
+                path_language = effective_path_language(dataset, selected_path)
+                if language is not None and language != path_language:
+                    raise ValueError(f"Diagram language does not match selected path in {compact(item)}")
+                payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
+                block_sources = [source_reference(dataset, selected, relation_path)]
+                if label_relation_path is not None and label_relation_path != relation_path:
+                    block_sources.append(source_reference(dataset, selected, label_relation_path))
+                block = {
+                    "id": block_id,
+                    "kind": "diagram",
+                    "source": block_sources,
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = "1.1"
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
                     raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")
@@ -436,14 +546,22 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 raise ValueError(f"Unsupported communicative role {role}")
             blocks.append(block)
         scene_compact = compact(scene_id)
+        first_block = blocks[0]
+        accessibility_label = (
+            first_block.get("text")
+            or first_block.get("label")
+            or first_block.get("spokenText")
+            or first_block.get("prompt")
+            or first_block["id"]
+        )
         scenes.append({
             "id": f"{scene_compact}--scene",
             "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
             "blocks": blocks,
             "readingOrder": [block["id"] for block in blocks],
-            "accessibility": {"label": blocks[0]["text"]},
+            "accessibility": {"label": accessibility_label},
         })
-    return {"version": "1.0", "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
+    return {"version": document_version, "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
 
 def dataset_snapshot(dataset: Dataset, fingerprint: str, language: str) -> dict[str, Any]:
