@@ -691,6 +691,34 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<{tag} class="keypoint-list"{fallback_attributes(block["source"])}>{items}</{tag}>'
                 )
                 continue
+            if block["kind"] == "diagram":
+                labels = {node["id"]: node["label"] for node in block["nodes"]}
+                nodes = "".join(
+                    f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}</li>'
+                    for node in block["nodes"]
+                )
+                edges = "".join(
+                    f'<li data-diagram-edge-id="{html.escape(edge["id"], quote=True)}"{fallback_attributes(edge["source"])}>'
+                    f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))} — '
+                    f'{html.escape(edge["label"])} → '
+                    f'{html.escape(labels.get(edge["targetNodeId"], edge["targetNodeId"]))}'
+                    f'</li>'
+                    for edge in block["edges"]
+                )
+                focus_attribute = (
+                    f' data-focus-node-id="{html.escape(block["focusNodeId"], quote=True)}"'
+                    if block.get("focusNodeId")
+                    else ""
+                )
+                blocks.append(
+                    f'<figure class="diagram-fallback" data-diagram-type="{html.escape(block["diagramType"], quote=True)}"'
+                    f'{focus_attribute}{fallback_attributes(block["source"])}>'
+                    f'<figcaption><strong>{html.escape(block["label"])}</strong> <span>{html.escape(block["description"])}</span></figcaption>'
+                    f'<ol class="diagram-nodes">{nodes}</ol>'
+                    f'<ol class="diagram-edges">{edges}</ol>'
+                    f'</figure>'
+                )
+                continue
             if block["kind"] == "prompt":
                 response_mode = block.get("responseMode")
                 if response_mode is None:
