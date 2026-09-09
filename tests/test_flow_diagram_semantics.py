@@ -29,6 +29,7 @@ NODE_ONE = URIRef(f"{EX}flow-node-one")
 NODE_TWO = URIRef(f"{EX}flow-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-edge-one")
 OUTSIDE_NODE = URIRef(f"{EX}flow-node-outside")
+SCENE_ITEM = URIRef(f"{EX}flow-diagram-scene-item")
 
 
 def cd(local: str) -> URIRef:
@@ -49,6 +50,16 @@ def add_edge(graph, edge: URIRef, position: int, source: URIRef, target: URIRef)
     graph.add((edge, cd("sourceNode"), source))
     graph.add((edge, cd("targetNode"), target))
     graph.add((edge, cd("authoredResource"), Literal(True)))
+
+
+def add_diagram_scene_item(dataset: Dataset, *, role: str = "DiagramRole", selector: str = "cd:body") -> None:
+    graph = dataset.graph(RESOURCE_GRAPH)
+    graph.add((SCENE_ITEM, RDF.type, cd("SceneItem")))
+    graph.add((SCENE_ITEM, cd("position"), Literal(1, datatype=XSD.integer)))
+    graph.add((SCENE_ITEM, cd("selectsResource"), DIAGRAM))
+    graph.add((SCENE_ITEM, cd("communicativeRole"), cd(role)))
+    graph.add((SCENE_ITEM, cd("selectionPath"), Literal(selector)))
+    graph.add((SCENE_ITEM, cd("language"), Literal("en")))
 
 
 def fixture() -> Dataset:
@@ -84,6 +95,27 @@ class FlowDiagramSemanticTests(unittest.TestCase):
 
     def test_valid_renderer_neutral_flow_diagram_conforms(self) -> None:
         self.assert_conforms(fixture())
+
+    def test_focus_node_is_optional(self) -> None:
+        dataset = fixture()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.remove((DIAGRAM, cd("focusNode"), NODE_TWO))
+        self.assert_conforms(dataset)
+
+    def test_diagram_role_scene_item_conforms(self) -> None:
+        dataset = fixture()
+        add_diagram_scene_item(dataset)
+        self.assert_conforms(dataset)
+
+    def test_flow_diagram_scene_item_requires_diagram_role(self) -> None:
+        dataset = fixture()
+        add_diagram_scene_item(dataset, role="QuotationRole")
+        self.assert_violates(dataset, "A FlowDiagram selected by a scene item requires DiagramRole")
+
+    def test_diagram_role_requires_body_selector(self) -> None:
+        dataset = fixture()
+        add_diagram_scene_item(dataset, selector="skos:prefLabel@en")
+        self.assert_violates(dataset, "DiagramRole requires exactly the cd:body selector")
 
     def test_focus_node_must_belong_to_diagram(self) -> None:
         dataset = fixture()
