@@ -192,7 +192,8 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
 
   const nodeIds = block.nodes.map((node) => node.id);
-  if (new Set(nodeIds).size !== nodeIds.length) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
+  const nodeIdSet = new Set(nodeIds);
+  if (nodeIdSet.size !== nodeIds.length) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
   for (const node of block.nodes) {
     requireNonEmpty(node.id, `${label} diagram node id`);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
@@ -206,7 +207,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
     requireNonEmpty(edge.sourceNodeId, `${label} diagram edge ${edge.id} sourceNodeId`);
     requireNonEmpty(edge.targetNodeId, `${label} diagram edge ${edge.id} targetNodeId`);
-    if (!nodeIds.includes(edge.sourceNodeId) || !nodeIds.includes(edge.targetNodeId)) {
+    if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {
       throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
     }
     validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
@@ -214,7 +215,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
 
   if (block.focusNodeId !== undefined) {
     requireNonEmpty(block.focusNodeId, `${label} diagram focusNodeId`);
-    if (!nodeIds.includes(block.focusNodeId)) throw new SceneContractError(`${label} diagram focusNodeId references an unknown node`);
+    if (!nodeIdSet.has(block.focusNodeId)) throw new SceneContractError(`${label} diagram focusNodeId references an unknown node`);
   }
 }
 
