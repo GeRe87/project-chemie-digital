@@ -437,8 +437,6 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if not selected_is_flow_diagram:
                     raise ValueError(f"DiagramRole requires FlowDiagram in {compact(item)}")
                 path_language = effective_path_language(dataset, selected_path)
-                if language is not None and language != path_language:
-                    raise ValueError(f"Diagram language does not match selected path in {compact(item)}")
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
                 if label_relation_path is not None and label_relation_path != relation_path:
