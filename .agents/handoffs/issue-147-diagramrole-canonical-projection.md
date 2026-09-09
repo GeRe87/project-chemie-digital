@@ -67,6 +67,22 @@ The pre-#145 local compiler required `focusNode` and omitted `focusNodeId`. This
 - no focus node is valid and emits no `focusNodeId`;
 - a present focus node must belong to the diagram and is emitted exactly as `focusNodeId`.
 
+## Manager-requested static fallback repair
+
+Manager review of the first worker head found one bounded integration gap: `static_fallback()` had no explicit `diagram` branch, so a diagram-bearing canonical artifact would fall through to the prose path and attempt `block["text"]`.
+
+The repair is limited to `scripts/generate_canonical_runtime.py` plus the focused flow-projection regression:
+
+- `diagram` blocks now render to a semantic static `<figure>` rather than the prose fallback;
+- diagram label and description are retained in the `<figcaption>`;
+- node and edge arrays are emitted as ordered lists in the already-canonical order;
+- edge text resolves source/target ids back to the canonical node labels;
+- optional `focusNodeId` is preserved as `data-focus-node-id`;
+- block, node and edge `source` evidence continues through the existing deterministic `fallback_attributes()` projection;
+- no D3/SVG layout, styling contract, application theme or semantic/compiler behavior outside this fallback was changed.
+
+`tests/test_flow_diagram_projection.py` now also creates a two-edge diagram and verifies that static fallback rendering succeeds without a prose `text` field, retains label/description/focus, preserves node and edge order, resolves relation text, and carries diagram/node/edge resource and relation-path evidence.
+
 ## Focused regressions
 
 `tests/test_flow_diagram_semantics.py` now covers:
@@ -86,6 +102,7 @@ New `tests/test_flow_diagram_projection.py` covers:
 - actual effective-language relation paths are retained;
 - target-language label fallback prefers `dct:title` over an arbitrary foreign-language `skos:prefLabel`;
 - a diagram-first scene receives a valid accessibility label;
+- static fallback preserves flow structure, order, focus and source evidence without requiring prose `text`;
 - external edge endpoints fail closed;
 - non-contiguous positions fail closed;
 - FlowDiagram selection with a non-DiagramRole fails closed in the compiler.
@@ -94,7 +111,7 @@ New `tests/test_flow_diagram_projection.py` covers:
 
 ## Validation status
 
-No local execution pass is claimed from this connector worker turn. The implementation and regressions are committed on `agent/147-diagramrole-canonical-projection`; a fresh exact-head `agent-validator/project-chemie-digital` result is mandatory before manager acceptance. Configured external review is also required.
+No local execution pass is claimed from this connector worker turn. The bounded static-fallback repair and regression are committed on `agent/147-diagramrole-canonical-projection`; a fresh exact-head `agent-validator/project-chemie-digital` result is mandatory before manager acceptance. Configured external review is also required on the repaired final head.
 
 ## Explicitly untouched
 
