@@ -396,7 +396,7 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
   const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
   const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)} — ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
-  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong><span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ul class="self-study-diagram-edges">${edges}</ul></figure>`;
+  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ul class="self-study-diagram-edges">${edges}</ul></figure>`;
 }
 
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
