@@ -32,7 +32,7 @@ graph:concepts {
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:KeyPointRole, cd:AttributionRole, cd:DiagramRole, cd:DefinitionWithCitation .
+      cd:KeyPointRole, cd:AttributionRole, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
   cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
@@ -78,7 +78,6 @@ graph:concepts {
   cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:KeyPointRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:AttributionRole a cd:CommunicativeRole, cdm:ControlledValue .
-  cd:DiagramRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
 
   cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
