@@ -13,7 +13,8 @@ graph:concepts {
       cd:MathExpression, cd:MathSymbol, cd:WorkedExample, cd:Exercise,
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
-      cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution, cd:LearningPath, cd:PathStep,
+      cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution,
+      cd:FlowDiagram, cd:DiagramNode, cd:DiagramEdge, cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
     cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
       cd:hasExample, cd:hasExercise, cd:hasSource, cd:hasKeyPoint, cd:forTopic, cd:hasStep,
@@ -22,14 +23,16 @@ graph:concepts {
       cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
-      cd:hasObservation, cd:hasCalculationStep, cd:supportsResource, cd:usesScene ;
+      cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
+      cd:hasDiagramEdge, cd:sourceNode, cd:targetNode, cd:focusNode,
+      cd:supportsResource, cd:usesScene ;
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
       cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
       cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:KeyPointRole, cd:AttributionRole, cd:DefinitionWithCitation .
+      cd:KeyPointRole, cd:AttributionRole, cd:DiagramRole, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
   cd:LearningResource a rdfs:Class, cdm:ConceptDescriptor .
@@ -51,6 +54,9 @@ graph:concepts {
   cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:KeyPoint a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:Attribution a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:FlowDiagram a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:DiagramNode a rdfs:Class, cdm:ConceptDescriptor .
+  cd:DiagramEdge a rdfs:Class, cdm:ConceptDescriptor .
   cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
   cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
   cd:Source a rdfs:Class, cdm:ConceptDescriptor .
@@ -72,6 +78,7 @@ graph:concepts {
   cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:KeyPointRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:AttributionRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:DiagramRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
 
   cd:hasDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Definition .
@@ -105,6 +112,12 @@ graph:concepts {
   cd:usesDataset a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Dataset .
   cd:hasObservation a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Observation .
   cd:hasCalculationStep a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:CalculationStep .
+  cd:hasDiagram a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:FlowDiagram .
+  cd:hasDiagramNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
+  cd:hasDiagramEdge a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramEdge .
+  cd:sourceNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
+  cd:targetNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
+  cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 
