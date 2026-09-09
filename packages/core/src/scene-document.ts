@@ -204,6 +204,8 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   for (const edge of block.edges) {
     requireNonEmpty(edge.id, `${label} diagram edge id`);
     requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
+    requireNonEmpty(edge.sourceNodeId, `${label} diagram edge ${edge.id} sourceNodeId`);
+    requireNonEmpty(edge.targetNodeId, `${label} diagram edge ${edge.id} targetNodeId`);
     if (!nodeIds.includes(edge.sourceNodeId) || !nodeIds.includes(edge.targetNodeId)) {
       throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
     }
