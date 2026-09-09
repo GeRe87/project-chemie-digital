@@ -64,6 +64,7 @@ test("self-study HTML exposes a complete non-D3 diagram fallback with source ide
   const plan = createSelfStudyRenderPlan(document).plan!;
   const html = renderSelfStudyHtml(plan, { interactive: false });
   assert.match(html, /class="self-study-diagram"/);
+  assert.match(html, /<figcaption><strong>Analytical process<\/strong> <span>Measurement produces data for processing\.<\/span><\/figcaption>/);
   assert.match(html, /data-diagram-node-id="node:measurement"/);
   assert.match(html, /data-diagram-node-id="node:processing"/);
   assert.match(html, /data-diagram-edge-id="edge:data"/);
