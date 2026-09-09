@@ -83,6 +83,14 @@ The repair is limited to `scripts/generate_canonical_runtime.py` plus the focuse
 
 `tests/test_flow_diagram_projection.py` now also creates a two-edge diagram and verifies that static fallback rendering succeeds without a prose `text` field, retains label/description/focus, preserves node and edge order, resolves relation text, and carries diagram/node/edge resource and relation-path evidence.
 
+## Manager-requested language-guard repair
+
+Configured Copilot review of the repaired head identified one remaining compiler-quality issue: the DiagramRole-local `language != path_language` guard was unreachable because `effective_path_language()` already rejects conflicting non-null `cd:language` values before returning.
+
+The bounded repair removes only that redundant local guard. The selected-path language invariant remains centralized and fail-closed in `effective_path_language()`. No new regression was added because the existing System #141 test in `tests/test_summary_language_projection.py` already asserts that conflicting explicit path languages fail with `Conflicting explicit cd:language values ...: de, en`.
+
+No RDF/SHACL, SceneDocument versioning, diagram payload semantics, static fallback behavior, D3, CogniFlow content/styling, Eco City/theme, core SceneDocument, Chemometrics or learner-state behavior changed in this repair.
+
 ## Focused regressions
 
 `tests/test_flow_diagram_semantics.py` now covers:
@@ -109,9 +117,11 @@ New `tests/test_flow_diagram_projection.py` covers:
 
 `tests/test_formula_scene_semantics.py` updates the exact SceneItem role allowlist expectation for DiagramRole and explicitly proves representative non-diagram Formula and Chemometrics paths remain SceneDocument 1.0.
 
+The pre-existing `tests/test_summary_language_projection.py` coverage remains the canonical regression for selected-path language conflicts and proves contradictory explicit `cd:language` values fail closed before DiagramRole projection.
+
 ## Validation status
 
-No local execution pass is claimed from this connector worker turn. The bounded static-fallback repair and regression are committed on `agent/147-diagramrole-canonical-projection`; a fresh exact-head `agent-validator/project-chemie-digital` result is mandatory before manager acceptance. Configured external review is also required on the repaired final head.
+No local execution pass is claimed from this connector worker turn. The bounded language-guard repair is committed on `agent/147-diagramrole-canonical-projection`; a fresh exact-head `agent-validator/project-chemie-digital` result is mandatory before manager acceptance. Configured external re-review is also required on the repaired final head.
 
 ## Explicitly untouched
 
