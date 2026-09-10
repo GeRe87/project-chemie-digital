@@ -94,7 +94,22 @@ The bounded follow-up changes only the concrete text-rendering primitive and one
 - `packages/renderer-d3/test/flow-svg-whitespace.test.ts` exercises the real `createSvgD3FlowRuntime().mount(...)` path with labels containing leading and repeated spaces and asserts both the `xml:space` attribute and exact reconstructed `<tspan>` content;
 - no wrapping policy, node/edge order, layout geometry, keyboard behavior or semantic mapping changed.
 
-The Copilot thread remains for manager resolution/re-review after a fresh exact-head validator pass; the worker does not resolve or self-accept the review finding.
+The first exact-head validation of that regression failed only because the fake-DOM test used a TypeScript constructor parameter property unsupported by Node strip-only mode. The follow-up rewrote only that test-harness syntax to an explicit readonly field plus constructor assignment; production behavior and assertions remained unchanged.
+
+### Copilot-requested marker-id repair
+
+Configured Copilot re-review of exact validated head `87f2f4ca4eb9a9af4694c423f0181be015ed0f3e` reviewed all 14 changed files and identified one additional renderer integration risk: the concrete SVG marker id was derived only from `sourceBlockId`. Canonical block-id uniqueness is scoped to one scene, so two diagrams from different SceneDocuments can legally reuse the same block id while being mounted concurrently into one DOM.
+
+The bounded repair remains entirely inside renderer-d3:
+
+- each concrete `createSvgD3FlowRuntime().mount(...)` allocates one monotone renderer-local mount sequence;
+- the arrow marker id combines the sanitized canonical `sourceBlockId` with that mount sequence, so simultaneous mounts remain DOM-unique even when they reuse the same block id;
+- the marker id is allocated once at mount time, outside the internal `render()` closure, so responsive `update()`/rerender preserves the same marker id for that mounted diagram;
+- edge `marker-end` references continue to target exactly that mount's marker id;
+- canonical block/node/edge ids, semantic order, provenance, layout geometry, keyboard/static behavior, whitespace preservation and Pitch integration are unchanged;
+- the focused concrete-runtime regression mounts two render models with the same canonical block id but different scene source references, asserts distinct marker ids and matching `marker-end` references, then rerenders one mount at a narrower width and asserts that its marker id/reference remains stable.
+
+The worker does not resolve external review findings, mark the PR Ready or merge.
 
 ## Minimal Pitch integration
 
@@ -122,6 +137,8 @@ Added renderer tests covering:
 - complete text preservation during wrapping;
 - Unicode-grapheme-safe splitting of long unspaced identifiers;
 - concrete SVG preservation of leading/repeated whitespace for both node and edge labels;
+- DOM-unique per-mount marker ids for concurrently mounted diagrams that reuse the same canonical block id;
+- stable marker ids and edge references across responsive rerender;
 - canonical-focus preference;
 - Arrow/Home/End traversal;
 - static-mode non-interactivity;
@@ -143,7 +160,7 @@ Added `apps/pitch/test/flow-runtime.test.ts` proving:
 
 ## Validation status
 
-The validator success on pre-whitespace-repair head `c098365490d88604ed895d13dee274a5a3f100f9` is historical only. This SVG repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
+The validator success on pre-marker-repair head `87f2f4ca4eb9a9af4694c423f0181be015ed0f3e` is historical only. The marker-id repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
 
 No local execution pass is claimed from this connector repair turn.
 
@@ -159,7 +176,7 @@ No local execution pass is claimed from this connector repair turn.
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
-The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The Copilot-requested SVG whitespace repair itself touches only `packages/renderer-d3/src/flow-diagram.ts`, `packages/renderer-d3/test/flow-svg-whitespace.test.ts`, this handoff and workflow state.
+The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The latest marker-id repair itself touches only `packages/renderer-d3/src/flow-diagram.ts`, `packages/renderer-d3/test/flow-svg-whitespace.test.ts`, this handoff and workflow state.
 
 ## Pull request
 
@@ -167,4 +184,4 @@ Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->
 
 ## Manager review focus
 
-Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
+Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, DOM-unique mount-stable marker ids, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
