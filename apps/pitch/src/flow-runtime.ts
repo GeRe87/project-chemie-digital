@@ -8,6 +8,8 @@ import {
 
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
+  addEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
+  removeEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
 }
 
 export type PitchFlowMount = (
@@ -30,6 +32,17 @@ function diagramBlocks(documents: readonly SceneDocument[]): Map<string, Diagram
   return blocks;
 }
 
+function bindKeyboardTraversal(host: PitchFlowHost, component: D3FlowComponent, options: D3FlowOptions): () => void {
+  if (options.interactionPolicy !== "keyboard" || !host.addEventListener || !host.removeEventListener) return () => {};
+  const listener: EventListener = (event) => {
+    const key = (event as Event & { key?: unknown }).key;
+    if (typeof key !== "string") return;
+    if (component.handleKey(key)) event.preventDefault();
+  };
+  host.addEventListener("keydown", listener);
+  return () => host.removeEventListener?.("keydown", listener);
+}
+
 export function mountPitchFlowDiagrams(
   hosts: readonly PitchFlowHost[],
   documents: readonly SceneDocument[],
@@ -38,6 +51,7 @@ export function mountPitchFlowDiagrams(
 ): () => void {
   const blocks = diagramBlocks(documents);
   const components: D3FlowComponent[] = [];
+  const removeKeyboardListeners: Array<() => void> = [];
   for (const host of hosts) {
     const blockId = host.getAttribute("data-flow-block-id");
     if (!blockId) continue;
@@ -49,12 +63,14 @@ export function mountPitchFlowDiagrams(
       throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
     }
     components.push(result);
+    removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
   }
 
   let destroyed = false;
   return () => {
     if (destroyed) return;
     destroyed = true;
+    for (const removeListener of removeKeyboardListeners) removeListener();
     for (const component of components) component.destroy();
   };
 }
