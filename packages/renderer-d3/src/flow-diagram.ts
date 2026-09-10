@@ -197,6 +197,13 @@ function ensureHostElement(host: unknown): HTMLElement {
   return host;
 }
 
+export function resolveD3FlowHostWidth(hostWidth: number, viewportWidth?: number): number {
+  const host = Number.isFinite(hostWidth) && hostWidth > 0 ? hostWidth : undefined;
+  const viewport = viewportWidth !== undefined && Number.isFinite(viewportWidth) && viewportWidth > 0 ? viewportWidth : undefined;
+  const resolved = Math.min(host ?? viewport ?? 960, viewport ?? host ?? 960);
+  return Math.max(320, resolved);
+}
+
 function markerIdFor(model: D3FlowRenderModel): string {
   return `d3-flow-arrow-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}`;
 }
@@ -224,7 +231,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
   return {
     measureHost(host): number {
       const element = ensureHostElement(host);
-      return Math.max(320, element.clientWidth || 960);
+      const viewportWidth = typeof window !== "undefined" ? window.innerWidth : undefined;
+      return resolveD3FlowHostWidth(element.clientWidth, viewportWidth);
     },
     mount(host, model, initialLayout, initialActiveNodeId): D3FlowRuntimeMount {
       const hostElement = ensureHostElement(host);
@@ -242,6 +250,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", model.label);
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      svg.setAttribute("width", "100%");
       figure.append(svg, caption);
       wrapper.append(figure);
       hostElement.append(wrapper);
@@ -256,6 +265,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         activeNodeId = requestedActiveNodeId;
         svg.replaceChildren();
         svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
+        svg.setAttribute("height", String(layout.height));
         svg.setAttribute("data-orientation", layout.orientation);
 
         const desc = document.createElementNS(namespace, "desc");
@@ -360,14 +370,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       const hostElement = ensureHostElement(host);
       if (typeof ResizeObserver !== "undefined") {
         const observer = new ResizeObserver((entries) => {
-          const width = entries[0]?.contentRect.width;
-          callback(Math.max(320, width && width > 0 ? width : hostElement.clientWidth || 960));
+          const measuredWidth = entries[0]?.contentRect.width;
+          const hostWidth = measuredWidth && measuredWidth > 0 ? measuredWidth : hostElement.clientWidth;
+          const viewportWidth = typeof window !== "undefined" ? window.innerWidth : undefined;
+          callback(resolveD3FlowHostWidth(hostWidth, viewportWidth));
         });
         observer.observe(hostElement);
         return () => observer.disconnect();
       }
       if (typeof window !== "undefined") {
-        const onResize = (): void => callback(Math.max(320, hostElement.clientWidth || window.innerWidth || 960));
+        const onResize = (): void => callback(resolveD3FlowHostWidth(hostElement.clientWidth, window.innerWidth));
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
       }
