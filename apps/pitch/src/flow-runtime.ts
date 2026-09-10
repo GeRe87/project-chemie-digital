@@ -37,7 +37,9 @@ function bindKeyboardTraversal(host: PitchFlowHost, component: D3FlowComponent, 
   const listener: EventListener = (event) => {
     const key = (event as Event & { key?: unknown }).key;
     if (typeof key !== "string") return;
-    if (component.handleKey(key)) event.preventDefault();
+    if (!component.handleKey(key)) return;
+    event.preventDefault();
+    event.stopPropagation();
   };
   host.addEventListener("keydown", listener);
   return () => host.removeEventListener?.("keydown", listener);
