@@ -72,6 +72,13 @@ class FakeElement {
       ...this.children.flatMap((child) => child.findByClass(className)),
     ];
   }
+
+  findByTag(tagName: string): FakeElement[] {
+    return [
+      ...(this.tagName === tagName ? [this] : []),
+      ...this.children.flatMap((child) => child.findByTag(tagName)),
+    ];
+  }
 }
 
 class FakeHTMLElement extends FakeElement {}
@@ -98,7 +105,7 @@ const block: DiagramBlock = {
   ],
 };
 
-test("concrete SVG runtime preserves authored leading and repeated whitespace in node and edge labels", () => {
+function installFakeDom(): () => void {
   const globals = globalThis as unknown as {
     document?: Document;
     HTMLElement?: typeof HTMLElement;
@@ -107,6 +114,17 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
   const originalHTMLElement = globals.HTMLElement;
   globals.document = fakeDocument as unknown as Document;
   globals.HTMLElement = FakeHTMLElement as unknown as typeof HTMLElement;
+  return () => {
+    if (originalDocument === undefined) delete globals.document;
+    else globals.document = originalDocument;
+    if (originalHTMLElement === undefined) delete globals.HTMLElement;
+    else globals.HTMLElement = originalHTMLElement;
+    fakeDocument.activeElement = null;
+  };
+}
+
+test("concrete SVG runtime preserves authored leading and repeated whitespace in node and edge labels", () => {
+  const restoreDom = installFakeDom();
 
   try {
     const rendered = createD3FlowRenderModel(block, { reducedMotion: true, interactionPolicy: "static" });
@@ -128,10 +146,63 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
     mounted.destroy();
     assert.equal(host.children.length, 0);
   } finally {
-    if (originalDocument === undefined) delete globals.document;
-    else globals.document = originalDocument;
-    if (originalHTMLElement === undefined) delete globals.HTMLElement;
-    else globals.HTMLElement = originalHTMLElement;
-    fakeDocument.activeElement = null;
+    restoreDom();
+  }
+});
+
+test("concrete SVG runtime keeps marker ids unique per mount and stable across rerenders", () => {
+  const restoreDom = installFakeDom();
+
+  try {
+    const secondBlock: DiagramBlock = {
+      ...block,
+      label: "Second flow with reused block id",
+      description: "Represents the same canonical block id in another SceneDocument.",
+      source: [{ resourceId: "scene:other-document" }],
+    };
+    const renderedA = createD3FlowRenderModel(block, { reducedMotion: true, interactionPolicy: "static" });
+    const renderedB = createD3FlowRenderModel(secondBlock, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(renderedA.model);
+    assert.ok(renderedB.model);
+    assert.equal(renderedA.model.sourceBlockId, renderedB.model.sourceBlockId);
+
+    const layoutA = createD3FlowLayout(renderedA.model, 1200);
+    const layoutB = createD3FlowLayout(renderedB.model, 1200);
+    const hostA = new FakeHTMLElement("div");
+    const hostB = new FakeHTMLElement("div");
+    const runtime = createSvgD3FlowRuntime();
+    const mountedA = runtime.mount(hostA, renderedA.model, layoutA);
+    const mountedB = runtime.mount(hostB, renderedB.model, layoutB);
+
+    const markerA = hostA.findByTag("marker")[0];
+    const markerB = hostB.findByTag("marker")[0];
+    const edgeA = hostA.findByClass("d3-flow-edge")[0];
+    const edgeB = hostB.findByClass("d3-flow-edge")[0];
+    assert.ok(markerA);
+    assert.ok(markerB);
+    assert.ok(edgeA);
+    assert.ok(edgeB);
+    const markerAId = markerA.getAttribute("id");
+    const markerBId = markerB.getAttribute("id");
+    assert.ok(markerAId);
+    assert.ok(markerBId);
+    assert.notEqual(markerAId, markerBId);
+    assert.equal(edgeA.getAttribute("marker-end"), `url(#${markerAId})`);
+    assert.equal(edgeB.getAttribute("marker-end"), `url(#${markerBId})`);
+
+    mountedA.update(createD3FlowLayout(renderedA.model, 640));
+    const rerenderedMarkerA = hostA.findByTag("marker")[0];
+    const rerenderedEdgeA = hostA.findByClass("d3-flow-edge")[0];
+    assert.ok(rerenderedMarkerA);
+    assert.ok(rerenderedEdgeA);
+    assert.equal(rerenderedMarkerA.getAttribute("id"), markerAId);
+    assert.equal(rerenderedEdgeA.getAttribute("marker-end"), `url(#${markerAId})`);
+
+    mountedA.destroy();
+    mountedB.destroy();
+    assert.equal(hostA.children.length, 0);
+    assert.equal(hostB.children.length, 0);
+  } finally {
+    restoreDom();
   }
 });
