@@ -61,7 +61,7 @@ interface GraphemeSegmenterConstructor {
 
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
-  if (!Segmenter) return Array.from(value);
+  if (!Segmenter) throw new Error("Intl.Segmenter is required for grapheme-safe flow text layout");
   return Array.from(new Segmenter(undefined, { granularity: "grapheme" }).segment(value), ({ segment }) => segment);
 }
 
