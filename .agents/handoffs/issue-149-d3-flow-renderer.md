@@ -34,7 +34,8 @@ Added `packages/renderer-d3/src/flow-layout.ts` as a renderer-only deterministic
 - semantic node/edge ordering is never changed by layout;
 - no force simulation is used for the linear flow primitive;
 - text wrapping never truncates authored characters;
-- long unspaced values split only at Unicode grapheme boundaries through `Intl.Segmenter` on supported Node/browser runtimes;
+- long unspaced values split only at Unicode grapheme boundaries through `Intl.Segmenter`;
+- if `Intl.Segmenter` is unavailable, grapheme-dependent measurement/wrapping now fails closed rather than silently splitting by Unicode code point;
 - layout geometry is deterministic from the render model and effective host width.
 
 The browser runtime resolves the effective width as the narrower usable value of the renderer host and current viewport. This is important for Reveal, whose internal presentation host can remain 1440 px wide while the browser viewport is substantially narrower because the deck is transformed/scaled. The renderer therefore still switches to the vertical mobile layout in that case.
@@ -109,6 +110,19 @@ The bounded repair remains entirely inside renderer-d3:
 - canonical block/node/edge ids, semantic order, provenance, layout geometry, keyboard/static behavior, whitespace preservation and Pitch integration are unchanged;
 - the focused concrete-runtime regression mounts two render models with the same canonical block id but different scene source references, asserts distinct marker ids and matching `marker-end` references, then rerenders one mount at a narrower width and asserts that its marker id/reference remains stable.
 
+### Copilot-requested grapheme fallback repair
+
+Configured Copilot re-review of exact validated head `2d68fe7dc8ff92c113d04439b3b9d3fd6b73c9c6` reviewed all 14 changed files and identified a contract mismatch in `flow-layout.ts`: `segmentGraphemes()` used `Array.from()` when `Intl.Segmenter` was unavailable. That fallback iterates Unicode code points, not extended grapheme clusters, and can split a ZWJ sequence such as `👩‍🔬` despite the public wrapping contract promising grapheme-boundary-only splitting.
+
+The bounded repair changes only the layout helper, its focused test, this handoff and workflow state:
+
+- the `Intl.Segmenter` implementation remains the only segmentation path;
+- when `Intl.Segmenter` is unavailable, `segmentGraphemes()` throws `Intl.Segmenter is required for grapheme-safe flow text layout` instead of silently degrading to code-point splitting;
+- no partial Unicode segmentation algorithm or polyfill is introduced;
+- `packages/renderer-d3/test/flow-layout.test.ts` temporarily replaces `Intl.Segmenter` with `undefined`, asserts that wrapping a string containing `👩‍🔬` fails closed with the explicit error, and restores the original property descriptor in `finally`;
+- the existing positive regression still proves that the normal Segmenter-backed path preserves complete ZWJ grapheme clusters;
+- layout orientation, geometry, canonical ordering, marker ids, SVG whitespace behavior, keyboard/static interaction and Pitch integration remain unchanged.
+
 The worker does not resolve external review findings, mark the PR Ready or merge.
 
 ## Minimal Pitch integration
@@ -135,7 +149,8 @@ Added renderer tests covering:
 - horizontal wide-host and vertical narrow-host layout;
 - viewport-aware mobile selection when a Reveal-style host is wider than the actual viewport;
 - complete text preservation during wrapping;
-- Unicode-grapheme-safe splitting of long unspaced identifiers;
+- Unicode-grapheme-safe splitting of long unspaced identifiers with `Intl.Segmenter`;
+- explicit fail-closed behavior rather than ZWJ splitting when `Intl.Segmenter` is unavailable;
 - concrete SVG preservation of leading/repeated whitespace for both node and edge labels;
 - DOM-unique per-mount marker ids for concurrently mounted diagrams that reuse the same canonical block id;
 - stable marker ids and edge references across responsive rerender;
@@ -160,7 +175,7 @@ Added `apps/pitch/test/flow-runtime.test.ts` proving:
 
 ## Validation status
 
-The validator success on pre-marker-repair head `87f2f4ca4eb9a9af4694c423f0181be015ed0f3e` is historical only. The marker-id repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
+The validator success on pre-grapheme-repair head `2d68fe7dc8ff92c113d04439b3b9d3fd6b73c9c6` is historical only. This grapheme fallback repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
 
 No local execution pass is claimed from this connector repair turn.
 
@@ -176,7 +191,7 @@ No local execution pass is claimed from this connector repair turn.
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
-The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The latest marker-id repair itself touches only `packages/renderer-d3/src/flow-diagram.ts`, `packages/renderer-d3/test/flow-svg-whitespace.test.ts`, this handoff and workflow state.
+The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The latest grapheme fallback repair itself touches only `packages/renderer-d3/src/flow-layout.ts`, `packages/renderer-d3/test/flow-layout.test.ts`, this handoff and workflow state.
 
 ## Pull request
 
@@ -184,4 +199,4 @@ Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->
 
 ## Manager review focus
 
-Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, DOM-unique mount-stable marker ids, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
+Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, DOM-unique mount-stable marker ids, fail-closed grapheme behavior without `Intl.Segmenter`, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
