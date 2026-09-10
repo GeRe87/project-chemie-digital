@@ -19,6 +19,7 @@ class FakeElement implements MinimalElement, PitchFlowHost {
   textContent: string | null = null;
   children: FakeElement[] = [];
   attributes = new Map<string, string>();
+  lastKeydownStopped = false;
 
   get innerHTML(): string { return this.html; }
   set innerHTML(value: string) {
@@ -38,11 +39,17 @@ class FakeElement implements MinimalElement, PitchFlowHost {
   }
   dispatchKey(key: string): boolean {
     let prevented = false;
-    const event = { key, preventDefault() { prevented = true; } } as unknown as Event;
+    let stopped = false;
+    const event = {
+      key,
+      preventDefault() { prevented = true; },
+      stopPropagation() { stopped = true; },
+    } as unknown as Event;
     for (const listener of this.listeners.get("keydown") ?? []) {
       if (typeof listener === "function") listener(event);
       else listener.handleEvent(event);
     }
+    this.lastKeydownStopped = stopped;
     return prevented;
   }
   listenerCount(type: string): number { return this.listeners.get(type)?.size ?? 0; }
@@ -163,19 +170,24 @@ test("real DOM keydown wiring drives the existing deterministic D3 traversal and
   assert.deepEqual(focused, ["node:b"]);
 
   assert.equal(host.dispatchKey("ArrowRight"), true);
+  assert.equal(host.lastKeydownStopped, true);
   assert.equal(focused.at(-1), "node:a");
   assert.equal(host.dispatchKey("Home"), true);
+  assert.equal(host.lastKeydownStopped, true);
   assert.equal(focused.at(-1), "node:a");
   assert.equal(host.dispatchKey("End"), true);
+  assert.equal(host.lastKeydownStopped, true);
   assert.equal(focused.at(-1), "node:b");
   const beforeUnsupported = focused.length;
   assert.equal(host.dispatchKey("PageDown"), false);
+  assert.equal(host.lastKeydownStopped, false);
   assert.equal(focused.length, beforeUnsupported);
 
   destroy();
   assert.equal(host.listenerCount("keydown"), 0);
   const beforeDestroyed = focused.length;
   assert.equal(host.dispatchKey("ArrowLeft"), false);
+  assert.equal(host.lastKeydownStopped, false);
   assert.equal(focused.length, beforeDestroyed);
 
   const staticHost = new FakeElement();
@@ -188,6 +200,7 @@ test("real DOM keydown wiring drives the existing deterministic D3 traversal and
   );
   assert.equal(staticHost.listenerCount("keydown"), 0);
   assert.equal(staticHost.dispatchKey("ArrowRight"), false);
+  assert.equal(staticHost.lastKeydownStopped, false);
   destroyStatic();
 });
 
