@@ -204,8 +204,10 @@ export function resolveD3FlowHostWidth(hostWidth: number, viewportWidth?: number
   return Math.max(320, resolved);
 }
 
-function markerIdFor(model: D3FlowRenderModel): string {
-  return `d3-flow-arrow-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}`;
+let flowMarkerMountSequence = 0;
+
+function markerIdFor(model: D3FlowRenderModel, mountSequence: number): string {
+  return `d3-flow-arrow-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}-${mountSequence}`;
 }
 
 function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y: number, className: string): SVGTextElement {
@@ -239,6 +241,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
     mount(host, model, initialLayout, initialActiveNodeId): D3FlowRuntimeMount {
       const hostElement = ensureHostElement(host);
       const namespace = "http://www.w3.org/2000/svg";
+      const markerId = markerIdFor(model, ++flowMarkerMountSequence);
       hostElement.innerHTML = "";
       const wrapper = document.createElement("section");
       wrapper.className = "d3-flow-runtime";
@@ -276,7 +279,6 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
 
         const defs = document.createElementNS(namespace, "defs");
         const marker = document.createElementNS(namespace, "marker");
-        const markerId = markerIdFor(model);
         marker.setAttribute("id", markerId);
         marker.setAttribute("viewBox", "0 0 10 10");
         marker.setAttribute("refX", "9");
