@@ -4,180 +4,74 @@
 
 Implemented the renderer-focused selective reconciliation increment for System Issue #149 on `agent/149-d3-flow-renderer`.
 
-The implementation consumes the merged canonical SceneDocument 1.1 `DiagramBlock` directly. It does not query RDF/Fuseki and does not modify RDF/SHACL, the canonical compiler, the SceneDocument contract, CogniFlow prose, Eco City/theme behavior, Chemometrics or learner state.
+The implementation consumes the merged canonical SceneDocument 1.1 `DiagramBlock` directly. It does not query RDF/Fuseki and does not modify RDF/SHACL, the canonical compiler, the SceneDocument contract, CogniFlow prose, Eco City/theme behavior, Chemometrics or learner state. The old `local/cogniflow-presentation-layout@5025221` branch was used only as a renderer-design reference; no commit was cherry-picked or merged wholesale.
 
-The old `local/cogniflow-presentation-layout@5025221` branch was used only as a renderer-design reference. No commit was cherry-picked or merged wholesale.
+## Render model and layout
 
-## Render model
+`packages/renderer-d3/src/flow-diagram.ts` maps canonical `DiagramBlock` values into a dedicated flow render model while preserving canonical node/edge order, ids, labels, source resource ids, provenance ids, relation paths, optional emphasis and optional `focusNodeId`. Invalid diagram types, duplicate ids, invalid edge endpoints and invalid focus references fail closed.
 
-Added `packages/renderer-d3/src/flow-diagram.ts` with a dedicated `D3FlowRenderModel` projection from canonical `DiagramBlock`.
+`packages/renderer-d3/src/flow-layout.ts` provides deterministic renderer-only geometry:
 
-The mapping:
+- effective widths >= 900 use horizontal flow; narrower widths use vertical flow;
+- semantic node/edge order is never changed;
+- no force simulation is used;
+- long unspaced values split only at Unicode grapheme boundaries via `Intl.Segmenter`;
+- if `Intl.Segmenter` is unavailable, grapheme-dependent layout fails closed instead of degrading to code-point splitting;
+- wrapping preserves every authored character, including repeated/leading whitespace and, after the latest repair, exact LF/CRLF line-break delimiters.
 
-- supports `diagramType: "flow"` only and fails closed for other diagram types;
-- retains canonical node and edge array order as renderer reading order;
-- preserves node/edge ids, labels, source resource ids, provenance ids and relation paths;
-- preserves optional node emphasis;
-- preserves optional canonical `focusNodeId` explicitly;
-- validates duplicate ids, minimum node/edge counts, edge endpoint membership and focus membership;
-- reuses the existing renderer interaction option shape (`reducedMotion`, `keyboard | static`);
-- creates a deterministic static fallback containing the diagram label/description, every node and every directed relation.
-
-The package exports the flow API through `@project-chemie-digital/renderer-d3/flow` and deterministic layout helpers through `./flow-layout`, while preserving the existing root knowledge-network export.
-
-## Responsive layout
-
-Added `packages/renderer-d3/src/flow-layout.ts` as a renderer-only deterministic geometry layer.
-
-- effective widths >= 900 use horizontal flow;
-- narrower widths use vertical flow;
-- semantic node/edge ordering is never changed by layout;
-- no force simulation is used for the linear flow primitive;
-- text wrapping never truncates authored characters;
-- long unspaced values split only at Unicode grapheme boundaries through `Intl.Segmenter`;
-- if `Intl.Segmenter` is unavailable, grapheme-dependent measurement/wrapping now fails closed rather than silently splitting by Unicode code point;
-- layout geometry is deterministic from the render model and effective host width.
-
-The browser runtime resolves the effective width as the narrower usable value of the renderer host and current viewport. This is important for Reveal, whose internal presentation host can remain 1440 px wide while the browser viewport is substantially narrower because the deck is transformed/scaled. The renderer therefore still switches to the vertical mobile layout in that case.
+For authored multiline labels, `wrapFlowText()` now splits with a capturing LF/CRLF delimiter. The delimiter is retained on the final wrapped line of its authored paragraph, so the visual line count remains unchanged while `lines.join("")` reconstructs the source text exactly. Empty and consecutive authored lines retain their explicit delimiter entries. The focused regression covers mixed LF and CRLF text under actual wrapping and asserts the exact line array plus lossless reconstruction.
 
 ## SVG/runtime lifecycle
 
-`createSvgD3FlowRuntime()` owns browser DOM/SVG behavior behind a runtime port:
+`createSvgD3FlowRuntime()` owns concrete browser SVG behavior:
 
-- semantic `<figure>`/`<figcaption>` structure;
-- SVG accessible label plus complete `<desc>` fallback;
-- directed edge markers and generic `d3-flow-*` classes only;
-- keyboard focus targets only when `interactionPolicy === "keyboard"`;
-- no focusable flow nodes in static mode;
-- viewport-aware `ResizeObserver` / window-resize fallback;
-- responsive rerender preserves the active node and restores DOM focus when appropriate;
+- semantic figure/caption and accessible SVG fallback;
+- generic `d3-flow-*` classes only;
+- namespaced `xml:space="preserve"` on generated SVG text so repeated/leading spaces survive concrete rendering;
+- DOM-unique arrow marker ids allocated once per flow mount, combining sanitized `sourceBlockId` with a renderer-local mount sequence;
+- marker ids remain stable across responsive rerender and every edge references its own mount-local marker;
+- keyboard focus targets only for keyboard interaction policy;
+- responsive rerender preserves the active semantic node and restores focus where appropriate;
 - reduced-motion output has no animation dependency;
-- destroy is idempotent and releases resize observation/listeners.
+- destruction is idempotent and releases resize observation/listeners.
 
-No CogniFlow-specific palette, pixel-art geometry, Eco City assets or presentation background/theme controls were introduced.
+## Keyboard integration
 
-## Interaction behavior
+`mountD3FlowDiagram()` uses canonical `focusNodeId` when present and otherwise the first canonical node in keyboard mode. ArrowRight/ArrowDown move to the next canonical node, ArrowLeft/ArrowUp to the previous node, Home to the first and End to the last.
 
-`mountD3FlowDiagram()` prefers canonical `focusNodeId` as initial active/focused node when present. Without a semantic focus, keyboard mode starts deterministically at the first canonical node; static mode remains non-interactive.
+The bounded Pitch integration forwards real host-level `keydown` events to the existing component traversal. Handled navigation keys prevent browser default and stop propagation so Reveal cannot also consume them; unsupported keys are untouched and static mode binds no keyboard listener.
 
-Keyboard traversal supports:
+## Pitch integration and latest partial-mount repair
 
-- ArrowRight / ArrowDown → next canonical node;
-- ArrowLeft / ArrowUp → previous canonical node;
-- Home → first canonical node;
-- End → last canonical node.
+`apps/pitch/src/preview.ts` emits a generic `d3-flow-host` for canonical diagram blocks. `apps/pitch/src/flow-runtime.ts` maps hosts back to the exact canonical block, invokes renderer-d3 and fails closed for unknown blocks or renderer diagnostics. `apps/pitch/src/main.ts` owns the minimum mount/pagehide lifecycle.
 
-Responsive layout changes retain the current active semantic node.
+Configured Copilot review of exact validated head `14ca0a14d5c7068a00f23a9871275b3bb321aa27` identified that `mountPitchFlowDiagrams()` could leak already-mounted components/listeners when a later host failed. The bounded repair makes the multi-host mount transactional:
 
-### Manager-requested keyboard repair
+- one shared `cleanupMounted()` removes every registered keyboard listener and destroys every mounted component;
+- the entire host loop is wrapped in `try/catch`;
+- any synchronous failure after earlier successful mounts — including unknown block references, renderer diagnostics or a thrown mount-path error — triggers `cleanupMounted()` before rethrowing;
+- normal returned cleanup reuses the same cleanup primitive and remains idempotent;
+- arrays are drained with `splice(0)`, preventing later double-destruction of already-cleaned resources.
 
-Manager review of Draft PR #150 on head `8ca4a2bcd7c5da630b1632d1abb6480cff9119de` found that the component exposed the deterministic `handleKey()` traversal but the concrete Pitch mount route did not forward real DOM keyboard events to it. The bounded repair changes only `apps/pitch/src/flow-runtime.ts` plus its focused test:
+The focused Pitch regression mounts one valid keyboard host before a later unknown-block host, asserts the call fails closed, verifies the first host has zero remaining keydown listeners, confirms post-failure key dispatch is inert, and confirms the prior component was destroyed exactly once.
 
-- the flow host listens for bubbled `keydown` events only in `interactionPolicy: "keyboard"`;
-- each event delegates its key to the existing `D3FlowComponent.handleKey()` implementation rather than duplicating traversal logic;
-- browser default behavior is prevented only when `handleKey()` reports that the key was handled;
-- handled flow-navigation keys also stop propagation so Reveal cannot simultaneously advance the deck; this matches the existing Pitch keyboard-containment pattern used by code and poll runtimes;
-- unsupported keys remain untouched and continue to propagate normally;
-- static mode binds no keyboard listener;
-- the listener is removed before component destruction and cleanup remains idempotent.
+## Previous bounded review repairs
 
-No renderer semantics, layout, theme, content or cross-track behavior changed in this repair.
+Earlier configured review/validation cycles also produced these accepted bounded repairs:
 
-### Copilot-requested SVG whitespace repair
+- real DOM keyboard wiring for Arrow/Home/End traversal in Pitch;
+- concrete SVG whitespace preservation via `xml:space="preserve"`;
+- strip-types-compatible syntax in the SVG regression harness;
+- mount-stable DOM-unique SVG marker ids across concurrent diagrams reusing the same canonical block id;
+- fail-closed grapheme behavior when `Intl.Segmenter` is unavailable.
 
-Configured Copilot review of the repaired exact head `c098365490d88604ed895d13dee274a5a3f100f9` reviewed 13/13 files and raised one renderer finding: the wrapping layer preserved authored repeated/leading spaces as strings, but SVG rendering could collapse them because the generated `<text>` elements did not request XML whitespace preservation.
-
-The bounded follow-up changes only the concrete text-rendering primitive and one focused renderer test:
-
-- `addTextLines()` now sets namespaced `xml:space="preserve"` on every generated SVG `<text>` element;
-- both node and edge label `<tspan>` children inherit that preservation behavior;
-- authored repeated/leading spaces remain unchanged in the wrapped line strings and concrete SVG text tree;
-- `packages/renderer-d3/test/flow-svg-whitespace.test.ts` exercises the real `createSvgD3FlowRuntime().mount(...)` path with labels containing leading and repeated spaces and asserts both the `xml:space` attribute and exact reconstructed `<tspan>` content;
-- no wrapping policy, node/edge order, layout geometry, keyboard behavior or semantic mapping changed.
-
-The first exact-head validation of that regression failed only because the fake-DOM test used a TypeScript constructor parameter property unsupported by Node strip-only mode. The follow-up rewrote only that test-harness syntax to an explicit readonly field plus constructor assignment; production behavior and assertions remained unchanged.
-
-### Copilot-requested marker-id repair
-
-Configured Copilot re-review of exact validated head `87f2f4ca4eb9a9af4694c423f0181be015ed0f3e` reviewed all 14 changed files and identified one additional renderer integration risk: the concrete SVG marker id was derived only from `sourceBlockId`. Canonical block-id uniqueness is scoped to one scene, so two diagrams from different SceneDocuments can legally reuse the same block id while being mounted concurrently into one DOM.
-
-The bounded repair remains entirely inside renderer-d3:
-
-- each concrete `createSvgD3FlowRuntime().mount(...)` allocates one monotone renderer-local mount sequence;
-- the arrow marker id combines the sanitized canonical `sourceBlockId` with that mount sequence, so simultaneous mounts remain DOM-unique even when they reuse the same block id;
-- the marker id is allocated once at mount time, outside the internal `render()` closure, so responsive `update()`/rerender preserves the same marker id for that mounted diagram;
-- edge `marker-end` references continue to target exactly that mount's marker id;
-- canonical block/node/edge ids, semantic order, provenance, layout geometry, keyboard/static behavior, whitespace preservation and Pitch integration are unchanged;
-- the focused concrete-runtime regression mounts two render models with the same canonical block id but different scene source references, asserts distinct marker ids and matching `marker-end` references, then rerenders one mount at a narrower width and asserts that its marker id/reference remains stable.
-
-### Copilot-requested grapheme fallback repair
-
-Configured Copilot re-review of exact validated head `2d68fe7dc8ff92c113d04439b3b9d3fd6b73c9c6` reviewed all 14 changed files and identified a contract mismatch in `flow-layout.ts`: `segmentGraphemes()` used `Array.from()` when `Intl.Segmenter` was unavailable. That fallback iterates Unicode code points, not extended grapheme clusters, and can split a ZWJ sequence such as `👩‍🔬` despite the public wrapping contract promising grapheme-boundary-only splitting.
-
-The bounded repair changes only the layout helper, its focused test, this handoff and workflow state:
-
-- the `Intl.Segmenter` implementation remains the only segmentation path;
-- when `Intl.Segmenter` is unavailable, `segmentGraphemes()` throws `Intl.Segmenter is required for grapheme-safe flow text layout` instead of silently degrading to code-point splitting;
-- no partial Unicode segmentation algorithm or polyfill is introduced;
-- `packages/renderer-d3/test/flow-layout.test.ts` temporarily replaces `Intl.Segmenter` with `undefined`, asserts that wrapping a string containing `👩‍🔬` fails closed with the explicit error, and restores the original property descriptor in `finally`;
-- the existing positive regression still proves that the normal Segmenter-backed path preserves complete ZWJ grapheme clusters;
-- layout orientation, geometry, canonical ordering, marker ids, SVG whitespace behavior, keyboard/static interaction and Pitch integration remain unchanged.
-
-The worker does not resolve external review findings, mark the PR Ready or merge.
-
-## Minimal Pitch integration
-
-Repository review found that the existing Reveal/Self-Study adapters already preserve SceneDocument 1.1 diagram payloads, but the concrete `apps/pitch` preview path still rejected every block kind other than its explicitly handled prose/math/code/list/prompt cases. A canonical diagram would therefore fail before the new D3 renderer could mount.
-
-The bounded integration repair is limited to the existing presentation mount path:
-
-- `apps/pitch/src/preview.ts` recognizes canonical `diagram` blocks and emits a generic `d3-flow-host` identified by `data-flow-block-id`, retaining block source/provenance/relation-path attributes and a complete static fallback;
-- new `apps/pitch/src/flow-runtime.ts` resolves those hosts back to the exact canonical `DiagramBlock`, invokes renderer-d3, fails closed for missing blocks or renderer diagnostics, forwards keyboard-mode DOM keydown events into the component traversal, contains handled flow-navigation keys inside the host, and owns idempotent listener/component cleanup;
-- `apps/pitch/src/main.ts` mounts all generated flow hosts after canonical scene mounting using the already-derived reduced-motion setting and keyboard interaction policy, and tears them down on `pagehide`;
-- no Pitch theme/profile/background/layout selection, authored content or visual palette is changed.
-
-This is only the minimum route needed to prove the renderer is consumable from the current SceneDocument-backed presentation runtime. The later CogniFlow/Eco-City visual increment remains separate.
+No repair changed canonical mapping, semantic order, renderer theme/palette, CogniFlow scientific content or cross-track behavior.
 
 ## Focused regressions
 
-Added renderer tests covering:
+Renderer coverage includes canonical mapping/order/provenance, optional focus, invalid endpoint/type failures, horizontal/vertical layout, viewport-aware mobile width, lossless wrapping, mixed LF/CRLF preservation, grapheme-safe long identifiers, fail-closed missing `Intl.Segmenter`, concrete SVG whitespace, DOM-unique marker ids, marker stability across rerender, keyboard/static behavior, responsive focus preservation, cleanup, no mapping-time network requests and complete static fallback.
 
-- deterministic canonical block mapping without source mutation;
-- preserved node/edge order, source/provenance/relationPath and emphasis;
-- optional focus absent and exact focus present behavior;
-- unsupported diagram type and unknown edge endpoint fail-closed behavior;
-- horizontal wide-host and vertical narrow-host layout;
-- viewport-aware mobile selection when a Reveal-style host is wider than the actual viewport;
-- complete text preservation during wrapping;
-- Unicode-grapheme-safe splitting of long unspaced identifiers with `Intl.Segmenter`;
-- explicit fail-closed behavior rather than ZWJ splitting when `Intl.Segmenter` is unavailable;
-- concrete SVG preservation of leading/repeated whitespace for both node and edge labels;
-- DOM-unique per-mount marker ids for concurrently mounted diagrams that reuse the same canonical block id;
-- stable marker ids and edge references across responsive rerender;
-- canonical-focus preference;
-- Arrow/Home/End traversal;
-- static-mode non-interactivity;
-- active-node preservation across responsive rerender;
-- idempotent lifecycle cleanup;
-- no mapping-time network requests;
-- complete static node/relation fallback.
-
-Added `apps/pitch/test/flow-runtime.test.ts` proving:
-
-- the scene preview creates the expected generic flow host and source-linked static fallback from a synthetic valid SceneDocument 1.1;
-- the Pitch flow runtime passes the exact canonical `DiagramBlock` and options to renderer-d3;
-- a real host-level `keydown` event drives the actual `mountD3FlowDiagram()` Arrow/Home/End traversal;
-- handled navigation keys prevent browser default and stop propagation before Reveal can consume them;
-- unsupported keys are neither prevented nor propagation-stopped;
-- static mode registers no keydown listener;
-- unmount removes the keydown listener and cleanup remains idempotent;
-- unknown block references and renderer diagnostics fail closed.
-
-## Validation status
-
-The validator success on pre-grapheme-repair head `2d68fe7dc8ff92c113d04439b3b9d3fd6b73c9c6` is historical only. This grapheme fallback repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
-
-No local execution pass is claimed from this connector repair turn.
+Pitch coverage includes canonical host/static fallback creation, exact block handoff, real DOM keyboard containment, static-mode non-interactivity, normal idempotent cleanup, fail-closed unknown blocks/renderer diagnostics, and rollback of already-mounted components/listeners when a later host fails.
 
 ## Explicitly untouched
 
@@ -191,12 +85,10 @@ No local execution pass is claimed from this connector repair turn.
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
-The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The latest grapheme fallback repair itself touches only `packages/renderer-d3/src/flow-layout.ts`, `packages/renderer-d3/test/flow-layout.test.ts`, this handoff and workflow state.
+## Validation and manager handoff
 
-## Pull request
+No local execution pass is claimed from this connector worker turn. The latest newline-preservation and transactional partial-mount repairs change the PR head, so prior validator/review evidence is historical only.
 
-Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->` and `Closes #149`. It must remain Draft until manager review. The worker does not self-accept or merge.
+Draft PR #150 retains `<!-- agent-workflow-validator:project-chemie-digital -->` and `Closes #149`. The worker does not resolve review threads, mark the PR Ready, self-accept or merge.
 
-## Manager review focus
-
-Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, DOM-unique mount-stable marker ids, fail-closed grapheme behavior without `Intl.Segmenter`, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
+Manager must require fresh exact-head `agent-validator/project-chemie-digital` success, configured Copilot re-review on that same final head with no unresolved findings, zero unresolved review threads, mergeable/0-behind integration state and the expected-head squash guard before merge.
