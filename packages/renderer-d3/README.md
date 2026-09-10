@@ -22,7 +22,7 @@ The `./flow` subpath consumes the canonical SceneDocument 1.1 `DiagramBlock` dir
 - `mountD3FlowDiagram(host, block, options, runtime)` mounts a deterministic SVG flow, observes responsive width changes, preserves active focus across layout changes and owns cleanup.
 - `createSvgD3FlowRuntime()` is the browser DOM/SVG implementation behind the runtime port.
 
-The `./flow-layout` subpath exposes deterministic renderer-only layout helpers. Hosts at 900 SVG/CSS pixels or wider use horizontal flow; narrower hosts use vertical flow. Text wrapping never truncates characters and long unspaced identifiers split only at Unicode grapheme boundaries.
+The `./flow-layout` subpath exposes deterministic renderer-only layout helpers. Hosts at 900 CSS pixels or wider use horizontal flow; narrower hosts use vertical flow. Text wrapping never truncates characters and long unspaced identifiers split only at Unicode grapheme boundaries.
 
 ## Accessibility
 
