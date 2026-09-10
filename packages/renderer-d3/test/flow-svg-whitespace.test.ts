@@ -7,11 +7,14 @@ import { createD3FlowLayout } from "../src/flow-layout.ts";
 class FakeElement {
   readonly attributes = new Map<string, string>();
   readonly children: FakeElement[] = [];
+  readonly tagName: string;
   parent: FakeElement | null = null;
   textContent: string | null = null;
   clientWidth = 1200;
 
-  constructor(readonly tagName: string) {}
+  constructor(tagName: string) {
+    this.tagName = tagName;
+  }
 
   get className(): string { return this.attributes.get("class") ?? ""; }
   set className(value: string) { this.attributes.set("class", value); }
