@@ -1,17 +1,17 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Manager",
-  "activeIssue": null,
-  "expectedDeliverable": "Plan one bounded System increment for a renderer-owned light/dark presentation theme with paired background-pack variants and Alt+T switching. Reuse the existing BackgroundPack/runtime and appearance-profile boundaries, keep Alt+B as background-pack enable/selection behavior, define URL/default behavior, incorporate the supplied Eco City light assets as the light variant, and preserve semantic/compiler/content boundaries.",
-  "lastCompletedTurn": "manager: final #149 acceptance gates passed on exact head 4c2ede02dc4d42a30d2e5c8229c6d05e0d0a726d. The configured agent-validator/project-chemie-digital check succeeded on that exact head; configured Copilot re-review inspected all 14 changed files and produced 0 new comments, with its only remaining note requiring the exact-head external validation that was already satisfied. All three previously actionable review threads were confirmed addressed and resolved, PR #150 remained mergeable and 0 behind main, and the expected-head guard matched. Squash-merged PR #150 as 94836bc885b7459916c47e7d1d525c6313506c7f, closing Issue #149. System returned to idle manager state; no Chemometrics state or cross-track content was touched.",
-  "lastUpdated": "2026-09-10T17:19:00+02:00",
-  "lease": {"owner": "interactive-system-manager-theme-variants-plan-20260910T171900+0200", "claimedAt": "2026-09-10T17:19:00+02:00", "expiresAt": "2026-09-10T19:19:00+02:00"},
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 151,
+  "expectedDeliverable": "Implement System #151 as one bounded renderer/frontend increment: introduce an explicit light/dark presentation theme independent of background enablement; model each selectable background as a family with mandatory dark and light concrete BackgroundPack variants without silently breaking BackgroundPack 1.0; keep Alt+B for background toggle/selection and add Alt+T for dark/light switching; support deterministic ?theme=dark|light resolution and URL updates; map the current neon city plus the five user-supplied Eco City WebPs into one chemometrics-city family; separate theme CSS state from pcd-background-active using reusable tokens; preserve reduced motion, accessibility, teardown and semantic/render-model boundaries; add focused regressions; package the five light assets under stable local URLs if the active repository connector can commit them, otherwise document that binary packaging as the only explicit acceptance blocker; add a structured handoff and Draft PR with validator marker and Closes #151; return to manager without Ready, external review request, self-acceptance or merge.",
+  "lastCompletedTurn": "manager: planned System #151 for paired light/dark presentation themes after inspecting the merged background-pack/runtime and current hard-coded dark-background CSS coupling. Chose a theme state independent from background enablement, Alt+T for theme and existing Alt+B semantics for background, one logical chemometrics-city family with mandatory dark/light variants, explicit ?theme=dark|light URL state, and CSS tokenization rooted in an explicit presentation-theme marker. The current dark assets remain the dark variant; the five user-supplied 1024x1536 Eco City WebPs are the approved light source assets. No semantic/compiler/Chemometrics workflow content was touched.",
+  "lastUpdated": "2026-09-10T17:29:27+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
   "blockedBy": [],
-  "stateRevision": 175,
+  "stateRevision": 176,
   "transitionHistory": [
     {"at":"2026-09-10T11:16:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-issue149-plan-20260910T111600+0200","reason":"Claimed one bounded System manager planning turn for the renderer-d3 FlowDiagram increment."},
     {"at":"2026-09-10T11:21:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-plan-20260910T111600+0200","reason":"Created System Issue #149 and authorized one Frontend and Reveal Renderer Engineer worker turn for canonical DiagramBlock D3 rendering."},
@@ -36,6 +36,7 @@
     {"at":"2026-09-10T15:40:31+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-newline-partial-mount-repair-20260910T154031+0200","reason":"Claimed the manager-authorized bounded #149 newline/partial-mount repair turn; scope is limited to lossless authored line-break semantics, rollback of prior mounts/listeners on later synchronous failure, focused regressions, handoff update and manager return."},
     {"at":"2026-09-10T15:45:44+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-newline-partial-mount-repair-20260910T154031+0200","reason":"Completed the bounded #149 newline/partial-mount repair: authored LF/CRLF delimiters are retained losslessly through wrapping, and multi-host Pitch flow mounting now rolls back prior listeners/components on later synchronous failure. Added focused regressions, updated handoff and returned to manager without Ready, thread resolution or merge."},
     {"at":"2026-09-10T16:07:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-issue149-final-merge-20260910T160700+0200","reason":"Final #149 gates passed: exact-head validator succeeded, configured Copilot re-review produced no new code findings, all addressed threads were resolved, branch was mergeable and 0 behind, and PR #150 was squash-merged with expected-head guard as 94836bc885b7459916c47e7d1d525c6313506c7f. System returned to idle manager state."},
-    {"at":"2026-09-10T17:19:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Claimed one bounded System manager planning turn for renderer-owned light/dark theme variants and Alt+T switching."}
+    {"at":"2026-09-10T17:19:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Claimed one bounded System manager planning turn for renderer-owned light/dark theme variants and Alt+T switching."},
+    {"at":"2026-09-10T17:29:27+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Created System Issue #151 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for independent light/dark theme state, paired background variants, Alt+T switching and focused regressions."}
   ]
 }
