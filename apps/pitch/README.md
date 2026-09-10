@@ -2,12 +2,13 @@
 
 This app is the browser-visible Reveal.js renderer for the canonical course content. Audience-visible scientific content remains authored only in the TriG Dataset under `ontology/dataset/`.
 
-For local presentation work, the default development script now selects the canonical **Chemometrics and Applied Statistics → Mean Values** learning path and applies the renderer-owned Chemometrics presentation profile:
+For local presentation work, the default development script selects the canonical **Chemometrics and Applied Statistics → Mean Values** learning path and applies the renderer-owned Chemometrics presentation profile:
 
 - native Reveal.js scroll view by default;
-- reusable multi-layer `chemometrics-neon-city` background pack;
+- one logical `chemometrics-city` background family with paired dark/light variants;
+- an independent `dark` / `light` presentation theme;
 - deck-view override for classical presenting;
-- runtime background switching without changing semantic content.
+- runtime theme/background switching without changing semantic content.
 
 ## Start locally on Windows
 
@@ -36,28 +37,34 @@ and then starts Vite.
 
 ## Useful URLs
 
-Default Chemometrics scroll view with the neon-city parallax background:
+Default Chemometrics scroll view with the dark city variant:
 
 ```text
 http://127.0.0.1:5173/
 ```
 
-Explicit scroll view:
+Explicit light theme with the same logical city background:
 
 ```text
-http://127.0.0.1:5173/?view=scroll&background=chemometrics-neon-city
+http://127.0.0.1:5173/?view=scroll&background=chemometrics-city&theme=light
 ```
 
-Classical Reveal deck view with the same background:
+Explicit dark theme:
 
 ```text
-http://127.0.0.1:5173/?view=deck&background=chemometrics-neon-city
+http://127.0.0.1:5173/?view=scroll&background=chemometrics-city&theme=dark
 ```
 
-Scroll view without a presentation background:
+Classical Reveal deck view with the city background:
 
 ```text
-http://127.0.0.1:5173/?view=scroll&background=none
+http://127.0.0.1:5173/?view=deck&background=chemometrics-city&theme=dark
+```
+
+Dark presentation without artwork:
+
+```text
+http://127.0.0.1:5173/?view=scroll&background=none&theme=dark
 ```
 
 To inspect the historical Standard Deviation preview instead:
@@ -66,15 +73,18 @@ To inspect the historical Standard Deviation preview instead:
 npm --workspace @project-chemie-digital/pitch run dev:standard-deviation
 ```
 
-## Switching the background while presenting
+## Switching appearance while presenting
 
-The control bar contains a labelled **Background** selector. Changing it swaps the renderer-owned background pack while preserving the current Reveal navigation/scroll position.
+The control bar contains labelled **Background** and **Theme** selectors. Theme and background enablement are independent renderer/runtime state.
 
-`Alt+B` toggles between the first registered background pack and `None`.
+- `Alt+B` toggles the current background family between enabled and `None` without changing theme.
+- `Alt+T` toggles `dark ↔ light`. If a background is active, the runtime swaps only to that family's matching concrete variant.
+
+If the background is disabled, switching theme still updates the presentation immediately. The selected family is retained so re-enabling the background uses the variant matching the current theme.
 
 The active selection is ephemeral presentation state. It is not written to `SceneDocument`, RDF, learner state or analytics.
 
-## Background-pack architecture
+## Background-family architecture
 
 ```text
 canonical RDF / TriG
@@ -86,45 +96,51 @@ Reveal renderer / layout
 slide content
 
 PresentationProfile
-        ↓
-BackgroundPack registry
-        ↓
+   ├── theme: dark | light
+   └── Background family id
+              ↓
+ThemedBackgroundPackFamily
+   ├── dark  → BackgroundPack 1.0
+   └── light → BackgroundPack 1.0
+              ↓
 Background runtime
    ├── scroll progress source
    └── deck progress source
 ```
 
-A `BackgroundPack 1.0` is a renderer-owned declarative bundle of local visual layers. The first pack lives at:
+`BackgroundPack 1.0` remains the concrete renderer-owned declarative bundle of local visual layers. The family layer is responsible only for requiring and resolving the paired theme variants; it does not silently change the `BackgroundPack 1.0` contract.
+
+The dark variant reuses the existing files under:
 
 ```text
 apps/pitch/public/presentation-backgrounds/chemometrics-neon-city/
 ```
 
-with:
+The approved light variant is resolved from:
+
+```text
+apps/pitch/public/presentation-backgrounds/chemometrics-city/light/
+```
+
+with stable names:
 
 ```text
 bg-skyline.webp
 facade-left.webp
 facade-right.webp
 bridges.webp
-rain-fog.webp
+sunbeam-sky-overlay.webp
 ```
 
-The five layers use independent vertical speed factors `0.08`, `0.22`, `0.27`, `0.44`, and `0.72`, matching the supplied parallax MWE. Images repeat vertically and are loaded only from the local Vite application; there is no remote image/CDN dependency.
+Both variants preserve the five parallax roles and speed factors `0.08`, `0.22`, `0.27`, `0.44`, and `0.72`. Images are loaded only from the local Vite application; there is no remote image/CDN dependency.
 
-To add another course background later:
-
-1. place its local assets under `apps/pitch/public/presentation-backgrounds/<pack-id>/`;
-2. add one `BackgroundPack` entry to `backgroundPackRegistry` in `src/presentation-profile.ts`;
-3. reference that pack from the relevant renderer-owned `PresentationProfile`.
-
-No scientific RDF, SceneDocument schema or layout semantics need to change.
+To add another selectable background later, define one family with **both** valid `dark` and `light` concrete `BackgroundPack` variants and register that family. No scientific RDF, SceneDocument schema or layout semantics need to change.
 
 ## Reduced motion and accessibility
 
-The background world is `aria-hidden`, non-focusable and pointer-inert. The appearance selector is keyboard reachable and labelled. When `prefers-reduced-motion: reduce` is active, the full background composition remains visible but parallax offsets and crossfade motion are disabled.
+The background world is `aria-hidden`, non-focusable and pointer-inert. Both appearance selectors are keyboard reachable and labelled. When `prefers-reduced-motion: reduce` is active, the full background composition remains visible but parallax offsets and crossfade motion are disabled.
 
-The slide DOM reading order, block identities, provenance and Reveal navigation remain independent of the presentation background.
+The slide DOM reading order, block identities, provenance, D3 semantic ordering and Reveal navigation remain independent of presentation theme/background state.
 
 ## Runtime boundary
 
