@@ -210,12 +210,14 @@ function markerIdFor(model: D3FlowRenderModel): string {
 
 function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y: number, className: string): SVGTextElement {
   const namespace = "http://www.w3.org/2000/svg";
+  const xmlNamespace = "http://www.w3.org/XML/1998/namespace";
   const text = document.createElementNS(namespace, "text");
   text.setAttribute("class", className);
   text.setAttribute("x", String(x));
   text.setAttribute("y", String(y - ((Math.max(lines.length, 1) - 1) * 11)));
   text.setAttribute("text-anchor", "middle");
   text.setAttribute("fill", "currentColor");
+  text.setAttributeNS(xmlNamespace, "xml:space", "preserve");
   lines.forEach((line, index) => {
     const tspan = document.createElementNS(namespace, "tspan");
     tspan.setAttribute("x", String(x));
