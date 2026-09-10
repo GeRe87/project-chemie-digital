@@ -43,6 +43,13 @@ test("wrapFlowText preserves all authored characters", () => {
   assert.ok(lines.length > 1);
 });
 
+test("wrapFlowText preserves authored LF and CRLF delimiters while wrapping", () => {
+  const text = "alpha beta\ngamma\r\ndelta";
+  const lines = wrapFlowText(text, 5, (value) => Array.from(value).length);
+  assert.deepEqual(lines, ["alpha", " beta\n", "gamma\r\n", "delta"]);
+  assert.equal(lines.join(""), text);
+});
+
 test("long unspaced identifiers are split only at grapheme boundaries", () => {
   const scientist = "👩‍🔬";
   const identifier = `AB${scientist}CD${scientist}EF`;
