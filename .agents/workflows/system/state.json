@@ -1,55 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeRole": "Manager",
   "activeIssue": 151,
-  "expectedDeliverable": "Manager review of System #151 after the paired light/dark theme implementation. Before Ready/acceptance, package the five exact approved Eco City WebPs under apps/pitch/public/presentation-backgrounds/chemometrics-city/light/, then require fresh exact-head agent-validator/project-chemie-digital success and configured external review. Do not replace supplied assets with placeholders and do not merge while binary packaging remains incomplete.",
-  "lastCompletedTurn": "worker: implemented the bounded System #151 renderer/frontend theme increment on agent/151-light-dark-presentation-theme and opened Draft PR #152. BackgroundPack 1.0 remains unchanged beneath a new mandatory dark/light family contract; chemometrics-city resolves existing dark assets and approved light URLs, explicit theme state is independent of background enablement, Alt+T toggles theme while Alt+B retains background semantics, URL/query handling and CSS tokens were added, and focused regressions/documentation were updated. Branch comparison against dispatch base was 0 behind and limited to the authorized System renderer/app/test/handoff/state scope. The five user-supplied WebPs were byte/signature/hash checked but could not be reliably transferred through the available fileless binary connector path, so exact binary packaging is the sole implementation-completeness blocker. No local npm-test claim is made because the container cannot resolve github.com for a clean checkout.",
-  "lastUpdated": "2026-09-10T23:13:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "expectedDeliverable": "Review the sole remaining #151 implementation blocker and, if the exact user-supplied Eco City WebPs can be transferred losslessly through the repository connector, authorize exactly one bounded Frontend worker turn to package those five binaries under the already-declared light-variant paths, update the handoff and return to manager. No code/theme redesign, Ready transition, external review request or merge in that worker turn.",
+  "lastCompletedTurn": "worker: implemented the bounded System #151 renderer/frontend theme increment on agent/151-light-dark-presentation-theme and opened Draft PR #152. BackgroundPack 1.0 remains unchanged beneath a new mandatory dark/light family contract; chemometrics-city resolves existing dark assets and approved light URLs, explicit theme state is independent of background enablement, Alt+T toggles theme while Alt+B retains background semantics, URL/query handling and CSS tokens were added, and focused regressions/documentation were updated. Branch comparison against dispatch base was 0 behind and limited to the authorized System renderer/app/test/handoff/state scope. The five user-supplied WebPs were byte/signature/hash checked but could not be reliably transferred through the previously used fileless path, so exact binary packaging remained the sole implementation-completeness blocker.",
+  "lastUpdated": "2026-09-10T23:34:37+02:00",
+  "lease": {"owner": "interactive-system-manager-issue151-asset-packaging-20260910T233437+0200", "claimedAt": "2026-09-10T23:34:37+02:00", "expiresAt": "2026-09-11T01:34:37+02:00"},
   "blockedBy": [
-    "The five approved Eco City light WebPs are not yet committed at apps/pitch/public/presentation-backgrounds/chemometrics-city/light/; package those exact supplied assets through a binary-capable repository path before Ready or merge.",
+    "The five approved Eco City light WebPs are not yet committed at apps/pitch/public/presentation-backgrounds/chemometrics-city/light/.",
     "Fresh exact-head agent-validator/project-chemie-digital success and configured external review are required after the final binary-inclusive head exists."
   ],
-  "stateRevision": 178,
+  "stateRevision": 179,
   "transitionHistory": [
-    {
-      "at": "2026-09-10T16:07:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue149-final-merge-20260910T160700+0200",
-      "reason": "Final #149 gates passed and PR #150 was squash-merged; System returned to idle manager state."
-    },
-    {
-      "at": "2026-09-10T17:19:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-theme-variants-plan-20260910T171900+0200",
-      "reason": "Claimed one bounded System manager planning turn for renderer-owned light/dark theme variants and Alt+T switching."
-    },
-    {
-      "at": "2026-09-10T17:29:27+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-theme-variants-plan-20260910T171900+0200",
-      "reason": "Created System Issue #151 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for independent light/dark theme state, paired background variants, Alt+T switching and focused regressions."
-    },
-    {
-      "at": "2026-09-10T22:59:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue151-20260910T225900+0200",
-      "reason": "Claimed the manager-authorized #151 theme/background variant worker turn."
-    },
-    {
-      "at": "2026-09-10T23:13:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue151-20260910T225900+0200",
-      "reason": "Completed the bounded #151 code/test/documentation implementation and opened Draft PR #152; returned to manager with exact light-WebP repository packaging as the sole implementation-completeness blocker before final validation/review."
-    }
+    {"at":"2026-09-10T16:07:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-issue149-final-merge-20260910T160700+0200","reason":"Final #149 gates passed and PR #150 was squash-merged; System returned to idle manager state."},
+    {"at":"2026-09-10T17:19:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Claimed one bounded System manager planning turn for renderer-owned light/dark theme variants and Alt+T switching."},
+    {"at":"2026-09-10T17:29:27+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Created System Issue #151 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for independent light/dark theme state, paired background variants, Alt+T switching and focused regressions."},
+    {"at":"2026-09-10T22:59:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue151-20260910T225900+0200","reason":"Claimed the manager-authorized #151 theme/background variant worker turn."},
+    {"at":"2026-09-10T23:13:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue151-20260910T225900+0200","reason":"Completed the bounded #151 code/test/documentation implementation and opened Draft PR #152; returned to manager with exact light-WebP repository packaging as the sole implementation-completeness blocker before final validation/review."},
+    {"at":"2026-09-10T23:34:37+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue151-asset-packaging-20260910T233437+0200","reason":"Claimed one bounded manager turn to verify a lossless Git blob path for the five approved Eco City light assets."}
   ]
 }
