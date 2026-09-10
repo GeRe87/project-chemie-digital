@@ -4,7 +4,7 @@
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
-  background: #07101f;
+  background: var(--pcd-page-bg);
   contain: strict;
 }
 
@@ -64,9 +64,7 @@
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(1, 6, 14, 0.08) 0%, rgba(1, 6, 14, 0.24) 58%, rgba(1, 6, 14, 0.58) 100%),
-    linear-gradient(180deg, rgba(3, 8, 18, 0.10), rgba(3, 8, 18, 0.42));
+  background: var(--pcd-world-vignette);
 }
 
 /* Reveal 5.2.x advances Scroll View by assigning viewport.scrollTop directly.
@@ -86,7 +84,7 @@ html:has(body.reveal-viewport.reveal-scroll),
 }
 
 html:has(body.pcd-background-active) {
-  background: #07101f;
+  background: var(--pcd-page-bg);
 }
 
 body.pcd-background-active,
@@ -99,7 +97,7 @@ body.pcd-background-active .reveal {
   position: relative;
   z-index: 2;
   background: transparent !important;
-  color: #f6fbff;
+  color: var(--pcd-foreground);
 }
 
 body.pcd-background-active .reveal .backgrounds,
@@ -109,29 +107,30 @@ body.pcd-background-active .reveal .slide-background {
 }
 
 body.pcd-background-active .reveal .slides section {
-  background: rgba(5, 8, 16, 0.76);
-  border: 1px solid rgba(98, 239, 255, 0.22);
+  background: var(--pcd-world-panel-bg);
+  color: var(--pcd-foreground);
+  border: 1px solid var(--pcd-world-panel-border);
   border-radius: 18px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+  box-shadow: var(--pcd-world-panel-shadow);
   backdrop-filter: blur(8px);
 }
 
 /* Full-screen backdrop filters and blend modes force expensive repaint/composite
    work while the Scroll View is moving. In scroll mode we keep the same visual
-   hierarchy with a slightly more opaque panel but stay on compositor-only transforms. */
+   hierarchy with a more opaque panel but stay on compositor-only transforms. */
 body.pcd-background-active.reveal-scroll .reveal .slides section {
-  background: rgba(5, 8, 16, 0.86);
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+  background: var(--pcd-world-panel-scroll-bg);
+  box-shadow: var(--pcd-world-panel-shadow);
   backdrop-filter: none;
 }
 
-body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="rain-fog"] {
+body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="atmosphere"] {
   mix-blend-mode: normal !important;
 }
 
 body.pcd-background-active .reveal h2 {
-  color: #62efff;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+  color: var(--pcd-accent);
+  text-shadow: 0 2px 18px color-mix(in srgb, var(--pcd-page-bg) 42%, transparent);
 }
 
 body.pcd-background-active .reveal .lead,
@@ -139,24 +138,24 @@ body.pcd-background-active .reveal .citation,
 body.pcd-background-active .reveal li,
 body.pcd-background-active .reveal p,
 body.pcd-background-active .reveal code {
-  color: #f6fbff;
+  color: var(--pcd-foreground);
 }
 
 body.pcd-background-active .reveal .citation {
-  opacity: 0.74;
+  opacity: 0.78;
 }
 
 body.pcd-background-active #view-switch-shell {
   position: relative;
   z-index: 40;
-  background: rgba(5, 8, 16, 0.84);
-  color: #f6fbff;
-  border-bottom-color: rgba(98, 239, 255, 0.20);
+  background: var(--pcd-world-shell-bg);
+  color: var(--pcd-foreground);
+  border-bottom-color: var(--pcd-world-panel-border);
   backdrop-filter: blur(10px);
 }
 
 body.pcd-background-active.reveal-scroll #view-switch-shell {
-  background: rgba(5, 8, 16, 0.95);
+  background: var(--pcd-world-shell-scroll-bg);
   backdrop-filter: none;
 }
 
@@ -173,17 +172,21 @@ body.pcd-background-active.reveal-scroll #view-switch-shell {
 }
 
 .appearance-controls select {
-  min-width: 14rem;
+  min-width: 9rem;
   padding: 0.45rem 0.65rem;
-  border: 1px solid #738590;
+  border: 1px solid var(--pcd-border);
   border-radius: 0.35rem;
-  background: #ffffff;
-  color: #172026;
+  background: var(--pcd-surface-strong);
+  color: var(--pcd-foreground);
   font: inherit;
 }
 
+#presentation-background-select {
+  min-width: 14rem;
+}
+
 .appearance-controls select:focus {
-  outline: 3px solid #9b4d00;
+  outline: 3px solid var(--pcd-focus);
   outline-offset: 3px;
 }
 
