@@ -54,25 +54,34 @@ export function mountPitchFlowDiagrams(
   const blocks = diagramBlocks(documents);
   const components: D3FlowComponent[] = [];
   const removeKeyboardListeners: Array<() => void> = [];
-  for (const host of hosts) {
-    const blockId = host.getAttribute("data-flow-block-id");
-    if (!blockId) continue;
-    const block = blocks.get(blockId);
-    if (!block) throw new Error(`Pitch flow host references unknown block ${blockId}`);
-    const result = mount(host, block, options);
-    if ("diagnostics" in result) {
-      const message = result.diagnostics.map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`).join("; ");
-      throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
+  const cleanupMounted = (): void => {
+    for (const removeListener of removeKeyboardListeners.splice(0)) removeListener();
+    for (const component of components.splice(0)) component.destroy();
+  };
+
+  try {
+    for (const host of hosts) {
+      const blockId = host.getAttribute("data-flow-block-id");
+      if (!blockId) continue;
+      const block = blocks.get(blockId);
+      if (!block) throw new Error(`Pitch flow host references unknown block ${blockId}`);
+      const result = mount(host, block, options);
+      if ("diagnostics" in result) {
+        const message = result.diagnostics.map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`).join("; ");
+        throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
+      }
+      components.push(result);
+      removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
     }
-    components.push(result);
-    removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
+  } catch (error) {
+    cleanupMounted();
+    throw error;
   }
 
   let destroyed = false;
   return () => {
     if (destroyed) return;
     destroyed = true;
-    for (const removeListener of removeKeyboardListeners) removeListener();
-    for (const component of components) component.destroy();
+    cleanupMounted();
   };
 }
