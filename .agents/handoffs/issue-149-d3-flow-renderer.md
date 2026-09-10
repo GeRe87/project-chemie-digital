@@ -68,6 +68,19 @@ Keyboard traversal supports:
 
 Responsive layout changes retain the current active semantic node.
 
+### Manager-requested keyboard repair
+
+Manager review of Draft PR #150 on head `8ca4a2bcd7c5da630b1632d1abb6480cff9119de` found that the component exposed the deterministic `handleKey()` traversal but the concrete Pitch mount route did not forward real DOM keyboard events to it. The bounded repair changes only `apps/pitch/src/flow-runtime.ts` plus its focused test:
+
+- the flow host listens for bubbled `keydown` events only in `interactionPolicy: "keyboard"`;
+- each event delegates its key to the existing `D3FlowComponent.handleKey()` implementation rather than duplicating traversal logic;
+- browser default behavior is prevented only when `handleKey()` reports that the key was handled;
+- unsupported keys remain untouched;
+- static mode binds no keyboard listener;
+- the listener is removed before component destruction and cleanup remains idempotent.
+
+No renderer semantics, layout, theme, content or cross-track behavior changed in this repair.
+
 ## Minimal Pitch integration
 
 Repository review found that the existing Reveal/Self-Study adapters already preserve SceneDocument 1.1 diagram payloads, but the concrete `apps/pitch` preview path still rejected every block kind other than its explicitly handled prose/math/code/list/prompt cases. A canonical diagram would therefore fail before the new D3 renderer could mount.
@@ -75,7 +88,7 @@ Repository review found that the existing Reveal/Self-Study adapters already pre
 The bounded integration repair is limited to the existing presentation mount path:
 
 - `apps/pitch/src/preview.ts` recognizes canonical `diagram` blocks and emits a generic `d3-flow-host` identified by `data-flow-block-id`, retaining block source/provenance/relation-path attributes and a complete static fallback;
-- new `apps/pitch/src/flow-runtime.ts` resolves those hosts back to the exact canonical `DiagramBlock`, invokes renderer-d3, fails closed for missing blocks or renderer diagnostics, and owns idempotent component cleanup;
+- new `apps/pitch/src/flow-runtime.ts` resolves those hosts back to the exact canonical `DiagramBlock`, invokes renderer-d3, fails closed for missing blocks or renderer diagnostics, forwards keyboard-mode DOM keydown events into the component traversal, and owns idempotent listener/component cleanup;
 - `apps/pitch/src/main.ts` mounts all generated flow hosts after canonical scene mounting using the already-derived reduced-motion setting and keyboard interaction policy, and tears them down on `pagehide`;
 - no Pitch theme/profile/background/layout selection, authored content or visual palette is changed.
 
@@ -105,12 +118,17 @@ Added `apps/pitch/test/flow-runtime.test.ts` proving:
 
 - the scene preview creates the expected generic flow host and source-linked static fallback from a synthetic valid SceneDocument 1.1;
 - the Pitch flow runtime passes the exact canonical `DiagramBlock` and options to renderer-d3;
-- cleanup is idempotent;
+- a real host-level `keydown` event drives the actual `mountD3FlowDiagram()` Arrow/Home/End traversal and prevents the browser default only for handled keys;
+- unsupported keys are not prevented;
+- static mode registers no keydown listener;
+- unmount removes the keydown listener and cleanup remains idempotent;
 - unknown block references and renderer diagnostics fail closed.
 
 ## Validation status
 
-No local execution pass is claimed from this connector worker turn. The authored tests and package/application changes are committed on the issue branch. Fresh exact-head `agent-validator/project-chemie-digital` success and configured external review are mandatory before manager acceptance.
+The manager-confirmed validator success on pre-repair head `8ca4a2bcd7c5da630b1632d1abb6480cff9119de` is historical only. The keyboard repair changes the PR head, so a fresh exact-head `agent-validator/project-chemie-digital` success and configured external review are mandatory before manager acceptance.
+
+No local execution pass is claimed from this connector repair turn.
 
 ## Explicitly untouched
 
@@ -124,7 +142,7 @@ No local execution pass is claimed from this connector worker turn. The authored
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
-The only application files changed are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test.
+The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The manager-requested repair itself touches only `apps/pitch/src/flow-runtime.ts`, `apps/pitch/test/flow-runtime.test.ts`, this handoff and workflow state.
 
 ## Pull request
 
@@ -132,4 +150,4 @@ Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->
 
 ## Manager review focus
 
-Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, static-mode accessibility, exact-head configured validation and external review before any Ready transition or merge.
+Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, the repaired real DOM keyboard traversal, static-mode accessibility, exact-head configured validation and external review before any Ready transition or merge.
