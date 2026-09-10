@@ -55,6 +55,20 @@ test("long unspaced identifiers are split only at grapheme boundaries", () => {
   assert.ok(lines.every((line) => !line.includes("👩") || line.includes(scientist)));
 });
 
+test("grapheme-dependent wrapping fails closed when Intl.Segmenter is unavailable", () => {
+  const descriptor = Object.getOwnPropertyDescriptor(Intl, "Segmenter");
+  Object.defineProperty(Intl, "Segmenter", { value: undefined, configurable: true, writable: true });
+  try {
+    assert.throws(
+      () => wrapFlowText("A👩‍🔬B", 8),
+      /Intl\.Segmenter is required for grapheme-safe flow text layout/,
+    );
+  } finally {
+    if (descriptor) Object.defineProperty(Intl, "Segmenter", descriptor);
+    else delete (Intl as unknown as { Segmenter?: unknown }).Segmenter;
+  }
+});
+
 test("layout fails closed when an edge references an unknown node", () => {
   assert.throws(
     () => createD3FlowLayout({ ...input, edges: [{ ...input.edges[0], targetNodeId: "node:missing" }] }, 1200),
