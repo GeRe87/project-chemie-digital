@@ -1,168 +1,39 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 149,
   "expectedDeliverable": "Repair Draft PR #150 for the configured Copilot re-review finding only: preserve the documented grapheme-boundary wrapping contract when Intl.Segmenter is unavailable. Replace the current Array.from() fallback in packages/renderer-d3/src/flow-layout.ts with fail-closed behavior rather than silently splitting Unicode ZWJ grapheme clusters; keep the existing Intl.Segmenter path and all layout geometry/order unchanged. Add one focused regression that temporarily makes Intl.Segmenter unavailable and proves a ZWJ grapheme such as 👩‍🔬 is never split (the grapheme-dependent path must fail closed), while the normal Segmenter-backed behavior remains unchanged. Do not change flow semantic mapping, marker-id behavior, SVG whitespace preservation, keyboard/static behavior, Pitch integration, RDF/SHACL, compiler/core, CogniFlow prose, Eco City/theme, Chemometrics or learner-state behavior. Update the #149 handoff and return to manager for fresh exact-head validation and configured Copilot re-review.",
   "lastCompletedTurn": "manager: exact-head validation on 2d68fe7dc8ff92c113d04439b3b9d3fd6b73c9c6 succeeded and the marker-id repair remained 0 behind and mergeable, so PR #150 was marked Ready and configured Copilot re-review was requested. Copilot reviewed all 14 changed files and raised one suppressed-but-actionable contract finding in flow-layout.ts: segmentGraphemes() falls back to Array.from() when Intl.Segmenter is unavailable, which can split Unicode ZWJ grapheme clusters despite the renderer contract promising grapheme-boundary-only splitting. Confirmed the code path. Withheld merge, converted PR #150 back to Draft, left the existing addressed review thread unresolved, and authorized exactly one bounded Frontend repair to fail closed when Intl.Segmenter is unavailable plus a focused ZWJ regression. No other renderer, Pitch, semantic, content, theme or cross-track behavior is authorized to change.",
-  "lastUpdated": "2026-09-10T15:00:00+02:00",
+  "lastUpdated": "2026-09-10T15:04:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue149-grapheme-fallback-repair-20260910T150400+0200",
+    "claimedAt": "2026-09-10T15:04:00+02:00",
+    "expiresAt": "2026-09-10T17:04:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 168,
+  "stateRevision": 169,
   "transitionHistory": [
-    {
-      "at": "2026-09-09T23:59:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue147-language-guard-repair-20260909T235900+0200",
-      "reason": "Reviewed repaired Draft PR #148 and authorized one bounded Backend repair turn for the redundant DiagramRole-local language guard."
-    },
-    {
-      "at": "2026-09-10T00:03:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue147-language-guard-repair-20260910T000300+0200",
-      "reason": "Claimed the bounded #147 language-guard repair turn."
-    },
-    {
-      "at": "2026-09-10T00:08:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue147-language-guard-repair-20260910T000300+0200",
-      "reason": "Completed the bounded #147 language-guard repair and returned to manager for fresh validation and review."
-    },
-    {
-      "at": "2026-09-10T09:46:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue147-final-merge-20260910T094600+0200",
-      "reason": "Final #147 gates passed and PR #148 was squash-merged; System returned to idle manager state."
-    },
-    {
-      "at": "2026-09-10T11:16:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue149-plan-20260910T111600+0200",
-      "reason": "Claimed one bounded System manager planning turn for the renderer-d3 FlowDiagram increment."
-    },
-    {
-      "at": "2026-09-10T11:21:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-plan-20260910T111600+0200",
-      "reason": "Created System Issue #149 and authorized one Frontend and Reveal Renderer Engineer worker turn for canonical DiagramBlock D3 rendering."
-    },
-    {
-      "at": "2026-09-10T11:36:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue149-20260910T113600+0200",
-      "reason": "Claimed the manager-authorized #149 renderer worker turn."
-    },
-    {
-      "at": "2026-09-10T11:52:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue149-20260910T113600+0200",
-      "reason": "Completed the bounded #149 renderer implementation with minimal Pitch integration and returned to manager for exact-head validation and review."
-    },
-    {
-      "at": "2026-09-10T12:23:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-keyboard-repair-20260910T122300+0200",
-      "reason": "Manager found the browser keyboard wiring gap and authorized exactly one bounded Frontend repair turn for DOM keydown traversal plus one focused regression."
-    },
-    {
-      "at": "2026-09-10T12:24:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue149-keyboard-repair-20260910T122400+0200",
-      "reason": "Claimed the bounded #149 keyboard repair turn. Scope is limited to DOM keydown wiring for existing Arrow/Home/End traversal, one focused runtime regression, handoff update and manager return; all semantic, content, theme and cross-track behavior remains frozen."
-    },
-    {
-      "at": "2026-09-10T12:31:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue149-keyboard-repair-20260910T122400+0200",
-      "reason": "Completed the bounded #149 keyboard repair: Pitch flow hosts now forward keyboard-mode keydown events to the existing D3 traversal, handled navigation keys prevent default and stop Reveal propagation, unsupported/static behavior remains untouched, cleanup removes the listener, and the focused integration regression drives actual mountD3FlowDiagram traversal. Updated handoff and returned to manager; fresh exact-head validation and configured external review are required."
-    },
-    {
-      "at": "2026-09-10T12:59:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-svg-whitespace-repair-20260910T125900+0200",
-      "reason": "Configured Copilot reviewed exact validated head across 13/13 changed files and raised one unresolved finding: concrete SVG text collapses leading/repeated whitespace despite the complete-character-preservation contract. Accepted the finding, withheld merge and authorized exactly one bounded Frontend repair turn for SVG whitespace preservation plus one focused concrete-rendering regression; all other #149 behavior remains frozen."
-    },
-    {
-      "at": "2026-09-10T13:02:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue149-svg-whitespace-repair-20260910T130200+0200",
-      "reason": "Claimed the manager-authorized bounded #149 SVG whitespace repair turn. Scope is limited to preserving authored leading/repeated whitespace in concrete SVG flow labels, one focused concrete-rendering regression, handoff update and manager return; keyboard, layout, semantic, content, theme and cross-track behavior remain frozen."
-    },
-    {
-      "at": "2026-09-10T13:08:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue149-svg-whitespace-repair-20260910T130200+0200",
-      "reason": "Completed the bounded #149 SVG whitespace repair: the shared SVG text primitive now sets namespaced xml:space=preserve, a focused concrete-runtime regression proves leading/repeated spaces survive for node and edge labels, the handoff is updated, and no other renderer/Pitch/semantic/cross-track behavior changed. Returned to manager without resolving the Copilot thread or self-accepting; fresh exact-head validation and configured Copilot re-review are required."
-    },
-    {
-      "at": "2026-09-10T13:23:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-strip-types-test-repair-20260910T132300+0200",
-      "reason": "Exact-head validation failed solely because the new SVG whitespace regression used a TypeScript constructor parameter property unsupported by Node strip-only mode. The production whitespace fix remains accepted; authorized exactly one bounded Frontend repair to rewrite only that test harness syntax into strip-types-compatible explicit field assignment before fresh validation and Copilot re-review."
-    },
-    {
-      "at": "2026-09-10T13:25:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue149-strip-types-test-repair-20260910T132500+0200",
-      "reason": "Claimed the manager-authorized bounded #149 strip-types test-harness repair. Scope is limited to replacing the unsupported parameter property in flow-svg-whitespace.test.ts with an explicit field and constructor assignment; production renderer behavior and all other #149 surfaces remain frozen."
-    },
-    {
-      "at": "2026-09-10T13:27:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue149-strip-types-test-repair-20260910T132500+0200",
-      "reason": "Completed the bounded strip-types test-harness repair: only the FakeElement tagName parameter property was rewritten as an explicit readonly field plus constructor assignment, preserving the whitespace regression semantics and all production behavior. Returned to manager for fresh exact-head validation and Copilot re-review."
-    },
-    {
-      "at": "2026-09-10T14:00:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-marker-id-repair-20260910T140000+0200",
-      "reason": "Configured Copilot re-review found that marker ids derived only from sourceBlockId can collide across simultaneously mounted diagrams from different SceneDocuments. Confirmed the concrete code path, converted PR #150 back to Draft, withheld merge and authorized exactly one bounded Frontend repair for mount-stable DOM-unique marker ids plus a focused same-block-id multi-mount regression."
-    },
-    {
-      "at": "2026-09-10T14:02:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue149-marker-id-repair-20260910T140200+0200",
-      "reason": "Claimed the manager-authorized bounded #149 marker-id repair. Scope is limited to mount-stable DOM-unique SVG marker ids across same-block-id concurrent mounts, one focused concrete-runtime regression, handoff update and manager return; all other #149 behavior remains frozen."
-    },
-    {
-      "at": "2026-09-10T14:07:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue149-marker-id-repair-20260910T140200+0200",
-      "reason": "Completed the bounded marker-id repair: each concrete flow mount now gets a renderer-local unique marker id allocated once per mount, same-block-id concurrent mounts no longer collide, marker-end references remain mount-local, and the id stays stable across rerender. Added the focused two-mount/rerender regression, updated handoff and returned to manager without Ready, review-thread resolution or merge."
-    },
-    {
-      "at": "2026-09-10T15:00:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue149-grapheme-fallback-repair-20260910T150000+0200",
-      "reason": "Configured Copilot re-review found that the Array.from() fallback can split Unicode ZWJ grapheme clusters when Intl.Segmenter is unavailable, violating the grapheme-safe wrapping contract. Confirmed the code path, converted PR #150 back to Draft, withheld merge and authorized exactly one bounded Frontend repair to fail closed without Intl.Segmenter plus a focused ZWJ regression."
-    }
+    {"at":"2026-09-10T11:16:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-issue149-plan-20260910T111600+0200","reason":"Claimed one bounded System manager planning turn for the renderer-d3 FlowDiagram increment."},
+    {"at":"2026-09-10T11:21:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-plan-20260910T111600+0200","reason":"Created System Issue #149 and authorized one Frontend and Reveal Renderer Engineer worker turn for canonical DiagramBlock D3 rendering."},
+    {"at":"2026-09-10T11:36:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-20260910T113600+0200","reason":"Claimed the manager-authorized #149 renderer worker turn."},
+    {"at":"2026-09-10T11:52:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-20260910T113600+0200","reason":"Completed the bounded #149 renderer implementation with minimal Pitch integration and returned to manager for exact-head validation and review."},
+    {"at":"2026-09-10T12:23:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-keyboard-repair-20260910T122300+0200","reason":"Manager found the browser keyboard wiring gap and authorized exactly one bounded Frontend repair turn for DOM keydown traversal plus one focused regression."},
+    {"at":"2026-09-10T12:24:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-keyboard-repair-20260910T122400+0200","reason":"Claimed the bounded #149 keyboard repair turn."},
+    {"at":"2026-09-10T12:31:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-keyboard-repair-20260910T122400+0200","reason":"Completed the bounded #149 keyboard repair and returned to manager for exact-head validation and configured review."},
+    {"at":"2026-09-10T12:59:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-svg-whitespace-repair-20260910T125900+0200","reason":"Accepted Copilot SVG whitespace finding and authorized one bounded repair."},
+    {"at":"2026-09-10T13:02:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-svg-whitespace-repair-20260910T130200+0200","reason":"Claimed bounded SVG whitespace repair."},
+    {"at":"2026-09-10T13:08:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-svg-whitespace-repair-20260910T130200+0200","reason":"Completed SVG whitespace repair and returned to manager."},
+    {"at":"2026-09-10T13:23:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-strip-types-test-repair-20260910T132300+0200","reason":"Authorized bounded strip-types test-harness repair after exact-head validation exposed unsupported TypeScript syntax."},
+    {"at":"2026-09-10T13:25:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-strip-types-test-repair-20260910T132500+0200","reason":"Claimed bounded strip-types test-harness repair."},
+    {"at":"2026-09-10T13:27:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-strip-types-test-repair-20260910T132500+0200","reason":"Completed strip-types test-harness repair and returned to manager."},
+    {"at":"2026-09-10T14:00:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-marker-id-repair-20260910T140000+0200","reason":"Accepted Copilot marker-id collision finding and authorized one bounded repair."},
+    {"at":"2026-09-10T14:02:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-marker-id-repair-20260910T140200+0200","reason":"Claimed bounded marker-id repair."},
+    {"at":"2026-09-10T14:07:00+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue149-marker-id-repair-20260910T140200+0200","reason":"Completed marker-id repair and returned to manager."},
+    {"at":"2026-09-10T15:00:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue149-grapheme-fallback-repair-20260910T150000+0200","reason":"Configured Copilot re-review found that Array.from() can split Unicode ZWJ grapheme clusters when Intl.Segmenter is unavailable. Confirmed the contract bug, converted PR #150 to Draft and authorized exactly one bounded fail-closed repair plus regression."},
+    {"at":"2026-09-10T15:04:00+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue149-grapheme-fallback-repair-20260910T150400+0200","reason":"Claimed the manager-authorized bounded #149 grapheme fallback repair; scope is limited to fail-closed behavior without Intl.Segmenter, one focused ZWJ regression, handoff update and manager return."}
   ]
 }
