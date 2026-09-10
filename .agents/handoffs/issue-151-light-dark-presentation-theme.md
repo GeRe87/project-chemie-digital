@@ -52,13 +52,13 @@ Branch: `agent/151-light-dark-presentation-theme`
 
 The user supplied these five approved WebPs in the current implementation context:
 
-| Source file | Size | SHA-256 |
-| --- | ---: | --- |
-| `01-seamless-eco-city-skyline.webp` | 345552 B | `8341890d443d2b6f221409121c1ec047df3db1698b0a897ecd3847455c0cba56` |
-| `03-left-facade-slice.webp` | 195930 B | `e947ca792b399c9d44a56b8b16d7fea786fce2f665bf7c6ad4059182446a4dc3` |
-| `04-right-facade-slice.webp` | 206888 B | `0e36374ff98b5a4e8ad8ffd7b730ba7d6d57efe33c0bb17b011b1cc47862976e` |
-| `05-bridge-tile.webp` | 448792 B | `1ff179cb5d42ff412c780e74a1818cf57027c2c0b95ab0eb7ffb9748c658499a` |
-| `06-sunbeam-sky-overlay.webp` | 51314 B | `3b7810d8ad8b13a65215287155729a309de8316efd407b7880839f1a43af9ad1` |
+| Source file | Size | SHA-256 | Expected Git blob SHA-1 |
+| --- | ---: | --- | --- |
+| `01-seamless-eco-city-skyline.webp` | 345552 B | `8341890d443d2b6f221409121c1ec047df3db1698b0a897ecd3847455c0cba56` | `e12958677112c59689f5087e947902359bb5e78a` |
+| `03-left-facade-slice.webp` | 195930 B | `e947ca792b399c9d44a56b8b16d7fea786fce2f665bf7c6ad4059182446a4dc3` | `970793c0c960e24d4e1f8d83b3153e9cd203dd12` |
+| `04-right-facade-slice.webp` | 206888 B | `0e36374ff98b5a4e8ad8ffd7b730ba7d6d57efe33c0bb17b011b1cc47862976e` | `646b03e83f8dba2b9ecea492dd46de06a2e97df7` |
+| `05-bridge-tile.webp` | 448792 B | `1ff179cb5d42ff412c780e74a1818cf57027c2c0b95ab0eb7ffb9748c658499a` | `cddf72ddd0ce3c89ab4484ac18b56d4c8740ab3d` |
+| `06-sunbeam-sky-overlay.webp` | 51314 B | `3b7810d8ad8b13a65215287155729a309de8316efd407b7880839f1a43af9ad1` | `c22798742559aaf2dc2163ffc11434cc0e19ebad` |
 
 All five have RIFF/WEBP signatures and dimensions 1024×1536. The facade and bridge files are RGBA; skyline and sunbeam overlay are RGB.
 
@@ -72,17 +72,25 @@ apps/pitch/public/presentation-backgrounds/chemometrics-city/light/bridges.webp
 apps/pitch/public/presentation-backgrounds/chemometrics-city/light/sunbeam-sky-overlay.webp
 ```
 
-The available GitHub connector exposes binary blob creation only by supplying the entire Base64 payload as a string; it cannot consume the mounted chat files as file parameters. The available container also has no GitHub network access, so a clean checkout/push path is unavailable here. To avoid corruption or placeholder substitution, the five binaries are **not yet committed**.
+### Binary transfer verification performed in the bounded packaging turn
 
-This is the only known implementation-completeness blocker before visual acceptance. The runtime intentionally points at the final stable local URLs already.
+The GitHub connector's `create_blob(..., encoding="base64")` endpoint itself was verified with an unreferenced one-byte probe: Base64 `eA==` returned Git blob SHA `c1b0730e0133447badcfd47fd144e254807b06e1`, exactly matching the independently calculated Git object SHA for byte `x`.
 
-Do not mark the PR Ready or merge until the five approved binary files are committed at the target paths and the final exact head passes configured validation/review.
+The smallest approved WebP was then attempted only as an **unreferenced** blob, with the local expected Git blob SHA precomputed as `c22798742559aaf2dc2163ffc11434cc0e19ebad`. The connector returned `5b7a3b5f669c8a38480801fe98908de7f8fa34be`, proving that transferring the large mounted-file payload through an inline model-generated Base64 argument is not byte-preserving/reliable in this environment. The mismatching blob was therefore never referenced by a tree or branch commit.
+
+All temporary branch-visible transfer probes/staging artifacts were removed again. A final branch comparison confirmed that none remain in the net PR diff.
+
+The connector has no action accepting a mounted local file as a binary file parameter, and the container has no direct GitHub network/push path. Therefore the five exact binaries remain **not committed** rather than accepting silent corruption or substituting placeholders.
+
+This remains the only known implementation-completeness blocker before visual acceptance. The runtime intentionally points at the final stable local URLs already.
+
+Do not mark the PR Ready or merge until the five approved binary files are committed at the target paths through a binary-capable file transfer path and the final exact head passes configured validation/review.
 
 ## Validation status
 
-- Branch scope was compared against manager dispatch base `e9969d3d6ad205ca3b0134e4cc71c86173bc4de2`: 0 behind and only System #151 renderer/app/test/handoff/state files are changed.
-- A container clean-clone test was attempted but the container cannot resolve `github.com`; therefore no local npm test claim is made.
-- Fresh exact-head `agent-validator/project-chemie-digital` validation is required after the final worker head, as usual.
+- Final net branch scope after cleanup remains 0 behind `main` and contains only the 12 authorized System #151 renderer/app/test/handoff/state paths; no temporary transfer files remain.
+- A container clean-clone test was attempted in the earlier worker turn but the container cannot resolve `github.com`; therefore no local npm test claim is made.
+- Fresh exact-head `agent-validator/project-chemie-digital` validation is required after the final binary-inclusive worker head, as usual.
 
 ## Architecture boundary preserved
 
@@ -90,8 +98,9 @@ No changes were made to canonical RDF/TriG, ontology/SHACL, SceneDocument contra
 
 ## Manager focus
 
-1. Package the five exact approved light WebPs at the documented paths through a binary-capable repository channel.
-2. Re-check that the final branch remains 0 behind and scoped.
-3. Require exact-head configured validator success.
-4. Only after the binary gate and validator success, mark Ready and request configured external review.
-5. Do not merge while the binary packaging blocker remains.
+1. Package the five exact approved light WebPs at the documented paths through a binary-capable repository channel that accepts file bytes directly.
+2. Verify each repository blob against the expected Git blob SHA-1 / SHA-256 table above.
+3. Re-check that the final branch remains 0 behind and scoped.
+4. Require exact-head configured validator success.
+5. Only after the binary gate and validator success, mark Ready and request configured external review.
+6. Do not merge while the binary packaging blocker remains.
