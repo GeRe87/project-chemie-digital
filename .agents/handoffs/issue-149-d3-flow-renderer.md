@@ -82,6 +82,20 @@ Manager review of Draft PR #150 on head `8ca4a2bcd7c5da630b1632d1abb6480cff9119d
 
 No renderer semantics, layout, theme, content or cross-track behavior changed in this repair.
 
+### Copilot-requested SVG whitespace repair
+
+Configured Copilot review of the repaired exact head `c098365490d88604ed895d13dee274a5a3f100f9` reviewed 13/13 files and raised one renderer finding: the wrapping layer preserved authored repeated/leading spaces as strings, but SVG rendering could collapse them because the generated `<text>` elements did not request XML whitespace preservation.
+
+The bounded follow-up changes only the concrete text-rendering primitive and one focused renderer test:
+
+- `addTextLines()` now sets namespaced `xml:space="preserve"` on every generated SVG `<text>` element;
+- both node and edge label `<tspan>` children inherit that preservation behavior;
+- authored repeated/leading spaces remain unchanged in the wrapped line strings and concrete SVG text tree;
+- `packages/renderer-d3/test/flow-svg-whitespace.test.ts` exercises the real `createSvgD3FlowRuntime().mount(...)` path with labels containing leading and repeated spaces and asserts both the `xml:space` attribute and exact reconstructed `<tspan>` content;
+- no wrapping policy, node/edge order, layout geometry, keyboard behavior or semantic mapping changed.
+
+The Copilot thread remains for manager resolution/re-review after a fresh exact-head validator pass; the worker does not resolve or self-accept the review finding.
+
 ## Minimal Pitch integration
 
 Repository review found that the existing Reveal/Self-Study adapters already preserve SceneDocument 1.1 diagram payloads, but the concrete `apps/pitch` preview path still rejected every block kind other than its explicitly handled prose/math/code/list/prompt cases. A canonical diagram would therefore fail before the new D3 renderer could mount.
@@ -107,6 +121,7 @@ Added renderer tests covering:
 - viewport-aware mobile selection when a Reveal-style host is wider than the actual viewport;
 - complete text preservation during wrapping;
 - Unicode-grapheme-safe splitting of long unspaced identifiers;
+- concrete SVG preservation of leading/repeated whitespace for both node and edge labels;
 - canonical-focus preference;
 - Arrow/Home/End traversal;
 - static-mode non-interactivity;
@@ -128,7 +143,7 @@ Added `apps/pitch/test/flow-runtime.test.ts` proving:
 
 ## Validation status
 
-The manager-confirmed validator success on pre-repair head `8ca4a2bcd7c5da630b1632d1abb6480cff9119de` is historical only. The keyboard repair changes the PR head, so a fresh exact-head `agent-validator/project-chemie-digital` success and configured external review are mandatory before manager acceptance.
+The validator success on pre-whitespace-repair head `c098365490d88604ed895d13dee274a5a3f100f9` is historical only. This SVG repair changes the PR head, so fresh exact-head `agent-validator/project-chemie-digital` success and configured Copilot re-review are mandatory before manager acceptance.
 
 No local execution pass is claimed from this connector repair turn.
 
@@ -144,7 +159,7 @@ No local execution pass is claimed from this connector repair turn.
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
-The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The manager-requested repair itself touches only `apps/pitch/src/flow-runtime.ts`, `apps/pitch/test/flow-runtime.test.ts`, this handoff and workflow state.
+The only application files changed across #149 are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test. The Copilot-requested SVG whitespace repair itself touches only `packages/renderer-d3/src/flow-diagram.ts`, `packages/renderer-d3/test/flow-svg-whitespace.test.ts`, this handoff and workflow state.
 
 ## Pull request
 
@@ -152,4 +167,4 @@ Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->
 
 ## Manager review focus
 
-Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, the repaired real DOM keyboard traversal and Reveal keyboard containment, static-mode accessibility, exact-head configured validation and external review before any Ready transition or merge.
+Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, repaired real DOM keyboard traversal/Reveal containment, concrete SVG whitespace preservation, static-mode accessibility, fresh exact-head configured validation and configured Copilot re-review before any Ready transition or merge.
