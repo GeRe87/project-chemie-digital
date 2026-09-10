@@ -135,6 +135,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("FormulaRole"),
                 cd("KeyPointRole"),
                 cd("AttributionRole"),
+                cd("DiagramRole"),
             },
             self.shacl_in_values(cd("communicativeRole")),
         )
@@ -175,6 +176,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
             dataset,
             RUNTIME.CoursePathReference(str(STANDARD_DEVIATION_PATH), STANDARD_DEVIATION_PATH_GRAPH),
         )
+        self.assertEqual("1.0", document["version"])
         formula_block = document["scenes"][3]["blocks"][1]
         self.assertEqual("math", formula_block["kind"])
         self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["expression"])
@@ -187,6 +189,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
 
     def test_valid_formula_role_math_expression_and_latex_selector_compiles(self) -> None:
         document = RUNTIME.compile_scene_document(formula_scene_dataset(), selected_formula_path())
+        self.assertEqual("1.0", document["version"])
         block = document["scenes"][0]["blocks"][1]
         self.assertEqual("math", block["kind"])
         self.assertEqual("x = 1", block["expression"])
@@ -222,6 +225,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
             dataset,
             RUNTIME.CoursePathReference(str(RANDOM_VARIABLES_PATH), RANDOM_VARIABLES_PATH_GRAPH),
         )
+        self.assertEqual("1.0", document["version"])
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", document["sourcePathId"])
         self.assertEqual(5, len(document["scenes"]))
 
