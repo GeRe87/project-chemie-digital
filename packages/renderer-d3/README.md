@@ -1,26 +1,36 @@
-# D3 knowledge-network renderer
+# D3 renderers
 
-`@project-chemie-digital/renderer-d3` is the downstream adapter for `KnowledgeNetworkDocument 1.0`.
+`@project-chemie-digital/renderer-d3` contains downstream D3/SVG renderers for validated neutral core contracts.
 
 ## Boundary
 
-The package consumes a complete validated core document and creates an adapter-owned render model. It preserves semantic node and edge identities, labels, groups and source/provenance references. It never mutates the source document or writes coordinates, simulation state, zoom state, focus state or browser lifecycle data back into core records.
+The package consumes complete core records and creates adapter-owned render models. It preserves semantic identities, labels and source/provenance references. It never queries RDF/Fuseki and never writes layout coordinates, focus state, browser lifecycle data or visual styling decisions back into core records.
 
-The neutral core does not import this package. D3, DOM, SVG/canvas, simulation and interaction implementations belong behind the `D3RuntimePort` supplied by the browser integration layer.
+The neutral core does not import this package. D3, DOM, SVG, responsive geometry and interaction implementations remain renderer-owned.
 
-## Public API
+## Knowledge-network API
 
-- `createD3KnowledgeNetworkRenderModel(document, options)` performs deterministic mapping and returns either a complete render model or stable diagnostics.
+- `createD3KnowledgeNetworkRenderModel(document, options)` performs deterministic KnowledgeNetworkDocument 1.0 mapping and returns either a complete render model or stable diagnostics.
 - `mountD3KnowledgeNetwork(host, document, options, runtime)` owns mount, repeated render, keyboard focus and cleanup lifecycle.
 - `canonicalSerializeD3RenderModel(model)` provides deterministic serialization for tests and snapshots.
 
+## Flow-diagram API
+
+The `./flow` subpath consumes the canonical SceneDocument 1.1 `DiagramBlock` directly:
+
+- `createD3FlowRenderModel(block, options)` preserves canonical node/edge order, ids, labels, source/provenance evidence, optional emphasis and optional `focusNodeId`.
+- `mountD3FlowDiagram(host, block, options, runtime)` mounts a deterministic SVG flow, observes responsive width changes, preserves active focus across layout changes and owns cleanup.
+- `createSvgD3FlowRuntime()` is the browser DOM/SVG implementation behind the runtime port.
+
+The `./flow-layout` subpath exposes deterministic renderer-only layout helpers. Hosts at 900 CSS pixels or wider use horizontal flow; narrower hosts use vertical flow. Text wrapping never truncates characters and long unspaced identifiers split only at Unicode grapheme boundaries.
+
 ## Accessibility
 
-The adapter follows the document's authoritative node and edge reading orders, exposes the complete static fallback, marks nodes focusable only in keyboard mode and supports arrow, Home and End navigation through the runtime focus port. Visual implementations must provide meaningful labels and non-color-only distinctions.
+Knowledge networks follow their authoritative node/edge reading orders and static fallback. Flow diagrams retain canonical array order as reading order and expose a complete textual fallback containing every node and directed relation. Keyboard mode supports Arrow keys plus Home/End; static mode creates no focusable flow nodes. Reduced-motion flow rendering has no animation dependency.
 
 ## Lifecycle and interactions
 
-The adapter destroys the previous runtime mount before every successful rerender and makes destroy idempotent. Layout coordinates, force simulation, timers, listeners, drag, zoom and transitions remain runtime-owned and must be released by `D3RuntimeMount.destroy()`.
+Knowledge-network force simulation remains runtime-owned and is cleaned up by its mount lifecycle. Flow diagrams use deterministic linear geometry rather than force simulation. Responsive flow rerendering changes only renderer geometry and keeps the same semantic reading order and active node whenever it still exists.
 
 ## Offline behavior
 
@@ -28,4 +38,4 @@ Mapping and lifecycle orchestration perform no network requests, dereference no 
 
 ## Explicit exclusions
 
-This package does not query RDF or Fuseki, change ontology or SHACL content, alter `KnowledgeNetworkDocument 1.0`, render Reveal.js scenes, claim pedagogical effectiveness or publish a visual design system.
+This package does not query RDF or Fuseki, change ontology/SHACL, alter SceneDocument or KnowledgeNetworkDocument contracts, author CogniFlow content, define Eco City/background themes, claim pedagogical effectiveness or publish a visual design system.

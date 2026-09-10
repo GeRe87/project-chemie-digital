@@ -25,6 +25,19 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
   if (provenance.length) node.setAttribute("data-provenance-ids", [...new Set(provenance)].sort().join(" "));
   if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
 }
+
+function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
+  return [
+    block.label,
+    block.description,
+    "Nodes:",
+    ...block.nodes.map((node) => `- ${node.label}`),
+    "Relations:",
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+  ].join("\n");
+}
+
 function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBlock, headingId: string): void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
@@ -94,6 +107,21 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
       }
       shell.appendChild(list);
     }
+    parent.appendChild(shell);
+    return;
+  }
+  if (block.kind === "diagram") {
+    const shell = dom.createElement("div");
+    shell.className = "d3-flow-host";
+    shell.setAttribute("data-flow-block-id", block.id);
+    shell.setAttribute("data-diagram-type", block.diagramType);
+    shell.setAttribute("role", "group");
+    shell.setAttribute("aria-label", block.label);
+    sourceAttributes(shell, block.source);
+    const fallback = dom.createElement("pre");
+    fallback.className = "d3-flow-static-fallback";
+    fallback.textContent = diagramStaticFallback(block);
+    shell.appendChild(fallback);
     parent.appendChild(shell);
     return;
   }
