@@ -9,6 +9,7 @@ import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-sc
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
+import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
@@ -44,6 +45,11 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const unmountFlowDiagrams = mountPitchFlowDiagrams(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-flow-block-id]")),
+  documents,
+  { reducedMotion, interactionPolicy: "keyboard" },
+);
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
@@ -149,6 +155,7 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
+  unmountFlowDiagrams();
   stopBackgroundProgress();
   appearanceControls.destroy();
   backgroundRuntime.destroy();
