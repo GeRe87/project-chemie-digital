@@ -1,13 +1,20 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
-import { createD3FlowRenderModel, type D3FlowComponent, type D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
+import {
+  createD3FlowRenderModel,
+  mountD3FlowDiagram,
+  type D3FlowComponent,
+  type D3FlowOptions,
+  type D3FlowRuntimePort,
+} from "../../../packages/renderer-d3/src/flow-diagram.ts";
 import { createD3FlowLayout } from "../../../packages/renderer-d3/src/flow-layout.ts";
 import { mountPitchFlowDiagrams, type PitchFlowHost, type PitchFlowMount } from "../src/flow-runtime.ts";
 import { mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
 
 class FakeElement implements MinimalElement, PitchFlowHost {
   private html = "";
+  private listeners = new Map<string, Set<EventListenerOrEventListenerObject>>();
   className = "";
   textContent: string | null = null;
   children: FakeElement[] = [];
@@ -21,6 +28,24 @@ class FakeElement implements MinimalElement, PitchFlowHost {
   appendChild(node: MinimalElement): void { this.children.push(node as FakeElement); }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
   getAttribute(name: string): string | null { return this.attributes.get(name) ?? null; }
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject): void {
+    const listeners = this.listeners.get(type) ?? new Set<EventListenerOrEventListenerObject>();
+    listeners.add(listener);
+    this.listeners.set(type, listeners);
+  }
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject): void {
+    this.listeners.get(type)?.delete(listener);
+  }
+  dispatchKey(key: string): boolean {
+    let prevented = false;
+    const event = { key, preventDefault() { prevented = true; } } as unknown as Event;
+    for (const listener of this.listeners.get("keydown") ?? []) {
+      if (typeof listener === "function") listener(event);
+      else listener.handleEvent(event);
+    }
+    return prevented;
+  }
+  listenerCount(type: string): number { return this.listeners.get(type)?.size ?? 0; }
 }
 
 const source = [{ resourceId: "ex:flow-scene", relationPath: "cd:body", provenanceIds: ["prov:flow"] }] as const;
@@ -115,6 +140,55 @@ test("pitch flow runtime passes the exact canonical block to renderer-d3 and cle
   destroy();
   destroy();
   assert.equal(destroys, 1);
+});
+
+test("real DOM keydown wiring drives the existing deterministic D3 traversal and is removed on cleanup", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", diagram.id);
+  const focused: string[] = [];
+  const runtime: D3FlowRuntimePort = {
+    measureHost() { return 1200; },
+    mount() {
+      return {
+        update() {},
+        focusNode(nodeId) { focused.push(nodeId); },
+        destroy() {},
+      };
+    },
+  };
+  const mount: PitchFlowMount = (target, block, rendererOptions) => mountD3FlowDiagram(target, block, rendererOptions, runtime);
+
+  const destroy = mountPitchFlowDiagrams([host], [document], options, mount);
+  assert.equal(host.listenerCount("keydown"), 1);
+  assert.deepEqual(focused, ["node:b"]);
+
+  assert.equal(host.dispatchKey("ArrowRight"), true);
+  assert.equal(focused.at(-1), "node:a");
+  assert.equal(host.dispatchKey("Home"), true);
+  assert.equal(focused.at(-1), "node:a");
+  assert.equal(host.dispatchKey("End"), true);
+  assert.equal(focused.at(-1), "node:b");
+  const beforeUnsupported = focused.length;
+  assert.equal(host.dispatchKey("PageDown"), false);
+  assert.equal(focused.length, beforeUnsupported);
+
+  destroy();
+  assert.equal(host.listenerCount("keydown"), 0);
+  const beforeDestroyed = focused.length;
+  assert.equal(host.dispatchKey("ArrowLeft"), false);
+  assert.equal(focused.length, beforeDestroyed);
+
+  const staticHost = new FakeElement();
+  staticHost.setAttribute("data-flow-block-id", diagram.id);
+  const destroyStatic = mountPitchFlowDiagrams(
+    [staticHost],
+    [document],
+    { reducedMotion: true, interactionPolicy: "static" },
+    mount,
+  );
+  assert.equal(staticHost.listenerCount("keydown"), 0);
+  assert.equal(staticHost.dispatchKey("ArrowRight"), false);
+  destroyStatic();
 });
 
 test("pitch flow runtime fails closed for unknown hosts and renderer diagnostics", () => {
