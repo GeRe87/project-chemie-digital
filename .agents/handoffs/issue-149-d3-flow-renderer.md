@@ -23,19 +23,21 @@ The mapping:
 - reuses the existing renderer interaction option shape (`reducedMotion`, `keyboard | static`);
 - creates a deterministic static fallback containing the diagram label/description, every node and every directed relation.
 
-The package exports the flow API through `@project-chemie-digital/renderer-d3/flow` without changing the existing root knowledge-network API.
+The package exports the flow API through `@project-chemie-digital/renderer-d3/flow` and deterministic layout helpers through `./flow-layout`, while preserving the existing root knowledge-network export.
 
 ## Responsive layout
 
 Added `packages/renderer-d3/src/flow-layout.ts` as a renderer-only deterministic geometry layer.
 
-- host widths >= 900 use horizontal flow;
-- narrower hosts use vertical flow;
+- effective widths >= 900 use horizontal flow;
+- narrower widths use vertical flow;
 - semantic node/edge ordering is never changed by layout;
 - no force simulation is used for the linear flow primitive;
 - text wrapping never truncates authored characters;
 - long unspaced values split only at Unicode grapheme boundaries through `Intl.Segmenter` on supported Node/browser runtimes;
-- layout geometry is deterministic from the render model and host width.
+- layout geometry is deterministic from the render model and effective host width.
+
+The browser runtime resolves the effective width as the narrower usable value of the renderer host and current viewport. This is important for Reveal, whose internal presentation host can remain 1440 px wide while the browser viewport is substantially narrower because the deck is transformed/scaled. The renderer therefore still switches to the vertical mobile layout in that case.
 
 ## SVG/runtime lifecycle
 
@@ -46,7 +48,7 @@ Added `packages/renderer-d3/src/flow-layout.ts` as a renderer-only deterministic
 - directed edge markers and generic `d3-flow-*` classes only;
 - keyboard focus targets only when `interactionPolicy === "keyboard"`;
 - no focusable flow nodes in static mode;
-- responsive `ResizeObserver` / window-resize fallback;
+- viewport-aware `ResizeObserver` / window-resize fallback;
 - responsive rerender preserves the active node and restores DOM focus when appropriate;
 - reduced-motion output has no animation dependency;
 - destroy is idempotent and releases resize observation/listeners.
@@ -66,15 +68,29 @@ Keyboard traversal supports:
 
 Responsive layout changes retain the current active semantic node.
 
+## Minimal Pitch integration
+
+Repository review found that the existing Reveal/Self-Study adapters already preserve SceneDocument 1.1 diagram payloads, but the concrete `apps/pitch` preview path still rejected every block kind other than its explicitly handled prose/math/code/list/prompt cases. A canonical diagram would therefore fail before the new D3 renderer could mount.
+
+The bounded integration repair is limited to the existing presentation mount path:
+
+- `apps/pitch/src/preview.ts` recognizes canonical `diagram` blocks and emits a generic `d3-flow-host` identified by `data-flow-block-id`, retaining block source/provenance/relation-path attributes and a complete static fallback;
+- new `apps/pitch/src/flow-runtime.ts` resolves those hosts back to the exact canonical `DiagramBlock`, invokes renderer-d3, fails closed for missing blocks or renderer diagnostics, and owns idempotent component cleanup;
+- `apps/pitch/src/main.ts` mounts all generated flow hosts after canonical scene mounting using the already-derived reduced-motion setting and keyboard interaction policy, and tears them down on `pagehide`;
+- no Pitch theme/profile/background/layout selection, authored content or visual palette is changed.
+
+This is only the minimum route needed to prove the renderer is consumable from the current SceneDocument-backed presentation runtime. The later CogniFlow/Eco-City visual increment remains separate.
+
 ## Focused regressions
 
-Added `packages/renderer-d3/test/flow-diagram.test.ts` and `flow-layout.test.ts` covering:
+Added renderer tests covering:
 
 - deterministic canonical block mapping without source mutation;
 - preserved node/edge order, source/provenance/relationPath and emphasis;
 - optional focus absent and exact focus present behavior;
 - unsupported diagram type and unknown edge endpoint fail-closed behavior;
 - horizontal wide-host and vertical narrow-host layout;
+- viewport-aware mobile selection when a Reveal-style host is wider than the actual viewport;
 - complete text preservation during wrapping;
 - Unicode-grapheme-safe splitting of long unspaced identifiers;
 - canonical-focus preference;
@@ -85,15 +101,16 @@ Added `packages/renderer-d3/test/flow-diagram.test.ts` and `flow-layout.test.ts`
 - no mapping-time network requests;
 - complete static node/relation fallback.
 
-## Integration decision
+Added `apps/pitch/test/flow-runtime.test.ts` proving:
 
-No `apps/pitch` or Reveal adapter mutation was necessary in this increment. The merged Reveal/Self-Study adapters already recognize SceneDocument 1.1 `diagram` blocks and preserve their complete canonical payload/static fallback. This issue supplies the renderer-d3 flow API that a later presentation-runtime integration can mount without changing the semantic/compiler contract.
-
-Keeping app wiring out of this PR also avoids mixing generic renderer mechanics with the later CogniFlow visual/theme reconciliation.
+- the scene preview creates the expected generic flow host and source-linked static fallback from a synthetic valid SceneDocument 1.1;
+- the Pitch flow runtime passes the exact canonical `DiagramBlock` and options to renderer-d3;
+- cleanup is idempotent;
+- unknown block references and renderer diagnostics fail closed.
 
 ## Validation status
 
-No local execution pass is claimed from this connector worker turn. The authored tests and package changes are committed on the issue branch. Fresh exact-head `agent-validator/project-chemie-digital` success and configured external review are mandatory before manager acceptance.
+No local execution pass is claimed from this connector worker turn. The authored tests and package/application changes are committed on the issue branch. Fresh exact-head `agent-validator/project-chemie-digital` success and configured external review are mandatory before manager acceptance.
 
 ## Explicitly untouched
 
@@ -101,12 +118,18 @@ No local execution pass is claimed from this connector worker turn. The authored
 - `scripts/generate_canonical_runtime.py`;
 - `packages/core/**`;
 - `packages/renderer-reveal/**` and `packages/renderer-self-study/**`;
-- `apps/pitch/**`;
 - CogniFlow scientific/prose content;
 - Eco City assets and light/dark/background/theme behavior;
+- Pitch theme/profile/background CSS and broad visual redesign;
 - Chemometrics workflow/content/state;
 - learner-state behavior.
 
+The only application files changed are the minimum generic flow host/mount lifecycle in `apps/pitch/src/preview.ts`, `apps/pitch/src/flow-runtime.ts`, `apps/pitch/src/main.ts` and its focused test.
+
+## Pull request
+
+Draft PR #150 contains `<!-- agent-workflow-validator:project-chemie-digital -->` and `Closes #149`. It must remain Draft until manager review. The worker does not self-accept or merge.
+
 ## Manager review focus
 
-Manager should verify the renderer-only boundary, exact-head validation, generic rather than CogniFlow-specific visual mechanics, deterministic order/focus preservation, static-mode accessibility and the package-export compatibility change before any Ready transition or merge.
+Manager should verify the renderer-first boundary, the necessity and boundedness of the Pitch mount route, package export compatibility, viewport-aware responsive behavior, deterministic order/focus preservation, static-mode accessibility, exact-head configured validation and external review before any Ready transition or merge.
