@@ -149,6 +149,39 @@ test("pitch flow runtime passes the exact canonical block to renderer-d3 and cle
   assert.equal(destroys, 1);
 });
 
+test("partial pitch flow mounting rolls back prior components and keyboard listeners", () => {
+  const mountedHost = new FakeElement();
+  mountedHost.setAttribute("data-flow-block-id", diagram.id);
+  const failingHost = new FakeElement();
+  failingHost.setAttribute("data-flow-block-id", "diagram:missing");
+  let destroys = 0;
+
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const rendered = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    return {
+      model,
+      layout,
+      staticFallback: model.staticFallback,
+      activeNodeId: model.focusNodeId,
+      focusNode() {},
+      handleKey() { return false; },
+      resize() { return layout; },
+      destroy() { destroys += 1; },
+    };
+  };
+
+  assert.throws(
+    () => mountPitchFlowDiagrams([mountedHost, failingHost], [document], options, mount),
+    /unknown block diagram:missing/,
+  );
+  assert.equal(mountedHost.listenerCount("keydown"), 0);
+  assert.equal(mountedHost.dispatchKey("ArrowRight"), false);
+  assert.equal(destroys, 1);
+});
+
 test("real DOM keydown wiring drives the existing deterministic D3 traversal and is removed on cleanup", () => {
   const host = new FakeElement();
   host.setAttribute("data-flow-block-id", diagram.id);
