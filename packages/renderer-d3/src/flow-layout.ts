@@ -81,10 +81,12 @@ export function wrapFlowText(
   if (!Number.isFinite(maxWidth) || maxWidth <= 0) throw new Error("Flow text maxWidth must be positive");
 
   const lines: string[] = [];
-  const paragraphs = text.split(/\r?\n/u);
-  for (const paragraph of paragraphs) {
+  const paragraphParts = text.split(/(\r?\n)/u);
+  for (let index = 0; index < paragraphParts.length; index += 2) {
+    const paragraph = paragraphParts[index] ?? "";
+    const authoredLineBreak = paragraphParts[index + 1] ?? "";
     if (paragraph.length === 0) {
-      lines.push("");
+      lines.push(authoredLineBreak);
       continue;
     }
 
@@ -117,7 +119,7 @@ export function wrapFlowText(
         line += grapheme;
       }
     }
-    lines.push(line);
+    lines.push(line + authoredLineBreak);
   }
   return lines;
 }
