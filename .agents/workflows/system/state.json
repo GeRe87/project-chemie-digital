@@ -1,21 +1,20 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 151,
-  "expectedDeliverable": "Implement System #151 as one bounded renderer/frontend increment: introduce an explicit light/dark presentation theme independent of background enablement; model each selectable background as a family with mandatory dark and light concrete BackgroundPack variants without silently breaking BackgroundPack 1.0; keep Alt+B for background toggle/selection and add Alt+T for dark/light switching; support deterministic ?theme=dark|light resolution and URL updates; map the current neon city plus the five user-supplied Eco City WebPs into one chemometrics-city family; separate theme CSS state from pcd-background-active using reusable tokens; preserve reduced motion, accessibility, teardown and semantic/render-model boundaries; add focused regressions; package the five light assets under stable local URLs if the active repository connector can commit them, otherwise document that binary packaging as the only explicit acceptance blocker; add a structured handoff and Draft PR with validator marker and Closes #151; return to manager without Ready, external review request, self-acceptance or merge.",
-  "lastCompletedTurn": "manager: planned System #151 for paired light/dark presentation themes after inspecting the merged background-pack/runtime and current hard-coded dark-background CSS coupling. Chose a theme state independent from background enablement, Alt+T for theme and existing Alt+B semantics for background, one logical chemometrics-city family with mandatory dark/light variants, explicit ?theme=dark|light URL state, and CSS tokenization rooted in an explicit presentation-theme marker. The current dark assets remain the dark variant; the five user-supplied 1024x1536 Eco City WebPs are the approved light source assets. No semantic/compiler/Chemometrics workflow content was touched.",
-  "lastUpdated": "2026-09-10T22:59:00+02:00",
-  "lease": {
-    "owner": "interactive-system-worker-issue151-20260910T225900+0200",
-    "claimedAt": "2026-09-10T22:59:00+02:00",
-    "expiresAt": "2026-09-11T00:59:00+02:00"
-  },
-  "blockedBy": [],
-  "stateRevision": 177,
+  "expectedDeliverable": "Manager review of System #151 after the paired light/dark theme implementation. Before Ready/acceptance, package the five exact approved Eco City WebPs under apps/pitch/public/presentation-backgrounds/chemometrics-city/light/, then require fresh exact-head agent-validator/project-chemie-digital success and configured external review. Do not replace supplied assets with placeholders and do not merge while binary packaging remains incomplete.",
+  "lastCompletedTurn": "worker: implemented the bounded System #151 renderer/frontend theme increment on agent/151-light-dark-presentation-theme and opened Draft PR #152. BackgroundPack 1.0 remains unchanged beneath a new mandatory dark/light family contract; chemometrics-city resolves existing dark assets and approved light URLs, explicit theme state is independent of background enablement, Alt+T toggles theme while Alt+B retains background semantics, URL/query handling and CSS tokens were added, and focused regressions/documentation were updated. Branch comparison against dispatch base was 0 behind and limited to the authorized System renderer/app/test/handoff/state scope. The five user-supplied WebPs were byte/signature/hash checked but could not be reliably transferred through the available fileless binary connector path, so exact binary packaging is the sole implementation-completeness blocker. No local npm-test claim is made because the container cannot resolve github.com for a clean checkout.",
+  "lastUpdated": "2026-09-10T23:13:00+02:00",
+  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "blockedBy": [
+    "The five approved Eco City light WebPs are not yet committed at apps/pitch/public/presentation-backgrounds/chemometrics-city/light/; package those exact supplied assets through a binary-capable repository path before Ready or merge.",
+    "Fresh exact-head agent-validator/project-chemie-digital success and configured external review are required after the final binary-inclusive head exists."
+  ],
+  "stateRevision": 178,
   "transitionHistory": [
     {
       "at": "2026-09-10T16:07:00+02:00",
@@ -44,6 +43,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue151-20260910T225900+0200",
       "reason": "Claimed the manager-authorized #151 theme/background variant worker turn."
+    },
+    {
+      "at": "2026-09-10T23:13:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue151-20260910T225900+0200",
+      "reason": "Completed the bounded #151 code/test/documentation implementation and opened Draft PR #152; returned to manager with exact light-WebP repository packaging as the sole implementation-completeness blocker before final validation/review."
     }
   ]
 }
