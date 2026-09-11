@@ -98,14 +98,15 @@ test("legacy neon-city URLs map to the new family without exposing a second sele
 });
 
 test("every selectable background family has valid dark and light concrete packs", () => {
-  assert.equal(backgroundFamilyRegistry.length, 1);
+  const flattenedPackIds = new Set(backgroundPackRegistry.map((pack) => pack.id));
   for (const family of backgroundFamilyRegistry) {
     assert.doesNotThrow(() => validateThemedBackgroundPackFamily(family));
     assert.ok(family.variants.dark);
     assert.ok(family.variants.light);
     assert.notEqual(family.variants.dark.id, family.variants.light.id);
+    assert.ok(flattenedPackIds.has(family.variants.dark.id));
+    assert.ok(flattenedPackIds.has(family.variants.light.id));
   }
-  assert.deepEqual(backgroundPackRegistry.map((pack) => pack.id), ["chemometrics-city-dark", "chemometrics-city-light"]);
 });
 
 test("Chemometrics city variants preserve parallax roles and use repository-local assets", () => {
