@@ -17,9 +17,11 @@ import {
   createScrollProgressSource,
   type BackgroundProgressSource,
 } from "../../../packages/renderer-reveal/src/background/background-progress.ts";
+import type { PresentationThemeMode } from "../../../packages/renderer-reveal/src/background/themed-background.ts";
 import {
   backgroundPackRegistry,
   mountAppearanceControls,
+  resolveBackgroundPackId,
   resolvePresentationAppearance,
 } from "./presentation-profile.ts";
 
@@ -53,6 +55,17 @@ const unmountFlowDiagrams = mountPitchFlowDiagrams(
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
+let currentTheme: PresentationThemeMode = appearance.theme;
+let selectedBackgroundFamilyId = appearance.backgroundFamilyId;
+let backgroundEnabled = appearance.backgroundEnabled;
+
+function applyThemeMarker(theme: PresentationThemeMode): void {
+  document.body.dataset.presentationTheme = theme;
+  document.body.style.colorScheme = theme;
+}
+
+applyThemeMarker(currentTheme);
+
 const backgroundRuntime = mountBackgroundRuntime({
   host: document.body,
   packs: backgroundPackRegistry,
@@ -61,13 +74,36 @@ const backgroundRuntime = mountBackgroundRuntime({
 });
 for (const diagnostic of backgroundRuntime.getDiagnostics()) console.warn(`[${diagnostic.code}] ${diagnostic.message}`);
 
+function applyBackgroundSelection(): void {
+  const concretePackId = backgroundEnabled
+    ? resolveBackgroundPackId(selectedBackgroundFamilyId, currentTheme)
+    : undefined;
+  backgroundRuntime.setPack(concretePackId);
+}
+
 const appearanceControls = mountAppearanceControls({
   root: shellRoot,
-  currentPackId: appearance.backgroundPackId,
-  onBackgroundChange: (packId) => {
-    backgroundRuntime.setPack(packId);
+  currentFamilyId: selectedBackgroundFamilyId,
+  backgroundEnabled,
+  theme: currentTheme,
+  onBackgroundChange: (familyId) => {
+    if (familyId) {
+      selectedBackgroundFamilyId = familyId;
+      backgroundEnabled = true;
+    } else {
+      backgroundEnabled = false;
+    }
+    applyBackgroundSelection();
     const url = new URL(window.location.href);
-    url.searchParams.set("background", packId ?? "none");
+    url.searchParams.set("background", backgroundEnabled && selectedBackgroundFamilyId ? selectedBackgroundFamilyId : "none");
+    window.history.replaceState({}, "", url);
+  },
+  onThemeChange: (theme) => {
+    currentTheme = theme;
+    applyThemeMarker(theme);
+    applyBackgroundSelection();
+    const url = new URL(window.location.href);
+    url.searchParams.set("theme", theme);
     window.history.replaceState({}, "", url);
   },
 });
