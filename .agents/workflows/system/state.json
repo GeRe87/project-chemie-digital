@@ -1,17 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 151,
   "expectedDeliverable": "Perform exactly one bounded #151 review repair on agent/151-light-dark-presentation-theme. In apps/pitch/test/presentation-profile.test.ts, replace the brittle assertions that require backgroundFamilyRegistry.length === 1 and an exact ordered backgroundPackRegistry id list with general invariants: every registered themed family validates and both concrete dark/light variant ids for each family are present in the flattened backgroundPackRegistry. Preserve the intended chemometrics-city-specific URL/role/speed assertions elsewhere. Do not change runtime, CSS, assets, semantic/compiler code, or unrelated tests. Update the #151 handoff, return blocked/manager, and require fresh exact-head validator success plus a configured Copilot re-review. Do not resolve the review thread, mark Ready, request review, self-accept, or merge.",
   "lastCompletedTurn": "manager: verified the five Eco City light WebPs are now committed byte-for-byte at the declared paths and exact-head validation succeeded on 3fbad827ec9024d5f821d7eba47eccf62888c2d7. Copilot re-review then produced one valid code finding: apps/pitch/test/presentation-profile.test.ts hard-codes a single background-family count and exact flattened-pack order, making the regression brittle as additional valid background families are added. Accepted exactly this test-only finding, converted PR #152 back to Draft, left review thread PRRT_kwDOTZakQ86hWAVF unresolved, and dispatched one bounded worker repair. The asset-packaging blocker is closed.",
-  "lastUpdated": "2026-09-11T08:07:00+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
+  "lastUpdated": "2026-09-11T08:13:13+02:00",
+  "lease": {
+    "owner": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
+    "claimedAt": "2026-09-11T08:13:13+02:00",
+    "expiresAt": "2026-09-11T10:13:13+02:00"
+  },
   "blockedBy": [],
-  "stateRevision": 183,
+  "stateRevision": 184,
   "transitionHistory": [
     {"at":"2026-09-10T16:07:00+02:00","from":"blocked/manager","to":"ready/manager","actor":"interactive-system-manager-issue149-final-merge-20260910T160700+0200","reason":"Final #149 gates passed and PR #150 was squash-merged; System returned to idle manager state."},
     {"at":"2026-09-10T17:19:00+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-theme-variants-plan-20260910T171900+0200","reason":"Claimed one bounded System manager planning turn for renderer-owned light/dark theme variants and Alt+T switching."},
@@ -23,6 +27,7 @@
     {"at":"2026-09-10T23:38:55+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue151-asset-packaging-20260910T233855+0200","reason":"Claimed the manager-authorized bounded #151 binary asset-packaging turn."},
     {"at":"2026-09-10T23:49:49+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue151-asset-packaging-20260910T233855+0200","reason":"Byte-exact verification rejected inline Base64 transfer for the smallest approved WebP; no mismatching blob was tree-referenced, all temporary branch-visible probes were removed, and the worker returned to manager with binary packaging still blocked."},
     {"at":"2026-09-11T08:07:00+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200","reason":"Claimed one bounded manager review turn after exact-head validation and Copilot re-review of PR #152."},
-    {"at":"2026-09-11T08:07:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200","reason":"Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."}
+    {"at":"2026-09-11T08:07:00+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200","reason":"Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."},
+    {"at":"2026-09-11T08:13:13+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue151-test-repair-20260911T081313+0200","reason":"Claimed the manager-authorized bounded #151 test-only review repair turn."}
   ]
 }
