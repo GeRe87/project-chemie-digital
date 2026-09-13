@@ -1,0 +1,164 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-analytical-proof> {
+  ex:cogniflow-analytical-proof a cd:Concept ;
+    skos:prefLabel "From Raw Signal to Reusable Result"@en ;
+    cd:hasDefinition ex:def-cogniflow-analytical-proof ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-analytical-proof a cd:Definition ;
+    cd:body "The same analytical trace becomes a reusable scientific result when every transformation, quantitative result and provenance link remains explicit."@en ;
+    cd:authoredResource true .
+
+  ex:chart-cogniflow-analytical-proof a cd:ChartDefinition ;
+    skos:prefLabel "Analytical processing proof"@en ;
+    cd:body "One synthetic LC–MS trace is progressively interpreted from raw signal through baseline, peak modelling and quantitative integration."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Retention time"@en ;
+    cd:yAxisLabel "Intensity"@en ;
+    cd:xAxisUnit "min" ;
+    cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:dataset-cogniflow-chromatogram ;
+    cd:hasChartAnnotation
+      ex:annotation-cogniflow-proof-baseline,
+      ex:annotation-cogniflow-proof-peak-model,
+      ex:annotation-cogniflow-proof-quantification ;
+    cd:authoredResource true .
+
+  ex:annotation-cogniflow-proof-baseline a cd:ChartPointAnnotation ;
+    cd:position 1 ;
+    cd:body "Baseline correction"@en ;
+    cd:targetObservation ex:cogniflow-chrom-4-20 ;
+    cd:authoredResource true .
+
+  ex:annotation-cogniflow-proof-peak-model a cd:ChartPointAnnotation ;
+    cd:position 2 ;
+    cd:body "Asymmetric peak model"@en ;
+    cd:targetObservation ex:cogniflow-chrom-4-80 ;
+    cd:authoredResource true .
+
+  ex:annotation-cogniflow-proof-quantification a cd:ChartRangeAnnotation ;
+    cd:position 3 ;
+    cd:body "Integrated area + uncertainty"@en ;
+    cd:startObservation ex:cogniflow-chrom-4-40 ;
+    cd:endObservation ex:cogniflow-chrom-5-20 ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-analytical-proof a cd:FlowDiagram ;
+    skos:prefLabel "Analytical result lineage"@en ;
+    cd:body "The visual interpretation and its reusable artifact are two projections of one processing lineage."@en ;
+    cd:hasDiagramNode
+      ex:node-cogniflow-proof-raw,
+      ex:node-cogniflow-proof-baseline,
+      ex:node-cogniflow-proof-model,
+      ex:node-cogniflow-proof-quantified,
+      ex:node-cogniflow-proof-fair ;
+    cd:hasDiagramEdge
+      ex:edge-cogniflow-proof-raw-baseline,
+      ex:edge-cogniflow-proof-baseline-model,
+      ex:edge-cogniflow-proof-model-quantified,
+      ex:edge-cogniflow-proof-quantified-fair ;
+    cd:focusNode ex:node-cogniflow-proof-fair ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-proof-raw a cd:DiagramNode ;
+    skos:prefLabel "RAW SIGNAL"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-proof-baseline a cd:DiagramNode ;
+    skos:prefLabel "BASELINE-CORRECTED"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-proof-model a cd:DiagramNode ;
+    skos:prefLabel "PEAK MODEL"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-proof-quantified a cd:DiagramNode ;
+    skos:prefLabel "AREA + UNCERTAINTY"@en ;
+    cd:position 4 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-proof-fair a cd:DiagramNode ;
+    skos:prefLabel "FAIR ARTIFACT + PROVENANCE"@en ;
+    cd:position 5 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-proof-raw-baseline a cd:DiagramEdge ;
+    skos:prefLabel "correct"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-proof-raw ;
+    cd:targetNode ex:node-cogniflow-proof-baseline ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-proof-baseline-model a cd:DiagramEdge ;
+    skos:prefLabel "fit"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-proof-baseline ;
+    cd:targetNode ex:node-cogniflow-proof-model ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-proof-model-quantified a cd:DiagramEdge ;
+    skos:prefLabel "quantify"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-proof-model ;
+    cd:targetNode ex:node-cogniflow-proof-quantified ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-proof-quantified-fair a cd:DiagramEdge ;
+    skos:prefLabel "package provenance"@en ;
+    cd:position 4 ;
+    cd:sourceNode ex:node-cogniflow-proof-quantified ;
+    cd:targetNode ex:node-cogniflow-proof-fair ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-analytical-proof-extension> {
+  ex:path-cogniflow-standardized-data-processing
+    cd:hasStep ex:path-step-cogniflow-analytical-proof .
+
+  ex:path-step-cogniflow-analytical-proof a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:chart-cogniflow-analytical-proof,
+      ex:diagram-cogniflow-analytical-proof ;
+    cd:usesScene ex:scene-cogniflow-analytical-proof ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-analytical-proof> {
+  ex:scene-cogniflow-analytical-proof a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-analytical-proof ;
+    cd:hasSceneItem
+      ex:scene-item-cogniflow-proof-heading,
+      ex:scene-item-cogniflow-proof-chart,
+      ex:scene-item-cogniflow-proof-lineage ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-proof-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-analytical-proof ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-proof-chart a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chart-cogniflow-analytical-proof ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-proof-lineage a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:diagram-cogniflow-analytical-proof ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
