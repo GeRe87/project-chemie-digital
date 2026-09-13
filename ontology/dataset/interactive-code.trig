@@ -13,7 +13,7 @@
 graph:concepts {
   cd:LearningDomain
     cdm:definesConcept cd:CodeExample ;
-    cdm:definesRelation cd:hasCodeExample ;
+    cdm:definesRelation cd:hasCodeExample, cd:showsResource ;
     cdm:definesAttribute cd:code, cd:programmingLanguage, cd:editable, cd:executable ;
     cdm:definesControlledValue cd:CodeRole .
 
@@ -25,6 +25,13 @@ graph:concepts {
   cd:hasCodeExample a rdf:Property, cdm:RelationDescriptor ;
     rdfs:domain cd:Exercise ;
     rdfs:range cd:CodeExample .
+
+  # Links a presentation snippet to the semantic resources it illustrates. The
+  # renderer may use this authored relation for graph views, but never parses
+  # the snippet text to infer semantic identities.
+  cd:showsResource a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:CodeExample ;
+    rdfs:range rdfs:Resource .
 
   cd:code a rdf:Property, cdm:AttributeDescriptor ;
     rdfs:domain cd:CodeExample ;
