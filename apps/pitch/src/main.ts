@@ -10,6 +10,7 @@ import "./flow-theme.css";
 import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
+import "./analytical-proof-runtime.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -20,6 +21,7 @@ import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
+import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -75,6 +77,10 @@ const unmountSemanticMultiViews = mountSemanticMultiViews(
   root,
   documents,
   canonicalDatasetSnapshot,
+);
+const unmountAnalyticalProofSteps = mountAnalyticalProofSteps(
+  root,
+  documents,
 );
 const unmountKnowledgeNetworks = mountPitchKnowledgeNetworks(
   Array.from(root.querySelectorAll<HTMLElement>("[data-knowledge-scene-id]")),
@@ -179,8 +185,8 @@ function createProgressSource(): BackgroundProgressSource {
         window.addEventListener("scroll", listener, options);
         viewport?.addEventListener("scroll", listener, options);
         return () => {
-          window.removeEventListener("scroll", listener, options);
-          viewport?.removeEventListener("scroll", listener, options);
+          window.removeEventListener("scroll", listener);
+          viewport?.removeEventListener("scroll", listener);
         };
       },
       requestAnimationFrame: (callback) => window.requestAnimationFrame(callback),
@@ -232,6 +238,7 @@ window.addEventListener("pagehide", () => {
   unmountPresentationSteps();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
+  unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
   unmountCharts();
   unmountFlowDiagrams();
