@@ -1,0 +1,100 @@
+.reveal .d3-flow-host {
+  position: relative;
+  box-sizing: border-box;
+  width: min(1120px, 92vw);
+  margin: 0.6rem auto 0;
+  padding: 3rem 1rem 0.8rem;
+  border: 3px solid var(--pcd-accent);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pcd-accent) 42%, transparent),
+    10px 12px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  overflow: hidden;
+}
+
+.reveal .d3-flow-host::before {
+  content: attr(aria-label);
+  position: absolute;
+  inset: 0 0 auto 0;
+  box-sizing: border-box;
+  min-height: 2.35rem;
+  padding: 0.55rem 1rem;
+  border-bottom: 3px solid var(--pcd-accent);
+  background: linear-gradient(180deg, #654fd0, #3e2b98);
+  color: #fff;
+  font-size: 0.72em;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-shadow: 2px 2px 0 #20105f;
+}
+
+.reveal .d3-flow-host .d3-flow-runtime {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.reveal .d3-flow-host .d3-flow-svg {
+  min-height: 29rem;
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--pcd-accent) 7%, transparent), transparent 52%),
+    linear-gradient(90deg, color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px);
+  background-size: auto, 20px 20px, 20px 20px;
+}
+
+.reveal .d3-flow-host .d3-flow-caption {
+  margin: 0.5rem 0 0;
+  color: var(--pcd-muted);
+  font-size: 0.58em;
+}
+
+.reveal .d3-flow-node-shape {
+  fill: var(--pcd-surface-strong);
+  stroke: var(--pcd-accent);
+  stroke-width: 2.5;
+  filter: drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent));
+}
+
+.reveal .d3-flow-node-primary .d3-flow-node-shape {
+  stroke-width: 4;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb, var(--pcd-accent) 72%, transparent))
+    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent));
+}
+
+.reveal .d3-flow-node-label {
+  fill: var(--pcd-foreground);
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.reveal .d3-flow-edge {
+  stroke: var(--pcd-accent);
+  stroke-width: 2.4;
+}
+
+.reveal .d3-flow-edge-label {
+  fill: var(--pcd-foreground);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 900px) {
+  .reveal .d3-flow-host {
+    width: 96vw;
+    padding-inline: 0.5rem;
+  }
+
+  .reveal .d3-flow-host .d3-flow-svg {
+    min-height: 23rem;
+  }
+}
