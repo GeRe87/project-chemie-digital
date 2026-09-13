@@ -146,18 +146,18 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-proof-chart a cd:SceneItem ;
+  ex:scene-item-cogniflow-proof-lineage a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chart-cogniflow-analytical-proof ;
-    cd:communicativeRole cd:ChartRole ;
+    cd:selectsResource ex:diagram-cogniflow-analytical-proof ;
+    cd:communicativeRole cd:DiagramRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-proof-lineage a cd:SceneItem ;
+  ex:scene-item-cogniflow-proof-chart a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:diagram-cogniflow-analytical-proof ;
-    cd:communicativeRole cd:DiagramRole ;
+    cd:selectsResource ex:chart-cogniflow-analytical-proof ;
+    cd:communicativeRole cd:ChartRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
