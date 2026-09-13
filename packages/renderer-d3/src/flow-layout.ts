@@ -59,6 +59,12 @@ interface GraphemeSegmenterConstructor {
   new (locales?: string | readonly string[], options?: { granularity: "grapheme" }): GraphemeSegmenter;
 }
 
+interface PreparedNode extends D3FlowLayoutNodeInput {
+  readonly inputIndex: number;
+  readonly labelLines: readonly string[];
+  readonly height: number;
+}
+
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
   if (!Segmenter) throw new Error("Intl.Segmenter is required for grapheme-safe flow text layout");
@@ -137,38 +143,150 @@ function midpoint(a: number, b: number): number {
   return a + (b - a) / 2;
 }
 
-/** Deterministic renderer-only geometry derived from canonical array order. */
+function topologicalLayers(input: D3FlowLayoutInput): readonly (readonly string[])[] {
+  const ids = new Set(input.nodes.map((node) => node.id));
+  const indegree = new Map(input.nodes.map((node) => [node.id, 0]));
+  const outgoing = new Map<string, string[]>();
+  for (const edge of input.edges) {
+    if (!ids.has(edge.sourceNodeId) || !ids.has(edge.targetNodeId)) {
+      throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+    }
+    indegree.set(edge.targetNodeId, (indegree.get(edge.targetNodeId) ?? 0) + 1);
+    const targets = outgoing.get(edge.sourceNodeId) ?? [];
+    targets.push(edge.targetNodeId);
+    outgoing.set(edge.sourceNodeId, targets);
+  }
+
+  const remaining = new Set(ids);
+  const layers: string[][] = [];
+  while (remaining.size > 0) {
+    const layer = input.nodes
+      .filter((node) => remaining.has(node.id) && (indegree.get(node.id) ?? 0) === 0)
+      .map((node) => node.id);
+    if (layer.length === 0) {
+      return input.nodes.map((node) => [node.id]);
+    }
+    layers.push(layer);
+    for (const id of layer) {
+      remaining.delete(id);
+      for (const target of outgoing.get(id) ?? []) {
+        indegree.set(target, Math.max(0, (indegree.get(target) ?? 0) - 1));
+      }
+    }
+  }
+  return layers;
+}
+
+function horizontalLayeredLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  layers: readonly (readonly string[])[],
+  hostWidth: number,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const margin = 32;
+  const nodeWidth = 210;
+  const layerGap = 72;
+  const siblingGap = 28;
+  const nodeById = new Map(prepared.map((node) => [node.id, node]));
+  const layerHeights = layers.map((layer) =>
+    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 88), 0) + Math.max(0, layer.length - 1) * siblingGap,
+  );
+  const contentHeight = Math.max(88, ...layerHeights);
+  const width = Math.max(hostWidth, margin * 2 + layers.length * nodeWidth + Math.max(0, layers.length - 1) * layerGap);
+  const height = margin * 2 + contentHeight + 72;
+  const byId = new Map<string, D3FlowLayoutNode>();
+
+  layers.forEach((layer, layerIndex) => {
+    const layerHeight = layerHeights[layerIndex] ?? 0;
+    let cursorY = margin + 36 + (contentHeight - layerHeight) / 2;
+    const x = margin + nodeWidth / 2 + layerIndex * (nodeWidth + layerGap);
+    for (const id of layer) {
+      const node = nodeById.get(id)!;
+      byId.set(id, {
+        id,
+        x,
+        y: cursorY + node.height / 2,
+        width: nodeWidth,
+        height: node.height,
+        labelLines: node.labelLines,
+      });
+      cursorY += node.height + siblingGap;
+    }
+  });
+
+  return {
+    width,
+    height,
+    nodes: prepared.map((node) => byId.get(node.id)!),
+  };
+}
+
+function verticalLayeredLayout(
+  prepared: readonly PreparedNode[],
+  layers: readonly (readonly string[])[],
+  hostWidth: number,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const margin = 32;
+  const layerGap = 64;
+  const siblingGap = 18;
+  const nodeById = new Map(prepared.map((node) => [node.id, node]));
+  const width = Math.max(320, hostWidth);
+  const byId = new Map<string, D3FlowLayoutNode>();
+  let cursorY = margin + 36;
+
+  for (const layer of layers) {
+    const availableWidth = Math.max(160, width - margin * 2 - Math.max(0, layer.length - 1) * siblingGap);
+    const nodeWidth = Math.max(160, Math.min(360, availableWidth / Math.max(1, layer.length)));
+    const layerNodes = layer.map((id) => {
+      const original = nodeById.get(id)!;
+      const labelLines = wrapFlowText(original.label, nodeWidth - 32);
+      return { ...original, labelLines, height: nodeHeight(labelLines) };
+    });
+    const layerHeight = Math.max(88, ...layerNodes.map((node) => node.height));
+    const contentWidth = layerNodes.length * nodeWidth + Math.max(0, layerNodes.length - 1) * siblingGap;
+    let cursorX = (width - contentWidth) / 2;
+    for (const node of layerNodes) {
+      byId.set(node.id, {
+        id: node.id,
+        x: cursorX + nodeWidth / 2,
+        y: cursorY + layerHeight / 2,
+        width: nodeWidth,
+        height: node.height,
+        labelLines: node.labelLines,
+      });
+      cursorX += nodeWidth + siblingGap;
+    }
+    cursorY += layerHeight + layerGap;
+  }
+
+  return {
+    width,
+    height: Math.max(240, cursorY - layerGap + margin + 36),
+    nodes: prepared.map((node) => byId.get(node.id)!),
+  };
+}
+
+/** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
-  const margin = 32;
-  const horizontalNodeWidth = 220;
-  const verticalNodeWidth = Math.max(220, Math.min(360, hostWidth - margin * 2));
-  const horizontalGap = 96;
-  const verticalGap = 76;
+  const horizontalNodeWidth = 210;
   const labelWidth = 176;
+  const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
+    const labelLines = wrapFlowText(node.label, horizontalNodeWidth - 32);
+    return { ...node, inputIndex, labelLines, height: nodeHeight(labelLines) };
+  });
+  const layers = topologicalLayers(input);
+  const geometry = orientation === "horizontal"
+    ? horizontalLayeredLayout(input, prepared, layers, hostWidth)
+    : verticalLayeredLayout(prepared, layers, hostWidth);
 
-  const nodeInputs = input.nodes.map((node) => ({
-    ...node,
-    labelLines: wrapFlowText(node.label, (orientation === "horizontal" ? horizontalNodeWidth : verticalNodeWidth) - 32),
-  }));
+  const nodeById = new Map(geometry.nodes.map((node) => [node.id, node]));
+  const edges = input.edges.map((edge) => {
+    const source = nodeById.get(edge.sourceNodeId);
+    const target = nodeById.get(edge.targetNodeId);
+    if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
 
-  const nodes: D3FlowLayoutNode[] = [];
-  if (orientation === "horizontal") {
-    const maxHeight = Math.max(88, ...nodeInputs.map((node) => nodeHeight(node.labelLines)));
-    const contentWidth = nodeInputs.length * horizontalNodeWidth + Math.max(0, nodeInputs.length - 1) * horizontalGap;
-    const width = Math.max(hostWidth, contentWidth + margin * 2);
-    const centerY = margin + maxHeight / 2 + 36;
-    let cursorX = margin;
-    for (const node of nodeInputs) {
-      const height = nodeHeight(node.labelLines);
-      nodes.push({ id: node.id, x: cursorX + horizontalNodeWidth / 2, y: centerY, width: horizontalNodeWidth, height, labelLines: node.labelLines });
-      cursorX += horizontalNodeWidth + horizontalGap;
-    }
-    const nodeById = new Map(nodes.map((node) => [node.id, node]));
-    const edges = input.edges.map((edge) => {
-      const source = nodeById.get(edge.sourceNodeId);
-      const target = nodeById.get(edge.targetNodeId);
-      if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+    if (orientation === "horizontal") {
       const forward = target.x >= source.x;
       const x1 = source.x + (forward ? source.width / 2 : -source.width / 2);
       const x2 = target.x + (forward ? -target.width / 2 : target.width / 2);
@@ -181,27 +299,11 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         x2,
         y2: target.y,
         labelX: midpoint(x1, x2),
-        labelY: source.y - 24,
+        labelY: midpoint(source.y, target.y) - 18,
         labelLines: wrapFlowText(edge.label, labelWidth),
       };
-    });
-    const edgeLineCount = Math.max(1, ...edges.map((edge) => edge.labelLines.length));
-    return { orientation, width, height: centerY + maxHeight / 2 + margin + edgeLineCount * 22, nodes, edges };
-  }
+    }
 
-  const width = Math.max(320, hostWidth);
-  const centerX = width / 2;
-  let cursorY = margin + 36;
-  for (const node of nodeInputs) {
-    const height = nodeHeight(node.labelLines);
-    nodes.push({ id: node.id, x: centerX, y: cursorY + height / 2, width: verticalNodeWidth, height, labelLines: node.labelLines });
-    cursorY += height + verticalGap;
-  }
-  const nodeById = new Map(nodes.map((node) => [node.id, node]));
-  const edges = input.edges.map((edge) => {
-    const source = nodeById.get(edge.sourceNodeId);
-    const target = nodeById.get(edge.targetNodeId);
-    if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
     const downward = target.y >= source.y;
     const y1 = source.y + (downward ? source.height / 2 : -source.height / 2);
     const y2 = target.y + (downward ? -target.height / 2 : target.height / 2);
@@ -213,11 +315,17 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       y1,
       x2: target.x,
       y2,
-      labelX: source.x + labelWidth / 2 + 16,
+      labelX: midpoint(source.x, target.x) + 18,
       labelY: midpoint(y1, y2),
       labelLines: wrapFlowText(edge.label, labelWidth),
     };
   });
-  const bottom = nodes.length === 0 ? margin : nodes[nodes.length - 1]!.y + nodes[nodes.length - 1]!.height / 2;
-  return { orientation, width, height: bottom + margin + 36, nodes, edges };
+
+  return {
+    orientation,
+    width: geometry.width,
+    height: geometry.height,
+    nodes: geometry.nodes,
+    edges,
+  };
 }
