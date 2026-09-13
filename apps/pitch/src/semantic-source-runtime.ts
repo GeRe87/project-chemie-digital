@@ -118,10 +118,15 @@ function applyGraphStep(host: HTMLElement, resourceIds: readonly string[], step:
   const visible = new Set([...visibleCompact].map(absoluteResourceId));
   const currentCompact = visibleCompact.size ? resourceIds[Math.min(visibleCompact.size, resourceIds.length) - 1] : undefined;
   const current = currentCompact ? absoluteResourceId(currentCompact) : undefined;
+  const anchorIds = new Set(
+    [...host.querySelectorAll<SVGGElement>(".d3-node-selected")]
+      .map((node) => node.getAttribute("data-node-id") ?? "")
+      .filter(Boolean),
+  );
 
   for (const node of host.querySelectorAll<SVGGElement>(".d3-node")) {
     const nodeId = node.getAttribute("data-node-id") ?? "";
-    const isAnchor = node.classList.contains("d3-node-selected");
+    const isAnchor = anchorIds.has(nodeId);
     const isVisible = isAnchor || visible.has(nodeId);
     setElementOpacity(node, isVisible ? (nodeId === current ? "1" : isAnchor ? "0.62" : "0.48") : "0");
     node.classList.toggle("pcd-semantic-node-current", nodeId === current);
@@ -132,8 +137,8 @@ function applyGraphStep(host: HTMLElement, resourceIds: readonly string[], step:
     const sourceId = edge.getAttribute("data-source-node-id") ?? "";
     const targetId = edge.getAttribute("data-target-node-id") ?? "";
     const edgeId = edge.getAttribute("data-edge-id") ?? "";
-    const sourceVisible = visible.has(sourceId) || host.querySelector(`.d3-node-selected[data-node-id="${CSS.escape(sourceId)}"]`) !== null;
-    const targetVisible = visible.has(targetId) || host.querySelector(`.d3-node-selected[data-node-id="${CSS.escape(targetId)}"]`) !== null;
+    const sourceVisible = visible.has(sourceId) || anchorIds.has(sourceId);
+    const targetVisible = visible.has(targetId) || anchorIds.has(targetId);
     const edgeVisible = sourceVisible && targetVisible && (visible.has(sourceId) || visible.has(targetId));
     setElementOpacity(edge, edgeVisible ? "0.82" : "0");
     if (edgeVisible && edgeId) visibleEdgeIds.add(edgeId);
