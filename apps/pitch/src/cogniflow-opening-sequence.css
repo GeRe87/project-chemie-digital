@@ -1,0 +1,228 @@
+/* CogniFlow opening sequence: title -> dependency problem -> decoupled architecture. */
+
+[id="ex:scene-cogniflow-title--scene"] {
+  position: relative;
+  display: grid !important;
+  align-content: center;
+  justify-items: start;
+  min-height: 100%;
+  padding: 5.6rem 6.4rem 4.6rem !important;
+  overflow: hidden;
+}
+
+[id="ex:scene-cogniflow-title--scene"]::before,
+[id="ex:scene-cogniflow-title--scene"]::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+[id="ex:scene-cogniflow-title--scene"]::before {
+  width: 23rem;
+  height: 23rem;
+  right: -5rem;
+  top: 50%;
+  transform: translateY(-52%) rotate(45deg);
+  border: 1.25rem solid color-mix(in srgb, var(--pcd-accent) 22%, transparent);
+  box-shadow:
+    0 0 0 2.4rem color-mix(in srgb, var(--pcd-accent) 8%, transparent),
+    0 0 72px color-mix(in srgb, var(--pcd-accent) 22%, transparent);
+}
+
+[id="ex:scene-cogniflow-title--scene"]::after {
+  left: 6.4rem;
+  bottom: 3.4rem;
+  width: min(37rem, 46vw);
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--pcd-accent) 0 58%,
+    color-mix(in srgb, var(--pcd-accent) 35%, transparent) 58% 74%,
+    transparent 74% 100%);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--pcd-accent) 28%, transparent);
+}
+
+[id="ex:scene-cogniflow-title--scene"] h2 {
+  position: relative;
+  z-index: 1;
+  width: min(12.5ch, 72vw);
+  margin: 0 0 1.2rem;
+  font-size: 3.45em;
+  line-height: .94;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+[id="ex:scene-cogniflow-title--scene"] cite {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 54rem;
+  margin: .2rem 0 0;
+  color: var(--pcd-muted);
+  font-size: .58em;
+  font-style: normal;
+  line-height: 1.3;
+}
+
+[id="ex:scene-cogniflow-title--scene"] cite:first-of-type {
+  margin-top: 1.55rem;
+  color: var(--pcd-foreground);
+  font-weight: 800;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"],
+[id="ex:scene-cogniflow-service-architecture--scene"] {
+  display: grid !important;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  padding: 2.25rem 3.2rem 2.2rem !important;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] h2,
+[id="ex:scene-cogniflow-service-architecture--scene"] h2 {
+  max-width: 19ch;
+  margin: 0 0 .28em;
+  font-size: 2.42em;
+  line-height: .98;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
+[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
+  width: min(1190px, 94vw);
+  margin-top: .15rem;
+  padding-top: 2.8rem;
+  border-radius: 14px;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-svg,
+[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-svg {
+  min-height: 25.5rem;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-caption,
+[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-caption {
+  display: none;
+}
+
+/* Problem: the final collision should read as danger, not as another ordinary node. */
+[id="ex:scene-cogniflow-coupling-problem--scene"] {
+  --pcd-opening-danger: #ff5b6e;
+  --pcd-opening-warning: #ffb14a;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] h2 {
+  color: var(--pcd-opening-danger);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host {
+  border-color: color-mix(in srgb, var(--pcd-opening-danger) 76%, var(--pcd-border));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pcd-opening-danger) 25%, transparent),
+    10px 12px 0 color-mix(in srgb, var(--pcd-opening-danger) 12%, transparent);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host::before {
+  border-bottom-color: color-mix(in srgb, var(--pcd-opening-danger) 78%, transparent);
+  background: linear-gradient(180deg, #7b3043, #4c1830);
+  text-shadow: 2px 2px 0 #2d0a1d;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-library-e-v1"] .d3-flow-node-shape,
+[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-library-e-v2"] .d3-flow-node-shape {
+  stroke: var(--pcd-opening-warning);
+  fill: color-mix(in srgb, var(--pcd-opening-warning) 10%, var(--pcd-surface-strong));
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-shape {
+  stroke: var(--pcd-opening-danger);
+  fill: color-mix(in srgb, var(--pcd-opening-danger) 14%, var(--pcd-surface-strong));
+  filter:
+    drop-shadow(0 0 12px color-mix(in srgb, var(--pcd-opening-danger) 70%, transparent))
+    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-danger) 24%, transparent));
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
+  fill: var(--pcd-opening-danger);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+  stroke: var(--pcd-opening-danger);
+}
+
+/* Solution: the same four-stage reveal now terminates in replaceable providers. */
+[id="ex:scene-cogniflow-service-architecture--scene"] {
+  --pcd-opening-solution: #56e3c3;
+}
+
+[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
+  border-color: color-mix(in srgb, var(--pcd-opening-solution) 58%, var(--pcd-accent));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pcd-opening-solution) 24%, transparent),
+    10px 12px 0 color-mix(in srgb, var(--pcd-opening-solution) 12%, transparent);
+}
+
+[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host::before {
+  border-bottom-color: color-mix(in srgb, var(--pcd-opening-solution) 55%, var(--pcd-accent));
+  background: linear-gradient(180deg, #176f7f, #154d6d);
+  text-shadow: 2px 2px 0 #092d42;
+}
+
+[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-mcp"] .d3-flow-node-shape {
+  stroke: var(--pcd-opening-solution);
+  filter:
+    drop-shadow(0 0 12px color-mix(in srgb, var(--pcd-opening-solution) 72%, transparent))
+    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-solution) 20%, transparent));
+}
+
+[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-semantic-store"] .d3-flow-node-shape,
+[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-data-store"] .d3-flow-node-shape,
+[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-artifact-store"] .d3-flow-node-shape {
+  stroke: var(--pcd-opening-solution);
+  fill: color-mix(in srgb, var(--pcd-opening-solution) 9%, var(--pcd-surface-strong));
+}
+
+@media (max-width: 900px) {
+  [id="ex:scene-cogniflow-title--scene"] {
+    padding: 3.4rem 2rem !important;
+  }
+
+  [id="ex:scene-cogniflow-title--scene"] h2 {
+    width: 100%;
+    font-size: 2.65em;
+  }
+
+  [id="ex:scene-cogniflow-title--scene"]::before {
+    opacity: .38;
+    right: -11rem;
+  }
+
+  [id="ex:scene-cogniflow-title--scene"]::after {
+    left: 2rem;
+    bottom: 2rem;
+    width: 48vw;
+  }
+
+  [id="ex:scene-cogniflow-coupling-problem--scene"],
+  [id="ex:scene-cogniflow-service-architecture--scene"] {
+    padding: 1.4rem 1rem 1.2rem !important;
+  }
+
+  [id="ex:scene-cogniflow-coupling-problem--scene"] h2,
+  [id="ex:scene-cogniflow-service-architecture--scene"] h2 {
+    font-size: 1.9em;
+  }
+
+  [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-svg,
+  [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-svg {
+    min-height: 31rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [id="ex:scene-cogniflow-title--scene"]::before,
+  [id="ex:scene-cogniflow-title--scene"]::after {
+    transition: none;
+  }
+}
