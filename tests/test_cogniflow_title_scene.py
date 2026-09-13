@@ -205,6 +205,18 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual(["estimate", "model", "quantify", "package"], [edge["label"] for edge in lineage["edges"]])
         self.assertEqual("ex:node-cogniflow-proof-fair", lineage["focusNodeId"])
 
+    def test_take_home_is_three_principles_plus_one_sentence(self) -> None:
+        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        take_home = document["scenes"][7]
+        heading = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "introduce")
+        principles = next(block for block in take_home["blocks"] if block["kind"] == "list")
+        statement = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "explain")
+
+        self.assertEqual("Take-Home", heading["text"])
+        self.assertEqual(["DECOUPLED.", "SEMANTIC.", "REPRODUCIBLE."], [item["text"] for item in principles["items"]])
+        self.assertEqual("Standardize the contract, not the implementation.", statement["text"])
+        self.assertEqual("ex:def-cogniflow-take-home", statement["source"][0]["resourceId"])
+
     def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
