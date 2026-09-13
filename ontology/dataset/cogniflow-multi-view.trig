@@ -18,9 +18,9 @@
     cd:hasStep ex:path-step-cogniflow-same-semantics-different-views .
 
   ex:path-step-cogniflow-same-semantics-different-views a cd:PathStep ;
-    cd:position 6 ;
+    cd:position 5 ;
     cd:usesResource ex:code-cogniflow-chart-semantics,
-      ex:chart-cogniflow-service-usage ;
+      ex:chart-cogniflow-replicate-peak-area ;
     cd:usesScene ex:scene-cogniflow-same-semantics-different-views ;
     cd:authoredResource true .
 }
@@ -51,7 +51,7 @@
 
   ex:scene-item-cogniflow-multi-view-chart a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:chart-cogniflow-service-usage ;
+    cd:selectsResource ex:chart-cogniflow-replicate-peak-area ;
     cd:communicativeRole cd:ChartRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
