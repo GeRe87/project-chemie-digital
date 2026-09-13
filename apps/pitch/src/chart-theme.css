@@ -1,0 +1,68 @@
+:root {
+  --pcd-chart-window-border: #0b2b67; --pcd-chart-window-highlight: #43d4ff;
+  --pcd-chart-header-from: #7762df; --pcd-chart-header-to: #5a41c6;
+  --pcd-chart-grid: color-mix(in srgb, #4fcfff 28%, transparent); --pcd-chart-axis: #0b2b67;
+  --pcd-chart-text: #0b2b67; --pcd-chart-surface: color-mix(in srgb, white 94%, #dffaff);
+  --pcd-chart-shadow: color-mix(in srgb, #36cfff 30%, transparent);
+  --pcd-chart-series-1: #55bdf3; --pcd-chart-series-2: #65d7a3; --pcd-chart-series-3: #9a7bf0; --pcd-chart-series-4: #ff9c72; --pcd-chart-series-5: #ffd76e;
+}
+body[data-presentation-theme="dark"] { --pcd-chart-window-border: #7edcff; --pcd-chart-window-highlight: #54f1ff; --pcd-chart-header-from: #5d47bf; --pcd-chart-header-to: #3c2d8e; --pcd-chart-grid: color-mix(in srgb, #7edcff 25%, transparent); --pcd-chart-axis: #d8f4ff; --pcd-chart-text: #edfaff; --pcd-chart-surface: color-mix(in srgb, #081733 90%, transparent); --pcd-chart-shadow: color-mix(in srgb, #6b54ff 38%, transparent); }
+.retro-neon-chart-window { position: relative; box-sizing: border-box; width: min(1120px, 92vw); margin: .6rem auto 0; padding: 5.1rem 2.1rem 1.5rem; border: 4px solid var(--pcd-chart-window-border); border-radius: 18px; background: var(--pcd-chart-surface); box-shadow: 0 0 0 3px var(--pcd-chart-window-highlight), 12px 14px 0 var(--pcd-chart-shadow); overflow: hidden; }
+.retro-neon-chart-header { position: absolute; inset: 0 0 auto 0; min-height: 3.65rem; display: flex; align-items: center; padding: .55rem 1.35rem; border-bottom: 4px solid var(--pcd-chart-window-border); background: linear-gradient(180deg, var(--pcd-chart-header-from), var(--pcd-chart-header-to)); color: white; font-weight: 800; letter-spacing: .025em; text-shadow: 2px 2px 0 color-mix(in srgb, var(--pcd-chart-window-border) 70%, transparent); }
+.retro-neon-chart-header::after { content: "■ ■ ■"; margin-left: auto; font-size: .7em; letter-spacing: .35em; opacity: .8; }
+.retro-neon-chart-subtitle { margin: -.25rem 0 .5rem; color: var(--pcd-chart-text); font-size: .78em; opacity: .82; }
+.d3-chart-figure { margin: 0; } .d3-chart-svg { display: block; width: 100%; min-height: 420px; overflow: visible; }
+.d3-chart-grid-line { stroke: var(--pcd-chart-grid); stroke-width: 2; stroke-dasharray: 6 5; } .d3-chart-axis { stroke: var(--pcd-chart-axis); stroke-width: 3; }
+.d3-chart-tick-label,.d3-chart-category-label,.d3-chart-axis-title,.d3-chart-value-label { fill: var(--pcd-chart-text); font-family: inherit; }
+.d3-chart-tick-label,.d3-chart-category-label { font-size: 16px; } .d3-chart-axis-title { font-size: 19px; font-weight: 700; } .d3-chart-value-label { font-size: 20px; font-weight: 900; }
+.d3-chart-bar { stroke: var(--pcd-chart-window-border); stroke-width: 3; rx: 4; filter: drop-shadow(4px 5px 0 var(--pcd-chart-shadow)); }
+.d3-chart-series-1 { fill: var(--pcd-chart-series-1); } .d3-chart-series-2 { fill: var(--pcd-chart-series-2); } .d3-chart-series-3 { fill: var(--pcd-chart-series-3); } .d3-chart-series-4 { fill: var(--pcd-chart-series-4); } .d3-chart-series-5 { fill: var(--pcd-chart-series-5); }
+.d3-chart-caption { color: var(--pcd-chart-text); font-size: .62em; opacity: .72; }
+.d3-chart-static-fallback { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: pre-wrap !important; border: 0 !important; }
+@media (max-width: 900px) { .retro-neon-chart-window { width: 96vw; padding-inline: 1rem; } .d3-chart-svg { min-height: 500px; } }
+
+
+.d3-chart-line {
+  stroke: var(--pcd-chart-series-1);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px var(--pcd-chart-shadow));
+}
+
+.d3-chart-line-point {
+  fill: var(--pcd-chart-surface);
+  stroke: var(--pcd-chart-series-1);
+  stroke-width: 3;
+}
+
+.d3-chart-range-highlight {
+  fill: color-mix(in srgb, var(--pcd-chart-series-4) 32%, transparent);
+  stroke: color-mix(in srgb, var(--pcd-chart-series-4) 78%, transparent);
+  stroke-width: 2;
+}
+
+.d3-chart-annotation-connector {
+  fill: none;
+  stroke: var(--pcd-chart-series-5);
+  stroke-width: 3;
+  stroke-dasharray: 7 5;
+}
+
+.d3-chart-annotation-label {
+  fill: var(--pcd-chart-text);
+  font-size: 18px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--pcd-chart-surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.d3-chart-range-label {
+  fill: var(--pcd-chart-series-4);
+}
+
+body[data-presentation-theme="dark"] .d3-chart-range-label {
+  fill: #ffb289;
+}

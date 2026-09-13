@@ -1,7 +1,11 @@
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
 export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
+export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
 
-export type SceneDocumentVersion = typeof SCENE_DOCUMENT_VERSION | typeof SCENE_DOCUMENT_FLOW_VERSION;
+export type SceneDocumentVersion =
+  | typeof SCENE_DOCUMENT_VERSION
+  | typeof SCENE_DOCUMENT_FLOW_VERSION
+  | typeof SCENE_DOCUMENT_CHART_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -121,7 +125,86 @@ export interface DiagramBlock extends SceneBlockBase {
   readonly focusNodeId?: string;
 }
 
-export type SceneBlock = ProseBlock | MathBlock | CodeBlock | MediaReferenceBlock | ListBlock | GroupBlock | PromptBlock | DiagramBlock;
+export interface ChartAxis {
+  readonly label: string;
+  readonly unit?: string;
+}
+
+export interface BarChartDatum {
+  readonly id: string;
+  readonly category: string;
+  readonly value: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface LineChartDatum {
+  readonly id: string;
+  readonly x: number;
+  readonly y: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface LineChartSeries {
+  readonly id: string;
+  readonly label: string;
+  readonly data: readonly LineChartDatum[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface LineChartPointAnnotation {
+  readonly id: string;
+  readonly kind: "point";
+  readonly seriesId: string;
+  readonly datumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface LineChartRangeAnnotation {
+  readonly id: string;
+  readonly kind: "x-range";
+  readonly seriesId: string;
+  readonly startDatumId: string;
+  readonly endDatumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export type LineChartAnnotation = LineChartPointAnnotation | LineChartRangeAnnotation;
+
+export interface BarChartBlock extends SceneBlockBase {
+  readonly kind: "chart";
+  readonly chartType: "bar";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: ChartAxis;
+  readonly yAxis: ChartAxis;
+  readonly data: readonly BarChartDatum[];
+}
+
+export interface LineChartBlock extends SceneBlockBase {
+  readonly kind: "chart";
+  readonly chartType: "line";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: ChartAxis;
+  readonly yAxis: ChartAxis;
+  readonly series: readonly LineChartSeries[];
+  readonly annotations?: readonly LineChartAnnotation[];
+}
+
+export type ChartBlock = BarChartBlock | LineChartBlock;
+
+export type SceneBlock =
+  | ProseBlock
+  | MathBlock
+  | CodeBlock
+  | MediaReferenceBlock
+  | ListBlock
+  | GroupBlock
+  | PromptBlock
+  | DiagramBlock
+  | ChartBlock;
 
 export interface Scene {
   readonly id: string;
@@ -220,6 +303,87 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   }
 }
 
+function validateChart(block: ChartBlock, label: string): void {
+  requireNonEmpty(block.label, `${label} chart label`);
+  requireNonEmpty(block.description, `${label} chart description`);
+  requireNonEmpty(block.xAxis.label, `${label} chart x-axis label`);
+  requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
+  if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
+  if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+
+  if (block.chartType === "bar") {
+    if (block.data.length === 0) throw new SceneContractError(`${label} bar chart must contain at least one datum`);
+    const ids = new Set<string>();
+    for (const datum of block.data) {
+      requireNonEmpty(datum.id, `${label} bar datum id`);
+      if (ids.has(datum.id)) throw new SceneContractError(`${label} bar chart contains duplicate datum ids`);
+      ids.add(datum.id);
+      requireNonEmpty(datum.category, `${label} bar datum ${datum.id} category`);
+      if (!Number.isFinite(datum.value)) throw new SceneContractError(`${label} bar datum ${datum.id} value must be finite`);
+      validateSource(datum.source, `${label} bar datum ${datum.id} source`);
+    }
+    return;
+  }
+
+  if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar or line`);
+  if (block.series.length === 0) throw new SceneContractError(`${label} line chart must contain at least one series`);
+
+  const seriesIds = new Set<string>();
+  const datumBySeries = new Map<string, Map<string, LineChartDatum>>();
+  for (const series of block.series) {
+    requireNonEmpty(series.id, `${label} line series id`);
+    if (seriesIds.has(series.id)) throw new SceneContractError(`${label} line chart contains duplicate series ids`);
+    seriesIds.add(series.id);
+    requireNonEmpty(series.label, `${label} line series ${series.id} label`);
+    validateSource(series.source, `${label} line series ${series.id} source`);
+    if (series.data.length < 2) throw new SceneContractError(`${label} line series ${series.id} must contain at least two points`);
+
+    const datumIds = new Set<string>();
+    const datumMap = new Map<string, LineChartDatum>();
+    let previousX: number | undefined;
+    for (const datum of series.data) {
+      requireNonEmpty(datum.id, `${label} line datum id`);
+      if (datumIds.has(datum.id)) throw new SceneContractError(`${label} line series ${series.id} contains duplicate datum ids`);
+      datumIds.add(datum.id);
+      if (!Number.isFinite(datum.x) || !Number.isFinite(datum.y)) {
+        throw new SceneContractError(`${label} line datum ${datum.id} coordinates must be finite`);
+      }
+      if (previousX !== undefined && datum.x <= previousX) {
+        throw new SceneContractError(`${label} line series ${series.id} x values must be strictly increasing`);
+      }
+      previousX = datum.x;
+      validateSource(datum.source, `${label} line datum ${datum.id} source`);
+      datumMap.set(datum.id, datum);
+    }
+    datumBySeries.set(series.id, datumMap);
+  }
+
+  const annotationIds = new Set<string>();
+  for (const annotation of block.annotations ?? []) {
+    requireNonEmpty(annotation.id, `${label} annotation id`);
+    if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} contains duplicate annotation ids`);
+    annotationIds.add(annotation.id);
+    requireNonEmpty(annotation.label, `${label} annotation ${annotation.id} label`);
+    validateSource(annotation.source, `${label} annotation ${annotation.id} source`);
+    const series = datumBySeries.get(annotation.seriesId);
+    if (!series) throw new SceneContractError(`${label} annotation ${annotation.id} references an unknown series`);
+    if (annotation.kind === "point") {
+      if (!series.has(annotation.datumId)) {
+        throw new SceneContractError(`${label} point annotation ${annotation.id} references an unknown datum`);
+      }
+      continue;
+    }
+    const startDatum = series.get(annotation.startDatumId);
+    const endDatum = series.get(annotation.endDatumId);
+    if (!startDatum || !endDatum) {
+      throw new SceneContractError(`${label} range annotation ${annotation.id} references an unknown datum`);
+    }
+    if (startDatum.x > endDatum.x) {
+      throw new SceneContractError(`${label} range annotation ${annotation.id} must progress from lower to higher x`);
+    }
+  }
+}
+
 function validateBlocks(blocks: readonly SceneBlock[], label: string, version: SceneDocumentVersion): void {
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
@@ -250,16 +414,26 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
     if (block.kind === "diagram") {
-      if (version !== SCENE_DOCUMENT_FLOW_VERSION) {
-        throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION}`);
+      if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
       validateDiagram(block, `${label} block ${block.id}`);
+    }
+    if (block.kind === "chart") {
+      if (version !== SCENE_DOCUMENT_CHART_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
+      }
+      validateChart(block, `${label} block ${block.id}`);
     }
   }
 }
 
 export function validateSceneDocument(document: SceneDocument): void {
-  if (document.version !== SCENE_DOCUMENT_VERSION && document.version !== SCENE_DOCUMENT_FLOW_VERSION) {
+  if (
+    document.version !== SCENE_DOCUMENT_VERSION
+    && document.version !== SCENE_DOCUMENT_FLOW_VERSION
+    && document.version !== SCENE_DOCUMENT_CHART_VERSION
+  ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }
   requireNonEmpty(document.id, "SceneDocument id");

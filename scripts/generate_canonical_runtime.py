@@ -9,7 +9,9 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import math
 import re
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -52,6 +54,10 @@ def local_name(value: URIRef | str) -> str:
     return text.rsplit("/", 1)[-1].rsplit("#", 1)[-1].replace("-", " ")
 
 
+def normalize_newlines(value: str) -> str:
+    return value.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def quads(dataset: Dataset, subject: URIRef | None = None, predicate: URIRef | None = None) -> Iterable[tuple[Any, Any, Any, Any]]:
     return dataset.quads((subject, predicate, None, None))
 
@@ -83,7 +89,7 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
         return None
     if len(values) > 1:
         raise ValueError(f"Ambiguous literal {compact(predicate)} for {compact(subject)}")
-    return str(values[0])
+    return normalize_newlines(str(values[0]))
 
 
 def deterministic_authored_literal(
@@ -100,7 +106,7 @@ def deterministic_authored_literal(
     if not values:
         return None
     values.sort(key=lambda value: (value.language or "", str(value.datatype or ""), str(value), value.n3()))
-    return str(values[0])
+    return normalize_newlines(str(values[0]))
 
 
 def boolean_literal(dataset: Dataset, subject: URIRef, predicate: URIRef) -> bool:
@@ -280,6 +286,175 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
     return payload, label_relation_path
 
 
+def decimal_number(dataset: Dataset, subject: URIRef, predicate: URIRef) -> float:
+    value = one(dataset, subject, predicate)
+    try:
+        decimal_value = Decimal(str(value))
+        result = float(decimal_value)
+    except (InvalidOperation, ValueError, TypeError, OverflowError) as error:
+        raise ValueError(f"Invalid decimal {compact(predicate)} for {compact(subject)}") from error
+    if not math.isfinite(result):
+        raise ValueError(f"Non-finite decimal {compact(predicate)} for {compact(subject)}")
+    return result
+
+
+def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type != iri(CD, "BarChart"):
+        raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
+
+    observations = [
+        (observation, integer(dataset, observation, iri(CD, "position")))
+        for observation in objects(dataset, chart_dataset, iri(CD, "hasObservation"))
+        if isinstance(observation, URIRef)
+    ]
+    observations.sort(key=lambda record: (record[1], str(record[0])))
+    if not observations:
+        raise ValueError(f"Chart dataset {compact(chart_dataset)} requires at least one Observation")
+    positions = [position for _observation, position in observations]
+    if positions != list(range(1, len(observations) + 1)):
+        raise ValueError(f"Chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
+
+    data: list[dict[str, Any]] = []
+    for observation, _position in observations:
+        category, relation_path = selected_label_reference(dataset, observation, language)
+        data.append({
+            "id": compact(observation),
+            "category": category,
+            "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
+            "source": [
+                source_reference(dataset, observation, relation_path),
+                source_reference(dataset, observation, "cd:numericValue"),
+            ],
+        })
+
+    label, label_relation_path = selected_label_reference(dataset, chart, language)
+    x_axis_label = selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language)
+    y_axis_label = selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language)
+    unit = literal(dataset, chart_dataset, iri(CD, "unit"))
+
+    payload: dict[str, Any] = {
+        "chartType": "bar",
+        "label": label,
+        "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+        "xAxis": {"label": x_axis_label, **({"unit": literal(dataset, chart, iri(CD, "xAxisUnit"))} if literal(dataset, chart, iri(CD, "xAxisUnit")) else {})},
+        "yAxis": {"label": y_axis_label, **({"unit": literal(dataset, chart, iri(CD, "yAxisUnit")) or unit} if (literal(dataset, chart, iri(CD, "yAxisUnit")) or unit) else {})},
+        "data": data,
+    }
+    return payload, label_relation_path
+
+
+
+def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
+
+    observation_records = [
+        (observation, integer(dataset, observation, iri(CD, "position")))
+        for observation in objects(dataset, chart_dataset, iri(CD, "hasObservation"))
+        if isinstance(observation, URIRef)
+    ]
+    observation_records.sort(key=lambda record: (record[1], str(record[0])))
+    if len(observation_records) < 2:
+        raise ValueError(f"Line-chart dataset {compact(chart_dataset)} requires at least two observations")
+    positions = [position for _observation, position in observation_records]
+    if positions != list(range(1, len(observation_records) + 1)):
+        raise ValueError(f"Line-chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
+
+    data: list[dict[str, Any]] = []
+    observation_ids: set[URIRef] = set()
+    previous_x: float | None = None
+    for observation, _position in observation_records:
+        observation_ids.add(observation)
+        x_value = decimal_number(dataset, observation, iri(CD, "xValue"))
+        y_value = decimal_number(dataset, observation, iri(CD, "numericValue"))
+        if previous_x is not None and x_value <= previous_x:
+            raise ValueError(f"Line-chart x-values must be strictly increasing for {compact(chart_dataset)}")
+        previous_x = x_value
+        data.append({
+            "id": compact(observation),
+            "x": x_value,
+            "y": y_value,
+            "source": [
+                source_reference(dataset, observation, "cd:xValue"),
+                source_reference(dataset, observation, "cd:numericValue"),
+            ],
+        })
+
+    series_label, series_label_path = selected_label_reference(dataset, chart_dataset, language)
+    series_id = compact(chart_dataset)
+    annotation_records = [
+        (annotation, integer(dataset, annotation, iri(CD, "position")))
+        for annotation in objects(dataset, chart, iri(CD, "hasChartAnnotation"))
+        if isinstance(annotation, URIRef)
+    ]
+    annotation_records.sort(key=lambda record: (record[1], str(record[0])))
+    annotations: list[dict[str, Any]] = []
+    for annotation, _position in annotation_records:
+        base = {
+            "id": compact(annotation),
+            "seriesId": series_id,
+            "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+            "source": [source_reference(dataset, annotation, "cd:body")],
+        }
+        if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
+            target = one(dataset, annotation, iri(CD, "targetObservation"))
+            if target not in observation_ids:
+                raise ValueError(f"Point annotation {compact(annotation)} targets an observation outside the chart dataset")
+            annotations.append({**base, "kind": "point", "datumId": compact(target)})
+        elif is_resource_type(dataset, annotation, "ChartRangeAnnotation"):
+            start_observation = one(dataset, annotation, iri(CD, "startObservation"))
+            end_observation = one(dataset, annotation, iri(CD, "endObservation"))
+            if start_observation not in observation_ids or end_observation not in observation_ids:
+                raise ValueError(f"Range annotation {compact(annotation)} targets an observation outside the chart dataset")
+            annotations.append({
+                **base,
+                "kind": "x-range",
+                "startDatumId": compact(start_observation),
+                "endDatumId": compact(end_observation),
+            })
+        else:
+            raise ValueError(f"Unsupported chart annotation type for {compact(annotation)}")
+
+    label, label_relation_path = selected_label_reference(dataset, chart, language)
+    x_unit = literal(dataset, chart, iri(CD, "xAxisUnit"))
+    y_unit = literal(dataset, chart, iri(CD, "yAxisUnit"))
+    payload: dict[str, Any] = {
+        "chartType": "line",
+        "label": label,
+        "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+        "xAxis": {
+            "label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language),
+            **({"unit": x_unit} if x_unit else {}),
+        },
+        "yAxis": {
+            "label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language),
+            **({"unit": y_unit} if y_unit else {}),
+        },
+        "series": [{
+            "id": series_id,
+            "label": series_label,
+            "data": data,
+            "source": [source_reference(dataset, chart_dataset, series_label_path)],
+        }],
+        "annotations": annotations,
+    }
+    return payload, label_relation_path
+
+
+def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "BarChart"):
+        return bar_chart_payload(dataset, chart, language)
+    if chart_type == iri(CD, "LineChart"):
+        return line_chart_payload(dataset, chart, language)
+    raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -354,10 +529,13 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
             selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram")
+            selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
             if selected_is_flow_diagram and role != "DiagramRole":
                 raise ValueError(f"FlowDiagram {compact(selected)} requires DiagramRole in {compact(item)}")
+            if selected_is_chart_definition and role != "ChartRole":
+                raise ValueError(f"ChartDefinition {compact(selected)} requires ChartRole in {compact(item)}")
             if role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
@@ -431,6 +609,26 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "supporting", "intent": {"kind": "emphasize"},
                 }
+            elif role == "ChartRole":
+                if relation_path != "cd:body":
+                    raise ValueError(f"ChartRole requires direct cd:body selection in {compact(item)}")
+                if not selected_is_chart_definition:
+                    raise ValueError(f"ChartRole requires ChartDefinition in {compact(item)}")
+                path_language = effective_path_language(dataset, selected_path)
+                payload, label_relation_path = chart_payload(dataset, selected, path_language)
+                block_sources = [source_reference(dataset, selected, relation_path)]
+                if label_relation_path is not None and label_relation_path != relation_path:
+                    block_sources.append(source_reference(dataset, selected, label_relation_path))
+                block = {
+                    "id": block_id,
+                    "kind": "chart",
+                    "source": block_sources,
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = "1.2"
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -689,6 +887,41 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<{tag} class="keypoint-list"{fallback_attributes(block["source"])}>{items}</{tag}>'
                 )
                 continue
+            if block["kind"] == "chart":
+                if block["chartType"] == "bar":
+                    unit = block.get("yAxis", {}).get("unit")
+                    value_items = "".join(
+                        f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
+                        f'<span class="chart-category">{html.escape(datum["category"])}</span>: '
+                        f'<span class="chart-value">{html.escape(str(datum["value"]))}{(" " + html.escape(unit)) if unit else ""}</span>'
+                        f'</li>'
+                        for datum in block["data"]
+                    )
+                    body = f'<ol class="chart-data">{value_items}</ol>'
+                elif block["chartType"] == "line":
+                    point_items = "".join(
+                        f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
+                        f'x={html.escape(str(datum["x"]))}, y={html.escape(str(datum["y"]))}</li>'
+                        for series in block["series"]
+                        for datum in series["data"]
+                    )
+                    annotation_items = "".join(
+                        f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
+                        f'{html.escape(annotation["label"])}</li>'
+                        for annotation in block.get("annotations", [])
+                    )
+                    body = f'<ol class="chart-data">{point_items}</ol><ul class="chart-annotations">{annotation_items}</ul>'
+                else:
+                    raise ValueError(f'Unsupported chart type in static fallback: {block["chartType"]}')
+                blocks.append(
+                    f'<figure class="chart-fallback" data-chart-type="{html.escape(block["chartType"], quote=True)}"'
+                    f'{fallback_attributes(block["source"])}>'
+                    f'<figcaption><strong>{html.escape(block["label"])}</strong> '
+                    f'<span>{html.escape(block["description"])}</span></figcaption>'
+                    f'<p class="chart-axis-summary">{html.escape(block["xAxis"]["label"])} / '
+                    f'{html.escape(block["yAxis"]["label"])}</p>{body}</figure>'
+                )
+                continue
             if block["kind"] == "diagram":
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
                 nodes = "".join(
@@ -799,8 +1032,8 @@ def main() -> int:
             raise SystemExit("Stale canonical runtime static fallback: apps/pitch/index.html")
         return 0
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(rendered, encoding="utf-8")
-    PITCH_INDEX.write_text(rendered_html, encoding="utf-8")
+    output.write_text(rendered, encoding="utf-8", newline="\n")
+    PITCH_INDEX.write_text(rendered_html, encoding="utf-8", newline="\n")
     return 0
 
 

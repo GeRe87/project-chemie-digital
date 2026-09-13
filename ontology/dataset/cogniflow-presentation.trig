@@ -1,6 +1,7 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-standardized-data-processing> {
   ex:cogniflow-standardized-data-processing a cd:Concept ;
@@ -12,12 +13,146 @@
     cd:body "Standardized Data Processing - Project CogniFlow"@en ;
     cd:authoredResource true .
 
+  ex:cogniflow-service-usage-overview a cd:Concept ;
+    skos:prefLabel "Service Usage Overview"@en ;
+    cd:hasDefinition ex:def-cogniflow-service-usage-overview ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-service-usage-overview a cd:Definition ;
+    cd:body "Illustrative workload across core CogniFlow provider types."@en ;
+    cd:authoredResource true .
+
+  ex:chart-cogniflow-service-usage a cd:ChartDefinition ;
+    skos:prefLabel "Service usage by provider type"@en ;
+    cd:body "Illustrative workload across core CogniFlow provider types; values are demonstrative and are not measured runtime telemetry."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Provider type"@en ;
+    cd:yAxisLabel "Relative workload"@en ;
+    cd:usesDataset ex:dataset-cogniflow-service-usage ;
+    cd:authoredResource true .
+
+  ex:dataset-cogniflow-service-usage a cd:Dataset ;
+    cd:hasObservation ex:cogniflow-workload-data-ingestion,
+      ex:cogniflow-workload-signal-processing,
+      ex:cogniflow-workload-analytics,
+      ex:cogniflow-workload-semantics,
+      ex:cogniflow-workload-reporting ;
+    cd:authoredResource true .
+
+  ex:cogniflow-workload-data-ingestion a cd:Observation ;
+    skos:prefLabel "Data ingestion"@en ;
+    cd:position 1 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:cogniflow-workload-signal-processing a cd:Observation ;
+    skos:prefLabel "Signal processing"@en ;
+    cd:position 2 ; cd:numericValue 18.0 ; cd:authoredResource true .
+  ex:cogniflow-workload-analytics a cd:Observation ;
+    skos:prefLabel "Analytics"@en ;
+    cd:position 3 ; cd:numericValue 25.0 ; cd:authoredResource true .
+  ex:cogniflow-workload-semantics a cd:Observation ;
+    skos:prefLabel "Semantics"@en ;
+    cd:position 4 ; cd:numericValue 14.0 ; cd:authoredResource true .
+  ex:cogniflow-workload-reporting a cd:Observation ;
+    skos:prefLabel "Reporting"@en ;
+    cd:position 5 ; cd:numericValue 9.0 ; cd:authoredResource true .
+
+  ex:cogniflow-signal-to-peak a cd:Concept ;
+    skos:prefLabel "From Signal to Peak"@en ;
+    cd:hasDefinition ex:def-cogniflow-signal-to-peak ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-signal-to-peak a cd:Definition ;
+    cd:body "A synthetic chromatographic trace illustrates how signal semantics, peak location and integrated regions can remain explicit throughout standardized data processing."@en ;
+    cd:authoredResource true .
+
+  ex:chart-cogniflow-chromatogram a cd:ChartDefinition ;
+    skos:prefLabel "Chromatogram Example"@en ;
+    cd:body "Synthetic illustrative chromatographic signal; the trace is not measured experimental data."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Retention time"@en ;
+    cd:yAxisLabel "Intensity"@en ;
+    cd:xAxisUnit "min" ;
+    cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:dataset-cogniflow-chromatogram ;
+    cd:hasChartAnnotation ex:annotation-cogniflow-baseline,
+      ex:annotation-cogniflow-peak-apex,
+      ex:annotation-cogniflow-integrated-area ;
+    cd:authoredResource true .
+
+  ex:dataset-cogniflow-chromatogram a cd:Dataset ;
+    skos:prefLabel "Illustrative chromatographic signal"@en ;
+    cd:hasObservation ex:cogniflow-chrom-4-00,
+      ex:cogniflow-chrom-4-10,
+      ex:cogniflow-chrom-4-20,
+      ex:cogniflow-chrom-4-30,
+      ex:cogniflow-chrom-4-40,
+      ex:cogniflow-chrom-4-50,
+      ex:cogniflow-chrom-4-60,
+      ex:cogniflow-chrom-4-70,
+      ex:cogniflow-chrom-4-80,
+      ex:cogniflow-chrom-4-90,
+      ex:cogniflow-chrom-5-00,
+      ex:cogniflow-chrom-5-10,
+      ex:cogniflow-chrom-5-20,
+      ex:cogniflow-chrom-5-30,
+      ex:cogniflow-chrom-5-40,
+      ex:cogniflow-chrom-5-50,
+      ex:cogniflow-chrom-5-60 ;
+    cd:authoredResource true .
+
+  ex:cogniflow-chrom-4-00 a cd:Observation ;
+    cd:position 1 ; cd:xValue "4.00"^^xsd:decimal ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-10 a cd:Observation ;
+    cd:position 2 ; cd:xValue "4.10"^^xsd:decimal ; cd:numericValue "6"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-20 a cd:Observation ;
+    cd:position 3 ; cd:xValue "4.20"^^xsd:decimal ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-30 a cd:Observation ;
+    cd:position 4 ; cd:xValue "4.30"^^xsd:decimal ; cd:numericValue "7"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-40 a cd:Observation ;
+    cd:position 5 ; cd:xValue "4.40"^^xsd:decimal ; cd:numericValue "12"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-50 a cd:Observation ;
+    cd:position 6 ; cd:xValue "4.50"^^xsd:decimal ; cd:numericValue "24"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-60 a cd:Observation ;
+    cd:position 7 ; cd:xValue "4.60"^^xsd:decimal ; cd:numericValue "46"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-70 a cd:Observation ;
+    cd:position 8 ; cd:xValue "4.70"^^xsd:decimal ; cd:numericValue "74"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-80 a cd:Observation ;
+    cd:position 9 ; cd:xValue "4.80"^^xsd:decimal ; cd:numericValue "100"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-4-90 a cd:Observation ;
+    cd:position 10 ; cd:xValue "4.90"^^xsd:decimal ; cd:numericValue "88"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-00 a cd:Observation ;
+    cd:position 11 ; cd:xValue "5.00"^^xsd:decimal ; cd:numericValue "63"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-10 a cd:Observation ;
+    cd:position 12 ; cd:xValue "5.10"^^xsd:decimal ; cd:numericValue "40"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-20 a cd:Observation ;
+    cd:position 13 ; cd:xValue "5.20"^^xsd:decimal ; cd:numericValue "25"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-30 a cd:Observation ;
+    cd:position 14 ; cd:xValue "5.30"^^xsd:decimal ; cd:numericValue "16"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-40 a cd:Observation ;
+    cd:position 15 ; cd:xValue "5.40"^^xsd:decimal ; cd:numericValue "11"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-50 a cd:Observation ;
+    cd:position 16 ; cd:xValue "5.50"^^xsd:decimal ; cd:numericValue "8"^^xsd:decimal ; cd:authoredResource true .
+  ex:cogniflow-chrom-5-60 a cd:Observation ;
+    cd:position 17 ; cd:xValue "5.60"^^xsd:decimal ; cd:numericValue "7"^^xsd:decimal ; cd:authoredResource true .
+
+  ex:annotation-cogniflow-baseline a cd:ChartPointAnnotation ;
+    cd:position 1 ; cd:body "Baseline"@en ;
+    cd:targetObservation ex:cogniflow-chrom-4-20 ; cd:authoredResource true .
+
+  ex:annotation-cogniflow-peak-apex a cd:ChartPointAnnotation ;
+    cd:position 2 ; cd:body "Peak apex"@en ;
+    cd:targetObservation ex:cogniflow-chrom-4-80 ; cd:authoredResource true .
+
+  ex:annotation-cogniflow-integrated-area a cd:ChartRangeAnnotation ;
+    cd:position 3 ; cd:body "Integrated area"@en ;
+    cd:startObservation ex:cogniflow-chrom-4-40 ;
+    cd:endObservation ex:cogniflow-chrom-5-20 ; cd:authoredResource true .
+
   ex:attribution-cogniflow-gerrit-renner a cd:Attribution ;
-    cd:body "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
+    cd:body "Gerrit Renner â€” Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
     cd:authoredResource true .
 
   ex:attribution-cogniflow-ricardo-cunha a cd:Attribution ;
-    cd:body "Ricardo Cunha — IUTA"@en ;
+    cd:body "Ricardo Cunha â€” IUTA"@en ;
     cd:authoredResource true .
 }
 
@@ -40,7 +175,9 @@
     skos:prefLabel "Project CogniFlow presentation path"@en ;
     cd:forTopic ex:cogniflow-standardized-data-processing ;
     cd:forLearningUnit ex:learning-unit-cogniflow-standardized-data-processing ;
-    cd:hasStep ex:path-step-cogniflow-title ;
+    cd:hasStep ex:path-step-cogniflow-title,
+      ex:path-step-cogniflow-service-usage,
+      ex:path-step-cogniflow-signal-to-peak ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-title a cd:PathStep ;
@@ -48,6 +185,18 @@
     cd:usesResource ex:attribution-cogniflow-gerrit-renner,
       ex:attribution-cogniflow-ricardo-cunha ;
     cd:usesScene ex:scene-cogniflow-title ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-service-usage a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:chart-cogniflow-service-usage ;
+    cd:usesScene ex:scene-cogniflow-service-usage ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-signal-to-peak a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:chart-cogniflow-chromatogram ;
+    cd:usesScene ex:scene-cogniflow-signal-to-peak ;
     cd:authoredResource true .
 }
 
@@ -79,6 +228,50 @@
     cd:position 3 ;
     cd:selectsResource ex:attribution-cogniflow-ricardo-cunha ;
     cd:communicativeRole cd:AttributionRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-service-usage a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-service-usage-overview ;
+    cd:hasSceneItem ex:scene-item-cogniflow-service-usage-heading,
+      ex:scene-item-cogniflow-service-usage-chart ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-usage-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-service-usage-overview ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-usage-chart a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chart-cogniflow-service-usage ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-signal-to-peak a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-signal-to-peak ;
+    cd:hasSceneItem ex:scene-item-cogniflow-signal-to-peak-heading,
+      ex:scene-item-cogniflow-signal-to-peak-chart ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-signal-to-peak-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-signal-to-peak ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-signal-to-peak-chart a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chart-cogniflow-chromatogram ;
+    cd:communicativeRole cd:ChartRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .

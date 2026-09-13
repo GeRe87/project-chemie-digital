@@ -26,6 +26,33 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
   if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
 }
 
+function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if (block.chartType === "bar") {
+    const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
+    return [
+      block.label,
+      block.description,
+      ...block.data.map((datum) => `${datum.category}: ${datum.value}${unit}`),
+    ].join("\n");
+  }
+
+  const xUnit = block.xAxis.unit ? ` ${block.xAxis.unit}` : "";
+  const yUnit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
+  return [
+    block.label,
+    block.description,
+    ...block.series.flatMap((series) => [
+      `Series: ${series.label}`,
+      ...series.data.map(
+        (datum) => `x=${datum.x}${xUnit}, y=${datum.y}${yUnit}`,
+      ),
+    ]),
+    ...(block.annotations ?? []).map(
+      (annotation) => `Annotation: ${annotation.label}`,
+    ),
+  ].join("\n");
+}
+
 function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
   return [
@@ -122,6 +149,20 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     fallback.className = "d3-flow-static-fallback";
     fallback.textContent = diagramStaticFallback(block);
     shell.appendChild(fallback);
+    parent.appendChild(shell);
+    return;
+  }
+  if (block.kind === "chart") {
+    const shell = dom.createElement("div");
+    shell.className = "d3-chart-host retro-neon-chart-window";
+    shell.setAttribute("data-chart-block-id", block.id);
+    shell.setAttribute("data-chart-type", block.chartType);
+    shell.setAttribute("role", "group");
+    shell.setAttribute("aria-label", block.label);
+    sourceAttributes(shell, block.source);
+    const header = dom.createElement("div"); header.className = "retro-neon-chart-header"; header.textContent = block.label; shell.appendChild(header);
+    const subtitle = dom.createElement("p"); subtitle.className = "retro-neon-chart-subtitle"; subtitle.textContent = block.description; shell.appendChild(subtitle);
+    const fallback = dom.createElement("pre"); fallback.className = "d3-chart-static-fallback"; fallback.textContent = chartStaticFallback(block); shell.appendChild(fallback);
     parent.appendChild(shell);
     return;
   }

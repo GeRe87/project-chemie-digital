@@ -82,6 +82,101 @@ SELECT $this WHERE {
       }"""
     ] .
 
+  cd:ChartDefinitionShape a sh:NodeShape ;
+    sh:targetClass cd:ChartDefinition ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart ) ] ;
+    sh:property [ sh:path cd:xAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:yAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:hasChartAnnotation ; sh:class cd:ChartAnnotation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:yAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "Bar-chart observations require an authored category label." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT $this WHERE {
+        $this cd:chartType cd:BarChart ; cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?observation .
+        FILTER NOT EXISTS { ?observation skos:prefLabel ?label . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Bar-chart observations require numeric values and positive positions." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT $this WHERE {
+        $this cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?observation .
+        FILTER (
+          NOT EXISTS {
+            ?observation cd:numericValue ?value .
+            FILTER (datatype(?value) = xsd:decimal)
+          }
+          || NOT EXISTS { ?observation cd:position ?position . FILTER (?position >= 1) }
+        )
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Line-chart observations require xsd:decimal x-values." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT $this WHERE {
+        $this cd:chartType cd:LineChart ; cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?observation .
+        FILTER NOT EXISTS {
+          ?observation cd:xValue ?x .
+          FILTER (datatype(?x) = xsd:decimal)
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Line-chart x-values must be strictly increasing in observation order." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:chartType cd:LineChart ; cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?left, ?right .
+        ?left cd:position ?leftPosition ; cd:xValue ?leftX .
+        ?right cd:position ?rightPosition ; cd:xValue ?rightX .
+        FILTER (?leftPosition < ?rightPosition && ?leftX >= ?rightX)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Bar-chart observation positions must be unique." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Bar-chart observation positions must start at 1 and be contiguous." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:usesDataset ?dataset .
+        ?dataset cd:hasObservation ?observation .
+        {
+          FILTER NOT EXISTS { ?dataset cd:hasObservation ?first . ?first cd:position 1 . }
+        }
+        UNION
+        {
+          ?observation cd:position ?position .
+          FILTER (?position > 1)
+          FILTER NOT EXISTS {
+            ?dataset cd:hasObservation ?previous .
+            ?previous cd:position ?previousPosition .
+            FILTER (?previousPosition = ?position - 1)
+          }
+        }
+      }"""
+    ] .
+
   cd:FlowDiagramShape a sh:NodeShape ;
     sh:targetClass cd:FlowDiagram ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
@@ -193,6 +288,56 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:sourceNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:targetNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] .
 
+  cd:ChartPointAnnotationShape a sh:NodeShape ;
+    sh:targetClass cd:ChartPointAnnotation ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:targetObservation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Observation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:ChartRangeAnnotationShape a sh:NodeShape ;
+    sh:targetClass cd:ChartRangeAnnotation ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:startObservation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Observation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:endObservation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Observation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:ChartAnnotationOwnerShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:hasChartAnnotation ;
+    sh:class cd:ChartDefinition ;
+    sh:sparql [
+      sh:message "Chart annotations must target observations from the chart's own dataset." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:usesDataset ?dataset ; cd:hasChartAnnotation ?annotation .
+        {
+          ?annotation cd:targetObservation ?observation .
+          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+        }
+        UNION
+        {
+          ?annotation cd:startObservation ?observation .
+          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+        }
+        UNION
+        {
+          ?annotation cd:endObservation ?observation .
+          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Chart annotation positions must be unique." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasChartAnnotation ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] .
+
   cd:SceneDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:SceneDefinition ;
     sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
@@ -214,7 +359,7 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole cd:DiagramRole ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
     sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
@@ -263,6 +408,23 @@ SELECT $this WHERE {
         $this cd:selectsResource ?source ; cd:communicativeRole ?role .
         ?source a cd:Attribution .
         FILTER (?role != cd:AttributionRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "ChartRole requires exactly the cd:body selector and a ChartDefinition resource." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:ChartRole ; cd:selectionPath ?selector ; cd:selectsResource ?source .
+        FILTER (?selector != "cd:body" || NOT EXISTS { ?source a cd:ChartDefinition . })
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A ChartDefinition selected by a scene item requires ChartRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectsResource ?source ; cd:communicativeRole ?role .
+        ?source a cd:ChartDefinition .
+        FILTER (?role != cd:ChartRole)
       }"""
     ] ;
     sh:sparql [
