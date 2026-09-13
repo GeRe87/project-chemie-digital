@@ -1,7 +1,7 @@
 import katex from "katex";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -175,6 +175,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   sourceAttributes(node, block.source);
   parent.appendChild(node);
 }
+
 export function mountSceneDocuments(dom: PitchDomPort, documents: readonly SceneDocument[]): () => void {
   if (!documents.length) throw new Error("Pitch requires at least one compiled SceneDocument");
   for (const document of documents) validateSceneDocument(document);
@@ -182,12 +183,13 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
   for (const document of documents) for (const scene of document.scenes) {
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
+    const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
     section.setAttribute("data-scene-document-id", document.id);
     section.setAttribute("data-source-path-id", document.sourcePathId);
-    section.setAttribute("data-layout", layoutByScene[scene.id] ?? "statement");
+    section.setAttribute("data-layout", semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"));
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
     for (const blockId of scene.readingOrder) {
@@ -195,11 +197,21 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       appendBlock(section, dom, block, headingId);
     }
+    if (semanticCode) {
+      const graphHost = dom.createElement("div");
+      graphHost.className = "d3-scene-knowledge-host";
+      graphHost.setAttribute("data-knowledge-scene-id", scene.id);
+      graphHost.setAttribute("role", "group");
+      graphHost.setAttribute("aria-label", "Semantic knowledge graph for this scene");
+      sourceAttributes(graphHost, scene.source);
+      section.appendChild(graphHost);
+    }
     dom.root.appendChild(section);
   }
   let destroyed = false;
   return () => { if (!destroyed) { destroyed = true; dom.root.innerHTML = ""; } };
 }
+
 export function installNoNetworkGuard(target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown }): () => void {
   const originalFetch = target.fetch; const originalXhr = target.XMLHttpRequest; const originalSocket = target.WebSocket;
   const deny = () => { throw new Error("Runtime network requests are prohibited in the pitch preview"); };
