@@ -4,12 +4,12 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-semantic-source> {
   ex:cogniflow-semantics-as-source a cd:Concept ;
-    skos:prefLabel "Semantics as the Source"@en ;
+    skos:prefLabel "Interfaces Need Shared Meaning"@en ;
     cd:hasDefinition ex:def-cogniflow-semantics-as-source ;
     cd:authoredResource true .
 
   ex:def-cogniflow-semantics-as-source a cd:Definition ;
-    cd:body "CogniFlow keeps presentation-ready meaning in machine-readable RDF instead of rebuilding it inside the visualization layer."@en ;
+    cd:body "CogniFlow makes scientific meaning machine-readable so data, services and views can share one semantic contract."@en ;
     cd:authoredResource true .
 
   ex:chart-cogniflow-replicate-peak-area a cd:ChartDefinition ;
@@ -47,18 +47,18 @@
     cd:position 4 ; cd:numericValue 101.1 ; cd:authoredResource true .
 
   ex:code-cogniflow-chart-semantics a cd:CodeExample ;
-    skos:prefLabel "Semantic source for an analytical chart"@en ;
+    skos:prefLabel "One machine-readable scientific meaning"@en ;
     cd:code """@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 
 ex:chart-cogniflow-replicate-peak-area a cd:ChartDefinition ;
-    cd:chartType cd:BarChart ;
     cd:usesDataset ex:dataset-cogniflow-replicate-peak-area .
 
 ex:dataset-cogniflow-replicate-peak-area a cd:Dataset ;
     cd:hasObservation ex:cogniflow-peak-area-injection-2 .
 
 ex:cogniflow-peak-area-injection-2 a cd:Observation ;
+    skos:prefLabel "Injection 2"@en ;
     cd:numericValue 100.3 .""" ;
     cd:programmingLanguage "trig" ;
     cd:editable false ;
