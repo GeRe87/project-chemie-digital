@@ -9,12 +9,12 @@
     cd:authoredResource true .
 
   ex:def-cogniflow-analytical-proof a cd:Definition ;
-    cd:body "The same analytical trace becomes a reusable scientific result when every transformation, quantitative result and provenance link remains explicit."@en ;
+    cd:body "A scientific result becomes reusable when interpretation, quantification and provenance remain explicit from the original analytical signal to the final artifact."@en ;
     cd:authoredResource true .
 
   ex:chart-cogniflow-analytical-proof a cd:ChartDefinition ;
-    skos:prefLabel "Analytical processing proof"@en ;
-    cd:body "One synthetic LC–MS trace is progressively interpreted from raw signal through baseline, peak modelling and quantitative integration."@en ;
+    skos:prefLabel "One signal. Five explicit states."@en ;
+    cd:body "A synthetic LC–MS trace is progressively interpreted through a baseline estimate, a peak-model anchor and an explicit integration window. The annotations illustrate processing semantics rather than claiming a fitted curve."@en ;
     cd:chartType cd:LineChart ;
     cd:xAxisLabel "Retention time"@en ;
     cd:yAxisLabel "Intensity"@en ;
@@ -29,26 +29,26 @@
 
   ex:annotation-cogniflow-proof-baseline a cd:ChartPointAnnotation ;
     cd:position 1 ;
-    cd:body "Baseline correction"@en ;
+    cd:body "Baseline estimate"@en ;
     cd:targetObservation ex:cogniflow-chrom-4-20 ;
     cd:authoredResource true .
 
   ex:annotation-cogniflow-proof-peak-model a cd:ChartPointAnnotation ;
     cd:position 2 ;
-    cd:body "Asymmetric peak model"@en ;
+    cd:body "Peak apex / model anchor"@en ;
     cd:targetObservation ex:cogniflow-chrom-4-80 ;
     cd:authoredResource true .
 
   ex:annotation-cogniflow-proof-quantification a cd:ChartRangeAnnotation ;
     cd:position 3 ;
-    cd:body "Integrated area + uncertainty"@en ;
+    cd:body "Integration window"@en ;
     cd:startObservation ex:cogniflow-chrom-4-40 ;
     cd:endObservation ex:cogniflow-chrom-5-20 ;
     cd:authoredResource true .
 
   ex:diagram-cogniflow-analytical-proof a cd:FlowDiagram ;
     skos:prefLabel "Analytical result lineage"@en ;
-    cd:body "The visual interpretation and its reusable artifact are two projections of one processing lineage."@en ;
+    cd:body "The chart shows the analytical interpretation while the lineage records the scientific state that each processing decision produces."@en ;
     cd:hasDiagramNode
       ex:node-cogniflow-proof-raw,
       ex:node-cogniflow-proof-baseline,
@@ -69,12 +69,12 @@
     cd:authoredResource true .
 
   ex:node-cogniflow-proof-baseline a cd:DiagramNode ;
-    skos:prefLabel "BASELINE-CORRECTED"@en ;
+    skos:prefLabel "BASELINE ESTIMATE"@en ;
     cd:position 2 ;
     cd:authoredResource true .
 
   ex:node-cogniflow-proof-model a cd:DiagramNode ;
-    skos:prefLabel "PEAK MODEL"@en ;
+    skos:prefLabel "ASYMMETRIC MODEL"@en ;
     cd:position 3 ;
     cd:authoredResource true .
 
@@ -84,19 +84,19 @@
     cd:authoredResource true .
 
   ex:node-cogniflow-proof-fair a cd:DiagramNode ;
-    skos:prefLabel "FAIR ARTIFACT + PROVENANCE"@en ;
+    skos:prefLabel "FAIR ARTIFACT"@en ;
     cd:position 5 ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-proof-raw-baseline a cd:DiagramEdge ;
-    skos:prefLabel "correct"@en ;
+    skos:prefLabel "estimate"@en ;
     cd:position 1 ;
     cd:sourceNode ex:node-cogniflow-proof-raw ;
     cd:targetNode ex:node-cogniflow-proof-baseline ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-proof-baseline-model a cd:DiagramEdge ;
-    skos:prefLabel "fit"@en ;
+    skos:prefLabel "model"@en ;
     cd:position 2 ;
     cd:sourceNode ex:node-cogniflow-proof-baseline ;
     cd:targetNode ex:node-cogniflow-proof-model ;
@@ -110,7 +110,7 @@
     cd:authoredResource true .
 
   ex:edge-cogniflow-proof-quantified-fair a cd:DiagramEdge ;
-    skos:prefLabel "package provenance"@en ;
+    skos:prefLabel "package"@en ;
     cd:position 4 ;
     cd:sourceNode ex:node-cogniflow-proof-quantified ;
     cd:targetNode ex:node-cogniflow-proof-fair ;
