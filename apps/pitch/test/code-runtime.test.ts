@@ -55,7 +55,7 @@ test("normal mode gates both interactive runtimes and R output remains accessibl
   const mainSource = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
   const runtimeSource = readFileSync(new URL("../src/code-runtime.ts", import.meta.url), "utf8");
   const gateStart = mainSource.indexOf("if (connectedInteractive) {");
-  const gateEnd = mainSource.indexOf("\n}\n\nconst unmountShell", gateStart);
+  const gateEnd = mainSource.indexOf("const unmountShell", gateStart);
   assert.ok(gateStart >= 0 && gateEnd > gateStart, "connected runtime gate must remain explicit in main.ts");
   const connectedBlock = mainSource.slice(gateStart, gateEnd);
   assert.match(connectedBlock, /codeRuntime = await mountExecutableCodeBlocks\(root\)/);
