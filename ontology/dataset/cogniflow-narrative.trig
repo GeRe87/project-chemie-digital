@@ -1,0 +1,106 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-narrative> {
+  ex:cogniflow-coupling-problem a cd:Concept ;
+    skos:prefLabel "The Problem: Scientific Processing Is Tightly Coupled"@en ;
+    cd:hasDefinition ex:def-cogniflow-coupling-problem ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-coupling-problem a cd:Definition ;
+    cd:body "When scientific capabilities are coupled through one software environment, changing one dependency can destabilize the entire processing workflow."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-dependency-conflict a cd:FlowDiagram ;
+    skos:prefLabel "Dependency coupling in a scientific workflow"@en ;
+    cd:body "Two required packages depend on incompatible versions of the same shared library. The scientific workflow now inherits a software-environment conflict."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-dep-workflow,
+      ex:node-cogniflow-dep-package-a,
+      ex:node-cogniflow-dep-package-b,
+      ex:node-cogniflow-dep-library-e-v1,
+      ex:node-cogniflow-dep-library-e-v2,
+      ex:node-cogniflow-dep-conflict ;
+    cd:hasDiagramEdge ex:edge-cogniflow-dep-workflow-a,
+      ex:edge-cogniflow-dep-workflow-b,
+      ex:edge-cogniflow-dep-a-e1,
+      ex:edge-cogniflow-dep-b-e2,
+      ex:edge-cogniflow-dep-e1-conflict,
+      ex:edge-cogniflow-dep-e2-conflict ;
+    cd:focusNode ex:node-cogniflow-dep-conflict ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-dep-workflow a cd:DiagramNode ; skos:prefLabel "Scientific workflow"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-package-a a cd:DiagramNode ; skos:prefLabel "Package A"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-package-b a cd:DiagramNode ; skos:prefLabel "Package B"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-library-e-v1 a cd:DiagramNode ; skos:prefLabel "Shared library E · v1.x"@en ; cd:position 4 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-library-e-v2 a cd:DiagramNode ; skos:prefLabel "Shared library E · v2.x"@en ; cd:position 5 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-conflict a cd:DiagramNode ; skos:prefLabel "ENVIRONMENT CONFLICT"@en ; cd:position 6 ; cd:authoredResource true .
+
+  ex:edge-cogniflow-dep-workflow-a a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-a ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-workflow-b a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-b ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-a-e1 a cd:DiagramEdge ; skos:prefLabel "needs"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-dep-package-a ; cd:targetNode ex:node-cogniflow-dep-library-e-v1 ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-b-e2 a cd:DiagramEdge ; skos:prefLabel "needs"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-dep-package-b ; cd:targetNode ex:node-cogniflow-dep-library-e-v2 ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-e1-conflict a cd:DiagramEdge ; skos:prefLabel "same environment"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-dep-library-e-v1 ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-e2-conflict a cd:DiagramEdge ; skos:prefLabel "same environment"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-dep-library-e-v2 ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
+
+  ex:cogniflow-take-home a cd:Concept ;
+    skos:prefLabel "Take-Home"@en ;
+    cd:hasDefinition ex:def-cogniflow-take-home ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-take-home a cd:Definition ;
+    cd:body "Standardization does not require one monolithic tool. It requires stable interfaces, shared semantics and provenance that remains attached to every result."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-decoupled,
+      ex:keypoint-cogniflow-semantic,
+      ex:keypoint-cogniflow-reproducible ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-decoupled a cd:KeyPoint ; cd:position 1 ; cd:body "DECOUPLED — capabilities remain replaceable behind one stable interface."@en ; cd:authoredResource true .
+  ex:keypoint-cogniflow-semantic a cd:KeyPoint ; cd:position 2 ; cd:body "SEMANTIC — machine-readable meaning becomes the contract between data, tools and views."@en ; cd:authoredResource true .
+  ex:keypoint-cogniflow-reproducible a cd:KeyPoint ; cd:position 3 ; cd:body "REPRODUCIBLE — provenance travels with every derived artifact."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-narrative-extension> {
+  ex:path-step-cogniflow-coupling-problem a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:diagram-cogniflow-dependency-conflict ;
+    cd:usesScene ex:scene-cogniflow-coupling-problem ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-take-home a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:def-cogniflow-take-home ;
+    cd:usesScene ex:scene-cogniflow-take-home ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-narrative> {
+  ex:scene-cogniflow-coupling-problem a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-coupling-problem ;
+    cd:hasSceneItem ex:scene-item-cogniflow-problem-heading,
+      ex:scene-item-cogniflow-problem-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-problem-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:cogniflow-coupling-problem ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-item-cogniflow-problem-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:diagram-cogniflow-dependency-conflict ; cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-cogniflow-take-home a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-take-home ;
+    cd:hasSceneItem ex:scene-item-cogniflow-take-home-heading,
+      ex:scene-item-cogniflow-take-home-points ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-take-home-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:cogniflow-take-home ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-item-cogniflow-take-home-points a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:def-cogniflow-take-home ; cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}
