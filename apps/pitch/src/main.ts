@@ -6,12 +6,17 @@ import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
 import "./chart-theme.css";
+import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import {
+  mountPresentationStepRuntime,
+  preparePresentationStepFragments,
+} from "./presentation-step-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
@@ -59,6 +64,8 @@ const unmountCharts = mountPitchCharts(
   documents,
   { reducedMotion },
 );
+preparePresentationStepFragments(root);
+
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
@@ -131,6 +138,7 @@ const deck = new Reveal({
     : { scrollActivationWidth: 0 }),
 });
 await deck.initialize();
+const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
 
 function revealScrollOffset(): number {
   const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
@@ -198,6 +206,7 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
+  unmountPresentationSteps();
   unmountCharts();
   unmountFlowDiagrams();
   stopBackgroundProgress();
