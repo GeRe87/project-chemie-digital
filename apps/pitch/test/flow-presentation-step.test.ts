@@ -37,6 +37,45 @@ function architectureDiagram(): DiagramBlock {
   };
 }
 
+function provenanceDiagram(): DiagramBlock {
+  return {
+    kind: "diagram",
+    id: "diagram:cogniflow-provenance",
+    diagramType: "flow",
+    label: "Data processing with growing provenance",
+    description: "Processing stages reveal together with their software and parameters.",
+    source: source("ex:diagram-cogniflow-provenance-pipeline"),
+    nodes: [
+      { id: "raw", label: "RAW DATA", source: source("ex:node-cogniflow-prov-raw-data") },
+      { id: "baseline-step", label: "PROCESS · Baseline correction", source: source("ex:node-cogniflow-prov-baseline-step") },
+      { id: "baseline-algorithm", label: "ALGORITHM · baseline.correct 1.3.0", source: source("ex:node-cogniflow-prov-baseline-algorithm") },
+      { id: "baseline-parameters", label: "PARAMETERS · λ=1e5 · p=0.01", source: source("ex:node-cogniflow-prov-baseline-parameters") },
+      { id: "corrected", label: "ARTIFACT · Corrected signal", source: source("ex:node-cogniflow-prov-corrected-signal") },
+      { id: "peak-step", label: "PROCESS · Peak regression", source: source("ex:node-cogniflow-prov-peak-step") },
+      { id: "peak-algorithm", label: "ALGORITHM · qPeaks 0.4.0", source: source("ex:node-cogniflow-prov-peak-algorithm") },
+      { id: "peak-parameters", label: "PARAMETERS · asymmetric log-quadratic fit", source: source("ex:node-cogniflow-prov-peak-parameters") },
+      { id: "quantified", label: "RESULT · Peak area + uncertainty", source: source("ex:node-cogniflow-prov-quantified-peak") },
+      { id: "fair", label: "FAIR RESULT · artifact + provenance", source: source("ex:node-cogniflow-prov-fair-result") },
+    ],
+    edges: [
+      { id: "raw-baseline-step", sourceNodeId: "raw", targetNodeId: "baseline-step", label: "input", source: source("ex:e1") },
+      { id: "raw-baseline-algorithm", sourceNodeId: "raw", targetNodeId: "baseline-algorithm", label: "software", source: source("ex:e2") },
+      { id: "raw-baseline-parameters", sourceNodeId: "raw", targetNodeId: "baseline-parameters", label: "configuration", source: source("ex:e3") },
+      { id: "baseline-step-corrected", sourceNodeId: "baseline-step", targetNodeId: "corrected", label: "produces", source: source("ex:e4") },
+      { id: "baseline-algorithm-corrected", sourceNodeId: "baseline-algorithm", targetNodeId: "corrected", label: "recorded with", source: source("ex:e5") },
+      { id: "baseline-parameters-corrected", sourceNodeId: "baseline-parameters", targetNodeId: "corrected", label: "recorded with", source: source("ex:e6") },
+      { id: "corrected-peak-step", sourceNodeId: "corrected", targetNodeId: "peak-step", label: "input", source: source("ex:e7") },
+      { id: "corrected-peak-algorithm", sourceNodeId: "corrected", targetNodeId: "peak-algorithm", label: "software", source: source("ex:e8") },
+      { id: "corrected-peak-parameters", sourceNodeId: "corrected", targetNodeId: "peak-parameters", label: "configuration", source: source("ex:e9") },
+      { id: "peak-step-quantified", sourceNodeId: "peak-step", targetNodeId: "quantified", label: "produces", source: source("ex:e10") },
+      { id: "peak-algorithm-quantified", sourceNodeId: "peak-algorithm", targetNodeId: "quantified", label: "recorded with", source: source("ex:e11") },
+      { id: "peak-parameters-quantified", sourceNodeId: "peak-parameters", targetNodeId: "quantified", label: "recorded with", source: source("ex:e12") },
+      { id: "quantified-fair", sourceNodeId: "quantified", targetNodeId: "fair", label: "packages", source: source("ex:e13") },
+    ],
+    focusNodeId: "quantified",
+  };
+}
+
 test("flow presentation steps retain the legacy absolute reveal contract", () => {
   assert.equal(FLOW_PRESENTATION_STEP_COUNT, 4);
   assert.deepEqual(flowPresentationStepState(0), {
@@ -91,6 +130,30 @@ test("semantic flow plan reveals the CogniFlow architecture by directed graph de
     "orchestrator-data": 4,
     "orchestrator-artifacts": 4,
   });
+});
+
+test("provenance flow reveals processing metadata with the stage that consumes it", () => {
+  const plan = deriveFlowPresentationPlan(provenanceDiagram());
+
+  assert.equal(plan.mode, "semantic-path");
+  assert.equal(plan.stepCount, 6);
+  assert.deepEqual(Object.fromEntries(plan.nodeStepById), {
+    raw: 1,
+    "baseline-step": 2,
+    "baseline-algorithm": 2,
+    "baseline-parameters": 2,
+    corrected: 3,
+    "peak-step": 4,
+    "peak-algorithm": 4,
+    "peak-parameters": 4,
+    quantified: 5,
+    fair: 6,
+  });
+  assert.equal(plan.edgeStepById.get("raw-baseline-step"), 2);
+  assert.equal(plan.edgeStepById.get("baseline-algorithm-corrected"), 3);
+  assert.equal(plan.edgeStepById.get("corrected-peak-parameters"), 4);
+  assert.equal(plan.edgeStepById.get("peak-step-quantified"), 5);
+  assert.equal(plan.edgeStepById.get("quantified-fair"), 6);
 });
 
 test("cyclic flow diagrams fall back to the legacy reveal plan", () => {
