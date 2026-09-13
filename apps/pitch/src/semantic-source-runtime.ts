@@ -84,15 +84,14 @@ function semanticCodeBlocks(documents: readonly SceneDocument[]): Map<string, Co
 
 function decorateCode(code: HTMLElement, lines: readonly SemanticSourceLine[]): void {
   code.replaceChildren();
-  lines.forEach((line, index) => {
+  for (const line of lines) {
     const span = document.createElement("span");
     span.className = "pcd-semantic-code-line";
     span.textContent = line.text.length ? line.text : " ";
     if (line.resourceId) span.dataset.semanticResourceId = line.resourceId;
     else span.dataset.semanticPrefix = "true";
     code.append(span);
-    if (index < lines.length - 1) code.append(document.createTextNode("\n"));
-  });
+  }
 }
 
 function setElementOpacity(element: Element, opacity: string): void {
