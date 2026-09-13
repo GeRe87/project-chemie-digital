@@ -151,7 +151,7 @@
   max-height: 24rem;
 }
 
-/* 6 · A four-state lineage strip: provenance becomes part of the artifact. */
+/* 6 · An abstract four-stage lineage: provenance becomes part of the result. */
 [id="ex:scene-cogniflow-provenance-pipeline--scene"] {
   --pcd-core-provenance: #56e3c3;
   display: grid !important;
@@ -188,17 +188,17 @@
   display: none;
 }
 
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-corrected-signal"] .d3-flow-node-shape {
+[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-processing"] .d3-flow-node-shape {
   stroke: #64ddff;
   fill: color-mix(in srgb, #64ddff 8%, var(--pcd-surface-strong));
 }
 
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-quantified-peak"] .d3-flow-node-shape {
+[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-derived"] .d3-flow-node-shape {
   stroke: #a98bff;
   fill: color-mix(in srgb, #a98bff 9%, var(--pcd-surface-strong));
 }
 
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-fair-result"] .d3-flow-node-shape {
+[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-reusable"] .d3-flow-node-shape {
   stroke: var(--pcd-core-provenance);
   fill: color-mix(in srgb, var(--pcd-core-provenance) 12%, var(--pcd-surface-strong));
   filter:
@@ -206,7 +206,7 @@
     drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-core-provenance) 20%, transparent));
 }
 
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-fair-result"] .d3-flow-node-label {
+[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-reusable"] .d3-flow-node-label {
   fill: var(--pcd-core-provenance);
 }
 
