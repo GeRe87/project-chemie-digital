@@ -29,6 +29,9 @@ ex:cogniflow-workload-analytics a cd:Observation ;
     cd:programmingLanguage "trig" ;
     cd:editable false ;
     cd:executable false ;
+    cd:showsResource ex:chart-cogniflow-service-usage,
+      ex:dataset-cogniflow-service-usage,
+      ex:cogniflow-workload-analytics ;
     cd:authoredResource true .
 }
 
@@ -62,7 +65,7 @@ ex:cogniflow-workload-analytics a cd:Observation ;
     cd:position 2 ;
     cd:selectsResource ex:code-cogniflow-chart-semantics ;
     cd:communicativeRole cd:CodeRole ;
-    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectionPath "cd:showsResource" ;
     cd:language "en" ;
     cd:authoredResource true .
 }
