@@ -196,8 +196,8 @@ export function mountSemanticMultiViews(
 ): () => void {
   const cleanups: Array<() => void> = [];
 
-  for (const document of documents) {
-    for (const scene of document.scenes) {
+  for (const sceneDocument of documents) {
+    for (const scene of sceneDocument.scenes) {
       const projection = semanticMultiViewProjection(scene, snapshot);
       if (!projection) continue;
 
