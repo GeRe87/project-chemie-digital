@@ -12,26 +12,60 @@
     cd:body "CogniFlow keeps presentation-ready meaning in machine-readable RDF instead of rebuilding it inside the visualization layer."@en ;
     cd:authoredResource true .
 
+  ex:chart-cogniflow-replicate-peak-area a cd:ChartDefinition ;
+    skos:prefLabel "Peak area across repeated injections"@en ;
+    cd:body "Synthetic repeated-injection peak areas used to demonstrate semantic projection; values are illustrative rather than measured experimental data."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Injection"@en ;
+    cd:yAxisLabel "Peak area"@en ;
+    cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:dataset-cogniflow-replicate-peak-area ;
+    cd:authoredResource true .
+
+  ex:dataset-cogniflow-replicate-peak-area a cd:Dataset ;
+    skos:prefLabel "Illustrative repeated injections"@en ;
+    cd:hasObservation ex:cogniflow-peak-area-injection-1,
+      ex:cogniflow-peak-area-injection-2,
+      ex:cogniflow-peak-area-injection-3,
+      ex:cogniflow-peak-area-injection-4 ;
+    cd:authoredResource true .
+
+  ex:cogniflow-peak-area-injection-1 a cd:Observation ;
+    skos:prefLabel "Injection 1"@en ;
+    cd:position 1 ; cd:numericValue 98.6 ; cd:authoredResource true .
+
+  ex:cogniflow-peak-area-injection-2 a cd:Observation ;
+    skos:prefLabel "Injection 2"@en ;
+    cd:position 2 ; cd:numericValue 100.3 ; cd:authoredResource true .
+
+  ex:cogniflow-peak-area-injection-3 a cd:Observation ;
+    skos:prefLabel "Injection 3"@en ;
+    cd:position 3 ; cd:numericValue 99.5 ; cd:authoredResource true .
+
+  ex:cogniflow-peak-area-injection-4 a cd:Observation ;
+    skos:prefLabel "Injection 4"@en ;
+    cd:position 4 ; cd:numericValue 101.1 ; cd:authoredResource true .
+
   ex:code-cogniflow-chart-semantics a cd:CodeExample ;
-    skos:prefLabel "Semantic source for a chart"@en ;
+    skos:prefLabel "Semantic source for an analytical chart"@en ;
     cd:code """@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 
-ex:chart-cogniflow-service-usage a cd:ChartDefinition ;
+ex:chart-cogniflow-replicate-peak-area a cd:ChartDefinition ;
     cd:chartType cd:BarChart ;
-    cd:usesDataset ex:dataset-cogniflow-service-usage .
+    cd:usesDataset ex:dataset-cogniflow-replicate-peak-area .
 
-ex:dataset-cogniflow-service-usage a cd:Dataset ;
-    cd:hasObservation ex:cogniflow-workload-analytics .
+ex:dataset-cogniflow-replicate-peak-area a cd:Dataset ;
+    cd:hasObservation ex:cogniflow-peak-area-injection-2 .
 
-ex:cogniflow-workload-analytics a cd:Observation ;
-    cd:numericValue 25.0 .""" ;
+ex:cogniflow-peak-area-injection-2 a cd:Observation ;
+    cd:numericValue 100.3 .""" ;
     cd:programmingLanguage "trig" ;
     cd:editable false ;
     cd:executable false ;
-    cd:showsResource ex:chart-cogniflow-service-usage,
-      ex:dataset-cogniflow-service-usage,
-      ex:cogniflow-workload-analytics ;
+    cd:showsResource ex:chart-cogniflow-replicate-peak-area,
+      ex:dataset-cogniflow-replicate-peak-area,
+      ex:cogniflow-peak-area-injection-2 ;
     cd:authoredResource true .
 }
 
@@ -40,7 +74,7 @@ ex:cogniflow-workload-analytics a cd:Observation ;
     cd:hasStep ex:path-step-cogniflow-semantics-as-source .
 
   ex:path-step-cogniflow-semantics-as-source a cd:PathStep ;
-    cd:position 5 ;
+    cd:position 4 ;
     cd:usesResource ex:code-cogniflow-chart-semantics ;
     cd:usesScene ex:scene-cogniflow-semantics-as-source ;
     cd:authoredResource true .
