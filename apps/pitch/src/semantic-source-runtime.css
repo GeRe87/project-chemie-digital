@@ -1,0 +1,61 @@
+.reveal .code-block[data-semantic-source="true"] .code-static-fallback {
+  overflow: hidden;
+  border: 2px solid var(--pcd-accent);
+  background:
+    linear-gradient(180deg, rgba(114, 82, 255, 0.08), transparent 24%),
+    var(--pcd-surface-strong);
+  box-shadow: 0 0 0 1px rgba(98, 239, 255, 0.10), 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.reveal .code-block[data-semantic-source="true"] .code-static-fallback code {
+  display: block;
+}
+
+.reveal .pcd-semantic-code-line {
+  display: block;
+  min-height: 1.22em;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  border-left: 4px solid transparent;
+  opacity: 0.34;
+  transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.reveal .pcd-semantic-code-line[data-semantic-prefix="true"] {
+  opacity: 0.72;
+}
+
+.reveal .pcd-semantic-code-line.pcd-semantic-code-revealed {
+  opacity: 0.58;
+}
+
+.reveal .pcd-semantic-code-line.pcd-semantic-code-current {
+  opacity: 1;
+  border-left-color: var(--pcd-accent);
+  background: linear-gradient(90deg, rgba(98, 239, 255, 0.16), rgba(150, 95, 255, 0.07) 70%, transparent);
+  transform: translateX(0.18rem);
+}
+
+.reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-node,
+.reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-edge,
+.reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-edge-label {
+  transition: opacity 160ms ease, filter 160ms ease;
+}
+
+.reveal .d3-scene-knowledge-host[data-semantic-source="true"] .pcd-semantic-node-current .d3-node-shape {
+  stroke-width: 4;
+  filter: drop-shadow(0 0 8px var(--pcd-accent)) drop-shadow(0 0 18px rgba(98, 239, 255, 0.35));
+}
+
+.reveal .d3-scene-knowledge-host[data-semantic-source="true"] .pcd-semantic-node-current .d3-node-label {
+  font-weight: 800;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .pcd-semantic-code-line,
+  .reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-node,
+  .reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-edge,
+  .reveal .d3-scene-knowledge-host[data-semantic-source="true"] .d3-edge-label {
+    transition: none !important;
+  }
+}
