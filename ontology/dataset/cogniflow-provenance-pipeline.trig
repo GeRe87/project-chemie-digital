@@ -9,53 +9,53 @@
     cd:authoredResource true .
 
   ex:def-cogniflow-provenance-travels-with-data a cd:Definition ;
-    cd:body "A reusable scientific result keeps the processing steps, algorithm identity and parameters that produced it attached to the result itself."@en ;
+    cd:body "A reusable scientific result keeps its input, processing identity and derivation history attached to the result itself."@en ;
     cd:authoredResource true .
 
   ex:diagram-cogniflow-provenance-pipeline a cd:FlowDiagram ;
-    skos:prefLabel "Scientific result lineage"@en ;
-    cd:body "Provenance grows with the analytical result: each derived state records how it was produced, until the final artifact contains both the quantitative result and its processing history."@en ;
+    skos:prefLabel "Provenance as part of the result"@en ;
+    cd:body "Provenance is not a separate report added later. Each derived artifact keeps the input and processing context that produced it, so the final result remains traceable and reusable."@en ;
     cd:hasDiagramNode
-      ex:node-cogniflow-prov-raw-data,
-      ex:node-cogniflow-prov-corrected-signal,
-      ex:node-cogniflow-prov-quantified-peak,
-      ex:node-cogniflow-prov-fair-result ;
+      ex:node-cogniflow-prov-input,
+      ex:node-cogniflow-prov-processing,
+      ex:node-cogniflow-prov-derived,
+      ex:node-cogniflow-prov-reusable ;
     cd:hasDiagramEdge
-      ex:edge-cogniflow-prov-raw-corrected,
-      ex:edge-cogniflow-prov-corrected-quantified,
-      ex:edge-cogniflow-prov-quantified-fair-result ;
-    cd:focusNode ex:node-cogniflow-prov-fair-result ;
+      ex:edge-cogniflow-prov-input-processing,
+      ex:edge-cogniflow-prov-processing-derived,
+      ex:edge-cogniflow-prov-derived-reusable ;
+    cd:focusNode ex:node-cogniflow-prov-reusable ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-prov-raw-data a cd:DiagramNode ;
-    skos:prefLabel "RAW DATA · LC–MS signal"@en ;
+  ex:node-cogniflow-prov-input a cd:DiagramNode ;
+    skos:prefLabel "INPUT DATA"@en ;
     cd:position 1 ; cd:authoredResource true .
 
-  ex:node-cogniflow-prov-corrected-signal a cd:DiagramNode ;
-    skos:prefLabel "DERIVED SIGNAL · baseline correction + algorithm version + parameters"@en ;
+  ex:node-cogniflow-prov-processing a cd:DiagramNode ;
+    skos:prefLabel "PROCESSING · method + version + parameters"@en ;
     cd:position 2 ; cd:authoredResource true .
 
-  ex:node-cogniflow-prov-quantified-peak a cd:DiagramNode ;
-    skos:prefLabel "QUANTIFIED RESULT · qPeaks + model parameters + uncertainty"@en ;
+  ex:node-cogniflow-prov-derived a cd:DiagramNode ;
+    skos:prefLabel "DERIVED ARTIFACT · linked to input + process"@en ;
     cd:position 3 ; cd:authoredResource true .
 
-  ex:node-cogniflow-prov-fair-result a cd:DiagramNode ;
-    skos:prefLabel "FAIR ARTIFACT · result + complete provenance"@en ;
+  ex:node-cogniflow-prov-reusable a cd:DiagramNode ;
+    skos:prefLabel "REUSABLE RESULT · data + provenance"@en ;
     cd:position 4 ; cd:authoredResource true .
 
-  ex:edge-cogniflow-prov-raw-corrected a cd:DiagramEdge ;
-    skos:prefLabel "derive + record"@en ; cd:position 1 ;
-    cd:sourceNode ex:node-cogniflow-prov-raw-data ; cd:targetNode ex:node-cogniflow-prov-corrected-signal ;
+  ex:edge-cogniflow-prov-input-processing a cd:DiagramEdge ;
+    skos:prefLabel "processed by"@en ; cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-prov-input ; cd:targetNode ex:node-cogniflow-prov-processing ;
     cd:authoredResource true .
 
-  ex:edge-cogniflow-prov-corrected-quantified a cd:DiagramEdge ;
-    skos:prefLabel "quantify + record"@en ; cd:position 2 ;
-    cd:sourceNode ex:node-cogniflow-prov-corrected-signal ; cd:targetNode ex:node-cogniflow-prov-quantified-peak ;
+  ex:edge-cogniflow-prov-processing-derived a cd:DiagramEdge ;
+    skos:prefLabel "produces + records"@en ; cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-prov-processing ; cd:targetNode ex:node-cogniflow-prov-derived ;
     cd:authoredResource true .
 
-  ex:edge-cogniflow-prov-quantified-fair-result a cd:DiagramEdge ;
-    skos:prefLabel "package with history"@en ; cd:position 3 ;
-    cd:sourceNode ex:node-cogniflow-prov-quantified-peak ; cd:targetNode ex:node-cogniflow-prov-fair-result ;
+  ex:edge-cogniflow-prov-derived-reusable a cd:DiagramEdge ;
+    skos:prefLabel "packages with history"@en ; cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-prov-derived ; cd:targetNode ex:node-cogniflow-prov-reusable ;
     cd:authoredResource true .
 }
 
