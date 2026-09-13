@@ -153,6 +153,38 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("ex:node-cogniflow-dep-conflict", problem_diagram["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
 
+    def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
+        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        semantic = document["scenes"][3]
+        multi_view = document["scenes"][4]
+        provenance = document["scenes"][5]
+
+        semantic_heading = next(block for block in semantic["blocks"] if block["kind"] == "prose")
+        semantic_code = next(block for block in semantic["blocks"] if block["kind"] == "code")
+        multi_view_heading = next(block for block in multi_view["blocks"] if block["kind"] == "prose")
+        provenance_heading = next(block for block in provenance["blocks"] if block["kind"] == "prose")
+        provenance_diagram = next(block for block in provenance["blocks"] if block["kind"] == "diagram")
+
+        self.assertEqual("Interfaces Need Shared Meaning", semantic_heading["text"])
+        self.assertIn("@prefix skos:", semantic_code["code"])
+        self.assertIn('skos:prefLabel "Injection 2"@en', semantic_code["code"])
+        self.assertEqual("One Meaning. Multiple Views.", multi_view_heading["text"])
+        self.assertEqual("The Result Carries Its History", provenance_heading["text"])
+        self.assertEqual(
+            [
+                "RAW DATA · LC–MS signal",
+                "DERIVED SIGNAL · baseline correction + algorithm version + parameters",
+                "QUANTIFIED RESULT · qPeaks + model parameters + uncertainty",
+                "FAIR ARTIFACT · result + complete provenance",
+            ],
+            [node["label"] for node in provenance_diagram["nodes"]],
+        )
+        self.assertEqual(
+            ["derive + record", "quantify + record", "package with history"],
+            [edge["label"] for edge in provenance_diagram["edges"]],
+        )
+        self.assertEqual("ex:node-cogniflow-prov-fair-result", provenance_diagram["focusNodeId"])
+
     def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
