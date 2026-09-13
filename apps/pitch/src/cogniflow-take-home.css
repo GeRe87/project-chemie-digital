@@ -1,0 +1,159 @@
+/* CogniFlow finale: three principles, one sentence, no dashboard chrome. */
+
+[id="ex:scene-cogniflow-take-home--scene"] {
+  --pcd-finale-cyan: #54efff;
+  --pcd-finale-violet: #b88cff;
+  --pcd-finale-green: #66f2c3;
+  position: relative;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: stretch;
+  min-height: 100%;
+  padding: 3rem 5.4rem 3.2rem !important;
+  overflow: hidden;
+}
+
+[id="ex:scene-cogniflow-take-home--scene"]::before {
+  content: "";
+  position: absolute;
+  inset: 1.8rem 2.2rem;
+  pointer-events: none;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: .7;
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 82%, transparent);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] h2,
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list,
+[id="ex:scene-cogniflow-take-home--scene"] .lead {
+  position: relative;
+  z-index: 1;
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] h2 {
+  grid-row: 1;
+  margin: 0;
+  color: var(--pcd-muted);
+  font-size: .72em;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list {
+  grid-row: 2;
+  align-self: center;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  gap: .1rem;
+  width: 100%;
+  margin: 1rem 0 .7rem;
+  padding: 0;
+  list-style: none;
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: .03em .11em .07em;
+  font-size: clamp(3rem, 7.4vw, 7.1rem);
+  line-height: .94;
+  font-weight: 950;
+  letter-spacing: -.055em;
+  text-transform: uppercase;
+  border-left: .08em solid currentColor;
+  background: linear-gradient(90deg, color-mix(in srgb, currentColor 8%, transparent), transparent 78%);
+  text-shadow: .045em .045em 0 color-mix(in srgb, var(--pcd-page-bg) 88%, transparent);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li:nth-child(1) {
+  justify-self: start;
+  color: var(--pcd-finale-cyan);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li:nth-child(2) {
+  justify-self: center;
+  color: var(--pcd-finale-violet);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li:nth-child(3) {
+  justify-self: end;
+  color: var(--pcd-finale-green);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li::after {
+  content: "";
+  position: absolute;
+  left: .12em;
+  right: 0;
+  bottom: -.08em;
+  height: 3px;
+  background: currentColor;
+  opacity: .22;
+  box-shadow: 0 0 18px currentColor;
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .lead {
+  grid-row: 3;
+  justify-self: center;
+  max-width: none;
+  margin: 0;
+  padding: .82rem 1.35rem .76rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 32%, var(--pcd-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--pcd-surface-strong) 82%, transparent);
+  color: var(--pcd-foreground);
+  font-size: .78em !important;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-align: center;
+  box-shadow: 6px 7px 0 color-mix(in srgb, var(--pcd-accent) 10%, transparent);
+}
+
+[id="ex:scene-cogniflow-take-home--scene"] .lead::before {
+  content: "> ";
+  color: var(--pcd-accent);
+}
+
+@media (max-width: 900px) {
+  [id="ex:scene-cogniflow-take-home--scene"] {
+    padding: 2rem 1.4rem 2.2rem !important;
+  }
+
+  [id="ex:scene-cogniflow-take-home--scene"]::before {
+    inset: 1rem;
+  }
+
+  [id="ex:scene-cogniflow-take-home--scene"] .keypoint-list {
+    gap: .65rem;
+  }
+
+  [id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li {
+    width: 100%;
+    font-size: clamp(2.45rem, 11vw, 4.8rem);
+  }
+
+  [id="ex:scene-cogniflow-take-home--scene"] .keypoint-list li:nth-child(n) {
+    justify-self: stretch;
+  }
+
+  [id="ex:scene-cogniflow-take-home--scene"] .lead {
+    width: auto;
+    font-size: .68em !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [id="ex:scene-cogniflow-take-home--scene"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
