@@ -148,11 +148,11 @@
     cd:endObservation ex:cogniflow-chrom-5-20 ; cd:authoredResource true .
 
   ex:attribution-cogniflow-gerrit-renner a cd:Attribution ;
-    cd:body "Gerrit Renner â€” Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
+    cd:body "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
     cd:authoredResource true .
 
   ex:attribution-cogniflow-ricardo-cunha a cd:Attribution ;
-    cd:body "Ricardo Cunha â€” IUTA"@en ;
+    cd:body "Ricardo Cunha — IUTA"@en ;
     cd:authoredResource true .
 }
 
@@ -175,9 +175,7 @@
     skos:prefLabel "Project CogniFlow presentation path"@en ;
     cd:forTopic ex:cogniflow-standardized-data-processing ;
     cd:forLearningUnit ex:learning-unit-cogniflow-standardized-data-processing ;
-    cd:hasStep ex:path-step-cogniflow-title,
-      ex:path-step-cogniflow-service-usage,
-      ex:path-step-cogniflow-signal-to-peak ;
+    cd:hasStep ex:path-step-cogniflow-title ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-title a cd:PathStep ;
