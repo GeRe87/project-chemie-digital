@@ -26,11 +26,30 @@
   will-change: opacity, transform;
 }
 
+.d3-flow-node,
+.d3-flow-edge,
+.d3-flow-edge-label {
+  transition: opacity 380ms ease, filter 380ms ease;
+}
+
+.d3-flow-node.pcd-flow-focus {
+  filter:
+    drop-shadow(0 0 8px var(--pcd-accent))
+    drop-shadow(0 0 18px color-mix(in srgb, var(--pcd-accent) 68%, transparent));
+}
+
+.d3-flow-node.pcd-flow-focus .d3-flow-node-shape {
+  stroke-width: 4;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .d3-chart-bar,
   .d3-chart-line,
   .d3-chart-value-label,
-  .d3-chart-progressive-annotation {
+  .d3-chart-progressive-annotation,
+  .d3-flow-node,
+  .d3-flow-edge,
+  .d3-flow-edge-label {
     transition: none !important;
   }
 }
