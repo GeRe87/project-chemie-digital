@@ -185,6 +185,26 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("ex:node-cogniflow-prov-fair-result", provenance_diagram["focusNodeId"])
 
+    def test_analytical_proof_keeps_visual_evidence_distinct_from_result_states(self) -> None:
+        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        proof = document["scenes"][6]
+        heading = next(block for block in proof["blocks"] if block["kind"] == "prose")
+        chart = next(block for block in proof["blocks"] if block["kind"] == "chart")
+        lineage = next(block for block in proof["blocks"] if block["kind"] == "diagram")
+
+        self.assertEqual("From Raw Signal to Reusable Result", heading["text"])
+        self.assertEqual("One signal. Five explicit states.", chart["label"])
+        self.assertEqual(
+            ["Baseline estimate", "Peak apex / model anchor", "Integration window"],
+            [annotation["label"] for annotation in chart["annotations"]],
+        )
+        self.assertEqual(
+            ["RAW SIGNAL", "BASELINE ESTIMATE", "ASYMMETRIC MODEL", "AREA + UNCERTAINTY", "FAIR ARTIFACT"],
+            [node["label"] for node in lineage["nodes"]],
+        )
+        self.assertEqual(["estimate", "model", "quantify", "package"], [edge["label"] for edge in lineage["edges"]])
+        self.assertEqual("ex:node-cogniflow-proof-fair", lineage["focusNodeId"])
+
     def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
