@@ -118,12 +118,12 @@ function tableStage(block: ChartBlock): HTMLElement {
 
   const eyebrow = document.createElement("div");
   eyebrow.className = "pcd-semantic-view-eyebrow";
-  eyebrow.textContent = "TABULAR PROJECTION";
+  eyebrow.textContent = "TABLE VIEW";
 
   const table = document.createElement("table");
   table.className = "pcd-semantic-table";
   const caption = document.createElement("caption");
-  caption.textContent = `${model.label} — same canonical observations`;
+  caption.textContent = model.label;
   table.append(caption);
 
   const head = document.createElement("thead");
@@ -144,7 +144,7 @@ function tableStage(block: ChartBlock): HTMLElement {
     setSourceAttributes(tr, row.source);
     row.cells.forEach((value, index) => {
       const cell = document.createElement(index === 0 ? "th" : "td");
-      if (cell instanceof HTMLTableCellElement && index === 0) cell.scope = "row";
+      if (index === 0) cell.setAttribute("scope", "row");
       cell.textContent = value;
       tr.append(cell);
     });
@@ -164,7 +164,8 @@ function setStageState(element: HTMLElement, active: boolean): void {
 function stageRail(): HTMLElement {
   const rail = document.createElement("div");
   rail.className = "pcd-semantic-multi-view-rail";
-  rail.setAttribute("aria-label", "Semantic resource presentation views");
+  rail.setAttribute("role", "group");
+  rail.setAttribute("aria-label", "Presentation views");
   for (const [stage, label] of [
     ["semantic", "01 · SEMANTIC"],
     ["table", "02 · TABLE"],
