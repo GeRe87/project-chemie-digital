@@ -50,6 +50,7 @@
     skos:prefLabel "One machine-readable scientific meaning"@en ;
     cd:code """@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 ex:chart-cogniflow-replicate-peak-area a cd:ChartDefinition ;
     cd:usesDataset ex:dataset-cogniflow-replicate-peak-area .
