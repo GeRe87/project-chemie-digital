@@ -154,7 +154,7 @@
     cd:hasStep ex:path-step-cogniflow-provenance-pipeline .
 
   ex:path-step-cogniflow-provenance-pipeline a cd:PathStep ;
-    cd:position 7 ;
+    cd:position 6 ;
     cd:usesResource ex:diagram-cogniflow-provenance-pipeline ;
     cd:usesScene ex:scene-cogniflow-provenance-pipeline ;
     cd:authoredResource true .
