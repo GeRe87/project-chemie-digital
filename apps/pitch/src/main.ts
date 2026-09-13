@@ -8,6 +8,7 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./flow-theme.css";
 import "./knowledge-network-runtime.css";
+import "./semantic-source-runtime.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -16,6 +17,7 @@ import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
+import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -72,6 +74,11 @@ const unmountKnowledgeNetworks = mountPitchKnowledgeNetworks(
   documents,
   canonicalDatasetSnapshot,
   { reducedMotion, interactionPolicy: "keyboard" },
+);
+const unmountSemanticSourceSteps = mountSemanticSourceSteps(
+  root,
+  documents,
+  canonicalDatasetSnapshot,
 );
 preparePresentationStepFragments(root);
 
@@ -216,6 +223,7 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
   unmountPresentationSteps();
+  unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
   unmountCharts();
   unmountFlowDiagrams();
