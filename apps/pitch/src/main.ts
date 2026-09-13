@@ -8,6 +8,7 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
+import "./cogniflow-core-sequence.css";
 import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
