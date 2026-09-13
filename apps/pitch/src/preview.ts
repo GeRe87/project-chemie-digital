@@ -1,7 +1,7 @@
 import katex from "katex";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -184,12 +184,16 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
     const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
+    const semanticMultiView = semanticCode && scene.blocks.some((block) => block.kind === "chart");
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
     section.setAttribute("data-scene-document-id", document.id);
     section.setAttribute("data-source-path-id", document.sourcePathId);
-    section.setAttribute("data-layout", semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"));
+    section.setAttribute(
+      "data-layout",
+      semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"),
+    );
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
     for (const blockId of scene.readingOrder) {
@@ -197,7 +201,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       appendBlock(section, dom, block, headingId);
     }
-    if (semanticCode) {
+    if (semanticCode && !semanticMultiView) {
       const graphHost = dom.createElement("div");
       graphHost.className = "d3-scene-knowledge-host";
       graphHost.setAttribute("data-knowledge-scene-id", scene.id);
