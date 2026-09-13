@@ -38,6 +38,17 @@ TITLE = "Standardized Data Processing - Project CogniFlow"
 GERRIT = "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"
 RICARDO = "Ricardo Cunha — IUTA"
 
+EXPECTED_SCENES = [
+    "ex:scene-cogniflow-title--scene",
+    "ex:scene-cogniflow-coupling-problem--scene",
+    "ex:scene-cogniflow-service-architecture--scene",
+    "ex:scene-cogniflow-semantics-as-source--scene",
+    "ex:scene-cogniflow-same-semantics-different-views--scene",
+    "ex:scene-cogniflow-provenance-pipeline--scene",
+    "ex:scene-cogniflow-analytical-proof--scene",
+    "ex:scene-cogniflow-take-home--scene",
+]
+
 
 def request():
     return RUNTIME.CourseUnitPathSelectionRequest(
@@ -72,11 +83,18 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("en", RUNTIME.effective_path_language(self.dataset, selection.path))
         self.assertEqual(selection, RUNTIME.select_course_unit_path(self.dataset, request()))
 
-    def test_title_scene_compiles_exact_requested_title_and_attributions(self) -> None:
+    def test_cogniflow_compiles_curated_eight_scene_narrative(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", document["sourcePathId"])
-        self.assertEqual(1, len(document["scenes"]))
+        self.assertEqual(EXPECTED_SCENES, [scene["id"] for scene in document["scenes"]])
+        self.assertNotIn("ex:scene-cogniflow-service-usage--scene", EXPECTED_SCENES)
+        self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
+
+    def test_title_scene_compiles_exact_requested_title_and_attributions(self) -> None:
+        artifact = RUNTIME.build_artifact(request())
+        document = artifact["sceneDocuments"][0]
+        self.assertEqual(8, len(document["scenes"]))
         scene = document["scenes"][0]
         self.assertEqual("ex:scene-cogniflow-title--scene", scene["id"])
         self.assertEqual([TITLE, GERRIT, RICARDO], [block["text"] for block in scene["blocks"]])
@@ -96,6 +114,18 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn(TITLE, fallback)
         self.assertIn(GERRIT, fallback)
         self.assertIn(RICARDO, fallback)
+
+    def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
+        artifact = RUNTIME.build_artifact(request())
+        document = artifact["sceneDocuments"][0]
+        semantic = document["scenes"][3]
+        multi_view = document["scenes"][4]
+        code = next(block for block in semantic["blocks"] if block["kind"] == "code")
+        chart = next(block for block in multi_view["blocks"] if block["kind"] == "chart")
+        self.assertIn("ex:chart-cogniflow-replicate-peak-area", code["code"])
+        self.assertEqual("bar", chart["chartType"])
+        self.assertEqual(["Injection 1", "Injection 2", "Injection 3", "Injection 4"], [datum["category"] for datum in chart["data"]])
+        self.assertEqual([98.6, 100.3, 99.5, 101.1], [datum["value"] for datum in chart["data"]])
 
     def test_attribution_role_rejects_wrong_selector(self) -> None:
         dataset = copy_dataset(self.dataset)
