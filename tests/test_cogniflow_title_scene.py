@@ -87,6 +87,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", document["sourcePathId"])
+        self.assertEqual("1.2", document["version"])
         self.assertEqual(EXPECTED_SCENES, [scene["id"] for scene in document["scenes"]])
         self.assertNotIn("ex:scene-cogniflow-service-usage--scene", EXPECTED_SCENES)
         self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
