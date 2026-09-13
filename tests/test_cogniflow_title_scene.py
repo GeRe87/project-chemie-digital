@@ -172,18 +172,21 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("The Result Carries Its History", provenance_heading["text"])
         self.assertEqual(
             [
-                "RAW DATA · LC–MS signal",
-                "DERIVED SIGNAL · baseline correction + algorithm version + parameters",
-                "QUANTIFIED RESULT · qPeaks + model parameters + uncertainty",
-                "FAIR ARTIFACT · result + complete provenance",
+                "INPUT DATA",
+                "PROCESSING · method + version + parameters",
+                "DERIVED ARTIFACT · linked to input + process",
+                "REUSABLE RESULT · data + provenance",
             ],
             [node["label"] for node in provenance_diagram["nodes"]],
         )
         self.assertEqual(
-            ["derive + record", "quantify + record", "package with history"],
+            ["processed by", "produces + records", "packages with history"],
             [edge["label"] for edge in provenance_diagram["edges"]],
         )
-        self.assertEqual("ex:node-cogniflow-prov-fair-result", provenance_diagram["focusNodeId"])
+        self.assertEqual("ex:node-cogniflow-prov-reusable", provenance_diagram["focusNodeId"])
+        provenance_text = " ".join(node["label"] for node in provenance_diagram["nodes"])
+        self.assertNotIn("LC–MS", provenance_text)
+        self.assertNotIn("qPeaks", provenance_text)
 
     def test_analytical_proof_keeps_visual_evidence_distinct_from_result_states(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
