@@ -167,7 +167,7 @@ function stageRail(): HTMLElement {
   rail.setAttribute("role", "group");
   rail.setAttribute("aria-label", "Presentation views");
   for (const [stage, label] of [
-    ["semantic", "01 · SEMANTIC"],
+    ["semantic", "01 · RDF"],
     ["table", "02 · TABLE"],
     ["chart", "03 · CHART"],
   ] as const) {
