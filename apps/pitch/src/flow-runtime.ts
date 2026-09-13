@@ -1,4 +1,4 @@
-import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import type { DiagramBlock, DiagramEdge, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import {
   mountD3FlowDiagram,
   type D3FlowComponent,
@@ -21,6 +21,13 @@ export interface FlowPresentationStepState {
   readonly focusEmphasized: boolean;
 }
 
+export interface FlowPresentationPlan {
+  readonly mode: "semantic-path" | "legacy";
+  readonly stepCount: number;
+  readonly nodeStepById: ReadonlyMap<string, number>;
+  readonly edgeStepById: ReadonlyMap<string, number>;
+}
+
 export const FLOW_PRESENTATION_STEP_COUNT = 4;
 
 export function flowPresentationStepState(step: number): FlowPresentationStepState {
@@ -30,6 +37,71 @@ export function flowPresentationStepState(step: number): FlowPresentationStepSta
     allNodesVisible: normalized >= 2,
     edgesVisible: normalized >= 3,
     focusEmphasized: normalized >= 4,
+  });
+}
+
+function legacyFlowPresentationPlan(block: DiagramBlock): FlowPresentationPlan {
+  const focusNodeId = block.focusNodeId ?? block.nodes[0]?.id;
+  return Object.freeze({
+    mode: "legacy" as const,
+    stepCount: FLOW_PRESENTATION_STEP_COUNT,
+    nodeStepById: new Map(block.nodes.map((node) => [node.id, node.id === focusNodeId ? 1 : 2])),
+    edgeStepById: new Map(block.edges.map((edge) => [edge.id, 3])),
+  });
+}
+
+/**
+ * Derive reveal stages from the authored directed graph instead of from slide-specific ids.
+ * Every Kahn topological layer is one presentation step. This makes a service pipeline read
+ * naturally as source -> interface -> orchestration -> parallel providers, while cyclic or
+ * malformed graphs retain the previous four-step reveal behavior.
+ */
+export function deriveFlowPresentationPlan(block: DiagramBlock): FlowPresentationPlan {
+  if (block.nodes.length === 0) return legacyFlowPresentationPlan(block);
+
+  const nodeIds = new Set(block.nodes.map((node) => node.id));
+  const indegree = new Map(block.nodes.map((node) => [node.id, 0]));
+  const outgoing = new Map<string, DiagramEdge[]>();
+
+  for (const edge of block.edges) {
+    if (!nodeIds.has(edge.sourceNodeId) || !nodeIds.has(edge.targetNodeId)) return legacyFlowPresentationPlan(block);
+    indegree.set(edge.targetNodeId, (indegree.get(edge.targetNodeId) ?? 0) + 1);
+    const edges = outgoing.get(edge.sourceNodeId) ?? [];
+    edges.push(edge);
+    outgoing.set(edge.sourceNodeId, edges);
+  }
+
+  const remaining = new Set(nodeIds);
+  const nodeStepById = new Map<string, number>();
+  let stepCount = 0;
+
+  while (remaining.size > 0) {
+    const frontier = block.nodes.filter((node) => remaining.has(node.id) && (indegree.get(node.id) ?? 0) === 0);
+    if (frontier.length === 0) return legacyFlowPresentationPlan(block);
+
+    stepCount += 1;
+    for (const node of frontier) nodeStepById.set(node.id, stepCount);
+    for (const node of frontier) {
+      remaining.delete(node.id);
+      for (const edge of outgoing.get(node.id) ?? []) {
+        indegree.set(edge.targetNodeId, Math.max(0, (indegree.get(edge.targetNodeId) ?? 0) - 1));
+      }
+    }
+  }
+
+  const edgeStepById = new Map<string, number>();
+  for (const edge of block.edges) {
+    const sourceStep = nodeStepById.get(edge.sourceNodeId);
+    const targetStep = nodeStepById.get(edge.targetNodeId);
+    if (sourceStep === undefined || targetStep === undefined || sourceStep >= targetStep) return legacyFlowPresentationPlan(block);
+    edgeStepById.set(edge.id, targetStep);
+  }
+
+  return Object.freeze({
+    mode: "semantic-path" as const,
+    stepCount: Math.max(1, stepCount),
+    nodeStepById,
+    edgeStepById,
   });
 }
 
@@ -75,14 +147,50 @@ function setOpacity(elements: readonly Element[], opacity: string): void {
   }
 }
 
+function clampPresentationStep(step: number, stepCount: number): number {
+  return Math.max(0, Math.min(stepCount, Math.trunc(Number.isFinite(step) ? step : 0)));
+}
+
 function bindProgressivePresentation(host: PitchFlowHost, block: DiagramBlock): () => void {
   if (!host.setAttribute || !host.querySelectorAll || !host.addEventListener || !host.removeEventListener) return () => {};
 
+  const plan = deriveFlowPresentationPlan(block);
   const focusNodeId = block.focusNodeId ?? block.nodes[0]?.id;
-  host.setAttribute("data-presentation-step-count", String(FLOW_PRESENTATION_STEP_COUNT));
+  host.setAttribute("data-presentation-step-count", String(plan.stepCount));
   host.setAttribute("data-presentation-step-host", "flow-diagram");
+  host.setAttribute("data-presentation-step-mode", plan.mode);
 
-  const apply = (step: number): void => {
+  const applySemanticPath = (step: number): void => {
+    const nodes = Array.from(host.querySelectorAll!<SVGElement>(".d3-flow-node"));
+    const edges = Array.from(host.querySelectorAll!<SVGElement>(".d3-flow-edge"));
+    const edgeLabels = Array.from(host.querySelectorAll!<SVGElement>(".d3-flow-edge-label"));
+
+    for (const node of nodes) {
+      const nodeId = node.getAttribute("data-node-id") ?? "";
+      const revealStep = plan.nodeStepById.get(nodeId) ?? plan.stepCount;
+      const visible = step >= revealStep;
+      const frontier = visible && step === revealStep;
+      setOpacity([node], visible ? (frontier ? "1" : "0.58") : "0");
+      node.classList.toggle("pcd-flow-frontier", frontier);
+      node.classList.remove("pcd-flow-focus");
+    }
+
+    edges.forEach((edge, index) => {
+      const edgeId = edge.getAttribute("data-edge-id") ?? block.edges[index]?.id ?? "";
+      const revealStep = plan.edgeStepById.get(edgeId) ?? plan.stepCount;
+      const visible = step >= revealStep;
+      const frontier = visible && step === revealStep;
+      setOpacity([edge], visible ? (frontier ? "1" : "0.5") : "0");
+      edge.classList.toggle("pcd-flow-frontier-edge", frontier);
+      const label = edgeLabels[index];
+      if (label) {
+        setOpacity([label], visible ? (frontier ? "1" : "0.5") : "0");
+        label.classList.toggle("pcd-flow-frontier-edge", frontier);
+      }
+    });
+  };
+
+  const applyLegacy = (step: number): void => {
     const state = flowPresentationStepState(step);
     const nodes = Array.from(host.querySelectorAll!<SVGElement>(".d3-flow-node"));
     const focusNodes = nodes.filter((node) => node.getAttribute("data-node-id") === focusNodeId);
@@ -95,8 +203,16 @@ function bindProgressivePresentation(host: PitchFlowHost, block: DiagramBlock): 
     setOpacity(edges, state.edgesVisible ? (state.focusEmphasized ? "0.55" : "1") : "0");
     setOpacity(edgeLabels, state.edgesVisible ? (state.focusEmphasized ? "0.5" : "1") : "0");
 
+    for (const node of nodes) node.classList.remove("pcd-flow-frontier");
+    for (const edge of [...edges, ...edgeLabels]) edge.classList.remove("pcd-flow-frontier-edge");
     for (const node of focusNodes) node.classList.toggle("pcd-flow-focus", state.focusEmphasized);
-    host.setAttribute?.("data-presentation-step", String(Math.max(0, Math.min(FLOW_PRESENTATION_STEP_COUNT, Math.trunc(step)))));
+  };
+
+  const apply = (requestedStep: number): void => {
+    const step = clampPresentationStep(requestedStep, plan.stepCount);
+    if (plan.mode === "semantic-path") applySemanticPath(step);
+    else applyLegacy(step);
+    host.setAttribute?.("data-presentation-step", String(step));
   };
 
   const listener: EventListener = (event) => {
