@@ -7,11 +7,13 @@
 }
 
 [data-analytical-proof="true"] h2 {
+  grid-row: 1;
   margin-bottom: .28em;
   font-size: 1.75em;
 }
 
 .pcd-analytical-proof-rail {
+  grid-row: 2;
   width: min(1160px, 94vw);
   margin: 0 auto .2rem;
   display: grid;
@@ -69,6 +71,7 @@
 }
 
 [data-analytical-proof="true"] .pcd-analytical-proof-chart.retro-neon-chart-window {
+  grid-row: 3;
   width: min(1160px, 94vw);
   margin-top: .15rem;
   padding: 3.85rem 1.15rem .55rem;
@@ -93,6 +96,7 @@
 }
 
 [data-analytical-proof="true"] .pcd-analytical-proof-flow {
+  grid-row: 4;
   width: min(1160px, 94vw);
   margin: 0 auto;
 }
