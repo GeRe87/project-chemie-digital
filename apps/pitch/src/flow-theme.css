@@ -88,6 +88,26 @@
   stroke-linejoin: round;
 }
 
+.reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-shape {
+  stroke-width: 4.2;
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, var(--pcd-accent) 82%, transparent))
+    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent));
+}
+
+.reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-label {
+  font-weight: 900;
+}
+
+.reveal .d3-flow-edge.pcd-flow-frontier-edge {
+  stroke-width: 3.8;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pcd-accent) 75%, transparent));
+}
+
+.reveal .d3-flow-edge-label.pcd-flow-frontier-edge {
+  font-weight: 900;
+}
+
 @media (max-width: 900px) {
   .reveal .d3-flow-host {
     width: 96vw;
