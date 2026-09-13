@@ -19,8 +19,8 @@ const chart: LineChartBlock = {
   kind: "chart",
   chartType: "line",
   id: "chart:proof",
-  label: "Analytical proof",
-  description: "Trace to result",
+  label: "One signal. Five explicit states.",
+  description: "Trace to reusable result",
   source: source("ex:chart-proof"),
   xAxis: { label: "Retention time", unit: "min" },
   yAxis: { label: "Intensity", unit: "a.u." },
@@ -34,9 +34,9 @@ const chart: LineChartBlock = {
     ],
   }],
   annotations: [
-    { id: "a1", kind: "point", seriesId: "series:signal", datumId: "o1", label: "Baseline", source: source("ex:a1") },
-    { id: "a2", kind: "point", seriesId: "series:signal", datumId: "o2", label: "Peak model", source: source("ex:a2") },
-    { id: "a3", kind: "x-range", seriesId: "series:signal", startDatumId: "o1", endDatumId: "o2", label: "Area + uncertainty", source: source("ex:a3") },
+    { id: "a1", kind: "point", seriesId: "series:signal", datumId: "o1", label: "Baseline estimate", source: source("ex:a1") },
+    { id: "a2", kind: "point", seriesId: "series:signal", datumId: "o2", label: "Peak apex / model anchor", source: source("ex:a2") },
+    { id: "a3", kind: "x-range", seriesId: "series:signal", startDatumId: "o1", endDatumId: "o2", label: "Integration window", source: source("ex:a3") },
   ],
 };
 
@@ -49,14 +49,14 @@ const flow: DiagramBlock = {
   source: source("ex:flow-proof"),
   nodes: [
     { id: "raw", label: "RAW SIGNAL", source: source("ex:raw") },
-    { id: "baseline", label: "BASELINE-CORRECTED", source: source("ex:baseline") },
-    { id: "model", label: "PEAK MODEL", source: source("ex:model") },
+    { id: "baseline", label: "BASELINE ESTIMATE", source: source("ex:baseline") },
+    { id: "model", label: "ASYMMETRIC MODEL", source: source("ex:model") },
     { id: "quantified", label: "AREA + UNCERTAINTY", source: source("ex:quantified") },
-    { id: "fair", label: "FAIR ARTIFACT + PROVENANCE", source: source("ex:fair") },
+    { id: "fair", label: "FAIR ARTIFACT", source: source("ex:fair") },
   ],
   edges: [
-    { id: "e1", sourceNodeId: "raw", targetNodeId: "baseline", label: "correct", source: source("ex:e1") },
-    { id: "e2", sourceNodeId: "baseline", targetNodeId: "model", label: "fit", source: source("ex:e2") },
+    { id: "e1", sourceNodeId: "raw", targetNodeId: "baseline", label: "estimate", source: source("ex:e1") },
+    { id: "e2", sourceNodeId: "baseline", targetNodeId: "model", label: "model", source: source("ex:e2") },
     { id: "e3", sourceNodeId: "model", targetNodeId: "quantified", label: "quantify", source: source("ex:e3") },
     { id: "e4", sourceNodeId: "quantified", targetNodeId: "fair", label: "package", source: source("ex:e4") },
   ],
