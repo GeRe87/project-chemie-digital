@@ -109,28 +109,6 @@ function blockHost(section: HTMLElement, attribute: string, blockId: string): HT
     .find((candidate) => candidate.getAttribute(attribute) === blockId);
 }
 
-function createStageRail(
-  projection: AnalyticalProofProjection,
-): HTMLElement {
-  const nodeById = new Map(projection.flowBlock.nodes.map((node) => [node.id, node]));
-  const rail = document.createElement("div");
-  rail.className = "pcd-analytical-proof-rail";
-  rail.setAttribute("role", "list");
-  rail.setAttribute("aria-label", "Analytical processing stages");
-
-  projection.flowNodeOrder.forEach((nodeId, index) => {
-    const node = nodeById.get(nodeId);
-    if (!node) return;
-    const item = document.createElement("span");
-    item.className = "pcd-analytical-proof-rail-item";
-    item.dataset.analyticalProofStep = String(index + 1);
-    item.setAttribute("role", "listitem");
-    item.textContent = node.label;
-    rail.append(item);
-  });
-  return rail;
-}
-
 export function mountAnalyticalProofSteps(
   root: HTMLElement,
   documents: readonly SceneDocument[],
@@ -169,9 +147,6 @@ export function mountAnalyticalProofSteps(
       chartHost.classList.add("pcd-analytical-proof-chart");
       flowHost.classList.add("pcd-analytical-proof-flow");
 
-      const rail = createStageRail(projection);
-      chartHost.before(rail);
-
       const apply = (requestedStep: number): void => {
         const state = analyticalProofStepState(requestedStep, chartStepCount, flowStepCount);
         chartHost.dispatchEvent(new CustomEvent("pcd-presentation-step", {
@@ -182,15 +157,6 @@ export function mountAnalyticalProofSteps(
           bubbles: false,
           detail: { step: state.flowStep },
         }));
-
-        for (const item of rail.querySelectorAll<HTMLElement>("[data-analytical-proof-step]")) {
-          const itemStep = Number(item.dataset.analyticalProofStep ?? 0);
-          const current = itemStep === state.step;
-          const complete = itemStep < state.step;
-          item.classList.toggle("pcd-analytical-proof-rail-current", current);
-          item.classList.toggle("pcd-analytical-proof-rail-complete", complete);
-          item.setAttribute("aria-current", current ? "step" : "false");
-        }
         section.dataset.analyticalProofStep = String(state.step);
       };
 
@@ -213,7 +179,6 @@ export function mountAnalyticalProofSteps(
         flowHost.setAttribute("data-presentation-step-count", String(flowStepCount));
         if (originalChartHost !== null) chartHost.setAttribute("data-presentation-step-host", originalChartHost);
         if (originalFlowHost !== null) flowHost.setAttribute("data-presentation-step-host", originalFlowHost);
-        rail.remove();
       });
     }
   }
