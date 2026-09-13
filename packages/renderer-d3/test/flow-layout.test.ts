@@ -18,6 +18,24 @@ const input = {
   ],
 } as const;
 
+const branchedInput = {
+  nodes: [
+    { id: "raw", label: "RAW DATA" },
+    { id: "process", label: "PROCESS" },
+    { id: "algorithm", label: "ALGORITHM" },
+    { id: "parameters", label: "PARAMETERS" },
+    { id: "artifact", label: "ARTIFACT" },
+  ],
+  edges: [
+    { id: "raw-process", sourceNodeId: "raw", targetNodeId: "process", label: "input" },
+    { id: "raw-algorithm", sourceNodeId: "raw", targetNodeId: "algorithm", label: "software" },
+    { id: "raw-parameters", sourceNodeId: "raw", targetNodeId: "parameters", label: "configuration" },
+    { id: "process-artifact", sourceNodeId: "process", targetNodeId: "artifact", label: "produces" },
+    { id: "algorithm-artifact", sourceNodeId: "algorithm", targetNodeId: "artifact", label: "recorded with" },
+    { id: "parameters-artifact", sourceNodeId: "parameters", targetNodeId: "artifact", label: "recorded with" },
+  ],
+} as const;
+
 test("selects horizontal and vertical layouts from host width without reordering semantics", () => {
   assert.equal(flowOrientationForWidth(1200), "horizontal");
   assert.equal(flowOrientationForWidth(640), "vertical");
@@ -34,6 +52,31 @@ test("selects horizontal and vertical layouts from host width without reordering
   assert.equal(wide.nodes[1]!.y, wide.nodes[0]!.y);
   assert.ok(narrow.nodes[1]!.y > narrow.nodes[0]!.y);
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
+});
+
+test("branched DAGs place same-depth provenance siblings in one visual layer", () => {
+  const wide = createD3FlowLayout(branchedInput, 1200);
+  const byId = new Map(wide.nodes.map((node) => [node.id, node]));
+  const raw = byId.get("raw")!;
+  const process = byId.get("process")!;
+  const algorithm = byId.get("algorithm")!;
+  const parameters = byId.get("parameters")!;
+  const artifact = byId.get("artifact")!;
+
+  assert.ok(process.x > raw.x);
+  assert.equal(process.x, algorithm.x);
+  assert.equal(process.x, parameters.x);
+  assert.notEqual(process.y, algorithm.y);
+  assert.notEqual(algorithm.y, parameters.y);
+  assert.ok(artifact.x > process.x);
+  assert.ok(wide.width < 1500, "layering should avoid a five-node linear strip");
+
+  const narrow = createD3FlowLayout(branchedInput, 640);
+  const narrowById = new Map(narrow.nodes.map((node) => [node.id, node]));
+  assert.equal(narrowById.get("process")!.y, narrowById.get("algorithm")!.y);
+  assert.equal(narrowById.get("process")!.y, narrowById.get("parameters")!.y);
+  assert.notEqual(narrowById.get("process")!.x, narrowById.get("algorithm")!.x);
+  assert.ok(narrowById.get("artifact")!.y > narrowById.get("process")!.y);
 });
 
 test("wrapFlowText preserves all authored characters", () => {
