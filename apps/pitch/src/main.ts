@@ -6,6 +6,7 @@ import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
 import "./chart-theme.css";
+import "./knowledge-network-runtime.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -13,6 +14,7 @@ import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntime
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -63,6 +65,12 @@ const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
   { reducedMotion },
+);
+const unmountKnowledgeNetworks = mountPitchKnowledgeNetworks(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-knowledge-scene-id]")),
+  documents,
+  canonicalDatasetSnapshot,
+  { reducedMotion, interactionPolicy: "keyboard" },
 );
 preparePresentationStepFragments(root);
 
@@ -207,6 +215,7 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
   unmountPresentationSteps();
+  unmountKnowledgeNetworks();
   unmountCharts();
   unmountFlowDiagrams();
   stopBackgroundProgress();
