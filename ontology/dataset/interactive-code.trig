@@ -72,7 +72,7 @@ sd(x)""" ;
   ex:CodeExampleShape a sh:NodeShape ;
     sh:targetClass cd:CodeExample ;
     sh:property [ sh:path cd:code ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
-    sh:property [ sh:path cd:programmingLanguage ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("r") ] ;
+    sh:property [ sh:path cd:programmingLanguage ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("r" "trig") ] ;
     sh:property [ sh:path cd:editable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
     sh:property [ sh:path cd:executable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
 
