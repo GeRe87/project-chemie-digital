@@ -1,0 +1,185 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-provenance-pipeline> {
+  ex:cogniflow-provenance-travels-with-data a cd:Concept ;
+    skos:prefLabel "Provenance Travels with the Data"@en ;
+    cd:hasDefinition ex:def-cogniflow-provenance-travels-with-data ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-provenance-travels-with-data a cd:Definition ;
+    cd:body "Every derived artifact remains linked to its input, processing step, algorithm version and parameters so the result stays reproducible and auditable."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-provenance-pipeline a cd:FlowDiagram ;
+    skos:prefLabel "Data processing with growing provenance"@en ;
+    cd:body "Raw analytical data is transformed in explicit stages. Each processing stage carries the algorithm version and parameters that produced the next artifact, ending in a reusable FAIR result package."@en ;
+    cd:hasDiagramNode
+      ex:node-cogniflow-prov-raw-data,
+      ex:node-cogniflow-prov-baseline-step,
+      ex:node-cogniflow-prov-baseline-algorithm,
+      ex:node-cogniflow-prov-baseline-parameters,
+      ex:node-cogniflow-prov-corrected-signal,
+      ex:node-cogniflow-prov-peak-step,
+      ex:node-cogniflow-prov-peak-algorithm,
+      ex:node-cogniflow-prov-peak-parameters,
+      ex:node-cogniflow-prov-quantified-peak,
+      ex:node-cogniflow-prov-fair-result ;
+    cd:hasDiagramEdge
+      ex:edge-cogniflow-prov-raw-baseline-step,
+      ex:edge-cogniflow-prov-raw-baseline-algorithm,
+      ex:edge-cogniflow-prov-raw-baseline-parameters,
+      ex:edge-cogniflow-prov-baseline-step-corrected,
+      ex:edge-cogniflow-prov-baseline-algorithm-corrected,
+      ex:edge-cogniflow-prov-baseline-parameters-corrected,
+      ex:edge-cogniflow-prov-corrected-peak-step,
+      ex:edge-cogniflow-prov-corrected-peak-algorithm,
+      ex:edge-cogniflow-prov-corrected-peak-parameters,
+      ex:edge-cogniflow-prov-peak-step-quantified,
+      ex:edge-cogniflow-prov-peak-algorithm-quantified,
+      ex:edge-cogniflow-prov-peak-parameters-quantified,
+      ex:edge-cogniflow-prov-quantified-fair-result ;
+    cd:focusNode ex:node-cogniflow-prov-quantified-peak ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-prov-raw-data a cd:DiagramNode ;
+    skos:prefLabel "RAW DATA · LC–MS signal"@en ;
+    cd:position 1 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-baseline-step a cd:DiagramNode ;
+    skos:prefLabel "PROCESS · Baseline correction"@en ;
+    cd:position 2 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-baseline-algorithm a cd:DiagramNode ;
+    skos:prefLabel "ALGORITHM · baseline.correct 1.3.0"@en ;
+    cd:position 3 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-baseline-parameters a cd:DiagramNode ;
+    skos:prefLabel "PARAMETERS · λ=1e5 · p=0.01"@en ;
+    cd:position 4 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-corrected-signal a cd:DiagramNode ;
+    skos:prefLabel "ARTIFACT · Corrected signal"@en ;
+    cd:position 5 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-peak-step a cd:DiagramNode ;
+    skos:prefLabel "PROCESS · Peak regression"@en ;
+    cd:position 6 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-peak-algorithm a cd:DiagramNode ;
+    skos:prefLabel "ALGORITHM · qPeaks 0.4.0"@en ;
+    cd:position 7 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-peak-parameters a cd:DiagramNode ;
+    skos:prefLabel "PARAMETERS · asymmetric log-quadratic fit"@en ;
+    cd:position 8 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-quantified-peak a cd:DiagramNode ;
+    skos:prefLabel "RESULT · Peak area + uncertainty"@en ;
+    cd:position 9 ; cd:authoredResource true .
+
+  ex:node-cogniflow-prov-fair-result a cd:DiagramNode ;
+    skos:prefLabel "FAIR RESULT · artifact + provenance"@en ;
+    cd:position 10 ; cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-raw-baseline-step a cd:DiagramEdge ;
+    skos:prefLabel "input"@en ; cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-prov-raw-data ; cd:targetNode ex:node-cogniflow-prov-baseline-step ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-raw-baseline-algorithm a cd:DiagramEdge ;
+    skos:prefLabel "software"@en ; cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-prov-raw-data ; cd:targetNode ex:node-cogniflow-prov-baseline-algorithm ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-raw-baseline-parameters a cd:DiagramEdge ;
+    skos:prefLabel "configuration"@en ; cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-prov-raw-data ; cd:targetNode ex:node-cogniflow-prov-baseline-parameters ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-baseline-step-corrected a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ; cd:position 4 ;
+    cd:sourceNode ex:node-cogniflow-prov-baseline-step ; cd:targetNode ex:node-cogniflow-prov-corrected-signal ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-baseline-algorithm-corrected a cd:DiagramEdge ;
+    skos:prefLabel "recorded with"@en ; cd:position 5 ;
+    cd:sourceNode ex:node-cogniflow-prov-baseline-algorithm ; cd:targetNode ex:node-cogniflow-prov-corrected-signal ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-baseline-parameters-corrected a cd:DiagramEdge ;
+    skos:prefLabel "recorded with"@en ; cd:position 6 ;
+    cd:sourceNode ex:node-cogniflow-prov-baseline-parameters ; cd:targetNode ex:node-cogniflow-prov-corrected-signal ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-corrected-peak-step a cd:DiagramEdge ;
+    skos:prefLabel "input"@en ; cd:position 7 ;
+    cd:sourceNode ex:node-cogniflow-prov-corrected-signal ; cd:targetNode ex:node-cogniflow-prov-peak-step ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-corrected-peak-algorithm a cd:DiagramEdge ;
+    skos:prefLabel "software"@en ; cd:position 8 ;
+    cd:sourceNode ex:node-cogniflow-prov-corrected-signal ; cd:targetNode ex:node-cogniflow-prov-peak-algorithm ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-corrected-peak-parameters a cd:DiagramEdge ;
+    skos:prefLabel "configuration"@en ; cd:position 9 ;
+    cd:sourceNode ex:node-cogniflow-prov-corrected-signal ; cd:targetNode ex:node-cogniflow-prov-peak-parameters ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-peak-step-quantified a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ; cd:position 10 ;
+    cd:sourceNode ex:node-cogniflow-prov-peak-step ; cd:targetNode ex:node-cogniflow-prov-quantified-peak ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-peak-algorithm-quantified a cd:DiagramEdge ;
+    skos:prefLabel "recorded with"@en ; cd:position 11 ;
+    cd:sourceNode ex:node-cogniflow-prov-peak-algorithm ; cd:targetNode ex:node-cogniflow-prov-quantified-peak ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-peak-parameters-quantified a cd:DiagramEdge ;
+    skos:prefLabel "recorded with"@en ; cd:position 12 ;
+    cd:sourceNode ex:node-cogniflow-prov-peak-parameters ; cd:targetNode ex:node-cogniflow-prov-quantified-peak ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-prov-quantified-fair-result a cd:DiagramEdge ;
+    skos:prefLabel "packages"@en ; cd:position 13 ;
+    cd:sourceNode ex:node-cogniflow-prov-quantified-peak ; cd:targetNode ex:node-cogniflow-prov-fair-result ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-provenance-pipeline-extension> {
+  ex:path-cogniflow-standardized-data-processing
+    cd:hasStep ex:path-step-cogniflow-provenance-pipeline .
+
+  ex:path-step-cogniflow-provenance-pipeline a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:diagram-cogniflow-provenance-pipeline ;
+    cd:usesScene ex:scene-cogniflow-provenance-pipeline ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-provenance-pipeline> {
+  ex:scene-cogniflow-provenance-pipeline a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-provenance-travels-with-data ;
+    cd:hasSceneItem ex:scene-item-cogniflow-provenance-heading,
+      ex:scene-item-cogniflow-provenance-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-provenance-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-provenance-travels-with-data ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-provenance-diagram a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:diagram-cogniflow-provenance-pipeline ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
