@@ -9,6 +9,7 @@ import "./chart-theme.css";
 import "./flow-theme.css";
 import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
+import "./semantic-multi-view-runtime.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -18,6 +19,7 @@ import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
+import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -68,6 +70,11 @@ const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
   { reducedMotion },
+);
+const unmountSemanticMultiViews = mountSemanticMultiViews(
+  root,
+  documents,
+  canonicalDatasetSnapshot,
 );
 const unmountKnowledgeNetworks = mountPitchKnowledgeNetworks(
   Array.from(root.querySelectorAll<HTMLElement>("[data-knowledge-scene-id]")),
@@ -172,8 +179,8 @@ function createProgressSource(): BackgroundProgressSource {
         window.addEventListener("scroll", listener, options);
         viewport?.addEventListener("scroll", listener, options);
         return () => {
-          window.removeEventListener("scroll", listener);
-          viewport?.removeEventListener("scroll", listener);
+          window.removeEventListener("scroll", listener, options);
+          viewport?.removeEventListener("scroll", listener, options);
         };
       },
       requestAnimationFrame: (callback) => window.requestAnimationFrame(callback),
@@ -225,6 +232,7 @@ window.addEventListener("pagehide", () => {
   unmountPresentationSteps();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
+  unmountSemanticMultiViews();
   unmountCharts();
   unmountFlowDiagrams();
   stopBackgroundProgress();
