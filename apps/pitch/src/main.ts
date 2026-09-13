@@ -13,6 +13,7 @@ import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
+import "./cogniflow-take-home.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -187,8 +188,8 @@ function createProgressSource(): BackgroundProgressSource {
         window.addEventListener("scroll", listener, options);
         viewport?.addEventListener("scroll", listener, options);
         return () => {
-          window.removeEventListener("scroll", listener);
-          viewport?.removeEventListener("scroll", listener);
+          window.removeEventListener("scroll", listener, options);
+          viewport?.removeEventListener("scroll", listener, options);
         };
       },
       requestAnimationFrame: (callback) => window.requestAnimationFrame(callback),
