@@ -4,17 +4,17 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-architecture> {
   ex:cogniflow-service-architecture a cd:Concept ;
-    skos:prefLabel "One Interface, Specialized Providers"@en ;
+    skos:prefLabel "One Interface. Specialized Providers."@en ;
     cd:hasDefinition ex:def-cogniflow-service-architecture ;
     cd:authoredResource true .
 
   ex:def-cogniflow-service-architecture a cd:Definition ;
-    cd:body "CogniFlow decouples users and agents from specialized providers through an MCP-facing orchestration layer."@en ;
+    cd:body "CogniFlow keeps one stable MCP-facing interface while specialized providers can evolve, move or be replaced independently."@en ;
     cd:authoredResource true .
 
   ex:diagram-cogniflow-service-architecture a cd:FlowDiagram ;
-    skos:prefLabel "CogniFlow service-oriented architecture"@en ;
-    cd:body "A shared MCP interface routes intent through the orchestration engine while semantic, data and artifact providers remain independently replaceable."@en ;
+    skos:prefLabel "Decoupled CogniFlow service architecture"@en ;
+    cd:body "The request path stays stable from consumer to MCP server to orchestrator. Semantics, data and artifact/provenance capabilities remain separate providers behind that contract."@en ;
     cd:hasDiagramNode ex:node-cogniflow-actors,
       ex:node-cogniflow-mcp,
       ex:node-cogniflow-orchestrator,
@@ -40,27 +40,27 @@
     cd:authoredResource true .
 
   ex:node-cogniflow-orchestrator a cd:DiagramNode ;
-    skos:prefLabel "Orchestration Engine"@en ;
+    skos:prefLabel "CogniFlow Orchestrator"@en ;
     cd:position 3 ;
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-store a cd:DiagramNode ;
-    skos:prefLabel "Semantic Store"@en ;
+    skos:prefLabel "Semantic Provider"@en ;
     cd:position 4 ;
     cd:authoredResource true .
 
   ex:node-cogniflow-data-store a cd:DiagramNode ;
-    skos:prefLabel "Data Store"@en ;
+    skos:prefLabel "Data Provider"@en ;
     cd:position 5 ;
     cd:authoredResource true .
 
   ex:node-cogniflow-artifact-store a cd:DiagramNode ;
-    skos:prefLabel "Artifact + Provenance"@en ;
+    skos:prefLabel "Artifact + Provenance Provider"@en ;
     cd:position 6 ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-actors-mcp a cd:DiagramEdge ;
-    skos:prefLabel "intent"@en ;
+    skos:prefLabel "request"@en ;
     cd:position 1 ;
     cd:sourceNode ex:node-cogniflow-actors ;
     cd:targetNode ex:node-cogniflow-mcp ;
@@ -74,7 +74,7 @@
     cd:authoredResource true .
 
   ex:edge-cogniflow-orchestrator-semantics a cd:DiagramEdge ;
-    skos:prefLabel "semantic context"@en ;
+    skos:prefLabel "semantics"@en ;
     cd:position 3 ;
     cd:sourceNode ex:node-cogniflow-orchestrator ;
     cd:targetNode ex:node-cogniflow-semantic-store ;
@@ -88,7 +88,7 @@
     cd:authoredResource true .
 
   ex:edge-cogniflow-orchestrator-artifacts a cd:DiagramEdge ;
-    skos:prefLabel "artifacts + provenance"@en ;
+    skos:prefLabel "artifacts"@en ;
     cd:position 5 ;
     cd:sourceNode ex:node-cogniflow-orchestrator ;
     cd:targetNode ex:node-cogniflow-artifact-store ;
