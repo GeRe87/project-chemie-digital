@@ -100,7 +100,7 @@
     cd:hasStep ex:path-step-cogniflow-architecture .
 
   ex:path-step-cogniflow-architecture a cd:PathStep ;
-    cd:position 4 ;
+    cd:position 3 ;
     cd:usesResource ex:diagram-cogniflow-service-architecture ;
     cd:usesScene ex:scene-cogniflow-service-architecture ;
     cd:authoredResource true .
