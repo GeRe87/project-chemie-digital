@@ -4,12 +4,12 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-multi-view> {
   ex:cogniflow-same-semantics-different-views a cd:Concept ;
-    skos:prefLabel "Same Semantics, Different Views"@en ;
+    skos:prefLabel "One Meaning. Multiple Views."@en ;
     cd:hasDefinition ex:def-cogniflow-same-semantics-different-views ;
     cd:authoredResource true .
 
   ex:def-cogniflow-same-semantics-different-views a cd:Definition ;
-    cd:body "A single semantic chart resource can be projected into different presentation views without duplicating the underlying observations."@en ;
+    cd:body "The same semantic resource can become RDF, a table or a chart without copying or redefining the underlying observations."@en ;
     cd:authoredResource true .
 }
 
