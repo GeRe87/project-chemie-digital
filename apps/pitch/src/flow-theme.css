@@ -1,3 +1,4 @@
+/* Generic flow presentation. Concrete visual families override these tokens below. */
 .reveal .d3-flow-host {
   position: relative;
   box-sizing: border-box;
@@ -7,9 +8,7 @@
   border: 3px solid var(--pcd-accent);
   border-radius: 0.8rem;
   background: color-mix(in srgb, var(--pcd-surface-strong) 90%, transparent);
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-accent) 42%, transparent),
-    10px 12px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  box-shadow: 10px 12px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
   overflow: hidden;
 }
 
@@ -21,13 +20,12 @@
   min-height: 2.35rem;
   padding: 0.55rem 1rem;
   border-bottom: 3px solid var(--pcd-accent);
-  background: linear-gradient(180deg, #654fd0, #3e2b98);
+  background: var(--pcd-accent);
   color: #fff;
   font-size: 0.72em;
   font-weight: 900;
   letter-spacing: 0.05em;
   text-align: left;
-  text-shadow: 2px 2px 0 #20105f;
 }
 
 .reveal .d3-flow-host .d3-flow-runtime {
@@ -38,11 +36,7 @@
 
 .reveal .d3-flow-host .d3-flow-svg {
   min-height: 29rem;
-  background:
-    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--pcd-accent) 7%, transparent), transparent 52%),
-    linear-gradient(90deg, color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(color-mix(in srgb, var(--pcd-accent) 7%, transparent) 1px, transparent 1px);
-  background-size: auto, 20px 20px, 20px 20px;
+  background: transparent;
 }
 
 .reveal .d3-flow-host .d3-flow-caption {
@@ -55,57 +49,186 @@
   fill: var(--pcd-surface-strong);
   stroke: var(--pcd-accent);
   stroke-width: 2.5;
-  filter: drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent));
 }
 
-.reveal .d3-flow-node-primary .d3-flow-node-shape {
-  stroke-width: 4;
-  filter:
-    drop-shadow(0 0 8px color-mix(in srgb, var(--pcd-accent) 72%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent));
-}
-
-.reveal .d3-flow-node-label {
+.reveal .d3-flow-node-label,
+.reveal .d3-flow-edge-label {
   fill: var(--pcd-foreground);
   font-weight: 800;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
-  stroke-width: 3px;
   stroke-linejoin: round;
 }
+
+.reveal .d3-flow-node-label { stroke-width: 3px; }
+.reveal .d3-flow-edge-label { stroke-width: 4px; }
 
 .reveal .d3-flow-edge {
   stroke: var(--pcd-accent);
   stroke-width: 2.4;
 }
 
-.reveal .d3-flow-edge-label {
-  fill: var(--pcd-foreground);
-  font-weight: 700;
-  paint-order: stroke;
-  stroke: var(--pcd-surface-strong);
-  stroke-width: 4px;
-  stroke-linejoin: round;
+/* Eco City diagram family --------------------------------------------------
+   The background family controls the diagram family through data-diagram-theme.
+   Theme mode (light/dark) only swaps the family tokens; graph semantics stay unchanged. */
+body[data-diagram-theme="eco-city"] {
+  --pcd-flow-pixel-ink: #0a5364;
+  --pcd-flow-pixel-ink-strong: #073e4c;
+  --pcd-flow-pixel-highlight: #9cecf0;
+  --pcd-flow-pixel-surface: #eafafb;
+  --pcd-flow-pixel-surface-2: #d9f3f3;
+  --pcd-flow-pixel-shadow: rgb(3 73 86 / 0.18);
+  --pcd-flow-pixel-grid: rgb(17 134 148 / 0.08);
+  --pcd-flow-pixel-text: #083c49;
+  --pcd-flow-pixel-danger: #b86400;
+  --pcd-flow-pixel-danger-strong: #7e4000;
+  --pcd-flow-pixel-danger-surface: #ffd878;
+  --pcd-flow-pixel-danger-highlight: #fff0b8;
+  --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
-.reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-shape {
-  stroke-width: 4.2;
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
+  --pcd-flow-pixel-ink: #5ce7ef;
+  --pcd-flow-pixel-ink-strong: #bafaff;
+  --pcd-flow-pixel-highlight: #153d55;
+  --pcd-flow-pixel-surface: #0a2434;
+  --pcd-flow-pixel-surface-2: #0d3141;
+  --pcd-flow-pixel-shadow: rgb(34 224 235 / 0.20);
+  --pcd-flow-pixel-grid: rgb(92 231 239 / 0.10);
+  --pcd-flow-pixel-text: #e8feff;
+  --pcd-flow-pixel-danger: #ffb52e;
+  --pcd-flow-pixel-danger-strong: #ffdf7b;
+  --pcd-flow-pixel-danger-surface: #4a2905;
+  --pcd-flow-pixel-danger-highlight: #7a4709;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
+  border: 4px solid var(--pcd-flow-pixel-ink);
+  border-radius: 0;
+  clip-path: polygon(
+    10px 0,
+    calc(100% - 10px) 0,
+    calc(100% - 10px) 5px,
+    100% 5px,
+    100% calc(100% - 5px),
+    calc(100% - 10px) calc(100% - 5px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    10px calc(100% - 5px),
+    0 calc(100% - 5px),
+    0 5px,
+    10px 5px
+  );
+  background:
+    linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px),
+    color-mix(in srgb, var(--pcd-flow-pixel-surface) 92%, transparent);
+  background-size: 16px 16px, 16px 16px, auto;
+  box-shadow:
+    0 0 0 3px var(--pcd-flow-pixel-highlight),
+    8px 8px 0 var(--pcd-flow-pixel-shadow);
+  image-rendering: pixelated;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host::before {
+  min-height: 2.6rem;
+  padding: 0.62rem 1rem 0.54rem;
+  border-bottom: 4px solid var(--pcd-flow-pixel-ink);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--pcd-flow-pixel-ink) 78%, #41d8e1),
+      var(--pcd-flow-pixel-ink));
+  color: #f3ffff;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 0.62em;
+  font-weight: 900;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--pcd-flow-pixel-ink-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
+  min-height: 29rem;
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--pcd-flow-pixel-highlight) 18%, transparent), transparent 48%),
+    transparent;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
+  rx: 0;
+  ry: 0;
+  fill: var(--pcd-flow-pixel-surface);
+  stroke: var(--pcd-flow-pixel-ink);
+  stroke-width: 4;
+  shape-rendering: crispEdges;
+  clip-path: polygon(
+    8% 0,
+    92% 0,
+    92% 7%,
+    100% 7%,
+    100% 93%,
+    92% 93%,
+    92% 100%,
+    8% 100%,
+    8% 93%,
+    0 93%,
+    0 7%,
+    8% 7%
+  );
+  filter: drop-shadow(5px 6px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-shape {
+  stroke-width: 5;
   filter:
-    drop-shadow(0 0 10px color-mix(in srgb, var(--pcd-accent) 82%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent));
+    drop-shadow(0 0 7px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 70%, transparent))
+    drop-shadow(5px 6px 0 var(--pcd-flow-pixel-shadow));
 }
 
-.reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-label {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: var(--pcd-flow-pixel-surface);
+  stroke-width: 4px;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-rendering: geometricPrecision;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
+  stroke: var(--pcd-flow-pixel-ink);
+  stroke-width: 4;
+  stroke-linecap: square;
+  shape-rendering: crispEdges;
+  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
+  fill: var(--pcd-flow-pixel-ink);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: var(--pcd-flow-pixel-surface-2);
+  stroke-width: 7px;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-label,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label.pcd-flow-frontier-edge {
   font-weight: 900;
 }
 
-.reveal .d3-flow-edge.pcd-flow-frontier-edge {
-  stroke-width: 3.8;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pcd-accent) 75%, transparent));
-}
-
-.reveal .d3-flow-edge-label.pcd-flow-frontier-edge {
-  font-weight: 900;
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
+  stroke-width: 5;
+  filter:
+    drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent))
+    drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
 }
 
 @media (max-width: 900px) {
@@ -117,4 +240,7 @@
   .reveal .d3-flow-host .d3-flow-svg {
     min-height: 23rem;
   }
+
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 13px; }
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 10px; }
 }
