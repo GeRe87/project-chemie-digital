@@ -1,0 +1,12 @@
+/* Reveal owns slide visibility; scene-specific layout CSS must never surface inactive slides.
+   The #pitch-slides id deliberately outranks individual scene-id layout selectors even
+   when those selectors use !important for their active grid composition. */
+
+#pitch-slides > section:not(.present) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#pitch-slides > section.present {
+  pointer-events: auto;
+}
