@@ -7,6 +7,7 @@ import {
 } from "../../../packages/renderer-reveal/src/background/themed-background.ts";
 
 export type PresentationView = "scroll" | "deck";
+export type DiagramThemeId = "neutral" | "eco-city";
 
 export interface PresentationProfile {
   readonly id: string;
@@ -23,6 +24,7 @@ export interface ResolvedPresentationAppearance {
   readonly backgroundEnabled: boolean;
   readonly backgroundFamilyId?: string;
   readonly backgroundPackId?: string;
+  readonly diagramThemeId: DiagramThemeId;
   readonly diagnostics: readonly string[];
 }
 
@@ -98,6 +100,15 @@ export function resolveBackgroundPackId(
   return family ? resolveThemedBackgroundPack(family, theme).id : undefined;
 }
 
+/** Diagram visuals belong to the same family as the presentation world. */
+export function resolveDiagramThemeId(
+  familyId: string | undefined,
+  backgroundEnabled = true,
+): DiagramThemeId {
+  if (!backgroundEnabled) return "neutral";
+  return familyId === chemometricsCityFamily.id ? "eco-city" : "neutral";
+}
+
 function resolveProfile(sourcePathId?: string): PresentationProfile {
   return sourcePathId === COGNIFLOW_SOURCE_PATH_ID
     ? cogniflowPresentationProfile
@@ -143,6 +154,7 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
   }
 
   const backgroundPackId = backgroundEnabled ? resolveBackgroundPackId(backgroundFamilyId, theme) : undefined;
+  const diagramThemeId = resolveDiagramThemeId(backgroundFamilyId, backgroundEnabled);
   return Object.freeze({
     profile,
     view,
@@ -150,6 +162,7 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
     backgroundEnabled,
     ...(backgroundFamilyId ? { backgroundFamilyId } : {}),
     ...(backgroundPackId ? { backgroundPackId } : {}),
+    diagramThemeId,
     diagnostics: Object.freeze(diagnostics),
   });
 }
