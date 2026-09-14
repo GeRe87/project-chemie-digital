@@ -16,6 +16,7 @@ import rdf_dataset as RDF_DATASET  # noqa: E402
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
+SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
 OFFERING = EX["teaching-offering-cogniflow-standardized-data-processing"]
 PLACEMENT = EX["unit-placement-cogniflow-standardized-data-processing"]
 UNIT = EX["learning-unit-cogniflow-standardized-data-processing"]
@@ -74,6 +75,18 @@ class CogniFlowTitleMediaTests(unittest.TestCase):
             EX["organization-munv"],
             dataset_objects(self.dataset, EX["attribution-cogniflow-funding"], CD.fundingSource),
         )
+
+    def test_iuta_uses_formal_organization_name_with_short_label(self) -> None:
+        labels = {
+            str(value)
+            for value in dataset_objects(self.dataset, EX["organization-iuta"], SKOS.prefLabel)
+        }
+        short_labels = {
+            str(value)
+            for value in dataset_objects(self.dataset, EX["organization-iuta"], SKOS.altLabel)
+        }
+        self.assertIn("Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)", labels)
+        self.assertIn("IUTA", short_labels)
 
     def test_media_aware_title_projects_authors_and_funding_to_renderer_neutral_groups(self) -> None:
         artifact = MEDIA_RUNTIME.build_artifact(request())
