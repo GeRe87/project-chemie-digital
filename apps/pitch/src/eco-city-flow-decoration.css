@@ -170,6 +170,30 @@ body[data-diagram-theme="eco-city"] .reveal [data-target-node-id="ex:node-cognif
   stroke: var(--pcd-flow-pixel-danger);
 }
 
+/* CogniFlow presentation flows should read like a single large retro UI object,
+   not a small chart parked at the top of the slide. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"],
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] {
+  grid-template-rows: minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-items: center !important;
+  align-content: center !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] > h2 {
+  display: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
+  width: min(1260px, 94%) !important;
+  align-self: center;
+  justify-self: center;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
 @media (max-width: 900px) {
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
     max-height: none;
