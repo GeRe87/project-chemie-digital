@@ -36,6 +36,27 @@ function steppedRectPath(x: number, y: number, width: number, height: number, st
   ].join(" ");
 }
 
+function numberTabPath(x: number, y: number, width: number, height: number, step: number): string {
+  const s = Math.max(3, Math.min(step, width / 4, height / 5));
+  const right = x + width;
+  const bottom = y + height;
+  return [
+    `M ${x + s} ${y}`,
+    `H ${right - s}`,
+    `V ${y + s}`,
+    `H ${right}`,
+    `V ${bottom - s}`,
+    `H ${right - s}`,
+    `V ${bottom}`,
+    `H ${x + s}`,
+    `V ${bottom - s / 2}`,
+    `H ${x}`,
+    `V ${y + s / 2}`,
+    `H ${x + s}`,
+    "Z",
+  ].join(" ");
+}
+
 function createPath(className: string, d: string): SVGPathElement {
   const path = document.createElementNS(SVG_NS, "path");
   path.setAttribute("class", className);
@@ -99,11 +120,14 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 5, y + 5, width - 10, height - 10, 13));
   const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 11, y + 11, width - 22, height - 22, 10));
 
-  const railWidth = Math.min(54, Math.max(44, width * 0.19));
-  const rail = createRect("d3-flow-pixel-node-rail", x + 13, y + 15, railWidth, Math.max(22, height - 30));
+  const tabWidth = Math.min(54, Math.max(48, width * 0.2));
+  const tabX = x + 13;
+  const tabY = y + 17;
+  const tabHeight = Math.max(28, height - 34);
+  const tab = createPath("d3-flow-pixel-node-tab", numberTabPath(tabX, tabY, tabWidth, tabHeight, 8));
   const number = createText(
     "d3-flow-pixel-node-number",
-    x + 13 + railWidth / 2,
+    tabX + tabWidth / 2 - 1,
     y + height / 2 + 1,
     String(readingIndex + 1).padStart(2, "0"),
   );
@@ -113,13 +137,13 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   group.insertBefore(outer, shape);
   group.insertBefore(middle, shape);
   group.insertBefore(inner, shape);
-  group.insertBefore(rail, shape);
+  group.insertBefore(tab, shape);
   group.insertBefore(number, shape);
   group.insertBefore(led, shape);
 
   const label = group.querySelector<SVGTextElement>(".d3-flow-node-label");
   if (label) {
-    const labelOffset = railWidth * 0.28;
+    const labelOffset = Math.min(30, tabWidth * 0.54);
     label.setAttribute("x", String(labelOffset));
     for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
       tspan.setAttribute("x", String(labelOffset));
