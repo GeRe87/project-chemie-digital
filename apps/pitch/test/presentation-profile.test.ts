@@ -43,16 +43,23 @@ test("other existing Chemometrics paths preserve the default profile without war
   assert.deepEqual(resolved.diagnostics, []);
 });
 
-test("CogniFlow preserves its neutral light profile with no default background", () => {
+test("CogniFlow defaults to Eco City light and keeps the paired dark variant available", () => {
   const resolved = resolvePresentationAppearance("", COGNIFLOW_SOURCE_PATH_ID);
   assert.equal(resolved.profile, cogniflowPresentationProfile);
   assert.equal(resolved.profile.id, "cogniflow-standardized-data-processing");
   assert.equal(resolved.view, "scroll");
   assert.equal(resolved.theme, "light");
-  assert.equal(resolved.backgroundEnabled, false);
-  assert.equal(resolved.backgroundFamilyId, undefined);
-  assert.equal(resolved.backgroundPackId, undefined);
+  assert.equal(resolved.backgroundEnabled, true);
+  assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
+  assert.equal(resolved.backgroundPackId, "chemometrics-city-light");
+  assert.equal(chemometricsCityFamily.label, "Eco City");
+  assert.equal(chemometricsCityFamily.variants.light.label, "Eco City — Light");
+  assert.equal(chemometricsCityFamily.variants.dark.label, "Eco City — Dark");
   assert.deepEqual(resolved.diagnostics, []);
+
+  const dark = resolvePresentationAppearance("?theme=dark", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(dark.backgroundFamilyId, "chemometrics-city");
+  assert.equal(dark.backgroundPackId, "chemometrics-city-dark");
 });
 
 test("theme query selects the matching concrete variant without changing family identity", () => {
@@ -109,7 +116,7 @@ test("every selectable background family has valid dark and light concrete packs
   }
 });
 
-test("Chemometrics city variants preserve parallax roles and use repository-local assets", () => {
+test("Eco City variants preserve parallax roles and use repository-local assets", () => {
   const expectedSpeeds = [0.08, 0.22, 0.27, 0.44, 0.72];
   for (const pack of [chemometricsCityFamily.variants.dark, chemometricsCityFamily.variants.light]) {
     assert.deepEqual(pack.layers.map((layer) => layer.speed), expectedSpeeds);
