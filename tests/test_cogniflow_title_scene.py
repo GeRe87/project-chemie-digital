@@ -136,13 +136,16 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual(
             [
                 "Scientific workflow",
-                "Package A",
-                "Package B",
-                "Library E · v1.x",
-                "Library E · v2.x",
+                "Package A · Library E v1.x",
+                "Package B · Library E v2.x",
+                "Shared runtime",
                 "DEPENDENCY CONFLICT",
             ],
             [node["label"] for node in problem_diagram["nodes"]],
+        )
+        self.assertEqual(
+            ["requires", "requires", "pins v1.x", "pins v2.x", "incompatible"],
+            [edge["label"] for edge in problem_diagram["edges"]],
         )
         self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])
         self.assertEqual(
