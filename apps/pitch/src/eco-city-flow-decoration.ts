@@ -37,7 +37,7 @@ function steppedRectPath(x: number, y: number, width: number, height: number, st
 }
 
 function numberTabPath(x: number, y: number, width: number, height: number, step: number): string {
-  const s = Math.max(3, Math.min(step, width / 4, height / 5));
+  const s = Math.max(2, Math.min(step, width / 4, height / 5));
   const right = x + width;
   const bottom = y + height;
   return [
@@ -103,6 +103,44 @@ function createSocket(x: number, y: number, size: number): SVGRectElement {
   return createRect("d3-flow-pixel-socket", x - size / 2, y - size / 2, size, size);
 }
 
+interface NodeBounds {
+  readonly left: number;
+  readonly right: number;
+  readonly top: number;
+  readonly bottom: number;
+  readonly centerX: number;
+  readonly centerY: number;
+}
+
+function translatedNodeBounds(svg: SVGSVGElement, nodeId: string): NodeBounds | undefined {
+  const group = svg.querySelector<SVGGElement>(`.d3-flow-node[data-node-id="${CSS.escape(nodeId)}"]`);
+  const shape = group?.querySelector<SVGRectElement>(".d3-flow-node-shape");
+  if (!group || !shape) return undefined;
+
+  const transform = group.getAttribute("transform") ?? "";
+  const match = /^translate\(([-+0-9.eE]+)[ ,]+([-+0-9.eE]+)\)$/u.exec(transform.trim());
+  const offsetX = match ? Number(match[1]) : Number.NaN;
+  const offsetY = match ? Number(match[2]) : Number.NaN;
+  const x = numberAttribute(shape, "x");
+  const y = numberAttribute(shape, "y");
+  const width = numberAttribute(shape, "width");
+  const height = numberAttribute(shape, "height");
+  if (![offsetX, offsetY, x, y, width, height].every(Number.isFinite)) return undefined;
+
+  const left = offsetX + (x as number);
+  const top = offsetY + (y as number);
+  const right = left + (width as number);
+  const bottom = top + (height as number);
+  return {
+    left,
+    right,
+    top,
+    bottom,
+    centerX: (left + right) / 2,
+    centerY: (top + bottom) / 2,
+  };
+}
+
 function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: number): void {
   if (group.dataset.pixelDecorated === "true") return;
   const shape = group.querySelector<SVGRectElement>(".d3-flow-node-shape");
@@ -114,24 +152,24 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const nodeId = group.getAttribute("data-node-id");
   if (x === undefined || y === undefined || width === undefined || height === undefined || !nodeId) return;
 
-  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 16));
-  shadow.setAttribute("transform", "translate(8 9)");
-  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 16));
-  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 5, y + 5, width - 10, height - 10, 13));
-  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 11, y + 11, width - 22, height - 22, 10));
+  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 10));
+  shadow.setAttribute("transform", "translate(5 5)");
+  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 10));
+  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 4, y + 4, width - 8, height - 8, 8));
+  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 8, y + 8, width - 16, height - 16, 6));
 
-  const tabWidth = Math.min(54, Math.max(48, width * 0.2));
-  const tabX = x + 13;
-  const tabY = y + 17;
-  const tabHeight = Math.max(28, height - 34);
-  const tab = createPath("d3-flow-pixel-node-tab", numberTabPath(tabX, tabY, tabWidth, tabHeight, 8));
+  const tabWidth = Math.min(48, Math.max(42, width * 0.17));
+  const tabX = x + 11;
+  const tabY = y + 14;
+  const tabHeight = Math.max(26, height - 28);
+  const tab = createPath("d3-flow-pixel-node-tab", numberTabPath(tabX, tabY, tabWidth, tabHeight, 5));
   const number = createText(
     "d3-flow-pixel-node-number",
     tabX + tabWidth / 2 - 1,
     y + height / 2 + 1,
     String(readingIndex + 1).padStart(2, "0"),
   );
-  const led = createCircle("d3-flow-pixel-node-led", x + width - 21, y + 20, 7);
+  const led = createCircle("d3-flow-pixel-node-led", x + width - 18, y + 18, 5.5);
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
@@ -143,7 +181,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 
   const label = group.querySelector<SVGTextElement>(".d3-flow-node-label");
   if (label) {
-    const labelOffset = Math.min(30, tabWidth * 0.54);
+    const labelOffset = Math.min(27, tabWidth * 0.55);
     label.setAttribute("x", String(labelOffset));
     for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
       tspan.setAttribute("x", String(labelOffset));
@@ -153,7 +191,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const orientation = svg.getAttribute("data-orientation") ?? "horizontal";
   const hasIncoming = svg.querySelector(`.d3-flow-edge[data-target-node-id="${CSS.escape(nodeId)}"]`) !== null;
   const hasOutgoing = svg.querySelector(`.d3-flow-edge[data-source-node-id="${CSS.escape(nodeId)}"]`) !== null;
-  const socketSize = 20;
+  const socketSize = 15;
   if (orientation === "horizontal") {
     if (hasIncoming) group.insertBefore(createSocket(x, 0, socketSize), shape);
     if (hasOutgoing) group.insertBefore(createSocket(x + width, 0, socketSize), shape);
@@ -169,6 +207,14 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 function decorateEdges(svg: SVGSVGElement): void {
   const lines = Array.from(svg.querySelectorAll<SVGLineElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
+  const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
+  let flowCenterY = 0;
+  try {
+    const box = nodeLayer?.getBBox();
+    if (box) flowCenterY = box.y + box.height / 2;
+  } catch {
+    flowCenterY = 0;
+  }
 
   lines.forEach((line, index) => {
     if (line.dataset.pixelDecorated === "true") return;
@@ -178,21 +224,42 @@ function decorateEdges(svg: SVGSVGElement): void {
     const y2 = numberAttribute(line, "y2");
     if (x1 === undefined || y1 === undefined || x2 === undefined || y2 === undefined) return;
 
+    const sourceNodeId = line.getAttribute("data-source-node-id") ?? "";
+    const targetNodeId = line.getAttribute("data-target-node-id") ?? "";
+    const sourceBounds = translatedNodeBounds(svg, sourceNodeId);
+    const targetBounds = translatedNodeBounds(svg, targetNodeId);
     const middleX = x1 + (x2 - x1) / 2;
     const isHorizontal = Math.abs(y2 - y1) < 1;
     const d = isHorizontal
       ? `M ${x1} ${y1} H ${x2}`
       : `M ${x1} ${y1} H ${middleX} V ${y2} H ${x2}`;
     const path = createPath("d3-flow-pixel-edge-path", d);
-    path.setAttribute("data-source-node-id", line.getAttribute("data-source-node-id") ?? "");
-    path.setAttribute("data-target-node-id", line.getAttribute("data-target-node-id") ?? "");
+    path.setAttribute("data-source-node-id", sourceNodeId);
+    path.setAttribute("data-target-node-id", targetNodeId);
     line.parentNode?.insertBefore(path, line);
     line.dataset.pixelDecorated = "true";
 
     const label = labels[index];
     if (!label) return;
-    const labelX = middleX;
-    const labelY = isHorizontal ? y1 - 34 : Math.min(y1, y2) - 30;
+
+    let labelX = middleX;
+    let labelY = Math.min(y1, y2) - 24;
+    if (sourceBounds && targetBounds) {
+      if (isHorizontal) {
+        labelX = (sourceBounds.right + targetBounds.left) / 2;
+        labelY = Math.min(sourceBounds.top, targetBounds.top) - 24;
+      } else {
+        const sourceDistance = Math.abs(sourceBounds.centerY - flowCenterY);
+        const targetDistance = Math.abs(targetBounds.centerY - flowCenterY);
+        const outer = sourceDistance >= targetDistance ? sourceBounds : targetBounds;
+        const above = outer.centerY < flowCenterY;
+        labelX = (sourceBounds.right + targetBounds.left) / 2;
+        labelY = above
+          ? Math.min(sourceBounds.top, targetBounds.top) - 24
+          : Math.max(sourceBounds.bottom, targetBounds.bottom) + 30;
+      }
+    }
+
     label.setAttribute("x", String(labelX));
     label.setAttribute("y", String(labelY));
     for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
@@ -206,11 +273,11 @@ function decorateEdges(svg: SVGSVGElement): void {
       return;
     }
     if (!(box.width > 0) || !(box.height > 0)) return;
-    const padX = 14;
-    const padY = 8;
+    const padX = 10;
+    const padY = 6;
     const pill = createPath(
       "d3-flow-pixel-edge-pill",
-      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 8),
+      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 5),
     );
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";
@@ -239,8 +306,8 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
   const contentHeight = maxY - minY;
   if (!(contentWidth > 0) || !(contentHeight > 0)) return;
 
-  const padX = Math.max(24, contentWidth * 0.025);
-  const padY = Math.max(34, contentHeight * 0.15);
+  const padX = Math.max(22, contentWidth * 0.022);
+  const padY = Math.max(32, contentHeight * 0.12);
   const viewWidth = contentWidth + padX * 2;
   const viewHeight = contentHeight + padY * 2;
   svg.setAttribute("viewBox", `${minX - padX} ${minY - padY} ${viewWidth} ${viewHeight}`);
