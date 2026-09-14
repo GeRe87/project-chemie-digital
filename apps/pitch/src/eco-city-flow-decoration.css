@@ -1,20 +1,22 @@
 /* Structural SVG decoration for the Eco City diagram family. The semantic D3
-   graph stays unchanged; this file only controls its visual skin. */
+   graph stays unchanged; this file controls only its theme-bound presentation. */
 
 .d3-flow-pixel-frame,
 .d3-flow-pixel-socket,
 .d3-flow-pixel-edge-pill,
+.d3-flow-pixel-edge-path,
 .d3-flow-pixel-node-rail,
-.d3-flow-pixel-node-led {
+.d3-flow-pixel-node-led,
+.d3-flow-pixel-node-number {
   display: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
   display: grid;
   place-items: center;
-  width: min(1280px, 97vw);
+  width: min(1320px, 98vw);
   margin: 0 auto;
-  padding: 0.2rem 0.35rem;
+  padding: 0;
   border: 0;
   border-radius: 0;
   clip-path: none;
@@ -40,7 +42,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
   width: 100% !important;
   height: auto !important;
   min-height: 0 !important;
-  max-height: 470px;
+  max-height: 520px;
   margin: 0 auto;
   overflow: visible;
   background: transparent !important;
@@ -50,16 +52,23 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-caption {
   display: none !important;
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape-base {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape-base,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   opacity: 0;
   pointer-events: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker {
+  display: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
   display: block;
   shape-rendering: crispEdges;
   pointer-events: none;
@@ -83,8 +92,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-inner {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-ink) 14%, var(--pcd-flow-pixel-surface));
-  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 45%, transparent);
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 50%, transparent);
   stroke-width: 2;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
+  fill: var(--pcd-flow-pixel-ink-strong);
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.08em;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led {
@@ -101,16 +118,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket {
   filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path {
+  fill: none;
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 6;
+  stroke-width: 7;
   stroke-linecap: square;
-  shape-rendering: crispEdges;
-  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
-  fill: var(--pcd-flow-pixel-ink-strong);
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
@@ -157,26 +172,26 @@ body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep
   stroke: var(--pcd-flow-pixel-danger-strong);
 }
 
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-number,
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
+  fill: var(--pcd-flow-pixel-danger-strong);
+}
+
 body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
   fill: var(--pcd-flow-pixel-danger);
   stroke: var(--pcd-flow-pixel-danger-strong);
 }
 
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
-  fill: var(--pcd-flow-pixel-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
   stroke: var(--pcd-flow-pixel-danger);
 }
 
-/* CogniFlow presentation flows should read like a single large retro UI object,
-   not a small chart parked at the top of the slide. */
+/* CogniFlow presentation flows should read like one large retro UI object. */
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"],
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] {
-  grid-template-rows: minmax(0, 1fr) !important;
+  display: flex !important;
   align-items: center !important;
-  justify-items: center !important;
+  justify-content: center !important;
   align-content: center !important;
 }
 
@@ -187,9 +202,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
-  width: min(1260px, 94%) !important;
-  align-self: center;
-  justify-self: center;
+  width: min(1300px, 96%) !important;
   margin: 0 auto !important;
   padding: 0 !important;
 }
@@ -205,5 +218,9 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
 
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
     font-size: 11px;
+  }
+
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
+    font-size: 17px;
   }
 }
