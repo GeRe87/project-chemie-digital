@@ -1,0 +1,80 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Generic presentation-media vocabulary. Media remains authored in RDF and is
+# projected into renderer-neutral SceneDocument media-reference blocks.
+graph:concepts {
+  cd:LearningDomain
+    cdm:definesConcept cd:Organization, cd:MediaAsset ;
+    cdm:definesRelation cd:hasLogo, cd:affiliatedWith, cd:fundedBy, cd:fundingSource ;
+    cdm:definesAttribute cd:uri, cd:mediaType, cd:alternativeText .
+
+  cd:Organization a rdfs:Class, cdm:ConceptDescriptor .
+
+  cd:MediaAsset a rdfs:Class, cdm:ConceptDescriptor ;
+    rdfs:subClassOf cd:LearningResource .
+
+  cd:hasLogo a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Organization ;
+    rdfs:range cd:MediaAsset .
+
+  cd:affiliatedWith a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Attribution ;
+    rdfs:range cd:Organization .
+
+  cd:fundedBy a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Concept ;
+    rdfs:range cd:Organization .
+
+  cd:fundingSource a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:Attribution ;
+    rdfs:range cd:Organization .
+
+  cd:uri a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:MediaAsset ;
+    rdfs:range xsd:anyURI .
+
+  cd:mediaType a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:MediaAsset ;
+    rdfs:range xsd:string .
+
+  cd:alternativeText a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:MediaAsset ;
+    rdfs:range rdf:langString .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:OrganizationShape a sh:NodeShape ;
+    sh:targetClass cd:Organization ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:hasLogo ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:MediaAsset ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:MediaAssetShape a sh:NodeShape ;
+    sh:targetClass cd:MediaAsset ;
+    sh:property [ sh:path cd:uri ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:anyURI ] ;
+    sh:property [ sh:path cd:mediaType ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:alternativeText ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:AffiliationAttributionShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:affiliatedWith ;
+    sh:class cd:Attribution ;
+    sh:property [ sh:path cd:affiliatedWith ; sh:minCount 1 ; sh:class cd:Organization ; sh:nodeKind sh:IRI ] .
+
+  cd:FundingAttributionShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:fundingSource ;
+    sh:class cd:Attribution ;
+    sh:property [ sh:path cd:fundingSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Organization ; sh:nodeKind sh:IRI ] .
+
+  cd:FundingConceptShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:fundedBy ;
+    sh:class cd:Concept ;
+    sh:property [ sh:path cd:fundedBy ; sh:minCount 1 ; sh:class cd:Organization ; sh:nodeKind sh:IRI ] .
+}
