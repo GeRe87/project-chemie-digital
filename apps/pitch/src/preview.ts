@@ -99,6 +99,43 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(shell);
     return;
   }
+  if (block.kind === "media-reference") {
+    const figure = dom.createElement("figure");
+    figure.className = "media-reference";
+    figure.setAttribute("data-media-block-id", block.id);
+    figure.setAttribute("data-media-uri", block.uri);
+    if (block.mediaType) figure.setAttribute("data-media-type", block.mediaType);
+    sourceAttributes(figure, block.source);
+
+    if (!block.mediaType || block.mediaType.startsWith("image/")) {
+      const image = dom.createElement("img");
+      image.setAttribute("src", block.uri);
+      image.setAttribute("alt", block.alternativeText);
+      image.setAttribute("decoding", "async");
+      image.setAttribute("loading", "eager");
+      figure.appendChild(image);
+    } else {
+      const fallback = dom.createElement("span");
+      fallback.className = "media-reference-fallback";
+      fallback.textContent = block.alternativeText;
+      figure.appendChild(fallback);
+    }
+    parent.appendChild(figure);
+    return;
+  }
+  if (block.kind === "group") {
+    const shell = dom.createElement("div");
+    shell.className = "scene-group";
+    shell.setAttribute("data-group-block-id", block.id);
+    sourceAttributes(shell, block.source);
+    for (const childId of block.readingOrder) {
+      const child = block.children.find((candidate) => candidate.id === childId);
+      if (!child) throw new Error(`Group ${block.id} reading order references unknown block ${childId}`);
+      appendBlock(shell, dom, child, headingId);
+    }
+    parent.appendChild(shell);
+    return;
+  }
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
