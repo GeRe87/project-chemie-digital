@@ -45,7 +45,7 @@
     cd:position 2 ;
     cd:selectsResource ex:code-cogniflow-chart-semantics ;
     cd:communicativeRole cd:CodeRole ;
-    cd:selectionPath "cd:showsResource" ;
+    cd:selectionPath "cd:hasCodeExample" ;
     cd:language "en" ;
     cd:authoredResource true .
 
