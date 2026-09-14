@@ -104,7 +104,7 @@ class CogniFlowTitleMediaTests(unittest.TestCase):
                 "image/svg+xml",
             ),
             (
-                "Ricardo Cunha — IUTA",
+                "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)",
                 "ex:media-iuta-logo",
                 "cd:affiliatedWith",
                 "image/png",
