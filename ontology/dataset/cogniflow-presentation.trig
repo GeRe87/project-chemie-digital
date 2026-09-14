@@ -152,7 +152,7 @@
     cd:authoredResource true .
 
   ex:attribution-cogniflow-ricardo-cunha a cd:Attribution ;
-    cd:body "Ricardo Cunha — IUTA"@en ;
+    cd:body "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"@en ;
     cd:authoredResource true .
 }
 
