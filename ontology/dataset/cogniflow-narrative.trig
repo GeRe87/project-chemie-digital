@@ -14,35 +14,31 @@
 
   ex:diagram-cogniflow-dependency-conflict a cd:FlowDiagram ;
     skos:prefLabel "Dependency collision in one scientific environment"@en ;
-    cd:body "Package A and Package B require incompatible versions of the same shared library. Because both live in one runtime environment, the dependency conflict propagates to the whole workflow."@en ;
+    cd:body "Package A pins Library E v1.x while Package B pins Library E v2.x. Both enter the same runtime, so the incompatible versions create a dependency conflict for the workflow."@en ;
     cd:hasDiagramNode ex:node-cogniflow-dep-workflow,
       ex:node-cogniflow-dep-package-a,
       ex:node-cogniflow-dep-package-b,
-      ex:node-cogniflow-dep-library-e-v1,
-      ex:node-cogniflow-dep-library-e-v2,
+      ex:node-cogniflow-dep-runtime,
       ex:node-cogniflow-dep-conflict ;
     cd:hasDiagramEdge ex:edge-cogniflow-dep-workflow-a,
       ex:edge-cogniflow-dep-workflow-b,
-      ex:edge-cogniflow-dep-a-e1,
-      ex:edge-cogniflow-dep-b-e2,
-      ex:edge-cogniflow-dep-e1-conflict,
-      ex:edge-cogniflow-dep-e2-conflict ;
+      ex:edge-cogniflow-dep-a-runtime,
+      ex:edge-cogniflow-dep-b-runtime,
+      ex:edge-cogniflow-dep-runtime-conflict ;
     cd:focusNode ex:node-cogniflow-dep-conflict ;
     cd:authoredResource true .
 
   ex:node-cogniflow-dep-workflow a cd:DiagramNode ; skos:prefLabel "Scientific workflow"@en ; cd:position 1 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-package-a a cd:DiagramNode ; skos:prefLabel "Package A"@en ; cd:position 2 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-package-b a cd:DiagramNode ; skos:prefLabel "Package B"@en ; cd:position 3 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-library-e-v1 a cd:DiagramNode ; skos:prefLabel "Library E · v1.x"@en ; cd:position 4 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-library-e-v2 a cd:DiagramNode ; skos:prefLabel "Library E · v2.x"@en ; cd:position 5 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-conflict a cd:DiagramNode ; skos:prefLabel "DEPENDENCY CONFLICT"@en ; cd:position 6 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-package-a a cd:DiagramNode ; skos:prefLabel "Package A · Library E v1.x"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-package-b a cd:DiagramNode ; skos:prefLabel "Package B · Library E v2.x"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-runtime a cd:DiagramNode ; skos:prefLabel "Shared runtime"@en ; cd:position 4 ; cd:authoredResource true .
+  ex:node-cogniflow-dep-conflict a cd:DiagramNode ; skos:prefLabel "DEPENDENCY CONFLICT"@en ; cd:position 5 ; cd:authoredResource true .
 
   ex:edge-cogniflow-dep-workflow-a a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-a ; cd:authoredResource true .
   ex:edge-cogniflow-dep-workflow-b a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-b ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-a-e1 a cd:DiagramEdge ; skos:prefLabel "pins"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-dep-package-a ; cd:targetNode ex:node-cogniflow-dep-library-e-v1 ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-b-e2 a cd:DiagramEdge ; skos:prefLabel "pins"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-dep-package-b ; cd:targetNode ex:node-cogniflow-dep-library-e-v2 ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-e1-conflict a cd:DiagramEdge ; skos:prefLabel "same runtime"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-dep-library-e-v1 ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-e2-conflict a cd:DiagramEdge ; skos:prefLabel "same runtime"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-dep-library-e-v2 ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-a-runtime a cd:DiagramEdge ; skos:prefLabel "pins v1.x"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-dep-package-a ; cd:targetNode ex:node-cogniflow-dep-runtime ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-b-runtime a cd:DiagramEdge ; skos:prefLabel "pins v2.x"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-dep-package-b ; cd:targetNode ex:node-cogniflow-dep-runtime ; cd:authoredResource true .
+  ex:edge-cogniflow-dep-runtime-conflict a cd:DiagramEdge ; skos:prefLabel "incompatible"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-dep-runtime ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
 
   ex:cogniflow-take-home a cd:Concept ;
     skos:prefLabel "Take-Home"@en ;
