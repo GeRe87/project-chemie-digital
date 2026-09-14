@@ -1,3 +1,5 @@
+import "./eco-city-flow-decoration.css";
+
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 function numberAttribute(element: Element, name: string): number | undefined {
