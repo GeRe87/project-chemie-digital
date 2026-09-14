@@ -147,7 +147,7 @@ test("stable diagnostics fail atomically", async () => {
   assert.equal(result.diagnostics[0]!.code, "INVALID_SCENE_DOCUMENT");
 
   const unsupportedPrimitive = clone(document) as unknown as { scenes: Array<{ blocks: Array<Record<string, unknown>> }> };
-  unsupportedPrimitive.scenes[0]!.blocks[0]!.kind = "chart";
+  unsupportedPrimitive.scenes[0]!.blocks[0]!.kind = "unknown-primitive";
   result = createRevealRenderPlan(unsupportedPrimitive as unknown as SceneDocument, interactive);
   assert.equal(result.plan, undefined);
   assert.equal(result.diagnostics[0]!.code, "UNSUPPORTED_PRIMITIVE");
