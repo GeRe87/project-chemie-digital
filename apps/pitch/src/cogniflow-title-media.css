@@ -102,7 +102,7 @@
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
   top: 3.45rem;
-  right: min(21.2rem, 26vw);
+  right: min(22.3rem, 28vw);
   width: min(11.5rem, 14vw);
   padding: .62rem .85rem;
   background: #ffffff;
@@ -110,19 +110,18 @@
   border-radius: .45rem;
 }
 
-/* Funding is a separate Attribution with cd:fundingSource, visually subordinate and bottom-right. */
+/* Funding is semantically authored but spatially independent from the author grid on wide slides. */
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
-  grid-column: 2;
-  grid-row: 4;
-  align-self: end;
-  justify-self: end;
+  position: absolute;
+  right: 5.2rem;
+  bottom: 3.4rem;
   display: grid;
   grid-template-columns: minmax(12rem, 18rem);
   grid-template-rows: auto auto;
   justify-items: start;
   gap: .45rem;
   width: max-content;
-  max-width: 100%;
+  max-width: 20rem;
   padding-top: .9rem;
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
 }
@@ -196,11 +195,13 @@
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
+    position: static;
     grid-row: 4;
     align-self: end;
     justify-self: end;
     justify-items: end;
     width: min(18rem, 75vw);
+    max-width: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
   }
