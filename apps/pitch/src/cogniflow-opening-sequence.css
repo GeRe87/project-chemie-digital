@@ -93,7 +93,7 @@
   width: min(1190px, 94vw);
   margin-top: .15rem;
   padding-top: 2.8rem;
-  border-radius: 14px;
+  border-radius: 0;
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-svg,
@@ -106,81 +106,56 @@
   display: none;
 }
 
-/* Problem: the final collision should read as danger, not as another ordinary node. */
+/* Problem: keep the Eco City teal pipeline and reserve amber for the actual collision. */
 [id="ex:scene-cogniflow-coupling-problem--scene"] {
-  --pcd-opening-danger: #ff5b6e;
-  --pcd-opening-warning: #ffb14a;
+  --pcd-opening-danger: var(--pcd-flow-pixel-danger, #b86400);
+  --pcd-opening-danger-strong: var(--pcd-flow-pixel-danger-strong, #7e4000);
+  --pcd-opening-danger-surface: var(--pcd-flow-pixel-danger-surface, #ffd878);
+  --pcd-opening-danger-highlight: var(--pcd-flow-pixel-danger-highlight, #fff0b8);
 }
 
-[id="ex:scene-cogniflow-coupling-problem--scene"] h2 {
-  color: var(--pcd-opening-danger);
-}
-
-[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host {
-  border-color: color-mix(in srgb, var(--pcd-opening-danger) 76%, var(--pcd-border));
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-opening-danger) 25%, transparent),
-    10px 12px 0 color-mix(in srgb, var(--pcd-opening-danger) 12%, transparent);
-}
-
-[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host::before {
-  border-bottom-color: color-mix(in srgb, var(--pcd-opening-danger) 78%, transparent);
-  background: linear-gradient(180deg, #7b3043, #4c1830);
-  text-shadow: 2px 2px 0 #2d0a1d;
-}
-
-[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-library-e-v1"] .d3-flow-node-shape,
-[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-library-e-v2"] .d3-flow-node-shape {
-  stroke: var(--pcd-opening-warning);
-  fill: color-mix(in srgb, var(--pcd-opening-warning) 10%, var(--pcd-surface-strong));
-}
-
-[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-shape {
-  stroke: var(--pcd-opening-danger);
-  fill: color-mix(in srgb, var(--pcd-opening-danger) 14%, var(--pcd-surface-strong));
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-shape {
+  stroke: var(--pcd-opening-danger-strong);
+  fill: var(--pcd-opening-danger-surface);
+  stroke-width: 5;
   filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--pcd-opening-danger) 70%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-danger) 24%, transparent));
+    drop-shadow(0 0 5px color-mix(in srgb, var(--pcd-opening-danger-highlight) 78%, transparent))
+    drop-shadow(5px 6px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 28%, transparent));
 }
 
-[id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
-  fill: var(--pcd-opening-danger);
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
+  fill: var(--pcd-opening-danger-strong);
+  stroke: var(--pcd-opening-danger-highlight);
+  stroke-width: 5px;
 }
 
-[id="ex:scene-cogniflow-coupling-problem--scene"] [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
   stroke: var(--pcd-opening-danger);
+  stroke-width: 5;
 }
 
-/* Solution: the same four-stage reveal now terminates in replaceable providers. */
+/* Solution: the same semantic flow uses the Eco City family with a green solution focus. */
 [id="ex:scene-cogniflow-service-architecture--scene"] {
+  --pcd-opening-solution: #2ea889;
+}
+
+body[data-presentation-theme="dark"] [id="ex:scene-cogniflow-service-architecture--scene"] {
   --pcd-opening-solution: #56e3c3;
 }
 
-[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
-  border-color: color-mix(in srgb, var(--pcd-opening-solution) 58%, var(--pcd-accent));
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-opening-solution) 24%, transparent),
-    10px 12px 0 color-mix(in srgb, var(--pcd-opening-solution) 12%, transparent);
-}
-
-[id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host::before {
-  border-bottom-color: color-mix(in srgb, var(--pcd-opening-solution) 55%, var(--pcd-accent));
-  background: linear-gradient(180deg, #176f7f, #154d6d);
-  text-shadow: 2px 2px 0 #092d42;
-}
-
-[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-mcp"] .d3-flow-node-shape {
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-mcp"] .d3-flow-node-shape {
   stroke: var(--pcd-opening-solution);
+  stroke-width: 5;
   filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--pcd-opening-solution) 72%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-solution) 20%, transparent));
+    drop-shadow(0 0 7px color-mix(in srgb, var(--pcd-opening-solution) 58%, transparent))
+    drop-shadow(5px 6px 0 var(--pcd-flow-pixel-shadow));
 }
 
-[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-semantic-store"] .d3-flow-node-shape,
-[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-data-store"] .d3-flow-node-shape,
-[id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-artifact-store"] .d3-flow-node-shape {
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-semantic-store"] .d3-flow-node-shape,
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-data-store"] .d3-flow-node-shape,
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-service-architecture--scene"] [data-node-id="ex:node-cogniflow-artifact-store"] .d3-flow-node-shape {
   stroke: var(--pcd-opening-solution);
-  fill: color-mix(in srgb, var(--pcd-opening-solution) 9%, var(--pcd-surface-strong));
+  fill: color-mix(in srgb, var(--pcd-opening-solution) 12%, var(--pcd-flow-pixel-surface));
 }
 
 @media (max-width: 900px) {
