@@ -45,6 +45,13 @@ def relation_paths(block: dict) -> set[str]:
     }
 
 
+def dataset_objects(dataset, subject, predicate) -> set[object]:
+    return {
+        obj
+        for _subject, _predicate, obj, _graph in dataset.quads((subject, predicate, None, None))
+    }
+
+
 class CogniFlowTitleMediaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -53,19 +60,19 @@ class CogniFlowTitleMediaTests(unittest.TestCase):
     def test_title_semantics_link_authors_to_institutions_and_concept_to_funder(self) -> None:
         self.assertIn(
             EX["organization-ude"],
-            self.dataset.objects(EX["attribution-cogniflow-gerrit-renner"], CD.affiliatedWith),
+            dataset_objects(self.dataset, EX["attribution-cogniflow-gerrit-renner"], CD.affiliatedWith),
         )
         self.assertIn(
             EX["organization-iuta"],
-            self.dataset.objects(EX["attribution-cogniflow-ricardo-cunha"], CD.affiliatedWith),
+            dataset_objects(self.dataset, EX["attribution-cogniflow-ricardo-cunha"], CD.affiliatedWith),
         )
         self.assertIn(
             EX["organization-munv"],
-            self.dataset.objects(EX["cogniflow-standardized-data-processing"], CD.fundedBy),
+            dataset_objects(self.dataset, EX["cogniflow-standardized-data-processing"], CD.fundedBy),
         )
         self.assertIn(
             EX["organization-munv"],
-            self.dataset.objects(EX["attribution-cogniflow-funding"], CD.fundingSource),
+            dataset_objects(self.dataset, EX["attribution-cogniflow-funding"], CD.fundingSource),
         )
 
     def test_media_aware_title_projects_authors_and_funding_to_renderer_neutral_groups(self) -> None:
