@@ -3,12 +3,12 @@
 
 [id="ex:scene-cogniflow-title--scene"] {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(24rem, .72fr) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, .62fr) !important;
   grid-template-rows: auto minmax(0, 1fr) auto !important;
   align-content: stretch !important;
   justify-items: stretch !important;
   min-height: 100%;
-  padding: 4.3rem 5.3rem 3.3rem !important;
+  padding: 4.4rem 5.3rem 3.4rem !important;
   overflow: hidden;
 }
 
@@ -21,12 +21,22 @@
 [id="ex:scene-cogniflow-title--scene"] h2 {
   grid-column: 1 / -1;
   grid-row: 1;
-  width: min(18ch, 78vw) !important;
+  width: min(50rem, 58vw) !important;
   margin: 0 !important;
-  font-size: clamp(3.5rem, 5.4vw, 6.4rem) !important;
-  line-height: .94 !important;
-  letter-spacing: -.045em;
+  font-size: clamp(3.7rem, 4.6vw, 5.7rem) !important;
+  line-height: .96 !important;
+  letter-spacing: -.04em;
   text-wrap: balance;
+}
+
+[id="ex:scene-cogniflow-title--scene"] h2::after {
+  content: "";
+  display: block;
+  width: 7rem;
+  height: .34rem;
+  margin-top: 1rem;
+  background: var(--pcd-accent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--pcd-accent) 30%, transparent);
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group {
@@ -39,22 +49,22 @@
   grid-column: 1;
   grid-row: 2;
   align-self: end;
-  max-width: 40rem;
+  max-width: 48rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
-  max-width: 40rem;
-  margin-top: .55rem;
+  max-width: 48rem;
+  margin-top: .75rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group > cite {
   display: block;
   margin: 0;
   color: var(--pcd-foreground);
-  font-size: clamp(1.05rem, 1.45vw, 1.5rem);
+  font-size: clamp(1rem, 1.28vw, 1.35rem);
   font-style: normal;
   font-weight: 650;
   line-height: 1.35;
@@ -77,20 +87,20 @@
 
 [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-ude-logo"] {
   position: absolute;
-  top: 3.1rem;
-  right: 3.2rem;
-  width: min(18rem, 22vw);
-  padding: 1.15rem 1.35rem;
+  top: 3.25rem;
+  right: 3.25rem;
+  width: min(17rem, 21vw);
+  padding: 1.05rem 1.25rem;
   background: #0b4a86;
   border-radius: .45rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
-  top: 3.2rem;
-  right: min(23.2rem, 29vw);
-  width: min(13.5rem, 17vw);
-  padding: .72rem 1rem;
+  top: 3.3rem;
+  right: min(21.7rem, 27vw);
+  width: min(12.5rem, 16vw);
+  padding: .7rem .95rem;
   background: #ffffff;
   border: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
   border-radius: .45rem;
@@ -106,17 +116,17 @@
   grid-template-columns: minmax(12rem, 18rem);
   grid-template-rows: auto auto;
   align-items: end;
-  justify-items: end;
-  gap: .38rem;
+  justify-items: start;
+  gap: .45rem;
   width: max-content;
   max-width: 100%;
-  padding-top: .9rem;
+  padding-top: .95rem;
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 75%, transparent);
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] > cite {
   color: var(--pcd-muted);
-  font-size: .8rem;
+  font-size: .78rem;
   font-weight: 850;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -125,7 +135,7 @@
 
 [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-munv-logo"] {
   position: static;
-  width: min(18rem, 28vw);
+  width: min(18rem, 27vw);
   padding: .55rem .7rem;
   background: #ffffff;
   border-radius: .35rem;
@@ -135,28 +145,34 @@
   [id="ex:scene-cogniflow-title--scene"] {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto auto !important;
-    padding: 2.2rem 1.5rem 1.8rem !important;
+    padding: 2.1rem 1.5rem 1.8rem !important;
   }
 
   [id="ex:scene-cogniflow-title--scene"] h2 {
     width: 100% !important;
-    font-size: clamp(2.7rem, 11vw, 4.4rem) !important;
+    font-size: clamp(2.5rem, 10vw, 4.15rem) !important;
     padding-top: 6rem;
   }
 
+  [id="ex:scene-cogniflow-title--scene"] h2::after {
+    width: 5.5rem;
+    height: .28rem;
+    margin-top: .75rem;
+  }
+
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-ude-logo"] {
-    top: 1.3rem;
+    top: 1.25rem;
     right: 1.3rem;
-    width: 11.5rem;
-    padding: .75rem .9rem;
+    width: 11rem;
+    padding: .72rem .85rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-iuta-logo"] {
     top: 1.3rem;
     left: 1.5rem;
     right: auto;
-    width: 9.5rem;
-    padding: .45rem .65rem;
+    width: 9rem;
+    padding: .42rem .6rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"],
@@ -178,7 +194,7 @@
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-munv-logo"] {
-    width: min(17rem, 58vw);
+    width: min(16rem, 56vw);
     justify-self: end;
   }
 }
