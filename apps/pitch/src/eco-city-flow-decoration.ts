@@ -66,11 +66,23 @@ function createCircle(className: string, cx: number, cy: number, radius: number)
   return circle;
 }
 
+function createText(className: string, x: number, y: number, value: string): SVGTextElement {
+  const text = document.createElementNS(SVG_NS, "text");
+  text.setAttribute("class", className);
+  text.setAttribute("x", String(x));
+  text.setAttribute("y", String(y));
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("dominant-baseline", "middle");
+  text.setAttribute("aria-hidden", "true");
+  text.textContent = value;
+  return text;
+}
+
 function createSocket(x: number, y: number, size: number): SVGRectElement {
   return createRect("d3-flow-pixel-socket", x - size / 2, y - size / 2, size, size);
 }
 
-function decorateNode(svg: SVGSVGElement, group: SVGGElement): void {
+function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: number): void {
   if (group.dataset.pixelDecorated === "true") return;
   const shape = group.querySelector<SVGRectElement>(".d3-flow-node-shape");
   if (!shape) return;
@@ -81,25 +93,43 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement): void {
   const nodeId = group.getAttribute("data-node-id");
   if (x === undefined || y === undefined || width === undefined || height === undefined || !nodeId) return;
 
-  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 15));
-  shadow.setAttribute("transform", "translate(8 8)");
-  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 15));
-  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 5, y + 5, width - 10, height - 10, 12));
-  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 11, y + 11, width - 22, height - 22, 9));
-  const rail = createRect("d3-flow-pixel-node-rail", x + 14, y + 16, Math.min(28, width * 0.12), Math.max(18, height - 32));
-  const led = createCircle("d3-flow-pixel-node-led", x + width - 22, y + 21, 7);
+  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 16));
+  shadow.setAttribute("transform", "translate(8 9)");
+  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 16));
+  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 5, y + 5, width - 10, height - 10, 13));
+  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 11, y + 11, width - 22, height - 22, 10));
+
+  const railWidth = Math.min(54, Math.max(44, width * 0.19));
+  const rail = createRect("d3-flow-pixel-node-rail", x + 13, y + 15, railWidth, Math.max(22, height - 30));
+  const number = createText(
+    "d3-flow-pixel-node-number",
+    x + 13 + railWidth / 2,
+    y + height / 2 + 1,
+    String(readingIndex + 1).padStart(2, "0"),
+  );
+  const led = createCircle("d3-flow-pixel-node-led", x + width - 21, y + 20, 7);
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
   group.insertBefore(middle, shape);
   group.insertBefore(inner, shape);
   group.insertBefore(rail, shape);
+  group.insertBefore(number, shape);
   group.insertBefore(led, shape);
+
+  const label = group.querySelector<SVGTextElement>(".d3-flow-node-label");
+  if (label) {
+    const labelOffset = railWidth * 0.28;
+    label.setAttribute("x", String(labelOffset));
+    for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
+      tspan.setAttribute("x", String(labelOffset));
+    }
+  }
 
   const orientation = svg.getAttribute("data-orientation") ?? "horizontal";
   const hasIncoming = svg.querySelector(`.d3-flow-edge[data-target-node-id="${CSS.escape(nodeId)}"]`) !== null;
   const hasOutgoing = svg.querySelector(`.d3-flow-edge[data-source-node-id="${CSS.escape(nodeId)}"]`) !== null;
-  const socketSize = 19;
+  const socketSize = 20;
   if (orientation === "horizontal") {
     if (hasIncoming) group.insertBefore(createSocket(x, 0, socketSize), shape);
     if (hasOutgoing) group.insertBefore(createSocket(x + width, 0, socketSize), shape);
@@ -112,33 +142,55 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement): void {
   group.dataset.pixelDecorated = "true";
 }
 
-function decorateEdgeLabels(svg: SVGSVGElement): void {
+function decorateEdges(svg: SVGSVGElement): void {
+  const lines = Array.from(svg.querySelectorAll<SVGLineElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
-  for (const label of labels) {
-    if (label.dataset.pixelDecorated === "true") continue;
 
-    const y = numberAttribute(label, "y");
-    if (y !== undefined && svg.getAttribute("data-orientation") === "horizontal") {
-      label.setAttribute("y", String(y - 12));
+  lines.forEach((line, index) => {
+    if (line.dataset.pixelDecorated === "true") return;
+    const x1 = numberAttribute(line, "x1");
+    const y1 = numberAttribute(line, "y1");
+    const x2 = numberAttribute(line, "x2");
+    const y2 = numberAttribute(line, "y2");
+    if (x1 === undefined || y1 === undefined || x2 === undefined || y2 === undefined) return;
+
+    const middleX = x1 + (x2 - x1) / 2;
+    const isHorizontal = Math.abs(y2 - y1) < 1;
+    const d = isHorizontal
+      ? `M ${x1} ${y1} H ${x2}`
+      : `M ${x1} ${y1} H ${middleX} V ${y2} H ${x2}`;
+    const path = createPath("d3-flow-pixel-edge-path", d);
+    path.setAttribute("data-source-node-id", line.getAttribute("data-source-node-id") ?? "");
+    path.setAttribute("data-target-node-id", line.getAttribute("data-target-node-id") ?? "");
+    line.parentNode?.insertBefore(path, line);
+    line.dataset.pixelDecorated = "true";
+
+    const label = labels[index];
+    if (!label) return;
+    const labelX = middleX;
+    const labelY = isHorizontal ? y1 - 34 : Math.min(y1, y2) - 30;
+    label.setAttribute("x", String(labelX));
+    label.setAttribute("y", String(labelY));
+    for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
+      tspan.setAttribute("x", String(labelX));
     }
 
     let box: DOMRect | SVGRect;
     try {
       box = label.getBBox();
     } catch {
-      continue;
+      return;
     }
-    if (!(box.width > 0) || !(box.height > 0)) continue;
-
-    const padX = 12;
-    const padY = 7;
+    if (!(box.width > 0) || !(box.height > 0)) return;
+    const padX = 14;
+    const padY = 8;
     const pill = createPath(
       "d3-flow-pixel-edge-pill",
-      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 7),
+      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 8),
     );
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";
-  }
+  });
 }
 
 function fitViewBoxToFlow(svg: SVGSVGElement): void {
@@ -163,8 +215,8 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
   const contentHeight = maxY - minY;
   if (!(contentWidth > 0) || !(contentHeight > 0)) return;
 
-  const padX = Math.max(30, contentWidth * 0.035);
-  const padY = Math.max(24, contentHeight * 0.12);
+  const padX = Math.max(24, contentWidth * 0.025);
+  const padY = Math.max(34, contentHeight * 0.15);
   const viewWidth = contentWidth + padX * 2;
   const viewHeight = contentHeight + padY * 2;
   svg.setAttribute("viewBox", `${minX - padX} ${minY - padY} ${viewWidth} ${viewHeight}`);
@@ -174,8 +226,9 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
 }
 
 function decorateSvg(svg: SVGSVGElement): void {
-  for (const group of Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"))) decorateNode(svg, group);
-  decorateEdgeLabels(svg);
+  const nodes = Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"));
+  nodes.forEach((group, index) => decorateNode(svg, group, index));
+  decorateEdges(svg);
   fitViewBoxToFlow(svg);
 }
 
