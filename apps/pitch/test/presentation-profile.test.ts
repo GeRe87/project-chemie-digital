@@ -10,6 +10,7 @@ import {
   chemometricsPresentationProfile,
   cogniflowPresentationProfile,
   resolveBackgroundPackId,
+  resolveDiagramThemeId,
   resolvePresentationAppearance,
 } from "../src/presentation-profile.ts";
 import { validateThemedBackgroundPackFamily } from "../../../packages/renderer-reveal/src/background/themed-background.ts";
@@ -24,6 +25,7 @@ test("Chemometrics defaults to dark scroll view with the paired city family", ()
   assert.equal(resolved.backgroundEnabled, true);
   assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
   assert.equal(resolved.backgroundPackId, "chemometrics-city-dark");
+  assert.equal(resolved.diagramThemeId, "eco-city");
   assert.deepEqual(resolved.diagnostics, []);
 });
 
@@ -52,6 +54,7 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   assert.equal(resolved.backgroundEnabled, true);
   assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
   assert.equal(resolved.backgroundPackId, "chemometrics-city-light");
+  assert.equal(resolved.diagramThemeId, "eco-city");
   assert.equal(chemometricsCityFamily.label, "Eco City");
   assert.equal(chemometricsCityFamily.variants.light.label, "Eco City — Light");
   assert.equal(chemometricsCityFamily.variants.dark.label, "Eco City — Dark");
@@ -60,6 +63,14 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   const dark = resolvePresentationAppearance("?theme=dark", COGNIFLOW_SOURCE_PATH_ID);
   assert.equal(dark.backgroundFamilyId, "chemometrics-city");
   assert.equal(dark.backgroundPackId, "chemometrics-city-dark");
+  assert.equal(dark.diagramThemeId, "eco-city");
+});
+
+test("diagram theme follows the selected background family and disables with background none", () => {
+  assert.equal(resolveDiagramThemeId("chemometrics-city", true), "eco-city");
+  assert.equal(resolveDiagramThemeId("chemometrics-city", false), "neutral");
+  assert.equal(resolveDiagramThemeId("missing", true), "neutral");
+  assert.equal(resolveDiagramThemeId(undefined, true), "neutral");
 });
 
 test("theme query selects the matching concrete variant without changing family identity", () => {
@@ -69,14 +80,17 @@ test("theme query selects the matching concrete variant without changing family 
   assert.equal(light.backgroundFamilyId, "chemometrics-city");
   assert.equal(light.backgroundPackId, "chemometrics-city-light");
   assert.equal(dark.backgroundPackId, "chemometrics-city-dark");
+  assert.equal(light.diagramThemeId, dark.diagramThemeId);
+  assert.equal(light.diagramThemeId, "eco-city");
 });
 
-test("background none disables artwork but preserves the selected default family across theme state", () => {
+test("background none disables artwork and its coupled diagram theme while preserving family state", () => {
   const resolved = resolvePresentationAppearance("?background=none&theme=light");
   assert.equal(resolved.theme, "light");
   assert.equal(resolved.backgroundEnabled, false);
   assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
   assert.equal(resolved.backgroundPackId, undefined);
+  assert.equal(resolved.diagramThemeId, "neutral");
   assert.equal(resolveBackgroundPackId(resolved.backgroundFamilyId, resolved.theme), "chemometrics-city-light");
 });
 
@@ -94,6 +108,7 @@ test("unknown appearance overrides fail predictably to profile defaults", () => 
   assert.equal(resolved.theme, chemometricsPresentationProfile.defaultTheme);
   assert.equal(resolved.backgroundFamilyId, chemometricsPresentationProfile.defaultBackgroundFamilyId);
   assert.equal(resolved.backgroundPackId, "chemometrics-city-dark");
+  assert.equal(resolved.diagramThemeId, "eco-city");
   assert.equal(resolved.diagnostics.length, 3);
 });
 
@@ -101,6 +116,7 @@ test("legacy neon-city URLs map to the new family without exposing a second sele
   const resolved = resolvePresentationAppearance("?background=chemometrics-neon-city&theme=light");
   assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
   assert.equal(resolved.backgroundPackId, "chemometrics-city-light");
+  assert.equal(resolved.diagramThemeId, "eco-city");
   assert.deepEqual(resolved.diagnostics, []);
 });
 
@@ -133,12 +149,16 @@ test("Eco City variants preserve parallax roles and use repository-local assets"
   ]);
 });
 
-test("theme styling is keyed independently from background activation", () => {
+test("theme styling is keyed independently from background activation and diagram family", () => {
   const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
   const backgroundStyles = readFileSync(new URL("../src/presentation-background.css", import.meta.url), "utf8");
+  const flowStyles = readFileSync(new URL("../src/flow-theme.css", import.meta.url), "utf8");
+  const chartStyles = readFileSync(new URL("../src/chart-theme.css", import.meta.url), "utf8");
   assert.match(styles, /data-presentation-theme="dark"/);
   assert.match(styles, /data-presentation-theme="light"/);
   assert.match(backgroundStyles, /body\.pcd-background-active/);
   assert.match(backgroundStyles, /var\(--pcd-foreground\)/);
+  assert.match(flowStyles, /data-diagram-theme="eco-city"/);
+  assert.match(chartStyles, /data-diagram-theme="eco-city"/);
   assert.doesNotMatch(backgroundStyles, /body\.pcd-background-active[^{]*\{[^}]*color:\s*#f6fbff/s);
 });
