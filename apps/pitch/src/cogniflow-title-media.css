@@ -2,21 +2,21 @@
    Content and media URIs remain RDF-authored; this file owns presentation only. */
 
 [id="ex:scene-cogniflow-title--scene"] {
-  --pcd-title-panel-inset-y: clamp(5rem, 11vh, 7rem);
   position: relative;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(20rem, .48fr) !important;
-  grid-template-rows: auto auto auto minmax(0, 1fr) !important;
+  grid-template-rows: auto auto auto !important;
   column-gap: 3.2rem;
-  align-content: stretch !important;
+  row-gap: .18rem;
+  align-content: center !important;
   justify-items: stretch !important;
   min-height: 100%;
-  padding: calc(var(--pcd-title-panel-inset-y) + 1.8rem) 5.2rem calc(var(--pcd-title-panel-inset-y) + 1.7rem) !important;
+  padding: 0 5.2rem !important;
   overflow: hidden;
 }
 
-/* The Reveal scene stays viewport-sized for navigation, while the visible Eco City surface
-   becomes a deliberately compact card so the world remains visible above and below it. */
+/* Reveal keeps the scene viewport-sized. The visible Eco City surface is a centered,
+   renderer-owned panel that wraps the actual title content instead of covering the viewport. */
 body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"],
 body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"] {
   background: transparent !important;
@@ -26,25 +26,32 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
   backdrop-filter: none !important;
 }
 
+/* Fully reset the older opening-sequence motif. That rule used a fixed square plus rotate(45deg),
+   so width/height/transform must all be overridden here, not only top/right/bottom/left. */
 [id="ex:scene-cogniflow-title--scene"]::before {
   content: "" !important;
   position: absolute;
   z-index: 0;
-  top: var(--pcd-title-panel-inset-y);
-  right: 0;
-  bottom: var(--pcd-title-panel-inset-y);
-  left: 0;
+  top: 50% !important;
+  right: 3.4rem !important;
+  bottom: auto !important;
+  left: 3.4rem !important;
+  width: auto !important;
+  height: min(64%, 36rem) !important;
+  box-sizing: border-box;
+  transform: translateY(-50%) !important;
+  clip-path: none !important;
   pointer-events: none;
   background: var(--pcd-surface-strong);
-  border: 1px solid var(--pcd-border);
-  border-radius: 18px;
-  box-shadow: 0 18px 48px rgb(0 0 0 / .12);
+  border: 1px solid var(--pcd-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 18px 48px rgb(0 0 0 / .12) !important;
 }
 
 body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"]::before {
   background: var(--pcd-world-panel-bg);
-  border-color: var(--pcd-world-panel-border);
-  box-shadow: var(--pcd-world-panel-shadow);
+  border-color: var(--pcd-world-panel-border) !important;
+  box-shadow: var(--pcd-world-panel-shadow) !important;
   backdrop-filter: blur(8px);
 }
 
@@ -75,7 +82,7 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
   display: block;
   width: 6.5rem;
   height: .28rem;
-  margin-top: 1.05rem;
+  margin-top: .9rem;
   background: var(--pcd-accent);
   box-shadow: 0 0 14px color-mix(in srgb, var(--pcd-accent) 28%, transparent);
 }
@@ -85,31 +92,31 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
   z-index: 1;
 }
 
-/* Author information remains authored Attribution prose. */
+/* Keep the two author attributions as one compact block under the title. */
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] {
   grid-column: 1;
   grid-row: 2;
   align-self: start;
-  max-width: 47rem;
-  margin-top: 1.45rem;
+  max-width: 49rem;
+  margin-top: 1.05rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
-  max-width: 49rem;
-  margin-top: .38rem;
+  max-width: 52rem;
+  margin-top: .18rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group > cite {
   display: block;
   margin: 0;
   color: var(--pcd-foreground);
-  font-size: clamp(.96rem, 1.08vw, 1.2rem);
+  font-size: clamp(.94rem, 1.05vw, 1.16rem);
   font-style: normal;
   font-weight: 650;
-  line-height: 1.3;
+  line-height: 1.28;
 }
 
 /* Institution logos are projected from the attribution groups but positioned as a quiet partner rail. */
@@ -132,8 +139,8 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
    the same media resource IDs and must never receive these absolute-position rules. */
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-ude-logo"] {
   position: absolute;
-  top: calc(var(--pcd-title-panel-inset-y) + 1.15rem);
-  right: 3.25rem;
+  top: 19%;
+  right: 5.2rem;
   width: min(16.5rem, 20vw);
   padding: 1rem 1.15rem;
   background: #0b4a86;
@@ -142,8 +149,8 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
 
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
-  top: calc(var(--pcd-title-panel-inset-y) + 1.35rem);
-  right: min(22.3rem, 28vw);
+  top: 19.3%;
+  right: min(24.2rem, 30vw);
   width: min(11.5rem, 14vw);
   padding: .62rem .85rem;
   background: #ffffff;
@@ -151,20 +158,22 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
   border-radius: .45rem;
 }
 
-/* Funding is semantically authored but spatially independent from the author grid on wide slides. */
+/* Funding stays visually secondary but is pulled up into the same compact content band as
+   the author attributions. This lets the centered panel wrap all authored content naturally. */
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
   position: absolute;
   z-index: 1;
   right: 5.2rem;
-  bottom: calc(var(--pcd-title-panel-inset-y) + 1.25rem);
+  top: 57%;
+  bottom: auto;
   display: grid;
   grid-template-columns: minmax(12rem, 18rem);
   grid-template-rows: auto auto;
   justify-items: start;
-  gap: .45rem;
+  gap: .38rem;
   width: max-content;
   max-width: 20rem;
-  padding-top: .9rem;
+  padding-top: .72rem;
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
 }
 
@@ -179,26 +188,29 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
 
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-munv-logo"] {
   position: static;
-  width: min(17rem, 25vw);
-  padding: .5rem .65rem;
+  width: min(16rem, 24vw);
+  padding: .45rem .6rem;
   background: #ffffff;
   border-radius: .35rem;
 }
 
 @media (max-width: 900px) {
   [id="ex:scene-cogniflow-title--scene"] {
-    --pcd-title-panel-inset-y: 1rem;
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto minmax(0, 1fr) !important;
+    align-content: start !important;
     padding: 2rem 1.5rem 1.7rem !important;
   }
 
   [id="ex:scene-cogniflow-title--scene"]::before {
-    top: var(--pcd-title-panel-inset-y);
-    right: .35rem;
-    bottom: var(--pcd-title-panel-inset-y);
-    left: .35rem;
-    border-radius: 14px;
+    top: .8rem !important;
+    right: .35rem !important;
+    bottom: .8rem !important;
+    left: .35rem !important;
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    border-radius: 14px !important;
   }
 
   [id="ex:scene-cogniflow-title--scene"] h2 {
@@ -242,7 +254,7 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
 
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
     grid-row: 3;
-    margin-top: .35rem;
+    margin-top: .25rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
@@ -255,6 +267,7 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
     max-width: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+    margin-top: 1rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-munv-logo"] {
