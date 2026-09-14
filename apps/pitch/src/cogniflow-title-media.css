@@ -3,12 +3,13 @@
 
 [id="ex:scene-cogniflow-title--scene"] {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(22rem, .62fr) !important;
-  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, .48fr) !important;
+  grid-template-rows: auto auto auto minmax(0, 1fr) !important;
+  column-gap: 3.2rem;
   align-content: stretch !important;
   justify-items: stretch !important;
   min-height: 100%;
-  padding: 4.4rem 5.3rem 3.4rem !important;
+  padding: 4.2rem 5.2rem 3.4rem !important;
   overflow: hidden;
 }
 
@@ -19,24 +20,24 @@
 }
 
 [id="ex:scene-cogniflow-title--scene"] h2 {
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 1;
-  width: min(50rem, 58vw) !important;
+  width: min(49rem, 100%) !important;
   margin: 0 !important;
-  font-size: clamp(3.7rem, 4.6vw, 5.7rem) !important;
-  line-height: .96 !important;
-  letter-spacing: -.04em;
+  font-size: clamp(3.15rem, 3.8vw, 4.65rem) !important;
+  line-height: .98 !important;
+  letter-spacing: -.035em;
   text-wrap: balance;
 }
 
 [id="ex:scene-cogniflow-title--scene"] h2::after {
   content: "";
   display: block;
-  width: 7rem;
-  height: .34rem;
-  margin-top: 1rem;
+  width: 6.5rem;
+  height: .28rem;
+  margin-top: 1.05rem;
   background: var(--pcd-accent);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--pcd-accent) 30%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--pcd-accent) 28%, transparent);
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group {
@@ -48,29 +49,30 @@
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] {
   grid-column: 1;
   grid-row: 2;
-  align-self: end;
-  max-width: 48rem;
+  align-self: start;
+  max-width: 47rem;
+  margin-top: 1.6rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
-  max-width: 48rem;
-  margin-top: .75rem;
+  max-width: 47rem;
+  margin-top: .35rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group > cite {
   display: block;
   margin: 0;
   color: var(--pcd-foreground);
-  font-size: clamp(1rem, 1.28vw, 1.35rem);
+  font-size: clamp(1rem, 1.2vw, 1.28rem);
   font-style: normal;
   font-weight: 650;
-  line-height: 1.35;
+  line-height: 1.32;
 }
 
-/* Institution logos are projected from the same attribution groups but positioned as a logo rail. */
+/* Institution logos are projected from the attribution groups but positioned as a quiet partner rail. */
 [id="ex:scene-cogniflow-title--scene"] .media-reference {
   margin: 0;
   padding: 0;
@@ -85,58 +87,59 @@
   object-fit: contain;
 }
 
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-ude-logo"] {
+/* Scope logo placement to the media element itself. Group provenance intentionally contains
+   the same media resource IDs and must never receive these absolute-position rules. */
+[id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-ude-logo"] {
   position: absolute;
   top: 3.25rem;
   right: 3.25rem;
-  width: min(17rem, 21vw);
-  padding: 1.05rem 1.25rem;
+  width: min(16.5rem, 20vw);
+  padding: 1rem 1.15rem;
   background: #0b4a86;
   border-radius: .45rem;
 }
 
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-iuta-logo"] {
+[id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
-  top: 3.3rem;
-  right: min(21.7rem, 27vw);
-  width: min(12.5rem, 16vw);
-  padding: .7rem .95rem;
+  top: 3.45rem;
+  right: min(21.2rem, 26vw);
+  width: min(11.5rem, 14vw);
+  padding: .62rem .85rem;
   background: #ffffff;
   border: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
   border-radius: .45rem;
 }
 
-/* Funding is a separate Attribution with cd:fundingSource, therefore visually subordinate. */
+/* Funding is a separate Attribution with cd:fundingSource, visually subordinate and bottom-right. */
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   align-self: end;
   justify-self: end;
   display: grid;
   grid-template-columns: minmax(12rem, 18rem);
   grid-template-rows: auto auto;
-  align-items: end;
   justify-items: start;
   gap: .45rem;
   width: max-content;
   max-width: 100%;
-  padding-top: .95rem;
-  border-top: 1px solid color-mix(in srgb, var(--pcd-border) 75%, transparent);
+  padding-top: .9rem;
+  border-top: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] > cite {
   color: var(--pcd-muted);
-  font-size: .78rem;
+  font-size: .76rem;
   font-weight: 850;
   letter-spacing: .14em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-munv-logo"] {
+[id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-munv-logo"] {
   position: static;
-  width: min(18rem, 27vw);
-  padding: .55rem .7rem;
+  width: min(17rem, 25vw);
+  padding: .5rem .65rem;
   background: #ffffff;
   border-radius: .35rem;
 }
@@ -144,57 +147,66 @@
 @media (max-width: 900px) {
   [id="ex:scene-cogniflow-title--scene"] {
     grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto auto auto !important;
-    padding: 2.1rem 1.5rem 1.8rem !important;
+    grid-template-rows: auto auto auto minmax(0, 1fr) !important;
+    padding: 2rem 1.5rem 1.7rem !important;
   }
 
   [id="ex:scene-cogniflow-title--scene"] h2 {
+    grid-column: 1;
     width: 100% !important;
-    font-size: clamp(2.5rem, 10vw, 4.15rem) !important;
-    padding-top: 6rem;
+    font-size: clamp(2.35rem, 9vw, 3.9rem) !important;
+    padding-top: 5.7rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] h2::after {
-    width: 5.5rem;
-    height: .28rem;
-    margin-top: .75rem;
+    width: 5rem;
+    height: .25rem;
+    margin-top: .7rem;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-ude-logo"] {
-    top: 1.25rem;
-    right: 1.3rem;
-    width: 11rem;
-    padding: .72rem .85rem;
+  [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-ude-logo"] {
+    top: 1.15rem;
+    right: 1.2rem;
+    width: 10.5rem;
+    padding: .68rem .8rem;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-iuta-logo"] {
-    top: 1.3rem;
+  [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
+    top: 1.2rem;
     left: 1.5rem;
     right: auto;
-    width: 9rem;
-    padding: .42rem .6rem;
+    width: 8.5rem;
+    padding: .4rem .55rem;
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"],
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"],
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-column: 1;
+  }
+
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] {
+    grid-row: 2;
     margin-top: 1rem;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] { grid-row: 2; }
-  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] { grid-row: 3; }
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
+    grid-row: 3;
+    margin-top: .35rem;
+  }
+
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-row: 4;
-    justify-self: stretch;
+    align-self: end;
+    justify-self: end;
     justify-items: end;
-    width: 100%;
+    width: min(18rem, 75vw);
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-munv-logo"] {
-    width: min(16rem, 56vw);
+  [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-munv-logo"] {
+    width: min(15rem, 60vw);
     justify-self: end;
   }
 }
