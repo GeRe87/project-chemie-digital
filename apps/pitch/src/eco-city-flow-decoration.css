@@ -5,7 +5,7 @@
 .d3-flow-pixel-socket,
 .d3-flow-pixel-edge-pill,
 .d3-flow-pixel-edge-path,
-.d3-flow-pixel-node-rail,
+.d3-flow-pixel-node-tab,
 .d3-flow-pixel-node-led,
 .d3-flow-pixel-node-number {
   display: none;
@@ -42,7 +42,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
   width: 100% !important;
   height: auto !important;
   min-height: 0 !important;
-  max-height: 520px;
+  max-height: 540px;
   margin: 0 auto;
   overflow: visible;
   background: transparent !important;
@@ -66,7 +66,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-tab,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
   display: block;
@@ -90,16 +90,17 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-inner {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 96%, white 4%);
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail {
-  fill: color-mix(in srgb, var(--pcd-flow-pixel-ink) 14%, var(--pcd-flow-pixel-surface));
-  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 50%, transparent);
-  stroke-width: 2;
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-tab {
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-ink) 12%, var(--pcd-flow-pixel-surface));
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 58%, transparent);
+  stroke-width: 2.5;
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 14%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
   fill: var(--pcd-flow-pixel-ink-strong);
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 950;
   letter-spacing: -0.08em;
 }
@@ -139,18 +140,18 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 900;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 /* Semantic focus treatment: the dependency collision is the problem statement,
@@ -167,7 +168,7 @@ body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep
   fill: var(--pcd-flow-pixel-danger-surface);
 }
 
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-rail {
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-danger) 20%, var(--pcd-flow-pixel-danger-surface));
   stroke: var(--pcd-flow-pixel-danger-strong);
 }
