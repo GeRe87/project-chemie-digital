@@ -1,0 +1,152 @@
+/* Structural SVG decoration for the Eco City diagram family. The semantic D3
+   graph stays unchanged; this file only controls its visual skin. */
+
+.d3-flow-pixel-frame,
+.d3-flow-pixel-socket,
+.d3-flow-pixel-edge-pill {
+  display: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
+  width: min(1240px, 96vw);
+  margin: 0.15rem auto 0;
+  padding: 0.35rem 0.45rem 0.25rem;
+  border: 0;
+  border-radius: 0;
+  clip-path: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host::before {
+  display: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-runtime,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-figure {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
+  display: block;
+  width: 100%;
+  min-height: 0 !important;
+  height: 360px !important;
+  overflow: visible;
+  background: transparent !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-caption {
+  display: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape-base {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
+  display: block;
+  shape-rendering: crispEdges;
+  pointer-events: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-shadow {
+  fill: var(--pcd-flow-pixel-shadow);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-outer {
+  fill: var(--pcd-flow-pixel-ink-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-middle {
+  fill: var(--pcd-flow-pixel-highlight);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-inner {
+  fill: var(--pcd-flow-pixel-surface);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket {
+  fill: var(--pcd-flow-pixel-highlight);
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 4;
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 5;
+  stroke-linecap: square;
+  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
+  fill: var(--pcd-flow-pixel-ink-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 96%, transparent);
+  stroke: var(--pcd-flow-pixel-ink);
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: none;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: none;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+/* Semantic focus treatment: the dependency collision is the problem statement,
+   analogous to the highlighted amber module in the reference visual. */
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-outer {
+  fill: var(--pcd-flow-pixel-danger-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-middle {
+  fill: var(--pcd-flow-pixel-danger-highlight);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
+  fill: var(--pcd-flow-pixel-danger-surface);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
+  fill: var(--pcd-flow-pixel-danger-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+  stroke: var(--pcd-flow-pixel-danger);
+}
+
+@media (max-width: 900px) {
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
+    height: 520px !important;
+  }
+
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
+    font-size: 15px;
+  }
+
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
+    font-size: 11px;
+  }
+}
