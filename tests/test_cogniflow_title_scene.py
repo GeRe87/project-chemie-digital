@@ -37,6 +37,7 @@ SCENE_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/scenes/cogni
 TITLE = "Standardized Data Processing - Project CogniFlow"
 GERRIT = "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"
 RICARDO = "Ricardo Cunha — IUTA"
+FUNDING = "Funding"
 
 EXPECTED_SCENES = [
     "ex:scene-cogniflow-title--scene",
@@ -92,29 +93,34 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertNotIn("ex:scene-cogniflow-service-usage--scene", EXPECTED_SCENES)
         self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
 
-    def test_title_scene_compiles_exact_requested_title_and_attributions(self) -> None:
+    def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual(8, len(document["scenes"]))
         scene = document["scenes"][0]
         self.assertEqual("ex:scene-cogniflow-title--scene", scene["id"])
-        self.assertEqual([TITLE, GERRIT, RICARDO], [block["text"] for block in scene["blocks"]])
-        self.assertEqual(["prose", "prose", "prose"], [block["kind"] for block in scene["blocks"]])
+        self.assertEqual([TITLE, GERRIT, RICARDO, FUNDING], [block["text"] for block in scene["blocks"]])
+        self.assertEqual(["prose", "prose", "prose", "prose"], [block["kind"] for block in scene["blocks"]])
         self.assertEqual("primary", scene["blocks"][0]["emphasis"])
-        self.assertEqual(["supporting", "supporting"], [block["emphasis"] for block in scene["blocks"][1:]])
+        self.assertEqual(["supporting", "supporting", "supporting"], [block["emphasis"] for block in scene["blocks"][1:]])
         self.assertEqual(
             [
                 "ex:cogniflow-standardized-data-processing",
                 "ex:attribution-cogniflow-gerrit-renner",
                 "ex:attribution-cogniflow-ricardo-cunha",
+                "ex:attribution-cogniflow-funding",
             ],
             [block["source"][0]["resourceId"] for block in scene["blocks"]],
         )
-        self.assertEqual(["skos:prefLabel@en", "cd:body", "cd:body"], [block["source"][0]["relationPath"] for block in scene["blocks"]])
+        self.assertEqual(
+            ["skos:prefLabel@en", "cd:body", "cd:body", "cd:body"],
+            [block["source"][0]["relationPath"] for block in scene["blocks"]],
+        )
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn(TITLE, fallback)
         self.assertIn(GERRIT, fallback)
         self.assertIn(RICARDO, fallback)
+        self.assertIn(FUNDING, fallback)
 
     def test_opening_sequence_states_problem_then_decoupled_answer(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
