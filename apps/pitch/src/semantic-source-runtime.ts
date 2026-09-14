@@ -26,6 +26,14 @@ function absoluteResourceId(resourceId: string): string {
   return resourceId;
 }
 
+function resourceStanzaStart(lines: readonly string[], resourceId: string): number {
+  const token = resourceToken(resourceId);
+  return lines.findIndex((line) => {
+    const trimmed = line.trimStart();
+    return trimmed === token || trimmed.startsWith(`${token} `) || trimmed.startsWith(`${token}\t`);
+  });
+}
+
 export function semanticSourceResourceOrder(
   block: CodeBlock,
   snapshot: RdfDatasetSnapshot,
@@ -34,10 +42,11 @@ export function semanticSourceResourceOrder(
   const targets = unique(snapshot.statements
     .filter((statement) => sourceIds.has(statement.sourceEntityId) && statement.predicateId === SHOWS_RESOURCE)
     .map((statement) => statement.targetEntityId));
+  const lines = block.code.split("\n");
 
   return [...targets].sort((left, right) => {
-    const leftIndex = block.code.indexOf(resourceToken(left));
-    const rightIndex = block.code.indexOf(resourceToken(right));
+    const leftIndex = resourceStanzaStart(lines, left);
+    const rightIndex = resourceStanzaStart(lines, right);
     const normalizedLeft = leftIndex < 0 ? Number.POSITIVE_INFINITY : leftIndex;
     const normalizedRight = rightIndex < 0 ? Number.POSITIVE_INFINITY : rightIndex;
     return normalizedLeft - normalizedRight || left.localeCompare(right);
@@ -47,7 +56,7 @@ export function semanticSourceResourceOrder(
 export function semanticSourceLines(code: string, resourceIds: readonly string[]): readonly SemanticSourceLine[] {
   const lines = code.split("\n");
   const starts = resourceIds
-    .map((resourceId) => ({ resourceId, line: lines.findIndex((line) => line.includes(resourceToken(resourceId))) }))
+    .map((resourceId) => ({ resourceId, line: resourceStanzaStart(lines, resourceId) }))
     .filter((entry) => entry.line >= 0)
     .sort((left, right) => left.line - right.line || left.resourceId.localeCompare(right.resourceId));
 
