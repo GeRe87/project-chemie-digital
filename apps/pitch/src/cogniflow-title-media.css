@@ -30,7 +30,7 @@
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group {
-  position: relative;
+  position: static;
   z-index: 1;
 }
 
@@ -161,7 +161,6 @@
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"],
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-column: 1;
-    position: relative;
     margin-top: 1rem;
   }
 
