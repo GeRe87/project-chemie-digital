@@ -136,7 +136,7 @@ export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
 }
 
 function nodeHeight(lines: readonly string[]): number {
-  return Math.max(88, 40 + Math.max(lines.length, 1) * 22);
+  return Math.max(104, 52 + Math.max(lines.length, 1) * 24);
 }
 
 function midpoint(a: number, b: number): number {
@@ -183,22 +183,22 @@ function horizontalLayeredLayout(
   layers: readonly (readonly string[])[],
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
-  const margin = 32;
-  const nodeWidth = 210;
-  const layerGap = 72;
-  const siblingGap = 28;
+  const margin = 24;
+  const nodeWidth = 250;
+  const layerGap = 44;
+  const siblingGap = 22;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
   const layerHeights = layers.map((layer) =>
-    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 88), 0) + Math.max(0, layer.length - 1) * siblingGap,
+    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 104), 0) + Math.max(0, layer.length - 1) * siblingGap,
   );
-  const contentHeight = Math.max(88, ...layerHeights);
+  const contentHeight = Math.max(104, ...layerHeights);
   const width = Math.max(hostWidth, margin * 2 + layers.length * nodeWidth + Math.max(0, layers.length - 1) * layerGap);
-  const height = margin * 2 + contentHeight + 72;
+  const height = margin * 2 + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
   layers.forEach((layer, layerIndex) => {
     const layerHeight = layerHeights[layerIndex] ?? 0;
-    let cursorY = margin + 36 + (contentHeight - layerHeight) / 2;
+    let cursorY = margin + 17 + (contentHeight - layerHeight) / 2;
     const x = margin + nodeWidth / 2 + layerIndex * (nodeWidth + layerGap);
     for (const id of layer) {
       const node = nodeById.get(id)!;
@@ -226,23 +226,23 @@ function verticalLayeredLayout(
   layers: readonly (readonly string[])[],
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
-  const margin = 32;
-  const layerGap = 64;
-  const siblingGap = 18;
+  const margin = 24;
+  const layerGap = 52;
+  const siblingGap = 16;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
   const width = Math.max(320, hostWidth);
   const byId = new Map<string, D3FlowLayoutNode>();
-  let cursorY = margin + 36;
+  let cursorY = margin + 22;
 
   for (const layer of layers) {
-    const availableWidth = Math.max(160, width - margin * 2 - Math.max(0, layer.length - 1) * siblingGap);
-    const nodeWidth = Math.max(160, Math.min(360, availableWidth / Math.max(1, layer.length)));
+    const availableWidth = Math.max(180, width - margin * 2 - Math.max(0, layer.length - 1) * siblingGap);
+    const nodeWidth = Math.max(180, Math.min(390, availableWidth / Math.max(1, layer.length)));
     const layerNodes = layer.map((id) => {
       const original = nodeById.get(id)!;
-      const labelLines = wrapFlowText(original.label, nodeWidth - 32);
+      const labelLines = wrapFlowText(original.label, nodeWidth - 38);
       return { ...original, labelLines, height: nodeHeight(labelLines) };
     });
-    const layerHeight = Math.max(88, ...layerNodes.map((node) => node.height));
+    const layerHeight = Math.max(104, ...layerNodes.map((node) => node.height));
     const contentWidth = layerNodes.length * nodeWidth + Math.max(0, layerNodes.length - 1) * siblingGap;
     let cursorX = (width - contentWidth) / 2;
     for (const node of layerNodes) {
@@ -261,7 +261,7 @@ function verticalLayeredLayout(
 
   return {
     width,
-    height: Math.max(240, cursorY - layerGap + margin + 36),
+    height: Math.max(240, cursorY - layerGap + margin + 22),
     nodes: prepared.map((node) => byId.get(node.id)!),
   };
 }
@@ -269,10 +269,10 @@ function verticalLayeredLayout(
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
-  const horizontalNodeWidth = 210;
-  const labelWidth = 176;
+  const horizontalNodeWidth = 250;
+  const labelWidth = 190;
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
-    const labelLines = wrapFlowText(node.label, horizontalNodeWidth - 32);
+    const labelLines = wrapFlowText(node.label, horizontalNodeWidth - 38);
     return { ...node, inputIndex, labelLines, height: nodeHeight(labelLines) };
   });
   const layers = topologicalLayers(input);
@@ -299,7 +299,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         x2,
         y2: target.y,
         labelX: midpoint(x1, x2),
-        labelY: midpoint(source.y, target.y) - 18,
+        labelY: midpoint(source.y, target.y) - 20,
         labelLines: wrapFlowText(edge.label, labelWidth),
       };
     }
@@ -315,7 +315,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       y1,
       x2: target.x,
       y2,
-      labelX: midpoint(source.x, target.x) + 18,
+      labelX: midpoint(source.x, target.x) + 20,
       labelY: midpoint(y1, y2),
       labelLines: wrapFlowText(edge.label, labelWidth),
     };
