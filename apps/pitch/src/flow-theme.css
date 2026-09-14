@@ -2,53 +2,45 @@
 .reveal .d3-flow-host {
   position: relative;
   box-sizing: border-box;
-  width: min(1120px, 92vw);
-  margin: 0.6rem auto 0;
-  padding: 3rem 1rem 0.8rem;
-  border: 3px solid var(--pcd-accent);
-  border-radius: 0.8rem;
-  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, transparent);
-  box-shadow: 10px 12px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
-  overflow: hidden;
+  width: min(1180px, 94vw);
+  margin: 0.35rem auto 0;
+  padding: 1rem 1.1rem 0.8rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .reveal .d3-flow-host::before {
-  content: attr(aria-label);
-  position: absolute;
-  inset: 0 0 auto 0;
-  box-sizing: border-box;
-  min-height: 2.35rem;
-  padding: 0.55rem 1rem;
-  border-bottom: 3px solid var(--pcd-accent);
-  background: var(--pcd-accent);
-  color: #fff;
-  font-size: 0.72em;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-align: left;
+  content: none;
 }
 
-.reveal .d3-flow-host .d3-flow-runtime {
+.reveal .d3-flow-host .d3-flow-runtime,
+.reveal .d3-flow-host .d3-flow-figure {
+  margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
 }
 
 .reveal .d3-flow-host .d3-flow-svg {
-  min-height: 29rem;
+  display: block;
+  width: 100%;
+  min-height: 23rem;
   background: transparent;
+  overflow: visible;
 }
 
 .reveal .d3-flow-host .d3-flow-caption {
-  margin: 0.5rem 0 0;
+  margin: .4rem 0 0;
   color: var(--pcd-muted);
-  font-size: 0.58em;
+  font-size: .58em;
 }
 
 .reveal .d3-flow-node-shape {
   fill: var(--pcd-surface-strong);
   stroke: var(--pcd-accent);
-  stroke-width: 2.5;
+  stroke-width: 3;
 }
 
 .reveal .d3-flow-node-label,
@@ -65,182 +57,135 @@
 
 .reveal .d3-flow-edge {
   stroke: var(--pcd-accent);
-  stroke-width: 2.4;
+  stroke-width: 3;
 }
 
-/* Eco City diagram family --------------------------------------------------
-   The background family controls the diagram family through data-diagram-theme.
-   Theme mode (light/dark) only swaps the family tokens; graph semantics stay unchanged. */
+/* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
-  --pcd-flow-pixel-ink: #0a5364;
-  --pcd-flow-pixel-ink-strong: #073e4c;
-  --pcd-flow-pixel-highlight: #9cecf0;
-  --pcd-flow-pixel-surface: #eafafb;
-  --pcd-flow-pixel-surface-2: #d9f3f3;
-  --pcd-flow-pixel-shadow: rgb(3 73 86 / 0.18);
-  --pcd-flow-pixel-grid: rgb(17 134 148 / 0.08);
-  --pcd-flow-pixel-text: #083c49;
-  --pcd-flow-pixel-danger: #b86400;
-  --pcd-flow-pixel-danger-strong: #7e4000;
-  --pcd-flow-pixel-danger-surface: #ffd878;
-  --pcd-flow-pixel-danger-highlight: #fff0b8;
+  --pcd-flow-pixel-ink: #087486;
+  --pcd-flow-pixel-ink-strong: #045260;
+  --pcd-flow-pixel-highlight: #c9ffff;
+  --pcd-flow-pixel-surface: #eefcfc;
+  --pcd-flow-pixel-surface-2: #d9f5f4;
+  --pcd-flow-pixel-shadow: rgb(2 71 82 / .22);
+  --pcd-flow-pixel-grid: rgb(8 116 134 / .055);
+  --pcd-flow-pixel-text: #073e49;
+  --pcd-flow-pixel-danger: #d08700;
+  --pcd-flow-pixel-danger-strong: #8a4f00;
+  --pcd-flow-pixel-danger-surface: #ffe28b;
+  --pcd-flow-pixel-danger-highlight: #fff7cc;
   --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
-  --pcd-flow-pixel-ink: #5ce7ef;
-  --pcd-flow-pixel-ink-strong: #bafaff;
-  --pcd-flow-pixel-highlight: #153d55;
-  --pcd-flow-pixel-surface: #0a2434;
-  --pcd-flow-pixel-surface-2: #0d3141;
-  --pcd-flow-pixel-shadow: rgb(34 224 235 / 0.20);
-  --pcd-flow-pixel-grid: rgb(92 231 239 / 0.10);
-  --pcd-flow-pixel-text: #e8feff;
-  --pcd-flow-pixel-danger: #ffb52e;
-  --pcd-flow-pixel-danger-strong: #ffdf7b;
-  --pcd-flow-pixel-danger-surface: #4a2905;
-  --pcd-flow-pixel-danger-highlight: #7a4709;
+  --pcd-flow-pixel-ink: #63e7ef;
+  --pcd-flow-pixel-ink-strong: #c7fbff;
+  --pcd-flow-pixel-highlight: #153f52;
+  --pcd-flow-pixel-surface: #0b2533;
+  --pcd-flow-pixel-surface-2: #103343;
+  --pcd-flow-pixel-shadow: rgb(49 231 239 / .22);
+  --pcd-flow-pixel-grid: rgb(99 231 239 / .08);
+  --pcd-flow-pixel-text: #edffff;
+  --pcd-flow-pixel-danger: #ffbb36;
+  --pcd-flow-pixel-danger-strong: #ffe08b;
+  --pcd-flow-pixel-danger-surface: #4a2b06;
+  --pcd-flow-pixel-danger-highlight: #7d4b0d;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
-  border: 4px solid var(--pcd-flow-pixel-ink);
-  border-radius: 0;
-  clip-path: polygon(
-    10px 0,
-    calc(100% - 10px) 0,
-    calc(100% - 10px) 5px,
-    100% 5px,
-    100% calc(100% - 5px),
-    calc(100% - 10px) calc(100% - 5px),
-    calc(100% - 10px) 100%,
-    10px 100%,
-    10px calc(100% - 5px),
-    0 calc(100% - 5px),
-    0 5px,
-    10px 5px
-  );
+  padding: .8rem .65rem .45rem;
+  background: transparent;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
+  min-height: 21.5rem;
   background:
     linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px),
-    color-mix(in srgb, var(--pcd-flow-pixel-surface) 92%, transparent);
-  background-size: 16px 16px, 16px 16px, auto;
+    color-mix(in srgb, var(--pcd-flow-pixel-surface) 58%, transparent);
+  background-size: 18px 18px, 18px 18px, auto;
+  border: 4px solid var(--pcd-flow-pixel-ink);
   box-shadow:
-    0 0 0 3px var(--pcd-flow-pixel-highlight),
+    inset 0 0 0 4px var(--pcd-flow-pixel-highlight),
     8px 8px 0 var(--pcd-flow-pixel-shadow);
   image-rendering: pixelated;
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-host::before {
-  min-height: 2.6rem;
-  padding: 0.62rem 1rem 0.54rem;
-  border-bottom: 4px solid var(--pcd-flow-pixel-ink);
-  background:
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--pcd-flow-pixel-ink) 78%, #41d8e1),
-      var(--pcd-flow-pixel-ink));
-  color: #f3ffff;
-  font-family: var(--pcd-flow-pixel-font);
-  font-size: 0.62em;
-  font-weight: 900;
-  letter-spacing: 0.045em;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 0 var(--pcd-flow-pixel-ink-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
-  min-height: 29rem;
-  background:
-    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--pcd-flow-pixel-highlight) 18%, transparent), transparent 48%),
-    transparent;
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-caption {
+  display: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   rx: 0;
   ry: 0;
   fill: var(--pcd-flow-pixel-surface);
-  stroke: var(--pcd-flow-pixel-ink);
-  stroke-width: 4;
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 6;
+  stroke-linejoin: miter;
   shape-rendering: crispEdges;
-  clip-path: polygon(
-    8% 0,
-    92% 0,
-    92% 7%,
-    100% 7%,
-    100% 93%,
-    92% 93%,
-    92% 100%,
-    8% 100%,
-    8% 93%,
-    0 93%,
-    0 7%,
-    8% 7%
-  );
-  filter: drop-shadow(5px 6px 0 var(--pcd-flow-pixel-shadow));
+  filter:
+    drop-shadow(0 4px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(7px 9px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-shape {
-  stroke-width: 5;
+  stroke-width: 7;
   filter:
-    drop-shadow(0 0 7px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 70%, transparent))
-    drop-shadow(5px 6px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(0 0 7px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 75%, transparent))
+    drop-shadow(0 4px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(7px 9px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: var(--pcd-flow-pixel-surface);
-  stroke-width: 4px;
+  stroke-width: 5px;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: -0.02em;
-  text-rendering: geometricPrecision;
+  letter-spacing: -.035em;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
-  stroke: var(--pcd-flow-pixel-ink);
-  stroke-width: 4;
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 5;
   stroke-linecap: square;
   shape-rendering: crispEdges;
-  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
-  fill: var(--pcd-flow-pixel-ink);
+  fill: var(--pcd-flow-pixel-ink-strong);
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: var(--pcd-flow-pixel-surface-2);
-  stroke-width: 7px;
+  stroke-width: 10px;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
-  letter-spacing: -0.035em;
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-label,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label.pcd-flow-frontier-edge {
-  font-weight: 900;
+  letter-spacing: -.04em;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
-  stroke-width: 5;
+  stroke-width: 6;
   filter:
     drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent))
-    drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
 }
 
 @media (max-width: 900px) {
   .reveal .d3-flow-host {
     width: 96vw;
-    padding-inline: 0.5rem;
+    padding-inline: .45rem;
   }
 
   .reveal .d3-flow-host .d3-flow-svg {
     min-height: 23rem;
   }
 
-  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 13px; }
-  body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 10px; }
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 14px; }
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 11px; }
 }
