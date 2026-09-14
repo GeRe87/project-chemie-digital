@@ -16,14 +16,16 @@
     cd:authoredResource true .
 
   ex:organization-iuta a cd:Organization ;
-    skos:prefLabel "IUTA – Institut für Umwelt & Energie, Technik & Analytik"@en ;
+    skos:prefLabel "Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"@de ;
+    skos:prefLabel "Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"@en ;
+    skos:altLabel "IUTA"@de, "IUTA"@en ;
     cd:hasLogo ex:media-iuta-logo ;
     cd:authoredResource true .
 
   ex:media-iuta-logo a cd:MediaAsset ;
     cd:uri "https://jrf.nrw/fileadmin/uploads/2023/04/iuta-logo_schrift-rechts-300x148.png"^^xsd:anyURI ;
     cd:mediaType "image/png" ;
-    cd:alternativeText "IUTA – Institut für Umwelt & Energie, Technik & Analytik logo"@en ;
+    cd:alternativeText "Logo of the Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"@en ;
     cd:authoredResource true .
 
   ex:organization-munv a cd:Organization ;
