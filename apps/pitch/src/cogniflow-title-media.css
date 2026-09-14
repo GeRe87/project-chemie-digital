@@ -2,6 +2,8 @@
    Content and media URIs remain RDF-authored; this file owns presentation only. */
 
 [id="ex:scene-cogniflow-title--scene"] {
+  --pcd-title-panel-inset-y: clamp(5rem, 11vh, 7rem);
+  position: relative;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(20rem, .48fr) !important;
   grid-template-rows: auto auto auto minmax(0, 1fr) !important;
@@ -9,17 +11,55 @@
   align-content: stretch !important;
   justify-items: stretch !important;
   min-height: 100%;
-  padding: 4.2rem 5.2rem 3.4rem !important;
+  padding: calc(var(--pcd-title-panel-inset-y) + 1.8rem) 5.2rem calc(var(--pcd-title-panel-inset-y) + 1.7rem) !important;
   overflow: hidden;
 }
 
-/* Remove the older decorative title motif; institutional marks now provide the visual anchor. */
-[id="ex:scene-cogniflow-title--scene"]::before,
+/* The Reveal scene stays viewport-sized for navigation, while the visible Eco City surface
+   becomes a deliberately compact card so the world remains visible above and below it. */
+body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"],
+body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+[id="ex:scene-cogniflow-title--scene"]::before {
+  content: "" !important;
+  position: absolute;
+  z-index: 0;
+  top: var(--pcd-title-panel-inset-y);
+  right: 0;
+  bottom: var(--pcd-title-panel-inset-y);
+  left: 0;
+  pointer-events: none;
+  background: var(--pcd-surface-strong);
+  border: 1px solid var(--pcd-border);
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgb(0 0 0 / .12);
+}
+
+body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"]::before {
+  background: var(--pcd-world-panel-bg);
+  border-color: var(--pcd-world-panel-border);
+  box-shadow: var(--pcd-world-panel-shadow);
+  backdrop-filter: blur(8px);
+}
+
+body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-title--scene"]::before {
+  background: var(--pcd-world-panel-scroll-bg);
+  backdrop-filter: none;
+}
+
 [id="ex:scene-cogniflow-title--scene"]::after {
   content: none !important;
 }
 
 [id="ex:scene-cogniflow-title--scene"] h2 {
+  position: relative;
+  z-index: 1;
   grid-column: 1;
   grid-row: 1;
   width: min(49rem, 100%) !important;
@@ -51,29 +91,30 @@
   grid-row: 2;
   align-self: start;
   max-width: 47rem;
-  margin-top: 1.6rem;
+  margin-top: 1.45rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
-  max-width: 47rem;
-  margin-top: .35rem;
+  max-width: 49rem;
+  margin-top: .38rem;
 }
 
 [id="ex:scene-cogniflow-title--scene"] .scene-group > cite {
   display: block;
   margin: 0;
   color: var(--pcd-foreground);
-  font-size: clamp(1rem, 1.2vw, 1.28rem);
+  font-size: clamp(.96rem, 1.08vw, 1.2rem);
   font-style: normal;
   font-weight: 650;
-  line-height: 1.32;
+  line-height: 1.3;
 }
 
 /* Institution logos are projected from the attribution groups but positioned as a quiet partner rail. */
 [id="ex:scene-cogniflow-title--scene"] .media-reference {
+  z-index: 2;
   margin: 0;
   padding: 0;
   border: 0;
@@ -91,7 +132,7 @@
    the same media resource IDs and must never receive these absolute-position rules. */
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-ude-logo"] {
   position: absolute;
-  top: 3.25rem;
+  top: calc(var(--pcd-title-panel-inset-y) + 1.15rem);
   right: 3.25rem;
   width: min(16.5rem, 20vw);
   padding: 1rem 1.15rem;
@@ -101,7 +142,7 @@
 
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
-  top: 3.45rem;
+  top: calc(var(--pcd-title-panel-inset-y) + 1.35rem);
   right: min(22.3rem, 28vw);
   width: min(11.5rem, 14vw);
   padding: .62rem .85rem;
@@ -113,8 +154,9 @@
 /* Funding is semantically authored but spatially independent from the author grid on wide slides. */
 [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
   position: absolute;
+  z-index: 1;
   right: 5.2rem;
-  bottom: 3.4rem;
+  bottom: calc(var(--pcd-title-panel-inset-y) + 1.25rem);
   display: grid;
   grid-template-columns: minmax(12rem, 18rem);
   grid-template-rows: auto auto;
@@ -145,9 +187,18 @@
 
 @media (max-width: 900px) {
   [id="ex:scene-cogniflow-title--scene"] {
+    --pcd-title-panel-inset-y: 1rem;
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto minmax(0, 1fr) !important;
     padding: 2rem 1.5rem 1.7rem !important;
+  }
+
+  [id="ex:scene-cogniflow-title--scene"]::before {
+    top: var(--pcd-title-panel-inset-y);
+    right: .35rem;
+    bottom: var(--pcd-title-panel-inset-y);
+    left: .35rem;
+    border-radius: 14px;
   }
 
   [id="ex:scene-cogniflow-title--scene"] h2 {
