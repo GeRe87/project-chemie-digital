@@ -36,7 +36,7 @@ PATH_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/paths/cognifl
 SCENE_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing")
 TITLE = "Standardized Data Processing - Project CogniFlow"
 GERRIT = "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"
-RICARDO = "Ricardo Cunha — IUTA"
+RICARDO = "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"
 FUNDING = "Funding"
 
 EXPECTED_SCENES = [
