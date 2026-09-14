@@ -62,8 +62,14 @@ interface GraphemeSegmenterConstructor {
 interface PreparedNode extends D3FlowLayoutNodeInput {
   readonly inputIndex: number;
   readonly labelLines: readonly string[];
+  readonly width: number;
   readonly height: number;
 }
+
+const HORIZONTAL_LABEL_WIDTH = 150;
+const HORIZONTAL_NODE_MIN_WIDTH = 240;
+const HORIZONTAL_NODE_MAX_WIDTH = 286;
+const HORIZONTAL_NODE_CHROME = 118;
 
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
@@ -136,7 +142,15 @@ export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
 }
 
 function nodeHeight(lines: readonly string[]): number {
-  return Math.max(104, 52 + Math.max(lines.length, 1) * 24);
+  return Math.max(112, 62 + Math.max(lines.length, 1) * 24);
+}
+
+function horizontalNodeWidth(lines: readonly string[]): number {
+  const longestLine = Math.max(0, ...lines.map((line) => deterministicFlowTextMeasure(line)));
+  return Math.max(
+    HORIZONTAL_NODE_MIN_WIDTH,
+    Math.min(HORIZONTAL_NODE_MAX_WIDTH, longestLine + HORIZONTAL_NODE_CHROME),
+  );
 }
 
 function midpoint(a: number, b: number): number {
@@ -184,34 +198,38 @@ function horizontalLayeredLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const margin = 24;
-  const nodeWidth = 250;
-  const layerGap = 44;
-  const siblingGap = 22;
+  const layerGap = 56;
+  const siblingGap = 54;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
+  const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => nodeById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
   const layerHeights = layers.map((layer) =>
-    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 104), 0) + Math.max(0, layer.length - 1) * siblingGap,
+    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * siblingGap,
   );
-  const contentHeight = Math.max(104, ...layerHeights);
-  const width = Math.max(hostWidth, margin * 2 + layers.length * nodeWidth + Math.max(0, layers.length - 1) * layerGap);
+  const contentHeight = Math.max(112, ...layerHeights);
+  const intrinsicWidth = margin * 2 + layerWidths.reduce((sum, width) => sum + width, 0) + Math.max(0, layers.length - 1) * layerGap;
+  const width = Math.max(hostWidth, intrinsicWidth);
   const height = margin * 2 + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
+  let layerLeft = margin;
   layers.forEach((layer, layerIndex) => {
+    const layerWidth = layerWidths[layerIndex] ?? HORIZONTAL_NODE_MIN_WIDTH;
     const layerHeight = layerHeights[layerIndex] ?? 0;
     let cursorY = margin + 17 + (contentHeight - layerHeight) / 2;
-    const x = margin + nodeWidth / 2 + layerIndex * (nodeWidth + layerGap);
+    const x = layerLeft + layerWidth / 2;
     for (const id of layer) {
       const node = nodeById.get(id)!;
       byId.set(id, {
         id,
         x,
         y: cursorY + node.height / 2,
-        width: nodeWidth,
+        width: node.width,
         height: node.height,
         labelLines: node.labelLines,
       });
       cursorY += node.height + siblingGap;
     }
+    layerLeft += layerWidth + layerGap;
   });
 
   return {
@@ -239,10 +257,10 @@ function verticalLayeredLayout(
     const nodeWidth = Math.max(180, Math.min(390, availableWidth / Math.max(1, layer.length)));
     const layerNodes = layer.map((id) => {
       const original = nodeById.get(id)!;
-      const labelLines = wrapFlowText(original.label, nodeWidth - 38);
-      return { ...original, labelLines, height: nodeHeight(labelLines) };
+      const labelLines = wrapFlowText(original.label, Math.max(120, nodeWidth - 64));
+      return { ...original, labelLines, width: nodeWidth, height: nodeHeight(labelLines) };
     });
-    const layerHeight = Math.max(104, ...layerNodes.map((node) => node.height));
+    const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
     const contentWidth = layerNodes.length * nodeWidth + Math.max(0, layerNodes.length - 1) * siblingGap;
     let cursorX = (width - contentWidth) / 2;
     for (const node of layerNodes) {
@@ -269,11 +287,16 @@ function verticalLayeredLayout(
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
-  const horizontalNodeWidth = 250;
-  const labelWidth = 190;
+  const labelWidth = 130;
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
-    const labelLines = wrapFlowText(node.label, horizontalNodeWidth - 38);
-    return { ...node, inputIndex, labelLines, height: nodeHeight(labelLines) };
+    const labelLines = wrapFlowText(node.label, HORIZONTAL_LABEL_WIDTH);
+    return {
+      ...node,
+      inputIndex,
+      labelLines,
+      width: horizontalNodeWidth(labelLines),
+      height: nodeHeight(labelLines),
+    };
   });
   const layers = topologicalLayers(input);
   const geometry = orientation === "horizontal"
