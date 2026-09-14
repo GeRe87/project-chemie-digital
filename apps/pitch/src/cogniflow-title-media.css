@@ -139,7 +139,7 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
    the same media resource IDs and must never receive these absolute-position rules. */
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-ude-logo"] {
   position: absolute;
-  top: 19%;
+  top: 21.8%;
   right: 5.2rem;
   width: min(16.5rem, 20vw);
   padding: 1rem 1.15rem;
@@ -149,7 +149,7 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
 
 [id="ex:scene-cogniflow-title--scene"] .media-reference[data-resource-id~="ex:media-iuta-logo"] {
   position: absolute;
-  top: 19.3%;
+  top: 22.1%;
   right: min(24.2rem, 30vw);
   width: min(11.5rem, 14vw);
   padding: .62rem .85rem;
