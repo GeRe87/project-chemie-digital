@@ -35,14 +35,14 @@
 }
 
 /* Author information remains authored Attribution prose. */
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] {
+[id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] {
   grid-column: 1;
   grid-row: 2;
   align-self: end;
   max-width: 40rem;
 }
 
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
+[id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
@@ -50,7 +50,7 @@
   margin-top: .55rem;
 }
 
-[id="ex:scene-cogniflow-title--scene"] .scene-group cite {
+[id="ex:scene-cogniflow-title--scene"] .scene-group > cite {
   display: block;
   margin: 0;
   color: var(--pcd-foreground);
@@ -97,7 +97,7 @@
 }
 
 /* Funding is a separate Attribution with cd:fundingSource, therefore visually subordinate. */
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-funding"] {
+[id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
   grid-column: 2;
   grid-row: 3;
   align-self: end;
@@ -112,7 +112,7 @@
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 75%, transparent);
 }
 
-[id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-funding"] cite {
+[id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] > cite {
   color: var(--pcd-muted);
   font-size: .8rem;
   font-weight: 850;
@@ -157,16 +157,16 @@
     padding: .45rem .65rem;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-gerrit-renner"],
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"],
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-funding"] {
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"],
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"],
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-column: 1;
     margin-top: 1rem;
   }
 
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] { grid-row: 2; }
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] { grid-row: 3; }
-  [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:attribution-cogniflow-funding"] {
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-gerrit-renner"] { grid-row: 2; }
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-ricardo-cunha"] { grid-row: 3; }
+  [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-row: 4;
     justify-self: stretch;
     width: 100%;
