@@ -42,6 +42,7 @@ import {
   backgroundPackRegistry,
   mountAppearanceControls,
   resolveBackgroundPackId,
+  resolveDiagramThemeId,
   resolvePresentationAppearance,
 } from "./presentation-profile.ts";
 
@@ -111,7 +112,12 @@ function applyThemeMarker(theme: PresentationThemeMode): void {
   document.body.style.colorScheme = theme;
 }
 
+function applyDiagramThemeMarker(): void {
+  document.body.dataset.diagramTheme = resolveDiagramThemeId(selectedBackgroundFamilyId, backgroundEnabled);
+}
+
 applyThemeMarker(currentTheme);
+applyDiagramThemeMarker();
 
 const backgroundRuntime = mountBackgroundRuntime({
   host: document.body,
@@ -126,6 +132,7 @@ function applyBackgroundSelection(): void {
     ? resolveBackgroundPackId(selectedBackgroundFamilyId, currentTheme)
     : undefined;
   backgroundRuntime.setPack(concretePackId);
+  applyDiagramThemeMarker();
 }
 
 const appearanceControls = mountAppearanceControls({
