@@ -3,14 +3,18 @@
 
 .d3-flow-pixel-frame,
 .d3-flow-pixel-socket,
-.d3-flow-pixel-edge-pill {
+.d3-flow-pixel-edge-pill,
+.d3-flow-pixel-node-rail,
+.d3-flow-pixel-node-led {
   display: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
-  width: min(1240px, 96vw);
-  margin: 0.15rem auto 0;
-  padding: 0.35rem 0.45rem 0.25rem;
+  display: grid;
+  place-items: center;
+  width: min(1280px, 97vw);
+  margin: 0 auto;
+  padding: 0.2rem 0.35rem;
   border: 0;
   border-radius: 0;
   clip-path: none;
@@ -25,6 +29,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host::before {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-runtime,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-figure {
+  width: 100%;
   margin: 0;
   padding: 0;
   overflow: visible;
@@ -32,9 +37,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-figure {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
   display: block;
-  width: 100%;
+  width: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
-  height: 360px !important;
+  max-height: 470px;
+  margin: 0 auto;
   overflow: visible;
   background: transparent !important;
 }
@@ -50,14 +57,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape-base {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led {
   display: block;
   shape-rendering: crispEdges;
   pointer-events: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-shadow {
-  fill: var(--pcd-flow-pixel-shadow);
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 18%, transparent);
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-outer {
@@ -69,7 +78,20 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-middle {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-inner {
-  fill: var(--pcd-flow-pixel-surface);
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 96%, white 4%);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-rail {
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-ink) 14%, var(--pcd-flow-pixel-surface));
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 45%, transparent);
+  stroke-width: 2;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led {
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, var(--pcd-flow-pixel-ink));
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 3;
+  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket {
@@ -81,8 +103,9 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 5;
+  stroke-width: 6;
   stroke-linecap: square;
+  shape-rendering: crispEdges;
   filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
 }
 
@@ -91,26 +114,26 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
-  fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 96%, transparent);
-  stroke: var(--pcd-flow-pixel-ink);
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 97%, white 3%);
+  stroke: var(--pcd-flow-pixel-ink-strong);
   stroke-width: 3;
-  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(3px 4px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: -0.035em;
 }
@@ -129,6 +152,16 @@ body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep
   fill: var(--pcd-flow-pixel-danger-surface);
 }
 
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-rail {
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-danger) 20%, var(--pcd-flow-pixel-danger-surface));
+  stroke: var(--pcd-flow-pixel-danger-strong);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
+  fill: var(--pcd-flow-pixel-danger);
+  stroke: var(--pcd-flow-pixel-danger-strong);
+}
+
 body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-danger-strong);
 }
@@ -139,7 +172,7 @@ body[data-diagram-theme="eco-city"] .reveal [data-target-node-id="ex:node-cognif
 
 @media (max-width: 900px) {
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
-    height: 520px !important;
+    max-height: none;
   }
 
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
