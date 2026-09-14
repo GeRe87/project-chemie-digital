@@ -42,6 +42,17 @@
   stroke-width: 4;
 }
 
+/* Reveal owns slide visibility. Scene-specific layouts may use display:grid !important
+   for their active composition, but they must never surface inactive sibling slides. */
+#pitch-slides > section:not(.present) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#pitch-slides > section.present {
+  pointer-events: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .d3-chart-bar,
   .d3-chart-line,
