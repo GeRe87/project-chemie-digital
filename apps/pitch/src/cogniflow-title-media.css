@@ -103,9 +103,11 @@
   align-self: end;
   justify-self: end;
   display: grid;
-  grid-template-columns: auto minmax(12rem, 18rem);
-  align-items: center;
-  gap: 1rem;
+  grid-template-columns: minmax(12rem, 18rem);
+  grid-template-rows: auto auto;
+  align-items: end;
+  justify-items: end;
+  gap: .38rem;
   width: max-content;
   max-width: 100%;
   padding-top: .9rem;
@@ -169,8 +171,10 @@
   [id="ex:scene-cogniflow-title--scene"] [data-group-block-id][data-resource-id~="ex:attribution-cogniflow-funding"] {
     grid-row: 4;
     justify-self: stretch;
+    justify-items: end;
     width: 100%;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 
   [id="ex:scene-cogniflow-title--scene"] [data-resource-id~="ex:media-munv-logo"] {
