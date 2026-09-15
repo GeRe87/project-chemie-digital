@@ -126,6 +126,20 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
     drop-shadow(10px 12px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 34%, transparent));
 }
 
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-inner-frame {
+  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 74%, var(--pcd-opening-danger-surface));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-rail {
+  fill: var(--pcd-opening-danger-highlight);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-status {
+  fill: var(--pcd-opening-danger-highlight);
+  stroke: var(--pcd-opening-danger-strong);
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 34%, transparent));
+}
+
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
   fill: var(--pcd-opening-danger-strong);
   stroke: var(--pcd-opening-danger-highlight);
