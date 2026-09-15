@@ -195,7 +195,32 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path[data-target
 /* A real single slide needs its own height; previously Reveal's accidental
    vertical-stack classification supplied this only in deck mode. */
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] {
+  position: relative;
   min-height: 100%;
+  background: transparent !important;
+}
+
+/* Translucent embedded panel, title-slide style, so the Eco City world stays visible. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"]::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1320px, 94vw);
+  height: min(640px, 78vh);
+  background: var(--pcd-world-panel-bg);
+  border: 1px solid var(--pcd-world-panel-border);
+  border-radius: 20px;
+  box-shadow: var(--pcd-world-panel-shadow);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+body.reveal-scroll[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"]::before {
+  background: var(--pcd-world-panel-scroll-bg);
+  backdrop-filter: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"],
@@ -213,6 +238,8 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
+  position: relative;
+  z-index: 1;
   width: min(1300px, 96%) !important;
   margin: 0 auto !important;
   padding: 0 !important;

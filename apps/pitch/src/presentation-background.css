@@ -124,17 +124,10 @@ body.pcd-background-active.reveal-scroll .reveal .slides section {
   backdrop-filter: none;
 }
 
-/* CogniFlow slide 2 is intentionally a flat 16-bit HUD, not a glass panel.
-   The D3 flow renderer itself uses a nested <section>; neutralize the generic
-   world-panel treatment there as well so no translucent panel is stacked twice. */
-body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] {
-  background: #f8fcf9 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
+/* CogniFlow slide 2 sits on the Eco City world like the title slide: a translucent
+   rounded panel behind the diagram, not an opaque paper page. The generic world-panel
+   treatment is neutralized so the scene-owned pseudo-element can provide one panel. */
+body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"],
 body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] section.d3-flow-runtime {
   background: transparent !important;
   border: 0 !important;
@@ -143,32 +136,22 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupli
   backdrop-filter: none !important;
 }
 
-/* The active coupling slide extends its paper canvas to the viewport edges.
-   Restrict this to deck mode: a scroll page must not recolor neighboring scenes. */
-/* Reveal owns the extra scroll/fragment space outside the scaled section.
-   Color only this scene's page, including its sticky interval, not the world. */
+/* The coupling scene no longer recolors the world or its scroll-page neighbors.
+   The translucent panel is rendered by the scene's own ::before pseudo-element. */
 body.pcd-background-active.reveal-scroll .scroll-page:has([id="ex:scene-cogniflow-coupling-problem--scene"]) {
-  background: #f8fcf9 !important;
+  background: transparent !important;
 }
 
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-world {
-  background: #f8fcf9;
-}
-
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-stage,
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-vignette {
-  visibility: hidden;
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-world,
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) #view-switch-shell {
+  background: transparent;
+  backdrop-filter: none;
 }
 
 body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .reveal {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-}
-
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) #view-switch-shell {
-  background: #f8fcf9;
-  backdrop-filter: none;
 }
 
 body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="atmosphere"] {
