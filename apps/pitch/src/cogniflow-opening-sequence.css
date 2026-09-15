@@ -216,6 +216,117 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
   fill: var(--pcd-opening-danger-strong);
 }
 
+/* Slide 2 hard-pixel pass: keep all semantic graph data intact, but remove the
+   airy/translucent treatment from the rendered coupling-problem scene. */
+[id="ex:scene-cogniflow-coupling-problem--scene"] {
+  --pcd-flow-pixel-shadow: #0a6873;
+  --pcd-flow-pixel-grid: #d5eff0;
+  background: #f8fcf9;
+  background-size: auto;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"]::before {
+  background: var(--pcd-flow-pixel-ink);
+  box-shadow:
+    22px 0 0 var(--pcd-flow-pixel-ink),
+    11px -11px 0 var(--pcd-flow-pixel-ink),
+    11px 11px 0 var(--pcd-flow-pixel-ink),
+    -36px 118px 0 var(--pcd-flow-pixel-surface-2),
+    92px 184px 0 var(--pcd-flow-pixel-danger);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"]::after {
+  background: var(--pcd-flow-pixel-ink-strong);
+  box-shadow:
+    0 -10px 0 var(--pcd-flow-pixel-surface-2),
+    42px 0 0 var(--pcd-flow-pixel-surface);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-shape-base,
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge {
+  opacity: 1;
+  visibility: hidden;
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-shadow {
+  fill: var(--pcd-flow-pixel-shadow);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-inner {
+  fill: var(--pcd-flow-pixel-surface);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-tab {
+  fill: var(--pcd-flow-pixel-surface-2);
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
+  fill: var(--pcd-flow-pixel-highlight);
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-socket {
+  fill: var(--pcd-flow-pixel-highlight);
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 4;
+  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path {
+  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
+  fill: var(--pcd-flow-pixel-surface-soft);
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 4;
+  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-label,
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label,
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-number {
+  opacity: 1;
+  stroke: none;
+  filter: none;
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-shadow {
+  fill: var(--pcd-opening-danger-strong);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
+  fill: var(--pcd-opening-danger-surface);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
+  fill: var(--pcd-opening-danger-highlight);
+  stroke: var(--pcd-opening-danger-strong);
+  filter: drop-shadow(3px 3px 0 var(--pcd-opening-danger-strong));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
+  fill: var(--pcd-opening-danger);
+  stroke: var(--pcd-opening-danger-strong);
+  filter: drop-shadow(3px 3px 0 var(--pcd-opening-danger-strong));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+  filter: drop-shadow(4px 4px 0 var(--pcd-opening-danger-strong));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-pixel-edge-pill {
+  fill: var(--pcd-opening-danger-highlight);
+  stroke: var(--pcd-opening-danger-strong);
+  stroke-width: 4;
+  filter: drop-shadow(4px 4px 0 var(--pcd-opening-danger-strong));
+}
+
 /* Solution: the same semantic flow uses the Eco City family with a green solution focus. */
 [id="ex:scene-cogniflow-service-architecture--scene"] {
   --pcd-opening-solution: #2ea889;
