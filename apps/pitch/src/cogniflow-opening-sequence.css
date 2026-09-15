@@ -78,6 +78,54 @@
   padding: 2.25rem 3.2rem 2.2rem !important;
 }
 
+[id="ex:scene-cogniflow-coupling-problem--scene"] {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 13% 22%, rgb(9 105 120 / .045) 0 2px, transparent 2px 100%),
+    linear-gradient(180deg, rgb(255 255 250 / .92), rgb(248 252 249 / .92));
+  background-size: 46px 46px, auto;
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"]::before,
+[id="ex:scene-cogniflow-coupling-problem--scene"]::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Sparse pixel ornaments copied from the reference language, not semantic content. */
+[id="ex:scene-cogniflow-coupling-problem--scene"]::before {
+  width: 7px;
+  height: 7px;
+  right: 8.2rem;
+  top: 8.4rem;
+  background: color-mix(in srgb, var(--pcd-flow-pixel-ink) 62%, transparent);
+  box-shadow:
+    22px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 62%, transparent),
+    11px -11px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 62%, transparent),
+    11px 11px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 62%, transparent),
+    -36px 118px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 28%, transparent),
+    92px 184px 0 color-mix(in srgb, var(--pcd-flow-pixel-danger) 32%, transparent);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"]::after {
+  left: 4.2rem;
+  bottom: 3.6rem;
+  width: 34px;
+  height: 6px;
+  background: color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 28%, transparent);
+  box-shadow:
+    0 -10px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 16%, transparent),
+    42px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 12%, transparent);
+}
+
+[id="ex:scene-cogniflow-coupling-problem--scene"] > *,
+[id="ex:scene-cogniflow-service-architecture--scene"] > * {
+  position: relative;
+  z-index: 1;
+}
+
 [id="ex:scene-cogniflow-coupling-problem--scene"] h2,
 [id="ex:scene-cogniflow-service-architecture--scene"] h2 {
   max-width: 19ch;
@@ -101,6 +149,10 @@
   min-height: 25.5rem;
 }
 
+[id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-svg {
+  background: transparent !important;
+}
+
 [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-caption,
 [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-caption {
   display: none;
@@ -117,21 +169,21 @@
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-shape {
   stroke: var(--pcd-opening-danger-strong);
   fill: var(--pcd-opening-danger-surface);
-  stroke-width: 10;
+  stroke-width: 7;
   filter:
-    drop-shadow(0 0 6px color-mix(in srgb, var(--pcd-opening-danger-highlight) 84%, transparent))
-    drop-shadow(0 -4px 0 var(--pcd-opening-danger-highlight))
-    drop-shadow(-4px 0 0 color-mix(in srgb, var(--pcd-opening-danger-highlight) 58%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-opening-danger-strong))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-opening-danger-highlight) 84%, transparent))
+    drop-shadow(0 -3px 0 var(--pcd-opening-danger-highlight))
+    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-opening-danger-highlight) 64%, transparent))
+    drop-shadow(0 5px 0 var(--pcd-opening-danger))
     drop-shadow(10px 12px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 34%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-inner-frame {
-  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 74%, var(--pcd-opening-danger-surface));
+  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 82%, var(--pcd-opening-danger-surface));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-rail {
-  fill: var(--pcd-opening-danger-highlight);
+  fill: var(--pcd-opening-danger-strong);
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-status {
@@ -142,17 +194,26 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
   fill: var(--pcd-opening-danger-strong);
-  stroke: var(--pcd-opening-danger-highlight);
-  stroke-width: 6px;
-  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 24%, transparent));
+  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 48%, transparent);
+  stroke-width: 2px;
+  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-opening-danger-highlight) 62%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
   stroke: var(--pcd-opening-danger);
-  stroke-width: 9;
+  stroke-width: 10;
   filter:
     drop-shadow(0 2px 0 var(--pcd-opening-danger-highlight))
     drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 30%, transparent));
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label-panel {
+  fill: var(--pcd-opening-danger-highlight);
+  stroke: var(--pcd-opening-danger-strong);
+}
+
+body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label {
+  fill: var(--pcd-opening-danger-strong);
 }
 
 /* Solution: the same semantic flow uses the Eco City family with a green solution focus. */
