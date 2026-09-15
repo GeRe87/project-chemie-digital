@@ -208,6 +208,136 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
   padding: 0 !important;
 }
 
+/* Slide 2 uses exactly one renderer-owned pixel HUD. The generic flow theme also
+   emits rails, indices, status squares and label panels; keeping both systems
+   visible created doubled numbers and a layered UI that is unlike the reference. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-inner-frame,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-rail,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-status,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-index,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label-panel,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label-stem {
+  display: none !important;
+}
+
+/* Replace the pale bevel with three solid 16-bit bands: dark outline, saturated
+   inner keyline, cyan face. No transparent mix or soft highlight remains. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-shadow {
+  fill: #07545b;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-outer {
+  fill: #073f49;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-middle {
+  fill: #43aeb3;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-inner {
+  fill: #8fe3df;
+}
+
+/* The reference has a single, unmistakable number plaque rather than a second
+   faint index printed into the card. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-tab {
+  fill: #07545b;
+  stroke: #073f49;
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 #073f49);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-number {
+  fill: #f8fcf9;
+  font-size: 18px;
+  opacity: 1;
+  filter: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
+  fill: #d9f7ef;
+  stroke: #073f49;
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 #07545b);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-socket {
+  fill: #d9f7ef;
+  stroke: #073f49;
+  stroke-width: 4;
+  filter: drop-shadow(3px 3px 0 #07545b);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path {
+  stroke: #07545b;
+  stroke-width: 6;
+  filter: drop-shadow(3px 3px 0 #073f49);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
+  fill: #d9f7ef;
+  stroke: #073f49;
+  stroke-width: 3;
+  filter: drop-shadow(3px 3px 0 #07545b);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-label,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
+  fill: #073f49;
+  stroke: none;
+  filter: none;
+  opacity: 1;
+}
+
+/* Conflict branch mirrors the same flat construction in ochre/amber. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-shadow {
+  fill: #7b4a09;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-outer {
+  fill: #5b3506;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-middle {
+  fill: #d89516;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
+  fill: #ffd45d;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
+  fill: #7b4a09;
+  stroke: #5b3506;
+  filter: drop-shadow(3px 3px 0 #5b3506);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-number {
+  fill: #fff3c6;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
+  fill: #fff3c6;
+  stroke: #5b3506;
+  filter: drop-shadow(3px 3px 0 #7b4a09);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
+  stroke: #9c620b;
+  filter: drop-shadow(3px 3px 0 #5b3506);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-pixel-edge-pill {
+  fill: #fff3c6;
+  stroke: #5b3506;
+  filter: drop-shadow(3px 3px 0 #7b4a09);
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
+  fill: #5b3506;
+}
+
 @media (max-width: 900px) {
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
     max-height: none;
