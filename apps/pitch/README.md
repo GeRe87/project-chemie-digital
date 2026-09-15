@@ -159,6 +159,9 @@ three separate SVG squares per stem. The lower branch uses the same downward
 callout treatment; routing trunks and semantic edge identities are preserved.
 Horizontal card boundaries use separate rectangular socket housings and inset
 contacts, so the connector is distinct from the orthogonal routing path.
+The active coupling scene extends its opaque paper canvas to the deck viewport
+edges. This background override ends when leaving the scene and does not apply
+to scroll-view neighbors. Sparse solid pixel ornaments remain presentation CSS.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`

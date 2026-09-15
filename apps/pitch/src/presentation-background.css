@@ -143,6 +143,28 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupli
   backdrop-filter: none !important;
 }
 
+/* The active coupling slide extends its paper canvas to the viewport edges.
+   Restrict this to deck mode: a scroll page must not recolor neighboring scenes. */
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-world {
+  background: #f8fcf9;
+}
+
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-stage,
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-vignette {
+  visibility: hidden;
+}
+
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .reveal {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) #view-switch-shell {
+  background: #f8fcf9;
+  backdrop-filter: none;
+}
+
 body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="atmosphere"] {
   mix-blend-mode: normal !important;
 }
