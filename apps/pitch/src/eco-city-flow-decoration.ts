@@ -311,7 +311,7 @@ function decorateEdges(svg: SVGSVGElement): void {
           // Above each branch card, away from the vertical routing trunk and
           // the adjacent centered cards. Incoming/outgoing callouts stay paired.
           labelX = outer.centerX + (sourceIsOuter ? 1 : -1) * (outer.right - outer.left) * 0.3;
-          labelY = outer.top - 50;
+          labelY = outer.top - (outer.centerY > flowCenterY ? 42 : 50);
         }
       }
     }
@@ -349,7 +349,7 @@ function decorateEdges(svg: SVGSVGElement): void {
       // these above-card pills, including the lower branch of the diamond.
       const start = box.y + box.height + padY + 5;
       for (let dot = 0; dot < 3; dot += 1) {
-        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 10, 5, 5));
+        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 8, 5, 5));
       }
     } else {
       stem.setAttribute("data-source-node-id", sourceNodeId);

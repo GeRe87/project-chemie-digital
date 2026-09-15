@@ -314,7 +314,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   opacity: 1 !important;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-stem {
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] g.d3-flow-pixel-edge-stem {
   fill: #07545b;
   stroke: none;
   filter: none;
