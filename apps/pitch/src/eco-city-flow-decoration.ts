@@ -3,7 +3,9 @@ import "./eco-city-flow-decoration.css";
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 function numberAttribute(element: Element, name: string): number | undefined {
-  const value = Number(element.getAttribute(name));
+  const raw = element.getAttribute(name);
+  if (raw === null || raw.trim() === "") return undefined;
+  const value = Number(raw);
   return Number.isFinite(value) ? value : undefined;
 }
 
@@ -112,6 +114,37 @@ interface NodeBounds {
   readonly centerY: number;
 }
 
+interface EdgeEndpoints {
+  readonly x1: number;
+  readonly y1: number;
+  readonly x2: number;
+  readonly y2: number;
+}
+
+function edgeEndpoints(element: SVGGraphicsElement): EdgeEndpoints | undefined {
+  const x1 = numberAttribute(element, "x1");
+  const y1 = numberAttribute(element, "y1");
+  const x2 = numberAttribute(element, "x2");
+  const y2 = numberAttribute(element, "y2");
+  if (x1 !== undefined && y1 !== undefined && x2 !== undefined && y2 !== undefined) {
+    return { x1, y1, x2, y2 };
+  }
+
+  if (element instanceof SVGPathElement) {
+    try {
+      const length = element.getTotalLength();
+      if (!Number.isFinite(length)) return undefined;
+      const start = element.getPointAtLength(0);
+      const end = element.getPointAtLength(length);
+      return { x1: start.x, y1: start.y, x2: end.x, y2: end.y };
+    } catch {
+      return undefined;
+    }
+  }
+
+  return undefined;
+}
+
 function translatedNodeBounds(svg: SVGSVGElement, nodeId: string): NodeBounds | undefined {
   const group = svg.querySelector<SVGGElement>(`.d3-flow-node[data-node-id="${CSS.escape(nodeId)}"]`);
   const shape = group?.querySelector<SVGRectElement>(".d3-flow-node-shape");
@@ -205,7 +238,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 }
 
 function decorateEdges(svg: SVGSVGElement): void {
-  const lines = Array.from(svg.querySelectorAll<SVGLineElement>(".d3-flow-edge"));
+  const edges = Array.from(svg.querySelectorAll<SVGGraphicsElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
   let flowCenterY = 0;
@@ -216,16 +249,14 @@ function decorateEdges(svg: SVGSVGElement): void {
     flowCenterY = 0;
   }
 
-  lines.forEach((line, index) => {
-    if (line.dataset.pixelDecorated === "true") return;
-    const x1 = numberAttribute(line, "x1");
-    const y1 = numberAttribute(line, "y1");
-    const x2 = numberAttribute(line, "x2");
-    const y2 = numberAttribute(line, "y2");
-    if (x1 === undefined || y1 === undefined || x2 === undefined || y2 === undefined) return;
+  edges.forEach((edge, index) => {
+    if (edge.dataset.pixelDecorated === "true") return;
+    const endpoints = edgeEndpoints(edge);
+    if (!endpoints) return;
+    const { x1, y1, x2, y2 } = endpoints;
 
-    const sourceNodeId = line.getAttribute("data-source-node-id") ?? "";
-    const targetNodeId = line.getAttribute("data-target-node-id") ?? "";
+    const sourceNodeId = edge.getAttribute("data-source-node-id") ?? "";
+    const targetNodeId = edge.getAttribute("data-target-node-id") ?? "";
     const sourceBounds = translatedNodeBounds(svg, sourceNodeId);
     const targetBounds = translatedNodeBounds(svg, targetNodeId);
     const middleX = x1 + (x2 - x1) / 2;
@@ -236,8 +267,8 @@ function decorateEdges(svg: SVGSVGElement): void {
     const path = createPath("d3-flow-pixel-edge-path", d);
     path.setAttribute("data-source-node-id", sourceNodeId);
     path.setAttribute("data-target-node-id", targetNodeId);
-    line.parentNode?.insertBefore(path, line);
-    line.dataset.pixelDecorated = "true";
+    edge.parentNode?.insertBefore(path, edge);
+    edge.dataset.pixelDecorated = "true";
 
     const label = labels[index];
     if (!label) return;
