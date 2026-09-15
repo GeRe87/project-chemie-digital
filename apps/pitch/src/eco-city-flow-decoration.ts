@@ -419,6 +419,17 @@ function decorateRoot(root: ParentNode): void {
 }
 
 export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
+  // Reveal treats any descendant <section> as a vertical slide. Its scroll
+  // controller would extract the D3 wrapper from this scene, losing both the
+  // scene CSS boundary and the host's presentation-step fragments. Adapt only
+  // the embedding element, preserving the renderer's live SVG and listeners.
+  const embeddings = Array.from(root.querySelectorAll<HTMLElement>(`${COUPLING_SCENE} section.d3-flow-runtime`)).map((runtime) => {
+    const container = document.createElement("div");
+    for (const attribute of Array.from(runtime.attributes)) container.setAttribute(attribute.name, attribute.value);
+    container.append(...Array.from(runtime.childNodes));
+    runtime.replaceWith(container);
+    return { runtime, container };
+  });
   let frame = 0;
   const schedule = (): void => {
     if (frame) return;
@@ -436,5 +447,10 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   return () => {
     observer.disconnect();
     if (frame) window.cancelAnimationFrame(frame);
+    // Restore the element held by renderer-d3 before its own teardown runs.
+    for (const { runtime, container } of embeddings) {
+      runtime.append(...Array.from(container.childNodes));
+      container.replaceWith(runtime);
+    }
   };
 }

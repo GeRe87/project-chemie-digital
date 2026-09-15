@@ -159,12 +159,72 @@ three separate SVG squares per stem. The lower branch uses the same downward
 callout treatment; routing trunks and semantic edge identities are preserved.
 Horizontal card boundaries use separate rectangular socket housings and inset
 contacts, so the connector is distinct from the orthogonal routing path.
-The active coupling scene extends its opaque paper canvas to the deck viewport
-edges. This background override ends when leaving the scene and does not apply
-to scroll-view neighbors. Sparse solid pixel ornaments remain presentation CSS.
+The primary acceptance URL is
+`http://127.0.0.1:5173/?view=scroll&background=chemometrics-city&theme=light`
+after starting `npm --workspace @project-chemie-digital/pitch run dev:cogniflow`.
+Deck view uses the same SVG geometry and styling.
+
+Before Reveal initializes, the decoration mount adapts this scene's nested D3
+`section.d3-flow-runtime` into a `div`, preserving its live children/listeners.
+Otherwise Reveal treats it as a vertical slide and moves it out of the canonical
+scene in scroll view: scene-scoped styling and presentation-step ownership are
+then lost. Cleanup restores the original wrapper before renderer-d3 teardown.
+The scene now supplies its own full height rather than relying on accidental
+Reveal stack layout. No generic renderer or canonical document is changed.
+
+Scroll canvas color belongs only to the `.scroll-page` containing this scene,
+including its native sticky fragment interval. The global background world and
+neighboring pages remain enabled. Deck's viewport override remains deck-only.
+Sparse solid pixel ornaments remain attached to the scene.
+
+The four fragments remain native Reveal fragments. Scroll snap points advance
+them through `presentation-step-runtime.ts` just as keyboard navigation does in
+deck view; no second scroll diagram or forced final-state application is used.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
 with that exact commit, require zero page errors, and open the coupling scene's
 `.review.webp` alongside its `.layout.json`. Pitch tests and a Vite build are
 local checks; screenshots remain the visual acceptance evidence.
+
+### Local worker configuration
+
+On the current Windows review host, `config.toml` under
+`%LOCALAPPDATA%/AgentWorkflowValidator/` selects `runtime-profiles/`.
+The authoritative `runtime-profiles/project-chemie-digital.toml`
+`[[visual_reviews]]` entry named `cogniflow` now uses:
+
+```toml
+start_argv = ["C:/Program Files/nodejs/npm.cmd", "--workspace", "@project-chemie-digital/pitch", "run", "dev:cogniflow", "--", "--port", "5175"]
+ready_url = "http://127.0.0.1:5175/?view=scroll&background=chemometrics-city&theme=light"
+scene_selector = "#pitch-slides section[id]"
+```
+
+Port 5175 isolates the worker's exact-head checkout from the developer's server
+on 5173. Descendant scene discovery accounts for Reveal's scroll-page wrappers.
+`cogniflow/request.json` remains the existing scene-selection-only schema.
+
+The installed worker's `src/awv/visual.py` scroll branch navigates to the selected
+page's final **native scroll snap point**, waits until its host steps equal their
+counts, and repeats navigation after review-viewport resizing. It does not mark
+fragments visible or dispatch synthetic presentation-step events in scroll mode.
+`latest.json` records `render_url` and observed `presentation_state`; layout JSON
+records actual URL, scroll/deck mode, scene visibility, scroll-page membership,
+theme/background and host step/count. Require `view: scroll`, visible scene,
+`scene_in_scroll_page: true` and step `4/4` as well as the exact source SHA.
+The scheduled task `Agent Visual Review Worker` must be restarted after changing
+installed Python code. These worker installation changes live outside this repo.
+
+### Browser regression
+
+With the CogniFlow development server running, use a Python environment with
+Playwright and installed Edge (the local worker runtime supplies both):
+
+```powershell
+& "$env:LOCALAPPDATA/AgentWorkflowValidator/runtime/Scripts/python.exe" scripts/check_cogniflow_scroll.py --output "$env:TEMP/opencode"
+```
+
+The output directory must exist. The check compares deck/scroll geometry at
+1440×900 and 1200×750, drives native steps forward/backward and revisits the
+scene, verifies scene-local canvas isolation and zero page errors, and writes
+disposable full/neighbor screenshots for inspection.

@@ -145,6 +145,12 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupli
 
 /* The active coupling slide extends its paper canvas to the viewport edges.
    Restrict this to deck mode: a scroll page must not recolor neighboring scenes. */
+/* Reveal owns the extra scroll/fragment space outside the scaled section.
+   Color only this scene's page, including its sticky interval, not the world. */
+body.pcd-background-active.reveal-scroll .scroll-page:has([id="ex:scene-cogniflow-coupling-problem--scene"]) {
+  background: #f8fcf9 !important;
+}
+
 body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-world {
   background: #f8fcf9;
 }
