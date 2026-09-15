@@ -145,3 +145,18 @@ The slide DOM reading order, block identities, provenance, D3 semantic ordering 
 ## Runtime boundary
 
 The runtime keeps the existing no-network guard. Generated `canonical-runtime.json` is disposable transport and is not an authored content source. The app may render the selected canonical path in Reveal and provide the existing accessible graph summary without querying Fuseki directly.
+
+## CogniFlow slide 2 visual review
+
+The coupling-problem scene's pixel card treatment lives in
+`src/eco-city-flow-decoration.ts` and its paired CSS. Its scene-scoped shell uses
+a paper-light face, integrated number segment and one round status LED, with
+the same geometry in teal and amber. Revealed cards stay opaque; unrevealed
+cards retain the existing progressive visibility. Decoration is aria-hidden
+and introduces no network requests or persisted state.
+
+Review on `visual/cogniflow` against the local `soll.png`. After each bounded
+visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
+with that exact commit, require zero page errors, and open the coupling scene's
+`.review.webp` alongside its `.layout.json`. Pitch tests and a Vite build are
+local checks; screenshots remain the visual acceptance evidence.

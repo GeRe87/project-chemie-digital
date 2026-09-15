@@ -1,6 +1,7 @@
 import "./eco-city-flow-decoration.css";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
+const COUPLING_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
 
 function numberAttribute(element: Element, name: string): number | undefined {
   const raw = element.getAttribute(name);
@@ -173,11 +174,22 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const shape = group.querySelector<SVGRectElement>(".d3-flow-node-shape");
   if (!shape) return;
   const x = numberAttribute(shape, "x");
-  const y = numberAttribute(shape, "y");
+  let y = numberAttribute(shape, "y");
   const width = numberAttribute(shape, "width");
-  const height = numberAttribute(shape, "height");
+  let height = numberAttribute(shape, "height");
   const nodeId = group.getAttribute("data-node-id");
   if (x === undefined || y === undefined || width === undefined || height === undefined || !nodeId) return;
+
+  const coupling = svg.closest(COUPLING_SCENE) !== null;
+  // Only the presentation shell changes; node centers, order and labels remain
+  // renderer-owned. Keep the hidden hit shape aligned for bounds and callouts.
+  if (coupling && svg.getAttribute("data-orientation") === "horizontal") {
+    const shellHeight = Math.max(88, height - 24);
+    y += (height - shellHeight) / 2;
+    height = shellHeight;
+    shape.setAttribute("y", String(y));
+    shape.setAttribute("height", String(height));
+  }
 
   const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 10));
   shadow.setAttribute("transform", "translate(5 5)");
@@ -186,10 +198,12 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 8, y + 8, width - 16, height - 16, 6));
 
   const tabWidth = Math.min(48, Math.max(42, width * 0.17));
-  const tabX = x + 11;
-  const tabY = y + 14;
-  const tabHeight = Math.max(26, height - 28);
-  const tab = createPath("d3-flow-pixel-node-tab", numberTabPath(tabX, tabY, tabWidth, tabHeight, 5));
+  const tabX = x + (coupling ? 8 : 11);
+  const tabY = y + (coupling ? 8 : 14);
+  const tabHeight = Math.max(26, height - (coupling ? 16 : 28));
+  const tab = createPath("d3-flow-pixel-node-tab", coupling
+    ? `M ${tabX + 6} ${tabY} H ${tabX + tabWidth} V ${tabY + tabHeight} H ${tabX + 6} V ${tabY + tabHeight - 3} H ${tabX + 3} V ${tabY + tabHeight - 6} H ${tabX} V ${tabY + 6} H ${tabX + 3} V ${tabY + 3} H ${tabX + 6} Z`
+    : numberTabPath(tabX, tabY, tabWidth, tabHeight, 5));
   const number = createText(
     "d3-flow-pixel-node-number",
     tabX + tabWidth / 2 - 1,
@@ -197,12 +211,17 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     String(readingIndex + 1).padStart(2, "0"),
   );
   const led = createStatusMarker(x + width - 18, y + 18, 11);
+  if (coupling) {
+    led.setAttribute("rx", "5.5");
+    led.setAttribute("ry", "5.5");
+  }
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
   group.insertBefore(middle, shape);
   group.insertBefore(inner, shape);
   group.insertBefore(tab, shape);
+  if (coupling) group.insertBefore(createRect("d3-flow-pixel-node-divider", tabX + tabWidth, tabY, 3, tabHeight), shape);
   group.insertBefore(number, shape);
   group.insertBefore(led, shape);
 
