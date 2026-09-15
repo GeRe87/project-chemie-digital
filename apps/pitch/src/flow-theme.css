@@ -45,7 +45,9 @@
 
 .reveal .d3-flow-node-inner-frame,
 .reveal .d3-flow-node-rail,
-.reveal .d3-flow-node-status {
+.reveal .d3-flow-node-status,
+.reveal .d3-flow-node-index,
+.reveal .d3-flow-edge-label-stem {
   display: none;
 }
 
@@ -162,7 +164,9 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
 /* Renderer-owned chrome stays semantic-neutral but gives the cards real game-panel structure. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
   display: block;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
@@ -190,6 +194,15 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
   filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 34%, transparent));
 }
 
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
+  fill: var(--pcd-flow-pixel-ink-deep);
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  opacity: .72;
+}
+
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 42%, transparent);
@@ -203,11 +216,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 58%, transparent));
 }
 
-/* Chunky connector pieces: fewer, larger blocks, closer to the reference HUD wiring. */
+/* Chunky stepped connector pieces replace generic diagonal arrows. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   stroke: var(--pcd-flow-pixel-ink-strong);
   stroke-width: 8;
   stroke-linecap: square;
+  stroke-linejoin: miter;
   stroke-dasharray: 24 9;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
@@ -223,7 +237,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
   shape-rendering: crispEdges;
 }
 
-/* Relationship labels are compact light pixel callouts above the connection. */
+/* Relationship labels are compact light pixel callouts with a short pixel stem. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel {
   fill: var(--pcd-flow-pixel-surface-soft);
   stroke: var(--pcd-flow-pixel-ink-deep);
@@ -236,6 +250,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel {
   filter:
     drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
+  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke-width: 4;
+  stroke-dasharray: 4 4;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
