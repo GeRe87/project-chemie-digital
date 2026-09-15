@@ -79,14 +79,8 @@ function createRect(className: string, x: number, y: number, width: number, heig
   return rect;
 }
 
-function createCircle(className: string, cx: number, cy: number, radius: number): SVGCircleElement {
-  const circle = document.createElementNS(SVG_NS, "circle");
-  circle.setAttribute("class", className);
-  circle.setAttribute("cx", String(cx));
-  circle.setAttribute("cy", String(cy));
-  circle.setAttribute("r", String(radius));
-  circle.setAttribute("aria-hidden", "true");
-  return circle;
+function createStatusMarker(cx: number, cy: number, size: number): SVGRectElement {
+  return createRect("d3-flow-pixel-node-led", cx - size / 2, cy - size / 2, size, size);
 }
 
 function createText(className: string, x: number, y: number, value: string): SVGTextElement {
@@ -202,7 +196,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     y + height / 2 + 1,
     String(readingIndex + 1).padStart(2, "0"),
   );
-  const led = createCircle("d3-flow-pixel-node-led", x + width - 18, y + 18, 5.5);
+  const led = createStatusMarker(x + width - 18, y + 18, 11);
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
