@@ -43,6 +43,12 @@
   stroke-width: 3;
 }
 
+.reveal .d3-flow-node-inner-frame,
+.reveal .d3-flow-node-rail,
+.reveal .d3-flow-node-status {
+  display: none;
+}
+
 .reveal .d3-flow-node-label,
 .reveal .d3-flow-edge-label {
   fill: var(--pcd-foreground);
@@ -53,7 +59,13 @@
 }
 
 .reveal .d3-flow-node-label { stroke-width: 3px; }
-.reveal .d3-flow-edge-label { stroke-width: 4px; }
+.reveal .d3-flow-edge-label { stroke-width: 2px; }
+
+.reveal .d3-flow-edge-label-panel {
+  fill: var(--pcd-surface-strong);
+  stroke: var(--pcd-accent);
+  stroke-width: 1;
+}
 
 .reveal .d3-flow-edge {
   stroke: var(--pcd-accent);
@@ -146,6 +158,36 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
     drop-shadow(9px 11px 0 var(--pcd-flow-pixel-shadow));
 }
 
+/* Renderer-owned chrome stays semantic-neutral but gives the cards actual panel structure. */
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
+  display: block;
+  vector-effect: non-scaling-stroke;
+  shape-rendering: crispEdges;
+  pointer-events: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 68%, var(--pcd-flow-pixel-surface));
+  stroke-width: 3;
+  opacity: .72;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
+  fill: var(--pcd-flow-pixel-highlight);
+  stroke: none;
+  opacity: .88;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
+  fill: var(--pcd-flow-pixel-highlight);
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 3;
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 40%, transparent));
+}
+
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: var(--pcd-flow-pixel-surface-2);
@@ -179,20 +221,29 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
   shape-rendering: crispEdges;
 }
 
-/* Relationship labels emulate detached HUD tags through a thick light pixel halo. */
+/* Relationship labels are real renderer-owned HUD panels, not text halos. */
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel {
+  fill: var(--pcd-flow-pixel-surface-soft);
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 4;
+  rx: 0;
+  ry: 0;
+  vector-effect: non-scaling-stroke;
+  shape-rendering: crispEdges;
+  filter:
+    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+}
+
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
   fill: var(--pcd-flow-pixel-ink-deep);
-  stroke: var(--pcd-flow-pixel-surface-soft);
-  stroke-width: 14px;
-  stroke-linejoin: miter;
+  stroke: none;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 15px;
   font-weight: 900;
   letter-spacing: -.045em;
-  paint-order: stroke fill;
-  filter:
-    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+  paint-order: normal;
+  filter: none;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
