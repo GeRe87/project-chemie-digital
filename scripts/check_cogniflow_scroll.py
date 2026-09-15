@@ -91,8 +91,11 @@ def main():
                     backgrounds = page.evaluate("""id => [...document.querySelectorAll('.scroll-page')].map(e=>({
                       coupling:!!e.querySelector(`[id="${id}"]`), color:getComputedStyle(e).backgroundColor
                     }))""", SCENE)
-                    assert sum(b["color"] == "rgb(248, 252, 249)" for b in backgrounds) == 1, backgrounds
-                    assert next(b for b in backgrounds if b["coupling"])["color"] == "rgb(248, 252, 249)"
+                    coupling_page = next(b for b in backgrounds if b["coupling"])
+                    assert coupling_page["color"] == "rgba(0, 0, 0, 0)", backgrounds
+                    assert sum(b["color"] != "rgba(0, 0, 0, 0)" for b in backgrounds) == 0, backgrounds
+                    panel = page.evaluate("id => getComputedStyle(document.getElementById(id), '::before').backgroundColor", SCENE)
+                    assert panel.startswith("rgba"), panel
                     assert page.locator('.pcd-background-stage').evaluate_all("es=>es.every(e=>getComputedStyle(e).visibility==='visible')")
                 else:
                     wait_step(page, 0)
