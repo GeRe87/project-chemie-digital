@@ -100,6 +100,19 @@ function createSocket(x: number, y: number, size: number): SVGRectElement {
   return createRect("d3-flow-pixel-socket", x - size / 2, y - size / 2, size, size);
 }
 
+function createCouplingConnector(x: number, y: number): SVGGElement {
+  const connector = document.createElementNS(SVG_NS, "g");
+  connector.setAttribute("class", "d3-flow-pixel-connector");
+  connector.setAttribute("aria-hidden", "true");
+  connector.append(
+    createRect("d3-flow-pixel-connector-shadow", x - 10, y - 6, 26, 18),
+    createRect("d3-flow-pixel-connector-shell", x - 13, y - 9, 26, 18),
+    createRect("d3-flow-pixel-connector-core", x - 10, y - 6, 20, 12),
+    createRect("d3-flow-pixel-connector-contact", x - 3, y - 5, 6, 10),
+  );
+  return connector;
+}
+
 interface NodeBounds {
   readonly left: number;
   readonly right: number;
@@ -239,8 +252,8 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const hasOutgoing = svg.querySelector(`.d3-flow-edge[data-source-node-id="${CSS.escape(nodeId)}"]`) !== null;
   const socketSize = 15;
   if (orientation === "horizontal") {
-    if (hasIncoming) group.insertBefore(createSocket(x, 0, socketSize), shape);
-    if (hasOutgoing) group.insertBefore(createSocket(x + width, 0, socketSize), shape);
+    if (hasIncoming) group.insertBefore(coupling ? createCouplingConnector(x, 0) : createSocket(x, 0, socketSize), shape);
+    if (hasOutgoing) group.insertBefore(coupling ? createCouplingConnector(x + width, 0) : createSocket(x + width, 0, socketSize), shape);
   } else {
     if (hasIncoming) group.insertBefore(createSocket(0, y, socketSize), shape);
     if (hasOutgoing) group.insertBefore(createSocket(0, y + height, socketSize), shape);

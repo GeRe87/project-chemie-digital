@@ -3,6 +3,7 @@
 
 .d3-flow-pixel-frame,
 .d3-flow-pixel-socket,
+.d3-flow-pixel-connector,
 .d3-flow-pixel-edge-pill,
 .d3-flow-pixel-edge-path,
 .d3-flow-pixel-node-tab,
@@ -65,6 +66,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-connector,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-tab,
@@ -224,7 +226,28 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 
 /* Slide 2 card shell: solid dark outline, turquoise keyline and paper-light face.
    Keep revealed cards opaque instead of the runtime's historical 58% dimming;
-   unrevealed nodes retain their inline zero opacity and reveal cadence. */
+  unrevealed nodes retain their inline zero opacity and reveal cadence. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-connector {
+  stroke: none;
+  filter: none;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-connector-shadow {
+  fill: #07545b;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-connector-shell {
+  fill: #073f49;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-connector-core {
+  fill: #359fa8;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-connector-contact {
+  fill: #dcf5ef;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node[style*="opacity: 0.58"] {
   opacity: 1 !important;
 }
