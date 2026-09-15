@@ -3,21 +3,6 @@ import "./eco-city-flow-decoration.css";
 const SVG_NS = "http://www.w3.org/2000/svg";
 const COUPLING_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
 
-// Scene-specific reveal order for the coupling problem: the semantic path is
-// workflow (1) -> packages A/B (2) -> shared runtime (3) -> dependency conflict (4).
-// These attributes live only in the presentation layer and never touch RDF.
-const COUPLING_STEP_BY_NODE_ID: Readonly<Record<string, number>> = {
-  "ex:node-cogniflow-dep-workflow": 1,
-  "ex:node-cogniflow-dep-package-a": 2,
-  "ex:node-cogniflow-dep-package-b": 2,
-  "ex:node-cogniflow-dep-runtime": 3,
-  "ex:node-cogniflow-dep-conflict": 4,
-};
-
-function couplingStepForNodeId(nodeId: string): number {
-  return COUPLING_STEP_BY_NODE_ID[nodeId] ?? 4;
-}
-
 function numberAttribute(element: Element, name: string): number | undefined {
   const raw = element.getAttribute(name);
   if (raw === null || raw.trim() === "") return undefined;
@@ -244,22 +229,13 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     led.setAttribute("ry", "5.5");
   }
 
-  const nodeStep = coupling ? String(couplingStepForNodeId(nodeId)) : undefined;
-  if (nodeStep) {
-    for (const el of [shadow, outer, middle, inner, tab, number, led]) {
-      el.setAttribute("data-coupling-step", nodeStep);
-    }
-  }
-
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
   group.insertBefore(middle, shape);
   group.insertBefore(inner, shape);
   group.insertBefore(tab, shape);
   if (coupling) {
-    const divider = createRect("d3-flow-pixel-node-divider", tabX + tabWidth, tabY, 3, tabHeight);
-    if (nodeStep) divider.setAttribute("data-coupling-step", nodeStep);
-    group.insertBefore(divider, shape);
+    group.insertBefore(createRect("d3-flow-pixel-node-divider", tabX + tabWidth, tabY, 3, tabHeight), shape);
   }
   group.insertBefore(number, shape);
   group.insertBefore(led, shape);
@@ -278,27 +254,11 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const hasOutgoing = svg.querySelector(`.d3-flow-edge[data-source-node-id="${CSS.escape(nodeId)}"]`) !== null;
   const socketSize = 15;
   if (orientation === "horizontal") {
-    if (hasIncoming) {
-      const incoming = coupling ? createCouplingConnector(x, 0) : createSocket(x, 0, socketSize);
-      if (nodeStep) incoming.setAttribute("data-coupling-step", nodeStep);
-      group.insertBefore(incoming, shape);
-    }
-    if (hasOutgoing) {
-      const outgoing = coupling ? createCouplingConnector(x + width, 0) : createSocket(x + width, 0, socketSize);
-      if (nodeStep) outgoing.setAttribute("data-coupling-step", nodeStep);
-      group.insertBefore(outgoing, shape);
-    }
+    if (hasIncoming) group.insertBefore(coupling ? createCouplingConnector(x, 0) : createSocket(x, 0, socketSize), shape);
+    if (hasOutgoing) group.insertBefore(coupling ? createCouplingConnector(x + width, 0) : createSocket(x + width, 0, socketSize), shape);
   } else {
-    if (hasIncoming) {
-      const incoming = createSocket(0, y, socketSize);
-      if (nodeStep) incoming.setAttribute("data-coupling-step", nodeStep);
-      group.insertBefore(incoming, shape);
-    }
-    if (hasOutgoing) {
-      const outgoing = createSocket(0, y + height, socketSize);
-      if (nodeStep) outgoing.setAttribute("data-coupling-step", nodeStep);
-      group.insertBefore(outgoing, shape);
-    }
+    if (hasIncoming) group.insertBefore(createSocket(0, y, socketSize), shape);
+    if (hasOutgoing) group.insertBefore(createSocket(0, y + height, socketSize), shape);
   }
 
   shape.classList.add("d3-flow-node-shape-base");
@@ -333,12 +293,9 @@ function decorateEdges(svg: SVGSVGElement): void {
     const d = isHorizontal
       ? `M ${x1} ${y1} H ${x2}`
       : `M ${x1} ${y1} H ${middleX} V ${y2} H ${x2}`;
-    const edgeStep = coupling ? String(couplingStepForNodeId(targetNodeId)) : undefined;
-
     const path = createPath("d3-flow-pixel-edge-path", d);
     path.setAttribute("data-source-node-id", sourceNodeId);
     path.setAttribute("data-target-node-id", targetNodeId);
-    if (edgeStep) path.setAttribute("data-coupling-step", edgeStep);
     edge.parentNode?.insertBefore(path, edge);
     edge.dataset.pixelDecorated = "true";
 
@@ -393,7 +350,6 @@ function decorateEdges(svg: SVGSVGElement): void {
       "d3-flow-pixel-edge-pill",
       steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, coupling ? 8 : 5),
     );
-    if (edgeStep) pill.setAttribute("data-coupling-step", edgeStep);
 
     const labelAboveFlow = labelY < flowCenterY;
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
@@ -405,14 +361,11 @@ function decorateEdges(svg: SVGSVGElement): void {
     if (coupling) {
       stem.setAttribute("class", "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem");
       stem.setAttribute("aria-hidden", "true");
-      if (edgeStep) stem.setAttribute("data-coupling-step", edgeStep);
       // Separate filled squares, not a dashed SVG stroke. Always descend from
       // these above-card pills, including the lower branch of the diamond.
       const start = box.y + box.height + padY + 5;
       for (let dot = 0; dot < 3; dot += 1) {
-        const dotRect = createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 8, 5, 5);
-        if (edgeStep) dotRect.setAttribute("data-coupling-step", edgeStep);
-        stem.append(dotRect);
+        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 8, 5, 5));
       }
     } else {
       stem.setAttribute("data-source-node-id", sourceNodeId);
@@ -468,71 +421,6 @@ function decorateRoot(root: ParentNode): void {
   for (const svg of Array.from(root.querySelectorAll<SVGSVGElement>(".d3-flow-svg"))) decorateSvg(svg);
 }
 
-function mountCouplingAutoReveal(scene: HTMLElement): () => void {
-  const host = scene.querySelector<HTMLElement>(".d3-flow-host");
-  if (!host) return () => {};
-
-  // Respect user motion preferences: let fragments remain manual in reduced motion.
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-  if (reducedMotion) return () => {};
-
-  const FLOW_STEP_COUNT = 4;
-  const STEP_DELAY_MS = 130;
-  let timers: number[] = [];
-  let observer: MutationObserver | undefined;
-
-  const dispatchStep = (step: number): void => {
-    host.setAttribute("data-presentation-step", String(step));
-    host.dispatchEvent(new CustomEvent("pcd-presentation-step", {
-      bubbles: false,
-      detail: { step },
-    }));
-  };
-
-  const clearTimers = (): void => {
-    for (const timer of timers) window.clearTimeout(timer);
-    timers = [];
-  };
-
-  const reset = (): void => {
-    clearTimers();
-    dispatchStep(0);
-  };
-
-  const revealToEnd = (startStep: number): void => {
-    clearTimers();
-    for (let step = startStep + 1; step <= FLOW_STEP_COUNT; step += 1) {
-      timers.push(window.setTimeout(() => dispatchStep(step), (step - startStep) * STEP_DELAY_MS));
-    }
-  };
-
-  const handlePresentChange = (): void => {
-    const isPresent = scene.classList.contains("present");
-    if (!isPresent) {
-      reset();
-      return;
-    }
-    const current = Math.trunc(Number(host.getAttribute("data-presentation-step") ?? "0"));
-    const startStep = Number.isFinite(current) && current > 0 && current < FLOW_STEP_COUNT ? current : 0;
-    if (startStep > 0) {
-      revealToEnd(startStep);
-      return;
-    }
-    // Start from a clean hidden state so nothing is prematurely visible.
-    dispatchStep(0);
-    revealToEnd(0);
-  };
-
-  observer = new MutationObserver(handlePresentChange);
-  observer.observe(scene, { attributeFilter: ["class"] });
-  handlePresentChange();
-
-  return () => {
-    observer?.disconnect();
-    clearTimers();
-  };
-}
-
 export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   // Reveal treats any descendant <section> as a vertical slide. Its scroll
   // controller would extract the D3 wrapper from this scene, losing both the
@@ -559,12 +447,8 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   observer.observe(root, { childList: true, subtree: true });
   schedule();
 
-  const scene = root.querySelector<HTMLElement>(COUPLING_SCENE);
-  const cleanupAutoReveal = scene ? mountCouplingAutoReveal(scene) : () => {};
-
   return () => {
     observer.disconnect();
-    cleanupAutoReveal();
     if (frame) window.cancelAnimationFrame(frame);
     // Restore the element held by renderer-d3 before its own teardown runs.
     for (const { runtime, container } of embeddings) {

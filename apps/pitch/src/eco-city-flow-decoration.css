@@ -428,32 +428,16 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   fill: #5b3506;
 }
 
-/* Auto-staged pop-in for the coupling scene. Every pixel decoration is hidden
-   before its reveal step; the decorative runtime advances the host step when
-   the scene becomes present, so no manual fragment clicking is required. */
+/* Slide 2 shows the complete diagram immediately. The generic flow runtime still
+   dispatches presentation-step events, but this scene overrides inline opacity
+   so no fragment state can hide nodes, edges, labels or pixel decorations. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-coupling-step] {
-  opacity: 0;
-  transition: opacity 100ms ease, transform 100ms ease;
-  transform: scale(0.97);
-  transform-origin: center;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="1"] [data-coupling-step="1"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="2"] [data-coupling-step="1"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="2"] [data-coupling-step="2"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="3"] [data-coupling-step="1"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="3"] [data-coupling-step="2"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="3"] [data-coupling-step="3"],
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-presentation-step="4"] [data-coupling-step] {
-  opacity: 1;
-  transform: scale(1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-coupling-step] {
-    transition: none;
-    transform: none;
-  }
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 @media (max-width: 900px) {
