@@ -62,19 +62,20 @@
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
-  --pcd-flow-pixel-ink: #0a8190;
-  --pcd-flow-pixel-ink-strong: #04505c;
-  --pcd-flow-pixel-ink-deep: #063844;
-  --pcd-flow-pixel-highlight: #d5ffff;
-  --pcd-flow-pixel-surface: #effdfc;
-  --pcd-flow-pixel-surface-2: #d7f5f3;
-  --pcd-flow-pixel-shadow: rgb(3 62 72 / .28);
-  --pcd-flow-pixel-grid: rgb(8 116 134 / .04);
-  --pcd-flow-pixel-text: #073d47;
+  --pcd-flow-pixel-ink: #1099aa;
+  --pcd-flow-pixel-ink-strong: #075c68;
+  --pcd-flow-pixel-ink-deep: #043640;
+  --pcd-flow-pixel-highlight: #d7ffff;
+  --pcd-flow-pixel-surface: #11899a;
+  --pcd-flow-pixel-surface-2: #0b7180;
+  --pcd-flow-pixel-surface-soft: #dff8f7;
+  --pcd-flow-pixel-shadow: rgb(3 55 64 / .32);
+  --pcd-flow-pixel-grid: rgb(8 116 134 / .038);
+  --pcd-flow-pixel-text: #f4ffff;
   --pcd-flow-pixel-danger: #d38b00;
   --pcd-flow-pixel-danger-strong: #814300;
-  --pcd-flow-pixel-danger-surface: #ffe18a;
-  --pcd-flow-pixel-danger-highlight: #fff4bd;
+  --pcd-flow-pixel-danger-surface: #f2ae1e;
+  --pcd-flow-pixel-danger-highlight: #fff1ae;
   --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -83,20 +84,21 @@ body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
   --pcd-flow-pixel-ink-strong: #b8f9fd;
   --pcd-flow-pixel-ink-deep: #e6ffff;
   --pcd-flow-pixel-highlight: #153f52;
-  --pcd-flow-pixel-surface: #0b2533;
-  --pcd-flow-pixel-surface-2: #103343;
+  --pcd-flow-pixel-surface: #0b6f7b;
+  --pcd-flow-pixel-surface-2: #0b4d59;
+  --pcd-flow-pixel-surface-soft: #0b2533;
   --pcd-flow-pixel-shadow: rgb(49 231 239 / .24);
   --pcd-flow-pixel-grid: rgb(99 231 239 / .06);
   --pcd-flow-pixel-text: #edffff;
   --pcd-flow-pixel-danger: #ffbb36;
   --pcd-flow-pixel-danger-strong: #ffe08b;
-  --pcd-flow-pixel-danger-surface: #4a2b06;
-  --pcd-flow-pixel-danger-highlight: #7d4b0d;
+  --pcd-flow-pixel-danger-surface: #6c3d06;
+  --pcd-flow-pixel-danger-highlight: #9d641c;
 }
 
 /* The slide background is the world. The diagram itself stays open, like a game HUD. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-host {
-  padding: .45rem .2rem .2rem;
+  padding: .35rem .15rem .15rem;
   background: transparent;
 }
 
@@ -105,7 +107,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
   background:
     linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-size: 28px 28px;
   border: 0;
   box-shadow: none;
   image-rendering: pixelated;
@@ -116,81 +118,85 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-caption {
   display: none;
 }
 
-/* 16-bit process cards: hard outline, light top bevel, stepped lower shadow. */
+/* Saturated 16-bit process cards: cyan bevel, dark frame, stepped lower-right shadow. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   rx: 0;
   ry: 0;
   fill: var(--pcd-flow-pixel-surface);
-  stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 7;
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 8;
   stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   filter:
-    drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(0 4px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 48%, transparent))
-    drop-shadow(8px 10px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(0 -4px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(-4px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 48%, transparent))
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink-strong))
+    drop-shadow(9px 11px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-flow-node-shape {
-  stroke-width: 8;
+  stroke-width: 9;
   filter:
-    drop-shadow(0 0 5px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent))
-    drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(0 4px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 56%, transparent))
-    drop-shadow(8px 10px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(0 0 5px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
+    drop-shadow(0 -4px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(-4px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 50%, transparent))
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink-strong))
+    drop-shadow(9px 11px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
-  stroke: var(--pcd-flow-pixel-surface);
-  stroke-width: 6px;
+  stroke: var(--pcd-flow-pixel-surface-2);
+  stroke-width: 5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 18px;
   font-weight: 900;
-  letter-spacing: -.055em;
+  letter-spacing: -.045em;
   paint-order: stroke fill;
-  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink) 16%, transparent));
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 42%, transparent));
 }
 
-/* Connectors read as chunky circuit traces rather than ordinary diagram lines. */
+/* Connectors read as chunky, dashed circuit traces rather than generic SVG arrows. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   stroke: var(--pcd-flow-pixel-ink-strong);
   stroke-width: 7;
   stroke-linecap: square;
+  stroke-dasharray: 15 10;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   filter:
-    drop-shadow(0 2px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(0 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 76%, transparent))
     drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
   fill: var(--pcd-flow-pixel-ink-strong);
-  stroke: var(--pcd-flow-pixel-ink-strong);
+  stroke: var(--pcd-flow-pixel-ink-deep);
   stroke-width: 1;
   shape-rendering: crispEdges;
 }
 
-/* Until dedicated callout geometry is added by the renderer, the thick pixel halo
-   makes relationship labels read as detached HUD labels rather than plain SVG text. */
+/* Relationship labels emulate detached HUD tags through a thick light pixel halo. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
-  fill: var(--pcd-flow-pixel-text);
-  stroke: var(--pcd-flow-pixel-surface);
-  stroke-width: 13px;
+  fill: var(--pcd-flow-pixel-ink-deep);
+  stroke: var(--pcd-flow-pixel-surface-soft);
+  stroke-width: 14px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 15px;
   font-weight: 900;
-  letter-spacing: -.055em;
+  letter-spacing: -.045em;
   paint-order: stroke fill;
-  filter: drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+  filter:
+    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
-  stroke-width: 8;
+  stroke-width: 9;
   filter:
     drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent))
     drop-shadow(0 2px 0 var(--pcd-flow-pixel-highlight))
