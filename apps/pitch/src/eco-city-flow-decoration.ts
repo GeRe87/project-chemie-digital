@@ -279,6 +279,17 @@ function decorateEdges(svg: SVGSVGElement): void {
       "d3-flow-pixel-edge-pill",
       steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 5),
     );
+    const labelAboveFlow = labelY < flowCenterY;
+    const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
+    const stemEndY = stemStartY + (labelAboveFlow ? 13 : -13);
+    const stem = createPath(
+      "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem",
+      `M ${labelX} ${stemStartY} V ${stemEndY}`,
+    );
+    stem.setAttribute("data-source-node-id", sourceNodeId);
+    stem.setAttribute("data-target-node-id", targetNodeId);
+    stem.setAttribute("style", "stroke-width:4px;stroke-dasharray:4 3;filter:none");
+    label.parentNode?.insertBefore(stem, label);
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";
   });
