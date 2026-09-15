@@ -172,14 +172,21 @@ then lost. Cleanup restores the original wrapper before renderer-d3 teardown.
 The scene now supplies its own full height rather than relying on accidental
 Reveal stack layout. No generic renderer or canonical document is changed.
 
-Scroll canvas color belongs only to the `.scroll-page` containing this scene,
-including its native sticky fragment interval. The global background world and
-neighboring pages remain enabled. Deck's viewport override remains deck-only.
-Sparse solid pixel ornaments remain attached to the scene.
+Slide 2 sits on the Eco City world through a translucent rounded panel, similar
+to the title-slide embedding. The scene's `::before` pseudo-element renders the
+glass panel; the diagram host sits above it with `position: relative` and a
+higher `z-index`. The generic world-panel background and scroll-page recoloring
+are removed for this scene so the Eco City artwork remains visible behind the
+panel. Scroll and deck views share the same panel treatment.
 
-The four fragments remain native Reveal fragments. Scroll snap points advance
-them through `presentation-step-runtime.ts` just as keyboard navigation does in
-deck view; no second scroll diagram or forced final-state application is used.
+The coupling scene no longer depends on repeated clicks for its internal build-up.
+When the scene becomes `present`, the decoration runtime auto-advances the flow
+host through steps 1..4 in short timed intervals, revealing nodes, edges, pills
+and stems in semantic order. Each decorative SVG element carries a
+`data-coupling-step` attribute and is hidden via CSS before its step; the
+`prefers-reduced-motion` media query disables the timer so fragments remain
+manual for users who need it. Leaving the scene resets to step 0, so re-entry
+replays the reveal sensibly.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
