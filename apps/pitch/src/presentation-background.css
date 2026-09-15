@@ -124,6 +124,25 @@ body.pcd-background-active.reveal-scroll .reveal .slides section {
   backdrop-filter: none;
 }
 
+/* CogniFlow slide 2 is intentionally a flat 16-bit HUD, not a glass panel.
+   The D3 flow renderer itself uses a nested <section>; neutralize the generic
+   world-panel treatment there as well so no translucent panel is stacked twice. */
+body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] {
+  background: #f8fcf9 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] section.d3-flow-runtime {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
 body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="atmosphere"] {
   mix-blend-mode: normal !important;
 }
