@@ -236,6 +236,15 @@ function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y
   return text;
 }
 
+function orthogonalEdgePath(edge: D3FlowLayoutEdge, orientation: D3FlowLayout["orientation"]): string {
+  if (orientation === "horizontal") {
+    const elbowX = edge.x1 + (edge.x2 - edge.x1) / 2;
+    return `M ${edge.x1} ${edge.y1} H ${elbowX} V ${edge.y2} H ${edge.x2}`;
+  }
+  const elbowY = edge.y1 + (edge.y2 - edge.y1) / 2;
+  return `M ${edge.x1} ${edge.y1} V ${elbowY} H ${edge.x2} V ${edge.y2}`;
+}
+
 function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge): void {
   const namespace = "http://www.w3.org/2000/svg";
   const lineCount = Math.max(edge.labelLines.length, 1);
@@ -256,6 +265,15 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge): void {
   panel.setAttribute("aria-hidden", "true");
   group.append(panel);
 
+  const stem = document.createElementNS(namespace, "line");
+  stem.setAttribute("class", "d3-flow-edge-label-stem");
+  stem.setAttribute("x1", String(edge.labelX));
+  stem.setAttribute("x2", String(edge.labelX));
+  stem.setAttribute("y1", String(edge.labelY + panelHeight / 2 - 2));
+  stem.setAttribute("y2", String(edge.labelY + panelHeight / 2 + 14));
+  stem.setAttribute("aria-hidden", "true");
+  group.append(stem);
+
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
   parent.append(group);
 }
@@ -264,6 +282,7 @@ function addNodeChrome(
   group: SVGGElement,
   width: number,
   height: number,
+  readingIndex: number,
 ): void {
   const namespace = "http://www.w3.org/2000/svg";
   const inset = 11;
@@ -295,6 +314,15 @@ function addNodeChrome(
   status.setAttribute("height", "11");
   status.setAttribute("aria-hidden", "true");
   group.append(status);
+
+  const index = document.createElementNS(namespace, "text");
+  index.setAttribute("class", "d3-flow-node-index");
+  index.setAttribute("x", String(-width / 2 + 20));
+  index.setAttribute("y", String(height / 2 - 16));
+  index.setAttribute("text-anchor", "start");
+  index.setAttribute("aria-hidden", "true");
+  index.textContent = String(readingIndex + 1).padStart(2, "0");
+  group.append(index);
 }
 
 export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
@@ -362,19 +390,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         const edgeLayer = document.createElementNS(namespace, "g");
         edgeLayer.setAttribute("class", "d3-flow-edge-layer");
         for (const edge of layout.edges) {
-          const line = document.createElementNS(namespace, "line");
-          line.setAttribute("class", "d3-flow-edge");
-          line.setAttribute("data-edge-id", edge.id);
-          line.setAttribute("data-source-node-id", edge.sourceNodeId);
-          line.setAttribute("data-target-node-id", edge.targetNodeId);
-          line.setAttribute("x1", String(edge.x1));
-          line.setAttribute("y1", String(edge.y1));
-          line.setAttribute("x2", String(edge.x2));
-          line.setAttribute("y2", String(edge.y2));
-          line.setAttribute("stroke", "currentColor");
-          line.setAttribute("fill", "none");
-          line.setAttribute("marker-end", `url(#${markerId})`);
-          edgeLayer.append(line);
+          const path = document.createElementNS(namespace, "path");
+          path.setAttribute("class", "d3-flow-edge");
+          path.setAttribute("data-edge-id", edge.id);
+          path.setAttribute("data-source-node-id", edge.sourceNodeId);
+          path.setAttribute("data-target-node-id", edge.targetNodeId);
+          path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
+          path.setAttribute("stroke", "currentColor");
+          path.setAttribute("fill", "none");
+          path.setAttribute("marker-end", `url(#${markerId})`);
+          edgeLayer.append(path);
           addEdgeLabel(edgeLayer, edge);
         }
         svg.append(edgeLayer);
@@ -404,7 +429,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
-          addNodeChrome(group, layoutNode.width, layoutNode.height);
+          addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
           addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
           nodeLayer.append(group);
