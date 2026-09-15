@@ -231,11 +231,11 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-middle {
-  fill: #43aeb3;
+  fill: #359fa8;
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-inner {
-  fill: #8fe3df;
+  fill: #82dcd9;
 }
 
 /* The reference has a single, unmistakable number plaque rather than a second
@@ -255,14 +255,14 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
-  fill: #d9f7ef;
+  fill: #ccefe9;
   stroke: #073f49;
   stroke-width: 3;
   filter: drop-shadow(3px 3px 0 #07545b);
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-socket {
-  fill: #d9f7ef;
+  fill: #ccefe9;
   stroke: #073f49;
   stroke-width: 4;
   filter: drop-shadow(3px 3px 0 #07545b);
@@ -275,7 +275,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
-  fill: #d9f7ef;
+  fill: #ccefe9;
   stroke: #073f49;
   stroke-width: 3;
   filter: drop-shadow(3px 3px 0 #07545b);
@@ -287,6 +287,10 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   stroke: none;
   filter: none;
   opacity: 1;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
+  font-size: 13px;
 }
 
 /* Conflict branch mirrors the same flat construction in ochre/amber. */
