@@ -1,6 +1,11 @@
 import type { DiagramBlock, SourceReference } from "../../core/src/index.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
-import { createD3FlowLayout, type D3FlowLayout } from "./flow-layout.ts";
+import {
+  createD3FlowLayout,
+  deterministicFlowTextMeasure,
+  type D3FlowLayout,
+  type D3FlowLayoutEdge,
+} from "./flow-layout.ts";
 
 export type D3FlowOptions = D3KnowledgeNetworkOptions;
 
@@ -231,6 +236,67 @@ function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y
   return text;
 }
 
+function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge): void {
+  const namespace = "http://www.w3.org/2000/svg";
+  const lineCount = Math.max(edge.labelLines.length, 1);
+  const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
+  const panelWidth = textWidth + 26;
+  const panelHeight = Math.max(34, lineCount * 22 + 12);
+  const group = document.createElementNS(namespace, "g");
+  group.setAttribute("class", "d3-flow-edge-label-group");
+  group.setAttribute("data-edge-id", edge.id);
+
+  const panel = document.createElementNS(namespace, "rect");
+  panel.setAttribute("class", "d3-flow-edge-label-panel");
+  panel.setAttribute("x", String(edge.labelX - panelWidth / 2));
+  panel.setAttribute("y", String(edge.labelY - panelHeight / 2 - 2));
+  panel.setAttribute("width", String(panelWidth));
+  panel.setAttribute("height", String(panelHeight));
+  panel.setAttribute("rx", "4");
+  panel.setAttribute("aria-hidden", "true");
+  group.append(panel);
+
+  addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
+  parent.append(group);
+}
+
+function addNodeChrome(
+  group: SVGGElement,
+  width: number,
+  height: number,
+): void {
+  const namespace = "http://www.w3.org/2000/svg";
+  const inset = 11;
+
+  const inner = document.createElementNS(namespace, "rect");
+  inner.setAttribute("class", "d3-flow-node-inner-frame");
+  inner.setAttribute("x", String(-width / 2 + inset));
+  inner.setAttribute("y", String(-height / 2 + inset));
+  inner.setAttribute("width", String(Math.max(0, width - inset * 2)));
+  inner.setAttribute("height", String(Math.max(0, height - inset * 2)));
+  inner.setAttribute("rx", "2");
+  inner.setAttribute("aria-hidden", "true");
+  group.append(inner);
+
+  const rail = document.createElementNS(namespace, "rect");
+  rail.setAttribute("class", "d3-flow-node-rail");
+  rail.setAttribute("x", String(-width / 2 + 18));
+  rail.setAttribute("y", String(-height / 2 + 18));
+  rail.setAttribute("width", String(Math.min(52, Math.max(20, width * .22))));
+  rail.setAttribute("height", "6");
+  rail.setAttribute("aria-hidden", "true");
+  group.append(rail);
+
+  const status = document.createElementNS(namespace, "rect");
+  status.setAttribute("class", "d3-flow-node-status");
+  status.setAttribute("x", String(width / 2 - 29));
+  status.setAttribute("y", String(-height / 2 + 16));
+  status.setAttribute("width", "11");
+  status.setAttribute("height", "11");
+  status.setAttribute("aria-hidden", "true");
+  group.append(status);
+}
+
 export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
   return {
     measureHost(host): number {
@@ -309,7 +375,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           line.setAttribute("fill", "none");
           line.setAttribute("marker-end", `url(#${markerId})`);
           edgeLayer.append(line);
-          addTextLines(edgeLayer, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
+          addEdgeLabel(edgeLayer, edge);
         }
         svg.append(edgeLayer);
 
@@ -338,6 +404,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
+          addNodeChrome(group, layoutNode.width, layoutNode.height);
           addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
           nodeLayer.append(group);
