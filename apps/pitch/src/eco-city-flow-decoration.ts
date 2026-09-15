@@ -251,6 +251,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 }
 
 function decorateEdges(svg: SVGSVGElement): void {
+  const coupling = svg.closest(COUPLING_SCENE) !== null && svg.getAttribute("data-orientation") === "horizontal";
   const edges = Array.from(svg.querySelectorAll<SVGGraphicsElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
@@ -302,6 +303,17 @@ function decorateEdges(svg: SVGSVGElement): void {
           ? Math.min(sourceBounds.top, targetBounds.top) - 24
           : Math.max(sourceBounds.bottom, targetBounds.bottom) + 30;
       }
+      if (coupling) {
+        labelY = Math.min(sourceBounds.top, targetBounds.top) - 50;
+        if (!isHorizontal) {
+          const sourceIsOuter = Math.abs(sourceBounds.centerY - flowCenterY) >= Math.abs(targetBounds.centerY - flowCenterY);
+          const outer = sourceIsOuter ? sourceBounds : targetBounds;
+          // Above each branch card, away from the vertical routing trunk and
+          // the adjacent centered cards. Incoming/outgoing callouts stay paired.
+          labelX = outer.centerX + (sourceIsOuter ? 1 : -1) * (outer.right - outer.left) * 0.3;
+          labelY = outer.top - 50;
+        }
+      }
     }
 
     label.setAttribute("x", String(labelX));
@@ -317,22 +329,33 @@ function decorateEdges(svg: SVGSVGElement): void {
       return;
     }
     if (!(box.width > 0) || !(box.height > 0)) return;
-    const padX = 10;
-    const padY = 6;
+    const padX = coupling ? 14 : 10;
+    const padY = coupling ? 9 : 6;
     const pill = createPath(
       "d3-flow-pixel-edge-pill",
-      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, 5),
+      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, coupling ? 8 : 5),
     );
     const labelAboveFlow = labelY < flowCenterY;
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
     const stemEndY = stemStartY + (labelAboveFlow ? 13 : -13);
-    const stem = createPath(
+    const stem = coupling ? document.createElementNS(SVG_NS, "g") : createPath(
       "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem",
       `M ${labelX} ${stemStartY} V ${stemEndY}`,
     );
-    stem.setAttribute("data-source-node-id", sourceNodeId);
-    stem.setAttribute("data-target-node-id", targetNodeId);
-    stem.setAttribute("style", "stroke-width:4px;stroke-dasharray:4 3;filter:none");
+    if (coupling) {
+      stem.setAttribute("class", "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem");
+      stem.setAttribute("aria-hidden", "true");
+      // Separate filled squares, not a dashed SVG stroke. Always descend from
+      // these above-card pills, including the lower branch of the diamond.
+      const start = box.y + box.height + padY + 5;
+      for (let dot = 0; dot < 3; dot += 1) {
+        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 10, 5, 5));
+      }
+    } else {
+      stem.setAttribute("data-source-node-id", sourceNodeId);
+      stem.setAttribute("data-target-node-id", targetNodeId);
+      stem.setAttribute("style", "stroke-width:4px;stroke-dasharray:4 3;filter:none");
+    }
     label.parentNode?.insertBefore(stem, label);
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";

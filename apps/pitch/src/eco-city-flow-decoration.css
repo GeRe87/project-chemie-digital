@@ -292,7 +292,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
-  fill: #ccefe9;
+  fill: #edf8f5;
   stroke: #073f49;
   stroke-width: 3;
   filter: drop-shadow(3px 3px 0 #07545b);
@@ -307,7 +307,17 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
-  font-size: 13px;
+  font-size: 17px;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label[style*="opacity: 0.5"] {
+  opacity: 1 !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-stem {
+  fill: #07545b;
+  stroke: none;
+  filter: none;
 }
 
 /* Conflict branch mirrors the same flat construction in ochre/amber. */
@@ -349,12 +359,15 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-pixel-edge-pill {
-  fill: #fff3c6;
-  stroke: #5b3506;
-  filter: drop-shadow(3px 3px 0 #7b4a09);
+  fill: #edf8f5;
+  stroke: #073f49;
+  filter: drop-shadow(3px 3px 0 #07545b);
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label {
+  fill: #073f49;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
   fill: #5b3506;
 }

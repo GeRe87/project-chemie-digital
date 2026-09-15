@@ -154,6 +154,9 @@ a paper-light face, integrated number segment and one round status LED, with
 the same geometry in teal and amber. Revealed cards stay opaque; unrevealed
 cards retain the existing progressive visibility. Decoration is aria-hidden
 and introduces no network requests or persisted state.
+In horizontal slide 2 flows, relation pills sit above their branch cards with
+three separate SVG squares per stem. The lower branch uses the same downward
+callout treatment; routing trunks and semantic edge identities are preserved.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
