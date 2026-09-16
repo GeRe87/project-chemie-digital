@@ -321,6 +321,16 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   pointer-events: none !important;
 }
 
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node[data-secondary-workflow="true"] {
+  --pcd-flow-pixel-card-shadow: #563781;
+  --pcd-flow-pixel-card-outline: #442263;
+  --pcd-flow-pixel-card-keyline: #9b72d0;
+  --pcd-flow-pixel-card-face: #f3ecff;
+  --pcd-flow-pixel-card-tab: #dfcef4;
+  --pcd-flow-pixel-card-divider: #c6a9e3;
+  --pcd-flow-pixel-card-socket: #eee2ff;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-secondary-workflow-visible="true"] [data-secondary-workflow="true"] {
   opacity: 1 !important;
   pointer-events: auto !important;
