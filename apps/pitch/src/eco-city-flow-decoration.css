@@ -336,6 +336,18 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   pointer-events: auto !important;
 }
 
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-edge-label,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-pixel-edge-pill,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-pixel-edge-stem {
+  display: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-node,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-edge {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-custom-script-consolidation="true"] {
   opacity: 0 !important;
   pointer-events: none !important;

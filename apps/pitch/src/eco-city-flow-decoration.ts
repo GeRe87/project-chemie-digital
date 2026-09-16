@@ -2,6 +2,7 @@ import "./eco-city-flow-decoration.css";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const OPENING_WORKFLOW_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
+const LABORATORY_DIVERSITY_SCENE = '[id="ex:scene-cogniflow-laboratory-diversity--scene"]';
 const SECONDARY_WORKFLOW_NODE_IDS = new Set([
   "ex:node-cogniflow-common-analysis-b",
   "ex:node-cogniflow-common-meas-data-b",
@@ -304,6 +305,29 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   group.dataset.pixelDecorated = "true";
 }
 
+function arrangeLaboratoryNodes(svg: SVGSVGElement): void {
+  if (svg.closest(LABORATORY_DIVERSITY_SCENE) === null) return;
+  const viewBox = svg.viewBox.baseVal;
+  if (!(viewBox.width > 0) || !(viewBox.height > 0)) return;
+  const x = viewBox.x;
+  const y = viewBox.y;
+  const positions: Record<string, readonly [number, number]> = {
+    "ex:node-cogniflow-lab-lcms": [0.18, 0.18],
+    "ex:node-cogniflow-lab-hplc": [0.5, 0.14],
+    "ex:node-cogniflow-lab-nmr": [0.82, 0.18],
+    "ex:node-cogniflow-lab-uv-vis": [0.16, 0.5],
+    "ex:node-cogniflow-lab-gcms": [0.84, 0.5],
+    "ex:node-cogniflow-lab-ion-chromatograph": [0.18, 0.82],
+    "ex:node-cogniflow-lab-ftir": [0.5, 0.86],
+    "ex:node-cogniflow-lab-ph-meter": [0.82, 0.82],
+    "ex:node-cogniflow-lab-common-processing": [0.5, 0.5],
+  };
+  for (const group of Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"))) {
+    const position = positions[group.getAttribute("data-node-id") ?? ""];
+    if (position) group.setAttribute("transform", `translate(${x + viewBox.width * position[0]} ${y + viewBox.height * position[1]})`);
+  }
+}
+
 interface CustomScriptAnchor {
   readonly x: number;
   readonly y: number;
@@ -312,6 +336,7 @@ interface CustomScriptAnchor {
 
 function decorateEdges(svg: SVGSVGElement): void {
   const scene2 = svg.closest(OPENING_WORKFLOW_SCENE) !== null && svg.getAttribute("data-orientation") === "horizontal";
+  const laboratory = svg.closest(LABORATORY_DIVERSITY_SCENE) !== null;
   const edges = Array.from(svg.querySelectorAll<SVGGraphicsElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
@@ -333,11 +358,19 @@ function decorateEdges(svg: SVGSVGElement): void {
     if (secondaryWorkflow) offsetSecondaryWorkflowElement(edge);
     const endpoints = edgeEndpoints(edge);
     if (!endpoints) return;
-    const { x1, x2 } = endpoints;
-    const y1 = endpoints.y1 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
-    const y2 = endpoints.y2 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
+    let x1 = endpoints.x1;
+    let x2 = endpoints.x2;
+    let y1 = endpoints.y1 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
+    let y2 = endpoints.y2 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
     const sourceBounds = translatedNodeBounds(svg, sourceNodeId);
     const targetBounds = translatedNodeBounds(svg, targetNodeId);
+    if (laboratory && sourceBounds && targetBounds) {
+      const sourceOnLeft = sourceBounds.centerX < targetBounds.centerX;
+      x1 = sourceOnLeft ? sourceBounds.right : sourceBounds.left;
+      x2 = sourceOnLeft ? targetBounds.left : targetBounds.right;
+      y1 = sourceBounds.centerY;
+      y2 = targetBounds.centerY;
+    }
     const middleX = x1 + (x2 - x1) / 2;
     const isHorizontal = Math.abs(y2 - y1) < 1;
     const d = isHorizontal
@@ -526,6 +559,7 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
 }
 
 function decorateSvg(svg: SVGSVGElement): void {
+  arrangeLaboratoryNodes(svg);
   const nodes = Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"));
   nodes.forEach((group, index) => {
     if (SECONDARY_WORKFLOW_NODE_IDS.has(group.getAttribute("data-node-id") ?? "")) {
@@ -564,6 +598,7 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   };
 
   decorateRoot(root);
+  root.querySelector<HTMLElement>(`${LABORATORY_DIVERSITY_SCENE} .d3-flow-host`)?.setAttribute("data-presentation-step-count", "0");
   const secondaryWorkflowHost = root.querySelector<HTMLElement>(`${OPENING_WORKFLOW_SCENE} .d3-flow-host`);
   const applySecondaryWorkflowStep = (step: number): void => {
     if (!secondaryWorkflowHost) return;

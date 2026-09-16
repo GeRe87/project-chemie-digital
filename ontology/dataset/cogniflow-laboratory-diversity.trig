@@ -22,11 +22,16 @@
       ex:node-cogniflow-lab-nmr,
       ex:node-cogniflow-lab-ftir,
       ex:node-cogniflow-lab-uv-vis,
-      ex:node-cogniflow-lab-ph-meter ;
+      ex:node-cogniflow-lab-ph-meter,
+      ex:node-cogniflow-lab-common-processing ;
     cd:hasDiagramEdge ex:edge-cogniflow-lab-lcms-gcms,
       ex:edge-cogniflow-lab-hplc-ion-chromatograph,
       ex:edge-cogniflow-lab-nmr-ftir,
-      ex:edge-cogniflow-lab-uv-vis-ph-meter ;
+      ex:edge-cogniflow-lab-uv-vis-ph-meter,
+      ex:edge-cogniflow-lab-gcms-processing,
+      ex:edge-cogniflow-lab-ion-chromatograph-processing,
+      ex:edge-cogniflow-lab-ftir-processing,
+      ex:edge-cogniflow-lab-ph-meter-processing ;
     cd:focusNode ex:node-cogniflow-lab-lcms ;
     cd:authoredResource true .
 
@@ -38,11 +43,16 @@
   ex:node-cogniflow-lab-ion-chromatograph a cd:DiagramNode ; skos:prefLabel "Ion Chromatograph"@en ; cd:position 6 ; cd:authoredResource true .
   ex:node-cogniflow-lab-ftir a cd:DiagramNode ; skos:prefLabel "FTIR"@en ; cd:position 7 ; cd:authoredResource true .
   ex:node-cogniflow-lab-ph-meter a cd:DiagramNode ; skos:prefLabel "pH Meter"@en ; cd:position 8 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-common-processing a cd:DiagramNode ; skos:prefLabel "one common data processing ?"@en ; cd:position 9 ; cd:authoredResource true .
 
-  ex:edge-cogniflow-lab-lcms-gcms a cd:DiagramEdge ; skos:prefLabel "mass analysis"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-lab-lcms ; cd:targetNode ex:node-cogniflow-lab-gcms ; cd:authoredResource true .
-  ex:edge-cogniflow-lab-hplc-ion-chromatograph a cd:DiagramEdge ; skos:prefLabel "separation"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-lab-hplc ; cd:targetNode ex:node-cogniflow-lab-ion-chromatograph ; cd:authoredResource true .
-  ex:edge-cogniflow-lab-nmr-ftir a cd:DiagramEdge ; skos:prefLabel "spectroscopy"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-lab-nmr ; cd:targetNode ex:node-cogniflow-lab-ftir ; cd:authoredResource true .
-  ex:edge-cogniflow-lab-uv-vis-ph-meter a cd:DiagramEdge ; skos:prefLabel "routine measurement"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-lab-uv-vis ; cd:targetNode ex:node-cogniflow-lab-ph-meter ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-lcms-gcms a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-lab-lcms ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-hplc-ion-chromatograph a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-lab-hplc ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-nmr-ftir a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-lab-nmr ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-uv-vis-ph-meter a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-lab-uv-vis ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-gcms-processing a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-lab-gcms ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-ion-chromatograph-processing a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-lab-ion-chromatograph ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-ftir-processing a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 7 ; cd:sourceNode ex:node-cogniflow-lab-ftir ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
+  ex:edge-cogniflow-lab-ph-meter-processing a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 8 ; cd:sourceNode ex:node-cogniflow-lab-ph-meter ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-laboratory-diversity-extension> {

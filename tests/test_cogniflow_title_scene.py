@@ -157,7 +157,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("One Laboratory. Many Analytical Perspectives.", laboratory_heading["text"])
         self.assertEqual(
-            ["LC-MS", "HPLC", "NMR", "UV-Vis", "GC-MS", "Ion Chromatograph", "FTIR", "pH Meter"],
+            ["LC-MS", "HPLC", "NMR", "UV-Vis", "GC-MS", "Ion Chromatograph", "FTIR", "pH Meter", "one common data processing ?"],
             [node["label"] for node in laboratory_diagram["nodes"]],
         )
         self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])
