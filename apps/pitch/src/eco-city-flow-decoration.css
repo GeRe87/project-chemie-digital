@@ -315,6 +315,14 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   filter: none;
 }
 
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-method-label {
+  fill: #c96500;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
   fill: #359fa8;
   stroke: #073f49;

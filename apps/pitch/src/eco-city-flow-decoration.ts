@@ -9,6 +9,10 @@ const SECONDARY_WORKFLOW_NODE_IDS = new Set([
   "ex:node-cogniflow-common-results-b",
 ]);
 const SECONDARY_WORKFLOW_ROW_GAP = 50;
+const ANALYSIS_METHOD_LABELS = new Map([
+  ["ex:node-cogniflow-common-analysis", "LC-MS"],
+  ["ex:node-cogniflow-common-analysis-b", "GC-MS"],
+]);
 
 function isSecondaryWorkflowEdge(sourceNodeId: string, targetNodeId: string): boolean {
   return SECONDARY_WORKFLOW_NODE_IDS.has(sourceNodeId) || SECONDARY_WORKFLOW_NODE_IDS.has(targetNodeId);
@@ -248,6 +252,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     String(readingIndex + 1).padStart(2, "0"),
   );
   const led = createStatusMarker(x + width - 18, y + 18, 11);
+  const method = ANALYSIS_METHOD_LABELS.get(nodeId);
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
@@ -259,6 +264,11 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   }
   group.insertBefore(number, shape);
   group.insertBefore(led, shape);
+  if (method) {
+    const methodLabel = createText("d3-flow-pixel-method-label", x - 18, y + height / 2, method);
+    methodLabel.setAttribute("text-anchor", "end");
+    group.insertBefore(methodLabel, shape);
+  }
 
   const label = group.querySelector<SVGTextElement>(".d3-flow-node-label");
   if (label) {
