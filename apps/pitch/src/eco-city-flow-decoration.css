@@ -57,6 +57,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-caption {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape-base,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
