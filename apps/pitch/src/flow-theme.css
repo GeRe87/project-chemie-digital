@@ -98,6 +98,8 @@ body[data-diagram-theme="eco-city"] {
   --pcd-flow-pixel-card-divider: #8abfc2;
   --pcd-flow-pixel-card-socket: #ccefe9;
   --pcd-flow-pixel-annotation: #c96500;
+  --pcd-flow-pixel-alert: #b3262d;
+  --pcd-flow-pixel-alert-surface: #ffe5e6;
   --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -124,6 +126,8 @@ body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
   --pcd-flow-pixel-card-divider: #63e7ef;
   --pcd-flow-pixel-card-socket: #153f52;
   --pcd-flow-pixel-annotation: #ffbb36;
+  --pcd-flow-pixel-alert: #ff7479;
+  --pcd-flow-pixel-alert-surface: #5a1f2a;
 }
 
 /* The slide background is the world. The diagram itself stays open, like a game HUD. */

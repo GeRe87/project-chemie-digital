@@ -13,9 +13,17 @@ const ANALYSIS_METHOD_LABELS = new Map([
   ["ex:node-cogniflow-common-analysis", "LC-MS"],
   ["ex:node-cogniflow-common-analysis-b", "GC-MS"],
 ]);
+const CUSTOM_SCRIPT_EDGE_TARGETS = new Set([
+  "ex:edge-cogniflow-common-open-results",
+  "ex:edge-cogniflow-common-open-b-results",
+]);
 
 function isSecondaryWorkflowEdge(sourceNodeId: string, targetNodeId: string): boolean {
   return SECONDARY_WORKFLOW_NODE_IDS.has(sourceNodeId) || SECONDARY_WORKFLOW_NODE_IDS.has(targetNodeId);
+}
+
+function isCustomScriptEdge(edgeId: string): boolean {
+  return CUSTOM_SCRIPT_EDGE_TARGETS.has(edgeId);
 }
 
 function offsetSecondaryWorkflowElement(element: SVGElement): void {
@@ -296,6 +304,12 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   group.dataset.pixelDecorated = "true";
 }
 
+interface CustomScriptAnchor {
+  readonly x: number;
+  readonly y: number;
+  readonly secondary: boolean;
+}
+
 function decorateEdges(svg: SVGSVGElement): void {
   const scene2 = svg.closest(OPENING_WORKFLOW_SCENE) !== null && svg.getAttribute("data-orientation") === "horizontal";
   const edges = Array.from(svg.querySelectorAll<SVGGraphicsElement>(".d3-flow-edge"));
@@ -308,11 +322,13 @@ function decorateEdges(svg: SVGSVGElement): void {
   } catch {
     flowCenterY = 0;
   }
+  const customScriptAnchors: CustomScriptAnchor[] = [];
 
   edges.forEach((edge, index) => {
     if (edge.dataset.pixelDecorated === "true") return;
     const sourceNodeId = edge.getAttribute("data-source-node-id") ?? "";
     const targetNodeId = edge.getAttribute("data-target-node-id") ?? "";
+    const customScript = isCustomScriptEdge(edge.getAttribute("data-edge-id") ?? "");
     const secondaryWorkflow = isSecondaryWorkflowEdge(sourceNodeId, targetNodeId);
     if (secondaryWorkflow) offsetSecondaryWorkflowElement(edge);
     const endpoints = edgeEndpoints(edge);
@@ -337,6 +353,7 @@ function decorateEdges(svg: SVGSVGElement): void {
     const label = labels[index];
     if (!label) return;
     if (secondaryWorkflow) label.dataset.secondaryWorkflow = "true";
+    if (customScript) label.dataset.customScriptAnnotation = "true";
 
     let labelX = middleX;
     let labelY = Math.min(y1, y2) - 24;
@@ -387,6 +404,7 @@ function decorateEdges(svg: SVGSVGElement): void {
       steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, scene2 ? 8 : 5),
     );
     if (secondaryWorkflow) pill.dataset.secondaryWorkflow = "true";
+    if (customScript) pill.dataset.customScriptAnnotation = "true";
 
     // For horizontal edges the connection line runs through the node centers.
     // Extend the stem so the callout visually meets the edge path.
@@ -421,10 +439,39 @@ function decorateEdges(svg: SVGSVGElement): void {
       stem.setAttribute("style", "stroke-width:2px;stroke-dasharray:3 2;filter:none");
     }
     if (secondaryWorkflow) stem.dataset.secondaryWorkflow = "true";
+    if (customScript) stem.dataset.customScriptAnnotation = "true";
     label.parentNode?.insertBefore(stem, label);
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";
+    if (customScript) customScriptAnchors.push({ x: middleX, y: (y1 + y2) / 2, secondary: secondaryWorkflow });
   });
+
+  if (!scene2 || customScriptAnchors.length !== 2 || svg.querySelector("[data-custom-script-consolidation]")) return;
+  const primary = customScriptAnchors.find((anchor) => !anchor.secondary);
+  const secondary = customScriptAnchors.find((anchor) => anchor.secondary);
+  if (!primary || !secondary) return;
+
+  const label = createText(
+    "d3-flow-pixel-consolidated-annotation-label",
+    (primary.x + secondary.x) / 2,
+    (primary.y + secondary.y) / 2,
+    "one custom script ?",
+  );
+  label.dataset.customScriptConsolidation = "true";
+  svg.append(label);
+  let box: DOMRect | SVGRect;
+  try {
+    box = label.getBBox();
+  } catch {
+    label.remove();
+    return;
+  }
+  const pill = createPath(
+    "d3-flow-pixel-consolidated-annotation-pill",
+    steppedRectPath(box.x - 14, box.y - 9, box.width + 28, box.height + 18, 8),
+  );
+  pill.dataset.customScriptConsolidation = "true";
+  label.before(pill);
 }
 
 function fitViewBoxToFlow(svg: SVGSVGElement): void {
@@ -504,16 +551,18 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   decorateRoot(root);
   const secondaryWorkflowHost = root.querySelector<HTMLElement>(`${OPENING_WORKFLOW_SCENE} .d3-flow-host`);
   const applySecondaryWorkflowStep = (step: number): void => {
-    if (secondaryWorkflowHost) secondaryWorkflowHost.dataset.secondaryWorkflowVisible = step >= 1 ? "true" : "false";
+    if (!secondaryWorkflowHost) return;
+    secondaryWorkflowHost.dataset.secondaryWorkflowVisible = step >= 1 ? "true" : "false";
+    secondaryWorkflowHost.dataset.customScriptConsolidated = step >= 2 ? "true" : "false";
   };
   const secondaryWorkflowListener: EventListener = (event) => {
     const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
     if (typeof step === "number") applySecondaryWorkflowStep(step);
   };
   if (secondaryWorkflowHost) {
-    // The first state is the complete upper workflow; one additional Reveal
-    // fragment expands it with the parallel Analysis B workflow below.
-    secondaryWorkflowHost.setAttribute("data-presentation-step-count", "1");
+    // The upper workflow expands first; the next fragment consolidates the two
+    // custom-script annotations into one cross-workflow question.
+    secondaryWorkflowHost.setAttribute("data-presentation-step-count", "2");
     secondaryWorkflowHost.addEventListener("pcd-presentation-step", secondaryWorkflowListener);
     applySecondaryWorkflowStep(0);
   }

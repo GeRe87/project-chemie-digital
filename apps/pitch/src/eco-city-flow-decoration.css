@@ -230,6 +230,21 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-method-label {
   letter-spacing: -0.02em;
 }
 
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-consolidated-annotation-pill {
+  fill: var(--pcd-flow-pixel-alert-surface);
+  stroke: var(--pcd-flow-pixel-alert);
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 color-mix(in srgb, var(--pcd-flow-pixel-alert) 55%, transparent));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-consolidated-annotation-label {
+  fill: var(--pcd-flow-pixel-alert);
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
 body.reveal-scroll[data-diagram-theme="eco-city"] .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] {
   min-height: 100vh;
 }
@@ -302,6 +317,21 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-secondary-workflow-visible="true"] [data-secondary-workflow="true"] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-custom-script-consolidation="true"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-custom-script-consolidated="true"] [data-custom-script-annotation="true"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-custom-script-consolidated="true"] [data-custom-script-consolidation="true"] {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
