@@ -468,10 +468,25 @@ function decorateEdges(svg: SVGSVGElement): void {
   }
   const pill = createPath(
     "d3-flow-pixel-consolidated-annotation-pill",
-    steppedRectPath(box.x - 14, box.y - 9, box.width + 28, box.height + 18, 8),
+    steppedRectPath(box.x - 22, box.y - 9, box.width + 44, box.height + 18, 8),
   );
   pill.dataset.customScriptConsolidation = "true";
   label.before(pill);
+
+  const stems = document.createElementNS(SVG_NS, "g");
+  stems.setAttribute("class", "d3-flow-pixel-consolidated-annotation-stems");
+  stems.setAttribute("aria-hidden", "true");
+  stems.dataset.customScriptConsolidation = "true";
+  const dotSize = 3;
+  const step = 6;
+  const x = (primary.x + secondary.x) / 2;
+  for (let y = box.y - 4; y > primary.y; y -= step) {
+    stems.append(createRect("d3-flow-pixel-stem-dot", x - dotSize / 2, y, dotSize, dotSize));
+  }
+  for (let y = box.y + box.height + 4; y < secondary.y; y += step) {
+    stems.append(createRect("d3-flow-pixel-stem-dot", x - dotSize / 2, y, dotSize, dotSize));
+  }
+  label.before(stems);
 }
 
 function fitViewBoxToFlow(svg: SVGSVGElement): void {

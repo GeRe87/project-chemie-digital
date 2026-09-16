@@ -245,6 +245,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-consolidated-annotati
   letter-spacing: -0.02em;
 }
 
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-consolidated-annotation-stems {
+  fill: var(--pcd-flow-pixel-alert);
+  stroke: none;
+}
+
 body.reveal-scroll[data-diagram-theme="eco-city"] .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] {
   min-height: 100vh;
 }
