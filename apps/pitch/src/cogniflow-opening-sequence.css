@@ -71,6 +71,7 @@
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"],
+[id="ex:scene-cogniflow-laboratory-diversity--scene"],
 [id="ex:scene-cogniflow-service-architecture--scene"] {
   display: grid !important;
   grid-template-rows: auto 1fr;
@@ -121,12 +122,14 @@
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] > *,
+[id="ex:scene-cogniflow-laboratory-diversity--scene"] > *,
 [id="ex:scene-cogniflow-service-architecture--scene"] > * {
   position: relative;
   z-index: 1;
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] h2,
+[id="ex:scene-cogniflow-laboratory-diversity--scene"] h2,
 [id="ex:scene-cogniflow-service-architecture--scene"] h2 {
   max-width: 19ch;
   margin: 0 0 .28em;
@@ -137,6 +140,7 @@
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
+[id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-host,
 [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
   width: min(1190px, 94vw);
   margin-top: .15rem;
@@ -145,6 +149,7 @@
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-svg,
+[id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-svg,
 [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-svg {
   min-height: 25.5rem;
 }
@@ -154,6 +159,7 @@
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-caption,
+[id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-caption,
 [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-caption {
   display: none;
 }

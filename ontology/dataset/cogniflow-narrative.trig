@@ -73,7 +73,7 @@
     cd:authoredResource true .
 
   ex:path-step-cogniflow-take-home a cd:PathStep ;
-    cd:position 8 ;
+    cd:position 9 ;
     cd:usesResource ex:def-cogniflow-take-home ;
     cd:usesScene ex:scene-cogniflow-take-home ;
     cd:authoredResource true .
