@@ -112,6 +112,7 @@ export interface RevealDiagramNodePlan {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
+  readonly visualColor?: string;
 }
 
 export interface RevealDiagramEdgePlan {
@@ -295,6 +296,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           label: node.label,
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
+          ...(node.visualColor ? { visualColor: node.visualColor } : {}),
         })),
         edges: block.edges.map((edge) => ({
           id: edge.id,

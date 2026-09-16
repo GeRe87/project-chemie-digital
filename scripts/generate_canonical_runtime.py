@@ -254,6 +254,9 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             "label": label,
             "source": [source_reference(dataset, node, relation_path)],
         }
+        visual_color = one(dataset, node, iri(CD, "visualColor"), required=False)
+        if visual_color is not None:
+            node_value["visualColor"] = str(visual_color)
         if node == focus_node:
             node_value["emphasis"] = "primary"
         nodes.append(node_value)

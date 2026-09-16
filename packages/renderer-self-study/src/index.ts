@@ -101,6 +101,7 @@ export interface SelfStudyDiagramNodePlan {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
+  readonly visualColor?: string;
 }
 
 export interface SelfStudyDiagramEdgePlan {
@@ -286,6 +287,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           label: node.label,
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
+          ...(node.visualColor ? { visualColor: node.visualColor } : {}),
         })),
         edges: block.edges.map((edge) => ({
           id: edge.id,

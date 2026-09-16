@@ -134,6 +134,7 @@ graph:concepts {
   cd:sourceNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:targetNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
+  cd:visualColor a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 

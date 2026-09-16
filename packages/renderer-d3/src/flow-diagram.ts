@@ -24,6 +24,7 @@ export interface D3FlowRenderNode {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
+  readonly visualColor?: string;
   readonly readingIndex: number;
 }
 
@@ -165,6 +166,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       label: node.label,
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
+      ...(node.visualColor ? { visualColor: node.visualColor } : {}),
       readingIndex,
     }));
     const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => ({
@@ -413,6 +415,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
           group.setAttribute("data-node-id", modelNode.id);
+          if (modelNode.visualColor) group.setAttribute("data-visual-color", modelNode.visualColor);
           group.setAttribute("aria-label", modelNode.label);
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {

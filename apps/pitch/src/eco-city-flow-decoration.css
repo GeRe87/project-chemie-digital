@@ -321,7 +321,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   pointer-events: none !important;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node[data-secondary-workflow="true"] {
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-color="purple"] {
   --pcd-flow-pixel-card-shadow: #563781;
   --pcd-flow-pixel-card-outline: #442263;
   --pcd-flow-pixel-card-keyline: #9b72d0;

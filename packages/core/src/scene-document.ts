@@ -105,6 +105,7 @@ export interface DiagramNode {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
+  readonly visualColor?: string;
 }
 
 export interface DiagramEdge {
@@ -280,6 +281,9 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (nodeIdSet.has(node.id)) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
     nodeIdSet.add(node.id);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
+    if (node.visualColor !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualColor)) {
+      throw new SceneContractError(`${label} diagram node ${node.id} visualColor must be a lowercase token`);
+    }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }
 
