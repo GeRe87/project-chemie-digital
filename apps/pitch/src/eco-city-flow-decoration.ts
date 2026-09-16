@@ -307,24 +307,38 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 
 function arrangeLaboratoryNodes(svg: SVGSVGElement): void {
   if (svg.closest(LABORATORY_DIVERSITY_SCENE) === null) return;
-  const viewBox = svg.viewBox.baseVal;
-  if (!(viewBox.width > 0) || !(viewBox.height > 0)) return;
-  const x = viewBox.x;
-  const y = viewBox.y;
+  const viewBoxValues = (svg.getAttribute("viewBox") ?? "").trim().split(/[ ,]+/u).map(Number);
+  const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
+  let x = viewBoxValues[0] ?? 0;
+  let y = viewBoxValues[1] ?? 0;
+  let width = viewBoxValues[2] ?? 0;
+  let height = viewBoxValues[3] ?? 0;
+  if (!(width > 0) || !(height > 0)) {
+    try {
+      const bounds = nodeLayer?.getBBox();
+      if (!bounds || !(bounds.width > 0) || !(bounds.height > 0)) return;
+      x = bounds.x;
+      y = bounds.y;
+      width = bounds.width;
+      height = bounds.height;
+    } catch {
+      return;
+    }
+  }
   const positions: Record<string, readonly [number, number]> = {
-    "ex:node-cogniflow-lab-lcms": [0.18, 0.18],
-    "ex:node-cogniflow-lab-hplc": [0.5, 0.14],
-    "ex:node-cogniflow-lab-nmr": [0.82, 0.18],
-    "ex:node-cogniflow-lab-uv-vis": [0.16, 0.5],
-    "ex:node-cogniflow-lab-gcms": [0.84, 0.5],
-    "ex:node-cogniflow-lab-ion-chromatograph": [0.18, 0.82],
-    "ex:node-cogniflow-lab-ftir": [0.5, 0.86],
-    "ex:node-cogniflow-lab-ph-meter": [0.82, 0.82],
+    "ex:node-cogniflow-lab-lcms": [0.15, 0.19],
+    "ex:node-cogniflow-lab-hplc": [0.42, 0.12],
+    "ex:node-cogniflow-lab-nmr": [0.79, 0.22],
+    "ex:node-cogniflow-lab-uv-vis": [0.12, 0.53],
+    "ex:node-cogniflow-lab-gcms": [0.87, 0.46],
+    "ex:node-cogniflow-lab-ion-chromatograph": [0.23, 0.82],
+    "ex:node-cogniflow-lab-ftir": [0.57, 0.87],
+    "ex:node-cogniflow-lab-ph-meter": [0.82, 0.76],
     "ex:node-cogniflow-lab-common-processing": [0.5, 0.5],
   };
   for (const group of Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"))) {
     const position = positions[group.getAttribute("data-node-id") ?? ""];
-    if (position) group.setAttribute("transform", `translate(${x + viewBox.width * position[0]} ${y + viewBox.height * position[1]})`);
+    if (position) group.setAttribute("transform", `translate(${x + width * position[0]} ${y + height * position[1]})`);
   }
 }
 
