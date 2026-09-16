@@ -2,6 +2,16 @@ import "./eco-city-flow-decoration.css";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const OPENING_WORKFLOW_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
+const SECONDARY_WORKFLOW_NODE_IDS = new Set([
+  "ex:node-cogniflow-common-analysis-b",
+  "ex:node-cogniflow-common-meas-data-b",
+  "ex:node-cogniflow-common-open-format-b",
+  "ex:node-cogniflow-common-results-b",
+]);
+
+function isSecondaryWorkflowEdge(sourceNodeId: string, targetNodeId: string): boolean {
+  return SECONDARY_WORKFLOW_NODE_IDS.has(sourceNodeId) || SECONDARY_WORKFLOW_NODE_IDS.has(targetNodeId);
+}
 
 function numberAttribute(element: Element, name: string): number | undefined {
   const raw = element.getAttribute(name);
@@ -286,6 +296,7 @@ function decorateEdges(svg: SVGSVGElement): void {
 
     const sourceNodeId = edge.getAttribute("data-source-node-id") ?? "";
     const targetNodeId = edge.getAttribute("data-target-node-id") ?? "";
+    const secondaryWorkflow = isSecondaryWorkflowEdge(sourceNodeId, targetNodeId);
     const sourceBounds = translatedNodeBounds(svg, sourceNodeId);
     const targetBounds = translatedNodeBounds(svg, targetNodeId);
     const middleX = x1 + (x2 - x1) / 2;
@@ -296,11 +307,13 @@ function decorateEdges(svg: SVGSVGElement): void {
     const path = createPath("d3-flow-pixel-edge-path", d);
     path.setAttribute("data-source-node-id", sourceNodeId);
     path.setAttribute("data-target-node-id", targetNodeId);
+    if (secondaryWorkflow) path.dataset.secondaryWorkflow = "true";
     edge.parentNode?.insertBefore(path, edge);
     edge.dataset.pixelDecorated = "true";
 
     const label = labels[index];
     if (!label) return;
+    if (secondaryWorkflow) label.dataset.secondaryWorkflow = "true";
 
     let labelX = middleX;
     let labelY = Math.min(y1, y2) - 24;
@@ -350,6 +363,7 @@ function decorateEdges(svg: SVGSVGElement): void {
       "d3-flow-pixel-edge-pill",
       steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, scene2 ? 8 : 5),
     );
+    if (secondaryWorkflow) pill.dataset.secondaryWorkflow = "true";
 
     const labelAboveFlow = labelY < flowCenterY;
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
@@ -381,6 +395,7 @@ function decorateEdges(svg: SVGSVGElement): void {
       stem.setAttribute("data-target-node-id", targetNodeId);
       stem.setAttribute("style", "stroke-width:2px;stroke-dasharray:3 2;filter:none");
     }
+    if (secondaryWorkflow) stem.dataset.secondaryWorkflow = "true";
     label.parentNode?.insertBefore(stem, label);
     label.parentNode?.insertBefore(pill, label);
     label.dataset.pixelDecorated = "true";
@@ -425,7 +440,12 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
 
 function decorateSvg(svg: SVGSVGElement): void {
   const nodes = Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"));
-  nodes.forEach((group, index) => decorateNode(svg, group, index));
+  nodes.forEach((group, index) => {
+    if (SECONDARY_WORKFLOW_NODE_IDS.has(group.getAttribute("data-node-id") ?? "")) {
+      group.dataset.secondaryWorkflow = "true";
+    }
+    decorateNode(svg, group, index);
+  });
   decorateEdges(svg);
   fitViewBoxToFlow(svg);
 }
@@ -456,12 +476,28 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   };
 
   decorateRoot(root);
+  const secondaryWorkflowHost = root.querySelector<HTMLElement>(`${OPENING_WORKFLOW_SCENE} .d3-flow-host`);
+  const applySecondaryWorkflowStep = (step: number): void => {
+    secondaryWorkflowHost?.dataset.secondaryWorkflowVisible = step >= 1 ? "true" : "false";
+  };
+  const secondaryWorkflowListener: EventListener = (event) => {
+    const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
+    if (typeof step === "number") applySecondaryWorkflowStep(step);
+  };
+  if (secondaryWorkflowHost) {
+    // The first state is the complete upper workflow; one additional Reveal
+    // fragment expands it with the parallel Analysis B workflow below.
+    secondaryWorkflowHost.setAttribute("data-presentation-step-count", "1");
+    secondaryWorkflowHost.addEventListener("pcd-presentation-step", secondaryWorkflowListener);
+    applySecondaryWorkflowStep(0);
+  }
   const observer = new MutationObserver(schedule);
   observer.observe(root, { childList: true, subtree: true });
   schedule();
 
   return () => {
     observer.disconnect();
+    secondaryWorkflowHost?.removeEventListener("pcd-presentation-step", secondaryWorkflowListener);
     if (frame) window.cancelAnimationFrame(frame);
     // Restore the element held by renderer-d3 before its own teardown runs.
     for (const { runtime, container } of embeddings) {

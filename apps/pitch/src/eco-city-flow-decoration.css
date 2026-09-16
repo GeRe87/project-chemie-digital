@@ -376,6 +376,17 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   transition: none !important;
 }
 
+/* The second semantic chain is revealed by the slide's single expansion step. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-secondary-workflow="true"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-secondary-workflow-visible="true"] [data-secondary-workflow="true"] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
 @media (max-width: 900px) {
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg {
     max-height: none;

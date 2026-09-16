@@ -140,11 +140,15 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
                 "meas Data",
                 "meas Data Open Format",
                 "results",
+                "Analysis B",
+                "meas Data",
+                "meas Data Open Format",
+                "results",
             ],
             [node["label"] for node in workflow_diagram["nodes"]],
         )
         self.assertEqual(
-            ["vendor Software", "mzML", "custom Script"],
+            ["vendor Software", "mzML", "custom Script", "vendor Software", "mzML", "custom Script"],
             [edge["label"] for edge in workflow_diagram["edges"]],
         )
         self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])
