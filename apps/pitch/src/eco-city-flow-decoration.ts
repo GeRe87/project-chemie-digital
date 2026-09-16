@@ -382,9 +382,11 @@ function decorateEdges(svg: SVGSVGElement): void {
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
     // For horizontal edges the connection line runs through the node centers.
     // Extend the stem so the callout visually meets the edge path.
-    const edgeY = sourceBounds && targetBounds
-      ? (sourceBounds.centerY + targetBounds.centerY) / 2
-      : flowCenterY;
+    const edgeY = isHorizontal
+      ? (y1 + y2) / 2
+      : sourceBounds && targetBounds
+        ? (sourceBounds.centerY + targetBounds.centerY) / 2
+        : flowCenterY;
     const stemEndY = isHorizontal
       ? edgeY
       : stemStartY + (labelAboveFlow ? 13 : -13);
