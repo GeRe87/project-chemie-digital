@@ -122,30 +122,29 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn(RICARDO, fallback)
         self.assertIn(FUNDING, fallback)
 
-    def test_opening_sequence_states_problem_then_decoupled_answer(self) -> None:
+    def test_opening_sequence_states_common_workflow_then_decoupled_answer(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        problem = document["scenes"][1]
+        workflow = document["scenes"][1]
         architecture = document["scenes"][2]
 
-        problem_heading = next(block for block in problem["blocks"] if block["kind"] == "prose")
-        problem_diagram = next(block for block in problem["blocks"] if block["kind"] == "diagram")
+        workflow_heading = next(block for block in workflow["blocks"] if block["kind"] == "prose")
+        workflow_diagram = next(block for block in workflow["blocks"] if block["kind"] == "diagram")
         architecture_heading = next(block for block in architecture["blocks"] if block["kind"] == "prose")
         architecture_diagram = next(block for block in architecture["blocks"] if block["kind"] == "diagram")
 
-        self.assertEqual("One Dependency Can Break the Workflow", problem_heading["text"])
+        self.assertEqual("A Common Analytical Workflow", workflow_heading["text"])
         self.assertEqual(
             [
-                "Scientific workflow",
-                "Package A · Library E v1.x",
-                "Package B · Library E v2.x",
-                "Shared runtime",
-                "DEPENDENCY CONFLICT",
+                "Analysis",
+                "meas Data",
+                "meas Data Open Format",
+                "results",
             ],
-            [node["label"] for node in problem_diagram["nodes"]],
+            [node["label"] for node in workflow_diagram["nodes"]],
         )
         self.assertEqual(
-            ["requires", "requires", "pins v1.x", "pins v2.x", "incompatible"],
-            [edge["label"] for edge in problem_diagram["edges"]],
+            ["vendor Software", "mzML", "custom Script"],
+            [edge["label"] for edge in workflow_diagram["edges"]],
         )
         self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])
         self.assertEqual(
@@ -159,7 +158,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ],
             [node["label"] for node in architecture_diagram["nodes"]],
         )
-        self.assertEqual("ex:node-cogniflow-dep-conflict", problem_diagram["focusNodeId"])
+        self.assertEqual("ex:node-cogniflow-common-open-format", workflow_diagram["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:

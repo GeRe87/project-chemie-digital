@@ -11,6 +11,8 @@ from playwright.sync_api import sync_playwright
 
 SCENE = "ex:scene-cogniflow-coupling-problem--scene"
 SELECTOR = f'[id="{SCENE}"]'
+EXPECTED_NODES = 4
+EXPECTED_DOTS = 9
 
 
 def geometry(page):
@@ -59,7 +61,7 @@ def is_fully_visible(page):
 
 
 def check_scroll_isolation(page):
-    """The coupling scroll-page stays transparent and background stages remain visible."""
+    """The workflow scroll-page stays transparent and background stages remain visible."""
     backgrounds = page.evaluate("""id => [...document.querySelectorAll('.scroll-page')].map(e=>({
       coupling:!!e.querySelector(`[id="${id}"]`), color:getComputedStyle(e).backgroundColor
     }))""", SCENE)
@@ -102,8 +104,8 @@ def validate_view(browser, url, output, theme, width, height):
     assert is_fully_visible(page), f"Diagram not fully visible at final snap in {theme} mode"
 
     geo = geometry(page)
-    assert len(geo["nodes"]) == 5
-    assert len(geo["dots"]) == 15
+    assert len(geo["nodes"]) == EXPECTED_NODES
+    assert len(geo["dots"]) == EXPECTED_DOTS
     page.screenshot(path=str(output / f"scroll-{theme}-{width}.png"))
     context.close()
     assert not errors, errors
@@ -122,8 +124,8 @@ def validate_deck(browser, url, output, theme, width, height):
     assert page.locator(f"{SELECTOR} section").count() == 0
     assert is_fully_visible(page), f"Deck diagram not fully visible immediately in {theme} mode"
     geo = geometry(page)
-    assert len(geo["nodes"]) == 5
-    assert len(geo["dots"]) == 15
+    assert len(geo["nodes"]) == EXPECTED_NODES
+    assert len(geo["dots"]) == EXPECTED_DOTS
     page.screenshot(path=str(output / f"deck-{theme}-{width}.png"))
     context.close()
     assert not errors, errors

@@ -4,41 +4,35 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-narrative> {
   ex:cogniflow-coupling-problem a cd:Concept ;
-    skos:prefLabel "One Dependency Can Break the Workflow"@en ;
+    skos:prefLabel "A Common Analytical Workflow"@en ;
     cd:hasDefinition ex:def-cogniflow-coupling-problem ;
     cd:authoredResource true .
 
   ex:def-cogniflow-coupling-problem a cd:Definition ;
-    cd:body "In a tightly coupled scientific environment, one incompatible dependency can destabilize the entire processing workflow."@en ;
+    cd:body "A typical analytical workflow moves from instrument analysis through measured data and an open format to reusable results."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-dependency-conflict a cd:FlowDiagram ;
-    skos:prefLabel "Dependency collision in one scientific environment"@en ;
-    cd:body "Package A pins Library E v1.x while Package B pins Library E v2.x. Both enter the same runtime, so the incompatible versions create a dependency conflict for the workflow."@en ;
-    cd:hasDiagramNode ex:node-cogniflow-dep-workflow,
-      ex:node-cogniflow-dep-package-a,
-      ex:node-cogniflow-dep-package-b,
-      ex:node-cogniflow-dep-runtime,
-      ex:node-cogniflow-dep-conflict ;
-    cd:hasDiagramEdge ex:edge-cogniflow-dep-workflow-a,
-      ex:edge-cogniflow-dep-workflow-b,
-      ex:edge-cogniflow-dep-a-runtime,
-      ex:edge-cogniflow-dep-b-runtime,
-      ex:edge-cogniflow-dep-runtime-conflict ;
-    cd:focusNode ex:node-cogniflow-dep-conflict ;
+  ex:diagram-cogniflow-common-workflow a cd:FlowDiagram ;
+    skos:prefLabel "Common workflow from analysis to results"@en ;
+    cd:body "Vendor software produces measured data, which is converted into the open mzML format, and a custom script turns that into reusable results."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-common-analysis,
+      ex:node-cogniflow-common-meas-data,
+      ex:node-cogniflow-common-open-format,
+      ex:node-cogniflow-common-results ;
+    cd:hasDiagramEdge ex:edge-cogniflow-common-analysis-meas,
+      ex:edge-cogniflow-common-meas-open,
+      ex:edge-cogniflow-common-open-results ;
+    cd:focusNode ex:node-cogniflow-common-open-format ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-dep-workflow a cd:DiagramNode ; skos:prefLabel "Scientific workflow"@en ; cd:position 1 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-package-a a cd:DiagramNode ; skos:prefLabel "Package A · Library E v1.x"@en ; cd:position 2 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-package-b a cd:DiagramNode ; skos:prefLabel "Package B · Library E v2.x"@en ; cd:position 3 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-runtime a cd:DiagramNode ; skos:prefLabel "Shared runtime"@en ; cd:position 4 ; cd:authoredResource true .
-  ex:node-cogniflow-dep-conflict a cd:DiagramNode ; skos:prefLabel "DEPENDENCY CONFLICT"@en ; cd:position 5 ; cd:authoredResource true .
+  ex:node-cogniflow-common-analysis a cd:DiagramNode ; skos:prefLabel "Analysis"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:node-cogniflow-common-meas-data a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:node-cogniflow-common-open-format a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:node-cogniflow-common-results a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 4 ; cd:authoredResource true .
 
-  ex:edge-cogniflow-dep-workflow-a a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-a ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-workflow-b a cd:DiagramEdge ; skos:prefLabel "requires"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-dep-workflow ; cd:targetNode ex:node-cogniflow-dep-package-b ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-a-runtime a cd:DiagramEdge ; skos:prefLabel "pins v1.x"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-dep-package-a ; cd:targetNode ex:node-cogniflow-dep-runtime ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-b-runtime a cd:DiagramEdge ; skos:prefLabel "pins v2.x"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-dep-package-b ; cd:targetNode ex:node-cogniflow-dep-runtime ; cd:authoredResource true .
-  ex:edge-cogniflow-dep-runtime-conflict a cd:DiagramEdge ; skos:prefLabel "incompatible"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-dep-runtime ; cd:targetNode ex:node-cogniflow-dep-conflict ; cd:authoredResource true .
+  ex:edge-cogniflow-common-analysis-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-common-analysis ; cd:targetNode ex:node-cogniflow-common-meas-data ; cd:authoredResource true .
+  ex:edge-cogniflow-common-meas-open a cd:DiagramEdge ; skos:prefLabel "mzML"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-common-meas-data ; cd:targetNode ex:node-cogniflow-common-open-format ; cd:authoredResource true .
+  ex:edge-cogniflow-common-open-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-common-open-format ; cd:targetNode ex:node-cogniflow-common-results ; cd:authoredResource true .
 
   ex:cogniflow-take-home a cd:Concept ;
     skos:prefLabel "Take-Home"@en ;
@@ -60,7 +54,7 @@
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-narrative-extension> {
   ex:path-step-cogniflow-coupling-problem a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:diagram-cogniflow-dependency-conflict ;
+    cd:usesResource ex:diagram-cogniflow-common-workflow ;
     cd:usesScene ex:scene-cogniflow-coupling-problem ;
     cd:authoredResource true .
 
@@ -83,7 +77,7 @@
     cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-item-cogniflow-problem-diagram a cd:SceneItem ;
-    cd:position 2 ; cd:selectsResource ex:diagram-cogniflow-dependency-conflict ; cd:communicativeRole cd:DiagramRole ;
+    cd:position 2 ; cd:selectsResource ex:diagram-cogniflow-common-workflow ; cd:communicativeRole cd:DiagramRole ;
     cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-cogniflow-take-home a cd:SceneDefinition ;
