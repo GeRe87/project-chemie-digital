@@ -353,7 +353,14 @@ function decorateEdges(svg: SVGSVGElement): void {
 
     const labelAboveFlow = labelY < flowCenterY;
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
-    const stemEndY = stemStartY + (labelAboveFlow ? 13 : -13);
+    // For horizontal edges the connection line runs through the node centers.
+    // Extend the stem so the callout visually meets the edge path.
+    const edgeY = sourceBounds && targetBounds
+      ? (sourceBounds.centerY + targetBounds.centerY) / 2
+      : flowCenterY;
+    const stemEndY = isHorizontal
+      ? edgeY
+      : stemStartY + (labelAboveFlow ? 13 : -13);
     const stem = scene2 ? document.createElementNS(SVG_NS, "g") : createPath(
       "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem",
       `M ${labelX} ${stemStartY} V ${stemEndY}`,
@@ -361,16 +368,18 @@ function decorateEdges(svg: SVGSVGElement): void {
     if (scene2) {
       stem.setAttribute("class", "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem");
       stem.setAttribute("aria-hidden", "true");
-      // Separate filled squares, not a dashed SVG stroke. Always descend from
-      // these above-card pills so the stem stays visible in the retro palette.
-      const start = box.y + box.height + padY + 5;
-      for (let dot = 0; dot < 3; dot += 1) {
-        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 8, 5, 5));
+      // Filled squares descending from the above-card pill to the edge path.
+      const step = 6;
+      const dotSize = 3;
+      const start = labelAboveFlow ? stemStartY + 4 : stemStartY - 4;
+      const direction = labelAboveFlow ? 1 : -1;
+      for (let dotY = start; (labelAboveFlow ? dotY < stemEndY : dotY > stemEndY); dotY += direction * step) {
+        stem.append(createRect("d3-flow-pixel-stem-dot", labelX - dotSize / 2, dotY, dotSize, dotSize));
       }
     } else {
       stem.setAttribute("data-source-node-id", sourceNodeId);
       stem.setAttribute("data-target-node-id", targetNodeId);
-      stem.setAttribute("style", "stroke-width:4px;stroke-dasharray:4 3;filter:none");
+      stem.setAttribute("style", "stroke-width:2px;stroke-dasharray:3 2;filter:none");
     }
     label.parentNode?.insertBefore(stem, label);
     label.parentNode?.insertBefore(pill, label);

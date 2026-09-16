@@ -163,7 +163,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
-  fill: var(--pcd-flow-pixel-text);
+  fill: var(--pcd-flow-pixel-ink);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 12px;
@@ -203,7 +203,25 @@ body.reveal-scroll[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflo
   backdrop-filter: none;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"],
+/* Slide 2 keeps its title and centers the diagram below it inside the panel. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] {
+  display: grid !important;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  justify-items: center;
+  padding: calc(50vh - min(320px, 39vh)) 0;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0.75rem 0 0.25rem;
+  font-size: 1.85rem;
+  line-height: 1.1;
+  color: var(--pcd-flow-pixel-text);
+  text-align: center;
+}
+
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] {
   display: flex !important;
   align-items: center !important;
@@ -211,7 +229,6 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
   align-content: center !important;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] > h2 {
   display: none !important;
 }
