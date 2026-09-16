@@ -378,8 +378,6 @@ function decorateEdges(svg: SVGSVGElement): void {
     );
     if (secondaryWorkflow) pill.dataset.secondaryWorkflow = "true";
 
-    const labelAboveFlow = labelY < flowCenterY;
-    const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
     // For horizontal edges the connection line runs through the node centers.
     // Extend the stem so the callout visually meets the edge path.
     const edgeY = isHorizontal
@@ -387,6 +385,8 @@ function decorateEdges(svg: SVGSVGElement): void {
       : sourceBounds && targetBounds
         ? (sourceBounds.centerY + targetBounds.centerY) / 2
         : flowCenterY;
+    const labelAboveFlow = labelY < edgeY;
+    const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
     const stemEndY = isHorizontal
       ? edgeY
       : stemStartY + (labelAboveFlow ? 13 : -13);
