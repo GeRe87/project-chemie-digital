@@ -136,7 +136,7 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupli
   backdrop-filter: none !important;
 }
 
-/* The coupling scene no longer recolors the world or its scroll-page neighbors.
+/* The workflow scene no longer recolors the world or its scroll-page neighbors.
    The translucent panel is rendered by the scene's own ::before pseudo-element. */
 body.pcd-background-active.reveal-scroll .scroll-page:has([id="ex:scene-cogniflow-coupling-problem--scene"]) {
   background: transparent !important;

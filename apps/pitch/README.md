@@ -148,13 +148,12 @@ The runtime keeps the existing no-network guard. Generated `canonical-runtime.js
 
 ## CogniFlow slide 2 visual review
 
-The coupling-problem scene's pixel card treatment lives in
+The workflow scene's pixel card treatment lives in
 `src/eco-city-flow-decoration.ts` and its paired CSS. Its scene-scoped shell uses
-a paper-light face, integrated number segment and one round status LED, with
-the same geometry in teal and amber. Revealed cards stay opaque; unrevealed
-cards retain the existing progressive visibility. Decoration is aria-hidden
-and introduces no network requests or persisted state.
-In horizontal slide 2 flows, relation pills sit above their branch cards with
+a paper-light face, integrated number segment and one round status LED in teal.
+All cards stay opaque; there is no staged progressive visibility. Decoration is
+aria-hidden and introduces no network requests or persisted state.
+In horizontal slide 2 flows, relation pills sit above their cards with
 three separate SVG squares per stem. The lower branch uses the same downward
 callout treatment; routing trunks and semantic edge identities are preserved.
 Horizontal card boundaries use separate rectangular socket housings and inset
@@ -179,18 +178,15 @@ higher `z-index`. The generic world-panel background and scroll-page recoloring
 are removed for this scene so the Eco City artwork remains visible behind the
 panel. Scroll and deck views share the same panel treatment.
 
-The coupling scene no longer depends on repeated clicks for its internal build-up.
-When the scene becomes `present`, the decoration runtime auto-advances the flow
-host through steps 1..4 in short timed intervals, revealing nodes, edges, pills
-and stems in semantic order. Each decorative SVG element carries a
-`data-coupling-step` attribute and is hidden via CSS before its step; the
-`prefers-reduced-motion` media query disables the timer so fragments remain
-manual for users who need it. Leaving the scene resets to step 0, so re-entry
-replays the reveal sensibly.
+The workflow scene renders its complete diagram immediately. No decorative SVG
+element depends on a staged reveal, `data-coupling-step` attribute or timed
+advance; the `prefers-reduced-motion` media query therefore no longer needs to
+gate a reveal timer. Leaving and re-entering the scene keeps the diagram fully
+visible.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
-with that exact commit, require zero page errors, and open the coupling scene's
+with that exact commit, require zero page errors, and open the workflow scene's
 `.review.webp` alongside its `.layout.json`. Pitch tests and a Vite build are
 local checks; screenshots remain the visual acceptance evidence.
 
