@@ -188,6 +188,67 @@ function revealScrollOffset(): number {
   return Math.max(viewport?.scrollTop ?? 0, scrollingElement?.scrollTop ?? 0, window.scrollY ?? 0);
 }
 
+interface ScrollPosition {
+  readonly viewport: number | undefined;
+  readonly document: number | undefined;
+}
+
+function mountScrollFragmentPositionLock(): () => void {
+  if (appearance.view !== "scroll") return () => {};
+
+  const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
+  const scrollingElement = document.scrollingElement as HTMLElement | null;
+  let position: ScrollPosition | undefined;
+  let restoreFrame = 0;
+
+  const capturePosition = (): void => {
+    position = {
+      viewport: viewport?.scrollTop,
+      document: scrollingElement?.scrollTop,
+    };
+  };
+  const restorePosition = (): void => {
+    if (!position) return;
+    if (viewport) viewport.scrollTop = position.viewport ?? 0;
+    if (scrollingElement) scrollingElement.scrollTop = position.document ?? 0;
+  };
+  const stabilizeFragment = (): void => {
+    if (!position) return;
+    restorePosition();
+    if (restoreFrame) window.cancelAnimationFrame(restoreFrame);
+    restoreFrame = window.requestAnimationFrame(() => {
+      restorePosition();
+      restoreFrame = 0;
+      position = undefined;
+    });
+  };
+  const clearPosition = (): void => {
+    position = undefined;
+    if (restoreFrame) window.cancelAnimationFrame(restoreFrame);
+    restoreFrame = 0;
+  };
+  const captureKeyboardNavigation = (event: KeyboardEvent): void => {
+    if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(event.key)) capturePosition();
+  };
+
+  document.addEventListener("keydown", captureKeyboardNavigation, true);
+  presentation.addEventListener("pointerdown", capturePosition, true);
+  deck.on("fragmentshown", stabilizeFragment);
+  deck.on("fragmenthidden", stabilizeFragment);
+  deck.on("slidechanged", clearPosition);
+
+  return () => {
+    document.removeEventListener("keydown", captureKeyboardNavigation, true);
+    presentation.removeEventListener("pointerdown", capturePosition, true);
+    deck.off("fragmentshown", stabilizeFragment);
+    deck.off("fragmenthidden", stabilizeFragment);
+    deck.off("slidechanged", clearPosition);
+    clearPosition();
+  };
+}
+
+const unmountScrollFragmentPositionLock = mountScrollFragmentPositionLock();
+
 function createProgressSource(): BackgroundProgressSource {
   if (appearance.view === "scroll") {
     const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
@@ -256,6 +317,7 @@ window.addEventListener("pagehide", () => {
   unmountCharts();
   unmountEcoCityFlowDecorations();
   unmountFlowDiagrams();
+  unmountScrollFragmentPositionLock();
   stopBackgroundProgress();
   appearanceControls.destroy();
   backgroundRuntime.destroy();
