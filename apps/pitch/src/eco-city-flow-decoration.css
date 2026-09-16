@@ -373,7 +373,6 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
   opacity: 1 !important;
-  transform: none !important;
   transition: none !important;
 }
 
