@@ -40,7 +40,7 @@ const chemometricsCityDarkPack: BackgroundPack = Object.freeze({
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-neon-city/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-left", asset: "/presentation-backgrounds/chemometrics-neon-city/facade-left.webp", speed: 0.22, anchor: "left", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-right", asset: "/presentation-backgrounds/chemometrics-neon-city/facade-right.webp", speed: 0.27, anchor: "right", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
-    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-neon-city/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 0.55, blendMode: "normal", sizing: "cover-width" }),
+    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-neon-city/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "atmosphere", asset: "/presentation-backgrounds/chemometrics-neon-city/rain-fog.webp", speed: 0.72, anchor: "center", repeat: "y", opacity: 0.18, blendMode: "screen", sizing: "cover-width" }),
   ]),
 });
@@ -54,7 +54,7 @@ const chemometricsCityLightPack: BackgroundPack = Object.freeze({
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-city/light/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-left", asset: "/presentation-backgrounds/chemometrics-city/light/facade-left.webp", speed: 0.22, anchor: "left", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-right", asset: "/presentation-backgrounds/chemometrics-city/light/facade-right.webp", speed: 0.27, anchor: "right", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
-    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-city/light/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 0.52, blendMode: "normal", sizing: "cover-width" }),
+    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-city/light/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "atmosphere", asset: "/presentation-backgrounds/chemometrics-city/light/sunbeam-sky-overlay.webp", speed: 0.72, anchor: "center", repeat: "y", opacity: 0.24, blendMode: "screen", sizing: "cover-width" }),
   ]),
 });
