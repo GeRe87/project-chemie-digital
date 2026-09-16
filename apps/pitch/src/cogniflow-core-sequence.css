@@ -153,31 +153,15 @@
 
 /* 6 · An abstract four-stage lineage: provenance becomes part of the result. */
 [id="ex:scene-cogniflow-provenance-pipeline--scene"] {
-  --pcd-core-provenance: #56e3c3;
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr);
   align-content: start;
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] h2 {
-  color: var(--pcd-core-provenance);
 }
 
 [id="ex:scene-cogniflow-provenance-pipeline--scene"] .d3-flow-host {
   width: min(1190px, 94vw);
   margin: .3rem auto 0;
   padding-top: 2.8rem;
-  border-color: color-mix(in srgb, var(--pcd-core-provenance) 58%, var(--pcd-accent));
-  border-radius: 14px;
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-core-provenance) 22%, transparent),
-    10px 12px 0 color-mix(in srgb, var(--pcd-core-provenance) 10%, transparent);
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] .d3-flow-host::before {
-  border-bottom-color: color-mix(in srgb, var(--pcd-core-provenance) 52%, var(--pcd-accent));
-  background: linear-gradient(180deg, #176f7f, #154d6d);
-  text-shadow: 2px 2px 0 #092d42;
 }
 
 [id="ex:scene-cogniflow-provenance-pipeline--scene"] .d3-flow-svg {
@@ -186,28 +170,6 @@
 
 [id="ex:scene-cogniflow-provenance-pipeline--scene"] .d3-flow-caption {
   display: none;
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-processing"] .d3-flow-node-shape {
-  stroke: #64ddff;
-  fill: color-mix(in srgb, #64ddff 8%, var(--pcd-surface-strong));
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-derived"] .d3-flow-node-shape {
-  stroke: #a98bff;
-  fill: color-mix(in srgb, #a98bff 9%, var(--pcd-surface-strong));
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-reusable"] .d3-flow-node-shape {
-  stroke: var(--pcd-core-provenance);
-  fill: color-mix(in srgb, var(--pcd-core-provenance) 12%, var(--pcd-surface-strong));
-  filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--pcd-core-provenance) 68%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-core-provenance) 20%, transparent));
-}
-
-[id="ex:scene-cogniflow-provenance-pipeline--scene"] [data-node-id="ex:node-cogniflow-prov-reusable"] .d3-flow-node-label {
-  fill: var(--pcd-core-provenance);
 }
 
 @media (max-width: 1000px) {

@@ -90,6 +90,14 @@ body[data-diagram-theme="eco-city"] {
   --pcd-flow-pixel-danger-strong: #754000;
   --pcd-flow-pixel-danger-surface: #ffc94a;
   --pcd-flow-pixel-danger-highlight: #fff3bd;
+  --pcd-flow-pixel-card-shadow: #07545b;
+  --pcd-flow-pixel-card-outline: #073f49;
+  --pcd-flow-pixel-card-keyline: #359fa8;
+  --pcd-flow-pixel-card-face: #edf8f5;
+  --pcd-flow-pixel-card-tab: #cce9e7;
+  --pcd-flow-pixel-card-divider: #8abfc2;
+  --pcd-flow-pixel-card-socket: #ccefe9;
+  --pcd-flow-pixel-annotation: #c96500;
   --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -108,6 +116,14 @@ body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
   --pcd-flow-pixel-danger-strong: #ffe08b;
   --pcd-flow-pixel-danger-surface: #6c3d06;
   --pcd-flow-pixel-danger-highlight: #9d641c;
+  --pcd-flow-pixel-card-shadow: #0b4d59;
+  --pcd-flow-pixel-card-outline: #b8f9fd;
+  --pcd-flow-pixel-card-keyline: #63e7ef;
+  --pcd-flow-pixel-card-face: #0b2533;
+  --pcd-flow-pixel-card-tab: #0b6f7b;
+  --pcd-flow-pixel-card-divider: #63e7ef;
+  --pcd-flow-pixel-card-socket: #153f52;
+  --pcd-flow-pixel-annotation: #ffbb36;
 }
 
 /* The slide background is the world. The diagram itself stays open, like a game HUD. */

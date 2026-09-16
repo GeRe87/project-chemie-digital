@@ -118,35 +118,6 @@
     linear-gradient(90deg, transparent, color-mix(in srgb, var(--pcd-accent) 5%, transparent), transparent);
 }
 
-[data-analytical-proof="true"] .pcd-analytical-proof-flow .d3-flow-node-shape {
-  rx: 5px;
-  stroke-width: 2.2;
-}
-
-[data-analytical-proof="true"] .pcd-analytical-proof-flow .d3-flow-node-label {
-  font-size: .72rem;
-  letter-spacing: .025em;
-}
-
-[data-analytical-proof="true"] .pcd-analytical-proof-flow .d3-flow-edge-label {
-  font-size: .63rem;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
-[data-analytical-proof="true"] .pcd-analytical-proof-flow .pcd-flow-frontier .d3-flow-node-shape {
-  stroke: var(--pcd-chart-window-highlight);
-  fill: color-mix(in srgb, var(--pcd-chart-window-highlight) 10%, var(--pcd-surface-strong));
-}
-
-[data-analytical-proof="true"] .pcd-analytical-proof-flow [data-node-id="ex:node-cogniflow-proof-fair"].pcd-flow-frontier .d3-flow-node-shape {
-  stroke: var(--pcd-proof-final);
-  fill: color-mix(in srgb, var(--pcd-proof-final) 14%, var(--pcd-surface-strong));
-  filter:
-    drop-shadow(0 0 10px color-mix(in srgb, var(--pcd-proof-final) 75%, transparent))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-proof-final) 18%, transparent));
-}
-
 [data-analytical-proof="true"][data-analytical-proof-step="2"] .pcd-analytical-proof-chart {
   box-shadow:
     0 0 0 2px color-mix(in srgb, var(--pcd-proof-baseline) 48%, transparent),
