@@ -64,6 +64,19 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker {
   display: none;
 }
 
+/* The generic flow renderer emits its own chrome (inner frames, rails, status
+   squares, indices and edge-label panels). In the Eco City theme the pixel HUD
+   replaces all of that, so the renderer chrome must stay hidden to avoid empty
+   boxes, duplicated position numbers and a second status marker. */
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
+  display: none !important;
+}
+
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-connector,
@@ -97,8 +110,8 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-frame-inner {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-tab {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-ink) 10%, var(--pcd-flow-pixel-surface));
   stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink) 52%, transparent);
-  stroke-width: 2;
-  filter: drop-shadow(1.5px 1.5px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 12%, transparent));
+  stroke-width: 1.5;
+  filter: drop-shadow(1px 1px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-strong) 12%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
@@ -112,32 +125,32 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-number {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-node-led {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, var(--pcd-flow-pixel-ink));
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 2;
-  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 1.5;
+  filter: drop-shadow(1px 1px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-socket {
   fill: var(--pcd-flow-pixel-highlight);
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 3;
-  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path {
   fill: none;
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 5;
+  stroke-width: 3;
   stroke-linecap: square;
   stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
-  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-pill {
   fill: color-mix(in srgb, var(--pcd-flow-pixel-surface) 97%, white 3%);
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 2;
-  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 1.5;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
@@ -212,18 +225,6 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
   padding: 0 !important;
 }
 
-/* Slide 2 uses exactly one renderer-owned pixel HUD. The generic flow theme also
-   emits rails, indices, status squares and label panels; keeping both systems
-   visible created doubled numbers and a layered UI that is unlike the reference. */
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-inner-frame,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-rail,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-status,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-index,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label-panel,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label-stem {
-  display: none !important;
-}
-
 /* Slide 2 card shell: solid dark outline, turquoise keyline and paper-light face.
    Keep revealed cards opaque instead of the runtime's historical 58% dimming;
   unrevealed nodes retain their inline zero opacity and reveal cadence. */
@@ -293,7 +294,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
   fill: #359fa8;
   stroke: #073f49;
-  stroke-width: 2;
+  stroke-width: 1.5;
   shape-rendering: geometricPrecision;
   filter: none;
 }
@@ -301,21 +302,21 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-socket {
   fill: #ccefe9;
   stroke: #073f49;
-  stroke-width: 4;
-  filter: drop-shadow(3px 3px 0 #07545b);
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 #07545b);
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path {
   stroke: #07545b;
-  stroke-width: 6;
-  filter: drop-shadow(3px 3px 0 #073f49);
+  stroke-width: 3;
+  filter: drop-shadow(1.5px 1.5px 0 #073f49);
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
   fill: #edf8f5;
   stroke: #073f49;
-  stroke-width: 3;
-  filter: drop-shadow(3px 3px 0 #07545b);
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 #07545b);
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-label,

@@ -81,7 +81,10 @@ function createRect(className: string, x: number, y: number, width: number, heig
 }
 
 function createStatusMarker(cx: number, cy: number, size: number): SVGRectElement {
-  return createRect("d3-flow-pixel-node-led", cx - size / 2, cy - size / 2, size, size);
+  const led = createRect("d3-flow-pixel-node-led", cx - size / 2, cy - size / 2, size, size);
+  led.setAttribute("rx", String(size / 2));
+  led.setAttribute("ry", String(size / 2));
+  return led;
 }
 
 function createText(className: string, x: number, y: number, value: string): SVGTextElement {
@@ -105,10 +108,10 @@ function createScene2Connector(x: number, y: number): SVGGElement {
   connector.setAttribute("class", "d3-flow-pixel-connector");
   connector.setAttribute("aria-hidden", "true");
   connector.append(
-    createRect("d3-flow-pixel-connector-shadow", x - 10, y - 6, 26, 18),
-    createRect("d3-flow-pixel-connector-shell", x - 13, y - 9, 26, 18),
-    createRect("d3-flow-pixel-connector-core", x - 10, y - 6, 20, 12),
-    createRect("d3-flow-pixel-connector-contact", x - 3, y - 5, 6, 10),
+    createRect("d3-flow-pixel-connector-shadow", x - 7, y - 4, 18, 12),
+    createRect("d3-flow-pixel-connector-shell", x - 9, y - 6, 18, 12),
+    createRect("d3-flow-pixel-connector-core", x - 7, y - 4, 14, 8),
+    createRect("d3-flow-pixel-connector-contact", x - 2, y - 3, 4, 6),
   );
   return connector;
 }
@@ -204,11 +207,11 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     shape.setAttribute("height", String(height));
   }
 
-  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 10));
-  shadow.setAttribute("transform", "translate(5 5)");
-  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 10));
-  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 4, y + 4, width - 8, height - 8, 8));
-  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 8, y + 8, width - 16, height - 16, 6));
+  const shadow = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-shadow", steppedRectPath(x, y, width, height, 6));
+  shadow.setAttribute("transform", "translate(3 3)");
+  const outer = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-outer", steppedRectPath(x, y, width, height, 6));
+  const middle = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-middle", steppedRectPath(x + 3, y + 3, width - 6, height - 6, 5));
+  const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 5, y + 5, width - 10, height - 10, 4));
 
   const tabWidth = Math.min(48, Math.max(42, width * 0.17));
   const tabX = x + (scene2 ? 8 : 11);
@@ -224,10 +227,6 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     String(readingIndex + 1).padStart(2, "0"),
   );
   const led = createStatusMarker(x + width - 18, y + 18, 11);
-  if (scene2) {
-    led.setAttribute("rx", "5.5");
-    led.setAttribute("ry", "5.5");
-  }
 
   group.insertBefore(shadow, shape);
   group.insertBefore(outer, shape);
@@ -244,6 +243,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   if (label) {
     const labelOffset = Math.min(27, tabWidth * 0.55);
     label.setAttribute("x", String(labelOffset));
+    label.setAttribute("dominant-baseline", "middle");
     for (const tspan of Array.from(label.querySelectorAll<SVGTSpanElement>("tspan"))) {
       tspan.setAttribute("x", String(labelOffset));
     }
@@ -401,7 +401,7 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
   if (!(contentWidth > 0) || !(contentHeight > 0)) return;
 
   const padX = Math.max(22, contentWidth * 0.022);
-  const padY = Math.max(32, contentHeight * 0.12);
+  const padY = Math.max(20, contentHeight * 0.06);
   const viewWidth = contentWidth + padX * 2;
   const viewHeight = contentHeight + padY * 2;
   svg.setAttribute("viewBox", `${minX - padX} ${minY - padY} ${viewWidth} ${viewHeight}`);

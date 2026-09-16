@@ -212,33 +212,33 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-tab {
   fill: var(--pcd-flow-pixel-surface-2);
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 3;
-  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 1.5;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-node-led {
   fill: var(--pcd-flow-pixel-highlight);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 3;
-  filter: drop-shadow(3px 3px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 1.5;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-socket {
   fill: var(--pcd-flow-pixel-highlight);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 4;
-  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path {
-  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-pill {
   fill: var(--pcd-flow-pixel-surface-soft);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 4;
-  filter: drop-shadow(4px 4px 0 var(--pcd-flow-pixel-shadow));
+  stroke-width: 2;
+  filter: drop-shadow(1.5px 1.5px 0 var(--pcd-flow-pixel-shadow));
 }
 
 body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node-label,
