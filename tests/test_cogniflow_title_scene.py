@@ -148,7 +148,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [node["label"] for node in workflow_diagram["nodes"]],
         )
         self.assertEqual(
-            ["vendor Software", "mzML", "custom Script", "vendor Software", "mzML", "custom Script"],
+            ["vendor Software", "mzML", "custom Script", "vendor Software", "csv", "custom Script"],
             [edge["label"] for edge in workflow_diagram["edges"]],
         )
         self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])

@@ -45,7 +45,7 @@
   ex:edge-cogniflow-common-meas-open a cd:DiagramEdge ; skos:prefLabel "mzML"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-common-meas-data ; cd:targetNode ex:node-cogniflow-common-open-format ; cd:authoredResource true .
   ex:edge-cogniflow-common-open-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-common-open-format ; cd:targetNode ex:node-cogniflow-common-results ; cd:authoredResource true .
   ex:edge-cogniflow-common-analysis-b-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-common-analysis-b ; cd:targetNode ex:node-cogniflow-common-meas-data-b ; cd:authoredResource true .
-  ex:edge-cogniflow-common-meas-b-open a cd:DiagramEdge ; skos:prefLabel "mzML"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-common-meas-data-b ; cd:targetNode ex:node-cogniflow-common-open-format-b ; cd:authoredResource true .
+  ex:edge-cogniflow-common-meas-b-open a cd:DiagramEdge ; skos:prefLabel "csv"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-common-meas-data-b ; cd:targetNode ex:node-cogniflow-common-open-format-b ; cd:authoredResource true .
   ex:edge-cogniflow-common-open-b-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-common-open-format-b ; cd:targetNode ex:node-cogniflow-common-results-b ; cd:authoredResource true .
 
   ex:cogniflow-take-home a cd:Concept ;
