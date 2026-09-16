@@ -1,7 +1,7 @@
 import "./eco-city-flow-decoration.css";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
-const COUPLING_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
+const OPENING_WORKFLOW_SCENE = '[id="ex:scene-cogniflow-scene2-problem--scene"]';
 
 function numberAttribute(element: Element, name: string): number | undefined {
   const raw = element.getAttribute(name);
@@ -100,7 +100,7 @@ function createSocket(x: number, y: number, size: number): SVGRectElement {
   return createRect("d3-flow-pixel-socket", x - size / 2, y - size / 2, size, size);
 }
 
-function createCouplingConnector(x: number, y: number): SVGGElement {
+function createScene2Connector(x: number, y: number): SVGGElement {
   const connector = document.createElementNS(SVG_NS, "g");
   connector.setAttribute("class", "d3-flow-pixel-connector");
   connector.setAttribute("aria-hidden", "true");
@@ -193,10 +193,10 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const nodeId = group.getAttribute("data-node-id");
   if (x === undefined || y === undefined || width === undefined || height === undefined || !nodeId) return;
 
-  const coupling = svg.closest(COUPLING_SCENE) !== null;
+  const scene2 = svg.closest(OPENING_WORKFLOW_SCENE) !== null;
   // Only the presentation shell changes; node centers, order and labels remain
   // renderer-owned. Keep the hidden hit shape aligned for bounds and callouts.
-  if (coupling && svg.getAttribute("data-orientation") === "horizontal") {
+  if (scene2 && svg.getAttribute("data-orientation") === "horizontal") {
     const shellHeight = Math.max(88, height - 24);
     y += (height - shellHeight) / 2;
     height = shellHeight;
@@ -211,10 +211,10 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const inner = createPath("d3-flow-pixel-frame d3-flow-pixel-frame-inner", steppedRectPath(x + 8, y + 8, width - 16, height - 16, 6));
 
   const tabWidth = Math.min(48, Math.max(42, width * 0.17));
-  const tabX = x + (coupling ? 8 : 11);
-  const tabY = y + (coupling ? 8 : 14);
-  const tabHeight = Math.max(26, height - (coupling ? 16 : 28));
-  const tab = createPath("d3-flow-pixel-node-tab", coupling
+  const tabX = x + (scene2 ? 8 : 11);
+  const tabY = y + (scene2 ? 8 : 14);
+  const tabHeight = Math.max(26, height - (scene2 ? 16 : 28));
+  const tab = createPath("d3-flow-pixel-node-tab", scene2
     ? `M ${tabX + 6} ${tabY} H ${tabX + tabWidth} V ${tabY + tabHeight} H ${tabX + 6} V ${tabY + tabHeight - 3} H ${tabX + 3} V ${tabY + tabHeight - 6} H ${tabX} V ${tabY + 6} H ${tabX + 3} V ${tabY + 3} H ${tabX + 6} Z`
     : numberTabPath(tabX, tabY, tabWidth, tabHeight, 5));
   const number = createText(
@@ -224,7 +224,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
     String(readingIndex + 1).padStart(2, "0"),
   );
   const led = createStatusMarker(x + width - 18, y + 18, 11);
-  if (coupling) {
+  if (scene2) {
     led.setAttribute("rx", "5.5");
     led.setAttribute("ry", "5.5");
   }
@@ -234,7 +234,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   group.insertBefore(middle, shape);
   group.insertBefore(inner, shape);
   group.insertBefore(tab, shape);
-  if (coupling) {
+  if (scene2) {
     group.insertBefore(createRect("d3-flow-pixel-node-divider", tabX + tabWidth, tabY, 3, tabHeight), shape);
   }
   group.insertBefore(number, shape);
@@ -254,8 +254,8 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   const hasOutgoing = svg.querySelector(`.d3-flow-edge[data-source-node-id="${CSS.escape(nodeId)}"]`) !== null;
   const socketSize = 15;
   if (orientation === "horizontal") {
-    if (hasIncoming) group.insertBefore(coupling ? createCouplingConnector(x, 0) : createSocket(x, 0, socketSize), shape);
-    if (hasOutgoing) group.insertBefore(coupling ? createCouplingConnector(x + width, 0) : createSocket(x + width, 0, socketSize), shape);
+    if (hasIncoming) group.insertBefore(scene2 ? createScene2Connector(x, 0) : createSocket(x, 0, socketSize), shape);
+    if (hasOutgoing) group.insertBefore(scene2 ? createScene2Connector(x + width, 0) : createSocket(x + width, 0, socketSize), shape);
   } else {
     if (hasIncoming) group.insertBefore(createSocket(0, y, socketSize), shape);
     if (hasOutgoing) group.insertBefore(createSocket(0, y + height, socketSize), shape);
@@ -266,7 +266,7 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 }
 
 function decorateEdges(svg: SVGSVGElement): void {
-  const coupling = svg.closest(COUPLING_SCENE) !== null && svg.getAttribute("data-orientation") === "horizontal";
+  const scene2 = svg.closest(OPENING_WORKFLOW_SCENE) !== null && svg.getAttribute("data-orientation") === "horizontal";
   const edges = Array.from(svg.querySelectorAll<SVGGraphicsElement>(".d3-flow-edge"));
   const labels = Array.from(svg.querySelectorAll<SVGTextElement>(".d3-flow-edge-label"));
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
@@ -318,13 +318,13 @@ function decorateEdges(svg: SVGSVGElement): void {
           ? Math.min(sourceBounds.top, targetBounds.top) - 24
           : Math.max(sourceBounds.bottom, targetBounds.bottom) + 30;
       }
-      if (coupling) {
+      if (scene2) {
         labelY = Math.min(sourceBounds.top, targetBounds.top) - 50;
         if (!isHorizontal) {
           const sourceIsOuter = Math.abs(sourceBounds.centerY - flowCenterY) >= Math.abs(targetBounds.centerY - flowCenterY);
           const outer = sourceIsOuter ? sourceBounds : targetBounds;
-          // Above each branch card, away from the vertical routing trunk and
-          // the adjacent centered cards. Incoming/outgoing callouts stay paired.
+          // Above each card, away from the vertical routing trunk so the
+          // callout stays paired with its source or target node.
           labelX = outer.centerX + (sourceIsOuter ? 1 : -1) * (outer.right - outer.left) * 0.3;
           labelY = outer.top - (outer.centerY > flowCenterY ? 42 : 50);
         }
@@ -344,25 +344,25 @@ function decorateEdges(svg: SVGSVGElement): void {
       return;
     }
     if (!(box.width > 0) || !(box.height > 0)) return;
-    const padX = coupling ? 14 : 10;
-    const padY = coupling ? 9 : 6;
+    const padX = scene2 ? 14 : 10;
+    const padY = scene2 ? 9 : 6;
     const pill = createPath(
       "d3-flow-pixel-edge-pill",
-      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, coupling ? 8 : 5),
+      steppedRectPath(box.x - padX, box.y - padY, box.width + padX * 2, box.height + padY * 2, scene2 ? 8 : 5),
     );
 
     const labelAboveFlow = labelY < flowCenterY;
     const stemStartY = labelAboveFlow ? box.y + box.height + padY : box.y - padY;
     const stemEndY = stemStartY + (labelAboveFlow ? 13 : -13);
-    const stem = coupling ? document.createElementNS(SVG_NS, "g") : createPath(
+    const stem = scene2 ? document.createElementNS(SVG_NS, "g") : createPath(
       "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem",
       `M ${labelX} ${stemStartY} V ${stemEndY}`,
     );
-    if (coupling) {
+    if (scene2) {
       stem.setAttribute("class", "d3-flow-pixel-edge-path d3-flow-pixel-edge-stem");
       stem.setAttribute("aria-hidden", "true");
       // Separate filled squares, not a dashed SVG stroke. Always descend from
-      // these above-card pills, including the lower branch of the diamond.
+      // these above-card pills so the stem stays visible in the retro palette.
       const start = box.y + box.height + padY + 5;
       for (let dot = 0; dot < 3; dot += 1) {
         stem.append(createRect("d3-flow-pixel-stem-dot", labelX - 2.5, start + dot * 8, 5, 5));
@@ -426,7 +426,7 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   // controller would extract the D3 wrapper from this scene, losing both the
   // scene CSS boundary and the host's presentation-step fragments. Adapt only
   // the embedding element, preserving the renderer's live SVG and listeners.
-  const embeddings = Array.from(root.querySelectorAll<HTMLElement>(`${COUPLING_SCENE} section.d3-flow-runtime`)).map((runtime) => {
+  const embeddings = Array.from(root.querySelectorAll<HTMLElement>(`${OPENING_WORKFLOW_SCENE} section.d3-flow-runtime`)).map((runtime) => {
     const container = document.createElement("div");
     for (const attribute of Array.from(runtime.attributes)) container.setAttribute(attribute.name, attribute.value);
     container.append(...Array.from(runtime.childNodes));

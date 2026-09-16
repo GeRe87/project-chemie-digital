@@ -158,39 +158,6 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
   letter-spacing: -0.02em;
 }
 
-/* Semantic focus treatment: the dependency collision is the problem statement,
-   analogous to the highlighted amber module in the reference visual. */
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-outer {
-  fill: var(--pcd-flow-pixel-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-middle {
-  fill: var(--pcd-flow-pixel-danger-highlight);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
-  fill: var(--pcd-flow-pixel-danger-surface);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
-  fill: color-mix(in srgb, var(--pcd-flow-pixel-danger) 18%, var(--pcd-flow-pixel-danger-surface));
-  stroke: var(--pcd-flow-pixel-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-number,
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
-  fill: var(--pcd-flow-pixel-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
-  fill: var(--pcd-flow-pixel-danger);
-  stroke: var(--pcd-flow-pixel-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
-  stroke: var(--pcd-flow-pixel-danger);
-}
-
 /* CogniFlow presentation flows should read like one large retro UI object. */
 /* A real single slide needs its own height; previously Reveal's accidental
    vertical-stack classification supplied this only in deck mode. */
@@ -293,9 +260,6 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   fill: #8abfc2;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-divider {
-  fill: #deb65c;
-}
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-frame-shadow {
   fill: #07545b;
 }
@@ -376,65 +340,12 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   filter: none;
 }
 
-/* Conflict branch mirrors the same flat construction in ochre/amber. */
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-shadow {
-  fill: #7b4a09;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-outer {
-  fill: #5b3506;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-middle {
-  fill: #d89516;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
-  fill: #fff3cf;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
-  fill: #ffe3a0;
-  stroke: none;
-  filter: none;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-number {
-  fill: #7b4a09;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
-  fill: #d89516;
-  stroke: #5b3506;
-  filter: none;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
-  stroke: #9c620b;
-  filter: drop-shadow(3px 3px 0 #5b3506);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-pixel-edge-pill {
-  fill: #edf8f5;
-  stroke: #073f49;
-  filter: drop-shadow(3px 3px 0 #07545b);
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label {
-  fill: #073f49;
-}
-
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
-  fill: #5b3506;
-}
-
 /* Slide 2 shows the complete diagram immediately. The generic flow runtime still
    dispatches presentation-step events, but this scene overrides inline opacity
    so no fragment state can hide nodes, edges, labels or pixel decorations. */
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-node,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label,
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] [data-coupling-step] {
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;

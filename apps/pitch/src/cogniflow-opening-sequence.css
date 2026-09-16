@@ -1,4 +1,4 @@
-/* CogniFlow opening sequence: title -> dependency problem -> decoupled architecture. */
+/* CogniFlow opening sequence: title -> common analytical workflow -> decoupled architecture. */
 
 [id="ex:scene-cogniflow-title--scene"] {
   position: relative;
@@ -158,66 +158,8 @@
   display: none;
 }
 
-/* Problem: keep the Eco City teal pipeline and reserve amber for the actual collision. */
-[id="ex:scene-cogniflow-coupling-problem--scene"] {
-  --pcd-opening-danger: var(--pcd-flow-pixel-danger, #b86400);
-  --pcd-opening-danger-strong: var(--pcd-flow-pixel-danger-strong, #7e4000);
-  --pcd-opening-danger-surface: var(--pcd-flow-pixel-danger-surface, #ffd878);
-  --pcd-opening-danger-highlight: var(--pcd-flow-pixel-danger-highlight, #fff0b8);
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-shape {
-  stroke: var(--pcd-opening-danger-strong);
-  fill: var(--pcd-opening-danger-surface);
-  stroke-width: 7;
-  filter:
-    drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-opening-danger-highlight) 84%, transparent))
-    drop-shadow(0 -3px 0 var(--pcd-opening-danger-highlight))
-    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-opening-danger-highlight) 64%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-opening-danger))
-    drop-shadow(10px 12px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 34%, transparent));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-inner-frame {
-  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 82%, var(--pcd-opening-danger-surface));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-rail {
-  fill: var(--pcd-opening-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-status {
-  fill: var(--pcd-opening-danger-highlight);
-  stroke: var(--pcd-opening-danger-strong);
-  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 34%, transparent));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-node-label {
-  fill: var(--pcd-opening-danger-strong);
-  stroke: color-mix(in srgb, var(--pcd-opening-danger-highlight) 48%, transparent);
-  stroke-width: 2px;
-  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-opening-danger-highlight) 62%, transparent));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-target-node-id="ex:node-cogniflow-dep-conflict"] {
-  stroke: var(--pcd-opening-danger);
-  stroke-width: 10;
-  filter:
-    drop-shadow(0 2px 0 var(--pcd-opening-danger-highlight))
-    drop-shadow(4px 5px 0 color-mix(in srgb, var(--pcd-opening-danger-strong) 30%, transparent));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label-panel {
-  fill: var(--pcd-opening-danger-highlight);
-  stroke: var(--pcd-opening-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-edge-label {
-  fill: var(--pcd-opening-danger-strong);
-}
-
-/* Slide 2 hard-pixel pass: keep all semantic graph data intact, but remove the
-   airy/translucent treatment from the rendered coupling-problem scene. */
+/* Slide 2 hard-pixel pass: keep the semantic graph data intact, but remove the
+   airy/translucent treatment from the rendered common-workflow scene. */
 [id="ex:scene-cogniflow-coupling-problem--scene"] {
   --pcd-flow-pixel-shadow: #0a6873;
   --pcd-flow-pixel-grid: #d5eff0;
@@ -237,8 +179,8 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
     40px -16px 0 #dce9e6, 56px -16px 0 #dce9e6, 72px -16px 0 #dce9e6,
     40px 0 0 #dce9e6, 56px 0 0 #dce9e6, 72px 0 0 #dce9e6,
     40px 16px 0 #dce9e6, 56px 16px 0 #dce9e6, 72px 16px 0 #dce9e6,
-    -38px 66px 0 #efcf87, -46px 66px 0 #efcf87, -30px 66px 0 #efcf87,
-    -38px 58px 0 #efcf87, -38px 74px 0 #efcf87;
+    -38px 66px 0 #9cd9c8, -46px 66px 0 #9cd9c8, -30px 66px 0 #9cd9c8,
+    -38px 58px 0 #9cd9c8, -38px 74px 0 #9cd9c8;
 }
 
 [id="ex:scene-cogniflow-coupling-problem--scene"]::after {
@@ -305,37 +247,6 @@ body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--sc
   opacity: 1;
   stroke: none;
   filter: none;
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-shadow {
-  fill: var(--pcd-opening-danger-strong);
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-frame-inner {
-  fill: var(--pcd-opening-danger-surface);
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-tab {
-  fill: var(--pcd-opening-danger-highlight);
-  stroke: var(--pcd-opening-danger-strong);
-  filter: drop-shadow(3px 3px 0 var(--pcd-opening-danger-strong));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-node-id="ex:node-cogniflow-dep-conflict"] .d3-flow-pixel-node-led {
-  fill: var(--pcd-opening-danger);
-  stroke: var(--pcd-opening-danger-strong);
-  filter: drop-shadow(3px 3px 0 var(--pcd-opening-danger-strong));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-pixel-edge-path[data-target-node-id="ex:node-cogniflow-dep-conflict"] {
-  filter: drop-shadow(4px 4px 0 var(--pcd-opening-danger-strong));
-}
-
-body[data-diagram-theme="eco-city"] [id="ex:scene-cogniflow-coupling-problem--scene"] [data-edge-id="ex:edge-cogniflow-dep-runtime-conflict"] .d3-flow-pixel-edge-pill {
-  fill: var(--pcd-opening-danger-highlight);
-  stroke: var(--pcd-opening-danger-strong);
-  stroke-width: 4;
-  filter: drop-shadow(4px 4px 0 var(--pcd-opening-danger-strong));
 }
 
 /* Solution: the same semantic flow uses the Eco City family with a green solution focus. */
