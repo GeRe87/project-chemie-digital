@@ -222,7 +222,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 0.75rem 0 2.4rem;
+  margin: 0.75rem 0 3.5rem;
   font-size: clamp(1.6rem, 2.2vw, 2rem);
   line-height: 1.1;
   color: var(--pcd-flow-pixel-text);
