@@ -119,7 +119,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn(TITLE, fallback)
         self.assertIn(GERRIT, fallback)
-        self.assertIn(RICARDO, fallback)
+        # The static fallback escapes HTML entities, so the IUTA ampersands become &amp;.
+        self.assertIn(RICARDO.replace("&", "&amp;"), fallback)
         self.assertIn(FUNDING, fallback)
 
     def test_opening_sequence_states_common_workflow_then_decoupled_answer(self) -> None:

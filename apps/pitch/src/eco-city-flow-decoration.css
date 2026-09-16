@@ -203,20 +203,27 @@ body.reveal-scroll[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflo
   backdrop-filter: none;
 }
 
-/* Slide 2 keeps its title and centers the diagram below it inside the panel. */
+/* Slide 2 keeps its title above the diagram. A dedicated stacking order prevents
+   the SVG host from painting over the heading in either Reveal layout. */
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] {
-  display: grid !important;
-  grid-template-rows: auto 1fr;
+  display: flex !important;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  padding: calc(50vh - min(320px, 39vh)) 0;
+  justify-content: center;
+}
+
+body.reveal-scroll[data-diagram-theme="eco-city"] .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] {
+  min-height: 100vh;
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2 {
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   margin: 0.75rem 0 0.25rem;
-  font-size: 1.85rem;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
   line-height: 1.1;
   color: var(--pcd-flow-pixel-text);
   text-align: center;
@@ -236,7 +243,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: min(1300px, 96%) !important;
   margin: 0 auto !important;
   padding: 0 !important;
@@ -345,6 +352,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-edge-label {
+  fill: #c96500;
   font-size: 17px;
 }
 

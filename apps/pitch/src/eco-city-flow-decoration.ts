@@ -1,7 +1,7 @@
 import "./eco-city-flow-decoration.css";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
-const OPENING_WORKFLOW_SCENE = '[id="ex:scene-cogniflow-scene2-problem--scene"]';
+const OPENING_WORKFLOW_SCENE = '[id="ex:scene-cogniflow-coupling-problem--scene"]';
 
 function numberAttribute(element: Element, name: string): number | undefined {
   const raw = element.getAttribute(name);

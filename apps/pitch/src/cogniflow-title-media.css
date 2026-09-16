@@ -143,7 +143,8 @@ body.reveal-scroll.pcd-background-active .reveal .slides section[id="ex:scene-co
   right: 5.2rem;
   width: min(16.5rem, 20vw);
   padding: 1rem 1.15rem;
-  background: #0b4a86;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
   border-radius: .45rem;
 }
 

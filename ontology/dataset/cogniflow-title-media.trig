@@ -10,7 +10,7 @@
     cd:authoredResource true .
 
   ex:media-ude-logo a cd:MediaAsset ;
-    cd:uri "https://www.uni-due.de/imperia/md/content/dokumente/offen_im_denken/udelogo/logo_claim_negativ_rgb.svg"^^xsd:anyURI ;
+    cd:uri "https://www.uni-due.de/portal/4/images/UDE-logo-claim.svg"^^xsd:anyURI ;
     cd:mediaType "image/svg+xml" ;
     cd:alternativeText "University of Duisburg-Essen logo with the claim Offen im Denken"@en ;
     cd:authoredResource true .
