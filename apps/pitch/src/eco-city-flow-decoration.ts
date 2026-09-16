@@ -388,6 +388,10 @@ function decorateEdges(svg: SVGSVGElement): void {
 }
 
 function fitViewBoxToFlow(svg: SVGSVGElement): void {
+  // The generic flow renderer owns the linear workflow's complete viewBox. The
+  // former dependency graph needed a compact crop, but applying that crop to
+  // four horizontal layers cuts cards and connector paths out of the SVG.
+  if (svg.closest(OPENING_WORKFLOW_SCENE) !== null) return;
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
   const edgeLayer = svg.querySelector<SVGGElement>(".d3-flow-edge-layer");
   if (!nodeLayer || !edgeLayer) return;
