@@ -307,24 +307,10 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
 
 function arrangeLaboratoryNodes(svg: SVGSVGElement): void {
   if (svg.closest(LABORATORY_DIVERSITY_SCENE) === null) return;
-  const viewBoxValues = (svg.getAttribute("viewBox") ?? "").trim().split(/[ ,]+/u).map(Number);
-  const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
-  let x = viewBoxValues[0] ?? 0;
-  let y = viewBoxValues[1] ?? 0;
-  let width = viewBoxValues[2] ?? 0;
-  let height = viewBoxValues[3] ?? 0;
-  if (!(width > 0) || !(height > 0)) {
-    try {
-      const bounds = nodeLayer?.getBBox();
-      if (!bounds || !(bounds.width > 0) || !(bounds.height > 0)) return;
-      x = bounds.x;
-      y = bounds.y;
-      width = bounds.width;
-      height = bounds.height;
-    } catch {
-      return;
-    }
-  }
+  const x = 0;
+  const y = 0;
+  const width = 1280;
+  const height = 620;
   const positions: Record<string, readonly [number, number]> = {
     "ex:node-cogniflow-lab-lcms": [0.15, 0.19],
     "ex:node-cogniflow-lab-hplc": [0.42, 0.12],
@@ -541,6 +527,13 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
   // former dependency graph needed a compact crop, but applying that crop to
   // four horizontal layers cuts cards and connector paths out of the SVG.
   if (svg.closest(OPENING_WORKFLOW_SCENE) !== null) return;
+  if (svg.closest(LABORATORY_DIVERSITY_SCENE) !== null) {
+    svg.setAttribute("viewBox", "0 0 1280 620");
+    svg.removeAttribute("height");
+    svg.style.aspectRatio = "1280 / 620";
+    svg.dataset.ecoCityFit = "true";
+    return;
+  }
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
   const edgeLayer = svg.querySelector<SVGGElement>(".d3-flow-edge-layer");
   if (!nodeLayer || !edgeLayer) return;
