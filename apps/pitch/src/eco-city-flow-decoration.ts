@@ -8,9 +8,20 @@ const SECONDARY_WORKFLOW_NODE_IDS = new Set([
   "ex:node-cogniflow-common-open-format-b",
   "ex:node-cogniflow-common-results-b",
 ]);
+const SECONDARY_WORKFLOW_ROW_GAP = 50;
 
 function isSecondaryWorkflowEdge(sourceNodeId: string, targetNodeId: string): boolean {
   return SECONDARY_WORKFLOW_NODE_IDS.has(sourceNodeId) || SECONDARY_WORKFLOW_NODE_IDS.has(targetNodeId);
+}
+
+function offsetSecondaryWorkflowElement(element: SVGElement): void {
+  if (element.dataset.secondaryWorkflowOffset === "true") return;
+  const transform = element.getAttribute("transform") ?? "";
+  const match = /^translate\(([-+0-9.eE]+)[ ,]+([-+0-9.eE]+)\)$/u.exec(transform.trim());
+  const x = match ? Number(match[1]) : 0;
+  const y = match ? Number(match[2]) : 0;
+  element.setAttribute("transform", `translate(${x} ${y + SECONDARY_WORKFLOW_ROW_GAP})`);
+  element.dataset.secondaryWorkflowOffset = "true";
 }
 
 function numberAttribute(element: Element, name: string): number | undefined {
@@ -290,13 +301,15 @@ function decorateEdges(svg: SVGSVGElement): void {
 
   edges.forEach((edge, index) => {
     if (edge.dataset.pixelDecorated === "true") return;
-    const endpoints = edgeEndpoints(edge);
-    if (!endpoints) return;
-    const { x1, y1, x2, y2 } = endpoints;
-
     const sourceNodeId = edge.getAttribute("data-source-node-id") ?? "";
     const targetNodeId = edge.getAttribute("data-target-node-id") ?? "";
     const secondaryWorkflow = isSecondaryWorkflowEdge(sourceNodeId, targetNodeId);
+    if (secondaryWorkflow) offsetSecondaryWorkflowElement(edge);
+    const endpoints = edgeEndpoints(edge);
+    if (!endpoints) return;
+    const { x1, x2 } = endpoints;
+    const y1 = endpoints.y1 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
+    const y2 = endpoints.y2 + (secondaryWorkflow ? SECONDARY_WORKFLOW_ROW_GAP : 0);
     const sourceBounds = translatedNodeBounds(svg, sourceNodeId);
     const targetBounds = translatedNodeBounds(svg, targetNodeId);
     const middleX = x1 + (x2 - x1) / 2;
@@ -443,6 +456,7 @@ function decorateSvg(svg: SVGSVGElement): void {
   nodes.forEach((group, index) => {
     if (SECONDARY_WORKFLOW_NODE_IDS.has(group.getAttribute("data-node-id") ?? "")) {
       group.dataset.secondaryWorkflow = "true";
+      offsetSecondaryWorkflowElement(group);
     }
     decorateNode(svg, group, index);
   });
