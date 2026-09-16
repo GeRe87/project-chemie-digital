@@ -478,7 +478,7 @@ export function mountEcoCityFlowDecorations(root: HTMLElement): () => void {
   decorateRoot(root);
   const secondaryWorkflowHost = root.querySelector<HTMLElement>(`${OPENING_WORKFLOW_SCENE} .d3-flow-host`);
   const applySecondaryWorkflowStep = (step: number): void => {
-    secondaryWorkflowHost?.dataset.secondaryWorkflowVisible = step >= 1 ? "true" : "false";
+    if (secondaryWorkflowHost) secondaryWorkflowHost.dataset.secondaryWorkflowVisible = step >= 1 ? "true" : "false";
   };
   const secondaryWorkflowListener: EventListener = (event) => {
     const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
