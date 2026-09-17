@@ -305,6 +305,8 @@ function addNodeChrome(
 ): void {
   const namespace = "http://www.w3.org/2000/svg";
   const inset = 11;
+  const indexSegmentWidth = Math.min(58, Math.max(32, width * .2));
+  const dividerX = -width / 2 + 18 + indexSegmentWidth;
 
   const inner = document.createElementNS(namespace, "rect");
   inner.setAttribute("class", "d3-flow-node-inner-frame");
@@ -320,23 +322,31 @@ function addNodeChrome(
   rail.setAttribute("class", "d3-flow-node-rail");
   rail.setAttribute("x", String(-width / 2 + 18));
   rail.setAttribute("y", String(-height / 2 + 18));
-  rail.setAttribute("width", String(Math.min(58, Math.max(32, width * .2))));
+  rail.setAttribute("width", String(indexSegmentWidth));
   rail.setAttribute("height", String(Math.max(0, height - 36)));
   rail.setAttribute("aria-hidden", "true");
   group.append(rail);
 
-  const status = document.createElementNS(namespace, "rect");
+  const divider = document.createElementNS(namespace, "line");
+  divider.setAttribute("class", "d3-flow-node-divider");
+  divider.setAttribute("x1", String(dividerX));
+  divider.setAttribute("x2", String(dividerX));
+  divider.setAttribute("y1", String(-height / 2 + 18));
+  divider.setAttribute("y2", String(height / 2 - 18));
+  divider.setAttribute("aria-hidden", "true");
+  group.append(divider);
+
+  const status = document.createElementNS(namespace, "circle");
   status.setAttribute("class", "d3-flow-node-status");
-  status.setAttribute("x", String(width / 2 - 29));
-  status.setAttribute("y", String(-height / 2 + 16));
-  status.setAttribute("width", "11");
-  status.setAttribute("height", "11");
+  status.setAttribute("cx", String(width / 2 - 24));
+  status.setAttribute("cy", String(-height / 2 + 24));
+  status.setAttribute("r", "6");
   status.setAttribute("aria-hidden", "true");
   group.append(status);
 
   const index = document.createElementNS(namespace, "text");
   index.setAttribute("class", "d3-flow-node-index");
-  index.setAttribute("x", String(-width / 2 + 18 + Math.min(58, Math.max(32, width * .2)) / 2));
+  index.setAttribute("x", String(-width / 2 + 18 + indexSegmentWidth / 2));
   index.setAttribute("y", "6");
   index.setAttribute("text-anchor", "middle");
   index.setAttribute("dominant-baseline", "middle");
@@ -453,7 +463,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
           addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
-          addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
+          const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
+          addTextLines(group, layoutNode.labelLines, (-layoutNode.width / 2 + 18 + indexSegmentWidth + layoutNode.width / 2) / 2, 0, "d3-flow-node-label");
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
           nodeLayer.append(group);
           nextNodeElements.set(modelNode.id, group);

@@ -124,19 +124,6 @@ body.pcd-background-active.reveal-scroll .reveal .slides section {
   backdrop-filter: none;
 }
 
-/* Diagram scenes may provide their own panel treatment without Reveal nesting or scene ids. */
-body.pcd-background-active .reveal .slides section:has(.d3-flow-host) {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
-body.pcd-background-active.reveal-scroll .scroll-page:has(.d3-flow-host) {
-  background: transparent !important;
-}
-
 body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) .pcd-background-world,
 body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) #view-switch-shell {
   background: transparent;
