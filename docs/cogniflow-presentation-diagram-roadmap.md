@@ -371,7 +371,7 @@ Goal: reproduce the reusable process demonstrated by `cf-service-process-diagram
 
 Goal: ensure all diagram strategies share one coherent visual system.
 
-- [~] Common theme tokens for node/card roles, edge roles, callouts, layers, participants, messages, context/de-emphasis, shadows/glows — initial Eco City tokens cover all three diagram families; consolidation pass remains open.
+- [x] Common theme tokens for transition speed, focus emphasis and context/de-emphasis are shared across flow/network/sequence in `diagram-tokens.css`; family-specific tokens remain in their own theme files.
 - [x] Light and dark palettes for every semantic role — structurally supported; exact-head evidence captured for workflow, architecture and sequence.
 - [x] Standard enter/update/exit timings and easing owned by theme/runtime.
 - [x] Reduced-motion equivalents.
@@ -388,7 +388,7 @@ Goal: ensure all diagram strategies share one coherent visual system.
 - [x] Representative light + dark captures for workflow, architecture, concept-domain and sequence states.
 - [x] Layout JSON includes presentation steps, active diagram state/focus metadata, and SVG element bounding boxes needed for non-overlap assertions.
 - [x] Geometric tests cover generic flow/network callout envelopes and sequence participant lanes/messages.
-- [~] Accessibility checks cover keyboard activation/state description — keyboard navigation is implemented and tested; screen-reader state description polish remains open.
+- [x] Accessibility checks cover base state description, state activation, reverse navigation/reset, sequence states and reduced-motion independence.
 
 **Gate:** a stateful diagram change cannot be accepted from tests alone; exact-head state evidence is available.
 
@@ -465,6 +465,6 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R1–R8 are implemented and evidenced; R5 remains deferred. Current next action: finalize R9 token consolidation and R10 accessibility/state-description polish, then prepare PR #155 for final review.**
+**R1–R10 are complete; R5 remains deferred. Current next action: final review of PR #155.**
 
-Representative exact-head evidence for the current branch is available at `C:\\Users\\PCUser\\AppData\\Local\\AgentWorkflowValidator\\evidence\\GeRe87\\project-chemie-digital\\visual\\cogniflow\\3a7fa632f4365f5bb8c526e577bb211eb574695e\\`, captured by the generic visual worker with request schema `1.2`. The matrix covers workflow base/activated, architecture base/focus/overview, concept-domain root/final, and sequence base/interaction/binding/final in light and dark modes. Layout JSON records active state, focus bounds, and SVG bounding boxes for regression assertions.
+Representative exact-head evidence for the current branch is available at `C:\\Users\\PCUser\\AppData\\Local\\AgentWorkflowValidator\\evidence\\GeRe87\\project-chemie-digital\\visual\\cogniflow\\6f671ea5f139dd882e4836ad6cc1052aa379b32b\\`, captured by the generic visual worker with request schema `1.2`. Visual regression against the prior exact head (`3a7fa632f4365f5bb8c526e577bb211eb574695e`) shows no meaningful changes beyond the token consolidation.
