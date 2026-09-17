@@ -3,6 +3,8 @@
 Status: living roadmap  
 Owner context: CogniFlow presentation in `project-chemie-digital`  
 Last updated: 2026-09-17  
+Current branch: `architecture/cogniflow-semantic-diagrams` (PR #155, draft)  
+Current exact head: `3a7fa632f4365f5bb8c526e577bb211eb574695e`  
 Reference implementation: legacy `cogniflow_workshop.html` presentation, especially `cf-layer-diagram`, `cf-concept-domain-diagram`, and `cf-service-process-diagram`
 
 ## 1. Goal
@@ -235,10 +237,11 @@ Goal: solve the current workflow interaction as the smallest real state feature.
 
 - [x] Add explicit `SharedEdgeAnnotation` semantics with 2..N target edge IDs.
 - [x] Renderer activation preserves annotations as one renderer-owned in-SVG callout with 2..N target stems; static structural fallback remains available.
+- [x] Renderer-owned placement avoids node overlap with a deterministic displacement policy.
 - [x] No duplicate-label inference.
 - [x] Theme reuses standard callout grammar.
 
-**CogniFlow acceptance:** one click replaces both `custom Script` callouts on `03→04` and `07→08` with one centered `Common custom Script?` callout connected to both edges.
+**CogniFlow acceptance:** one click replaces both `custom Script` callouts on `03→04` and `07→08` with one shared callout connected to both edges; nodes remain visible and do not jump.
 
 **Gate:** N-edge generic test plus exact-head base/activated visual evidence.
 
@@ -281,8 +284,8 @@ The exact number of states may be reduced when the new presentation narrative is
 - [x] First authored network vertical slice: interface, orchestration and provider groups with seven semantic buildup states.
 - [x] Use existing network/group/state primitives; no CogniFlow identity or coordinate is introduced in the renderer.
 - [x] Add only capabilities already justified by R1–R3.
-- [ ] Theme reproduces Eco City card language rather than legacy UDE styling.
-- [~] Native Reveal click, Enter, Space and reverse navigation now drives authored state positions without visible diagram controls; representative light/dark capture evidence remains unavailable.
+- [x] Theme reproduces Eco City card language rather than legacy UDE styling.
+- [x] Native Reveal click, Enter, Space and reverse navigation drives authored state positions without visible diagram controls; exact-head light/dark capture evidence available.
 
 **Gate:** no code references any CogniFlow entity ID or old slide ID.
 
@@ -304,6 +307,8 @@ Goal: cover the concept-domain drill-down without hard-coded three-column D3 cod
 
 **2026-09-17 structural decision:** defer this capability increment while the current generic `network` strategy is sufficient for the first R6 progression. It already realizes arbitrary semantic groups, state-selected visibility, focus/context treatment, cross-group edges and narrow-host stacking without content selectors. The current SceneDocument node label contract is sufficient for the initial ontology vocabulary; add ordered-layer semantics or structured node summaries only when a concrete R6 state cannot be expressed or remain readable with that contract.
 
+**2026-09-17 visual decision:** R5 remains `DEFERRED / NOT REQUIRED FOR CURRENT ARCHITECTURE`. Representative R4 architecture and R6 concept-domain captures show the generic `network` strategy is structurally sufficient: groups read as distinct regions, focus creates readable emphasis, prior layers remain visible as context, and cross-group edges are understandable. No ordered-layer geometry or structured-node contract is required for the current authored progression.
+
 ### R6 — Migrate the legacy concept-domain diagram
 
 Goal: reproduce the pedagogical progression, not the old coordinates or painted-column implementation.
@@ -317,10 +322,10 @@ Suggested progression:
 5. concrete `qalg:Average` + ports + service binding.
 
 - [x] Current-ontology TriG progression contains explicit active groups/nodes/edges and focus/context membership for every state.
-- [ ] Structured nodes are produced from reusable resource summaries when a concrete semantic field cannot be represented by the current generic node label.
+- [x] Current node label contract remains sufficient; structured nodes deferred until a concrete state cannot be expressed readably.
 - [x] Prior groups remain as authored de-emphasized context where relevant.
-- [ ] No renderer knows terms such as `qalg:Average`, `cfproc:RunTarget`, or `cfproc:ProcessingPipeline`.
-- [ ] Theme controls layer palettes, card variants, shadow/glow, and transition grammar.
+- [x] No renderer knows terms such as `qalg:Average`, `cfproc:RunTarget`, or `cfproc:ProcessingPipeline`.
+- [x] Theme controls layer palettes, card variants, shadow/glow, and transition grammar.
 
 **Gate:** switching the TriG to another concept domain yields the same presentation grammar without renderer changes.
 
@@ -366,12 +371,12 @@ Goal: reproduce the reusable process demonstrated by `cf-service-process-diagram
 
 Goal: ensure all diagram strategies share one coherent visual system.
 
-- [ ] Common theme tokens for node/card roles, edge roles, callouts, layers, participants, messages, context/de-emphasis, shadows/glows.
-- [ ] Light and dark palettes for every semantic role.
-- [ ] Standard enter/update/exit timings and easing owned by theme/runtime.
-- [ ] Reduced-motion equivalents.
-- [ ] Focus/lens and de-emphasis treatment consistent across network/layered/sequence strategies.
-- [ ] No selector uses content IDs or labels.
+- [~] Common theme tokens for node/card roles, edge roles, callouts, layers, participants, messages, context/de-emphasis, shadows/glows — initial Eco City tokens cover all three diagram families; consolidation pass remains open.
+- [x] Light and dark palettes for every semantic role — structurally supported; exact-head evidence captured for workflow, architecture and sequence.
+- [x] Standard enter/update/exit timings and easing owned by theme/runtime.
+- [x] Reduced-motion equivalents.
+- [x] Focus/lens and de-emphasis treatment consistent across network/sequence strategies.
+- [x] No selector uses content IDs or labels.
 
 **Gate:** all three migrated legacy patterns look like one presentation system rather than three bespoke D3 demos.
 
@@ -379,11 +384,11 @@ Goal: ensure all diagram strategies share one coherent visual system.
 
 - [x] Visual worker request schema supports bounded generic presentation-step capture; layout snapshots record requested and realized steps plus diagram state metadata.
 - [x] Capture API can perform bounded generic interaction (`advance state N times`).
-- [x] Exact source SHA is recorded in every visual manifest; no accepted R9/R10 capture exists for this uncommitted head.
-- [ ] Representative light + dark captures.
+- [x] Exact source SHA is recorded in every visual manifest; representative captures exist for the current exact head.
+- [x] Representative light + dark captures for workflow, architecture, concept-domain and sequence states.
 - [x] Layout JSON includes presentation steps, active diagram state/focus metadata, and SVG element bounding boxes needed for non-overlap assertions.
-- [~] Geometric tests cover generic flow/network callout envelopes and sequence participant lanes/messages; representative captured layer/focus bounds remain pending.
-- [ ] Accessibility checks cover keyboard activation/state description.
+- [x] Geometric tests cover generic flow/network callout envelopes and sequence participant lanes/messages.
+- [~] Accessibility checks cover keyboard activation/state description — keyboard navigation is implemented and tested; screen-reader state description polish remains open.
 
 **Gate:** a stateful diagram change cannot be accepted from tests alone; exact-head state evidence is available.
 
@@ -460,8 +465,6 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R6, R7 and R8 are at the visual-review checkpoint. R5 remains deferred: the current network expresses the R6 progression without ordered-layer or structured-node limitations. Current next action: capture and review representative light/dark sequence base and bounded progressed states on a committed exact head, then harden the shared theme grammar from that evidence.**
+**R1–R8 are implemented and evidenced; R5 remains deferred. Current next action: finalize R9 token consolidation and R10 accessibility/state-description polish, then prepare PR #155 for final review.**
 
-The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
-
-The state machinery is now proven with a synthetic Core/Domain/Runtime fixture, the authored architecture sequence and the initial concept-domain progression. The visual worker change is in `C:\\Users\\PCUser\\projects\\agent-workflow-validator\\src\\awv\\visual.py`; exact-SHA local reports are stored at `C:\\Users\\PCUser\\AppData\\Local\\AgentWorkflowValidator\\evidence\\GeRe87\\project-chemie-digital\\visual\\cogniflow\\<source-sha>\\visual-report.json`, with the matching layout JSON under `slides\\`. Capture representative light/dark state evidence and use the R6 content to determine whether ordered-layer geometry or structured node summaries are genuinely required.
+Representative exact-head evidence for the current branch is available at `C:\\Users\\PCUser\\AppData\\Local\\AgentWorkflowValidator\\evidence\\GeRe87\\project-chemie-digital\\visual\\cogniflow\\3a7fa632f4365f5bb8c526e577bb211eb574695e\\`, captured by the generic visual worker with request schema `1.2`. The matrix covers workflow base/activated, architecture base/focus/overview, concept-domain root/final, and sequence base/interaction/binding/final in light and dark modes. Layout JSON records active state, focus bounds, and SVG bounding boxes for regression assertions.
