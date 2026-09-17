@@ -3,6 +3,7 @@ import type { D3KnowledgeNetworkOptions } from "./index.ts";
 import {
   createD3FlowLayout,
   deterministicFlowTextMeasure,
+  wrapFlowText,
   type D3FlowLayout,
   type D3FlowLayoutEdge,
 } from "./flow-layout.ts";
@@ -142,6 +143,16 @@ export interface D3FlowFocusBounds {
   readonly y: number;
   readonly width: number;
   readonly height: number;
+}
+
+export interface D3FlowSharedAnnotationGeometry {
+  readonly id: string;
+  readonly label: string;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly stems: readonly { readonly edgeId: string; readonly x1: number; readonly y1: number; readonly x2: number; readonly y2: number }[];
 }
 
 function validateVisualRole(value: unknown, label: string): void {
@@ -472,6 +483,43 @@ function orthogonalEdgePath(edge: D3FlowLayoutEdge, orientation: D3FlowLayout["o
   return `M ${edge.x1} ${edge.y1} V ${elbowY} H ${edge.x2} V ${edge.y2}`;
 }
 
+function clamp(value: number, minimum: number, maximum: number): number {
+  return Math.max(minimum, Math.min(maximum, value));
+}
+
+/** Renderer-owned callout placement joins any explicit 2..N edge targets. */
+export function resolveD3FlowSharedAnnotationGeometry(
+  layout: D3FlowLayout,
+  annotation: { readonly id: string; readonly label: string; readonly edgeIds: readonly string[] },
+): D3FlowSharedAnnotationGeometry | undefined {
+  const labelMaxWidth = 130;
+  const lineHeight = 22;
+  const verticalPadding = 12;
+  const edgesById = new Map(layout.edges.map((edge) => [edge.id, edge]));
+  const edges = annotation.edgeIds.map((id) => edgesById.get(id)).filter((edge): edge is D3FlowLayoutEdge => Boolean(edge));
+  if (edges.length !== annotation.edgeIds.length) return undefined;
+  const lines = wrapFlowText(annotation.label, labelMaxWidth);
+  const width = Math.max(96, ...lines.map((line) => deterministicFlowTextMeasure(line))) + 28;
+  const height = Math.max(34, lines.length * lineHeight + verticalPadding);
+  const x = clamp(edges.reduce((sum, edge) => sum + edge.labelX, 0) / edges.length, width / 2 + 12, layout.width - width / 2 - 12);
+  const y = Math.max(height / 2 + 12, Math.min(...edges.map((edge) => edge.labelY)) - height / 2 - 22);
+  return {
+    id: annotation.id,
+    label: annotation.label,
+    x,
+    y,
+    width,
+    height,
+    stems: edges.map((edge) => ({
+      edgeId: edge.id,
+      x1: clamp(edge.labelX, x - width / 2 + 8, x + width / 2 - 8),
+      y1: edge.labelY >= y ? y + height / 2 : y - height / 2,
+      x2: edge.labelX,
+      y2: edge.labelY,
+    })),
+  };
+}
+
 function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D3FlowLayout["orientation"]): void {
   const namespace = "http://www.w3.org/2000/svg";
   const lineCount = Math.max(edge.labelLines.length, 1);
@@ -506,6 +554,37 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D
   group.append(stem);
 
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
+  parent.append(group);
+}
+
+function addSharedEdgeAnnotation(parent: SVGElement, geometry: D3FlowSharedAnnotationGeometry): void {
+  const namespace = "http://www.w3.org/2000/svg";
+  const group = document.createElementNS(namespace, "g");
+  group.setAttribute("class", "d3-flow-shared-edge-annotation");
+  group.setAttribute("data-key", `shared-edge-annotation:${geometry.id}`);
+  group.setAttribute("data-shared-edge-annotation-id", geometry.id);
+  group.setAttribute("data-edge-ids", geometry.stems.map((stem) => stem.edgeId).join(" "));
+  for (const stemGeometry of geometry.stems) {
+    const stem = document.createElementNS(namespace, "line");
+    stem.setAttribute("class", "d3-flow-shared-edge-annotation-stem");
+    stem.setAttribute("data-edge-id", stemGeometry.edgeId);
+    stem.setAttribute("x1", String(stemGeometry.x1));
+    stem.setAttribute("y1", String(stemGeometry.y1));
+    stem.setAttribute("x2", String(stemGeometry.x2));
+    stem.setAttribute("y2", String(stemGeometry.y2));
+    stem.setAttribute("aria-hidden", "true");
+    group.append(stem);
+  }
+  const panel = document.createElementNS(namespace, "rect");
+  panel.setAttribute("class", "d3-flow-shared-edge-annotation-panel");
+  panel.setAttribute("x", String(geometry.x - geometry.width / 2));
+  panel.setAttribute("y", String(geometry.y - geometry.height / 2));
+  panel.setAttribute("width", String(geometry.width));
+  panel.setAttribute("height", String(geometry.height));
+  panel.setAttribute("rx", "4");
+  panel.setAttribute("aria-hidden", "true");
+  group.append(panel);
+  addTextLines(group, wrapFlowText(geometry.label, 130), geometry.x, geometry.y, "d3-flow-shared-edge-annotation-label");
   parent.append(group);
 }
 
@@ -605,7 +684,6 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let nodeLayer: SVGGElement | undefined;
       let descriptionElement: SVGElement | undefined;
       let definitionsElement: SVGElement | undefined;
-      let annotationsElement: HTMLElement | undefined;
 
       const render = (layout: D3FlowLayout, requestedActiveNodeId?: string, requestedActiveStateId?: string): void => {
         if (destroyed) return;
@@ -674,7 +752,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
           nextEdgeLayer.append(path);
-          addEdgeLabel(nextEdgeLayer, edge, layout.orientation);
+           if (!activeAnnotatedEdgeIds.has(edge.id)) addEdgeLabel(nextEdgeLayer, edge, layout.orientation);
+         }
+        for (const annotation of activeState?.sharedEdgeAnnotations ?? []) {
+          const geometry = resolveD3FlowSharedAnnotationGeometry(layout, annotation);
+          if (geometry) addSharedEdgeAnnotation(nextEdgeLayer, geometry);
         }
         if (!edgeLayer) {
           edgeLayer = nextEdgeLayer;
@@ -723,22 +805,6 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nodeLayer = nextNodeLayer;
           svg.append(nodeLayer);
         } else reconcileKeyedChildren(nodeLayer, nextNodeLayer);
-        annotationsElement?.remove();
-        annotationsElement = undefined;
-        if (activeState) {
-          const annotations = document.createElement("div");
-          annotations.className = "d3-flow-shared-edge-annotations";
-          annotations.setAttribute("aria-live", "polite");
-          for (const annotation of activeState.sharedEdgeAnnotations) {
-            const note = document.createElement("p");
-            note.setAttribute("data-shared-edge-annotation-id", annotation.id);
-            note.setAttribute("data-edge-ids", annotation.edgeIds.join(" "));
-            note.textContent = annotation.label;
-            annotations.append(note);
-          }
-          wrapper.append(annotations);
-          annotationsElement = annotations;
-        }
         nodeElements = nextNodeElements;
         if (model.interactionPolicy === "keyboard" && previouslyFocusedId && previouslyFocusedId === activeNodeId) {
           nodeElements.get(previouslyFocusedId)?.focus();

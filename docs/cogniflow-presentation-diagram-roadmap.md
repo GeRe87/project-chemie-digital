@@ -234,7 +234,7 @@ Goal: establish the reusable state machine before migrating complex legacy diagr
 Goal: solve the current workflow interaction as the smallest real state feature.
 
 - [x] Add explicit `SharedEdgeAnnotation` semantics with 2..N target edge IDs.
-- [~] Renderer activation and static structural fallback preserve annotations; in-SVG shared-callout placement remains pending.
+- [x] Renderer activation preserves annotations as one renderer-owned in-SVG callout with 2..N target stems; static structural fallback remains available.
 - [x] No duplicate-label inference.
 - [x] Theme reuses standard callout grammar.
 
@@ -377,12 +377,12 @@ Goal: ensure all diagram strategies share one coherent visual system.
 
 ### R10 — Visual evidence and regression system
 
-- [ ] Visual worker can capture named diagram states generically, not only initial state.
-- [ ] Capture API can perform bounded generic interaction (`advance state N times` or activate state ID).
-- [ ] Exact source SHA required for every accepted visual.
+- [x] Visual worker request schema supports bounded generic presentation-step capture; layout snapshots record requested and realized steps plus diagram state metadata.
+- [x] Capture API can perform bounded generic interaction (`advance state N times`).
+- [x] Exact source SHA is recorded in every visual manifest; no accepted R9/R10 capture exists for this uncommitted head.
 - [ ] Representative light + dark captures.
-- [ ] Layout JSON includes state, active groups, focus target, and bounding boxes needed for non-overlap assertions.
-- [ ] Geometric tests cover callout envelopes, layer overlap, participant lanes, and focus bounds.
+- [x] Layout JSON includes presentation steps, active diagram state/focus metadata, and SVG element bounding boxes needed for non-overlap assertions.
+- [~] Geometric tests cover generic flow/network callout envelopes and sequence participant lanes/messages; representative captured layer/focus bounds remain pending.
 - [ ] Accessibility checks cover keyboard activation/state description.
 
 **Gate:** a stateful diagram change cannot be accepted from tests alone; exact-head state evidence is available.
@@ -460,8 +460,8 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R6, R7 and R8 are at the visual-review checkpoint. R5 remains deferred: the current network expresses the R6 progression without ordered-layer or structured-node limitations. Current next action: capture and review representative light/dark sequence base and progressed states on the exact head, then harden the shared theme grammar from that evidence.**
+**R6, R7 and R8 are at the visual-review checkpoint. R5 remains deferred: the current network expresses the R6 progression without ordered-layer or structured-node limitations. Current next action: capture and review representative light/dark sequence base and bounded progressed states on a committed exact head, then harden the shared theme grammar from that evidence.**
 
 The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
 
-The state machinery is now proven with a synthetic Core/Domain/Runtime fixture, the authored architecture sequence and the initial concept-domain progression. Capture representative light/dark state evidence and use the R6 content to determine whether ordered-layer geometry or structured node summaries are genuinely required.
+The state machinery is now proven with a synthetic Core/Domain/Runtime fixture, the authored architecture sequence and the initial concept-domain progression. The visual worker change is in `C:\\Users\\PCUser\\projects\\agent-workflow-validator\\src\\awv\\visual.py`; exact-SHA local reports are stored at `C:\\Users\\PCUser\\AppData\\Local\\AgentWorkflowValidator\\evidence\\GeRe87\\project-chemie-digital\\visual\\cogniflow\\<source-sha>\\visual-report.json`, with the matching layout JSON under `slides\\`. Capture representative light/dark state evidence and use the R6 content to determine whether ordered-layer geometry or structured node summaries are genuinely required.

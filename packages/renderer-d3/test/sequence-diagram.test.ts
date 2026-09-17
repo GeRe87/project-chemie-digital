@@ -27,6 +27,9 @@ test("generic Client Registry Runtime Consumer sequence preserves substitutions 
   assert.deepEqual(wide.lanes.map((lane) => lane.roleId), ["client", "registry", "runtime", "consumer"]);
   assert.deepEqual(result.model.states[0]?.participantBindings?.map((binding) => binding.label), ["Template", "Web UI"]);
   assert.deepEqual(createD3SequenceLayout(result.model, 960), wide);
+  assert.ok(wide.lanes.every((lane, index) => index === 0 || lane.x > wide.lanes[index - 1]!.x));
+  assert.ok(wide.messages.every((message, index) => index === 0 || message.y > wide.messages[index - 1]!.y));
+  assert.ok(narrow.messages.every((message) => message.y >= 106 && message.y <= narrow.height));
   assert.match(result.model.staticFallback, /Template/);
   assert.match(sequenceLayoutDataAttributes(narrow).join(" "), /mode:compact/);
 });

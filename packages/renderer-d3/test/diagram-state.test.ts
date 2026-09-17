@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createD3FlowRenderModel, mountD3FlowDiagram, resolveD3FlowState, type D3FlowRuntimePort } from "../src/flow-diagram.ts";
+import { createD3FlowRenderModel, mountD3FlowDiagram, resolveD3FlowSharedAnnotationGeometry, resolveD3FlowState, type D3FlowRuntimePort } from "../src/flow-diagram.ts";
 import { createD3FlowLayout } from "../src/flow-layout.ts";
 import type { DiagramBlock } from "../../core/src/scene-document.ts";
 
@@ -23,6 +23,27 @@ test("D3 preserves authored state and shared-edge identities without label infer
 test("D3 rejects a shared-edge annotation that names an unknown edge", () => {
   const result = createD3FlowRenderModel({ ...block, states: [{ ...block.states![0]!, sharedEdgeAnnotations: [{ ...block.states![0]!.sharedEdgeAnnotations[0]!, edgeIds: ["left", "missing"] }] }] }, { reducedMotion: true, interactionPolicy: "static" });
   assert.equal(result.diagnostics[0]?.code, "INVALID_FLOW_DIAGRAM");
+});
+
+test("shared edge annotations use one bounded callout and a stem for every explicit target", () => {
+  const threeTargets: DiagramBlock = {
+    ...block,
+    edges: [...block.edges, { id: "third", sourceNodeId: "first", targetNodeId: "second", label: "third", source }],
+    states: [{ ...block.states![0]!, sharedEdgeAnnotations: [{ ...block.states![0]!.sharedEdgeAnnotations[0]!, edgeIds: ["left", "right", "third"] }] }],
+  };
+  const result = createD3FlowRenderModel(threeTargets, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const layout = createD3FlowLayout(result.model, 960);
+  const annotation = result.model.states[0]!.sharedEdgeAnnotations[0]!;
+  const geometry = resolveD3FlowSharedAnnotationGeometry(layout, annotation);
+  assert.ok(geometry);
+  if (!geometry) return;
+  assert.equal(geometry.stems.length, 3);
+  assert.deepEqual(geometry.stems.map((stem) => stem.edgeId), ["left", "right", "third"]);
+  assert.ok(geometry.x - geometry.width / 2 >= 0);
+  assert.ok(geometry.x + geometry.width / 2 <= layout.width);
+  assert.ok(geometry.stems.every((stem) => stem.x2 >= 0 && stem.x2 <= layout.width && stem.y2 >= 0 && stem.y2 <= layout.height));
 });
 
 test("D3 exposes explicit state changes through the runtime API", () => {
