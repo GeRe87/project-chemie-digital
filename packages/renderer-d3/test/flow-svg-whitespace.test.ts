@@ -45,6 +45,7 @@ class FakeElement {
     this.attributes.set(qualifiedName, value);
   }
   getAttribute(name: string): string | null { return this.attributes.get(name) ?? null; }
+  hasAttribute(name: string): boolean { return this.attributes.has(name); }
 
   append(...nodes: FakeElement[]): void {
     for (const node of nodes) {
@@ -134,6 +135,8 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
     const host = new FakeHTMLElement("div");
     const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
 
+    assert.equal(host.children[0]?.tagName, "div");
+    assert.equal(host.findByTag("section").length, 0);
     const nodeText = host.findByClass("d3-flow-node-label")[0];
     const edgeText = host.findByClass("d3-flow-edge-label")[0];
     assert.ok(nodeText);
@@ -186,6 +189,8 @@ test("concrete SVG runtime keeps marker ids unique per mount and stable across r
     const markerBId = markerB.getAttribute("id");
     assert.ok(markerAId);
     assert.ok(markerBId);
+    assert.equal(markerA.getAttribute("markerWidth"), "3.5");
+    assert.equal(markerA.getAttribute("markerHeight"), "4");
     assert.notEqual(markerAId, markerBId);
     assert.equal(edgeA.getAttribute("marker-end"), `url(#${markerAId})`);
     assert.equal(edgeB.getAttribute("marker-end"), `url(#${markerBId})`);
@@ -202,6 +207,52 @@ test("concrete SVG runtime keeps marker ids unique per mount and stable across r
     mountedB.destroy();
     assert.equal(hostA.children.length, 0);
     assert.equal(hostB.children.length, 0);
+  } finally {
+    restoreDom();
+  }
+});
+
+test("effective edge visualRole policy: explicit wins, equal endpoint roles propagate, mixed or one-sided stay neutral", () => {
+  const restoreDom = installFakeDom();
+
+  try {
+    const roleBlock: DiagramBlock = {
+      ...block,
+      nodes: [
+        { ...block.nodes[0]!, id: "node:a", visualRole: "comparison" },
+        { ...block.nodes[0]!, id: "node:b", visualRole: "comparison" },
+        { ...block.nodes[0]!, id: "node:c", visualRole: "highlight" },
+        { ...block.nodes[0]!, id: "node:d" },
+      ],
+      edges: [
+        { ...block.edges[0]!, id: "edge:explicit", sourceNodeId: "node:a", targetNodeId: "node:d", visualRole: "highlight" },
+        { ...block.edges[0]!, id: "edge:equal", sourceNodeId: "node:a", targetNodeId: "node:b" },
+        { ...block.edges[0]!, id: "edge:mixed", sourceNodeId: "node:a", targetNodeId: "node:c" },
+        { ...block.edges[0]!, id: "edge:one-sided-source", sourceNodeId: "node:a", targetNodeId: "node:d" },
+        { ...block.edges[0]!, id: "edge:one-sided-target", sourceNodeId: "node:d", targetNodeId: "node:a" },
+      ],
+    };
+    const rendered = createD3FlowRenderModel(roleBlock, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(rendered.model);
+    if (!rendered.model) return;
+    const edgeById = new Map(rendered.model.edges.map((edge) => [edge.id, edge]));
+    assert.equal(edgeById.get("edge:explicit")?.visualRole, "highlight");
+    assert.equal(edgeById.get("edge:equal")?.visualRole, "comparison");
+    assert.equal(edgeById.get("edge:mixed")?.visualRole, undefined);
+    assert.equal(edgeById.get("edge:one-sided-source")?.visualRole, undefined);
+    assert.equal(edgeById.get("edge:one-sided-target")?.visualRole, undefined);
+
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, rendered.model, createD3FlowLayout(rendered.model, 1200));
+    const edgeElements = host.findByClass("d3-flow-edge");
+    const explicitEdge = edgeElements.find((el) => el.getAttribute("data-edge-id") === "edge:explicit");
+    const equalEdge = edgeElements.find((el) => el.getAttribute("data-edge-id") === "edge:equal");
+    const mixedEdge = edgeElements.find((el) => el.getAttribute("data-edge-id") === "edge:mixed");
+    assert.equal(explicitEdge?.getAttribute("data-visual-role"), "highlight");
+    assert.equal(equalEdge?.getAttribute("data-visual-role"), "comparison");
+    assert.equal(mixedEdge?.hasAttribute("data-visual-role"), false);
+
+    mounted.destroy();
   } finally {
     restoreDom();
   }

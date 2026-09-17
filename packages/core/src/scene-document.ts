@@ -1,11 +1,13 @@
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
 export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
+export const SCENE_DOCUMENT_SEQUENCE_VERSION = "1.3" as const;
 
 export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_VERSION
   | typeof SCENE_DOCUMENT_FLOW_VERSION
-  | typeof SCENE_DOCUMENT_CHART_VERSION;
+  | typeof SCENE_DOCUMENT_CHART_VERSION
+  | typeof SCENE_DOCUMENT_SEQUENCE_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -105,9 +107,14 @@ export interface DiagramNode {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
-  readonly visualColor?: string;
-  readonly layoutX?: number;
-  readonly layoutY?: number;
+  readonly visualRole?: string;
+  readonly groupIds?: readonly string[];
+}
+
+export interface DiagramGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface DiagramEdge {
@@ -116,16 +123,65 @@ export interface DiagramEdge {
   readonly targetNodeId: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
+  readonly visualRole?: string;
+}
+
+export interface SharedEdgeAnnotation {
+  readonly id: string;
+  readonly label: string;
+  readonly edgeIds: readonly string[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface DiagramState {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly sharedEdgeAnnotations: readonly SharedEdgeAnnotation[];
+  readonly activeNodeIds?: readonly string[];
+  readonly activeEdgeIds?: readonly string[];
+  readonly activeGroupIds?: readonly string[];
+  readonly focusNodeId?: string;
+  readonly focusGroupId?: string;
+  readonly contextGroupIds?: readonly string[];
+  readonly activeMessageIds?: readonly string[];
+  readonly participantBindings?: readonly ParticipantBinding[];
+}
+
+export interface ParticipantRole {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+/** A state-owned concrete actor for a stable process role. */
+export interface ParticipantBinding {
+  readonly roleId: string;
+  readonly participantId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface InteractionMessage {
+  readonly id: string;
+  readonly sourceRoleId: string;
+  readonly targetRoleId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface DiagramBlock extends SceneBlockBase {
   readonly kind: "diagram";
-  readonly diagramType: "flow" | "network";
+  readonly diagramType: "flow" | "network" | "sequence";
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly DiagramNode[];
+  readonly groups?: readonly DiagramGroup[];
   readonly edges: readonly DiagramEdge[];
   readonly focusNodeId?: string;
+  readonly states?: readonly DiagramState[];
+  readonly participantRoles?: readonly ParticipantRole[];
+  readonly messages?: readonly InteractionMessage[];
 }
 
 export interface ChartAxis {
@@ -273,9 +329,11 @@ function validateListItems(items: readonly ListItem[], label: string): void {
 function validateDiagram(block: DiagramBlock, label: string): void {
   requireNonEmpty(block.label, `${label} diagram label`);
   requireNonEmpty(block.description, `${label} diagram description`);
-  if (block.diagramType !== "flow" && block.diagramType !== "network") throw new SceneContractError(`${label} diagram type must be flow or network`);
-  if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
-  if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+  if (block.diagramType !== "flow" && block.diagramType !== "network" && block.diagramType !== "sequence") throw new SceneContractError(`${label} diagram type must be flow, network or sequence`);
+  if (block.diagramType !== "sequence" && block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
+  if (block.diagramType !== "sequence" && block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+  if (block.diagramType === "sequence" && (block.participantRoles?.length ?? 0) < 2) throw new SceneContractError(`${label} sequence must contain at least two participant roles`);
+  if (block.diagramType === "sequence" && (block.messages?.length ?? 0) < 1) throw new SceneContractError(`${label} sequence must contain at least one message`);
 
   const nodeIdSet = new Set<string>();
   for (const node of block.nodes) {
@@ -283,13 +341,24 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (nodeIdSet.has(node.id)) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
     nodeIdSet.add(node.id);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
-    if (node.visualColor !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualColor)) {
-      throw new SceneContractError(`${label} diagram node ${node.id} visualColor must be a lowercase token`);
-    }
-    if (block.diagramType === "network" && (!Number.isFinite(node.layoutX) || !Number.isFinite(node.layoutY))) {
-      throw new SceneContractError(`${label} network node ${node.id} requires layout coordinates`);
+    if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
+      throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
     }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
+  }
+
+  const groupIds = new Set<string>();
+  for (const group of block.groups ?? []) {
+    requireNonEmpty(group.id, `${label} diagram group id`);
+    if (groupIds.has(group.id)) throw new SceneContractError(`${label} diagram contains duplicate group ids`);
+    groupIds.add(group.id);
+    requireNonEmpty(group.label, `${label} diagram group ${group.id} label`);
+    validateSource(group.source, `${label} diagram group ${group.id} source`);
+  }
+  for (const node of block.nodes) {
+    for (const groupId of node.groupIds ?? []) {
+      if (!groupIds.has(groupId)) throw new SceneContractError(`${label} diagram node ${node.id} references an unknown group`);
+    }
   }
 
   const edgeIdSet = new Set<string>();
@@ -298,12 +367,75 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (edgeIdSet.has(edge.id)) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
     edgeIdSet.add(edge.id);
     requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
+    if (edge.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(edge.visualRole)) {
+      throw new SceneContractError(`${label} diagram edge ${edge.id} visualRole must be a lowercase token`);
+    }
     requireNonEmpty(edge.sourceNodeId, `${label} diagram edge ${edge.id} sourceNodeId`);
     requireNonEmpty(edge.targetNodeId, `${label} diagram edge ${edge.id} targetNodeId`);
     if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {
       throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
     }
     validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
+  }
+
+  const stateIds = new Set<string>();
+  const roleIds = new Set((block.participantRoles ?? []).map((role) => role.id));
+  for (const role of block.participantRoles ?? []) {
+    requireNonEmpty(role.id, `${label} participant role id`); requireNonEmpty(role.label, `${label} participant role ${role.id} label`); validateSource(role.source, `${label} participant role ${role.id} source`);
+  }
+  if (roleIds.size !== (block.participantRoles ?? []).length) throw new SceneContractError(`${label} sequence contains duplicate participant role ids`);
+  const messageIds = new Set<string>();
+  for (const message of block.messages ?? []) {
+    requireNonEmpty(message.id, `${label} interaction message id`); requireNonEmpty(message.label, `${label} interaction message ${message.id} label`);
+    if (messageIds.has(message.id)) throw new SceneContractError(`${label} sequence contains duplicate message ids`); messageIds.add(message.id);
+    if (!roleIds.has(message.sourceRoleId) || !roleIds.has(message.targetRoleId)) throw new SceneContractError(`${label} interaction message ${message.id} references an unknown participant role`);
+    validateSource(message.source, `${label} interaction message ${message.id} source`);
+  }
+  const annotationIds = new Set<string>();
+  for (const state of block.states ?? []) {
+    requireNonEmpty(state.id, `${label} diagram state id`);
+    if (stateIds.has(state.id)) throw new SceneContractError(`${label} diagram contains duplicate state ids`);
+    stateIds.add(state.id);
+    requireNonEmpty(state.label, `${label} diagram state ${state.id} label`);
+    validateSource(state.source, `${label} diagram state ${state.id} source`);
+    if (state.focusNodeId !== undefined && state.focusGroupId !== undefined) {
+      throw new SceneContractError(`${label} diagram state ${state.id} may focus one node or one group, not both`);
+    }
+    const validateStateIds = (ids: readonly string[] | undefined, knownIds: ReadonlySet<string>, kind: string): void => {
+      if (ids === undefined) return;
+      if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} diagram state ${state.id} contains duplicate active ${kind} ids`);
+      for (const id of ids) if (!knownIds.has(id)) throw new SceneContractError(`${label} diagram state ${state.id} references an unknown ${kind}`);
+    };
+    validateStateIds(state.activeNodeIds, nodeIdSet, "node");
+    validateStateIds(state.activeEdgeIds, edgeIdSet, "edge");
+    validateStateIds(state.activeGroupIds, groupIds, "group");
+    validateStateIds(state.contextGroupIds, groupIds, "context group");
+    validateStateIds(state.activeMessageIds, messageIds, "message");
+    const boundRoles = new Set<string>();
+    for (const binding of state.participantBindings ?? []) {
+      if (!roleIds.has(binding.roleId)) throw new SceneContractError(`${label} diagram state ${state.id} binding references an unknown participant role`);
+      if (boundRoles.has(binding.roleId)) throw new SceneContractError(`${label} diagram state ${state.id} contains duplicate participant role bindings`);
+      boundRoles.add(binding.roleId); requireNonEmpty(binding.participantId, `${label} diagram state ${state.id} participant id`); requireNonEmpty(binding.label, `${label} diagram state ${state.id} participant label`); validateSource(binding.source, `${label} diagram state ${state.id} participant binding`);
+    }
+    if (state.focusNodeId !== undefined && !nodeIdSet.has(state.focusNodeId)) {
+      throw new SceneContractError(`${label} diagram state ${state.id} focusNodeId references an unknown node`);
+    }
+    if (state.focusGroupId !== undefined && !groupIds.has(state.focusGroupId)) {
+      throw new SceneContractError(`${label} diagram state ${state.id} focusGroupId references an unknown group`);
+    }
+    for (const annotation of state.sharedEdgeAnnotations) {
+      requireNonEmpty(annotation.id, `${label} shared edge annotation id`);
+      if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} diagram contains duplicate shared edge annotation ids`);
+      annotationIds.add(annotation.id);
+      requireNonEmpty(annotation.label, `${label} shared edge annotation ${annotation.id} label`);
+      validateSource(annotation.source, `${label} shared edge annotation ${annotation.id} source`);
+      if (annotation.edgeIds.length < 2 || new Set(annotation.edgeIds).size !== annotation.edgeIds.length) {
+        throw new SceneContractError(`${label} shared edge annotation ${annotation.id} must identify at least two unique edges`);
+      }
+      for (const edgeId of annotation.edgeIds) {
+        if (!edgeIdSet.has(edgeId)) throw new SceneContractError(`${label} shared edge annotation ${annotation.id} references an unknown edge`);
+      }
+    }
   }
 
   if (block.focusNodeId !== undefined) {
@@ -423,13 +555,25 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
     if (block.kind === "diagram") {
-      if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
+       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
+      }
+      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} sequence diagram requires SceneDocument ${SCENE_DOCUMENT_SEQUENCE_VERSION}`);
+      }
+      if (block.diagramType !== "sequence" && (block.participantRoles !== undefined || block.messages !== undefined)) {
+        throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define participant roles or messages`);
+      }
+       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
+      }
+      if (block.diagramType !== "sequence" && block.states?.some((state) => state.activeMessageIds !== undefined || state.participantBindings !== undefined)) {
+        throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define active messages or participant bindings`);
       }
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-      if (version !== SCENE_DOCUMENT_CHART_VERSION) {
+       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateChart(block, `${label} block ${block.id}`);
@@ -442,6 +586,7 @@ export function validateSceneDocument(document: SceneDocument): void {
     document.version !== SCENE_DOCUMENT_VERSION
     && document.version !== SCENE_DOCUMENT_FLOW_VERSION
     && document.version !== SCENE_DOCUMENT_CHART_VERSION
+    && document.version !== SCENE_DOCUMENT_SEQUENCE_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }

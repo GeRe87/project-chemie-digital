@@ -23,6 +23,9 @@
       ex:node-cogniflow-common-meas-data-b,
       ex:node-cogniflow-common-open-format-b,
       ex:node-cogniflow-common-results-b ;
+    cd:hasDiagramGroup ex:diagram-group-cogniflow-common-primary,
+      ex:diagram-group-cogniflow-common-alternative ;
+    cd:hasDiagramState ex:diagram-state-cogniflow-common-custom-script ;
     cd:hasDiagramEdge ex:edge-cogniflow-common-analysis-meas,
       ex:edge-cogniflow-common-meas-open,
       ex:edge-cogniflow-common-open-results,
@@ -32,14 +35,16 @@
     cd:focusNode ex:node-cogniflow-common-open-format ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-common-analysis a cd:DiagramNode ; skos:prefLabel "Analysis"@en ; cd:position 1 ; cd:authoredResource true .
-  ex:node-cogniflow-common-meas-data a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 2 ; cd:authoredResource true .
-  ex:node-cogniflow-common-open-format a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 3 ; cd:authoredResource true .
-  ex:node-cogniflow-common-results a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 4 ; cd:authoredResource true .
-  ex:node-cogniflow-common-analysis-b a cd:DiagramNode ; skos:prefLabel "Analysis B"@en ; cd:position 5 ; cd:visualColor "purple" ; cd:authoredResource true .
-  ex:node-cogniflow-common-meas-data-b a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 6 ; cd:visualColor "purple" ; cd:authoredResource true .
-  ex:node-cogniflow-common-open-format-b a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 7 ; cd:visualColor "purple" ; cd:authoredResource true .
-  ex:node-cogniflow-common-results-b a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 8 ; cd:visualColor "purple" ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-common-primary a cd:DiagramGroup ; skos:prefLabel "Primary workflow"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-common-alternative a cd:DiagramGroup ; skos:prefLabel "Alternative workflow"@en ; cd:authoredResource true .
+  ex:node-cogniflow-common-analysis a cd:DiagramNode ; skos:prefLabel "Analysis"@en ; cd:position 1 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-meas-data a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 2 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-open-format a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 3 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-results a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 4 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-analysis-b a cd:DiagramNode ; skos:prefLabel "Analysis B"@en ; cd:position 5 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-meas-data-b a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 6 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-open-format-b a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 7 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-results-b a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 8 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
 
   ex:edge-cogniflow-common-analysis-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-common-analysis ; cd:targetNode ex:node-cogniflow-common-meas-data ; cd:authoredResource true .
   ex:edge-cogniflow-common-meas-open a cd:DiagramEdge ; skos:prefLabel "mzML"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-common-meas-data ; cd:targetNode ex:node-cogniflow-common-open-format ; cd:authoredResource true .
@@ -47,6 +52,16 @@
   ex:edge-cogniflow-common-analysis-b-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-common-analysis-b ; cd:targetNode ex:node-cogniflow-common-meas-data-b ; cd:authoredResource true .
   ex:edge-cogniflow-common-meas-b-open a cd:DiagramEdge ; skos:prefLabel "csv"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-common-meas-data-b ; cd:targetNode ex:node-cogniflow-common-open-format-b ; cd:authoredResource true .
   ex:edge-cogniflow-common-open-b-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-common-open-format-b ; cd:targetNode ex:node-cogniflow-common-results-b ; cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-common-custom-script a cd:DiagramState ;
+    cd:position 1 ;
+    skos:prefLabel "Common custom script"@en ;
+    cd:hasSharedEdgeAnnotation ex:shared-edge-annotation-cogniflow-common-custom-script ;
+    cd:authoredResource true .
+  ex:shared-edge-annotation-cogniflow-common-custom-script a cd:SharedEdgeAnnotation ;
+    cd:body "Both workflows use the same custom script after conversion to an open format."@en ;
+    cd:annotatesDiagramEdge ex:edge-cogniflow-common-open-results, ex:edge-cogniflow-common-open-b-results ;
+    cd:authoredResource true .
 
   ex:cogniflow-take-home a cd:Concept ;
     skos:prefLabel "Take-Home"@en ;
@@ -73,7 +88,7 @@
     cd:authoredResource true .
 
   ex:path-step-cogniflow-take-home a cd:PathStep ;
-    cd:position 9 ;
+    cd:position 11 ;
     cd:usesResource ex:def-cogniflow-take-home ;
     cd:usesScene ex:scene-cogniflow-take-home ;
     cd:authoredResource true .

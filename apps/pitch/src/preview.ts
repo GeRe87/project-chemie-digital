@@ -176,7 +176,8 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   }
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
-    shell.className = "d3-flow-host";
+    shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
+    shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
     shell.setAttribute("role", "group");
@@ -186,6 +187,12 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     fallback.className = "d3-flow-static-fallback";
     fallback.textContent = diagramStaticFallback(block);
     shell.appendChild(fallback);
+    const live = dom.createElement("span");
+    live.className = "pcd-diagram-live-region";
+    live.setAttribute("aria-live", "polite");
+    live.setAttribute("aria-atomic", "true");
+    live.textContent = block.label;
+    shell.appendChild(live);
     parent.appendChild(shell);
     return;
   }

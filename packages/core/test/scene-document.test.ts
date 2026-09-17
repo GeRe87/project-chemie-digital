@@ -237,3 +237,25 @@ test("rejects tied disclosure orders among nested group children", () => {
     value.scenes[0].readingOrder = ["group:explanation"];
   }, /group group:explanation disclosure orders must be unique among siblings/);
 });
+
+test("diagram groups and visual roles remain semantic while membership is validated", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.groups = [{ id: "group:instruments", label: "Instruments", source: [{ resourceId: "ex:instruments" }] }];
+  block.nodes[0]!.visualRole = "comparison";
+  block.nodes[0]!.groupIds = ["group:instruments"];
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  block.nodes[0]!.groupIds = ["group:missing"];
+  assert.throws(() => validateSceneDocument(value), /references an unknown group/);
+});
+
+test("diagram edge visual roles use the same portable token contract as node roles", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.edges[0]!.visualRole = "annotation";
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  block.edges[0]!.visualRole = "Annotation";
+  assert.throws(() => validateSceneDocument(value), /edge .* visualRole must be a lowercase token/);
+});

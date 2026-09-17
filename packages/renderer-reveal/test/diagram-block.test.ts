@@ -45,6 +45,20 @@ const document: SceneDocument = {
   }],
 };
 
+function sequenceDocument(): SceneDocument {
+  const source = [{ resourceId: "ex:sequence", provenanceIds: ["graph:sequence"] }];
+  return {
+    version: "1.3", id: "scene-document:sequence", sourcePathId: "ex:path-sequence", scenes: [{
+      id: "scene:sequence", source, accessibility: { label: "Provider exchange" }, readingOrder: ["block:sequence"], blocks: [{
+        id: "block:sequence", kind: "diagram", source, diagramType: "sequence", label: "Provider exchange", description: "An authored service exchange.", nodes: [], edges: [],
+        participantRoles: [{ id: "provider", label: "Provider", source }, { id: "database", label: "Database", source }],
+        messages: [{ id: "discover", sourceRoleId: "provider", targetRoleId: "database", label: "discover", source }],
+        states: [{ id: "state:bound", label: "Bound provider", source, sharedEdgeAnnotations: [], activeMessageIds: ["discover"], participantBindings: [{ roleId: "provider", participantId: "package-template", label: "Package Template", source: [{ resourceId: "ex:binding", provenanceIds: ["graph:binding"] }] }] }],
+      }],
+    }],
+  };
+}
+
 test("Reveal 1.1 preserves a complete static flow diagram instead of rejecting the primitive", () => {
   const result = createRevealRenderPlan(document, { reducedMotion: false, interactionPolicy: "static" });
   assert.deepEqual(result.diagnostics, []);
@@ -69,6 +83,47 @@ test("Pitch component projection retains the diagram as readable renderer-owned 
   assert.match(component.staticFallback, /Analytical process/);
   assert.match(component.staticFallback, /Data processing/);
   assert.deepEqual(component.sourceResourceIds, ["ex:flow"]);
+});
+
+test("Reveal 1.2 preserves authored shared-edge states in its static fallback", () => {
+  const diagram = document.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  const stateDocument: SceneDocument = {
+    ...document,
+    version: "1.2",
+    scenes: [{ ...document.scenes[0]!, blocks: [{
+      ...diagram,
+      edges: [...diagram.edges, { ...diagram.edges[0]!, id: "edge:reprocess", sourceNodeId: "node:processing", targetNodeId: "node:measurement" }],
+      states: [{ id: "state:custom-script", label: "Shared custom script", source: diagram.source, sharedEdgeAnnotations: [{ id: "annotation:custom-script", label: "Both routes use one custom script.", edgeIds: ["edge:data", "edge:reprocess"], source: diagram.source }] }],
+    }] }],
+  };
+  const result = createRevealRenderPlan(stateDocument, { reducedMotion: true, interactionPolicy: "static" });
+  assert.deepEqual(result.diagnostics, []);
+  const node = result.plan?.sections[0]?.nodes[0];
+  assert.ok(node && node.kind === "diagram");
+  if (!node || node.kind !== "diagram") return;
+  assert.equal(node.states?.[0]?.id, "state:custom-script");
+  assert.match(node.staticFallback, /Both routes use one custom script/);
+});
+
+test("Reveal 1.3 preserves cloned sequence state semantics and readable fallback content", () => {
+  const sequence = sequenceDocument();
+  const result = createRevealRenderPlan(sequence, { reducedMotion: true, interactionPolicy: "static" });
+  assert.deepEqual(result.diagnostics, []);
+  const node = result.plan?.sections[0]?.nodes[0];
+  assert.ok(node && node.kind === "diagram");
+  if (!node || node.kind !== "diagram") return;
+  const state = node.states?.[0];
+  const authoredState = (sequence.scenes[0]!.blocks[0]! as Extract<SceneDocument["scenes"][number]["blocks"][number], { kind: "diagram" }>).states![0]!;
+  assert.deepEqual(state?.activeMessageIds, ["discover"]);
+  assert.deepEqual(state?.participantBindings, authoredState.participantBindings);
+  assert.notEqual(state?.activeMessageIds, authoredState.activeMessageIds);
+  assert.notEqual(state?.participantBindings, authoredState.participantBindings);
+  assert.notEqual(state?.participantBindings?.[0]?.source, authoredState.participantBindings?.[0]?.source);
+  assert.match(node.staticFallback, /Participants:\n- Provider\n- Database/);
+  assert.match(node.staticFallback, /Provider — discover → Database/);
+  assert.match(node.staticFallback, /Active messages: discover/);
+  assert.match(node.staticFallback, /Provider: Package Template/);
 });
 
 test("legacy SceneDocument 1.0 remains accepted when it does not contain diagrams", () => {

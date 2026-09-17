@@ -22,6 +22,7 @@ function numericStepCount(host: Element): number {
 function hostId(host: Element, fallbackIndex: number): string {
   return host.getAttribute("data-presentation-step-group")
     ?? host.getAttribute("data-chart-block-id")
+    ?? host.getAttribute("data-diagram-block-id")
     ?? host.getAttribute("data-flow-block-id")
     ?? host.getAttribute("data-code-block-id")
     ?? host.getAttribute("data-knowledge-scene-id")

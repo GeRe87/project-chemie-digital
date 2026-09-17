@@ -1,4 +1,63 @@
 /* Generic flow presentation. Concrete visual families override these tokens below. */
+.reveal {
+  --pcd-flow-role-comparison-fill: #eee8ff;
+  --pcd-flow-role-comparison-stroke: #6845b5;
+  --pcd-flow-role-comparison-text: #30176d;
+  --pcd-flow-role-highlight-fill: #fff0bd;
+  --pcd-flow-role-highlight-stroke: #9a5b00;
+  --pcd-flow-role-highlight-text: #563000;
+}
+
+body[data-presentation-theme="dark"] .reveal {
+  --pcd-flow-role-comparison-fill: #3d286d;
+  --pcd-flow-role-comparison-stroke: #c9b7ff;
+  --pcd-flow-role-comparison-text: #f1edff;
+  --pcd-flow-role-highlight-fill: #694000;
+  --pcd-flow-role-highlight-stroke: #ffd36b;
+  --pcd-flow-role-highlight-text: #fff3cf;
+}
+
+/* Visually hidden live region for state announcements. It must be present in the
+   DOM so assistive technologies receive polite updates, but must not affect layout. */
+.pcd-diagram-live-region {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* All diagram scenes use the same panel, independent of authored scene identity. */
+.reveal .slides section:has(.d3-flow-host) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: start;
+  padding: 2rem 2.5rem !important;
+  border: 1px solid var(--pcd-world-panel-border);
+  border-radius: 1.25rem;
+  background: var(--pcd-world-panel-bg);
+  box-shadow: var(--pcd-world-panel-shadow);
+}
+
+.reveal .slides section:has(.d3-flow-host) > h2 {
+  margin: 0 0 .45rem;
+}
+
+.reveal .slides section:has(.d3-flow-host) .d3-flow-host {
+  width: min(1180px, 100%);
+  min-width: 0;
+  margin: .45rem auto 0;
+  padding: .35rem 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .reveal .d3-flow-host {
   position: relative;
   box-sizing: border-box;
@@ -38,21 +97,61 @@
 }
 
 .reveal .d3-flow-node-shape {
-  fill: var(--pcd-surface-strong);
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-surface));
   stroke: var(--pcd-accent);
-  stroke-width: 3;
+  stroke-width: 4;
+  filter: drop-shadow(0 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent));
 }
 
 .reveal .d3-flow-node-inner-frame,
 .reveal .d3-flow-node-rail,
+.reveal .d3-flow-node-divider,
 .reveal .d3-flow-node-status,
 .reveal .d3-flow-node-index,
-.reveal .d3-flow-edge-label-stem {
-  display: none;
+.reveal .d3-flow-edge-label-stem,
+.reveal .d3-flow-shared-edge-annotation-stem {
+  display: block;
+  pointer-events: none;
+}
+
+.reveal .d3-flow-node-inner-frame {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcd-accent) 35%, var(--pcd-surface-strong));
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-node-rail {
+  fill: var(--pcd-accent);
+}
+
+.reveal .d3-flow-node-status {
+  fill: var(--pcd-surface-strong);
+  stroke: var(--pcd-accent);
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-node-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 55%, var(--pcd-surface-strong));
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-node-index {
+  fill: var(--pcd-accent);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.reveal .d3-flow-edge-label-stem,
+.reveal .d3-flow-shared-edge-annotation-stem {
+  stroke: var(--pcd-accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
 }
 
 .reveal .d3-flow-node-label,
-.reveal .d3-flow-edge-label {
+.reveal .d3-flow-edge-label,
+.reveal .d3-flow-shared-edge-annotation-label {
   fill: var(--pcd-foreground);
   font-weight: 800;
   paint-order: stroke;
@@ -61,21 +160,103 @@
 }
 
 .reveal .d3-flow-node-label { stroke-width: 3px; }
-.reveal .d3-flow-edge-label { stroke-width: 2px; }
+.reveal .d3-flow-edge-label,
+.reveal .d3-flow-shared-edge-annotation-label { stroke-width: 2px; }
 
-.reveal .d3-flow-edge-label-panel {
+.reveal .d3-flow-edge-label-panel,
+.reveal .d3-flow-shared-edge-annotation-panel {
   fill: var(--pcd-surface-strong);
   stroke: var(--pcd-accent);
-  stroke-width: 1;
+  stroke-width: 2;
+  filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-accent) 16%, transparent));
 }
 
-.reveal .d3-flow-edge {
-  stroke: var(--pcd-accent);
-  stroke-width: 3;
+.reveal .d3-flow-edge { stroke: var(--pcd-accent); stroke-width: 2; }
+.reveal .d3-flow-edge-state-active { stroke-width: 5; }
+
+/* State semantics are generic: context remains legible while a node or group owns focus.
+   Shared diagram tokens in diagram-tokens.css own the numeric values. */
+.reveal .d3-flow-svg [data-diagram-state-context="true"] { opacity: var(--pcd-diagram-context-opacity); filter: grayscale(var(--pcd-diagram-context-grayscale)); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] { filter: var(--pcd-diagram-focus-shadow-light) var(--pcd-diagram-focus-glow-dark); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] .d3-flow-node-shape { stroke-width: var(--pcd-diagram-focus-stroke-width); }
+.reveal .d3-flow-svg .d3-flow-edge[data-diagram-state-focus="true"] { stroke-width: var(--pcd-diagram-focus-edge-stroke-width); }
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-node,
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge,
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group,
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity var(--pcd-diagram-transition-normal), filter var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
+
+/* Sequence diagrams use the same semantic panel grammar without participant-specific selectors. */
+.reveal .d3-sequence-host .d3-sequence-runtime,
+.reveal .d3-sequence-host .d3-sequence-figure { margin: 0; padding: 0; border: 0; background: transparent; }
+.reveal .d3-sequence-host .d3-sequence-svg { display: block; width: 100%; min-height: 23rem; overflow: visible; }
+.reveal .d3-sequence-caption { margin: .4rem 0 0; color: var(--pcd-muted); font-size: .58em; }
+.reveal .d3-sequence-participant-card { fill: var(--pcd-surface-strong); stroke: var(--pcd-accent); stroke-width: 2; }
+.reveal .d3-sequence-participant { fill: var(--pcd-foreground); font-weight: 800; }
+.reveal .d3-sequence-lifeline { stroke: color-mix(in srgb, var(--pcd-accent) 48%, transparent); stroke-width: 2; stroke-dasharray: 5 5; }
+.reveal .d3-sequence-message-line { stroke: var(--pcd-accent); stroke-width: 3; color: var(--pcd-accent); }
+.reveal .d3-sequence-message-label { fill: var(--pcd-foreground); font-weight: 800; paint-order: stroke; stroke: var(--pcd-surface-strong); stroke-width: 3px; stroke-linejoin: round; }
+.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-message,
+.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
+
+/* Semantic roles remain portable across diagram families and presentation themes. */
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
+  fill: var(--pcd-flow-role-comparison-fill);
+  stroke: var(--pcd-flow-role-comparison-stroke);
 }
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-label,
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-index {
+  fill: var(--pcd-flow-role-comparison-text);
+}
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape {
+  fill: var(--pcd-flow-role-highlight-fill);
+  stroke: var(--pcd-flow-role-highlight-stroke);
+  stroke-width: 4;
+}
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-label,
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index {
+  fill: var(--pcd-flow-role-highlight-text);
+}
+
+/* Edge roles use the same portable semantic palette as their endpoint nodes. */
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge[data-visual-role="comparison"] { stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-marker[data-visual-role="comparison"] path { fill: var(--pcd-flow-role-comparison-stroke); stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-panel[data-visual-role="comparison"] { fill: var(--pcd-flow-role-comparison-fill); stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-stem[data-visual-role="comparison"] { stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-group[data-visual-role="comparison"] .d3-flow-edge-label { fill: var(--pcd-flow-role-comparison-text); }
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge[data-visual-role="highlight"] { stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-marker[data-visual-role="highlight"] path { fill: var(--pcd-flow-role-highlight-stroke); stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-panel[data-visual-role="highlight"] { fill: var(--pcd-flow-role-highlight-fill); stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-stem[data-visual-role="highlight"] { stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-group[data-visual-role="highlight"] .d3-flow-edge-label { fill: var(--pcd-flow-role-highlight-text); }
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
+  --pcd-flow-node-depth: drop-shadow(3px 4px 0 rgb(3 55 64 / .20)) drop-shadow(5px 7px 2px rgb(3 55 64 / .12));
+  --pcd-flow-node-segment-fill: #bfe9e7;
+  --pcd-flow-node-segment-divider: #168e9c;
+  --pcd-flow-node-segment-text: #063d47;
+  --pcd-flow-node-segment-comparison-fill: #d9c7f2;
+  --pcd-flow-node-segment-comparison-divider: #7046ad;
+  --pcd-flow-node-segment-comparison-text: #3d216d;
+  --pcd-flow-node-segment-highlight-fill: #ffdda0;
+  --pcd-flow-node-segment-highlight-divider: #aa6800;
+  --pcd-flow-node-segment-highlight-text: #603900;
+  --pcd-flow-callout-fill: #cceff1;
+  --pcd-flow-callout-stroke: #167d87;
+  --pcd-flow-callout-text: #064b55;
+  --pcd-flow-callout-stem: #167d87;
+  --pcd-flow-callout-comparison-fill: #dfd2fa;
+  --pcd-flow-callout-comparison-stroke: #7046ad;
+  --pcd-flow-callout-comparison-text: #3d216d;
+  --pcd-flow-callout-comparison-stem: #7046ad;
+  --pcd-flow-callout-highlight-fill: #ffe0a1;
+  --pcd-flow-callout-highlight-stroke: #aa6800;
+  --pcd-flow-callout-highlight-text: #603900;
+  --pcd-flow-callout-highlight-stem: #aa6800;
   --pcd-flow-pixel-ink: #168e9c;
   --pcd-flow-pixel-ink-strong: #075865;
   --pcd-flow-pixel-ink-deep: #053844;
@@ -104,6 +285,9 @@ body[data-diagram-theme="eco-city"] {
 }
 
 body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
+  --pcd-flow-node-depth: drop-shadow(0 0 3px rgb(99 231 239 / .34)) drop-shadow(0 0 7px rgb(99 231 239 / .16));
+  --pcd-flow-node-depth-comparison: drop-shadow(0 0 3px rgb(201 183 255 / .36)) drop-shadow(0 0 7px rgb(155 114 208 / .17));
+  --pcd-flow-node-depth-highlight: drop-shadow(0 0 3px rgb(255 211 107 / .38)) drop-shadow(0 0 7px rgb(255 187 54 / .18));
   --pcd-flow-pixel-ink: #63e7ef;
   --pcd-flow-pixel-ink-strong: #b8f9fd;
   --pcd-flow-pixel-ink-deep: #e6ffff;
@@ -152,6 +336,21 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-caption {
   display: none;
 }
 
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-host .d3-sequence-svg {
+  background: linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px), linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  image-rendering: pixelated;
+}
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-caption { display: none; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card { fill: var(--pcd-flow-pixel-surface); stroke: var(--pcd-flow-pixel-ink-deep); stroke-width: 4; shape-rendering: crispEdges; filter: drop-shadow(0 3px 0 var(--pcd-flow-pixel-ink)); }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant {
+  fill: var(--pcd-flow-pixel-text); font-family: var(--pcd-flow-pixel-font); font-size: 17px; font-weight: 900;
+  paint-order: stroke; stroke: var(--pcd-flow-pixel-highlight); stroke-width: 3px; stroke-linejoin: miter;
+}
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline { stroke: var(--pcd-flow-pixel-ink); stroke-width: 3; stroke-dasharray: 7 5; shape-rendering: crispEdges; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-line { stroke: var(--pcd-flow-pixel-ink-strong); stroke-width: 4; shape-rendering: crispEdges; color: var(--pcd-flow-pixel-ink-strong); filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent)); }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-label { fill: var(--pcd-flow-callout-text); stroke: var(--pcd-flow-callout-fill); stroke-width: 5px; font-family: var(--pcd-flow-pixel-font); font-size: 14px; font-weight: 900; }
+
 /* Bright 16-bit cards: chamfered silhouette, cyan face, dark outline and stepped shadow. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   rx: 0;
@@ -166,8 +365,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   filter:
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    drop-shadow(10px 12px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink));
+}
+
+/* The group is not clip-pathed, so it owns the outer card lift/glow. */
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node {
+  filter: var(--pcd-flow-node-depth);
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
@@ -177,9 +380,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
     drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 80%, transparent))
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    drop-shadow(10px 12px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink));
 }
+
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="comparison"] { filter: var(--pcd-flow-node-depth-comparison); }
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="highlight"] { filter: var(--pcd-flow-node-depth-highlight); }
 
 /* Renderer-owned chrome stays semantic-neutral but gives the cards real game-panel structure. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
@@ -202,9 +407,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
-  fill: var(--pcd-flow-pixel-ink-deep);
+  fill: var(--pcd-flow-node-segment-fill);
   stroke: none;
-  opacity: .92;
+  opacity: 1;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-divider {
+  stroke: var(--pcd-flow-node-segment-divider);
+  stroke-width: 3;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
@@ -215,12 +425,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
-  fill: var(--pcd-flow-pixel-ink-deep);
+  fill: var(--pcd-flow-node-segment-text);
   font-family: var(--pcd-flow-pixel-font);
   font-size: 13px;
   font-weight: 900;
   letter-spacing: .08em;
-  opacity: .72;
+  opacity: 1;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
@@ -236,18 +446,15 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 58%, transparent));
 }
 
-/* Chunky stepped connector pieces replace generic diagonal arrows. */
+/* Solid low-profile connectors preserve the cards as the primary visual weight. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 8;
+  stroke-width: 3;
   stroke-linecap: square;
   stroke-linejoin: miter;
-  stroke-dasharray: 24 9;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
-  filter:
-    drop-shadow(0 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 80%, transparent))
-    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
@@ -258,28 +465,30 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
 }
 
 /* Relationship labels are compact light pixel callouts with a short pixel stem. */
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel {
-  fill: var(--pcd-flow-pixel-surface-soft);
-  stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 4;
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-panel {
+  fill: var(--pcd-flow-callout-fill);
+  stroke: var(--pcd-flow-callout-stroke);
+  stroke-width: 2;
   rx: 0;
   ry: 0;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   clip-path: polygon(0 5px, 5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
   filter:
-    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(2px 3px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 42%, transparent));
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
-  stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 4;
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-stem {
+  stroke: var(--pcd-flow-callout-stem);
+  stroke-width: 2;
   stroke-dasharray: 4 4;
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
-  fill: var(--pcd-flow-pixel-ink-deep);
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-label {
+  fill: var(--pcd-flow-callout-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 14px;
@@ -290,14 +499,32 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
-  stroke-width: 10;
+  stroke-width: 4;
   filter:
     drop-shadow(0 0 3px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 76%, transparent))
     drop-shadow(0 2px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
 }
 
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel[data-visual-role="comparison"] { fill: var(--pcd-flow-callout-comparison-fill); stroke: var(--pcd-flow-callout-comparison-stroke); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem[data-visual-role="comparison"] { stroke: var(--pcd-flow-callout-comparison-stem); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visual-role="comparison"] .d3-flow-edge-label { fill: var(--pcd-flow-callout-comparison-text); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel[data-visual-role="highlight"] { fill: var(--pcd-flow-callout-highlight-fill); stroke: var(--pcd-flow-callout-highlight-stroke); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem[data-visual-role="highlight"] { stroke: var(--pcd-flow-callout-highlight-stem); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visual-role="highlight"] .d3-flow-edge-label { fill: var(--pcd-flow-callout-highlight-text); }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-rail { fill: var(--pcd-flow-node-segment-comparison-fill); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-divider { stroke: var(--pcd-flow-node-segment-comparison-divider); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-index { fill: var(--pcd-flow-node-segment-comparison-text); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-rail { fill: var(--pcd-flow-node-segment-highlight-fill); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-divider { stroke: var(--pcd-flow-node-segment-highlight-divider); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index { fill: var(--pcd-flow-node-segment-highlight-text); }
+
 @media (max-width: 900px) {
+  .reveal .slides section:has(.d3-flow-host) {
+    padding: 1.25rem 1rem !important;
+  }
+
   .reveal .d3-flow-host {
     width: 96vw;
     padding-inline: .45rem;

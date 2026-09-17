@@ -1,0 +1,42 @@
+/* Shared semantic tokens for flow, network and sequence diagram families.
+ *
+ * These variables describe renderer-neutral intent (transition speed, focus
+ * emphasis, context de-emphasis). Diagram-family-specific visual grammars
+ * remain in their own theme files and may override these tokens when their
+ * rendering is genuinely different.
+ */
+
+.reveal {
+  /* State transition timing ------------------------------------------------ */
+  --pcd-diagram-transition-fast: 160ms ease;
+  --pcd-diagram-transition-normal: 240ms ease;
+  --pcd-diagram-transition-focus: 320ms ease;
+
+  /* Context / de-emphasis treatment ---------------------------------------- */
+  --pcd-diagram-context-opacity: 0.32;
+  --pcd-diagram-context-grayscale: 0.45;
+
+  /* Focus emphasis --------------------------------------------------------- */
+  --pcd-diagram-focus-stroke-width: 5;
+  --pcd-diagram-focus-edge-stroke-width: 4;
+}
+
+body[data-presentation-theme="dark"] .reveal {
+  /* Focus glow is more pronounced in dark mode because ambient contrast is lower. */
+  --pcd-diagram-focus-shadow-light: drop-shadow(0 0 8px var(--pcd-accent));
+  --pcd-diagram-focus-glow-dark: drop-shadow(0 0 18px color-mix(in srgb, var(--pcd-accent) 68%, transparent));
+}
+
+body[data-presentation-theme="light"] .reveal {
+  --pcd-diagram-focus-shadow-light: drop-shadow(0 0 10px var(--pcd-accent));
+  --pcd-diagram-focus-glow-dark: drop-shadow(0 0 0 transparent);
+}
+
+/* Reduced motion: transitions become immediate but semantic state remains. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    --pcd-diagram-transition-fast: 0ms;
+    --pcd-diagram-transition-normal: 0ms;
+    --pcd-diagram-transition-focus: 0ms;
+  }
+}

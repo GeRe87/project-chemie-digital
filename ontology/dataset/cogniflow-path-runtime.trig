@@ -6,6 +6,8 @@
     cd:hasStep ex:path-step-cogniflow-coupling-problem,
       ex:path-step-cogniflow-laboratory-diversity,
       ex:path-step-cogniflow-architecture,
+      ex:path-step-cogniflow-service-process,
+      ex:path-step-cogniflow-concept-domain,
       ex:path-step-cogniflow-semantics-as-source,
       ex:path-step-cogniflow-same-semantics-different-views,
       ex:path-step-cogniflow-provenance-pipeline,

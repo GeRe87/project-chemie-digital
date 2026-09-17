@@ -6,6 +6,7 @@ import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
 import "./chart-theme.css";
+import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
 import "./cogniflow-title-media.css";
@@ -20,8 +21,7 @@ import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-sc
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
-import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
-import { mountEcoCityFlowDecorations } from "./eco-city-flow-decoration.ts";
+import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -69,12 +69,11 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const unmountFlowDiagrams = mountPitchFlowDiagrams(
-  Array.from(root.querySelectorAll<HTMLElement>("[data-flow-block-id]")),
+const unmountDiagrams = mountPitchDiagrams(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-diagram-block-id]")),
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
-const unmountEcoCityFlowDecorations = mountEcoCityFlowDecorations(root);
 const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
@@ -254,8 +253,7 @@ window.addEventListener("pagehide", () => {
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
   unmountCharts();
-  unmountEcoCityFlowDecorations();
-  unmountFlowDiagrams();
+  unmountDiagrams();
   stopBackgroundProgress();
   appearanceControls.destroy();
   backgroundRuntime.destroy();

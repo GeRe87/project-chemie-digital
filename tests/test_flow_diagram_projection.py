@@ -37,6 +37,9 @@ NODE_TWO = URIRef(f"{EX}flow-projection-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-projection-edge-one")
 EDGE_TWO = URIRef(f"{EX}flow-projection-edge-two")
 OUTSIDE_NODE = URIRef(f"{EX}flow-projection-node-outside")
+GROUP_ONE = URIRef(f"{EX}flow-projection-group-one")
+GROUP_TWO = URIRef(f"{EX}flow-projection-group-two")
+STATE = URIRef(f"{EX}flow-projection-state-drill-down")
 
 
 def cd(local: str) -> URIRef:
@@ -117,9 +120,9 @@ class FlowDiagramProjectionTests(unittest.TestCase):
     def diagram_block(self, document: dict) -> dict:
         return next(block for block in document["scenes"][0]["blocks"] if block["kind"] == "diagram")
 
-    def test_valid_diagram_projects_as_scene_document_1_1_without_required_focus(self) -> None:
+    def test_valid_diagram_projects_as_scene_document_1_2_without_required_focus(self) -> None:
         document = RUNTIME.compile_scene_document(flow_scene_dataset(), selected_path())
-        self.assertEqual("1.1", document["version"])
+        self.assertEqual("1.2", document["version"])
         block = self.diagram_block(document)
         self.assertEqual("flow", block["diagramType"])
         self.assertEqual("Prozessfluss", block["label"])
@@ -151,7 +154,7 @@ class FlowDiagramProjectionTests(unittest.TestCase):
             flow_scene_dataset(include_heading=False),
             selected_path(),
         )
-        self.assertEqual("1.1", document["version"])
+        self.assertEqual("1.2", document["version"])
         self.assertEqual("Prozessfluss", document["scenes"][0]["accessibility"]["label"])
 
     def test_static_fallback_preserves_flow_structure_order_focus_and_sources(self) -> None:
@@ -210,6 +213,33 @@ class FlowDiagramProjectionTests(unittest.TestCase):
         graph.set((DIAGRAM_ITEM, cd("communicativeRole"), cd("QuotationRole")))
         with self.assertRaisesRegex(ValueError, "requires DiagramRole"):
             RUNTIME.compile_scene_document(dataset, selected_path())
+
+    def test_synthetic_network_state_projects_selection_focus_and_context(self) -> None:
+        dataset = flow_scene_dataset()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((DIAGRAM, RDF.type, cd("NetworkDiagram")))
+        for group, label in ((GROUP_ONE, "Domain"), (GROUP_TWO, "Context")):
+            graph.add((DIAGRAM, cd("hasDiagramGroup"), group))
+            graph.add((group, RDF.type, cd("DiagramGroup")))
+            graph.add((group, SKOS.prefLabel, Literal(label, lang="de")))
+            graph.add((group, cd("authoredResource"), Literal(True)))
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), GROUP_ONE))
+        graph.add((NODE_TWO, cd("memberOfDiagramGroup"), GROUP_TWO))
+        graph.add((DIAGRAM, cd("hasDiagramState"), STATE))
+        graph.add((STATE, RDF.type, cd("DiagramState")))
+        graph.add((STATE, SKOS.prefLabel, Literal("Vertiefung", lang="de")))
+        graph.add((STATE, cd("authoredResource"), Literal(True)))
+        graph.add((STATE, cd("activeDiagramNode"), NODE_ONE))
+        graph.add((STATE, cd("activeDiagramEdge"), EDGE_ONE))
+        graph.add((STATE, cd("activeDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("focusDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("contextDiagramGroup"), GROUP_TWO))
+        block = self.diagram_block(RUNTIME.compile_scene_document(dataset, selected_path()))
+        self.assertEqual("network", block["diagramType"])
+        self.assertEqual([RUNTIME.compact(NODE_ONE)], block["states"][0]["activeNodeIds"])
+        self.assertEqual([RUNTIME.compact(EDGE_ONE)], block["states"][0]["activeEdgeIds"])
+        self.assertEqual(RUNTIME.compact(GROUP_ONE), block["states"][0]["focusGroupId"])
+        self.assertEqual([RUNTIME.compact(GROUP_TWO)], block["states"][0]["contextGroupIds"])
 
 
 if __name__ == "__main__":
