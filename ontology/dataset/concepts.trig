@@ -26,7 +26,7 @@ graph:concepts {
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
       cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
-        cd:hasDiagramEdge, cd:hasDiagramGroup, cd:hasDiagramState, cd:hasSharedEdgeAnnotation, cd:annotatesDiagramEdge, cd:memberOfDiagramGroup, cd:sourceNode, cd:targetNode, cd:focusNode, cd:activeDiagramNode, cd:activeDiagramEdge, cd:activeDiagramGroup, cd:focusDiagramNode, cd:focusDiagramGroup, cd:contextDiagramGroup,
+        cd:hasDiagramEdge, cd:hasDiagramGroup, cd:hasDiagramState, cd:hasSequenceState, cd:hasSharedEdgeAnnotation, cd:annotatesDiagramEdge, cd:memberOfDiagramGroup, cd:sourceNode, cd:targetNode, cd:focusNode, cd:activeDiagramNode, cd:activeDiagramEdge, cd:activeDiagramGroup, cd:focusDiagramNode, cd:focusDiagramGroup, cd:contextDiagramGroup,
       cd:hasChartAnnotation, cd:targetObservation, cd:startObservation, cd:endObservation,
       cd:supportsResource, cd:usesScene ;
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
@@ -139,6 +139,7 @@ graph:concepts {
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
   cd:hasDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramGroup .
   cd:hasDiagramState a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramState .
+  cd:hasSequenceState a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SequenceDiagram ; rdfs:range cd:DiagramState .
   cd:hasSharedEdgeAnnotation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:SharedEdgeAnnotation .
   cd:annotatesDiagramEdge a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SharedEdgeAnnotation ; rdfs:range cd:DiagramEdge .
   cd:memberOfDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range cd:DiagramGroup .

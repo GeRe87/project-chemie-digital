@@ -15,6 +15,9 @@ import {
   type SimulationNodeDatum,
 } from "d3-force";
 
+export * from "./sequence-diagram.ts";
+export * from "./diagram.ts";
+
 export interface D3KnowledgeNetworkOptions {
   readonly reducedMotion: boolean;
   readonly interactionPolicy: "keyboard" | "static";

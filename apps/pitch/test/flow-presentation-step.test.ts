@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
-import { mountPitchFlowDiagrams, type PitchFlowHost, type PitchFlowMount } from "../src/flow-runtime.ts";
+import { mountPitchDiagrams, mountPitchFlowDiagrams, type PitchDiagramMount, type PitchFlowHost, type PitchFlowMount } from "../src/flow-runtime.ts";
 import type { D3FlowComponent } from "../../../packages/renderer-d3/src/flow-diagram.ts";
+import type { D3SequenceComponent } from "../../../packages/renderer-d3/src/sequence-diagram.ts";
 
 class Host implements PitchFlowHost {
   attributes = new Map<string, string>();
@@ -85,4 +86,25 @@ test("pitch maps Reveal fragment positions to authored diagram states and restor
   destroy();
   assert.equal(host.getAttribute("data-presentation-step-count"), null);
   assert.equal(host.getAttribute("data-presentation-step-host"), null);
+});
+
+test("pitch dispatches generic sequence states through the same Reveal progression host", () => {
+  const sequence: DiagramBlock = {
+    kind: "diagram", id: "diagram:sequence", diagramType: "sequence", label: "Generic exchange", description: "Stateful sequence.", source, nodes: [], edges: [],
+    participantRoles: [{ id: "origin", label: "Origin", source }, { id: "target", label: "Target", source }],
+    messages: [{ id: "request", sourceRoleId: "origin", targetRoleId: "target", label: "Request", source }],
+    states: [{ id: "request-state", label: "Request", source, sharedEdgeAnnotations: [], activeMessageIds: ["request"] }],
+  };
+  const sequenceDocuments: SceneDocument[] = [{ version: "1.3", id: "document:sequence", sourcePathId: "path:sequence", scenes: [{ id: "scene:sequence", source, readingOrder: [sequence.id], blocks: [sequence] }] }];
+  const host = new Host(); host.setAttribute("data-diagram-block-id", sequence.id);
+  const activeStates: Array<string | undefined> = [];
+  const mount: PitchDiagramMount = () => ({
+    model: { states: sequence.states } as D3SequenceComponent["model"], layout: {} as D3SequenceComponent["layout"], staticFallback: "",
+    setActiveState(stateId) { activeStates.push(stateId); }, handleKey() { return false; }, resize() { return {} as D3SequenceComponent["layout"]; }, destroy() {},
+  });
+  const destroy = mountPitchDiagrams([host], sequenceDocuments, { reducedMotion: true, interactionPolicy: "keyboard" }, mount);
+  assert.equal(host.getAttribute("data-presentation-step-host"), "diagram-state");
+  host.dispatchPresentationStep(1); host.dispatchPresentationStep(0);
+  assert.deepEqual(activeStates, ["request-state", undefined]);
+  destroy();
 });

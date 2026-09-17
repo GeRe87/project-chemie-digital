@@ -218,6 +218,8 @@ def selected_label_reference(dataset: Dataset, resource: URIRef, language: str |
 
 
 def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    if is_resource_type(dataset, diagram, "SequenceDiagram"):
+        return sequence_diagram_payload(dataset, diagram, language)
     diagram_type = "network" if is_resource_type(dataset, diagram, "NetworkDiagram") else "flow"
     node_records = [
         (node, integer(dataset, node, iri(CD, "position")))
@@ -370,6 +372,49 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         payload["states"] = states
     if focus_node is not None:
         payload["focusNodeId"] = compact(focus_node)
+    return payload, label_relation_path
+
+
+def sequence_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    roles = sorted(
+        [(role, integer(dataset, role, iri(CD, "position"))) for role in objects(dataset, diagram, iri(CD, "hasParticipantRole")) if isinstance(role, URIRef)],
+        key=lambda record: (record[1], str(record[0])),
+    )
+    messages = sorted(
+        [(message, integer(dataset, message, iri(CD, "position"))) for message in objects(dataset, diagram, iri(CD, "hasInteractionMessage")) if isinstance(message, URIRef)],
+        key=lambda record: (record[1], str(record[0])),
+    )
+    if len(roles) < 2 or len(messages) < 1:
+        raise ValueError(f"SequenceDiagram {compact(diagram)} requires participant roles and messages")
+    if [position for _value, position in roles] != list(range(1, len(roles) + 1)) or [position for _value, position in messages] != list(range(1, len(messages) + 1)):
+        raise ValueError(f"SequenceDiagram positions must be unique and contiguous for {compact(diagram)}")
+    role_ids = {role for role, _position in roles}
+    payload: dict[str, Any] = {
+        "diagramType": "sequence", "label": label,
+        "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
+        "nodes": [], "edges": [],
+        "participantRoles": [{"id": compact(role), "label": selected_label_reference(dataset, role, language)[0], "source": [source_reference(dataset, role, selected_label_reference(dataset, role, language)[1])]} for role, _position in roles],
+        "messages": [],
+    }
+    for message, _position in messages:
+        source_role = one(dataset, message, iri(CD, "sourceParticipantRole")); target_role = one(dataset, message, iri(CD, "targetParticipantRole"))
+        if source_role not in role_ids or target_role not in role_ids: raise ValueError(f"InteractionMessage {compact(message)} references a role outside {compact(diagram)}")
+        message_label, relation_path = selected_label_reference(dataset, message, language)
+        payload["messages"].append({"id": compact(message), "sourceRoleId": compact(source_role), "targetRoleId": compact(target_role), "label": message_label, "source": [source_reference(dataset, message, relation_path)]})
+    states = []
+    for state, _position in sorted([(state, integer(dataset, state, iri(CD, "position"))) for state in objects(dataset, diagram, iri(CD, "hasSequenceState")) if isinstance(state, URIRef)], key=lambda record: (record[1], str(record[0]))):
+        state_label, relation_path = selected_label_reference(dataset, state, language)
+        active = [message for message in objects(dataset, state, iri(CD, "activeInteractionMessage")) if isinstance(message, URIRef)]
+        if any(message not in {message for message, _position in messages} for message in active): raise ValueError(f"DiagramState {compact(state)} references a message outside {compact(diagram)}")
+        bindings = []
+        for binding in sorted(objects(dataset, state, iri(CD, "hasParticipantBinding")), key=str):
+            role = one(dataset, binding, iri(CD, "bindsParticipantRole")); participant = one(dataset, binding, iri(CD, "bindsParticipant"))
+            if role not in role_ids: raise ValueError(f"ParticipantBinding {compact(binding)} references a role outside {compact(diagram)}")
+            binding_label, binding_path = selected_label_reference(dataset, binding, language)
+            bindings.append({"roleId": compact(role), "participantId": compact(participant), "label": binding_label, "source": [source_reference(dataset, binding, binding_path)]})
+        states.append({"id": compact(state), "label": state_label, "source": [source_reference(dataset, state, relation_path)], "sharedEdgeAnnotations": [], **({"activeMessageIds": [compact(message) for message in active]} if active else {}), **({"participantBindings": bindings} if bindings else {})})
+    if states: payload["states"] = states
     return payload, label_relation_path
 
 
@@ -615,7 +660,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
-            selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram")
+            selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram") or is_resource_type(dataset, selected, "SequenceDiagram")
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
@@ -715,7 +760,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = "1.2"
+                document_version = "1.3" if is_resource_type(dataset, selected, "SequenceDiagram") else "1.2"
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")

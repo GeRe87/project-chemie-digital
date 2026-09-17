@@ -316,9 +316,9 @@ Suggested progression:
 4. PipelineNode / RunTarget / `runs` relations;
 5. concrete `qalg:Average` + ports + service binding.
 
-- [~] First current-ontology TriG progression contains concept-domain, processing and presentation-affordance entities, relations and state membership.
+- [x] Current-ontology TriG progression contains explicit active groups/nodes/edges and focus/context membership for every state.
 - [ ] Structured nodes are produced from reusable resource summaries when a concrete semantic field cannot be represented by the current generic node label.
-- [ ] Prior layers can remain as de-emphasized context.
+- [x] Prior groups remain as authored de-emphasized context where relevant.
 - [ ] No renderer knows terms such as `qalg:Average`, `cfproc:RunTarget`, or `cfproc:ProcessingPipeline`.
 - [ ] Theme controls layer palettes, card variants, shadow/glow, and transition grammar.
 
@@ -338,13 +338,14 @@ InteractionArtifact / optional annotation
 DiagramState
 ```
 
-- [ ] ADR/contract for participant roles, ordered roles, messages, and state-specific bindings.
-- [ ] Deterministic lane/lifeline layout.
-- [ ] Message ordering and routing renderer-owned.
-- [ ] States reveal messages/actions progressively.
-- [ ] Role bindings substitute concrete participants while preserving role/process identity.
-- [ ] Static fallback serializes participants and ordered messages.
-- [ ] Narrow viewport fallback (stacked or compact sequence) is defined.
+- [x] SceneDocument 1.3 contract preserves participant roles, ordered messages and state-specific bindings.
+- [x] RDF/SHACL/compiler contract is renderer-neutral and deterministic.
+- [x] Deterministic wide lane and narrow compact layout model is available.
+- [x] Message ordering and routing renderer-owned.
+- [x] States reveal messages/actions progressively through the shared Pitch/Reveal state host.
+- [x] Role bindings substitute concrete participants while preserving role/process identity.
+- [x] Static fallback serializes participants and ordered messages.
+- [x] Narrow viewport uses the compact sequence layout.
 
 **Canonical fixture:** generic Client / Registry / Runtime / Consumer interaction.
 
@@ -354,13 +355,10 @@ DiagramState
 
 Goal: reproduce the reusable process demonstrated by `cf-service-process-diagram`.
 
-- [ ] Provider / Database / Runtime / Consumer authored as roles.
-- [ ] discover/push/store/request/check/binding/call/provide authored as messages/actions.
-- [ ] Package Template + Web UI bindings.
-- [ ] Package Creator + AI Agent bindings.
-- [ ] Step Basic + Pipeline Engine bindings.
-- [ ] State transitions swap bindings generically.
-- [ ] Eco City theme realizes participant cards, lifelines, messages, and artifacts.
+- [x] Current ontology service terms are authored as Interface, Orchestration, Specialized provider and Consumer roles.
+- [x] Request, dispatch, resolve capability and return result are authored messages.
+- [x] State transitions swap MCP Server, CogniFlow Orchestrator and provider bindings generically.
+- [x] Eco City light/dark theme realizes participant cards, lifelines, and messages without participant selectors.
 
 **Gate:** adding a fourth provider/consumer pair requires only TriG content.
 
@@ -462,7 +460,7 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**The first R6 current-ontology progression is active; R5 remains deferred pending structural evidence that the generic network is insufficient.**
+**R6, R7 and R8 are at the visual-review checkpoint. R5 remains deferred: the current network expresses the R6 progression without ordered-layer or structured-node limitations. Current next action: capture and review representative light/dark sequence base and progressed states on the exact head, then harden the shared theme grammar from that evidence.**
 
 The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
 

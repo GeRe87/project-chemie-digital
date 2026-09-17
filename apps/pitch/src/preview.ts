@@ -176,7 +176,8 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   }
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
-    shell.className = "d3-flow-host";
+    shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
+    shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
     shell.setAttribute("role", "group");

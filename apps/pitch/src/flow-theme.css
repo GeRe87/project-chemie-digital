@@ -165,6 +165,19 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group { transition: opacity 240ms ease, filter 240ms ease, transform 240ms ease; }
 
+/* Sequence diagrams use the same semantic panel grammar without participant-specific selectors. */
+.reveal .d3-sequence-host .d3-sequence-runtime,
+.reveal .d3-sequence-host .d3-sequence-figure { margin: 0; padding: 0; border: 0; background: transparent; }
+.reveal .d3-sequence-host .d3-sequence-svg { display: block; width: 100%; min-height: 23rem; overflow: visible; }
+.reveal .d3-sequence-caption { margin: .4rem 0 0; color: var(--pcd-muted); font-size: .58em; }
+.reveal .d3-sequence-participant-card { fill: var(--pcd-surface-strong); stroke: var(--pcd-accent); stroke-width: 2; }
+.reveal .d3-sequence-participant { fill: var(--pcd-foreground); font-weight: 800; }
+.reveal .d3-sequence-lifeline { stroke: color-mix(in srgb, var(--pcd-accent) 48%, transparent); stroke-width: 2; stroke-dasharray: 5 5; }
+.reveal .d3-sequence-message-line { stroke: var(--pcd-accent); stroke-width: 3; }
+.reveal .d3-sequence-message-label { fill: var(--pcd-foreground); font-weight: 800; paint-order: stroke; stroke: var(--pcd-surface-strong); stroke-width: 3px; stroke-linejoin: round; }
+.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-message,
+.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity 240ms ease, transform 240ms ease; }
+
 /* Semantic roles remain portable across diagram families and presentation themes. */
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
   fill: var(--pcd-flow-role-comparison-fill);
@@ -302,6 +315,21 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-caption {
   display: none;
 }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-host .d3-sequence-svg {
+  background: linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px), linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  image-rendering: pixelated;
+}
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-caption { display: none; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card { fill: var(--pcd-flow-pixel-surface); stroke: var(--pcd-flow-pixel-ink-deep); stroke-width: 4; shape-rendering: crispEdges; filter: drop-shadow(0 3px 0 var(--pcd-flow-pixel-ink)); }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant {
+  fill: var(--pcd-flow-pixel-text); font-family: var(--pcd-flow-pixel-font); font-size: 17px; font-weight: 900;
+  paint-order: stroke; stroke: var(--pcd-flow-pixel-highlight); stroke-width: 3px; stroke-linejoin: miter;
+}
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline { stroke: var(--pcd-flow-pixel-ink); stroke-width: 3; stroke-dasharray: 7 5; shape-rendering: crispEdges; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-line { stroke: var(--pcd-flow-pixel-ink-strong); stroke-width: 4; shape-rendering: crispEdges; filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent)); }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-label { fill: var(--pcd-flow-callout-text); stroke: var(--pcd-flow-callout-fill); stroke-width: 5px; font-family: var(--pcd-flow-pixel-font); font-size: 14px; font-weight: 900; }
 
 /* Bright 16-bit cards: chamfered silhouette, cyan face, dark outline and stepped shadow. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {

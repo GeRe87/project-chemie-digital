@@ -1,11 +1,13 @@
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
 export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
+export const SCENE_DOCUMENT_SEQUENCE_VERSION = "1.3" as const;
 
 export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_VERSION
   | typeof SCENE_DOCUMENT_FLOW_VERSION
-  | typeof SCENE_DOCUMENT_CHART_VERSION;
+  | typeof SCENE_DOCUMENT_CHART_VERSION
+  | typeof SCENE_DOCUMENT_SEQUENCE_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -142,11 +144,35 @@ export interface DiagramState {
   readonly focusNodeId?: string;
   readonly focusGroupId?: string;
   readonly contextGroupIds?: readonly string[];
+  readonly activeMessageIds?: readonly string[];
+  readonly participantBindings?: readonly ParticipantBinding[];
+}
+
+export interface ParticipantRole {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+/** A state-owned concrete actor for a stable process role. */
+export interface ParticipantBinding {
+  readonly roleId: string;
+  readonly participantId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface InteractionMessage {
+  readonly id: string;
+  readonly sourceRoleId: string;
+  readonly targetRoleId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface DiagramBlock extends SceneBlockBase {
   readonly kind: "diagram";
-  readonly diagramType: "flow" | "network";
+  readonly diagramType: "flow" | "network" | "sequence";
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly DiagramNode[];
@@ -154,6 +180,8 @@ export interface DiagramBlock extends SceneBlockBase {
   readonly edges: readonly DiagramEdge[];
   readonly focusNodeId?: string;
   readonly states?: readonly DiagramState[];
+  readonly participantRoles?: readonly ParticipantRole[];
+  readonly messages?: readonly InteractionMessage[];
 }
 
 export interface ChartAxis {
@@ -301,9 +329,11 @@ function validateListItems(items: readonly ListItem[], label: string): void {
 function validateDiagram(block: DiagramBlock, label: string): void {
   requireNonEmpty(block.label, `${label} diagram label`);
   requireNonEmpty(block.description, `${label} diagram description`);
-  if (block.diagramType !== "flow" && block.diagramType !== "network") throw new SceneContractError(`${label} diagram type must be flow or network`);
-  if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
-  if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+  if (block.diagramType !== "flow" && block.diagramType !== "network" && block.diagramType !== "sequence") throw new SceneContractError(`${label} diagram type must be flow, network or sequence`);
+  if (block.diagramType !== "sequence" && block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
+  if (block.diagramType !== "sequence" && block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+  if (block.diagramType === "sequence" && (block.participantRoles?.length ?? 0) < 2) throw new SceneContractError(`${label} sequence must contain at least two participant roles`);
+  if (block.diagramType === "sequence" && (block.messages?.length ?? 0) < 1) throw new SceneContractError(`${label} sequence must contain at least one message`);
 
   const nodeIdSet = new Set<string>();
   for (const node of block.nodes) {
@@ -349,6 +379,18 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   }
 
   const stateIds = new Set<string>();
+  const roleIds = new Set((block.participantRoles ?? []).map((role) => role.id));
+  for (const role of block.participantRoles ?? []) {
+    requireNonEmpty(role.id, `${label} participant role id`); requireNonEmpty(role.label, `${label} participant role ${role.id} label`); validateSource(role.source, `${label} participant role ${role.id} source`);
+  }
+  if (roleIds.size !== (block.participantRoles ?? []).length) throw new SceneContractError(`${label} sequence contains duplicate participant role ids`);
+  const messageIds = new Set<string>();
+  for (const message of block.messages ?? []) {
+    requireNonEmpty(message.id, `${label} interaction message id`); requireNonEmpty(message.label, `${label} interaction message ${message.id} label`);
+    if (messageIds.has(message.id)) throw new SceneContractError(`${label} sequence contains duplicate message ids`); messageIds.add(message.id);
+    if (!roleIds.has(message.sourceRoleId) || !roleIds.has(message.targetRoleId)) throw new SceneContractError(`${label} interaction message ${message.id} references an unknown participant role`);
+    validateSource(message.source, `${label} interaction message ${message.id} source`);
+  }
   const annotationIds = new Set<string>();
   for (const state of block.states ?? []) {
     requireNonEmpty(state.id, `${label} diagram state id`);
@@ -368,6 +410,13 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     validateStateIds(state.activeEdgeIds, edgeIdSet, "edge");
     validateStateIds(state.activeGroupIds, groupIds, "group");
     validateStateIds(state.contextGroupIds, groupIds, "context group");
+    validateStateIds(state.activeMessageIds, messageIds, "message");
+    const boundRoles = new Set<string>();
+    for (const binding of state.participantBindings ?? []) {
+      if (!roleIds.has(binding.roleId)) throw new SceneContractError(`${label} diagram state ${state.id} binding references an unknown participant role`);
+      if (boundRoles.has(binding.roleId)) throw new SceneContractError(`${label} diagram state ${state.id} contains duplicate participant role bindings`);
+      boundRoles.add(binding.roleId); requireNonEmpty(binding.participantId, `${label} diagram state ${state.id} participant id`); requireNonEmpty(binding.label, `${label} diagram state ${state.id} participant label`); validateSource(binding.source, `${label} diagram state ${state.id} participant binding`);
+    }
     if (state.focusNodeId !== undefined && !nodeIdSet.has(state.focusNodeId)) {
       throw new SceneContractError(`${label} diagram state ${state.id} focusNodeId references an unknown node`);
     }
@@ -506,16 +555,16 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
     if (block.kind === "diagram") {
-      if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
+       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
-      if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION) {
+       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-      if (version !== SCENE_DOCUMENT_CHART_VERSION) {
+       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateChart(block, `${label} block ${block.id}`);
@@ -528,6 +577,7 @@ export function validateSceneDocument(document: SceneDocument): void {
     document.version !== SCENE_DOCUMENT_VERSION
     && document.version !== SCENE_DOCUMENT_FLOW_VERSION
     && document.version !== SCENE_DOCUMENT_CHART_VERSION
+    && document.version !== SCENE_DOCUMENT_SEQUENCE_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }

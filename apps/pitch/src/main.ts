@@ -20,7 +20,7 @@ import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-sc
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
-import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
+import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -68,8 +68,8 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const unmountFlowDiagrams = mountPitchFlowDiagrams(
-  Array.from(root.querySelectorAll<HTMLElement>("[data-flow-block-id]")),
+const unmountDiagrams = mountPitchDiagrams(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-diagram-block-id]")),
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
@@ -252,7 +252,7 @@ window.addEventListener("pagehide", () => {
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
   unmountCharts();
-  unmountFlowDiagrams();
+  unmountDiagrams();
   stopBackgroundProgress();
   appearanceControls.destroy();
   backgroundRuntime.destroy();

@@ -1,10 +1,6 @@
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
-import {
-  mountD3FlowDiagram,
-  type D3FlowComponent,
-  type D3FlowOptions,
-  type D3FlowRenderModelResult,
-} from "../../../packages/renderer-d3/src/flow-diagram.ts";
+import { mountD3Diagram, type D3DiagramComponent, type D3DiagramMountResult } from "../../../packages/renderer-d3/src/diagram.ts";
+import type { D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
 
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
@@ -15,11 +11,13 @@ export interface PitchFlowHost {
   removeEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
 }
 
-export type PitchFlowMount = (
+export type PitchDiagramMount = (
   host: unknown,
   block: DiagramBlock,
   options: D3FlowOptions,
-) => D3FlowComponent | D3FlowRenderModelResult;
+) => D3DiagramMountResult;
+
+export type PitchFlowMount = PitchDiagramMount;
 
 function diagramBlocks(documents: readonly SceneDocument[]): Map<string, DiagramBlock> {
   const blocks = new Map<string, DiagramBlock>();
@@ -35,7 +33,7 @@ function diagramBlocks(documents: readonly SceneDocument[]): Map<string, Diagram
   return blocks;
 }
 
-function bindKeyboardTraversal(host: PitchFlowHost, component: D3FlowComponent, options: D3FlowOptions): () => void {
+function bindKeyboardTraversal(host: PitchFlowHost, component: D3DiagramComponent, options: D3FlowOptions): () => void {
   if (options.interactionPolicy !== "keyboard" || !host.addEventListener || !host.removeEventListener) return () => {};
   const listener: EventListener = (event) => {
     const key = (event as Event & { key?: unknown }).key;
@@ -48,7 +46,7 @@ function bindKeyboardTraversal(host: PitchFlowHost, component: D3FlowComponent, 
   return () => host.removeEventListener?.("keydown", listener);
 }
 
-function bindPresentationState(host: PitchFlowHost, component: D3FlowComponent): () => void {
+function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponent): () => void {
   const states = component.model.states ?? [];
   const stateCount = states.length;
   if (!stateCount || !host.setAttribute || !host.addEventListener || !host.removeEventListener) return () => {};
@@ -74,14 +72,14 @@ function bindPresentationState(host: PitchFlowHost, component: D3FlowComponent):
   };
 }
 
-export function mountPitchFlowDiagrams(
+export function mountPitchDiagrams(
   hosts: readonly PitchFlowHost[],
   documents: readonly SceneDocument[],
   options: D3FlowOptions,
-  mount: PitchFlowMount = mountD3FlowDiagram,
+  mount: PitchDiagramMount = mountD3Diagram,
 ): () => void {
   const blocks = diagramBlocks(documents);
-  const components: D3FlowComponent[] = [];
+  const components: D3DiagramComponent[] = [];
   const removeKeyboardListeners: Array<() => void> = [];
   const removePresentationStateListeners: Array<() => void> = [];
   const cleanupMounted = (): void => {
@@ -92,7 +90,7 @@ export function mountPitchFlowDiagrams(
 
   try {
     for (const host of hosts) {
-      const blockId = host.getAttribute("data-flow-block-id");
+      const blockId = host.getAttribute("data-diagram-block-id") ?? host.getAttribute("data-flow-block-id");
       if (!blockId) continue;
       const block = blocks.get(blockId);
       if (!block) throw new Error(`Pitch flow host references unknown block ${blockId}`);
@@ -117,3 +115,5 @@ export function mountPitchFlowDiagrams(
     cleanupMounted();
   };
 }
+
+export const mountPitchFlowDiagrams = mountPitchDiagrams;

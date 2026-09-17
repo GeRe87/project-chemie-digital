@@ -103,7 +103,8 @@ test("pitch preview creates a canonical renderer host and complete static fallba
   const section = root.children[0]!;
   assert.equal(section.children[0]!.textContent, "Flow scene");
   const host = section.children[1]!;
-  assert.equal(host.className, "d3-flow-host");
+  assert.equal(host.className, "d3-diagram-host d3-flow-host");
+  assert.equal(host.getAttribute("data-diagram-block-id"), diagram.id);
   assert.equal(host.getAttribute("data-flow-block-id"), diagram.id);
   assert.equal(host.getAttribute("data-diagram-type"), "flow");
   assert.equal(host.getAttribute("aria-label"), diagram.label);

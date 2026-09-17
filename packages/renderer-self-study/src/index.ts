@@ -1,6 +1,7 @@
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
+  SCENE_DOCUMENT_SEQUENCE_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -136,7 +137,7 @@ export interface SelfStudyDiagramStatePlan {
 
 export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
   readonly kind: "diagram";
-  readonly diagramType: "flow" | "network";
+  readonly diagramType: "flow" | "network" | "sequence";
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly SelfStudyDiagramNodePlan[];
@@ -144,6 +145,8 @@ export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
   readonly edges: readonly SelfStudyDiagramEdgePlan[];
   readonly focusNodeId?: string;
   readonly states?: readonly SelfStudyDiagramStatePlan[];
+  readonly participantRoles?: readonly { readonly id: string; readonly label: string; readonly source: readonly SourceReference[] }[];
+  readonly messages?: readonly { readonly id: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly label: string; readonly source: readonly SourceReference[] }[];
 }
 
 export type SelfStudyNodePlan =
@@ -335,6 +338,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
         ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })), ...(state.activeNodeIds ? { activeNodeIds: [...state.activeNodeIds] } : {}), ...(state.activeEdgeIds ? { activeEdgeIds: [...state.activeEdgeIds] } : {}), ...(state.activeGroupIds ? { activeGroupIds: [...state.activeGroupIds] } : {}), ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}) })) } : {}),
+        ...(block.participantRoles ? { participantRoles: block.participantRoles.map((role) => ({ ...role, source: sourceCopy(role.source) })) } : {}),
+        ...(block.messages ? { messages: block.messages.map((message) => ({ ...message, source: sourceCopy(message.source) })) } : {}),
       };
     default:
       throw new SelfStudyAdapterError(
@@ -360,7 +365,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -437,7 +442,9 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
   const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)} — ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
   const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${state.activeNodeIds ? ` data-active-node-ids="${escapeHtml(state.activeNodeIds.join(" "))}"` : ""}${state.activeEdgeIds ? ` data-active-edge-ids="${escapeHtml(state.activeEdgeIds.join(" "))}"` : ""}${state.activeGroupIds ? ` data-active-group-ids="${escapeHtml(state.activeGroupIds.join(" "))}"` : ""}${state.focusNodeId ? ` data-focus-node-id="${escapeHtml(state.focusNodeId)}"` : ""}${state.focusGroupId ? ` data-focus-group-id="${escapeHtml(state.focusGroupId)}"` : ""}${state.contextGroupIds ? ` data-context-group-ids="${escapeHtml(state.contextGroupIds.join(" "))}"` : ""}${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
-  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${states}</figure>`;
+  const participants = (node.participantRoles ?? []).map((role) => `<li data-participant-role-id="${escapeHtml(role.id)}">${escapeHtml(role.label)}</li>`).join("");
+  const messages = (node.messages ?? []).map((message) => `<li data-interaction-message-id="${escapeHtml(message.id)}">${escapeHtml(message.sourceRoleId)} - ${escapeHtml(message.label)} -> ${escapeHtml(message.targetRoleId)}</li>`).join("");
+  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}</figure>`;
 }
 
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
