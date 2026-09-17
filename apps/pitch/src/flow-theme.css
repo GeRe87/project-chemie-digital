@@ -191,6 +191,7 @@ body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-gr
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
+  --pcd-flow-node-depth: drop-shadow(3px 4px 0 rgb(3 55 64 / .20)) drop-shadow(5px 7px 2px rgb(3 55 64 / .12));
   --pcd-flow-node-segment-fill: #bfe9e7;
   --pcd-flow-node-segment-divider: #168e9c;
   --pcd-flow-node-segment-text: #063d47;
@@ -240,6 +241,9 @@ body[data-diagram-theme="eco-city"] {
 }
 
 body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
+  --pcd-flow-node-depth: drop-shadow(0 0 3px rgb(99 231 239 / .34)) drop-shadow(0 0 7px rgb(99 231 239 / .16));
+  --pcd-flow-node-depth-comparison: drop-shadow(0 0 3px rgb(201 183 255 / .36)) drop-shadow(0 0 7px rgb(155 114 208 / .17));
+  --pcd-flow-node-depth-highlight: drop-shadow(0 0 3px rgb(255 211 107 / .38)) drop-shadow(0 0 7px rgb(255 187 54 / .18));
   --pcd-flow-pixel-ink: #63e7ef;
   --pcd-flow-pixel-ink-strong: #b8f9fd;
   --pcd-flow-pixel-ink-deep: #e6ffff;
@@ -303,7 +307,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
     drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    drop-shadow(10px 12px 0 var(--pcd-flow-pixel-shadow));
+    var(--pcd-flow-node-depth);
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
@@ -314,8 +318,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
     drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    drop-shadow(10px 12px 0 var(--pcd-flow-pixel-shadow));
+    var(--pcd-flow-node-depth);
 }
+
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape { filter: var(--pcd-flow-node-depth-comparison); }
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape { filter: var(--pcd-flow-node-depth-highlight); }
 
 /* Renderer-owned chrome stays semantic-neutral but gives the cards real game-panel structure. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
