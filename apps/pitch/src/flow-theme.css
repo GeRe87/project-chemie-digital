@@ -306,8 +306,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   filter:
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    var(--pcd-flow-node-depth);
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink));
+}
+
+/* The group is not clip-pathed, so it owns the outer card lift/glow. */
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node {
+  filter: var(--pcd-flow-node-depth);
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-primary .d3-flow-node-shape,
@@ -317,12 +321,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
     drop-shadow(0 0 4px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 80%, transparent))
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
-    var(--pcd-flow-node-depth);
+    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink));
 }
 
-body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape { filter: var(--pcd-flow-node-depth-comparison); }
-body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape { filter: var(--pcd-flow-node-depth-highlight); }
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="comparison"] { filter: var(--pcd-flow-node-depth-comparison); }
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal .d3-flow-node[data-visual-role="highlight"] { filter: var(--pcd-flow-node-depth-highlight); }
 
 /* Renderer-owned chrome stays semantic-neutral but gives the cards real game-panel structure. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame,
