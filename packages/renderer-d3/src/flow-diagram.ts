@@ -272,16 +272,21 @@ export function resolveD3FlowState(model: D3FlowRenderModel, stateId?: string): 
     for (const groupId of node.groupIds ?? []) membersByGroup.get(groupId)?.add(node.id);
   }
   const stateSelected = state !== undefined;
-  const activeGroupIds = new Set(state?.activeGroupIds ?? (stateSelected ? [] : model.groups.map((group) => group.id)));
+  const hasExplicitActivation = stateSelected && (
+    (state.activeGroupIds && state.activeGroupIds.length > 0) ||
+    (state.activeNodeIds && state.activeNodeIds.length > 0) ||
+    (state.activeEdgeIds && state.activeEdgeIds.length > 0)
+  );
+  const activeGroupIds = new Set(state?.activeGroupIds ?? (hasExplicitActivation ? [] : model.groups.map((group) => group.id)));
   const contextGroupIds = new Set(state?.contextGroupIds ?? []);
-  const activeNodeIds = new Set(state?.activeNodeIds ?? (stateSelected ? [] : model.nodes.map((node) => node.id)));
+  const activeNodeIds = new Set(state?.activeNodeIds ?? (hasExplicitActivation ? [] : model.nodes.map((node) => node.id)));
   const contextNodeIds = new Set<string>();
   for (const groupId of activeGroupIds) for (const nodeId of membersByGroup.get(groupId) ?? []) activeNodeIds.add(nodeId);
   for (const groupId of contextGroupIds) for (const nodeId of membersByGroup.get(groupId) ?? []) {
     if (!activeNodeIds.has(nodeId)) contextNodeIds.add(nodeId);
   }
   const visibleNodeIds = new Set([...activeNodeIds, ...contextNodeIds]);
-  const requestedEdgeIds = new Set(state?.activeEdgeIds ?? (stateSelected ? [] : model.edges.map((edge) => edge.id)));
+  const requestedEdgeIds = new Set(state?.activeEdgeIds ?? (hasExplicitActivation ? [] : model.edges.map((edge) => edge.id)));
   const activeEdgeIds = new Set<string>();
   const contextEdgeIds = new Set<string>();
   for (const edge of model.edges) {
