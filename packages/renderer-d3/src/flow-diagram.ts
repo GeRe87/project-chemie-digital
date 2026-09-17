@@ -506,8 +506,10 @@ export function resolveD3FlowSharedAnnotationGeometry(
   const lines = wrapFlowText(annotation.label, labelMaxWidth);
   const width = Math.max(96, ...lines.map((line) => deterministicFlowTextMeasure(line))) + 28;
   const height = Math.max(34, lines.length * lineHeight + verticalPadding);
-  const x = clamp(edges.reduce((sum, edge) => sum + edge.labelX, 0) / edges.length, width / 2 + 12, layout.width - width / 2 - 12);
-  const y = Math.max(height / 2 + 12, Math.min(...edges.map((edge) => edge.labelY)) - height / 2 - 22);
+  const meanX = edges.reduce((sum, edge) => sum + edge.labelX, 0) / edges.length;
+  const meanY = edges.reduce((sum, edge) => sum + edge.labelY, 0) / edges.length;
+  const x = clamp(meanX, width / 2 + 12, layout.width - width / 2 - 12);
+  const y = clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12);
   return {
     id: annotation.id,
     label: annotation.label,
