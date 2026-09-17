@@ -264,7 +264,7 @@ function orthogonalEdgePath(edge: D3FlowLayoutEdge, orientation: D3FlowLayout["o
   return `M ${edge.x1} ${edge.y1} V ${elbowY} H ${edge.x2} V ${edge.y2}`;
 }
 
-function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge): void {
+function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D3FlowLayout["orientation"]): void {
   const namespace = "http://www.w3.org/2000/svg";
   const lineCount = Math.max(edge.labelLines.length, 1);
   const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
@@ -289,7 +289,7 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge): void {
   stem.setAttribute("x1", String(edge.labelX));
   stem.setAttribute("x2", String(edge.labelX));
   stem.setAttribute("y1", String(edge.labelY + panelHeight / 2 - 2));
-  stem.setAttribute("y2", String(edge.labelY + panelHeight / 2 + 14));
+  stem.setAttribute("y2", String(orientation === "horizontal" ? edge.y1 - 8 : edge.labelY + panelHeight / 2 + 14));
   stem.setAttribute("aria-hidden", "true");
   group.append(stem);
 
@@ -359,6 +359,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       // A div prevents Reveal from treating the renderer-owned wrapper as a nested slide.
       const wrapper = document.createElement("div");
       wrapper.className = "d3-flow-runtime";
+      const title = document.createElement("div");
+      title.className = "d3-flow-title";
+      title.textContent = model.label;
       const figure = document.createElement("figure");
       figure.className = "d3-flow-figure";
       const caption = document.createElement("figcaption");
@@ -371,7 +374,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       svg.setAttribute("width", "100%");
       figure.append(svg, caption);
-      wrapper.append(figure);
+      wrapper.append(title, figure);
       hostElement.append(wrapper);
 
       let destroyed = false;
@@ -420,7 +423,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerId})`);
           edgeLayer.append(path);
-          addEdgeLabel(edgeLayer, edge);
+          addEdgeLabel(edgeLayer, edge, layout.orientation);
         }
         svg.append(edgeLayer);
 

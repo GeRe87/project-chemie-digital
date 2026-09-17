@@ -78,6 +78,8 @@ const HORIZONTAL_LABEL_WIDTH = 150;
 const HORIZONTAL_NODE_MIN_WIDTH = 240;
 const HORIZONTAL_NODE_MAX_WIDTH = 286;
 const HORIZONTAL_NODE_CHROME = 118;
+// Keep relationship callouts above the workflow rather than inside card bounds.
+const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
 const NETWORK_COMPACT_BREAKPOINT = 720;
 const NETWORK_MARGIN = 32;
 const NETWORK_NODE_MAX_WIDTH = 210;
@@ -220,14 +222,14 @@ function horizontalLayeredLayout(
   const contentHeight = Math.max(112, ...layerHeights);
   const intrinsicWidth = margin * 2 + layerWidths.reduce((sum, width) => sum + width, 0) + Math.max(0, layers.length - 1) * layerGap;
   const width = Math.max(hostWidth, intrinsicWidth);
-  const height = margin * 2 + contentHeight + 34;
+  const height = margin * 2 + HORIZONTAL_EDGE_LABEL_CLEARANCE + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
   let layerLeft = margin;
   layers.forEach((layer, layerIndex) => {
     const layerWidth = layerWidths[layerIndex] ?? HORIZONTAL_NODE_MIN_WIDTH;
     const layerHeight = layerHeights[layerIndex] ?? 0;
-    let cursorY = margin + 17 + (contentHeight - layerHeight) / 2;
+    let cursorY = margin + HORIZONTAL_EDGE_LABEL_CLEARANCE + 17 + (contentHeight - layerHeight) / 2;
     const x = layerLeft + layerWidth / 2;
     for (const id of layer) {
       const node = nodeById.get(id)!;
@@ -437,7 +439,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         x2,
         y2: target.y,
         labelX: midpoint(x1, x2),
-        labelY: midpoint(source.y, target.y) - 20,
+        labelY: midpoint(source.y, target.y) - HORIZONTAL_EDGE_LABEL_CLEARANCE,
         labelLines: wrapFlowText(edge.label, labelWidth),
       };
     }

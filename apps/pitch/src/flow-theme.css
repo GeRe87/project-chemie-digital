@@ -60,6 +60,16 @@ body[data-presentation-theme="dark"] .reveal {
   background: transparent;
 }
 
+.reveal .d3-flow-host .d3-flow-title {
+  margin: 0 0 .65rem;
+  color: var(--pcd-accent);
+  font-size: .78em;
+  font-weight: 800;
+  letter-spacing: .035em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
 .reveal .d3-flow-host .d3-flow-svg {
   display: block;
   width: 100%;
@@ -75,9 +85,10 @@ body[data-presentation-theme="dark"] .reveal {
 }
 
 .reveal .d3-flow-node-shape {
-  fill: var(--pcd-surface-strong);
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-surface));
   stroke: var(--pcd-accent);
-  stroke-width: 3;
+  stroke-width: 4;
+  filter: drop-shadow(0 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent));
 }
 
 .reveal .d3-flow-node-inner-frame,
@@ -85,7 +96,37 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-node-status,
 .reveal .d3-flow-node-index,
 .reveal .d3-flow-edge-label-stem {
-  display: none;
+  display: block;
+  pointer-events: none;
+}
+
+.reveal .d3-flow-node-inner-frame {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcd-accent) 35%, var(--pcd-surface-strong));
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-node-rail {
+  fill: var(--pcd-accent);
+}
+
+.reveal .d3-flow-node-status {
+  fill: var(--pcd-surface-strong);
+  stroke: var(--pcd-accent);
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-node-index {
+  fill: var(--pcd-accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.reveal .d3-flow-edge-label-stem {
+  stroke: var(--pcd-accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
 }
 
 .reveal .d3-flow-node-label,
@@ -103,7 +144,8 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-edge-label-panel {
   fill: var(--pcd-surface-strong);
   stroke: var(--pcd-accent);
-  stroke-width: 1;
+  stroke-width: 2;
+  filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-accent) 16%, transparent));
 }
 
 .reveal .d3-flow-edge {
