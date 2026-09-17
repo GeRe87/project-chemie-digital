@@ -26,6 +26,14 @@ assert RUNTIME_SPEC and RUNTIME_SPEC.loader
 RUNTIME = importlib.util.module_from_spec(RUNTIME_SPEC)
 RUNTIME_SPEC.loader.exec_module(RUNTIME)
 
+MEDIA_RUNTIME_SPEC = importlib.util.spec_from_file_location(
+    "generate_canonical_runtime_media",
+    SCRIPTS / "generate_canonical_runtime_media.py",
+)
+assert MEDIA_RUNTIME_SPEC and MEDIA_RUNTIME_SPEC.loader
+MEDIA_RUNTIME = importlib.util.module_from_spec(MEDIA_RUNTIME_SPEC)
+MEDIA_RUNTIME_SPEC.loader.exec_module(MEDIA_RUNTIME)
+
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
 OFFERING = EX["teaching-offering-cogniflow-standardized-data-processing"]
@@ -117,6 +125,23 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn('data-interaction-message-id="ex:message-request"', fallback)
         self.assertIn('data-active-message-ids="', fallback)
         self.assertIn('data-participant-binding-role-id="ex:role-interface"', fallback)
+
+    def test_media_aware_cogniflow_fallback_preserves_title_logos_and_sequence_semantics(self) -> None:
+        base_artifact = RUNTIME.build_artifact(request())
+        media_artifact = MEDIA_RUNTIME.build_artifact(request())
+        rendered_index = MEDIA_RUNTIME.rendered_index(base_artifact, media_artifact)
+        self.assertIn('class="media-reference-fallback"', rendered_index)
+        self.assertIn(GERRIT, rendered_index)
+        self.assertIn("University of Duisburg-Essen logo", rendered_index)
+        self.assertIn(RICARDO.replace("&", "&amp;"), rendered_index)
+        self.assertIn("IUTA", rendered_index)
+        self.assertIn(FUNDING, rendered_index)
+        self.assertIn("Ministry for Environment", rendered_index)
+        self.assertIn('data-diagram-type="sequence"', rendered_index)
+        self.assertIn('data-participant-role-id="ex:role-interface"', rendered_index)
+        self.assertIn('data-interaction-message-id="ex:message-request"', rendered_index)
+        self.assertIn('data-active-message-ids="', rendered_index)
+        self.assertIn('data-participant-binding-role-id="ex:role-interface"', rendered_index)
 
     def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())
