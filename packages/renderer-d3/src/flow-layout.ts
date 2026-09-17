@@ -385,8 +385,9 @@ function groupedNetworkLayout(
   }
 
   const clusterCount = Math.max(clusteredBuckets.length, 1);
-  const clusterRadius = Math.max(210, Math.min(310, 118 + clusterCount * 34));
-  const clusterNodeRadius = 92;
+  const maxNodeWidth = Math.max(160, ...prepared.map((node) => Math.min(networkNodeWidth, node.width)));
+  const clusterRadius = Math.max(260, Math.min(420, 140 + clusterCount * 44 + maxNodeWidth * 0.35));
+  const clusterNodeRadius = Math.min(160, Math.max(110, maxNodeWidth * 0.55));
   const centerX = width / 2;
   const centerY = NETWORK_MARGIN + clusterRadius + clusterNodeRadius + 92;
   const nodes: D3FlowLayoutNode[] = [];
@@ -404,7 +405,7 @@ function groupedNetworkLayout(
     const clusterAngle = -Math.PI / 2 + (2 * Math.PI * index) / clusterCount;
     const clusterX = centerX + Math.cos(clusterAngle) * clusterRadius;
     const clusterY = centerY + Math.sin(clusterAngle) * clusterRadius;
-    const radius = bucket.length === 1 ? 0 : Math.min(clusterNodeRadius, 32 + bucket.length * 16);
+    const radius = bucket.length === 1 ? 0 : Math.min(clusterNodeRadius, Math.max(70, 28 + bucket.length * 28));
     bucket.forEach((node, nodeIndex) => {
       const angle = clusterAngle + (2 * Math.PI * nodeIndex) / Math.max(bucket.length, 1);
       nodes.push({
