@@ -20,6 +20,7 @@ export interface D3FlowLayoutInput {
   readonly diagramType?: "flow" | "network";
   readonly groups?: readonly { readonly id: string }[];
   readonly focusNodeId?: string;
+  readonly states?: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
 
 export interface D3FlowLayoutNode {
@@ -51,6 +52,7 @@ export interface D3FlowLayout {
   readonly height: number;
   readonly nodes: readonly D3FlowLayoutNode[];
   readonly edges: readonly D3FlowLayoutEdge[];
+  readonly states: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
 
 interface GraphemeSegment {
@@ -491,5 +493,9 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     height: geometry.height,
     nodes: geometry.nodes,
     edges,
+    states: (input.states ?? []).map((state) => ({
+      id: state.id,
+      sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ id: annotation.id, edgeIds: [...annotation.edgeIds] })),
+    })),
   };
 }

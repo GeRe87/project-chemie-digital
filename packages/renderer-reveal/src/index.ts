@@ -1,5 +1,6 @@
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
+  SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -131,6 +132,13 @@ export interface RevealDiagramEdgePlan {
   readonly visualRole?: string;
 }
 
+export interface RevealDiagramStatePlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly label: string; readonly edgeIds: readonly string[]; readonly source: readonly SourceReference[] }[];
+}
+
 export interface RevealDiagramPlan extends RevealNodeBase {
   readonly kind: "diagram";
   readonly diagramType: "flow" | "network";
@@ -140,6 +148,7 @@ export interface RevealDiagramPlan extends RevealNodeBase {
   readonly groups?: readonly RevealDiagramGroupPlan[];
   readonly edges: readonly RevealDiagramEdgePlan[];
   readonly focusNodeId?: string;
+  readonly states?: readonly RevealDiagramStatePlan[];
 }
 
 export type RevealNodePlan =
@@ -223,6 +232,10 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     ...block.nodes.map((node) => `- ${node.label}`),
     "Relations:",
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...(block.states ?? []).flatMap((state) => [
+      `State: ${state.label}`,
+      ...state.sharedEdgeAnnotations.map((annotation) => `- ${annotation.label}`),
+    ]),
   ].join("\n");
 }
 
@@ -318,6 +331,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
+        ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })) })) } : {}),
       };
     default:
       throw new AdapterError("UNSUPPORTED_PRIMITIVE", `Unsupported primitive ${(block as { kind?: unknown }).kind ?? "unknown"}`, (block as { id?: string }).id);
@@ -348,7 +362,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

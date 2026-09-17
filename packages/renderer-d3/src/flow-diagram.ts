@@ -55,6 +55,7 @@ export interface D3FlowRenderModel {
   readonly nodes: readonly D3FlowRenderNode[];
   readonly groups: readonly D3FlowRenderGroup[];
   readonly edges: readonly D3FlowRenderEdge[];
+  readonly states: readonly D3FlowRenderState[];
   readonly nodeReadingOrder: readonly string[];
   readonly edgeReadingOrder: readonly string[];
   readonly staticFallback: string;
@@ -68,14 +69,14 @@ export interface D3FlowRenderModelResult {
 }
 
 export interface D3FlowRuntimeMount {
-  update(layout: D3FlowLayout, activeNodeId?: string): void;
+  update(layout: D3FlowLayout, activeNodeId?: string, activeStateId?: string): void;
   focusNode(nodeId: string): void;
   destroy(): void;
 }
 
 export interface D3FlowRuntimePort {
   measureHost(host: unknown): number;
-  mount(host: unknown, model: D3FlowRenderModel, layout: D3FlowLayout, activeNodeId?: string): D3FlowRuntimeMount;
+  mount(host: unknown, model: D3FlowRenderModel, layout: D3FlowLayout, activeNodeId?: string, activeStateId?: string, onActiveStateChange?: (stateId?: string) => void): D3FlowRuntimeMount;
   observeResize?(host: unknown, callback: (width: number) => void): () => void;
 }
 
@@ -84,7 +85,9 @@ export interface D3FlowComponent {
   readonly layout: D3FlowLayout;
   readonly staticFallback: string;
   readonly activeNodeId?: string;
+  readonly activeStateId?: string;
   focusNode(nodeId?: string): void;
+  setActiveState(stateId?: string): void;
   handleKey(key: string): boolean;
   resize(width?: number): D3FlowLayout;
   destroy(): void;
@@ -104,6 +107,13 @@ function flowDiagnostic(code: D3FlowDiagnosticCode, message: string): D3FlowRend
 
 function requireNonEmpty(value: unknown, label: string): asserts value is string {
   if (typeof value !== "string" || value.length === 0) throw new Error(`${label} must be non-empty`);
+}
+
+export interface D3FlowRenderState {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly label: string; readonly edgeIds: readonly string[]; readonly source: readonly SourceReference[] }[];
 }
 
 function validateVisualRole(value: unknown, label: string): void {
@@ -152,6 +162,22 @@ function validateFlowBlock(block: DiagramBlock): void {
   if (block.focusNodeId !== undefined && !nodeIdSet.has(block.focusNodeId)) {
     throw new Error("Flow diagram focusNodeId references an unknown node");
   }
+  const stateIds = new Set<string>();
+  const annotationIds = new Set<string>();
+  for (const state of block.states ?? []) {
+    requireNonEmpty(state.id, "Flow diagram state id");
+    if (stateIds.has(state.id)) throw new Error("Flow diagram state ids must be unique");
+    stateIds.add(state.id);
+    requireNonEmpty(state.label, `Flow diagram state ${state.id} label`);
+    for (const annotation of state.sharedEdgeAnnotations) {
+      requireNonEmpty(annotation.id, "Flow shared edge annotation id");
+      if (annotationIds.has(annotation.id)) throw new Error("Flow shared edge annotation ids must be unique");
+      annotationIds.add(annotation.id);
+      requireNonEmpty(annotation.label, `Flow shared edge annotation ${annotation.id} label`);
+      if (annotation.edgeIds.length < 2 || new Set(annotation.edgeIds).size !== annotation.edgeIds.length) throw new Error(`Flow shared edge annotation ${annotation.id} requires at least two unique edges`);
+      for (const edgeId of annotation.edgeIds) if (!edgeIds.includes(edgeId)) throw new Error(`Flow shared edge annotation ${annotation.id} references an unknown edge`);
+    }
+  }
 }
 
 function flowStaticFallback(block: DiagramBlock): string {
@@ -163,6 +189,10 @@ function flowStaticFallback(block: DiagramBlock): string {
     ...block.nodes.map((node) => `- ${node.label}`),
     "Relations:",
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...(block.states ?? []).flatMap((state) => [
+      `State: ${state.label}`,
+      ...state.sharedEdgeAnnotations.map((annotation) => `- ${annotation.label}`),
+    ]),
   ].join("\n");
 }
 
@@ -173,7 +203,7 @@ function effectiveEdgeVisualRole(
   if (edge.visualRole) return edge.visualRole;
   const sourceRole = nodeVisualRoles.get(edge.sourceNodeId);
   const targetRole = nodeVisualRoles.get(edge.targetNodeId);
-  return sourceRole && sourceRole === targetRole ? sourceRole : undefined;
+  return sourceRole ?? targetRole;
 }
 
 export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOptions): D3FlowRenderModelResult {
@@ -216,6 +246,17 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
         label: group.label,
         source: cloneSources(group.source),
       }));
+      const states = (block.states ?? []).map((state): D3FlowRenderState => ({
+        id: state.id,
+        label: state.label,
+        source: cloneSources(state.source),
+        sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({
+          id: annotation.id,
+          label: annotation.label,
+          edgeIds: [...annotation.edgeIds],
+          source: cloneSources(annotation.source),
+        })),
+      }));
     return {
       model: {
         version: "1.0",
@@ -227,6 +268,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
         nodes,
         groups,
         edges,
+        states,
         nodeReadingOrder: nodes.map((node) => node.id),
         edgeReadingOrder: edges.map((edge) => edge.id),
         staticFallback: flowStaticFallback(block),
@@ -390,7 +432,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       const viewportWidth = typeof window !== "undefined" ? window.innerWidth : undefined;
       return resolveD3FlowHostWidth(element.clientWidth, viewportWidth);
     },
-    mount(host, model, initialLayout, initialActiveNodeId): D3FlowRuntimeMount {
+    mount(host, model, initialLayout, initialActiveNodeId, initialActiveStateId, onActiveStateChange): D3FlowRuntimeMount {
       const hostElement = ensureHostElement(host);
       const namespace = "http://www.w3.org/2000/svg";
       const mountSequence = ++flowMarkerMountSequence;
@@ -411,16 +453,23 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("width", "100%");
       figure.append(svg, caption);
       wrapper.append(figure);
+      const stateControls = document.createElement("div");
+      stateControls.className = "d3-flow-state-controls";
+      stateControls.setAttribute("role", "group");
+      stateControls.setAttribute("aria-label", "Diagram states");
+      wrapper.append(stateControls);
       hostElement.append(wrapper);
 
       let destroyed = false;
       let nodeElements = new Map<string, SVGGElement>();
       let activeNodeId = initialActiveNodeId;
+      let activeStateId = initialActiveStateId;
 
-      const render = (layout: D3FlowLayout, requestedActiveNodeId?: string): void => {
+      const render = (layout: D3FlowLayout, requestedActiveNodeId?: string, requestedActiveStateId?: string): void => {
         if (destroyed) return;
         const previouslyFocusedId = (document.activeElement as Element | null)?.getAttribute("data-node-id") ?? undefined;
         activeNodeId = requestedActiveNodeId;
+        activeStateId = requestedActiveStateId;
         svg.replaceChildren();
         svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
         svg.setAttribute("height", String(layout.height));
@@ -453,13 +502,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
 
         const edgeLayer = document.createElementNS(namespace, "g");
         edgeLayer.setAttribute("class", "d3-flow-edge-layer");
+        const activeState = model.states.find((state) => state.id === activeStateId);
+        const activeAnnotatedEdgeIds = new Set(activeState?.sharedEdgeAnnotations.flatMap((annotation) => annotation.edgeIds) ?? []);
         for (const edge of layout.edges) {
           const path = document.createElementNS(namespace, "path");
           path.setAttribute("class", "d3-flow-edge");
           path.setAttribute("data-edge-id", edge.id);
           path.setAttribute("data-source-node-id", edge.sourceNodeId);
           path.setAttribute("data-target-node-id", edge.targetNodeId);
-          if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
+           if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
+           if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
           path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
@@ -504,17 +556,45 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nextNodeElements.set(modelNode.id, group);
         }
         svg.append(nodeLayer);
+        stateControls.replaceChildren();
+        for (const state of model.states) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "d3-flow-state-control";
+          button.textContent = state.label;
+          button.setAttribute("data-diagram-state-id", state.id);
+          button.setAttribute("aria-pressed", String(state.id === activeStateId));
+          button.addEventListener("click", () => {
+            const nextStateId = state.id === activeStateId ? undefined : state.id;
+            render(layout, activeNodeId, nextStateId);
+            onActiveStateChange?.(nextStateId);
+          });
+          stateControls.append(button);
+        }
+        if (activeState) {
+          const annotations = document.createElement("div");
+          annotations.className = "d3-flow-shared-edge-annotations";
+          annotations.setAttribute("aria-live", "polite");
+          for (const annotation of activeState.sharedEdgeAnnotations) {
+            const note = document.createElement("p");
+            note.setAttribute("data-shared-edge-annotation-id", annotation.id);
+            note.setAttribute("data-edge-ids", annotation.edgeIds.join(" "));
+            note.textContent = annotation.label;
+            annotations.append(note);
+          }
+          stateControls.append(annotations);
+        }
         nodeElements = nextNodeElements;
         if (model.interactionPolicy === "keyboard" && previouslyFocusedId && previouslyFocusedId === activeNodeId) {
           nodeElements.get(previouslyFocusedId)?.focus();
         }
       };
 
-      render(initialLayout, initialActiveNodeId);
+      render(initialLayout, initialActiveNodeId, initialActiveStateId);
 
       return {
-        update(layout, requestedActiveNodeId) {
-          render(layout, requestedActiveNodeId);
+        update(layout, requestedActiveNodeId, requestedActiveStateId) {
+          render(layout, requestedActiveNodeId, requestedActiveStateId);
         },
         focusNode(nodeId) {
           if (destroyed || model.interactionPolicy !== "keyboard" || !nodeElements.has(nodeId)) return;
@@ -568,13 +648,17 @@ export function mountD3FlowDiagram(
   let activeNodeId = model.focusNodeId ?? (model.interactionPolicy === "keyboard" ? model.nodeReadingOrder[0] : undefined);
   let focusIndex = activeNodeId ? model.nodeReadingOrder.indexOf(activeNodeId) : -1;
   let destroyed = false;
-  const mounted = runtime.mount(host, model, layout, activeNodeId);
+  let activeStateId: string | undefined;
+  const mounted = runtime.mount(host, model, layout, activeNodeId, activeStateId, (stateId) => {
+    if (stateId !== undefined && !model.states.some((state) => state.id === stateId)) return;
+    activeStateId = stateId;
+  });
   if (model.interactionPolicy === "keyboard" && activeNodeId) mounted.focusNode(activeNodeId);
 
   const resize = (width?: number): D3FlowLayout => {
     if (destroyed) return layout;
     layout = createLayout(width ?? runtime.measureHost(host));
-    mounted.update(layout, activeNodeId);
+    mounted.update(layout, activeNodeId, activeStateId);
     return layout;
   };
   const stopObserving = runtime.observeResize?.(host, (width) => { resize(width); }) ?? (() => {});
@@ -584,6 +668,7 @@ export function mountD3FlowDiagram(
     get layout() { return layout; },
     get staticFallback() { return model.staticFallback; },
     get activeNodeId() { return activeNodeId; },
+    get activeStateId() { return activeStateId; },
     focusNode(nodeId) {
       if (destroyed || model.interactionPolicy !== "keyboard") return;
       const target = nodeId ?? model.focusNodeId ?? model.nodeReadingOrder[0];
@@ -593,6 +678,12 @@ export function mountD3FlowDiagram(
       activeNodeId = target;
       focusIndex = nextIndex;
       mounted.focusNode(target);
+    },
+    setActiveState(stateId) {
+      if (destroyed) return;
+      if (stateId !== undefined && !model.states.some((state) => state.id === stateId)) return;
+      activeStateId = stateId;
+      mounted.update(layout, activeNodeId, activeStateId);
     },
     handleKey(key) {
       if (destroyed || model.interactionPolicy !== "keyboard" || model.nodeReadingOrder.length === 0) return false;

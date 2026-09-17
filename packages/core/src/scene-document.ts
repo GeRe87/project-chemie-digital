@@ -124,6 +124,20 @@ export interface DiagramEdge {
   readonly visualRole?: string;
 }
 
+export interface SharedEdgeAnnotation {
+  readonly id: string;
+  readonly label: string;
+  readonly edgeIds: readonly string[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface DiagramState {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly sharedEdgeAnnotations: readonly SharedEdgeAnnotation[];
+}
+
 export interface DiagramBlock extends SceneBlockBase {
   readonly kind: "diagram";
   readonly diagramType: "flow" | "network";
@@ -133,6 +147,7 @@ export interface DiagramBlock extends SceneBlockBase {
   readonly groups?: readonly DiagramGroup[];
   readonly edges: readonly DiagramEdge[];
   readonly focusNodeId?: string;
+  readonly states?: readonly DiagramState[];
 }
 
 export interface ChartAxis {
@@ -327,6 +342,29 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
   }
 
+  const stateIds = new Set<string>();
+  const annotationIds = new Set<string>();
+  for (const state of block.states ?? []) {
+    requireNonEmpty(state.id, `${label} diagram state id`);
+    if (stateIds.has(state.id)) throw new SceneContractError(`${label} diagram contains duplicate state ids`);
+    stateIds.add(state.id);
+    requireNonEmpty(state.label, `${label} diagram state ${state.id} label`);
+    validateSource(state.source, `${label} diagram state ${state.id} source`);
+    for (const annotation of state.sharedEdgeAnnotations) {
+      requireNonEmpty(annotation.id, `${label} shared edge annotation id`);
+      if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} diagram contains duplicate shared edge annotation ids`);
+      annotationIds.add(annotation.id);
+      requireNonEmpty(annotation.label, `${label} shared edge annotation ${annotation.id} label`);
+      validateSource(annotation.source, `${label} shared edge annotation ${annotation.id} source`);
+      if (annotation.edgeIds.length < 2 || new Set(annotation.edgeIds).size !== annotation.edgeIds.length) {
+        throw new SceneContractError(`${label} shared edge annotation ${annotation.id} must identify at least two unique edges`);
+      }
+      for (const edgeId of annotation.edgeIds) {
+        if (!edgeIdSet.has(edgeId)) throw new SceneContractError(`${label} shared edge annotation ${annotation.id} references an unknown edge`);
+      }
+    }
+  }
+
   if (block.focusNodeId !== undefined) {
     requireNonEmpty(block.focusNodeId, `${label} diagram focusNodeId`);
     if (!nodeIdSet.has(block.focusNodeId)) throw new SceneContractError(`${label} diagram focusNodeId references an unknown node`);
@@ -446,6 +484,9 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "diagram") {
       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
+      }
+      if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateDiagram(block, `${label} block ${block.id}`);
     }

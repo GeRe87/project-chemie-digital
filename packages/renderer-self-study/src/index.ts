@@ -1,5 +1,6 @@
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
+  SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -120,6 +121,13 @@ export interface SelfStudyDiagramEdgePlan {
   readonly visualRole?: string;
 }
 
+export interface SelfStudyDiagramStatePlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly label: string; readonly edgeIds: readonly string[]; readonly source: readonly SourceReference[] }[];
+}
+
 export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
   readonly kind: "diagram";
   readonly diagramType: "flow" | "network";
@@ -129,6 +137,7 @@ export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
   readonly groups?: readonly SelfStudyDiagramGroupPlan[];
   readonly edges: readonly SelfStudyDiagramEdgePlan[];
   readonly focusNodeId?: string;
+  readonly states?: readonly SelfStudyDiagramStatePlan[];
 }
 
 export type SelfStudyNodePlan =
@@ -225,6 +234,10 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     ...block.nodes.map((node) => `- ${node.label}`),
     "Relations:",
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...(block.states ?? []).flatMap((state) => [
+      `State: ${state.label}`,
+      ...state.sharedEdgeAnnotations.map((annotation) => `- ${annotation.label}`),
+    ]),
   ].join("\n");
 }
 
@@ -309,6 +322,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
+        ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })) })) } : {}),
       };
     default:
       throw new SelfStudyAdapterError(
@@ -334,7 +348,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -410,7 +424,8 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
   const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
   const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)} — ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
-  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol></figure>`;
+  const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
+  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${states}</figure>`;
 }
 
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {

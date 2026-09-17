@@ -14,3 +14,7 @@ The reference scene `ex:scene-standard-deviation-definition-with-citation` resol
 ## Authoring boundary
 
 A later browser scene editor must edit graph-backed scene definitions: resource selectors, roles, order and optional pattern hints. It must not make Reveal.js HTML the authored source of truth. Renderer previews may display compiled snapshots, but any persistent audience-visible statement must originate from an RDF resource or a value resolved from one.
+
+## Diagram states
+
+`DiagramState` and `SharedEdgeAnnotation` are authored RDF resources. A state belongs to a `FlowDiagram`; each shared annotation names its member `DiagramEdge` resources through `cd:annotatesDiagramEdge`. The compiler preserves those exact identities in `SceneDocument 1.2`. Renderers may lay out and highlight the named edges, but must not infer a shared state from labels, identifiers, endpoints, or coordinates.

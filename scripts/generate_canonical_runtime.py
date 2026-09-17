@@ -300,6 +300,34 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         "edges": edges,
         **({"groups": groups} if groups else {}),
     }
+    states: list[dict[str, Any]] = []
+    for state in sorted(objects(dataset, diagram, iri(CD, "hasDiagramState")), key=str):
+        if not isinstance(state, URIRef):
+            continue
+        state_label, state_relation_path = selected_label_reference(dataset, state, language)
+        annotations: list[dict[str, Any]] = []
+        for annotation in sorted(objects(dataset, state, iri(CD, "hasSharedEdgeAnnotation")), key=str):
+            if not isinstance(annotation, URIRef):
+                continue
+            annotation_edges = [edge for edge in objects(dataset, annotation, iri(CD, "annotatesDiagramEdge")) if isinstance(edge, URIRef)]
+            if len(annotation_edges) < 2 or len(set(annotation_edges)) != len(annotation_edges):
+                raise ValueError(f"SharedEdgeAnnotation {compact(annotation)} requires at least two unique DiagramEdges")
+            if any(edge not in {edge for edge, _position in edge_records} for edge in annotation_edges):
+                raise ValueError(f"SharedEdgeAnnotation {compact(annotation)} references an edge outside {compact(diagram)}")
+            annotations.append({
+                "id": compact(annotation),
+                "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+                "edgeIds": [compact(edge) for edge in sorted(annotation_edges, key=lambda edge: next(position for candidate, position in edge_records if candidate == edge))],
+                "source": [source_reference(dataset, annotation, "cd:body")],
+            })
+        states.append({
+            "id": compact(state),
+            "label": state_label,
+            "source": [source_reference(dataset, state, state_relation_path)],
+            "sharedEdgeAnnotations": annotations,
+        })
+    if states:
+        payload["states"] = states
     if focus_node is not None:
         payload["focusNodeId"] = compact(focus_node)
     return payload, label_relation_path
@@ -667,7 +695,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = "1.1"
+                document_version = "1.2"
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
                     raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")
@@ -960,12 +988,25 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     if block.get("focusNodeId")
                     else ""
                 )
+                states = "".join(
+                    f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"{fallback_attributes(state["source"])}>'
+                    f'<strong>{html.escape(state["label"])}</strong>'
+                    + "".join(
+                        f'<p data-shared-edge-annotation-id="{html.escape(annotation["id"], quote=True)}" '
+                        f'data-edge-ids="{html.escape(" ".join(annotation["edgeIds"]), quote=True)}"{fallback_attributes(annotation["source"])}>'
+                        f'{html.escape(annotation["label"])}</p>'
+                        for annotation in state["sharedEdgeAnnotations"]
+                    )
+                    + '</section>'
+                    for state in block.get("states", [])
+                )
                 blocks.append(
                     f'<figure class="diagram-fallback" data-diagram-type="{html.escape(block["diagramType"], quote=True)}"'
                     f'{focus_attribute}{fallback_attributes(block["source"])}>'
                     f'<figcaption><strong>{html.escape(block["label"])}</strong> <span>{html.escape(block["description"])}</span></figcaption>'
                     f'<ol class="diagram-nodes">{nodes}</ol>'
                     f'<ol class="diagram-edges">{edges}</ol>'
+                    f'{states}'
                     f'</figure>'
                 )
                 continue

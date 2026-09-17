@@ -91,3 +91,22 @@ test("legacy SceneDocument 1.0 remains self-study compatible", () => {
   assert.deepEqual(result.diagnostics, []);
   assert.equal(result.plan?.sections[0]?.nodes[0]?.kind, "prose");
 });
+
+test("self-study 1.2 exposes authored shared-edge states in its fallback HTML", () => {
+  const diagram = document.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  const stateDocument: SceneDocument = {
+    ...document,
+    version: "1.2",
+    scenes: [{ ...document.scenes[0]!, blocks: [{
+      ...diagram,
+      edges: [...diagram.edges, { ...diagram.edges[0]!, id: "edge:reprocess", sourceNodeId: "node:processing", targetNodeId: "node:measurement" }],
+      states: [{ id: "state:custom-script", label: "Shared custom script", source: diagram.source, sharedEdgeAnnotations: [{ id: "annotation:custom-script", label: "Both routes use one custom script.", edgeIds: ["edge:data", "edge:reprocess"], source: diagram.source }] }],
+    }] }],
+  };
+  const plan = createSelfStudyRenderPlan(stateDocument).plan!;
+  const html = renderSelfStudyHtml(plan, { interactive: false });
+  assert.match(html, /data-diagram-state-id="state:custom-script"/);
+  assert.match(html, /data-shared-edge-annotation-id="annotation:custom-script"/);
+  assert.match(html, /data-edge-ids="edge:data edge:reprocess"/);
+});

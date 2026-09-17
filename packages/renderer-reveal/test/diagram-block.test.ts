@@ -71,6 +71,27 @@ test("Pitch component projection retains the diagram as readable renderer-owned 
   assert.deepEqual(component.sourceResourceIds, ["ex:flow"]);
 });
 
+test("Reveal 1.2 preserves authored shared-edge states in its static fallback", () => {
+  const diagram = document.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  const stateDocument: SceneDocument = {
+    ...document,
+    version: "1.2",
+    scenes: [{ ...document.scenes[0]!, blocks: [{
+      ...diagram,
+      edges: [...diagram.edges, { ...diagram.edges[0]!, id: "edge:reprocess", sourceNodeId: "node:processing", targetNodeId: "node:measurement" }],
+      states: [{ id: "state:custom-script", label: "Shared custom script", source: diagram.source, sharedEdgeAnnotations: [{ id: "annotation:custom-script", label: "Both routes use one custom script.", edgeIds: ["edge:data", "edge:reprocess"], source: diagram.source }] }],
+    }] }],
+  };
+  const result = createRevealRenderPlan(stateDocument, { reducedMotion: true, interactionPolicy: "static" });
+  assert.deepEqual(result.diagnostics, []);
+  const node = result.plan?.sections[0]?.nodes[0];
+  assert.ok(node && node.kind === "diagram");
+  if (!node || node.kind !== "diagram") return;
+  assert.equal(node.states?.[0]?.id, "state:custom-script");
+  assert.match(node.staticFallback, /Both routes use one custom script/);
+});
+
 test("legacy SceneDocument 1.0 remains accepted when it does not contain diagrams", () => {
   const legacy: SceneDocument = {
     version: "1.0",

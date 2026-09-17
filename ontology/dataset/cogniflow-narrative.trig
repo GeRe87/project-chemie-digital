@@ -25,6 +25,7 @@
       ex:node-cogniflow-common-results-b ;
     cd:hasDiagramGroup ex:diagram-group-cogniflow-common-primary,
       ex:diagram-group-cogniflow-common-alternative ;
+    cd:hasDiagramState ex:diagram-state-cogniflow-common-custom-script ;
     cd:hasDiagramEdge ex:edge-cogniflow-common-analysis-meas,
       ex:edge-cogniflow-common-meas-open,
       ex:edge-cogniflow-common-open-results,
@@ -51,6 +52,15 @@
   ex:edge-cogniflow-common-analysis-b-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-common-analysis-b ; cd:targetNode ex:node-cogniflow-common-meas-data-b ; cd:authoredResource true .
   ex:edge-cogniflow-common-meas-b-open a cd:DiagramEdge ; skos:prefLabel "csv"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-common-meas-data-b ; cd:targetNode ex:node-cogniflow-common-open-format-b ; cd:authoredResource true .
   ex:edge-cogniflow-common-open-b-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-common-open-format-b ; cd:targetNode ex:node-cogniflow-common-results-b ; cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-common-custom-script a cd:DiagramState ;
+    skos:prefLabel "Common custom script"@en ;
+    cd:hasSharedEdgeAnnotation ex:shared-edge-annotation-cogniflow-common-custom-script ;
+    cd:authoredResource true .
+  ex:shared-edge-annotation-cogniflow-common-custom-script a cd:SharedEdgeAnnotation ;
+    cd:body "Both workflows use the same custom script after conversion to an open format."@en ;
+    cd:annotatesDiagramEdge ex:edge-cogniflow-common-open-results, ex:edge-cogniflow-common-open-b-results ;
+    cd:authoredResource true .
 
   ex:cogniflow-take-home a cd:Concept ;
     skos:prefLabel "Take-Home"@en ;

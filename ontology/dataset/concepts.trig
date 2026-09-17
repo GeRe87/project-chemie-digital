@@ -14,7 +14,7 @@ graph:concepts {
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
       cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution,
-       cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:DiagramGroup, cd:ChartDefinition,
+        cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:DiagramGroup, cd:DiagramState, cd:SharedEdgeAnnotation, cd:ChartDefinition,
       cd:ChartAnnotation, cd:ChartPointAnnotation, cd:ChartRangeAnnotation,
       cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
@@ -26,7 +26,7 @@ graph:concepts {
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
       cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
-       cd:hasDiagramEdge, cd:hasDiagramGroup, cd:memberOfDiagramGroup, cd:sourceNode, cd:targetNode, cd:focusNode,
+        cd:hasDiagramEdge, cd:hasDiagramGroup, cd:hasDiagramState, cd:hasSharedEdgeAnnotation, cd:annotatesDiagramEdge, cd:memberOfDiagramGroup, cd:sourceNode, cd:targetNode, cd:focusNode,
       cd:hasChartAnnotation, cd:targetObservation, cd:startObservation, cd:endObservation,
       cd:supportsResource, cd:usesScene ;
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
@@ -67,6 +67,8 @@ graph:concepts {
   cd:ChartRangeAnnotation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:ChartAnnotation .
   cd:DiagramNode a rdfs:Class, cdm:ConceptDescriptor .
   cd:DiagramEdge a rdfs:Class, cdm:ConceptDescriptor .
+  cd:DiagramState a rdfs:Class, cdm:ConceptDescriptor .
+  cd:SharedEdgeAnnotation a rdfs:Class, cdm:ConceptDescriptor .
   cd:LearningPath a rdfs:Class, cdm:ConceptDescriptor .
   cd:PathStep a rdfs:Class, cdm:ConceptDescriptor .
   cd:Source a rdfs:Class, cdm:ConceptDescriptor .
@@ -136,6 +138,9 @@ graph:concepts {
   cd:targetNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
   cd:hasDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramGroup .
+  cd:hasDiagramState a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramState .
+  cd:hasSharedEdgeAnnotation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:SharedEdgeAnnotation .
+  cd:annotatesDiagramEdge a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SharedEdgeAnnotation ; rdfs:range cd:DiagramEdge .
   cd:memberOfDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range cd:DiagramGroup .
    cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
