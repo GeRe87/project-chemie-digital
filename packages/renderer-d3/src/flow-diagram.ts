@@ -24,10 +24,15 @@ export interface D3FlowRenderNode {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
-  readonly visualColor?: string;
-  readonly layoutX?: number;
-  readonly layoutY?: number;
+  readonly visualRole?: string;
+  readonly groupIds?: readonly string[];
   readonly readingIndex: number;
+}
+
+export interface D3FlowRenderGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface D3FlowRenderEdge {
@@ -47,6 +52,7 @@ export interface D3FlowRenderModel {
   readonly description: string;
   readonly focusNodeId?: string;
   readonly nodes: readonly D3FlowRenderNode[];
+  readonly groups: readonly D3FlowRenderGroup[];
   readonly edges: readonly D3FlowRenderEdge[];
   readonly nodeReadingOrder: readonly string[];
   readonly edgeReadingOrder: readonly string[];
@@ -169,18 +175,23 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       label: node.label,
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
-      ...(node.visualColor ? { visualColor: node.visualColor } : {}),
-      ...(node.layoutX !== undefined ? { layoutX: node.layoutX, layoutY: node.layoutY } : {}),
+       ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+       ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
       readingIndex,
     }));
-    const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => ({
+      const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => ({
       id: edge.id,
       sourceNodeId: edge.sourceNodeId,
       targetNodeId: edge.targetNodeId,
       label: edge.label,
       source: cloneSources(edge.source),
       readingIndex,
-    }));
+      }));
+      const groups = (block.groups ?? []).map((group): D3FlowRenderGroup => ({
+        id: group.id,
+        label: group.label,
+        source: cloneSources(group.source),
+      }));
     return {
       model: {
         version: "1.0",
@@ -190,6 +201,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
         description: block.description,
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
         nodes,
+        groups,
         edges,
         nodeReadingOrder: nodes.map((node) => node.id),
         edgeReadingOrder: edges.map((edge) => edge.id),
@@ -420,7 +432,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
           group.setAttribute("data-node-id", modelNode.id);
-          if (modelNode.visualColor) group.setAttribute("data-visual-color", modelNode.visualColor);
+           if (modelNode.visualRole) group.setAttribute("data-visual-role", modelNode.visualRole);
+           if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
           group.setAttribute("aria-label", modelNode.label);
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {
@@ -502,28 +515,7 @@ export function mountD3FlowDiagram(
   if (!result.model) return result;
   const model = result.model;
   const createLayout = (width: number): D3FlowLayout => {
-    const base = createD3FlowLayout(model, width);
-    if (model.diagramType !== "network") return base;
-    const canvasWidth = 1280;
-    const canvasHeight = 620;
-    const nodes = base.nodes.map((node) => {
-      const source = model.nodes.find((candidate) => candidate.id === node.id)!;
-      return { ...node, x: (source.layoutX ?? 0.5) * canvasWidth, y: (source.layoutY ?? 0.5) * canvasHeight };
-    });
-    const byId = new Map(nodes.map((node) => [node.id, node]));
-    const edges = model.edges.map((edge) => {
-      const source = byId.get(edge.sourceNodeId)!;
-      const target = byId.get(edge.targetNodeId)!;
-      const forward = target.x >= source.x;
-      return {
-        id: edge.id, sourceNodeId: edge.sourceNodeId, targetNodeId: edge.targetNodeId,
-        x1: source.x + (forward ? source.width / 2 : -source.width / 2), y1: source.y,
-        x2: target.x + (forward ? -target.width / 2 : target.width / 2), y2: target.y,
-        labelX: (source.x + target.x) / 2, labelY: (source.y + target.y) / 2,
-        labelLines: [],
-      };
-    });
-    return { orientation: "horizontal", width: canvasWidth, height: canvasHeight, nodes, edges };
+     return createD3FlowLayout(model, width);
   };
   let layout = createLayout(runtime.measureHost(host));
   let activeNodeId = model.focusNodeId ?? (model.interactionPolicy === "keyboard" ? model.nodeReadingOrder[0] : undefined);

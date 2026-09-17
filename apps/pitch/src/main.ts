@@ -21,7 +21,6 @@ import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
-import { mountEcoCityFlowDecorations } from "./eco-city-flow-decoration.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -74,7 +73,6 @@ const unmountFlowDiagrams = mountPitchFlowDiagrams(
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
-const unmountEcoCityFlowDecorations = mountEcoCityFlowDecorations(root);
 const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
@@ -254,7 +252,6 @@ window.addEventListener("pagehide", () => {
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
   unmountCharts();
-  unmountEcoCityFlowDecorations();
   unmountFlowDiagrams();
   stopBackgroundProgress();
   appearanceControls.destroy();

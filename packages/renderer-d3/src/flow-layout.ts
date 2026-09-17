@@ -15,6 +15,8 @@ export interface D3FlowLayoutEdgeInput {
 export interface D3FlowLayoutInput {
   readonly nodes: readonly D3FlowLayoutNodeInput[];
   readonly edges: readonly D3FlowLayoutEdgeInput[];
+  readonly diagramType?: "flow" | "network";
+  readonly groups?: readonly { readonly id: string }[];
 }
 
 export interface D3FlowLayoutNode {
@@ -284,6 +286,53 @@ function verticalLayeredLayout(
   };
 }
 
+function groupedNetworkLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  hostWidth: number,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const margin = 48;
+  const groupIds = input.groups?.map((group) => group.id) ?? [];
+  const groupIndex = new Map(groupIds.map((id, index) => [id, index]));
+  const buckets = new Map<string, PreparedNode[]>();
+  for (const node of prepared) {
+    const memberships = (node as PreparedNode & { groupIds?: readonly string[] }).groupIds ?? [];
+    const groupId = memberships.find((id) => groupIndex.has(id)) ?? `ungrouped-${node.inputIndex}`;
+    const bucket = buckets.get(groupId) ?? [];
+    bucket.push(node);
+    buckets.set(groupId, bucket);
+  }
+  const orderedBuckets = [...buckets.entries()].sort(([left], [right]) => {
+    const leftIndex = groupIndex.get(left) ?? Number.MAX_SAFE_INTEGER;
+    const rightIndex = groupIndex.get(right) ?? Number.MAX_SAFE_INTEGER;
+    return leftIndex - rightIndex || left.localeCompare(right);
+  });
+  const columns = hostWidth < 760 ? 1 : Math.min(3, Math.max(1, Math.ceil(Math.sqrt(orderedBuckets.length))));
+  const cellWidth = Math.max(260, Math.floor((Math.max(320, hostWidth) - margin * 2) / columns));
+  const cellHeight = 240;
+  const nodes: D3FlowLayoutNode[] = [];
+  for (const [index, [, bucket]] of orderedBuckets.entries()) {
+    const column = index % columns;
+    const row = Math.floor(index / columns);
+    const centerX = margin + column * cellWidth + cellWidth / 2;
+    const centerY = margin + row * cellHeight + cellHeight / 2;
+    const radius = Math.min(72, 28 + bucket.length * 9);
+    bucket.forEach((node, nodeIndex) => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * nodeIndex) / Math.max(bucket.length, 1);
+      nodes.push({
+        id: node.id,
+        x: centerX + (bucket.length === 1 ? 0 : Math.cos(angle) * radius),
+        y: centerY + (bucket.length === 1 ? 0 : Math.sin(angle) * radius),
+        width: Math.min(210, node.width),
+        height: node.height,
+        labelLines: node.labelLines,
+      });
+    });
+  }
+  const rows = Math.ceil(orderedBuckets.length / columns);
+  return { width: Math.max(320, hostWidth), height: margin * 2 + rows * cellHeight, nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!) };
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
@@ -299,9 +348,11 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const geometry = orientation === "horizontal"
-    ? horizontalLayeredLayout(input, prepared, layers, hostWidth)
-    : verticalLayeredLayout(prepared, layers, hostWidth);
+  const geometry = input.diagramType === "network"
+    ? groupedNetworkLayout(input, prepared, hostWidth)
+    : orientation === "horizontal"
+      ? horizontalLayeredLayout(input, prepared, layers, hostWidth)
+      : verticalLayeredLayout(prepared, layers, hostWidth);
 
   const nodeById = new Map(geometry.nodes.map((node) => [node.id, node]));
   const edges = input.edges.map((edge) => {
@@ -309,7 +360,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
 
-    if (orientation === "horizontal") {
+    if (input.diagramType !== "network" && orientation === "horizontal") {
       const forward = target.x >= source.x;
       const x1 = source.x + (forward ? source.width / 2 : -source.width / 2);
       const x2 = target.x + (forward ? -target.width / 2 : target.width / 2);
