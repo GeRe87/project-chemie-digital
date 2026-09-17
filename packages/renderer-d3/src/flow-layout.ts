@@ -82,6 +82,11 @@ const HORIZONTAL_NODE_MAX_WIDTH = 286;
 const HORIZONTAL_NODE_CHROME = 118;
 // Keep relationship callouts above the workflow rather than inside card bounds.
 const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
+const EDGE_LABEL_MAX_WIDTH = 130;
+const EDGE_LABEL_LINE_HEIGHT = 22;
+const EDGE_LABEL_MIN_HEIGHT = 34;
+const EDGE_LABEL_VERTICAL_PADDING = 12;
+const PARALLEL_LABEL_BREATHING_ROOM = 12;
 const NETWORK_COMPACT_BREAKPOINT = 720;
 const NETWORK_MARGIN = 32;
 const NETWORK_NODE_MAX_WIDTH = 210;
@@ -216,15 +221,22 @@ function horizontalLayeredLayout(
   const margin = 24;
   const layerGap = 56;
   const siblingGap = 54;
-  const annotationSiblingGap = 94;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
   const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => nodeById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
   const layerGapFor = (layer: readonly string[]): number => {
     if (layer.length < 2) return siblingGap;
     const ids = new Set(layer);
-    return input.edges.some((edge) => edge.visualRole === "annotation" && (ids.has(edge.sourceNodeId) || ids.has(edge.targetNodeId)))
-      ? annotationSiblingGap
-      : siblingGap;
+    const tallestLabelPanel = Math.max(
+      0,
+      ...input.edges
+        .filter((edge) => ids.has(edge.sourceNodeId) || ids.has(edge.targetNodeId))
+        .map((edge) => Math.max(
+          EDGE_LABEL_MIN_HEIGHT,
+          wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH).length * EDGE_LABEL_LINE_HEIGHT + EDGE_LABEL_VERTICAL_PADDING,
+        )),
+    );
+    // Labels move half as far apart as their sibling nodes, so double their clearance.
+    return Math.max(siblingGap, 2 * (tallestLabelPanel + PARALLEL_LABEL_BREATHING_ROOM));
   };
   const layerHeights = layers.map((layer) =>
     layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
@@ -413,7 +425,6 @@ function groupedNetworkLayout(
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
-  const labelWidth = 130;
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const labelLines = wrapFlowText(node.label, HORIZONTAL_LABEL_WIDTH);
     return {
@@ -451,7 +462,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         y2: target.y,
         labelX: midpoint(x1, x2),
         labelY: midpoint(source.y, target.y) - HORIZONTAL_EDGE_LABEL_CLEARANCE,
-        labelLines: wrapFlowText(edge.label, labelWidth),
+        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
     }
@@ -469,7 +480,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       y2,
       labelX: midpoint(source.x, target.x) + 20,
       labelY: midpoint(y1, y2),
-      labelLines: wrapFlowText(edge.label, labelWidth),
+      labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
       ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
     };
   });

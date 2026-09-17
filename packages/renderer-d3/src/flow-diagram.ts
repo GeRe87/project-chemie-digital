@@ -166,6 +166,16 @@ function flowStaticFallback(block: DiagramBlock): string {
   ].join("\n");
 }
 
+function effectiveEdgeVisualRole(
+  edge: DiagramBlock["edges"][number],
+  nodeVisualRoles: ReadonlyMap<string, string | undefined>,
+): string | undefined {
+  if (edge.visualRole) return edge.visualRole;
+  const sourceRole = nodeVisualRoles.get(edge.sourceNodeId);
+  const targetRole = nodeVisualRoles.get(edge.targetNodeId);
+  return sourceRole && sourceRole === targetRole ? sourceRole : undefined;
+}
+
 export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOptions): D3FlowRenderModelResult {
   try {
     validateOptions(options);
@@ -188,15 +198,19 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
        ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
       readingIndex,
     }));
-      const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => ({
-      id: edge.id,
-      sourceNodeId: edge.sourceNodeId,
-      targetNodeId: edge.targetNodeId,
-      label: edge.label,
-       source: cloneSources(edge.source),
-       readingIndex,
-       ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
-      }));
+      const nodeVisualRoles = new Map(block.nodes.map((node) => [node.id, node.visualRole]));
+      const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => {
+        const visualRole = effectiveEdgeVisualRole(edge, nodeVisualRoles);
+        return {
+          id: edge.id,
+          sourceNodeId: edge.sourceNodeId,
+          targetNodeId: edge.targetNodeId,
+          label: edge.label,
+          source: cloneSources(edge.source),
+          readingIndex,
+          ...(visualRole ? { visualRole } : {}),
+        };
+      });
       const groups = (block.groups ?? []).map((group): D3FlowRenderGroup => ({
         id: group.id,
         label: group.label,
@@ -425,8 +439,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           marker.setAttribute("viewBox", "0 0 10 10");
           marker.setAttribute("refX", "9");
           marker.setAttribute("refY", "5");
-          marker.setAttribute("markerWidth", visualRole === "annotation" ? "4" : "6");
-          marker.setAttribute("markerHeight", visualRole === "annotation" ? "4" : "6");
+          marker.setAttribute("markerWidth", "3.5");
+          marker.setAttribute("markerHeight", "4");
           marker.setAttribute("orient", "auto-start-reverse");
           if (visualRole) marker.setAttribute("data-visual-role", visualRole);
           const arrow = document.createElementNS(namespace, "path");

@@ -79,19 +79,19 @@ test("branched DAGs place same-depth provenance siblings in one visual layer", (
   assert.ok(narrowById.get("artifact")!.y > narrowById.get("process")!.y);
 });
 
-test("annotation edges reserve additional clearance for their parallel flow row", () => {
+test("parallel flow rows reserve generic breathing room for relationship label panels", () => {
   const plain = createD3FlowLayout(branchedInput, 1200);
-  const annotated = createD3FlowLayout({
+  const detailed = createD3FlowLayout({
     ...branchedInput,
-    edges: branchedInput.edges.map((edge) => edge.id === "raw-algorithm" ? { ...edge, visualRole: "annotation" } : edge),
+    edges: branchedInput.edges.map((edge) => edge.id === "raw-algorithm" ? { ...edge, label: "software configuration and environment provenance" } : edge),
   }, 1200);
   const rowDistance = (layout: ReturnType<typeof createD3FlowLayout>): number => {
     const byId = new Map(layout.nodes.map((node) => [node.id, node]));
     return Math.abs(byId.get("algorithm")!.y - byId.get("process")!.y);
   };
 
-  assert.equal(rowDistance(annotated) - rowDistance(plain), 40);
-  assert.equal(annotated.edges.find((edge) => edge.id === "raw-algorithm")!.visualRole, "annotation");
+  assert.ok(rowDistance(plain) >= 92, "one-line label panels retain 12px of breathing room");
+  assert.ok(rowDistance(detailed) > rowDistance(plain), "wrapped label panels increase parallel row clearance");
 });
 
 test("network layouts place the authored focus centrally and cluster typed group memberships radially", () => {

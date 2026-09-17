@@ -152,30 +152,7 @@ body[data-presentation-theme="dark"] .reveal {
   filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-accent) 16%, transparent));
 }
 
-.reveal .d3-flow-edge {
-  stroke: var(--pcd-accent);
-  stroke-width: 2;
-}
-
-/* Annotation roles are semantic hooks, not scene-specific decoration. */
-.reveal .d3-flow-edge[data-visual-role="annotation"] {
-  stroke-width: 1.5;
-  stroke-dasharray: 5 4;
-}
-
-.reveal .d3-flow-edge-marker[data-visual-role="annotation"] path {
-  fill: var(--pcd-muted);
-}
-
-.reveal .d3-flow-edge-label-group[data-visual-role="annotation"] .d3-flow-edge-label-panel {
-  stroke: var(--pcd-muted);
-  stroke-dasharray: 3 3;
-}
-
-.reveal .d3-flow-edge-label-stem[data-visual-role="annotation"] {
-  stroke: var(--pcd-muted);
-  stroke-dasharray: 2 4;
-}
+.reveal .d3-flow-edge { stroke: var(--pcd-accent); stroke-width: 2; }
 
 /* Semantic roles remain portable across diagram families and presentation themes. */
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
@@ -198,6 +175,19 @@ body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-vis
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index {
   fill: var(--pcd-flow-role-highlight-text);
 }
+
+/* Edge roles use the same portable semantic palette as their endpoint nodes. */
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge[data-visual-role="comparison"] { stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-marker[data-visual-role="comparison"] path { fill: var(--pcd-flow-role-comparison-stroke); stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-panel[data-visual-role="comparison"] { fill: var(--pcd-flow-role-comparison-fill); stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-stem[data-visual-role="comparison"] { stroke: var(--pcd-flow-role-comparison-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-group[data-visual-role="comparison"] .d3-flow-edge-label { fill: var(--pcd-flow-role-comparison-text); }
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge[data-visual-role="highlight"] { stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-marker[data-visual-role="highlight"] path { fill: var(--pcd-flow-role-highlight-stroke); stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-panel[data-visual-role="highlight"] { fill: var(--pcd-flow-role-highlight-fill); stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-stem[data-visual-role="highlight"] { stroke: var(--pcd-flow-role-highlight-stroke); }
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-group[data-visual-role="highlight"] .d3-flow-edge-label { fill: var(--pcd-flow-role-highlight-text); }
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
@@ -366,18 +356,15 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 58%, transparent));
 }
 
-/* Chunky stepped connector pieces replace generic diagonal arrows. */
+/* Solid low-profile connectors preserve the cards as the primary visual weight. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge {
   stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 8;
+  stroke-width: 3;
   stroke-linecap: square;
   stroke-linejoin: miter;
-  stroke-dasharray: 24 9;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
-  filter:
-    drop-shadow(0 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 80%, transparent))
-    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
@@ -419,29 +406,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge {
-  stroke-width: 10;
+  stroke-width: 4;
   filter:
     drop-shadow(0 0 3px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 76%, transparent))
     drop-shadow(0 2px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge[data-visual-role="annotation"] {
-  stroke-width: 5;
-  stroke-dasharray: 10 8;
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-marker[data-visual-role="annotation"] path,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem[data-visual-role="annotation"] {
-  stroke: var(--pcd-flow-pixel-annotation);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-marker[data-visual-role="annotation"] path {
-  fill: var(--pcd-flow-pixel-annotation);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visual-role="annotation"] .d3-flow-edge-label-panel {
-  stroke: var(--pcd-flow-pixel-annotation);
 }
 
 @media (max-width: 900px) {
