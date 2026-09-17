@@ -354,7 +354,8 @@ function effectiveEdgeVisualRole(
   if (edge.visualRole) return edge.visualRole;
   const sourceRole = nodeVisualRoles.get(edge.sourceNodeId);
   const targetRole = nodeVisualRoles.get(edge.targetNodeId);
-  return sourceRole ?? targetRole;
+  if (sourceRole && sourceRole === targetRole) return sourceRole;
+  return undefined;
 }
 
 export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOptions): D3FlowRenderModelResult {
@@ -452,6 +453,10 @@ export function resolveD3FlowHostWidth(hostWidth: number, viewportWidth?: number
 }
 
 let flowMarkerMountSequence = 0;
+
+function preserveAccessibilityLiveRegions(host: HTMLElement): HTMLElement[] {
+  return Array.from(host.children).filter((child): child is HTMLElement => child.getAttribute("aria-live") === "polite");
+}
 
 function markerIdFor(model: D3FlowRenderModel, mountSequence: number, visualRole?: string): string {
   const role = visualRole ? `-${visualRole}` : "";
@@ -697,6 +702,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       const hostElement = ensureHostElement(host);
       const namespace = "http://www.w3.org/2000/svg";
       const mountSequence = ++flowMarkerMountSequence;
+      const liveRegions = preserveAccessibilityLiveRegions(hostElement);
       hostElement.innerHTML = "";
       // A div prevents Reveal from treating the renderer-owned wrapper as a nested slide.
       const wrapper = document.createElement("div");
@@ -715,6 +721,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       figure.append(svg, caption);
       wrapper.append(figure);
       hostElement.append(wrapper);
+      for (const live of liveRegions) hostElement.append(live);
 
       let destroyed = false;
       let nodeElements = new Map<string, SVGGElement>();

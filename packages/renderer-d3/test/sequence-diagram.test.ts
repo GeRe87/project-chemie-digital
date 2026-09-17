@@ -29,9 +29,61 @@ test("generic Client Registry Runtime Consumer sequence preserves substitutions 
   assert.deepEqual(createD3SequenceLayout(result.model, 960), wide);
   assert.ok(wide.lanes.every((lane, index) => index === 0 || lane.x > wide.lanes[index - 1]!.x));
   assert.ok(wide.messages.every((message, index) => index === 0 || message.y > wide.messages[index - 1]!.y));
-  assert.ok(narrow.messages.every((message) => message.y >= 106 && message.y <= narrow.height));
+  assert.ok(narrow.lanes.every((lane, index) => index === 0 || lane.y > narrow.lanes[index - 1]!.y));
+  assert.ok(narrow.messages.every((message) => message.y >= 24 && message.y <= narrow.height));
   assert.match(result.model.staticFallback, /Template/);
   assert.match(sequenceLayoutDataAttributes(narrow).join(" "), /mode:compact/);
+});
+
+test("compact sequence layout stacks participants vertically without overlap", () => {
+  const result = createD3SequenceRenderModel(fixture, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const compact = createD3SequenceLayout(result.model, 480);
+  assert.equal(compact.compact, true);
+  const cardHeight = 32;
+  for (let index = 0; index < compact.lanes.length; index += 1) {
+    const lane = compact.lanes[index]!;
+    assert.equal(lane.x, 240);
+    assert.ok(lane.y > 0);
+    if (index > 0) {
+      const previous = compact.lanes[index - 1]!;
+      assert.ok(lane.y - previous.y >= cardHeight + 16, "participants must not overlap vertically");
+    }
+  }
+});
+
+test("compact sequence layout places messages meaningfully between source and target participants", () => {
+  const result = createD3SequenceRenderModel(fixture, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const compact = createD3SequenceLayout(result.model, 480);
+  const laneById = new Map(compact.lanes.map((lane) => [lane.roleId, lane]));
+  for (const message of compact.messages) {
+    const source = laneById.get(message.sourceRoleId)!;
+    const target = laneById.get(message.targetRoleId)!;
+    const minY = Math.min(source.y, target.y);
+    const maxY = Math.max(source.y, target.y);
+    assert.ok(message.y > minY, `message ${message.id} must be below its upper participant`);
+    assert.ok(message.y < maxY, `message ${message.id} must be above its lower participant`);
+    assert.equal(message.sourceX, source.x);
+    assert.equal(message.targetX, target.x);
+  }
+});
+
+test("compact sequence self-message stays beside its participant", () => {
+  const selfFixture: DiagramBlock = {
+    ...fixture,
+    messages: [{ id: "self", sourceRoleId: "client", targetRoleId: "client", label: "self-call", source }],
+  };
+  const result = createD3SequenceRenderModel(selfFixture, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const compact = createD3SequenceLayout(result.model, 480);
+  assert.equal(compact.messages.length, 1);
+  const message = compact.messages[0]!;
+  const client = compact.lanes.find((lane) => lane.roleId === "client")!;
+  assert.equal(message.y, client.y);
 });
 
 test("sequence runtime mounts deterministic layout and applies only authored message states", () => {

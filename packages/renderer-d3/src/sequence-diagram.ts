@@ -1,8 +1,8 @@
 import type { DiagramBlock } from "../../core/src/scene-document.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 
-export interface D3SequenceLane { readonly roleId: string; readonly label: string; readonly x: number; }
-export interface D3SequenceMessage { readonly id: string; readonly label: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly y: number; }
+export interface D3SequenceLane { readonly roleId: string; readonly label: string; readonly x: number; readonly y: number; }
+export interface D3SequenceMessage { readonly id: string; readonly label: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly y: number; readonly sourceX: number; readonly targetX: number; }
 export interface D3SequenceLayout { readonly width: number; readonly height: number; readonly compact: boolean; readonly lanes: readonly D3SequenceLane[]; readonly messages: readonly D3SequenceMessage[]; }
 export interface D3SequenceRenderModel { readonly version: "1.0"; readonly sourceBlockId: string; readonly label: string; readonly description: string; readonly participantRoles: NonNullable<DiagramBlock["participantRoles"]>; readonly messages: NonNullable<DiagramBlock["messages"]>; readonly states: NonNullable<DiagramBlock["states"]>; readonly staticFallback: string; readonly reducedMotion: boolean; }
 export interface D3SequenceResolvedState { readonly activeMessageIds: ReadonlySet<string>; readonly bindings: ReadonlyMap<string, string>; }
@@ -12,9 +12,53 @@ export interface D3SequenceComponent { readonly model: D3SequenceRenderModel; re
 
 /** Geometry is derived only from ordered roles/messages and the host width. */
 export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: number): D3SequenceLayout {
-  const width = Math.max(320, hostWidth); const compact = width < 720; const margin = 42;
-  const lanes = model.participantRoles.map((role, index) => ({ roleId: role.id, label: role.label, x: compact ? width / 2 : margin + index * ((width - margin * 2) / Math.max(1, model.participantRoles.length - 1)) }));
-  return { width, height: (compact ? 106 : 82) + model.messages.length * (compact ? 72 : 58), compact, lanes, messages: model.messages.map((message, index) => ({ ...message, y: (compact ? 106 : 82) + index * (compact ? 72 : 58) })) };
+  const width = Math.max(320, hostWidth);
+  const compact = width < 720;
+  const margin = 42;
+  const roleCount = model.participantRoles.length;
+
+  if (compact) {
+    const cardHeight = 32;
+    const spacing = 80;
+    const laneX = width / 2;
+    const lanes = model.participantRoles.map((role, index) => ({
+      roleId: role.id,
+      label: role.label,
+      x: laneX,
+      y: 8 + index * spacing + cardHeight / 2,
+    }));
+    const laneById = new Map(lanes.map((lane) => [lane.roleId, lane]));
+    const messages = model.messages.map((message, index) => {
+      const sourceLane = laneById.get(message.sourceRoleId)!;
+      const targetLane = laneById.get(message.targetRoleId)!;
+      const baseY = (sourceLane.y + targetLane.y) / 2;
+      const samePairEarlier = model.messages.slice(0, index).filter((m) => m.sourceRoleId === message.sourceRoleId && m.targetRoleId === message.targetRoleId).length;
+      const y = baseY + samePairEarlier * 14;
+      return {
+        ...message,
+        y,
+        sourceX: sourceLane.x,
+        targetX: targetLane.x,
+      };
+    });
+    const height = 8 + roleCount * spacing + 40;
+    return { width, height, compact, lanes, messages };
+  }
+
+  const laneSpan = roleCount > 1 ? (width - margin * 2) / (roleCount - 1) : 0;
+  const lanes = model.participantRoles.map((role, index) => ({
+    roleId: role.id,
+    label: role.label,
+    x: margin + index * laneSpan,
+    y: 30,
+  }));
+  const messages = model.messages.map((message, index) => ({
+    ...message,
+    y: 82 + index * 58,
+    sourceX: lanes.find((lane) => lane.roleId === message.sourceRoleId)!.x,
+    targetX: lanes.find((lane) => lane.roleId === message.targetRoleId)!.x,
+  }));
+  return { width, height: 82 + model.messages.length * 58, compact, lanes, messages };
 }
 
 export function createD3SequenceRenderModel(block: DiagramBlock, options: D3KnowledgeNetworkOptions): { readonly model?: D3SequenceRenderModel; readonly diagnostics: readonly { readonly code: string; readonly message: string }[] } {
@@ -34,12 +78,20 @@ export function resolveD3SequenceState(model: D3SequenceRenderModel, stateId?: s
 
 /** SVG-free deterministic layout model is the renderer boundary; hosts may theme it without semantic selectors. */
 export function sequenceLayoutDataAttributes(layout: D3SequenceLayout): readonly string[] {
-  return [...layout.lanes.map((lane) => `role:${lane.roleId}@${lane.x}`), ...layout.messages.map((message) => `message:${message.id}@${message.y}`), `mode:${layout.compact ? "compact" : "lanes"}`];
+  return [
+    ...layout.lanes.map((lane) => `role:${lane.roleId}@${lane.x},${lane.y}`),
+    ...layout.messages.map((message) => `message:${message.id}@${message.y}`),
+    `mode:${layout.compact ? "compact" : "lanes"}`,
+  ];
 }
 
 function ensureHostElement(host: unknown): HTMLElement {
   if (!(host instanceof HTMLElement)) throw new Error("D3 sequence host must be an HTMLElement");
   return host;
+}
+
+function preserveAccessibilityLiveRegions(host: HTMLElement): HTMLElement[] {
+  return Array.from(host.children).filter((child): child is HTMLElement => child.getAttribute("aria-live") === "polite");
 }
 
 function hostWidth(hostWidth: number, viewportWidth?: number): number {
@@ -51,29 +103,94 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
     measureHost(host) { const element = ensureHostElement(host); return hostWidth(element.clientWidth, typeof window === "undefined" ? undefined : window.innerWidth); },
     mount(host, model, initialLayout, initialStateId) {
       const hostElement = ensureHostElement(host); const namespace = "http://www.w3.org/2000/svg";
+      const liveRegions = preserveAccessibilityLiveRegions(hostElement);
       hostElement.innerHTML = "";
       const wrapper = document.createElement("div"); wrapper.className = "d3-sequence-runtime";
       const figure = document.createElement("figure"); figure.className = "d3-sequence-figure";
       const svg = document.createElementNS(namespace, "svg"); svg.setAttribute("class", "d3-sequence-svg"); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", model.label); svg.setAttribute("width", "100%"); svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       const caption = document.createElement("figcaption"); caption.className = "d3-sequence-caption"; caption.textContent = model.description;
       figure.append(svg, caption); wrapper.append(figure); hostElement.append(wrapper);
+      for (const live of liveRegions) hostElement.append(live);
       let destroyed = false;
       const render = (layout: D3SequenceLayout, stateId?: string): void => {
         if (destroyed) return;
         const state = resolveD3SequenceState(model, stateId); svg.replaceChildren(); svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`); svg.setAttribute("height", String(layout.height)); svg.setAttribute("data-layout-mode", layout.compact ? "compact" : "lanes"); svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
         const description = document.createElementNS(namespace, "desc"); description.textContent = model.staticFallback; svg.append(description);
         const laneById = new Map(layout.lanes.map((lane) => [lane.roleId, lane]));
+        const roleOrder = new Map(layout.lanes.map((lane, index) => [lane.roleId, index]));
         for (const lane of layout.lanes) {
-          if (!layout.compact) { const card = document.createElementNS(namespace, "rect"); card.setAttribute("class", "d3-sequence-participant-card"); card.setAttribute("data-role-id", lane.roleId); card.setAttribute("x", String(lane.x - 72)); card.setAttribute("y", "8"); card.setAttribute("width", "144"); card.setAttribute("height", "32"); card.setAttribute("rx", "4"); svg.append(card); }
-          const label = document.createElementNS(namespace, "text"); label.setAttribute("class", "d3-sequence-participant"); label.setAttribute("data-role-id", lane.roleId); label.setAttribute("x", String(lane.x)); label.setAttribute("y", "30"); label.setAttribute("text-anchor", "middle"); label.textContent = state.bindings.get(lane.roleId) ?? lane.label; svg.append(label);
-          if (!layout.compact) { const lifeline = document.createElementNS(namespace, "line"); lifeline.setAttribute("class", "d3-sequence-lifeline"); lifeline.setAttribute("data-role-id", lane.roleId); lifeline.setAttribute("x1", String(lane.x)); lifeline.setAttribute("x2", String(lane.x)); lifeline.setAttribute("y1", "42"); lifeline.setAttribute("y2", String(layout.height - 12)); svg.append(lifeline); }
+          if (layout.compact) {
+            const card = document.createElementNS(namespace, "rect");
+            card.setAttribute("class", "d3-sequence-participant-card");
+            card.setAttribute("data-role-id", lane.roleId);
+            card.setAttribute("x", String(lane.x - 60));
+            card.setAttribute("y", String(lane.y - 16));
+            card.setAttribute("width", "120");
+            card.setAttribute("height", "32");
+            card.setAttribute("rx", "4");
+            svg.append(card);
+          } else {
+            const card = document.createElementNS(namespace, "rect");
+            card.setAttribute("class", "d3-sequence-participant-card");
+            card.setAttribute("data-role-id", lane.roleId);
+            card.setAttribute("x", String(lane.x - 72));
+            card.setAttribute("y", "8");
+            card.setAttribute("width", "144");
+            card.setAttribute("height", "32");
+            card.setAttribute("rx", "4");
+            svg.append(card);
+          }
+          const label = document.createElementNS(namespace, "text");
+          label.setAttribute("class", "d3-sequence-participant");
+          label.setAttribute("data-role-id", lane.roleId);
+          label.setAttribute("x", String(lane.x));
+          label.setAttribute("y", String(layout.compact ? lane.y : 30));
+          label.setAttribute("text-anchor", "middle");
+          label.textContent = state.bindings.get(lane.roleId) ?? lane.label;
+          svg.append(label);
+          if (!layout.compact) {
+            const lifeline = document.createElementNS(namespace, "line");
+            lifeline.setAttribute("class", "d3-sequence-lifeline");
+            lifeline.setAttribute("data-role-id", lane.roleId);
+            lifeline.setAttribute("x1", String(lane.x));
+            lifeline.setAttribute("x2", String(lane.x));
+            lifeline.setAttribute("y1", "42");
+            lifeline.setAttribute("y2", String(layout.height - 12));
+            svg.append(lifeline);
+          }
         }
         for (const message of layout.messages) {
           if (!state.activeMessageIds.has(message.id)) continue;
-          const source = laneById.get(message.sourceRoleId)!; const target = laneById.get(message.targetRoleId)!;
-          const group = document.createElementNS(namespace, "g"); group.setAttribute("class", "d3-sequence-message"); group.setAttribute("data-message-id", message.id);
-          const line = document.createElementNS(namespace, "line"); line.setAttribute("class", "d3-sequence-message-line"); line.setAttribute("x1", String(source.x)); line.setAttribute("x2", String(target.x)); line.setAttribute("y1", String(message.y)); line.setAttribute("y2", String(message.y)); group.append(line);
-          const text = document.createElementNS(namespace, "text"); text.setAttribute("class", "d3-sequence-message-label"); text.setAttribute("x", String((source.x + target.x) / 2)); text.setAttribute("y", String(message.y - 9)); text.setAttribute("text-anchor", "middle"); text.textContent = message.label; group.append(text); svg.append(group);
+          const source = laneById.get(message.sourceRoleId)!;
+          const target = laneById.get(message.targetRoleId)!;
+          const sourceIndex = roleOrder.get(message.sourceRoleId) ?? 0;
+          const targetIndex = roleOrder.get(message.targetRoleId) ?? 0;
+          const forward = sourceIndex <= targetIndex;
+          const group = document.createElementNS(namespace, "g");
+          group.setAttribute("class", "d3-sequence-message");
+          group.setAttribute("data-message-id", message.id);
+          const line = document.createElementNS(namespace, "line");
+          line.setAttribute("class", "d3-sequence-message-line");
+          if (layout.compact) {
+            const x1 = 48;
+            const x2 = layout.width - 48;
+            line.setAttribute("x1", String(forward ? x1 : x2));
+            line.setAttribute("x2", String(forward ? x2 : x1));
+          } else {
+            line.setAttribute("x1", String(source.x));
+            line.setAttribute("x2", String(target.x));
+          }
+          line.setAttribute("y1", String(message.y));
+          line.setAttribute("y2", String(message.y));
+          group.append(line);
+          const text = document.createElementNS(namespace, "text");
+          text.setAttribute("class", "d3-sequence-message-label");
+          text.setAttribute("x", String(layout.compact ? layout.width / 2 : (source.x + target.x) / 2));
+          text.setAttribute("y", String(message.y - 9));
+          text.setAttribute("text-anchor", "middle");
+          text.textContent = message.label;
+          group.append(text);
+          svg.append(group);
         }
       };
       render(initialLayout, initialStateId);
