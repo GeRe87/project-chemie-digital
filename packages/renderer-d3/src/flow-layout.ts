@@ -3,6 +3,7 @@ export type D3FlowOrientation = "horizontal" | "vertical";
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
+  readonly groupIds?: readonly string[];
 }
 
 export interface D3FlowLayoutEdgeInput {
@@ -17,6 +18,7 @@ export interface D3FlowLayoutInput {
   readonly edges: readonly D3FlowLayoutEdgeInput[];
   readonly diagramType?: "flow" | "network";
   readonly groups?: readonly { readonly id: string }[];
+  readonly focusNodeId?: string;
 }
 
 export interface D3FlowLayoutNode {
@@ -292,11 +294,12 @@ function groupedNetworkLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const margin = 48;
+  const width = Math.max(720, hostWidth);
   const groupIds = input.groups?.map((group) => group.id) ?? [];
   const groupIndex = new Map(groupIds.map((id, index) => [id, index]));
   const buckets = new Map<string, PreparedNode[]>();
   for (const node of prepared) {
-    const memberships = (node as PreparedNode & { groupIds?: readonly string[] }).groupIds ?? [];
+    const memberships = node.groupIds ?? [];
     const groupId = memberships.find((id) => groupIndex.has(id)) ?? `ungrouped-${node.inputIndex}`;
     const bucket = buckets.get(groupId) ?? [];
     bucket.push(node);
@@ -307,30 +310,48 @@ function groupedNetworkLayout(
     const rightIndex = groupIndex.get(right) ?? Number.MAX_SAFE_INTEGER;
     return leftIndex - rightIndex || left.localeCompare(right);
   });
-  const columns = hostWidth < 760 ? 1 : Math.min(3, Math.max(1, Math.ceil(Math.sqrt(orderedBuckets.length))));
-  const cellWidth = Math.max(260, Math.floor((Math.max(320, hostWidth) - margin * 2) / columns));
-  const cellHeight = 240;
+  const focusNode = input.focusNodeId ? prepared.find((node) => node.id === input.focusNodeId) : undefined;
+  const clusteredBuckets = orderedBuckets
+    .map(([id, bucket]) => [id, bucket.filter((node) => node.id !== focusNode?.id)] as const)
+    .filter(([, bucket]) => bucket.length > 0);
+  const clusterCount = Math.max(clusteredBuckets.length, 1);
+  const clusterRadius = Math.max(210, Math.min(310, 118 + clusterCount * 34));
+  const clusterNodeRadius = 92;
+  const centerX = width / 2;
+  const centerY = margin + clusterRadius + clusterNodeRadius + 92;
   const nodes: D3FlowLayoutNode[] = [];
-  for (const [index, [, bucket]] of orderedBuckets.entries()) {
-    const column = index % columns;
-    const row = Math.floor(index / columns);
-    const centerX = margin + column * cellWidth + cellWidth / 2;
-    const centerY = margin + row * cellHeight + cellHeight / 2;
-    const radius = Math.min(72, 28 + bucket.length * 9);
+  if (focusNode) {
+    nodes.push({
+      id: focusNode.id,
+      x: centerX,
+      y: centerY,
+      width: Math.min(240, focusNode.width),
+      height: focusNode.height,
+      labelLines: focusNode.labelLines,
+    });
+  }
+  for (const [index, [, bucket]] of clusteredBuckets.entries()) {
+    const clusterAngle = -Math.PI / 2 + (2 * Math.PI * index) / clusterCount;
+    const clusterX = centerX + Math.cos(clusterAngle) * clusterRadius;
+    const clusterY = centerY + Math.sin(clusterAngle) * clusterRadius;
+    const radius = bucket.length === 1 ? 0 : Math.min(clusterNodeRadius, 32 + bucket.length * 16);
     bucket.forEach((node, nodeIndex) => {
-      const angle = -Math.PI / 2 + (2 * Math.PI * nodeIndex) / Math.max(bucket.length, 1);
+      const angle = clusterAngle + (2 * Math.PI * nodeIndex) / Math.max(bucket.length, 1);
       nodes.push({
         id: node.id,
-        x: centerX + (bucket.length === 1 ? 0 : Math.cos(angle) * radius),
-        y: centerY + (bucket.length === 1 ? 0 : Math.sin(angle) * radius),
+        x: clusterX + Math.cos(angle) * radius,
+        y: clusterY + Math.sin(angle) * radius,
         width: Math.min(210, node.width),
         height: node.height,
         labelLines: node.labelLines,
       });
     });
   }
-  const rows = Math.ceil(orderedBuckets.length / columns);
-  return { width: Math.max(320, hostWidth), height: margin * 2 + rows * cellHeight, nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!) };
+  return {
+    width,
+    height: Math.max(520, centerY + clusterRadius + clusterNodeRadius + margin),
+    nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!),
+  };
 }
 
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */

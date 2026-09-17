@@ -174,13 +174,27 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [node["label"] for node in architecture_diagram["nodes"]],
         )
         self.assertEqual("ex:node-cogniflow-common-open-format", workflow_diagram["focusNodeId"])
-        self.assertEqual("ex:node-cogniflow-lab-lcms", laboratory_diagram["focusNodeId"])
+        self.assertEqual("ex:node-cogniflow-lab-common-processing", laboratory_diagram["focusNodeId"])
         processing = next(node for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?")
         self.assertEqual("highlight", processing["visualRole"])
         self.assertEqual(["ex:diagram-group-cogniflow-lab-processing"], processing["groupIds"])
         self.assertEqual(
-            ["ex:diagram-group-cogniflow-lab-instruments", "ex:diagram-group-cogniflow-lab-processing"],
+            [
+                "ex:diagram-group-cogniflow-lab-mass-spectrometry",
+                "ex:diagram-group-cogniflow-lab-processing",
+                "ex:diagram-group-cogniflow-lab-routine-measurement",
+                "ex:diagram-group-cogniflow-lab-separation",
+                "ex:diagram-group-cogniflow-lab-spectroscopy",
+            ],
             [group["id"] for group in laboratory_diagram["groups"]],
+        )
+        self.assertEqual(
+            ["ex:diagram-group-cogniflow-lab-mass-spectrometry"],
+            laboratory_diagram["nodes"][0]["groupIds"],
+        )
+        self.assertEqual(
+            ["ex:diagram-group-cogniflow-lab-spectroscopy"],
+            laboratory_diagram["nodes"][2]["groupIds"],
         )
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
 

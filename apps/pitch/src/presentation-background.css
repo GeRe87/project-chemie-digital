@@ -124,11 +124,8 @@ body.pcd-background-active.reveal-scroll .reveal .slides section {
   backdrop-filter: none;
 }
 
-/* CogniFlow slide 2 sits on the Eco City world like the title slide: a translucent
-   rounded panel behind the diagram, not an opaque paper page. The generic world-panel
-   treatment is neutralized so the scene-owned pseudo-element can provide one panel. */
-body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"],
-body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupling-problem--scene"] section.d3-flow-runtime {
+/* Diagram scenes may provide their own panel treatment without Reveal nesting or scene ids. */
+body.pcd-background-active .reveal .slides section:has(.d3-flow-host) {
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
@@ -136,19 +133,17 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-coupli
   backdrop-filter: none !important;
 }
 
-/* The workflow scene no longer recolors the world or its scroll-page neighbors.
-   The translucent panel is rendered by the scene's own ::before pseudo-element. */
-body.pcd-background-active.reveal-scroll .scroll-page:has([id="ex:scene-cogniflow-coupling-problem--scene"]) {
+body.pcd-background-active.reveal-scroll .scroll-page:has(.d3-flow-host) {
   background: transparent !important;
 }
 
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .pcd-background-world,
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) #view-switch-shell {
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) .pcd-background-world,
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) #view-switch-shell {
   background: transparent;
   backdrop-filter: none;
 }
 
-body.pcd-background-active:not(.reveal-scroll):has([id="ex:scene-cogniflow-coupling-problem--scene"].present) .reveal {
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) .reveal {
   border: 0;
   border-radius: 0;
   box-shadow: none;

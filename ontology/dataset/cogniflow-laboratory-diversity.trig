@@ -24,7 +24,10 @@
       ex:node-cogniflow-lab-uv-vis,
       ex:node-cogniflow-lab-ph-meter,
       ex:node-cogniflow-lab-common-processing ;
-    cd:hasDiagramGroup ex:diagram-group-cogniflow-lab-instruments,
+    cd:hasDiagramGroup ex:diagram-group-cogniflow-lab-mass-spectrometry,
+      ex:diagram-group-cogniflow-lab-separation,
+      ex:diagram-group-cogniflow-lab-spectroscopy,
+      ex:diagram-group-cogniflow-lab-routine-measurement,
       ex:diagram-group-cogniflow-lab-processing ;
     cd:hasDiagramEdge ex:edge-cogniflow-lab-lcms-gcms,
       ex:edge-cogniflow-lab-hplc-ion-chromatograph,
@@ -34,19 +37,22 @@
       ex:edge-cogniflow-lab-ion-chromatograph-processing,
       ex:edge-cogniflow-lab-ftir-processing,
       ex:edge-cogniflow-lab-ph-meter-processing ;
-    cd:focusNode ex:node-cogniflow-lab-lcms ;
+    cd:focusNode ex:node-cogniflow-lab-common-processing ;
     cd:authoredResource true .
 
-  ex:diagram-group-cogniflow-lab-instruments a cd:DiagramGroup ; skos:prefLabel "Laboratory instruments"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-lab-mass-spectrometry a cd:DiagramGroup ; skos:prefLabel "Mass spectrometry"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-lab-separation a cd:DiagramGroup ; skos:prefLabel "Separation"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-lab-spectroscopy a cd:DiagramGroup ; skos:prefLabel "Spectroscopy"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-lab-routine-measurement a cd:DiagramGroup ; skos:prefLabel "Routine measurement"@en ; cd:authoredResource true .
   ex:diagram-group-cogniflow-lab-processing a cd:DiagramGroup ; skos:prefLabel "Shared processing"@en ; cd:authoredResource true .
-  ex:node-cogniflow-lab-lcms a cd:DiagramNode ; skos:prefLabel "LC-MS"@en ; cd:position 1 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-hplc a cd:DiagramNode ; skos:prefLabel "HPLC"@en ; cd:position 2 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-nmr a cd:DiagramNode ; skos:prefLabel "NMR"@en ; cd:position 3 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-uv-vis a cd:DiagramNode ; skos:prefLabel "UV-Vis"@en ; cd:position 4 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-gcms a cd:DiagramNode ; skos:prefLabel "GC-MS"@en ; cd:position 5 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ion-chromatograph a cd:DiagramNode ; skos:prefLabel "Ion Chromatograph"@en ; cd:position 6 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ftir a cd:DiagramNode ; skos:prefLabel "FTIR"@en ; cd:position 7 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ph-meter a cd:DiagramNode ; skos:prefLabel "pH Meter"@en ; cd:position 8 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-instruments ; cd:authoredResource true .
+  ex:node-cogniflow-lab-lcms a cd:DiagramNode ; skos:prefLabel "LC-MS"@en ; cd:position 1 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-mass-spectrometry ; cd:authoredResource true .
+  ex:node-cogniflow-lab-hplc a cd:DiagramNode ; skos:prefLabel "HPLC"@en ; cd:position 2 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-separation ; cd:authoredResource true .
+  ex:node-cogniflow-lab-nmr a cd:DiagramNode ; skos:prefLabel "NMR"@en ; cd:position 3 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-spectroscopy ; cd:authoredResource true .
+  ex:node-cogniflow-lab-uv-vis a cd:DiagramNode ; skos:prefLabel "UV-Vis"@en ; cd:position 4 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-spectroscopy ; cd:authoredResource true .
+  ex:node-cogniflow-lab-gcms a cd:DiagramNode ; skos:prefLabel "GC-MS"@en ; cd:position 5 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-mass-spectrometry ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ion-chromatograph a cd:DiagramNode ; skos:prefLabel "Ion Chromatograph"@en ; cd:position 6 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-separation ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ftir a cd:DiagramNode ; skos:prefLabel "FTIR"@en ; cd:position 7 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-spectroscopy ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ph-meter a cd:DiagramNode ; skos:prefLabel "pH Meter"@en ; cd:position 8 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-routine-measurement ; cd:authoredResource true .
   ex:node-cogniflow-lab-common-processing a cd:DiagramNode ; skos:prefLabel "one common data processing ?"@en ; cd:position 9 ; cd:visualRole "highlight" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-lab-processing ; cd:authoredResource true .
 
   ex:edge-cogniflow-lab-lcms-gcms a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-lab-lcms ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .

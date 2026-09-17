@@ -134,6 +134,8 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
     const host = new FakeHTMLElement("div");
     const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
 
+    assert.equal(host.children[0]?.tagName, "div");
+    assert.equal(host.findByTag("section").length, 0);
     const nodeText = host.findByClass("d3-flow-node-label")[0];
     const edgeText = host.findByClass("d3-flow-edge-label")[0];
     assert.ok(nodeText);

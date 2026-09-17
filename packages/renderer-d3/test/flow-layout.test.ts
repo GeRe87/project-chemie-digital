@@ -79,6 +79,34 @@ test("branched DAGs place same-depth provenance siblings in one visual layer", (
   assert.ok(narrowById.get("artifact")!.y > narrowById.get("process")!.y);
 });
 
+test("network layouts place the authored focus centrally and cluster typed group memberships radially", () => {
+  const network = createD3FlowLayout({
+    diagramType: "network",
+    focusNodeId: "processing",
+    groups: [{ id: "mass" }, { id: "separation" }],
+    nodes: [
+      { id: "lcms", label: "LC-MS", groupIds: ["mass"] },
+      { id: "gcms", label: "GC-MS", groupIds: ["mass"] },
+      { id: "hplc", label: "HPLC", groupIds: ["separation"] },
+      { id: "ion", label: "Ion chromatograph", groupIds: ["separation"] },
+      { id: "processing", label: "Common processing" },
+    ],
+    edges: [
+      { id: "lcms-processing", sourceNodeId: "lcms", targetNodeId: "processing", label: "feeds" },
+      { id: "gcms-processing", sourceNodeId: "gcms", targetNodeId: "processing", label: "feeds" },
+      { id: "hplc-processing", sourceNodeId: "hplc", targetNodeId: "processing", label: "feeds" },
+      { id: "ion-processing", sourceNodeId: "ion", targetNodeId: "processing", label: "feeds" },
+    ],
+  }, 1200);
+  const byId = new Map(network.nodes.map((node) => [node.id, node]));
+  const focus = byId.get("processing")!;
+  assert.equal(focus.x, network.width / 2);
+  assert.ok(Math.abs(focus.y - network.height / 2) < 100);
+  assert.ok(byId.get("lcms")!.y < focus.y);
+  assert.ok(byId.get("hplc")!.y > focus.y);
+  assert.ok(byId.get("lcms")!.y < byId.get("hplc")!.y);
+});
+
 test("wrapFlowText preserves all authored characters", () => {
   const text = "alpha  beta gamma-delta";
   const lines = wrapFlowText(text, 7, (value) => Array.from(value).length);
