@@ -29,6 +29,7 @@ NODE_ONE = URIRef(f"{EX}flow-node-one")
 NODE_TWO = URIRef(f"{EX}flow-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-edge-one")
 OUTSIDE_NODE = URIRef(f"{EX}flow-node-outside")
+OUTSIDE_GROUP = URIRef(f"{EX}flow-group-outside")
 SCENE_ITEM = URIRef(f"{EX}flow-diagram-scene-item")
 
 
@@ -132,6 +133,15 @@ class FlowDiagramSemanticTests(unittest.TestCase):
         graph.remove((EDGE_ONE, cd("targetNode"), NODE_TWO))
         graph.add((EDGE_ONE, cd("targetNode"), OUTSIDE_NODE))
         self.assert_violates(dataset, "endpoint must belong to the owning FlowDiagram node set")
+
+    def test_group_membership_must_belong_to_diagram(self) -> None:
+        dataset = fixture()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((OUTSIDE_GROUP, RDF.type, cd("DiagramGroup")))
+        graph.add((OUTSIDE_GROUP, SKOS.prefLabel, Literal("Outside", lang="en")))
+        graph.add((OUTSIDE_GROUP, cd("authoredResource"), Literal(True)))
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), OUTSIDE_GROUP))
+        self.assert_violates(dataset, "group membership must belong to the owning FlowDiagram")
 
     def test_node_positions_must_be_unique_and_contiguous(self) -> None:
         dataset = fixture()

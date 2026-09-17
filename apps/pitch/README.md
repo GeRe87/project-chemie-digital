@@ -146,43 +146,12 @@ The slide DOM reading order, block identities, provenance, D3 semantic ordering 
 
 The runtime keeps the existing no-network guard. Generated `canonical-runtime.json` is disposable transport and is not an authored content source. The app may render the selected canonical path in Reveal and provide the existing accessible graph summary without querying Fuseki directly.
 
-## CogniFlow slide 2 visual review
+## Diagram runtime
 
-The workflow scene's pixel card treatment lives in
-`src/eco-city-flow-decoration.ts` and its paired CSS. Its scene-scoped shell uses
-a paper-light face, integrated number segment and one round status LED in teal.
-All cards stay opaque; there is no staged progressive visibility. Decoration is
-aria-hidden and introduces no network requests or persisted state.
-In horizontal slide 2 flows, relation pills sit above their cards with
-three separate SVG squares per stem. The lower branch uses the same downward
-callout treatment; routing trunks and semantic edge identities are preserved.
-Horizontal card boundaries use separate rectangular socket housings and inset
-contacts, so the connector is distinct from the orthogonal routing path.
-The primary acceptance URL is
-`http://127.0.0.1:5173/?view=scroll&background=chemometrics-city&theme=light`
-after starting `npm --workspace @project-chemie-digital/pitch run dev:cogniflow`.
-Deck view uses the same SVG geometry and styling.
-
-Before Reveal initializes, the decoration mount adapts this scene's nested D3
-`section.d3-flow-runtime` into a `div`, preserving its live children/listeners.
-Otherwise Reveal treats it as a vertical slide and moves it out of the canonical
-scene in scroll view: scene-scoped styling and presentation-step ownership are
-then lost. Cleanup restores the original wrapper before renderer-d3 teardown.
-The scene now supplies its own full height rather than relying on accidental
-Reveal stack layout. No generic renderer or canonical document is changed.
-
-Slide 2 sits on the Eco City world through a translucent rounded panel, similar
-to the title-slide embedding. The scene's `::before` pseudo-element renders the
-glass panel; the diagram host sits above it with `position: relative` and a
-higher `z-index`. The generic world-panel background and scroll-page recoloring
-are removed for this scene so the Eco City artwork remains visible behind the
-panel. Scroll and deck views share the same panel treatment.
-
-The workflow scene renders its complete diagram immediately. No decorative SVG
-element depends on a staged reveal, `data-coupling-step` attribute or timed
-advance; the `prefers-reduced-motion` media query therefore no longer needs to
-gate a reveal timer. Leaving and re-entering the scene keeps the diagram fully
-visible.
+Diagram appearance and geometry are owned by the generic D3 runtime. Canonical
+RDF supplies source-linked roles and group membership only; it supplies neither
+colors nor coordinates. The runtime derives deterministic flow and grouped
+network layouts without inspecting CogniFlow scene, node, edge or path IDs.
 
 Review on `visual/cogniflow` against the local `soll.png`. After each bounded
 visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`

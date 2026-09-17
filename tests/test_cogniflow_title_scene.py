@@ -175,13 +175,12 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("ex:node-cogniflow-common-open-format", workflow_diagram["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-lab-lcms", laboratory_diagram["focusNodeId"])
+        processing = next(node for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?")
+        self.assertEqual("highlight", processing["visualRole"])
+        self.assertEqual(["ex:diagram-group-cogniflow-lab-processing"], processing["groupIds"])
         self.assertEqual(
-            (0.5, 0.5),
-            next((node["layoutX"], node["layoutY"]) for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?"),
-        )
-        self.assertEqual(
-            "red",
-            next(node["visualColor"] for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?"),
+            ["ex:diagram-group-cogniflow-lab-instruments", "ex:diagram-group-cogniflow-lab-processing"],
+            [group["id"] for group in laboratory_diagram["groups"]],
         )
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
 
