@@ -114,6 +114,21 @@ export interface D3FlowRenderState {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly label: string; readonly edgeIds: readonly string[]; readonly source: readonly SourceReference[] }[];
+  readonly activeNodeIds?: readonly string[];
+  readonly activeEdgeIds?: readonly string[];
+  readonly activeGroupIds?: readonly string[];
+  readonly focusNodeId?: string;
+  readonly focusGroupId?: string;
+  readonly contextGroupIds?: readonly string[];
+}
+
+export interface D3FlowResolvedState {
+  readonly activeNodeIds: ReadonlySet<string>;
+  readonly activeEdgeIds: ReadonlySet<string>;
+  readonly activeGroupIds: ReadonlySet<string>;
+  readonly contextGroupIds: ReadonlySet<string>;
+  readonly focusNodeId?: string;
+  readonly focusGroupId?: string;
 }
 
 function validateVisualRole(value: unknown, label: string): void {
@@ -169,6 +184,19 @@ function validateFlowBlock(block: DiagramBlock): void {
     if (stateIds.has(state.id)) throw new Error("Flow diagram state ids must be unique");
     stateIds.add(state.id);
     requireNonEmpty(state.label, `Flow diagram state ${state.id} label`);
+    if (state.focusNodeId !== undefined && state.focusGroupId !== undefined) throw new Error(`Flow diagram state ${state.id} may focus one node or one group, not both`);
+    const validateStateIds = (ids: readonly string[] | undefined, knownIds: readonly string[], kind: string): void => {
+      if (ids === undefined) return;
+      if (new Set(ids).size !== ids.length) throw new Error(`Flow diagram state ${state.id} contains duplicate active ${kind} ids`);
+      for (const id of ids) if (!knownIds.includes(id)) throw new Error(`Flow diagram state ${state.id} references an unknown ${kind}`);
+    };
+    validateStateIds(state.activeNodeIds, nodeIds, "node");
+    validateStateIds(state.activeEdgeIds, edgeIds, "edge");
+    const groupIds = (block.groups ?? []).map((group) => group.id);
+    validateStateIds(state.activeGroupIds, groupIds, "group");
+    validateStateIds(state.contextGroupIds, groupIds, "context group");
+    if (state.focusNodeId !== undefined && !nodeIdSet.has(state.focusNodeId)) throw new Error(`Flow diagram state ${state.id} focusNodeId references an unknown node`);
+    if (state.focusGroupId !== undefined && !groupIds.includes(state.focusGroupId)) throw new Error(`Flow diagram state ${state.id} focusGroupId references an unknown group`);
     for (const annotation of state.sharedEdgeAnnotations) {
       requireNonEmpty(annotation.id, "Flow shared edge annotation id");
       if (annotationIds.has(annotation.id)) throw new Error("Flow shared edge annotation ids must be unique");
@@ -191,9 +219,28 @@ function flowStaticFallback(block: DiagramBlock): string {
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
+      ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
+      ...(state.activeEdgeIds ? [`- Active relations: ${state.activeEdgeIds.join(", ")}`] : []),
+      ...(state.activeGroupIds ? [`- Active groups: ${state.activeGroupIds.join(", ")}`] : []),
+      ...(state.focusNodeId ? [`- Focus node: ${state.focusNodeId}`] : []),
+      ...(state.focusGroupId ? [`- Focus group: ${state.focusGroupId}`] : []),
+      ...(state.contextGroupIds ? [`- Context groups: ${state.contextGroupIds.join(", ")}`] : []),
       ...state.sharedEdgeAnnotations.map((annotation) => `- ${annotation.label}`),
     ]),
   ].join("\n");
+}
+
+/** Resolves authored state membership only; layout and visual treatment remain renderer/theme concerns. */
+export function resolveD3FlowState(model: D3FlowRenderModel, stateId?: string): D3FlowResolvedState {
+  const state = model.states.find((candidate) => candidate.id === stateId);
+  return {
+    activeNodeIds: new Set(state?.activeNodeIds ?? model.nodes.map((node) => node.id)),
+    activeEdgeIds: new Set(state?.activeEdgeIds ?? model.edges.map((edge) => edge.id)),
+    activeGroupIds: new Set(state?.activeGroupIds ?? model.groups.map((group) => group.id)),
+    contextGroupIds: new Set(state?.contextGroupIds ?? []),
+    ...(state?.focusNodeId ? { focusNodeId: state.focusNodeId } : {}),
+    ...(state?.focusGroupId ? { focusGroupId: state.focusGroupId } : {}),
+  };
 }
 
 function effectiveEdgeVisualRole(
@@ -256,6 +303,12 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
           edgeIds: [...annotation.edgeIds],
           source: cloneSources(annotation.source),
         })),
+        ...(state.activeNodeIds ? { activeNodeIds: [...state.activeNodeIds] } : {}),
+        ...(state.activeEdgeIds ? { activeEdgeIds: [...state.activeEdgeIds] } : {}),
+        ...(state.activeGroupIds ? { activeGroupIds: [...state.activeGroupIds] } : {}),
+        ...(state.focusNodeId ? { focusNodeId: state.focusNodeId } : {}),
+        ...(state.focusGroupId ? { focusGroupId: state.focusGroupId } : {}),
+        ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}),
       }));
     return {
       model: {
@@ -503,13 +556,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         const edgeLayer = document.createElementNS(namespace, "g");
         edgeLayer.setAttribute("class", "d3-flow-edge-layer");
         const activeState = model.states.find((state) => state.id === activeStateId);
+        const resolvedState = resolveD3FlowState(model, activeStateId);
         const activeAnnotatedEdgeIds = new Set(activeState?.sharedEdgeAnnotations.flatMap((annotation) => annotation.edgeIds) ?? []);
         for (const edge of layout.edges) {
+          if (!resolvedState.activeEdgeIds.has(edge.id)) continue;
           const path = document.createElementNS(namespace, "path");
           path.setAttribute("class", "d3-flow-edge");
           path.setAttribute("data-edge-id", edge.id);
           path.setAttribute("data-source-node-id", edge.sourceNodeId);
           path.setAttribute("data-target-node-id", edge.targetNodeId);
+          if (resolvedState.contextGroupIds.size) path.setAttribute("data-diagram-state-context-groups", [...resolvedState.contextGroupIds].join(" "));
            if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
            if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
           path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
@@ -527,11 +583,14 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         const nextNodeElements = new Map<string, SVGGElement>();
         for (const layoutNode of layout.nodes) {
           const modelNode = modelNodeById.get(layoutNode.id)!;
+          if (!resolvedState.activeNodeIds.has(modelNode.id)) continue;
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
           group.setAttribute("data-node-id", modelNode.id);
            if (modelNode.visualRole) group.setAttribute("data-visual-role", modelNode.visualRole);
-           if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
+          if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
+          if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
+          if (modelNode.id === resolvedState.focusNodeId || modelNode.groupIds?.includes(resolvedState.focusGroupId ?? "")) group.setAttribute("data-diagram-state-focus", "true");
           group.setAttribute("aria-label", modelNode.label);
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {

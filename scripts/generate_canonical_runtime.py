@@ -320,12 +320,40 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
                 "edgeIds": [compact(edge) for edge in sorted(annotation_edges, key=lambda edge: next(position for candidate, position in edge_records if candidate == edge))],
                 "source": [source_reference(dataset, annotation, "cd:body")],
             })
-        states.append({
+        def state_members(predicate: str, allowed: set[URIRef], label: str) -> list[URIRef]:
+            members = [member for member in objects(dataset, state, iri(CD, predicate)) if isinstance(member, URIRef)]
+            if any(member not in allowed for member in members):
+                raise ValueError(f"DiagramState {compact(state)} references a {label} outside {compact(diagram)}")
+            return sorted(set(members), key=str)
+
+        active_nodes = state_members("activeDiagramNode", node_ids, "node")
+        active_edges = state_members("activeDiagramEdge", {edge for edge, _position in edge_records}, "edge")
+        group_resources = {group for group in objects(dataset, diagram, iri(CD, "hasDiagramGroup")) if isinstance(group, URIRef)}
+        active_groups = state_members("activeDiagramGroup", group_resources, "group")
+        context_groups = state_members("contextDiagramGroup", group_resources, "context group")
+        focus_nodes = state_members("focusDiagramNode", node_ids, "focus node")
+        focus_groups = state_members("focusDiagramGroup", group_resources, "focus group")
+        if len(focus_nodes) > 1 or len(focus_groups) > 1 or (focus_nodes and focus_groups):
+            raise ValueError(f"DiagramState {compact(state)} may focus one node or one group, not both")
+        state_value: dict[str, Any] = {
             "id": compact(state),
             "label": state_label,
             "source": [source_reference(dataset, state, state_relation_path)],
             "sharedEdgeAnnotations": annotations,
-        })
+        }
+        if active_nodes:
+            state_value["activeNodeIds"] = [compact(node) for node in active_nodes]
+        if active_edges:
+            state_value["activeEdgeIds"] = [compact(edge) for edge in active_edges]
+        if active_groups:
+            state_value["activeGroupIds"] = [compact(group) for group in active_groups]
+        if context_groups:
+            state_value["contextGroupIds"] = [compact(group) for group in context_groups]
+        if focus_nodes:
+            state_value["focusNodeId"] = compact(focus_nodes[0])
+        if focus_groups:
+            state_value["focusGroupId"] = compact(focus_groups[0])
+        states.append(state_value)
     if states:
         payload["states"] = states
     if focus_node is not None:

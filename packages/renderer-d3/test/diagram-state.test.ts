@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createD3FlowRenderModel, mountD3FlowDiagram, type D3FlowRuntimePort } from "../src/flow-diagram.ts";
+import { createD3FlowRenderModel, mountD3FlowDiagram, resolveD3FlowState, type D3FlowRuntimePort } from "../src/flow-diagram.ts";
 import { createD3FlowLayout } from "../src/flow-layout.ts";
 import type { DiagramBlock } from "../../core/src/scene-document.ts";
 
@@ -41,4 +41,23 @@ test("D3 exposes explicit state changes through the runtime API", () => {
   assert.equal(mounted.activeStateId, "shared");
   stateChange?.();
   assert.equal(mounted.activeStateId, undefined);
+});
+
+test("D3 resolves generic network selections, focus and context without content selectors", () => {
+  const network: DiagramBlock = {
+    ...block,
+    diagramType: "network",
+    groups: [{ id: "domain", label: "Domain", source }, { id: "context", label: "Context", source }],
+    nodes: [{ ...block.nodes[0]!, groupIds: ["domain"] }, { ...block.nodes[1]!, groupIds: ["context"] }],
+    states: [{ ...block.states![0]!, activeNodeIds: ["first"], activeEdgeIds: ["left"], activeGroupIds: ["domain"], focusGroupId: "domain", contextGroupIds: ["context"] }],
+  };
+  const result = createD3FlowRenderModel(network, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const resolved = resolveD3FlowState(result.model, "shared");
+  assert.deepEqual([...resolved.activeNodeIds], ["first"]);
+  assert.deepEqual([...resolved.activeEdgeIds], ["left"]);
+  assert.equal(resolved.focusGroupId, "domain");
+  assert.deepEqual([...resolved.contextGroupIds], ["context"]);
+  assert.match(result.model.staticFallback, /Focus group: domain/);
 });

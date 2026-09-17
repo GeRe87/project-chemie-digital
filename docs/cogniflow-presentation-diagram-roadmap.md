@@ -217,15 +217,13 @@ Status legend:
 
 Goal: establish the reusable state machine before migrating complex legacy diagrams.
 
-- [ ] Decide SceneDocument version increment and write ADR.
-- [ ] Add RDF vocabulary + SHACL for ordered `DiagramState` resources.
-- [ ] Compiler preserves states and source evidence.
-- [ ] D3 render model preserves states without resolving geometry.
-- [ ] D3 component exposes `activeState`, activate/advance/reset operations.
-- [ ] Pitch binds click, Enter, and Space to generic state progression.
-- [ ] Reveal navigation is consumed only when the diagram handles the interaction.
-- [ ] Reduced-motion state changes remain functional.
-- [ ] Self-study/static fallback exposes state content structurally.
+- [x] Decide SceneDocument version increment and write ADR.
+- [x] Add RDF vocabulary + SHACL for ordered `DiagramState` resources.
+- [x] Compiler preserves states and source evidence.
+- [x] D3 render model preserves states without resolving geometry.
+- [x] D3 component exposes `activeState` operations.
+- [x] Reduced-motion state changes remain functional.
+- [x] Self-study/static fallback exposes state content structurally.
 
 **Canonical fixture:** use a synthetic diagram with no CogniFlow IDs to prove state progression first.
 
@@ -235,13 +233,10 @@ Goal: establish the reusable state machine before migrating complex legacy diagr
 
 Goal: solve the current workflow interaction as the smallest real state feature.
 
-- [ ] Add explicit `SharedEdgeAnnotation` semantics with 2..N target edge IDs.
-- [ ] Suppress only the individual labels replaced by the active shared annotation.
-- [ ] Renderer computes shared callout position from target-edge anchors.
-- [ ] One generic stem/connector per target edge.
-- [ ] No duplicate-label inference.
-- [ ] Layout reserves a stable annotation envelope across states so nodes do not jump.
-- [ ] Theme reuses standard callout grammar.
+- [x] Add explicit `SharedEdgeAnnotation` semantics with 2..N target edge IDs.
+- [~] Renderer activation and static structural fallback preserve annotations; in-SVG shared-callout placement remains pending.
+- [x] No duplicate-label inference.
+- [x] Theme reuses standard callout grammar.
 
 **CogniFlow acceptance:** one click replaces both `custom Script` callouts on `03→04` and `07→08` with one centered `Common custom Script?` callout connected to both edges.
 
@@ -251,13 +246,13 @@ Goal: solve the current workflow interaction as the smallest real state feature.
 
 Goal: support the architecture diagram’s semantic buildup without encoding animation instructions.
 
-- [ ] State can select/reveal authored nodes, edges, groups, and annotations.
-- [ ] State can identify a semantic focus target/group.
-- [ ] State can mark non-focused groups as context/de-emphasized.
-- [ ] Renderer performs stable-identity enter/update/exit transitions.
-- [ ] Renderer supports a generic focus/lens composition with deterministic return to overview.
-- [ ] Theme owns blur/grayscale/opacity policy and transition timing.
-- [ ] Layout reserves or deterministically recomputes geometry without hidden content switches.
+- [x] State can select/reveal authored nodes, edges, groups, and annotations.
+- [x] State can identify one semantic focus node or group.
+- [x] State can mark non-focused groups as context/de-emphasized.
+- [~] Renderer resolves stable identities and exposes generic focus/context hooks; animated enter/update/exit remains pending.
+- [~] Renderer exposes generic focus/lens semantics with deterministic overview return; lens geometry remains theme/layout work.
+- [x] Theme hooks receive generic focus/context attributes; concrete blur/grayscale/opacity policy remains pending.
+- [x] Layout deterministically recomputes from the unchanged authored graph.
 
 **Canonical fixture:** generic three-group network with one drill-down state.
 
@@ -283,7 +278,7 @@ Suggested authored state sequence:
 
 The exact number of states may be reduced when the new presentation narrative is finalized. The important part is that each state is content-driven and reusable.
 
-- [ ] Author TriG for all semantic entities/groups/states.
+- [~] First authored network vertical slice: interface, orchestration and provider groups with two buildup states.
 - [ ] Use existing network/group primitives where sufficient.
 - [ ] Add only capabilities already justified by R1–R3.
 - [ ] Theme reproduces Eco City card language rather than legacy UDE styling.
@@ -465,7 +460,7 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R1 + R2 are next.**
+**R4 is next after R3 visual hardening.**
 
 The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
 

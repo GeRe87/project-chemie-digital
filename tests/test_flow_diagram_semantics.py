@@ -30,6 +30,9 @@ NODE_TWO = URIRef(f"{EX}flow-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-edge-one")
 OUTSIDE_NODE = URIRef(f"{EX}flow-node-outside")
 OUTSIDE_GROUP = URIRef(f"{EX}flow-group-outside")
+GROUP_ONE = URIRef(f"{EX}flow-group-one")
+GROUP_TWO = URIRef(f"{EX}flow-group-two")
+STATE = URIRef(f"{EX}flow-state-drill-down")
 SCENE_ITEM = URIRef(f"{EX}flow-diagram-scene-item")
 
 
@@ -168,6 +171,31 @@ class FlowDiagramSemanticTests(unittest.TestCase):
         graph.add((DIAGRAM, cd("hasDiagramEdge"), edge_two))
         add_edge(graph, edge_two, 3, NODE_TWO, NODE_ONE)
         self.assert_violates(dataset, "DiagramEdge positions must be contiguous")
+
+    def test_synthetic_network_state_selects_owned_members_and_one_focus(self) -> None:
+        dataset = fixture()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((DIAGRAM, RDF.type, cd("NetworkDiagram")))
+        for group, label in ((GROUP_ONE, "Domain"), (GROUP_TWO, "Context")):
+            graph.add((DIAGRAM, cd("hasDiagramGroup"), group))
+            graph.add((group, RDF.type, cd("DiagramGroup")))
+            graph.add((group, SKOS.prefLabel, Literal(label, lang="en")))
+            graph.add((group, cd("authoredResource"), Literal(True)))
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), GROUP_ONE))
+        graph.add((NODE_TWO, cd("memberOfDiagramGroup"), GROUP_TWO))
+        graph.add((DIAGRAM, cd("hasDiagramState"), STATE))
+        graph.add((STATE, RDF.type, cd("DiagramState")))
+        graph.add((STATE, SKOS.prefLabel, Literal("Drill down", lang="en")))
+        graph.add((STATE, cd("authoredResource"), Literal(True)))
+        graph.add((STATE, cd("activeDiagramNode"), NODE_ONE))
+        graph.add((STATE, cd("activeDiagramEdge"), EDGE_ONE))
+        graph.add((STATE, cd("activeDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("focusDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("contextDiagramGroup"), GROUP_TWO))
+        self.assert_conforms(dataset)
+
+        graph.add((STATE, cd("focusDiagramNode"), NODE_ONE))
+        self.assert_violates(dataset, "may focus one DiagramNode or one DiagramGroup")
 
 
 if __name__ == "__main__":

@@ -137,6 +137,12 @@ export interface RevealDiagramStatePlan {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly label: string; readonly edgeIds: readonly string[]; readonly source: readonly SourceReference[] }[];
+  readonly activeNodeIds?: readonly string[];
+  readonly activeEdgeIds?: readonly string[];
+  readonly activeGroupIds?: readonly string[];
+  readonly focusNodeId?: string;
+  readonly focusGroupId?: string;
+  readonly contextGroupIds?: readonly string[];
 }
 
 export interface RevealDiagramPlan extends RevealNodeBase {
@@ -234,6 +240,12 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
+      ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
+      ...(state.activeEdgeIds ? [`- Active relations: ${state.activeEdgeIds.join(", ")}`] : []),
+      ...(state.activeGroupIds ? [`- Active groups: ${state.activeGroupIds.join(", ")}`] : []),
+      ...(state.focusNodeId ? [`- Focus node: ${state.focusNodeId}`] : []),
+      ...(state.focusGroupId ? [`- Focus group: ${state.focusGroupId}`] : []),
+      ...(state.contextGroupIds ? [`- Context groups: ${state.contextGroupIds.join(", ")}`] : []),
       ...state.sharedEdgeAnnotations.map((annotation) => `- ${annotation.label}`),
     ]),
   ].join("\n");
@@ -331,7 +343,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
-        ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })) })) } : {}),
+        ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })), ...(state.activeNodeIds ? { activeNodeIds: [...state.activeNodeIds] } : {}), ...(state.activeEdgeIds ? { activeEdgeIds: [...state.activeEdgeIds] } : {}), ...(state.activeGroupIds ? { activeGroupIds: [...state.activeGroupIds] } : {}), ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}) })) } : {}),
       };
     default:
       throw new AdapterError("UNSUPPORTED_PRIMITIVE", `Unsupported primitive ${(block as { kind?: unknown }).kind ?? "unknown"}`, (block as { id?: string }).id);

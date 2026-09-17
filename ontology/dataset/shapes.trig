@@ -299,7 +299,31 @@ SELECT $this WHERE {
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
     sh:property [ sh:path [ sh:inversePath cd:hasDiagramState ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:FlowDiagram ; sh:nodeKind sh:IRI ] ;
-    sh:property [ sh:path cd:hasSharedEdgeAnnotation ; sh:class cd:SharedEdgeAnnotation ; sh:nodeKind sh:IRI ] .
+    sh:property [ sh:path cd:hasSharedEdgeAnnotation ; sh:class cd:SharedEdgeAnnotation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:activeDiagramNode ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:activeDiagramEdge ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:activeDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:focusDiagramNode ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:focusDiagramGroup ; sh:maxCount 1 ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:contextDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "DiagramState may focus one DiagramNode or one DiagramGroup, not both." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE { $this cd:focusDiagramNode ?node ; cd:focusDiagramGroup ?group . }"""
+    ] .
+
+  cd:DiagramStateOwnerShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:hasDiagramState ;
+    sh:sparql [
+      sh:message "DiagramState selections, focus and context groups must belong to the owning FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasDiagramState ?state .
+  { ?state cd:activeDiagramNode|cd:focusDiagramNode ?node . FILTER NOT EXISTS { $this cd:hasDiagramNode ?node . } }
+  UNION { ?state cd:activeDiagramEdge ?edge . FILTER NOT EXISTS { $this cd:hasDiagramEdge ?edge . } }
+  UNION { ?state cd:activeDiagramGroup|cd:focusDiagramGroup|cd:contextDiagramGroup ?group . FILTER NOT EXISTS { $this cd:hasDiagramGroup ?group . } }
+}"""
+    ] .
 
   cd:SharedEdgeAnnotationShape a sh:NodeShape ;
     sh:targetClass cd:SharedEdgeAnnotation ;

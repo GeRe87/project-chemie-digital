@@ -44,3 +44,12 @@ test("diagram states require SceneDocument 1.2 while 1.0 and 1.1 remain valid wi
   const document = documentWithState();
   assert.throws(() => validateSceneDocument({ ...document, version: "1.1" }), /diagram states require SceneDocument 1.2/);
 });
+
+test("diagram state selections require owned identities and one focus target", () => {
+  const document = documentWithState();
+  const diagram = document.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("Expected diagram");
+  const grouped = { ...diagram, groups: [{ id: "domain", label: "Domain", source }, { id: "context", label: "Context", source }], nodes: [{ ...diagram.nodes[0]!, groupIds: ["domain"] }, { ...diagram.nodes[1]!, groupIds: ["context"] }], states: [{ ...diagram.states![0]!, activeNodeIds: ["first"], activeEdgeIds: ["left"], activeGroupIds: ["domain"], focusGroupId: "domain", contextGroupIds: ["context"] }] };
+  assert.doesNotThrow(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [grouped] }] }));
+  assert.throws(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [{ ...grouped, states: [{ ...grouped.states![0]!, focusNodeId: "first" }] }] }] }), /may focus one node or one group/);
+});

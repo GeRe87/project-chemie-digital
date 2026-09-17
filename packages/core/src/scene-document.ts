@@ -136,6 +136,12 @@ export interface DiagramState {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly sharedEdgeAnnotations: readonly SharedEdgeAnnotation[];
+  readonly activeNodeIds?: readonly string[];
+  readonly activeEdgeIds?: readonly string[];
+  readonly activeGroupIds?: readonly string[];
+  readonly focusNodeId?: string;
+  readonly focusGroupId?: string;
+  readonly contextGroupIds?: readonly string[];
 }
 
 export interface DiagramBlock extends SceneBlockBase {
@@ -350,6 +356,24 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     stateIds.add(state.id);
     requireNonEmpty(state.label, `${label} diagram state ${state.id} label`);
     validateSource(state.source, `${label} diagram state ${state.id} source`);
+    if (state.focusNodeId !== undefined && state.focusGroupId !== undefined) {
+      throw new SceneContractError(`${label} diagram state ${state.id} may focus one node or one group, not both`);
+    }
+    const validateStateIds = (ids: readonly string[] | undefined, knownIds: ReadonlySet<string>, kind: string): void => {
+      if (ids === undefined) return;
+      if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} diagram state ${state.id} contains duplicate active ${kind} ids`);
+      for (const id of ids) if (!knownIds.has(id)) throw new SceneContractError(`${label} diagram state ${state.id} references an unknown ${kind}`);
+    };
+    validateStateIds(state.activeNodeIds, nodeIdSet, "node");
+    validateStateIds(state.activeEdgeIds, edgeIdSet, "edge");
+    validateStateIds(state.activeGroupIds, groupIds, "group");
+    validateStateIds(state.contextGroupIds, groupIds, "context group");
+    if (state.focusNodeId !== undefined && !nodeIdSet.has(state.focusNodeId)) {
+      throw new SceneContractError(`${label} diagram state ${state.id} focusNodeId references an unknown node`);
+    }
+    if (state.focusGroupId !== undefined && !groupIds.has(state.focusGroupId)) {
+      throw new SceneContractError(`${label} diagram state ${state.id} focusGroupId references an unknown group`);
+    }
     for (const annotation of state.sharedEdgeAnnotations) {
       requireNonEmpty(annotation.id, `${label} shared edge annotation id`);
       if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} diagram contains duplicate shared edge annotation ids`);
