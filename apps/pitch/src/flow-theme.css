@@ -307,9 +307,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
-  fill: var(--pcd-flow-pixel-ink-deep);
+  fill: color-mix(in srgb, var(--pcd-flow-pixel-card-tab) 82%, white);
   stroke: none;
-  opacity: .92;
+  opacity: 1;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-divider {
+  stroke: var(--pcd-flow-pixel-card-divider);
+  stroke-width: 3;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
@@ -320,12 +325,12 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
-  fill: var(--pcd-flow-pixel-ink-deep);
+  fill: var(--pcd-flow-pixel-text);
   font-family: var(--pcd-flow-pixel-font);
   font-size: 13px;
   font-weight: 900;
   letter-spacing: .08em;
-  opacity: .72;
+  opacity: 1;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
@@ -364,27 +369,26 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
 
 /* Relationship labels are compact light pixel callouts with a short pixel stem. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel {
-  fill: var(--pcd-flow-pixel-surface-soft);
-  stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 4;
+  fill: color-mix(in srgb, white 88%, var(--pcd-flow-pixel-card-tab));
+  stroke: var(--pcd-flow-pixel-card-divider);
+  stroke-width: 2;
   rx: 0;
   ry: 0;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   clip-path: polygon(0 5px, 5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
   filter:
-    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+    drop-shadow(2px 3px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 42%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
-  stroke: var(--pcd-flow-pixel-ink-strong);
-  stroke-width: 4;
+  stroke: var(--pcd-flow-pixel-card-divider);
+  stroke-width: 2;
   stroke-dasharray: 4 4;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label {
-  fill: var(--pcd-flow-pixel-ink-deep);
+  fill: var(--pcd-flow-pixel-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
   font-size: 14px;
