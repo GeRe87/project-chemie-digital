@@ -30,9 +30,9 @@
   ex:binding-result-consumer a cd:ParticipantBinding ; skos:prefLabel "User / AI Agent"@en ; cd:bindsParticipantRole ex:role-consumer ; cd:bindsParticipant ex:node-cogniflow-actors ; cd:authoredResource true .
 }
 
-<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-service-process-extension> {
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
   ex:path-cogniflow-standardized-data-processing cd:hasStep ex:path-step-cogniflow-service-process .
-  ex:path-step-cogniflow-service-process a cd:PathStep ; cd:position 11 ; cd:usesResource ex:diagram-cogniflow-service-process ; cd:usesScene ex:scene-cogniflow-service-process ; cd:authoredResource true .
+  ex:path-step-cogniflow-service-process a cd:PathStep ; cd:position 5 ; cd:usesResource ex:diagram-cogniflow-service-process ; cd:usesScene ex:scene-cogniflow-service-process ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-service-process> {

@@ -44,6 +44,7 @@ EXPECTED_SCENES = [
     "ex:scene-cogniflow-coupling-problem--scene",
     "ex:scene-cogniflow-laboratory-diversity--scene",
     "ex:scene-cogniflow-service-architecture--scene",
+    "ex:scene-cogniflow-service-process--scene",
     "ex:scene-cogniflow-concept-domain--scene",
     "ex:scene-cogniflow-semantics-as-source--scene",
     "ex:scene-cogniflow-same-semantics-different-views--scene",
@@ -86,19 +87,31 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("en", RUNTIME.effective_path_language(self.dataset, selection.path))
         self.assertEqual(selection, RUNTIME.select_course_unit_path(self.dataset, request()))
 
-    def test_cogniflow_compiles_curated_ten_scene_narrative(self) -> None:
+    def test_cogniflow_compiles_curated_eleven_scene_narrative(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", document["sourcePathId"])
-        self.assertEqual("1.2", document["version"])
+        self.assertEqual("1.3", document["version"])
         self.assertEqual(EXPECTED_SCENES, [scene["id"] for scene in document["scenes"]])
         self.assertNotIn("ex:scene-cogniflow-service-usage--scene", EXPECTED_SCENES)
         self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
 
+    def test_curated_service_process_projects_the_sequence_diagram(self) -> None:
+        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        scene = document["scenes"][4]
+        self.assertEqual("ex:scene-cogniflow-service-process--scene", scene["id"])
+        diagram = scene["blocks"][1]
+        self.assertEqual("diagram", diagram["kind"])
+        self.assertEqual("sequence", diagram["diagramType"])
+        self.assertEqual(
+            ["ex:role-interface", "ex:role-orchestrator", "ex:role-provider", "ex:role-consumer"],
+            [role["id"] for role in diagram["participantRoles"]],
+        )
+
     def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        self.assertEqual(10, len(document["scenes"]))
+        self.assertEqual(11, len(document["scenes"]))
         scene = document["scenes"][0]
         self.assertEqual("ex:scene-cogniflow-title--scene", scene["id"])
         self.assertEqual([TITLE, GERRIT, RICARDO, FUNDING], [block["text"] for block in scene["blocks"]])
@@ -130,6 +143,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         workflow = document["scenes"][1]
         laboratory = document["scenes"][2]
         architecture = document["scenes"][3]
+        service_process = document["scenes"][4]
 
         workflow_heading = next(block for block in workflow["blocks"] if block["kind"] == "prose")
         workflow_diagram = next(block for block in workflow["blocks"] if block["kind"] == "diagram")
@@ -199,6 +213,9 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
         self.assertEqual("network", architecture_diagram["diagramType"])
+        self.assertEqual("A stable interface coordinates specialized providers", service_process["blocks"][0]["text"])
+        service_process_diagram = next(block for block in service_process["blocks"] if block["kind"] == "diagram")
+        self.assertEqual("sequence", service_process_diagram["diagramType"])
         self.assertEqual(
             [
                 "Stable interface",
@@ -215,7 +232,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_concept_domain_progression_uses_existing_network_state_contract(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        concept_domain = document["scenes"][4]
+        concept_domain = document["scenes"][5]
         heading = next(block for block in concept_domain["blocks"] if block["kind"] == "prose")
         diagram = next(block for block in concept_domain["blocks"] if block["kind"] == "diagram")
 
@@ -243,9 +260,9 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        semantic = document["scenes"][5]
-        multi_view = document["scenes"][6]
-        provenance = document["scenes"][7]
+        semantic = document["scenes"][6]
+        multi_view = document["scenes"][7]
+        provenance = document["scenes"][8]
 
         semantic_heading = next(block for block in semantic["blocks"] if block["kind"] == "prose")
         semantic_code = next(block for block in semantic["blocks"] if block["kind"] == "code")
@@ -278,7 +295,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_analytical_proof_keeps_visual_evidence_distinct_from_result_states(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        proof = document["scenes"][8]
+        proof = document["scenes"][9]
         heading = next(block for block in proof["blocks"] if block["kind"] == "prose")
         chart = next(block for block in proof["blocks"] if block["kind"] == "chart")
         lineage = next(block for block in proof["blocks"] if block["kind"] == "diagram")
@@ -298,7 +315,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_take_home_is_three_principles_plus_one_sentence(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        take_home = document["scenes"][9]
+        take_home = document["scenes"][10]
         heading = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "introduce")
         principles = next(block for block in take_home["blocks"] if block["kind"] == "list")
         statement = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "explain")
@@ -311,8 +328,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
     def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        semantic = document["scenes"][5]
-        multi_view = document["scenes"][6]
+        semantic = document["scenes"][6]
+        multi_view = document["scenes"][7]
         code = next(block for block in semantic["blocks"] if block["kind"] == "code")
         chart = next(block for block in multi_view["blocks"] if block["kind"] == "chart")
         self.assertIn("ex:chart-cogniflow-replicate-peak-area", code["code"])

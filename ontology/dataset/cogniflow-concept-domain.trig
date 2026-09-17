@@ -246,7 +246,7 @@
     cd:hasStep ex:path-step-cogniflow-concept-domain .
 
   ex:path-step-cogniflow-concept-domain a cd:PathStep ;
-    cd:position 5 ;
+    cd:position 6 ;
     cd:usesResource ex:diagram-cogniflow-concept-domain ;
     cd:usesScene ex:scene-cogniflow-concept-domain ;
     cd:authoredResource true .

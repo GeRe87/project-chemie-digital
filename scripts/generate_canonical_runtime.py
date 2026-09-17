@@ -629,6 +629,11 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
     return languages[0]
 
 
+def promote_document_version(current: str, required: str) -> str:
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3}
+    return required if versions[required] > versions[current] else current
+
+
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -760,7 +765,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = "1.3" if is_resource_type(dataset, selected, "SequenceDiagram") else "1.2"
+                document_version = promote_document_version(document_version, "1.2")
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -780,7 +785,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = "1.2"
+                document_version = promote_document_version(
+                    document_version,
+                    "1.3" if is_resource_type(dataset, selected, "SequenceDiagram") else "1.2",
+                )
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
                     raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")

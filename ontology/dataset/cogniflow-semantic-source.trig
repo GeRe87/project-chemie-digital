@@ -75,7 +75,7 @@ ex:cogniflow-peak-area-injection-2 a cd:Observation ;
     cd:hasStep ex:path-step-cogniflow-semantics-as-source .
 
   ex:path-step-cogniflow-semantics-as-source a cd:PathStep ;
-    cd:position 6 ;
+    cd:position 7 ;
     cd:usesResource ex:code-cogniflow-chart-semantics ;
     cd:usesScene ex:scene-cogniflow-semantics-as-source ;
     cd:authoredResource true .
