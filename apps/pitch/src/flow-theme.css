@@ -1,4 +1,41 @@
 /* Generic flow presentation. Concrete visual families override these tokens below. */
+.reveal {
+  --pcd-flow-role-comparison-fill: #eee8ff;
+  --pcd-flow-role-comparison-stroke: #6845b5;
+  --pcd-flow-role-comparison-text: #30176d;
+  --pcd-flow-role-highlight-fill: #fff0bd;
+  --pcd-flow-role-highlight-stroke: #9a5b00;
+  --pcd-flow-role-highlight-text: #563000;
+}
+
+body[data-presentation-theme="dark"] .reveal {
+  --pcd-flow-role-comparison-fill: #3d286d;
+  --pcd-flow-role-comparison-stroke: #c9b7ff;
+  --pcd-flow-role-comparison-text: #f1edff;
+  --pcd-flow-role-highlight-fill: #694000;
+  --pcd-flow-role-highlight-stroke: #ffd36b;
+  --pcd-flow-role-highlight-text: #fff3cf;
+}
+
+/* All diagram scenes use the same panel, independent of authored scene identity. */
+.reveal .slides section:has(.d3-flow-host) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: start;
+  padding: 2rem 2.5rem !important;
+}
+
+.reveal .slides section:has(.d3-flow-host) .d3-flow-host {
+  width: min(1180px, 100%);
+  min-width: 0;
+  margin: .45rem auto 0;
+  padding: .9rem 1rem .75rem;
+  border: 1px solid color-mix(in srgb, var(--pcd-accent) 30%, transparent);
+  border-radius: .75rem;
+  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, transparent);
+  box-shadow: 0 .7rem 1.6rem color-mix(in srgb, var(--pcd-foreground) 12%, transparent);
+}
+
 .reveal .d3-flow-host {
   position: relative;
   box-sizing: border-box;
@@ -74,6 +111,28 @@
   stroke-width: 3;
 }
 
+/* Semantic roles remain portable across diagram families and presentation themes. */
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
+  fill: var(--pcd-flow-role-comparison-fill);
+  stroke: var(--pcd-flow-role-comparison-stroke);
+}
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-label,
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-index {
+  fill: var(--pcd-flow-role-comparison-text);
+}
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape {
+  fill: var(--pcd-flow-role-highlight-fill);
+  stroke: var(--pcd-flow-role-highlight-stroke);
+  stroke-width: 4;
+}
+
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-label,
+body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index {
+  fill: var(--pcd-flow-role-highlight-text);
+}
+
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
   --pcd-flow-pixel-ink: #168e9c;
@@ -100,12 +159,6 @@ body[data-diagram-theme="eco-city"] {
   --pcd-flow-pixel-annotation: #c96500;
   --pcd-flow-pixel-alert: #b3262d;
   --pcd-flow-pixel-alert-surface: #ffe5e6;
-  --pcd-flow-role-comparison-fill: #ffc94a;
-  --pcd-flow-role-comparison-stroke: #754000;
-  --pcd-flow-role-comparison-text: #4c2a00;
-  --pcd-flow-role-highlight-fill: #e8ffff;
-  --pcd-flow-role-highlight-stroke: #075865;
-  --pcd-flow-role-highlight-text: #053844;
   --pcd-flow-pixel-font: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -134,12 +187,6 @@ body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
   --pcd-flow-pixel-annotation: #ffbb36;
   --pcd-flow-pixel-alert: #ff7479;
   --pcd-flow-pixel-alert-surface: #5a1f2a;
-  --pcd-flow-role-comparison-fill: #6c3d06;
-  --pcd-flow-role-comparison-stroke: #ffe08b;
-  --pcd-flow-role-comparison-text: #fff3bd;
-  --pcd-flow-role-highlight-fill: #153f52;
-  --pcd-flow-role-highlight-stroke: #b8f9fd;
-  --pcd-flow-role-highlight-text: #edffff;
 }
 
 /* The slide background is the world. The diagram itself stays open, like a game HUD. */
@@ -191,28 +238,6 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node.pcd-flow-frontier .d3-
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
     drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink))
     drop-shadow(10px 12px 0 var(--pcd-flow-pixel-shadow));
-}
-
-/* Semantic roles select theme tokens; they do not encode scene or resource identity. */
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
-  fill: var(--pcd-flow-role-comparison-fill);
-  stroke: var(--pcd-flow-role-comparison-stroke);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-label,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-index {
-  fill: var(--pcd-flow-role-comparison-text);
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape {
-  fill: var(--pcd-flow-role-highlight-fill);
-  stroke: var(--pcd-flow-role-highlight-stroke);
-  stroke-width: 8;
-}
-
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-label,
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index {
-  fill: var(--pcd-flow-role-highlight-text);
 }
 
 /* Renderer-owned chrome stays semantic-neutral but gives the cards real game-panel structure. */
@@ -332,6 +357,10 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge
 }
 
 @media (max-width: 900px) {
+  .reveal .slides section:has(.d3-flow-host) {
+    padding: 1.25rem 1rem !important;
+  }
+
   .reveal .d3-flow-host {
     width: 96vw;
     padding-inline: .45rem;

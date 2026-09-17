@@ -70,10 +70,18 @@ interface PreparedNode extends D3FlowLayoutNodeInput {
   readonly height: number;
 }
 
+// Renderer-local geometry constraints keep authored graph content readable across hosts.
+const FLOW_MIN_WIDTH = 320;
+const FLOW_HORIZONTAL_BREAKPOINT = 900;
+const FLOW_NODE_MIN_HEIGHT = 112;
 const HORIZONTAL_LABEL_WIDTH = 150;
 const HORIZONTAL_NODE_MIN_WIDTH = 240;
 const HORIZONTAL_NODE_MAX_WIDTH = 286;
 const HORIZONTAL_NODE_CHROME = 118;
+const NETWORK_COMPACT_BREAKPOINT = 720;
+const NETWORK_MARGIN = 32;
+const NETWORK_NODE_MAX_WIDTH = 210;
+const NETWORK_CLUSTER_GAP = 42;
 
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
@@ -142,11 +150,11 @@ export function wrapFlowText(
 
 export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
   if (!Number.isFinite(hostWidth) || hostWidth <= 0) throw new Error("Flow host width must be positive");
-  return hostWidth < 900 ? "vertical" : "horizontal";
+  return hostWidth < FLOW_HORIZONTAL_BREAKPOINT ? "vertical" : "horizontal";
 }
 
 function nodeHeight(lines: readonly string[]): number {
-  return Math.max(112, 62 + Math.max(lines.length, 1) * 24);
+  return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + Math.max(lines.length, 1) * 24);
 }
 
 function horizontalNodeWidth(lines: readonly string[]): number {
@@ -252,7 +260,7 @@ function verticalLayeredLayout(
   const layerGap = 52;
   const siblingGap = 16;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
-  const width = Math.max(320, hostWidth);
+  const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
   const byId = new Map<string, D3FlowLayoutNode>();
   let cursorY = margin + 22;
 
@@ -293,8 +301,7 @@ function groupedNetworkLayout(
   prepared: readonly PreparedNode[],
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
-  const margin = 48;
-  const width = Math.max(720, hostWidth);
+  const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
   const groupIds = input.groups?.map((group) => group.id) ?? [];
   const groupIndex = new Map(groupIds.map((id, index) => [id, index]));
   const buckets = new Map<string, PreparedNode[]>();
@@ -314,11 +321,47 @@ function groupedNetworkLayout(
   const clusteredBuckets = orderedBuckets
     .map(([id, bucket]) => [id, bucket.filter((node) => node.id !== focusNode?.id)] as const)
     .filter(([, bucket]) => bucket.length > 0);
+  const networkNodeWidth = Math.min(NETWORK_NODE_MAX_WIDTH, Math.max(160, width - NETWORK_MARGIN * 2));
+
+  if (width < NETWORK_COMPACT_BREAKPOINT) {
+    const nodes: D3FlowLayoutNode[] = [];
+    let cursorY = NETWORK_MARGIN;
+    if (focusNode) {
+      nodes.push({
+        id: focusNode.id,
+        x: width / 2,
+        y: cursorY + focusNode.height / 2,
+        width: Math.min(networkNodeWidth, focusNode.width),
+        height: focusNode.height,
+        labelLines: focusNode.labelLines,
+      });
+      cursorY += focusNode.height + NETWORK_CLUSTER_GAP;
+    }
+    for (const [, bucket] of clusteredBuckets) {
+      for (const node of bucket) {
+        nodes.push({
+          id: node.id,
+          x: width / 2,
+          y: cursorY + node.height / 2,
+          width: Math.min(networkNodeWidth, node.width),
+          height: node.height,
+          labelLines: node.labelLines,
+        });
+        cursorY += node.height + NETWORK_CLUSTER_GAP;
+      }
+    }
+    return {
+      width,
+      height: Math.max(240, cursorY - NETWORK_CLUSTER_GAP + NETWORK_MARGIN),
+      nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!),
+    };
+  }
+
   const clusterCount = Math.max(clusteredBuckets.length, 1);
   const clusterRadius = Math.max(210, Math.min(310, 118 + clusterCount * 34));
   const clusterNodeRadius = 92;
   const centerX = width / 2;
-  const centerY = margin + clusterRadius + clusterNodeRadius + 92;
+  const centerY = NETWORK_MARGIN + clusterRadius + clusterNodeRadius + 92;
   const nodes: D3FlowLayoutNode[] = [];
   if (focusNode) {
     nodes.push({
@@ -341,7 +384,7 @@ function groupedNetworkLayout(
         id: node.id,
         x: clusterX + Math.cos(angle) * radius,
         y: clusterY + Math.sin(angle) * radius,
-        width: Math.min(210, node.width),
+        width: Math.min(networkNodeWidth, node.width),
         height: node.height,
         labelLines: node.labelLines,
       });
@@ -349,7 +392,7 @@ function groupedNetworkLayout(
   }
   return {
     width,
-    height: Math.max(520, centerY + clusterRadius + clusterNodeRadius + margin),
+    height: Math.max(520, centerY + clusterRadius + clusterNodeRadius + NETWORK_MARGIN),
     nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!),
   };
 }
