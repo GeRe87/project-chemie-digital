@@ -127,22 +127,27 @@ function cardBounds(lane: { x: number; y: number }, cardWidth: number, cardHeigh
   };
 }
 
-function segmentIntersectsRect(
+function segmentIntersectsCardInterior(
   x1: number, y1: number, x2: number, y2: number,
   rect: { minX: number; maxX: number; minY: number; maxY: number },
 ): boolean {
-  return Math.min(x1, x2) <= rect.maxX && Math.max(x1, x2) >= rect.minX &&
-    Math.min(y1, y2) <= rect.maxY && Math.max(y1, y2) >= rect.minY;
+  if (y1 === y2) {
+    return y1 > rect.minY && y1 < rect.maxY &&
+      Math.min(x1, x2) < rect.maxX && Math.max(x1, x2) > rect.minX;
+  }
+  return x1 > rect.minX && x1 < rect.maxX &&
+    Math.min(y1, y2) < rect.maxY && Math.max(y1, y2) > rect.minY;
 }
 
 test("compact sequence layout routes messages orthogonally outside participant cards", () => {
-  const result = createD3SequenceRenderModel(fixture, { reducedMotion: true, interactionPolicy: "static" });
+  const result = createD3SequenceRenderModel(directionFixture, { reducedMotion: true, interactionPolicy: "static" });
   assert.ok(result.model);
   if (!result.model) return;
   const compact = createD3SequenceLayout(result.model, 480);
   const laneById = new Map(compact.lanes.map((lane) => [lane.roleId, lane]));
   const cardWidth = 120;
   const cardHeight = 32;
+  const cardColumnLeft = compact.width / 2 - cardWidth / 2;
   const cardColumnRight = compact.width / 2 + cardWidth / 2;
   const rightGutter = compact.width - 24;
   const leftGutter = 24;
@@ -153,10 +158,25 @@ test("compact sequence layout routes messages orthogonally outside participant c
     assert.ok(message.path.length >= 2, `message ${message.id} must have a path`);
     const start = message.path[0]!;
     const end = message.path[message.path.length - 1]!;
-    assert.equal(start.x, cardColumnRight);
     assert.equal(start.y, source.y);
-    assert.equal(end.x, cardColumnRight);
-    assert.equal(end.y, target.y);
+
+    const sourceIndex = compact.lanes.indexOf(source);
+    const targetIndex = compact.lanes.indexOf(target);
+    if (sourceIndex < targetIndex) {
+      assert.equal(start.x, cardColumnRight, `forward ${message.id} must start at the source right edge`);
+      assert.equal(end.x, cardColumnRight, `forward ${message.id} must end at the target right edge`);
+      assert.equal(end.y, target.y);
+      assert.ok(message.path.slice(1, -1).every((point) => point.x === rightGutter), `forward ${message.id} must use the right gutter`);
+    } else if (sourceIndex > targetIndex) {
+      assert.equal(start.x, cardColumnLeft, `reverse ${message.id} must start at the source left edge`);
+      assert.equal(end.x, cardColumnLeft, `reverse ${message.id} must end at the target left edge`);
+      assert.equal(end.y, target.y);
+      assert.ok(message.path.slice(1, -1).every((point) => point.x === leftGutter), `reverse ${message.id} must use the left gutter`);
+    } else {
+      assert.equal(start.x, cardColumnRight, `self ${message.id} must attach at the participant right edge`);
+      assert.equal(end.x, cardColumnRight, `self ${message.id} terminal arrow must attach beside the participant`);
+      assert.ok(end.y > source.y + cardHeight / 2, `self ${message.id} terminal arrow must remain below the participant card`);
+    }
 
     for (let index = 1; index < message.path.length; index += 1) {
       const previous = message.path[index - 1]!;
@@ -168,20 +188,16 @@ test("compact sequence layout routes messages orthogonally outside participant c
     }
 
     for (const lane of compact.lanes) {
-      if (lane.roleId === source.roleId || lane.roleId === target.roleId) continue;
       const rect = cardBounds(lane, cardWidth, cardHeight);
       for (let index = 1; index < message.path.length; index += 1) {
         const previous = message.path[index - 1]!;
         const current = message.path[index]!;
         assert.ok(
-          !segmentIntersectsRect(previous.x, previous.y, current.x, current.y, rect),
-          `message ${message.id} segment ${index - 1} must not intersect ${lane.roleId} card`,
+          !segmentIntersectsCardInterior(previous.x, previous.y, current.x, current.y, rect),
+          `message ${message.id} segment ${index - 1} must not intersect ${lane.roleId} card interior`,
         );
       }
     }
-
-    const middle = message.path.slice(1, -1);
-    assert.ok(middle.every((point) => point.x === rightGutter || point.x === leftGutter), "orthogonal gutter segments must use a side gutter");
   }
 });
 

@@ -39,6 +39,7 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
       const sourceIndex = roleOrder.get(message.sourceRoleId) ?? 0;
       const targetIndex = roleOrder.get(message.targetRoleId) ?? 0;
       const samePairEarlier = model.messages.slice(0, index).filter((m) => m.sourceRoleId === message.sourceRoleId && m.targetRoleId === message.targetRoleId).length;
+      const cardLeft = laneX - cardWidth / 2;
       const cardRight = laneX + cardWidth / 2;
       const forward = sourceIndex <= targetIndex;
       const gutterX = forward ? rightGutter : leftGutter;
@@ -55,11 +56,12 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
         ];
       } else {
         y = (sourceLane.y + targetLane.y) / 2 + samePairEarlier * 14;
+        const anchorX = forward ? cardRight : cardLeft;
         path = [
-          { x: cardRight, y: sourceLane.y },
+          { x: anchorX, y: sourceLane.y },
           { x: gutterX, y: sourceLane.y },
           { x: gutterX, y: targetLane.y },
-          { x: cardRight, y: targetLane.y },
+          { x: anchorX, y: targetLane.y },
         ];
       }
       return {
