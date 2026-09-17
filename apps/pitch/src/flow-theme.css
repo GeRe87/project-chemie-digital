@@ -191,6 +191,15 @@ body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-gr
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
+  --pcd-flow-node-segment-fill: #bfe9e7;
+  --pcd-flow-node-segment-divider: #168e9c;
+  --pcd-flow-node-segment-text: #063d47;
+  --pcd-flow-node-segment-comparison-fill: #d9c7f2;
+  --pcd-flow-node-segment-comparison-divider: #7046ad;
+  --pcd-flow-node-segment-comparison-text: #3d216d;
+  --pcd-flow-node-segment-highlight-fill: #ffdda0;
+  --pcd-flow-node-segment-highlight-divider: #aa6800;
+  --pcd-flow-node-segment-highlight-text: #603900;
   --pcd-flow-callout-fill: #cceff1;
   --pcd-flow-callout-stroke: #167d87;
   --pcd-flow-callout-text: #064b55;
@@ -329,13 +338,13 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
-  fill: color-mix(in srgb, var(--pcd-flow-pixel-card-tab) 82%, white);
+  fill: var(--pcd-flow-node-segment-fill);
   stroke: none;
   opacity: 1;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-divider {
-  stroke: var(--pcd-flow-pixel-card-divider);
+  stroke: var(--pcd-flow-node-segment-divider);
   stroke-width: 3;
 }
 
@@ -347,7 +356,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
-  fill: var(--pcd-flow-pixel-text);
+  fill: var(--pcd-flow-node-segment-text);
   font-family: var(--pcd-flow-pixel-font);
   font-size: 13px;
   font-weight: 900;
@@ -431,6 +440,13 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visua
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel[data-visual-role="highlight"] { fill: var(--pcd-flow-callout-highlight-fill); stroke: var(--pcd-flow-callout-highlight-stroke); }
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem[data-visual-role="highlight"] { stroke: var(--pcd-flow-callout-highlight-stem); }
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visual-role="highlight"] .d3-flow-edge-label { fill: var(--pcd-flow-callout-highlight-text); }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-rail { fill: var(--pcd-flow-node-segment-comparison-fill); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-divider { stroke: var(--pcd-flow-node-segment-comparison-divider); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-index { fill: var(--pcd-flow-node-segment-comparison-text); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-rail { fill: var(--pcd-flow-node-segment-highlight-fill); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-divider { stroke: var(--pcd-flow-node-segment-highlight-divider); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index { fill: var(--pcd-flow-node-segment-highlight-text); }
 
 @media (max-width: 900px) {
   .reveal .slides section:has(.d3-flow-host) {
