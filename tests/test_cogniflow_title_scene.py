@@ -97,7 +97,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
 
     def test_curated_service_process_projects_the_sequence_diagram(self) -> None:
-        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        artifact = RUNTIME.build_artifact(request())
+        document = artifact["sceneDocuments"][0]
         scene = document["scenes"][4]
         self.assertEqual("ex:scene-cogniflow-service-process--scene", scene["id"])
         diagram = scene["blocks"][1]
@@ -107,6 +108,15 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["ex:role-interface", "ex:role-orchestrator", "ex:role-provider", "ex:role-consumer"],
             [role["id"] for role in diagram["participantRoles"]],
         )
+        fallback = RUNTIME.static_fallback(artifact)
+        self.assertIn('data-diagram-type="sequence"', fallback)
+        self.assertIn("Interface", fallback)
+        self.assertIn("Orchestration", fallback)
+        self.assertIn("Specialized provider", fallback)
+        self.assertIn("Consumer", fallback)
+        self.assertIn('data-interaction-message-id="ex:message-request"', fallback)
+        self.assertIn('data-active-message-ids="', fallback)
+        self.assertIn('data-participant-binding-role-id="ex:role-interface"', fallback)
 
     def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())

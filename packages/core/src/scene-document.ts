@@ -558,8 +558,17 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
        if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
+      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} sequence diagram requires SceneDocument ${SCENE_DOCUMENT_SEQUENCE_VERSION}`);
+      }
+      if (block.diagramType !== "sequence" && (block.participantRoles !== undefined || block.messages !== undefined)) {
+        throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define participant roles or messages`);
+      }
        if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
+      }
+      if (block.diagramType !== "sequence" && block.states?.some((state) => state.activeMessageIds !== undefined || state.participantBindings !== undefined)) {
+        throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define active messages or participant bindings`);
       }
       validateDiagram(block, `${label} block ${block.id}`);
     }

@@ -28,6 +28,32 @@ function documentWithState(): SceneDocument {
   };
 }
 
+function sequenceDocument(version: SceneDocument["version"]): SceneDocument {
+  return {
+    version,
+    id: "sequence-document",
+    sourcePathId: "path",
+    scenes: [{
+      id: "sequence-scene",
+      source,
+      readingOrder: ["sequence"],
+      blocks: [{
+        id: "sequence",
+        kind: "diagram",
+        diagramType: "sequence",
+        label: "Provider exchange",
+        description: "Roles exchange an authored message.",
+        source,
+        nodes: [],
+        edges: [],
+        participantRoles: [{ id: "provider", label: "Provider", source }, { id: "consumer", label: "Consumer", source }],
+        messages: [{ id: "discover", sourceRoleId: "provider", targetRoleId: "consumer", label: "discover", source }],
+        states: [{ id: "bound", label: "Bound actors", source, sharedEdgeAnnotations: [], activeMessageIds: ["discover"], participantBindings: [{ roleId: "provider", participantId: "package", label: "Package Template", source }] }],
+      }],
+    }],
+  };
+}
+
 test("SceneDocument 1.2 accepts authored diagram states and shared edge annotations", () => {
   assert.doesNotThrow(() => validateSceneDocument(documentWithState()));
 });
@@ -52,4 +78,25 @@ test("diagram state selections require owned identities and one focus target", (
   const grouped = { ...diagram, groups: [{ id: "domain", label: "Domain", source }, { id: "context", label: "Context", source }], nodes: [{ ...diagram.nodes[0]!, groupIds: ["domain"] }, { ...diagram.nodes[1]!, groupIds: ["context"] }], states: [{ ...diagram.states![0]!, activeNodeIds: ["first"], activeEdgeIds: ["left"], activeGroupIds: ["domain"], focusGroupId: "domain", contextGroupIds: ["context"] }] };
   assert.doesNotThrow(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [grouped] }] }));
   assert.throws(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [{ ...grouped, states: [{ ...grouped.states![0]!, focusNodeId: "first" }] }] }] }), /may focus one node or one group/);
+});
+
+test("flow diagrams remain valid in 1.1 and stateful flow diagrams remain valid in 1.2", () => {
+  const stateful = documentWithState();
+  const diagram = stateful.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("Expected diagram");
+  assert.doesNotThrow(() => validateSceneDocument({ ...stateful, version: "1.1", scenes: [{ ...stateful.scenes[0]!, blocks: [{ ...diagram, states: undefined }] }] }));
+  assert.doesNotThrow(() => validateSceneDocument(stateful));
+});
+
+test("sequence diagrams and sequence state semantics require SceneDocument 1.3", () => {
+  assert.throws(() => validateSceneDocument(sequenceDocument("1.2")), /sequence diagram requires SceneDocument 1.3/);
+  assert.doesNotThrow(() => validateSceneDocument(sequenceDocument("1.3")));
+});
+
+test("non-sequence diagrams reject sequence-only participant and state semantics", () => {
+  const document = documentWithState();
+  const diagram = document.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("Expected diagram");
+  assert.throws(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [{ ...diagram, participantRoles: [{ id: "provider", label: "Provider", source }], messages: [{ id: "discover", sourceRoleId: "provider", targetRoleId: "provider", label: "discover", source }] }] }] }), /only sequence diagrams may define participant roles or messages/);
+  assert.throws(() => validateSceneDocument({ ...document, scenes: [{ ...document.scenes[0]!, blocks: [{ ...diagram, states: [{ ...diagram.states![0]!, activeMessageIds: ["discover"] }] }] }] }), /only sequence diagrams may define active messages or participant bindings/);
 });

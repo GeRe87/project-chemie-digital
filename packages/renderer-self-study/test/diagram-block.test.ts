@@ -45,6 +45,20 @@ const document: SceneDocument = {
   }],
 };
 
+function sequenceDocument(): SceneDocument {
+  const source = [{ resourceId: "ex:sequence", provenanceIds: ["graph:sequence"] }];
+  return {
+    version: "1.3", id: "scene-document:sequence", sourcePathId: "ex:path-sequence", scenes: [{
+      id: "scene:sequence", source, accessibility: { label: "Provider exchange" }, readingOrder: ["block:sequence"], blocks: [{
+        id: "block:sequence", kind: "diagram", source, diagramType: "sequence", label: "Provider exchange", description: "An authored service exchange.", nodes: [], edges: [],
+        participantRoles: [{ id: "provider", label: "Provider", source }, { id: "database", label: "Database", source }],
+        messages: [{ id: "discover", sourceRoleId: "provider", targetRoleId: "database", label: "discover", source }],
+        states: [{ id: "state:bound", label: "Bound provider", source, sharedEdgeAnnotations: [], activeMessageIds: ["discover"], participantBindings: [{ roleId: "provider", participantId: "package-template", label: "Package Template", source: [{ resourceId: "ex:binding", provenanceIds: ["graph:binding"] }] }] }],
+      }],
+    }],
+  };
+}
+
 test("self-study 1.1 preserves flow structure, provenance and reading order", () => {
   const result = createSelfStudyRenderPlan(document);
   assert.deepEqual(result.diagnostics, []);
@@ -109,4 +123,30 @@ test("self-study 1.2 exposes authored shared-edge states in its fallback HTML", 
   assert.match(html, /data-diagram-state-id="state:custom-script"/);
   assert.match(html, /data-shared-edge-annotation-id="annotation:custom-script"/);
   assert.match(html, /data-edge-ids="edge:data edge:reprocess"/);
+});
+
+test("self-study 1.3 preserves sequence state semantics and renders their provenance", () => {
+  const sequence = sequenceDocument();
+  const plan = createSelfStudyRenderPlan(sequence).plan!;
+  const node = plan.sections[0]!.nodes[0]!;
+  assert.equal(node.kind, "diagram");
+  if (node.kind !== "diagram") return;
+  const state = node.states?.[0];
+  const authoredDiagram = sequence.scenes[0]!.blocks[0]!;
+  if (authoredDiagram.kind !== "diagram") throw new Error("expected diagram");
+  assert.deepEqual(state?.activeMessageIds, ["discover"]);
+  assert.deepEqual(state?.participantBindings, authoredDiagram.states?.[0]?.participantBindings);
+  assert.notEqual(state?.activeMessageIds, authoredDiagram.states?.[0]?.activeMessageIds);
+  assert.notEqual(state?.participantBindings?.[0]?.source, authoredDiagram.states?.[0]?.participantBindings?.[0]?.source);
+  assert.match(node.staticFallback, /Participants:\n- Provider\n- Database/);
+  assert.match(node.staticFallback, /Provider — discover → Database/);
+  assert.match(node.staticFallback, /Active messages: discover/);
+  assert.match(node.staticFallback, /Provider: Package Template/);
+
+  const html = renderSelfStudyHtml(plan, { interactive: false });
+  assert.match(html, /data-participant-role-id="provider" data-resource-id="ex:sequence"/);
+  assert.match(html, /data-interaction-message-id="discover" data-source-role-id="provider" data-target-role-id="database"/);
+  assert.match(html, /data-active-message-ids="discover"/);
+  assert.match(html, /data-participant-binding-role-id="provider" data-participant-id="package-template" data-resource-id="ex:binding"/);
+  assert.match(html, /Provider: Package Template/);
 });

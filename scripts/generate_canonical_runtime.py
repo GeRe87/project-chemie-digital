@@ -1063,6 +1063,58 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                 )
                 continue
             if block["kind"] == "diagram":
+                if block["diagramType"] == "sequence":
+                    role_labels = {role["id"]: role["label"] for role in block["participantRoles"]}
+                    message_labels = {message["id"]: message["label"] for message in block["messages"]}
+                    participants = "".join(
+                        f'<li data-participant-role-id="{html.escape(role["id"], quote=True)}"{fallback_attributes(role["source"])}>{html.escape(role["label"])}</li>'
+                        for role in block["participantRoles"]
+                    )
+                    messages = "".join(
+                        f'<li data-interaction-message-id="{html.escape(message["id"], quote=True)}" '
+                        f'data-source-role-id="{html.escape(message["sourceRoleId"], quote=True)}" '
+                        f'data-target-role-id="{html.escape(message["targetRoleId"], quote=True)}"{fallback_attributes(message["source"])}>'
+                        f'{html.escape(role_labels.get(message["sourceRoleId"], message["sourceRoleId"]))} — '
+                        f'{html.escape(message["label"])} → '
+                        f'{html.escape(role_labels.get(message["targetRoleId"], message["targetRoleId"]))}</li>'
+                        for message in block["messages"]
+                    )
+                    state_fragments = []
+                    for state in block.get("states", []):
+                        active_message_ids = state.get("activeMessageIds", [])
+                        active_messages = (
+                            f'<p class="diagram-active-messages">Active messages: '
+                            f'{html.escape(", ".join(message_labels.get(message_id, message_id) for message_id in active_message_ids))}</p>'
+                            if active_message_ids
+                            else ""
+                        )
+                        bindings = "".join(
+                            f'<li data-participant-binding-role-id="{html.escape(binding["roleId"], quote=True)}" '
+                            f'data-participant-id="{html.escape(binding["participantId"], quote=True)}"{fallback_attributes(binding["source"])}>'
+                            f'{html.escape(role_labels.get(binding["roleId"], binding["roleId"]))}: {html.escape(binding["label"])}</li>'
+                            for binding in state.get("participantBindings", [])
+                        )
+                        bindings_markup = f'<ul class="diagram-participant-bindings">{bindings}</ul>' if bindings else ""
+                        active_attribute = (
+                            f' data-active-message-ids="{html.escape(" ".join(active_message_ids), quote=True)}"'
+                            if active_message_ids
+                            else ""
+                        )
+                        state_fragments.append(
+                            f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"'
+                            f'{active_attribute}{fallback_attributes(state["source"])}><strong>{html.escape(state["label"])}</strong>'
+                            f'{active_messages}{bindings_markup}</section>'
+                        )
+                    states = "".join(state_fragments)
+                    blocks.append(
+                        f'<figure class="diagram-fallback" data-diagram-type="sequence"{fallback_attributes(block["source"])}>'
+                        f'<figcaption><strong>{html.escape(block["label"])}</strong> <span>{html.escape(block["description"])}</span></figcaption>'
+                        f'<ol class="diagram-participants">{participants}</ol>'
+                        f'<ol class="diagram-messages">{messages}</ol>'
+                        f'{states}'
+                        f'</figure>'
+                    )
+                    continue
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
                 nodes = "".join(
                     f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}</li>'

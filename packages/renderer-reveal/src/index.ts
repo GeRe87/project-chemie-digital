@@ -144,6 +144,8 @@ export interface RevealDiagramStatePlan {
   readonly focusNodeId?: string;
   readonly focusGroupId?: string;
   readonly contextGroupIds?: readonly string[];
+  readonly activeMessageIds?: readonly string[];
+  readonly participantBindings?: readonly { readonly roleId: string; readonly participantId: string; readonly label: string; readonly source: readonly SourceReference[] }[];
 }
 
 export interface RevealDiagramPlan extends RevealNodeBase {
@@ -233,6 +235,23 @@ function baseFor(block: SceneBlock, position: number, options: RevealAdapterOpti
 }
 
 function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  if (block.diagramType === "sequence") {
+    const roleLabels = new Map((block.participantRoles ?? []).map((role) => [role.id, role.label]));
+    const messageLabels = new Map((block.messages ?? []).map((message) => [message.id, message.label]));
+    return [
+      block.label,
+      block.description,
+      "Participants:",
+      ...(block.participantRoles ?? []).map((role) => `- ${role.label}`),
+      "Messages:",
+      ...(block.messages ?? []).map((message) => `- ${roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId} — ${message.label} → ${roleLabels.get(message.targetRoleId) ?? message.targetRoleId}`),
+      ...(block.states ?? []).flatMap((state) => [
+        `State: ${state.label}`,
+        ...(state.activeMessageIds ? [`- Active messages: ${state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", ")}`] : []),
+        ...(state.participantBindings ?? []).map((binding) => `- ${roleLabels.get(binding.roleId) ?? binding.roleId}: ${binding.label}`),
+      ]),
+    ].join("\n");
+  }
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
   return [
     block.label,
@@ -346,7 +365,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
-        ...(block.states ? { states: block.states.map((state) => ({ ...state, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ ...annotation, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })), ...(state.activeNodeIds ? { activeNodeIds: [...state.activeNodeIds] } : {}), ...(state.activeEdgeIds ? { activeEdgeIds: [...state.activeEdgeIds] } : {}), ...(state.activeGroupIds ? { activeGroupIds: [...state.activeGroupIds] } : {}), ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}) })) } : {}),
+        ...(block.states ? { states: block.states.map((state) => ({ id: state.id, label: state.label, source: sourceCopy(state.source), sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ id: annotation.id, label: annotation.label, edgeIds: [...annotation.edgeIds], source: sourceCopy(annotation.source) })), ...(state.activeNodeIds ? { activeNodeIds: [...state.activeNodeIds] } : {}), ...(state.activeEdgeIds ? { activeEdgeIds: [...state.activeEdgeIds] } : {}), ...(state.activeGroupIds ? { activeGroupIds: [...state.activeGroupIds] } : {}), ...(state.focusNodeId ? { focusNodeId: state.focusNodeId } : {}), ...(state.focusGroupId ? { focusGroupId: state.focusGroupId } : {}), ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}), ...(state.activeMessageIds ? { activeMessageIds: [...state.activeMessageIds] } : {}), ...(state.participantBindings ? { participantBindings: state.participantBindings.map((binding) => ({ roleId: binding.roleId, participantId: binding.participantId, label: binding.label, source: sourceCopy(binding.source) })) } : {}) })) } : {}),
         ...(block.participantRoles ? { participantRoles: block.participantRoles.map((role) => ({ ...role, source: sourceCopy(role.source) })) } : {}),
         ...(block.messages ? { messages: block.messages.map((message) => ({ ...message, source: sourceCopy(message.source) })) } : {}),
       };
