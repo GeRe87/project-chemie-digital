@@ -212,6 +212,26 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-pro
   justify-content: center;
 }
 
+/* The laboratory scene uses the same semantic heading/diagram stack as slide 2. */
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] > h2 {
+  align-self: stretch;
+  flex: 0 0 auto;
+  margin: 1.7rem 2.5rem 1.1rem !important;
+  text-align: left;
+}
+
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-host {
+  flex: 0 1 auto;
+  margin-top: 1.25rem !important;
+}
+
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-pixel-connector {
   stroke: none;
   filter: none;
@@ -254,7 +274,8 @@ body.reveal-scroll[data-diagram-theme="eco-city"] .reveal .slides section[id="ex
   min-height: 100vh;
 }
 
-body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2 {
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] > h2,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] > h2 {
   position: relative;
   z-index: 3;
   display: block !important;
@@ -279,6 +300,7 @@ body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-arch
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host,
+body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-laboratory-diversity--scene"] .d3-flow-host,
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-service-architecture--scene"] .d3-flow-host {
   position: relative;
   z-index: 2;
@@ -329,6 +351,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-color="pur
   --pcd-flow-pixel-card-tab: #dfcef4;
   --pcd-flow-pixel-card-divider: #c6a9e3;
   --pcd-flow-pixel-card-socket: #eee2ff;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-color="red"] {
+  --pcd-flow-pixel-card-shadow: #a82424;
+  --pcd-flow-pixel-card-outline: #771616;
+  --pcd-flow-pixel-card-keyline: #f17878;
+  --pcd-flow-pixel-card-face: #fff0ed;
+  --pcd-flow-pixel-card-tab: #f7c6bf;
+  --pcd-flow-pixel-card-divider: #de9289;
+  --pcd-flow-pixel-card-socket: #ffe1dc;
 }
 
 body[data-diagram-theme="eco-city"] .reveal [id="ex:scene-cogniflow-coupling-problem--scene"] .d3-flow-host[data-secondary-workflow-visible="true"] [data-secondary-workflow="true"] {

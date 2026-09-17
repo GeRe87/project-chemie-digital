@@ -25,6 +25,8 @@ export interface D3FlowRenderNode {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualColor?: string;
+  readonly layoutX?: number;
+  readonly layoutY?: number;
   readonly readingIndex: number;
 }
 
@@ -39,6 +41,7 @@ export interface D3FlowRenderEdge {
 
 export interface D3FlowRenderModel {
   readonly version: "1.0";
+  readonly diagramType: "flow" | "network";
   readonly sourceBlockId: string;
   readonly label: string;
   readonly description: string;
@@ -105,7 +108,7 @@ function validateOptions(options: D3FlowOptions): void {
 
 function validateFlowBlock(block: DiagramBlock): void {
   if ((block as { kind?: unknown }).kind !== "diagram") throw new Error("Flow renderer requires a diagram block");
-  if ((block as { diagramType?: unknown }).diagramType !== "flow") {
+  if ((block as { diagramType?: unknown }).diagramType !== "flow" && (block as { diagramType?: unknown }).diagramType !== "network") {
     throw new Error(`Unsupported diagram type ${String((block as { diagramType?: unknown }).diagramType)}`);
   }
   requireNonEmpty(block.id, "Flow diagram id");
@@ -155,7 +158,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
     return flowDiagnostic("INVALID_FLOW_ADAPTER_OPTIONS", error instanceof Error ? error.message : "Invalid flow adapter options");
   }
 
-  if ((block as { diagramType?: unknown }).diagramType !== "flow") {
+  if ((block as { diagramType?: unknown }).diagramType !== "flow" && (block as { diagramType?: unknown }).diagramType !== "network") {
     return flowDiagnostic("UNSUPPORTED_FLOW_DIAGRAM_TYPE", `Unsupported diagram type ${String((block as { diagramType?: unknown }).diagramType)}`);
   }
 
@@ -167,6 +170,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
       ...(node.visualColor ? { visualColor: node.visualColor } : {}),
+      ...(node.layoutX !== undefined ? { layoutX: node.layoutX, layoutY: node.layoutY } : {}),
       readingIndex,
     }));
     const edges = block.edges.map((edge, readingIndex): D3FlowRenderEdge => ({
@@ -180,6 +184,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
     return {
       model: {
         version: "1.0",
+        diagramType: block.diagramType,
         sourceBlockId: block.id,
         label: block.label,
         description: block.description,
@@ -496,7 +501,31 @@ export function mountD3FlowDiagram(
   const result = createD3FlowRenderModel(block, options);
   if (!result.model) return result;
   const model = result.model;
-  let layout = createD3FlowLayout(model, runtime.measureHost(host));
+  const createLayout = (width: number): D3FlowLayout => {
+    const base = createD3FlowLayout(model, width);
+    if (model.diagramType !== "network") return base;
+    const canvasWidth = 1280;
+    const canvasHeight = 620;
+    const nodes = base.nodes.map((node) => {
+      const source = model.nodes.find((candidate) => candidate.id === node.id)!;
+      return { ...node, x: (source.layoutX ?? 0.5) * canvasWidth, y: (source.layoutY ?? 0.5) * canvasHeight };
+    });
+    const byId = new Map(nodes.map((node) => [node.id, node]));
+    const edges = model.edges.map((edge) => {
+      const source = byId.get(edge.sourceNodeId)!;
+      const target = byId.get(edge.targetNodeId)!;
+      const forward = target.x >= source.x;
+      return {
+        id: edge.id, sourceNodeId: edge.sourceNodeId, targetNodeId: edge.targetNodeId,
+        x1: source.x + (forward ? source.width / 2 : -source.width / 2), y1: source.y,
+        x2: target.x + (forward ? -target.width / 2 : target.width / 2), y2: target.y,
+        labelX: (source.x + target.x) / 2, labelY: (source.y + target.y) / 2,
+        labelLines: [],
+      };
+    });
+    return { orientation: "horizontal", width: canvasWidth, height: canvasHeight, nodes, edges };
+  };
+  let layout = createLayout(runtime.measureHost(host));
   let activeNodeId = model.focusNodeId ?? (model.interactionPolicy === "keyboard" ? model.nodeReadingOrder[0] : undefined);
   let focusIndex = activeNodeId ? model.nodeReadingOrder.indexOf(activeNodeId) : -1;
   let destroyed = false;
@@ -505,7 +534,7 @@ export function mountD3FlowDiagram(
 
   const resize = (width?: number): D3FlowLayout => {
     if (destroyed) return layout;
-    layout = createD3FlowLayout(model, width ?? runtime.measureHost(host));
+    layout = createLayout(width ?? runtime.measureHost(host));
     mounted.update(layout, activeNodeId);
     return layout;
   };

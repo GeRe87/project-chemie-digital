@@ -14,7 +14,7 @@ graph:concepts {
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
       cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution,
-      cd:FlowDiagram, cd:DiagramNode, cd:DiagramEdge, cd:ChartDefinition,
+      cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:ChartDefinition,
       cd:ChartAnnotation, cd:ChartPointAnnotation, cd:ChartRangeAnnotation,
       cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
@@ -60,6 +60,7 @@ graph:concepts {
   cd:KeyPoint a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:Attribution a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:FlowDiagram a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:NetworkDiagram a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:FlowDiagram .
   cd:ChartDefinition a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:ChartAnnotation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:ChartPointAnnotation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:ChartAnnotation .
@@ -135,6 +136,8 @@ graph:concepts {
   cd:targetNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
   cd:visualColor a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:string .
+  cd:layoutX a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:decimal .
+  cd:layoutY a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:decimal .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 

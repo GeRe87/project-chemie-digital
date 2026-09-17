@@ -305,29 +305,6 @@ function decorateNode(svg: SVGSVGElement, group: SVGGElement, readingIndex: numb
   group.dataset.pixelDecorated = "true";
 }
 
-function arrangeLaboratoryNodes(svg: SVGSVGElement): void {
-  if (svg.closest(LABORATORY_DIVERSITY_SCENE) === null) return;
-  const x = 0;
-  const y = 0;
-  const width = 1280;
-  const height = 620;
-  const positions: Record<string, readonly [number, number]> = {
-    "ex:node-cogniflow-lab-lcms": [0.15, 0.19],
-    "ex:node-cogniflow-lab-hplc": [0.42, 0.12],
-    "ex:node-cogniflow-lab-nmr": [0.79, 0.22],
-    "ex:node-cogniflow-lab-uv-vis": [0.12, 0.53],
-    "ex:node-cogniflow-lab-gcms": [0.87, 0.46],
-    "ex:node-cogniflow-lab-ion-chromatograph": [0.23, 0.82],
-    "ex:node-cogniflow-lab-ftir": [0.57, 0.87],
-    "ex:node-cogniflow-lab-ph-meter": [0.82, 0.76],
-    "ex:node-cogniflow-lab-common-processing": [0.5, 0.5],
-  };
-  for (const group of Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"))) {
-    const position = positions[group.getAttribute("data-node-id") ?? ""];
-    if (position) group.setAttribute("transform", `translate(${x + width * position[0]} ${y + height * position[1]})`);
-  }
-}
-
 interface CustomScriptAnchor {
   readonly x: number;
   readonly y: number;
@@ -527,13 +504,6 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
   // former dependency graph needed a compact crop, but applying that crop to
   // four horizontal layers cuts cards and connector paths out of the SVG.
   if (svg.closest(OPENING_WORKFLOW_SCENE) !== null) return;
-  if (svg.closest(LABORATORY_DIVERSITY_SCENE) !== null) {
-    svg.setAttribute("viewBox", "0 0 1280 620");
-    svg.removeAttribute("height");
-    svg.style.aspectRatio = "1280 / 620";
-    svg.dataset.ecoCityFit = "true";
-    return;
-  }
   const nodeLayer = svg.querySelector<SVGGElement>(".d3-flow-node-layer");
   const edgeLayer = svg.querySelector<SVGGElement>(".d3-flow-edge-layer");
   if (!nodeLayer || !edgeLayer) return;
@@ -566,7 +536,6 @@ function fitViewBoxToFlow(svg: SVGSVGElement): void {
 }
 
 function decorateSvg(svg: SVGSVGElement): void {
-  arrangeLaboratoryNodes(svg);
   const nodes = Array.from(svg.querySelectorAll<SVGGElement>(".d3-flow-node"));
   nodes.forEach((group, index) => {
     if (SECONDARY_WORKFLOW_NODE_IDS.has(group.getAttribute("data-node-id") ?? "")) {

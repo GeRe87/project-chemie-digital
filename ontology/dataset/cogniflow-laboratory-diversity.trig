@@ -4,7 +4,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-laboratory-diversity> {
   ex:cogniflow-laboratory-diversity a cd:Concept ;
-    skos:prefLabel "One Laboratory. Many Analytical Perspectives."@en ;
+    skos:prefLabel "A Vision: Different Instruments, One Common Data Processing."@en ;
     cd:hasDefinition ex:def-cogniflow-laboratory-diversity ;
     cd:authoredResource true .
 
@@ -12,7 +12,7 @@
     cd:body "A modern analytical laboratory combines complementary separation, mass-spectrometric, spectroscopic and electrochemical instruments."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-laboratory-diversity a cd:FlowDiagram ;
+  ex:diagram-cogniflow-laboratory-diversity a cd:NetworkDiagram, cd:FlowDiagram ;
     skos:prefLabel "Complementary instruments in an analytical laboratory"@en ;
     cd:body "Each instrument pair provides a complementary analytical perspective, from separation and mass analysis to spectroscopy and routine measurement."@en ;
     cd:hasDiagramNode ex:node-cogniflow-lab-lcms,
@@ -35,15 +35,15 @@
     cd:focusNode ex:node-cogniflow-lab-lcms ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-lab-lcms a cd:DiagramNode ; skos:prefLabel "LC-MS"@en ; cd:position 1 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-hplc a cd:DiagramNode ; skos:prefLabel "HPLC"@en ; cd:position 2 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-nmr a cd:DiagramNode ; skos:prefLabel "NMR"@en ; cd:position 3 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-uv-vis a cd:DiagramNode ; skos:prefLabel "UV-Vis"@en ; cd:position 4 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-gcms a cd:DiagramNode ; skos:prefLabel "GC-MS"@en ; cd:position 5 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ion-chromatograph a cd:DiagramNode ; skos:prefLabel "Ion Chromatograph"@en ; cd:position 6 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ftir a cd:DiagramNode ; skos:prefLabel "FTIR"@en ; cd:position 7 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-ph-meter a cd:DiagramNode ; skos:prefLabel "pH Meter"@en ; cd:position 8 ; cd:authoredResource true .
-  ex:node-cogniflow-lab-common-processing a cd:DiagramNode ; skos:prefLabel "one common data processing ?"@en ; cd:position 9 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-lcms a cd:DiagramNode ; skos:prefLabel "LC-MS"@en ; cd:position 1 ; cd:layoutX 0.15 ; cd:layoutY 0.19 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-hplc a cd:DiagramNode ; skos:prefLabel "HPLC"@en ; cd:position 2 ; cd:layoutX 0.42 ; cd:layoutY 0.12 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-nmr a cd:DiagramNode ; skos:prefLabel "NMR"@en ; cd:position 3 ; cd:layoutX 0.79 ; cd:layoutY 0.22 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-uv-vis a cd:DiagramNode ; skos:prefLabel "UV-Vis"@en ; cd:position 4 ; cd:layoutX 0.12 ; cd:layoutY 0.53 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-gcms a cd:DiagramNode ; skos:prefLabel "GC-MS"@en ; cd:position 5 ; cd:layoutX 0.87 ; cd:layoutY 0.46 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ion-chromatograph a cd:DiagramNode ; skos:prefLabel "Ion Chromatograph"@en ; cd:position 6 ; cd:layoutX 0.23 ; cd:layoutY 0.82 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ftir a cd:DiagramNode ; skos:prefLabel "FTIR"@en ; cd:position 7 ; cd:layoutX 0.57 ; cd:layoutY 0.87 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-ph-meter a cd:DiagramNode ; skos:prefLabel "pH Meter"@en ; cd:position 8 ; cd:layoutX 0.82 ; cd:layoutY 0.76 ; cd:authoredResource true .
+  ex:node-cogniflow-lab-common-processing a cd:DiagramNode ; skos:prefLabel "one common data processing ?"@en ; cd:position 9 ; cd:layoutX 0.5 ; cd:layoutY 0.5 ; cd:visualColor "red" ; cd:authoredResource true .
 
   ex:edge-cogniflow-lab-lcms-gcms a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-lab-lcms ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .
   ex:edge-cogniflow-lab-hplc-ion-chromatograph a cd:DiagramEdge ; skos:prefLabel "feeds data"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-lab-hplc ; cd:targetNode ex:node-cogniflow-lab-common-processing ; cd:authoredResource true .

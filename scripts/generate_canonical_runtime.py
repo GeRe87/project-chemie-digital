@@ -218,6 +218,7 @@ def selected_label_reference(dataset: Dataset, resource: URIRef, language: str |
 
 
 def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    diagram_type = "network" if is_resource_type(dataset, diagram, "NetworkDiagram") else "flow"
     node_records = [
         (node, integer(dataset, node, iri(CD, "position")))
         for node in objects(dataset, diagram, iri(CD, "hasDiagramNode"))
@@ -257,6 +258,9 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         visual_color = one(dataset, node, iri(CD, "visualColor"), required=False)
         if visual_color is not None:
             node_value["visualColor"] = str(visual_color)
+        if diagram_type == "network":
+            node_value["layoutX"] = float(one(dataset, node, iri(CD, "layoutX")))
+            node_value["layoutY"] = float(one(dataset, node, iri(CD, "layoutY")))
         if node == focus_node:
             node_value["emphasis"] = "primary"
         nodes.append(node_value)
@@ -278,7 +282,7 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
     payload: dict[str, Any] = {
-        "diagramType": "flow",
+        "diagramType": diagram_type,
         "label": label,
         "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
         "nodes": nodes,

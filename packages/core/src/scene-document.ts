@@ -106,6 +106,8 @@ export interface DiagramNode {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualColor?: string;
+  readonly layoutX?: number;
+  readonly layoutY?: number;
 }
 
 export interface DiagramEdge {
@@ -118,7 +120,7 @@ export interface DiagramEdge {
 
 export interface DiagramBlock extends SceneBlockBase {
   readonly kind: "diagram";
-  readonly diagramType: "flow";
+  readonly diagramType: "flow" | "network";
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly DiagramNode[];
@@ -271,7 +273,7 @@ function validateListItems(items: readonly ListItem[], label: string): void {
 function validateDiagram(block: DiagramBlock, label: string): void {
   requireNonEmpty(block.label, `${label} diagram label`);
   requireNonEmpty(block.description, `${label} diagram description`);
-  if (block.diagramType !== "flow") throw new SceneContractError(`${label} diagram type must be flow`);
+  if (block.diagramType !== "flow" && block.diagramType !== "network") throw new SceneContractError(`${label} diagram type must be flow or network`);
   if (block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
   if (block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
 
@@ -283,6 +285,9 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
     if (node.visualColor !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualColor)) {
       throw new SceneContractError(`${label} diagram node ${node.id} visualColor must be a lowercase token`);
+    }
+    if (block.diagramType === "network" && (!Number.isFinite(node.layoutX) || !Number.isFinite(node.layoutY))) {
+      throw new SceneContractError(`${label} network node ${node.id} requires layout coordinates`);
     }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }

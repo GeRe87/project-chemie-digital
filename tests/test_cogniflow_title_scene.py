@@ -155,7 +155,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["vendor Software", "mzML", "custom Script", "vendor Software", "csv", "custom Script"],
             [edge["label"] for edge in workflow_diagram["edges"]],
         )
-        self.assertEqual("One Laboratory. Many Analytical Perspectives.", laboratory_heading["text"])
+        self.assertEqual("A Vision: Different Instruments, One Common Data Processing.", laboratory_heading["text"])
+        self.assertEqual("network", laboratory_diagram["diagramType"])
         self.assertEqual(
             ["LC-MS", "HPLC", "NMR", "UV-Vis", "GC-MS", "Ion Chromatograph", "FTIR", "pH Meter", "one common data processing ?"],
             [node["label"] for node in laboratory_diagram["nodes"]],
@@ -174,6 +175,14 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("ex:node-cogniflow-common-open-format", workflow_diagram["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-lab-lcms", laboratory_diagram["focusNodeId"])
+        self.assertEqual(
+            (0.5, 0.5),
+            next((node["layoutX"], node["layoutY"]) for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?"),
+        )
+        self.assertEqual(
+            "red",
+            next(node["visualColor"] for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?"),
+        )
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
