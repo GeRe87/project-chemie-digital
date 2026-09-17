@@ -282,7 +282,7 @@ The exact number of states may be reduced when the new presentation narrative is
 - [x] Use existing network/group/state primitives; no CogniFlow identity or coordinate is introduced in the renderer.
 - [x] Add only capabilities already justified by R1–R3.
 - [ ] Theme reproduces Eco City card language rather than legacy UDE styling.
-- [ ] Light/dark evidence for representative overview and focus states.
+- [~] Native Reveal click, Enter, Space and reverse navigation now drives authored state positions without visible diagram controls; representative light/dark capture evidence remains unavailable.
 
 **Gate:** no code references any CogniFlow entity ID or old slide ID.
 

@@ -595,11 +595,6 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("width", "100%");
       figure.append(svg, caption);
       wrapper.append(figure);
-      const stateControls = document.createElement("div");
-      stateControls.className = "d3-flow-state-controls";
-      stateControls.setAttribute("role", "group");
-      stateControls.setAttribute("aria-label", "Diagram states");
-      wrapper.append(stateControls);
       hostElement.append(wrapper);
 
       let destroyed = false;
@@ -610,6 +605,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let nodeLayer: SVGGElement | undefined;
       let descriptionElement: SVGElement | undefined;
       let definitionsElement: SVGElement | undefined;
+      let annotationsElement: HTMLElement | undefined;
 
       const render = (layout: D3FlowLayout, requestedActiveNodeId?: string, requestedActiveStateId?: string): void => {
         if (destroyed) return;
@@ -727,21 +723,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nodeLayer = nextNodeLayer;
           svg.append(nodeLayer);
         } else reconcileKeyedChildren(nodeLayer, nextNodeLayer);
-        stateControls.replaceChildren();
-        for (const state of model.states) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "d3-flow-state-control";
-          button.textContent = state.label;
-          button.setAttribute("data-diagram-state-id", state.id);
-          button.setAttribute("aria-pressed", String(state.id === activeStateId));
-          button.addEventListener("click", () => {
-            const nextStateId = state.id === activeStateId ? undefined : state.id;
-            render(layout, activeNodeId, nextStateId);
-            onActiveStateChange?.(nextStateId);
-          });
-          stateControls.append(button);
-        }
+        annotationsElement?.remove();
+        annotationsElement = undefined;
         if (activeState) {
           const annotations = document.createElement("div");
           annotations.className = "d3-flow-shared-edge-annotations";
@@ -753,7 +736,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             note.textContent = annotation.label;
             annotations.append(note);
           }
-          stateControls.append(annotations);
+          wrapper.append(annotations);
+          annotationsElement = annotations;
         }
         nodeElements = nextNodeElements;
         if (model.interactionPolicy === "keyboard" && previouslyFocusedId && previouslyFocusedId === activeNodeId) {

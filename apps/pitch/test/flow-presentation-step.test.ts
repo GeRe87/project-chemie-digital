@@ -6,11 +6,17 @@ import type { D3FlowComponent } from "../../../packages/renderer-d3/src/flow-dia
 
 class Host implements PitchFlowHost {
   attributes = new Map<string, string>();
-  readonly listeners: string[] = [];
+  readonly listeners = new Map<string, EventListenerOrEventListenerObject>();
   getAttribute(name: string): string | null { return this.attributes.get(name) ?? null; }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
-  addEventListener(type: string): void { this.listeners.push(type); }
-  removeEventListener(): void {}
+  removeAttribute(name: string): void { this.attributes.delete(name); }
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject): void { this.listeners.set(type, listener); }
+  removeEventListener(type: string): void { this.listeners.delete(type); }
+  dispatchPresentationStep(step: number): void {
+    const listener = this.listeners.get("pcd-presentation-step");
+    if (typeof listener === "function") listener({ detail: { step } } as unknown as Event);
+    else listener?.handleEvent({ detail: { step } } as unknown as Event);
+  }
 }
 
 const source = [{ resourceId: "ex:diagram" }] as const;
@@ -37,6 +43,46 @@ test("pitch does not infer progressive disclosure from flow topology", () => {
   const destroy = mountPitchFlowDiagrams([host], documents, { reducedMotion: true, interactionPolicy: "static" }, mount);
   assert.equal(host.getAttribute("data-presentation-step-host"), null);
   assert.equal(host.getAttribute("data-presentation-step-count"), null);
-  assert.deepEqual(host.listeners, []);
+  assert.deepEqual([...host.listeners.keys()], []);
   destroy();
+});
+
+test("pitch maps Reveal fragment positions to authored diagram states and restores the base state", () => {
+  const statefulDiagram: DiagramBlock = {
+    ...diagram,
+    id: "diagram:stateful",
+    states: [
+      { id: "state:overview", label: "Overview", source, sharedEdgeAnnotations: [] },
+      { id: "state:detail", label: "Detail", source, sharedEdgeAnnotations: [] },
+    ],
+  };
+  const statefulDocuments: SceneDocument[] = [{
+    version: "1.2", id: "document:stateful", sourcePathId: "path:stateful",
+    scenes: [{ id: "scene:stateful", source, readingOrder: [statefulDiagram.id], blocks: [statefulDiagram] }],
+  }];
+  const host = new Host();
+  host.setAttribute("data-flow-block-id", statefulDiagram.id);
+  const activeStates: Array<string | undefined> = [];
+  const mount: PitchFlowMount = () => ({
+    model: { states: statefulDiagram.states } as D3FlowComponent["model"],
+    layout: {} as D3FlowComponent["layout"],
+    staticFallback: "",
+    focusNode() {},
+    setActiveState(stateId) { activeStates.push(stateId); },
+    handleKey() { return false; },
+    resize() { return {} as D3FlowComponent["layout"]; },
+    destroy() {},
+  });
+
+  const destroy = mountPitchFlowDiagrams([host], statefulDocuments, { reducedMotion: true, interactionPolicy: "keyboard" }, mount);
+  assert.equal(host.getAttribute("data-presentation-step-count"), "2");
+  assert.equal(host.getAttribute("data-presentation-step-host"), "diagram-state");
+  host.dispatchPresentationStep(1);
+  host.dispatchPresentationStep(2);
+  host.dispatchPresentationStep(0);
+  assert.deepEqual(activeStates, ["state:overview", "state:detail", undefined]);
+
+  destroy();
+  assert.equal(host.getAttribute("data-presentation-step-count"), null);
+  assert.equal(host.getAttribute("data-presentation-step-host"), null);
 });

@@ -9,6 +9,7 @@ import {
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
   setAttribute?(name: string, value: string): void;
+  removeAttribute?(name: string): void;
   querySelectorAll?<E extends Element = Element>(selectors: string): NodeListOf<E>;
   addEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
   removeEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
@@ -47,6 +48,32 @@ function bindKeyboardTraversal(host: PitchFlowHost, component: D3FlowComponent, 
   return () => host.removeEventListener?.("keydown", listener);
 }
 
+function bindPresentationState(host: PitchFlowHost, component: D3FlowComponent): () => void {
+  const states = component.model.states ?? [];
+  const stateCount = states.length;
+  if (!stateCount || !host.setAttribute || !host.addEventListener || !host.removeEventListener) return () => {};
+
+  const previousCount = host.getAttribute("data-presentation-step-count");
+  const previousHost = host.getAttribute("data-presentation-step-host");
+  host.setAttribute("data-presentation-step-count", String(stateCount));
+  host.setAttribute("data-presentation-step-host", "diagram-state");
+
+  const listener: EventListener = (event) => {
+    const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
+    if (typeof step !== "number" || !Number.isFinite(step)) return;
+    component.setActiveState(states[Math.trunc(step) - 1]?.id);
+  };
+  host.addEventListener("pcd-presentation-step", listener);
+
+  return () => {
+    host.removeEventListener?.("pcd-presentation-step", listener);
+    if (previousCount === null) host.removeAttribute?.("data-presentation-step-count");
+    else host.setAttribute?.("data-presentation-step-count", previousCount);
+    if (previousHost === null) host.removeAttribute?.("data-presentation-step-host");
+    else host.setAttribute?.("data-presentation-step-host", previousHost);
+  };
+}
+
 export function mountPitchFlowDiagrams(
   hosts: readonly PitchFlowHost[],
   documents: readonly SceneDocument[],
@@ -56,7 +83,9 @@ export function mountPitchFlowDiagrams(
   const blocks = diagramBlocks(documents);
   const components: D3FlowComponent[] = [];
   const removeKeyboardListeners: Array<() => void> = [];
+  const removePresentationStateListeners: Array<() => void> = [];
   const cleanupMounted = (): void => {
+    for (const removeListener of removePresentationStateListeners.splice(0)) removeListener();
     for (const removeListener of removeKeyboardListeners.splice(0)) removeListener();
     for (const component of components.splice(0)) component.destroy();
   };
@@ -74,6 +103,7 @@ export function mountPitchFlowDiagrams(
       }
       components.push(result);
       removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
+      removePresentationStateListeners.push(bindPresentationState(host, result));
     }
   } catch (error) {
     cleanupMounted();
