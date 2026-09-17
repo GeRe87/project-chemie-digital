@@ -286,7 +286,7 @@ The exact number of states may be reduced when the new presentation narrative is
 
 **Gate:** no code references any CogniFlow entity ID or old slide ID.
 
-### R5 — Generic layered semantic graph
+### R5 — Generic layered semantic graph (deferred)
 
 Goal: cover the concept-domain drill-down without hard-coded three-column D3 code.
 
@@ -302,6 +302,8 @@ Goal: cover the concept-domain drill-down without hard-coded three-column D3 cod
 
 **Gate:** pending R5: the same renderer can realize 2, 3, and 4 layers from content alone. R4 representative light/dark state evidence is the entry prerequisite.
 
+**2026-09-17 structural decision:** defer this capability increment while the current generic `network` strategy is sufficient for the first R6 progression. It already realizes arbitrary semantic groups, state-selected visibility, focus/context treatment, cross-group edges and narrow-host stacking without content selectors. The current SceneDocument node label contract is sufficient for the initial ontology vocabulary; add ordered-layer semantics or structured node summaries only when a concrete R6 state cannot be expressed or remain readable with that contract.
+
 ### R6 — Migrate the legacy concept-domain diagram
 
 Goal: reproduce the pedagogical progression, not the old coordinates or painted-column implementation.
@@ -314,8 +316,8 @@ Suggested progression:
 4. PipelineNode / RunTarget / `runs` relations;
 5. concrete `qalg:Average` + ports + service binding.
 
-- [ ] TriG contains the actual semantic entities/relations and state membership.
-- [ ] Structured nodes are produced from reusable resource summaries.
+- [~] First current-ontology TriG progression contains concept-domain, processing and presentation-affordance entities, relations and state membership.
+- [ ] Structured nodes are produced from reusable resource summaries when a concrete semantic field cannot be represented by the current generic node label.
 - [ ] Prior layers can remain as de-emphasized context.
 - [ ] No renderer knows terms such as `qalg:Average`, `cfproc:RunTarget`, or `cfproc:ProcessingPipeline`.
 - [ ] Theme controls layer palettes, card variants, shadow/glow, and transition grammar.
@@ -460,8 +462,8 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R5 is next after R4 visual evidence is captured.**
+**The first R6 current-ontology progression is active; R5 remains deferred pending structural evidence that the generic network is insufficient.**
 
 The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
 
-The state machinery is now proven with a synthetic Core/Domain/Runtime fixture and the authored architecture sequence. Capture representative light/dark state evidence before beginning R5.
+The state machinery is now proven with a synthetic Core/Domain/Runtime fixture, the authored architecture sequence and the initial concept-domain progression. Capture representative light/dark state evidence and use the R6 content to determine whether ordered-layer geometry or structured node summaries are genuinely required.
