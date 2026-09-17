@@ -99,7 +99,7 @@ test("network layout is deterministic from group membership rather than node ide
   if ("diagnostics" in first || "diagnostics" in second) return;
   assert.deepEqual(first.layout, second.layout);
   const positions = new Map(first.layout.nodes.map((node) => [node.id, node]));
-  assert.ok(positions.get("node:reuse")!.x > positions.get("node:raw")!.x);
+  assert.equal(positions.get("node:metadata")!.x, first.layout.width / 2);
   assert.equal(first.model.nodes[2]!.visualRole, "highlight");
   assert.deepEqual(first.model.nodes[2]!.groupIds, ["group:processing"]);
 });

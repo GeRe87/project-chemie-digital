@@ -356,7 +356,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       const namespace = "http://www.w3.org/2000/svg";
       const markerId = markerIdFor(model, ++flowMarkerMountSequence);
       hostElement.innerHTML = "";
-      const wrapper = document.createElement("section");
+      // A div prevents Reveal from treating the renderer-owned wrapper as a nested slide.
+      const wrapper = document.createElement("div");
       wrapper.className = "d3-flow-runtime";
       const figure = document.createElement("figure");
       figure.className = "d3-flow-figure";

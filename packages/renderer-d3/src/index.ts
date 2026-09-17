@@ -295,7 +295,7 @@ export function createSvgD3Runtime(): D3RuntimePort {
       const hostElement = ensureHostElement(host);
       const svgNamespace = "http://www.w3.org/2000/svg";
       hostElement.innerHTML = "";
-      const wrapper = document.createElement("section");
+      const wrapper = document.createElement("div");
       wrapper.className = "d3-graph-runtime";
       const figure = document.createElement("figure");
       figure.className = "d3-graph-figure";
