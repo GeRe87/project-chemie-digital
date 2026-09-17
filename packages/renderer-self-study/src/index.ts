@@ -117,6 +117,7 @@ export interface SelfStudyDiagramEdgePlan {
   readonly targetNodeId: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
+  readonly visualRole?: string;
 }
 
 export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
@@ -304,6 +305,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           targetNodeId: edge.targetNodeId,
           label: edge.label,
           source: sourceCopy(edge.source),
+          ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),

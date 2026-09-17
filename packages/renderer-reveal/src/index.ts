@@ -128,6 +128,7 @@ export interface RevealDiagramEdgePlan {
   readonly targetNodeId: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
+  readonly visualRole?: string;
 }
 
 export interface RevealDiagramPlan extends RevealNodeBase {
@@ -313,6 +314,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           targetNodeId: edge.targetNodeId,
           label: edge.label,
           source: sourceCopy(edge.source),
+          ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),

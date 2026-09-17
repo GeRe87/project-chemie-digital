@@ -208,3 +208,36 @@ test("concrete SVG runtime keeps marker ids unique per mount and stable across r
     restoreDom();
   }
 });
+
+test("annotation edge roles produce marker and callout hooks without changing the generic edge contract", () => {
+  const restoreDom = installFakeDom();
+
+  try {
+    const annotatedBlock: DiagramBlock = {
+      ...block,
+      edges: [{ ...block.edges[0]!, visualRole: "annotation" }],
+    };
+    const rendered = createD3FlowRenderModel(annotatedBlock, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(rendered.model);
+    if (!rendered.model) return;
+    assert.equal(rendered.model.edges[0]!.visualRole, "annotation");
+
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, rendered.model, createD3FlowLayout(rendered.model, 1200));
+    const edge = host.findByClass("d3-flow-edge")[0];
+    const labelGroup = host.findByClass("d3-flow-edge-label-group")[0];
+    const panel = host.findByClass("d3-flow-edge-label-panel")[0];
+    const stem = host.findByClass("d3-flow-edge-label-stem")[0];
+    const annotationMarker = host.findByTag("marker").find((marker) => marker.getAttribute("data-visual-role") === "annotation");
+    assert.equal(edge?.getAttribute("data-visual-role"), "annotation");
+    assert.equal(labelGroup?.getAttribute("data-visual-role"), "annotation");
+    assert.equal(panel?.getAttribute("data-visual-role"), "annotation");
+    assert.equal(stem?.getAttribute("data-visual-role"), "annotation");
+    assert.equal(annotationMarker?.getAttribute("markerWidth"), "4");
+    assert.equal(edge?.getAttribute("marker-end"), `url(#${annotationMarker?.getAttribute("id")})`);
+
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});

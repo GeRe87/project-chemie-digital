@@ -272,13 +272,17 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         if source_node not in node_ids or target_node not in node_ids:
             raise ValueError(f"FlowDiagram edge {compact(edge)} references a node outside {compact(diagram)}")
         label, relation_path = selected_label_reference(dataset, edge, language)
-        edges.append({
+        edge_value: dict[str, Any] = {
             "id": compact(edge),
             "sourceNodeId": compact(source_node),
             "targetNodeId": compact(target_node),
             "label": label,
             "source": [source_reference(dataset, edge, relation_path)],
-        })
+        }
+        visual_role = one(dataset, edge, iri(CD, "visualRole"), required=False)
+        if visual_role is not None:
+            edge_value["visualRole"] = str(visual_role)
+        edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
     groups = []

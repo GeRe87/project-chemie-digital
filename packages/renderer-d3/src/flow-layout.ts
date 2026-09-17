@@ -11,6 +11,7 @@ export interface D3FlowLayoutEdgeInput {
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
   readonly label: string;
+  readonly visualRole?: string;
 }
 
 export interface D3FlowLayoutInput {
@@ -41,6 +42,7 @@ export interface D3FlowLayoutEdge {
   readonly labelX: number;
   readonly labelY: number;
   readonly labelLines: readonly string[];
+  readonly visualRole?: string;
 }
 
 export interface D3FlowLayout {
@@ -214,10 +216,18 @@ function horizontalLayeredLayout(
   const margin = 24;
   const layerGap = 56;
   const siblingGap = 54;
+  const annotationSiblingGap = 94;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
   const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => nodeById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
+  const layerGapFor = (layer: readonly string[]): number => {
+    if (layer.length < 2) return siblingGap;
+    const ids = new Set(layer);
+    return input.edges.some((edge) => edge.visualRole === "annotation" && (ids.has(edge.sourceNodeId) || ids.has(edge.targetNodeId)))
+      ? annotationSiblingGap
+      : siblingGap;
+  };
   const layerHeights = layers.map((layer) =>
-    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * siblingGap,
+    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
   );
   const contentHeight = Math.max(112, ...layerHeights);
   const intrinsicWidth = margin * 2 + layerWidths.reduce((sum, width) => sum + width, 0) + Math.max(0, layers.length - 1) * layerGap;
@@ -229,6 +239,7 @@ function horizontalLayeredLayout(
   layers.forEach((layer, layerIndex) => {
     const layerWidth = layerWidths[layerIndex] ?? HORIZONTAL_NODE_MIN_WIDTH;
     const layerHeight = layerHeights[layerIndex] ?? 0;
+    const rowGap = layerGapFor(layer);
     let cursorY = margin + HORIZONTAL_EDGE_LABEL_CLEARANCE + 17 + (contentHeight - layerHeight) / 2;
     const x = layerLeft + layerWidth / 2;
     for (const id of layer) {
@@ -241,7 +252,7 @@ function horizontalLayeredLayout(
         height: node.height,
         labelLines: node.labelLines,
       });
-      cursorY += node.height + siblingGap;
+      cursorY += node.height + rowGap;
     }
     layerLeft += layerWidth + layerGap;
   });
@@ -441,6 +452,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         labelX: midpoint(x1, x2),
         labelY: midpoint(source.y, target.y) - HORIZONTAL_EDGE_LABEL_CLEARANCE,
         labelLines: wrapFlowText(edge.label, labelWidth),
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
     }
 
@@ -458,6 +470,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelX: midpoint(source.x, target.x) + 20,
       labelY: midpoint(y1, y2),
       labelLines: wrapFlowText(edge.label, labelWidth),
+      ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
     };
   });
 

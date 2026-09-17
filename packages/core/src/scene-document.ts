@@ -121,6 +121,7 @@ export interface DiagramEdge {
   readonly targetNodeId: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
+  readonly visualRole?: string;
 }
 
 export interface DiagramBlock extends SceneBlockBase {
@@ -315,6 +316,9 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (edgeIdSet.has(edge.id)) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
     edgeIdSet.add(edge.id);
     requireNonEmpty(edge.label, `${label} diagram edge ${edge.id} label`);
+    if (edge.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(edge.visualRole)) {
+      throw new SceneContractError(`${label} diagram edge ${edge.id} visualRole must be a lowercase token`);
+    }
     requireNonEmpty(edge.sourceNodeId, `${label} diagram edge ${edge.id} sourceNodeId`);
     requireNonEmpty(edge.targetNodeId, `${label} diagram edge ${edge.id} targetNodeId`);
     if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {

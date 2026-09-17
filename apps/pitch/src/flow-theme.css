@@ -154,7 +154,27 @@ body[data-presentation-theme="dark"] .reveal {
 
 .reveal .d3-flow-edge {
   stroke: var(--pcd-accent);
-  stroke-width: 3;
+  stroke-width: 2;
+}
+
+/* Annotation roles are semantic hooks, not scene-specific decoration. */
+.reveal .d3-flow-edge[data-visual-role="annotation"] {
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.reveal .d3-flow-edge-marker[data-visual-role="annotation"] path {
+  fill: var(--pcd-muted);
+}
+
+.reveal .d3-flow-edge-label-group[data-visual-role="annotation"] .d3-flow-edge-label-panel {
+  stroke: var(--pcd-muted);
+  stroke-dasharray: 3 3;
+}
+
+.reveal .d3-flow-edge-label-stem[data-visual-role="annotation"] {
+  stroke: var(--pcd-muted);
+  stroke-dasharray: 2 4;
 }
 
 /* Semantic roles remain portable across diagram families and presentation themes. */
@@ -404,6 +424,24 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge.pcd-flow-frontier-edge
     drop-shadow(0 0 3px color-mix(in srgb, var(--pcd-flow-pixel-highlight) 76%, transparent))
     drop-shadow(0 2px 0 var(--pcd-flow-pixel-highlight))
     drop-shadow(4px 5px 0 var(--pcd-flow-pixel-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge[data-visual-role="annotation"] {
+  stroke-width: 5;
+  stroke-dasharray: 10 8;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-marker[data-visual-role="annotation"] path,
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem[data-visual-role="annotation"] {
+  stroke: var(--pcd-flow-pixel-annotation);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-marker[data-visual-role="annotation"] path {
+  fill: var(--pcd-flow-pixel-annotation);
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-group[data-visual-role="annotation"] .d3-flow-edge-label-panel {
+  stroke: var(--pcd-flow-pixel-annotation);
 }
 
 @media (max-width: 900px) {

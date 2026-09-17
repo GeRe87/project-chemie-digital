@@ -137,7 +137,7 @@ graph:concepts {
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
   cd:hasDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramGroup .
   cd:memberOfDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range cd:DiagramGroup .
-  cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:string .
+   cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 

@@ -42,6 +42,7 @@ export interface D3FlowRenderEdge {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly readingIndex: number;
+  readonly visualRole?: string;
 }
 
 export interface D3FlowRenderModel {
@@ -105,6 +106,12 @@ function requireNonEmpty(value: unknown, label: string): asserts value is string
   if (typeof value !== "string" || value.length === 0) throw new Error(`${label} must be non-empty`);
 }
 
+function validateVisualRole(value: unknown, label: string): void {
+  if (value !== undefined && (typeof value !== "string" || !/^[a-z][a-z0-9-]*$/u.test(value))) {
+    throw new Error(`${label} visualRole must be a lowercase token`);
+  }
+}
+
 function validateOptions(options: D3FlowOptions): void {
   if (typeof options.reducedMotion !== "boolean") throw new Error("reducedMotion must be boolean");
   if (options.interactionPolicy !== "keyboard" && options.interactionPolicy !== "static") {
@@ -129,6 +136,7 @@ function validateFlowBlock(block: DiagramBlock): void {
   for (const node of block.nodes) {
     requireNonEmpty(node.id, "Flow node id");
     requireNonEmpty(node.label, `Flow node ${node.id} label`);
+    validateVisualRole(node.visualRole, `Flow node ${node.id}`);
   }
 
   const edgeIds = block.edges.map((edge) => edge.id);
@@ -136,6 +144,7 @@ function validateFlowBlock(block: DiagramBlock): void {
   for (const edge of block.edges) {
     requireNonEmpty(edge.id, "Flow edge id");
     requireNonEmpty(edge.label, `Flow edge ${edge.id} label`);
+    validateVisualRole(edge.visualRole, `Flow edge ${edge.id}`);
     if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {
       throw new Error(`Flow edge ${edge.id} references an unknown node`);
     }
@@ -184,8 +193,9 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       sourceNodeId: edge.sourceNodeId,
       targetNodeId: edge.targetNodeId,
       label: edge.label,
-      source: cloneSources(edge.source),
-      readingIndex,
+       source: cloneSources(edge.source),
+       readingIndex,
+       ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       }));
       const groups = (block.groups ?? []).map((group): D3FlowRenderGroup => ({
         id: group.id,
@@ -230,8 +240,9 @@ export function resolveD3FlowHostWidth(hostWidth: number, viewportWidth?: number
 
 let flowMarkerMountSequence = 0;
 
-function markerIdFor(model: D3FlowRenderModel, mountSequence: number): string {
-  return `d3-flow-arrow-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}-${mountSequence}`;
+function markerIdFor(model: D3FlowRenderModel, mountSequence: number, visualRole?: string): string {
+  const role = visualRole ? `-${visualRole}` : "";
+  return `d3-flow-arrow${role}-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}-${mountSequence}`;
 }
 
 function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y: number, className: string): SVGTextElement {
@@ -273,6 +284,7 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D
   const group = document.createElementNS(namespace, "g");
   group.setAttribute("class", "d3-flow-edge-label-group");
   group.setAttribute("data-edge-id", edge.id);
+  if (edge.visualRole) group.setAttribute("data-visual-role", edge.visualRole);
 
   const panel = document.createElementNS(namespace, "rect");
   panel.setAttribute("class", "d3-flow-edge-label-panel");
@@ -282,6 +294,7 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D
   panel.setAttribute("height", String(panelHeight));
   panel.setAttribute("rx", "4");
   panel.setAttribute("aria-hidden", "true");
+  if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
   group.append(panel);
 
   const stem = document.createElementNS(namespace, "line");
@@ -291,6 +304,7 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D
   stem.setAttribute("y1", String(edge.labelY + panelHeight / 2 - 2));
   stem.setAttribute("y2", String(orientation === "horizontal" ? edge.y1 - 8 : edge.labelY + panelHeight / 2 + 14));
   stem.setAttribute("aria-hidden", "true");
+  if (edge.visualRole) stem.setAttribute("data-visual-role", edge.visualRole);
   group.append(stem);
 
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
@@ -365,7 +379,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
     mount(host, model, initialLayout, initialActiveNodeId): D3FlowRuntimeMount {
       const hostElement = ensureHostElement(host);
       const namespace = "http://www.w3.org/2000/svg";
-      const markerId = markerIdFor(model, ++flowMarkerMountSequence);
+      const mountSequence = ++flowMarkerMountSequence;
       hostElement.innerHTML = "";
       // A div prevents Reveal from treating the renderer-owned wrapper as a nested slide.
       const wrapper = document.createElement("div");
@@ -403,19 +417,24 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         svg.append(desc);
 
         const defs = document.createElementNS(namespace, "defs");
-        const marker = document.createElementNS(namespace, "marker");
-        marker.setAttribute("id", markerId);
-        marker.setAttribute("viewBox", "0 0 10 10");
-        marker.setAttribute("refX", "9");
-        marker.setAttribute("refY", "5");
-        marker.setAttribute("markerWidth", "6");
-        marker.setAttribute("markerHeight", "6");
-        marker.setAttribute("orient", "auto-start-reverse");
-        const arrow = document.createElementNS(namespace, "path");
-        arrow.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
-        arrow.setAttribute("fill", "currentColor");
-        marker.append(arrow);
-        defs.append(marker);
+        const edgeRoles = [...new Set(model.edges.map((edge) => edge.visualRole).filter((role): role is string => Boolean(role)))];
+        for (const visualRole of [undefined, ...edgeRoles]) {
+          const marker = document.createElementNS(namespace, "marker");
+          marker.setAttribute("id", markerIdFor(model, mountSequence, visualRole));
+          marker.setAttribute("class", "d3-flow-edge-marker");
+          marker.setAttribute("viewBox", "0 0 10 10");
+          marker.setAttribute("refX", "9");
+          marker.setAttribute("refY", "5");
+          marker.setAttribute("markerWidth", visualRole === "annotation" ? "4" : "6");
+          marker.setAttribute("markerHeight", visualRole === "annotation" ? "4" : "6");
+          marker.setAttribute("orient", "auto-start-reverse");
+          if (visualRole) marker.setAttribute("data-visual-role", visualRole);
+          const arrow = document.createElementNS(namespace, "path");
+          arrow.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+          arrow.setAttribute("fill", "currentColor");
+          marker.append(arrow);
+          defs.append(marker);
+        }
         svg.append(defs);
 
         const edgeLayer = document.createElementNS(namespace, "g");
@@ -426,10 +445,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("data-edge-id", edge.id);
           path.setAttribute("data-source-node-id", edge.sourceNodeId);
           path.setAttribute("data-target-node-id", edge.targetNodeId);
+          if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
           path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
-          path.setAttribute("marker-end", `url(#${markerId})`);
+          path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
           edgeLayer.append(path);
           addEdgeLabel(edgeLayer, edge, layout.orientation);
         }

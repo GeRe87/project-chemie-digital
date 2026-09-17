@@ -79,6 +79,21 @@ test("branched DAGs place same-depth provenance siblings in one visual layer", (
   assert.ok(narrowById.get("artifact")!.y > narrowById.get("process")!.y);
 });
 
+test("annotation edges reserve additional clearance for their parallel flow row", () => {
+  const plain = createD3FlowLayout(branchedInput, 1200);
+  const annotated = createD3FlowLayout({
+    ...branchedInput,
+    edges: branchedInput.edges.map((edge) => edge.id === "raw-algorithm" ? { ...edge, visualRole: "annotation" } : edge),
+  }, 1200);
+  const rowDistance = (layout: ReturnType<typeof createD3FlowLayout>): number => {
+    const byId = new Map(layout.nodes.map((node) => [node.id, node]));
+    return Math.abs(byId.get("algorithm")!.y - byId.get("process")!.y);
+  };
+
+  assert.equal(rowDistance(annotated) - rowDistance(plain), 40);
+  assert.equal(annotated.edges.find((edge) => edge.id === "raw-algorithm")!.visualRole, "annotation");
+});
+
 test("network layouts place the authored focus centrally and cluster typed group memberships radially", () => {
   const network = createD3FlowLayout({
     diagramType: "network",
