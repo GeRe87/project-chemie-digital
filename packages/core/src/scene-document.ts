@@ -105,9 +105,14 @@ export interface DiagramNode {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
-  readonly visualColor?: string;
-  readonly layoutX?: number;
-  readonly layoutY?: number;
+  readonly visualRole?: string;
+  readonly groupIds?: readonly string[];
+}
+
+export interface DiagramGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface DiagramEdge {
@@ -124,6 +129,7 @@ export interface DiagramBlock extends SceneBlockBase {
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly DiagramNode[];
+  readonly groups?: readonly DiagramGroup[];
   readonly edges: readonly DiagramEdge[];
   readonly focusNodeId?: string;
 }
@@ -283,13 +289,24 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (nodeIdSet.has(node.id)) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
     nodeIdSet.add(node.id);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
-    if (node.visualColor !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualColor)) {
-      throw new SceneContractError(`${label} diagram node ${node.id} visualColor must be a lowercase token`);
-    }
-    if (block.diagramType === "network" && (!Number.isFinite(node.layoutX) || !Number.isFinite(node.layoutY))) {
-      throw new SceneContractError(`${label} network node ${node.id} requires layout coordinates`);
+    if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
+      throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
     }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
+  }
+
+  const groupIds = new Set<string>();
+  for (const group of block.groups ?? []) {
+    requireNonEmpty(group.id, `${label} diagram group id`);
+    if (groupIds.has(group.id)) throw new SceneContractError(`${label} diagram contains duplicate group ids`);
+    groupIds.add(group.id);
+    requireNonEmpty(group.label, `${label} diagram group ${group.id} label`);
+    validateSource(group.source, `${label} diagram group ${group.id} source`);
+  }
+  for (const node of block.nodes) {
+    for (const groupId of node.groupIds ?? []) {
+      if (!groupIds.has(groupId)) throw new SceneContractError(`${label} diagram node ${node.id} references an unknown group`);
+    }
   }
 
   const edgeIdSet = new Set<string>();

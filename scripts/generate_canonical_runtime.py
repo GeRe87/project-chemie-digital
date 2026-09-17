@@ -255,12 +255,12 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             "label": label,
             "source": [source_reference(dataset, node, relation_path)],
         }
-        visual_color = one(dataset, node, iri(CD, "visualColor"), required=False)
-        if visual_color is not None:
-            node_value["visualColor"] = str(visual_color)
-        if diagram_type == "network":
-            node_value["layoutX"] = float(one(dataset, node, iri(CD, "layoutX")))
-            node_value["layoutY"] = float(one(dataset, node, iri(CD, "layoutY")))
+        visual_role = one(dataset, node, iri(CD, "visualRole"), required=False)
+        if visual_role is not None:
+            node_value["visualRole"] = str(visual_role)
+        group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
+        if group_ids:
+            node_value["groupIds"] = sorted(group_ids)
         if node == focus_node:
             node_value["emphasis"] = "primary"
         nodes.append(node_value)
@@ -281,12 +281,20 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         })
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    groups = []
+    for group in sorted(objects(dataset, diagram, iri(CD, "hasDiagramGroup")), key=str):
+        if not isinstance(group, URIRef):
+            continue
+        group_label, group_relation_path = selected_label_reference(dataset, group, language)
+        groups.append({"id": compact(group), "label": group_label, "source": [source_reference(dataset, group, group_relation_path)]})
+
     payload: dict[str, Any] = {
         "diagramType": diagram_type,
         "label": label,
         "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
         "nodes": nodes,
         "edges": edges,
+        **({"groups": groups} if groups else {}),
     }
     if focus_node is not None:
         payload["focusNodeId"] = compact(focus_node)

@@ -101,7 +101,14 @@ export interface SelfStudyDiagramNodePlan {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
-  readonly visualColor?: string;
+  readonly visualRole?: string;
+  readonly groupIds?: readonly string[];
+}
+
+export interface SelfStudyDiagramGroupPlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
 }
 
 export interface SelfStudyDiagramEdgePlan {
@@ -114,10 +121,11 @@ export interface SelfStudyDiagramEdgePlan {
 
 export interface SelfStudyDiagramPlan extends SelfStudyNodeBase {
   readonly kind: "diagram";
-  readonly diagramType: "flow";
+  readonly diagramType: "flow" | "network";
   readonly label: string;
   readonly description: string;
   readonly nodes: readonly SelfStudyDiagramNodePlan[];
+  readonly groups?: readonly SelfStudyDiagramGroupPlan[];
   readonly edges: readonly SelfStudyDiagramEdgePlan[];
   readonly focusNodeId?: string;
 }
@@ -287,7 +295,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           label: node.label,
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
-          ...(node.visualColor ? { visualColor: node.visualColor } : {}),
+          ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+          ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
         })),
         edges: block.edges.map((edge) => ({
           id: edge.id,
@@ -296,6 +305,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           label: edge.label,
           source: sourceCopy(edge.source),
         })),
+        ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
         ...(block.focusNodeId ? { focusNodeId: block.focusNodeId } : {}),
       };
     default:

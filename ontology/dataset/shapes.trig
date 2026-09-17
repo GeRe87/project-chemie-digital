@@ -184,6 +184,7 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
     sh:property [ sh:path cd:hasDiagramNode ; sh:minCount 2 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:hasDiagramEdge ; sh:minCount 1 ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:focusNode ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
     sh:sparql [
       sh:message "FlowDiagram focusNode must belong to the diagram's own node set." ;
@@ -191,6 +192,15 @@ SELECT $this WHERE {
 SELECT $this WHERE {
         $this cd:focusNode ?focus .
         FILTER NOT EXISTS { $this cd:hasDiagramNode ?focus . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DiagramNode group membership must belong to the owning FlowDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDiagramNode ?node .
+        ?node cd:memberOfDiagramGroup ?group .
+        FILTER NOT EXISTS { $this cd:hasDiagramGroup ?group . }
       }"""
     ] ;
     sh:sparql [
@@ -278,9 +288,13 @@ SELECT $this WHERE {
     sh:targetClass cd:DiagramNode ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
-    sh:property [ sh:path cd:visualColor ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[a-z][a-z0-9-]*$" ] ;
-    sh:property [ sh:path cd:layoutX ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
-    sh:property [ sh:path cd:layoutY ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+    sh:property [ sh:path cd:visualRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[a-z][a-z0-9-]*$" ] ;
+    sh:property [ sh:path cd:memberOfDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:DiagramGroupShape a sh:NodeShape ;
+    sh:targetClass cd:DiagramGroup ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
 
   cd:DiagramEdgeShape a sh:NodeShape ;

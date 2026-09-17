@@ -14,7 +14,7 @@ graph:concepts {
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
       cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution,
-      cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:ChartDefinition,
+       cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:DiagramGroup, cd:ChartDefinition,
       cd:ChartAnnotation, cd:ChartPointAnnotation, cd:ChartRangeAnnotation,
       cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
@@ -26,13 +26,13 @@ graph:concepts {
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
       cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
-      cd:hasDiagramEdge, cd:sourceNode, cd:targetNode, cd:focusNode,
+       cd:hasDiagramEdge, cd:hasDiagramGroup, cd:memberOfDiagramGroup, cd:sourceNode, cd:targetNode, cd:focusNode,
       cd:hasChartAnnotation, cd:targetObservation, cd:startObservation, cd:endObservation,
       cd:supportsResource, cd:usesScene ;
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
       cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
       cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit,
-      cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue ;
+       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
@@ -135,9 +135,9 @@ graph:concepts {
   cd:sourceNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:targetNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNode .
   cd:focusNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramNode .
-  cd:visualColor a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:string .
-  cd:layoutX a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:decimal .
-  cd:layoutY a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:decimal .
+  cd:hasDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:DiagramGroup .
+  cd:memberOfDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range cd:DiagramGroup .
+  cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:DiagramNode ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 
