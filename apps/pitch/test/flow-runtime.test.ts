@@ -29,6 +29,16 @@ class FakeElement implements MinimalElement, PitchFlowHost {
   appendChild(node: MinimalElement): void { this.children.push(node as FakeElement); }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
   getAttribute(name: string): string | null { return this.attributes.get(name) ?? null; }
+  removeAttribute(name: string): void { this.attributes.delete(name); }
+  querySelector<E extends Element = Element>(selector: string): E | null {
+    for (const child of this.children) {
+      if (selector.startsWith(".") && child.className === selector.slice(1)) return child as unknown as E;
+      if (selector.startsWith("#") && child.attributes.get("id") === selector.slice(1)) return child as unknown as E;
+      const found = child.querySelector<E>(selector);
+      if (found) return found;
+    }
+    return null;
+  }
   addEventListener(type: string, listener: EventListenerOrEventListenerObject): void {
     const listeners = this.listeners.get(type) ?? new Set<EventListenerOrEventListenerObject>();
     listeners.add(listener);
@@ -51,6 +61,13 @@ class FakeElement implements MinimalElement, PitchFlowHost {
     }
     this.lastKeydownStopped = stopped;
     return prevented;
+  }
+  dispatchEvent(event: Event): boolean {
+    for (const listener of this.listeners.get(event.type) ?? []) {
+      if (typeof listener === "function") listener(event);
+      else listener.handleEvent(event);
+    }
+    return true;
   }
   listenerCount(type: string): number { return this.listeners.get(type)?.size ?? 0; }
 }
@@ -91,6 +108,39 @@ const document: SceneDocument = {
       },
       diagram,
     ],
+  }],
+};
+
+const statefulDiagram: DiagramBlock = {
+  kind: "diagram",
+  id: "diagram:stateful",
+  diagramType: "network",
+  label: "Network evolution",
+  description: "Three-state network diagram for accessibility tests.",
+  source,
+  nodes: [
+    { id: "node:a", label: "Alpha", source: [{ resourceId: "ex:alpha", relationPath: "skos:prefLabel@en" }] },
+    { id: "node:b", label: "Beta", source: [{ resourceId: "ex:beta", relationPath: "skos:prefLabel@en" }] },
+  ],
+  edges: [
+    { id: "edge:ab", sourceNodeId: "node:a", targetNodeId: "node:b", label: "connects", source: [{ resourceId: "ex:connects", relationPath: "skos:prefLabel@en" }] },
+  ],
+  states: [
+    { id: "state:base", label: "Base view", source: [], sharedEdgeAnnotations: [], activeNodeIds: ["node:a"], activeEdgeIds: ["edge:ab"] },
+    { id: "state:focus", label: "Beta focus", source: [], sharedEdgeAnnotations: [], activeNodeIds: ["node:a", "node:b"], focusNodeId: "node:b" },
+    { id: "state:context", label: "Context emphasis", source: [], sharedEdgeAnnotations: [], activeNodeIds: ["node:a", "node:b"], contextGroupIds: [] },
+  ],
+};
+
+const statefulDocument: SceneDocument = {
+  version: "1.1",
+  id: "document:stateful",
+  sourcePathId: "path:stateful",
+  scenes: [{
+    id: "scene:stateful",
+    source,
+    readingOrder: [statefulDiagram.id],
+    blocks: [statefulDiagram],
   }],
 };
 
@@ -252,4 +302,205 @@ test("pitch flow runtime fails closed for unknown hosts and renderer diagnostics
     () => mountPitchFlowDiagrams([host], [document], options, failingMount),
     /INVALID_FLOW_DIAGRAM.*synthetic failure/,
   );
+});
+
+function createLiveRegion(text: string): FakeElement {
+  const live = new FakeElement();
+  live.className = "pcd-diagram-live-region";
+  live.setAttribute("aria-live", "polite");
+  live.textContent = text;
+  return live;
+}
+
+test("base diagram accessible description uses block label and live region matches", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", statefulDiagram.id);
+  host.setAttribute("aria-label", statefulDiagram.label);
+  host.appendChild(createLiveRegion(statefulDiagram.label));
+
+  let activeStateId: string | undefined;
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const rendered = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    return {
+      model,
+      layout,
+      staticFallback: model.staticFallback,
+      activeStateId,
+      focusNode() {},
+      setActiveState(stateId) { activeStateId = stateId; },
+      handleKey() { return false; },
+      resize() { return layout; },
+      destroy() {},
+    };
+  };
+
+  const destroy = mountPitchFlowDiagrams([host], [statefulDocument], options, mount);
+  assert.equal(host.getAttribute("aria-label"), statefulDiagram.label);
+  assert.equal(host.querySelector(".pcd-diagram-live-region")?.textContent, statefulDiagram.label);
+  destroy();
+});
+
+test("state activation updates accessible state description and live region", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", statefulDiagram.id);
+  host.setAttribute("aria-label", statefulDiagram.label);
+  host.appendChild(createLiveRegion(statefulDiagram.label));
+
+  let activeStateId: string | undefined;
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const rendered = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    return {
+      model,
+      layout,
+      staticFallback: model.staticFallback,
+      get activeStateId() { return activeStateId; },
+      focusNode() {},
+      setActiveState(stateId) { activeStateId = stateId; },
+      handleKey() { return false; },
+      resize() { return layout; },
+      destroy() {},
+    };
+  };
+
+  const destroy = mountPitchFlowDiagrams([host], [statefulDocument], options, mount);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 2 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), `${statefulDiagram.label}: Beta focus`);
+  assert.equal(host.querySelector(".pcd-diagram-live-region")?.textContent, `${statefulDiagram.label}: Beta focus`);
+  destroy();
+});
+
+test("reverse navigation and reset restore base accessible description", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", statefulDiagram.id);
+  host.appendChild(createLiveRegion(statefulDiagram.label));
+
+  let activeStateId: string | undefined;
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const rendered = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    return {
+      model,
+      layout,
+      staticFallback: model.staticFallback,
+      get activeStateId() { return activeStateId; },
+      focusNode() {},
+      setActiveState(stateId) { activeStateId = stateId; },
+      handleKey() { return false; },
+      resize() { return layout; },
+      destroy() {},
+    };
+  };
+
+  const destroy = mountPitchFlowDiagrams([host], [statefulDocument], options, mount);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 3 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), `${statefulDiagram.label}: Context emphasis`);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 1 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), `${statefulDiagram.label}: Base view`);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 0 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), statefulDiagram.label);
+  destroy();
+});
+
+test("sequence diagram state labels use the same generic accessibility mechanism", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", "diagram:sequence");
+  host.appendChild(createLiveRegion("Sequence"));
+
+  const sequenceDiagram: DiagramBlock = {
+    kind: "diagram",
+    id: "diagram:sequence",
+    diagramType: "sequence",
+    label: "Service process",
+    description: "Participant interaction.",
+    source,
+    nodes: [],
+    edges: [],
+    participantRoles: [
+      { id: "role:provider", label: "Provider", source: [] },
+      { id: "role:consumer", label: "Consumer", source: [] },
+    ],
+    messages: [
+      { id: "msg:request", label: "Request", sourceRoleId: "role:consumer", targetRoleId: "role:provider", source: [] },
+    ],
+    states: [
+      { id: "state:intro", label: "Introduce roles", source: [], sharedEdgeAnnotations: [], activeMessageIds: [] },
+      { id: "state:request", label: "Send request", source: [], sharedEdgeAnnotations: [], activeMessageIds: ["msg:request"] },
+    ],
+  };
+  const sequenceDocument: SceneDocument = {
+    version: "1.1",
+    id: "document:sequence",
+    sourcePathId: "path:sequence",
+    scenes: [{ id: "scene:sequence", source, readingOrder: [sequenceDiagram.id], blocks: [sequenceDiagram] }],
+  };
+
+  let activeStateId: string | undefined;
+  const mount: PitchFlowMount = (_host, block) => {
+    const model = {
+      version: "1.0" as const,
+      sourceBlockId: block.id,
+      label: block.label,
+      description: block.description,
+      participantRoles: block.participantRoles ?? [],
+      messages: block.messages ?? [],
+      states: block.states ?? [],
+      staticFallback: "",
+      reducedMotion: true,
+    };
+    return {
+      model,
+      layout: { width: 800, height: 200, compact: false, lanes: [], messages: [] },
+      staticFallback: "",
+      get activeStateId() { return activeStateId; },
+      setActiveState(stateId) { activeStateId = stateId; },
+      handleKey() { return false; },
+      resize() { return { width: 800, height: 200, compact: false, lanes: [], messages: [] }; },
+      destroy() {},
+    };
+  };
+
+  const destroy = mountPitchFlowDiagrams([host], [sequenceDocument], options, mount);
+  assert.equal(host.getAttribute("aria-label"), sequenceDiagram.label);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 2 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), `${sequenceDiagram.label}: Send request`);
+  destroy();
+});
+
+test("reduced motion does not suppress accessibility state updates", () => {
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", statefulDiagram.id);
+  host.appendChild(createLiveRegion(statefulDiagram.label));
+
+  let activeStateId: string | undefined;
+  const reducedMotionOptions: D3FlowOptions = { reducedMotion: true, interactionPolicy: "static" };
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const rendered = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    return {
+      model,
+      layout,
+      staticFallback: model.staticFallback,
+      get activeStateId() { return activeStateId; },
+      focusNode() {},
+      setActiveState(stateId) { activeStateId = stateId; },
+      handleKey() { return false; },
+      resize() { return layout; },
+      destroy() {},
+    };
+  };
+
+  const destroy = mountPitchFlowDiagrams([host], [statefulDocument], reducedMotionOptions, mount);
+  host.dispatchEvent({ type: "pcd-presentation-step", detail: { step: 2 } } as unknown as Event);
+  assert.equal(host.getAttribute("aria-label"), `${statefulDiagram.label}: Beta focus`);
+  destroy();
 });

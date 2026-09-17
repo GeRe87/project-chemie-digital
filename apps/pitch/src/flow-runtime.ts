@@ -6,6 +6,7 @@ export interface PitchFlowHost {
   getAttribute(name: string): string | null;
   setAttribute?(name: string, value: string): void;
   removeAttribute?(name: string): void;
+  querySelector?<E extends Element = Element>(selectors: string): E | null;
   querySelectorAll?<E extends Element = Element>(selectors: string): NodeListOf<E>;
   addEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
   removeEventListener?(type: string, listener: EventListenerOrEventListenerObject): void;
@@ -46,7 +47,33 @@ function bindKeyboardTraversal(host: PitchFlowHost, component: D3DiagramComponen
   return () => host.removeEventListener?.("keydown", listener);
 }
 
-function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponent): () => void {
+function describeDiagramState(component: D3DiagramComponent, stateId?: string): string {
+  const state = stateId ? component.model.states.find((candidate) => candidate.id === stateId) : undefined;
+  return state ? `${component.model.label}: ${state.label}` : component.model.label;
+}
+
+function updateDiagramAccessibility(host: PitchFlowHost, component: D3DiagramComponent, stateId?: string): void {
+  if (!host.setAttribute) return;
+  const text = describeDiagramState(component, stateId);
+  host.setAttribute("aria-label", text);
+  const live = host.querySelector?.<HTMLElement>(".pcd-diagram-live-region");
+  if (live) live.textContent = text;
+}
+
+function bindDiagramAccessibility(host: PitchFlowHost, component: D3DiagramComponent): () => void {
+  if (!host.setAttribute) return () => {};
+  const previousLabel = host.getAttribute("aria-label");
+  updateDiagramAccessibility(host, component, component.activeStateId);
+
+  return () => {
+    if (previousLabel === null) host.removeAttribute?.("aria-label");
+    else host.setAttribute?.("aria-label", previousLabel);
+    const live = host.querySelector?.<HTMLElement>(".pcd-diagram-live-region");
+    if (live) live.textContent = previousLabel ?? "";
+  };
+}
+
+function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponent, onStateChange?: (stateId?: string) => void): () => void {
   const states = component.model.states ?? [];
   const stateCount = states.length;
   if (!stateCount || !host.setAttribute || !host.addEventListener || !host.removeEventListener) return () => {};
@@ -60,6 +87,7 @@ function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponen
     const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
     if (typeof step !== "number" || !Number.isFinite(step)) return;
     component.setActiveState(states[Math.trunc(step) - 1]?.id);
+    onStateChange?.(component.activeStateId);
   };
   host.addEventListener("pcd-presentation-step", listener);
 
@@ -82,9 +110,11 @@ export function mountPitchDiagrams(
   const components: D3DiagramComponent[] = [];
   const removeKeyboardListeners: Array<() => void> = [];
   const removePresentationStateListeners: Array<() => void> = [];
+  const removeAccessibilityListeners: Array<() => void> = [];
   const cleanupMounted = (): void => {
     for (const removeListener of removePresentationStateListeners.splice(0)) removeListener();
     for (const removeListener of removeKeyboardListeners.splice(0)) removeListener();
+    for (const removeListener of removeAccessibilityListeners.splice(0)) removeListener();
     for (const component of components.splice(0)) component.destroy();
   };
 
@@ -101,7 +131,8 @@ export function mountPitchDiagrams(
       }
       components.push(result);
       removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
-      removePresentationStateListeners.push(bindPresentationState(host, result));
+      removeAccessibilityListeners.push(bindDiagramAccessibility(host, result));
+      removePresentationStateListeners.push(bindPresentationState(host, result, (stateId) => updateDiagramAccessibility(host, result, stateId)));
     }
   } catch (error) {
     cleanupMounted();

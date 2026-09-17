@@ -6,6 +6,7 @@ import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
 import "./chart-theme.css";
+import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
 import "./cogniflow-title-media.css";

@@ -17,6 +17,20 @@ body[data-presentation-theme="dark"] .reveal {
   --pcd-flow-role-highlight-text: #fff3cf;
 }
 
+/* Visually hidden live region for state announcements. It must be present in the
+   DOM so assistive technologies receive polite updates, but must not affect layout. */
+.pcd-diagram-live-region {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 /* All diagram scenes use the same panel, independent of authored scene identity. */
 .reveal .slides section:has(.d3-flow-host) {
   display: grid !important;
@@ -160,15 +174,16 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-edge { stroke: var(--pcd-accent); stroke-width: 2; }
 .reveal .d3-flow-edge-state-active { stroke-width: 5; }
 
-/* State semantics are generic: context remains legible while a node or group owns focus. */
-.reveal .d3-flow-svg [data-diagram-state-context="true"] { opacity: .32; filter: grayscale(.45); }
-.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] { filter: drop-shadow(0 0 10px var(--pcd-accent)); }
-.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] .d3-flow-node-shape { stroke-width: 5; }
-.reveal .d3-flow-svg .d3-flow-edge[data-diagram-state-focus="true"] { stroke-width: 4; }
+/* State semantics are generic: context remains legible while a node or group owns focus.
+   Shared diagram tokens in diagram-tokens.css own the numeric values. */
+.reveal .d3-flow-svg [data-diagram-state-context="true"] { opacity: var(--pcd-diagram-context-opacity); filter: grayscale(var(--pcd-diagram-context-grayscale)); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] { filter: var(--pcd-diagram-focus-shadow-light) var(--pcd-diagram-focus-glow-dark); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] .d3-flow-node-shape { stroke-width: var(--pcd-diagram-focus-stroke-width); }
+.reveal .d3-flow-svg .d3-flow-edge[data-diagram-state-focus="true"] { stroke-width: var(--pcd-diagram-focus-edge-stroke-width); }
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-node,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group,
-.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity 240ms ease, filter 240ms ease, transform 240ms ease; }
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity var(--pcd-diagram-transition-normal), filter var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
 
 /* Sequence diagrams use the same semantic panel grammar without participant-specific selectors. */
 .reveal .d3-sequence-host .d3-sequence-runtime,
@@ -181,7 +196,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-sequence-message-line { stroke: var(--pcd-accent); stroke-width: 3; }
 .reveal .d3-sequence-message-label { fill: var(--pcd-foreground); font-weight: 800; paint-order: stroke; stroke: var(--pcd-surface-strong); stroke-width: 3px; stroke-linejoin: round; }
 .reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-message,
-.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity 240ms ease, transform 240ms ease; }
+.reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
 
 /* Semantic roles remain portable across diagram families and presentation themes. */
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
