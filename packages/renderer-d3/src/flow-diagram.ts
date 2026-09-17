@@ -320,8 +320,8 @@ function addNodeChrome(
   rail.setAttribute("class", "d3-flow-node-rail");
   rail.setAttribute("x", String(-width / 2 + 18));
   rail.setAttribute("y", String(-height / 2 + 18));
-  rail.setAttribute("width", String(Math.min(52, Math.max(20, width * .22))));
-  rail.setAttribute("height", "6");
+  rail.setAttribute("width", String(Math.min(58, Math.max(32, width * .2))));
+  rail.setAttribute("height", String(Math.max(0, height - 36)));
   rail.setAttribute("aria-hidden", "true");
   group.append(rail);
 
@@ -336,9 +336,10 @@ function addNodeChrome(
 
   const index = document.createElementNS(namespace, "text");
   index.setAttribute("class", "d3-flow-node-index");
-  index.setAttribute("x", String(-width / 2 + 20));
-  index.setAttribute("y", String(height / 2 - 16));
-  index.setAttribute("text-anchor", "start");
+  index.setAttribute("x", String(-width / 2 + 18 + Math.min(58, Math.max(32, width * .2)) / 2));
+  index.setAttribute("y", "6");
+  index.setAttribute("text-anchor", "middle");
+  index.setAttribute("dominant-baseline", "middle");
   index.setAttribute("aria-hidden", "true");
   index.textContent = String(readingIndex + 1).padStart(2, "0");
   group.append(index);
@@ -359,9 +360,6 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       // A div prevents Reveal from treating the renderer-owned wrapper as a nested slide.
       const wrapper = document.createElement("div");
       wrapper.className = "d3-flow-runtime";
-      const title = document.createElement("div");
-      title.className = "d3-flow-title";
-      title.textContent = model.label;
       const figure = document.createElement("figure");
       figure.className = "d3-flow-figure";
       const caption = document.createElement("figcaption");
@@ -374,7 +372,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       svg.setAttribute("width", "100%");
       figure.append(svg, caption);
-      wrapper.append(title, figure);
+      wrapper.append(figure);
       hostElement.append(wrapper);
 
       let destroyed = false;
