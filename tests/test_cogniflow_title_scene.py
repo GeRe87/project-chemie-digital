@@ -199,10 +199,18 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
         self.assertEqual("network", architecture_diagram["diagramType"])
         self.assertEqual(
-            ["Stable interface", "Specialized providers"],
+            [
+                "Stable interface",
+                "Orchestration contract",
+                "Semantic capability",
+                "Data capability",
+                "Artifact and provenance capability",
+                "Specialized provider domain",
+                "Stable interface, evolving runtime",
+            ],
             [state["label"] for state in architecture_diagram["states"]],
         )
-        self.assertEqual("ex:diagram-group-cogniflow-providers", architecture_diagram["states"][1]["focusGroupId"])
+        self.assertEqual("ex:diagram-group-cogniflow-providers", architecture_diagram["states"][5]["focusGroupId"])
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]

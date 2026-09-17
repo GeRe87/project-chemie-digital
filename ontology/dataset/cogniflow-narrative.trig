@@ -54,6 +54,7 @@
   ex:edge-cogniflow-common-open-b-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-common-open-format-b ; cd:targetNode ex:node-cogniflow-common-results-b ; cd:authoredResource true .
 
   ex:diagram-state-cogniflow-common-custom-script a cd:DiagramState ;
+    cd:position 1 ;
     skos:prefLabel "Common custom script"@en ;
     cd:hasSharedEdgeAnnotation ex:shared-edge-annotation-cogniflow-common-custom-script ;
     cd:authoredResource true .

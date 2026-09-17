@@ -249,9 +249,9 @@ Goal: support the architecture diagram’s semantic buildup without encoding ani
 - [x] State can select/reveal authored nodes, edges, groups, and annotations.
 - [x] State can identify one semantic focus node or group.
 - [x] State can mark non-focused groups as context/de-emphasized.
-- [~] Renderer resolves stable identities and exposes generic focus/context hooks; animated enter/update/exit remains pending.
-- [~] Renderer exposes generic focus/lens semantics with deterministic overview return; lens geometry remains theme/layout work.
-- [x] Theme hooks receive generic focus/context attributes; concrete blur/grayscale/opacity policy remains pending.
+- [x] Renderer resolves stable keyed identities and applies generic active/context visibility on state updates.
+- [x] Renderer derives focus composition and bounded lens metadata from layout without authored geometry.
+- [x] Theme applies generic focus/context opacity, grayscale and emphasis treatment, with reduced-motion transitions disabled.
 - [x] Layout deterministically recomputes from the unchanged authored graph.
 
 **Canonical fixture:** generic three-group network with one drill-down state.
@@ -278,9 +278,9 @@ Suggested authored state sequence:
 
 The exact number of states may be reduced when the new presentation narrative is finalized. The important part is that each state is content-driven and reusable.
 
-- [~] First authored network vertical slice: interface, orchestration and provider groups with two buildup states.
-- [ ] Use existing network/group primitives where sufficient.
-- [ ] Add only capabilities already justified by R1–R3.
+- [x] First authored network vertical slice: interface, orchestration and provider groups with seven semantic buildup states.
+- [x] Use existing network/group/state primitives; no CogniFlow identity or coordinate is introduced in the renderer.
+- [x] Add only capabilities already justified by R1–R3.
 - [ ] Theme reproduces Eco City card language rather than legacy UDE styling.
 - [ ] Light/dark evidence for representative overview and focus states.
 
@@ -300,7 +300,7 @@ Goal: cover the concept-domain drill-down without hard-coded three-column D3 cod
 
 **Canonical fixture:** abstract A/B/C semantic layers with synthetic entities before CogniFlow migration.
 
-**Gate:** same renderer can realize 2, 3, and 4 layers from content alone.
+**Gate:** pending R5: the same renderer can realize 2, 3, and 4 layers from content alone. R4 representative light/dark state evidence is the entry prerequisite.
 
 ### R6 — Migrate the legacy concept-domain diagram
 
@@ -460,8 +460,8 @@ At that point, a new presentation author should be able to create an equally ric
 
 ## 13. Immediate next milestone
 
-**R4 is next after R3 visual hardening.**
+**R5 is next after R4 visual evidence is captured.**
 
 The current “Common custom Script?” requirement is the ideal first vertical slice because it forces us to implement authored states, interaction, state-preserving adapters, shared edge annotations, renderer-owned placement, and state-aware visual evidence while keeping the underlying graph and layout small.
 
-Do not begin the full legacy architecture migration until that state machinery has proven itself with a synthetic fixture and the current workflow slide.
+The state machinery is now proven with a synthetic Core/Domain/Runtime fixture and the authored architecture sequence. Capture representative light/dark state evidence before beginning R5.

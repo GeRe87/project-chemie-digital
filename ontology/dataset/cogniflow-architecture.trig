@@ -30,7 +30,12 @@
       ex:diagram-group-cogniflow-orchestration,
       ex:diagram-group-cogniflow-providers ;
     cd:hasDiagramState ex:diagram-state-cogniflow-architecture-interface,
-      ex:diagram-state-cogniflow-architecture-providers ;
+      ex:diagram-state-cogniflow-architecture-orchestrator,
+      ex:diagram-state-cogniflow-architecture-semantic-provider,
+      ex:diagram-state-cogniflow-architecture-data-provider,
+      ex:diagram-state-cogniflow-architecture-artifact-provider,
+      ex:diagram-state-cogniflow-architecture-provider-domain,
+      ex:diagram-state-cogniflow-architecture-runtime-overview ;
     cd:focusNode ex:node-cogniflow-mcp ;
     cd:authoredResource true .
 
@@ -118,6 +123,7 @@
     cd:authoredResource true .
 
   ex:diagram-state-cogniflow-architecture-interface a cd:DiagramState ;
+    cd:position 1 ;
     skos:prefLabel "Stable interface"@en ;
     cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator ;
     cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator ;
@@ -126,8 +132,49 @@
     cd:contextDiagramGroup ex:diagram-group-cogniflow-orchestration ;
     cd:authoredResource true .
 
-  ex:diagram-state-cogniflow-architecture-providers a cd:DiagramState ;
-    skos:prefLabel "Specialized providers"@en ;
+  ex:diagram-state-cogniflow-architecture-orchestrator a cd:DiagramState ;
+    cd:position 2 ;
+    skos:prefLabel "Orchestration contract"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator ;
+    cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration ;
+    cd:focusDiagramNode ex:node-cogniflow-orchestrator ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-interface ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-architecture-semantic-provider a cd:DiagramState ;
+    cd:position 3 ;
+    skos:prefLabel "Semantic capability"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator, ex:node-cogniflow-semantic-store ;
+    cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator, ex:edge-cogniflow-orchestrator-semantics ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration, ex:diagram-group-cogniflow-providers ;
+    cd:focusDiagramNode ex:node-cogniflow-semantic-store ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-architecture-data-provider a cd:DiagramState ;
+    cd:position 4 ;
+    skos:prefLabel "Data capability"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator, ex:node-cogniflow-data-store ;
+    cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator, ex:edge-cogniflow-orchestrator-data ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration, ex:diagram-group-cogniflow-providers ;
+    cd:focusDiagramNode ex:node-cogniflow-data-store ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-architecture-artifact-provider a cd:DiagramState ;
+    cd:position 5 ;
+    skos:prefLabel "Artifact and provenance capability"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator, ex:node-cogniflow-artifact-store ;
+    cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator, ex:edge-cogniflow-orchestrator-artifacts ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration, ex:diagram-group-cogniflow-providers ;
+    cd:focusDiagramNode ex:node-cogniflow-artifact-store ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-architecture-provider-domain a cd:DiagramState ;
+    cd:position 6 ;
+    skos:prefLabel "Specialized provider domain"@en ;
     cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator,
       ex:node-cogniflow-semantic-store, ex:node-cogniflow-data-store, ex:node-cogniflow-artifact-store ;
     cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator,
@@ -135,6 +182,18 @@
     cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration, ex:diagram-group-cogniflow-providers ;
     cd:focusDiagramGroup ex:diagram-group-cogniflow-providers ;
     cd:contextDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-architecture-runtime-overview a cd:DiagramState ;
+    cd:position 7 ;
+    skos:prefLabel "Stable interface, evolving runtime"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-actors, ex:node-cogniflow-mcp, ex:node-cogniflow-orchestrator,
+      ex:node-cogniflow-semantic-store, ex:node-cogniflow-data-store, ex:node-cogniflow-artifact-store ;
+    cd:activeDiagramEdge ex:edge-cogniflow-actors-mcp, ex:edge-cogniflow-mcp-orchestrator,
+      ex:edge-cogniflow-orchestrator-semantics, ex:edge-cogniflow-orchestrator-data, ex:edge-cogniflow-orchestrator-artifacts ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-interface, ex:diagram-group-cogniflow-orchestration, ex:diagram-group-cogniflow-providers ;
+    cd:focusDiagramNode ex:node-cogniflow-mcp ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-providers ;
     cd:authoredResource true .
 }
 

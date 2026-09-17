@@ -158,6 +158,15 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-state-control { font: inherit; padding: 0.35rem 0.6rem; }
 .reveal .d3-flow-shared-edge-annotations { flex-basis: 100%; }
 
+/* State semantics are generic: context remains legible while a node or group owns focus. */
+.reveal .d3-flow-svg [data-diagram-state-context="true"] { opacity: .32; filter: grayscale(.45); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] { filter: drop-shadow(0 0 10px var(--pcd-accent)); }
+.reveal .d3-flow-svg .d3-flow-node[data-diagram-state-focus="true"] .d3-flow-node-shape { stroke-width: 5; }
+.reveal .d3-flow-svg .d3-flow-edge[data-diagram-state-focus="true"] { stroke-width: 4; }
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-node,
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge,
+.reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group { transition: opacity 240ms ease, filter 240ms ease, transform 240ms ease; }
+
 /* Semantic roles remain portable across diagram families and presentation themes. */
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
   fill: var(--pcd-flow-role-comparison-fill);

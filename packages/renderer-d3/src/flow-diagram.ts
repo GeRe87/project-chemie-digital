@@ -127,8 +127,21 @@ export interface D3FlowResolvedState {
   readonly activeEdgeIds: ReadonlySet<string>;
   readonly activeGroupIds: ReadonlySet<string>;
   readonly contextGroupIds: ReadonlySet<string>;
+  readonly contextNodeIds: ReadonlySet<string>;
+  readonly contextEdgeIds: ReadonlySet<string>;
+  readonly visibleNodeIds: ReadonlySet<string>;
+  readonly visibleEdgeIds: ReadonlySet<string>;
+  readonly focusNodeIds: ReadonlySet<string>;
   readonly focusNodeId?: string;
   readonly focusGroupId?: string;
+}
+
+export interface D3FlowFocusBounds {
+  readonly nodeIds: readonly string[];
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
 }
 
 function validateVisualRole(value: unknown, label: string): void {
@@ -163,6 +176,13 @@ function validateFlowBlock(block: DiagramBlock): void {
     requireNonEmpty(node.label, `Flow node ${node.id} label`);
     validateVisualRole(node.visualRole, `Flow node ${node.id}`);
   }
+  const groupIds = (block.groups ?? []).map((group) => group.id);
+  if (new Set(groupIds).size !== groupIds.length) throw new Error("Flow diagram group ids must be unique");
+  for (const node of block.nodes) {
+    for (const groupId of node.groupIds ?? []) {
+      if (!groupIds.includes(groupId)) throw new Error(`Flow node ${node.id} references an unknown group`);
+    }
+  }
 
   const edgeIds = block.edges.map((edge) => edge.id);
   if (new Set(edgeIds).size !== edgeIds.length) throw new Error("Flow diagram edge ids must be unique");
@@ -192,7 +212,6 @@ function validateFlowBlock(block: DiagramBlock): void {
     };
     validateStateIds(state.activeNodeIds, nodeIds, "node");
     validateStateIds(state.activeEdgeIds, edgeIds, "edge");
-    const groupIds = (block.groups ?? []).map((group) => group.id);
     validateStateIds(state.activeGroupIds, groupIds, "group");
     validateStateIds(state.contextGroupIds, groupIds, "context group");
     if (state.focusNodeId !== undefined && !nodeIdSet.has(state.focusNodeId)) throw new Error(`Flow diagram state ${state.id} focusNodeId references an unknown node`);
@@ -230,17 +249,86 @@ function flowStaticFallback(block: DiagramBlock): string {
   ].join("\n");
 }
 
-/** Resolves authored state membership only; layout and visual treatment remain renderer/theme concerns. */
+/**
+ * Group policy is intentionally renderer-generic: active groups activate their members,
+ * context groups reveal their members as context, and relationships are only visible
+ * when both endpoints are visible. Focus changes treatment, not graph membership.
+ */
 export function resolveD3FlowState(model: D3FlowRenderModel, stateId?: string): D3FlowResolvedState {
   const state = model.states.find((candidate) => candidate.id === stateId);
+  const membersByGroup = new Map(model.groups.map((group) => [group.id, new Set<string>()]));
+  for (const node of model.nodes) {
+    for (const groupId of node.groupIds ?? []) membersByGroup.get(groupId)?.add(node.id);
+  }
+  const stateSelected = state !== undefined;
+  const activeGroupIds = new Set(state?.activeGroupIds ?? (stateSelected ? [] : model.groups.map((group) => group.id)));
+  const contextGroupIds = new Set(state?.contextGroupIds ?? []);
+  const activeNodeIds = new Set(state?.activeNodeIds ?? (stateSelected ? [] : model.nodes.map((node) => node.id)));
+  const contextNodeIds = new Set<string>();
+  for (const groupId of activeGroupIds) for (const nodeId of membersByGroup.get(groupId) ?? []) activeNodeIds.add(nodeId);
+  for (const groupId of contextGroupIds) for (const nodeId of membersByGroup.get(groupId) ?? []) {
+    if (!activeNodeIds.has(nodeId)) contextNodeIds.add(nodeId);
+  }
+  const visibleNodeIds = new Set([...activeNodeIds, ...contextNodeIds]);
+  const requestedEdgeIds = new Set(state?.activeEdgeIds ?? (stateSelected ? [] : model.edges.map((edge) => edge.id)));
+  const activeEdgeIds = new Set<string>();
+  const contextEdgeIds = new Set<string>();
+  for (const edge of model.edges) {
+    if (!visibleNodeIds.has(edge.sourceNodeId) || !visibleNodeIds.has(edge.targetNodeId)) continue;
+    if (requestedEdgeIds.has(edge.id)) activeEdgeIds.add(edge.id);
+    else if (!stateSelected || (contextNodeIds.has(edge.sourceNodeId) || contextNodeIds.has(edge.targetNodeId))) contextEdgeIds.add(edge.id);
+  }
+  const focusNodeIds = new Set<string>();
+  if (state?.focusNodeId) focusNodeIds.add(state.focusNodeId);
+  if (state?.focusGroupId) for (const nodeId of membersByGroup.get(state.focusGroupId) ?? []) focusNodeIds.add(nodeId);
   return {
-    activeNodeIds: new Set(state?.activeNodeIds ?? model.nodes.map((node) => node.id)),
-    activeEdgeIds: new Set(state?.activeEdgeIds ?? model.edges.map((edge) => edge.id)),
-    activeGroupIds: new Set(state?.activeGroupIds ?? model.groups.map((group) => group.id)),
-    contextGroupIds: new Set(state?.contextGroupIds ?? []),
+    activeNodeIds,
+    activeEdgeIds,
+    activeGroupIds,
+    contextGroupIds,
+    contextNodeIds,
+    contextEdgeIds,
+    visibleNodeIds,
+    visibleEdgeIds: new Set([...activeEdgeIds, ...contextEdgeIds]),
+    focusNodeIds,
     ...(state?.focusNodeId ? { focusNodeId: state.focusNodeId } : {}),
     ...(state?.focusGroupId ? { focusGroupId: state.focusGroupId } : {}),
   };
+}
+
+/** Renderer-derived lens bounds deliberately remain absent from authored RDF. */
+export function resolveD3FlowFocusBounds(
+  layout: D3FlowLayout,
+  state: D3FlowResolvedState,
+): D3FlowFocusBounds | undefined {
+  const nodes = layout.nodes.filter((node) => state.focusNodeIds.has(node.id));
+  if (nodes.length === 0) return undefined;
+  const padding = 24;
+  const left = Math.max(0, Math.min(...nodes.map((node) => node.x - node.width / 2)) - padding);
+  const top = Math.max(0, Math.min(...nodes.map((node) => node.y - node.height / 2)) - padding);
+  const right = Math.min(layout.width, Math.max(...nodes.map((node) => node.x + node.width / 2)) + padding);
+  const bottom = Math.min(layout.height, Math.max(...nodes.map((node) => node.y + node.height / 2)) + padding);
+  return { nodeIds: nodes.map((node) => node.id), x: left, y: top, width: right - left, height: bottom - top };
+}
+
+function reconcileKeyedChildren(parent: SVGElement, next: SVGElement): void {
+  const existingByKey = new Map(Array.from(parent.children, (child) => [child.getAttribute("data-key"), child]));
+  const nextKeys = new Set<string>();
+  for (const candidate of Array.from(next.children)) {
+    const key = candidate.getAttribute("data-key");
+    if (!key) continue;
+    nextKeys.add(key);
+    const existing = existingByKey.get(key);
+    if (!existing) {
+      parent.append(candidate);
+      continue;
+    }
+    const removeAttribute = (existing as unknown as { removeAttribute?: (name: string) => void }).removeAttribute;
+    if (removeAttribute) for (const attribute of Array.from(existing.attributes)) removeAttribute.call(existing, attribute.name);
+    for (const attribute of Array.from(candidate.attributes)) existing.setAttribute(attribute.name, attribute.value);
+    existing.replaceChildren(...Array.from(candidate.children));
+  }
+  for (const [key, child] of existingByKey) if (!key || !nextKeys.has(key)) child.remove();
 }
 
 function effectiveEdgeVisualRole(
@@ -392,6 +480,7 @@ function addEdgeLabel(parent: SVGElement, edge: D3FlowLayoutEdge, orientation: D
   const panelHeight = Math.max(34, lineCount * 22 + 12);
   const group = document.createElementNS(namespace, "g");
   group.setAttribute("class", "d3-flow-edge-label-group");
+  group.setAttribute("data-key", `edge-label:${edge.id}`);
   group.setAttribute("data-edge-id", edge.id);
   if (edge.visualRole) group.setAttribute("data-visual-role", edge.visualRole);
 
@@ -517,80 +606,100 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let nodeElements = new Map<string, SVGGElement>();
       let activeNodeId = initialActiveNodeId;
       let activeStateId = initialActiveStateId;
+      let edgeLayer: SVGGElement | undefined;
+      let nodeLayer: SVGGElement | undefined;
+      let descriptionElement: SVGElement | undefined;
+      let definitionsElement: SVGElement | undefined;
 
       const render = (layout: D3FlowLayout, requestedActiveNodeId?: string, requestedActiveStateId?: string): void => {
         if (destroyed) return;
         const previouslyFocusedId = (document.activeElement as Element | null)?.getAttribute("data-node-id") ?? undefined;
         activeNodeId = requestedActiveNodeId;
         activeStateId = requestedActiveStateId;
-        svg.replaceChildren();
         svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
         svg.setAttribute("height", String(layout.height));
         svg.setAttribute("data-orientation", layout.orientation);
+        svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
 
-        const desc = document.createElementNS(namespace, "desc");
+        const desc = descriptionElement ?? document.createElementNS(namespace, "desc");
         desc.textContent = model.staticFallback;
-        svg.append(desc);
-
-        const defs = document.createElementNS(namespace, "defs");
-        const edgeRoles = [...new Set(model.edges.map((edge) => edge.visualRole).filter((role): role is string => Boolean(role)))];
-        for (const visualRole of [undefined, ...edgeRoles]) {
-          const marker = document.createElementNS(namespace, "marker");
-          marker.setAttribute("id", markerIdFor(model, mountSequence, visualRole));
-          marker.setAttribute("class", "d3-flow-edge-marker");
-          marker.setAttribute("viewBox", "0 0 10 10");
-          marker.setAttribute("refX", "9");
-          marker.setAttribute("refY", "5");
-          marker.setAttribute("markerWidth", "3.5");
-          marker.setAttribute("markerHeight", "4");
-          marker.setAttribute("orient", "auto-start-reverse");
-          if (visualRole) marker.setAttribute("data-visual-role", visualRole);
-          const arrow = document.createElementNS(namespace, "path");
-          arrow.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
-          arrow.setAttribute("fill", "currentColor");
-          marker.append(arrow);
-          defs.append(marker);
+        if (!descriptionElement) {
+          descriptionElement = desc;
+          svg.append(desc);
         }
-        svg.append(defs);
 
-        const edgeLayer = document.createElementNS(namespace, "g");
-        edgeLayer.setAttribute("class", "d3-flow-edge-layer");
+        if (!definitionsElement) {
+          const defs = document.createElementNS(namespace, "defs");
+          const edgeRoles = [...new Set(model.edges.map((edge) => edge.visualRole).filter((role): role is string => Boolean(role)))];
+          for (const visualRole of [undefined, ...edgeRoles]) {
+            const marker = document.createElementNS(namespace, "marker");
+            marker.setAttribute("id", markerIdFor(model, mountSequence, visualRole));
+            marker.setAttribute("class", "d3-flow-edge-marker");
+            marker.setAttribute("viewBox", "0 0 10 10");
+            marker.setAttribute("refX", "9");
+            marker.setAttribute("refY", "5");
+            marker.setAttribute("markerWidth", "3.5");
+            marker.setAttribute("markerHeight", "4");
+            marker.setAttribute("orient", "auto-start-reverse");
+            if (visualRole) marker.setAttribute("data-visual-role", visualRole);
+            const arrow = document.createElementNS(namespace, "path");
+            arrow.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+            arrow.setAttribute("fill", "currentColor");
+            marker.append(arrow);
+            defs.append(marker);
+          }
+          definitionsElement = defs;
+          svg.append(defs);
+        }
+
+        const nextEdgeLayer = document.createElementNS(namespace, "g");
+        nextEdgeLayer.setAttribute("class", "d3-flow-edge-layer");
         const activeState = model.states.find((state) => state.id === activeStateId);
         const resolvedState = resolveD3FlowState(model, activeStateId);
+        const focusBounds = resolveD3FlowFocusBounds(layout, resolvedState);
+        if (focusBounds) svg.setAttribute("data-diagram-state-focus-bounds", `${focusBounds.x} ${focusBounds.y} ${focusBounds.width} ${focusBounds.height}`);
+        else (svg as unknown as { removeAttribute?: (name: string) => void }).removeAttribute?.("data-diagram-state-focus-bounds");
         const activeAnnotatedEdgeIds = new Set(activeState?.sharedEdgeAnnotations.flatMap((annotation) => annotation.edgeIds) ?? []);
         for (const edge of layout.edges) {
-          if (!resolvedState.activeEdgeIds.has(edge.id)) continue;
+          if (!resolvedState.visibleEdgeIds.has(edge.id)) continue;
           const path = document.createElementNS(namespace, "path");
           path.setAttribute("class", "d3-flow-edge");
+          path.setAttribute("data-key", `edge:${edge.id}`);
           path.setAttribute("data-edge-id", edge.id);
           path.setAttribute("data-source-node-id", edge.sourceNodeId);
           path.setAttribute("data-target-node-id", edge.targetNodeId);
           if (resolvedState.contextGroupIds.size) path.setAttribute("data-diagram-state-context-groups", [...resolvedState.contextGroupIds].join(" "));
+          if (resolvedState.contextEdgeIds.has(edge.id)) path.setAttribute("data-diagram-state-context", "true");
+          if (resolvedState.focusNodeIds.has(edge.sourceNodeId) && resolvedState.focusNodeIds.has(edge.targetNodeId)) path.setAttribute("data-diagram-state-focus", "true");
            if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
            if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
           path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
-          edgeLayer.append(path);
-          addEdgeLabel(edgeLayer, edge, layout.orientation);
+          nextEdgeLayer.append(path);
+          addEdgeLabel(nextEdgeLayer, edge, layout.orientation);
         }
-        svg.append(edgeLayer);
+        if (!edgeLayer) {
+          edgeLayer = nextEdgeLayer;
+          svg.append(edgeLayer);
+        } else reconcileKeyedChildren(edgeLayer, nextEdgeLayer);
 
         const modelNodeById = new Map(model.nodes.map((node) => [node.id, node]));
-        const nodeLayer = document.createElementNS(namespace, "g");
-        nodeLayer.setAttribute("class", "d3-flow-node-layer");
+        const nextNodeLayer = document.createElementNS(namespace, "g");
+        nextNodeLayer.setAttribute("class", "d3-flow-node-layer");
         const nextNodeElements = new Map<string, SVGGElement>();
         for (const layoutNode of layout.nodes) {
           const modelNode = modelNodeById.get(layoutNode.id)!;
-          if (!resolvedState.activeNodeIds.has(modelNode.id)) continue;
+          if (!resolvedState.visibleNodeIds.has(modelNode.id)) continue;
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
+          group.setAttribute("data-key", `node:${modelNode.id}`);
           group.setAttribute("data-node-id", modelNode.id);
            if (modelNode.visualRole) group.setAttribute("data-visual-role", modelNode.visualRole);
           if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
-          if (modelNode.id === resolvedState.focusNodeId || modelNode.groupIds?.includes(resolvedState.focusGroupId ?? "")) group.setAttribute("data-diagram-state-focus", "true");
+          if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
           group.setAttribute("aria-label", modelNode.label);
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {
@@ -611,10 +720,13 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
           addTextLines(group, layoutNode.labelLines, (-layoutNode.width / 2 + 18 + indexSegmentWidth + layoutNode.width / 2) / 2, 0, "d3-flow-node-label");
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
-          nodeLayer.append(group);
+          nextNodeLayer.append(group);
           nextNodeElements.set(modelNode.id, group);
         }
-        svg.append(nodeLayer);
+        if (!nodeLayer) {
+          nodeLayer = nextNodeLayer;
+          svg.append(nodeLayer);
+        } else reconcileKeyedChildren(nodeLayer, nextNodeLayer);
         stateControls.replaceChildren();
         for (const state of model.states) {
           const button = document.createElement("button");

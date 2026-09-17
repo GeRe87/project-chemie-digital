@@ -300,8 +300,20 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         "edges": edges,
         **({"groups": groups} if groups else {}),
     }
+    state_resources = [state for state in objects(dataset, diagram, iri(CD, "hasDiagramState")) if isinstance(state, URIRef)]
+    positioned_states = [(state, integer(dataset, state, iri(CD, "position"))) for state in state_resources if objects(dataset, state, iri(CD, "position"))]
+    if positioned_states:
+        if len(positioned_states) != len(state_resources):
+            raise ValueError(f"DiagramState positions must be present for every state of {compact(diagram)}")
+        state_records = sorted(positioned_states, key=lambda record: (record[1], str(record[0])))
+        state_positions = [position for _state, position in state_records]
+        if state_positions != list(range(1, len(state_records) + 1)):
+            raise ValueError(f"DiagramState positions must be unique and contiguous for {compact(diagram)}")
+    else:
+        # Existing state resources without authored progression retain their stable lexical order.
+        state_records = [(state, 0) for state in sorted(state_resources, key=str)]
     states: list[dict[str, Any]] = []
-    for state in sorted(objects(dataset, diagram, iri(CD, "hasDiagramState")), key=str):
+    for state, _position in state_records:
         if not isinstance(state, URIRef):
             continue
         state_label, state_relation_path = selected_label_reference(dataset, state, language)
