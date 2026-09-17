@@ -508,8 +508,41 @@ export function resolveD3FlowSharedAnnotationGeometry(
   const height = Math.max(34, lines.length * lineHeight + verticalPadding);
   const meanX = edges.reduce((sum, edge) => sum + edge.labelX, 0) / edges.length;
   const meanY = edges.reduce((sum, edge) => sum + edge.labelY, 0) / edges.length;
-  const x = clamp(meanX, width / 2 + 12, layout.width - width / 2 - 12);
-  const y = clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12);
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]));
+  const involvedNodes = edges.flatMap((edge) => [nodeById.get(edge.sourceNodeId), nodeById.get(edge.targetNodeId)]).filter((node): node is D3FlowLayoutNode => Boolean(node));
+  const involvedBounds = involvedNodes.length > 0 ? {
+    left: Math.min(...involvedNodes.map((node) => node.x - node.width / 2)),
+    right: Math.max(...involvedNodes.map((node) => node.x + node.width / 2)),
+    top: Math.min(...involvedNodes.map((node) => node.y - node.height / 2)),
+    bottom: Math.max(...involvedNodes.map((node) => node.y + node.height / 2)),
+  } : undefined;
+
+  function panelOverlapsNode(x: number, y: number): boolean {
+    const panelRect = { left: x - width / 2 - 8, top: y - height / 2 - 8, right: x + width / 2 + 8, bottom: y + height / 2 + 8 };
+    return layout.nodes.some((node) => {
+      const nodeRect = { left: node.x - node.width / 2, top: node.y - node.height / 2, right: node.x + node.width / 2, bottom: node.y + node.height / 2 };
+      return panelRect.left < nodeRect.right && panelRect.right > nodeRect.left && panelRect.top < nodeRect.bottom && panelRect.bottom > nodeRect.top;
+    });
+  }
+
+  const candidates: Array<{ x: number; y: number }> = [];
+  const rightX = involvedBounds ? involvedBounds.right + width / 2 + 24 : meanX;
+  const leftX = involvedBounds ? involvedBounds.left - width / 2 - 24 : meanX;
+  candidates.push({ x: clamp(rightX, width / 2 + 12, layout.width - width / 2 - 12), y: clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12) });
+  candidates.push({ x: clamp(leftX, width / 2 + 12, layout.width - width / 2 - 12), y: clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12) });
+  candidates.push({ x: clamp(meanX, width / 2 + 12, layout.width - width / 2 - 12), y: clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12) });
+
+  let chosen = candidates.find((candidate) => !panelOverlapsNode(candidate.x, candidate.y));
+  if (!chosen) {
+    // Deterministic fallback: nudge upward until clear.
+    let y = clamp(meanY, height / 2 + 12, layout.height - height / 2 - 12);
+    const minY = height / 2 + 12;
+    while (panelOverlapsNode(clamp(meanX, width / 2 + 12, layout.width - width / 2 - 12), y) && y > minY + 8) y -= 8;
+    chosen = { x: clamp(meanX, width / 2 + 12, layout.width - width / 2 - 12), y };
+  }
+
+  const x = chosen.x;
+  const y = chosen.y;
   return {
     id: annotation.id,
     label: annotation.label,
