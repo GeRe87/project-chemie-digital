@@ -2,7 +2,8 @@ import type { DiagramBlock } from "../../core/src/scene-document.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 
 export interface D3SequenceLane { readonly roleId: string; readonly label: string; readonly x: number; readonly y: number; }
-export interface D3SequenceMessage { readonly id: string; readonly label: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly y: number; readonly sourceX: number; readonly targetX: number; }
+export interface D3SequencePathPoint { readonly x: number; readonly y: number; }
+export interface D3SequenceMessage { readonly id: string; readonly label: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly y: number; readonly sourceX: number; readonly targetX: number; readonly path: readonly D3SequencePathPoint[]; }
 export interface D3SequenceLayout { readonly width: number; readonly height: number; readonly compact: boolean; readonly lanes: readonly D3SequenceLane[]; readonly messages: readonly D3SequenceMessage[]; }
 export interface D3SequenceRenderModel { readonly version: "1.0"; readonly sourceBlockId: string; readonly label: string; readonly description: string; readonly participantRoles: NonNullable<DiagramBlock["participantRoles"]>; readonly messages: NonNullable<DiagramBlock["messages"]>; readonly states: NonNullable<DiagramBlock["states"]>; readonly staticFallback: string; readonly reducedMotion: boolean; }
 export interface D3SequenceResolvedState { readonly activeMessageIds: ReadonlySet<string>; readonly bindings: ReadonlyMap<string, string>; }
@@ -19,8 +20,11 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
 
   if (compact) {
     const cardHeight = 32;
+    const cardWidth = 120;
     const spacing = 80;
     const laneX = width / 2;
+    const rightGutter = width - 24;
+    const leftGutter = 24;
     const lanes = model.participantRoles.map((role, index) => ({
       roleId: role.id,
       label: role.label,
@@ -28,17 +32,42 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
       y: 8 + index * spacing + cardHeight / 2,
     }));
     const laneById = new Map(lanes.map((lane) => [lane.roleId, lane]));
+    const roleOrder = new Map(model.participantRoles.map((role, index) => [role.id, index]));
     const messages = model.messages.map((message, index) => {
       const sourceLane = laneById.get(message.sourceRoleId)!;
       const targetLane = laneById.get(message.targetRoleId)!;
-      const baseY = (sourceLane.y + targetLane.y) / 2;
+      const sourceIndex = roleOrder.get(message.sourceRoleId) ?? 0;
+      const targetIndex = roleOrder.get(message.targetRoleId) ?? 0;
       const samePairEarlier = model.messages.slice(0, index).filter((m) => m.sourceRoleId === message.sourceRoleId && m.targetRoleId === message.targetRoleId).length;
-      const y = baseY + samePairEarlier * 14;
+      const cardRight = laneX + cardWidth / 2;
+      const forward = sourceIndex <= targetIndex;
+      const gutterX = forward ? rightGutter : leftGutter;
+      let path: D3SequencePathPoint[];
+      let y: number;
+      if (sourceLane.roleId === targetLane.roleId) {
+        y = sourceLane.y + cardHeight / 2 + 14 + samePairEarlier * 14;
+        const loopOut = 28 + samePairEarlier * 10;
+        path = [
+          { x: cardRight, y: sourceLane.y },
+          { x: cardRight + loopOut, y: sourceLane.y },
+          { x: cardRight + loopOut, y },
+          { x: cardRight, y },
+        ];
+      } else {
+        y = (sourceLane.y + targetLane.y) / 2 + samePairEarlier * 14;
+        path = [
+          { x: cardRight, y: sourceLane.y },
+          { x: gutterX, y: sourceLane.y },
+          { x: gutterX, y: targetLane.y },
+          { x: cardRight, y: targetLane.y },
+        ];
+      }
       return {
         ...message,
         y,
         sourceX: sourceLane.x,
         targetX: targetLane.x,
+        path,
       };
     });
     const height = 8 + roleCount * spacing + 40;
@@ -52,12 +81,18 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
     x: margin + index * laneSpan,
     y: 30,
   }));
-  const messages = model.messages.map((message, index) => ({
-    ...message,
-    y: 82 + index * 58,
-    sourceX: lanes.find((lane) => lane.roleId === message.sourceRoleId)!.x,
-    targetX: lanes.find((lane) => lane.roleId === message.targetRoleId)!.x,
-  }));
+  const messages = model.messages.map((message, index) => {
+    const sourceX = lanes.find((lane) => lane.roleId === message.sourceRoleId)!.x;
+    const targetX = lanes.find((lane) => lane.roleId === message.targetRoleId)!.x;
+    const y = 82 + index * 58;
+    return {
+      ...message,
+      y,
+      sourceX,
+      targetX,
+      path: [{ x: sourceX, y }, { x: targetX, y }],
+    };
+  });
   return { width, height: 82 + model.messages.length * 58, compact, lanes, messages };
 }
 
@@ -98,12 +133,23 @@ function hostWidth(hostWidth: number, viewportWidth?: number): number {
   return Math.max(320, Math.min(hostWidth > 0 ? hostWidth : viewportWidth ?? 960, viewportWidth ?? hostWidth ?? 960));
 }
 
+let sequenceMarkerMountSequence = 0;
+
+function sequenceMarkerId(mountSequence: number): string {
+  return `d3-sequence-arrow-${mountSequence}`;
+}
+
+function pathCommands(points: readonly D3SequencePathPoint[]): string {
+  return points.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ");
+}
+
 export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
   return {
     measureHost(host) { const element = ensureHostElement(host); return hostWidth(element.clientWidth, typeof window === "undefined" ? undefined : window.innerWidth); },
     mount(host, model, initialLayout, initialStateId) {
       const hostElement = ensureHostElement(host); const namespace = "http://www.w3.org/2000/svg";
       const liveRegions = preserveAccessibilityLiveRegions(hostElement);
+      const mountSequence = ++sequenceMarkerMountSequence;
       hostElement.innerHTML = "";
       const wrapper = document.createElement("div"); wrapper.className = "d3-sequence-runtime";
       const figure = document.createElement("figure"); figure.className = "d3-sequence-figure";
@@ -116,8 +162,23 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
         if (destroyed) return;
         const state = resolveD3SequenceState(model, stateId); svg.replaceChildren(); svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`); svg.setAttribute("height", String(layout.height)); svg.setAttribute("data-layout-mode", layout.compact ? "compact" : "lanes"); svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
         const description = document.createElementNS(namespace, "desc"); description.textContent = model.staticFallback; svg.append(description);
+        const defs = document.createElementNS(namespace, "defs");
+        const marker = document.createElementNS(namespace, "marker");
+        marker.setAttribute("id", sequenceMarkerId(mountSequence));
+        marker.setAttribute("class", "d3-sequence-message-marker");
+        marker.setAttribute("viewBox", "0 0 10 10");
+        marker.setAttribute("refX", "9");
+        marker.setAttribute("refY", "5");
+        marker.setAttribute("markerWidth", "5");
+        marker.setAttribute("markerHeight", "5");
+        marker.setAttribute("orient", "auto-start-reverse");
+        const arrow = document.createElementNS(namespace, "path");
+        arrow.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+        arrow.setAttribute("fill", "currentColor");
+        marker.append(arrow);
+        defs.append(marker);
+        svg.append(defs);
         const laneById = new Map(layout.lanes.map((lane) => [lane.roleId, lane]));
-        const roleOrder = new Map(layout.lanes.map((lane, index) => [lane.roleId, index]));
         for (const lane of layout.lanes) {
           if (layout.compact) {
             const card = document.createElementNS(namespace, "rect");
@@ -163,30 +224,23 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
           if (!state.activeMessageIds.has(message.id)) continue;
           const source = laneById.get(message.sourceRoleId)!;
           const target = laneById.get(message.targetRoleId)!;
-          const sourceIndex = roleOrder.get(message.sourceRoleId) ?? 0;
-          const targetIndex = roleOrder.get(message.targetRoleId) ?? 0;
-          const forward = sourceIndex <= targetIndex;
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", "d3-sequence-message");
           group.setAttribute("data-message-id", message.id);
-          const line = document.createElementNS(namespace, "line");
-          line.setAttribute("class", "d3-sequence-message-line");
-          if (layout.compact) {
-            const x1 = 48;
-            const x2 = layout.width - 48;
-            line.setAttribute("x1", String(forward ? x1 : x2));
-            line.setAttribute("x2", String(forward ? x2 : x1));
-          } else {
-            line.setAttribute("x1", String(source.x));
-            line.setAttribute("x2", String(target.x));
-          }
-          line.setAttribute("y1", String(message.y));
-          line.setAttribute("y2", String(message.y));
-          group.append(line);
+          group.setAttribute("data-source-role-id", message.sourceRoleId);
+          group.setAttribute("data-target-role-id", message.targetRoleId);
+          const path = document.createElementNS(namespace, "path");
+          path.setAttribute("class", "d3-sequence-message-line");
+          path.setAttribute("d", pathCommands(message.path));
+          path.setAttribute("marker-end", `url(#${sequenceMarkerId(mountSequence)})`);
+          path.setAttribute("fill", "none");
+          group.append(path);
           const text = document.createElementNS(namespace, "text");
           text.setAttribute("class", "d3-sequence-message-label");
-          text.setAttribute("x", String(layout.compact ? layout.width / 2 : (source.x + target.x) / 2));
-          text.setAttribute("y", String(message.y - 9));
+          const labelX = layout.compact ? layout.width / 2 : (source.x + target.x) / 2;
+          const labelY = layout.compact ? message.y - 9 : message.y - 9;
+          text.setAttribute("x", String(labelX));
+          text.setAttribute("y", String(labelY));
           text.setAttribute("text-anchor", "middle");
           text.textContent = message.label;
           group.append(text);

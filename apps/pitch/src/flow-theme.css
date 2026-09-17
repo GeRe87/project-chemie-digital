@@ -193,7 +193,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-sequence-participant-card { fill: var(--pcd-surface-strong); stroke: var(--pcd-accent); stroke-width: 2; }
 .reveal .d3-sequence-participant { fill: var(--pcd-foreground); font-weight: 800; }
 .reveal .d3-sequence-lifeline { stroke: color-mix(in srgb, var(--pcd-accent) 48%, transparent); stroke-width: 2; stroke-dasharray: 5 5; }
-.reveal .d3-sequence-message-line { stroke: var(--pcd-accent); stroke-width: 3; }
+.reveal .d3-sequence-message-line { stroke: var(--pcd-accent); stroke-width: 3; color: var(--pcd-accent); }
 .reveal .d3-sequence-message-label { fill: var(--pcd-foreground); font-weight: 800; paint-order: stroke; stroke: var(--pcd-surface-strong); stroke-width: 3px; stroke-linejoin: round; }
 .reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-message,
 .reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
@@ -348,7 +348,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant {
   paint-order: stroke; stroke: var(--pcd-flow-pixel-highlight); stroke-width: 3px; stroke-linejoin: miter;
 }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline { stroke: var(--pcd-flow-pixel-ink); stroke-width: 3; stroke-dasharray: 7 5; shape-rendering: crispEdges; }
-body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-line { stroke: var(--pcd-flow-pixel-ink-strong); stroke-width: 4; shape-rendering: crispEdges; filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent)); }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-line { stroke: var(--pcd-flow-pixel-ink-strong); stroke-width: 4; shape-rendering: crispEdges; color: var(--pcd-flow-pixel-ink-strong); filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 45%, transparent)); }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message-label { fill: var(--pcd-flow-callout-text); stroke: var(--pcd-flow-callout-fill); stroke-width: 5px; font-family: var(--pcd-flow-pixel-font); font-size: 14px; font-weight: 900; }
 
 /* Bright 16-bit cards: chamfered silhouette, cyan face, dark outline and stepped shadow. */
