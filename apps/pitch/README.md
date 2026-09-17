@@ -174,7 +174,7 @@ scene_selector = "#pitch-slides section[id]"
 
 Port 5175 isolates the worker's exact-head checkout from the developer's server
 on 5173. Descendant scene discovery accounts for Reveal's scroll-page wrappers.
-`cogniflow/request.json` remains the existing scene-selection-only schema.
+`cogniflow/request.json` supports the generic visual-worker schema `1.2` capture matrix: named scene/step captures crossed with the target's allowed light/dark themes. The project request template is maintained with the validator profile, not as authored presentation content.
 
 The installed worker's `src/awv/visual.py` scroll branch navigates to the selected
 page's final **native scroll snap point**, waits until its host steps equal their
