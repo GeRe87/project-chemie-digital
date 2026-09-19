@@ -42,16 +42,16 @@ UNIT = EX["learning-unit-cogniflow-standardized-data-processing"]
 PATH = EX["path-cogniflow-standardized-data-processing"]
 PATH_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing")
 SCENE_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing")
-TITLE = "Standardized Data Processing - Project CogniFlow"
+TITLE = "From FAIR Data to FAIR Data Processing — Project CogniFlow"
 GERRIT = "Gerrit Renner — Instrumental Analytical Chemistry, University of Duisburg-Essen"
 RICARDO = "Ricardo Cunha — Institut für Umwelt & Energie, Technik & Analytik e. V. (IUTA)"
 FUNDING = "Funding"
 
 EXPECTED_SCENES = [
     "ex:scene-cogniflow-title--scene",
-    "ex:scene-cogniflow-coupling-problem--scene",
-    "ex:scene-cogniflow-laboratory-diversity--scene",
-    "ex:scene-cogniflow-service-architecture--scene",
+    "ex:scene-cogniflow-processing-black-box--scene",
+    "ex:scene-cogniflow-fair-processing-gap--scene",
+    "ex:scene-cogniflow-explicit-processing-context--scene",
     "ex:scene-cogniflow-service-process--scene",
     "ex:scene-cogniflow-concept-domain--scene",
     "ex:scene-cogniflow-semantics-as-source--scene",
@@ -173,97 +173,67 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn(RICARDO.replace("&", "&amp;"), fallback)
         self.assertIn(FUNDING, fallback)
 
-    def test_opening_sequence_states_common_workflow_then_laboratory_diversity_then_decoupled_answer(self) -> None:
+    def test_opening_cluster_moves_from_black_box_to_fair_gap_to_explicit_context(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        workflow = document["scenes"][1]
-        laboratory = document["scenes"][2]
-        architecture = document["scenes"][3]
+        black_box = document["scenes"][1]
+        fair_gap = document["scenes"][2]
+        explicit = document["scenes"][3]
         service_process = document["scenes"][4]
 
-        workflow_heading = next(block for block in workflow["blocks"] if block["kind"] == "prose")
-        workflow_diagram = next(block for block in workflow["blocks"] if block["kind"] == "diagram")
-        laboratory_heading = next(block for block in laboratory["blocks"] if block["kind"] == "prose")
-        laboratory_diagram = next(block for block in laboratory["blocks"] if block["kind"] == "diagram")
-        architecture_heading = next(block for block in architecture["blocks"] if block["kind"] == "prose")
-        architecture_diagram = next(block for block in architecture["blocks"] if block["kind"] == "diagram")
+        black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
+        black_diagram = next(block for block in black_box["blocks"] if block["kind"] == "diagram")
+        fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
+        fair_diagram = next(block for block in fair_gap["blocks"] if block["kind"] == "diagram")
+        explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
+        explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
-        self.assertEqual("A Common Analytical Workflow", workflow_heading["text"])
+        self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
+        self.assertEqual("flow", black_diagram["diagramType"])
+        self.assertEqual(["RAW SIGNAL", "PROCESSING ?", "RESULT"], [node["label"] for node in black_diagram["nodes"]])
+        self.assertEqual(["transformed by", "produces"], [edge["label"] for edge in black_diagram["edges"]])
+        self.assertEqual("ex:node-cogniflow-black-box-processing", black_diagram["focusNodeId"])
+
+        self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
+        self.assertEqual("flow", fair_diagram["diagramType"])
         self.assertEqual(
             [
-                "Analysis",
-                "meas Data",
-                "meas Data Open Format",
-                "results",
-                "Analysis B",
-                "meas Data",
-                "meas Data Open Format",
-                "results",
+                "INSTRUMENT",
+                "FAIR / OPEN DATA",
+                "CUSTOM PROCESSING",
+                "RESULT",
+                "Which algorithm?",
+                "Which version?",
+                "Which parameters?",
+                "Which environment?",
+                "Which dependencies?",
             ],
-            [node["label"] for node in workflow_diagram["nodes"]],
+            [node["label"] for node in fair_diagram["nodes"]],
+        )
+        self.assertEqual("ex:node-cogniflow-fair-processing", fair_diagram["focusNodeId"])
+        fair_processing = next(node for node in fair_diagram["nodes"] if node["label"] == "CUSTOM PROCESSING")
+        self.assertEqual("highlight", fair_processing["visualRole"])
+
+        self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
+        self.assertEqual("network", explicit_diagram["diagramType"])
+        self.assertEqual(
+            ["Explicit processing context", "Scientific flow"],
+            [group["label"] for group in explicit_diagram["groups"]],
         )
         self.assertEqual(
-            ["vendor Software", "mzML", "custom Script", "vendor Software", "csv", "custom Script"],
-            [edge["label"] for edge in workflow_diagram["edges"]],
+            ["Scientific flow", "Explicit processing context"],
+            [state["label"] for state in explicit_diagram["states"]],
         )
-        self.assertEqual("A Vision: Different Instruments, One Common Data Processing.", laboratory_heading["text"])
-        self.assertEqual("network", laboratory_diagram["diagramType"])
+        self.assertEqual("ex:node-cogniflow-explicit-processing", explicit_diagram["states"][0]["focusNodeId"])
+        self.assertEqual("ex:diagram-group-cogniflow-explicit-context", explicit_diagram["states"][1]["focusGroupId"])
         self.assertEqual(
-            ["LC-MS", "HPLC", "NMR", "UV-Vis", "GC-MS", "Ion Chromatograph", "FTIR", "pH Meter", "one common data processing ?"],
-            [node["label"] for node in laboratory_diagram["nodes"]],
+            ["ex:diagram-group-cogniflow-explicit-flow"],
+            explicit_diagram["states"][1]["contextGroupIds"],
         )
-        self.assertEqual("One Interface. Specialized Providers.", architecture_heading["text"])
+
         self.assertEqual(
-            [
-                "User / AI Agent",
-                "MCP Server",
-                "CogniFlow Orchestrator",
-                "Semantic Provider",
-                "Data Provider",
-                "Artifact + Provenance Provider",
-            ],
-            [node["label"] for node in architecture_diagram["nodes"]],
+            "A stable interface coordinates specialized providers",
+            service_process["blocks"][0]["text"],
         )
-        self.assertEqual("ex:node-cogniflow-common-open-format", workflow_diagram["focusNodeId"])
-        self.assertEqual("ex:node-cogniflow-lab-common-processing", laboratory_diagram["focusNodeId"])
-        processing = next(node for node in laboratory_diagram["nodes"] if node["label"] == "one common data processing ?")
-        self.assertEqual("highlight", processing["visualRole"])
-        self.assertEqual(["ex:diagram-group-cogniflow-lab-processing"], processing["groupIds"])
-        self.assertEqual(
-            [
-                "ex:diagram-group-cogniflow-lab-mass-spectrometry",
-                "ex:diagram-group-cogniflow-lab-processing",
-                "ex:diagram-group-cogniflow-lab-routine-measurement",
-                "ex:diagram-group-cogniflow-lab-separation",
-                "ex:diagram-group-cogniflow-lab-spectroscopy",
-            ],
-            [group["id"] for group in laboratory_diagram["groups"]],
-        )
-        self.assertEqual(
-            ["ex:diagram-group-cogniflow-lab-mass-spectrometry"],
-            laboratory_diagram["nodes"][0]["groupIds"],
-        )
-        self.assertEqual(
-            ["ex:diagram-group-cogniflow-lab-spectroscopy"],
-            laboratory_diagram["nodes"][2]["groupIds"],
-        )
-        self.assertEqual("ex:node-cogniflow-mcp", architecture_diagram["focusNodeId"])
-        self.assertEqual("network", architecture_diagram["diagramType"])
-        self.assertEqual("A stable interface coordinates specialized providers", service_process["blocks"][0]["text"])
-        service_process_diagram = next(block for block in service_process["blocks"] if block["kind"] == "diagram")
-        self.assertEqual("sequence", service_process_diagram["diagramType"])
-        self.assertEqual(
-            [
-                "Stable interface",
-                "Orchestration contract",
-                "Semantic capability",
-                "Data capability",
-                "Artifact and provenance capability",
-                "Specialized provider domain",
-                "Stable interface, evolving runtime",
-            ],
-            [state["label"] for state in architecture_diagram["states"]],
-        )
-        self.assertEqual("ex:diagram-group-cogniflow-providers", architecture_diagram["states"][5]["focusGroupId"])
 
     def test_concept_domain_progression_uses_existing_network_state_contract(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
