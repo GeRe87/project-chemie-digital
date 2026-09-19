@@ -5,12 +5,12 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-standardized-data-processing> {
   ex:cogniflow-standardized-data-processing a cd:Concept ;
-    skos:prefLabel "Standardized Data Processing - Project CogniFlow"@en ;
+    skos:prefLabel "From FAIR Data to FAIR Data Processing — Project CogniFlow"@en ;
     cd:hasDefinition ex:def-cogniflow-standardized-data-processing ;
     cd:authoredResource true .
 
   ex:def-cogniflow-standardized-data-processing a cd:Definition ;
-    cd:body "Standardized Data Processing - Project CogniFlow"@en ;
+    cd:body "From FAIR Data to FAIR Data Processing — Project CogniFlow"@en ;
     cd:authoredResource true .
 
   ex:cogniflow-service-usage-overview a cd:Concept ;
@@ -158,7 +158,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/courses/cogniflow-standardized-data-processing> {
   ex:teaching-offering-cogniflow-standardized-data-processing a cd:TeachingOffering ;
-    skos:prefLabel "Standardized Data Processing - Project CogniFlow"@en ;
+    skos:prefLabel "From FAIR Data to FAIR Data Processing — Project CogniFlow"@en ;
     cd:hasUnitPlacement ex:unit-placement-cogniflow-standardized-data-processing .
 
   ex:learning-unit-cogniflow-standardized-data-processing a cd:LearningUnit ;
