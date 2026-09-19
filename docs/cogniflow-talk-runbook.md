@@ -1,5 +1,7 @@
 # CogniFlow talk runbook
 
+> **Superseded narrative.** This runbook documents the previous eight-scene CogniFlow story and is retained only as historical implementation context. The current content and narrative source of truth is `docs/cogniflow-presentation-content-roadmap.md`. Do not use this file to determine current scene order or presentation claims.
+
 This runbook describes the intended audience narrative for the canonical eight-scene CogniFlow presentation. It is speaker guidance, not an additional semantic content source: scientific claims and visible slide content remain authored in RDF.
 
 ## Narrative spine
