@@ -296,7 +296,7 @@ A scene may still be refined, but changing the order or conceptual dependency re
 ## Scene 01 — From FAIR Data to FAIR Data Processing
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -342,7 +342,7 @@ Semantic hero / title scene.
 ## Scene 02 — What happened between the raw data and this result?
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -386,7 +386,7 @@ flow, with the processing node initially represented as an unresolved/opaque sta
 ## Scene 03 — FAIR data are not FAIR processing
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -444,7 +444,7 @@ flow + semantic annotations.
 ## Scene 04 — Make nothing important implicit
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -1462,7 +1462,7 @@ Exit criterion met for narrative work:
 
 ## Phase 2 — Semantic Content Design
 
-**Status:** [ ] not started
+**Status:** [~] in progress — Cluster A authored
 
 Goal:
 
@@ -1481,6 +1481,34 @@ Tasks:
 - [ ] update this roadmap when implementation exposes a narrative assumption that is false.
 
 ---
+
+### Cluster A semantic audit
+
+**Status:** [x] implemented on the presentation roadmap branch
+
+| Previous resource / scene | Decision | Cluster A action |
+|---|---|---|
+| Title scene | rewrite | Retitled to “From FAIR Data to FAIR Data Processing — Project CogniFlow”; attribution and funding structure retained. |
+| A Common Analytical Workflow | retire from active path | Replaced at position 2 by the scientific processing black-box scene. Legacy resource remains unselected for now. |
+| Laboratory Diversity | retire from active path | Replaced at position 3 by “FAIR Data Are Not FAIR Processing”. Legacy resource remains available but is no longer linked to the curated path. |
+| One Interface. Specialized Providers. | retire from opening | Replaced at position 4 by “Make Nothing Important Implicit”. The legacy architecture resource is retained for later comparison while the new service story is authored. |
+| Service Process and later scenes | keep temporarily | Positions 5–11 remain selected as placeholders until Clusters B–E replace them. |
+
+New canonical semantic source:
+
+- ontology/dataset/cogniflow-motivation.trig
+- graph/specifications/cogniflow-motivation
+- graph/paths/cogniflow-motivation-extension
+- graph/scenes/cogniflow-motivation
+
+Cluster A currently uses only existing generic primitives:
+
+- Scene 01: title/prose;
+- Scene 02: flow;
+- Scene 03: flow;
+- Scene 04: network + DiagramState + focus/context.
+
+No CogniFlow-specific renderer behavior was introduced.
 
 ## Phase 3 — Generic System Gap Analysis
 
@@ -1617,17 +1645,11 @@ No CogniFlow-specific renderer behavior is permitted. The presentation itself sh
 
 Proceed to **Phase 2 — Semantic Content Design**.
 
-The first implementation task should not be “build all 15 slides”.
+Cluster A (Scenes 01–04) has been semantically authored and wired into the curated path.
 
-Start with Cluster A:
+Next:
 
-> Scene 01 → Scene 02 → Scene 03 → Scene 04
-
-For that cluster:
-
-1. audit the current CogniFlow RDF resources;
-2. decide keep / rewrite / remove;
-3. author the new narrative semantics;
-4. compile to SceneDocument;
-5. use existing generic primitives first;
-6. perform a Scroll View narrative review before continuing to Scene 05.
+1. run exact-head semantic/runtime validation;
+2. inspect Scenes 01–04 in Scroll View;
+3. correct only generic layout/theme issues discovered by that review;
+4. then begin Cluster B (Scenes 05–06: semantic grammar and independent specifications).
