@@ -81,7 +81,7 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
 
 export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
   id: "cogniflow-standardized-data-processing",
-  label: "Standardized Data Processing - Project CogniFlow",
+  label: "From FAIR Data to FAIR Data Processing — Project CogniFlow",
   defaultView: "scroll",
   defaultTheme: "light",
   defaultBackgroundFamilyId: chemometricsCityFamily.id,
