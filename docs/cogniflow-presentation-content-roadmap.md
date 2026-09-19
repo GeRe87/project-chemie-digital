@@ -1,1525 +1,1633 @@
 # CogniFlow Presentation Content Roadmap
 
-**Status:** Living roadmap  
-**Owner context:** CogniFlow presentation in `project-chemie-digital`  
-**Presentation format:** ~15 scenes, Reveal.js Scroll View  
-**Visual language:** 16-bit Retro / Eco City / HUD-inspired scientific presentation  
-**Audience:** Chemists and analytical scientists without prior knowledge of semantic workflow standardization  
-**Companion roadmap:** `docs/cogniflow-presentation-diagram-roadmap.md`
+**Status:** Narrative Freeze v1 — living roadmap  
+**Owner context:** CogniFlow presentation in project-chemie-digital  
+**Presentation format:** approximately 15 scenes, Reveal.js Scroll View  
+**Visual language:** 16-bit Retro / Eco City / restrained HUD-inspired scientific presentation  
+**Audience:** chemists and analytical scientists without prior knowledge of semantic workflow standardization  
+**Companion roadmap:** docs/cogniflow-presentation-diagram-roadmap.md  
+**Narrative baseline:** 2026-09-19
 
 ---
 
-## 1. Purpose of this roadmap
+## 1. Purpose
 
-This document is the **content and narrative source of truth** for the CogniFlow presentation.
+This document is the content and narrative source of truth for the CogniFlow presentation.
 
-It defines:
+It answers five questions for every scene:
 
-- the audience assumptions;
-- the central argument of the presentation;
-- the intended learning progression;
-- the approximately 15 presentation scenes;
-- the semantic and visual role of every scene;
-- which existing presentation primitives should be used;
-- where generic system extensions may be required;
-- acceptance criteria for narrative, semantic and visual completion.
+1. Why does this scene exist?
+2. What is the one statement the audience must understand?
+3. What is revealed, and in which order?
+4. Why does the next scene logically follow?
+5. Which generic presentation primitive should realize the scene?
 
-This roadmap is intentionally separate from the technical diagram roadmap.
+The technical companion roadmap answers a different question: which generic RDF, SceneDocument, renderer and theme capabilities are required to implement the accepted narrative.
 
-The responsibilities are:
-
-```text
-cogniflow-presentation-content-roadmap.md
-    ↓
-What do we want to explain?
-Why is each scene necessary?
-What should the audience understand?
-
-cogniflow-presentation-diagram-roadmap.md
-    ↓
-Which generic presentation capabilities are required?
-How are they represented in RDF / SceneDocument / renderer / theme?
-```
-
-The presentation must not drive presentation-specific special cases into the generic runtime.
+The implemented slides must not silently become the specification. If the story changes, this roadmap changes with it.
 
 ---
 
-## 2. Audience
+## 2. Audience model
 
 The primary audience consists of chemists and analytical scientists.
 
-We assume that the audience:
+We assume that they understand:
 
-- understands scientific data processing in practice;
-- understands analytical workflows involving instruments, raw data, processing and reports;
-- is familiar with FAIR principles at least conceptually;
-- understands reproducibility as a scientific requirement.
+- instruments, measurements, raw data and derived results;
+- routine scientific data processing;
+- scripts, software tools and reports at a practical level;
+- reproducibility as a scientific requirement;
+- the FAIR principles at least conceptually.
 
-We **do not** assume prior knowledge of:
+We do not assume prior knowledge of:
 
 - semantic workflow descriptions;
 - RDF or knowledge graphs;
 - ontologies;
 - machine-readable workflow contracts;
-- service-oriented architectures;
+- service-oriented architecture;
 - dependency decoupling;
 - MCP;
 - Apache Jena / Fuseki;
-- CogniFlow Concepts;
+- CogniFlow Concept Domains;
 - CogniFlow Services;
 - Processing Units;
 - semantic pipeline composition.
 
-The presentation must therefore introduce these concepts **only after the problem requiring them has become clear**.
+Therefore the talk must never start with architecture vocabulary. Every technical concept is introduced only after the audience has already understood the problem that requires it.
 
 ---
 
-## 3. Central narrative
+## 3. Narrative thesis
 
-The presentation follows one main argument:
+The presentation follows one argument:
 
-> Scientific data may be FAIR while the processing that transforms those data into scientific results remains implicit, software-dependent and difficult to reproduce.
+> FAIR data are necessary, but they are not sufficient for transparent and reproducible data processing.
 
-CogniFlow extends the FAIR idea from data to the **complete digital processing context**.
+A scientific result is not defined by its input data alone. It also depends on the transformations, parameters, implementations, versions, interfaces and provenance between the measurement and the final result.
 
-The fundamental design principle is:
+CogniFlow extends the FAIR idea from the data object to the complete digital processing context.
+
+The central design principle is:
 
 > Turn implicit knowledge into explicit, machine-readable knowledge.
 
-CogniFlow therefore aims to make scientific data processing:
+Everything else in the architecture follows from this decision.
+
+CogniFlow therefore aims to make processing:
 
 - transparent;
 - traceable;
-- FAIR;
 - digital by design;
 - modular;
 - machine-readable;
-- human-readable;
+- human-understandable;
 - reproducible;
+- discoverable;
 - composable.
 
-The architecture follows from this principle.
-
-CogniFlow does **not** begin with a specific programming language, package manager, workflow engine or user interface.
-
-It begins with a shared semantic core.
-
----
-
-## 4. Core message
-
-The final audience understanding should be:
-
-> CogniFlow does not standardize one implementation of scientific data processing.
-
-Instead:
-
-> CogniFlow standardizes how concepts, capabilities, processing steps, interfaces and provenance are described.
-
-This allows different implementations to remain independent while still being discoverable, understandable and interoperable.
-
-A useful final formulation is:
+The final message is:
 
 > **Standardize the meaning and the contract — not the implementation.**
 
-And at the FAIR level:
+The FAIR framing is:
 
 > **From FAIR data to FAIR data processing.**
 
 ---
 
-## 5. Narrative progression
+## 4. Narrative guardrails
 
-The presentation should deliberately move through five conceptual stages.
+### 4.1 Motivation before terminology
 
-### Stage A — The familiar scientific problem
+The talk must not introduce RDF, ontology, MCP, Fuseki, Consumer, Provider or ProcessingUnit before the audience understands why that abstraction is needed.
 
-The audience first sees a situation it already knows:
+### 4.2 Chemistry before software architecture
 
-```text
-RAW DATA → ? → RESULT
-```
-
-The processing between data and result contains important scientific knowledge, but much of it is frequently implicit.
-
-### Stage B — The CogniFlow philosophy
-
-The proposed solution is not initially technical.
-
-Everything relevant to processing should become:
-
-```text
-explicit
-digital
-machine-readable
-human-readable
-traceable
-```
-
-This leads naturally to semantics.
-
-### Stage C — The semantic core
-
-CogniFlow introduces a small common semantic grammar:
-
-```text
-Concept
- ├── Attributes
- └── Properties
-```
-
-From this grammar, compatible specifications can be defined.
-
-Examples include:
-
-```text
-Package
-Service
-ProcessingUnit
-Artifact
-...
-```
-
-The common semantic core is the heart of CogniFlow.
-
-### Stage D — Decoupled functionality
-
-Because functionality is described semantically, components do not need direct software dependencies.
-
-Packages expose functionality as Services.
-
-Consumers request capabilities.
-
-Providers implement capabilities.
-
-Service discovery and invocation happen through the CogniFlow infrastructure.
-
-### Stage E — FAIR data processing
-
-The same principle is applied to scientific processing.
-
-Processing Units describe individual operations and infrastructure steps.
-
-Processing Pipelines combine Processing Units into complete workflows.
-
-Each component remains explicitly described with identity, version, inputs, outputs, parameters, implementation and provenance.
-
-The processing workflow itself therefore becomes a digital and reusable scientific object.
-
----
-
-## 6. Presentation rules
-
-### 6.1 Motivation before terminology
-
-Never introduce terms such as:
-
-- ontology;
-- RDF;
-- MCP;
-- Provider;
-- Consumer;
-- ProcessingUnit;
-
-before the audience understands what problem that concept solves.
-
-### 6.2 Chemistry before software architecture
-
-Examples should originate from realistic scientific work:
+Whenever possible, motivation starts from chemistry:
 
 - analytical signals;
 - instrument data;
-- processing;
-- reports;
+- processing steps;
 - quantitative results;
+- reports;
 - uncertainty;
 - provenance.
 
-Software architecture is introduced as an enabling mechanism.
+Software architecture is the answer, not the opening topic.
 
-### 6.3 Explicit knowledge, not elimination of expertise
+### 4.3 Explicit knowledge does not replace scientific expertise
 
-Do not claim that CogniFlow eliminates scientific expertise.
+CogniFlow does not remove the need for scientific judgement.
 
 The intended claim is:
 
 > **No implicit integration knowledge should be required.**
 
-Scientific judgement remains necessary.
+A chemist must still decide whether a method is scientifically appropriate. CogniFlow aims to prevent technical and procedural knowledge from existing only in somebody's head, for example:
 
-Knowledge such as the following should not remain implicit:
+- which implementation was used;
+- which version was used;
+- which input structure is expected;
+- which parameters were used;
+- which capability an operation provides;
+- which output it produces;
+- where the implementation is defined;
+- how the result was derived.
 
-> Package X requires version Y.  
-> Algorithm A expects this input structure.  
-> Parameter Z was set to 0.05.  
-> This processing step produced this result.  
-> This implementation corresponds to this capability.
+### 4.4 Architecture must appear inevitable
 
-Such information belongs in the digital description.
+By the time MCP, Fuseki and Processing Units appear, the audience should think:
 
-### 6.4 Architecture must appear inevitable
+> “Of course we need this if components must understand one another without knowing one another.”
 
-The audience should reach:
+Not:
 
-> “Now I understand why CogniFlow needs semantics, Services, the MCP interface and Processing Units.”
+> “CogniFlow happens to use these technologies.”
 
-rather than:
+### 4.5 Separate current implementation from architectural target
 
-> “CogniFlow happens to use RDF, MCP and Fuseki.”
+The talk may explain both currently implemented Stonecastle concepts and architectural goals, but it must not blur them.
+
+If a capability is a design target rather than an implemented feature, the speaker wording must say so.
 
 ---
 
-## 7. Planned scene set
+## 5. Terminology alignment with CogniFlow Stonecastle
 
-## Scene 01 — What happened between the raw data and this result?
+The Narrative Freeze was checked against the current stonecastle branch of GeRe87/cogniflow-playground.
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+The presentation should use the following semantic structure as its technical anchor.
 
-### Purpose
+### 5.1 Core semantic grammar
 
-Start from a familiar scientific situation.
+Current core vocabulary includes:
 
-### Core message
+- ConceptDomain
+- Concept
+- Attribute
+- Relation
+- ControlledValue
+- Shape
 
-A scientific result depends on everything that happened between the original measurement and the final result.
+For the audience, the important idea is simpler:
+
+> A Concept is described through structured attributes and explicit relationships.
+
+Do not turn this into an ontology lecture.
+
+The exact Relation / Property terminology is still evolving across the current Stonecastle semantic sources. Resolve that vocabulary before Phase 2 semantic authoring. The presentation should not expose an internal naming inconsistency.
+
+### 5.2 Package Concept
+
+The current package concept models CfPackage as a versioned CogniFlow module.
+
+Relevant semantic information includes:
+
+- PackageManifest
+- DistributionName
+- PythonPackageName
+- PackageVersion
+- ImplementationLanguage
+- PackageRole
+- PackageContribution
+- package templates and conformance information
+
+Important narrative consequence:
+
+> A package is not just code installed somewhere. It is a digitally described CogniFlow module.
+
+Do not state that CfPackage itself contains a generic hasCapability relation unless such a relation exists in the accepted ontology. Package-local service descriptions provide the bridge to functionality.
+
+### 5.3 Service Concept
+
+The current service concept models Service as a semantic service specification.
+
+Relevant structure includes:
+
+- ServiceOperation
+- OperationCapability
+- OperationConstraint
+- ServiceInterface
+- ServiceInput
+- ServiceParameter
+- ServiceOutput
+- ExecutionAffordance
+- ServiceClient
+- ServiceGateway
+- ServiceProtocol
+
+MCP is represented as a controlled service protocol.
+
+The current client boundary explicitly supports calls by semantic capability rather than imports of concrete service implementations.
+
+### 5.4 MCP and semantic authority
+
+The current Rust MCP gateway exposes the cf_call_service boundary.
+
+Its SemanticAuthority owns:
+
+- semantic resolution;
+- validation;
+- Fuseki access;
+- service invocation.
+
+The presentation should therefore describe the request path as:
+
+~~~text
+Consumer
+  ↓ capability request
+MCP gateway
+  ↓ semantic resolution
+Semantic authority / Fuseki
+  ↓ selected operation
+Provider / executor
+  ↓ result
+Consumer
+~~~
+
+Fuseki is the semantic authority's data source, not a provider that directly talks to the Consumer.
+
+### 5.5 Data Processing Concept
+
+The current processing concept defines:
+
+- ProcessingUnit
+- ProcessingStep
+- ProcessingPipeline
+- Port
+- PortRole
+- Input
+- Output
+- Parameter
+- PipelineNode
+- RunTarget
+- ProcessingConnection
+
+ProcessingStep is an atomic ProcessingUnit.
+
+ProcessingPipeline is a composite ProcessingUnit.
+
+A PipelineNode runs a ProcessingUnit. Because a ProcessingPipeline is itself a ProcessingUnit, the model naturally supports nested composition.
+
+### 5.6 Infrastructure-step terminology
+
+The intended CogniFlow architecture also needs infrastructure-oriented processing operations.
+
+However, the current checked Stonecastle processing vocabulary does not expose InfrastructureStep as a named class beside ProcessingStep and ProcessingPipeline.
+
+Narrative rule for v1:
+
+> Explain that Processing Steps may represent scientific or infrastructure-oriented operations, but do not present InfrastructureStep as an already-defined ontology class unless the ontology is extended before semantic authoring.
+
+This is an explicit Phase 2 alignment item, not a reason to distort the story.
+
+---
+
+# 6. Frozen 15-scene narrative
+
+The approximately 15-scene structure below is the Narrative Freeze v1.
+
+A scene may still be refined, but changing the order or conceptual dependency requires an update to the decision log.
+
+---
+
+## Scene 01 — From FAIR Data to FAIR Data Processing
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
+
+### One statement
+
+> CogniFlow asks what FAIRness means not only for scientific data, but for everything that happens to those data.
+
+### Role in the story
+
+Minimal title and promise. Do not explain the architecture yet.
+
+### On-screen content
+
+Primary title:
+
+> **From FAIR Data to FAIR Data Processing**
+
+Secondary line:
+
+> Project CogniFlow
+
+Optional small prompt:
+
+> Can a processing workflow be as explicit as the data it processes?
+
+### Reveal sequence
+
+None. The opening should be visually quiet.
+
+### Audience understanding after this scene
+
+> “This talk is about extending FAIR thinking to processing.”
+
+### Preferred primitive
+
+Semantic hero / title scene.
+
+### Transition
+
+> We can start with a very ordinary analytical result.
+
+---
+
+## Scene 02 — What happened between the raw data and this result?
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
+
+### One statement
+
+> A scientific result depends on a processing history that is often much less visible than the raw data and the result themselves.
+
+### Role in the story
+
+Create a problem every chemist recognizes before using the word standardization.
 
 ### Visual concept
 
-```text
-RAW DATA                        RESULT
-chromatogram                    PDF / value / table
-     │                               ▲
-     └────────── BLACK BOX ──────────┘
-```
+~~~text
+RAW SIGNAL  ─────────  BLACK BOX  ─────────▶  RESULT
+chromatogram                                  value / table / PDF
+~~~
 
-The black box contains no technical detail initially.
+The left and right sides should look familiar and trustworthy. The center should be deliberately opaque.
 
-### Audience takeaway
+### Reveal sequence
 
-> “Yes. I know the result, but reconstructing exactly how we got there can be difficult.”
+1. Raw analytical data.
+2. Final scientific result.
+3. Black box appears between them.
+4. Question appears: “What exactly happened here?”
 
-### Possible presentation primitive
+### Audience understanding after this scene
 
-`flow`
+> “To reproduce the result I need more than the input and output.”
 
-### Transition
+### Preferred primitive
 
-> What if the data themselves are already FAIR?
-
----
-
-## Scene 02 — FAIR data are not enough
-
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
-
-### Purpose
-
-Connect CogniFlow to a concept familiar to the audience.
-
-### Core message
-
-FAIR data do not automatically imply FAIR processing.
-
-Open formats and metadata can describe the input data while the transformation into a scientific result remains implicit.
-
-### Example
-
-```text
-Instrument
-    ↓
-  mzML
-    ↓
- custom script
-    ↓
-processed result
-```
-
-Possible hidden knowledge:
-
-- software package;
-- exact version;
-- algorithm;
-- parameters;
-- execution environment;
-- dependencies;
-- manual decisions.
-
-### Audience takeaway
-
-> FAIRness must also include the processing context.
-
-### Possible presentation primitive
-
-`flow`
+flow, with the processing node initially represented as an unresolved/opaque state.
 
 ### Transition
 
-> What would processing look like if we treated it as digital scientific information from the beginning?
+> We already know how to make data much more transparent: FAIR.
 
 ---
 
-## Scene 03 — Make the complete workflow explicit
+## Scene 03 — FAIR data are not FAIR processing
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Introduce the CogniFlow philosophy before introducing CogniFlow technology.
+> FAIR and open data can still pass through an opaque processing chain.
 
-### Core message
+### Role in the story
 
-Every scientifically relevant relationship should be explicit enough to be understood by both humans and machines.
+Use the audience's FAIR knowledge as the bridge into the CogniFlow problem.
 
-### Visual progression
+### Visual concept
 
-The previous black box opens.
-
-```text
-DATA
- ↓
-PROCESSING
- ↓
+~~~text
+INSTRUMENT
+    ↓
+raw data
+    ↓
+open / FAIR representation
+    ↓
+custom processing
+    ↓
 RESULT
-```
+~~~
 
-becomes progressively annotated with:
+The FAIR/open-data portion is visibly well-described. The processing portion progressively exposes missing context.
 
-```text
-what?
-which implementation?
-which version?
-which parameters?
-which input?
-which output?
-how was it produced?
-```
+### Reveal sequence
 
-### Key terms
+1. Instrument and measured data.
+2. Open format / metadata / persistent description.
+3. Custom processing appears.
+4. Hidden questions accumulate around processing:
+   - which algorithm?
+   - which implementation?
+   - which version?
+   - which parameters?
+   - which environment?
+   - which dependencies?
+5. Key sentence appears: **FAIR data ≠ FAIR processing**
 
-```text
+### Audience understanding after this scene
+
+> “FAIRness can stop exactly where scientific interpretation starts.”
+
+### Preferred primitive
+
+flow + semantic annotations.
+
+### Transition
+
+> So the first CogniFlow question is not “Which software should everybody use?” It is “Which knowledge must stop being implicit?”
+
+---
+
+## Scene 04 — Make nothing important implicit
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
+
+### One statement
+
+> CogniFlow treats the processing context itself as digital scientific information.
+
+### Role in the story
+
+Introduce the philosophy before semantics or architecture.
+
+### Visual concept
+
+The Scene 02 black box opens into explicit questions and relationships.
+
+~~~text
+INPUT
+  ↓
+PROCESSING
+  ↓
+OUTPUT
+
+What does it do?
+What does it consume?
+What does it produce?
+Which parameters?
+Which implementation?
+Which version?
+How was it executed?
+~~~
+
+Then condense these into the design principles:
+
+~~~text
 TRANSPARENT
 TRACEABLE
 DIGITAL
 MODULAR
 MACHINE-READABLE
-```
+HUMAN-UNDERSTANDABLE
+~~~
 
-### Audience takeaway
+### Reveal sequence
 
-> We first need a digital description of what things mean and how they relate.
+1. Reuse the black box.
+2. Open the box into named processing information.
+3. Connect information instead of presenting isolated labels.
+4. Introduce “human + machine readable”.
+5. Land on the design principles.
+
+### Audience understanding after this scene
+
+> “The workflow itself has to become a first-class digital object.”
+
+### Preferred primitive
+
+network or stateful flow.
 
 ### Transition
 
-> That is why CogniFlow does not start with software. It starts with semantics.
+> To make that possible, every component first needs an explicit meaning.
 
 ---
 
-## 8. The semantic core
+## Scene 05 — CogniFlow starts with meaning
 
-## Scene 04 — CogniFlow starts with meaning
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+### One statement
 
-### Purpose
+> The heart of CogniFlow is a small semantic grammar for describing what things are and how they relate.
 
-Introduce the heart of CogniFlow.
+### Role in the story
 
-### Core message
-
-The center of CogniFlow is a shared semantic model.
-
-Not:
-
-```text
-Python
-Rust
-Java
-MCP
-Fuseki
-```
-
-but:
-
-```text
-COGNIFLOW CORE SEMANTICS
-```
+Introduce the core semantics without teaching RDF.
 
 ### Visual concept
 
-One central object:
+Start with one Concept, then add its structure:
 
-```text
-┌───────────────────────┐
-│ COGNIFLOW SEMANTICS   │
-│                       │
-│       CONCEPT         │
-└───────────────────────┘
-```
+~~~text
+CONCEPT
+  ├─ ATTRIBUTES
+  ├─ RELATIONSHIPS
+  └─ CONTROLLED MEANING
 
-Everything else remains hidden.
+CONCEPT DOMAIN = vocabulary scope around the concept
+~~~
 
-### Audience takeaway
+### Speaker wording
 
-> CogniFlow first defines what something is.
+Audience-level explanation:
 
-### Possible primitive
+> “We define a thing, the information that describes it, and the explicit relationships that connect it to other things.”
 
-`network` or a simple semantic hero scene.
+Only if useful, mention that this is stored as machine-readable semantics.
 
-### Transition
+Do not show RDF syntax yet.
 
-> The basic building block is surprisingly small.
+### Reveal sequence
 
----
+1. Concept.
+2. Attributes.
+3. Explicit relationships.
+4. Controlled values / validation as the idea of unambiguous meaning.
+5. Concept Domain as the scope around that vocabulary.
 
-## Scene 05 — Concepts are the building blocks
+### Audience understanding after this scene
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+> “CogniFlow gives every important object a machine-readable meaning before any software tries to use it.”
 
-### Purpose
+### Preferred primitive
 
-Explain the fundamental semantic grammar without requiring ontology knowledge.
-
-### Core message
-
-CogniFlow describes things as Concepts.
-
-Concepts can have:
-
-- Attributes;
-- Properties.
-
-Concepts and their relationships allow specifications to be defined.
-
-### Conceptual model
-
-```text
-                 CONCEPT
-                /       \
-               /         \
-       ATTRIBUTES       PROPERTIES
-```
-
-### Important narrative constraint
-
-Do not turn this into an ontology lecture.
-
-The audience only needs to understand:
-
-> We use one consistent language for describing what things are and how they relate.
-
-### Possible primitive
-
-`network` + `DiagramState`
-
-### Audience takeaway
-
-> Everything in CogniFlow follows the same semantic grammar.
+network + DiagramState.
 
 ### Transition
 
-> Once we have that common grammar, very different things can become CogniFlow-compatible.
+> Once the grammar is shared, very different parts of the system can be described without hard-wiring them together.
 
 ---
 
-## Scene 06 — One semantic core. Many specifications.
+## Scene 06 — One semantic grammar. Different specifications.
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Explain why the small core is architecturally powerful.
+> CogniFlow compatibility comes from shared semantics, not from every component depending on every other component.
 
-### Core message
+### Role in the story
 
-Different specifications can be derived from the same semantic core.
+This is the architectural hinge between semantics and modularity.
 
-Examples:
+### Visual concept
 
-```text
-                     COGNIFLOW CORE
-                          │
-          ┌───────────────┼────────────────┐
-          │               │                │
-       PACKAGE          SERVICE      PROCESSING UNIT
-```
+~~~text
+                    COGNIFLOW CORE
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+       PACKAGE         SERVICE      DATA PROCESSING
+       CONCEPT         CONCEPT        CONCEPT
+~~~
 
-Potential later extensions:
+Each domain expands from the same grammar while remaining separately defined.
 
-```text
-Artifact
-Dataset
-Environment
-...
-```
+A second state contrasts this with a dependency graph.
 
-### Critical message
+~~~text
+traditional:
+A → B → C → D → ...
 
-These specifications are not made interoperable by directly depending on one another.
-
-They are interoperable because they understand the same semantic model.
-
-### Comparison
-
-Avoid:
-
-```text
-A → B → C → D
-```
-
-Prefer:
-
-```text
+CogniFlow:
 A ─┐
-B ─┼─→ shared semantic contract
+B ─┼─ shared semantic contract
 C ─┘
-```
+~~~
 
-### Audience takeaway
+### Reveal sequence
 
-> Common meaning replaces many implicit assumptions between components.
+1. Semantic core.
+2. Package Concept Domain.
+3. Service Concept Domain.
+4. Data Processing Concept Domain.
+5. Replace direct cross-dependencies with shared semantic compatibility.
 
-### Possible primitive
+### Audience understanding after this scene
 
-`network`
+> “Different modules do not need a common implementation; they need a common language.”
+
+### Preferred primitive
+
+network + groups + focus/context states.
 
 ### Transition
 
-> Let us make this concrete with something familiar from software: a package.
+> The package concept is a good first example of what this means in practice.
 
 ---
 
-## 9. Packages and Services
+## Scene 07 — A package that explains itself
 
-## Scene 07 — A CogniFlow Package is more than code
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+### One statement
 
-### Purpose
+> A CogniFlow package is not only installable code; it is a versioned module that describes itself semantically.
 
-Move from abstract semantics to the first concrete CogniFlow Concept.
+### Role in the story
 
-### Core message
+Turn the abstract core into a concrete object developers and scientists can understand.
 
-A CogniFlow Package is formally described.
+### Visual concept
 
-Its description may include concepts such as:
+One package card grows semantic fields around it.
 
-- identity;
-- version;
-- implementation;
-- capabilities;
-- offered Services;
-- provenance.
+~~~text
+CF PACKAGE
+├─ identity
+├─ distribution / module
+├─ version
+├─ implementation language
+├─ architectural role
+└─ semantic contributions
+~~~
 
-### Key distinction
+The visual should make the metadata feel like part of the object, not documentation beside it.
 
-Conventional interpretation:
+### Reveal sequence
 
-```text
-PACKAGE = code I can import
-```
+1. Conventional “package = code”.
+2. Add package identity.
+3. Add version and implementation language.
+4. Add role and semantic contributions.
+5. Replace the conventional label with: **self-describing module**
 
-CogniFlow interpretation:
+### Audience understanding after this scene
 
-```text
-PACKAGE = semantically described provider of capabilities
-```
+> “A machine can inspect what this package is without reverse-engineering its code or relying on tribal knowledge.”
 
-### Audience takeaway
+### Preferred primitive
 
-> A machine can understand what a Package offers without inspecting or knowing its internal code.
+structured semantic card; use generic prose/card primitive if available, otherwise network with a structured focal node.
 
 ### Transition
 
-> But packages should not have to import each other to use those capabilities.
+> Describing the package solves identity. We still need a way to describe what functionality it makes available.
 
 ---
 
 ## Scene 08 — Functionality becomes a Service
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Introduce the Service Concept.
+> Functionality in CogniFlow is exposed through semantically described Services rather than through direct package imports.
 
-### Core message
+### Role in the story
 
-CogniFlow Packages expose functionality as Services.
-
-A Service describes a capability through a stable semantic contract.
+Introduce the Service Concept as the mechanism that converts semantic modularity into usable functionality.
 
 ### Visual concept
 
-```text
-PACKAGE
-   │
-   ├── SERVICE A
-   ├── SERVICE B
-   └── SERVICE C
-```
+~~~text
+SERVICE
+  │
+  └─ OPERATION
+       ├─ capability
+       ├─ input
+       ├─ parameters
+       ├─ output
+       └─ execution affordance
+~~~
 
-Examples may include:
+Use one chemistry-adjacent illustrative capability, for example:
 
-```text
-create report
-store artifact
-read dataset
-calculate average
-fit peak
-```
+> Generate analytical report
 
-### Critical message
+Do not imply that this exact service already ships unless it does.
 
-The Service is the contract.
+### Reveal sequence
 
-The implementation remains replaceable.
+1. Service.
+2. Service Operation.
+3. Operation Capability.
+4. Semantic interface: inputs, parameters, outputs.
+5. Execution affordance appears last: meaning first, implementation second.
 
-### Audience takeaway
+### Audience understanding after this scene
 
-> Functionality can be used without creating a direct package dependency.
+> “A Service says what can be done and how to interact with it, independently of who implements it.”
+
+### Preferred primitive
+
+network + structured node content.
 
 ### Transition
 
-> This means the component requesting a capability does not need to know who implements it.
+> If the request is defined by capability, the requester no longer needs to know the implementation.
 
 ---
 
 ## Scene 09 — Consumer and Provider do not need to know each other
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Explain dependency decoupling conceptually before showing infrastructure details.
+> A Consumer depends on the Service contract, not on a concrete Provider package.
 
-### Core message
+### Role in the story
 
-A Consumer asks for a capability.
+Make dependency removal visually obvious before introducing MCP or Fuseki.
 
-A Provider offers a capability.
+### Visual concept
 
-They interact through the CogniFlow service infrastructure rather than through a direct dependency.
+First state:
 
-### Visual comparison
-
-Problem:
-
-```text
+~~~text
 Consumer
-   ↓ import
-Provider
-   ↓ dependency
-Library
+   ↓ imports
+Package A
    ↓
-...
-```
+Package B
+   ↓
+Library C
+~~~
 
-CogniFlow:
+Second state:
 
-```text
+~~~text
 Consumer
-    ↓
+    │
+    │ requests capability
+    ▼
 SERVICE CONTRACT
-    ↑
+    ▲
+    │ provides capability
 Provider
-```
+~~~
 
-### Audience takeaway
+The second state should look substantially simpler, not merely different.
 
-> Consumer and Provider only need to share the contract.
+### Reveal sequence
 
-### Possible primitive
+1. Direct dependency chain.
+2. Highlight version/dependency coupling.
+3. Collapse the chain.
+4. Introduce Consumer + semantic Service contract.
+5. Introduce replaceable Provider.
+6. Swap Provider while Consumer remains unchanged.
 
-`network`
+### Audience understanding after this scene
+
+> “Provider replacement should not require rewriting the Consumer.”
+
+### Preferred primitive
+
+network + DiagramState. Provider substitution may reuse role-binding semantics if that remains generic.
 
 ### Transition
 
-> So how does the Consumer actually find the Provider?
+> But if the Consumer does not know the Provider, something has to discover and connect them.
 
 ---
-
-## 10. Service discovery and execution
 
 ## Scene 10 — “I need a PDF report.”
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Explain MCP, Fuseki and service discovery through one concrete example.
+> CogniFlow resolves a requested capability through a semantic service boundary and returns the result without exposing the Provider to the Consumer.
+
+### Role in the story
+
+Explain MCP, Fuseki and semantic discovery only after the audience already wants such a mechanism.
 
 ### Example
 
-The Consumer requests:
+Illustrative Consumer request:
 
-> “I need a report as PDF.”
+> **“I need an analytical report as PDF.”**
 
-### Intended sequence
+### Canonical interaction model
 
-```text
+~~~text
 Consumer
    │
-   │ request capability
+   │ capability request
    ▼
-MCP Server
+MCP Gateway
    │
-   │ query available Services
+   │ semantic resolution
    ▼
-CogniFlow semantic/service registry
-Apache Jena Fuseki
+Semantic Authority
    │
-   │ matching Service
+   ├──── query ────▶ Fuseki
+   │                 service knowledge
+   │
+   │ selected operation
    ▼
-Provider
+Provider / Executor
    │
-   │ PDF result
+   │ result
+   ▼
+MCP Gateway
+   │
    ▼
 Consumer
-```
+~~~
 
-### Important technical message
+### Reveal sequence
 
-The Consumer does not need to know:
+1. Consumer states capability request.
+2. MCP Gateway appears as the stable boundary.
+3. Semantic Authority resolves against Fuseki.
+4. Matching Service Operation / Provider appears.
+5. Provider executes.
+6. PDF result returns through the same boundary.
+7. Provider identity fades; capability + result remain.
 
-- provider package identity in advance;
-- provider implementation language;
-- provider internal dependencies;
-- provider location within the modular CogniFlow environment.
+### Speaker emphasis
 
-It asks for a semantically described capability.
+MCP is not the source of semantics.
 
-### Terminology introduced here
+Fuseki is not a direct API the Consumer needs to understand.
 
-Only now introduce:
+The stable idea is:
 
-- Consumer;
-- Provider;
-- Service;
-- MCP Server;
-- local Fuseki/Jena semantic database.
+> request by meaning → semantic resolution → execution → result
 
-### Possible primitive
+### Audience understanding after this scene
 
-`sequence`
+> “The Consumer can use functionality it did not import and does not need to know in advance.”
 
-### Audience takeaway
+### Preferred primitive
 
-> Service discovery replaces direct software dependency.
-
-### Transition
-
-> And CogniFlow applies exactly the same idea to scientific data processing.
-
----
-
-## 11. Data processing as a first-class semantic object
-
-## Scene 11 — Data processing follows the same philosophy
-
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
-
-### Purpose
-
-Connect the Service architecture with the main scientific goal.
-
-### Core message
-
-Data processing is not treated as a special exception.
-
-It uses the same semantic philosophy.
-
-Introduce:
-
-```text
-DataProcessingConcept
-```
-
-and:
-
-```text
-ProcessingUnit
-```
-
-### Audience takeaway
-
-> A processing operation is another explicitly described CogniFlow object.
+sequence + participant roles + bindings.
 
 ### Transition
 
-> Processing Units give us a common language for everything that can happen inside a workflow.
+> This is useful for reports and utilities — but the important question is whether the same principle can describe scientific processing itself.
 
 ---
 
-## Scene 12 — The Processing Unit
+## Scene 11 — Data processing is a CogniFlow Concept too
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-### Purpose
+### One statement
 
-Introduce the structural model underlying CogniFlow processing.
+> CogniFlow applies the same semantic philosophy to data processing instead of treating workflows as opaque scripts.
 
-### Core message
+### Role in the story
 
-A Processing Unit can represent different processing roles while sharing a common contract.
+Return from software architecture to the scientific core of the talk.
 
-Initial conceptual structure:
+### Visual concept
 
-```text
-PROCESSING UNIT
-      │
-      ├── elementary processing step
-      │
-      ├── infrastructure step
-      │
-      └── processing pipeline
-```
+Reuse the semantic-core visual from Scene 06, then focus only on the Data Processing Concept Domain.
 
-A pipeline is itself composed of Processing Units.
+~~~text
+DATA PROCESSING CONCEPT DOMAIN
+             │
+      PROCESSING UNIT
+         ├─ PROCESSING STEP
+         └─ PROCESSING PIPELINE
+~~~
 
-### Important semantic properties
+### Reveal sequence
 
-A Processing Unit should be describable in terms of concepts such as:
+1. Recall the three Concept Domains from Scene 06.
+2. De-emphasize Package and Service.
+3. Focus Data Processing.
+4. Reveal ProcessingUnit.
+5. Reveal ProcessingStep and ProcessingPipeline.
 
-- identity;
-- purpose / capability;
-- input;
-- output;
-- parameters;
-- implementation;
-- version;
-- provenance;
-- execution requirements.
+### Audience understanding after this scene
 
-The final vocabulary must follow the actual CogniFlow ontology and must not be invented solely for the presentation.
+> “A processing operation or workflow has an explicit semantic identity just like a Package or a Service.”
 
-### Possible primitive
+### Preferred primitive
 
-`network`
-
-### Audience takeaway
-
-> All processing components obey the same semantic contract.
+network + focus/context DiagramState.
 
 ### Transition
 
-> This changes what we mean by a processing pipeline.
+> The key is that every Processing Unit exposes a structured interface.
 
 ---
 
-## 12. Pipelines
+## Scene 12 — A Processing Unit has an explicit interface
 
-## Scene 13 — A pipeline is not a script
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+### One statement
 
-### Purpose
+> Processing Units become composable because their inputs, outputs and parameters are explicit semantic Ports.
 
-Make the main distinction between conventional workflow scripts and CogniFlow pipelines.
+### Role in the story
 
-### Conventional workflow
+Explain the interface contract that makes pipeline composition possible.
 
-```text
-script.py
- ├── import package A
- ├── import package B
- ├── call function C
- └── save result
-```
+### Visual concept
 
-Much knowledge remains encoded in implementation details.
+Use a concrete but simple chemistry-relevant ProcessingStep, for example a baseline correction or arithmetic mean.
 
-### CogniFlow pipeline
+~~~text
+                 PROCESSING STEP
 
-```text
+INPUT  ─────────────▶ [ operation ] ─────────────▶ OUTPUT
+PARAMETER ──────────▶ [           ]
+~~~
+
+Then map the visual ports to the current semantic terms:
+
+- Port
+- PortRole = Input
+- PortRole = Output
+- PortRole = Parameter
+- stable PortKey
+
+### Infrastructure note
+
+A processing step may represent scientific processing or an infrastructure-oriented operation.
+
+Do not label a node as the ontology class InfrastructureStep unless that class exists by implementation time.
+
+### Reveal sequence
+
+1. Bare ProcessingStep.
+2. Input Port.
+3. Output Port.
+4. Parameter Port.
+5. Stable keys / explicit interface.
+6. Semantic description remains while implementation can change.
+
+### Audience understanding after this scene
+
+> “A machine can see how a processing unit can be connected without reading its source code.”
+
+### Preferred primitive
+
+network or flow with explicit ports; if ports require a new renderer capability, it must be generic and renderer-neutral.
+
+### Transition
+
+> Once Processing Units share this contract, a pipeline no longer has to be a hand-written chain of function calls.
+
+---
+
+## Scene 13 — A pipeline is a composition, not a script
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
+
+### One statement
+
+> A CogniFlow Processing Pipeline is a semantic composition of Processing Units connected by explicit data flow.
+
+### Role in the story
+
+Show the major conceptual difference between conventional scripts and CogniFlow pipelines.
+
+### Visual concept
+
+First state:
+
+~~~text
+workflow.py
+
+import A
+import B
+call A(...)
+call B(...)
+save(...)
+~~~
+
+Second state:
+
+~~~text
 INPUT
-  ↓
-ProcessingUnit
-  ↓
-ProcessingUnit
-  ↓
-InfrastructureUnit
-  ↓
-ProcessingUnit
-  ↓
+  │
+  ▼
+Pipeline Node ── runs ──▶ Processing Unit
+  │
+  ▼
+Pipeline Node ── runs ──▶ Processing Unit
+  │
+  ▼
 OUTPUT
-```
+~~~
 
-Each unit is semantically described.
+Connections represent explicit data flow.
 
-### Critical message
+A final state reveals that a PipelineNode can run a ProcessingPipeline because ProcessingPipeline is itself a ProcessingUnit.
 
-A pipeline is:
+That enables nested composition.
 
-> A semantic composition of processing capabilities.
+### Reveal sequence
 
-not merely:
+1. Conventional script.
+2. Highlight implementation-coupled calls.
+3. Replace with ProcessingPipeline.
+4. Reveal PipelineNodes.
+5. Reveal RunTargets / ProcessingUnits.
+6. Reveal ProcessingConnections.
+7. Zoom one node into another ProcessingPipeline to show composability.
 
-> A sequence of function calls.
+### Audience understanding after this scene
 
-### Possible primitive
+> “The workflow definition can exist independently from a particular monolithic software environment.”
 
-`flow`
+### Preferred primitive
 
-### Audience takeaway
-
-> The structure and meaning of the workflow exist independently from one specific implementation.
-
-### Transition
-
-> Once every step is explicit, a machine can reason about the workflow as well.
-
----
-
-## 13. Machine-composable processing
-
-## Scene 14 — Machines can compose and execute the workflow
-
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
-
-### Purpose
-
-Show the payoff of the preceding semantic architecture.
-
-### Core message
-
-When every Processing Unit explicitly describes its role and interfaces, CogniFlow can support machine-assisted workflow composition and execution.
-
-Possible responsibilities include:
-
-- discover suitable Processing Units;
-- match capabilities;
-- inspect input/output compatibility;
-- resolve implementations;
-- construct Processing Pipelines;
-- create isolated execution contexts;
-- execute the workflow;
-- capture versions and parameters;
-- retain provenance.
-
-### Sandbox concept
-
-Execution may be organized in isolated/sandbox-like environments so that individual implementations can retain their own dependencies without creating one global dependency graph.
-
-### Critical wording
-
-Do not imply that arbitrary scientific workflows can be generated correctly without scientific judgement.
-
-The machine can reason over the **explicit technical and semantic contract**.
-
-Scientific suitability remains a domain decision.
-
-### Possible primitive
-
-`flow` + `sequence` or stateful `network`
-
-### Audience takeaway
-
-> Explicit semantics allow software to reason about relationships that previously existed only in developer knowledge.
+flow + groups + focus state.
 
 ### Transition
 
-> The result is that FAIRness no longer ends at the input data.
+> Once the workflow structure and interfaces are explicit, machines can finally assist with work that previously required hidden integration knowledge.
 
 ---
 
-## 14. Final synthesis
+## Scene 14 — Explicit semantics enable machine-assisted execution
 
-## Scene 15 — From FAIR data to FAIR data processing
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
 
-**Status:** [ ] Narrative  
-**Implementation:** [ ] RDF  
-**Visual:** [ ] Accepted
+### One statement
 
-### Purpose
+> Explicit semantic contracts allow CogniFlow to discover, connect and execute modular processing capabilities while retaining the information required to reproduce the result.
 
-Compress the complete presentation into one final mental model.
+### Role in the story
 
-### Core progression
+Deliver the payoff without claiming that scientific judgement is automated away.
 
-```text
+### Visual concept
+
+Progress from semantic pipeline definition to an execution plan.
+
+~~~text
+SEMANTIC PIPELINE
+       ↓
+discover capabilities
+       ↓
+resolve implementations
+       ↓
+validate interfaces
+       ↓
+isolated execution contexts
+       ↓
+execute
+       ↓
+RESULT + PROVENANCE
+~~~
+
+A second visual layer may show separate sandbox-like execution environments around individual implementations to emphasize that implementation dependencies do not have to become one global dependency graph.
+
+### Reveal sequence
+
+1. Semantic pipeline.
+2. Discover compatible implementations / Services.
+3. Validate input-output contracts.
+4. Resolve execution affordances.
+5. Place implementations in isolated execution contexts.
+6. Execute data flow.
+7. Attach versions, parameters and provenance to the result.
+
+### Claim boundary
+
+The scene explains the architectural capability enabled by the model.
+
+Do not imply that arbitrary scientific pipelines can already be generated correctly without expert input.
+
+Scientific method selection remains a domain decision.
+
+### Audience understanding after this scene
+
+> “Machines can reason about the integration because the integration knowledge is explicit.”
+
+### Preferred primitive
+
+stateful flow or coordinated flow + sequence.
+
+Potential generic need:
+
+- coordinated SceneState across multiple blocks;
+- generic port/interface rendering;
+- generic execution-context grouping.
+
+### Transition
+
+> That brings us back to FAIR — but now FAIRness covers the path from data to result.
+
+---
+
+## Scene 15 — FAIRness does not stop at the file
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [ ]  
+**Visual:** [ ]
+
+### One statement
+
+> CogniFlow makes the meaning, functionality, processing structure and provenance around scientific data explicit so that workflows can be understood by humans and machines.
+
+### Role in the story
+
+Close the loop to Scene 01 and compress the entire architecture into one memorable picture.
+
+### Visual concept
+
+~~~text
 FAIR DATA
-    ↓
-FAIR MEANING
-    ↓
-FAIR FUNCTIONALITY
-    ↓
-FAIR PROCESSING
-    ↓
-REPRODUCIBLE RESULT
-```
+    │
+    ▼
+SHARED MEANING
+    │
+    ▼
+DISCOVERABLE FUNCTIONALITY
+    │
+    ▼
+EXPLICIT PROCESSING
+    │
+    ▼
+TRACEABLE RESULT
+~~~
 
-Alternative visual structure:
+Around the progression:
 
-```text
-DATA
-SEMANTICS
-SERVICES
-PROCESSING
-PROVENANCE
-```
-
-all connected through one common semantic model.
-
-### Final principles
-
-```text
+~~~text
 TRANSPARENT
 MODULAR
 MACHINE-READABLE
 TRACEABLE
 REPRODUCIBLE
-```
+~~~
 
-### Final statement
+Final line:
 
 > **Standardize the meaning and the contract — not the implementation.**
 
-Optional secondary line:
+Secondary line:
 
 > **From FAIR data to FAIR data processing.**
 
-### Audience takeaway
+### Reveal sequence
 
-The audience should now understand why CogniFlow contains:
+None, or one final synthesis reveal only. The conclusion should land as a complete statement rather than another technical build animation.
 
-- semantic Concepts;
-- semantic specifications;
-- Packages;
-- Services;
-- Consumer/Provider separation;
-- MCP;
-- Fuseki;
-- Processing Units;
+### Audience understanding after this scene
+
+The audience should now be able to explain why CogniFlow contains:
+
+- semantic Concepts and Concept Domains;
+- self-describing Packages;
+- semantic Services;
+- capability-based Consumer/Provider decoupling;
+- MCP as a stable gateway;
+- Fuseki as semantic authority storage;
+- Processing Units and semantic interfaces;
 - Processing Pipelines;
-- provenance.
+- provenance and explicit execution context.
 
-These should appear as consequences of the original design philosophy rather than as unrelated technologies.
+### Preferred primitive
+
+semantic hero / summary composition.
 
 ---
 
-## 15. Scene dependency map
+# 7. Narrative dependency map
 
-The scenes form a strict explanatory chain.
+The story is intentionally causal.
 
-```text
-01 Scientific black box
+~~~text
+01 FAIR processing promise
         ↓
-02 FAIR data are not enough
+02 scientific black box
         ↓
-03 Make processing explicit
+03 FAIR data are not FAIR processing
         ↓
-04 CogniFlow starts with semantics
+04 make processing context explicit
         ↓
-05 Concepts + Attributes + Properties
+05 shared semantic grammar
         ↓
-06 Specifications from one semantic core
+06 independent specifications from one grammar
         ↓
-07 Package Concept
+07 self-describing Package
         ↓
-08 Service Concept
+08 semantic Service
         ↓
 09 Consumer / Provider decoupling
         ↓
-10 MCP + Fuseki concrete example
+10 MCP + semantic discovery + Fuseki
         ↓
-11 Apply the same model to processing
+11 Data Processing Concept
         ↓
-12 Processing Unit
+12 Processing Unit interface
         ↓
-13 Processing Pipeline
+13 semantic Processing Pipeline
         ↓
-14 Machine composition / execution
+14 machine-assisted modular execution
         ↓
 15 FAIR data processing
-```
+~~~
 
-A scene should not be implemented merely because it is visually attractive.
+Every scene must make the next scene feel necessary.
 
-Every scene must make the next scene logically necessary.
-
----
-
-## 16. Presentation-system mapping
-
-The current generic architecture should be reused wherever possible.
-
-| Presentation requirement | Preferred primitive |
-|---|---|
-| Linear scientific workflow | `flow` |
-| Semantic Concept relationships | `network` |
-| Concept / specification progression | `network` + `DiagramState` |
-| Consumer / Provider architecture | `network` |
-| Service request lifecycle | `sequence` |
-| Role substitution | `sequence` + Participant Bindings |
-| Processing pipeline | `flow` |
-| Focus / context progression | `DiagramState` |
-| Shared annotations | Shared Edge Annotation |
-| Final summary | prose / semantic hero composition |
-
-No new diagram type should be introduced unless the semantic structure cannot be represented correctly by the existing generic primitives.
+If a scene can be removed without breaking the argument, its purpose must be reconsidered.
 
 ---
 
-## 17. Architecture constraints
+# 8. Talk rhythm
 
-All implementation work for this presentation must respect the existing project architecture.
+The deck should not use clicks merely because the presentation system can animate them.
 
-### Content
+Recommended semantic reveal budget:
 
-Audience-visible scientific and architectural meaning belongs in:
+| Scene | Approx. states | Function |
+|---|---:|---|
+| 01 | 1 | promise |
+| 02 | 4 | establish black box |
+| 03 | 5 | FAIR gap |
+| 04 | 5 | philosophy |
+| 05 | 5 | semantic grammar |
+| 06 | 5 | modular specifications |
+| 07 | 5 | package example |
+| 08 | 5 | service contract |
+| 09 | 6 | dependency decoupling |
+| 10 | 7 | concrete discovery/execution |
+| 11 | 5 | processing domain |
+| 12 | 6 | ports/interface |
+| 13 | 7 | pipeline composition |
+| 14 | 7 | execution payoff |
+| 15 | 1–2 | synthesis |
 
-```text
+These are narrative states, not mandatory fragment counts. Multiple closely related changes may be realized as one transition if that improves pacing.
+
+---
+
+# 9. Presentation-system mapping
+
+| Scene | Preferred primitive | Existing capability | Potential gap |
+|---|---|---|---|
+| 01 | hero / prose | yes | none |
+| 02 | flow | yes | optional unresolved/opaque visual role |
+| 03 | flow + annotations | yes | none expected |
+| 04 | network or stateful flow | yes | none expected |
+| 05 | network + DiagramState | yes | structured semantic node may help |
+| 06 | network + groups + focus/context | yes | none expected |
+| 07 | structured semantic card | partial | generic structured-node/card content may be needed |
+| 08 | network + structured node | partial | structured interface content may be needed |
+| 09 | network + states / role substitution | yes | none expected |
+| 10 | sequence + bindings | yes | none expected |
+| 11 | network + focus/context | yes | none expected |
+| 12 | port-aware node | partial | generic ports/interface rendering likely useful |
+| 13 | flow + nested focus | mostly | nested pipeline focus may need generic support |
+| 14 | coordinated stateful composition | partial | generic coordinated SceneState may be justified |
+| 15 | hero / summary | yes | none |
+
+No new diagram family should be introduced solely to reproduce a visual idea.
+
+---
+
+# 10. Architecture constraints
+
+The accepted implementation boundary remains:
+
+~~~text
 TriG / RDF
-```
+    ↓
+canonical SceneDocument
+    ↓
+generic renderer
+    ↓
+theme
+    ↓
+Reveal / Scroll presentation
+~~~
 
-### Transport
+## Semantic content
 
-Renderer-neutral presentation structure belongs in:
+Audience-visible meaning and relationships belong in TriG/RDF.
 
-```text
-SceneDocument
-```
+## SceneDocument
 
-### Geometry
+SceneDocument carries renderer-neutral presentation structure.
 
-Layout belongs in:
+## Renderer
 
-```text
-renderer-d3
-```
+The renderer owns geometry, routing, responsive layout and state realization.
 
-### Appearance
+## Theme
 
-Visual language belongs in:
+The theme owns:
 
-```text
-Theme / CSS
-```
+- 16-bit visual language;
+- palettes;
+- borders;
+- HUD treatment;
+- typography;
+- shadows and glow;
+- transition timing;
+- light/dark realization.
 
-### Navigation
+## Presentation runtime
 
-Presentation progression belongs in:
+Reveal/Pitch owns navigation and generic state progression.
 
-```text
-Reveal / generic presentation-state runtime
-```
+Prohibited implementation shortcuts:
 
-The following are prohibited:
-
-- CogniFlow resource IDs in generic renderer code;
-- scene-specific string matching;
+- CogniFlow IDs inside generic renderer logic;
+- scene-title string matching;
 - authored pixel coordinates in RDF;
-- authored CSS classes in RDF;
-- presentation-specific colors in semantic data;
-- special renderer branches for individual CogniFlow slides;
-- hard-coded slide labels used as runtime behavior selectors.
+- CSS classes encoded as semantic meaning;
+- colors or animation durations in RDF;
+- special renderer branches for individual CogniFlow scenes;
+- inferring semantic relationships from duplicate labels.
 
 ---
 
-## 18. Generic extension gate
+# 11. Generic extension gate
 
-A new system capability may be introduced only when all of the following are true:
+A new system capability is justified only when all are true:
 
-1. The desired behavior cannot be expressed cleanly with existing primitives.
-2. The behavior is useful outside the CogniFlow presentation.
-3. The semantic intent can be represented without visual implementation details.
+1. Existing primitives cannot express the semantic intent cleanly.
+2. The capability is useful outside this CogniFlow talk.
+3. The content can author the intent without geometry or theme details.
 4. SceneDocument can transport it renderer-neutrally.
-5. Static/self-study fallback can preserve its information.
-6. Tests can be written without CogniFlow-specific IDs.
+5. Static/self-study fallback preserves the information.
+6. Tests do not require CogniFlow-specific IDs.
 
-Examples of potentially legitimate generic extensions:
+Potentially legitimate generic additions identified during Narrative Freeze:
 
-- coordinated SceneStates across multiple blocks;
-- generic semantic projection relationships;
-- reusable structured semantic cards;
-- generic capability/interface visual roles.
+- structured semantic node/card content;
+- explicit port/interface presentation;
+- coordinated SceneState across multiple blocks;
+- reusable execution-context grouping.
 
-A visual preference alone does not justify a schema or renderer extension.
+These are candidates, not approved implementation tasks.
 
 ---
 
-## 19. Definition of done for one scene
+# 12. Definition of done for a scene
 
-A scene is complete only when all four layers are accepted.
+A scene is complete only when all layers are accepted.
 
-### Narrative
+## Narrative
 
-- [ ] The scene has exactly one primary message.
-- [ ] The audience can understand it without knowledge introduced later.
-- [ ] Its relationship to the previous scene is explicit.
-- [ ] Its transition makes the following scene necessary.
-- [ ] No unnecessary terminology is introduced.
+- [ ] One primary statement.
+- [ ] Understandable using only concepts introduced earlier.
+- [ ] Clear audience takeaway.
+- [ ] Intentional reveal sequence.
+- [ ] Transition makes the next scene necessary.
+- [ ] No terminology introduced before its motivation.
 
-### Semantic model
+## Semantic model
 
-- [ ] Audience-visible meaning is authored in TriG.
-- [ ] Semantic identities are stable.
-- [ ] Relationships are explicit rather than inferred from labels.
-- [ ] SHACL validates the authored structure.
-- [ ] No presentation-only semantics were introduced.
+- [ ] Visible meaning is authored in TriG.
+- [ ] Stable semantic identities.
+- [ ] Explicit relationships rather than label inference.
+- [ ] Vocabulary matches accepted CogniFlow semantics.
+- [ ] SHACL validation succeeds.
+- [ ] No presentation-only ontology terms.
 
-### Runtime
+## Runtime
 
-- [ ] SceneDocument contains all required renderer-neutral information.
-- [ ] Existing generic renderer primitives are used where possible.
+- [ ] SceneDocument contains required renderer-neutral structure.
+- [ ] Existing generic primitives reused where possible.
 - [ ] Forward and reverse state traversal works.
 - [ ] Scroll View works correctly.
-- [ ] Static fallback preserves the information.
+- [ ] Scene revisit resets/restores correctly.
+- [ ] Static fallback preserves meaning.
+- [ ] Reduced-motion mode preserves state semantics.
 
-### Visual acceptance
+## Visual
 
-- [ ] 16-bit / Eco City visual language is consistent.
-- [ ] Light and dark variants remain legible where supported.
-- [ ] The scene works at the target presentation viewport.
-- [ ] Information hierarchy is obvious within seconds.
-- [ ] Text remains readable at presentation distance.
-- [ ] No decorative element competes with the core message.
+- [ ] 16-bit / Eco City language is consistent.
+- [ ] Information hierarchy is immediately obvious.
+- [ ] Text is readable at presentation distance.
+- [ ] Wide and narrow target viewports remain usable.
+- [ ] Theme does not encode scientific meaning that belongs in RDF.
+- [ ] Decoration does not compete with the scientific message.
 
 ---
 
-## 20. Overall implementation phases
+# 13. Implementation phases
 
-## Phase 1 — Narrative freeze
+## Phase 1 — Narrative Freeze
+
+**Status:** [x] v1 complete
+
+Completed:
+
+- [x] audience assumptions defined;
+- [x] 15-scene causal narrative defined;
+- [x] one statement per scene defined;
+- [x] audience takeaway per scene defined;
+- [x] reveal choreography per scene defined;
+- [x] transitions defined;
+- [x] preferred generic primitive mapped;
+- [x] Package / Service / Processing terminology checked against current Stonecastle;
+- [x] claim boundary between scientific expertise and integration knowledge defined.
+
+Open alignment before Phase 2:
+
+- [ ] resolve Relation / Property naming against the accepted CogniFlow core vocabulary;
+- [ ] decide whether infrastructure-oriented processing remains a role of ProcessingStep or becomes an explicit ontology concept;
+- [ ] confirm the exact presentation wording for provenance properties available in the CogniFlow model.
+
+Exit criterion met for narrative work:
+
+> The talk can be explained verbally from Scene 01 to Scene 15 as one causal argument without relying on implementation details.
+
+---
+
+## Phase 2 — Semantic Content Design
+
+**Status:** [ ] not started
 
 Goal:
 
-Finalize the scientific story before implementation work.
+Represent the frozen narrative as presentation semantics.
 
 Tasks:
 
-- [ ] Accept the 15-scene narrative spine.
-- [ ] Confirm terminology.
-- [ ] Confirm the Package / Service / ProcessingUnit conceptual progression against the actual CogniFlow ontology.
-- [ ] Define one sentence of audience understanding for every scene.
-- [ ] Remove obsolete content from the previous CogniFlow presentation plan.
-
-Exit criterion:
-
-> The complete talk can be delivered verbally without slides and follows one coherent argument.
-
----
-
-## Phase 2 — Semantic content design
-
-Goal:
-
-Represent the accepted narrative as CogniFlow presentation content in RDF.
-
-Tasks:
-
-- [ ] Identify reusable existing semantic resources.
-- [ ] Author required Concepts.
-- [ ] Author diagrams and relationships.
-- [ ] Author DiagramStates.
-- [ ] Author the new LearningPath / scene ordering.
-- [ ] Validate through SHACL.
-- [ ] Avoid presentation-only vocabulary.
-
-Exit criterion:
-
-> The complete narrative exists semantically without relying on custom renderer code.
+- [ ] audit old CogniFlow presentation resources and classify keep / rewrite / remove;
+- [ ] define the new 15-step LearningPath;
+- [ ] author or reuse Concepts required by each scene;
+- [ ] author flow/network/sequence resources;
+- [ ] author DiagramStates and participant bindings;
+- [ ] keep audience-visible content in TriG;
+- [ ] validate with SHACL;
+- [ ] map each scene to the required SceneDocument version/capabilities;
+- [ ] update this roadmap when implementation exposes a narrative assumption that is false.
 
 ---
 
-## Phase 3 — Generic system gap analysis
+## Phase 3 — Generic System Gap Analysis
 
-Goal:
+**Status:** [ ] not started
 
-Determine whether any accepted scene requires missing generic presentation functionality.
+Evaluate only gaps discovered while implementing the frozen semantics.
 
-Tasks:
+Priority candidates:
 
-- [ ] Map every scene to existing SceneDocument primitives.
-- [ ] Map every scene to renderer strategies.
-- [ ] Identify genuine generic gaps.
-- [ ] Reject CogniFlow-only special cases.
-- [ ] Create bounded architecture issues where required.
+1. structured semantic cards/nodes;
+2. semantic ports/interfaces;
+3. coordinated SceneState;
+4. nested pipeline focus.
 
-Exit criterion:
-
-> Every required system extension has a generic use case and explicit semantic contract.
+Do not implement all candidates pre-emptively.
 
 ---
 
-## Phase 4 — Scene implementation
+## Phase 4 — Scene Implementation
 
-Goal:
+**Status:** [ ] not started
 
-Build the presentation sequentially.
+Implement in narrative clusters:
 
-Recommended implementation order:
+~~~text
+Cluster A — Motivation
+01 → 02 → 03 → 04
 
-```text
-01 → 02 → 03
-04 → 05 → 06
+Cluster B — Semantic foundation
+05 → 06
+
+Cluster C — Modular services
 07 → 08 → 09 → 10
+
+Cluster D — Data processing
 11 → 12 → 13 → 14
+
+Cluster E — Synthesis
 15
-```
+~~~
 
-Do not implement all scenes before reviewing them.
-
-Each small group should be reviewed for:
-
-- narrative;
-- semantic correctness;
-- scroll rhythm;
-- visual hierarchy.
+Each cluster receives semantic and visual review before moving on.
 
 ---
 
-## Phase 5 — Visual system pass
+## Phase 5 — Visual System Pass
 
-Goal:
+**Status:** [ ] not started
 
-Make the completed semantic presentation visually coherent.
+Once the semantic structure is stable:
 
-Focus:
+- unify 16-bit typography;
+- refine panel grammar;
+- unify structured semantic cards;
+- refine edges and port visuals;
+- align Eco City background composition;
+- tune scroll spacing;
+- tune light/dark realization;
+- remove decorative noise.
 
-- 16-bit typography;
-- panel grammar;
-- HUD elements;
-- node cards;
-- connection lines;
-- spacing;
-- Eco City integration;
-- scroll composition;
-- visual state transitions.
-
-The Theme layer owns appearance.
-
-No visual polish should modify the scientific semantic model.
+Visual polish must not move content knowledge into CSS or renderer-specific hacks.
 
 ---
 
-## Phase 6 — Talk acceptance
+## Phase 6 — Talk Acceptance
 
-Goal:
+**Status:** [ ] not started
 
-Validate the presentation as an actual ~15-slide scientific talk.
+The final talk passes when:
 
-Checks:
-
-- [ ] Opening establishes the problem quickly.
-- [ ] FAIR is connected to processing rather than explained from scratch.
-- [ ] Semantics appear as a solution, not as ontology theory.
-- [ ] MCP/Fuseki are introduced only after their purpose is understood.
-- [ ] ProcessingUnit is clearly connected to the earlier Service philosophy.
-- [ ] The distinction between a script and a semantic pipeline is obvious.
-- [ ] Scientific expertise is not presented as unnecessary.
-- [ ] Final scene closes the argument introduced by Scene 01.
-- [ ] No scene exists primarily to demonstrate Project Chemie Digital technology.
-- [ ] The presentation remains understandable without seeing implementation code.
-
----
-
-## 21. Roadmap maintenance
-
-This file is a living roadmap.
-
-Whenever presentation work changes the planned narrative:
-
-1. update this roadmap first or in the same PR;
-2. update scene status;
-3. document major narrative decisions;
-4. record newly discovered generic system requirements;
-5. keep implementation details in the technical roadmap or ADRs.
-
-Do not let the implemented slides silently become the specification.
-
-The roadmap should remain sufficient to answer:
-
-> Why does this scene exist?
-
-> What should the audience understand afterwards?
-
-> Which semantic information does it require?
-
-> Which generic presentation primitive implements it?
+- [ ] Scene 02 establishes a recognisable chemistry problem quickly;
+- [ ] FAIR is used as a bridge, not re-taught;
+- [ ] semantics appear as the necessary answer to implicit knowledge;
+- [ ] the audience understands the shared semantic grammar before Package/Service terminology;
+- [ ] Package identity and Service functionality are clearly distinct;
+- [ ] Service discovery is understood before MCP/Fuseki implementation details;
+- [ ] MCP is seen as a stable boundary, not the semantic model itself;
+- [ ] ProcessingUnit clearly reuses the earlier modularity philosophy;
+- [ ] the difference between a script and a semantic pipeline is visually obvious;
+- [ ] machine assistance is not confused with replacement of scientific judgement;
+- [ ] Scene 15 closes the exact question opened by Scene 01;
+- [ ] no scene exists merely to demonstrate Project Chemie Digital technology.
 
 ---
 
-## 22. Decision log
+# 14. Decision log
 
-### D1 — Audience-first narrative
+## D1 — Audience-first narrative
 
-**Decision:** The presentation starts from the scientific reproducibility problem rather than from CogniFlow architecture.
+The presentation starts from the scientific processing black box rather than from software architecture.
 
-**Reason:** The audience consists primarily of chemists without prior knowledge of semantic workflow standardization.
+## D2 — FAIR is the conceptual bridge
 
-### D2 — FAIR processing as framing
+The audience already knows FAIR. The talk extends that idea to processing context instead of starting with “standardization”.
 
-**Decision:** FAIR data are used as the familiar conceptual bridge toward FAIR processing.
+## D3 — Semantics precede architecture
 
-**Reason:** The audience already understands FAIR principles, while CogniFlow extends those principles into processing semantics, interfaces and provenance.
+Concepts and explicit meaning are introduced before Package, Service, MCP or Fuseki.
 
-### D3 — Semantics before architecture
+## D4 — Package and Service are separate ideas
 
-**Decision:** CogniFlow Concepts are introduced before Packages, Services, MCP or Fuseki.
+Package answers “what module is this?”  
+Service answers “what capability can be used?”
 
-**Reason:** The technical architecture should be understood as a consequence of the semantic philosophy.
+Do not collapse them into “package = service provider” as the semantic definition.
 
-### D4 — Services before Processing Units
+## D5 — Capability before Provider
 
-**Decision:** The Service architecture is explained before DataProcessingConcept / ProcessingUnit.
+The audience learns that a request targets a capability before seeing how a concrete Provider is resolved.
 
-**Reason:** Consumer/Provider decoupling provides an intuitive explanation for the modularity principle that is later reused for data processing.
+## D6 — MCP/Fuseki appear only in the concrete example
 
-### D5 — No claim that expertise becomes unnecessary
+They are implementation mechanisms supporting the previously established service principle.
 
-**Decision:** CogniFlow removes implicit integration knowledge, not scientific expertise.
+## D7 — Processing reuses the same philosophy
 
-**Reason:** Scientific suitability and interpretation remain expert responsibilities even when technical relationships are machine-readable.
+Data processing is not introduced as another subsystem. It is the same semantic/modular idea applied to the scientific workflow itself.
 
-### D6 — Existing presentation system remains generic
+## D8 — ProcessingPipeline is a ProcessingUnit
 
-**Decision:** CogniFlow content must not create CogniFlow-specific renderer behavior.
+This enables recursive composition and should become a visual “aha” moment in Scene 13.
 
-**Reason:** The presentation is also intended to demonstrate the capability of Project Chemie Digital as a semantic presentation system.
+## D9 — Scientific expertise remains essential
+
+CogniFlow externalizes integration knowledge and processing context. It does not decide scientific suitability without domain judgement.
+
+## D10 — Project Chemie Digital remains generic
+
+No CogniFlow-specific renderer behavior is permitted. The presentation itself should demonstrate that semantically authored content can drive a generic presentation system.
 
 ---
 
-## 23. Current next step
+# 15. Current next step
 
-The next work item is **Phase 1 — Narrative freeze**.
+Proceed to **Phase 2 — Semantic Content Design**.
 
-Before changing presentation RDF or renderer code, refine Scenes 01–15 until each scene has:
+The first implementation task should not be “build all 15 slides”.
 
-- one core statement;
-- one audience takeaway;
-- one transition;
-- one intended reveal sequence;
-- one preferred generic presentation primitive.
+Start with Cluster A:
 
-Only after that narrative is accepted should the old CogniFlow content be migrated or replaced.
+> Scene 01 → Scene 02 → Scene 03 → Scene 04
+
+For that cluster:
+
+1. audit the current CogniFlow RDF resources;
+2. decide keep / rewrite / remove;
+3. author the new narrative semantics;
+4. compile to SceneDocument;
+5. use existing generic primitives first;
+6. perform a Scroll View narrative review before continuing to Scene 05.
