@@ -66,8 +66,6 @@
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-laboratory-diversity-extension> {
-  ex:path-cogniflow-standardized-data-processing cd:hasStep ex:path-step-cogniflow-laboratory-diversity .
-
   ex:path-step-cogniflow-laboratory-diversity a cd:PathStep ;
     cd:position 3 ;
     cd:usesResource ex:diagram-cogniflow-laboratory-diversity ;
