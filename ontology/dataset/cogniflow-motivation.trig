@@ -186,7 +186,7 @@
     cd:body "CogniFlow treats the processing context itself as digital scientific information that can be understood by humans and machines."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-explicit-processing-context a cd:NetworkDiagram ;
+  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram, cd:NetworkDiagram ;
     skos:prefLabel "Processing as an explicit digital object"@en ;
     cd:body "Input, processing and output remain the scientific flow while purpose, interface, parameters, implementation, version and execution context become explicit machine-readable relationships."@en ;
     cd:hasDiagramNode ex:node-cogniflow-explicit-input,
