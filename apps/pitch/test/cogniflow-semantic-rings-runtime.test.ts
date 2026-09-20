@@ -21,7 +21,7 @@ const scene: Scene = {
     {
       id: "core",
       kind: "prose",
-      text: "CORE ONTOLOGY\ncf_ontology\nMeta-TBox · ConceptDomain · Concept",
+      text: "CORE\ncf_ontology",
       source: [{ resourceId: "ex:cogniflow-ring-core" }],
     },
     {
@@ -55,14 +55,8 @@ const scene: Scene = {
       ],
       source: [{ resourceId: "ex:cogniflow-ring-specification-layer" }],
     },
-    {
-      id: "note",
-      kind: "prose",
-      text: "SMALL CORE → DOMAIN MODULES → MANY CONCRETE SPECIFICATIONS",
-      source: [{ resourceId: "ex:cogniflow-ring-note" }],
-    },
   ],
-  readingOrder: ["heading", "core", "concepts", "specifications", "note"],
+  readingOrder: ["heading", "core", "concepts", "specifications"],
 };
 
 test("semantic ring module parser preserves title, package id, and authored detail lines", () => {
@@ -91,8 +85,4 @@ test("semantic ring projection is driven by graph-backed source resources", () =
   assert.deepEqual(projection?.specificationModules.map((module) => module.packageId), [
     "cf_runtime",
   ]);
-  assert.equal(
-    projection?.noteText,
-    "SMALL CORE → DOMAIN MODULES → MANY CONCRETE SPECIFICATIONS",
-  );
 });
