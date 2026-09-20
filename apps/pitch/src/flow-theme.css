@@ -355,7 +355,7 @@ body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-edge-label-gr
 
 /* Eco City diagram family -------------------------------------------------- */
 body[data-diagram-theme="eco-city"] {
-  --pcd-flow-node-depth: drop-shadow(3px 4px 0 rgb(3 55 64 / .20)) drop-shadow(5px 7px 2px rgb(3 55 64 / .12));
+  --pcd-flow-node-depth: drop-shadow(3px 4px 0 rgb(3 55 64 / .34)) drop-shadow(6px 8px 0 rgb(3 55 64 / .16));
   --pcd-flow-node-segment-fill: #bfe9e7;
   --pcd-flow-node-segment-divider: #168e9c;
   --pcd-flow-node-segment-text: #063d47;
@@ -477,15 +477,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   ry: 0;
   fill: var(--pcd-flow-pixel-surface);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 6;
+  stroke-width: 7;
   stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
   filter:
     drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 74%, transparent))
-    drop-shadow(0 5px 0 var(--pcd-flow-pixel-ink));
+    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 82%, transparent))
+    drop-shadow(3px 0 0 var(--pcd-flow-pixel-ink-deep))
+    drop-shadow(0 6px 0 var(--pcd-flow-pixel-ink));
 }
 
 /* The group is not clip-pathed, so it owns the outer card lift/glow. */
@@ -521,20 +522,21 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
   fill: none;
   stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 86%, var(--pcd-flow-pixel-surface));
-  stroke-width: 3;
+  stroke-width: 4;
   opacity: .92;
   clip-path: polygon(0 7px, 7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
   fill: var(--pcd-flow-node-segment-fill);
-  stroke: none;
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 38%, transparent);
+  stroke-width: 2;
   opacity: 1;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-divider {
   stroke: var(--pcd-flow-node-segment-divider);
-  stroke-width: 3;
+  stroke-width: 4;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
@@ -547,7 +549,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
   fill: var(--pcd-flow-node-segment-text);
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: .08em;
   opacity: 1;
@@ -556,14 +558,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   fill: var(--pcd-flow-pixel-text);
   stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 42%, transparent);
-  stroke-width: 2px;
+  stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 900;
   letter-spacing: -.05em;
   paint-order: stroke fill;
-  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 58%, transparent));
+  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent));
 }
 
 /* Solid low-profile connectors preserve the cards as the primary visual weight. */
@@ -589,20 +591,20 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-panel {
   fill: var(--pcd-flow-callout-fill);
   stroke: var(--pcd-flow-callout-stroke);
-  stroke-width: 2;
+  stroke-width: 3;
   rx: 0;
   ry: 0;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   clip-path: polygon(0 5px, 5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
   filter:
-    drop-shadow(2px 3px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 42%, transparent));
+    drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 48%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-stem {
   stroke: var(--pcd-flow-callout-stem);
-  stroke-width: 2;
+  stroke-width: 3;
   stroke-dasharray: 4 4;
 }
 
@@ -611,7 +613,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-labe
   fill: var(--pcd-flow-callout-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 900;
   letter-spacing: -.04em;
   paint-order: normal;
@@ -639,6 +641,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="comp
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-rail { fill: var(--pcd-flow-node-segment-highlight-fill); }
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-divider { stroke: var(--pcd-flow-node-segment-highlight-divider); }
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-index { fill: var(--pcd-flow-node-segment-highlight-text); }
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-shape {
+  stroke-width: 8;
+  filter:
+    drop-shadow(0 -3px 0 var(--pcd-flow-pixel-danger-highlight))
+    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-danger-highlight) 78%, transparent))
+    drop-shadow(3px 0 0 var(--pcd-flow-pixel-danger-strong))
+    drop-shadow(0 7px 0 var(--pcd-flow-pixel-danger));
+}
 
 @media (max-width: 900px) {
   .reveal .slides section:has(.d3-flow-host) {
