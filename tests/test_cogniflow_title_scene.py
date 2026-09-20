@@ -351,48 +351,38 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             service_process["blocks"][0]["text"],
         )
 
-    def test_semantic_core_is_static_layered_meaning_flow(self) -> None:
+    def test_semantic_core_matches_stonecastle_meta_tbox_categories(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         semantic_core = document["scenes"][5]
-        heading = next(block for block in semantic_core["blocks"] if block["kind"] == "prose")
-        diagram = next(block for block in semantic_core["blocks"] if block["kind"] == "diagram")
+
+        self.assertEqual(
+            ["prose", "prose", "list", "prose"],
+            [block["kind"] for block in semantic_core["blocks"]],
+        )
+        heading = semantic_core["blocks"][0]
+        domain = semantic_core["blocks"][1]
+        grammar = semantic_core["blocks"][2]
+        note = semantic_core["blocks"][3]
 
         self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
-        self.assertEqual("flow", diagram["diagramType"])
         self.assertEqual(
-            [
-                "CONCEPT\nProcessing Unit",
-                "ATTRIBUTES\nlabel\ndefinition\nversion",
-                "RELATIONSHIPS\nconsumes\nproduces\nimplemented by",
-                "CONTROLLED MEANING\nagreed terms\nallowed values\nvalidation",
-                "CONCEPT DOMAIN\nshared vocabulary\nscope of meaning",
-            ],
-            [node["label"] for node in diagram["nodes"]],
+            "CONCEPT DOMAIN\nVocabulary scope that defines the semantic terms of one domain.",
+            domain["text"],
         )
         self.assertEqual(
             [
-                "described by",
-                "connected by",
-                "constrained by",
-                "defined within",
-                "defined within",
-                "defined within",
+                "CONCEPT\ncentral domain abstraction",
+                "ATTRIBUTE\nstructured part of a concept",
+                "RELATION\nexplicit structural link",
+                "CONTROLLED VALUE\nnamed allowed value",
+                "SHAPE\nvalidation rule",
             ],
-            [edge["label"] for edge in diagram["edges"]],
+            [item["text"] for item in grammar["items"]],
         )
         self.assertEqual(
-            {
-                "CONCEPT\nProcessing Unit": "concept-core",
-                "ATTRIBUTES\nlabel\ndefinition\nversion": "attributes",
-                "RELATIONSHIPS\nconsumes\nproduces\nimplemented by": "relationships",
-                "CONTROLLED MEANING\nagreed terms\nallowed values\nvalidation": "controlled-meaning",
-                "CONCEPT DOMAIN\nshared vocabulary\nscope of meaning": "concept-domain",
-            },
-            {node["label"]: node["visualRole"] for node in diagram["nodes"]},
+            "ONE META-GRAMMAR → SEPARATE PACKAGE · SERVICE · PROCESSING DOMAINS",
+            note["text"],
         )
-        self.assertEqual([], diagram["groups"])
-        self.assertEqual([], diagram["states"])
-        self.assertEqual("ex:node-cogniflow-semantic-concept", diagram["focusNodeId"])
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
