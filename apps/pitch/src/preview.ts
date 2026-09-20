@@ -2,6 +2,12 @@ import katex from "katex";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view";
+
+const transitionByScene: Readonly<Record<string, string>> = Object.freeze({
+  "ex:scene-cogniflow-fair-processing-gap--scene": "slide-in none-out",
+  "ex:scene-cogniflow-explicit-processing-context--scene": "none-in slide-out",
+});
+
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -256,6 +262,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"),
     );
     section.setAttribute("aria-labelledby", headingId);
+    const transition = transitionByScene[scene.id];
+    if (transition) section.setAttribute("data-transition", transition);
     sourceAttributes(section, scene.source);
     for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
