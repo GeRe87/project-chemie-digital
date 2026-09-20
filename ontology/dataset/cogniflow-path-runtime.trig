@@ -4,6 +4,7 @@
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
   ex:path-cogniflow-standardized-data-processing
     cd:hasStep ex:path-step-cogniflow-processing-black-box,
+      ex:path-step-cogniflow-fair-data-intro,
       ex:path-step-cogniflow-fair-processing-gap,
       ex:path-step-cogniflow-explicit-processing-context,
       ex:path-step-cogniflow-service-process,
