@@ -60,7 +60,7 @@
   box-sizing: border-box;
   min-width: 0;
   margin: 0;
-  padding: 1rem 1.12rem .92rem;
+  padding: 1.18rem 1.28rem 1.08rem;
   border: 4px solid var(--core-stroke);
   background:
     linear-gradient(
@@ -70,7 +70,7 @@
     );
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--core-stroke) 24%, transparent);
   color: var(--core-text);
-  font: 875 1.14em/1.34 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 1.28em/1.4 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
@@ -87,9 +87,9 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.2em;
+  font-size: 1.22em;
   font-weight: 950;
-  letter-spacing: .02em;
+  letter-spacing: .015em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
@@ -140,7 +140,7 @@
   width: 100%;
   max-width: none;
   margin: 0;
-  font-size: 1em;
+  font-size: 1.08em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
@@ -153,7 +153,7 @@
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
   > h2 + .lead + .keypoint-list + .code-block[data-language="trig"]::before {
-  content: "READING TRIG  ·  CORE SEMANTICS";
+  content: "READING TRIG  ·  CONCEPT DOMAIN";
   min-height: 2.25rem;
   padding: .53rem .85rem;
   border-bottom-width: 4px;
@@ -165,8 +165,8 @@
   max-height: none;
   padding: 1.12rem 1rem 1.18rem;
   overflow: hidden;
-  font-size: 1.04em;
-  line-height: 1.6;
+  font-size: 1.08em;
+  line-height: 1.58;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
@@ -178,12 +178,12 @@
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: .85rem 1rem .8rem;
+  padding: .98rem 1.08rem .92rem;
   border: 4px solid #c96a12;
   background: color-mix(in srgb, #ffd28f 76%, var(--pcd-surface-strong));
   box-shadow: 7px 7px 0 color-mix(in srgb, #c96a12 22%, transparent);
   color: #522800;
-  font: 900 1.08em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.12em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
