@@ -186,7 +186,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         black_chart = next(block for block in black_box["blocks"] if block["kind"] == "chart")
         black_table = next(block for block in black_box["blocks"] if block["kind"] == "code")
         black_diagram = next(block for block in black_box["blocks"] if block["kind"] == "diagram")
-        fair_intro_heading = next(block for block in fair_intro["blocks"] if block["kind"] == "prose")
+        fair_intro_heading = next(block for block in fair_intro["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "introduce")
+        fair_intro_caption = next(block for block in fair_intro["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "explain")
         fair_intro_list = next(block for block in fair_intro["blocks"] if block["kind"] == "list")
         fair_intro_table = next(block for block in fair_intro["blocks"] if block["kind"] == "code")
         fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
@@ -214,7 +215,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("ex:node-cogniflow-black-box-processing", black_diagram["focusNodeId"])
 
         self.assertEqual("What FAIR Data Means in Practice", fair_intro_heading["text"])
-        self.assertEqual(["prose", "list", "code"], [block["kind"] for block in fair_intro["blocks"]])
+        self.assertEqual(["prose", "list", "prose", "code"], [block["kind"] for block in fair_intro["blocks"]])
+        self.assertEqual("FAIR DATA OBJECT\nIllustrative LC-HRMS dataset", fair_intro_caption["text"])
         self.assertEqual(
             [
                 "F — FINDABLE\nPersistent identifier + searchable metadata",
