@@ -55,12 +55,12 @@
 
   ex:code-cogniflow-feature-results a cd:CodeExample ;
     skos:prefLabel "Feature results"@en ;
-    cd:code """Feature  RT    m/z      Area
-F-01     4.18  181.071  12 480
-F-02     4.42  237.103  29 160
-F-03     4.80  305.143  48 920
-F-04     5.07  421.187  17 640
-F-05     5.31  512.224   9 870""" ;
+    cd:code """Feature\tRT (min)\tm/z\tArea
+F-01\t4.18\t181.071\t12,480
+F-02\t4.42\t237.103\t39,160
+F-03\t4.80\t325.134\t101,920
+F-04\t5.07\t421.187\t17,640
+F-05\t5.31\t512.284\t9,870""" ;
     cd:programmingLanguage "tsv" ;
     cd:editable false ;
     cd:executable false ;
