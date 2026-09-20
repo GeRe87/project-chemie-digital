@@ -32,7 +32,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
   ex:path-cogniflow-standardized-data-processing cd:hasStep ex:path-step-cogniflow-service-process .
-  ex:path-step-cogniflow-service-process a cd:PathStep ; cd:position 9 ; cd:usesResource ex:diagram-cogniflow-service-process ; cd:usesScene ex:scene-cogniflow-service-process ; cd:authoredResource true .
+  ex:path-step-cogniflow-service-process a cd:PathStep ; cd:position 10 ; cd:usesResource ex:diagram-cogniflow-service-process ; cd:usesScene ex:scene-cogniflow-service-process ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-service-process> {
