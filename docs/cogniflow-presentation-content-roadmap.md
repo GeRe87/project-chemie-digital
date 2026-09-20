@@ -495,14 +495,23 @@ environment
 dependencies
 ~~~
 
-The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSING` is the visual focus. The separate context panel makes the semantic gap explicit without cluttering the flow with overlapping relation labels.
+Use the free lower-left area for one concrete analytical example:
 
-### Reveal sequence
+~~~text
+EXAMPLE: SIGNAL-TO-NOISE RATIO
+S/N = peak height / σ(noise)
+S/N = peak height / RMS(noise)
+S/N = 2 × peak height / peak-to-peak noise
+S/N = peak area / noise estimate
+~~~
 
-1. Instrument and FAIR/open data.
-2. Custom processing appears.
-3. Result appears.
-4. Missing-context panel appears with the six explicit questions.
+The point is not to prescribe one correct S/N definition here. It is to show that the same familiar analytical label can hide different operational definitions.
+
+The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSING` is the visual focus. The two lower panels make the abstraction concrete: one shows the missing context categories, the other shows what such ambiguity looks like in analytical practice.
+
+### Presentation state
+
+Show the complete scene immediately. No staged DiagramState build-up is needed for this slide.
 
 ### Audience understanding after this scene
 
@@ -510,7 +519,7 @@ The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSI
 
 ### Preferred primitive
 
-flow + KeyPoint callout.
+flow + paired KeyPoint callouts.
 
 ### Transition
 
@@ -1371,7 +1380,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 01 | hero / prose | yes | none |
 | 02 | flow | yes | optional unresolved/opaque visual role |
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
-| 04 | flow + KeyPoint callout | yes | none expected |
+| 04 | flow + paired KeyPoint callouts | yes | none expected |
 | 05 | network or stateful flow | yes | none expected |
 | 06 | network + DiagramState | yes | structured semantic node may help |
 | 07 | network + groups + focus/context | yes | none expected |
