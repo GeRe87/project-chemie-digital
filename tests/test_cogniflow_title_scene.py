@@ -185,7 +185,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
         black_media = next(block for block in black_box["blocks"] if block["kind"] == "media-reference")
         fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
-        fair_diagram = next(block for block in fair_gap["blocks"] if block["kind"] == "diagram")
+        fair_media = next(block for block in fair_gap["blocks"] if block["kind"] == "media-reference")
         explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
@@ -198,27 +198,11 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in black_box["blocks"]))
 
         self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
-        self.assertEqual("flow", fair_diagram["diagramType"])
-        self.assertEqual(
-            [
-                "INSTRUMENT",
-                "FAIR / OPEN DATA",
-                "CUSTOM PROCESSING",
-                "RESULT",
-                "MISSING CONTEXT · algorithm · version · parameters · environment · dependencies",
-            ],
-            [node["label"] for node in fair_diagram["nodes"]],
-        )
-        self.assertEqual(
-            ["Measurement", "FAIR / open data", "Custom processing", "Scientific result", "Missing processing context"],
-            [state["label"] for state in fair_diagram["states"]],
-        )
-        self.assertEqual("ex:node-cogniflow-fair-context", fair_diagram["states"][4]["focusNodeId"])
-        self.assertEqual("ex:node-cogniflow-fair-processing", fair_diagram["focusNodeId"])
-        fair_processing = next(node for node in fair_diagram["nodes"] if node["label"] == "CUSTOM PROCESSING")
-        fair_context = next(node for node in fair_diagram["nodes"] if node["id"] == "ex:node-cogniflow-fair-context")
-        self.assertEqual("highlight", fair_processing["visualRole"])
-        self.assertEqual("comparison", fair_context["visualRole"])
+        self.assertEqual(["prose", "media-reference"], [block["kind"] for block in fair_gap["blocks"]])
+        self.assertEqual("/media/cogniflow/cogniflow-laboratory-chaos.webp", fair_media["uri"])
+        self.assertEqual("image/webp", fair_media["mediaType"])
+        self.assertIn("laboratory", fair_media["alternativeText"].lower())
+        self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in fair_gap["blocks"]))
 
         self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
         self.assertEqual("flow", explicit_diagram["diagramType"])

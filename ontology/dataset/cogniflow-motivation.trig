@@ -13,13 +13,19 @@
     cd:body "A scientific result depends on a processing history that is often much less visible than the raw data and the result themselves."@en ;
     cd:authoredResource true .
 
-  ex:media-cogniflow-processing-black-box a cd:MediaAsset ;
-    cd:uri "/media/cogniflow/cogniflow-processing-black-box.webp"^^xsd:anyURI ;
-    cd:mediaType "image/webp" ;
-    cd:alternativeText "Pixel-art scientific overview showing a raw chromatogram transformed into feature results and the abstract flow RAW SIGNAL to PROCESSING ? to RESULT."@en ;
-    cd:authoredResource true .
+   ex:media-cogniflow-processing-black-box a cd:MediaAsset ;
+     cd:uri "/media/cogniflow/cogniflow-processing-black-box.webp"^^xsd:anyURI ;
+     cd:mediaType "image/webp" ;
+     cd:alternativeText "Pixel-art scientific overview showing a raw chromatogram transformed into feature results and the abstract flow RAW SIGNAL to PROCESSING ? to RESULT."@en ;
+     cd:authoredResource true .
 
-  ex:diagram-cogniflow-processing-black-box a cd:FlowDiagram ;
+   ex:media-cogniflow-laboratory-chaos a cd:MediaAsset ;
+     cd:uri "/media/cogniflow/cogniflow-laboratory-chaos.webp"^^xsd:anyURI ;
+     cd:mediaType "image/webp" ;
+     cd:alternativeText "Pixel-art overview of a heterogeneous laboratory in which analytical instruments use individual local computers and opaque data-processing workflows, while smaller pH and temperature sensors stream directly to a central server. Different proprietary and open data formats and independently generated reports converge on the server."@en ;
+     cd:authoredResource true .
+
+   ex:diagram-cogniflow-processing-black-box a cd:FlowDiagram ;
     skos:prefLabel "The hidden processing history"@en ;
     cd:body "Raw analytical data and a final result are connected by processing whose scientific and technical context is often implicit."@en ;
     cd:hasDiagramNode ex:node-cogniflow-black-box-raw,
@@ -319,11 +325,11 @@ F-05\t5.31\t512.284\t9,870""" ;
     cd:usesScene ex:scene-cogniflow-processing-black-box ;
     cd:authoredResource true .
 
-  ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
-    cd:position 3 ;
-    cd:usesResource ex:diagram-cogniflow-fair-processing-gap ;
-    cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
-    cd:authoredResource true .
+   ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
+     cd:position 3 ;
+     cd:usesResource ex:media-cogniflow-laboratory-chaos ;
+     cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
+     cd:authoredResource true .
 
   ex:path-step-cogniflow-explicit-processing-context a cd:PathStep ;
     cd:position 4 ;
@@ -355,27 +361,27 @@ F-05\t5.31\t512.284\t9,870""" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
-    cd:focusConcept ex:cogniflow-fair-processing-gap ;
-    cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
-      ex:scene-item-cogniflow-fair-processing-gap-diagram ;
-    cd:authoredResource true .
+   ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
+     cd:focusConcept ex:cogniflow-fair-processing-gap ;
+     cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
+       ex:scene-item-cogniflow-fair-processing-gap-media ;
+     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:cogniflow-fair-processing-gap ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
-    cd:authoredResource true .
+   ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
+     cd:position 1 ;
+     cd:selectsResource ex:cogniflow-fair-processing-gap ;
+     cd:communicativeRole cd:HeadingRole ;
+     cd:selectionPath "skos:prefLabel@en" ;
+     cd:language "en" ;
+     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-fair-processing-gap-diagram a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:diagram-cogniflow-fair-processing-gap ;
-    cd:communicativeRole cd:DiagramRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
+   ex:scene-item-cogniflow-fair-processing-gap-media a cd:SceneItem ;
+     cd:position 2 ;
+     cd:selectsResource ex:media-cogniflow-laboratory-chaos ;
+     cd:communicativeRole cd:MediaRole ;
+     cd:selectionPath "cd:uri" ;
+     cd:language "en" ;
+     cd:authoredResource true .
 
   ex:scene-cogniflow-explicit-processing-context a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-explicit-processing-context ;
