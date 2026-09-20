@@ -2,7 +2,7 @@
 
 **Status:** Narrative Freeze v1 — living roadmap  
 **Owner context:** CogniFlow presentation in project-chemie-digital  
-**Presentation format:** approximately 17 scenes, Reveal.js Scroll View  
+**Presentation format:** approximately 18 scenes, Reveal.js Scroll View  
 **Visual language:** 16-bit Retro / Eco City / restrained HUD-inspired scientific presentation  
 **Audience:** chemists and analytical scientists without prior knowledge of semantic workflow standardization  
 **Companion roadmap:** docs/cogniflow-presentation-diagram-roadmap.md  
@@ -736,11 +736,103 @@ Graph-backed concentric semantic ring runtime.
 
 ### Transition
 
-> The same shared core lets those modules remain independently specified — now we can inspect selected domains in more detail.
+> The architecture starts with a deliberately small core. Before looking at domain packages, inspect the grammar inside that core.
 
 ---
 
-## Scene 08 — One semantic grammar. Different specifications.
+## Scene 08 — A Small Grammar for Meaning
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [x] Authored  
+**Visual:** [x] Authored
+
+### One statement
+
+> The CogniFlow core ontology is a small Meta-TBox that defines how concept domains are described, not the operational domains themselves.
+
+### Role in the story
+
+Zoom into the center of the ring architecture.
+
+The audience has already seen that CogniFlow starts with semantics and that the project is layered around a small core. This scene now explains what the core actually contains without turning the talk into an ontology lecture.
+
+The content is grounded in the current Stonecastle `cf_ontology/src/cf_ontology/semantics/core.trig`.
+
+### Visual concept
+
+Use a compact set of colorful 16-bit semantic cards:
+
+~~~text
+CONCEPT DOMAIN
+Vocabulary scope for domain terms
+Concept · Attribute · Relation · Shape · Controlled Value
+
+CONCEPT                  ATTRIBUTE
+central abstraction      structural part
+
+RELATION                 CONTROLLED VALUE
+structural hasX edge     named allowed value
+
+SHAPE
+SHACL validation · ConceptShape · InstanceShape
+~~~
+
+The slide deliberately emphasizes a small vocabulary rather than exhaustive RDF detail.
+
+### Relation rule
+
+CogniFlow deliberately constrains structural relations to the predictable `hasX` pattern:
+
+~~~text
+Concept / Attribute ── has<Attribute> ──▶ Attribute
+~~~
+
+Example:
+
+~~~text
+hasPort → Port
+~~~
+
+The point is not to invent an unlimited vocabulary of verbs. Structural meaning stays predictable because the target Attribute carries the domain meaning.
+
+### First TriG reading box
+
+Introduce TriG syntax here for the first time using a real core declaration:
+
+~~~trig
+cf:definesRelation
+    a rdf:Property ;
+    rdfs:domain cf:ConceptDomain ;
+    rdfs:range cf:Relation .
+~~~
+
+The audience only needs to read this as:
+
+~~~text
+ConceptDomain ── definesRelation ──▶ Relation
+~~~
+
+No RDF tutorial is required.
+
+### Presentation state
+
+Show the complete scene immediately.
+
+### Audience understanding after this scene
+
+> “CogniFlow uses a few predictable semantic primitives to define domain vocabularies.”
+
+### Preferred primitive
+
+Graph-backed KeyPoint cards + static TriG CodeExample + relation-rule callout.
+
+### Transition
+
+> With this small grammar in place, separate domain packages can define their own semantics without sharing one implementation.
+
+---
+
+## Scene 09 — One semantic grammar. Different specifications.
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -781,7 +873,7 @@ The three cards should be equally prominent but visually distinct. They are not 
 - cf_concept_package defines the package concept domain around CfPackage.
 - cf_concept_service defines the service concept domain around Service.
 - cf_concept_processing defines ProcessingUnit, ProcessingStep, and ProcessingPipeline plus processing attributes such as ports and pipeline nodes.
-- All reuse the semantic categories organized in Scene 07.
+- All reuse the semantic categories introduced in Scene 08.
 
 ### Presentation state
 
@@ -801,7 +893,7 @@ Meta-grammar banner + three domain specification cards.
 
 ---
 
-## Scene 09 — A package that explains itself
+## Scene 10 — A package that explains itself
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -853,7 +945,7 @@ structured semantic card; use generic prose/card primitive if available, otherwi
 
 ---
 
-## Scene 10 — Functionality becomes a Service
+## Scene 11 — Functionality becomes a Service
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -908,7 +1000,7 @@ network + structured node content.
 
 ---
 
-## Scene 11 — Consumer and Provider do not need to know each other
+## Scene 12 — Consumer and Provider do not need to know each other
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -974,7 +1066,7 @@ network + DiagramState. Provider substitution may reuse role-binding semantics i
 
 ---
 
-## Scene 12 — “I need a PDF report.”
+## Scene 13 — “I need a PDF report.”
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1056,7 +1148,7 @@ sequence + participant roles + bindings.
 
 ---
 
-## Scene 13 — Data processing is a CogniFlow Concept too
+## Scene 14 — Data processing is a CogniFlow Concept too
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1104,7 +1196,7 @@ network + focus/context DiagramState.
 
 ---
 
-## Scene 14 — A Processing Unit has an explicit interface
+## Scene 15 — A Processing Unit has an explicit interface
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1166,7 +1258,7 @@ network or flow with explicit ports; if ports require a new renderer capability,
 
 ---
 
-## Scene 15 — A pipeline is a composition, not a script
+## Scene 16 — A pipeline is a composition, not a script
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1239,7 +1331,7 @@ flow + groups + focus state.
 
 ---
 
-## Scene 16 — Explicit semantics enable machine-assisted execution
+## Scene 17 — Explicit semantics enable machine-assisted execution
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1313,7 +1405,7 @@ Potential generic need:
 
 ---
 
-## Scene 17 — FAIRness does not stop at the file
+## Scene 18 — FAIRness does not stop at the file
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
