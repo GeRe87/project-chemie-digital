@@ -4,69 +4,62 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-domain-specifications> {
   ex:cogniflow-domain-specifications a cd:Concept ;
-    skos:prefLabel "From Grammar to Scientific Meaning"@en ;
+    skos:prefLabel "A Semantic Model for Data Processing"@en ;
     cd:hasDefinition ex:def-cogniflow-domain-specifications ;
     cd:authoredResource true .
 
   ex:def-cogniflow-domain-specifications a cd:Definition ;
-    cd:body "The same small semantic grammar can describe scientific domains. Peak integration is an illustrative example: the domain supplies the scientific meaning while the core grammar stays unchanged."@en ;
+    cd:body "CogniFlow models data processing around a reusable ProcessingUnit with explicit ports. A ProcessingUnit can be specialized as an atomic ProcessingStep or a composite ProcessingPipeline; concrete scientific operations such as peak integration are specifications of that model."@en ;
     cd:authoredResource true .
 
   ex:cogniflow-domain-grammar-banner a cd:Interpretation ;
-    cd:body """SAME CORE GRAMMAR
-Now applied to PEAK INTEGRATION"""@en ;
+    cd:body """DATA PROCESSING CONCEPT DOMAIN
+one ProcessingUnit · explicit Ports · Step or Pipeline"""@en ;
     cd:authoredResource true .
 
   ex:cogniflow-domain-cards a cd:Interpretation ;
-    cd:body "Illustrative mapping of the core grammar to a familiar analytical-chemistry task."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-scientific-concept,
-      ex:keypoint-cogniflow-scientific-attributes,
-      ex:keypoint-cogniflow-scientific-relations,
-      ex:keypoint-cogniflow-scientific-values,
-      ex:keypoint-cogniflow-scientific-shape ;
+    cd:body "The current Stonecastle data-processing vocabulary defines ProcessingUnit, Port and PortRole, ProcessingStep and ProcessingPipeline, plus pipeline composition through PipelineNode and RunTarget."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-processing-domain,
+      ex:keypoint-cogniflow-processing-unit,
+      ex:keypoint-cogniflow-peak-integration-specification ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-scientific-concept a cd:KeyPoint ;
+  ex:keypoint-cogniflow-processing-domain a cd:KeyPoint ;
     cd:position 1 ;
-    cd:body """CONCEPT
-PEAK INTEGRATION
-chromatographic signal → integrated peak area"""@en ;
+    cd:body """CONCEPT DOMAIN
+DATA PROCESSING
+defines ProcessingUnit
+Port · PortRole
+Input · Output · Parameter"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-scientific-attributes a cd:KeyPoint ;
+  ex:keypoint-cogniflow-processing-unit a cd:KeyPoint ;
     cd:position 2 ;
-    cd:body """ATTRIBUTES
-Signal
-Baseline
-Integration Window
-Peak Area"""@en ;
+    cd:body """PROCESSING UNIT
+hasPort → Port
+Port has PortRole
+
+PROCESSING STEP
+atomic ProcessingUnit
+
+PROCESSING PIPELINE
+composite ProcessingUnit
+PipelineNode → runs → ProcessingUnit"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-scientific-relations a cd:KeyPoint ;
+  ex:keypoint-cogniflow-peak-integration-specification a cd:KeyPoint ;
     cd:position 3 ;
-    cd:body """RELATIONS
-hasSignal
-hasBaseline
-hasIntegrationWindow
-hasPeakArea"""@en ;
-    cd:authoredResource true .
+    cd:body """SPECIFICATION
+PEAK INTEGRATION
+a ProcessingStep
 
-  ex:keypoint-cogniflow-scientific-values a cd:KeyPoint ;
-    cd:position 4 ;
-    cd:body """CONTROLLED VALUE
-Integration Mode
-automatic · manual"""@en ;
-    cd:authoredResource true .
-
-  ex:keypoint-cogniflow-scientific-shape a cd:KeyPoint ;
-    cd:position 5 ;
-    cd:body """SHAPE
-checks required context
-and valid structure"""@en ;
+INPUT · chromatographic signal
+PARAMETER · integration window
+OUTPUT · peak area"""@en ;
     cd:authoredResource true .
 
   ex:cogniflow-domain-compatibility-note a cd:Interpretation ;
-    cd:body "THE GRAMMAR STAYS THE SAME — THE DOMAIN ADDS THE SCIENTIFIC MEANING"@en ;
+    cd:body "THE CONCEPT DEFINES THE STRUCTURE — THE SPECIFICATION PROVIDES THE SCIENTIFIC METHOD"@en ;
     cd:authoredResource true .
 }
 
