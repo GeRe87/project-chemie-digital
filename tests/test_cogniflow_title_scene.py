@@ -181,6 +181,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         service_process = document["scenes"][4]
 
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
+        black_chart = next(block for block in black_box["blocks"] if block["kind"] == "chart")
+        black_table = next(block for block in black_box["blocks"] if block["kind"] == "code")
         black_diagram = next(block for block in black_box["blocks"] if block["kind"] == "diagram")
         fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
         fair_diagram = next(block for block in fair_gap["blocks"] if block["kind"] == "diagram")
@@ -188,6 +190,14 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
         self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
+        self.assertEqual(["prose", "chart", "code", "diagram"], [block["kind"] for block in black_box["blocks"]])
+        self.assertEqual("line", black_chart["chartType"])
+        self.assertEqual("Retention time", black_chart["xAxis"]["label"])
+        self.assertEqual("min", black_chart["xAxis"]["unit"])
+        self.assertEqual("Intensity", black_chart["yAxis"]["label"])
+        self.assertEqual("a.u.", black_chart["yAxis"]["unit"])
+        self.assertIn("Feature\tRT (min)\tm/z\tArea", black_table["code"])
+        self.assertIn("F-03\t4.80\t325.134\t101,920", black_table["code"])
         self.assertEqual("flow", black_diagram["diagramType"])
         self.assertEqual(["RAW SIGNAL", "PROCESSING ?", "RESULT"], [node["label"] for node in black_diagram["nodes"]])
         self.assertEqual(["transformed by", "produces"], [edge["label"] for edge in black_diagram["edges"]])
