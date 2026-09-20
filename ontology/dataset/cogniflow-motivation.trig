@@ -64,24 +64,21 @@
 
   ex:diagram-cogniflow-fair-processing-gap a cd:FlowDiagram ;
     skos:prefLabel "Where FAIRness can stop"@en ;
-    cd:body "An instrument can produce well-described open data while the custom processing step still hides algorithm, version, parameters, environment and dependencies."@en ;
+    cd:body "An instrument can produce well-described open data while the processing context behind a scientific result remains implicit."@en ;
     cd:hasDiagramNode ex:node-cogniflow-fair-instrument,
       ex:node-cogniflow-fair-data,
       ex:node-cogniflow-fair-processing,
       ex:node-cogniflow-fair-result,
-      ex:node-cogniflow-fair-algorithm,
-      ex:node-cogniflow-fair-version,
-      ex:node-cogniflow-fair-parameters,
-      ex:node-cogniflow-fair-environment,
-      ex:node-cogniflow-fair-dependencies ;
+      ex:node-cogniflow-fair-context ;
     cd:hasDiagramEdge ex:edge-cogniflow-fair-instrument-data,
       ex:edge-cogniflow-fair-data-processing,
       ex:edge-cogniflow-fair-processing-result,
-      ex:edge-cogniflow-fair-processing-algorithm,
-      ex:edge-cogniflow-fair-processing-version,
-      ex:edge-cogniflow-fair-processing-parameters,
-      ex:edge-cogniflow-fair-processing-environment,
-      ex:edge-cogniflow-fair-processing-dependencies ;
+      ex:edge-cogniflow-fair-processing-context ;
+    cd:hasDiagramState ex:diagram-state-cogniflow-fair-measurement,
+      ex:diagram-state-cogniflow-fair-data,
+      ex:diagram-state-cogniflow-fair-processing,
+      ex:diagram-state-cogniflow-fair-result,
+      ex:diagram-state-cogniflow-fair-context ;
     cd:focusNode ex:node-cogniflow-fair-processing ;
     cd:authoredResource true .
 
@@ -102,29 +99,9 @@
     skos:prefLabel "RESULT"@en ;
     cd:position 4 ;
     cd:authoredResource true .
-  ex:node-cogniflow-fair-algorithm a cd:DiagramNode ;
-    skos:prefLabel "Which algorithm?"@en ;
+  ex:node-cogniflow-fair-context a cd:DiagramNode ;
+    skos:prefLabel "MISSING CONTEXT · algorithm · version · parameters · environment · dependencies"@en ;
     cd:position 5 ;
-    cd:visualRole "comparison" ;
-    cd:authoredResource true .
-  ex:node-cogniflow-fair-version a cd:DiagramNode ;
-    skos:prefLabel "Which version?"@en ;
-    cd:position 6 ;
-    cd:visualRole "comparison" ;
-    cd:authoredResource true .
-  ex:node-cogniflow-fair-parameters a cd:DiagramNode ;
-    skos:prefLabel "Which parameters?"@en ;
-    cd:position 7 ;
-    cd:visualRole "comparison" ;
-    cd:authoredResource true .
-  ex:node-cogniflow-fair-environment a cd:DiagramNode ;
-    skos:prefLabel "Which environment?"@en ;
-    cd:position 8 ;
-    cd:visualRole "comparison" ;
-    cd:authoredResource true .
-  ex:node-cogniflow-fair-dependencies a cd:DiagramNode ;
-    skos:prefLabel "Which dependencies?"@en ;
-    cd:position 9 ;
     cd:visualRole "comparison" ;
     cd:authoredResource true .
 
@@ -146,35 +123,66 @@
     cd:sourceNode ex:node-cogniflow-fair-processing ;
     cd:targetNode ex:node-cogniflow-fair-result ;
     cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-algorithm a cd:DiagramEdge ;
-    skos:prefLabel "implicit context"@en ;
+  ex:edge-cogniflow-fair-processing-context a cd:DiagramEdge ;
+    skos:prefLabel "leaves implicit"@en ;
     cd:position 4 ;
     cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-algorithm ;
+    cd:targetNode ex:node-cogniflow-fair-context ;
     cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-version a cd:DiagramEdge ;
-    skos:prefLabel "implicit context"@en ;
+
+  ex:diagram-state-cogniflow-fair-measurement a cd:DiagramState ;
+    cd:position 1 ;
+    skos:prefLabel "Measurement"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-fair-instrument ;
+    cd:focusDiagramNode ex:node-cogniflow-fair-instrument ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-fair-data a cd:DiagramState ;
+    cd:position 2 ;
+    skos:prefLabel "FAIR / open data"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-fair-instrument,
+      ex:node-cogniflow-fair-data ;
+    cd:activeDiagramEdge ex:edge-cogniflow-fair-instrument-data ;
+    cd:focusDiagramNode ex:node-cogniflow-fair-data ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-fair-processing a cd:DiagramState ;
+    cd:position 3 ;
+    skos:prefLabel "Custom processing"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-fair-instrument,
+      ex:node-cogniflow-fair-data,
+      ex:node-cogniflow-fair-processing ;
+    cd:activeDiagramEdge ex:edge-cogniflow-fair-instrument-data,
+      ex:edge-cogniflow-fair-data-processing ;
+    cd:focusDiagramNode ex:node-cogniflow-fair-processing ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-fair-result a cd:DiagramState ;
+    cd:position 4 ;
+    skos:prefLabel "Scientific result"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-fair-instrument,
+      ex:node-cogniflow-fair-data,
+      ex:node-cogniflow-fair-processing,
+      ex:node-cogniflow-fair-result ;
+    cd:activeDiagramEdge ex:edge-cogniflow-fair-instrument-data,
+      ex:edge-cogniflow-fair-data-processing,
+      ex:edge-cogniflow-fair-processing-result ;
+    cd:focusDiagramNode ex:node-cogniflow-fair-result ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-fair-context a cd:DiagramState ;
     cd:position 5 ;
-    cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-version ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-parameters a cd:DiagramEdge ;
-    skos:prefLabel "implicit context"@en ;
-    cd:position 6 ;
-    cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-parameters ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-environment a cd:DiagramEdge ;
-    skos:prefLabel "implicit context"@en ;
-    cd:position 7 ;
-    cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-environment ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-dependencies a cd:DiagramEdge ;
-    skos:prefLabel "implicit context"@en ;
-    cd:position 8 ;
-    cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-dependencies ;
+    skos:prefLabel "Missing processing context"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-fair-instrument,
+      ex:node-cogniflow-fair-data,
+      ex:node-cogniflow-fair-processing,
+      ex:node-cogniflow-fair-result,
+      ex:node-cogniflow-fair-context ;
+    cd:activeDiagramEdge ex:edge-cogniflow-fair-instrument-data,
+      ex:edge-cogniflow-fair-data-processing,
+      ex:edge-cogniflow-fair-processing-result,
+      ex:edge-cogniflow-fair-processing-context ;
+    cd:focusDiagramNode ex:node-cogniflow-fair-context ;
     cd:authoredResource true .
 
   ex:cogniflow-explicit-processing-context a cd:Concept ;
@@ -186,28 +194,18 @@
     cd:body "CogniFlow treats the processing context itself as digital scientific information that can be understood by humans and machines."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram, cd:NetworkDiagram ;
+  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram ;
     skos:prefLabel "Processing as an explicit digital object"@en ;
-    cd:body "Input, processing and output remain the scientific flow while purpose, interface, parameters, implementation, version and execution context become explicit machine-readable relationships."@en ;
+    cd:body "Input, processing and output remain the scientific flow while purpose, interface, parameters, implementation, version and execution context become explicit machine-readable information."@en ;
     cd:hasDiagramNode ex:node-cogniflow-explicit-input,
       ex:node-cogniflow-explicit-processing,
       ex:node-cogniflow-explicit-output,
-      ex:node-cogniflow-explicit-purpose,
-      ex:node-cogniflow-explicit-interface,
-      ex:node-cogniflow-explicit-parameters,
-      ex:node-cogniflow-explicit-implementation,
-      ex:node-cogniflow-explicit-version,
-      ex:node-cogniflow-explicit-execution ;
+      ex:node-cogniflow-explicit-context ;
     cd:hasDiagramGroup ex:diagram-group-cogniflow-explicit-flow,
       ex:diagram-group-cogniflow-explicit-context ;
     cd:hasDiagramEdge ex:edge-cogniflow-explicit-input-processing,
       ex:edge-cogniflow-explicit-processing-output,
-      ex:edge-cogniflow-explicit-processing-purpose,
-      ex:edge-cogniflow-explicit-processing-interface,
-      ex:edge-cogniflow-explicit-processing-parameters,
-      ex:edge-cogniflow-explicit-processing-implementation,
-      ex:edge-cogniflow-explicit-processing-version,
-      ex:edge-cogniflow-explicit-processing-execution ;
+      ex:edge-cogniflow-explicit-processing-context ;
     cd:hasDiagramState ex:diagram-state-cogniflow-explicit-flow,
       ex:diagram-state-cogniflow-explicit-context ;
     cd:focusNode ex:node-cogniflow-explicit-processing ;
@@ -236,34 +234,10 @@
     cd:position 3 ;
     cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:authoredResource true .
-  ex:node-cogniflow-explicit-purpose a cd:DiagramNode ;
-    skos:prefLabel "What does it do?"@en ;
+  ex:node-cogniflow-explicit-context a cd:DiagramNode ;
+    skos:prefLabel "EXPLICIT CONTEXT · purpose · interface · parameters · implementation · version · execution + provenance"@en ;
     cd:position 4 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-interface a cd:DiagramNode ;
-    skos:prefLabel "What does it consume and produce?"@en ;
-    cd:position 5 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-parameters a cd:DiagramNode ;
-    skos:prefLabel "Which parameters?"@en ;
-    cd:position 6 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-implementation a cd:DiagramNode ;
-    skos:prefLabel "Which implementation?"@en ;
-    cd:position 7 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-version a cd:DiagramNode ;
-    skos:prefLabel "Which version?"@en ;
-    cd:position 8 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-execution a cd:DiagramNode ;
-    skos:prefLabel "How was it executed?"@en ;
-    cd:position 9 ;
+    cd:visualRole "highlight" ;
     cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
     cd:authoredResource true .
 
@@ -279,80 +253,31 @@
     cd:sourceNode ex:node-cogniflow-explicit-processing ;
     cd:targetNode ex:node-cogniflow-explicit-output ;
     cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-purpose a cd:DiagramEdge ;
-    skos:prefLabel "purpose"@en ;
+  ex:edge-cogniflow-explicit-processing-context a cd:DiagramEdge ;
+    skos:prefLabel "described by"@en ;
     cd:position 3 ;
     cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-purpose ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-interface a cd:DiagramEdge ;
-    skos:prefLabel "interface"@en ;
-    cd:position 4 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-interface ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-parameters a cd:DiagramEdge ;
-    skos:prefLabel "parameters"@en ;
-    cd:position 5 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-parameters ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-implementation a cd:DiagramEdge ;
-    skos:prefLabel "implementation"@en ;
-    cd:position 6 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-implementation ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-version a cd:DiagramEdge ;
-    skos:prefLabel "version"@en ;
-    cd:position 7 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-version ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-execution a cd:DiagramEdge ;
-    skos:prefLabel "execution + provenance"@en ;
-    cd:position 8 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-execution ;
+    cd:targetNode ex:node-cogniflow-explicit-context ;
     cd:authoredResource true .
 
   ex:diagram-state-cogniflow-explicit-flow a cd:DiagramState ;
     cd:position 1 ;
     skos:prefLabel "Scientific flow"@en ;
-    cd:activeDiagramNode ex:node-cogniflow-explicit-input,
-      ex:node-cogniflow-explicit-processing,
-      ex:node-cogniflow-explicit-output ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:activeDiagramEdge ex:edge-cogniflow-explicit-input-processing,
       ex:edge-cogniflow-explicit-processing-output ;
-    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:focusDiagramNode ex:node-cogniflow-explicit-processing ;
     cd:authoredResource true .
 
   ex:diagram-state-cogniflow-explicit-context a cd:DiagramState ;
     cd:position 2 ;
     skos:prefLabel "Explicit processing context"@en ;
-    cd:activeDiagramNode ex:node-cogniflow-explicit-input,
-      ex:node-cogniflow-explicit-processing,
-      ex:node-cogniflow-explicit-output,
-      ex:node-cogniflow-explicit-purpose,
-      ex:node-cogniflow-explicit-interface,
-      ex:node-cogniflow-explicit-parameters,
-      ex:node-cogniflow-explicit-implementation,
-      ex:node-cogniflow-explicit-version,
-      ex:node-cogniflow-explicit-execution ;
-    cd:activeDiagramEdge ex:edge-cogniflow-explicit-input-processing,
-      ex:edge-cogniflow-explicit-processing-output,
-      ex:edge-cogniflow-explicit-processing-purpose,
-      ex:edge-cogniflow-explicit-processing-interface,
-      ex:edge-cogniflow-explicit-processing-parameters,
-      ex:edge-cogniflow-explicit-processing-implementation,
-      ex:edge-cogniflow-explicit-processing-version,
-      ex:edge-cogniflow-explicit-processing-execution ;
-    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-flow,
-      ex:diagram-group-cogniflow-explicit-context ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
+    cd:activeDiagramEdge ex:edge-cogniflow-explicit-processing-context ;
     cd:focusDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
     cd:contextDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:authoredResource true .
+
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-motivation-extension> {
