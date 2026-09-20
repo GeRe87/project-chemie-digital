@@ -197,10 +197,6 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             if block["kind"] == "prose" and block["text"] == "MISSING CONTEXT"
         )
         fair_missing_list = next(block for block in fair_gap["blocks"] if block["kind"] == "list")
-        fair_statement = next(
-            block for block in fair_gap["blocks"]
-            if block["kind"] == "prose" and block["text"] == "FAIR data ≠ FAIR processing"
-        )
         explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
@@ -242,7 +238,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
         self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
         self.assertEqual(
-            ["prose", "diagram", "prose", "list", "prose"],
+            ["prose", "diagram", "prose", "list"],
             [block["kind"] for block in fair_gap["blocks"]],
         )
         self.assertEqual("flow", fair_diagram["diagramType"])
@@ -266,7 +262,6 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["algorithm", "implementation", "version", "parameters", "environment", "dependencies"],
             [item["text"] for item in fair_missing_list["items"]],
         )
-        self.assertEqual("FAIR data ≠ FAIR processing", fair_statement["text"])
 
         self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
         self.assertEqual("flow", explicit_diagram["diagramType"])
