@@ -168,6 +168,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn(TITLE, fallback)
+        self.assertIn('/media/cogniflow/cogniflow-processing-black-box.webp', fallback)
+        self.assertIn('image/webp', fallback)
         self.assertIn(GERRIT, fallback)
         # The static fallback escapes HTML entities, so the IUTA ampersands become &amp;.
         self.assertIn(RICARDO.replace("&", "&amp;"), fallback)
@@ -181,17 +183,19 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         service_process = document["scenes"][4]
 
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
-        black_diagram = next(block for block in black_box["blocks"] if block["kind"] == "diagram")
+        black_media = next(block for block in black_box["blocks"] if block["kind"] == "media-reference")
         fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
         fair_diagram = next(block for block in fair_gap["blocks"] if block["kind"] == "diagram")
         explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
         self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
-        self.assertEqual("flow", black_diagram["diagramType"])
-        self.assertEqual(["RAW SIGNAL", "PROCESSING ?", "RESULT"], [node["label"] for node in black_diagram["nodes"]])
-        self.assertEqual(["transformed by", "produces"], [edge["label"] for edge in black_diagram["edges"]])
-        self.assertEqual("ex:node-cogniflow-black-box-processing", black_diagram["focusNodeId"])
+        self.assertEqual(["prose", "media-reference"], [block["kind"] for block in black_box["blocks"]])
+        self.assertEqual("/media/cogniflow/cogniflow-processing-black-box.webp", black_media["uri"])
+        self.assertEqual("image/webp", black_media["mediaType"])
+        self.assertIn("raw chromatogram", black_media["alternativeText"].lower())
+        self.assertIn("PROCESSING ?", black_media["alternativeText"])
+        self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in black_box["blocks"]))
 
         self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
         self.assertEqual("flow", fair_diagram["diagramType"])
