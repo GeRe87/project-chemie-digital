@@ -122,7 +122,7 @@
     cd:hasStep ex:path-step-cogniflow-analytical-proof .
 
   ex:path-step-cogniflow-analytical-proof a cd:PathStep ;
-    cd:position 10 ;
+    cd:position 11 ;
     cd:usesResource ex:chart-cogniflow-analytical-proof,
       ex:diagram-cogniflow-analytical-proof ;
     cd:usesScene ex:scene-cogniflow-analytical-proof ;
