@@ -270,6 +270,8 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
       y: spec.y,
       width: spec.width,
       height: 94,
+      rx: 12,
+      ry: 12,
       class: "pcd-semantic-focus-card",
       stroke: spec.tone,
     });
