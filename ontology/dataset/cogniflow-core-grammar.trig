@@ -1,0 +1,150 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-core-grammar> {
+  ex:cogniflow-core-grammar a cd:Concept ;
+    skos:prefLabel "A Small Grammar for Meaning"@en ;
+    cd:hasDefinition ex:def-cogniflow-core-grammar ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-core-grammar a cd:Definition ;
+    cd:body "The CogniFlow core ontology is a deliberately small Meta-TBox: it defines the grammar used by concept domains rather than package, service, processing, runtime, or scientific domain concepts."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-core-grammar-banner a cd:Interpretation ;
+    cd:body "CORE ONTOLOGY = META-GRAMMAR, NOT DOMAIN MODEL"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-core-grammar-primitives a cd:Interpretation ;
+    cd:body "The current Stonecastle cf_ontology core is built from a small set of semantic primitives."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-core-concept-domain,
+      ex:keypoint-cogniflow-core-concept,
+      ex:keypoint-cogniflow-core-attribute,
+      ex:keypoint-cogniflow-core-relation,
+      ex:keypoint-cogniflow-core-controlled-value,
+      ex:keypoint-cogniflow-core-shape ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-concept-domain a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """CONCEPT DOMAIN
+Vocabulary scope for domain terms
+Concept · Attribute · Relation · Shape · Controlled Value"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-concept a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """CONCEPT
+Central domain-level
+semantic abstraction"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-attribute a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """ATTRIBUTE
+Named structural part
+of a Concept or Attribute"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-relation a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body """RELATION
+Structural hasX edge
+Concept / Attribute → Attribute"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-controlled-value a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body """CONTROLLED VALUE
+Named allowed value
+for an Attribute"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-core-shape a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body """SHAPE
+SHACL validation term
+ConceptShape · InstanceShape"""@en ;
+    cd:authoredResource true .
+
+  ex:code-cogniflow-core-defines-relation a cd:CodeExample ;
+    skos:prefLabel "Core relation declaration in TriG"@en ;
+    cd:code """cf:definesRelation
+    a rdf:Property ;
+    rdfs:domain cf:ConceptDomain ;
+    rdfs:range cf:Relation .""" ;
+    cd:programmingLanguage "trig" ;
+    cd:editable false ;
+    cd:executable false ;
+    cd:showsResource ex:cogniflow-core-grammar ;
+    cd:authoredResource true .
+
+  ex:cogniflow-core-relation-rule a cd:Interpretation ;
+    cd:body """RELATION RULE
+Structural relations follow has<Attribute>
+Example: hasPort → Port"""@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-core-grammar-extension> {
+  ex:path-step-cogniflow-core-grammar a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:cogniflow-core-grammar-banner,
+      ex:cogniflow-core-grammar-primitives,
+      ex:code-cogniflow-core-defines-relation,
+      ex:cogniflow-core-relation-rule ;
+    cd:usesScene ex:scene-cogniflow-core-grammar ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-core-grammar> {
+  ex:scene-cogniflow-core-grammar a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-core-grammar ;
+    cd:hasSceneItem ex:scene-item-cogniflow-core-grammar-heading,
+      ex:scene-item-cogniflow-core-grammar-banner,
+      ex:scene-item-cogniflow-core-grammar-primitives,
+      ex:scene-item-cogniflow-core-grammar-code,
+      ex:scene-item-cogniflow-core-grammar-relation-rule ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-core-grammar ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-banner a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-core-grammar-banner ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-primitives a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-core-grammar-primitives ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-code a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:code-cogniflow-core-defines-relation ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-relation-rule a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-core-relation-rule ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
