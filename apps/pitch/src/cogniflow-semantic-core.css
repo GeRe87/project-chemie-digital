@@ -1,16 +1,17 @@
 /* Scene 06 · CogniFlow starts with meaning
-   A static semantic network. Geometry stays renderer-owned; semantic node roles
-   get distinct presentation colors here. */
+   A static, vertically layered semantic map:
+   CONCEPT -> three equal semantic facets -> CONCEPT DOMAIN.
+   Geometry remains generic and renderer-owned. */
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr);
   align-content: start;
-  padding: 1.6rem 2.2rem 1.5rem !important;
+  padding: 1.55rem 2.2rem 1.25rem !important;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 {
-  margin: 0 0 .35rem;
+  margin: 0 0 .25rem;
   max-width: none;
   font-size: 2.55em;
   line-height: 1;
@@ -18,42 +19,67 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
-  width: min(1220px, 96vw);
+  /* Staying below the renderer's generic 900px breakpoint intentionally selects
+     its vertical layered flow: one node, three siblings, one node. */
+  width: min(890px, 90vw);
   height: 100%;
   min-height: 0;
   margin: 0 auto;
-  padding: 0;
+  padding: .15rem 0 0;
+  overflow: visible;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-runtime,
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-figure,
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-svg {
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-figure {
   width: 100%;
   height: 100%;
   min-height: 0;
   margin: 0;
 }
 
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: 35.5rem;
+  margin: 0 auto;
+  overflow: visible;
+}
+
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-caption {
   display: none;
 }
 
+/* The semantic map should read through the boxes, not six tiny relation callouts. */
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge-label-group {
+  display: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge {
+  stroke-width: 3;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-edge[data-visual-role="domain-scope"] {
+  stroke: #3c70aa;
+  stroke-width: 3;
+  stroke-dasharray: 8 7;
+  opacity: .72;
+}
+
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label {
-  font-size: 18px;
-  font-weight: 750;
+  font-size: 20px;
+  font-weight: 760;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label > tspan:first-child {
-  font-size: 23px;
+  font-size: 25px;
   font-weight: 950;
   letter-spacing: .015em;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge-label {
-  font-size: 14px;
-  font-weight: 850;
-}
-
+/* Semantic visual roles: scientific meaning lives in RDF, color realization here. */
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
   .d3-flow-node[data-visual-role="concept-core"] {
   --semantic-fill: #ffdda0;
@@ -94,7 +120,7 @@
   fill: var(--semantic-fill);
   stroke: var(--semantic-stroke);
   stroke-width: 4;
-  filter: drop-shadow(0 6px 0 color-mix(in srgb, var(--semantic-stroke) 24%, transparent));
+  filter: drop-shadow(0 7px 0 color-mix(in srgb, var(--semantic-stroke) 24%, transparent));
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
@@ -118,6 +144,7 @@
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
   .d3-flow-node[data-visual-role] .d3-flow-node-index {
   fill: var(--semantic-stroke);
+  font-size: 19px;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
@@ -129,7 +156,7 @@
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
   .d3-flow-node[data-visual-role="concept-core"] {
-  filter: drop-shadow(0 0 11px color-mix(in srgb, #aa6800 42%, transparent));
+  filter: drop-shadow(0 0 12px color-mix(in srgb, #aa6800 42%, transparent));
 }
 
 @media (max-width: 900px) {
@@ -138,6 +165,6 @@
   }
 
   .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
-    width: 100%;
+    width: min(860px, 96vw);
   }
 }
