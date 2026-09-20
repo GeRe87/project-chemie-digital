@@ -1,170 +1,162 @@
 /* Scene 06 · CogniFlow starts with meaning
-   A static, vertically layered semantic map:
-   CONCEPT -> three equal semantic facets -> CONCEPT DOMAIN.
-   Geometry remains generic and renderer-owned. */
+   Stonecastle's cf_ontology is a Meta-TBox: ConceptDomain defines the semantic
+   term categories used by separate concept-domain packages. This scene mirrors
+   that architecture without teaching RDF syntax. */
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
   display: grid !important;
-  grid-template-rows: auto minmax(0, 1fr);
-  align-content: start;
-  padding: 1.55rem 2.2rem 1.25rem !important;
+  grid-template-rows: auto 5.4rem minmax(0, 1fr) 3rem;
+  row-gap: .8rem;
+  align-content: stretch;
+  padding: 1.55rem 2.25rem 1.45rem !important;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 {
-  margin: 0 0 .25rem;
+  grid-row: 1;
+  margin: 0 0 .15rem;
   max-width: none;
   font-size: 2.55em;
   line-height: 1;
   text-wrap: balance;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
-  /* Staying below the renderer's generic 900px breakpoint intentionally selects
-     its vertical layered flow: one node, three siblings, one node. */
-  width: min(890px, 90vw);
-  height: 100%;
-  min-height: 0;
+/* The domain is the vocabulary scope — not another leaf node. */
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead {
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(1040px, 92%);
+  max-width: none;
   margin: 0 auto;
-  padding: .15rem 0 0;
-  overflow: visible;
+  padding: .62rem 1.25rem .55rem;
+  border: 4px solid #3c70aa;
+  background: color-mix(in srgb, #b9d7ff 76%, var(--pcd-surface-strong));
+  box-shadow: 8px 8px 0 color-mix(in srgb, #3c70aa 22%, transparent);
+  color: #173c67;
+  font: 800 .94em/1.12 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-runtime,
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-figure {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  margin: 0;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  max-height: 35.5rem;
-  margin: 0 auto;
-  overflow: visible;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-caption {
-  display: none;
-}
-
-/* The semantic map should read through the boxes, not six tiny relation callouts. */
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge-label-group {
-  display: none;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge {
-  stroke-width: 3;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-edge[data-visual-role="domain-scope"] {
-  stroke: #3c70aa;
-  stroke-width: 3;
-  stroke-dasharray: 8 7;
-  opacity: .72;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label {
-  font-size: 20px;
-  font-weight: 760;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label > tspan:first-child {
-  font-size: 25px;
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead::first-line {
+  font-size: 1.45em;
   font-weight: 950;
-  letter-spacing: .015em;
+  letter-spacing: .055em;
 }
 
-/* Semantic visual roles: scientific meaning lives in RDF, color realization here. */
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="concept-core"] {
+/* Five Meta-TBox categories: 3 + 2 composition, deliberately not another flow chart. */
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list {
+  grid-row: 3;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.15rem;
+  width: min(1100px, 96%);
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li {
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  place-content: center;
+  min-width: 0;
+  min-height: 8.3rem;
+  margin: 0;
+  padding: 1.05rem 1.15rem;
+  border: 4px solid var(--semantic-stroke);
+  background: var(--semantic-fill);
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--semantic-stroke) 23%, transparent);
+  color: var(--semantic-text);
+  font: 800 1.08em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li::first-line {
+  font-size: 1.28em;
+  font-weight: 950;
+  letter-spacing: .035em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  grid-column: 1 / span 2;
+  grid-row: 1;
   --semantic-fill: #ffdda0;
   --semantic-stroke: #aa6800;
   --semantic-text: #603900;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="attributes"] {
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+  grid-column: 3 / span 2;
+  grid-row: 1;
   --semantic-fill: #bfe9e7;
   --semantic-stroke: #168e9c;
   --semantic-text: #063d47;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="relationships"] {
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
+  grid-column: 5 / span 2;
+  grid-row: 1;
   --semantic-fill: #d9c7f2;
   --semantic-stroke: #7046ad;
   --semantic-text: #3d216d;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="controlled-meaning"] {
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+  grid-column: 2 / span 2;
+  grid-row: 2;
   --semantic-fill: #cdebb4;
   --semantic-stroke: #4f8a45;
   --semantic-text: #204d25;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="concept-domain"] {
-  --semantic-fill: #b9d7ff;
-  --semantic-stroke: #3c70aa;
-  --semantic-text: #173c67;
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
+  grid-column: 4 / span 2;
+  grid-row: 2;
+  --semantic-fill: #f4c8dc;
+  --semantic-stroke: #a54f7a;
+  --semantic-text: #672846;
 }
 
+/* Foreshadow Scene 07 without turning this scene into architecture. */
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-shape {
-  fill: var(--semantic-fill);
-  stroke: var(--semantic-stroke);
-  stroke-width: 4;
-  filter: drop-shadow(0 7px 0 color-mix(in srgb, var(--semantic-stroke) 24%, transparent));
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-inner-frame,
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-divider {
-  stroke: color-mix(in srgb, var(--semantic-stroke) 65%, var(--semantic-fill));
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-rail {
-  fill: var(--semantic-stroke);
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-status {
-  fill: var(--semantic-fill);
-  stroke: var(--semantic-stroke);
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-index {
-  fill: var(--semantic-stroke);
-  font-size: 19px;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role] .d3-flow-node-label {
-  fill: var(--semantic-text);
-  stroke: color-mix(in srgb, var(--semantic-fill) 90%, transparent);
-  stroke-width: 3px;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  .d3-flow-node[data-visual-role="concept-core"] {
-  filter: drop-shadow(0 0 12px color-mix(in srgb, #aa6800 42%, transparent));
+  > h2 + .lead + .keypoint-list + .lead {
+  grid-row: 4;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(900px, 88%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .55rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--pcd-muted);
+  font: 900 .9em/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .045em;
+  text-align: center;
+  white-space: normal;
 }
 
 @media (max-width: 900px) {
   .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
+    grid-template-rows: auto auto auto auto;
     padding: 1rem !important;
   }
 
-  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
-    width: min(860px, 96vw);
+  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, auto);
+    width: 100%;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    min-height: 6.5rem;
   }
 }
