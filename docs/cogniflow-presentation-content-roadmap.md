@@ -605,58 +605,85 @@ flow + paired KeyPoint callouts.
 
 ### One statement
 
-> CogniFlow starts from a small Meta-TBox grammar that concept-domain packages reuse.
+> CogniFlow is a small semantic core surrounded by independently evolving concept domains and concrete modules.
 
 ### Role in the story
 
-Introduce the semantic constitution actually used in Stonecastle before showing any concrete package, service, or processing specification.
+Turn the Meta-TBox from Scene 05's abstract requirement into a visible project architecture.
 
-The core ontology is intentionally small. It defines the categories used by concept domains rather than embedding package-, service-, runtime-, or scientific-domain concepts into the core.
+The central ontology remains deliberately small. Around it, Stonecastle organizes separate concept-domain packages. A second outer layer shows that many concrete runtime, service, bootstrap, template, and example modules can be added without turning the system into one monolithic dependency tree.
 
 ### Visual concept
 
-Do not center this scene on a Processing Unit. The grammar is more fundamental:
+Use the concentric architecture motif from the earlier CogniFlow project-architecture slide, but render the current Stonecastle structure rather than copying the old module inventory:
 
 ~~~text
-                        CONCEPT DOMAIN
-           vocabulary scope defining domain terms
+                         SPECIFICATION LAYER
+           ○   ○   ○   ○   ○   ○   ○   ○   ○   ○   ○   ○
 
-        CONCEPT      ATTRIBUTE      RELATION
+                         CONCEPT LAYER
+                  ○      ○      ○      ○      ○
 
-          CONTROLLED VALUE        SHAPE
+                           CORE ONTOLOGY
+                             cf_ontology
 ~~~
 
-Audience-level meanings:
+The center contains the Meta-TBox vocabulary:
 
-- **Concept** — central domain abstraction
-- **Attribute** — structured part of a concept
-- **Relation** — explicit structural link
-- **Controlled Value** — named allowed value
-- **Shape** — validation rule
+~~~text
+ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape
+~~~
 
-Use five large colored semantic cards beneath a wide Concept Domain banner. Avoid arrows and edge labels here: the hierarchy is the message.
+The Concept Layer contains separate domain modules such as:
 
-### Speaker wording
+- cf_concept_service
+- cf_concept_workspace
+- cf_concept_processing
+- cf_concept_package
+- cf_concept_installation_profile
 
-> “CogniFlow has a very small semantic constitution. A concept domain defines the concepts, attributes, relations, controlled values, and validation shapes that give one domain its meaning.”
+The outer Specification Layer contains many smaller concrete modules, including package templates, example packages, service infrastructure, runtime/workspace modules, and bootstrap modules.
 
-Do not show RDF syntax yet.
+### Focus examples
+
+Two Concept Layer modules are deliberately larger and receive compact callouts:
+
+**Package**
+- cf_concept_package
+- CfPackage
+- Manifest
+- Version
+- Role
+- Contributions
+
+**Data Processing**
+- cf_concept_processing
+- ProcessingUnit
+- ProcessingStep
+- ProcessingPipeline
+- Port / PortRole
+
+These are examples of the modular structure, not the only important domains.
 
 ### Presentation state
 
-Show the complete scene immediately. No staged build-up is needed.
+Show the complete architecture immediately. No staged reveal is required.
+
+Use circles around the core so the audience immediately perceives:
+
+> one small core → several independent semantic domains → many concrete modules
 
 ### Audience understanding after this scene
 
-> “The core is not the processing model itself — it is the grammar used to define processing, service, package, and other domains.”
+> “CogniFlow is modular by construction: many modules share semantic foundations without becoming one monolithic implementation.”
 
 ### Preferred primitive
 
-Concept Domain banner + five semantic KeyPoint cards.
+Graph-backed concentric semantic ring runtime.
 
 ### Transition
 
-> The same grammar can now define very different domains without hard-wiring them together.
+> The same shared core lets those modules remain independently specified — now we can inspect selected domains in more detail.
 
 ---
 
