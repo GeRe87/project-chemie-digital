@@ -135,7 +135,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [role["id"] for role in diagram["participantRoles"]],
         )
         self.assertEqual(
-            ["Consumer", "MCP Gateway", "Authority + Fuseki", "Provider / Executor"],
+            ["Consumer", "MCP Gateway", "Authority", "Provider"],
             [role["label"] for role in diagram["participantRoles"]],
         )
         self.assertEqual(
@@ -158,8 +158,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn('data-diagram-type="sequence"', fallback)
         self.assertIn("Consumer", fallback)
         self.assertIn("MCP Gateway", fallback)
-        self.assertIn("Authority + Fuseki", fallback)
-        self.assertIn("Provider / Executor", fallback)
+        self.assertIn("Authority", fallback)
+        self.assertIn("Provider", fallback)
         self.assertIn('data-interaction-message-id="ex:message-service-search"', fallback)
         self.assertNotIn('data-participant-binding-role-id="ex:role-service-consumer"', fallback)
 
