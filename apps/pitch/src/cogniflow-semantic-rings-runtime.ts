@@ -13,7 +13,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 export interface SemanticRingModule {
   readonly title: string;
   readonly packageId: string;
-  readonly detail?: string;
+  readonly details?: readonly string[];
 }
 
 export interface SemanticRingProjection {
@@ -45,7 +45,7 @@ export function parseSemanticRingModule(text: string): SemanticRingModule {
   return Object.freeze({
     title: lines[0] ?? "",
     packageId: lines[1] ?? "",
-    ...(lines.length > 2 ? { detail: lines.slice(2).join(" ") } : {}),
+    ...(lines.length > 2 ? { details: Object.freeze(lines.slice(2)) } : {}),
   });
 }
 
@@ -147,9 +147,9 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
   });
 
   const cx = 600;
-  const cy = 288;
-  const conceptRadius = 136;
-  const specificationRadius = 226;
+  const cy = 302;
+  const conceptRadius = 158;
+  const specificationRadius = 258;
 
   const specBand = svg("circle");
   setAttrs(specBand, { cx, cy, r: specificationRadius, class: "pcd-semantic-ring-band pcd-semantic-ring-band-specification" });
@@ -164,18 +164,18 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
     root.append(guide);
   }
 
-  appendText(root, cx, 48, "pcd-semantic-layer-label", "SPECIFICATION LAYER");
-  appendText(root, cx, 112, "pcd-semantic-layer-label", "CONCEPT LAYER");
+  appendText(root, cx, 36, "pcd-semantic-layer-label", "SPECIFICATION LAYER");
+  appendText(root, cx, 101, "pcd-semantic-layer-label", "CONCEPT LAYER");
 
   const coreLines = projection.coreText.split("\n").map((line) => line.trim()).filter(Boolean);
 
   const coreGroup = svg("g");
   const coreCircle = svg("circle");
-  setAttrs(coreCircle, { cx, cy, r: 70, class: "pcd-semantic-core-node" });
+  setAttrs(coreCircle, { cx, cy, r: 80, class: "pcd-semantic-core-node" });
   coreGroup.append(coreCircle);
-  appendText(coreGroup, cx, cy - 21, "pcd-semantic-core-title", coreLines[0] ?? "CORE ONTOLOGY");
+  appendText(coreGroup, cx, cy - 24, "pcd-semantic-core-title", coreLines[0] ?? "CORE ONTOLOGY");
   appendText(coreGroup, cx, cy + 3, "pcd-semantic-core-package", coreLines[1] ?? "cf_ontology");
-  appendText(coreGroup, cx, cy + 29, "pcd-semantic-core-term", coreLines[2] ?? "shared semantic grammar");
+  appendText(coreGroup, cx, cy + 33, "pcd-semantic-core-term", coreLines[2] ?? "shared semantic grammar");
   root.append(coreGroup);
 
   const conceptAngles = [-90, -18, 54, 126, 198];
@@ -192,7 +192,7 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
       "data-package-id": module.packageId,
     });
     const circle = svg("circle");
-    setAttrs(circle, { cx: x, cy: y, r: focus ? 44 : 35 });
+    setAttrs(circle, { cx: x, cy: y, r: focus ? 54 : 43 });
     group.append(circle);
     appendMultilineText(
       group,
@@ -224,11 +224,11 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
       "data-package-id": module.packageId,
     });
     const circle = svg("circle");
-    setAttrs(circle, { cx: x, cy: y, r: labeledSpecificationModules.has(module.packageId) ? 17 : 12 });
+    setAttrs(circle, { cx: x, cy: y, r: labeledSpecificationModules.has(module.packageId) ? 21 : 15 });
     group.append(circle);
 
     if (labeledSpecificationModules.has(module.packageId)) {
-      const [labelX, labelY] = pointOnRing(cx, cy, specificationRadius + 31, angle);
+      const [labelX, labelY] = pointOnRing(cx, cy, specificationRadius + 37, angle);
       const anchor = Math.cos((angle * Math.PI) / 180) > 0.28
         ? "start"
         : Math.cos((angle * Math.PI) / 180) < -0.28
@@ -246,16 +246,16 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
   const focusSpecs = [
     {
       packageId: "cf_concept_package",
-      x: 30,
-      y: 458,
-      width: 340,
+      x: 10,
+      y: 472,
+      width: 400,
       tone: "#9E0142",
     },
     {
       packageId: "cf_concept_processing",
-      x: 830,
-      y: 458,
-      width: 340,
+      x: 790,
+      y: 472,
+      width: 400,
       tone: "#3288BD",
     },
   ] as const;
@@ -266,7 +266,7 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
     if (!module || !position) continue;
     const [nodeX, nodeY] = position;
     const targetX = spec.x < cx ? spec.x + spec.width : spec.x;
-    const targetY = spec.y + 45;
+    const targetY = spec.y + 54;
     const connector = svg("path");
     setAttrs(connector, {
       d: `M ${nodeX} ${nodeY} Q ${(nodeX + targetX) / 2} ${targetY - 24} ${targetX} ${targetY}`,
@@ -279,28 +279,28 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
       x: spec.x,
       y: spec.y,
       width: spec.width,
-      height: 98,
+      height: 118,
       rx: 12,
       ry: 12,
       class: "pcd-semantic-focus-card",
       stroke: spec.tone,
     });
     root.append(card);
-    const title = appendText(root, spec.x + 18, spec.y + 25, "pcd-semantic-focus-eyebrow", module.title, "start");
+    const title = appendText(root, spec.x + 20, spec.y + 27, "pcd-semantic-focus-eyebrow", module.title, "start");
     title.setAttribute("fill", spec.tone);
-    appendText(root, spec.x + 18, spec.y + 46, "pcd-semantic-focus-package-id", module.packageId, "start");
-    const detail = module.detail ?? "";
-    const detailLines = detail.split(" · ").reduce<string[]>((lines, token) => {
-      const last = lines.at(-1);
-      if (!last || (last + " · " + token).length > 38) lines.push(token);
-      else lines[lines.length - 1] = last + " · " + token;
-      return lines;
-    }, []);
-    appendMultilineText(root, spec.x + 18, spec.y + 70, "pcd-semantic-focus-detail", detailLines.slice(0, 2), 16)
-      .setAttribute("text-anchor", "start");
+    appendText(root, spec.x + 20, spec.y + 50, "pcd-semantic-focus-package-id", module.packageId, "start");
+    const detailLines = module.details ?? [];
+    appendMultilineText(
+      root,
+      spec.x + 20,
+      spec.y + 76,
+      "pcd-semantic-focus-detail",
+      detailLines.slice(0, 3),
+      18,
+    ).setAttribute("text-anchor", "start");
   }
 
-  appendText(root, cx, 620, "pcd-semantic-ring-note", projection.noteText);
+  appendText(root, cx, 638, "pcd-semantic-ring-note", projection.noteText);
   return root;
 }
 
