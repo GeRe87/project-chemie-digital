@@ -1,18 +1,20 @@
 /* CogniFlow: One Rulebook, Extensible by Design
-   Rulebook at the top, conforming package modules below, one shared service boundary at the bottom. */
+   Concrete module examples in a 3+2 architecture board.
+   Icons use local monochrome glyphs to preserve offline operation. */
+
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] {
   display: grid !important;
-  grid-template-rows: auto 4.5rem minmax(0, 1fr) 5rem;
-  row-gap: .66rem;
+  grid-template-rows: auto 4.15rem minmax(0, 1fr) 4.65rem;
+  row-gap: .58rem;
   align-content: stretch;
-  padding: 1.35rem 1.85rem 1.3rem !important;
+  padding: 1.18rem 1.55rem 1.05rem !important;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 {
   grid-row: 1;
   margin: 0;
   max-width: none;
-  font-size: 2.42em;
+  font-size: 2.3em;
   line-height: 1;
   text-wrap: balance;
 }
@@ -20,22 +22,22 @@
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead {
   grid-row: 2;
   box-sizing: border-box;
-  width: min(1120px, 95%);
+  width: min(1080px, 94%);
   max-width: none;
   margin: 0 auto;
-  padding: .48rem 1rem .44rem;
-  border: 4px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+  padding: .42rem 1rem .38rem;
+  border: 4px solid #0f6885;
+  background: color-mix(in srgb, #0f6885 10%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, #0f6885 20%, transparent);
   color: var(--pcd-foreground);
-  font: 875 .96em/1.07 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 .92em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: center;
   white-space: pre-line;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead::first-line {
-  color: var(--pcd-accent);
-  font-size: 1.22em;
+  color: #0f6885;
+  font-size: 1.17em;
   font-weight: 950;
   letter-spacing: .045em;
 }
@@ -44,10 +46,10 @@
   grid-row: 3;
   align-self: stretch;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: 7.2rem minmax(0, 1fr);
-  gap: 1.35rem 1.2rem;
-  width: min(1180px, 98%);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: 6.55rem minmax(0, 1fr) minmax(0, .91fr);
+  gap: .92rem 1.05rem;
+  width: min(1190px, 99%);
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
@@ -56,105 +58,174 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li {
+  --module-fill: var(--pcd-surface-strong);
+  --module-stroke: var(--pcd-accent);
+  --module-text: var(--pcd-foreground);
   position: relative;
   box-sizing: border-box;
   min-width: 0;
+  min-height: 0;
   margin: 0;
-  padding: 1rem 1.1rem;
-  border: 5px solid var(--module-stroke, var(--pcd-accent));
-  background: var(--module-fill, var(--pcd-surface-strong));
+  padding: .86rem .88rem .8rem 3.35rem;
+  border: 4px solid var(--module-stroke);
+  background: var(--module-fill);
   box-shadow:
-    8px 8px 0 color-mix(in srgb, var(--module-stroke, var(--pcd-accent)) 24%, transparent),
-    inset 0 0 0 2px color-mix(in srgb, white 36%, transparent);
-  color: var(--module-text, var(--pcd-foreground));
-  font: 875 .92em/1.28 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+    7px 7px 0 color-mix(in srgb, var(--module-stroke) 22%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 34%, transparent);
+  color: var(--module-text);
+  font: 850 .82em/1.22 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.2em;
+  font-size: 1.18em;
   font-weight: 950;
-  letter-spacing: .012em;
+  letter-spacing: .008em;
 }
 
+/* Rulebook spans the entire architecture board. */
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
   --module-fill: #ffe0a8;
   --module-stroke: #c96a12;
   --module-text: #522800;
   grid-column: 1 / -1;
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 0;
-  padding: .72rem 1.4rem;
-  font-size: 1.03em;
-  line-height: 1.16;
+  padding: .64rem 1.3rem;
+  font-size: .98em;
+  line-height: 1.14;
   text-align: center;
 }
 
+/* Top row: three characteristic modules. */
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
   --module-fill: #b9e4ff;
   --module-stroke: #176da0;
   --module-text: #07364e;
+  grid-column: 1 / span 2;
+  grid-row: 2;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
   --module-fill: #cbeab7;
   --module-stroke: #4f8a45;
   --module-text: #244c26;
+  grid-column: 3 / span 2;
+  grid-row: 2;
+  border-style: dashed;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
   --module-fill: #d5c5f4;
   --module-stroke: #7046ad;
   --module-text: #3b2164;
+  grid-column: 5 / span 2;
+  grid-row: 2;
   border-style: dashed;
 }
 
+/* Bottom row: current service/reporting examples, centered. */
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
+  --module-fill: #f4cbd2;
+  --module-stroke: #a63c4d;
+  --module-text: #5d1f2b;
+  grid-column: 2 / span 2;
+  grid-row: 3;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
+  --module-fill: #c8edf1;
+  --module-stroke: #168e9c;
+  --module-text: #073f49;
+  grid-column: 4 / span 2;
+  grid-row: 3;
+}
+
+/* Rulebook-to-module connector stems. */
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::before {
   content: "";
   position: absolute;
+  z-index: 0;
   left: 50%;
-  top: -1.38rem;
+  top: -.95rem;
   width: 0;
-  height: 1.38rem;
-  border-left: 4px solid var(--pcd-accent);
+  height: .95rem;
+  border-left: 4px solid #0f6885;
   transform: translateX(-50%);
 }
 
+/* Offline monochrome module glyphs. */
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::after {
-  content: "▼";
   position: absolute;
-  left: 50%;
-  top: -1.08rem;
-  transform: translateX(-50%);
-  color: var(--pcd-accent);
-  font: 900 .7em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  left: .92rem;
+  top: .82rem;
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  color: var(--module-stroke);
+  font: 950 1.55rem/1 "Segoe UI Symbol", "DejaVu Sans", sans-serif;
+  text-align: center;
 }
 
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2)::after {
+  content: "⚙";
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3)::after {
+  content: "▣";
+  font-size: 1.75rem;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4)::after {
+  content: "⌘";
+  font-size: 1.62rem;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5)::after {
+  content: "◉";
+  font-size: 1.72rem;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6)::after {
+  content: "▤";
+  font-size: 1.75rem;
+}
+
+/* Small explicit status chips for modules not yet present in Stonecastle. */
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3),
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, white 17%, transparent) 0 13%, transparent 13% 100%),
+    var(--module-fill);
+}
+
+/* Shared service boundary. */
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list + .lead {
   grid-row: 4;
   box-sizing: border-box;
   align-self: center;
-  width: min(1160px, 97%);
+  width: min(1140px, 96%);
   max-width: none;
   margin: 0 auto;
-  padding: .5rem 1rem .46rem;
+  padding: .42rem 1rem .38rem;
   border: 4px solid #168e9c;
   background: color-mix(in srgb, #168e9c 10%, var(--pcd-surface-strong));
   box-shadow: 7px 7px 0 color-mix(in srgb, #168e9c 20%, transparent);
   color: var(--pcd-foreground);
-  font: 875 .87em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 .84em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: center;
   white-space: pre-line;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list + .lead::first-line {
   color: #168e9c;
-  font-size: 1.18em;
+  font-size: 1.17em;
   font-weight: 950;
-  letter-spacing: .055em;
+  letter-spacing: .05em;
 }
 
 @media (max-width: 900px) {
@@ -170,12 +241,17 @@
     width: 100%;
   }
 
-  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1),
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2),
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3),
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4),
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5),
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
     grid-column: 1;
+    grid-row: auto;
   }
 
-  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::before,
-  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::after {
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::before {
     display: none;
   }
 }

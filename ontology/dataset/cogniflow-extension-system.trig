@@ -9,17 +9,19 @@
     cd:authoredResource true .
 
   ex:def-cogniflow-extension-system a cd:Definition ;
-    cd:body "CogniFlow defines the rules for how functionality is described and exposed. Conforming Python packages combine domain logic with package-local semantics, publish capabilities through the common service boundary, and can be added without changing the platform contract."@en ;
+    cd:body "CogniFlow defines the rules for how functionality is described and exposed. Conforming modules combine implementation logic with machine-readable semantics and publish their capabilities through the common service boundary."@en ;
     cd:hasKeyPoint
       ex:keypoint-cogniflow-extension-rulebook,
-      ex:keypoint-cogniflow-extension-package-a,
-      ex:keypoint-cogniflow-extension-package-b,
-      ex:keypoint-cogniflow-extension-package-n ;
+      ex:keypoint-cogniflow-extension-bootstrap,
+      ex:keypoint-cogniflow-extension-webui,
+      ex:keypoint-cogniflow-extension-pipeline,
+      ex:keypoint-cogniflow-extension-service,
+      ex:keypoint-cogniflow-extension-report ;
     cd:authoredResource true .
 
   ex:cogniflow-extension-system-banner a cd:Interpretation ;
     cd:body """COGNIFLOW = RULES + CONFORMING EXTENSIONS
-the core defines how functionality is described — packages supply what it does"""@en ;
+the core defines how functionality is described — modules supply what it does"""@en ;
     cd:authoredResource true .
 
   ex:keypoint-cogniflow-extension-rulebook a cd:KeyPoint ;
@@ -28,37 +30,55 @@ the core defines how functionality is described — packages supply what it does
 RDF/TriG semantics · SHACL conformance · package model · service contracts"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-package-a a cd:KeyPoint ;
+  ex:keypoint-cogniflow-extension-bootstrap a cd:KeyPoint ;
     cd:position 2 ;
-    cd:body """cf_package_A
-Python domain logic
-service_executor.py
-semantics/*.trig
-→ capability A"""@en ;
+    cd:body """Bootstrap Installer
+runtime setup
+dependency installation
+profile bootstrap
+→ install + initialize"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-package-b a cd:KeyPoint ;
+  ex:keypoint-cogniflow-extension-webui a cd:KeyPoint ;
     cd:position 3 ;
-    cd:body """cf_package_B
-Python domain logic
-service_executor.py
-semantics/*.trig
-→ capability B"""@en ;
+    cd:body """Web UI · PLANNED
+browser-based interface
+workflow control
+status + results views
+→ user interaction"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-package-n a cd:KeyPoint ;
+  ex:keypoint-cogniflow-extension-pipeline a cd:KeyPoint ;
     cd:position 4 ;
-    cd:body """+ cf_package_N
-same package rules
-new domain logic
-new semantics
-→ capability N"""@en ;
+    cd:body """Pipeline Engine · PLANNED
+workflow orchestration
+processing execution
+step coordination
+→ pipeline runtime"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-extension-service a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body """Service Module
+service boundary
+tool exposure
+standardized calls/results
+→ service access"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-extension-report a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body """Report Generator
+report creation
+FAIR summaries
+exported artifacts
+→ reporting"""@en ;
     cd:authoredResource true .
 
   ex:cogniflow-extension-service-boundary a cd:Interpretation ;
     cd:body """ONE SERVICE BOUNDARY
 cf_call_service → semantic resolution → standardized result
-EXTEND BY ADDING A CONFORMING PACKAGE — NOT BY CHANGING THE CORE"""@en ;
+EXTEND BY ADDING A CONFORMING MODULE — NOT BY CHANGING THE CORE"""@en ;
     cd:authoredResource true .
 }
 
