@@ -64,7 +64,7 @@
 
 .pcd-semantic-layer-label {
   fill: var(--pcd-muted);
-  font: 900 15px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .16em;
 }
 
@@ -77,18 +77,18 @@
 
 .pcd-semantic-core-title {
   fill: white;
-  font: 950 24px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 950 21px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .035em;
 }
 
 .pcd-semantic-core-package {
   fill: color-mix(in srgb, white 84%, #8fd3ff);
-  font: 850 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 850 13px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .pcd-semantic-core-term {
   fill: color-mix(in srgb, white 78%, #8fd3ff);
-  font: 750 10.5px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 11px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .pcd-semantic-concept-node circle {
@@ -106,7 +106,7 @@
 
 .pcd-semantic-concept-label {
   fill: white;
-  font: 950 12px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 950 11px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   paint-order: stroke;
   stroke: color-mix(in srgb, black 30%, transparent);
   stroke-width: 2px;
@@ -114,7 +114,7 @@
 
 .pcd-semantic-concept-package-id {
   fill: var(--pcd-foreground);
-  font: 800 10px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 9.5px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
   stroke-width: 4px;
@@ -158,12 +158,12 @@
 
 .pcd-semantic-focus-detail {
   fill: var(--pcd-foreground);
-  font: 800 12px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 11.5px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .pcd-semantic-ring-note {
   fill: var(--pcd-accent);
-  font: 950 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 950 13px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .09em;
 }
 
