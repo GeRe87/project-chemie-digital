@@ -43,12 +43,12 @@ search by need → match provider → standardized order → standardized delive
     cd:authoredResource true .
 
   ex:role-service-authority a cd:ParticipantRole ;
-    skos:prefLabel "Authority + Fuseki"@en ;
+    skos:prefLabel "Authority"@en ;
     cd:position 3 ;
     cd:authoredResource true .
 
   ex:role-service-executor a cd:ParticipantRole ;
-    skos:prefLabel "Provider / Executor"@en ;
+    skos:prefLabel "Provider"@en ;
     cd:position 4 ;
     cd:authoredResource true .
 
