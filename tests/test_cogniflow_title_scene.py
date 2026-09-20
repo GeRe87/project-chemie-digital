@@ -185,7 +185,9 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
         black_media = next(block for block in black_box["blocks"] if block["kind"] == "media-reference")
+        fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
         fair_media = next(block for block in fair_gap["blocks"] if block["kind"] == "media-reference")
+        explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
         explicit_media = next(block for block in explicit["blocks"] if block["kind"] == "media-reference")
 
         self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
@@ -196,13 +198,15 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn("PROCESSING ?", black_media["alternativeText"])
         self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in black_box["blocks"]))
 
-        self.assertEqual(["media-reference"], [block["kind"] for block in fair_gap["blocks"]])
+        self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
+        self.assertEqual(["prose", "media-reference"], [block["kind"] for block in fair_gap["blocks"]])
         self.assertEqual("/media/cogniflow/cogniflow-laboratory-chaos.webp", fair_media["uri"])
         self.assertEqual("image/webp", fair_media["mediaType"])
         self.assertIn("laboratory", fair_media["alternativeText"].lower())
         self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in fair_gap["blocks"]))
 
-        self.assertEqual(["media-reference"], [block["kind"] for block in explicit["blocks"]])
+        self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
+        self.assertEqual(["prose", "media-reference"], [block["kind"] for block in explicit["blocks"]])
         self.assertEqual("/media/cogniflow/cogniflow-shared-fair-platform.webp", explicit_media["uri"])
         self.assertEqual("image/webp", explicit_media["mediaType"])
         self.assertIn("CogniFlow", explicit_media["alternativeText"])
