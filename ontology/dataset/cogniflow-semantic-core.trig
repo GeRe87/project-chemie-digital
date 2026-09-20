@@ -15,7 +15,7 @@
   ex:cogniflow-ring-core a cd:Interpretation ;
     cd:body """CORE ONTOLOGY
 cf_ontology
-Meta-TBox · ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape"""@en ;
+shared semantic grammar"""@en ;
     cd:authoredResource true .
 
   ex:cogniflow-ring-concept-layer a cd:Interpretation ;
@@ -43,14 +43,16 @@ cf_concept_workspace"""@en ;
     cd:position 3 ;
     cd:body """DATA PROCESSING
 cf_concept_processing
-ProcessingUnit · ProcessingStep · ProcessingPipeline · Port / PortRole"""@en ;
+ProcessingUnit · ProcessingStep · ProcessingPipeline
+Port · PortRole"""@en ;
     cd:authoredResource true .
 
   ex:keypoint-cogniflow-ring-package a cd:KeyPoint ;
     cd:position 4 ;
     cd:body """PACKAGE
 cf_concept_package
-CfPackage · Manifest · Version · Role · Contributions"""@en ;
+CfPackage · Manifest · Version
+Role · Contributions"""@en ;
     cd:authoredResource true .
 
   ex:keypoint-cogniflow-ring-installation-profile a cd:KeyPoint ;
