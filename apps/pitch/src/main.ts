@@ -13,6 +13,7 @@ import "./cogniflow-fair-intro.css";
 import "./cogniflow-fair-gap.css";
 import "./cogniflow-explicit-context.css";
 import "./cogniflow-semantic-core.css";
+import "./cogniflow-domain-specifications.css";
 import "./cogniflow-title-media.css";
 import "./cogniflow-core-sequence.css";
 import "./knowledge-network-runtime.css";
