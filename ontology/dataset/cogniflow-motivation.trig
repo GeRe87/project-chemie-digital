@@ -583,23 +583,68 @@ Reuse	license + provenance""" ;
     cd:body "Open formats and rich metadata can make data FAIR while the processing that transforms them into a scientific result remains insufficiently described."@en ;
     cd:authoredResource true .
 
+  ex:cogniflow-missing-processing-context-heading a cd:Interpretation ;
+    cd:body "MISSING CONTEXT"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-missing-processing-context a cd:Interpretation ;
+    cd:body "The crucial scientific and technical context of custom processing is often missing or implicit."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-missing-algorithm,
+      ex:keypoint-cogniflow-missing-implementation,
+      ex:keypoint-cogniflow-missing-version,
+      ex:keypoint-cogniflow-missing-parameters,
+      ex:keypoint-cogniflow-missing-environment,
+      ex:keypoint-cogniflow-missing-dependencies ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-algorithm a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "algorithm"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-implementation a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "implementation"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-version a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "version"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-parameters a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body "parameters"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-environment a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body "environment"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-dependencies a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body "dependencies"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-fair-processing-gap-statement a cd:Interpretation ;
+    cd:body "FAIR data ≠ FAIR processing"@en ;
+    cd:authoredResource true .
+
   ex:diagram-cogniflow-fair-processing-gap a cd:FlowDiagram ;
-    skos:prefLabel "Where FAIRness can stop"@en ;
-    cd:body "An instrument can produce well-described open data while the processing context behind a scientific result remains implicit."@en ;
+    skos:prefLabel "FAIR data can still pass through opaque custom processing"@en ;
+    cd:body "Well-described FAIR data can enter custom processing and produce a scientific result even when the processing context is not explicit."@en ;
     cd:hasDiagramNode ex:node-cogniflow-fair-instrument,
       ex:node-cogniflow-fair-data,
       ex:node-cogniflow-fair-processing,
-      ex:node-cogniflow-fair-result,
-      ex:node-cogniflow-fair-context ;
+      ex:node-cogniflow-fair-result ;
     cd:hasDiagramEdge ex:edge-cogniflow-fair-instrument-data,
       ex:edge-cogniflow-fair-data-processing,
-      ex:edge-cogniflow-fair-processing-result,
-      ex:edge-cogniflow-fair-processing-context ;
+      ex:edge-cogniflow-fair-processing-result ;
     cd:hasDiagramState ex:diagram-state-cogniflow-fair-measurement,
       ex:diagram-state-cogniflow-fair-data,
       ex:diagram-state-cogniflow-fair-processing,
-      ex:diagram-state-cogniflow-fair-result,
-      ex:diagram-state-cogniflow-fair-context ;
+      ex:diagram-state-cogniflow-fair-result ;
     cd:focusNode ex:node-cogniflow-fair-processing ;
     cd:authoredResource true .
 
@@ -607,23 +652,21 @@ Reuse	license + provenance""" ;
     skos:prefLabel "INSTRUMENT"@en ;
     cd:position 1 ;
     cd:authoredResource true .
+
   ex:node-cogniflow-fair-data a cd:DiagramNode ;
     skos:prefLabel "FAIR / OPEN DATA"@en ;
     cd:position 2 ;
     cd:authoredResource true .
+
   ex:node-cogniflow-fair-processing a cd:DiagramNode ;
     skos:prefLabel "CUSTOM PROCESSING"@en ;
     cd:position 3 ;
     cd:visualRole "highlight" ;
     cd:authoredResource true .
+
   ex:node-cogniflow-fair-result a cd:DiagramNode ;
     skos:prefLabel "RESULT"@en ;
     cd:position 4 ;
-    cd:authoredResource true .
-  ex:node-cogniflow-fair-context a cd:DiagramNode ;
-    skos:prefLabel "MISSING CONTEXT · algorithm · version · parameters · environment · dependencies"@en ;
-    cd:position 5 ;
-    cd:visualRole "comparison" ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-fair-instrument-data a cd:DiagramEdge ;
@@ -632,23 +675,19 @@ Reuse	license + provenance""" ;
     cd:sourceNode ex:node-cogniflow-fair-instrument ;
     cd:targetNode ex:node-cogniflow-fair-data ;
     cd:authoredResource true .
+
   ex:edge-cogniflow-fair-data-processing a cd:DiagramEdge ;
     skos:prefLabel "processed by"@en ;
     cd:position 2 ;
     cd:sourceNode ex:node-cogniflow-fair-data ;
     cd:targetNode ex:node-cogniflow-fair-processing ;
     cd:authoredResource true .
+
   ex:edge-cogniflow-fair-processing-result a cd:DiagramEdge ;
     skos:prefLabel "produces"@en ;
     cd:position 3 ;
     cd:sourceNode ex:node-cogniflow-fair-processing ;
     cd:targetNode ex:node-cogniflow-fair-result ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-fair-processing-context a cd:DiagramEdge ;
-    skos:prefLabel "leaves implicit"@en ;
-    cd:position 4 ;
-    cd:sourceNode ex:node-cogniflow-fair-processing ;
-    cd:targetNode ex:node-cogniflow-fair-context ;
     cd:authoredResource true .
 
   ex:diagram-state-cogniflow-fair-measurement a cd:DiagramState ;
@@ -689,21 +728,6 @@ Reuse	license + provenance""" ;
       ex:edge-cogniflow-fair-data-processing,
       ex:edge-cogniflow-fair-processing-result ;
     cd:focusDiagramNode ex:node-cogniflow-fair-result ;
-    cd:authoredResource true .
-
-  ex:diagram-state-cogniflow-fair-context a cd:DiagramState ;
-    cd:position 5 ;
-    skos:prefLabel "Missing processing context"@en ;
-    cd:activeDiagramNode ex:node-cogniflow-fair-instrument,
-      ex:node-cogniflow-fair-data,
-      ex:node-cogniflow-fair-processing,
-      ex:node-cogniflow-fair-result,
-      ex:node-cogniflow-fair-context ;
-    cd:activeDiagramEdge ex:edge-cogniflow-fair-instrument-data,
-      ex:edge-cogniflow-fair-data-processing,
-      ex:edge-cogniflow-fair-processing-result,
-      ex:edge-cogniflow-fair-processing-context ;
-    cd:focusDiagramNode ex:node-cogniflow-fair-context ;
     cd:authoredResource true .
 
   ex:cogniflow-explicit-processing-context a cd:Concept ;
@@ -819,7 +843,10 @@ Reuse	license + provenance""" ;
 
   ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
     cd:position 4 ;
-    cd:usesResource ex:diagram-cogniflow-fair-processing-gap ;
+    cd:usesResource ex:diagram-cogniflow-fair-processing-gap,
+      ex:cogniflow-missing-processing-context-heading,
+      ex:cogniflow-missing-processing-context,
+      ex:cogniflow-fair-processing-gap-statement ;
     cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
     cd:authoredResource true .
 
@@ -914,7 +941,10 @@ Reuse	license + provenance""" ;
   ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-fair-processing-gap ;
     cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
-      ex:scene-item-cogniflow-fair-processing-gap-diagram ;
+      ex:scene-item-cogniflow-fair-processing-gap-diagram,
+      ex:scene-item-cogniflow-fair-processing-gap-missing-heading,
+      ex:scene-item-cogniflow-fair-processing-gap-missing-list,
+      ex:scene-item-cogniflow-fair-processing-gap-statement ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
@@ -929,6 +959,30 @@ Reuse	license + provenance""" ;
     cd:position 2 ;
     cd:selectsResource ex:diagram-cogniflow-fair-processing-gap ;
     cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-missing-heading a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-missing-processing-context-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-missing-processing-context ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-statement a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-fair-processing-gap-statement ;
+    cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
