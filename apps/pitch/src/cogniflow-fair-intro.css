@@ -4,7 +4,7 @@
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   grid-template-rows: auto 2.55rem minmax(0, 1fr);
   column-gap: 2.2rem;
-  row-gap: 1rem;
+  row-gap: .85rem;
   align-items: stretch;
   padding: 1.8rem 2.35rem 1.8rem !important;
 }
@@ -14,7 +14,7 @@
   grid-row: 1;
   margin: 0 0 .7rem;
   max-width: none;
-  font-size: 2.6em;
+  font-size: 2.85em;
   line-height: 1;
   text-wrap: balance;
 }
@@ -24,7 +24,7 @@
   grid-row: 2 / 4;
   display: grid;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  gap: .72rem;
+  gap: .58rem;
   align-self: stretch;
   min-width: 0;
   margin: 0;
@@ -43,15 +43,30 @@
   background: color-mix(in srgb, var(--pcd-surface-strong) 95%, transparent);
   box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 19%, transparent);
   color: var(--pcd-foreground);
-  font: 800 .92em/1.2 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 1.06em/1.16 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li::first-letter {
-  color: var(--pcd-accent);
-  font-size: 2.05em;
+  font-size: 2.35em;
   font-weight: 900;
+}
+
+.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li:nth-child(1)::first-letter {
+  color: #f05a7e;
+}
+
+.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li:nth-child(2)::first-letter {
+  color: #f0a53a;
+}
+
+.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li:nth-child(3)::first-letter {
+  color: #3aa7d8;
+}
+
+.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li:nth-child(4)::first-letter {
+  color: #58b878;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block {
@@ -87,7 +102,7 @@
   border-bottom: 0;
   background: var(--pcd-accent);
   color: var(--pcd-surface-strong);
-  font: 900 .82em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 .96em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .055em;
   text-align: left;
   text-transform: uppercase;
@@ -101,12 +116,12 @@
   border-collapse: collapse;
   table-layout: fixed;
   color: var(--pcd-foreground);
-  font: 800 .86em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 .98em/1.06 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block .data-table th,
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block .data-table td {
-  padding: .36rem .48rem;
+  padding: .38rem .5rem;
   border: 1px solid color-mix(in srgb, var(--pcd-accent) 38%, transparent);
   text-align: left;
   vertical-align: middle;
