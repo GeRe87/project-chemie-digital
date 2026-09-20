@@ -56,11 +56,11 @@
   ex:code-cogniflow-feature-results a cd:CodeExample ;
     skos:prefLabel "Feature results"@en ;
     cd:code """Feature\tRT (min)\tm/z\tArea
-F-01\t4.18\t181.071\t12,480
-F-02\t4.42\t237.103\t39,160
-F-03\t4.80\t325.134\t101,920
-F-04\t5.07\t421.187\t17,640
-F-05\t5.31\t512.284\t9,870""" ;
+F-01\t4.2\t181.071\t12,480
+F-02\t4.4\t237.103\t39,160
+F-03\t4.8\t325.134\t101,920
+F-04\t5.1\t421.187\t17,640
+F-05\t5.3\t512.284\t9,870""" ;
     cd:programmingLanguage "tsv" ;
     cd:editable false ;
     cd:executable false ;
