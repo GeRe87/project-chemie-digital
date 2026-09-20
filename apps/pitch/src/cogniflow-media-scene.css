@@ -50,3 +50,87 @@
     padding: .65rem !important;
   }
 }
+
+
+/* Scene 3 -> 4 comparison: keep both semantic scenes in one Reveal section.
+   The first image is visible initially; the second replaces it at the same
+   pixel position on one fragment step, avoiding a full scroll to another slide. */
+.reveal .slides section:has(> .pcd-media-swap) {
+  display: grid !important;
+  place-items: center;
+  min-height: 100%;
+  padding: 1rem 1.25rem !important;
+  overflow: hidden;
+}
+
+.reveal .slides section:has(> .pcd-media-swap) > h2,
+.reveal .slides section:has(> .pcd-media-swap) .pcd-media-swap-next > h2 {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.reveal .slides .pcd-media-swap {
+  position: relative;
+  width: min(100%, 1320px);
+  height: 100%;
+  margin: 0;
+}
+
+.reveal .slides .pcd-media-swap-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides .pcd-media-swap-layer > .media-reference {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.reveal .slides .pcd-media-swap-layer > .media-reference img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.reveal .slides .pcd-media-swap-next {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reveal .slides .pcd-media-swap-next.visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .slides .pcd-media-swap-base,
+  .reveal .slides .pcd-media-swap-next {
+    transition: opacity 180ms linear;
+  }
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section:has(> .pcd-media-swap) {
+    padding: .65rem !important;
+  }
+}
