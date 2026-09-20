@@ -153,7 +153,7 @@ cf_bootstrap_source_pypi"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-core-extension> {
   ex:path-step-cogniflow-semantic-core a cd:PathStep ;
-    cd:position 6 ;
+    cd:position 7 ;
     cd:usesResource ex:cogniflow-ring-core,
       ex:cogniflow-ring-concept-layer,
       ex:cogniflow-ring-specification-layer ;
