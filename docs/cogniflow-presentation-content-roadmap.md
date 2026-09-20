@@ -495,10 +495,6 @@ environment
 dependencies
 ~~~
 
-The visual punch line is a separate statement:
-
-> **FAIR data ≠ FAIR processing**
-
 The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSING` is the visual focus. The separate context panel makes the semantic gap explicit without cluttering the flow with overlapping relation labels.
 
 ### Reveal sequence
@@ -507,7 +503,6 @@ The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSI
 2. Custom processing appears.
 3. Result appears.
 4. Missing-context panel appears with the six explicit questions.
-5. Key sentence appears: **FAIR data ≠ FAIR processing**
 
 ### Audience understanding after this scene
 
@@ -515,7 +510,7 @@ The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSI
 
 ### Preferred primitive
 
-flow + KeyPoint callout + statement.
+flow + KeyPoint callout.
 
 ### Transition
 
@@ -1376,7 +1371,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 01 | hero / prose | yes | none |
 | 02 | flow | yes | optional unresolved/opaque visual role |
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
-| 04 | flow + KeyPoint callout + statement | yes | none expected |
+| 04 | flow + KeyPoint callout | yes | none expected |
 | 05 | network or stateful flow | yes | none expected |
 | 06 | network + DiagramState | yes | structured semantic node may help |
 | 07 | network + groups + focus/context | yes | none expected |
