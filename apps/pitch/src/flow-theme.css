@@ -75,7 +75,7 @@ body[data-presentation-theme="dark"] .reveal {
   grid-row: 1;
   margin: 0 0 .15rem;
   max-width: none;
-  font-size: 2.15em;
+  font-size: 2.45em;
   line-height: 1;
   text-wrap: balance;
 }
@@ -117,7 +117,7 @@ body[data-presentation-theme="dark"] .reveal {
   padding: 0 .75rem;
   background: var(--pcd-accent);
   color: var(--pcd-surface-strong);
-  font: 800 .6em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 .78em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .07em;
   text-transform: uppercase;
 }
@@ -168,11 +168,13 @@ body[data-presentation-theme="dark"] .reveal {
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-chart-tick-label {
-  font-size: 15px;
+  font-size: 23px;
+  font-weight: 700;
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-chart-axis-title {
-  font-size: 18px;
+  font-size: 27px;
+  font-weight: 800;
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .data-table {
@@ -184,12 +186,12 @@ body[data-presentation-theme="dark"] .reveal {
   border-collapse: collapse;
   table-layout: fixed;
   color: var(--pcd-text);
-  font: 800 .67em/1.1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 .84em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .data-table th,
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .data-table td {
-  padding: .26rem .3rem;
+  padding: .34rem .38rem;
   border: 1px solid color-mix(in srgb, var(--pcd-accent) 42%, transparent);
   text-align: center;
   vertical-align: middle;
@@ -248,6 +250,24 @@ body[data-presentation-theme="dark"] .reveal {
   min-height: 10.5rem;
   max-height: 100%;
   overflow: visible;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-node-label {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-edge-label {
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-node-index {
+  font-size: 20px;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-shared-edge-annotation-label {
+  font-size: 18px;
 }
 
 @media (max-width: 900px) {
