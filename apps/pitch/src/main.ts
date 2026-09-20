@@ -204,11 +204,19 @@ const showcaseSceneIds = new Set([
   "ex:scene-cogniflow-showcase-video-two--scene",
 ]);
 
+// Suppress the animated Scroll View transition only while advancing from the still
+// and the first video. Once video two is active, normal Scroll View behavior is
+// restored so the final "Thank you" slide scrolls in normally.
+const showcaseHardCutSceneIds = new Set([
+  "ex:scene-cogniflow-showcase-still--scene",
+  "ex:scene-cogniflow-showcase-video-one--scene",
+]);
+
 function syncShowcaseNavigationMode(): void {
   const sceneId = deck.getCurrentSlide()?.id ?? "";
   document.body.classList.toggle(
     "pcd-showcase-no-scroll-transition",
-    appearance.view === "scroll" && showcaseSceneIds.has(sceneId),
+    appearance.view === "scroll" && showcaseHardCutSceneIds.has(sceneId),
   );
 }
 
