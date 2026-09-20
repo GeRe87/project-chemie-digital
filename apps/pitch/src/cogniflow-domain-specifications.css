@@ -1,11 +1,11 @@
-/* Scene 09 · From Grammar to Scientific Meaning
-   Peak integration translates the generic core grammar back into analytical chemistry. */
+/* Scene 09 · A Semantic Model for Data Processing
+   Three-column 16-bit view: concept domain -> processing model -> scientific specification. */
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] {
   display: grid !important;
-  grid-template-rows: auto 4.5rem minmax(0, 1fr) 3.2rem;
+  grid-template-rows: auto 4.45rem minmax(0, 1fr) 3.3rem;
   row-gap: .72rem;
   align-content: stretch;
-  padding: 1.45rem 2.05rem 1.4rem !important;
+  padding: 1.42rem 2rem 1.38rem !important;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 {
@@ -20,38 +20,37 @@
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead {
   grid-row: 2;
   box-sizing: border-box;
-  width: min(980px, 90%);
+  width: min(1020px, 92%);
   max-width: none;
   margin: 0 auto;
-  padding: .55rem 1.1rem .5rem;
+  padding: .54rem 1.1rem .49rem;
   border: 4px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
   color: var(--pcd-foreground);
-  font: 850 .98em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 1.02em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: center;
   white-space: pre-line;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead::first-line {
   color: var(--pcd-accent);
-  font-size: 1.24em;
+  font-size: 1.25em;
   font-weight: 950;
-  letter-spacing: .05em;
+  letter-spacing: .045em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list {
   grid-row: 3;
   align-self: stretch;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: minmax(8.5rem, .72fr) repeat(2, minmax(0, 1fr));
-  gap: .82rem;
-  width: min(1120px, 98%);
+  grid-template-columns: .9fr 1.22fr .98fr;
+  gap: 2.35rem;
+  width: min(1180px, 99%);
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
-  padding: .05rem 0;
+  padding: .18rem 0 .1rem;
   list-style: none;
 }
 
@@ -62,20 +61,23 @@
   position: relative;
   box-sizing: border-box;
   display: block;
+  align-self: stretch;
   min-width: 0;
-  min-height: 0;
+  min-height: 20rem;
   margin: 0;
-  padding: 1.05rem 1.18rem .95rem;
-  border: 4px solid var(--domain-stroke);
+  padding: 1.35rem 1.24rem 1.15rem;
+  border: 5px solid var(--domain-stroke);
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--domain-fill) 96%, var(--pcd-surface-strong)) 0 34%,
-      color-mix(in srgb, var(--domain-fill) 76%, var(--pcd-surface-strong)) 34% 100%
+      color-mix(in srgb, var(--domain-fill) 96%, var(--pcd-surface-strong)) 0 25%,
+      color-mix(in srgb, var(--domain-fill) 76%, var(--pcd-surface-strong)) 25% 100%
     );
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--domain-stroke) 24%, transparent);
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--domain-stroke) 25%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 42%, transparent);
   color: var(--domain-text);
-  font: 875 1.13em/1.32 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 1.13em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
@@ -83,68 +85,73 @@
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li::before {
   content: "";
   position: absolute;
-  top: .42rem;
-  right: .44rem;
-  width: .5rem;
-  height: .5rem;
+  top: .45rem;
+  right: .48rem;
+  width: .52rem;
+  height: .52rem;
   background: var(--domain-stroke);
-  box-shadow: -.78rem 0 0 color-mix(in srgb, var(--domain-stroke) 58%, transparent);
+  box-shadow:
+    -.82rem 0 0 color-mix(in srgb, var(--domain-stroke) 62%, transparent),
+    0 .82rem 0 color-mix(in srgb, var(--domain-stroke) 38%, transparent);
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.24em;
+  font-size: 1.27em;
   font-weight: 950;
-  letter-spacing: .02em;
+  letter-spacing: .018em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  right: -1.98rem;
+  z-index: 3;
+  transform: translateY(-50%);
+  color: var(--pcd-accent);
+  font: 950 1.7rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-shadow:
+    3px 3px 0 color-mix(in srgb, var(--pcd-surface-strong) 92%, transparent),
+    5px 5px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  grid-column: 1 / -1;
   --domain-fill: #b9e4ff;
   --domain-stroke: #176da0;
   --domain-text: #07364e;
-  padding: .9rem 1.3rem .82rem;
-  text-align: center;
-  font-size: 1.2em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  --domain-fill: #d5c5f4;
-  --domain-stroke: #7046ad;
-  --domain-text: #3b2164;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
   --domain-fill: #ffd28f;
   --domain-stroke: #c96a12;
   --domain-text: #522800;
+  transform: translateY(-.28rem);
+  box-shadow:
+    10px 10px 0 color-mix(in srgb, var(--domain-stroke) 28%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--domain-stroke) 12%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 42%, transparent);
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+.reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
   --domain-fill: #f4c3df;
   --domain-stroke: #a33d72;
   --domain-text: #5d2041;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
-  --domain-fill: #cbeab7;
-  --domain-stroke: #4f8a45;
-  --domain-text: #244c26;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list + .lead {
   grid-row: 4;
   box-sizing: border-box;
   align-self: center;
-  width: min(1060px, 94%);
+  width: min(1120px, 96%);
   max-width: none;
   margin: 0 auto;
-  padding: .55rem 1rem .5rem;
+  padding: .57rem 1rem .52rem;
   border: 4px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-surface-strong) 90%, var(--pcd-accent) 10%);
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
   color: var(--pcd-accent);
   font: 950 1.02em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .04em;
+  letter-spacing: .035em;
   text-align: center;
 }
 
@@ -156,11 +163,24 @@
 
   .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    gap: 1rem;
     width: 100%;
   }
 
-  .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-    grid-column: 1;
+  .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li {
+    min-height: 9rem;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+    transform: none;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
+    content: "▼";
+    top: auto;
+    right: 50%;
+    bottom: -1.2rem;
+    transform: translateX(50%);
+    font-size: 1.25rem;
   }
 }
