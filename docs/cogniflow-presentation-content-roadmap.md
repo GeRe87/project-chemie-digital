@@ -2,7 +2,7 @@
 
 **Status:** Narrative Freeze v1 — living roadmap  
 **Owner context:** CogniFlow presentation in project-chemie-digital  
-**Presentation format:** approximately 15 scenes, Reveal.js Scroll View  
+**Presentation format:** approximately 16 scenes, Reveal.js Scroll View  
 **Visual language:** 16-bit Retro / Eco City / restrained HUD-inspired scientific presentation  
 **Audience:** chemists and analytical scientists without prior knowledge of semantic workflow standardization  
 **Companion roadmap:** docs/cogniflow-presentation-diagram-roadmap.md  
@@ -285,9 +285,9 @@ This is an explicit Phase 2 alignment item, not a reason to distort the story.
 
 ---
 
-# 6. Frozen 15-scene narrative
+# 6. Frozen 16-scene narrative
 
-The approximately 15-scene structure below is the Narrative Freeze v1.
+The approximately 16-scene structure below is the Narrative Freeze v1.
 
 A scene may still be refined, but changing the order or conceptual dependency requires an update to the decision log.
 
@@ -383,7 +383,83 @@ flow, with the processing node initially represented as an unresolved/opaque sta
 
 ---
 
-## Scene 03 — FAIR data are not FAIR processing
+## Scene 03 — What FAIR Data Means in Practice
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [x] Authored  
+**Visual:** [x]
+
+### One statement
+
+> FAIR data are findable, accessible, interoperable and reusable because the data object carries persistent identity, structured metadata and explicit access and reuse context.
+
+### Role in the story
+
+Create a shared FAIR baseline before arguing that FAIR data alone do not make the processing chain transparent.
+
+The scene is intentionally positive: it shows what a well-described scientific data object looks like before the next scene exposes the remaining processing gap.
+
+### Visual concept
+
+Use a split composition.
+
+Left half:
+
+~~~text
+F — FINDABLE
+persistent identifier + searchable metadata
+
+A — ACCESSIBLE
+retrievable under clear access conditions
+
+I — INTEROPERABLE
+structured formats + shared vocabularies
+
+R — REUSABLE
+rich metadata + provenance + clear reuse conditions
+~~~
+
+Right half:
+
+~~~text
+FAIR DATA OBJECT
+Illustrative LC-HRMS dataset
+
+Identifier   doi:10.xxxx/sample.017
+Data file    sample_017.mzML
+Format       mzML
+Sample       River water extract
+Instrument   UHPLC-QTOF-MS
+Metadata     structured + searchable
+Vocabulary   controlled terms
+Access       HTTPS / repository
+Reuse        license + provenance
+~~~
+
+The right-hand object is illustrative. It demonstrates that FAIRness is more than the file itself without implying that any one metadata field or open-access condition is universally mandatory.
+
+### Reveal sequence
+
+1. The four FAIR letters establish the common vocabulary.
+2. Their practical meaning appears in one short line each.
+3. The concrete FAIR data object appears on the right.
+4. Land on the idea: **the file and its context are explicit digital objects.**
+
+### Audience understanding after this scene
+
+> “FAIR data are not just files; they are data objects with enough identity and context to be found, accessed, interpreted and reused.”
+
+### Preferred primitive
+
+KeyPoint list + structured TSV/data-table block in a two-column composition.
+
+### Transition
+
+> Now assume we did all of this correctly. What happens when these FAIR data enter the processing chain?
+
+---
+
+## Scene 04 — FAIR data are not FAIR processing
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -441,7 +517,7 @@ flow + semantic annotations.
 
 ---
 
-## Scene 04 — Make nothing important implicit
+## Scene 05 — Make nothing important implicit
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -508,7 +584,7 @@ network or stateful flow.
 
 ---
 
-## Scene 05 — CogniFlow starts with meaning
+## Scene 06 — CogniFlow starts with meaning
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -567,7 +643,7 @@ network + DiagramState.
 
 ---
 
-## Scene 06 — One semantic grammar. Different specifications.
+## Scene 07 — One semantic grammar. Different specifications.
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -628,7 +704,7 @@ network + groups + focus/context states.
 
 ---
 
-## Scene 07 — A package that explains itself
+## Scene 08 — A package that explains itself
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -680,7 +756,7 @@ structured semantic card; use generic prose/card primitive if available, otherwi
 
 ---
 
-## Scene 08 — Functionality becomes a Service
+## Scene 09 — Functionality becomes a Service
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -735,7 +811,7 @@ network + structured node content.
 
 ---
 
-## Scene 09 — Consumer and Provider do not need to know each other
+## Scene 10 — Consumer and Provider do not need to know each other
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -801,7 +877,7 @@ network + DiagramState. Provider substitution may reuse role-binding semantics i
 
 ---
 
-## Scene 10 — “I need a PDF report.”
+## Scene 11 — “I need a PDF report.”
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -883,7 +959,7 @@ sequence + participant roles + bindings.
 
 ---
 
-## Scene 11 — Data processing is a CogniFlow Concept too
+## Scene 12 — Data processing is a CogniFlow Concept too
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -899,7 +975,7 @@ Return from software architecture to the scientific core of the talk.
 
 ### Visual concept
 
-Reuse the semantic-core visual from Scene 06, then focus only on the Data Processing Concept Domain.
+Reuse the semantic-core visual from Scene 07, then focus only on the Data Processing Concept Domain.
 
 ~~~text
 DATA PROCESSING CONCEPT DOMAIN
@@ -911,7 +987,7 @@ DATA PROCESSING CONCEPT DOMAIN
 
 ### Reveal sequence
 
-1. Recall the three Concept Domains from Scene 06.
+1. Recall the three Concept Domains from Scene 07.
 2. De-emphasize Package and Service.
 3. Focus Data Processing.
 4. Reveal ProcessingUnit.
@@ -931,7 +1007,7 @@ network + focus/context DiagramState.
 
 ---
 
-## Scene 12 — A Processing Unit has an explicit interface
+## Scene 13 — A Processing Unit has an explicit interface
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -993,7 +1069,7 @@ network or flow with explicit ports; if ports require a new renderer capability,
 
 ---
 
-## Scene 13 — A pipeline is a composition, not a script
+## Scene 14 — A pipeline is a composition, not a script
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1066,7 +1142,7 @@ flow + groups + focus state.
 
 ---
 
-## Scene 14 — Explicit semantics enable machine-assisted execution
+## Scene 15 — Explicit semantics enable machine-assisted execution
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1140,7 +1216,7 @@ Potential generic need:
 
 ---
 
-## Scene 15 — FAIRness does not stop at the file
+## Scene 16 — FAIRness does not stop at the file
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1223,31 +1299,33 @@ The story is intentionally causal.
         ↓
 02 scientific black box
         ↓
-03 FAIR data are not FAIR processing
+03 FAIR data in practice
         ↓
-04 make processing context explicit
+04 FAIR data are not FAIR processing
         ↓
-05 shared semantic grammar
+05 make processing context explicit
         ↓
-06 independent specifications from one grammar
+06 shared semantic grammar
         ↓
-07 self-describing Package
+07 independent specifications from one grammar
         ↓
-08 semantic Service
+08 self-describing Package
         ↓
-09 Consumer / Provider decoupling
+09 semantic Service
         ↓
-10 MCP + semantic discovery + Fuseki
+10 Consumer / Provider decoupling
         ↓
-11 Data Processing Concept
+11 MCP + semantic discovery + Fuseki
         ↓
-12 Processing Unit interface
+12 Data Processing Concept
         ↓
-13 semantic Processing Pipeline
+13 Processing Unit interface
         ↓
-14 machine-assisted modular execution
+14 semantic Processing Pipeline
         ↓
-15 FAIR data processing
+15 machine-assisted modular execution
+        ↓
+16 FAIR data processing
 ~~~
 
 Every scene must make the next scene feel necessary.
@@ -1266,19 +1344,20 @@ Recommended semantic reveal budget:
 |---|---:|---|
 | 01 | 1 | promise |
 | 02 | 4 | establish black box |
-| 03 | 5 | FAIR gap |
-| 04 | 5 | philosophy |
-| 05 | 5 | semantic grammar |
-| 06 | 5 | modular specifications |
-| 07 | 5 | package example |
-| 08 | 5 | service contract |
-| 09 | 6 | dependency decoupling |
-| 10 | 7 | concrete discovery/execution |
-| 11 | 5 | processing domain |
-| 12 | 6 | ports/interface |
-| 13 | 7 | pipeline composition |
-| 14 | 7 | execution payoff |
-| 15 | 1–2 | synthesis |
+| 03 | 3–4 | FAIR baseline |
+| 04 | 5 | FAIR gap |
+| 05 | 5 | philosophy |
+| 06 | 5 | semantic grammar |
+| 07 | 5 | modular specifications |
+| 08 | 5 | package example |
+| 09 | 5 | service contract |
+| 10 | 6 | dependency decoupling |
+| 11 | 7 | concrete discovery/execution |
+| 12 | 5 | processing domain |
+| 13 | 6 | ports/interface |
+| 14 | 7 | pipeline composition |
+| 15 | 7 | execution payoff |
+| 16 | 1–2 | synthesis |
 
 These are narrative states, not mandatory fragment counts. Multiple closely related changes may be realized as one transition if that improves pacing.
 
@@ -1290,19 +1369,20 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 |---|---|---|---|
 | 01 | hero / prose | yes | none |
 | 02 | flow | yes | optional unresolved/opaque visual role |
-| 03 | flow + annotations | yes | none expected |
-| 04 | network or stateful flow | yes | none expected |
-| 05 | network + DiagramState | yes | structured semantic node may help |
-| 06 | network + groups + focus/context | yes | none expected |
-| 07 | structured semantic card | partial | generic structured-node/card content may be needed |
-| 08 | network + structured node | partial | structured interface content may be needed |
-| 09 | network + states / role substitution | yes | none expected |
-| 10 | sequence + bindings | yes | none expected |
-| 11 | network + focus/context | yes | none expected |
-| 12 | port-aware node | partial | generic ports/interface rendering likely useful |
-| 13 | flow + nested focus | mostly | nested pipeline focus may need generic support |
-| 14 | coordinated stateful composition | partial | generic coordinated SceneState may be justified |
-| 15 | hero / summary | yes | none |
+| 03 | KeyPoints + structured TSV/table | yes | none expected |
+| 04 | flow + annotations | yes | none expected |
+| 05 | network or stateful flow | yes | none expected |
+| 06 | network + DiagramState | yes | structured semantic node may help |
+| 07 | network + groups + focus/context | yes | none expected |
+| 08 | structured semantic card | partial | generic structured-node/card content may be needed |
+| 09 | network + structured node | partial | structured interface content may be needed |
+| 10 | network + states / role substitution | yes | none expected |
+| 11 | sequence + bindings | yes | none expected |
+| 12 | network + focus/context | yes | none expected |
+| 13 | port-aware node | partial | generic ports/interface rendering likely useful |
+| 14 | flow + nested focus | mostly | nested pipeline focus may need generic support |
+| 15 | coordinated stateful composition | partial | generic coordinated SceneState may be justified |
+| 16 | hero / summary | yes | none |
 
 No new diagram family should be introduced solely to reproduce a visual idea.
 
@@ -1439,7 +1519,7 @@ A scene is complete only when all layers are accepted.
 Completed:
 
 - [x] audience assumptions defined;
-- [x] 15-scene causal narrative defined;
+- [x] 16-scene causal narrative defined;
 - [x] one statement per scene defined;
 - [x] audience takeaway per scene defined;
 - [x] reveal choreography per scene defined;
@@ -1456,7 +1536,7 @@ Open alignment before Phase 2:
 
 Exit criterion met for narrative work:
 
-> The talk can be explained verbally from Scene 01 to Scene 15 as one causal argument without relying on implementation details.
+> The talk can be explained verbally from Scene 01 to Scene 16 as one causal argument without relying on implementation details.
 
 ---
 
@@ -1505,8 +1585,8 @@ Cluster A currently uses only existing generic primitives:
 
 - Scene 01: title/prose;
 - Scene 02: flow;
-- Scene 03: flow;
-- Scene 04: network + DiagramState + focus/context.
+- Scene 04: flow;
+- Scene 05: network + DiagramState + focus/context.
 
 No CogniFlow-specific renderer behavior was introduced.
 ### Cluster A visual review — pass 1
@@ -1517,15 +1597,15 @@ Observed at 1440×900 in Scroll View:
 
 - Scene 01: readable and stable; generous unused vertical space is acceptable for the title pass.
 - Scene 02: readable and stable; diagram is compact relative to the available scene area.
-- Scene 03: failed vertically because five separate context questions created a six-node sibling layer after the processing node.
-- Scene 04: failed vertically because the grouped radial network geometry exceeded the scene height; state filtering changes emphasis/visibility but does not recompute a smaller layout.
+- Scene 04: failed vertically because five separate context questions created a six-node sibling layer after the processing node.
+- Scene 05: failed vertically because the grouped radial network geometry exceeded the scene height; state filtering changes emphasis/visibility but does not recompute a smaller layout.
 - Multi-scene screenshots are not a reliable review artifact in the current virtualized/snap Scroll View.
 
 **Revision:** keep the semantic detail but reduce simultaneous layout complexity.
 
-- Scene 03 now uses one compact “MISSING CONTEXT” node containing algorithm, version, parameters, environment and dependencies, plus five authored DiagramStates for the causal reveal.
-- Scene 04 now mirrors that composition with one “EXPLICIT CONTEXT” node containing purpose, interface, parameters, implementation, version and execution/provenance.
-- Scene 04 remains stateful, but uses the ordinary flow layout instead of the radial network layout.
+- Scene 04 now uses one compact “MISSING CONTEXT” node containing algorithm, version, parameters, environment and dependencies, plus five authored DiagramStates for the causal reveal.
+- Scene 05 now mirrors that composition with one “EXPLICIT CONTEXT” node containing purpose, interface, parameters, implementation, version and execution/provenance.
+- Scene 05 remains stateful, but uses the ordinary flow layout instead of the radial network layout.
 - No renderer-specific workaround or authored geometry was introduced.
 
 A second 1440×900 visual review is required before Cluster A is accepted.
@@ -1610,7 +1690,7 @@ The final talk passes when:
 - [ ] ProcessingUnit clearly reuses the earlier modularity philosophy;
 - [ ] the difference between a script and a semantic pipeline is visually obvious;
 - [ ] machine assistance is not confused with replacement of scientific judgement;
-- [ ] Scene 15 closes the exact question opened by Scene 01;
+- [ ] Scene 16 closes the exact question opened by Scene 01;
 - [ ] no scene exists merely to demonstrate Project Chemie Digital technology.
 
 ---
@@ -1650,7 +1730,7 @@ Data processing is not introduced as another subsystem. It is the same semantic/
 
 ## D8 — ProcessingPipeline is a ProcessingUnit
 
-This enables recursive composition and should become a visual “aha” moment in Scene 13.
+This enables recursive composition and should become a visual “aha” moment in Scene 14.
 
 ## D9 — Scientific expertise remains essential
 
