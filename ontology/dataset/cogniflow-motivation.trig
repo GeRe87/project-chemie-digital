@@ -627,10 +627,6 @@ Reuse	license + provenance""" ;
     cd:body "dependencies"@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-fair-processing-gap-statement a cd:Interpretation ;
-    cd:body "FAIR data ≠ FAIR processing"@en ;
-    cd:authoredResource true .
-
   ex:diagram-cogniflow-fair-processing-gap a cd:FlowDiagram ;
     skos:prefLabel "FAIR data can still pass through opaque custom processing"@en ;
     cd:body "Well-described FAIR data can enter custom processing and produce a scientific result even when the processing context is not explicit."@en ;
@@ -845,8 +841,7 @@ Reuse	license + provenance""" ;
     cd:position 4 ;
     cd:usesResource ex:diagram-cogniflow-fair-processing-gap,
       ex:cogniflow-missing-processing-context-heading,
-      ex:cogniflow-missing-processing-context,
-      ex:cogniflow-fair-processing-gap-statement ;
+      ex:cogniflow-missing-processing-context ;
     cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
     cd:authoredResource true .
 
@@ -943,8 +938,7 @@ Reuse	license + provenance""" ;
     cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
       ex:scene-item-cogniflow-fair-processing-gap-diagram,
       ex:scene-item-cogniflow-fair-processing-gap-missing-heading,
-      ex:scene-item-cogniflow-fair-processing-gap-missing-list,
-      ex:scene-item-cogniflow-fair-processing-gap-statement ;
+      ex:scene-item-cogniflow-fair-processing-gap-missing-list ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
@@ -976,14 +970,6 @@ Reuse	license + provenance""" ;
     cd:selectsResource ex:cogniflow-missing-processing-context ;
     cd:communicativeRole cd:KeyPointRole ;
     cd:selectionPath "cd:hasKeyPoint" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-cogniflow-fair-processing-gap-statement a cd:SceneItem ;
-    cd:position 5 ;
-    cd:selectsResource ex:cogniflow-fair-processing-gap-statement ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
