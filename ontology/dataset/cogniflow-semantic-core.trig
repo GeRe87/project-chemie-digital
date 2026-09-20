@@ -12,7 +12,7 @@
     cd:body "The heart of CogniFlow is a small semantic grammar for describing what things are and how they relate."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-semantic-core a cd:FlowDiagram, cd:NetworkDiagram ;
+  ex:diagram-cogniflow-semantic-core a cd:FlowDiagram ;
     skos:prefLabel "Concept, meaning and semantic scope"@en ;
     cd:body "A concept is described by attributes, explicit relationships and controlled meaning inside a shared Concept Domain."@en ;
     cd:hasDiagramNode ex:node-cogniflow-semantic-concept,
@@ -23,18 +23,10 @@
     cd:hasDiagramEdge ex:edge-cogniflow-semantic-concept-attributes,
       ex:edge-cogniflow-semantic-concept-relationships,
       ex:edge-cogniflow-semantic-concept-controlled,
-      ex:edge-cogniflow-semantic-concept-domain ;
-    cd:hasDiagramGroup ex:diagram-group-cogniflow-semantic-components,
-      ex:diagram-group-cogniflow-semantic-domain ;
+      ex:edge-cogniflow-semantic-attributes-domain,
+      ex:edge-cogniflow-semantic-relationships-domain,
+      ex:edge-cogniflow-semantic-controlled-domain ;
     cd:focusNode ex:node-cogniflow-semantic-concept ;
-    cd:authoredResource true .
-
-  ex:diagram-group-cogniflow-semantic-components a cd:DiagramGroup ;
-    skos:prefLabel "Semantic components"@en ;
-    cd:authoredResource true .
-
-  ex:diagram-group-cogniflow-semantic-domain a cd:DiagramGroup ;
-    skos:prefLabel "Concept domain"@en ;
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-concept a cd:DiagramNode ;
@@ -51,7 +43,6 @@ definition
 version"""@en ;
     cd:position 2 ;
     cd:visualRole "attributes" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-semantic-components ;
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-relationships a cd:DiagramNode ;
@@ -61,7 +52,6 @@ produces
 implemented by"""@en ;
     cd:position 3 ;
     cd:visualRole "relationships" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-semantic-components ;
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-controlled-meaning a cd:DiagramNode ;
@@ -71,7 +61,6 @@ allowed values
 validation"""@en ;
     cd:position 4 ;
     cd:visualRole "controlled-meaning" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-semantic-components ;
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-domain a cd:DiagramNode ;
@@ -80,7 +69,6 @@ shared vocabulary
 scope of meaning"""@en ;
     cd:position 5 ;
     cd:visualRole "concept-domain" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-semantic-domain ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-semantic-concept-attributes a cd:DiagramEdge ;
@@ -104,11 +92,28 @@ scope of meaning"""@en ;
     cd:targetNode ex:node-cogniflow-semantic-controlled-meaning ;
     cd:authoredResource true .
 
-  ex:edge-cogniflow-semantic-concept-domain a cd:DiagramEdge ;
+  ex:edge-cogniflow-semantic-attributes-domain a cd:DiagramEdge ;
     skos:prefLabel "defined within"@en ;
     cd:position 4 ;
-    cd:sourceNode ex:node-cogniflow-semantic-concept ;
+    cd:sourceNode ex:node-cogniflow-semantic-attributes ;
     cd:targetNode ex:node-cogniflow-semantic-domain ;
+    cd:visualRole "domain-scope" ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-relationships-domain a cd:DiagramEdge ;
+    skos:prefLabel "defined within"@en ;
+    cd:position 5 ;
+    cd:sourceNode ex:node-cogniflow-semantic-relationships ;
+    cd:targetNode ex:node-cogniflow-semantic-domain ;
+    cd:visualRole "domain-scope" ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-controlled-domain a cd:DiagramEdge ;
+    skos:prefLabel "defined within"@en ;
+    cd:position 6 ;
+    cd:sourceNode ex:node-cogniflow-semantic-controlled-meaning ;
+    cd:targetNode ex:node-cogniflow-semantic-domain ;
+    cd:visualRole "domain-scope" ;
     cd:authoredResource true .
 }
 
