@@ -54,6 +54,13 @@ test("selects horizontal and vertical layouts from host width without reordering
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
 });
 
+test("horizontal flow content is centered when the host is wider than its intrinsic graph", () => {
+  const wide = createD3FlowLayout(input, 1600);
+  const left = Math.min(...wide.nodes.map((node) => node.x - node.width / 2));
+  const right = Math.max(...wide.nodes.map((node) => node.x + node.width / 2));
+  assert.ok(Math.abs((left + right) / 2 - wide.width / 2) < 1);
+});
+
 test("branched DAGs place same-depth provenance siblings in one visual layer", () => {
   const wide = createD3FlowLayout(branchedInput, 1200);
   const byId = new Map(wide.nodes.map((node) => [node.id, node]));
