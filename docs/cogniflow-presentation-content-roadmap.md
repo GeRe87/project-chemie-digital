@@ -600,7 +600,7 @@ flow + paired KeyPoint callouts.
 ## Scene 06 — CogniFlow starts with meaning
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -611,18 +611,26 @@ flow + paired KeyPoint callouts.
 
 Introduce the core semantics without teaching RDF.
 
+Scene 05 made the processing context explicit. Scene 06 now explains the grammar used to give that context a stable meaning.
+
 ### Visual concept
 
-Start with one Concept, then add its structure:
+Use a static semantic network rather than another two-panel slide:
 
 ~~~text
-CONCEPT
-  ├─ ATTRIBUTES
-  ├─ RELATIONSHIPS
-  └─ CONTROLLED MEANING
+                         CONCEPT
+                     Processing Unit
 
-CONCEPT DOMAIN = vocabulary scope around the concept
+       ATTRIBUTES      RELATIONSHIPS      CONTROLLED MEANING
+       label           consumes           agreed terms
+       definition      produces           allowed values
+       version         implemented by     validation
+
+                      CONCEPT DOMAIN
+                shared vocabulary + scope
 ~~~
+
+The central Concept is visually dominant. Attributes, Relationships and Controlled Meaning use distinct semantic color roles, while Concept Domain forms a separate scope node. The palette belongs to presentation CSS; the RDF carries only semantic visual roles.
 
 ### Speaker wording
 
@@ -634,13 +642,9 @@ Only if useful, mention that this is stored as machine-readable semantics.
 
 Do not show RDF syntax yet.
 
-### Reveal sequence
+### Presentation state
 
-1. Concept.
-2. Attributes.
-3. Explicit relationships.
-4. Controlled values / validation as the idea of unambiguous meaning.
-5. Concept Domain as the scope around that vocabulary.
+Show the complete semantic network immediately. No DiagramState build-up is needed for this scene.
 
 ### Audience understanding after this scene
 
@@ -648,7 +652,7 @@ Do not show RDF syntax yet.
 
 ### Preferred primitive
 
-network + DiagramState.
+static network + semantic visual roles.
 
 ### Transition
 
@@ -1360,7 +1364,7 @@ Recommended semantic reveal budget:
 | 03 | 3–4 | FAIR baseline |
 | 04 | 5 | FAIR gap |
 | 05 | 5 | philosophy |
-| 06 | 5 | semantic grammar |
+| 06 | 1 | semantic grammar |
 | 07 | 5 | modular specifications |
 | 08 | 5 | package example |
 | 09 | 5 | service contract |
@@ -1385,7 +1389,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
 | 04 | flow + paired KeyPoint callouts | yes | none expected |
 | 05 | flow + paired KeyPoint callouts | yes | none expected |
-| 06 | network + DiagramState | yes | structured semantic node may help |
+| 06 | static network + semantic visual roles | yes | none expected |
 | 07 | network + groups + focus/context | yes | none expected |
 | 08 | structured semantic card | partial | generic structured-node/card content may be needed |
 | 09 | network + structured node | partial | structured interface content may be needed |
@@ -1759,11 +1763,11 @@ No CogniFlow-specific renderer behavior is permitted. The presentation itself sh
 
 Proceed to **Phase 2 — Semantic Content Design**.
 
-Cluster A (Scenes 01–04) has been semantically authored and wired into the curated path.
+Scenes 01–06 now cover the motivation and the first semantic-foundation scene in the curated path.
 
 Next:
 
 1. run exact-head semantic/runtime validation;
-2. inspect Scenes 01–04 in Scroll View;
-3. correct only generic layout/theme issues discovered by that review;
-4. then begin Cluster B (Scenes 05–06: semantic grammar and independent specifications).
+2. inspect Scene 06 in Scroll View at the target projector viewport;
+3. tune only presentation CSS if the semantic network needs more breathing room;
+4. then implement Scene 07 — “One semantic grammar. Different specifications.”
