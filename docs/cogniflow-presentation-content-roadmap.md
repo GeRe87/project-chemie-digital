@@ -825,7 +825,7 @@ Graph-backed KeyPoint cards + static ConceptDomain TriG CodeExample + plain-lang
 
 ---
 
-## Scene 09 — From Grammar to Scientific Meaning
+## Scene 09 — A Semantic Model for Data Processing
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -833,45 +833,65 @@ Graph-backed KeyPoint cards + static ConceptDomain TriG CodeExample + plain-lang
 
 ### One statement
 
-> The core grammar is generic; the scientific meaning comes from the domain.
+> The data-processing concept domain defines the reusable structure; a scientific method such as peak integration is a concrete ProcessingStep specification.
 
 ### Role in the story
 
-Return immediately from ontology terminology to analytical chemistry.
+Move from the generic Meta-TBox to the real CogniFlow data-processing concept domain before showing any scientific specification.
 
-Scene 08 introduced the small Meta-TBox. This scene shows that the same five semantic roles can describe a familiar scientific task without changing the grammar.
-
-Peak integration is deliberately used as the illustrative example because an analytical-chemistry audience can recognize the intent immediately.
+This scene is grounded in the current Stonecastle `cf_concept_processing` vocabulary and follows the three-column logic of the earlier CogniFlow workshop presentation: domain vocabulary → processing abstraction → concrete specification.
 
 ### Visual concept
 
-Use one prominent Concept card and four colorful supporting 16-bit cards:
+Use three large 16-bit cards connected from left to right:
 
 ~~~text
-                         CONCEPT
-                    PEAK INTEGRATION
-          chromatographic signal → integrated peak area
+DATA PROCESSING               PROCESSING UNIT                  SPECIFICATION
+CONCEPT DOMAIN
 
-ATTRIBUTES                              RELATIONS
-Signal                                  hasSignal
-Baseline                                hasBaseline
-Integration Window                      hasIntegrationWindow
-Peak Area                               hasPeakArea
-
-CONTROLLED VALUE                        SHAPE
-Integration Mode                        checks required context
-automatic · manual                      and valid structure
+defines ProcessingUnit   →    hasPort → Port              →    PEAK INTEGRATION
+Port · PortRole               Port has PortRole                a ProcessingStep
+Input · Output · Parameter
+                              ProcessingStep                    INPUT signal
+                              = atomic ProcessingUnit           PARAMETER integration window
+                                                               OUTPUT peak area
+                              ProcessingPipeline
+                              = composite ProcessingUnit
+                              PipelineNode → runs
+                                  → ProcessingUnit
 ~~~
 
-The example is illustrative scientific modeling, not a claim that this exact Peak Integration concept domain already ships in Stonecastle.
+The middle ProcessingUnit card is the visual center.
 
-### Core mapping
+### Stonecastle grounding
 
-- **Concept** answers: what scientific operation are we describing?
-- **Attributes** name the scientific parts that matter.
-- **Relations** connect those parts through the predictable `hasX` grammar.
-- **Controlled Value** constrains a choice to an explicit vocabulary.
-- **Shape** makes completeness and structure machine-checkable.
+The current data-processing semantics define:
+
+- `ProcessingUnit` as the reusable data-processing abstraction with a structured interface.
+- `Port` as the structured interface attribute of a ProcessingUnit.
+- `PortRole` with controlled values `Input`, `Output`, and `Parameter`.
+- `ProcessingStep` as an atomic specialization of ProcessingUnit.
+- `ProcessingPipeline` as a composite specialization of ProcessingUnit.
+- `PipelineNode` plus `RunTarget` / `runs` to express which ProcessingUnit is executed inside a pipeline.
+
+The Stonecastle processing file still contains some older `Property` terminology while the core has moved to `Relation`; the presentation uses the intended structural `hasX` relation model rather than presenting that migration residue as architecture.
+
+### Scientific example
+
+Peak integration is not presented as a concept domain of its own.
+
+It is an illustrative **specification of a ProcessingStep**:
+
+~~~text
+Peak Integration
+a ProcessingStep
+
+input     chromatographic signal
+parameter integration window
+output    peak area
+~~~
+
+This mirrors the earlier workshop presentation where a concrete algorithm such as Average is typed as a `ProcessingStep` and connected through ports. fileciteturn1173file0L3864-L3904
 
 ### Presentation state
 
@@ -879,15 +899,15 @@ Show the complete scene immediately. No staged reveal.
 
 ### Audience understanding after this scene
 
-> “The ontology does not replace chemistry. It gives chemistry a predictable machine-readable structure.”
+> “CogniFlow standardizes what a processing unit looks like. A concrete scientific operation simply fills that structure.”
 
 ### Preferred primitive
 
-Graph-backed KeyPoint cards, arranged as one focal scientific Concept plus four supporting semantic roles.
+Three graph-backed KeyPoint cards with visual arrows: Concept Domain → ProcessingUnit model → concrete ProcessingStep specification.
 
 ### Transition
 
-> Once scientific processing can be described this way, the next question is how CogniFlow turns such descriptions into executable processing.
+> Once the processing unit is described semantically, implementation and execution can be attached without changing the scientific contract.
 
 ---
 
