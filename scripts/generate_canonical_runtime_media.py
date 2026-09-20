@@ -87,6 +87,32 @@ def rendered_index(base_artifact: dict[str, Any], artifact: dict[str, Any]) -> s
     return inject_media_fallback(base.rendered_index(base_artifact), artifact)
 
 
+def validate_cogniflow_opening_chart(artifact: dict[str, Any]) -> None:
+    """Fail closed if the opening black-box scene regresses to the legacy 4.0–5.6 min trace."""
+    documents = artifact.get("sceneDocuments", [])
+    if len(documents) != 1:
+        raise ValueError("CogniFlow runtime requires exactly one SceneDocument")
+    scenes = documents[0].get("scenes", [])
+    scene = next(
+        (candidate for candidate in scenes if candidate.get("id") == "ex:scene-cogniflow-processing-black-box--scene"),
+        None,
+    )
+    if scene is None:
+        raise ValueError("CogniFlow opening black-box scene is missing")
+    chart = next((block for block in scene.get("blocks", []) if block.get("kind") == "chart"), None)
+    if chart is None:
+        raise ValueError("CogniFlow opening black-box chart is missing")
+    series = chart.get("series", [])
+    data = series[0].get("data", []) if series else []
+    if len(data) != 61:
+        raise ValueError(f"CogniFlow opening chart expected 61 points, got {len(data)}")
+    if data[0].get("x") != 0.0 or data[-1].get("x") != 12.0:
+        raise ValueError(
+            f"CogniFlow opening chart expected x-range 0.0–12.0 min, "
+            f"got {data[0].get('x')}–{data[-1].get('x')}"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=base.DEFAULT_OUTPUT)
@@ -112,6 +138,7 @@ def main() -> int:
         base_artifact["sceneDocuments"],
         dataset,
     )
+    validate_cogniflow_opening_chart(artifact)
 
     rendered = base.canonical_json(artifact)
     rendered_html = rendered_index(base_artifact, artifact)
