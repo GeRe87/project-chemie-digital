@@ -367,26 +367,44 @@ F-05\t5.31\t512.284\t9,870""" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-    ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
-      cd:focusConcept ex:cogniflow-fair-processing-gap ;
-      cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-media ;
-      cd:authoredResource true .
+  ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-fair-processing-gap ;
+    cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
+      ex:scene-item-cogniflow-fair-processing-gap-media ;
+    cd:authoredResource true .
 
-    ex:scene-item-cogniflow-fair-processing-gap-media a cd:SceneItem ;
-      cd:position 1 ;
-      cd:selectsResource ex:media-cogniflow-laboratory-chaos ;
-      cd:communicativeRole cd:MediaRole ;
-      cd:selectionPath "cd:uri" ;
-      cd:language "en" ;
-      cd:authoredResource true .
+  ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-fair-processing-gap ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-media a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:media-cogniflow-laboratory-chaos ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:selectionPath "cd:uri" ;
+    cd:language "en" ;
+    cd:authoredResource true .
 
   ex:scene-cogniflow-explicit-processing-context a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-explicit-processing-context ;
-    cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-media ;
+    cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-heading,
+      ex:scene-item-cogniflow-explicit-processing-context-media ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-explicit-processing-context ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-explicit-processing-context-media a cd:SceneItem ;
-    cd:position 1 ;
+    cd:position 2 ;
     cd:selectsResource ex:media-cogniflow-shared-fair-platform ;
     cd:communicativeRole cd:MediaRole ;
     cd:selectionPath "cd:uri" ;
