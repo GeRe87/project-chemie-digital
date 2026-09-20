@@ -25,6 +25,12 @@
      cd:alternativeText "Pixel-art overview of a heterogeneous laboratory in which analytical instruments use individual local computers and opaque data-processing workflows, while smaller pH and temperature sensors stream directly to a central server. Different proprietary and open data formats and independently generated reports converge on the server."@en ;
      cd:authoredResource true .
 
+   ex:media-cogniflow-shared-fair-platform a cd:MediaAsset ;
+     cd:uri "/media/cogniflow/cogniflow-shared-fair-platform.webp"^^xsd:anyURI ;
+     cd:mediaType "image/webp" ;
+     cd:alternativeText "Pixel-art overview of the same heterogeneous laboratory connected through a shared CogniFlow FAIR data-processing platform. Large vendor-specific instrument ecosystems and local analysis workstations, together with direct pH and temperature sensor streams, converge on one common platform for transparent and reusable processing."@en ;
+     cd:authoredResource true .
+
    ex:diagram-cogniflow-processing-black-box a cd:FlowDiagram ;
     skos:prefLabel "The hidden processing history"@en ;
     cd:body "Raw analytical data and a final result are connected by processing whose scientific and technical context is often implicit."@en ;
@@ -333,7 +339,7 @@ F-05\t5.31\t512.284\t9,870""" ;
 
   ex:path-step-cogniflow-explicit-processing-context a cd:PathStep ;
     cd:position 4 ;
-    cd:usesResource ex:diagram-cogniflow-explicit-processing-context ;
+    cd:usesResource ex:media-cogniflow-shared-fair-platform ;
     cd:usesScene ex:scene-cogniflow-explicit-processing-context ;
     cd:authoredResource true .
 }
@@ -376,23 +382,15 @@ F-05\t5.31\t512.284\t9,870""" ;
 
   ex:scene-cogniflow-explicit-processing-context a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-explicit-processing-context ;
-    cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-heading,
-      ex:scene-item-cogniflow-explicit-processing-context-diagram ;
+    cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-media ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-explicit-processing-context-heading a cd:SceneItem ;
+  ex:scene-item-cogniflow-explicit-processing-context-media a cd:SceneItem ;
     cd:position 1 ;
-    cd:selectsResource ex:cogniflow-explicit-processing-context ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:media-cogniflow-shared-fair-platform ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:selectionPath "cd:uri" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-explicit-processing-context-diagram a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:diagram-cogniflow-explicit-processing-context ;
-    cd:communicativeRole cd:DiagramRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
 }
