@@ -2,7 +2,7 @@
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) {
   display: grid !important;
   grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto 2.55rem minmax(0, 1fr);
   column-gap: 2.2rem;
   row-gap: 1rem;
   align-items: stretch;
@@ -21,7 +21,7 @@
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 2 / 4;
   display: grid;
   grid-template-rows: repeat(4, minmax(0, 1fr));
   gap: .72rem;
@@ -56,9 +56,8 @@
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 3;
   display: grid;
-  grid-template-rows: 2.55rem minmax(0, 1fr);
   align-self: stretch;
   width: 100%;
   max-width: none;
@@ -73,21 +72,29 @@
   font-size: 1em;
 }
 
-.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block::before {
-  content: "FAIR DATA OBJECT  ·  ILLUSTRATIVE LC-HRMS DATASET";
-  grid-row: 1;
+.reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .lead {
+  grid-column: 2;
+  grid-row: 2;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
+  width: 100%;
+  min-width: 0;
+  height: 2.55rem;
+  margin: 0;
   padding: 0 .8rem;
+  border: 3px solid var(--pcd-accent);
+  border-bottom: 0;
   background: var(--pcd-accent);
   color: var(--pcd-surface-strong);
   font: 900 .66em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .055em;
+  text-align: left;
   text-transform: uppercase;
+  white-space: pre-line;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block .data-table {
-  grid-row: 2;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -122,11 +129,12 @@
 @media (max-width: 900px) {
   .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     padding: 1rem !important;
   }
 
   .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list,
+  .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .lead,
   .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block {
     grid-column: 1;
   }
@@ -135,8 +143,12 @@
     grid-row: 2;
   }
 
-  .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block {
+  .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .lead {
     grid-row: 3;
+  }
+
+  .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block {
+    grid-row: 4;
     min-height: 24rem;
   }
 }
