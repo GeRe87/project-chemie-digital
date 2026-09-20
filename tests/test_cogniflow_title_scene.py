@@ -53,8 +53,8 @@ EXPECTED_SCENES = [
     "ex:scene-cogniflow-fair-data-intro--scene",
     "ex:scene-cogniflow-fair-processing-gap--scene",
     "ex:scene-cogniflow-explicit-processing-context--scene",
+    "ex:scene-cogniflow-semantic-core--scene",
     "ex:scene-cogniflow-service-process--scene",
-    "ex:scene-cogniflow-concept-domain--scene",
     "ex:scene-cogniflow-semantics-as-source--scene",
     "ex:scene-cogniflow-same-semantics-different-views--scene",
     "ex:scene-cogniflow-provenance-pipeline--scene",
@@ -108,7 +108,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
     def test_curated_service_process_projects_the_sequence_diagram(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        scene = document["scenes"][5]
+        scene = document["scenes"][6]
         self.assertEqual("ex:scene-cogniflow-service-process--scene", scene["id"])
         diagram = scene["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
@@ -180,7 +180,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         fair_intro = document["scenes"][2]
         fair_gap = document["scenes"][3]
         explicit = document["scenes"][4]
-        service_process = document["scenes"][5]
+        semantic_core = document["scenes"][5]
+        service_process = document["scenes"][6]
 
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
         black_chart = next(block for block in black_box["blocks"] if block["kind"] == "chart")
@@ -344,38 +345,47 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [item["text"] for item in explicit_context_list["items"]],
         )
 
+        self.assertEqual("CogniFlow Starts with Meaning", semantic_core["blocks"][0]["text"])
         self.assertEqual(
             "A stable interface coordinates specialized providers",
             service_process["blocks"][0]["text"],
         )
 
-    def test_concept_domain_progression_uses_existing_network_state_contract(self) -> None:
+    def test_semantic_core_is_static_colored_meaning_network(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        concept_domain = document["scenes"][6]
-        heading = next(block for block in concept_domain["blocks"] if block["kind"] == "prose")
-        diagram = next(block for block in concept_domain["blocks"] if block["kind"] == "diagram")
+        semantic_core = document["scenes"][5]
+        heading = next(block for block in semantic_core["blocks"] if block["kind"] == "prose")
+        diagram = next(block for block in semantic_core["blocks"] if block["kind"] == "diagram")
 
-        self.assertEqual("From concepts to executable learning views", heading["text"])
+        self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
         self.assertEqual("network", diagram["diagramType"])
         self.assertEqual(
-            ["Presentation affordances", "Concept domain", "Processing concepts"],
-            [group["label"] for group in diagram["groups"]],
-        )
-        self.assertEqual(
             [
-                "Learning domain",
-                "Concepts and learning resources",
-                "Processing concepts",
-                "Presentation affordances",
-                "One semantic source, several views",
+                "CONCEPT\nProcessing Unit",
+                "ATTRIBUTES\nlabel\ndefinition\nversion",
+                "RELATIONSHIPS\nconsumes\nproduces\nimplemented by",
+                "CONTROLLED MEANING\nagreed terms\nallowed values\nvalidation",
+                "CONCEPT DOMAIN\nshared vocabulary\nscope of meaning",
             ],
-            [state["label"] for state in diagram["states"]],
+            [node["label"] for node in diagram["nodes"]],
         )
-        self.assertEqual("ex:node-cogniflow-diagram", diagram["states"][4]["focusNodeId"])
         self.assertEqual(
-            ["ex:diagram-group-cogniflow-concept-domain", "ex:diagram-group-cogniflow-processing"],
-            diagram["states"][4]["contextGroupIds"],
+            ["described by", "connected by", "constrained by", "defined within"],
+            [edge["label"] for edge in diagram["edges"]],
         )
+        self.assertEqual(
+            {
+                "CONCEPT\nProcessing Unit": "concept-core",
+                "ATTRIBUTES\nlabel\ndefinition\nversion": "attributes",
+                "RELATIONSHIPS\nconsumes\nproduces\nimplemented by": "relationships",
+                "CONTROLLED MEANING\nagreed terms\nallowed values\nvalidation": "controlled-meaning",
+                "CONCEPT DOMAIN\nshared vocabulary\nscope of meaning": "concept-domain",
+            },
+            {node["label"]: node["visualRole"] for node in diagram["nodes"]},
+        )
+        self.assertEqual({"Concept domain", "Semantic components"}, {group["label"] for group in diagram["groups"]})
+        self.assertEqual([], diagram["states"])
+        self.assertEqual("ex:node-cogniflow-semantic-concept", diagram["focusNodeId"])
 
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
