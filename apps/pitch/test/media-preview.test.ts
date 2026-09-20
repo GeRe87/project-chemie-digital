@@ -86,3 +86,40 @@ test("pitch preview renders group and accessible image from media-reference bloc
   assert.equal(image.attributes.get("loading"), "eager");
   destroy();
 });
+
+
+test("CogniFlow laboratory comparison uses a hard cut only between scenes 3 and 4", () => {
+  const makeScene = (id: string, heading: string): SceneDocument["scenes"][number] => ({
+    id,
+    source: [{ resourceId: id }],
+    blocks: [{
+      kind: "prose",
+      id: id + "--heading",
+      source: [{ resourceId: id + "--focus" }],
+      text: heading,
+      intent: { kind: "introduce" },
+    }],
+    readingOrder: [id + "--heading"],
+  });
+
+  const comparisonDocument: SceneDocument = {
+    version: "1.0",
+    id: "scene-document:cogniflow-comparison-transition",
+    sourcePathId: "ex:path-cogniflow-standardized-data-processing",
+    scenes: [
+      makeScene("ex:scene-cogniflow-processing-black-box--scene", "Before"),
+      makeScene("ex:scene-cogniflow-fair-processing-gap--scene", "Lab chaos"),
+      makeScene("ex:scene-cogniflow-explicit-processing-context--scene", "CogniFlow platform"),
+      makeScene("ex:scene-cogniflow-service-process--scene", "After"),
+    ],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [comparisonDocument]);
+
+  assert.equal(root.children[0]?.attributes.get("data-transition"), undefined);
+  assert.equal(root.children[1]?.attributes.get("data-transition"), "slide-in none-out");
+  assert.equal(root.children[2]?.attributes.get("data-transition"), "none-in slide-out");
+  assert.equal(root.children[3]?.attributes.get("data-transition"), undefined);
+  destroy();
+});
