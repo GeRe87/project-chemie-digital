@@ -387,7 +387,7 @@ flow, with the processing node initially represented as an unresolved/opaque sta
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
-**Visual:** [x]
+**Visual:** [ ]
 
 ### One statement
 
