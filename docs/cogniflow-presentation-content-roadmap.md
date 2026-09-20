@@ -779,38 +779,31 @@ SHACL validation · ConceptShape · InstanceShape
 
 The slide deliberately emphasizes a small vocabulary rather than exhaustive RDF detail.
 
-### Relation rule
-
-CogniFlow deliberately constrains structural relations to the predictable `hasX` pattern:
-
-~~~text
-Concept / Attribute ── has<Attribute> ──▶ Attribute
-~~~
-
-Example:
-
-~~~text
-hasPort → Port
-~~~
-
-The point is not to invent an unlimited vocabulary of verbs. Structural meaning stays predictable because the target Attribute carries the domain meaning.
-
 ### First TriG reading box
 
-Introduce TriG syntax here for the first time using a real core declaration:
+Introduce TriG syntax here by showing one compact ConceptDomain that uses the core grammar:
 
 ~~~trig
-cf:definesRelation
-    a rdf:Property ;
-    rdfs:domain cf:ConceptDomain ;
-    rdfs:range cf:Relation .
+cfproc:ProcessingUnitConceptDomain
+    a cf:ConceptDomain ;
+    cf:definesConcept cfproc:ProcessingUnit ;
+    cf:definesAttribute cfproc:Port ;
+    cf:definesRelation cfproc:hasPort ;
+    cf:definesShape cfproc:ProcessingUnitConceptShape ;
+    cf:definesControlledValue cfproc:Input .
 ~~~
 
-The audience only needs to read this as:
+The adjacent translation makes the mapping explicit:
 
 ~~~text
-ConceptDomain ── definesRelation ──▶ Relation
+Concept          → ProcessingUnit
+Attribute        → Port
+Relation         → hasPort
+Shape            → ProcessingUnitConceptShape
+Controlled Value → Input
 ~~~
+
+This also introduces the deliberate `hasX` relation grammar with a concrete example: `hasPort → Port`. The point is not to invent an unlimited vocabulary of verbs; structural meaning remains predictable because the target Attribute carries the domain meaning.
 
 No RDF tutorial is required.
 
@@ -824,7 +817,7 @@ Show the complete scene immediately.
 
 ### Preferred primitive
 
-Graph-backed KeyPoint cards + static TriG CodeExample + relation-rule callout.
+Graph-backed KeyPoint cards + static ConceptDomain TriG CodeExample + plain-language vocabulary mapping.
 
 ### Transition
 
