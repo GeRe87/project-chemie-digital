@@ -27,6 +27,7 @@ import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
 import "./cogniflow-take-home.css";
 import "./cogniflow-showcase.css";
+import "./cogniflow-closing.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
