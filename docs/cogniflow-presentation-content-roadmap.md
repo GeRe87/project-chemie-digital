@@ -825,64 +825,69 @@ Graph-backed KeyPoint cards + static ConceptDomain TriG CodeExample + plain-lang
 
 ---
 
-## Scene 09 — One semantic grammar. Different specifications.
+## Scene 09 — From Grammar to Scientific Meaning
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
-**Visual:** [ ]
+**Visual:** [x] Authored
 
 ### One statement
 
-> CogniFlow compatibility comes from shared semantics, not from every component depending on every other component.
+> The core grammar is generic; the scientific meaning comes from the domain.
 
 ### Role in the story
 
-This is the architectural hinge between the Meta-TBox and modular domain specifications.
+Return immediately from ontology terminology to analytical chemistry.
 
-Stonecastle implements the distinction directly: the core ontology provides the small semantic grammar, while package, service, and data-processing semantics live in dedicated concept-domain packages.
+Scene 08 introduced the small Meta-TBox. This scene shows that the same five semantic roles can describe a familiar scientific task without changing the grammar.
+
+Peak integration is deliberately used as the illustrative example because an analytical-chemistry audience can recognize the intent immediately.
 
 ### Visual concept
 
-Use a specification-wall composition rather than another network:
+Use one prominent Concept card and four colorful supporting 16-bit cards:
 
 ~~~text
-                    SAME META-GRAMMAR
-      Concept · Attribute · Relation · Controlled Value · Shape
+                         CONCEPT
+                    PEAK INTEGRATION
+          chromatographic signal → integrated peak area
 
-   PACKAGE DOMAIN        SERVICE DOMAIN       DATA PROCESSING DOMAIN
-   CfPackage             Service              ProcessingUnit
-   Manifest              Operation            ProcessingStep
-   Version / Role        Interface            ProcessingPipeline
-   Contribution          Input / Output       Port / PortRole
-   Template              Execution            PipelineNode
+ATTRIBUTES                              RELATIONS
+Signal                                  hasSignal
+Baseline                                hasBaseline
+Integration Window                      hasIntegrationWindow
+Peak Area                               hasPeakArea
 
-             SHARED SEMANTICS — INDEPENDENT SPECIFICATIONS
+CONTROLLED VALUE                        SHAPE
+Integration Mode                        checks required context
+automatic · manual                      and valid structure
 ~~~
 
-The three cards should be equally prominent but visually distinct. They are not implementation dependencies and no arrows between them should be shown.
+The example is illustrative scientific modeling, not a claim that this exact Peak Integration concept domain already ships in Stonecastle.
 
-### Stonecastle grounding
+### Core mapping
 
-- cf_concept_package defines the package concept domain around CfPackage.
-- cf_concept_service defines the service concept domain around Service.
-- cf_concept_processing defines ProcessingUnit, ProcessingStep, and ProcessingPipeline plus processing attributes such as ports and pipeline nodes.
-- All reuse the semantic categories introduced in Scene 08.
+- **Concept** answers: what scientific operation are we describing?
+- **Attributes** name the scientific parts that matter.
+- **Relations** connect those parts through the predictable `hasX` grammar.
+- **Controlled Value** constrains a choice to an explicit vocabulary.
+- **Shape** makes completeness and structure machine-checkable.
 
 ### Presentation state
 
-Show the complete scene immediately. No staged build-up is needed.
+Show the complete scene immediately. No staged reveal.
 
 ### Audience understanding after this scene
 
-> “Different modules do not need a common implementation; they need a common language.”
+> “The ontology does not replace chemistry. It gives chemistry a predictable machine-readable structure.”
 
 ### Preferred primitive
 
-Meta-grammar banner + three domain specification cards.
+Graph-backed KeyPoint cards, arranged as one focal scientific Concept plus four supporting semantic roles.
 
 ### Transition
 
-> The package concept is a good first example of what this means in practice.
+> Once scientific processing can be described this way, the next question is how CogniFlow turns such descriptions into executable processing.
 
 ---
 
