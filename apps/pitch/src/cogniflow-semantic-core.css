@@ -1,162 +1,187 @@
-/* Scene 06 · CogniFlow starts with meaning
-   Stonecastle's cf_ontology is a Meta-TBox: ConceptDomain defines the semantic
-   term categories used by separate concept-domain packages. This scene mirrors
-   that architecture without teaching RDF syntax. */
+/* Scene 06 · concentric CogniFlow architecture.
+   The source blocks remain graph-backed; cogniflow-semantic-rings-runtime.ts
+   projects them into the static ring diagram. */
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
   display: grid !important;
-  grid-template-rows: auto 5.4rem minmax(0, 1fr) 3rem;
-  row-gap: .8rem;
+  grid-template-rows: auto minmax(0, 1fr);
   align-content: stretch;
-  padding: 1.55rem 2.25rem 1.45rem !important;
+  padding: 1.45rem 1.8rem 1.2rem !important;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 {
   grid-row: 1;
-  margin: 0 0 .15rem;
+  margin: 0 0 .2rem;
   max-width: none;
   font-size: 2.55em;
   line-height: 1;
   text-wrap: balance;
 }
 
-/* The domain is the vocabulary scope — not another leaf node. */
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead {
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .pcd-semantic-rings-host {
   grid-row: 2;
-  box-sizing: border-box;
-  width: min(1040px, 92%);
-  max-width: none;
-  margin: 0 auto;
-  padding: .62rem 1.25rem .55rem;
-  border: 4px solid #3c70aa;
-  background: color-mix(in srgb, #b9d7ff 76%, var(--pcd-surface-strong));
-  box-shadow: 8px 8px 0 color-mix(in srgb, #3c70aa 22%, transparent);
-  color: #173c67;
-  font: 800 .94em/1.12 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  text-align: center;
-  white-space: pre-line;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead::first-line {
-  font-size: 1.45em;
-  font-weight: 950;
-  letter-spacing: .055em;
-}
-
-/* Five Meta-TBox categories: 3 + 2 composition, deliberately not another flow chart. */
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list {
-  grid-row: 3;
   align-self: stretch;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 1rem 1.15rem;
-  width: min(1100px, 96%);
+  width: 100%;
   min-width: 0;
   min-height: 0;
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
-}
-
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li {
-  box-sizing: border-box;
-  position: relative;
-  display: grid;
-  place-content: center;
-  min-width: 0;
-  min-height: 8.3rem;
   margin: 0;
-  padding: 1.05rem 1.15rem;
-  border: 4px solid var(--semantic-stroke);
-  background: var(--semantic-fill);
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--semantic-stroke) 23%, transparent);
-  color: var(--semantic-text);
-  font: 800 1.08em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  text-align: center;
-  white-space: pre-line;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.28em;
-  font-weight: 950;
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .pcd-semantic-rings-svg {
+  display: block;
+  width: min(1240px, 100%);
+  height: 100%;
+  min-height: 0;
+  max-height: 44rem;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .pcd-semantic-rings-source {
+  display: none !important;
+}
+
+.pcd-semantic-ring-band {
+  fill: none;
+}
+
+.pcd-semantic-ring-band-specification {
+  stroke: color-mix(in srgb, var(--pcd-accent) 12%, transparent);
+  stroke-width: 94;
+}
+
+.pcd-semantic-ring-band-concept {
+  stroke: color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  stroke-width: 86;
+}
+
+.pcd-semantic-ring-guide {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcd-foreground) 20%, transparent);
+  stroke-width: 2;
+  stroke-dasharray: 7 10;
+}
+
+.pcd-semantic-layer-label {
+  fill: var(--pcd-muted);
+  font: 900 15px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .16em;
+}
+
+.pcd-semantic-core-node {
+  fill: #004c93;
+  stroke: color-mix(in srgb, #004c93 70%, white);
+  stroke-width: 4;
+  filter: drop-shadow(0 8px 0 color-mix(in srgb, #004c93 24%, transparent));
+}
+
+.pcd-semantic-core-title {
+  fill: white;
+  font: 950 24px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .035em;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  grid-column: 1 / span 2;
-  grid-row: 1;
-  --semantic-fill: #ffdda0;
-  --semantic-stroke: #aa6800;
-  --semantic-text: #603900;
+.pcd-semantic-core-package {
+  fill: color-mix(in srgb, white 84%, #8fd3ff);
+  font: 850 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  grid-column: 3 / span 2;
-  grid-row: 1;
-  --semantic-fill: #bfe9e7;
-  --semantic-stroke: #168e9c;
-  --semantic-text: #063d47;
+.pcd-semantic-core-term {
+  fill: color-mix(in srgb, white 78%, #8fd3ff);
+  font: 750 10.5px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
-  grid-column: 5 / span 2;
-  grid-row: 1;
-  --semantic-fill: #d9c7f2;
-  --semantic-stroke: #7046ad;
-  --semantic-text: #3d216d;
+.pcd-semantic-concept-node circle {
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4;
+  filter: drop-shadow(0 5px 0 color-mix(in srgb, var(--pcd-foreground) 16%, transparent));
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
-  grid-column: 2 / span 2;
-  grid-row: 2;
-  --semantic-fill: #cdebb4;
-  --semantic-stroke: #4f8a45;
-  --semantic-text: #204d25;
+.pcd-semantic-concept-node[data-focus="true"] circle {
+  stroke-width: 6;
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, currentColor 48%, transparent))
+    drop-shadow(0 6px 0 color-mix(in srgb, var(--pcd-foreground) 18%, transparent));
 }
 
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
-  grid-column: 4 / span 2;
-  grid-row: 2;
-  --semantic-fill: #f4c8dc;
-  --semantic-stroke: #a54f7a;
-  --semantic-text: #672846;
+.pcd-semantic-concept-label {
+  fill: white;
+  font: 950 12px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  paint-order: stroke;
+  stroke: color-mix(in srgb, black 30%, transparent);
+  stroke-width: 2px;
 }
 
-/* Foreshadow Scene 07 without turning this scene into architecture. */
-.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
-  > h2 + .lead + .keypoint-list + .lead {
-  grid-row: 4;
-  box-sizing: border-box;
-  align-self: center;
-  width: min(900px, 88%);
-  max-width: none;
-  margin: 0 auto;
-  padding: .55rem 1rem;
-  border: 0;
-  background: transparent;
-  color: var(--pcd-muted);
-  font: 900 .9em/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .045em;
-  text-align: center;
-  white-space: normal;
+.pcd-semantic-concept-package-id {
+  fill: var(--pcd-foreground);
+  font: 800 10px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4px;
 }
+
+.pcd-semantic-spec-node circle {
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 0 color-mix(in srgb, var(--pcd-foreground) 12%, transparent));
+}
+
+.pcd-semantic-spec-label {
+  fill: var(--pcd-foreground);
+  font: 800 10px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4px;
+}
+
+.pcd-semantic-focus-link {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcd-accent) 62%, var(--pcd-muted));
+  stroke-width: 2.5;
+}
+
+.pcd-semantic-focus-card {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 96%, transparent);
+  stroke-width: 3.5;
+  rx: 12;
+}
+
+.pcd-semantic-focus-eyebrow {
+  font: 950 13px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .06em;
+}
+
+.pcd-semantic-focus-package-id {
+  fill: var(--pcd-muted);
+  font: 800 10px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.pcd-semantic-focus-detail {
+  fill: var(--pcd-foreground);
+  font: 800 12px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.pcd-semantic-ring-note {
+  fill: var(--pcd-accent);
+  font: 950 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .09em;
+}
+
+.pcd-semantic-tone-0 { fill: #9E0142; color: #9E0142; }
+.pcd-semantic-tone-1 { fill: #D53E4F; color: #D53E4F; }
+.pcd-semantic-tone-2 { fill: #F46D43; color: #F46D43; }
+.pcd-semantic-tone-3 { fill: #FDAE61; color: #FDAE61; }
+.pcd-semantic-tone-4 { fill: #66C2A5; color: #66C2A5; }
+.pcd-semantic-tone-5 { fill: #3288BD; color: #3288BD; }
+.pcd-semantic-tone-6 { fill: #5E4FA2; color: #5E4FA2; }
 
 @media (max-width: 900px) {
   .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
-    grid-template-rows: auto auto auto auto;
     padding: 1rem !important;
   }
 
-  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, auto);
+  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .pcd-semantic-rings-svg {
     width: 100%;
-  }
-
-  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 + .lead + .keypoint-list > li {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-    min-height: 6.5rem;
+    max-height: none;
   }
 }
