@@ -1,0 +1,143 @@
+/* Scene 06 · CogniFlow starts with meaning
+   A static semantic network. Geometry stays renderer-owned; semantic node roles
+   get distinct presentation colors here. */
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: start;
+  padding: 1.6rem 2.2rem 1.5rem !important;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > h2 {
+  margin: 0 0 .35rem;
+  max-width: none;
+  font-size: 2.55em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
+  width: min(1220px, 96vw);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-runtime,
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-figure,
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-svg {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-caption {
+  display: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label {
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-node-label > tspan:first-child {
+  font-size: 23px;
+  font-weight: 950;
+  letter-spacing: .015em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] .d3-flow-edge-label {
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="concept-core"] {
+  --semantic-fill: #ffdda0;
+  --semantic-stroke: #aa6800;
+  --semantic-text: #603900;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="attributes"] {
+  --semantic-fill: #bfe9e7;
+  --semantic-stroke: #168e9c;
+  --semantic-text: #063d47;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="relationships"] {
+  --semantic-fill: #d9c7f2;
+  --semantic-stroke: #7046ad;
+  --semantic-text: #3d216d;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="controlled-meaning"] {
+  --semantic-fill: #cdebb4;
+  --semantic-stroke: #4f8a45;
+  --semantic-text: #204d25;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="concept-domain"] {
+  --semantic-fill: #b9d7ff;
+  --semantic-stroke: #3c70aa;
+  --semantic-text: #173c67;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-shape {
+  fill: var(--semantic-fill);
+  stroke: var(--semantic-stroke);
+  stroke-width: 4;
+  filter: drop-shadow(0 6px 0 color-mix(in srgb, var(--semantic-stroke) 24%, transparent));
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-inner-frame,
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-divider {
+  stroke: color-mix(in srgb, var(--semantic-stroke) 65%, var(--semantic-fill));
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-rail {
+  fill: var(--semantic-stroke);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-status {
+  fill: var(--semantic-fill);
+  stroke: var(--semantic-stroke);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-index {
+  fill: var(--semantic-stroke);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role] .d3-flow-node-label {
+  fill: var(--semantic-text);
+  stroke: color-mix(in srgb, var(--semantic-fill) 90%, transparent);
+  stroke-width: 3px;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"]
+  .d3-flow-node[data-visual-role="concept-core"] {
+  filter: drop-shadow(0 0 11px color-mix(in srgb, #aa6800 42%, transparent));
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] {
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-semantic-core--scene"] > .d3-flow-host {
+    width: 100%;
+  }
+}
