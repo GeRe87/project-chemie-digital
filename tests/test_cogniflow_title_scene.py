@@ -351,14 +351,14 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             service_process["blocks"][0]["text"],
         )
 
-    def test_semantic_core_is_static_colored_meaning_network(self) -> None:
+    def test_semantic_core_is_static_layered_meaning_flow(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         semantic_core = document["scenes"][5]
         heading = next(block for block in semantic_core["blocks"] if block["kind"] == "prose")
         diagram = next(block for block in semantic_core["blocks"] if block["kind"] == "diagram")
 
         self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
-        self.assertEqual("network", diagram["diagramType"])
+        self.assertEqual("flow", diagram["diagramType"])
         self.assertEqual(
             [
                 "CONCEPT\nProcessing Unit",
@@ -370,7 +370,14 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [node["label"] for node in diagram["nodes"]],
         )
         self.assertEqual(
-            ["described by", "connected by", "constrained by", "defined within"],
+            [
+                "described by",
+                "connected by",
+                "constrained by",
+                "defined within",
+                "defined within",
+                "defined within",
+            ],
             [edge["label"] for edge in diagram["edges"]],
         )
         self.assertEqual(
@@ -383,7 +390,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             },
             {node["label"]: node["visualRole"] for node in diagram["nodes"]},
         )
-        self.assertEqual({"Concept domain", "Semantic components"}, {group["label"] for group in diagram["groups"]})
+        self.assertEqual([], diagram["groups"])
         self.assertEqual([], diagram["states"])
         self.assertEqual("ex:node-cogniflow-semantic-concept", diagram["focusNodeId"])
 
