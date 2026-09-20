@@ -77,7 +77,7 @@
 
 .pcd-semantic-core-title {
   fill: white;
-  font: 950 23px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 950 27px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .035em;
 }
 
@@ -161,11 +161,6 @@
   font: 800 11.5px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.pcd-semantic-ring-note {
-  fill: var(--pcd-accent);
-  font: 950 13px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .09em;
-}
 
 .pcd-semantic-tone-0 { fill: #9E0142; color: #9E0142; }
 .pcd-semantic-tone-1 { fill: #D53E4F; color: #D53E4F; }
