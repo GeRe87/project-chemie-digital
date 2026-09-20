@@ -354,36 +354,54 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             service_process["blocks"][0]["text"],
         )
 
-    def test_semantic_core_matches_stonecastle_meta_tbox_categories(self) -> None:
+    def test_semantic_core_projects_stonecastle_as_concentric_module_layers(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         semantic_core = document["scenes"][5]
 
         self.assertEqual(
-            ["prose", "prose", "list", "prose"],
+            ["prose", "prose", "list", "list", "prose"],
             [block["kind"] for block in semantic_core["blocks"]],
         )
         heading = semantic_core["blocks"][0]
-        domain = semantic_core["blocks"][1]
-        grammar = semantic_core["blocks"][2]
-        note = semantic_core["blocks"][3]
+        core = semantic_core["blocks"][1]
+        concept_layer = semantic_core["blocks"][2]
+        specification_layer = semantic_core["blocks"][3]
+        note = semantic_core["blocks"][4]
 
         self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
         self.assertEqual(
-            "CONCEPT DOMAIN\nVocabulary scope that defines the semantic terms of one domain.",
-            domain["text"],
+            "CORE ONTOLOGY\ncf_ontology\nMeta-TBox · ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape",
+            core["text"],
         )
         self.assertEqual(
             [
-                "CONCEPT\ncentral domain abstraction",
-                "ATTRIBUTE\nstructured part of a concept",
-                "RELATION\nexplicit structural link",
-                "CONTROLLED VALUE\nnamed allowed value",
-                "SHAPE\nvalidation rule",
+                "SERVICE\ncf_concept_service",
+                "WORKSPACE\ncf_concept_workspace",
+                "DATA PROCESSING\ncf_concept_processing\nProcessingUnit · ProcessingStep · ProcessingPipeline · Port / PortRole",
+                "PACKAGE\ncf_concept_package\nCfPackage · Manifest · Version · Role · Contributions",
+                "INSTALLATION PROFILE\ncf_concept_installation_profile",
             ],
-            [item["text"] for item in grammar["items"]],
+            [item["text"] for item in concept_layer["items"]],
         )
         self.assertEqual(
-            "ONE META-GRAMMAR → SEPARATE PACKAGE · SERVICE · PROCESSING DOMAINS",
+            [
+                "PKG TEMPLATE\ncf_package_template_basic",
+                "EXAMPLE PKG\ncf_package_example_arithmetic",
+                "SERVICE CLIENT\ncf_service_client",
+                "MCP GATEWAY\ncf_service_mcp_server",
+                "SERVICE CREATOR\ncf_service_creator",
+                "RUNTIME\ncf_runtime",
+                "WORKSPACE STORE\ncf_workspace_store",
+                "BOOTSTRAP CORE\ncf_bootstrap_core",
+                "BOOTSTRAP INSTANCE\ncf_bootstrap_instance",
+                "BOOTSTRAP ORCH.\ncf_bootstrap_orchestrator",
+                "LOCAL SOURCE\ncf_bootstrap_source_local",
+                "PYPI SOURCE\ncf_bootstrap_source_pypi",
+            ],
+            [item["text"] for item in specification_layer["items"]],
+        )
+        self.assertEqual(
+            "SMALL CORE → DOMAIN MODULES → MANY CONCRETE SPECIFICATIONS",
             note["text"],
         )
 
