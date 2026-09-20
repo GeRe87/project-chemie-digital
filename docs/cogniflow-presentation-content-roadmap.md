@@ -2,7 +2,7 @@
 
 **Status:** Narrative Freeze v1 — living roadmap  
 **Owner context:** CogniFlow presentation in project-chemie-digital  
-**Presentation format:** approximately 16 scenes, Reveal.js Scroll View  
+**Presentation format:** approximately 17 scenes, Reveal.js Scroll View  
 **Visual language:** 16-bit Retro / Eco City / restrained HUD-inspired scientific presentation  
 **Audience:** chemists and analytical scientists without prior knowledge of semantic workflow standardization  
 **Companion roadmap:** docs/cogniflow-presentation-diagram-roadmap.md  
@@ -597,7 +597,59 @@ flow + paired KeyPoint callouts.
 
 ---
 
-## Scene 06 — CogniFlow starts with meaning
+## Scene 06 — Semantics First — Meaning Before Implementation
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [x] Authored  
+**Visual:** [x] Authored
+
+### One statement
+
+> CogniFlow describes what a processing capability means and why it exists before deciding how that capability is implemented.
+
+### Role in the story
+
+Scene 05 makes processing context explicit. This scene turns that requirement into the central CogniFlow design philosophy:
+
+> **Describe what and why before how.**
+
+The audience should understand that implementation is downstream of meaning, not the source of meaning.
+
+### Visual concept
+
+Use one analytical example and three large 16-bit retro cards:
+
+~~~text
+WHAT + WHY               SEMANTIC CONTRACT                 HOW
+
+BASELINE CORRECTION  →   meaning · inputs · outputs   →    Python package
+WHY remove background    parameters · constraints          Rust service
+WHAT signal → corrected  provenance requirements           compatible provider
+~~~
+
+The cards are deliberately colorful and visually distinct. The semantic-contract card is the visual center.
+
+The example is illustrative: baseline correction is used because analytical scientists immediately understand the scientific intent without needing ontology terminology.
+
+### Presentation state
+
+Show the complete scene immediately. No staged reveal is required.
+
+### Audience understanding after this scene
+
+> “First define what the operation means and why it exists. Then implementations can follow that stable contract.”
+
+### Preferred primitive
+
+Graph-backed prose + three KeyPoint cards, styled as a colorful 16-bit flow.
+
+### Transition
+
+> If meaning comes first, CogniFlow needs an architecture that organizes meaning independently from concrete implementations.
+
+---
+
+## Scene 07 — CogniFlow starts with meaning
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -609,7 +661,7 @@ flow + paired KeyPoint callouts.
 
 ### Role in the story
 
-Turn the Meta-TBox from Scene 05's abstract requirement into a visible project architecture.
+Turn the Semantics First principle from Scene 06 into a visible project architecture.
 
 The central ontology remains deliberately small. Around it, Stonecastle organizes separate concept-domain packages. A second outer layer shows that many concrete runtime, service, bootstrap, template, and example modules can be added without turning the system into one monolithic dependency tree.
 
@@ -688,7 +740,7 @@ Graph-backed concentric semantic ring runtime.
 
 ---
 
-## Scene 07 — One semantic grammar. Different specifications.
+## Scene 08 — One semantic grammar. Different specifications.
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [x] Authored  
@@ -729,7 +781,7 @@ The three cards should be equally prominent but visually distinct. They are not 
 - cf_concept_package defines the package concept domain around CfPackage.
 - cf_concept_service defines the service concept domain around Service.
 - cf_concept_processing defines ProcessingUnit, ProcessingStep, and ProcessingPipeline plus processing attributes such as ports and pipeline nodes.
-- All reuse the semantic categories introduced in Scene 06.
+- All reuse the semantic categories organized in Scene 07.
 
 ### Presentation state
 
@@ -749,7 +801,7 @@ Meta-grammar banner + three domain specification cards.
 
 ---
 
-## Scene 08 — A package that explains itself
+## Scene 09 — A package that explains itself
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -801,7 +853,7 @@ structured semantic card; use generic prose/card primitive if available, otherwi
 
 ---
 
-## Scene 09 — Functionality becomes a Service
+## Scene 10 — Functionality becomes a Service
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -856,7 +908,7 @@ network + structured node content.
 
 ---
 
-## Scene 10 — Consumer and Provider do not need to know each other
+## Scene 11 — Consumer and Provider do not need to know each other
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -922,7 +974,7 @@ network + DiagramState. Provider substitution may reuse role-binding semantics i
 
 ---
 
-## Scene 11 — “I need a PDF report.”
+## Scene 12 — “I need a PDF report.”
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1004,7 +1056,7 @@ sequence + participant roles + bindings.
 
 ---
 
-## Scene 12 — Data processing is a CogniFlow Concept too
+## Scene 13 — Data processing is a CogniFlow Concept too
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1052,7 +1104,7 @@ network + focus/context DiagramState.
 
 ---
 
-## Scene 13 — A Processing Unit has an explicit interface
+## Scene 14 — A Processing Unit has an explicit interface
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1114,7 +1166,7 @@ network or flow with explicit ports; if ports require a new renderer capability,
 
 ---
 
-## Scene 14 — A pipeline is a composition, not a script
+## Scene 15 — A pipeline is a composition, not a script
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1187,7 +1239,7 @@ flow + groups + focus state.
 
 ---
 
-## Scene 15 — Explicit semantics enable machine-assisted execution
+## Scene 16 — Explicit semantics enable machine-assisted execution
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1261,7 +1313,7 @@ Potential generic need:
 
 ---
 
-## Scene 16 — FAIRness does not stop at the file
+## Scene 17 — FAIRness does not stop at the file
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
