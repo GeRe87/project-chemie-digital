@@ -31,6 +31,7 @@ import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
+import { mountCogniflowSemanticRings } from "./cogniflow-semantic-rings-runtime.ts";
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import {
   mountPresentationStepRuntime,
@@ -89,6 +90,7 @@ const unmountSemanticMultiViews = mountSemanticMultiViews(
   documents,
   canonicalDatasetSnapshot,
 );
+const unmountSemanticRings = mountCogniflowSemanticRings(root, documents);
 const unmountAnalyticalProofSteps = mountAnalyticalProofSteps(
   root,
   documents,
@@ -257,6 +259,7 @@ window.addEventListener("pagehide", () => {
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
+  unmountSemanticRings();
   unmountCharts();
   unmountDiagrams();
   stopBackgroundProgress();
