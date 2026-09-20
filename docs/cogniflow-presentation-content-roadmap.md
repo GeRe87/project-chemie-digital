@@ -1509,6 +1509,27 @@ Cluster A currently uses only existing generic primitives:
 - Scene 04: network + DiagramState + focus/context.
 
 No CogniFlow-specific renderer behavior was introduced.
+### Cluster A visual review — pass 1
+
+**Result:** structural revision required before visual acceptance.
+
+Observed at 1440×900 in Scroll View:
+
+- Scene 01: readable and stable; generous unused vertical space is acceptable for the title pass.
+- Scene 02: readable and stable; diagram is compact relative to the available scene area.
+- Scene 03: failed vertically because five separate context questions created a six-node sibling layer after the processing node.
+- Scene 04: failed vertically because the grouped radial network geometry exceeded the scene height; state filtering changes emphasis/visibility but does not recompute a smaller layout.
+- Multi-scene screenshots are not a reliable review artifact in the current virtualized/snap Scroll View.
+
+**Revision:** keep the semantic detail but reduce simultaneous layout complexity.
+
+- Scene 03 now uses one compact “MISSING CONTEXT” node containing algorithm, version, parameters, environment and dependencies, plus five authored DiagramStates for the causal reveal.
+- Scene 04 now mirrors that composition with one “EXPLICIT CONTEXT” node containing purpose, interface, parameters, implementation, version and execution/provenance.
+- Scene 04 remains stateful, but uses the ordinary flow layout instead of the radial network layout.
+- No renderer-specific workaround or authored geometry was introduced.
+
+A second 1440×900 visual review is required before Cluster A is accepted.
+
 
 ## Phase 3 — Generic System Gap Analysis
 
