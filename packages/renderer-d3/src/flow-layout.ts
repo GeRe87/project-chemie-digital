@@ -101,7 +101,7 @@ function segmentGraphemes(value: string): string[] {
 }
 
 export function deterministicFlowTextMeasure(value: string): number {
-  return segmentGraphemes(value).length * 8;
+  return segmentGraphemes(value).length * 11;
 }
 
 /**
