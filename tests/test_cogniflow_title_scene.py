@@ -201,20 +201,32 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
                 "FAIR / OPEN DATA",
                 "CUSTOM PROCESSING",
                 "RESULT",
-                "Which algorithm?",
-                "Which version?",
-                "Which parameters?",
-                "Which environment?",
-                "Which dependencies?",
+                "MISSING CONTEXT · algorithm · version · parameters · environment · dependencies",
             ],
             [node["label"] for node in fair_diagram["nodes"]],
         )
+        self.assertEqual(
+            ["Measurement", "FAIR / open data", "Custom processing", "Scientific result", "Missing processing context"],
+            [state["label"] for state in fair_diagram["states"]],
+        )
+        self.assertEqual("ex:node-cogniflow-fair-context", fair_diagram["states"][4]["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-fair-processing", fair_diagram["focusNodeId"])
         fair_processing = next(node for node in fair_diagram["nodes"] if node["label"] == "CUSTOM PROCESSING")
+        fair_context = next(node for node in fair_diagram["nodes"] if node["id"] == "ex:node-cogniflow-fair-context")
         self.assertEqual("highlight", fair_processing["visualRole"])
+        self.assertEqual("comparison", fair_context["visualRole"])
 
         self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
-        self.assertEqual("network", explicit_diagram["diagramType"])
+        self.assertEqual("flow", explicit_diagram["diagramType"])
+        self.assertEqual(
+            [
+                "INPUT",
+                "PROCESSING",
+                "OUTPUT",
+                "EXPLICIT CONTEXT · purpose · interface · parameters · implementation · version · execution + provenance",
+            ],
+            [node["label"] for node in explicit_diagram["nodes"]],
+        )
         self.assertEqual(
             ["Explicit processing context", "Scientific flow"],
             [group["label"] for group in explicit_diagram["groups"]],
