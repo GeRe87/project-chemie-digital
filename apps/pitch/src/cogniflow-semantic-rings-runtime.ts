@@ -7,7 +7,6 @@ type ListBlock = Extract<SceneBlock, { kind: "list" }>;
 const CORE_RESOURCE = "ex:cogniflow-ring-core";
 const CONCEPT_LAYER_RESOURCE = "ex:cogniflow-ring-concept-layer";
 const SPECIFICATION_LAYER_RESOURCE = "ex:cogniflow-ring-specification-layer";
-const NOTE_RESOURCE = "ex:cogniflow-ring-note";
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 export interface SemanticRingModule {
@@ -21,7 +20,6 @@ export interface SemanticRingProjection {
   readonly coreText: string;
   readonly conceptModules: readonly SemanticRingModule[];
   readonly specificationModules: readonly SemanticRingModule[];
-  readonly noteText: string;
 }
 
 function hasResource(block: SceneBlock, resourceId: string): boolean {
@@ -53,15 +51,13 @@ export function semanticRingProjection(scene: Scene): SemanticRingProjection | u
   const core = proseByResource(scene, CORE_RESOURCE);
   const concepts = listByResource(scene, CONCEPT_LAYER_RESOURCE);
   const specifications = listByResource(scene, SPECIFICATION_LAYER_RESOURCE);
-  const note = proseByResource(scene, NOTE_RESOURCE);
-  if (!core || !concepts || !specifications || !note) return undefined;
+  if (!core || !concepts || !specifications) return undefined;
 
   return Object.freeze({
     sceneId: scene.id,
     coreText: core.text,
     conceptModules: concepts.items.map((item) => parseSemanticRingModule(item.text)),
     specificationModules: specifications.items.map((item) => parseSemanticRingModule(item.text)),
-    noteText: note.text,
   });
 }
 
@@ -124,7 +120,7 @@ function sourceHosts(section: HTMLElement): readonly HTMLElement[] {
     .filter((child): child is HTMLElement => child instanceof HTMLElement)
     .filter((child) => {
       const ids = (child.dataset.resourceId ?? "").split(/\s+/);
-      return [CORE_RESOURCE, CONCEPT_LAYER_RESOURCE, SPECIFICATION_LAYER_RESOURCE, NOTE_RESOURCE]
+      return [CORE_RESOURCE, CONCEPT_LAYER_RESOURCE, SPECIFICATION_LAYER_RESOURCE]
         .some((resourceId) => ids.includes(resourceId));
     });
 }
@@ -173,9 +169,8 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
   const coreCircle = svg("circle");
   setAttrs(coreCircle, { cx, cy, r: 80, class: "pcd-semantic-core-node" });
   coreGroup.append(coreCircle);
-  appendText(coreGroup, cx, cy - 24, "pcd-semantic-core-title", coreLines[0] ?? "CORE ONTOLOGY");
-  appendText(coreGroup, cx, cy + 3, "pcd-semantic-core-package", coreLines[1] ?? "cf_ontology");
-  appendText(coreGroup, cx, cy + 33, "pcd-semantic-core-term", coreLines[2] ?? "shared semantic grammar");
+  appendText(coreGroup, cx, cy - 8, "pcd-semantic-core-title", coreLines[0] ?? "CORE");
+  appendText(coreGroup, cx, cy + 20, "pcd-semantic-core-package", coreLines[1] ?? "cf_ontology");
   root.append(coreGroup);
 
   const conceptAngles = [-90, -18, 54, 126, 198];
@@ -209,10 +204,10 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
   });
 
   const labeledSpecificationModules = new Set([
-    "cf_package_template_basic",
+    "cf_service_client",
     "cf_service_mcp_server",
-    "cf_runtime",
-    "cf_bootstrap_core",
+    "cf_bootstrap_orchestrator",
+    "cf_bootstrap_source_local",
   ]);
 
   projection.specificationModules.forEach((module, index) => {
@@ -300,7 +295,6 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
     ).setAttribute("text-anchor", "start");
   }
 
-  appendText(root, cx, 638, "pcd-semantic-ring-note", projection.noteText);
   return root;
 }
 
@@ -324,7 +318,7 @@ export function mountCogniflowSemanticRings(
       if (!section || !heading) continue;
 
       const sources = sourceHosts(section);
-      if (sources.length !== 4) continue;
+      if (sources.length !== 3) continue;
       for (const source of sources) source.classList.add("pcd-semantic-rings-source");
 
       const host = document.createElement("div");
