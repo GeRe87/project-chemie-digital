@@ -73,7 +73,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > h2 {
   grid-column: 1 / -1;
   grid-row: 1;
-  margin: 0 0 .15rem;
+  margin: 0 0 .6rem;
   max-width: none;
   font-size: 2.45em;
   line-height: 1;
