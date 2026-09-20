@@ -249,7 +249,8 @@ function horizontalLayeredLayout(
   const height = margin * 2 + HORIZONTAL_EDGE_LABEL_CLEARANCE + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
-  let layerLeft = margin;
+  const contentOffsetX = Math.max(0, (width - intrinsicWidth) / 2);
+  let layerLeft = margin + contentOffsetX;
   layers.forEach((layer, layerIndex) => {
     const layerWidth = layerWidths[layerIndex] ?? HORIZONTAL_NODE_MIN_WIDTH;
     const layerHeight = layerHeights[layerIndex] ?? 0;
