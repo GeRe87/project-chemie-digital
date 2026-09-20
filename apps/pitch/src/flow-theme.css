@@ -477,16 +477,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-shape {
   ry: 0;
   fill: var(--pcd-flow-pixel-surface);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 7;
+  stroke-width: 8;
   stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
-  clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
+  clip-path: polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
   filter:
-    drop-shadow(0 -3px 0 var(--pcd-flow-pixel-highlight))
-    drop-shadow(-3px 0 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 82%, transparent))
-    drop-shadow(3px 0 0 var(--pcd-flow-pixel-ink-deep))
-    drop-shadow(0 6px 0 var(--pcd-flow-pixel-ink));
+    drop-shadow(0 -2px 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(-2px 0 0 var(--pcd-flow-pixel-highlight))
+    drop-shadow(3px 3px 0 var(--pcd-flow-pixel-ink-deep))
+    drop-shadow(6px 6px 0 var(--pcd-flow-pixel-card-shadow));
 }
 
 /* The group is not clip-pathed, so it owns the outer card lift/glow. */
@@ -521,16 +521,16 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem {
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-inner-frame {
   fill: none;
-  stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 86%, var(--pcd-flow-pixel-surface));
-  stroke-width: 4;
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 94%, var(--pcd-flow-pixel-surface));
+  stroke-width: 3;
   opacity: .92;
   clip-path: polygon(0 7px, 7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-rail {
   fill: var(--pcd-flow-node-segment-fill);
-  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 38%, transparent);
-  stroke-width: 2;
+  stroke: var(--pcd-flow-pixel-ink-deep);
+  stroke-width: 3;
   opacity: 1;
 }
 
@@ -542,8 +542,8 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-divider {
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-status {
   fill: var(--pcd-flow-pixel-highlight);
   stroke: var(--pcd-flow-pixel-ink-deep);
-  stroke-width: 3;
-  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 34%, transparent));
+  stroke-width: 4;
+  filter: drop-shadow(2px 2px 0 var(--pcd-flow-pixel-ink-deep));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-index {
@@ -561,11 +561,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 900;
   letter-spacing: -.05em;
   paint-order: stroke fill;
-  filter: drop-shadow(1px 2px 0 color-mix(in srgb, var(--pcd-flow-pixel-highlight) 72%, transparent));
+  filter: drop-shadow(1px 2px 0 var(--pcd-flow-pixel-highlight));
 }
 
 /* Solid low-profile connectors preserve the cards as the primary visual weight. */
@@ -591,21 +591,22 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-panel {
   fill: var(--pcd-flow-callout-fill);
   stroke: var(--pcd-flow-callout-stroke);
-  stroke-width: 3;
+  stroke-width: 3.5;
   rx: 0;
   ry: 0;
   vector-effect: non-scaling-stroke;
   shape-rendering: crispEdges;
   clip-path: polygon(0 5px, 5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
   filter:
-    drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 48%, transparent));
+    drop-shadow(3px 3px 0 var(--pcd-flow-pixel-ink-deep))
+    drop-shadow(5px 5px 0 color-mix(in srgb, var(--pcd-flow-pixel-shadow) 44%, transparent));
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-stem,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-stem {
   stroke: var(--pcd-flow-callout-stem);
   stroke-width: 3;
-  stroke-dasharray: 4 4;
+  stroke-dasharray: 3 3;
 }
 
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label,
@@ -613,7 +614,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-labe
   fill: var(--pcd-flow-callout-text);
   stroke: none;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: -.04em;
   paint-order: normal;
