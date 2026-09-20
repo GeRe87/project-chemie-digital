@@ -1376,7 +1376,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 01 | hero / prose | yes | none |
 | 02 | flow | yes | optional unresolved/opaque visual role |
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
-| 04 | flow + annotations | yes | none expected |
+| 04 | flow + KeyPoint callout + statement | yes | none expected |
 | 05 | network or stateful flow | yes | none expected |
 | 06 | network + DiagramState | yes | structured semantic node may help |
 | 07 | network + groups + focus/context | yes | none expected |
