@@ -1046,8 +1046,8 @@ Use the generic SequenceDiagram primitive as an Alice/Bob/Eve-style marketplace 
 
 1. Consumer
 2. MCP Gateway
-3. Authority + Fuseki
-4. Provider / Executor
+3. Authority
+4. Provider
 
 A banner above the diagram reads:
 
