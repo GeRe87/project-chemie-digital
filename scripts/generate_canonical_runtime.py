@@ -665,10 +665,13 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
+            selected_is_media_asset = is_resource_type(dataset, selected, "MediaAsset")
             selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram") or is_resource_type(dataset, selected, "SequenceDiagram")
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
+            if selected_is_media_asset and role != "MediaRole":
+                raise ValueError(f"MediaAsset {compact(selected)} requires MediaRole in {compact(item)}")
             if selected_is_flow_diagram and role != "DiagramRole":
                 raise ValueError(f"FlowDiagram {compact(selected)} requires DiagramRole in {compact(item)}")
             if selected_is_chart_definition and role != "ChartRole":
@@ -745,6 +748,34 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "text": text, "format": "plain",
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "supporting", "intent": {"kind": "emphasize"},
+                }
+            elif role == "MediaRole":
+                if relation_path != "cd:uri":
+                    raise ValueError(f"MediaRole requires direct cd:uri selection in {compact(item)}")
+                if not selected_is_media_asset:
+                    raise ValueError(f"MediaRole requires MediaAsset in {compact(item)}")
+                uri_value = literal(dataset, selected, iri(CD, "uri"))
+                media_type = literal(dataset, selected, iri(CD, "mediaType"))
+                alternative_text = deterministic_authored_literal(
+                    dataset, selected, iri(CD, "alternativeText"), language
+                )
+                if uri_value is None or media_type is None or alternative_text is None:
+                    raise ValueError(f"Incomplete media asset {compact(selected)}")
+                block = {
+                    "id": block_id,
+                    "kind": "media-reference",
+                    "source": [
+                        source_reference(dataset, selected, "cd:uri"),
+                        source_reference(dataset, selected, "cd:mediaType"),
+                        source_reference(dataset, selected, "cd:alternativeText"),
+                    ],
+                    "uri": uri_value,
+                    "mediaType": media_type,
+                    "alternativeText": alternative_text,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                    "accessibility": {"label": alternative_text},
                 }
             elif role == "ChartRole":
                 if relation_path != "cd:body":
@@ -1007,6 +1038,21 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<div class="math-fallback" role="math" aria-label="{html.escape(block["spokenText"], quote=True)}"{fallback_attributes(block["source"])}>'
                     f'<code>{html.escape(block["expression"])}</code>'
                     f'</div>'
+                )
+                continue
+            if block["kind"] == "media-reference":
+                media_type = block.get("mediaType")
+                media_type_attribute = (
+                    f' data-media-type="{html.escape(str(media_type), quote=True)}"'
+                    if media_type
+                    else ""
+                )
+                blocks.append(
+                    f'<figure class="media-reference-fallback" data-media-block-id="{html.escape(block["id"], quote=True)}"'
+                    f'{media_type_attribute}{fallback_attributes(block["source"])}>'
+                    f'<img src="{html.escape(block["uri"], quote=True)}" '
+                    f'alt="{html.escape(block["alternativeText"], quote=True)}" />'
+                    f'</figure>'
                 )
                 continue
             if block["kind"] == "code":
