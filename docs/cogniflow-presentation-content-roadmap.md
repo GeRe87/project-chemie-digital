@@ -541,44 +541,47 @@ flow + paired KeyPoint callouts.
 
 Introduce the philosophy before semantics or architecture.
 
+The previous scene shows the problem: familiar analytical labels such as signal-to-noise ratio can hide different operational definitions. This scene shows the corresponding design principle: the processing step itself must become explicit digital information.
+
 ### Visual concept
 
-The Scene 02 black box opens into explicit questions and relationships.
+Keep the scientific flow simple and completely visible:
 
 ~~~text
-INPUT
-  ↓
-PROCESSING
-  ↓
-OUTPUT
-
-What does it do?
-What does it consume?
-What does it produce?
-Which parameters?
-Which implementation?
-Which version?
-How was it executed?
+INPUT → PROCESSING → OUTPUT
 ~~~
 
-Then condense these into the design principles:
+Use the lower-left area for one concrete analytical example:
 
 ~~~text
-TRANSPARENT
-TRACEABLE
-DIGITAL
-MODULAR
-MACHINE-READABLE
-HUMAN-UNDERSTANDABLE
+EXAMPLE: S/N CALCULATION
+
+purpose: quantify signal relative to background
+input: peak height + defined noise window
+output: S/N value
+parameters: noise window + RMS estimator
+implementation: calculate_snr() in a named package
+version: exact package release or commit
 ~~~
 
-### Reveal sequence
+Use the lower-right area for the general schema:
 
-1. Reuse the black box.
-2. Open the box into named processing information.
-3. Connect information instead of presenting isolated labels.
-4. Introduce “human + machine readable”.
-5. Land on the design principles.
+~~~text
+EXPLICIT CONTEXT
+
+purpose
+interface: inputs + outputs
+parameters
+implementation
+version
+execution + provenance
+~~~
+
+The example and the generic context panel should visually mirror the paired lower panels of Scene 04. The audience should see that CogniFlow is not prescribing one S/N formula here; it is making the chosen processing meaning and implementation explicit.
+
+### Presentation state
+
+Show the complete scene immediately. No staged DiagramState build-up is needed.
 
 ### Audience understanding after this scene
 
@@ -586,7 +589,7 @@ HUMAN-UNDERSTANDABLE
 
 ### Preferred primitive
 
-network or stateful flow.
+flow + paired KeyPoint callouts.
 
 ### Transition
 
@@ -1381,7 +1384,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 02 | flow | yes | optional unresolved/opaque visual role |
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
 | 04 | flow + paired KeyPoint callouts | yes | none expected |
-| 05 | network or stateful flow | yes | none expected |
+| 05 | flow + paired KeyPoint callouts | yes | none expected |
 | 06 | network + DiagramState | yes | structured semantic node may help |
 | 07 | network + groups + focus/context | yes | none expected |
 | 08 | structured semantic card | partial | generic structured-node/card content may be needed |
