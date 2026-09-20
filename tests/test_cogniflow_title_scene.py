@@ -424,7 +424,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [item["text"] for item in specification_layer["items"]],
         )
 
-    def test_core_grammar_exposes_meta_tbox_and_trig_relation_rule(self) -> None:
+    def test_core_grammar_exposes_meta_tbox_and_concept_domain_trig(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         scene = document["scenes"][7]
 
@@ -432,7 +432,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["prose", "prose", "list", "code", "prose"],
             [block["kind"] for block in scene["blocks"]],
         )
-        heading, banner, primitives, code, relation_rule = scene["blocks"]
+        heading, banner, primitives, code, domain_reading = scene["blocks"]
         self.assertEqual("A Small Grammar for Meaning", heading["text"])
         self.assertEqual("CORE ONTOLOGY = META-GRAMMAR, NOT DOMAIN MODEL", banner["text"])
         self.assertEqual(
@@ -447,12 +447,16 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [item["text"] for item in primitives["items"]],
         )
         self.assertEqual("trig", code["language"])
-        self.assertIn("cf:definesRelation", code["code"])
-        self.assertIn("rdfs:domain cf:ConceptDomain", code["code"])
-        self.assertIn("rdfs:range cf:Relation", code["code"])
+        self.assertIn("cfproc:ProcessingUnitConceptDomain", code["code"])
+        self.assertIn("a cf:ConceptDomain", code["code"])
+        self.assertIn("cf:definesConcept cfproc:ProcessingUnit", code["code"])
+        self.assertIn("cf:definesAttribute cfproc:Port", code["code"])
+        self.assertIn("cf:definesRelation cfproc:hasPort", code["code"])
+        self.assertIn("cf:definesShape cfproc:ProcessingUnitConceptShape", code["code"])
+        self.assertIn("cf:definesControlledValue cfproc:Input", code["code"])
         self.assertEqual(
-            "RELATION RULE\nStructural relations follow has<Attribute>\nExample: hasPort → Port",
-            relation_rule["text"],
+            "ONE DOMAIN DEFINES ITS VOCABULARY\nConcept → ProcessingUnit\nAttribute → Port\nRelation → hasPort\nShape → ProcessingUnitConceptShape\nControlled Value → Input",
+            domain_reading["text"],
         )
 
     def test_domain_specifications_match_stonecastle_concept_packages(self) -> None:
