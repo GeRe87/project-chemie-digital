@@ -88,19 +88,42 @@ test("pitch preview renders group and accessible image from media-reference bloc
 });
 
 
-test("CogniFlow laboratory comparison uses a hard cut only between scenes 3 and 4", () => {
-  const makeScene = (id: string, heading: string): SceneDocument["scenes"][number] => ({
-    id,
-    source: [{ resourceId: id }],
-    blocks: [{
-      kind: "prose",
+test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slide", () => {
+  const makeScene = (
+    id: string,
+    heading: string,
+    mediaUri?: string,
+  ): SceneDocument["scenes"][number] => {
+    const headingBlock = {
+      kind: "prose" as const,
       id: id + "--heading",
       source: [{ resourceId: id + "--focus" }],
       text: heading,
-      intent: { kind: "introduce" },
-    }],
-    readingOrder: [id + "--heading"],
-  });
+      intent: { kind: "introduce" as const },
+    };
+    if (!mediaUri) {
+      return {
+        id,
+        source: [{ resourceId: id }],
+        blocks: [headingBlock],
+        readingOrder: [headingBlock.id],
+      };
+    }
+    const mediaBlock = {
+      kind: "media-reference" as const,
+      id: id + "--media",
+      source: [{ resourceId: id + "--media-resource" }],
+      uri: mediaUri,
+      mediaType: "image/webp",
+      alternativeText: heading + " illustration",
+    };
+    return {
+      id,
+      source: [{ resourceId: id }],
+      blocks: [headingBlock, mediaBlock],
+      readingOrder: [headingBlock.id, mediaBlock.id],
+    };
+  };
 
   const comparisonDocument: SceneDocument = {
     version: "1.0",
@@ -108,8 +131,16 @@ test("CogniFlow laboratory comparison uses a hard cut only between scenes 3 and 
     sourcePathId: "ex:path-cogniflow-standardized-data-processing",
     scenes: [
       makeScene("ex:scene-cogniflow-processing-black-box--scene", "Before"),
-      makeScene("ex:scene-cogniflow-fair-processing-gap--scene", "Lab chaos"),
-      makeScene("ex:scene-cogniflow-explicit-processing-context--scene", "CogniFlow platform"),
+      makeScene(
+        "ex:scene-cogniflow-fair-processing-gap--scene",
+        "Lab chaos",
+        "/media/cogniflow/cogniflow-laboratory-chaos.webp",
+      ),
+      makeScene(
+        "ex:scene-cogniflow-explicit-processing-context--scene",
+        "CogniFlow platform",
+        "/media/cogniflow/cogniflow-shared-fair-platform.webp",
+      ),
       makeScene("ex:scene-cogniflow-service-process--scene", "After"),
     ],
   };
@@ -117,9 +148,26 @@ test("CogniFlow laboratory comparison uses a hard cut only between scenes 3 and 
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [comparisonDocument]);
 
-  assert.equal(root.children[0]?.attributes.get("data-transition"), undefined);
-  assert.equal(root.children[1]?.attributes.get("data-transition"), "slide-in none-out");
-  assert.equal(root.children[2]?.attributes.get("data-transition"), "none-in slide-out");
-  assert.equal(root.children[3]?.attributes.get("data-transition"), undefined);
+  assert.equal(root.children.length, 3);
+  const comparisonSection = root.children[1]!;
+  assert.equal(comparisonSection.attributes.get("id"), "ex:scene-cogniflow-fair-processing-gap--scene");
+  assert.equal(
+    comparisonSection.attributes.get("data-overlay-scene-id"),
+    "ex:scene-cogniflow-explicit-processing-context--scene",
+  );
+
+  const stack = comparisonSection.children[1]!;
+  assert.equal(stack.className, "pcd-media-swap");
+  assert.equal(stack.children.length, 2);
+
+  const baseLayer = stack.children[0]!;
+  const nextLayer = stack.children[1]!;
+  assert.equal(baseLayer.className, "pcd-media-swap-layer pcd-media-swap-base fragment fade-out");
+  assert.equal(nextLayer.className, "pcd-media-swap-layer pcd-media-swap-next fragment custom");
+  assert.equal(baseLayer.attributes.get("data-fragment-index"), "0");
+  assert.equal(nextLayer.attributes.get("data-fragment-index"), "0");
+
+  assert.equal(baseLayer.children[0]?.children[0]?.attributes.get("src"), "/media/cogniflow/cogniflow-laboratory-chaos.webp");
+  assert.equal(nextLayer.children[1]?.children[0]?.attributes.get("src"), "/media/cogniflow/cogniflow-shared-fair-platform.webp");
   destroy();
 });
