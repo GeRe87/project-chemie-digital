@@ -109,27 +109,59 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertNotIn("ex:scene-cogniflow-service-usage--scene", EXPECTED_SCENES)
         self.assertNotIn("ex:scene-cogniflow-signal-to-peak--scene", EXPECTED_SCENES)
 
-    def test_curated_service_process_projects_the_sequence_diagram(self) -> None:
+    def test_curated_service_process_projects_marketplace_sequence_without_stages(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         scene = document["scenes"][10]
         self.assertEqual("ex:scene-cogniflow-service-process--scene", scene["id"])
-        diagram = scene["blocks"][1]
-        self.assertEqual("diagram", diagram["kind"])
+        self.assertEqual(
+            ["prose", "prose", "diagram", "prose"],
+            [block["kind"] for block in scene["blocks"]],
+        )
+        heading, marketplace, diagram, note = scene["blocks"]
+        self.assertEqual("Services Replace Direct Dependencies", heading["text"])
+        self.assertEqual(
+            "ONLINE MARKETPLACE LOGIC\nsearch by need → match provider → standardized order → standardized delivery",
+            marketplace["text"],
+        )
         self.assertEqual("sequence", diagram["diagramType"])
         self.assertEqual(
-            ["ex:role-interface", "ex:role-orchestrator", "ex:role-provider", "ex:role-consumer"],
+            [
+                "ex:role-service-consumer",
+                "ex:role-service-gateway",
+                "ex:role-service-authority",
+                "ex:role-service-executor",
+            ],
             [role["id"] for role in diagram["participantRoles"]],
+        )
+        self.assertEqual(
+            ["Consumer", "MCP Gateway", "Authority + Fuseki", "Provider / Executor"],
+            [role["label"] for role in diagram["participantRoles"]],
+        )
+        self.assertEqual(
+            [
+                "SEARCH · capability + constraints",
+                "MATCH · resolve via Fuseki",
+                "ORDER · invoke matched operation",
+                "RETURN · cf.service.result.v1",
+                "RESULT · standardized envelope",
+                "DELIVER · result",
+            ],
+            [message["label"] for message in diagram["messages"]],
+        )
+        self.assertEqual([], diagram["states"])
+        self.assertEqual(
+            "CONSUMERS DEPEND ON THE SERVICE CONTRACT — NOT ON CONCRETE PROVIDER IMPLEMENTATIONS",
+            note["text"],
         )
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn('data-diagram-type="sequence"', fallback)
-        self.assertIn("Interface", fallback)
-        self.assertIn("Orchestration", fallback)
-        self.assertIn("Specialized provider", fallback)
         self.assertIn("Consumer", fallback)
-        self.assertIn('data-interaction-message-id="ex:message-request"', fallback)
-        self.assertIn('data-active-message-ids="', fallback)
-        self.assertIn('data-participant-binding-role-id="ex:role-interface"', fallback)
+        self.assertIn("MCP Gateway", fallback)
+        self.assertIn("Authority + Fuseki", fallback)
+        self.assertIn("Provider / Executor", fallback)
+        self.assertIn('data-interaction-message-id="ex:message-service-search"', fallback)
+        self.assertNotIn('data-participant-binding-role-id="ex:role-service-consumer"', fallback)
 
     def test_media_aware_cogniflow_fallback_preserves_title_logos_and_sequence_semantics(self) -> None:
         base_artifact = RUNTIME.build_artifact(request())
@@ -143,10 +175,9 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn(FUNDING, rendered_index)
         self.assertIn("Ministry for Environment", rendered_index)
         self.assertIn('data-diagram-type="sequence"', rendered_index)
-        self.assertIn('data-participant-role-id="ex:role-interface"', rendered_index)
-        self.assertIn('data-interaction-message-id="ex:message-request"', rendered_index)
-        self.assertIn('data-active-message-ids="', rendered_index)
-        self.assertIn('data-participant-binding-role-id="ex:role-interface"', rendered_index)
+        self.assertIn('data-participant-role-id="ex:role-service-consumer"', rendered_index)
+        self.assertIn('data-interaction-message-id="ex:message-service-search"', rendered_index)
+        self.assertNotIn('data-participant-binding-role-id="ex:role-service-consumer"', rendered_index)
 
     def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())
@@ -356,9 +387,9 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("Semantics First — Meaning Before Implementation", semantics_first["blocks"][0]["text"])
         self.assertEqual("CogniFlow Starts with Meaning", semantic_core["blocks"][0]["text"])
         self.assertEqual("A Small Grammar for Meaning", core_grammar["blocks"][0]["text"])
-        self.assertEqual("One Semantic Grammar. Different Specifications.", domain_specs["blocks"][0]["text"])
+        self.assertEqual("A Semantic Model for Data Processing", domain_specs["blocks"][0]["text"])
         self.assertEqual(
-            "A stable interface coordinates specialized providers",
+            "Services Replace Direct Dependencies",
             service_process["blocks"][0]["text"],
         )
 
