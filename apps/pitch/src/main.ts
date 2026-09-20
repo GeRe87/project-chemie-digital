@@ -268,7 +268,11 @@ function createProgressSource(): BackgroundProgressSource {
 }
 
 const progressSource = createProgressSource();
-const stopBackgroundProgress = progressSource.start((offset) => backgroundRuntime.setProgress(offset));
+const stopBackgroundProgress = progressSource.start((offset) => {
+  const currentSceneId = deck.getCurrentSlide()?.id ?? "";
+  if (appearance.view === "scroll" && showcaseSceneIds.has(currentSceneId)) return;
+  backgroundRuntime.setProgress(offset);
+});
 
 let codeRuntime: CodeRuntimeController | undefined;
 let pollRuntime: PollRuntimeController | undefined;
