@@ -682,7 +682,8 @@ Reuse	license + provenance""" ;
     cd:authoredResource true .
 
   ex:node-cogniflow-fair-data a cd:DiagramNode ;
-    skos:prefLabel "FAIR / OPEN DATA"@en ;
+    skos:prefLabel """FAIR / OPEN
+DATA"""@en ;
     cd:position 2 ;
     cd:authoredResource true .
 
