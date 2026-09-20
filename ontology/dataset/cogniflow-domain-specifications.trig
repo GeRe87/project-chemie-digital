@@ -55,7 +55,7 @@ Port · PortRole · PipelineNode"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-domain-specifications-extension> {
   ex:path-step-cogniflow-domain-specifications a cd:PathStep ;
-    cd:position 8 ;
+    cd:position 9 ;
     cd:usesResource ex:cogniflow-domain-grammar-banner,
       ex:cogniflow-domain-cards,
       ex:cogniflow-domain-compatibility-note ;
