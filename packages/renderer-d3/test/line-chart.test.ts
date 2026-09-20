@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { createD3LineChartRenderModel } from "../src/line-chart.ts";
+import { createD3LineChartRenderModel, lineChartPresentationPlan } from "../src/line-chart.ts";
 import type { LineChartBlock } from "../../core/src/scene-document.ts";
 
 const block: LineChartBlock = {
@@ -59,4 +59,27 @@ test("line render model preserves scientific coordinates and annotations", () =>
   );
   assert.match(result.model.staticFallback, /x=4.8 min/);
   assert.match(result.model.staticFallback, /Peak apex/);
+});
+
+test("annotated line charts retain progressive trace and annotation steps", () => {
+  assert.deepEqual(lineChartPresentationPlan(block.annotations ?? []), {
+    progressive: true,
+    stepCount: 3,
+    traceInitiallyVisible: false,
+  });
+});
+
+test("annotation-free line charts render their scientific trace initially", () => {
+  const staticBlock: LineChartBlock = { ...block, annotations: [] };
+  const result = createD3LineChartRenderModel(staticBlock);
+  assert.ok(result.model);
+  assert.deepEqual(lineChartPresentationPlan(result.model.annotations), {
+    progressive: false,
+    stepCount: 0,
+    traceInitiallyVisible: true,
+  });
+  assert.deepEqual(
+    result.model.series[0]!.data.map((datum) => [datum.x, datum.y]),
+    [[4.0, 5], [4.4, 12], [4.8, 100], [5.2, 25]],
+  );
 });

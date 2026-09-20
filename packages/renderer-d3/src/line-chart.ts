@@ -32,6 +32,21 @@ export interface D3LineChartComponent {
   destroy(): void;
 }
 
+export interface D3LineChartPresentationPlan {
+  readonly progressive: boolean;
+  readonly stepCount: number;
+  readonly traceInitiallyVisible: boolean;
+}
+
+export function lineChartPresentationPlan(annotations: readonly LineChartAnnotation[]): D3LineChartPresentationPlan {
+  const progressive = annotations.length > 0;
+  return {
+    progressive,
+    stepCount: progressive ? 1 + annotations.length : 0,
+    traceInitiallyVisible: !progressive,
+  };
+}
+
 function invalid(message: string): D3LineChartRenderModelResult {
   return { diagnostics: [{ code: "INVALID_LINE_CHART_BLOCK", message }] };
 }
@@ -96,13 +111,19 @@ export function mountD3LineChart(
   }
 
   const model = result.model;
-  const stepCount = 1 + model.annotations.length;
+  const presentation = lineChartPresentationPlan(model.annotations);
+  const stepCount = presentation.stepCount;
   let currentStep = 0;
   let destroyed = false;
 
   host.innerHTML = "";
-  host.setAttribute("data-presentation-step-count", String(stepCount));
-  host.setAttribute("data-presentation-step-host", "chart");
+  if (presentation.progressive) {
+    host.setAttribute("data-presentation-step-count", String(stepCount));
+    host.setAttribute("data-presentation-step-host", "chart");
+  } else {
+    host.removeAttribute("data-presentation-step-count");
+    host.removeAttribute("data-presentation-step-host");
+  }
 
   const figure = document.createElement("figure");
   figure.className = "d3-chart-figure d3-chart-figure-line";
@@ -120,7 +141,7 @@ export function mountD3LineChart(
   host.append(figure);
 
   const applyStep = (): void => {
-    const traceVisible = currentStep >= 1;
+    const traceVisible = presentation.traceInitiallyVisible || currentStep >= 1;
     for (const path of chartSvg.querySelectorAll<SVGPathElement>(".d3-chart-line")) {
       path.style.strokeDashoffset = traceVisible ? "0" : "1";
       path.style.opacity = traceVisible ? "1" : "0";
@@ -328,7 +349,7 @@ export function mountD3LineChart(
     if (typeof step === "number") setStep(step);
   };
 
-  host.addEventListener("pcd-presentation-step", stepListener);
+  if (presentation.progressive) host.addEventListener("pcd-presentation-step", stepListener);
   render();
   const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => render()) : undefined;
   observer?.observe(host);
@@ -341,7 +362,7 @@ export function mountD3LineChart(
     destroy(): void {
       if (destroyed) return;
       destroyed = true;
-      host.removeEventListener("pcd-presentation-step", stepListener);
+      if (presentation.progressive) host.removeEventListener("pcd-presentation-step", stepListener);
       observer?.disconnect();
       host.innerHTML = "";
     },

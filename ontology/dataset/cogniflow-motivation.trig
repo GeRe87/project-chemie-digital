@@ -53,6 +53,31 @@
     cd:targetNode ex:node-cogniflow-black-box-result ;
     cd:authoredResource true .
 
+  ex:code-cogniflow-feature-results a cd:CodeExample ;
+    skos:prefLabel "Feature results"@en ;
+    cd:code """Feature  RT    m/z      Area
+F-01     4.18  181.071  12 480
+F-02     4.42  237.103  29 160
+F-03     4.80  305.143  48 920
+F-04     5.07  421.187  17 640
+F-05     5.31  512.224   9 870""" ;
+    cd:programmingLanguage "tsv" ;
+    cd:editable false ;
+    cd:executable false ;
+    cd:showsResource ex:diagram-cogniflow-processing-black-box ;
+    cd:authoredResource true .
+
+  ex:chart-cogniflow-processing-signal a cd:ChartDefinition ;
+    skos:prefLabel "Raw analytical signal"@en ;
+    cd:body "Synthetic chromatogram illustrating the raw signal before feature extraction."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Retention time"@en ;
+    cd:yAxisLabel "Intensity"@en ;
+    cd:xAxisUnit "min" ;
+    cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:dataset-cogniflow-chromatogram ;
+    cd:authoredResource true .
+
   ex:cogniflow-fair-processing-gap a cd:Concept ;
     skos:prefLabel "FAIR Data Are Not FAIR Processing"@en ;
     cd:hasDefinition ex:def-cogniflow-fair-processing-gap ;
@@ -283,7 +308,9 @@
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-motivation-extension> {
   ex:path-step-cogniflow-processing-black-box a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:diagram-cogniflow-processing-black-box ;
+    cd:usesResource ex:chart-cogniflow-processing-signal,
+      ex:code-cogniflow-feature-results,
+      ex:diagram-cogniflow-processing-black-box ;
     cd:usesScene ex:scene-cogniflow-processing-black-box ;
     cd:authoredResource true .
 
@@ -304,6 +331,8 @@
   ex:scene-cogniflow-processing-black-box a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-processing-black-box ;
     cd:hasSceneItem ex:scene-item-cogniflow-processing-black-box-heading,
+      ex:scene-item-cogniflow-processing-black-box-chromatogram,
+      ex:scene-item-cogniflow-processing-black-box-feature-results,
       ex:scene-item-cogniflow-processing-black-box-diagram ;
     cd:authoredResource true .
 
@@ -315,8 +344,24 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-processing-black-box-diagram a cd:SceneItem ;
+  ex:scene-item-cogniflow-processing-black-box-chromatogram a cd:SceneItem ;
     cd:position 2 ;
+    cd:selectsResource ex:chart-cogniflow-processing-signal ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-feature-results a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:code-cogniflow-feature-results ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-diagram a cd:SceneItem ;
+    cd:position 4 ;
     cd:selectsResource ex:diagram-cogniflow-processing-black-box ;
     cd:communicativeRole cd:DiagramRole ;
     cd:selectionPath "cd:body" ;

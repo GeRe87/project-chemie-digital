@@ -58,6 +58,88 @@ body[data-presentation-theme="dark"] .reveal {
   box-shadow: none;
 }
 
+/* A chart, code example and flow diagram form a reusable signal-to-results
+   composition: the first two blocks compare evidence and structured output. */
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(12rem, 1fr) minmax(10rem, .72fr);
+  column-gap: 3.5rem;
+  row-gap: .35rem;
+  position: relative;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > h2,
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .d3-flow-host {
+  grid-column: 1 / -1;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .d3-chart-host {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
+  margin: 0;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host)::after {
+  content: "RAW SIGNAL  →  FEATURE RESULTS";
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  padding: .2rem .45rem;
+  border: 2px solid var(--pcd-accent);
+  background: var(--pcd-surface-strong);
+  color: var(--pcd-accent);
+  font: 800 .42em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-chart-svg {
+  width: 100%;
+  max-width: 100%;
+  min-height: 12rem;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-chart-line {
+  stroke: var(--pcd-accent);
+  stroke-width: 6;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-chart-line-point {
+  fill: var(--pcd-surface-strong);
+  stroke: var(--pcd-accent);
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-svg {
+  min-height: 10rem;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .code-static-fallback {
+  margin: 0;
+  padding: .9rem 1rem;
+  border: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-surface));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent);
+  color: var(--pcd-text);
+  font: 700 .56em/1.65 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  white-space: pre;
+}
+
+.reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .code-static-fallback code {
+  color: inherit;
+}
+
 .reveal .d3-flow-host {
   position: relative;
   box-sizing: border-box;
