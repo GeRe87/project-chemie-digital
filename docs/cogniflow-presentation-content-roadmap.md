@@ -982,55 +982,104 @@ Graph-backed KeyPoint cards styled as processing nodes, with renderer-owned cabl
 
 ---
 
-## Scene 11 — A package that explains itself
+## Scene 11 — Services Replace Direct Dependencies
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
-**Visual:** [ ]
+**RDF:** [x] Authored  
+**Visual:** [x] Authored
 
 ### One statement
 
-> A CogniFlow package is not only installable code; it is a versioned module that describes itself semantically.
+> Consumers request a capability through a stable service contract; CogniFlow resolves and invokes the implementation without the Consumer importing the provider package.
 
 ### Role in the story
 
-Turn the abstract core into a concrete object developers and scientists can understand.
+After showing composable analytical ProcessingSteps, explain how CogniFlow prevents those modules from becoming a new dependency chain.
+
+Use the analogy of an online marketplace:
+
+- the customer searches for what they need, not for a specific seller implementation;
+- the marketplace resolves a matching offer;
+- ordering uses a standard interface;
+- delivery returns through the same standardized boundary.
+
+The analogy maps directly onto the current Stonecastle service path.
+
+### Current Stonecastle grounding
+
+The service client builds `cf.service.call.v1` requests containing capability, semantic constraints, inputs and parameters. It explicitly does not resolve semantics or import concrete service implementations.
+
+The Rust MCP gateway exposes the generic `cf_call_service` tool. Its internal Semantic Authority owns semantic resolution, validation, Fuseki access and service invocation. It resolves a matching `ServiceOperation`, validates the declared `ServiceInterface`, invokes the matched execution affordance and returns `cf.service.result.v1`.
+
+Canonical path:
+
+~~~text
+Consumer
+   │
+   │ SEARCH · capability + constraints
+   ▼
+MCP Gateway
+   │
+   │ MATCH · resolve via Fuseki
+   ▼
+Semantic Authority
+   │
+   │ ORDER · invoke matched operation
+   ▼
+Provider / Executor
+   │
+   │ RETURN · cf.service.result.v1
+   ▼
+Semantic Authority
+   │
+   ▼
+MCP Gateway
+   │
+   │ DELIVER · result
+   ▼
+Consumer
+~~~
 
 ### Visual concept
 
-One package card grows semantic fields around it.
+Use the generic SequenceDiagram primitive as an Alice/Bob/Eve-style marketplace interaction with four participants:
+
+1. Consumer
+2. MCP Gateway
+3. Authority + Fuseki
+4. Provider / Executor
+
+A banner above the diagram reads:
 
 ~~~text
-CF PACKAGE
-├─ identity
-├─ distribution / module
-├─ version
-├─ implementation language
-├─ architectural role
-└─ semantic contributions
+ONLINE MARKETPLACE LOGIC
+search by need → match provider → standardized order → standardized delivery
 ~~~
 
-The visual should make the metadata feel like part of the object, not documentation beside it.
+A strong footer states:
 
-### Reveal sequence
+~~~text
+CONSUMERS DEPEND ON THE SERVICE CONTRACT —
+NOT ON CONCRETE PROVIDER IMPLEMENTATIONS
+~~~
 
-1. Conventional “package = code”.
-2. Add package identity.
-3. Add version and implementation language.
-4. Add role and semantic contributions.
-5. Replace the conventional label with: **self-describing module**
+### Presentation state
+
+Show the complete interaction immediately.
+
+Do not use DiagramState fragments on this scene. It is an explanatory system overview, not a staged reveal.
 
 ### Audience understanding after this scene
 
-> “A machine can inspect what this package is without reverse-engineering its code or relying on tribal knowledge.”
+> “A module asks CogniFlow for a capability. It does not need to know, import or directly call the implementation that provides it.”
 
 ### Preferred primitive
 
-structured semantic card; use generic prose/card primitive if available, otherwise network with a structured focal node.
+SequenceDiagram with ParticipantRole + InteractionMessage only; no DiagramState. Scene-specific CSS may style participants by role id, but interaction semantics remain renderer-neutral.
 
 ### Transition
 
-> Describing the package solves identity. We still need a way to describe what functionality it makes available.
+> The stable service boundary only works because the request and result carry shared meaning.
 
 ---
 
