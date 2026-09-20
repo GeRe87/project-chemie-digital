@@ -68,22 +68,28 @@ SHACL validation term
 ConceptShape · InstanceShape"""@en ;
     cd:authoredResource true .
 
-  ex:code-cogniflow-core-defines-relation a cd:CodeExample ;
-    skos:prefLabel "Core relation declaration in TriG"@en ;
-    cd:code """cf:definesRelation
-    a rdf:Property ;
-    rdfs:domain cf:ConceptDomain ;
-    rdfs:range cf:Relation .""" ;
+  ex:code-cogniflow-core-concept-domain a cd:CodeExample ;
+    skos:prefLabel "Concept domain in TriG"@en ;
+    cd:code """cfproc:ProcessingUnitConceptDomain
+    a cf:ConceptDomain ;
+    cf:definesConcept cfproc:ProcessingUnit ;
+    cf:definesAttribute cfproc:Port ;
+    cf:definesRelation cfproc:hasPort ;
+    cf:definesShape cfproc:ProcessingUnitConceptShape ;
+    cf:definesControlledValue cfproc:Input .""" ;
     cd:programmingLanguage "trig" ;
     cd:editable false ;
     cd:executable false ;
     cd:showsResource ex:cogniflow-core-grammar ;
     cd:authoredResource true .
 
-  ex:cogniflow-core-relation-rule a cd:Interpretation ;
-    cd:body """RELATION RULE
-Structural relations follow has<Attribute>
-Example: hasPort → Port"""@en ;
+  ex:cogniflow-core-domain-reading a cd:Interpretation ;
+    cd:body """ONE DOMAIN DEFINES ITS VOCABULARY
+Concept → ProcessingUnit
+Attribute → Port
+Relation → hasPort
+Shape → ProcessingUnitConceptShape
+Controlled Value → Input"""@en ;
     cd:authoredResource true .
 }
 
@@ -92,8 +98,8 @@ Example: hasPort → Port"""@en ;
     cd:position 8 ;
     cd:usesResource ex:cogniflow-core-grammar-banner,
       ex:cogniflow-core-grammar-primitives,
-      ex:code-cogniflow-core-defines-relation,
-      ex:cogniflow-core-relation-rule ;
+      ex:code-cogniflow-core-concept-domain,
+      ex:cogniflow-core-domain-reading ;
     cd:usesScene ex:scene-cogniflow-core-grammar ;
     cd:authoredResource true .
 }
@@ -105,7 +111,7 @@ Example: hasPort → Port"""@en ;
       ex:scene-item-cogniflow-core-grammar-banner,
       ex:scene-item-cogniflow-core-grammar-primitives,
       ex:scene-item-cogniflow-core-grammar-code,
-      ex:scene-item-cogniflow-core-grammar-relation-rule ;
+      ex:scene-item-cogniflow-core-grammar-domain-reading ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-core-grammar-heading a cd:SceneItem ;
@@ -134,15 +140,15 @@ Example: hasPort → Port"""@en ;
 
   ex:scene-item-cogniflow-core-grammar-code a cd:SceneItem ;
     cd:position 4 ;
-    cd:selectsResource ex:code-cogniflow-core-defines-relation ;
+    cd:selectsResource ex:code-cogniflow-core-concept-domain ;
     cd:communicativeRole cd:CodeRole ;
     cd:selectionPath "cd:hasCodeExample" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-core-grammar-relation-rule a cd:SceneItem ;
+  ex:scene-item-cogniflow-core-grammar-domain-reading a cd:SceneItem ;
     cd:position 5 ;
-    cd:selectsResource ex:cogniflow-core-relation-rule ;
+    cd:selectsResource ex:cogniflow-core-domain-reading ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
