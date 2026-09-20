@@ -41,7 +41,8 @@ profile bootstrap
 
   ex:keypoint-cogniflow-extension-webui a cd:KeyPoint ;
     cd:position 3 ;
-    cd:body """Web UI · PLANNED
+    cd:body """Web UI
+REWORK IN PROGRESS
 browser-based interface
 workflow control
 status + results views
@@ -50,7 +51,8 @@ status + results views
 
   ex:keypoint-cogniflow-extension-pipeline a cd:KeyPoint ;
     cd:position 4 ;
-    cd:body """Pipeline Engine · PLANNED
+    cd:body """Pipeline Engine
+REWORK IN PROGRESS
 workflow orchestration
 processing execution
 step coordination
