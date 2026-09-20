@@ -663,7 +663,7 @@ Concept Domain banner + five semantic KeyPoint cards.
 ## Scene 07 — One semantic grammar. Different specifications.
 
 **Narrative:** [x] Frozen v1  
-**RDF:** [ ]  
+**RDF:** [x] Authored  
 **Visual:** [ ]
 
 ### One statement
@@ -672,40 +672,40 @@ Concept Domain banner + five semantic KeyPoint cards.
 
 ### Role in the story
 
-This is the architectural hinge between semantics and modularity.
+This is the architectural hinge between the Meta-TBox and modular domain specifications.
+
+Stonecastle implements the distinction directly: the core ontology provides the small semantic grammar, while package, service, and data-processing semantics live in dedicated concept-domain packages.
 
 ### Visual concept
 
-~~~text
-                    COGNIFLOW CORE
-                         │
-          ┌──────────────┼──────────────┐
-          │              │              │
-       PACKAGE         SERVICE      DATA PROCESSING
-       CONCEPT         CONCEPT        CONCEPT
-~~~
-
-Each domain expands from the same grammar while remaining separately defined.
-
-A second state contrasts this with a dependency graph.
+Use a specification-wall composition rather than another network:
 
 ~~~text
-traditional:
-A → B → C → D → ...
+                    SAME META-GRAMMAR
+      Concept · Attribute · Relation · Controlled Value · Shape
 
-CogniFlow:
-A ─┐
-B ─┼─ shared semantic contract
-C ─┘
+   PACKAGE DOMAIN        SERVICE DOMAIN       DATA PROCESSING DOMAIN
+   CfPackage             Service              ProcessingUnit
+   Manifest              Operation            ProcessingStep
+   Version / Role        Interface            ProcessingPipeline
+   Contribution          Input / Output       Port / PortRole
+   Template              Execution            PipelineNode
+
+             SHARED SEMANTICS — INDEPENDENT SPECIFICATIONS
 ~~~
 
-### Reveal sequence
+The three cards should be equally prominent but visually distinct. They are not implementation dependencies and no arrows between them should be shown.
 
-1. Semantic core.
-2. Package Concept Domain.
-3. Service Concept Domain.
-4. Data Processing Concept Domain.
-5. Replace direct cross-dependencies with shared semantic compatibility.
+### Stonecastle grounding
+
+- cf_concept_package defines the package concept domain around CfPackage.
+- cf_concept_service defines the service concept domain around Service.
+- cf_concept_processing defines ProcessingUnit, ProcessingStep, and ProcessingPipeline plus processing attributes such as ports and pipeline nodes.
+- All reuse the semantic categories introduced in Scene 06.
+
+### Presentation state
+
+Show the complete scene immediately. No staged build-up is needed.
 
 ### Audience understanding after this scene
 
@@ -713,7 +713,7 @@ C ─┘
 
 ### Preferred primitive
 
-network + groups + focus/context states.
+Meta-grammar banner + three domain specification cards.
 
 ### Transition
 
@@ -1365,7 +1365,7 @@ Recommended semantic reveal budget:
 | 04 | 5 | FAIR gap |
 | 05 | 5 | philosophy |
 | 06 | 1 | semantic grammar |
-| 07 | 5 | modular specifications |
+| 07 | 1 | modular specifications |
 | 08 | 5 | package example |
 | 09 | 5 | service contract |
 | 10 | 6 | dependency decoupling |
@@ -1390,7 +1390,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 04 | flow + paired KeyPoint callouts | yes | none expected |
 | 05 | flow + paired KeyPoint callouts | yes | none expected |
 | 06 | Concept Domain banner + semantic KeyPoint cards | yes | none expected |
-| 07 | network + groups + focus/context | yes | none expected |
+| 07 | Meta-grammar banner + three domain cards | yes | none expected |
 | 08 | structured semantic card | partial | generic structured-node/card content may be needed |
 | 09 | network + structured node | partial | structured interface content may be needed |
 | 10 | network + states / role substitution | yes | none expected |
@@ -1763,11 +1763,11 @@ No CogniFlow-specific renderer behavior is permitted. The presentation itself sh
 
 Proceed to **Phase 2 — Semantic Content Design**.
 
-Scenes 01–06 now cover the motivation and the first semantic-foundation scene in the curated path.
+Scenes 01–07 now cover the motivation, the Stonecastle Meta-TBox, and the separation into independent concept domains.
 
 Next:
 
 1. run exact-head semantic/runtime validation;
-2. inspect Scene 06 in Scroll View at the target projector viewport;
-3. tune only presentation CSS if the semantic network needs more breathing room;
-4. then implement Scene 07 — “One semantic grammar. Different specifications.”
+2. inspect Scene 07 in Scroll View at the target projector viewport;
+3. tune only presentation CSS if the three domain cards need spacing or type adjustments;
+4. then implement Scene 08 — “A package that explains itself.”
