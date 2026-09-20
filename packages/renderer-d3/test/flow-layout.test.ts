@@ -54,6 +54,23 @@ test("selects horizontal and vertical layouts from host width without reordering
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
 });
 
+test("long horizontal node labels wrap before colliding with card chrome", () => {
+  const layout = createD3FlowLayout({
+    nodes: [
+      { id: "input", label: "FAIR / OPEN DATA" },
+      { id: "processing", label: "CUSTOM PROCESSING" },
+      { id: "result", label: "RESULT" },
+    ],
+    edges: [
+      { id: "a", sourceNodeId: "input", targetNodeId: "processing", label: "processed by" },
+      { id: "b", sourceNodeId: "processing", targetNodeId: "result", label: "produces" },
+    ],
+  }, 1200);
+  const processing = layout.nodes.find((node) => node.id === "processing")!;
+  assert.ok(processing.labelLines.length >= 2);
+  assert.equal(processing.labelLines.join(""), "CUSTOM PROCESSING");
+});
+
 test("horizontal flow content is centered when the host is wider than its intrinsic graph", () => {
   const wide = createD3FlowLayout(input, 1600);
   const left = Math.min(...wide.nodes.map((node) => node.x - node.width / 2));
