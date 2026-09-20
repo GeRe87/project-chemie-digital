@@ -1,0 +1,205 @@
+/* Compatible Processing Steps Form a Pipeline
+   Four identical ProcessingStep cards connected by chunky port cables. */
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] {
+  display: grid !important;
+  grid-template-rows: auto 4.35rem minmax(0, 1fr) 3.35rem;
+  row-gap: .78rem;
+  align-content: stretch;
+  padding: 1.4rem 1.8rem 1.35rem !important;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 {
+  grid-row: 1;
+  margin: 0 0 .08rem;
+  max-width: none;
+  font-size: 2.45em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead {
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(1020px, 90%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .54rem 1.05rem .48rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+  color: var(--pcd-foreground);
+  font: 875 .98em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead::first-line {
+  color: var(--pcd-accent);
+  font-size: 1.24em;
+  font-weight: 950;
+  letter-spacing: .05em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list {
+  grid-row: 3;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.25rem;
+  width: min(1200px, 99%);
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: .25rem 0;
+  list-style: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li {
+  --step-fill: #d7f1ef;
+  --step-stroke: #168e9c;
+  --step-text: #073f49;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 19.5rem;
+  margin: 0;
+  padding: 1.25rem 1.05rem 1.05rem;
+  border: 5px solid var(--step-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--step-fill) 96%, var(--pcd-surface-strong)) 0 24%,
+      color-mix(in srgb, var(--step-fill) 76%, var(--pcd-surface-strong)) 24% 100%
+    );
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--step-stroke) 26%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 44%, transparent);
+  color: var(--step-text);
+  font: 875 .98em/1.4 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li::first-line {
+  font-size: 1.2em;
+  font-weight: 950;
+  letter-spacing: .012em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  left: -.72rem;
+  top: 58%;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+  border: 4px solid var(--step-stroke);
+  border-radius: 50%;
+  background: var(--pcd-surface-strong);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--step-stroke) 18%, transparent),
+    3px 3px 0 color-mix(in srgb, var(--step-stroke) 24%, transparent);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: calc(100% + .15rem);
+  top: calc(58% - .33rem);
+  width: 2.2rem;
+  height: .72rem;
+  border-top: 3px solid #163943;
+  border-bottom: 3px solid #163943;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pcd-accent) 78%, white) 0 42%,
+      var(--pcd-accent) 42% 100%
+    );
+  box-shadow:
+    0 3px 0 color-mix(in srgb, #071c22 48%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 28%, transparent);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:last-child::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  right: -.72rem;
+  top: 58%;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+  border: 4px solid var(--step-stroke);
+  border-radius: 50%;
+  background: var(--pcd-surface-strong);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--step-stroke) 18%, transparent),
+    3px 3px 0 color-mix(in srgb, var(--step-stroke) 24%, transparent);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  --step-fill: #b9e4ff;
+  --step-stroke: #176da0;
+  --step-text: #07364e;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+  --step-fill: #cbeab7;
+  --step-stroke: #4f8a45;
+  --step-text: #244c26;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
+  --step-fill: #ffd28f;
+  --step-stroke: #c96a12;
+  --step-text: #522800;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+  --step-fill: #f4c3df;
+  --step-stroke: #a33d72;
+  --step-text: #5d2041;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list + .lead {
+  grid-row: 4;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1130px, 95%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .58rem 1rem .52rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, var(--pcd-accent) 10%);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  color: var(--pcd-accent);
+  font: 950 .98em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .028em;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] {
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li {
+    min-height: 10rem;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li::before,
+  .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li::after {
+    display: none;
+  }
+}
