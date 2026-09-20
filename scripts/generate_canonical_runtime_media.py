@@ -37,21 +37,28 @@ def _media_fallback_markup(block: dict[str, Any]) -> str:
         if media_type
         else ""
     )
+    uri = html.escape(block["uri"], quote=True)
+    alternative = html.escape(block["alternativeText"], quote=True)
+    if isinstance(media_type, str) and media_type.startswith("video/"):
+        content = (
+            f'<video src="{uri}" controls preload="metadata" playsinline '
+            f'aria-label="{alternative}"></video>'
+        )
+    else:
+        content = f'<img src="{uri}" alt="{alternative}" />'
     return (
         f'<figure class="media-reference-fallback" data-media-block-id="{html.escape(block["id"], quote=True)}"'
         f'{media_type_attribute}{base.fallback_attributes(block["source"])}>'
-        f'<img src="{html.escape(block["uri"], quote=True)}" '
-        f'alt="{html.escape(block["alternativeText"], quote=True)}" />'
-        f'</figure>'
+        f'{content}</figure>'
     )
 
 
 def inject_media_fallback(rendered_html: str, artifact: dict[str, Any]) -> str:
-    """Add semantic logo media to the generated no-script HTML fallback.
+    """Add semantic media to the generated no-script HTML fallback.
 
-    The base compiler already renders the attribution text. We append the media children
-    generated from that same attribution immediately after its fallback element, keeping
-    the static HTML and SceneDocument projection semantically aligned.
+    The base compiler renders the source prose first. We append media children generated
+    from that same resource immediately after its fallback element, keeping static HTML
+    and SceneDocument projection semantically aligned.
     """
     updated = rendered_html
     document = artifact["sceneDocuments"][0]
@@ -74,7 +81,7 @@ def inject_media_fallback(rendered_html: str, artifact: dict[str, Any]) -> str:
             resource_id = source_ids[0]
             media_markup = "".join(_media_fallback_markup(child) for child in media)
             pattern = re.compile(
-                rf'(<cite\b[^>]*data-resource-id="[^"]*{re.escape(resource_id)}[^"]*"[^>]*>.*?</cite>)',
+                rf'(<(?P<tag>h2|blockquote|cite)\b[^>]*data-resource-id="[^"]*{re.escape(resource_id)}[^"]*"[^>]*>.*?</(?P=tag)>)',
                 re.DOTALL,
             )
             updated, count = pattern.subn(lambda match: match.group(1) + media_markup, updated, count=1)

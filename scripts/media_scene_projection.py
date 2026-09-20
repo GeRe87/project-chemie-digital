@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Generic RDF -> SceneDocument enrichment for attribution-linked media.
+"""Generic RDF -> SceneDocument enrichment for semantically linked media.
 
-The canonical compiler already projects AttributionRole items to source-linked prose.
-This module preserves that authored scene item while enriching the resulting block with
-renderer-neutral ``media-reference`` children whenever the Attribution links to an
-Organization with a logo.
+The canonical compiler projects ordinary scene prose first. This module preserves that
+authored text while enriching the resulting block with renderer-neutral
+``media-reference`` children whenever the selected resource carries ``cd:hasMedia``
+or an Attribution resolves to an Organization logo.
 
-No presentation-specific content is invented here: organization, relationship, media
-URI, media type and accessible alternative are all read from the canonical RDF Dataset.
+No presentation-specific URI is invented by the renderer: relationships, media URI,
+media type and accessible alternative are all read from the canonical RDF Dataset.
 """
 from __future__ import annotations
 
@@ -22,6 +22,7 @@ EX = "https://w3id.org/project-chemie-digital/resource/"
 AFFILIATED_WITH = URIRef(CD + "affiliatedWith")
 FUNDING_SOURCE = URIRef(CD + "fundingSource")
 HAS_LOGO = URIRef(CD + "hasLogo")
+HAS_MEDIA = URIRef(CD + "hasMedia")
 MEDIA_URI = URIRef(CD + "uri")
 MEDIA_TYPE = URIRef(CD + "mediaType")
 ALTERNATIVE_TEXT = URIRef(CD + "alternativeText")
@@ -104,6 +105,37 @@ def unique_sources(sources: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     return result
 
 
+def media_payload(dataset: Dataset, media: URIRef) -> dict[str, Any]:
+    uri = literal(dataset, media, MEDIA_URI)
+    media_type = literal(dataset, media, MEDIA_TYPE)
+    alternative = literal(dataset, media, ALTERNATIVE_TEXT, "en") or literal(
+        dataset, media, ALTERNATIVE_TEXT
+    )
+    if not uri or not alternative:
+        raise ValueError(f"Incomplete media asset {compact(media)}")
+    return {
+        "media": media,
+        "uri": uri,
+        "mediaType": media_type,
+        "alternativeText": alternative,
+    }
+
+
+def direct_media(dataset: Dataset, resource: URIRef) -> list[dict[str, Any]]:
+    bindings: list[dict[str, Any]] = []
+    for media in objects(dataset, resource, HAS_MEDIA):
+        if not isinstance(media, URIRef):
+            continue
+        bindings.append(
+            {
+                "purpose": "direct",
+                "predicate": "cd:hasMedia",
+                **media_payload(dataset, media),
+            }
+        )
+    return bindings
+
+
 def attribution_media(dataset: Dataset, attribution: URIRef) -> list[dict[str, Any]]:
     bindings: list[dict[str, Any]] = []
     for predicate, purpose in (
@@ -117,28 +149,18 @@ def attribution_media(dataset: Dataset, attribution: URIRef) -> list[dict[str, A
             logo = one_iri(dataset, organization, HAS_LOGO)
             if logo is None:
                 continue
-            uri = literal(dataset, logo, MEDIA_URI)
-            media_type = literal(dataset, logo, MEDIA_TYPE)
-            alternative = literal(dataset, logo, ALTERNATIVE_TEXT, "en") or literal(
-                dataset, logo, ALTERNATIVE_TEXT
-            )
-            if not uri or not alternative:
-                raise ValueError(f"Incomplete media asset {compact(logo)}")
             bindings.append(
                 {
                     "purpose": purpose,
                     "predicate": compact(predicate),
                     "organization": organization,
-                    "logo": logo,
-                    "uri": uri,
-                    "mediaType": media_type,
-                    "alternativeText": alternative,
+                    **media_payload(dataset, logo),
                 }
             )
     return bindings
 
 
-def _attribution_for_block(block: dict[str, Any]) -> URIRef | None:
+def _resource_for_block(block: dict[str, Any]) -> URIRef | None:
     for source in block.get("source", []):
         resource_id = source.get("resourceId")
         if not isinstance(resource_id, str):
@@ -153,13 +175,7 @@ def enrich_scene_documents_with_media(
     scene_documents: list[dict[str, Any]] | tuple[dict[str, Any], ...],
     dataset: Dataset,
 ) -> list[dict[str, Any]]:
-    """Return a deep-copied SceneDocument list with semantic media groups.
-
-    An ordinary attribution prose block remains the authored textual representation.
-    If its source Attribution carries ``cd:affiliatedWith`` or ``cd:fundingSource``, the
-    block is promoted to a renderer-neutral group containing the prose plus one or more
-    media-reference children resolved through ``Organization -> cd:hasLogo``.
-    """
+    """Return a deep-copied SceneDocument list with semantic media groups."""
     documents = deepcopy(list(scene_documents))
     for document in documents:
         for scene in document.get("scenes", []):
@@ -168,11 +184,13 @@ def enrich_scene_documents_with_media(
                 if block.get("kind") != "prose":
                     enriched_blocks.append(block)
                     continue
-                attribution = _attribution_for_block(block)
-                if attribution is None:
+
+                resource = _resource_for_block(block)
+                if resource is None:
                     enriched_blocks.append(block)
                     continue
-                bindings = attribution_media(dataset, attribution)
+
+                bindings = direct_media(dataset, resource) + attribution_media(dataset, resource)
                 if not bindings:
                     enriched_blocks.append(block)
                     continue
@@ -184,11 +202,18 @@ def enrich_scene_documents_with_media(
                 children: list[dict[str, Any]] = [text_child]
                 group_sources = list(block.get("source", []))
                 for index, binding in enumerate(bindings, start=1):
-                    media_sources = [
-                        source_reference(dataset, attribution, binding["predicate"]),
-                        source_reference(dataset, binding["organization"], "cd:hasLogo"),
-                        source_reference(dataset, binding["logo"], "cd:uri"),
-                    ]
+                    if binding["purpose"] == "direct":
+                        media_sources = [
+                            source_reference(dataset, resource, "cd:hasMedia"),
+                            source_reference(dataset, binding["media"], "cd:uri"),
+                        ]
+                    else:
+                        media_sources = [
+                            source_reference(dataset, resource, binding["predicate"]),
+                            source_reference(dataset, binding["organization"], "cd:hasLogo"),
+                            source_reference(dataset, binding["media"], "cd:uri"),
+                        ]
+
                     media_block: dict[str, Any] = {
                         "id": f'{block["id"]}--media-{index}',
                         "kind": "media-reference",
@@ -198,10 +223,10 @@ def enrich_scene_documents_with_media(
                         "emphasis": "supporting",
                         "intent": {"kind": "emphasize"},
                         "accessibility": {"label": binding["alternativeText"]},
+                        "version": "semantic-media-v1",
                     }
                     if binding["mediaType"]:
                         media_block["mediaType"] = binding["mediaType"]
-                    media_block["version"] = "semantic-logo-v1"
                     children.append(media_block)
                     group_sources.extend(media_sources)
 
@@ -216,6 +241,7 @@ def enrich_scene_documents_with_media(
                     if key in block:
                         group[key] = deepcopy(block[key])
                 enriched_blocks.append(group)
+
             scene["blocks"] = enriched_blocks
             scene["readingOrder"] = [block["id"] for block in enriched_blocks]
     return documents

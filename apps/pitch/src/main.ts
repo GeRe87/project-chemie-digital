@@ -26,6 +26,7 @@ import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
 import "./cogniflow-take-home.css";
+import "./cogniflow-showcase.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -193,6 +194,30 @@ const deck = new Reveal({
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
 
+const showcaseVideos = Array.from(
+  root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
+);
+function syncShowcaseVideos(): void {
+  const currentSlide = deck.getCurrentSlide();
+  for (const video of showcaseVideos) {
+    const active = currentSlide?.contains(video) ?? false;
+    if (!active) {
+      video.pause();
+      video.currentTime = 0;
+      delete video.dataset.pcdShowcaseStarted;
+      continue;
+    }
+    if (video.dataset.pcdShowcaseStarted === "true") continue;
+    video.dataset.pcdShowcaseStarted = "true";
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      // Browser autoplay policy may require a direct click; controls stay visible.
+    });
+  }
+}
+deck.on("slidechanged", syncShowcaseVideos);
+syncShowcaseVideos();
+
 function revealScrollOffset(): number {
   const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
   const scrollingElement = document.scrollingElement as HTMLElement | null;
@@ -259,6 +284,8 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
+  deck.off("slidechanged", syncShowcaseVideos);
+  for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();

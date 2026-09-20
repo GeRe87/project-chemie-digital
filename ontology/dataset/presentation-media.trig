@@ -12,7 +12,7 @@
 graph:concepts {
   cd:LearningDomain
     cdm:definesConcept cd:Organization, cd:MediaAsset ;
-    cdm:definesRelation cd:hasLogo, cd:affiliatedWith, cd:fundedBy, cd:fundingSource ;
+    cdm:definesRelation cd:hasLogo, cd:hasMedia, cd:affiliatedWith, cd:fundedBy, cd:fundingSource ;
     cdm:definesAttribute cd:uri, cd:mediaType, cd:alternativeText .
 
   cd:Organization a rdfs:Class, cdm:ConceptDescriptor .
@@ -22,6 +22,10 @@ graph:concepts {
 
   cd:hasLogo a rdf:Property, cdm:RelationDescriptor ;
     rdfs:domain cd:Organization ;
+    rdfs:range cd:MediaAsset .
+
+  cd:hasMedia a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:LearningResource ;
     rdfs:range cd:MediaAsset .
 
   cd:affiliatedWith a rdf:Property, cdm:RelationDescriptor ;
@@ -62,6 +66,10 @@ graph:concepts {
     sh:property [ sh:path cd:mediaType ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:alternativeText ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+
+  cd:MediaCarrierShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:hasMedia ;
+    sh:property [ sh:path cd:hasMedia ; sh:minCount 1 ; sh:class cd:MediaAsset ; sh:nodeKind sh:IRI ] .
 
   cd:AffiliationAttributionShape a sh:NodeShape ;
     sh:targetSubjectsOf cd:affiliatedWith ;

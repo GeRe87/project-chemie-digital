@@ -131,6 +131,15 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
       image.setAttribute("decoding", "async");
       image.setAttribute("loading", "eager");
       figure.appendChild(image);
+    } else if (block.mediaType.startsWith("video/")) {
+      const video = dom.createElement("video");
+      video.setAttribute("src", block.uri);
+      video.setAttribute("controls", "");
+      video.setAttribute("preload", "metadata");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("aria-label", block.alternativeText);
+      video.setAttribute("data-presentation-video", "true");
+      figure.appendChild(video);
     } else {
       const fallback = dom.createElement("span");
       fallback.className = "media-reference-fallback";
