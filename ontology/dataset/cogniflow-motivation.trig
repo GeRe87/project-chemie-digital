@@ -728,51 +728,123 @@ DATA"""@en ;
     cd:body "CogniFlow treats the processing context itself as digital scientific information that can be understood by humans and machines."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram ;
-    skos:prefLabel "Processing as an explicit digital object"@en ;
-    cd:body "Input, processing and output remain the scientific flow while purpose, interface, parameters, implementation, version and execution context become explicit machine-readable information."@en ;
-    cd:hasDiagramNode ex:node-cogniflow-explicit-input,
-      ex:node-cogniflow-explicit-processing,
-      ex:node-cogniflow-explicit-output,
-      ex:node-cogniflow-explicit-context ;
-    cd:hasDiagramGroup ex:diagram-group-cogniflow-explicit-flow,
-      ex:diagram-group-cogniflow-explicit-context ;
-    cd:hasDiagramEdge ex:edge-cogniflow-explicit-input-processing,
-      ex:edge-cogniflow-explicit-processing-output,
-      ex:edge-cogniflow-explicit-processing-context ;
-    cd:hasDiagramState ex:diagram-state-cogniflow-explicit-flow,
-      ex:diagram-state-cogniflow-explicit-context ;
-    cd:focusNode ex:node-cogniflow-explicit-processing ;
+  ex:cogniflow-explicit-example-heading a cd:Interpretation ;
+    cd:body "EXAMPLE: S/N CALCULATION"@en ;
     cd:authoredResource true .
 
-  ex:diagram-group-cogniflow-explicit-flow a cd:DiagramGroup ;
-    skos:prefLabel "Scientific flow"@en ;
+  ex:cogniflow-explicit-example a cd:Interpretation ;
+    cd:body "One concrete processing step becomes reproducible once its scientific and technical context is explicit."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-explicit-example-purpose,
+      ex:keypoint-cogniflow-explicit-example-input,
+      ex:keypoint-cogniflow-explicit-example-output,
+      ex:keypoint-cogniflow-explicit-example-parameters,
+      ex:keypoint-cogniflow-explicit-example-implementation,
+      ex:keypoint-cogniflow-explicit-example-version ;
     cd:authoredResource true .
-  ex:diagram-group-cogniflow-explicit-context a cd:DiagramGroup ;
-    skos:prefLabel "Explicit processing context"@en ;
+
+  ex:keypoint-cogniflow-explicit-example-purpose a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "purpose: quantify signal relative to background"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-input a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "input: peak height + defined noise window"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-output a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "output: S/N value"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-parameters a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body "parameters: noise window + RMS estimator"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-implementation a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body "implementation: calculate_snr() in a named package"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-version a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body "version: exact package release or commit"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-example-note a cd:Interpretation ;
+    cd:body "Now the processing step is no longer a black box."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-context-heading a cd:Interpretation ;
+    cd:body "EXPLICIT CONTEXT"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-context a cd:Interpretation ;
+    cd:body "Scientific processing context becomes explicit, linked digital information."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-explicit-purpose,
+      ex:keypoint-cogniflow-explicit-interface,
+      ex:keypoint-cogniflow-explicit-parameters,
+      ex:keypoint-cogniflow-explicit-implementation,
+      ex:keypoint-cogniflow-explicit-version,
+      ex:keypoint-cogniflow-explicit-provenance ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-purpose a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "purpose"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-interface a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "interface: inputs + outputs"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-parameters a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "parameters"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-implementation a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body "implementation"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-version a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body "version"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-provenance a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body "execution + provenance"@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram ;
+    skos:prefLabel "Processing as an explicit digital object"@en ;
+    cd:body "Input, processing and output remain the scientific flow while the scientific and technical context is represented explicitly beside it."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-explicit-input,
+      ex:node-cogniflow-explicit-processing,
+      ex:node-cogniflow-explicit-output ;
+    cd:hasDiagramEdge ex:edge-cogniflow-explicit-input-processing,
+      ex:edge-cogniflow-explicit-processing-output ;
+    cd:focusNode ex:node-cogniflow-explicit-processing ;
     cd:authoredResource true .
 
   ex:node-cogniflow-explicit-input a cd:DiagramNode ;
     skos:prefLabel "INPUT"@en ;
     cd:position 1 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:authoredResource true .
+
   ex:node-cogniflow-explicit-processing a cd:DiagramNode ;
     skos:prefLabel "PROCESSING"@en ;
     cd:position 2 ;
     cd:visualRole "highlight" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:authoredResource true .
+
   ex:node-cogniflow-explicit-output a cd:DiagramNode ;
     skos:prefLabel "OUTPUT"@en ;
     cd:position 3 ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
-    cd:authoredResource true .
-  ex:node-cogniflow-explicit-context a cd:DiagramNode ;
-    skos:prefLabel "EXPLICIT CONTEXT · purpose · interface · parameters · implementation · version · execution + provenance"@en ;
-    cd:position 4 ;
-    cd:visualRole "highlight" ;
-    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
     cd:authoredResource true .
 
   ex:edge-cogniflow-explicit-input-processing a cd:DiagramEdge ;
@@ -781,35 +853,12 @@ DATA"""@en ;
     cd:sourceNode ex:node-cogniflow-explicit-input ;
     cd:targetNode ex:node-cogniflow-explicit-processing ;
     cd:authoredResource true .
+
   ex:edge-cogniflow-explicit-processing-output a cd:DiagramEdge ;
     skos:prefLabel "produces"@en ;
     cd:position 2 ;
     cd:sourceNode ex:node-cogniflow-explicit-processing ;
     cd:targetNode ex:node-cogniflow-explicit-output ;
-    cd:authoredResource true .
-  ex:edge-cogniflow-explicit-processing-context a cd:DiagramEdge ;
-    skos:prefLabel "described by"@en ;
-    cd:position 3 ;
-    cd:sourceNode ex:node-cogniflow-explicit-processing ;
-    cd:targetNode ex:node-cogniflow-explicit-context ;
-    cd:authoredResource true .
-
-  ex:diagram-state-cogniflow-explicit-flow a cd:DiagramState ;
-    cd:position 1 ;
-    skos:prefLabel "Scientific flow"@en ;
-    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
-    cd:activeDiagramEdge ex:edge-cogniflow-explicit-input-processing,
-      ex:edge-cogniflow-explicit-processing-output ;
-    cd:focusDiagramNode ex:node-cogniflow-explicit-processing ;
-    cd:authoredResource true .
-
-  ex:diagram-state-cogniflow-explicit-context a cd:DiagramState ;
-    cd:position 2 ;
-    skos:prefLabel "Explicit processing context"@en ;
-    cd:activeDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:activeDiagramEdge ex:edge-cogniflow-explicit-processing-context ;
-    cd:focusDiagramGroup ex:diagram-group-cogniflow-explicit-context ;
-    cd:contextDiagramGroup ex:diagram-group-cogniflow-explicit-flow ;
     cd:authoredResource true .
 
 }
@@ -843,7 +892,12 @@ DATA"""@en ;
 
   ex:path-step-cogniflow-explicit-processing-context a cd:PathStep ;
     cd:position 5 ;
-    cd:usesResource ex:diagram-cogniflow-explicit-processing-context ;
+    cd:usesResource ex:diagram-cogniflow-explicit-processing-context,
+      ex:cogniflow-explicit-example-heading,
+      ex:cogniflow-explicit-example,
+      ex:cogniflow-explicit-example-note,
+      ex:cogniflow-explicit-context-heading,
+      ex:cogniflow-explicit-context ;
     cd:usesScene ex:scene-cogniflow-explicit-processing-context ;
     cd:authoredResource true .
 }
@@ -999,7 +1053,12 @@ DATA"""@en ;
   ex:scene-cogniflow-explicit-processing-context a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-explicit-processing-context ;
     cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-heading,
-      ex:scene-item-cogniflow-explicit-processing-context-diagram ;
+      ex:scene-item-cogniflow-explicit-processing-context-diagram,
+      ex:scene-item-cogniflow-explicit-processing-example-heading,
+      ex:scene-item-cogniflow-explicit-processing-example-list,
+      ex:scene-item-cogniflow-explicit-processing-example-note,
+      ex:scene-item-cogniflow-explicit-processing-context-panel-heading,
+      ex:scene-item-cogniflow-explicit-processing-context-panel-list ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-explicit-processing-context-heading a cd:SceneItem ;
@@ -1017,4 +1076,45 @@ DATA"""@en ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-heading a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-explicit-example-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-list a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-explicit-example ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-note a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-explicit-example-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-panel-heading a cd:SceneItem ;
+    cd:position 6 ;
+    cd:selectsResource ex:cogniflow-explicit-context-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-panel-list a cd:SceneItem ;
+    cd:position 7 ;
+    cd:selectsResource ex:cogniflow-explicit-context ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
 }
