@@ -628,11 +628,15 @@ Use the concentric architecture motif from the earlier CogniFlow project-archite
                              cf_ontology
 ~~~
 
-The center contains the Meta-TBox vocabulary:
+The center is deliberately terse:
 
 ~~~text
-ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape
+CORE ONTOLOGY
+cf_ontology
+shared semantic grammar
 ~~~
+
+The individual Meta-TBox terms are intentionally not repeated here; this is now an architecture overview rather than a vocabulary slide.
 
 The Concept Layer contains separate domain modules such as:
 
@@ -642,11 +646,11 @@ The Concept Layer contains separate domain modules such as:
 - cf_concept_package
 - cf_concept_installation_profile
 
-The outer Specification Layer contains many smaller concrete modules, including package templates, example packages, service infrastructure, runtime/workspace modules, and bootstrap modules.
+The outer Specification Layer contains many smaller concrete modules, including package templates, example packages, service infrastructure, runtime/workspace modules, and bootstrap modules. Most outer circles remain unlabeled: the multiplicity is the message. Only four representative modules receive visible labels (package template, MCP gateway, runtime, bootstrap).
 
 ### Focus examples
 
-Two Concept Layer modules are deliberately larger and receive compact callouts:
+Two Concept Layer modules are deliberately larger and receive compact callouts. Package IDs are not repeated around the other concept circles; this keeps the overview readable from projector distance:
 
 **Package**
 - cf_concept_package
