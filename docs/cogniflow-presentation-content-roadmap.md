@@ -628,15 +628,14 @@ Use the concentric architecture motif from the earlier CogniFlow project-archite
                              cf_ontology
 ~~~
 
-The center is deliberately terse:
+The center is deliberately reduced to:
 
 ~~~text
-CORE ONTOLOGY
+CORE
 cf_ontology
-shared semantic grammar
 ~~~
 
-The individual Meta-TBox terms are intentionally not repeated here; this is now an architecture overview rather than a vocabulary slide.
+The Meta-TBox vocabulary is not repeated inside the circle; this is an architecture overview rather than a vocabulary slide.
 
 The Concept Layer contains separate domain modules such as:
 
@@ -646,7 +645,7 @@ The Concept Layer contains separate domain modules such as:
 - cf_concept_package
 - cf_concept_installation_profile
 
-The outer Specification Layer contains many smaller concrete modules, including package templates, example packages, service infrastructure, runtime/workspace modules, and bootstrap modules. Most outer circles remain unlabeled: the multiplicity is the message. Only four representative modules receive visible labels (package template, MCP gateway, runtime, bootstrap).
+The outer Specification Layer contains many smaller concrete modules, including package templates, example packages, service infrastructure, runtime/workspace modules, and bootstrap modules. Most outer circles remain unlabeled: the multiplicity is the message. Only four side-positioned representative modules receive visible labels (service client, MCP gateway, bootstrap orchestrator, local source), avoiding collisions with concept nodes and the lower focus callouts.
 
 ### Focus examples
 
@@ -673,9 +672,7 @@ These are examples of the modular structure, not the only important domains.
 
 Show the complete architecture immediately. No staged reveal is required.
 
-Use circles around the core so the audience immediately perceives:
-
-> one small core → several independent semantic domains → many concrete modules
+Use circles around the core so the audience immediately perceives the three-layer architecture. No additional slogan is shown below the diagram.
 
 ### Audience understanding after this scene
 
