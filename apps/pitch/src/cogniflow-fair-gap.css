@@ -4,7 +4,7 @@
 .reveal .slides section:has(> .d3-flow-host + .lead + .keypoint-list + .lead + .lead + .keypoint-list) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) 25rem;
-  grid-template-rows: auto 19rem 3.05rem minmax(0, 1fr) auto;
+  grid-template-rows: auto 19rem 3.05rem auto auto;
   column-gap: 1.7rem;
   row-gap: 0;
   align-items: stretch;
@@ -74,6 +74,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  max-width: none;
   height: 3.05rem;
   margin: 0;
   padding: 0 1rem;
@@ -95,11 +96,11 @@
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
-  align-content: center;
+  align-content: start;
   gap: 0;
   min-width: 0;
   margin: 0;
-  padding: .55rem 1rem .35rem;
+  padding: .45rem 1rem .3rem;
   border-inline: 3px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-surface-strong) 95%, transparent);
   box-shadow: 6px 0 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
@@ -111,12 +112,12 @@
   > .d3-flow-host + .lead + .keypoint-list > li {
   box-sizing: border-box;
   margin: 0;
-  padding: .38rem .2rem;
+  padding: .32rem .2rem;
   border: 0;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 24%, transparent);
   background: transparent;
   color: var(--pcd-foreground);
-  font: 850 .9em/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 850 .96em/1.16 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
 }
 
@@ -131,14 +132,15 @@
   grid-row: 5;
   box-sizing: border-box;
   width: 100%;
+  max-width: none;
   margin: 0;
-  padding: .62rem 1rem .7rem;
+  padding: .55rem 1rem .62rem;
   border: 3px solid var(--pcd-accent);
   border-top: 0;
   background: color-mix(in srgb, var(--pcd-accent) 9%, var(--pcd-surface-strong));
   color: var(--pcd-foreground);
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
-  font: 900 .78em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 .82em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
 }
 
@@ -151,6 +153,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  max-width: none;
   height: 3.05rem;
   margin: 0;
   padding: 0 1rem;
@@ -169,6 +172,7 @@
   > .d3-flow-host + .lead + .keypoint-list + .lead + .lead + .keypoint-list {
   grid-column: 2;
   grid-row: 4 / 6;
+  align-self: stretch;
   box-sizing: border-box;
   display: block;
   min-width: 0;
