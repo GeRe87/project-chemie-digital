@@ -475,32 +475,38 @@ Use the audience's FAIR knowledge as the bridge into the CogniFlow problem.
 
 ### Visual concept
 
+Keep the scientific flow itself simple and horizontal:
+
 ~~~text
-INSTRUMENT
-    ↓
-raw data
-    ↓
-open / FAIR representation
-    ↓
-custom processing
-    ↓
-RESULT
+INSTRUMENT → FAIR / OPEN DATA → CUSTOM PROCESSING → RESULT
+                                  │
+                                  └── missing processing context
 ~~~
 
-The FAIR/open-data portion is visibly well-described. The processing portion progressively exposes missing context.
+The missing context is not another process node. It is a separate problem panel beside the flow:
+
+~~~text
+MISSING CONTEXT
+algorithm
+implementation
+version
+parameters
+environment
+dependencies
+~~~
+
+The visual punch line is a separate statement:
+
+> **FAIR data ≠ FAIR processing**
+
+The FAIR/open-data portion should feel ordered and trustworthy. `CUSTOM PROCESSING` is the visual focus. The separate context panel makes the semantic gap explicit without cluttering the flow with overlapping relation labels.
 
 ### Reveal sequence
 
-1. Instrument and measured data.
-2. Open format / metadata / persistent description.
-3. Custom processing appears.
-4. Hidden questions accumulate around processing:
-   - which algorithm?
-   - which implementation?
-   - which version?
-   - which parameters?
-   - which environment?
-   - which dependencies?
+1. Instrument and FAIR/open data.
+2. Custom processing appears.
+3. Result appears.
+4. Missing-context panel appears with the six explicit questions.
 5. Key sentence appears: **FAIR data ≠ FAIR processing**
 
 ### Audience understanding after this scene
@@ -509,7 +515,7 @@ The FAIR/open-data portion is visibly well-described. The processing portion pro
 
 ### Preferred primitive
 
-flow + semantic annotations.
+flow + KeyPoint callout + statement.
 
 ### Transition
 
