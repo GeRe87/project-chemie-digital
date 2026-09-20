@@ -9,64 +9,156 @@
     cd:authoredResource true .
 
   ex:def-cogniflow-semantic-core a cd:Definition ;
-    cd:body "CogniFlow uses a small Meta-TBox vocabulary to describe concept domains and the semantic terms they define."@en ;
+    cd:body "CogniFlow is organized as a small core ontology surrounded by modular concept domains and concrete specification or implementation modules."@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-meta-domain a cd:Interpretation ;
-    cd:body """CONCEPT DOMAIN
-Vocabulary scope that defines the semantic terms of one domain."""@en ;
+  ex:cogniflow-ring-core a cd:Interpretation ;
+    cd:body """CORE ONTOLOGY
+cf_ontology
+Meta-TBox · ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape"""@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-meta-grammar a cd:Interpretation ;
-    cd:body "The Meta-TBox provides a compact grammar that domain concept packages reuse."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-meta-concept,
-      ex:keypoint-cogniflow-meta-attribute,
-      ex:keypoint-cogniflow-meta-relation,
-      ex:keypoint-cogniflow-meta-controlled-value,
-      ex:keypoint-cogniflow-meta-shape ;
+  ex:cogniflow-ring-concept-layer a cd:Interpretation ;
+    cd:body "Concept-domain packages reuse the core grammar while remaining independently defined."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-ring-service,
+      ex:keypoint-cogniflow-ring-workspace,
+      ex:keypoint-cogniflow-ring-processing,
+      ex:keypoint-cogniflow-ring-package,
+      ex:keypoint-cogniflow-ring-installation-profile ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-meta-concept a cd:KeyPoint ;
+  ex:keypoint-cogniflow-ring-service a cd:KeyPoint ;
     cd:position 1 ;
-    cd:body """CONCEPT
-central domain abstraction"""@en ;
+    cd:body """SERVICE
+cf_concept_service"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-meta-attribute a cd:KeyPoint ;
+  ex:keypoint-cogniflow-ring-workspace a cd:KeyPoint ;
     cd:position 2 ;
-    cd:body """ATTRIBUTE
-structured part of a concept"""@en ;
+    cd:body """WORKSPACE
+cf_concept_workspace"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-meta-relation a cd:KeyPoint ;
+  ex:keypoint-cogniflow-ring-processing a cd:KeyPoint ;
     cd:position 3 ;
-    cd:body """RELATION
-explicit structural link"""@en ;
+    cd:body """DATA PROCESSING
+cf_concept_processing
+ProcessingUnit · ProcessingStep · ProcessingPipeline · Port / PortRole"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-meta-controlled-value a cd:KeyPoint ;
+  ex:keypoint-cogniflow-ring-package a cd:KeyPoint ;
     cd:position 4 ;
-    cd:body """CONTROLLED VALUE
-named allowed value"""@en ;
+    cd:body """PACKAGE
+cf_concept_package
+CfPackage · Manifest · Version · Role · Contributions"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-meta-shape a cd:KeyPoint ;
+  ex:keypoint-cogniflow-ring-installation-profile a cd:KeyPoint ;
     cd:position 5 ;
-    cd:body """SHAPE
-validation rule"""@en ;
+    cd:body """INSTALLATION PROFILE
+cf_concept_installation_profile"""@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-meta-domain-note a cd:Interpretation ;
-    cd:body "ONE META-GRAMMAR → SEPARATE PACKAGE · SERVICE · PROCESSING DOMAINS"@en ;
+  ex:cogniflow-ring-specification-layer a cd:Interpretation ;
+    cd:body "Concrete modules build on the concept domains without turning CogniFlow into one monolithic dependency tree."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-ring-package-template,
+      ex:keypoint-cogniflow-ring-example-package,
+      ex:keypoint-cogniflow-ring-service-client,
+      ex:keypoint-cogniflow-ring-mcp-gateway,
+      ex:keypoint-cogniflow-ring-service-creator,
+      ex:keypoint-cogniflow-ring-runtime,
+      ex:keypoint-cogniflow-ring-workspace-store,
+      ex:keypoint-cogniflow-ring-bootstrap-core,
+      ex:keypoint-cogniflow-ring-bootstrap-instance,
+      ex:keypoint-cogniflow-ring-bootstrap-orchestrator,
+      ex:keypoint-cogniflow-ring-local-source,
+      ex:keypoint-cogniflow-ring-pypi-source ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-package-template a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """PKG TEMPLATE
+cf_package_template_basic"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-example-package a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """EXAMPLE PKG
+cf_package_example_arithmetic"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-service-client a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """SERVICE CLIENT
+cf_service_client"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-mcp-gateway a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body """MCP GATEWAY
+cf_service_mcp_server"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-service-creator a cd:KeyPoint ;
+    cd:position 5 ;
+    cd:body """SERVICE CREATOR
+cf_service_creator"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-runtime a cd:KeyPoint ;
+    cd:position 6 ;
+    cd:body """RUNTIME
+cf_runtime"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-workspace-store a cd:KeyPoint ;
+    cd:position 7 ;
+    cd:body """WORKSPACE STORE
+cf_workspace_store"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-bootstrap-core a cd:KeyPoint ;
+    cd:position 8 ;
+    cd:body """BOOTSTRAP CORE
+cf_bootstrap_core"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-bootstrap-instance a cd:KeyPoint ;
+    cd:position 9 ;
+    cd:body """BOOTSTRAP INSTANCE
+cf_bootstrap_instance"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-bootstrap-orchestrator a cd:KeyPoint ;
+    cd:position 10 ;
+    cd:body """BOOTSTRAP ORCH.
+cf_bootstrap_orchestrator"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-local-source a cd:KeyPoint ;
+    cd:position 11 ;
+    cd:body """LOCAL SOURCE
+cf_bootstrap_source_local"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-ring-pypi-source a cd:KeyPoint ;
+    cd:position 12 ;
+    cd:body """PYPI SOURCE
+cf_bootstrap_source_pypi"""@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-ring-note a cd:Interpretation ;
+    cd:body "SMALL CORE → DOMAIN MODULES → MANY CONCRETE SPECIFICATIONS"@en ;
     cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-core-extension> {
   ex:path-step-cogniflow-semantic-core a cd:PathStep ;
     cd:position 6 ;
-    cd:usesResource ex:cogniflow-meta-domain,
-      ex:cogniflow-meta-grammar,
-      ex:cogniflow-meta-domain-note ;
+    cd:usesResource ex:cogniflow-ring-core,
+      ex:cogniflow-ring-concept-layer,
+      ex:cogniflow-ring-specification-layer,
+      ex:cogniflow-ring-note ;
     cd:usesScene ex:scene-cogniflow-semantic-core ;
     cd:authoredResource true .
 }
@@ -75,9 +167,10 @@ validation rule"""@en ;
   ex:scene-cogniflow-semantic-core a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-semantic-core ;
     cd:hasSceneItem ex:scene-item-cogniflow-semantic-core-heading,
-      ex:scene-item-cogniflow-semantic-core-domain,
-      ex:scene-item-cogniflow-semantic-core-grammar,
-      ex:scene-item-cogniflow-semantic-core-note ;
+      ex:scene-item-cogniflow-ring-core,
+      ex:scene-item-cogniflow-ring-concept-layer,
+      ex:scene-item-cogniflow-ring-specification-layer,
+      ex:scene-item-cogniflow-ring-note ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-semantic-core-heading a cd:SceneItem ;
@@ -88,25 +181,33 @@ validation rule"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-semantic-core-domain a cd:SceneItem ;
+  ex:scene-item-cogniflow-ring-core a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:cogniflow-meta-domain ;
+    cd:selectsResource ex:cogniflow-ring-core ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-semantic-core-grammar a cd:SceneItem ;
+  ex:scene-item-cogniflow-ring-concept-layer a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:cogniflow-meta-grammar ;
+    cd:selectsResource ex:cogniflow-ring-concept-layer ;
     cd:communicativeRole cd:KeyPointRole ;
     cd:selectionPath "cd:hasKeyPoint" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-semantic-core-note a cd:SceneItem ;
+  ex:scene-item-cogniflow-ring-specification-layer a cd:SceneItem ;
     cd:position 4 ;
-    cd:selectsResource ex:cogniflow-meta-domain-note ;
+    cd:selectsResource ex:cogniflow-ring-specification-layer ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-ring-note a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-ring-note ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
