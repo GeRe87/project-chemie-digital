@@ -58,7 +58,7 @@
   min-width: 0;
   min-height: 19.7rem;
   margin: 0;
-  padding: 1.65rem 1.55rem 1.45rem;
+  padding: 1.65rem 1.55rem 4.65rem;
   border: 5px solid var(--sem-stroke);
   background:
     linear-gradient(
@@ -78,14 +78,14 @@
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li::before {
   content: "";
   position: absolute;
-  top: .48rem;
-  right: .48rem;
-  width: .62rem;
-  height: .62rem;
+  right: 1.2rem;
+  bottom: 1.15rem;
+  width: 3.35rem;
+  height: 3.35rem;
   background: var(--sem-stroke);
-  box-shadow:
-    -1rem 0 0 color-mix(in srgb, var(--sem-stroke) 68%, transparent),
-    0 1rem 0 color-mix(in srgb, var(--sem-stroke) 42%, transparent);
+  opacity: .88;
+  -webkit-mask: var(--sem-icon) center / contain no-repeat;
+  mask: var(--sem-icon) center / contain no-repeat;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li::first-line {
@@ -95,12 +95,14 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  --sem-icon: url("/presentation-icons/fontawesome/bullseye.svg");
   --sem-fill: #ffd982;
   --sem-stroke: #c96a12;
   --sem-text: #4a2500;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+  --sem-icon: url("/presentation-icons/fontawesome/file-contract.svg");
   --sem-fill: #8de7e2;
   --sem-stroke: #168e9c;
   --sem-text: #063d47;
@@ -112,6 +114,7 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
+  --sem-icon: url("/presentation-icons/fontawesome/gears.svg");
   --sem-fill: #d9b6ff;
   --sem-stroke: #7046ad;
   --sem-text: #351b56;

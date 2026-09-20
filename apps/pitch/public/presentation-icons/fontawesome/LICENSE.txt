@@ -1,0 +1,11 @@
+Fonticons, Inc. (https://fontawesome.com)
+
+Font Awesome Free 6.7.2
+
+Icons: CC BY 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+
+The SVG files in this directory are unmodified Font Awesome Free icons and retain
+their embedded attribution comments.
+
+Copyright 2024 Fonticons, Inc.
