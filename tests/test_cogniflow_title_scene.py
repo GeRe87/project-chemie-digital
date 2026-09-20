@@ -57,6 +57,7 @@ EXPECTED_SCENES = [
     "ex:scene-cogniflow-semantic-core--scene",
     "ex:scene-cogniflow-core-grammar--scene",
     "ex:scene-cogniflow-domain-specifications--scene",
+    "ex:scene-cogniflow-processing-pipeline--scene",
     "ex:scene-cogniflow-service-process--scene",
     "ex:scene-cogniflow-semantics-as-source--scene",
     "ex:scene-cogniflow-same-semantics-different-views--scene",
@@ -99,7 +100,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("en", RUNTIME.effective_path_language(self.dataset, selection.path))
         self.assertEqual(selection, RUNTIME.select_course_unit_path(self.dataset, request()))
 
-    def test_cogniflow_compiles_curated_fifteen_scene_narrative(self) -> None:
+    def test_cogniflow_compiles_curated_sixteen_scene_narrative(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", document["sourcePathId"])
@@ -111,7 +112,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
     def test_curated_service_process_projects_the_sequence_diagram(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        scene = document["scenes"][9]
+        scene = document["scenes"][10]
         self.assertEqual("ex:scene-cogniflow-service-process--scene", scene["id"])
         diagram = scene["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
@@ -150,7 +151,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
     def test_title_scene_compiles_exact_requested_title_attributions_and_funding(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        self.assertEqual(15, len(document["scenes"]))
+        self.assertEqual(16, len(document["scenes"]))
         scene = document["scenes"][0]
         self.assertEqual("ex:scene-cogniflow-title--scene", scene["id"])
         self.assertEqual([TITLE, GERRIT, RICARDO, FUNDING], [block["text"] for block in scene["blocks"]])
@@ -187,7 +188,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         semantic_core = document["scenes"][6]
         core_grammar = document["scenes"][7]
         domain_specs = document["scenes"][8]
-        service_process = document["scenes"][9]
+        processing_pipeline = document["scenes"][9]
+        service_process = document["scenes"][10]
 
         black_heading = next(block for block in black_box["blocks"] if block["kind"] == "prose")
         black_chart = next(block for block in black_box["blocks"] if block["kind"] == "chart")
@@ -468,6 +470,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [block["kind"] for block in domain_specs["blocks"]],
         )
         self.assertEqual("A Semantic Model for Data Processing", domain_specs["blocks"][0]["text"])
+        self.assertEqual("Compatible Processing Steps Form a Pipeline", processing_pipeline["blocks"][0]["text"])
         self.assertEqual(
             "DATA PROCESSING CONCEPT DOMAIN\none ProcessingUnit · explicit Ports · Step or Pipeline",
             domain_specs["blocks"][1]["text"],
@@ -485,11 +488,38 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             domain_specs["blocks"][3]["text"],
         )
 
+    def test_processing_pipeline_connects_compatible_analytical_steps(self) -> None:
+        document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
+        pipeline = document["scenes"][9]
+
+        self.assertEqual(
+            ["prose", "prose", "list", "prose"],
+            [block["kind"] for block in pipeline["blocks"]],
+        )
+        self.assertEqual("Compatible Processing Steps Form a Pipeline", pipeline["blocks"][0]["text"])
+        self.assertEqual(
+            "PROCESSING PIPELINE\ncompatible Ports connect reusable ProcessingSteps",
+            pipeline["blocks"][1]["text"],
+        )
+        self.assertEqual(
+            [
+                "BASELINE CORRECTION\nProcessingStep\n\nIN · chromatogram\nPARAM · baseline window\nOUT · corrected chromatogram",
+                "PEAK DETECTION\nProcessingStep\n\nIN · corrected chromatogram\nPARAM · detection threshold\nOUT · peak candidates",
+                "PEAK INTEGRATION\nProcessingStep\n\nIN · peak candidates\nPARAM · integration window\nOUT · integrated peaks",
+                "PEAK GROUPING\nProcessingStep\n\nIN · integrated peaks\nPARAM · RT tolerance\nOUT · grouped features",
+            ],
+            [item["text"] for item in pipeline["blocks"][2]["items"]],
+        )
+        self.assertEqual(
+            "OUT PORT = NEXT IN PORT — SEMANTIC COMPATIBILITY MAKES THE PIPELINE COMPOSABLE",
+            pipeline["blocks"][3]["text"],
+        )
+
     def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        semantic = document["scenes"][10]
-        multi_view = document["scenes"][11]
-        provenance = document["scenes"][12]
+        semantic = document["scenes"][11]
+        multi_view = document["scenes"][12]
+        provenance = document["scenes"][13]
 
         semantic_heading = next(block for block in semantic["blocks"] if block["kind"] == "prose")
         semantic_code = next(block for block in semantic["blocks"] if block["kind"] == "code")
@@ -522,7 +552,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_analytical_proof_keeps_visual_evidence_distinct_from_result_states(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        proof = document["scenes"][13]
+        proof = document["scenes"][14]
         heading = next(block for block in proof["blocks"] if block["kind"] == "prose")
         chart = next(block for block in proof["blocks"] if block["kind"] == "chart")
         lineage = next(block for block in proof["blocks"] if block["kind"] == "diagram")
@@ -542,7 +572,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
     def test_take_home_is_three_principles_plus_one_sentence(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
-        take_home = document["scenes"][14]
+        take_home = document["scenes"][15]
         heading = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "introduce")
         principles = next(block for block in take_home["blocks"] if block["kind"] == "list")
         statement = next(block for block in take_home["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "explain")
@@ -555,8 +585,8 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
     def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
         artifact = RUNTIME.build_artifact(request())
         document = artifact["sceneDocuments"][0]
-        semantic = document["scenes"][10]
-        multi_view = document["scenes"][11]
+        semantic = document["scenes"][11]
+        multi_view = document["scenes"][12]
         code = next(block for block in semantic["blocks"] if block["kind"] == "code")
         chart = next(block for block in multi_view["blocks"] if block["kind"] == "chart")
         self.assertIn("ex:chart-cogniflow-replicate-peak-area", code["code"])
