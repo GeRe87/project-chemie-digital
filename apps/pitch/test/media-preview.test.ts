@@ -88,11 +88,12 @@ test("pitch preview renders group and accessible image from media-reference bloc
 });
 
 
-test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slide", () => {
+test("CogniFlow laboratory comparison uses one native auto-animate group in scroll view", () => {
   const makeScene = (
     id: string,
     heading: string,
     mediaUri?: string,
+    mediaResourceId?: string,
   ): SceneDocument["scenes"][number] => {
     const headingBlock = {
       kind: "prose" as const,
@@ -101,7 +102,7 @@ test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slid
       text: heading,
       intent: { kind: "introduce" as const },
     };
-    if (!mediaUri) {
+    if (!mediaUri || !mediaResourceId) {
       return {
         id,
         source: [{ resourceId: id }],
@@ -112,7 +113,7 @@ test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slid
     const mediaBlock = {
       kind: "media-reference" as const,
       id: id + "--media",
-      source: [{ resourceId: id + "--media-resource" }],
+      source: [{ resourceId: mediaResourceId }],
       uri: mediaUri,
       mediaType: "image/webp",
       alternativeText: heading + " illustration",
@@ -135,11 +136,13 @@ test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slid
         "ex:scene-cogniflow-fair-processing-gap--scene",
         "Lab chaos",
         "/media/cogniflow/cogniflow-laboratory-chaos.webp",
+        "ex:media-cogniflow-laboratory-chaos",
       ),
       makeScene(
         "ex:scene-cogniflow-explicit-processing-context--scene",
         "CogniFlow platform",
         "/media/cogniflow/cogniflow-shared-fair-platform.webp",
+        "ex:media-cogniflow-shared-fair-platform",
       ),
       makeScene("ex:scene-cogniflow-service-process--scene", "After"),
     ],
@@ -148,26 +151,24 @@ test("CogniFlow laboratory comparison overlays scenes 3 and 4 in one Reveal slid
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [comparisonDocument]);
 
-  assert.equal(root.children.length, 3);
-  const comparisonSection = root.children[1]!;
-  assert.equal(comparisonSection.attributes.get("id"), "ex:scene-cogniflow-fair-processing-gap--scene");
-  assert.equal(
-    comparisonSection.attributes.get("data-overlay-scene-id"),
-    "ex:scene-cogniflow-explicit-processing-context--scene",
-  );
+  assert.equal(root.children.length, 4);
 
-  const stack = comparisonSection.children[1]!;
-  assert.equal(stack.className, "pcd-media-swap");
-  assert.equal(stack.children.length, 2);
+  const before = root.children[0]!;
+  const labChaos = root.children[1]!;
+  const cogniflow = root.children[2]!;
+  const after = root.children[3]!;
 
-  const baseLayer = stack.children[0]!;
-  const nextLayer = stack.children[1]!;
-  assert.equal(baseLayer.className, "pcd-media-swap-layer pcd-media-swap-base fragment fade-out");
-  assert.equal(nextLayer.className, "pcd-media-swap-layer pcd-media-swap-next fragment custom");
-  assert.equal(baseLayer.attributes.get("data-fragment-index"), "0");
-  assert.equal(nextLayer.attributes.get("data-fragment-index"), "0");
+  assert.equal(before.attributes.get("data-auto-animate"), undefined);
+  assert.equal(after.attributes.get("data-auto-animate"), undefined);
 
-  assert.equal(baseLayer.children[0]?.children[0]?.attributes.get("src"), "/media/cogniflow/cogniflow-laboratory-chaos.webp");
-  assert.equal(nextLayer.children[1]?.children[0]?.attributes.get("src"), "/media/cogniflow/cogniflow-shared-fair-platform.webp");
+  for (const section of [labChaos, cogniflow]) {
+    assert.equal(section.attributes.get("data-auto-animate"), "");
+    assert.equal(section.attributes.get("data-auto-animate-id"), "cogniflow-network-comparison");
+    assert.equal(section.attributes.get("data-auto-animate-duration"), "0.18");
+    assert.equal(section.attributes.get("data-auto-animate-easing"), "linear");
+  }
+
+  assert.equal(labChaos.children[1]?.attributes.get("data-id"), "cogniflow-network-visual");
+  assert.equal(cogniflow.children[1]?.attributes.get("data-id"), "cogniflow-network-visual");
   destroy();
 });
