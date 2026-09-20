@@ -65,13 +65,13 @@ const scene: Scene = {
   readingOrder: ["heading", "core", "concepts", "specifications", "note"],
 };
 
-test("semantic ring module parser preserves title, package id, and optional detail", () => {
+test("semantic ring module parser preserves title, package id, and authored detail lines", () => {
   assert.deepEqual(
     parseSemanticRingModule("PACKAGE\ncf_concept_package\nCfPackage · Manifest · Version"),
     {
       title: "PACKAGE",
       packageId: "cf_concept_package",
-      detail: "CfPackage · Manifest · Version",
+      details: ["CfPackage · Manifest · Version"],
     },
   );
   assert.deepEqual(
