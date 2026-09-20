@@ -167,15 +167,22 @@ function createRingSvg(projection: SemanticRingProjection): SVGSVGElement {
   appendText(root, cx, 24, "pcd-semantic-layer-label", "SPECIFICATION LAYER");
   appendText(root, cx, 103, "pcd-semantic-layer-label", "CONCEPT LAYER");
 
+  const coreLines = projection.coreText.split("\n").map((line) => line.trim()).filter(Boolean);
+  const coreTerms = coreLines.slice(2).join(" ").split(" · ").filter(Boolean);
+  const wrappedCoreTerms = coreTerms.reduce<string[]>((lines, token) => {
+    const last = lines.at(-1);
+    if (!last || (last + " · " + token).length > 26) lines.push(token);
+    else lines[lines.length - 1] = last + " · " + token;
+    return lines;
+  }, []);
+
   const coreGroup = svg("g");
   const coreCircle = svg("circle");
   setAttrs(coreCircle, { cx, cy, r: 80, class: "pcd-semantic-core-node" });
   coreGroup.append(coreCircle);
-  appendText(coreGroup, cx, cy - 29, "pcd-semantic-core-title", "CORE ONTOLOGY");
-  appendText(coreGroup, cx, cy - 7, "pcd-semantic-core-package", "cf_ontology");
-  appendText(coreGroup, cx, cy + 17, "pcd-semantic-core-term", "ConceptDomain · Concept");
-  appendText(coreGroup, cx, cy + 34, "pcd-semantic-core-term", "Attribute · Relation");
-  appendText(coreGroup, cx, cy + 51, "pcd-semantic-core-term", "ControlledValue · Shape");
+  appendText(coreGroup, cx, cy - 31, "pcd-semantic-core-title", coreLines[0] ?? "CORE ONTOLOGY");
+  appendText(coreGroup, cx, cy - 8, "pcd-semantic-core-package", coreLines[1] ?? "cf_ontology");
+  appendMultilineText(coreGroup, cx, cy + 17, "pcd-semantic-core-term", wrappedCoreTerms.slice(0, 4), 16);
   root.append(coreGroup);
 
   const conceptAngles = [-90, -18, 54, 126, 198];
@@ -296,8 +303,8 @@ export function mountCogniflowSemanticRings(
 ): () => void {
   const cleanups: Array<() => void> = [];
 
-  for (const document of documents) {
-    for (const scene of document.scenes) {
+  for (const sceneDocument of documents) {
+    for (const scene of sceneDocument.scenes) {
       const projection = semanticRingProjection(scene);
       if (!projection) continue;
       const section = sceneElement(root, scene.id);
