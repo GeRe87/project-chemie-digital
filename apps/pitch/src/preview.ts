@@ -3,10 +3,10 @@ import { validateSceneDocument, type SceneDocument, type SceneBlock, type Source
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view";
 
-const transitionByScene: Readonly<Record<string, string>> = Object.freeze({
-  "ex:scene-cogniflow-fair-processing-gap--scene": "slide-in none-out",
-  "ex:scene-cogniflow-explicit-processing-context--scene": "none-in slide-out",
+const overlaySceneByBase: Readonly<Record<string, string>> = Object.freeze({
+  "ex:scene-cogniflow-fair-processing-gap--scene": "ex:scene-cogniflow-explicit-processing-context--scene",
 });
+const overlaySceneIds = new Set(Object.values(overlaySceneByBase));
 
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
@@ -243,11 +243,68 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   parent.appendChild(node);
 }
 
+function appendOverlayScenePair(
+  dom: PitchDomPort,
+  document: SceneDocument,
+  baseScene: SceneDocument["scenes"][number],
+  overlayScene: SceneDocument["scenes"][number],
+): void {
+  const baseHeading = baseScene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
+  const overlayHeading = overlayScene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
+  const baseMedia = baseScene.blocks.find((block) => block.kind === "media-reference");
+  const overlayMedia = overlayScene.blocks.find((block) => block.kind === "media-reference");
+  if (!baseHeading || !overlayHeading || !baseMedia || !overlayMedia) {
+    throw new Error(`Overlay scene pair ${baseScene.id} -> ${overlayScene.id} requires graph-backed headings and media blocks`);
+  }
+
+  const section = dom.createElement("section");
+  const baseHeadingId = `${baseScene.id}-title`;
+  const overlayHeadingId = `${overlayScene.id}-title`;
+  section.setAttribute("id", baseScene.id);
+  section.setAttribute("data-scene-document-id", document.id);
+  section.setAttribute("data-source-path-id", document.sourcePathId);
+  section.setAttribute("data-layout", "statement");
+  section.setAttribute("data-overlay-scene-id", overlayScene.id);
+  section.setAttribute("aria-labelledby", baseHeadingId);
+  sourceAttributes(section, [...baseScene.source, ...overlayScene.source]);
+
+  appendBlock(section, dom, baseHeading, baseHeadingId);
+
+  const stack = dom.createElement("div");
+  stack.className = "pcd-media-swap";
+  stack.setAttribute("data-overlay-scene-id", overlayScene.id);
+
+  const baseLayer = dom.createElement("div");
+  baseLayer.className = "pcd-media-swap-layer pcd-media-swap-base fragment fade-out";
+  baseLayer.setAttribute("data-fragment-index", "0");
+  appendBlock(baseLayer, dom, baseMedia, baseHeadingId);
+
+  const nextLayer = dom.createElement("div");
+  nextLayer.className = "pcd-media-swap-layer pcd-media-swap-next fragment custom";
+  nextLayer.setAttribute("data-fragment-index", "0");
+  appendBlock(nextLayer, dom, overlayHeading, overlayHeadingId);
+  appendBlock(nextLayer, dom, overlayMedia, overlayHeadingId);
+
+  stack.appendChild(baseLayer);
+  stack.appendChild(nextLayer);
+  section.appendChild(stack);
+  dom.root.appendChild(section);
+}
+
 export function mountSceneDocuments(dom: PitchDomPort, documents: readonly SceneDocument[]): () => void {
   if (!documents.length) throw new Error("Pitch requires at least one compiled SceneDocument");
   for (const document of documents) validateSceneDocument(document);
   dom.root.innerHTML = "";
   for (const document of documents) for (const scene of document.scenes) {
+    if (overlaySceneIds.has(scene.id)) continue;
+    const overlaySceneId = overlaySceneByBase[scene.id];
+    if (overlaySceneId) {
+      const overlayScene = document.scenes.find((candidate) => candidate.id === overlaySceneId);
+      if (!overlayScene) throw new Error(`Overlay scene ${overlaySceneId} for ${scene.id} is missing`);
+      appendOverlayScenePair(dom, document, scene, overlayScene);
+      continue;
+    }
+
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
     const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
@@ -262,8 +319,6 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"),
     );
     section.setAttribute("aria-labelledby", headingId);
-    const transition = transitionByScene[scene.id];
-    if (transition) section.setAttribute("data-transition", transition);
     sourceAttributes(section, scene.source);
     for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
