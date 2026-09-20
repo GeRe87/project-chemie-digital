@@ -510,6 +510,65 @@ F-05\t5.3\t512.284\t9,870""" ;
     cd:numericValue "4.1"^^xsd:decimal ;
     cd:authoredResource true .
 
+  ex:cogniflow-fair-data-intro a cd:Concept ;
+    skos:prefLabel "What FAIR Data Means in Practice"@en ;
+    cd:hasDefinition ex:def-cogniflow-fair-data-intro ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-fair-data-intro a cd:Definition ;
+    cd:body "FAIR data are well-described digital objects that can be found, accessed under clear conditions, interpreted across systems and reused with sufficient context."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-fair-data-principles a cd:Interpretation ;
+    cd:body "The FAIR principles describe four complementary properties of reusable scientific data."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-fair-findable,
+      ex:keypoint-cogniflow-fair-accessible,
+      ex:keypoint-cogniflow-fair-interoperable,
+      ex:keypoint-cogniflow-fair-reusable ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-findable a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """F — FINDABLE
+Persistent identifier + searchable metadata"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-accessible a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """A — ACCESSIBLE
+Retrievable under clear access conditions"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-interoperable a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """I — INTEROPERABLE
+Structured formats + shared vocabularies"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-reusable a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body """R — REUSABLE
+Rich metadata + provenance + clear reuse conditions"""@en ;
+    cd:authoredResource true .
+
+  ex:code-cogniflow-fair-data-object a cd:CodeExample ;
+    skos:prefLabel "Illustrative FAIR LC-HRMS data object"@en ;
+    cd:code """Field	Example
+Identifier	doi:10.xxxx/sample.017
+Data file	sample_017.mzML
+Format	mzML
+Sample	River water extract
+Instrument	UHPLC-QTOF-MS
+Metadata	structured + searchable
+Vocabulary	controlled terms
+Access	HTTPS / repository
+Reuse	license + provenance""" ;
+    cd:programmingLanguage "tsv" ;
+    cd:editable false ;
+    cd:executable false ;
+    cd:showsResource ex:cogniflow-fair-data-intro ;
+    cd:authoredResource true .
+
   ex:cogniflow-fair-processing-gap a cd:Concept ;
     skos:prefLabel "FAIR Data Are Not FAIR Processing"@en ;
     cd:hasDefinition ex:def-cogniflow-fair-processing-gap ;
@@ -746,14 +805,21 @@ F-05\t5.3\t512.284\t9,870""" ;
     cd:usesScene ex:scene-cogniflow-processing-black-box ;
     cd:authoredResource true .
 
-  ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
+  ex:path-step-cogniflow-fair-data-intro a cd:PathStep ;
     cd:position 3 ;
+    cd:usesResource ex:cogniflow-fair-data-principles,
+      ex:code-cogniflow-fair-data-object ;
+    cd:usesScene ex:scene-cogniflow-fair-data-intro ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
+    cd:position 4 ;
     cd:usesResource ex:diagram-cogniflow-fair-processing-gap ;
     cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-explicit-processing-context a cd:PathStep ;
-    cd:position 4 ;
+    cd:position 5 ;
     cd:usesResource ex:diagram-cogniflow-explicit-processing-context ;
     cd:usesScene ex:scene-cogniflow-explicit-processing-context ;
     cd:authoredResource true .
@@ -797,6 +863,37 @@ F-05\t5.3\t512.284\t9,870""" ;
     cd:selectsResource ex:diagram-cogniflow-processing-black-box ;
     cd:communicativeRole cd:DiagramRole ;
     cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-fair-data-intro a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-fair-data-intro ;
+    cd:hasSceneItem ex:scene-item-cogniflow-fair-data-intro-heading,
+      ex:scene-item-cogniflow-fair-data-intro-principles,
+      ex:scene-item-cogniflow-fair-data-intro-object ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-fair-data-intro ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-principles a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-fair-data-principles ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-object a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:code-cogniflow-fair-data-object ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
     cd:language "en" ;
     cd:authoredResource true .
 
