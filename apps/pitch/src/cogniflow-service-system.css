@@ -1,0 +1,176 @@
+/* Services Replace Direct Dependencies
+   Marketplace analogy rendered with the generic sequence-diagram primitive. */
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] {
+  display: grid !important;
+  grid-template-rows: auto 4.2rem minmax(0, 1fr) 3.35rem;
+  row-gap: .62rem;
+  align-content: stretch;
+  padding: 1.35rem 1.8rem 1.3rem !important;
+  border-radius: 0;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 {
+  grid-row: 1;
+  margin: 0 0 .05rem;
+  max-width: none;
+  font-size: 2.46em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead {
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(1080px, 94%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .52rem 1.05rem .47rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+  color: var(--pcd-foreground);
+  font: 875 .96em/1.07 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead::first-line {
+  color: var(--pcd-accent);
+  font-size: 1.26em;
+  font-weight: 950;
+  letter-spacing: .055em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > .d3-sequence-host {
+  grid-row: 3;
+  align-self: stretch;
+  width: min(1220px, 100%);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: .1rem .25rem 0;
+  overflow: visible;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-runtime,
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-svg {
+  width: 100%;
+  height: 100%;
+  min-height: 24.5rem;
+  overflow: visible;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-caption {
+  display: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card {
+  stroke-width: 4;
+  rx: 0;
+  filter: drop-shadow(5px 5px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent));
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant {
+  font: 900 22px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .015em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-consumer"] {
+  fill: #b9e4ff;
+  stroke: #176da0;
+}
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-consumer"] {
+  fill: #07364e;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-gateway"] {
+  fill: #bfe9e7;
+  stroke: #168e9c;
+}
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-gateway"] {
+  fill: #063d47;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-authority"] {
+  fill: #ffd28f;
+  stroke: #c96a12;
+}
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-authority"] {
+  fill: #522800;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-executor"] {
+  fill: #d5c5f4;
+  stroke: #7046ad;
+}
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-executor"] {
+  fill: #3b2164;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-lifeline {
+  stroke-width: 3;
+  stroke-dasharray: 7 7;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-lifeline[data-role-id="ex:role-service-consumer"] { stroke: #176da0; }
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-lifeline[data-role-id="ex:role-service-gateway"] { stroke: #168e9c; }
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-lifeline[data-role-id="ex:role-service-authority"] { stroke: #c96a12; }
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-lifeline[data-role-id="ex:role-service-executor"] { stroke: #7046ad; }
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message-line {
+  stroke-width: 4;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message-label {
+  font: 850 18px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  stroke-width: 5px;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-search"] .d3-sequence-message-line,
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-deliver"] .d3-sequence-message-line {
+  stroke: #176da0;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-match"] .d3-sequence-message-line,
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-result"] .d3-sequence-message-line {
+  stroke: #168e9c;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-order"] .d3-sequence-message-line,
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-message[data-message-id="ex:message-service-return"] .d3-sequence-message-line {
+  stroke: #7046ad;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > .d3-sequence-host + .lead {
+  grid-row: 4;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1140px, 96%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .58rem 1rem .52rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, var(--pcd-accent) 10%);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  color: var(--pcd-accent);
+  font: 950 .98em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .026em;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] {
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-svg {
+    min-height: 31rem;
+  }
+}
