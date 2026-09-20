@@ -459,7 +459,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             domain_reading["text"],
         )
 
-    def test_domain_specifications_translate_core_grammar_to_peak_integration(self) -> None:
+    def test_domain_specifications_explain_processing_unit_before_peak_integration(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         domain_specs = document["scenes"][8]
 
@@ -467,23 +467,21 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["prose", "prose", "list", "prose"],
             [block["kind"] for block in domain_specs["blocks"]],
         )
-        self.assertEqual("From Grammar to Scientific Meaning", domain_specs["blocks"][0]["text"])
+        self.assertEqual("A Semantic Model for Data Processing", domain_specs["blocks"][0]["text"])
         self.assertEqual(
-            "SAME CORE GRAMMAR\nNow applied to PEAK INTEGRATION",
+            "DATA PROCESSING CONCEPT DOMAIN\none ProcessingUnit · explicit Ports · Step or Pipeline",
             domain_specs["blocks"][1]["text"],
         )
         self.assertEqual(
             [
-                "CONCEPT\nPEAK INTEGRATION\nchromatographic signal → integrated peak area",
-                "ATTRIBUTES\nSignal\nBaseline\nIntegration Window\nPeak Area",
-                "RELATIONS\nhasSignal\nhasBaseline\nhasIntegrationWindow\nhasPeakArea",
-                "CONTROLLED VALUE\nIntegration Mode\nautomatic · manual",
-                "SHAPE\nchecks required context\nand valid structure",
+                "CONCEPT DOMAIN\nDATA PROCESSING\ndefines ProcessingUnit\nPort · PortRole\nInput · Output · Parameter",
+                "PROCESSING UNIT\nhasPort → Port\nPort has PortRole\n\nPROCESSING STEP\natomic ProcessingUnit\n\nPROCESSING PIPELINE\ncomposite ProcessingUnit\nPipelineNode → runs → ProcessingUnit",
+                "SPECIFICATION\nPEAK INTEGRATION\na ProcessingStep\n\nINPUT · chromatographic signal\nPARAMETER · integration window\nOUTPUT · peak area",
             ],
             [item["text"] for item in domain_specs["blocks"][2]["items"]],
         )
         self.assertEqual(
-            "THE GRAMMAR STAYS THE SAME — THE DOMAIN ADDS THE SCIENTIFIC MEANING",
+            "THE CONCEPT DEFINES THE STRUCTURE — THE SPECIFICATION PROVIDES THE SCIENTIFIC METHOD",
             domain_specs["blocks"][3]["text"],
         )
 
