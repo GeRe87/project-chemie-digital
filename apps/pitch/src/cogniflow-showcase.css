@@ -95,3 +95,27 @@ body.pcd-background-active .reveal .slides section[id="ex:scene-cogniflow-showca
 .reveal .slides section[id="ex:scene-cogniflow-showcase-video-two--scene"] .media-reference video {
   background: #000;
 }
+
+
+/* Reveal Scroll View normally lays scenes into one continuous document. Showcase media
+   should instead read as three deliberate full-screen beats. Keep the scenes in the
+   document, but make each one exactly one viewport high and snap cleanly into place. */
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-still--scene"],
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-video-one--scene"],
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-video-two--scene"] {
+  width: 100% !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  max-height: 100svh !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-still--scene"] .media-reference,
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-video-one--scene"] .media-reference,
+body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-video-two--scene"] .media-reference {
+  inset: 0 !important;
+  height: 100% !important;
+}

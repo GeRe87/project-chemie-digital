@@ -117,21 +117,6 @@ preparePresentationStepFragments(root);
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
-const showcaseSceneIds = [
-  "ex:scene-cogniflow-showcase-still--scene",
-  "ex:scene-cogniflow-showcase-video-one--scene",
-  "ex:scene-cogniflow-showcase-video-two--scene",
-] as const;
-
-// Full-screen showcase media is intentionally deck-only. In Reveal's scroll view the
-// three scenes are hidden before initialization, so they neither occupy scroll space nor
-// trigger video playback. Use ?view=deck to present the screenshot/video sequence.
-if (appearance.view === "scroll") {
-  for (const sceneId of showcaseSceneIds) {
-    root.querySelector<HTMLElement>(`[id="${sceneId}"]`)?.setAttribute("data-visibility", "hidden");
-  }
-}
-
 let currentTheme: PresentationThemeMode = appearance.theme;
 let selectedBackgroundFamilyId = appearance.backgroundFamilyId;
 let backgroundEnabled = appearance.backgroundEnabled;
