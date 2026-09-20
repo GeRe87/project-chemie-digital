@@ -186,7 +186,7 @@ body[data-presentation-theme="dark"] .reveal {
   border-collapse: collapse;
   table-layout: fixed;
   color: var(--pcd-text);
-  font: 800 .84em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 800 .98em/1.06 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) > .code-block .data-table th,
@@ -258,7 +258,7 @@ body[data-presentation-theme="dark"] .reveal {
 }
 
 .reveal .slides section:has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host) .d3-flow-edge-label {
-  font-size: 19px;
+  font-size: 15px;
   font-weight: 800;
 }
 
