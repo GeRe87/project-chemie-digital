@@ -1,0 +1,552 @@
+{
+  "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "requested_presentation_step": 5,
+  "requested_theme": "light",
+  "elements": [
+    {
+      "index": 0,
+      "tag": "section",
+      "id": "ex:scene-cogniflow-concept-domain--scene",
+      "className": "present",
+      "text": "From concepts to executable learning views defines defines has definition includes has observation supports can be presented as has state is selected by 01 Learning domain 02 Concept 03 Definition 04 Learning resource 05 Dataset 06 Observat",
+      "rect": {
+        "x": 28.8,
+        "y": 82.19,
+        "width": 1382.4,
+        "height": 1340.25
+      },
+      "style": {
+        "display": "grid",
+        "position": "absolute",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(255, 255, 255, 0.8)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 1,
+      "tag": "h2",
+      "id": "ex:scene-cogniflow-concept-domain--scene-title",
+      "className": "",
+      "text": "From concepts to executable learning views",
+      "rect": {
+        "x": 68.16,
+        "y": 113.87,
+        "width": 1303.68,
+        "height": 34.68
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "34.4px",
+        "fontWeight": "700",
+        "lineHeight": "36.12px",
+        "color": "rgb(0, 90, 120)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": null,
+      "className": "d3-diagram-host d3-flow-host",
+      "text": "defines defines has definition includes has observation supports can be presented as has state is selected by 01 Learning domain 02 Concept 03 Definition 04 Learning resource 05 Dataset 06 Observation 07 Calculation step 08 Diagram 09 Diagr",
+      "rect": {
+        "x": 153.6,
+        "y": 162.35,
+        "width": 1132.8,
+        "height": 1228.41
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 3,
+      "tag": "svg",
+      "id": null,
+      "className": null,
+      "text": "Concept domain, processing and presentation affordances A learning domain defines concepts and learning resources. Processing resources record observations and calculation steps, while diagram and scene resources make the same semantics ava",
+      "rect": {
+        "x": 153.6,
+        "y": 167.72,
+        "width": 1132.8,
+        "height": 1223.04
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    }
+  ],
+  "presentationSteps": [
+    {
+      "id": "ex:scene-item-cogniflow-concept-domain-diagram--block",
+      "count": 5,
+      "activeStep": 5
+    }
+  ],
+  "diagrams": [
+    {
+      "type": "flow",
+      "activeStateId": "5",
+      "focusBounds": "461 44 258 160",
+      "layoutMode": "horizontal",
+      "elements": [
+        {
+          "key": "ex:edge-cogniflow-domain-concept",
+          "rect": {
+            "x": 720,
+            "y": 850.2774658203125,
+            "width": 441.465087890625,
+            "height": 147.3599853515625
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 711,
+            "width": 459.8594970703125,
+            "height": 153.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-domain-concept",
+          "rect": {
+            "x": 920.572509765625,
+            "y": 842.5974731445312,
+            "width": 78.72003173828125,
+            "height": 95.760009765625
+          },
+          "svgBox": {
+            "x": 798.9297485351562,
+            "y": 703,
+            "width": 82,
+            "height": 99.75
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-domain-resource",
+          "rect": {
+            "x": 720,
+            "y": 785.9574584960938,
+            "width": 319.25146484375,
+            "height": 64.32000732421875
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 644,
+            "width": 332.55377197265625,
+            "height": 67
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-domain-resource",
+          "rect": {
+            "x": 859.4657592773438,
+            "y": 799.8775024414062,
+            "width": 78.719970703125,
+            "height": 42.719970703125
+          },
+          "svgBox": {
+            "x": 735.27685546875,
+            "y": 658.5,
+            "width": 82,
+            "height": 44.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-concept-definition",
+          "rect": {
+            "x": 917.0380859375,
+            "y": 997.637451171875,
+            "width": 244.427001953125,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": 795.248046875,
+            "y": 864.5,
+            "width": 254.6114501953125,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-concept-definition",
+          "rect": {
+            "x": 992.2116088867188,
+            "y": 1033.157470703125,
+            "width": 132.47979736328125,
+            "height": 64.320068359375
+          },
+          "svgBox": {
+            "x": 873.5537719726562,
+            "y": 901.5,
+            "width": 138,
+            "height": 67
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-resource-dataset",
+          "rect": {
+            "x": 278.53485107421875,
+            "y": 893.4774780273438,
+            "width": 760.7166137695312,
+            "height": 104.15997314453125
+          },
+          "svgBox": {
+            "x": 130.14051818847656,
+            "y": 756,
+            "width": 792.4132690429688,
+            "height": 108.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-resource-dataset",
+          "rect": {
+            "x": 634.8932495117188,
+            "y": 885.7974853515625,
+            "width": 86.4000244140625,
+            "height": 74.15997314453125
+          },
+          "svgBox": {
+            "x": 501.3471374511719,
+            "y": 748,
+            "width": 90.00003051757812,
+            "height": 77.25
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-dataset-observation",
+          "rect": {
+            "x": 278.53485107421875,
+            "y": 893.4774780273438,
+            "width": 122.21353149414062,
+            "height": 104.15997314453125
+          },
+          "svgBox": {
+            "x": 130.14051818847656,
+            "y": 756,
+            "width": 127.30574035644531,
+            "height": 108.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-dataset-observation",
+          "rect": {
+            "x": 288.7616271972656,
+            "y": 927.3175048828125,
+            "width": 140.16000366210938,
+            "height": 62.63995361328125
+          },
+          "svgBox": {
+            "x": 140.7933807373047,
+            "y": 791.25,
+            "width": 146.00001525878906,
+            "height": 65.25
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-observation-calculation",
+          "rect": {
+            "x": 400.7483825683594,
+            "y": 893.4774780273438,
+            "width": 122.21347045898438,
+            "height": 104.15997314453125
+          },
+          "svgBox": {
+            "x": 257.4462585449219,
+            "y": 756,
+            "width": 127.30572509765625,
+            "height": 108.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-observation-calculation",
+          "rect": {
+            "x": 437.8551330566406,
+            "y": 885.7974853515625,
+            "width": 86.39999389648438,
+            "height": 74.15997314453125
+          },
+          "svgBox": {
+            "x": 296.09912109375,
+            "y": 748,
+            "width": 90,
+            "height": 77.25
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-resource-diagram",
+          "rect": {
+            "x": 720,
+            "y": 340.5174865722656,
+            "width": 319.25146484375,
+            "height": 445.4399719238281
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 180,
+            "width": 332.55377197265625,
+            "height": 464
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-resource-diagram",
+          "rect": {
+            "x": 824.90576171875,
+            "y": 534.4375,
+            "width": 147.8399658203125,
+            "height": 243.8399658203125
+          },
+          "svgBox": {
+            "x": 699.27685546875,
+            "y": 382,
+            "width": 154,
+            "height": 254
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-diagram-state",
+          "rect": {
+            "x": 720,
+            "y": 340.5174865722656,
+            "width": 122.21343994140625,
+            "height": 104.16000366210938
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 180,
+            "width": 127.30572509765625,
+            "height": 108.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-diagram-state",
+          "rect": {
+            "x": 753.2667236328125,
+            "y": 332.8374938964844,
+            "width": 94.08001708984375,
+            "height": 74.16000366210938
+          },
+          "svgBox": {
+            "x": 624.6528930664062,
+            "y": 172,
+            "width": 98,
+            "height": 77.25
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-diagram-scene",
+          "rect": {
+            "x": 597.7864990234375,
+            "y": 340.5174865722656,
+            "width": 122.2135009765625,
+            "height": 104.16000366210938
+          },
+          "svgBox": {
+            "x": 462.69427490234375,
+            "y": 180,
+            "width": 127.30572509765625,
+            "height": 108.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-diagram-scene",
+          "rect": {
+            "x": 611.853271484375,
+            "y": 332.8374938964844,
+            "width": 132.47998046875,
+            "height": 74.16000366210938
+          },
+          "svgBox": {
+            "x": 477.3471374511719,
+            "y": 172,
+            "width": 138.00003051757812,
+            "height": 77.25
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-domain-root",
+          "rect": {
+            "x": 604.7999877929688,
+            "y": 742.7575073242188,
+            "width": 230.39996337890625,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-concept",
+          "rect": {
+            "x": 1060.6650390625,
+            "y": 997.637451171875,
+            "width": 201.60009765625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-definition",
+          "rect": {
+            "x": 816.2380981445312,
+            "y": 997.637451171875,
+            "width": 201.5999755859375,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-learning-resource",
+          "rect": {
+            "x": 938.4515991210938,
+            "y": 785.9574584960938,
+            "width": 204.19268798828125,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 212.7005615234375,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-dataset",
+          "rect": {
+            "x": 177.73487854003906,
+            "y": 997.637451171875,
+            "width": 201.59999084472656,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-observation",
+          "rect": {
+            "x": 299.9483947753906,
+            "y": 785.9574584960938,
+            "width": 201.5999755859375,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-calculation-step",
+          "rect": {
+            "x": 422.1618957519531,
+            "y": 997.637451171875,
+            "width": 201.59994506835938,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-diagram",
+          "rect": {
+            "x": 619.199951171875,
+            "y": 232.99749755859375,
+            "width": 201.60003662109375,
+            "height": 107.51998901367188
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-diagram-state",
+          "rect": {
+            "x": 741.4134521484375,
+            "y": 444.677490234375,
+            "width": 201.60003662109375,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-scene",
+          "rect": {
+            "x": 496.9864807128906,
+            "y": 444.677490234375,
+            "width": 201.60000610351562,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        }
+      ]
+    }
+  ]
+}

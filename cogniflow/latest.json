@@ -1,0 +1,270 @@
+{
+  "schema_version": "1.2",
+  "repository": "GeRe87/project-chemie-digital",
+  "target": "cogniflow",
+  "source_branch": "visual/cogniflow",
+  "source_ref": "visual/cogniflow",
+  "source_sha": "b2487dc65570d5463495ef962c32ca8694ecf1ff",
+  "generated_at": "2026-09-20T05:43:51.311315+00:00",
+  "evidence_branch": "visual-evidence",
+  "request_id": "cogniflow-workflow-architecture-concept-sequence",
+  "request_fingerprint": "3cc93c0b0d94f4aed1f657d7b7fe22aa058d1e187ab3d057184cecf68ef4b1be",
+  "presentation_step": null,
+  "render_scope": "matrix",
+  "requested_scenes": null,
+  "requested_captures": [
+    {
+      "name": "workflow-base",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 0
+    },
+    {
+      "name": "workflow-activated",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 1
+    },
+    {
+      "name": "architecture-base",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 0
+    },
+    {
+      "name": "architecture-focus",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 2
+    },
+    {
+      "name": "architecture-overview",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 7
+    },
+    {
+      "name": "concept-root",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 1
+    },
+    {
+      "name": "concept-final",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 5
+    },
+    {
+      "name": "sequence-base",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 0
+    },
+    {
+      "name": "sequence-interaction",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 1
+    },
+    {
+      "name": "sequence-binding",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 2
+    },
+    {
+      "name": "sequence-final",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 3
+    }
+  ],
+  "requested_themes": [
+    "light",
+    "dark"
+  ],
+  "available_scene_count": 11,
+  "viewport": [
+    1440,
+    900
+  ],
+  "review_viewport": [
+    1200,
+    750
+  ],
+  "review_format": "webp",
+  "review_quality": 40,
+  "dependency_cache_reused": true,
+  "lock_hash": "1719662bcf5ff02a27b699d5bd099bbef1e170dafa8973261bf9ce7b57721456",
+  "scenes": [],
+  "captures": [
+    {
+      "name": "workflow-base",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 0,
+      "theme": "light",
+      "review_image": "slides/workflow-base-light.review.webp",
+      "layout": "slides/workflow-base-light.layout.json"
+    },
+    {
+      "name": "workflow-base",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 0,
+      "theme": "dark",
+      "review_image": "slides/workflow-base-dark.review.webp",
+      "layout": "slides/workflow-base-dark.layout.json"
+    },
+    {
+      "name": "workflow-activated",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 1,
+      "theme": "light",
+      "review_image": "slides/workflow-activated-light.review.webp",
+      "layout": "slides/workflow-activated-light.layout.json"
+    },
+    {
+      "name": "workflow-activated",
+      "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+      "presentation_step": 1,
+      "theme": "dark",
+      "review_image": "slides/workflow-activated-dark.review.webp",
+      "layout": "slides/workflow-activated-dark.layout.json"
+    },
+    {
+      "name": "architecture-base",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 0,
+      "theme": "light",
+      "review_image": "slides/architecture-base-light.review.webp",
+      "layout": "slides/architecture-base-light.layout.json"
+    },
+    {
+      "name": "architecture-base",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 0,
+      "theme": "dark",
+      "review_image": "slides/architecture-base-dark.review.webp",
+      "layout": "slides/architecture-base-dark.layout.json"
+    },
+    {
+      "name": "architecture-focus",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 2,
+      "theme": "light",
+      "review_image": "slides/architecture-focus-light.review.webp",
+      "layout": "slides/architecture-focus-light.layout.json"
+    },
+    {
+      "name": "architecture-focus",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 2,
+      "theme": "dark",
+      "review_image": "slides/architecture-focus-dark.review.webp",
+      "layout": "slides/architecture-focus-dark.layout.json"
+    },
+    {
+      "name": "architecture-overview",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 7,
+      "theme": "light",
+      "review_image": "slides/architecture-overview-light.review.webp",
+      "layout": "slides/architecture-overview-light.layout.json"
+    },
+    {
+      "name": "architecture-overview",
+      "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+      "presentation_step": 7,
+      "theme": "dark",
+      "review_image": "slides/architecture-overview-dark.review.webp",
+      "layout": "slides/architecture-overview-dark.layout.json"
+    },
+    {
+      "name": "concept-root",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 1,
+      "theme": "light",
+      "review_image": "slides/concept-root-light.review.webp",
+      "layout": "slides/concept-root-light.layout.json"
+    },
+    {
+      "name": "concept-root",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 1,
+      "theme": "dark",
+      "review_image": "slides/concept-root-dark.review.webp",
+      "layout": "slides/concept-root-dark.layout.json"
+    },
+    {
+      "name": "concept-final",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 5,
+      "theme": "light",
+      "review_image": "slides/concept-final-light.review.webp",
+      "layout": "slides/concept-final-light.layout.json"
+    },
+    {
+      "name": "concept-final",
+      "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+      "presentation_step": 5,
+      "theme": "dark",
+      "review_image": "slides/concept-final-dark.review.webp",
+      "layout": "slides/concept-final-dark.layout.json"
+    },
+    {
+      "name": "sequence-base",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 0,
+      "theme": "light",
+      "review_image": "slides/sequence-base-light.review.webp",
+      "layout": "slides/sequence-base-light.layout.json"
+    },
+    {
+      "name": "sequence-base",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 0,
+      "theme": "dark",
+      "review_image": "slides/sequence-base-dark.review.webp",
+      "layout": "slides/sequence-base-dark.layout.json"
+    },
+    {
+      "name": "sequence-interaction",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 1,
+      "theme": "light",
+      "review_image": "slides/sequence-interaction-light.review.webp",
+      "layout": "slides/sequence-interaction-light.layout.json"
+    },
+    {
+      "name": "sequence-interaction",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 1,
+      "theme": "dark",
+      "review_image": "slides/sequence-interaction-dark.review.webp",
+      "layout": "slides/sequence-interaction-dark.layout.json"
+    },
+    {
+      "name": "sequence-binding",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 2,
+      "theme": "light",
+      "review_image": "slides/sequence-binding-light.review.webp",
+      "layout": "slides/sequence-binding-light.layout.json"
+    },
+    {
+      "name": "sequence-binding",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 2,
+      "theme": "dark",
+      "review_image": "slides/sequence-binding-dark.review.webp",
+      "layout": "slides/sequence-binding-dark.layout.json"
+    },
+    {
+      "name": "sequence-final",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 3,
+      "theme": "light",
+      "review_image": "slides/sequence-final-light.review.webp",
+      "layout": "slides/sequence-final-light.layout.json"
+    },
+    {
+      "name": "sequence-final",
+      "scene_id": "ex:scene-cogniflow-service-process--scene",
+      "presentation_step": 3,
+      "theme": "dark",
+      "review_image": "slides/sequence-final-dark.review.webp",
+      "layout": "slides/sequence-final-dark.layout.json"
+    }
+  ],
+  "console_event_count": 45,
+  "page_error_count": 0
+}

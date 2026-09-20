@@ -1,0 +1,447 @@
+{
+  "scene_id": "ex:scene-cogniflow-coupling-problem--scene",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "requested_presentation_step": 1,
+  "requested_theme": "dark",
+  "elements": [
+    {
+      "index": 0,
+      "tag": "section",
+      "id": "ex:scene-cogniflow-coupling-problem--scene",
+      "className": "present",
+      "text": "A Common Analytical Workflow vendor Software mzML vendor Software csv Both workflows use the same custom script after conversion to an open format. 01 Analysis 02 meas Data 03 meas Data Open Format 04 results 05 Analysis B 06 meas Data 07 m",
+      "rect": {
+        "x": 28.8,
+        "y": 82.19,
+        "width": 1382.4,
+        "height": 627.69
+      },
+      "style": {
+        "display": "grid",
+        "position": "absolute",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(5, 8, 16, 0.76)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 1,
+      "tag": "h2",
+      "id": "ex:scene-cogniflow-coupling-problem--scene-title",
+      "className": "",
+      "text": "A Common Analytical Workflow",
+      "rect": {
+        "x": 68.16,
+        "y": 113.87,
+        "width": 392.77,
+        "height": 72.84
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "38.72px",
+        "fontWeight": "700",
+        "lineHeight": "37.9456px",
+        "color": "rgb(98, 239, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": null,
+      "className": "d3-diagram-host d3-flow-host",
+      "text": "vendor Software mzML vendor Software csv Both workflows use the same custom script after conversion to an open format. 01 Analysis 02 meas Data 03 meas Data Open Format 04 results 05 Analysis B 06 meas Data 07 meas Data Open Format 08 resul",
+      "rect": {
+        "x": 153.6,
+        "y": 200.51,
+        "width": 1132.8,
+        "height": 477.69
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 3,
+      "tag": "svg",
+      "id": null,
+      "className": null,
+      "text": "Common workflow from analysis to results Vendor software produces measured data, which is converted into the open mzML format, and a custom script turns that into reusable results. Nodes: - Analysis - meas Data - meas Data Open Format - res",
+      "rect": {
+        "x": 153.6,
+        "y": 205.88,
+        "width": 1132.8,
+        "height": 472.32
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    }
+  ],
+  "presentationSteps": [
+    {
+      "id": "ex:scene-item-cogniflow-problem-diagram--block",
+      "count": 1,
+      "activeStep": 1
+    }
+  ],
+  "diagrams": [
+    {
+      "type": "flow",
+      "activeStateId": "1",
+      "focusBounds": null,
+      "layoutMode": "horizontal",
+      "elements": [
+        {
+          "key": "ex:edge-cogniflow-common-analysis-meas",
+          "rect": {
+            "x": 407.03997802734375,
+            "y": 389.23748779296875,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 264,
+            "y": 191,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-analysis-meas",
+          "rect": {
+            "x": 363.8399658203125,
+            "y": 280.75750732421875,
+            "width": 140.16000366210938,
+            "height": 100.79998779296875
+          },
+          "svgBox": {
+            "x": 219,
+            "y": 78,
+            "width": 146,
+            "height": 105
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-meas-open",
+          "rect": {
+            "x": 691.199951171875,
+            "y": 389.23748779296875,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 560,
+            "y": 191,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-meas-open",
+          "rect": {
+            "x": 682.5599975585938,
+            "y": 280.75750732421875,
+            "width": 71.03997802734375,
+            "height": 100.79998779296875
+          },
+          "svgBox": {
+            "x": 551,
+            "y": 78,
+            "width": 74,
+            "height": 105
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-open-results",
+          "rect": {
+            "x": 975.3599853515625,
+            "y": 389.23748779296875,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 856,
+            "y": 191,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-analysis-b-meas",
+          "rect": {
+            "x": 407.03997802734375,
+            "y": 585.0775146484375,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 264,
+            "y": 395,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-analysis-b-meas",
+          "rect": {
+            "x": 363.8399658203125,
+            "y": 476.5975036621094,
+            "width": 140.16000366210938,
+            "height": 100.79995727539062
+          },
+          "svgBox": {
+            "x": 219,
+            "y": 282,
+            "width": 146,
+            "height": 105
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-meas-b-open",
+          "rect": {
+            "x": 691.199951171875,
+            "y": 585.0775146484375,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 560,
+            "y": 395,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-meas-b-open",
+          "rect": {
+            "x": 682.5599975585938,
+            "y": 476.5975036621094,
+            "width": 71.03997802734375,
+            "height": 100.79995727539062
+          },
+          "svgBox": {
+            "x": 551,
+            "y": 282,
+            "width": 74,
+            "height": 105
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-open-b-results",
+          "rect": {
+            "x": 975.3599853515625,
+            "y": 585.0775146484375,
+            "width": 53.760009765625,
+            "height": 0
+          },
+          "svgBox": {
+            "x": 856,
+            "y": 395,
+            "width": 56,
+            "height": 0
+          }
+        },
+        {
+          "key": "ex:shared-edge-annotation-cogniflow-common-custom-script",
+          "rect": {
+            "x": 927.3599853515625,
+            "y": 220.27749633789062,
+            "width": 149.7598876953125,
+            "height": 274.55999755859375
+          },
+          "svgBox": {
+            "x": 806,
+            "y": 15,
+            "width": 156,
+            "height": 286
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-open-results",
+          "rect": {
+            "x": 1002.239990234375,
+            "y": 298.99749755859375,
+            "width": 0,
+            "height": 59.519989013671875
+          },
+          "svgBox": {
+            "x": 884,
+            "y": 97,
+            "width": 0,
+            "height": 62
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-common-open-b-results",
+          "rect": {
+            "x": 1002.239990234375,
+            "y": 358.5174865722656,
+            "width": 0,
+            "height": 136.32000732421875
+          },
+          "svgBox": {
+            "x": 884,
+            "y": 159,
+            "width": 0,
+            "height": 142
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-analysis",
+          "rect": {
+            "x": 176.63998413085938,
+            "y": 335.47747802734375,
+            "width": 230.39999389648438,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-meas-data",
+          "rect": {
+            "x": 460.79998779296875,
+            "y": 335.47747802734375,
+            "width": 230.39996337890625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-open-format",
+          "rect": {
+            "x": 744.9599609375,
+            "y": 335.47747802734375,
+            "width": 230.4000244140625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-results",
+          "rect": {
+            "x": 1029.1199951171875,
+            "y": 335.47747802734375,
+            "width": 230.4000244140625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-analysis-b",
+          "rect": {
+            "x": 176.63998413085938,
+            "y": 531.3175048828125,
+            "width": 230.39999389648438,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-meas-data-b",
+          "rect": {
+            "x": 460.79998779296875,
+            "y": 531.3175048828125,
+            "width": 230.39996337890625,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-open-format-b",
+          "rect": {
+            "x": 744.9599609375,
+            "y": 531.3175048828125,
+            "width": 230.4000244140625,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-common-results-b",
+          "rect": {
+            "x": 1029.1199951171875,
+            "y": 531.3175048828125,
+            "width": 230.4000244140625,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        }
+      ]
+    }
+  ]
+}

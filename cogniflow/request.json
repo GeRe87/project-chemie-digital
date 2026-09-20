@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.2",
+  "request_id": "cogniflow-workflow-architecture-concept-sequence",
+  "themes": ["light", "dark"],
+  "captures": [
+    {"name": "workflow-base", "scene_id": "ex:scene-cogniflow-coupling-problem--scene", "presentation_step": 0},
+    {"name": "workflow-activated", "scene_id": "ex:scene-cogniflow-coupling-problem--scene", "presentation_step": 1},
+    {"name": "architecture-base", "scene_id": "ex:scene-cogniflow-service-architecture--scene", "presentation_step": 0},
+    {"name": "architecture-focus", "scene_id": "ex:scene-cogniflow-service-architecture--scene", "presentation_step": 2},
+    {"name": "architecture-overview", "scene_id": "ex:scene-cogniflow-service-architecture--scene", "presentation_step": 7},
+    {"name": "concept-root", "scene_id": "ex:scene-cogniflow-concept-domain--scene", "presentation_step": 1},
+    {"name": "concept-final", "scene_id": "ex:scene-cogniflow-concept-domain--scene", "presentation_step": 5},
+    {"name": "sequence-base", "scene_id": "ex:scene-cogniflow-service-process--scene", "presentation_step": 0},
+    {"name": "sequence-interaction", "scene_id": "ex:scene-cogniflow-service-process--scene", "presentation_step": 1},
+    {"name": "sequence-binding", "scene_id": "ex:scene-cogniflow-service-process--scene", "presentation_step": 2},
+    {"name": "sequence-final", "scene_id": "ex:scene-cogniflow-service-process--scene", "presentation_step": 3}
+  ]
+}

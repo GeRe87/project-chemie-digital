@@ -1,0 +1,372 @@
+{
+  "scene_id": "ex:scene-cogniflow-service-architecture--scene",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "requested_presentation_step": 7,
+  "requested_theme": "light",
+  "elements": [
+    {
+      "index": 0,
+      "tag": "section",
+      "id": "ex:scene-cogniflow-service-architecture--scene",
+      "className": "present",
+      "text": "One Interface. Specialized Providers. request dispatch semantics data artifacts 01 User / AI Agent 02 MCP Server 03 CogniFlow Orchestrator 04 Semantic Provider 05 Data Provider 06 Artifact + Provenance Provider Decoupled CogniFlow service a",
+      "rect": {
+        "x": 28.8,
+        "y": 82.19,
+        "width": 1382.4,
+        "height": 1388.97
+      },
+      "style": {
+        "display": "grid",
+        "position": "absolute",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(255, 255, 255, 0.8)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 1,
+      "tag": "h2",
+      "id": "ex:scene-cogniflow-service-architecture--scene-title",
+      "className": "",
+      "text": "One Interface. Specialized Providers.",
+      "rect": {
+        "x": 68.16,
+        "y": 113.87,
+        "width": 392.77,
+        "height": 72.84
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "38.72px",
+        "fontWeight": "700",
+        "lineHeight": "37.9456px",
+        "color": "rgb(0, 90, 120)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": null,
+      "className": "d3-diagram-host d3-flow-host",
+      "text": "request dispatch semantics data artifacts 01 User / AI Agent 02 MCP Server 03 CogniFlow Orchestrator 04 Semantic Provider 05 Data Provider 06 Artifact + Provenance Provider Decoupled CogniFlow service architecture: Stable interface, evolvin",
+      "rect": {
+        "x": 153.6,
+        "y": 200.51,
+        "width": 1132.8,
+        "height": 1238.97
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 3,
+      "tag": "svg",
+      "id": null,
+      "className": null,
+      "text": "Decoupled CogniFlow service architecture The request path stays stable from consumer to MCP server to orchestrator. Semantics, data and artifact/provenance capabilities remain separate providers behind that contract. Nodes: - User / AI Agen",
+      "rect": {
+        "x": 153.6,
+        "y": 205.88,
+        "width": 1132.8,
+        "height": 1233.6
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(23, 32, 38)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    }
+  ],
+  "presentationSteps": [
+    {
+      "id": "ex:scene-item-cogniflow-architecture-diagram--block",
+      "count": 7,
+      "activeStep": 7
+    }
+  ],
+  "diagrams": [
+    {
+      "type": "flow",
+      "activeStateId": "7",
+      "focusBounds": "446 575 288 160",
+      "layoutMode": "horizontal",
+      "elements": [
+        {
+          "key": "ex:edge-cogniflow-actors-mcp",
+          "rect": {
+            "x": 720,
+            "y": 519.7974853515625,
+            "width": 0,
+            "height": 261.1199951171875
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 327,
+            "width": 0,
+            "height": 272
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-actors-mcp",
+          "rect": {
+            "x": 699.8399658203125,
+            "y": 512.1174926757812,
+            "width": 78.72003173828125,
+            "height": 152.6400146484375
+          },
+          "svgBox": {
+            "x": 569,
+            "y": 319,
+            "width": 82,
+            "height": 159
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-mcp-orchestrator",
+          "rect": {
+            "x": 720,
+            "y": 888.4375,
+            "width": 319.25146484375,
+            "height": 76.79998779296875
+          },
+          "svgBox": {
+            "x": 590,
+            "y": 711,
+            "width": 332.55377197265625,
+            "height": 80
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-mcp-orchestrator",
+          "rect": {
+            "x": 855.625732421875,
+            "y": 880.7575073242188,
+            "width": 86.4000244140625,
+            "height": 60.47998046875
+          },
+          "svgBox": {
+            "x": 731.27685546875,
+            "y": 703,
+            "width": 90,
+            "height": 63
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-semantics",
+          "rect": {
+            "x": 278.53485107421875,
+            "y": 1035.7974853515625,
+            "width": 760.7166137695312,
+            "height": 36.9600830078125
+          },
+          "svgBox": {
+            "x": 130.14051818847656,
+            "y": 864.5,
+            "width": 792.4132690429688,
+            "height": 38.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-semantics",
+          "rect": {
+            "x": 631.0532836914062,
+            "y": 1036.0374755859375,
+            "width": 94.0799560546875,
+            "height": 32.6400146484375
+          },
+          "svgBox": {
+            "x": 497.3471374511719,
+            "y": 864.75,
+            "width": 98.00003051757812,
+            "height": 34
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-data",
+          "rect": {
+            "x": 400.7483825683594,
+            "y": 931.637451171875,
+            "width": 638.5032958984375,
+            "height": 33.60003662109375
+          },
+          "svgBox": {
+            "x": 257.4462585449219,
+            "y": 756,
+            "width": 665.1076049804688,
+            "height": 35
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-data",
+          "rect": {
+            "x": 703.6799926757812,
+            "y": 930.197509765625,
+            "width": 71.03997802734375,
+            "height": 32.63995361328125
+          },
+          "svgBox": {
+            "x": 573,
+            "y": 754.5,
+            "width": 74,
+            "height": 34
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-artifacts",
+          "rect": {
+            "x": 522.9618530273438,
+            "y": 1025.237548828125,
+            "width": 516.2898559570312,
+            "height": 47.52001953125
+          },
+          "svgBox": {
+            "x": 384.7519836425781,
+            "y": 853.5,
+            "width": 537.8018188476562,
+            "height": 49.5
+          }
+        },
+        {
+          "key": "ex:edge-cogniflow-orchestrator-artifacts",
+          "rect": {
+            "x": 753.2667236328125,
+            "y": 1030.757568359375,
+            "width": 94.08001708984375,
+            "height": 34.31982421875
+          },
+          "svgBox": {
+            "x": 624.6528930664062,
+            "y": 859.25,
+            "width": 98,
+            "height": 35.75
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-actors",
+          "rect": {
+            "x": 619.199951171875,
+            "y": 412.2774963378906,
+            "width": 201.60003662109375,
+            "height": 107.51998901367188
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-mcp",
+          "rect": {
+            "x": 604.7999877929688,
+            "y": 780.91748046875,
+            "width": 230.39996337890625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-orchestrator",
+          "rect": {
+            "x": 938.4515991210938,
+            "y": 965.2374877929688,
+            "width": 201.59991455078125,
+            "height": 107.52008056640625
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-semantic-store",
+          "rect": {
+            "x": 177.73487854003906,
+            "y": 1035.7974853515625,
+            "width": 205.1925506591797,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 213.7422332763672,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-data-store",
+          "rect": {
+            "x": 299.9483947753906,
+            "y": 824.1174926757812,
+            "width": 201.5999755859375,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-artifact-store",
+          "rect": {
+            "x": 422.1618957519531,
+            "y": 1025.237548828125,
+            "width": 201.59994506835938,
+            "height": 128.639892578125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -67,
+            "width": 210,
+            "height": 134
+          }
+        }
+      ]
+    }
+  ]
+}

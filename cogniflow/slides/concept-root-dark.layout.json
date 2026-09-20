@@ -1,0 +1,192 @@
+{
+  "scene_id": "ex:scene-cogniflow-concept-domain--scene",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "requested_presentation_step": 1,
+  "requested_theme": "dark",
+  "elements": [
+    {
+      "index": 0,
+      "tag": "section",
+      "id": "ex:scene-cogniflow-concept-domain--scene",
+      "className": "present",
+      "text": "From concepts to executable learning views 01 Learning domain 02 Concept 03 Definition 04 Learning resource Concept domain, processing and presentation affordances: Learning domain",
+      "rect": {
+        "x": 28.8,
+        "y": 82.19,
+        "width": 1382.4,
+        "height": 1340.25
+      },
+      "style": {
+        "display": "grid",
+        "position": "absolute",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(5, 8, 16, 0.76)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 1,
+      "tag": "h2",
+      "id": "ex:scene-cogniflow-concept-domain--scene-title",
+      "className": "",
+      "text": "From concepts to executable learning views",
+      "rect": {
+        "x": 68.16,
+        "y": 113.87,
+        "width": 1303.68,
+        "height": 34.68
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "34.4px",
+        "fontWeight": "700",
+        "lineHeight": "36.12px",
+        "color": "rgb(98, 239, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": null,
+      "className": "d3-diagram-host d3-flow-host",
+      "text": "01 Learning domain 02 Concept 03 Definition 04 Learning resource Concept domain, processing and presentation affordances: Learning domain",
+      "rect": {
+        "x": 153.6,
+        "y": 162.35,
+        "width": 1132.8,
+        "height": 1228.41
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 3,
+      "tag": "svg",
+      "id": null,
+      "className": null,
+      "text": "Concept domain, processing and presentation affordances A learning domain defines concepts and learning resources. Processing resources record observations and calculation steps, while diagram and scene resources make the same semantics ava",
+      "rect": {
+        "x": 153.6,
+        "y": 167.72,
+        "width": 1132.8,
+        "height": 1223.04
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    }
+  ],
+  "presentationSteps": [
+    {
+      "id": "ex:scene-item-cogniflow-concept-domain-diagram--block",
+      "count": 5,
+      "activeStep": 1
+    }
+  ],
+  "diagrams": [
+    {
+      "type": "flow",
+      "activeStateId": "1",
+      "focusBounds": "446 575 288 160",
+      "layoutMode": "horizontal",
+      "elements": [
+        {
+          "key": "ex:node-cogniflow-domain-root",
+          "rect": {
+            "x": 604.7999877929688,
+            "y": 742.7575073242188,
+            "width": 230.39996337890625,
+            "height": 107.51995849609375
+          },
+          "svgBox": {
+            "x": -120,
+            "y": -56,
+            "width": 240,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-concept",
+          "rect": {
+            "x": 1060.6650390625,
+            "y": 997.637451171875,
+            "width": 201.60009765625,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-definition",
+          "rect": {
+            "x": 816.2380981445312,
+            "y": 997.637451171875,
+            "width": 201.5999755859375,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 210,
+            "height": 112
+          }
+        },
+        {
+          "key": "ex:node-cogniflow-learning-resource",
+          "rect": {
+            "x": 938.4515991210938,
+            "y": 785.9574584960938,
+            "width": 204.19268798828125,
+            "height": 107.52001953125
+          },
+          "svgBox": {
+            "x": -105,
+            "y": -56,
+            "width": 212.7005615234375,
+            "height": 112
+          }
+        }
+      ]
+    }
+  ]
+}

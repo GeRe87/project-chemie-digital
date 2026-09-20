@@ -1,0 +1,357 @@
+{
+  "scene_id": "ex:scene-cogniflow-service-process--scene",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "requested_presentation_step": 2,
+  "requested_theme": "dark",
+  "elements": [
+    {
+      "index": 0,
+      "tag": "section",
+      "id": "ex:scene-cogniflow-service-process--scene",
+      "className": "present",
+      "text": "A stable interface coordinates specialized providers MCP Server CogniFlow Orchestrator Semantic Provider User / AI Agent request dispatch resolve capability Stable interface service process: Specialized capability",
+      "rect": {
+        "x": 28.8,
+        "y": 82.19,
+        "width": 1382.4,
+        "height": 470.49
+      },
+      "style": {
+        "display": "grid",
+        "position": "absolute",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(5, 8, 16, 0.76)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 1,
+      "tag": "h2",
+      "id": "ex:scene-cogniflow-service-process--scene-title",
+      "className": "",
+      "text": "A stable interface coordinates specialized providers",
+      "rect": {
+        "x": 68.16,
+        "y": 113.87,
+        "width": 1303.68,
+        "height": 34.68
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "34.4px",
+        "fontWeight": "700",
+        "lineHeight": "36.12px",
+        "color": "rgb(98, 239, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": null,
+      "className": "d3-diagram-host d3-flow-host d3-sequence-host",
+      "text": "MCP Server CogniFlow Orchestrator Semantic Provider User / AI Agent request dispatch resolve capability Stable interface service process: Specialized capability",
+      "rect": {
+        "x": 153.6,
+        "y": 162.35,
+        "width": 1132.8,
+        "height": 358.65
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    },
+    {
+      "index": 3,
+      "tag": "svg",
+      "id": null,
+      "className": null,
+      "text": "Stable interface service process Roles describe the interaction. States bind those roles to the current MCP-facing interface, orchestration, specialized provider and consumer terms. Participants: - Interface - Orchestration - Specialized pr",
+      "rect": {
+        "x": 153.6,
+        "y": 167.72,
+        "width": 1132.8,
+        "height": 353.28
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontFamily": "Arial, Helvetica, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "16px",
+        "color": "rgb(246, 251, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "opacity": "1",
+        "overflow": "visible",
+        "transform": "none"
+      }
+    }
+  ],
+  "presentationSteps": [
+    {
+      "id": "ex:scene-item-cogniflow-service-process-diagram--block",
+      "count": 3,
+      "activeStep": 2
+    }
+  ],
+  "diagrams": [
+    {
+      "type": "sequence",
+      "activeStateId": "2",
+      "focusBounds": null,
+      "layoutMode": "lanes",
+      "elements": [
+        {
+          "key": "ex:role-interface",
+          "rect": {
+            "x": 124.79998779296875,
+            "y": 201.3175048828125,
+            "width": 138.239990234375,
+            "height": 30.719985961914062
+          },
+          "svgBox": {
+            "x": -30,
+            "y": 8,
+            "width": 144,
+            "height": 32
+          }
+        },
+        {
+          "key": "ex:role-interface",
+          "rect": {
+            "x": 146.10748291015625,
+            "y": 207.4375,
+            "width": 96.06248474121094,
+            "height": 19
+          },
+          "svgBox": {
+            "x": -7.804696559906006,
+            "y": 14.375,
+            "width": 100.06510925292969,
+            "height": 19.791667938232422
+          }
+        },
+        {
+          "key": "ex:role-interface",
+          "rect": {
+            "x": 193.91998291015625,
+            "y": 233.95748901367188,
+            "width": 0,
+            "height": 249.60000610351562
+          },
+          "svgBox": {
+            "x": 42,
+            "y": 42,
+            "width": 0,
+            "height": 260
+          }
+        },
+        {
+          "key": "ex:role-orchestrator",
+          "rect": {
+            "x": 475.5199890136719,
+            "y": 201.3175048828125,
+            "width": 138.24002075195312,
+            "height": 30.719985961914062
+          },
+          "svgBox": {
+            "x": 335.3333435058594,
+            "y": 8,
+            "width": 144,
+            "height": 32
+          }
+        },
+        {
+          "key": "ex:role-orchestrator",
+          "rect": {
+            "x": 439.4524841308594,
+            "y": 207.4375,
+            "width": 210.81246948242188,
+            "height": 19
+          },
+          "svgBox": {
+            "x": 297.7630310058594,
+            "y": 14.375,
+            "width": 219.59637451171875,
+            "height": 19.791667938232422
+          }
+        },
+        {
+          "key": "ex:role-orchestrator",
+          "rect": {
+            "x": 544.6400146484375,
+            "y": 233.95748901367188,
+            "width": 0,
+            "height": 249.60000610351562
+          },
+          "svgBox": {
+            "x": 407.3333435058594,
+            "y": 42,
+            "width": 0,
+            "height": 260
+          }
+        },
+        {
+          "key": "ex:role-provider",
+          "rect": {
+            "x": 826.239990234375,
+            "y": 201.3175048828125,
+            "width": 138.239990234375,
+            "height": 30.719985961914062
+          },
+          "svgBox": {
+            "x": 700.6666870117188,
+            "y": 8,
+            "width": 144,
+            "height": 32
+          }
+        },
+        {
+          "key": "ex:role-provider",
+          "rect": {
+            "x": 814.0787963867188,
+            "y": 207.4375,
+            "width": 163,
+            "height": 19
+          },
+          "svgBox": {
+            "x": 687.998779296875,
+            "y": 14.375,
+            "width": 169.79168701171875,
+            "height": 19.791667938232422
+          }
+        },
+        {
+          "key": "ex:role-provider",
+          "rect": {
+            "x": 895.3599853515625,
+            "y": 233.95748901367188,
+            "width": 0,
+            "height": 249.60000610351562
+          },
+          "svgBox": {
+            "x": 772.6666870117188,
+            "y": 42,
+            "width": 0,
+            "height": 260
+          }
+        },
+        {
+          "key": "ex:role-consumer",
+          "rect": {
+            "x": 1176.9599609375,
+            "y": 201.3175048828125,
+            "width": 138.239990234375,
+            "height": 30.719985961914062
+          },
+          "svgBox": {
+            "x": 1066,
+            "y": 8,
+            "width": 144,
+            "height": 32
+          }
+        },
+        {
+          "key": "ex:role-consumer",
+          "rect": {
+            "x": 1174.361328125,
+            "y": 207.4375,
+            "width": 143.4375,
+            "height": 19
+          },
+          "svgBox": {
+            "x": 1063.29296875,
+            "y": 14.375,
+            "width": 149.41407775878906,
+            "height": 19.791667938232422
+          }
+        },
+        {
+          "key": "ex:role-consumer",
+          "rect": {
+            "x": 1246.080078125,
+            "y": 233.95748901367188,
+            "width": 0,
+            "height": 249.60000610351562
+          },
+          "svgBox": {
+            "x": 1138,
+            "y": 42,
+            "width": 0,
+            "height": 260
+          }
+        },
+        {
+          "key": "ex:message-request",
+          "rect": {
+            "x": 193.91998291015625,
+            "y": 251.71749877929688,
+            "width": 1052.16015625,
+            "height": 20.639984130859375
+          },
+          "svgBox": {
+            "x": 42,
+            "y": 60.50000762939453,
+            "width": 1096,
+            "height": 21.49999237060547
+          }
+        },
+        {
+          "key": "ex:message-dispatch",
+          "rect": {
+            "x": 193.91998291015625,
+            "y": 307.3974914550781,
+            "width": 350.72003173828125,
+            "height": 20.639984130859375
+          },
+          "svgBox": {
+            "x": 42,
+            "y": 118.5,
+            "width": 365.3333435058594,
+            "height": 21.5
+          }
+        },
+        {
+          "key": "ex:message-resolve",
+          "rect": {
+            "x": 544.6400146484375,
+            "y": 363.0774841308594,
+            "width": 350.719970703125,
+            "height": 20.6400146484375
+          },
+          "svgBox": {
+            "x": 407.3333435058594,
+            "y": 176.50001525878906,
+            "width": 365.3333435058594,
+            "height": 21.499984741210938
+          }
+        }
+      ]
+    }
+  ]
+}
