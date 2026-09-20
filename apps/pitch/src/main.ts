@@ -197,6 +197,20 @@ const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
 const showcaseVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
 );
+const showcaseSceneIds = new Set([
+  "ex:scene-cogniflow-showcase-still--scene",
+  "ex:scene-cogniflow-showcase-video-one--scene",
+  "ex:scene-cogniflow-showcase-video-two--scene",
+]);
+
+function syncShowcaseNavigationMode(): void {
+  const sceneId = deck.getCurrentSlide()?.id ?? "";
+  document.body.classList.toggle(
+    "pcd-showcase-no-scroll-transition",
+    appearance.view === "scroll" && showcaseSceneIds.has(sceneId),
+  );
+}
+
 function syncShowcaseVideos(): void {
   const currentSlide = deck.getCurrentSlide();
   for (const video of showcaseVideos) {
@@ -216,6 +230,8 @@ function syncShowcaseVideos(): void {
   }
 }
 deck.on("slidechanged", syncShowcaseVideos);
+deck.on("slidechanged", syncShowcaseNavigationMode);
+syncShowcaseNavigationMode();
 syncShowcaseVideos();
 
 function revealScrollOffset(): number {
@@ -285,6 +301,8 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
   deck.off("slidechanged", syncShowcaseVideos);
+  deck.off("slidechanged", syncShowcaseNavigationMode);
+  document.body.classList.remove("pcd-showcase-no-scroll-transition");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountSemanticSourceSteps();
