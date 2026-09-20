@@ -190,8 +190,17 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         fair_intro_caption = next(block for block in fair_intro["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "explain")
         fair_intro_list = next(block for block in fair_intro["blocks"] if block["kind"] == "list")
         fair_intro_table = next(block for block in fair_intro["blocks"] if block["kind"] == "code")
-        fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
+        fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose" and block["intent"]["kind"] == "introduce")
         fair_diagram = next(block for block in fair_gap["blocks"] if block["kind"] == "diagram")
+        fair_missing_heading = next(
+            block for block in fair_gap["blocks"]
+            if block["kind"] == "prose" and block["text"] == "MISSING CONTEXT"
+        )
+        fair_missing_list = next(block for block in fair_gap["blocks"] if block["kind"] == "list")
+        fair_statement = next(
+            block for block in fair_gap["blocks"]
+            if block["kind"] == "prose" and block["text"] == "FAIR data ≠ FAIR processing"
+        )
         explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
 
@@ -232,27 +241,32 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn("Reuse\tlicense + provenance", fair_intro_table["code"])
 
         self.assertEqual("FAIR Data Are Not FAIR Processing", fair_heading["text"])
+        self.assertEqual(
+            ["prose", "diagram", "prose", "list", "prose"],
+            [block["kind"] for block in fair_gap["blocks"]],
+        )
         self.assertEqual("flow", fair_diagram["diagramType"])
         self.assertEqual(
-            [
-                "INSTRUMENT",
-                "FAIR / OPEN DATA",
-                "CUSTOM PROCESSING",
-                "RESULT",
-                "MISSING CONTEXT · algorithm · version · parameters · environment · dependencies",
-            ],
+            ["INSTRUMENT", "FAIR / OPEN DATA", "CUSTOM PROCESSING", "RESULT"],
             [node["label"] for node in fair_diagram["nodes"]],
         )
         self.assertEqual(
-            ["Measurement", "FAIR / open data", "Custom processing", "Scientific result", "Missing processing context"],
+            ["measurement", "processed by", "produces"],
+            [edge["label"] for edge in fair_diagram["edges"]],
+        )
+        self.assertEqual(
+            ["Measurement", "FAIR / open data", "Custom processing", "Scientific result"],
             [state["label"] for state in fair_diagram["states"]],
         )
-        self.assertEqual("ex:node-cogniflow-fair-context", fair_diagram["states"][4]["focusNodeId"])
         self.assertEqual("ex:node-cogniflow-fair-processing", fair_diagram["focusNodeId"])
         fair_processing = next(node for node in fair_diagram["nodes"] if node["label"] == "CUSTOM PROCESSING")
-        fair_context = next(node for node in fair_diagram["nodes"] if node["id"] == "ex:node-cogniflow-fair-context")
         self.assertEqual("highlight", fair_processing["visualRole"])
-        self.assertEqual("comparison", fair_context["visualRole"])
+        self.assertEqual("MISSING CONTEXT", fair_missing_heading["text"])
+        self.assertEqual(
+            ["algorithm", "implementation", "version", "parameters", "environment", "dependencies"],
+            [item["text"] for item in fair_missing_list["items"]],
+        )
+        self.assertEqual("FAIR data ≠ FAIR processing", fair_statement["text"])
 
         self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
         self.assertEqual("flow", explicit_diagram["diagramType"])
