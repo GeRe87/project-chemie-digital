@@ -9,6 +9,7 @@ import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
+import "./cogniflow-fair-intro.css";
 import "./cogniflow-title-media.css";
 import "./cogniflow-core-sequence.css";
 import "./knowledge-network-runtime.css";
