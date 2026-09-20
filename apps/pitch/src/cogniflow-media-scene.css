@@ -1,8 +1,9 @@
 /* Full-composition semantic media scenes.
-   The RDF heading remains in the document for navigation and accessibility while
-   a deliberately composed presentation asset can carry its own visible title. */
+   A direct top-level MediaReference owns the visual composition. If a semantic
+   heading is also present, it remains in the document but is visually hidden
+   because the authored illustration carries the presentation composition. */
 
-.reveal .slides section:has(> .media-reference[data-resource-id~="ex:media-cogniflow-processing-black-box"]) {
+.reveal .slides section:has(> .media-reference) {
   display: grid !important;
   place-items: center;
   min-height: 100%;
@@ -10,7 +11,7 @@
   overflow: hidden;
 }
 
-.reveal .slides section:has(> .media-reference[data-resource-id~="ex:media-cogniflow-processing-black-box"]) > h2 {
+.reveal .slides section:has(> .media-reference) > h2 {
   position: absolute !important;
   width: 1px !important;
   height: 1px !important;
@@ -22,7 +23,7 @@
   border: 0 !important;
 }
 
-.reveal .slides section:has(> .media-reference[data-resource-id~="ex:media-cogniflow-processing-black-box"]) > .media-reference {
+.reveal .slides section:has(> .media-reference) > .media-reference {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +35,7 @@
   background: transparent;
 }
 
-.reveal .slides section:has(> .media-reference[data-resource-id~="ex:media-cogniflow-processing-black-box"]) > .media-reference img {
+.reveal .slides section:has(> .media-reference) > .media-reference img {
   display: block;
   width: 100%;
   height: auto;
@@ -45,7 +46,7 @@
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section:has(> .media-reference[data-resource-id~="ex:media-cogniflow-processing-black-box"]) {
+  .reveal .slides section:has(> .media-reference) {
     padding: .65rem !important;
   }
 }
