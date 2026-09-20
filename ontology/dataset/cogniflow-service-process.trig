@@ -3,40 +3,151 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-service-process> {
-  ex:cogniflow-service-process a cd:Concept ; skos:prefLabel "A stable interface coordinates specialized providers"@en ; cd:hasDefinition ex:def-cogniflow-service-process ; cd:authoredResource true .
-  ex:def-cogniflow-service-process a cd:Definition ; cd:body "A user or AI agent sends a request through the MCP server. The CogniFlow Orchestrator resolves the required semantic, data, or artifact and provenance capability without changing the interface contract."@en ; cd:authoredResource true .
-  ex:diagram-cogniflow-service-process a cd:SequenceDiagram ; skos:prefLabel "Stable interface service process"@en ; cd:body "Roles describe the interaction. States bind those roles to the current MCP-facing interface, orchestration, specialized provider and consumer terms."@en ; cd:hasParticipantRole ex:role-interface, ex:role-orchestrator, ex:role-provider, ex:role-consumer ; cd:hasInteractionMessage ex:message-request, ex:message-dispatch, ex:message-resolve, ex:message-result ; cd:hasSequenceState ex:state-service-process-request, ex:state-service-process-provider, ex:state-service-process-result ; cd:authoredResource true .
-  ex:role-interface a cd:ParticipantRole ; skos:prefLabel "Interface"@en ; cd:position 1 ; cd:authoredResource true .
-  ex:role-orchestrator a cd:ParticipantRole ; skos:prefLabel "Orchestration"@en ; cd:position 2 ; cd:authoredResource true .
-  ex:role-provider a cd:ParticipantRole ; skos:prefLabel "Specialized provider"@en ; cd:position 3 ; cd:authoredResource true .
-  ex:role-consumer a cd:ParticipantRole ; skos:prefLabel "Consumer"@en ; cd:position 4 ; cd:authoredResource true .
-  ex:message-request a cd:InteractionMessage ; skos:prefLabel "request"@en ; cd:position 1 ; cd:sourceParticipantRole ex:role-consumer ; cd:targetParticipantRole ex:role-interface ; cd:authoredResource true .
-  ex:message-dispatch a cd:InteractionMessage ; skos:prefLabel "dispatch"@en ; cd:position 2 ; cd:sourceParticipantRole ex:role-interface ; cd:targetParticipantRole ex:role-orchestrator ; cd:authoredResource true .
-  ex:message-resolve a cd:InteractionMessage ; skos:prefLabel "resolve capability"@en ; cd:position 3 ; cd:sourceParticipantRole ex:role-orchestrator ; cd:targetParticipantRole ex:role-provider ; cd:authoredResource true .
-  ex:message-result a cd:InteractionMessage ; skos:prefLabel "return result"@en ; cd:position 4 ; cd:sourceParticipantRole ex:role-provider ; cd:targetParticipantRole ex:role-consumer ; cd:authoredResource true .
-  ex:state-service-process-request a cd:DiagramState ; skos:prefLabel "Stable request interface"@en ; cd:position 1 ; cd:activeInteractionMessage ex:message-request, ex:message-dispatch ; cd:hasParticipantBinding ex:binding-request-interface, ex:binding-request-orchestrator, ex:binding-request-consumer ; cd:authoredResource true .
-  ex:state-service-process-provider a cd:DiagramState ; skos:prefLabel "Specialized capability"@en ; cd:position 2 ; cd:activeInteractionMessage ex:message-request, ex:message-dispatch, ex:message-resolve ; cd:hasParticipantBinding ex:binding-provider-interface, ex:binding-provider-orchestrator, ex:binding-provider-provider, ex:binding-provider-consumer ; cd:authoredResource true .
-  ex:state-service-process-result a cd:DiagramState ; skos:prefLabel "Reusable result"@en ; cd:position 3 ; cd:activeInteractionMessage ex:message-request, ex:message-dispatch, ex:message-resolve, ex:message-result ; cd:hasParticipantBinding ex:binding-result-interface, ex:binding-result-orchestrator, ex:binding-result-provider, ex:binding-result-consumer ; cd:authoredResource true .
-  ex:binding-request-interface a cd:ParticipantBinding ; skos:prefLabel "MCP Server"@en ; cd:bindsParticipantRole ex:role-interface ; cd:bindsParticipant ex:node-cogniflow-mcp ; cd:authoredResource true .
-  ex:binding-request-orchestrator a cd:ParticipantBinding ; skos:prefLabel "CogniFlow Orchestrator"@en ; cd:bindsParticipantRole ex:role-orchestrator ; cd:bindsParticipant ex:node-cogniflow-orchestrator ; cd:authoredResource true .
-  ex:binding-request-consumer a cd:ParticipantBinding ; skos:prefLabel "User / AI Agent"@en ; cd:bindsParticipantRole ex:role-consumer ; cd:bindsParticipant ex:node-cogniflow-actors ; cd:authoredResource true .
-  ex:binding-provider-interface a cd:ParticipantBinding ; skos:prefLabel "MCP Server"@en ; cd:bindsParticipantRole ex:role-interface ; cd:bindsParticipant ex:node-cogniflow-mcp ; cd:authoredResource true .
-  ex:binding-provider-orchestrator a cd:ParticipantBinding ; skos:prefLabel "CogniFlow Orchestrator"@en ; cd:bindsParticipantRole ex:role-orchestrator ; cd:bindsParticipant ex:node-cogniflow-orchestrator ; cd:authoredResource true .
-  ex:binding-provider-provider a cd:ParticipantBinding ; skos:prefLabel "Semantic Provider"@en ; cd:bindsParticipantRole ex:role-provider ; cd:bindsParticipant ex:node-cogniflow-semantic-store ; cd:authoredResource true .
-  ex:binding-provider-consumer a cd:ParticipantBinding ; skos:prefLabel "User / AI Agent"@en ; cd:bindsParticipantRole ex:role-consumer ; cd:bindsParticipant ex:node-cogniflow-actors ; cd:authoredResource true .
-  ex:binding-result-interface a cd:ParticipantBinding ; skos:prefLabel "MCP Server"@en ; cd:bindsParticipantRole ex:role-interface ; cd:bindsParticipant ex:node-cogniflow-mcp ; cd:authoredResource true .
-  ex:binding-result-orchestrator a cd:ParticipantBinding ; skos:prefLabel "CogniFlow Orchestrator"@en ; cd:bindsParticipantRole ex:role-orchestrator ; cd:bindsParticipant ex:node-cogniflow-orchestrator ; cd:authoredResource true .
-  ex:binding-result-provider a cd:ParticipantBinding ; skos:prefLabel "Artifact + Provenance Provider"@en ; cd:bindsParticipantRole ex:role-provider ; cd:bindsParticipant ex:node-cogniflow-artifact-store ; cd:authoredResource true .
-  ex:binding-result-consumer a cd:ParticipantBinding ; skos:prefLabel "User / AI Agent"@en ; cd:bindsParticipantRole ex:role-consumer ; cd:bindsParticipant ex:node-cogniflow-actors ; cd:authoredResource true .
+  ex:cogniflow-service-process a cd:Concept ;
+    skos:prefLabel "Services Replace Direct Dependencies"@en ;
+    cd:hasDefinition ex:def-cogniflow-service-process ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-service-process a cd:Definition ;
+    cd:body "Consumers call Cogniflow services by capability and semantic constraints through the MCP gateway. The Semantic Authority resolves a matching ServiceOperation through Fuseki, validates the declared interface, invokes the matched executor, and returns a standardized service result. Consumer code does not import the concrete provider implementation."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-service-marketplace-banner a cd:Interpretation ;
+    cd:body """ONLINE MARKETPLACE LOGIC
+search by need → match provider → standardized order → standardized delivery"""@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-service-process a cd:SequenceDiagram ;
+    skos:prefLabel "Capability-driven Cogniflow service marketplace"@en ;
+    cd:body "The MCP gateway exposes cf_call_service. Semantic Authority owns semantic resolution and Fuseki access, resolves a matching ServiceOperation, validates its interface, invokes the matched executor, and returns cf.service.result.v1 through the same boundary."@en ;
+    cd:hasParticipantRole ex:role-service-consumer,
+      ex:role-service-gateway,
+      ex:role-service-authority,
+      ex:role-service-executor ;
+    cd:hasInteractionMessage ex:message-service-search,
+      ex:message-service-match,
+      ex:message-service-order,
+      ex:message-service-return,
+      ex:message-service-result,
+      ex:message-service-deliver ;
+    cd:authoredResource true .
+
+  ex:role-service-consumer a cd:ParticipantRole ;
+    skos:prefLabel "Consumer"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:role-service-gateway a cd:ParticipantRole ;
+    skos:prefLabel "MCP Gateway"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:role-service-authority a cd:ParticipantRole ;
+    skos:prefLabel "Authority + Fuseki"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:role-service-executor a cd:ParticipantRole ;
+    skos:prefLabel "Provider / Executor"@en ;
+    cd:position 4 ;
+    cd:authoredResource true .
+
+  ex:message-service-search a cd:InteractionMessage ;
+    skos:prefLabel "SEARCH · capability + constraints"@en ;
+    cd:position 1 ;
+    cd:sourceParticipantRole ex:role-service-consumer ;
+    cd:targetParticipantRole ex:role-service-gateway ;
+    cd:authoredResource true .
+
+  ex:message-service-match a cd:InteractionMessage ;
+    skos:prefLabel "MATCH · resolve via Fuseki"@en ;
+    cd:position 2 ;
+    cd:sourceParticipantRole ex:role-service-gateway ;
+    cd:targetParticipantRole ex:role-service-authority ;
+    cd:authoredResource true .
+
+  ex:message-service-order a cd:InteractionMessage ;
+    skos:prefLabel "ORDER · invoke matched operation"@en ;
+    cd:position 3 ;
+    cd:sourceParticipantRole ex:role-service-authority ;
+    cd:targetParticipantRole ex:role-service-executor ;
+    cd:authoredResource true .
+
+  ex:message-service-return a cd:InteractionMessage ;
+    skos:prefLabel "RETURN · cf.service.result.v1"@en ;
+    cd:position 4 ;
+    cd:sourceParticipantRole ex:role-service-executor ;
+    cd:targetParticipantRole ex:role-service-authority ;
+    cd:authoredResource true .
+
+  ex:message-service-result a cd:InteractionMessage ;
+    skos:prefLabel "RESULT · standardized envelope"@en ;
+    cd:position 5 ;
+    cd:sourceParticipantRole ex:role-service-authority ;
+    cd:targetParticipantRole ex:role-service-gateway ;
+    cd:authoredResource true .
+
+  ex:message-service-deliver a cd:InteractionMessage ;
+    skos:prefLabel "DELIVER · result"@en ;
+    cd:position 6 ;
+    cd:sourceParticipantRole ex:role-service-gateway ;
+    cd:targetParticipantRole ex:role-service-consumer ;
+    cd:authoredResource true .
+
+  ex:cogniflow-service-marketplace-note a cd:Interpretation ;
+    cd:body "CONSUMERS DEPEND ON THE SERVICE CONTRACT — NOT ON CONCRETE PROVIDER IMPLEMENTATIONS"@en ;
+    cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
   ex:path-cogniflow-standardized-data-processing cd:hasStep ex:path-step-cogniflow-service-process .
-  ex:path-step-cogniflow-service-process a cd:PathStep ; cd:position 11 ; cd:usesResource ex:diagram-cogniflow-service-process ; cd:usesScene ex:scene-cogniflow-service-process ; cd:authoredResource true .
+  ex:path-step-cogniflow-service-process a cd:PathStep ;
+    cd:position 11 ;
+    cd:usesResource ex:cogniflow-service-marketplace-banner,
+      ex:diagram-cogniflow-service-process,
+      ex:cogniflow-service-marketplace-note ;
+    cd:usesScene ex:scene-cogniflow-service-process ;
+    cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-service-process> {
-  ex:scene-cogniflow-service-process a cd:SceneDefinition ; cd:focusConcept ex:cogniflow-service-process ; cd:hasSceneItem ex:scene-item-cogniflow-service-process-heading, ex:scene-item-cogniflow-service-process-diagram ; cd:authoredResource true .
-  ex:scene-item-cogniflow-service-process-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cogniflow-service-process ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
-  ex:scene-item-cogniflow-service-process-diagram a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:diagram-cogniflow-service-process ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cogniflow-service-process a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-service-process ;
+    cd:hasSceneItem ex:scene-item-cogniflow-service-process-heading,
+      ex:scene-item-cogniflow-service-process-marketplace,
+      ex:scene-item-cogniflow-service-process-diagram,
+      ex:scene-item-cogniflow-service-process-note ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-process-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-service-process ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-process-marketplace a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-service-marketplace-banner ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-process-diagram a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:diagram-cogniflow-service-process ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-service-process-note a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-service-marketplace-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
 }
