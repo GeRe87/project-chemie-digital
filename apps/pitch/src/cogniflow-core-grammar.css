@@ -1,0 +1,227 @@
+/* A Small Grammar for Meaning
+   Compact 16-bit Meta-TBox cards plus the first explicit TriG reading box. */
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.55fr) minmax(22rem, .85fr);
+  grid-template-rows: auto 3.2rem minmax(0, 1fr) auto;
+  column-gap: 1.45rem;
+  row-gap: .72rem;
+  align-content: stretch;
+  padding: 1.45rem 2.05rem 1.45rem !important;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0 0 .08rem;
+  max-width: none;
+  font-size: 2.48em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(980px, 92%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .56rem 1rem .5rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 21%, transparent);
+  color: var(--pcd-accent);
+  font: 950 1.04em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .065em;
+  text-align: center;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list {
+  grid-column: 1;
+  grid-row: 3 / 5;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto repeat(2, minmax(0, 1fr)) auto;
+  gap: .75rem;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li {
+  --core-fill: #d7f1ef;
+  --core-stroke: #168e9c;
+  --core-text: #073f49;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: .85rem 1rem .78rem;
+  border: 4px solid var(--core-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--core-fill) 96%, var(--pcd-surface-strong)) 0 35%,
+      color-mix(in srgb, var(--core-fill) 74%, var(--pcd-surface-strong)) 35% 100%
+    );
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--core-stroke) 24%, transparent);
+  color: var(--core-text);
+  font: 850 .94em/1.25 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li::before {
+  content: "";
+  position: absolute;
+  top: .38rem;
+  right: .4rem;
+  width: .45rem;
+  height: .45rem;
+  background: var(--core-stroke);
+  box-shadow: -.72rem 0 0 color-mix(in srgb, var(--core-stroke) 58%, transparent);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li::first-line {
+  font-size: 1.19em;
+  font-weight: 950;
+  letter-spacing: .025em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  grid-column: 1 / -1;
+  --core-fill: #b9e4ff;
+  --core-stroke: #176da0;
+  --core-text: #07364e;
+  text-align: center;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+  --core-fill: #d5c5f4;
+  --core-stroke: #7046ad;
+  --core-text: #3b2164;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
+  --core-fill: #cbeab7;
+  --core-stroke: #4f8a45;
+  --core-text: #244c26;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+  --core-fill: #ffd28f;
+  --core-stroke: #c96a12;
+  --core-text: #522800;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
+  --core-fill: #f4c3df;
+  --core-stroke: #a33d72;
+  --core-text: #5d2041;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
+  grid-column: 1 / -1;
+  --core-fill: #f7e7a8;
+  --core-stroke: #a57813;
+  --core-text: #513d06;
+  text-align: center;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: start;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  font-size: .88em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+  > h2 + .lead + .keypoint-list + .code-block[data-language="trig"] {
+  padding-top: 2.55rem;
+  border-width: 4px;
+  border-radius: 0;
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+  > h2 + .lead + .keypoint-list + .code-block[data-language="trig"]::before {
+  content: "READING TRIG  ·  CORE SEMANTICS";
+  min-height: 2.25rem;
+  padding: .53rem .85rem;
+  border-bottom-width: 4px;
+  font-size: .72em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+  > h2 + .lead + .keypoint-list + .code-block .code-static-fallback {
+  max-height: none;
+  padding: 1.12rem 1rem 1.18rem;
+  overflow: hidden;
+  font-size: .9em;
+  line-height: 1.55;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+  > h2 + .lead + .keypoint-list + .code-block + .lead {
+  grid-column: 2;
+  grid-row: 4;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .85rem 1rem .8rem;
+  border: 4px solid #c96a12;
+  background: color-mix(in srgb, #ffd28f 76%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, #c96a12 22%, transparent);
+  color: #522800;
+  font: 900 .92em/1.3 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+  > h2 + .lead + .keypoint-list + .code-block + .lead::first-line {
+  font-size: 1.15em;
+  font-weight: 950;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2,
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead,
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list,
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block,
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block + .lead {
+    grid-column: 1;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 { grid-row: 1; }
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead { grid-row: 2; }
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list { grid-row: 3; }
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block { grid-row: 4; }
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block + .lead { grid-row: 5; }
+
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list {
+    grid-template-columns: 1fr;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1),
+  .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
+    grid-column: 1;
+  }
+}
