@@ -169,6 +169,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn(TITLE, fallback)
         self.assertIn('/media/cogniflow/cogniflow-processing-black-box.webp', fallback)
+        self.assertIn('/media/cogniflow/cogniflow-shared-fair-platform.webp', fallback)
         self.assertIn('image/webp', fallback)
         self.assertIn(GERRIT, fallback)
         # The static fallback escapes HTML entities, so the IUTA ampersands become &amp;.
@@ -186,8 +187,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         black_media = next(block for block in black_box["blocks"] if block["kind"] == "media-reference")
         fair_heading = next(block for block in fair_gap["blocks"] if block["kind"] == "prose")
         fair_media = next(block for block in fair_gap["blocks"] if block["kind"] == "media-reference")
-        explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
-        explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
+        explicit_media = next(block for block in explicit["blocks"] if block["kind"] == "media-reference")
 
         self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
         self.assertEqual(["prose", "media-reference"], [block["kind"] for block in black_box["blocks"]])
@@ -204,31 +204,13 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn("laboratory", fair_media["alternativeText"].lower())
         self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in fair_gap["blocks"]))
 
-        self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
-        self.assertEqual("flow", explicit_diagram["diagramType"])
-        self.assertEqual(
-            [
-                "INPUT",
-                "PROCESSING",
-                "OUTPUT",
-                "EXPLICIT CONTEXT · purpose · interface · parameters · implementation · version · execution + provenance",
-            ],
-            [node["label"] for node in explicit_diagram["nodes"]],
-        )
-        self.assertEqual(
-            ["Explicit processing context", "Scientific flow"],
-            [group["label"] for group in explicit_diagram["groups"]],
-        )
-        self.assertEqual(
-            ["Scientific flow", "Explicit processing context"],
-            [state["label"] for state in explicit_diagram["states"]],
-        )
-        self.assertEqual("ex:node-cogniflow-explicit-processing", explicit_diagram["states"][0]["focusNodeId"])
-        self.assertEqual("ex:diagram-group-cogniflow-explicit-context", explicit_diagram["states"][1]["focusGroupId"])
-        self.assertEqual(
-            ["ex:diagram-group-cogniflow-explicit-flow"],
-            explicit_diagram["states"][1]["contextGroupIds"],
-        )
+        self.assertEqual(["media-reference"], [block["kind"] for block in explicit["blocks"]])
+        self.assertEqual("/media/cogniflow/cogniflow-shared-fair-platform.webp", explicit_media["uri"])
+        self.assertEqual("image/webp", explicit_media["mediaType"])
+        self.assertIn("CogniFlow", explicit_media["alternativeText"])
+        self.assertIn("shared", explicit_media["alternativeText"].lower())
+        self.assertIn("FAIR", explicit_media["alternativeText"])
+        self.assertFalse(any(block["kind"] in {"chart", "code", "diagram"} for block in explicit["blocks"]))
 
         self.assertEqual(
             "A stable interface coordinates specialized providers",
