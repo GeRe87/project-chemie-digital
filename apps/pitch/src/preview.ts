@@ -246,6 +246,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
     const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
     const semanticMultiView = semanticCode && scene.blocks.some((block) => block.kind === "chart");
+    const semanticGraphCompanion = semanticCode && !semanticMultiView && scene.blocks.length === 2;
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
@@ -262,7 +263,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       appendBlock(section, dom, block, headingId);
     }
-    if (semanticCode && !semanticMultiView) {
+    if (semanticGraphCompanion) {
       const graphHost = dom.createElement("div");
       graphHost.className = "d3-scene-knowledge-host";
       graphHost.setAttribute("data-knowledge-scene-id", scene.id);
