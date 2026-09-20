@@ -35,8 +35,8 @@
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li {
   box-sizing: border-box;
   position: relative;
-  display: flex;
-  align-items: center;
+  display: block;
+  align-content: center;
   min-width: 0;
   padding: .72rem .9rem .72rem 1.05rem;
   border: 3px solid var(--pcd-accent);
@@ -49,8 +49,9 @@
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li::first-letter {
-  font-size: 2.35em;
+  font-size: 2.55em;
   font-weight: 900;
+  line-height: .7;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li:nth-child(1)::first-letter {
