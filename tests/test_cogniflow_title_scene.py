@@ -207,8 +207,26 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             block for block in fair_gap["blocks"]
             if block["kind"] == "prose" and block["text"] == "MISSING CONTEXT"
         )
-        explicit_heading = next(block for block in explicit["blocks"] if block["kind"] == "prose")
+        explicit_heading = next(
+            block for block in explicit["blocks"]
+            if block["kind"] == "prose" and block["intent"]["kind"] == "introduce"
+        )
         explicit_diagram = next(block for block in explicit["blocks"] if block["kind"] == "diagram")
+        explicit_example_heading = next(
+            block for block in explicit["blocks"]
+            if block["kind"] == "prose" and block["text"] == "EXAMPLE: S/N CALCULATION"
+        )
+        explicit_lists = [block for block in explicit["blocks"] if block["kind"] == "list"]
+        explicit_example_list = explicit_lists[0]
+        explicit_context_list = explicit_lists[1]
+        explicit_example_note = next(
+            block for block in explicit["blocks"]
+            if block["kind"] == "prose" and block["text"] == "Now the processing step is no longer a black box."
+        )
+        explicit_context_heading = next(
+            block for block in explicit["blocks"]
+            if block["kind"] == "prose" and block["text"] == "EXPLICIT CONTEXT"
+        )
 
         self.assertEqual("What Happened Between the Raw Data and This Result?", black_heading["text"])
         self.assertEqual(["prose", "chart", "code", "diagram"], [block["kind"] for block in black_box["blocks"]])
@@ -282,29 +300,48 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
 
         self.assertEqual("Make Nothing Important Implicit", explicit_heading["text"])
+        self.assertEqual(
+            ["prose", "diagram", "prose", "list", "prose", "prose", "list"],
+            [block["kind"] for block in explicit["blocks"]],
+        )
         self.assertEqual("flow", explicit_diagram["diagramType"])
         self.assertEqual(
-            [
-                "INPUT",
-                "PROCESSING",
-                "OUTPUT",
-                "EXPLICIT CONTEXT · purpose · interface · parameters · implementation · version · execution + provenance",
-            ],
+            ["INPUT", "PROCESSING", "OUTPUT"],
             [node["label"] for node in explicit_diagram["nodes"]],
         )
         self.assertEqual(
-            ["Explicit processing context", "Scientific flow"],
-            [group["label"] for group in explicit_diagram["groups"]],
+            ["consumed by", "produces"],
+            [edge["label"] for edge in explicit_diagram["edges"]],
         )
+        self.assertEqual([], explicit_diagram["groups"])
+        self.assertEqual([], explicit_diagram["states"])
+        self.assertEqual("ex:node-cogniflow-explicit-processing", explicit_diagram["focusNodeId"])
+        explicit_processing = next(node for node in explicit_diagram["nodes"] if node["label"] == "PROCESSING")
+        self.assertEqual("highlight", explicit_processing["visualRole"])
+        self.assertEqual("EXAMPLE: S/N CALCULATION", explicit_example_heading["text"])
         self.assertEqual(
-            ["Scientific flow", "Explicit processing context"],
-            [state["label"] for state in explicit_diagram["states"]],
+            [
+                "purpose: quantify signal relative to background",
+                "input: peak height + defined noise window",
+                "output: S/N value",
+                "parameters: noise window + RMS estimator",
+                "implementation: calculate_snr() in a named package",
+                "version: exact package release or commit",
+            ],
+            [item["text"] for item in explicit_example_list["items"]],
         )
-        self.assertEqual("ex:node-cogniflow-explicit-processing", explicit_diagram["states"][0]["focusNodeId"])
-        self.assertEqual("ex:diagram-group-cogniflow-explicit-context", explicit_diagram["states"][1]["focusGroupId"])
+        self.assertEqual("Now the processing step is no longer a black box.", explicit_example_note["text"])
+        self.assertEqual("EXPLICIT CONTEXT", explicit_context_heading["text"])
         self.assertEqual(
-            ["ex:diagram-group-cogniflow-explicit-flow"],
-            explicit_diagram["states"][1]["contextGroupIds"],
+            [
+                "purpose",
+                "interface: inputs + outputs",
+                "parameters",
+                "implementation",
+                "version",
+                "execution + provenance",
+            ],
+            [item["text"] for item in explicit_context_list["items"]],
         )
 
         self.assertEqual(
