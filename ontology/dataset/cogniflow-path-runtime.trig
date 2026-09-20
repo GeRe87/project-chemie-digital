@@ -9,6 +9,7 @@
       ex:path-step-cogniflow-explicit-processing-context,
       ex:path-step-cogniflow-semantics-first,
       ex:path-step-cogniflow-semantic-core,
+      ex:path-step-cogniflow-core-grammar,
       ex:path-step-cogniflow-domain-specifications,
       ex:path-step-cogniflow-service-process,
       ex:path-step-cogniflow-semantics-as-source,
