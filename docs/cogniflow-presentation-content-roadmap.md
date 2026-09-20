@@ -605,58 +605,58 @@ flow + paired KeyPoint callouts.
 
 ### One statement
 
-> The heart of CogniFlow is a small semantic grammar for describing what things are and how they relate.
+> CogniFlow starts from a small Meta-TBox grammar that concept-domain packages reuse.
 
 ### Role in the story
 
-Introduce the core semantics without teaching RDF.
+Introduce the semantic constitution actually used in Stonecastle before showing any concrete package, service, or processing specification.
 
-Scene 05 made the processing context explicit. Scene 06 now explains the grammar used to give that context a stable meaning.
+The core ontology is intentionally small. It defines the categories used by concept domains rather than embedding package-, service-, runtime-, or scientific-domain concepts into the core.
 
 ### Visual concept
 
-Use a static vertically layered semantic map rather than another two-panel slide:
+Do not center this scene on a Processing Unit. The grammar is more fundamental:
 
 ~~~text
-                         CONCEPT
-                     Processing Unit
+                        CONCEPT DOMAIN
+           vocabulary scope defining domain terms
 
-       ATTRIBUTES      RELATIONSHIPS      CONTROLLED MEANING
-       label           consumes           agreed terms
-       definition      produces           allowed values
-       version         implemented by     validation
+        CONCEPT      ATTRIBUTE      RELATION
 
-                      CONCEPT DOMAIN
-                shared vocabulary + scope
+          CONTROLLED VALUE        SHAPE
 ~~~
 
-The Concept sits clearly above three equal semantic facets. Concept Domain forms the shared scope below them. Attributes, Relationships and Controlled Meaning use distinct semantic color roles so the slide does not repeat the visual grammar of Scenes 04–05. The palette belongs to presentation CSS; the RDF carries only semantic visual roles.
+Audience-level meanings:
+
+- **Concept** — central domain abstraction
+- **Attribute** — structured part of a concept
+- **Relation** — explicit structural link
+- **Controlled Value** — named allowed value
+- **Shape** — validation rule
+
+Use five large colored semantic cards beneath a wide Concept Domain banner. Avoid arrows and edge labels here: the hierarchy is the message.
 
 ### Speaker wording
 
-Audience-level explanation:
-
-> “We define a thing, the information that describes it, and the explicit relationships that connect it to other things.”
-
-Only if useful, mention that this is stored as machine-readable semantics.
+> “CogniFlow has a very small semantic constitution. A concept domain defines the concepts, attributes, relations, controlled values, and validation shapes that give one domain its meaning.”
 
 Do not show RDF syntax yet.
 
 ### Presentation state
 
-Show the complete semantic map immediately. No DiagramState build-up is needed for this scene.
+Show the complete scene immediately. No staged build-up is needed.
 
 ### Audience understanding after this scene
 
-> “CogniFlow gives every important object a machine-readable meaning before any software tries to use it.”
+> “The core is not the processing model itself — it is the grammar used to define processing, service, package, and other domains.”
 
 ### Preferred primitive
 
-static layered flow + semantic visual roles.
+Concept Domain banner + five semantic KeyPoint cards.
 
 ### Transition
 
-> Once the grammar is shared, very different parts of the system can be described without hard-wiring them together.
+> The same grammar can now define very different domains without hard-wiring them together.
 
 ---
 
@@ -1389,7 +1389,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
 | 04 | flow + paired KeyPoint callouts | yes | none expected |
 | 05 | flow + paired KeyPoint callouts | yes | none expected |
-| 06 | static layered flow + semantic visual roles | yes | none expected |
+| 06 | Concept Domain banner + semantic KeyPoint cards | yes | none expected |
 | 07 | network + groups + focus/context | yes | none expected |
 | 08 | structured semantic card | partial | generic structured-node/card content may be needed |
 | 09 | network + structured node | partial | structured interface content may be needed |
