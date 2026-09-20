@@ -388,6 +388,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("CogniFlow Starts with Meaning", semantic_core["blocks"][0]["text"])
         self.assertEqual("A Small Grammar for Meaning", core_grammar["blocks"][0]["text"])
         self.assertEqual("A Semantic Model for Data Processing", domain_specs["blocks"][0]["text"])
+        self.assertEqual("Compatible Processing Steps Form a Pipeline", processing_pipeline["blocks"][0]["text"])
         self.assertEqual(
             "Services Replace Direct Dependencies",
             service_process["blocks"][0]["text"],
@@ -501,7 +502,6 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [block["kind"] for block in domain_specs["blocks"]],
         )
         self.assertEqual("A Semantic Model for Data Processing", domain_specs["blocks"][0]["text"])
-        self.assertEqual("Compatible Processing Steps Form a Pipeline", processing_pipeline["blocks"][0]["text"])
         self.assertEqual(
             "DATA PROCESSING CONCEPT DOMAIN\none ProcessingUnit · explicit Ports · Step or Pipeline",
             domain_specs["blocks"][1]["text"],
