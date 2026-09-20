@@ -253,7 +253,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         )
         self.assertEqual("flow", fair_diagram["diagramType"])
         self.assertEqual(
-            ["INSTRUMENT", "FAIR / OPEN DATA", "CUSTOM PROCESSING", "RESULT"],
+            ["INSTRUMENT", "FAIR / OPEN\nDATA", "CUSTOM PROCESSING", "RESULT"],
             [node["label"] for node in fair_diagram["nodes"]],
         )
         self.assertEqual(
