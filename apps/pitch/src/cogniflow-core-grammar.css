@@ -60,7 +60,7 @@
   box-sizing: border-box;
   min-width: 0;
   margin: 0;
-  padding: .85rem 1rem .78rem;
+  padding: 1rem 1.12rem .92rem;
   border: 4px solid var(--core-stroke);
   background:
     linear-gradient(
@@ -70,7 +70,7 @@
     );
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--core-stroke) 24%, transparent);
   color: var(--core-text);
-  font: 850 .94em/1.25 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 1.14em/1.34 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
@@ -87,9 +87,9 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.19em;
+  font-size: 1.2em;
   font-weight: 950;
-  letter-spacing: .025em;
+  letter-spacing: .02em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
@@ -135,12 +135,12 @@
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list + .code-block {
   grid-column: 2;
   grid-row: 3;
-  align-self: start;
+  align-self: center;
   box-sizing: border-box;
   width: 100%;
   max-width: none;
   margin: 0;
-  font-size: .88em;
+  font-size: 1em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
@@ -165,8 +165,8 @@
   max-height: none;
   padding: 1.12rem 1rem 1.18rem;
   overflow: hidden;
-  font-size: .9em;
-  line-height: 1.55;
+  font-size: 1.04em;
+  line-height: 1.6;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
@@ -183,7 +183,7 @@
   background: color-mix(in srgb, #ffd28f 76%, var(--pcd-surface-strong));
   box-shadow: 7px 7px 0 color-mix(in srgb, #c96a12 22%, transparent);
   color: #522800;
-  font: 900 .92em/1.3 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.08em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
@@ -193,6 +193,11 @@
   font-size: 1.15em;
   font-weight: 950;
   letter-spacing: .04em;
+}
+
+
+.reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > .d3-scene-knowledge-host {
+  display: none !important;
 }
 
 @media (max-width: 900px) {
