@@ -615,7 +615,7 @@ Scene 05 made the processing context explicit. Scene 06 now explains the grammar
 
 ### Visual concept
 
-Use a static semantic network rather than another two-panel slide:
+Use a static vertically layered semantic map rather than another two-panel slide:
 
 ~~~text
                          CONCEPT
@@ -630,7 +630,7 @@ Use a static semantic network rather than another two-panel slide:
                 shared vocabulary + scope
 ~~~
 
-The central Concept is visually dominant. Attributes, Relationships and Controlled Meaning use distinct semantic color roles, while Concept Domain forms a separate scope node. The palette belongs to presentation CSS; the RDF carries only semantic visual roles.
+The Concept sits clearly above three equal semantic facets. Concept Domain forms the shared scope below them. Attributes, Relationships and Controlled Meaning use distinct semantic color roles so the slide does not repeat the visual grammar of Scenes 04–05. The palette belongs to presentation CSS; the RDF carries only semantic visual roles.
 
 ### Speaker wording
 
@@ -644,7 +644,7 @@ Do not show RDF syntax yet.
 
 ### Presentation state
 
-Show the complete semantic network immediately. No DiagramState build-up is needed for this scene.
+Show the complete semantic map immediately. No DiagramState build-up is needed for this scene.
 
 ### Audience understanding after this scene
 
@@ -652,7 +652,7 @@ Show the complete semantic network immediately. No DiagramState build-up is need
 
 ### Preferred primitive
 
-static network + semantic visual roles.
+static layered flow + semantic visual roles.
 
 ### Transition
 
@@ -1389,7 +1389,7 @@ These are narrative states, not mandatory fragment counts. Multiple closely rela
 | 03 | KeyPoints + structured TSV/table | yes | none expected |
 | 04 | flow + paired KeyPoint callouts | yes | none expected |
 | 05 | flow + paired KeyPoint callouts | yes | none expected |
-| 06 | static network + semantic visual roles | yes | none expected |
+| 06 | static layered flow + semantic visual roles | yes | none expected |
 | 07 | network + groups + focus/context | yes | none expected |
 | 08 | structured semantic card | partial | generic structured-node/card content may be needed |
 | 09 | network + structured node | partial | structured interface content may be needed |
