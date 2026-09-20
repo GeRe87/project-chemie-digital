@@ -370,15 +370,15 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
 
         self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
         self.assertEqual(
-            "CORE ONTOLOGY\ncf_ontology\nMeta-TBox · ConceptDomain · Concept · Attribute · Relation · Controlled Value · Shape",
+            "CORE ONTOLOGY\ncf_ontology\nshared semantic grammar",
             core["text"],
         )
         self.assertEqual(
             [
                 "SERVICE\ncf_concept_service",
                 "WORKSPACE\ncf_concept_workspace",
-                "DATA PROCESSING\ncf_concept_processing\nProcessingUnit · ProcessingStep · ProcessingPipeline · Port / PortRole",
-                "PACKAGE\ncf_concept_package\nCfPackage · Manifest · Version · Role · Contributions",
+                "DATA PROCESSING\ncf_concept_processing\nProcessingUnit · ProcessingStep · ProcessingPipeline\nPort · PortRole",
+                "PACKAGE\ncf_concept_package\nCfPackage · Manifest · Version\nRole · Contributions",
                 "INSTALLATION PROFILE\ncf_concept_installation_profile",
             ],
             [item["text"] for item in concept_layer["items"]],
