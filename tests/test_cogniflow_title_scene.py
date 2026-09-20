@@ -197,7 +197,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("Intensity", black_chart["yAxis"]["label"])
         self.assertEqual("a.u.", black_chart["yAxis"]["unit"])
         self.assertIn("Feature\tRT (min)\tm/z\tArea", black_table["code"])
-        self.assertIn("F-03\t4.80\t325.134\t101,920", black_table["code"])
+        self.assertIn("F-03\t4.8\t325.134\t101,920", black_table["code"])
         self.assertEqual("flow", black_diagram["diagramType"])
         self.assertEqual(["RAW SIGNAL", "PROCESSING ?", "RESULT"], [node["label"] for node in black_diagram["nodes"]])
         self.assertEqual(["transformed by", "produces"], [edge["label"] for edge in black_diagram["edges"]])
