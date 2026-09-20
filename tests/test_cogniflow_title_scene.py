@@ -196,6 +196,11 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("min", black_chart["xAxis"]["unit"])
         self.assertEqual("Intensity", black_chart["yAxis"]["label"])
         self.assertEqual("a.u.", black_chart["yAxis"]["unit"])
+        opening_trace = black_chart["series"][0]["data"]
+        self.assertEqual(61, len(opening_trace))
+        self.assertEqual(0.0, opening_trace[0]["x"])
+        self.assertEqual(12.0, opening_trace[-1]["x"])
+        self.assertLess(max(point["y"] for point in opening_trace), 70.0)
         self.assertIn("Feature\tRT (min)\tm/z\tArea", black_table["code"])
         self.assertIn("F-03\t4.8\t325.134\t101,920", black_table["code"])
         self.assertEqual("flow", black_diagram["diagramType"])
