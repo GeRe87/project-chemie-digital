@@ -359,20 +359,16 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         semantic_core = document["scenes"][5]
 
         self.assertEqual(
-            ["prose", "prose", "list", "list", "prose"],
+            ["prose", "prose", "list", "list"],
             [block["kind"] for block in semantic_core["blocks"]],
         )
         heading = semantic_core["blocks"][0]
         core = semantic_core["blocks"][1]
         concept_layer = semantic_core["blocks"][2]
         specification_layer = semantic_core["blocks"][3]
-        note = semantic_core["blocks"][4]
 
         self.assertEqual("CogniFlow Starts with Meaning", heading["text"])
-        self.assertEqual(
-            "CORE ONTOLOGY\ncf_ontology\nshared semantic grammar",
-            core["text"],
-        )
+        self.assertEqual("CORE\ncf_ontology", core["text"])
         self.assertEqual(
             [
                 "SERVICE\ncf_concept_service",
@@ -399,10 +395,6 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
                 "PYPI SOURCE\ncf_bootstrap_source_pypi",
             ],
             [item["text"] for item in specification_layer["items"]],
-        )
-        self.assertEqual(
-            "SMALL CORE → DOMAIN MODULES → MANY CONCRETE SPECIFICATIONS",
-            note["text"],
         )
 
     def test_domain_specifications_match_stonecastle_concept_packages(self) -> None:
