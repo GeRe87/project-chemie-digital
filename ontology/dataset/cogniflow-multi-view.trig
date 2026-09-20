@@ -18,7 +18,7 @@
     cd:hasStep ex:path-step-cogniflow-same-semantics-different-views .
 
   ex:path-step-cogniflow-same-semantics-different-views a cd:PathStep ;
-    cd:position 12 ;
+    cd:position 13 ;
     cd:usesResource ex:code-cogniflow-chart-semantics,
       ex:chart-cogniflow-replicate-peak-area ;
     cd:usesScene ex:scene-cogniflow-same-semantics-different-views ;
