@@ -13,12 +13,15 @@ graph:concepts {
   cd:LearningDomain
     cdm:definesConcept cd:Organization, cd:MediaAsset ;
     cdm:definesRelation cd:hasLogo, cd:affiliatedWith, cd:fundedBy, cd:fundingSource ;
-    cdm:definesAttribute cd:uri, cd:mediaType, cd:alternativeText .
+    cdm:definesAttribute cd:uri, cd:mediaType, cd:alternativeText ;
+    cdm:definesControlledValue cd:MediaRole .
 
   cd:Organization a rdfs:Class, cdm:ConceptDescriptor .
 
   cd:MediaAsset a rdfs:Class, cdm:ConceptDescriptor ;
     rdfs:subClassOf cd:LearningResource .
+
+  cd:MediaRole a cd:CommunicativeRole, cdm:ControlledValue .
 
   cd:hasLogo a rdf:Property, cdm:RelationDescriptor ;
     rdfs:domain cd:Organization ;
