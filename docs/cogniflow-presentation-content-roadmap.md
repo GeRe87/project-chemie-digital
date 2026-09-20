@@ -907,11 +907,82 @@ Three graph-backed KeyPoint cards with visual arrows: Concept Domain → Process
 
 ### Transition
 
-> Once the processing unit is described semantically, implementation and execution can be attached without changing the scientific contract.
+> The interface becomes useful when multiple ProcessingSteps can be connected through compatible Ports.
 
 ---
 
-## Scene 10 — A package that explains itself
+## Scene 10 — Compatible Processing Steps Form a Pipeline
+
+**Narrative:** [x] Frozen v1  
+**RDF:** [x] Authored  
+**Visual:** [x] Authored
+
+### One statement
+
+> A ProcessingPipeline is a composition of reusable ProcessingSteps whose output and input Ports are semantically compatible.
+
+### Role in the story
+
+Turn the ProcessingUnit abstraction into something that looks immediately like a real analytical workflow.
+
+The previous scene established that ProcessingSteps share the same explicit interface structure. This scene shows the payoff: the same kind of node can be connected repeatedly, and the result is a pipeline rather than a hard-coded function chain.
+
+### Visual concept
+
+Four large node cards, each following exactly the same schema and connected by thick port cables:
+
+~~~text
+BASELINE CORRECTION       PEAK DETECTION        PEAK INTEGRATION       PEAK GROUPING
+ProcessingStep            ProcessingStep        ProcessingStep         ProcessingStep
+
+IN  chromatogram          IN  corrected         IN  peak candidates    IN  integrated peaks
+PAR baseline window       PAR threshold         PAR integration window PAR RT tolerance
+OUT corrected       ═══▶  OUT peak candidates ═══▶ OUT integrated ═══▶ OUT grouped features
+    chromatogram                                      peaks
+~~~
+
+The cables visually connect each OUT Port to the next IN Port.
+
+### Semantic point
+
+Every node uses the same contract:
+
+- Input Port
+- Parameter Port
+- Output Port
+
+Composition works because the output of one step is compatible with the input of the next step. The pipeline therefore becomes a semantic composition of ProcessingUnits rather than an opaque script.
+
+### Scientific example
+
+Use an illustrative analytical sequence:
+
+1. Baseline Correction
+2. Peak Detection
+3. Peak Integration
+4. Peak Grouping
+
+The exact algorithms are illustrative. The architectural statement is the reusable ProcessingStep interface and explicit Port compatibility.
+
+### Presentation state
+
+Show the complete pipeline immediately. No staged reveal.
+
+### Audience understanding after this scene
+
+> “If every analytical step exposes the same explicit interface, a workflow can be assembled from compatible building blocks.”
+
+### Preferred primitive
+
+Graph-backed KeyPoint cards styled as processing nodes, with renderer-owned cable geometry between adjacent cards.
+
+### Transition
+
+> Once a pipeline is described this way, the next question is how those semantic processing contracts are connected to implementations and services.
+
+---
+
+## Scene 11 — A package that explains itself
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -963,7 +1034,7 @@ structured semantic card; use generic prose/card primitive if available, otherwi
 
 ---
 
-## Scene 11 — Functionality becomes a Service
+## Scene 12 — Functionality becomes a Service
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1018,7 +1089,7 @@ network + structured node content.
 
 ---
 
-## Scene 12 — Consumer and Provider do not need to know each other
+## Scene 13 — Consumer and Provider do not need to know each other
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1084,7 +1155,7 @@ network + DiagramState. Provider substitution may reuse role-binding semantics i
 
 ---
 
-## Scene 13 — “I need a PDF report.”
+## Scene 14 — “I need a PDF report.”
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1166,7 +1237,7 @@ sequence + participant roles + bindings.
 
 ---
 
-## Scene 14 — Data processing is a CogniFlow Concept too
+## Scene 15 — Data processing is a CogniFlow Concept too
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1214,7 +1285,7 @@ network + focus/context DiagramState.
 
 ---
 
-## Scene 15 — A Processing Unit has an explicit interface
+## Scene 16 — A Processing Unit has an explicit interface
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1276,7 +1347,7 @@ network or flow with explicit ports; if ports require a new renderer capability,
 
 ---
 
-## Scene 16 — A pipeline is a composition, not a script
+## Scene 17 — A pipeline is a composition, not a script
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1349,7 +1420,7 @@ flow + groups + focus state.
 
 ---
 
-## Scene 17 — Explicit semantics enable machine-assisted execution
+## Scene 18 — Explicit semantics enable machine-assisted execution
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
@@ -1423,7 +1494,7 @@ Potential generic need:
 
 ---
 
-## Scene 18 — FAIRness does not stop at the file
+## Scene 19 — FAIRness does not stop at the file
 
 **Narrative:** [x] Frozen v1  
 **RDF:** [ ]  
