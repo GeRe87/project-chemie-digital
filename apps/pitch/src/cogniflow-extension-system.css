@@ -1,0 +1,181 @@
+/* CogniFlow: One Rulebook, Extensible by Design
+   Rulebook at the top, conforming package modules below, one shared service boundary at the bottom. */
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] {
+  display: grid !important;
+  grid-template-rows: auto 4.5rem minmax(0, 1fr) 5rem;
+  row-gap: .66rem;
+  align-content: stretch;
+  padding: 1.35rem 1.85rem 1.3rem !important;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 {
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead {
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(1120px, 95%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .48rem 1rem .44rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+  color: var(--pcd-foreground);
+  font: 875 .96em/1.07 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead::first-line {
+  color: var(--pcd-accent);
+  font-size: 1.22em;
+  font-weight: 950;
+  letter-spacing: .045em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list {
+  grid-row: 3;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 7.2rem minmax(0, 1fr);
+  gap: 1.35rem 1.2rem;
+  width: min(1180px, 98%);
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 5px solid var(--module-stroke, var(--pcd-accent));
+  background: var(--module-fill, var(--pcd-surface-strong));
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--module-stroke, var(--pcd-accent)) 24%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 36%, transparent);
+  color: var(--module-text, var(--pcd-foreground));
+  font: 875 .92em/1.28 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li::first-line {
+  font-size: 1.2em;
+  font-weight: 950;
+  letter-spacing: .012em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+  --module-fill: #ffe0a8;
+  --module-stroke: #c96a12;
+  --module-text: #522800;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: .72rem 1.4rem;
+  font-size: 1.03em;
+  line-height: 1.16;
+  text-align: center;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
+  --module-fill: #b9e4ff;
+  --module-stroke: #176da0;
+  --module-text: #07364e;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
+  --module-fill: #cbeab7;
+  --module-stroke: #4f8a45;
+  --module-text: #244c26;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
+  --module-fill: #d5c5f4;
+  --module-stroke: #7046ad;
+  --module-text: #3b2164;
+  border-style: dashed;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -1.38rem;
+  width: 0;
+  height: 1.38rem;
+  border-left: 4px solid var(--pcd-accent);
+  transform: translateX(-50%);
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::after {
+  content: "▼";
+  position: absolute;
+  left: 50%;
+  top: -1.08rem;
+  transform: translateX(-50%);
+  color: var(--pcd-accent);
+  font: 900 .7em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list + .lead {
+  grid-row: 4;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1160px, 97%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .5rem 1rem .46rem;
+  border: 4px solid #168e9c;
+  background: color-mix(in srgb, #168e9c 10%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, #168e9c 20%, transparent);
+  color: var(--pcd-foreground);
+  font: 875 .87em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list + .lead::first-line {
+  color: #168e9c;
+  font-size: 1.18em;
+  font-weight: 950;
+  letter-spacing: .055em;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] {
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: .8rem;
+    width: 100%;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
+    grid-column: 1;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::before,
+  .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(n+2)::after {
+    display: none;
+  }
+}
