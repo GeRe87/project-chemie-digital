@@ -459,7 +459,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             domain_reading["text"],
         )
 
-    def test_domain_specifications_match_stonecastle_concept_packages(self) -> None:
+    def test_domain_specifications_translate_core_grammar_to_peak_integration(self) -> None:
         document = RUNTIME.build_artifact(request())["sceneDocuments"][0]
         domain_specs = document["scenes"][8]
 
@@ -467,21 +467,23 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ["prose", "prose", "list", "prose"],
             [block["kind"] for block in domain_specs["blocks"]],
         )
-        self.assertEqual("One Semantic Grammar. Different Specifications.", domain_specs["blocks"][0]["text"])
+        self.assertEqual("From Grammar to Scientific Meaning", domain_specs["blocks"][0]["text"])
         self.assertEqual(
-            "SAME META-GRAMMAR\nConcept · Attribute · Relation · Controlled Value · Shape",
+            "SAME CORE GRAMMAR\nNow applied to PEAK INTEGRATION",
             domain_specs["blocks"][1]["text"],
         )
         self.assertEqual(
             [
-                "PACKAGE CONCEPT DOMAIN\nConcept: CfPackage\nManifest · Version · Role\nContribution · Template",
-                "SERVICE CONCEPT DOMAIN\nConcept: Service\nOperation · Interface\nInput / Output · Execution",
-                "DATA PROCESSING CONCEPT DOMAIN\nProcessingUnit · ProcessingStep\nProcessingPipeline\nPort · PortRole · PipelineNode",
+                "CONCEPT\nPEAK INTEGRATION\nchromatographic signal → integrated peak area",
+                "ATTRIBUTES\nSignal\nBaseline\nIntegration Window\nPeak Area",
+                "RELATIONS\nhasSignal\nhasBaseline\nhasIntegrationWindow\nhasPeakArea",
+                "CONTROLLED VALUE\nIntegration Mode\nautomatic · manual",
+                "SHAPE\nchecks required context\nand valid structure",
             ],
             [item["text"] for item in domain_specs["blocks"][2]["items"]],
         )
         self.assertEqual(
-            "SHARED SEMANTICS — INDEPENDENT SPECIFICATIONS",
+            "THE GRAMMAR STAYS THE SAME — THE DOMAIN ADDS THE SCIENTIFIC MEANING",
             domain_specs["blocks"][3]["text"],
         )
 
