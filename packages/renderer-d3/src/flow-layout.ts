@@ -78,10 +78,10 @@ interface PreparedNode extends D3FlowLayoutNodeInput {
 const FLOW_MIN_WIDTH = 320;
 const FLOW_HORIZONTAL_BREAKPOINT = 900;
 const FLOW_NODE_MIN_HEIGHT = 112;
-const HORIZONTAL_LABEL_WIDTH = 150;
-const HORIZONTAL_NODE_MIN_WIDTH = 240;
-const HORIZONTAL_NODE_MAX_WIDTH = 286;
-const HORIZONTAL_NODE_CHROME = 118;
+const HORIZONTAL_LABEL_WIDTH = 178;
+const HORIZONTAL_NODE_MIN_WIDTH = 268;
+const HORIZONTAL_NODE_MAX_WIDTH = 326;
+const HORIZONTAL_NODE_CHROME = 132;
 // Keep relationship callouts above the workflow rather than inside card bounds.
 const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
 const EDGE_LABEL_MAX_WIDTH = 130;
