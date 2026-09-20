@@ -83,7 +83,7 @@
   background: var(--pcd-accent);
   color: var(--pcd-surface-strong);
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
-  font: 900 .92em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.08em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .055em;
   text-align: left;
   text-transform: uppercase;
@@ -100,7 +100,7 @@
   gap: 0;
   min-width: 0;
   margin: 0;
-  padding: .45rem 1rem .3rem;
+  padding: .55rem 1rem .4rem;
   border-inline: 3px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-surface-strong) 95%, transparent);
   box-shadow: 6px 0 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
@@ -112,12 +112,12 @@
   > .d3-flow-host + .lead + .keypoint-list > li {
   box-sizing: border-box;
   margin: 0;
-  padding: .32rem .2rem;
+  padding: .38rem .2rem;
   border: 0;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 24%, transparent);
   background: transparent;
   color: var(--pcd-foreground);
-  font: 850 .96em/1.16 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 850 1.16em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
 }
 
@@ -140,7 +140,7 @@
   background: color-mix(in srgb, var(--pcd-accent) 9%, var(--pcd-surface-strong));
   color: var(--pcd-foreground);
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
-  font: 900 .82em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.02em/1.2 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
 }
 
@@ -162,7 +162,7 @@
   background: var(--pcd-flow-role-comparison-stroke);
   color: var(--pcd-flow-role-comparison-fill);
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-flow-role-comparison-stroke) 22%, transparent);
-  font: 900 1em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.1em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .065em;
   text-align: left;
   text-transform: uppercase;
@@ -189,12 +189,12 @@
 
 .reveal .slides section:has(> .d3-flow-host + .lead + .keypoint-list + .lead + .lead + .keypoint-list)
   > .d3-flow-host + .lead + .keypoint-list + .lead + .lead + .keypoint-list > li {
-  margin: .28rem 0;
+  margin: .36rem 0;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--pcd-flow-role-comparison-text);
-  font: 850 .98em/1.2 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 850 1.18em/1.24 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
 }
 
