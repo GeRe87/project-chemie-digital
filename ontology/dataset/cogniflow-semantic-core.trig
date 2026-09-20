@@ -9,118 +9,64 @@
     cd:authoredResource true .
 
   ex:def-cogniflow-semantic-core a cd:Definition ;
-    cd:body "The heart of CogniFlow is a small semantic grammar for describing what things are and how they relate."@en ;
+    cd:body "CogniFlow uses a small Meta-TBox vocabulary to describe concept domains and the semantic terms they define."@en ;
     cd:authoredResource true .
 
-  ex:diagram-cogniflow-semantic-core a cd:FlowDiagram ;
-    skos:prefLabel "Concept, meaning and semantic scope"@en ;
-    cd:body "A concept is described by attributes, explicit relationships and controlled meaning inside a shared Concept Domain."@en ;
-    cd:hasDiagramNode ex:node-cogniflow-semantic-concept,
-      ex:node-cogniflow-semantic-attributes,
-      ex:node-cogniflow-semantic-relationships,
-      ex:node-cogniflow-semantic-controlled-meaning,
-      ex:node-cogniflow-semantic-domain ;
-    cd:hasDiagramEdge ex:edge-cogniflow-semantic-concept-attributes,
-      ex:edge-cogniflow-semantic-concept-relationships,
-      ex:edge-cogniflow-semantic-concept-controlled,
-      ex:edge-cogniflow-semantic-attributes-domain,
-      ex:edge-cogniflow-semantic-relationships-domain,
-      ex:edge-cogniflow-semantic-controlled-domain ;
-    cd:focusNode ex:node-cogniflow-semantic-concept ;
+  ex:cogniflow-meta-domain a cd:Interpretation ;
+    cd:body """CONCEPT DOMAIN
+Vocabulary scope that defines the semantic terms of one domain."""@en ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-semantic-concept a cd:DiagramNode ;
-    skos:prefLabel """CONCEPT
-Processing Unit"""@en ;
+  ex:cogniflow-meta-grammar a cd:Interpretation ;
+    cd:body "The Meta-TBox provides a compact grammar that domain concept packages reuse."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-meta-concept,
+      ex:keypoint-cogniflow-meta-attribute,
+      ex:keypoint-cogniflow-meta-relation,
+      ex:keypoint-cogniflow-meta-controlled-value,
+      ex:keypoint-cogniflow-meta-shape ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-meta-concept a cd:KeyPoint ;
     cd:position 1 ;
-    cd:visualRole "concept-core" ;
+    cd:body """CONCEPT
+central domain abstraction"""@en ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-semantic-attributes a cd:DiagramNode ;
-    skos:prefLabel """ATTRIBUTES
-label
-definition
-version"""@en ;
+  ex:keypoint-cogniflow-meta-attribute a cd:KeyPoint ;
     cd:position 2 ;
-    cd:visualRole "attributes" ;
+    cd:body """ATTRIBUTE
+structured part of a concept"""@en ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-semantic-relationships a cd:DiagramNode ;
-    skos:prefLabel """RELATIONSHIPS
-consumes
-produces
-implemented by"""@en ;
+  ex:keypoint-cogniflow-meta-relation a cd:KeyPoint ;
     cd:position 3 ;
-    cd:visualRole "relationships" ;
+    cd:body """RELATION
+explicit structural link"""@en ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-semantic-controlled-meaning a cd:DiagramNode ;
-    skos:prefLabel """CONTROLLED MEANING
-agreed terms
-allowed values
-validation"""@en ;
+  ex:keypoint-cogniflow-meta-controlled-value a cd:KeyPoint ;
     cd:position 4 ;
-    cd:visualRole "controlled-meaning" ;
+    cd:body """CONTROLLED VALUE
+named allowed value"""@en ;
     cd:authoredResource true .
 
-  ex:node-cogniflow-semantic-domain a cd:DiagramNode ;
-    skos:prefLabel """CONCEPT DOMAIN
-shared vocabulary
-scope of meaning"""@en ;
+  ex:keypoint-cogniflow-meta-shape a cd:KeyPoint ;
     cd:position 5 ;
-    cd:visualRole "concept-domain" ;
+    cd:body """SHAPE
+validation rule"""@en ;
     cd:authoredResource true .
 
-  ex:edge-cogniflow-semantic-concept-attributes a cd:DiagramEdge ;
-    skos:prefLabel "described by"@en ;
-    cd:position 1 ;
-    cd:sourceNode ex:node-cogniflow-semantic-concept ;
-    cd:targetNode ex:node-cogniflow-semantic-attributes ;
-    cd:authoredResource true .
-
-  ex:edge-cogniflow-semantic-concept-relationships a cd:DiagramEdge ;
-    skos:prefLabel "connected by"@en ;
-    cd:position 2 ;
-    cd:sourceNode ex:node-cogniflow-semantic-concept ;
-    cd:targetNode ex:node-cogniflow-semantic-relationships ;
-    cd:authoredResource true .
-
-  ex:edge-cogniflow-semantic-concept-controlled a cd:DiagramEdge ;
-    skos:prefLabel "constrained by"@en ;
-    cd:position 3 ;
-    cd:sourceNode ex:node-cogniflow-semantic-concept ;
-    cd:targetNode ex:node-cogniflow-semantic-controlled-meaning ;
-    cd:authoredResource true .
-
-  ex:edge-cogniflow-semantic-attributes-domain a cd:DiagramEdge ;
-    skos:prefLabel "defined within"@en ;
-    cd:position 4 ;
-    cd:sourceNode ex:node-cogniflow-semantic-attributes ;
-    cd:targetNode ex:node-cogniflow-semantic-domain ;
-    cd:visualRole "domain-scope" ;
-    cd:authoredResource true .
-
-  ex:edge-cogniflow-semantic-relationships-domain a cd:DiagramEdge ;
-    skos:prefLabel "defined within"@en ;
-    cd:position 5 ;
-    cd:sourceNode ex:node-cogniflow-semantic-relationships ;
-    cd:targetNode ex:node-cogniflow-semantic-domain ;
-    cd:visualRole "domain-scope" ;
-    cd:authoredResource true .
-
-  ex:edge-cogniflow-semantic-controlled-domain a cd:DiagramEdge ;
-    skos:prefLabel "defined within"@en ;
-    cd:position 6 ;
-    cd:sourceNode ex:node-cogniflow-semantic-controlled-meaning ;
-    cd:targetNode ex:node-cogniflow-semantic-domain ;
-    cd:visualRole "domain-scope" ;
+  ex:cogniflow-meta-domain-note a cd:Interpretation ;
+    cd:body "ONE META-GRAMMAR → SEPARATE PACKAGE · SERVICE · PROCESSING DOMAINS"@en ;
     cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-core-extension> {
   ex:path-step-cogniflow-semantic-core a cd:PathStep ;
     cd:position 6 ;
-    cd:usesResource ex:diagram-cogniflow-semantic-core ;
+    cd:usesResource ex:cogniflow-meta-domain,
+      ex:cogniflow-meta-grammar,
+      ex:cogniflow-meta-domain-note ;
     cd:usesScene ex:scene-cogniflow-semantic-core ;
     cd:authoredResource true .
 }
@@ -129,7 +75,9 @@ scope of meaning"""@en ;
   ex:scene-cogniflow-semantic-core a cd:SceneDefinition ;
     cd:focusConcept ex:cogniflow-semantic-core ;
     cd:hasSceneItem ex:scene-item-cogniflow-semantic-core-heading,
-      ex:scene-item-cogniflow-semantic-core-diagram ;
+      ex:scene-item-cogniflow-semantic-core-domain,
+      ex:scene-item-cogniflow-semantic-core-grammar,
+      ex:scene-item-cogniflow-semantic-core-note ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-semantic-core-heading a cd:SceneItem ;
@@ -140,10 +88,26 @@ scope of meaning"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-semantic-core-diagram a cd:SceneItem ;
+  ex:scene-item-cogniflow-semantic-core-domain a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:diagram-cogniflow-semantic-core ;
-    cd:communicativeRole cd:DiagramRole ;
+    cd:selectsResource ex:cogniflow-meta-domain ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-core-grammar a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-meta-grammar ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-core-note a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-meta-domain-note ;
+    cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
