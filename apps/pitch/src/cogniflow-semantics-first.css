@@ -29,7 +29,7 @@
   background: color-mix(in srgb, var(--pcd-accent) 12%, var(--pcd-surface-strong));
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent);
   color: var(--pcd-accent);
-  font: 950 1.02em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 950 1.08em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .075em;
   text-align: center;
 }
@@ -58,7 +58,7 @@
   min-width: 0;
   min-height: 19.7rem;
   margin: 0;
-  padding: 1.42rem 1.35rem 1.25rem;
+  padding: 1.65rem 1.55rem 1.45rem;
   border: 5px solid var(--sem-stroke);
   background:
     linear-gradient(
@@ -70,7 +70,7 @@
     9px 9px 0 color-mix(in srgb, var(--sem-stroke) 28%, transparent),
     inset 0 0 0 2px color-mix(in srgb, white 45%, transparent);
   color: var(--sem-text);
-  font: 850 1.01em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 875 1.22em/1.5 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
@@ -89,9 +89,9 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li::first-line {
-  font-size: 1.34em;
+  font-size: 1.18em;
   font-weight: 950;
-  letter-spacing: .035em;
+  letter-spacing: .03em;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantics-first--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
@@ -143,8 +143,8 @@
   background: color-mix(in srgb, var(--pcd-surface-strong) 90%, var(--pcd-accent) 10%);
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent);
   color: var(--pcd-accent);
-  font: 950 1.08em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .07em;
+  font: 950 1.14em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .065em;
   text-align: center;
 }
 
