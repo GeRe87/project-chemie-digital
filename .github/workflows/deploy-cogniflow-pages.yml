@@ -1,11 +1,6 @@
 name: Deploy CogniFlow presentation
 
 on:
-  push:
-    branches:
-      - visual/cogniflow-d3-restart
-    paths:
-      - ".github/workflows/deploy-cogniflow-pages.yml"
   workflow_dispatch:
 
 permissions:
