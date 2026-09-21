@@ -35,6 +35,29 @@
     backdrop-filter: none;
   }
 
+  body[data-presentation-theme="dark"] .cogniflow-clock-panel {
+    background: rgba(5, 8, 16, .92);
+    box-shadow:
+      inset 1px 0 0 rgba(98, 239, 255, .18),
+      -3px 0 10px rgba(98, 239, 255, .30),
+      -8px 0 24px rgba(98, 239, 255, .22),
+      -14px 0 42px rgba(98, 239, 255, .15),
+      -20px 0 64px rgba(154, 120, 255, .13),
+      -28px 0 92px rgba(98, 239, 255, .08);
+  }
+
+  body[data-presentation-theme="dark"] .cogniflow-clock-hours,
+  body[data-presentation-theme="dark"] .cogniflow-clock-minutes {
+    text-shadow:
+      0 0 8px rgba(98, 239, 255, .22),
+      0 0 18px rgba(98, 239, 255, .12);
+  }
+
+  body[data-presentation-theme="dark"] .cogniflow-clock-hours {
+    border-bottom-color: rgba(98, 239, 255, .34);
+    box-shadow: 0 5px 12px -8px rgba(98, 239, 255, .5);
+  }
+
   .cogniflow-clock-hours,
   .cogniflow-clock-minutes {
     display: block;
