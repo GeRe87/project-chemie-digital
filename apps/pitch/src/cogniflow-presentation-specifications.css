@@ -2,7 +2,7 @@
    Same camera/layout as the two preceding semantic-model examples. */
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] {
   display: grid !important;
-  grid-template-rows: auto minmax(0, 1fr) 3.3rem;
+  grid-template-rows: auto 4.15rem minmax(0, 1fr) 3.3rem;
   row-gap: .72rem;
   align-content: stretch;
   padding: 1.42rem 2rem 1.38rem !important;
@@ -19,7 +19,7 @@
 
 
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list {
-  grid-row: 2;
+  grid-row: 3;
   align-self: stretch;
   display: grid;
   grid-template-columns: .9fr 1.22fr .98fr;
@@ -117,7 +117,7 @@
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list + .lead {
-  grid-row: 3;
+  grid-row: 4;
   box-sizing: border-box;
   align-self: center;
   width: min(1120px, 96%);
@@ -140,9 +140,14 @@
   }
 
   .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list {
+    grid-row: 2;
     grid-template-columns: 1fr;
     gap: 1rem;
     width: 100%;
+  }
+
+  .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list + .lead {
+    grid-row: 3;
   }
 
   .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list > li {
@@ -171,7 +176,7 @@
 
 .cogniflow-projection-toggle {
   position: absolute;
-  top: 1.52rem;
+  top: 5.08rem;
   right: 2.15rem;
   z-index: 12;
   display: flex;
@@ -249,8 +254,8 @@ section[data-projection-mode="publication"] .cogniflow-projection-thumb {
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"][data-projection-mode="publication"] {
-  grid-template-rows: auto minmax(0, 1fr) !important;
-  row-gap: 1rem;
+  grid-template-rows: auto 4.15rem minmax(0, 1fr) !important;
+  row-gap: .72rem;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"][data-projection-mode="publication"] > h2 + .keypoint-list,
@@ -264,7 +269,7 @@ section[data-projection-mode="publication"] .cogniflow-projection-thumb {
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"][data-projection-mode="publication"] .cogniflow-publication-projection {
-  grid-row: 2;
+  grid-row: 3;
   align-self: stretch;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
