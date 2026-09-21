@@ -17,6 +17,7 @@ import "./cogniflow-semantic-core.css";
 import "./cogniflow-core-grammar.css";
 import "./cogniflow-domain-specifications.css";
 import "./cogniflow-ui-specifications.css";
+import "./cogniflow-presentation-specifications.css";
 import "./cogniflow-processing-pipeline.css";
 import "./cogniflow-service-system.css";
 import "./cogniflow-extension-system.css";
@@ -210,6 +211,7 @@ const showcaseSceneIds = new Set([
 // restores normal scrolling for the following transition.
 const hardCutSceneIds = new Set([
   "ex:scene-cogniflow-domain-specifications--scene",
+  "ex:scene-cogniflow-ui-specifications--scene",
   "ex:scene-cogniflow-showcase-still--scene",
   "ex:scene-cogniflow-showcase-video-one--scene",
 ]);
@@ -217,6 +219,7 @@ const hardCutSceneIds = new Set([
 const frozenBackgroundSceneIds = new Set([
   "ex:scene-cogniflow-domain-specifications--scene",
   "ex:scene-cogniflow-ui-specifications--scene",
+  "ex:scene-cogniflow-presentation-specifications--scene",
   ...showcaseSceneIds,
 ]);
 
