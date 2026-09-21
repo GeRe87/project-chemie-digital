@@ -228,3 +228,66 @@
   .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] > .d3-flow-host + .lead + .keypoint-list + .lead + .lead { grid-row: 6; }
   .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] > .d3-flow-host + .lead + .keypoint-list + .lead + .lead + .keypoint-list { grid-row: 7; }
 }
+
+
+/* Signal vocabulary: keep the semantic key conspicuous while explanatory text stays neutral. */
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal {
+  font-weight: 950;
+  letter-spacing: .012em;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="purpose"] {
+  color: #d94f72;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="input"] {
+  color: #258fc7;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="output"] {
+  color: #3d9d5d;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="parameters"] {
+  color: #d47c10;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="implementation"] {
+  color: #8050c8;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="version"] {
+  color: #b84f9c;
+}
+
+.reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="execution"] {
+  color: #087f86;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="purpose"] {
+  color: #ff7ea1;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="input"] {
+  color: #67c9ff;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="output"] {
+  color: #82d98d;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="parameters"] {
+  color: #ffb457;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="implementation"] {
+  color: #bd9aff;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="version"] {
+  color: #ef8bd1;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-explicit-processing-context--scene"] .cogniflow-context-signal[data-signal-tone="execution"] {
+  color: #63ddd9;
+}
