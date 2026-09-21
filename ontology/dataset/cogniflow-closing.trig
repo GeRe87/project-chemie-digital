@@ -13,7 +13,7 @@
     cd:hasStep ex:path-step-cogniflow-closing .
 
   ex:path-step-cogniflow-closing a cd:PathStep ;
-    cd:position 18 ;
+    cd:position 19 ;
     cd:usesResource ex:cogniflow-closing ;
     cd:usesScene ex:scene-cogniflow-closing ;
     cd:authoredResource true .

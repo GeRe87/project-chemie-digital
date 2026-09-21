@@ -95,7 +95,7 @@ Controlled Value → Input"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-core-grammar-extension> {
   ex:path-step-cogniflow-core-grammar a cd:PathStep ;
-    cd:position 8 ;
+    cd:position 9 ;
     cd:usesResource ex:cogniflow-core-grammar-banner,
       ex:cogniflow-core-grammar-primitives,
       ex:code-cogniflow-core-concept-domain,

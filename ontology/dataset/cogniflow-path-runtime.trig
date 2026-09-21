@@ -8,6 +8,7 @@
       ex:path-step-cogniflow-fair-processing-gap,
       ex:path-step-cogniflow-explicit-processing-context,
       ex:path-step-cogniflow-semantics-first,
+      ex:path-step-cogniflow-semantic-triples,
       ex:path-step-cogniflow-semantic-core,
       ex:path-step-cogniflow-core-grammar,
       ex:path-step-cogniflow-domain-specifications,

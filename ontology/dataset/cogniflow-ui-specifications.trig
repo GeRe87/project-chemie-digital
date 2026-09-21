@@ -63,7 +63,7 @@ FULL · icon + label visible"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-ui-specifications-extension> {
   ex:path-step-cogniflow-ui-specifications a cd:PathStep ;
-    cd:position 10 ;
+    cd:position 11 ;
     cd:usesResource ex:cogniflow-ui-grammar-banner,
       ex:cogniflow-ui-cards,
       ex:cogniflow-ui-compatibility-note ;

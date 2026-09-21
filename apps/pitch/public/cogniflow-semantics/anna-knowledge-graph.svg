@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 260" role="img" aria-labelledby="title desc">
+  <title id="title">Knowledge graph connecting Anna, University, and Essen</title>
+  <desc id="desc">Anna works at University and lives in Essen. University is located in Essen.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#351b56"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#351b56" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M118 120 L282 72"/>
+    <path d="M118 139 L288 201"/>
+    <path d="M357 101 L360 177"/>
+  </g>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="18" font-weight="700" text-anchor="middle" fill="#351b56">
+    <rect x="174" y="70" width="92" height="30" fill="#efe1ff" stroke="#7046ad" stroke-width="3"/>
+    <text x="220" y="91">worksAt</text>
+    <rect x="170" y="169" width="88" height="30" fill="#efe1ff" stroke="#7046ad" stroke-width="3"/>
+    <text x="214" y="190">livesIn</text>
+    <rect x="372" y="126" width="116" height="30" fill="#efe1ff" stroke="#7046ad" stroke-width="3"/>
+    <text x="430" y="147">locatedIn</text>
+  </g>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="21" font-weight="800" text-anchor="middle" fill="#351b56">
+    <rect x="22" y="104" width="110" height="62" fill="#f7efff" stroke="#7046ad" stroke-width="5"/>
+    <text x="77" y="143">Anna</text>
+    <rect x="284" y="32" width="150" height="68" fill="#f7efff" stroke="#7046ad" stroke-width="5"/>
+    <text x="359" y="74">University</text>
+    <rect x="300" y="178" width="126" height="64" fill="#f7efff" stroke="#7046ad" stroke-width="5"/>
+    <text x="363" y="218">Essen</text>
+  </g>
+</svg>
