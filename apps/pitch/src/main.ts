@@ -255,6 +255,11 @@ function syncNavigationMode(): void {
   );
 }
 
+function syncShowcaseMode(): void {
+  const sceneId = deck.getCurrentSlide()?.id ?? "";
+  document.body.classList.toggle("pcd-showcase-active", showcaseSceneIds.has(sceneId));
+}
+
 function syncShowcaseVideos(): void {
   const currentSlide = deck.getCurrentSlide();
   for (const video of showcaseVideos) {
@@ -274,8 +279,10 @@ function syncShowcaseVideos(): void {
   }
 }
 deck.on("slidechanged", syncShowcaseVideos);
+deck.on("slidechanged", syncShowcaseMode);
 deck.on("slidechanged", syncNavigationMode);
 syncNavigationMode();
+syncShowcaseMode();
 syncShowcaseVideos();
 
 function revealScrollOffset(): number {
@@ -349,8 +356,10 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
   deck.off("slidechanged", syncShowcaseVideos);
+  deck.off("slidechanged", syncShowcaseMode);
   deck.off("slidechanged", syncNavigationMode);
   document.body.classList.remove("pcd-no-scroll-transition");
+  document.body.classList.remove("pcd-showcase-active");
   document.body.classList.remove("pcd-cogniflow-mobile");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();

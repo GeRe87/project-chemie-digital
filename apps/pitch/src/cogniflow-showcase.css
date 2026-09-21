@@ -130,3 +130,89 @@ body.pcd-no-scroll-transition.reveal-viewport,
 body.pcd-no-scroll-transition .reveal-viewport {
   scroll-behavior: auto !important;
 }
+
+
+/* Full-viewport demo mode --------------------------------------------------
+   The showcase deliberately leaves the normal 1440x900 presentation canvas.
+   Media uses the browser viewport itself; the city world and auxiliary HUD disappear
+   so every available pixel can be used for the actual CogniFlow UI. */
+body.pcd-showcase-active {
+  background: #000 !important;
+}
+
+body.pcd-showcase-active .pcd-background-world,
+body.pcd-showcase-active .cogniflow-clock-panel {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+body.pcd-showcase-active .reveal,
+body.pcd-showcase-active .reveal .slides {
+  background: #000 !important;
+}
+
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-still--scene"],
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) {
+  box-sizing: border-box !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  max-height: 100svh !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  background: #000 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body.pcd-showcase-active .reveal .slides section[id="ex:scene-cogniflow-showcase-still--scene"] {
+  background: #f6faf9 !important;
+}
+
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-still--scene"],
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) > .scene-group,
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-still--scene"],
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) .media-reference {
+  width: 100vw !important;
+  height: 100svh !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-still--scene"],
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) .media-reference img,
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-still--scene"],
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) .media-reference video {
+  width: 100vw !important;
+  height: 100svh !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+/* In scroll view Reveal wraps scenes in its own layout boxes. The active showcase
+   still claims the viewport width instead of inheriting the authored slide width. */
+body.pcd-showcase-active.reveal-scroll .reveal .slides {
+  width: 100% !important;
+  max-width: none !important;
+}
