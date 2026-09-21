@@ -7,20 +7,21 @@
   .cogniflow-clock-panel {
     position: fixed;
     top: 50%;
-    right: .7rem;
+    right: -.22rem;
     z-index: 50;
     transform: translateY(-50%);
     box-sizing: border-box;
     display: grid;
     grid-template-rows: auto auto auto;
     justify-items: center;
-    width: 4.25rem;
-    padding: .72rem .42rem .62rem;
-    border: 3px solid var(--pcd-accent);
-    background: color-mix(in srgb, var(--pcd-world-shell-bg) 92%, transparent);
+    width: 4.65rem;
+    padding: .78rem .52rem .68rem .58rem;
+    border: 0;
+    border-radius: .95rem 0 0 .95rem;
+    background: color-mix(in srgb, var(--pcd-world-shell-bg) 95%, transparent);
     box-shadow:
-      5px 5px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent),
-      inset 0 0 0 1px color-mix(in srgb, white 30%, transparent);
+      -10px 10px 24px rgb(7 28 34 / .24),
+      -4px 4px 0 color-mix(in srgb, var(--pcd-accent) 16%, transparent);
     color: var(--pcd-accent);
     pointer-events: none;
     user-select: none;
