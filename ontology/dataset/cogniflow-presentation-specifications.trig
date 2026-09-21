@@ -58,7 +58,7 @@ TYPE · Mono / bold"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-presentation-specifications-extension> {
   ex:path-step-cogniflow-presentation-specifications a cd:PathStep ;
-    cd:position 12 ;
+    cd:position 13 ;
     cd:usesResource ex:cogniflow-presentation-cards,
       ex:cogniflow-presentation-compatibility-note ;
     cd:usesScene ex:scene-cogniflow-presentation-specifications ;
