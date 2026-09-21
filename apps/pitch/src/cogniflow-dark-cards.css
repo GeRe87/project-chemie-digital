@@ -302,3 +302,24 @@ body[data-presentation-theme="dark"] .reveal .slides section:is(
     0 0 16px color-mix(in srgb, currentColor 10%, transparent),
     5px 5px 0 rgb(0 0 0 / .28);
 }
+
+
+/* Service marketplace callout: keep the new colorful hierarchy without returning
+   to a bright light-mode pastel in the city-night theme. */
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead {
+  border-color: var(--cf-dark-teal-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--cf-dark-teal-stroke) 20%, var(--cf-dark-teal-fill)) 0 43%,
+      var(--cf-dark-teal-fill) 43% 100%
+    );
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--cf-dark-teal-stroke) 15%, transparent),
+    7px 7px 0 rgb(0 0 0 / .28);
+  color: var(--cf-dark-teal-text);
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead::first-line {
+  color: var(--cf-dark-teal-stroke);
+}
