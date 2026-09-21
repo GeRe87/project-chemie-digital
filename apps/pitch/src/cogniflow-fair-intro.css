@@ -43,13 +43,13 @@
   background: color-mix(in srgb, var(--pcd-surface-strong) 95%, transparent);
   box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 19%, transparent);
   color: var(--pcd-foreground);
-  font: 800 1.06em/1.16 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 850 1.22em/1.14 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: left;
   white-space: pre-line;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .keypoint-list > li::first-letter {
-  font-size: 2.55em;
+  font-size: 2.9em;
   font-weight: 900;
   line-height: .7;
 }
@@ -103,7 +103,7 @@
   border-bottom: 0;
   background: var(--pcd-accent);
   color: var(--pcd-surface-strong);
-  font: 900 .96em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 1.08em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .055em;
   text-align: left;
   text-transform: uppercase;
@@ -117,12 +117,12 @@
   border-collapse: collapse;
   table-layout: fixed;
   color: var(--pcd-foreground);
-  font: 800 .98em/1.06 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 825 1.14em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block .data-table th,
 .reveal .slides section:has(> .keypoint-list):has(> .code-block[data-language="tsv"]) > .code-block .data-table td {
-  padding: .38rem .5rem;
+  padding: .42rem .58rem;
   border: 1px solid color-mix(in srgb, var(--pcd-accent) 38%, transparent);
   text-align: left;
   vertical-align: middle;
