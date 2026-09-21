@@ -210,6 +210,28 @@ body.pcd-showcase-active .reveal .slides section:is(
   object-position: center center !important;
 }
 
+
+/* Recorded videos include browser chrome and a thin black capture frame.
+   Crop only the videos so their framing matches the clean still-image demo more closely. */
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) .media-reference {
+  overflow: hidden !important;
+  background: #f6faf9 !important;
+}
+
+body.pcd-showcase-active .reveal .slides section:is(
+  [id="ex:scene-cogniflow-showcase-video-one--scene"],
+  [id="ex:scene-cogniflow-showcase-video-two--scene"]
+) .media-reference video {
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: scale(1.115) translateY(-2.6%);
+  transform-origin: center center;
+  background: #f6faf9 !important;
+}
+
 /* In scroll view Reveal wraps scenes in its own layout boxes. The active showcase
    still claims the viewport width instead of inheriting the authored slide width. */
 body.pcd-showcase-active.reveal-scroll .reveal .slides {
