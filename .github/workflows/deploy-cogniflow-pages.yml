@@ -50,11 +50,11 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
       - name: Build CogniFlow presentation
         run: npm --workspace @project-chemie-digital/pitch run build:cogniflow
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
