@@ -49,7 +49,7 @@ pip install cogniflow"""@en ;
     cd:hasStep ex:path-step-cogniflow-take-home .
 
   ex:path-step-cogniflow-take-home a cd:PathStep ;
-    cd:position 19 ;
+    cd:position 20 ;
     cd:usesResource ex:cogniflow-take-home-vision,
       ex:cogniflow-take-home-chain,
       ex:cogniflow-take-home-install ;
