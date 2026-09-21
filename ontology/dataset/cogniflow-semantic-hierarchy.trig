@@ -1,0 +1,104 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-semantic-hierarchy> {
+  ex:cogniflow-semantic-hierarchy a cd:Concept ;
+    skos:prefLabel "A Hierarchy of Meaning"@en ;
+    cd:hasDefinition ex:def-cogniflow-semantic-hierarchy ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-semantic-hierarchy a cd:Definition ;
+    cd:body "CogniFlow separates semantic responsibility into three layers: the core provides the meta-grammar, concept domains define reusable vocabulary with that grammar, and specifications use that vocabulary to describe concrete concepts."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-hierarchy-intro a cd:Interpretation ;
+    cd:body "Each layer defines the language available to the layer below."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-hierarchy-stack a cd:Interpretation ;
+    cd:body "The CogniFlow semantic hierarchy from grammar to concrete specification."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-hierarchy-core,
+      ex:keypoint-cogniflow-hierarchy-concepts,
+      ex:keypoint-cogniflow-hierarchy-specifications ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-hierarchy-core a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """CORE
+defines the terms used
+to define Concepts"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-hierarchy-concepts a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """CONCEPTS
+define the terms used
+within Concepts"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-hierarchy-specifications a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """SPECIFICATIONS
+specify concrete Concepts"""@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-hierarchy-footer a cd:Interpretation ;
+    cd:body "META-GRAMMAR → DOMAIN VOCABULARY → CONCRETE SPECIFICATION"@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-hierarchy> {
+  ex:path-cogniflow-standardized-data-processing
+    cd:hasStep ex:path-step-cogniflow-semantic-hierarchy .
+
+  ex:path-step-cogniflow-semantic-hierarchy a cd:PathStep ;
+    cd:position 10 ;
+    cd:usesResource ex:cogniflow-semantic-hierarchy-intro,
+      ex:cogniflow-semantic-hierarchy-stack,
+      ex:cogniflow-semantic-hierarchy-footer ;
+    cd:usesScene ex:scene-cogniflow-semantic-hierarchy ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-semantic-hierarchy> {
+  ex:scene-cogniflow-semantic-hierarchy a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-semantic-hierarchy ;
+    cd:hasSceneItem ex:scene-item-cogniflow-semantic-hierarchy-heading,
+      ex:scene-item-cogniflow-semantic-hierarchy-intro,
+      ex:scene-item-cogniflow-semantic-hierarchy-stack,
+      ex:scene-item-cogniflow-semantic-hierarchy-footer ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-hierarchy-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-semantic-hierarchy ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-hierarchy-intro a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-semantic-hierarchy-intro ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-hierarchy-stack a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-semantic-hierarchy-stack ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-hierarchy-footer a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-semantic-hierarchy-footer ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
