@@ -55,19 +55,19 @@
       ex:path-step-cogniflow-showcase-video-two .
 
   ex:path-step-cogniflow-showcase-still a cd:PathStep ;
-    cd:position 16 ;
+    cd:position 17 ;
     cd:usesResource ex:cogniflow-showcase-still, ex:media-cogniflow-showcase-home ;
     cd:usesScene ex:scene-cogniflow-showcase-still ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-showcase-video-one a cd:PathStep ;
-    cd:position 17 ;
+    cd:position 18 ;
     cd:usesResource ex:cogniflow-showcase-video-one, ex:media-cogniflow-showcase-video-one ;
     cd:usesScene ex:scene-cogniflow-showcase-video-one ;
     cd:authoredResource true .
 
   ex:path-step-cogniflow-showcase-video-two a cd:PathStep ;
-    cd:position 18 ;
+    cd:position 19 ;
     cd:usesResource ex:cogniflow-showcase-video-two, ex:media-cogniflow-showcase-video-two ;
     cd:usesScene ex:scene-cogniflow-showcase-video-two ;
     cd:authoredResource true .
