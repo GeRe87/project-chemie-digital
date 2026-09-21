@@ -1,18 +1,6 @@
 name: Deploy CogniFlow presentation
 
 on:
-  push:
-    branches:
-      - visual/cogniflow-d3-restart
-    paths:
-      - "apps/pitch/**"
-      - "ontology/**"
-      - "packages/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - "requirements-dev.txt"
-      - ".github/workflows/deploy-cogniflow-pages.yml"
   workflow_dispatch:
 
 permissions:
