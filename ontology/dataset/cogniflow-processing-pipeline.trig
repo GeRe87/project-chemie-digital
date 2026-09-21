@@ -72,7 +72,7 @@ OUT · grouped features"""@en ;
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-processing-pipeline-extension> {
   ex:path-step-cogniflow-processing-pipeline a cd:PathStep ;
-    cd:position 13 ;
+    cd:position 14 ;
     cd:usesResource ex:cogniflow-processing-pipeline-banner,
       ex:cogniflow-processing-pipeline-steps,
       ex:cogniflow-processing-pipeline-note ;
