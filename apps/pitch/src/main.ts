@@ -34,6 +34,7 @@ import "./cogniflow-showcase.css";
 import "./cogniflow-closing.css";
 import "./cogniflow-mobile.css";
 import "./cogniflow-clock-panel.css";
+import "./cogniflow-laser-pointer.css";
 import "./cogniflow-dark-cards.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
@@ -49,6 +50,7 @@ import { mountCogniflowSemanticRings } from "./cogniflow-semantic-rings-runtime.
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import { mountCogniflowPresentationProjection } from "./cogniflow-presentation-projection.ts";
 import { mountCogniflowClockPanel } from "./cogniflow-clock-panel.ts";
+import { mountCogniflowLaserPointer } from "./cogniflow-laser-pointer.ts";
 import { mountCogniflowExplicitContextSignals } from "./cogniflow-explicit-context.ts";
 import {
   mountPresentationStepRuntime,
@@ -132,6 +134,9 @@ const appearance = resolvePresentationAppearance(window.location.search, documen
 for (const message of appearance.diagnostics) console.warn(message);
 const unmountCogniflowClock = appearance.profile.id === "cogniflow-standardized-data-processing"
   ? mountCogniflowClockPanel(document.body)
+  : () => undefined;
+const unmountCogniflowLaserPointer = appearance.profile.id === "cogniflow-standardized-data-processing"
+  ? mountCogniflowLaserPointer(presentation)
   : () => undefined;
 
 const cogniflowPortraitMobile = appearance.profile.id === "cogniflow-standardized-data-processing"
@@ -369,6 +374,7 @@ window.addEventListener("pagehide", () => {
   unmountPresentationSteps();
   unmountExplicitContextSignals();
   unmountPresentationProjection();
+  unmountCogniflowLaserPointer();
   unmountCogniflowClock();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
