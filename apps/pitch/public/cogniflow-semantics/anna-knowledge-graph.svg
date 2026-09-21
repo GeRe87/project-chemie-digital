@@ -1,40 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 390" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 410" role="img" aria-labelledby="title desc">
   <title id="title">Knowledge graph connecting Anna, University, and Essen</title>
   <desc id="desc">Anna works at University and lives in Essen. University is located in Essen.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#351b56"/>
     </marker>
   </defs>
 
-  <!-- Relationships -->
   <g fill="none" stroke="#351b56" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow)">
-    <path d="M138 106 L278 106"/>
-    <path d="M112 146 L188 278"/>
-    <path d="M310 146 L236 278"/>
+    <path d="M154 108 L286 108"/>
+    <path d="M118 146 L198 286"/>
+    <path d="M342 146 L262 286"/>
   </g>
 
-  <!-- Predicate labels -->
-  <g font-family="Cascadia Mono, Consolas, monospace" font-size="22" font-weight="800" text-anchor="middle" fill="#351b56">
-    <rect x="169" y="80" width="82" height="36" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
-    <text x="210" y="105">worksAt</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="18" font-weight="800" text-anchor="middle" fill="#351b56">
+    <rect x="174" y="88" width="92" height="32" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
+    <text x="220" y="110">worksAt</text>
 
-    <rect x="82" y="201" width="82" height="36" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
-    <text x="123" y="226">livesIn</text>
+    <rect x="82" y="207" width="88" height="32" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
+    <text x="126" y="229">livesIn</text>
 
-    <rect x="256" y="201" width="116" height="36" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
-    <text x="314" y="226">locatedIn</text>
+    <rect x="290" y="207" width="120" height="32" fill="#efe1ff" stroke="#7046ad" stroke-width="4"/>
+    <text x="350" y="229">locatedIn</text>
   </g>
 
-  <!-- Entity nodes -->
-  <g font-family="Cascadia Mono, Consolas, monospace" font-size="28" font-weight="900" text-anchor="middle" fill="#351b56">
-    <rect x="28" y="66" width="128" height="80" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
-    <text x="92" y="116">Anna</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="24" font-weight="900" text-anchor="middle" fill="#351b56">
+    <rect x="24" y="70" width="130" height="76" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
+    <text x="89" y="117">Anna</text>
 
-    <rect x="264" y="66" width="138" height="80" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
-    <text x="333" y="116">University</text>
+    <rect x="286" y="70" width="150" height="76" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
+    <text x="361" y="117">University</text>
 
-    <rect x="143" y="278" width="136" height="82" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
-    <text x="211" y="330">Essen</text>
+    <rect x="162" y="286" width="136" height="76" fill="#f7efff" stroke="#7046ad" stroke-width="6"/>
+    <text x="230" y="333">Essen</text>
   </g>
 </svg>

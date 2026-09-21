@@ -131,16 +131,16 @@
   --triple-fill: #d9b6ff;
   --triple-stroke: #7046ad;
   --triple-text: #351b56;
-  padding-bottom: 21.5rem;
+  padding-bottom: 17.5rem;
 }
 
 .reveal .slides section[id="ex:scene-cogniflow-semantic-triples--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3)::after {
   content: "";
   position: absolute;
-  left: 1.05rem;
-  right: 1.05rem;
-  bottom: .9rem;
-  height: 20rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 1rem;
+  height: 15.75rem;
   background: url("/cogniflow-semantics/anna-knowledge-graph.svg") center bottom / contain no-repeat;
 }
 
