@@ -31,6 +31,7 @@ import "./analytical-proof-runtime.css";
 import "./cogniflow-take-home.css";
 import "./cogniflow-showcase.css";
 import "./cogniflow-closing.css";
+import "./cogniflow-mobile.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -122,6 +123,12 @@ preparePresentationStepFragments(root);
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 
+const cogniflowPortraitMobile = appearance.profile.id === "cogniflow-standardized-data-processing"
+  && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
+document.body.classList.toggle("pcd-cogniflow-mobile", cogniflowPortraitMobile);
+const mobileDeckWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
+const mobileDeckHeight = Math.max(560, Math.round(window.visualViewport?.height ?? window.innerHeight));
+
 let currentTheme: PresentationThemeMode = appearance.theme;
 let selectedBackgroundFamilyId = appearance.backgroundFamilyId;
 let backgroundEnabled = appearance.backgroundEnabled;
@@ -197,9 +204,9 @@ const deck = new Reveal({
   transition: reducedMotion ? "none" : "slide",
   backgroundTransition: reducedMotion ? "none" : "fade",
   center: false,
-  width: 1440,
-  height: 900,
-  margin: 0.04,
+  width: cogniflowPortraitMobile ? mobileDeckWidth : 1440,
+  height: cogniflowPortraitMobile ? mobileDeckHeight : 900,
+  margin: cogniflowPortraitMobile ? 0 : 0.04,
   ...(appearance.view === "scroll"
     ? { view: "scroll", scrollProgress: true, scrollSnap: "mandatory", scrollLayout: "full" }
     : { scrollActivationWidth: 0 }),
@@ -337,6 +344,7 @@ window.addEventListener("pagehide", () => {
   deck.off("slidechanged", syncShowcaseVideos);
   deck.off("slidechanged", syncNavigationMode);
   document.body.classList.remove("pcd-no-scroll-transition");
+  document.body.classList.remove("pcd-cogniflow-mobile");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountSemanticSourceSteps();

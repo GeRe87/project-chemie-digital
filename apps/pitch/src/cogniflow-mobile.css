@@ -1,0 +1,315 @@
+/*
+ * CogniFlow portrait-mobile presentation layer.
+ *
+ * Desktop remains authored at 1440 x 900. main.ts switches only the CogniFlow
+ * presentation on narrow portrait viewports to the real viewport dimensions; these
+ * overrides then make the already-authored responsive layouts readable at 1:1 scale.
+ */
+@media (max-width: 700px) and (orientation: portrait) {
+  body.pcd-cogniflow-mobile .reveal {
+    font-size: 16px;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section {
+    box-sizing: border-box;
+    padding: .9rem .78rem 1rem !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section > h2 {
+    margin: 0 0 .48rem !important;
+    max-width: none !important;
+    font-size: clamp(1.7rem, 8.2vw, 2.15rem) !important;
+    line-height: 1.03 !important;
+    text-wrap: balance;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section > h2 + .lead {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    padding: .5rem .6rem !important;
+    font-size: .78rem !important;
+    line-height: 1.18 !important;
+    letter-spacing: .02em !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section > h2 + .lead + .keypoint-list + .lead,
+  body.pcd-cogniflow-mobile .reveal .slides section > .d3-sequence-host + .lead {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    padding: .48rem .58rem !important;
+    font-size: .72rem !important;
+    line-height: 1.16 !important;
+    letter-spacing: .015em !important;
+  }
+
+  /*
+   * Semantic-model triptychs: preserve the visual grammar, but use compact vertical
+   * cards instead of 1440px cards that Reveal would otherwise scale down.
+   */
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-semantics-first--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) {
+    grid-template-rows: auto auto auto auto !important;
+    row-gap: .52rem !important;
+    align-content: start !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-semantics-first--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .lead + .keypoint-list {
+    grid-template-columns: 1fr !important;
+    gap: .55rem !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-semantics-first--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .lead + .keypoint-list > li {
+    min-height: 0 !important;
+    padding: .72rem .78rem !important;
+    font-size: .9rem !important;
+    line-height: 1.28 !important;
+    transform: none !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-semantics-first--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
+    font-size: .9rem !important;
+    bottom: -.78rem !important;
+  }
+
+  /* Keep the knowledge-graph illustration large enough to read on a phone. */
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-semantic-triples--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(3) {
+    min-height: 13.5rem !important;
+    padding-bottom: 9.5rem !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-semantic-triples--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(3)::after {
+    height: 8.4rem !important;
+  }
+
+  /* Four processing steps remain a compact 2 x 2 board on portrait phones. */
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] {
+    row-gap: .52rem !important;
+    align-content: start !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"]
+    > h2 + .lead + .keypoint-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .55rem !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"]
+    > h2 + .lead + .keypoint-list > li {
+    min-height: 7.4rem !important;
+    padding: .7rem .62rem !important;
+    font-size: .73rem !important;
+    line-height: 1.28 !important;
+  }
+
+  /* Extension modules use the full phone width instead of being scaled as a board. */
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] {
+    row-gap: .48rem !important;
+    align-content: start !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"]
+    > h2 + .lead + .keypoint-list {
+    gap: .46rem !important;
+    width: 100% !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"]
+    > h2 + .lead + .keypoint-list > li {
+    min-height: 0 !important;
+    padding: .58rem .62rem .58rem 2.35rem !important;
+    font-size: .78rem !important;
+    line-height: 1.2 !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(1) {
+    padding: .55rem .62rem !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(n+2)::after {
+    left: .48rem !important;
+    top: .46rem !important;
+    width: 1.35rem !important;
+    height: 1.35rem !important;
+    font-size: 1.22rem !important;
+  }
+
+  /*
+   * The sequence renderer already has a compact (<720px) semantic layout. Once Reveal
+   * exposes the real mobile width it switches from four horizontal lanes to a vertical
+   * participant flow. Keep its labels crisp and give it enough vertical room.
+   */
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] {
+    row-gap: .5rem !important;
+    align-content: start !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"]
+    > .d3-sequence-host {
+    width: 100% !important;
+    min-height: 22rem !important;
+    height: auto !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"]
+    .d3-sequence-svg {
+    width: 100% !important;
+    min-height: 22rem !important;
+    height: auto !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"]
+    .d3-sequence-participant {
+    font-size: 13px !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"]
+    .d3-sequence-message-label {
+    font-size: 10px !important;
+    stroke-width: 3px !important;
+  }
+
+  /*
+   * Grammar slide: its old one-column mobile rule put six cards and the code panel
+   * into a fixed-height 900px scene. Keep the compact cards two-up and let the code
+   * example participate in normal document flow.
+   */
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .52rem !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+    gap: .45rem !important;
+    width: 100% !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list > li {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-height: 0 !important;
+    padding: .62rem .58rem !important;
+    font-size: .7rem !important;
+    line-height: 1.24 !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(1),
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list > li:nth-child(6) {
+    grid-column: 1 / -1 !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list + .code-block {
+    position: relative !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    font-size: .66rem !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list + .code-block .code-static-fallback {
+    max-height: 11.5rem !important;
+    overflow: auto !important;
+    padding: .72rem !important;
+    font-size: .7rem !important;
+    line-height: 1.38 !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"]
+    > h2 + .lead + .keypoint-list + .code-block + .lead {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: .62rem .68rem !important;
+    font-size: .72rem !important;
+    line-height: 1.28 !important;
+  }
+
+  /* Full-screen showcase beats should use the phone viewport, not the 1440px deck. */
+  body.pcd-cogniflow-mobile.reveal-scroll
+    .reveal .slides section:is(
+      [id="ex:scene-cogniflow-showcase-still--scene"],
+      [id="ex:scene-cogniflow-showcase-video-one--scene"],
+      [id="ex:scene-cogniflow-showcase-video-two--scene"]
+    ) {
+    width: 100vw !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+  }
+
+  body.pcd-cogniflow-mobile
+    .reveal .slides section[id="ex:scene-cogniflow-closing--scene"] > h2 {
+    font-size: clamp(2.25rem, 10vw, 3rem) !important;
+    padding: 0 1rem;
+  }
+}
