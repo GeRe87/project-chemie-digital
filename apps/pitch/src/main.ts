@@ -48,6 +48,7 @@ import {
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
+import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
   createDeckProgressSource,
@@ -137,9 +138,17 @@ function applyDiagramThemeMarker(): void {
 applyThemeMarker(currentTheme);
 applyDiagramThemeMarker();
 
+const runtimeBackgroundPacks = backgroundPackRegistry.map((pack) => ({
+  ...pack,
+  layers: pack.layers.map((layer) => ({
+    ...layer,
+    asset: resolvePublicAssetUrl(layer.asset),
+  })),
+}));
+
 const backgroundRuntime = mountBackgroundRuntime({
   host: document.body,
-  packs: backgroundPackRegistry,
+  packs: runtimeBackgroundPacks,
   initialPackId: appearance.backgroundPackId,
   reducedMotion,
 });

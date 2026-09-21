@@ -1,4 +1,5 @@
 import katex from "katex";
+import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view";
@@ -126,14 +127,14 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
 
     if (!block.mediaType || block.mediaType.startsWith("image/")) {
       const image = dom.createElement("img");
-      image.setAttribute("src", block.uri);
+      image.setAttribute("src", resolvePublicAssetUrl(block.uri));
       image.setAttribute("alt", block.alternativeText);
       image.setAttribute("decoding", "async");
       image.setAttribute("loading", "eager");
       figure.appendChild(image);
     } else if (block.mediaType.startsWith("video/")) {
       const video = dom.createElement("video");
-      video.setAttribute("src", block.uri);
+      video.setAttribute("src", resolvePublicAssetUrl(block.uri));
       video.setAttribute("controls", "");
       video.setAttribute("preload", "metadata");
       video.setAttribute("playsinline", "");
