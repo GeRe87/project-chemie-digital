@@ -44,6 +44,7 @@ import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
 import { mountCogniflowSemanticRings } from "./cogniflow-semantic-rings-runtime.ts";
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
+import { mountCogniflowPresentationProjection } from "./cogniflow-presentation-projection.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -119,6 +120,7 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   canonicalDatasetSnapshot,
 );
 preparePresentationStepFragments(root);
+const unmountPresentationProjection = mountCogniflowPresentationProjection(root);
 
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
@@ -347,6 +349,7 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-cogniflow-mobile");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
+  unmountPresentationProjection();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();

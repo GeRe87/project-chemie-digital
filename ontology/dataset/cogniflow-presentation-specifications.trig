@@ -50,13 +50,13 @@ border · typography · accent"""@en ;
 PROCESSING UNIT INFO BOX
 
 TEXT · "PROCESSING UNIT"
-THEME · Amber
-BORDER · Strong
+THEME · Eco City
+PROJECTION · InfoBox
 TYPE · Mono / bold"""@en ;
     cd:authoredResource true .
 
   ex:cogniflow-presentation-compatibility-note a cd:Interpretation ;
-    cd:body "THIS SLIDE USES THE SAME MODEL IT DESCRIBES"@en ;
+    cd:body "SAME SEMANTICS — DIFFERENT PROJECTIONS"@en ;
     cd:authoredResource true .
 }
 
