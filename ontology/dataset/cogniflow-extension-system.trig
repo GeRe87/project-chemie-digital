@@ -89,7 +89,7 @@ EXTEND BY ADDING A CONFORMING MODULE — NOT BY CHANGING THE CORE"""@en ;
     cd:hasStep ex:path-step-cogniflow-extension-system .
 
   ex:path-step-cogniflow-extension-system a cd:PathStep ;
-    cd:position 15 ;
+    cd:position 16 ;
     cd:usesResource
       ex:cogniflow-extension-system-banner,
       ex:def-cogniflow-extension-system,
