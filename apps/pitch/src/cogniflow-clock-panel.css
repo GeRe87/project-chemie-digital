@@ -1,0 +1,72 @@
+/* Small desktop-only clock panel for the CogniFlow web presentation. */
+.cogniflow-clock-panel {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .cogniflow-clock-panel {
+    position: fixed;
+    top: 50%;
+    right: .7rem;
+    z-index: 50;
+    transform: translateY(-50%);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    justify-items: center;
+    width: 4.25rem;
+    padding: .72rem .42rem .62rem;
+    border: 3px solid var(--pcd-accent);
+    background: color-mix(in srgb, var(--pcd-world-shell-bg) 92%, transparent);
+    box-shadow:
+      5px 5px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, white 30%, transparent);
+    color: var(--pcd-accent);
+    pointer-events: none;
+    user-select: none;
+    backdrop-filter: blur(8px);
+    font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+    text-align: center;
+  }
+
+  body.reveal-scroll .cogniflow-clock-panel {
+    background: color-mix(in srgb, var(--pcd-world-shell-scroll-bg) 94%, transparent);
+    backdrop-filter: none;
+  }
+
+  .cogniflow-clock-hours,
+  .cogniflow-clock-minutes {
+    display: block;
+    width: 100%;
+    font-size: 1.62rem;
+    font-weight: 950;
+    line-height: .92;
+    letter-spacing: -.06em;
+  }
+
+  .cogniflow-clock-hours {
+    padding-bottom: .18rem;
+    border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 32%, transparent);
+  }
+
+  .cogniflow-clock-minutes {
+    padding-top: .22rem;
+  }
+
+  .cogniflow-clock-meridiem {
+    display: block;
+    margin-top: .34rem;
+    color: var(--pcd-muted);
+    font-size: .64rem;
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: .12em;
+    text-transform: lowercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cogniflow-clock-panel {
+    transition: none !important;
+  }
+}

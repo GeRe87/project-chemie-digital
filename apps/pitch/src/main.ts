@@ -32,6 +32,7 @@ import "./cogniflow-take-home.css";
 import "./cogniflow-showcase.css";
 import "./cogniflow-closing.css";
 import "./cogniflow-mobile.css";
+import "./cogniflow-clock-panel.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -45,6 +46,7 @@ import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
 import { mountCogniflowSemanticRings } from "./cogniflow-semantic-rings-runtime.ts";
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import { mountCogniflowPresentationProjection } from "./cogniflow-presentation-projection.ts";
+import { mountCogniflowClockPanel } from "./cogniflow-clock-panel.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -124,6 +126,9 @@ const unmountPresentationProjection = mountCogniflowPresentationProjection(root)
 
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
+const unmountCogniflowClock = appearance.profile.id === "cogniflow-standardized-data-processing"
+  ? mountCogniflowClockPanel(document.body)
+  : () => undefined;
 
 const cogniflowPortraitMobile = appearance.profile.id === "cogniflow-standardized-data-processing"
   && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
@@ -350,6 +355,7 @@ window.addEventListener("pagehide", () => {
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountPresentationProjection();
+  unmountCogniflowClock();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();
