@@ -16,6 +16,7 @@ import "./cogniflow-semantics-first.css";
 import "./cogniflow-semantic-triples.css";
 import "./cogniflow-semantic-core.css";
 import "./cogniflow-core-grammar.css";
+import "./cogniflow-semantic-hierarchy.css";
 import "./cogniflow-domain-specifications.css";
 import "./cogniflow-ui-specifications.css";
 import "./cogniflow-presentation-specifications.css";
