@@ -4,7 +4,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-take-home> {
   ex:cogniflow-take-home a cd:Concept ;
-    skos:prefLabel "TAKE HOME"@en ;
+    skos:prefLabel "Take Home"@en ;
     cd:hasDefinition ex:def-cogniflow-take-home ;
     cd:authoredResource true .
 
