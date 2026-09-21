@@ -11,6 +11,7 @@
       ex:path-step-cogniflow-semantic-triples,
       ex:path-step-cogniflow-semantic-core,
       ex:path-step-cogniflow-core-grammar,
+      ex:path-step-cogniflow-semantic-hierarchy,
       ex:path-step-cogniflow-domain-specifications,
       ex:path-step-cogniflow-ui-specifications,
       ex:path-step-cogniflow-presentation-specifications,

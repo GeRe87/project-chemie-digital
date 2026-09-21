@@ -49,9 +49,6 @@ specify concrete Concepts"""@en ;
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-hierarchy> {
-  ex:path-cogniflow-standardized-data-processing
-    cd:hasStep ex:path-step-cogniflow-semantic-hierarchy .
-
   ex:path-step-cogniflow-semantic-hierarchy a cd:PathStep ;
     cd:position 10 ;
     cd:usesResource ex:cogniflow-semantic-hierarchy-intro,
