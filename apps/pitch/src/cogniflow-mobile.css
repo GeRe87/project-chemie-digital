@@ -34,6 +34,7 @@
   }
 
   body.pcd-cogniflow-mobile .reveal .slides section > h2 + .lead + .keypoint-list + .lead,
+  body.pcd-cogniflow-mobile .reveal .slides section > h2 + .keypoint-list + .lead,
   body.pcd-cogniflow-mobile .reveal .slides section > .d3-sequence-host + .lead {
     width: 100% !important;
     max-width: none !important;
@@ -94,6 +95,50 @@
     [id="ex:scene-cogniflow-ui-specifications--scene"],
     [id="ex:scene-cogniflow-presentation-specifications--scene"]
   ) > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
+    font-size: .9rem !important;
+    bottom: -.78rem !important;
+  }
+
+
+
+  /* The three concept/specification examples intentionally omit the redundant
+     grammar banner: title -> cards -> takeaway. */
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) {
+    grid-template-rows: auto auto auto !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .keypoint-list {
+    grid-template-columns: 1fr !important;
+    gap: .55rem !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .keypoint-list > li {
+    min-height: 0 !important;
+    padding: .72rem .78rem !important;
+    font-size: .9rem !important;
+    line-height: 1.28 !important;
+    transform: none !important;
+  }
+
+  body.pcd-cogniflow-mobile .reveal .slides section:is(
+    [id="ex:scene-cogniflow-domain-specifications--scene"],
+    [id="ex:scene-cogniflow-ui-specifications--scene"],
+    [id="ex:scene-cogniflow-presentation-specifications--scene"]
+  ) > h2 + .keypoint-list > li:not(:last-child)::after {
     font-size: .9rem !important;
     bottom: -.78rem !important;
   }
