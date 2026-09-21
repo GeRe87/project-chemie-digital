@@ -11,6 +11,7 @@
       ex:path-step-cogniflow-semantic-core,
       ex:path-step-cogniflow-core-grammar,
       ex:path-step-cogniflow-domain-specifications,
+      ex:path-step-cogniflow-ui-specifications,
       ex:path-step-cogniflow-processing-pipeline,
       ex:path-step-cogniflow-service-process,
       ex:path-step-cogniflow-extension-system .

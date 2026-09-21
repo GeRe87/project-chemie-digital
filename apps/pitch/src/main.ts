@@ -16,6 +16,7 @@ import "./cogniflow-semantics-first.css";
 import "./cogniflow-semantic-core.css";
 import "./cogniflow-core-grammar.css";
 import "./cogniflow-domain-specifications.css";
+import "./cogniflow-ui-specifications.css";
 import "./cogniflow-processing-pipeline.css";
 import "./cogniflow-service-system.css";
 import "./cogniflow-extension-system.css";
@@ -204,19 +205,26 @@ const showcaseSceneIds = new Set([
   "ex:scene-cogniflow-showcase-video-two--scene",
 ]);
 
-// Suppress the animated Scroll View transition only while advancing from the still
-// and the first video. Once video two is active, normal Scroll View behavior is
-// restored so the final "Thank you" slide scrolls in normally.
-const showcaseHardCutSceneIds = new Set([
+// Some consecutive scenes are deliberate "same camera position" swaps: advancing
+// replaces the content without animating the Scroll View. The second scene in each pair
+// restores normal scrolling for the following transition.
+const hardCutSceneIds = new Set([
+  "ex:scene-cogniflow-domain-specifications--scene",
   "ex:scene-cogniflow-showcase-still--scene",
   "ex:scene-cogniflow-showcase-video-one--scene",
 ]);
 
-function syncShowcaseNavigationMode(): void {
+const frozenBackgroundSceneIds = new Set([
+  "ex:scene-cogniflow-domain-specifications--scene",
+  "ex:scene-cogniflow-ui-specifications--scene",
+  ...showcaseSceneIds,
+]);
+
+function syncNavigationMode(): void {
   const sceneId = deck.getCurrentSlide()?.id ?? "";
   document.body.classList.toggle(
-    "pcd-showcase-no-scroll-transition",
-    appearance.view === "scroll" && showcaseHardCutSceneIds.has(sceneId),
+    "pcd-no-scroll-transition",
+    appearance.view === "scroll" && hardCutSceneIds.has(sceneId),
   );
 }
 
@@ -239,8 +247,8 @@ function syncShowcaseVideos(): void {
   }
 }
 deck.on("slidechanged", syncShowcaseVideos);
-deck.on("slidechanged", syncShowcaseNavigationMode);
-syncShowcaseNavigationMode();
+deck.on("slidechanged", syncNavigationMode);
+syncNavigationMode();
 syncShowcaseVideos();
 
 function revealScrollOffset(): number {
@@ -279,7 +287,7 @@ function createProgressSource(): BackgroundProgressSource {
 const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSceneId = deck.getCurrentSlide()?.id ?? "";
-  if (appearance.view === "scroll" && showcaseSceneIds.has(currentSceneId)) return;
+  if (appearance.view === "scroll" && frozenBackgroundSceneIds.has(currentSceneId)) return;
   backgroundRuntime.setProgress(offset);
 });
 
@@ -314,8 +322,8 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
   deck.off("slidechanged", syncShowcaseVideos);
-  deck.off("slidechanged", syncShowcaseNavigationMode);
-  document.body.classList.remove("pcd-showcase-no-scroll-transition");
+  deck.off("slidechanged", syncNavigationMode);
+  document.body.classList.remove("pcd-no-scroll-transition");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountSemanticSourceSteps();

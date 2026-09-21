@@ -102,7 +102,7 @@ search by need → match provider → standardized order → standardized delive
 <https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
   ex:path-cogniflow-standardized-data-processing cd:hasStep ex:path-step-cogniflow-service-process .
   ex:path-step-cogniflow-service-process a cd:PathStep ;
-    cd:position 11 ;
+    cd:position 12 ;
     cd:usesResource ex:cogniflow-service-marketplace-banner,
       ex:diagram-cogniflow-service-process,
       ex:cogniflow-service-marketplace-note ;

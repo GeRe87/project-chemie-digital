@@ -121,12 +121,12 @@ body.reveal-scroll .reveal .slides section[id="ex:scene-cogniflow-showcase-video
 }
 
 
-/* The presentation uses smooth CSSOM scrolling in Reveal Scroll View. For the
-   full-screen showcase sequence we deliberately suppress that transition so "next"
-   behaves like a hard slide cut rather than scrolling the screenshot/video away. */
-html:has(body.pcd-showcase-no-scroll-transition),
-body.pcd-showcase-no-scroll-transition,
-body.pcd-showcase-no-scroll-transition.reveal-viewport,
-body.pcd-showcase-no-scroll-transition .reveal-viewport {
+/* The presentation uses smooth CSSOM scrolling in Reveal Scroll View. Selected
+   same-camera scene pairs suppress that transition so "next" behaves like a hard cut
+   while the background remains fixed. */
+html:has(body.pcd-no-scroll-transition),
+body.pcd-no-scroll-transition,
+body.pcd-no-scroll-transition.reveal-viewport,
+body.pcd-no-scroll-transition .reveal-viewport {
   scroll-behavior: auto !important;
 }
