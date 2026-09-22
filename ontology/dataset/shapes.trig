@@ -132,6 +132,144 @@ SELECT $this WHERE {
       sh:message "A DefinitionListEntry must have exactly one owning DefinitionList."
     ] .
 
+
+  cd:TableDefinitionShape a sh:NodeShape ;
+    sh:targetClass cd:TableDefinition ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:hasTableColumn ; sh:minCount 1 ; sh:class cd:TableColumn ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasTableRow ; sh:minCount 1 ; sh:class cd:TableRow ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:sparql [
+      sh:message "Table column positions must be unique." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableColumn ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Table columns must start at position 1 and be contiguous." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableColumn ?column .
+        ?column cd:position ?position .
+        FILTER (
+          (?position = 1 && NOT EXISTS { $this cd:hasTableColumn ?first . ?first cd:position 1 })
+          || (?position > 1 && NOT EXISTS {
+            $this cd:hasTableColumn ?previous .
+            ?previous cd:position ?previousPosition .
+            FILTER (?previousPosition = ?position - 1)
+          })
+        )
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Table row positions must be unique." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableRow ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Table rows must start at position 1 and be contiguous." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableRow ?row .
+        ?row cd:position ?position .
+        FILTER (
+          (?position = 1 && NOT EXISTS { $this cd:hasTableRow ?first . ?first cd:position 1 })
+          || (?position > 1 && NOT EXISTS {
+            $this cd:hasTableRow ?previous .
+            ?previous cd:position ?previousPosition .
+            FILTER (?previousPosition = ?position - 1)
+          })
+        )
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Each table row must contain exactly one cell per table column." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        {
+          SELECT $this (COUNT(?column) AS ?columnCount)
+          WHERE { $this cd:hasTableColumn ?column . }
+          GROUP BY $this
+        }
+        $this cd:hasTableRow ?row .
+        {
+          SELECT ?row (COUNT(?cell) AS ?cellCount)
+          WHERE { ?row cd:hasTableCell ?cell . }
+          GROUP BY ?row
+        }
+        FILTER (?cellCount != ?columnCount)
+      }"""
+    ] .
+
+  cd:TableColumnShape a sh:NodeShape ;
+    sh:targetClass cd:TableColumn ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [
+      sh:path [ sh:inversePath cd:hasTableColumn ] ;
+      sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:TableDefinition ;
+      sh:message "A TableColumn must have exactly one owning TableDefinition."
+    ] .
+
+  cd:TableRowShape a sh:NodeShape ;
+    sh:targetClass cd:TableRow ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:hasTableCell ; sh:minCount 1 ; sh:class cd:TableCell ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [
+      sh:path [ sh:inversePath cd:hasTableRow ] ;
+      sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:TableDefinition ;
+      sh:message "A TableRow must have exactly one owning TableDefinition."
+    ] ;
+    sh:sparql [
+      sh:message "Table cell positions must be unique within a row." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableCell ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Table cells must start at position 1 and be contiguous." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasTableCell ?cell .
+        ?cell cd:position ?position .
+        FILTER (
+          (?position = 1 && NOT EXISTS { $this cd:hasTableCell ?first . ?first cd:position 1 })
+          || (?position > 1 && NOT EXISTS {
+            $this cd:hasTableCell ?previous .
+            ?previous cd:position ?previousPosition .
+            FILTER (?previousPosition = ?position - 1)
+          })
+        )
+      }"""
+    ] .
+
+  cd:TableCellShape a sh:NodeShape ;
+    sh:targetClass cd:TableCell ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [
+      sh:path [ sh:inversePath cd:hasTableCell ] ;
+      sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:TableRow ;
+      sh:message "A TableCell must have exactly one owning TableRow."
+    ] .
+
   cd:ChartDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:ChartDefinition ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
@@ -506,8 +644,8 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:TableRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" "cd:hasTableRow" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
@@ -554,6 +692,43 @@ SELECT $this WHERE {
 SELECT $this WHERE {
         $this cd:communicativeRole cd:DefinitionListRole ; cd:selectsResource ?source .
         FILTER NOT EXISTS { ?source a cd:DefinitionList ; cd:hasDefinitionListEntry ?entry . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "TableRole requires exactly the cd:hasTableRow selector." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:TableRole ; cd:selectionPath ?selector .
+        FILTER (?selector != "cd:hasTableRow")
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "The cd:hasTableRow selector requires TableRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectionPath "cd:hasTableRow" ; cd:communicativeRole ?role .
+        FILTER (?role != cd:TableRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "TableRole must select a TableDefinition." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:TableRole ; cd:selectsResource ?source .
+        FILTER NOT EXISTS {
+          ?source a cd:TableDefinition ;
+            cd:hasTableColumn ?column ;
+            cd:hasTableRow ?row .
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A TableDefinition selected by a scene item requires TableRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectsResource ?source ; cd:communicativeRole ?role .
+        ?source a cd:TableDefinition .
+        FILTER (?role != cd:TableRole)
       }"""
     ] ;
     sh:sparql [
