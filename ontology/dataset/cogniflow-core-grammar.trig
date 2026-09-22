@@ -68,6 +68,10 @@ SHACL validation term
 ConceptShape · InstanceShape"""@en ;
     cd:authoredResource true .
 
+  ex:cogniflow-core-code-reading-label a cd:Interpretation ;
+    cd:body "READING TRIG · CONCEPT DOMAIN"@en ;
+    cd:authoredResource true .
+
   ex:code-cogniflow-core-concept-domain a cd:CodeExample ;
     skos:prefLabel "Concept domain in TriG"@en ;
     cd:code """cfproc:ProcessingUnitConceptDomain
@@ -98,6 +102,7 @@ Controlled Value → Input"""@en ;
     cd:position 10 ;
     cd:usesResource ex:cogniflow-core-grammar-banner,
       ex:cogniflow-core-grammar-primitives,
+      ex:cogniflow-core-code-reading-label,
       ex:code-cogniflow-core-concept-domain,
       ex:cogniflow-core-domain-reading ;
     cd:usesScene ex:scene-cogniflow-core-grammar ;
@@ -110,6 +115,7 @@ Controlled Value → Input"""@en ;
     cd:hasSceneItem ex:scene-item-cogniflow-core-grammar-heading,
       ex:scene-item-cogniflow-core-grammar-banner,
       ex:scene-item-cogniflow-core-grammar-primitives,
+      ex:scene-item-cogniflow-core-grammar-code-label,
       ex:scene-item-cogniflow-core-grammar-code,
       ex:scene-item-cogniflow-core-grammar-domain-reading ;
     cd:authoredResource true .
@@ -138,8 +144,16 @@ Controlled Value → Input"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-core-grammar-code a cd:SceneItem ;
+  ex:scene-item-cogniflow-core-grammar-code-label a cd:SceneItem ;
     cd:position 4 ;
+    cd:selectsResource ex:cogniflow-core-code-reading-label ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-core-grammar-code a cd:SceneItem ;
+    cd:position 5 ;
     cd:selectsResource ex:code-cogniflow-core-concept-domain ;
     cd:communicativeRole cd:CodeRole ;
     cd:selectionPath "cd:hasCodeExample" ;
@@ -147,7 +161,7 @@ Controlled Value → Input"""@en ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-core-grammar-domain-reading a cd:SceneItem ;
-    cd:position 5 ;
+    cd:position 6 ;
     cd:selectsResource ex:cogniflow-core-domain-reading ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
