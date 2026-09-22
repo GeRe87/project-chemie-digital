@@ -113,6 +113,58 @@ test("does not infer concept-specification from an arbitrary keypoint list", () 
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:two-cards", 2)), undefined);
 });
 
+function processContextScene(id: string): Scene {
+  const definitionList = (blockId: string) => ({
+    id: blockId,
+    kind: "definition-list" as const,
+    entries: Array.from({ length: 6 }, (_, index) => ({
+      id: `${blockId}:entry:${index + 1}`,
+      term: `Term ${index + 1}`,
+      description: `Description ${index + 1}`,
+      source: [{ resourceId: `resource:${blockId}:${index + 1}` }],
+    })),
+    source: [{ resourceId: `resource:${blockId}` }],
+  });
+  return {
+    id,
+    source: [{ resourceId: "resource:process-context-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      {
+        id: "block:diagram",
+        kind: "diagram",
+        diagramType: "flow",
+        label: "Opaque process",
+        description: "Opaque process description",
+        nodes: [
+          { id: "node:a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "node:b", label: "B", source: [{ resourceId: "resource:b" }] },
+          { id: "node:c", label: "C", source: [{ resourceId: "resource:c" }] },
+        ],
+        edges: [
+          { id: "edge:ab", sourceNodeId: "node:a", targetNodeId: "node:b", label: "x", source: [{ resourceId: "resource:ab" }] },
+          { id: "edge:bc", sourceNodeId: "node:b", targetNodeId: "node:c", label: "y", source: [{ resourceId: "resource:bc" }] },
+        ],
+        source: [{ resourceId: "resource:diagram" }],
+      },
+      prose("block:example-heading", "explain"),
+      definitionList("block:example-definitions"),
+      prose("block:example-note", "explain"),
+      prose("block:context-heading", "explain"),
+      definitionList("block:context-definitions"),
+    ],
+    readingOrder: [
+      "block:heading",
+      "block:diagram",
+      "block:example-heading",
+      "block:example-definitions",
+      "block:example-note",
+      "block:context-heading",
+      "block:context-definitions",
+    ],
+  };
+}
+
 test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {
   assert.equal(inferRevealLayoutFamily(hierarchyScene("scene:alpha")), "hierarchy-flow");
   assert.equal(inferRevealLayoutFamily(hierarchyScene("totally:opaque")), "hierarchy-flow");
@@ -123,4 +175,19 @@ test("infers reusable reference-code composition without inspecting labels or la
   assert.equal(inferRevealLayoutFamily(referenceCodeScene("scene:alpha")), "reference-code");
   assert.equal(inferRevealLayoutFamily(referenceCodeScene("totally:opaque")), "reference-code");
   assert.deepEqual(inferRevealLayoutDecision(referenceCodeScene("scene:slots"))?.slots, ["heading", "banner", "terms", "code-label", "code", "reading"]);
+});
+
+
+test("infers process-context from diagram and definition-list structure without identity", () => {
+  assert.equal(inferRevealLayoutFamily(processContextScene("scene:alpha")), "process-context");
+  assert.equal(inferRevealLayoutFamily(processContextScene("opaque:scene")), "process-context");
+  assert.deepEqual(inferRevealLayoutDecision(processContextScene("scene:slots"))?.slots, [
+    "heading",
+    "diagram",
+    "example-heading",
+    "example-definitions",
+    "example-note",
+    "context-heading",
+    "context-definitions",
+  ]);
 });
