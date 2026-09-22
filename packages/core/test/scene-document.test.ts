@@ -282,6 +282,24 @@ test("rejects tied disclosure orders among nested group children", () => {
   }, /group group:explanation disclosure orders must be unique among siblings/);
 });
 
+test("network diagrams may model grouped semantic structure without authored edges", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.diagramType = "network";
+  block.edges = [];
+  block.groups = [
+    { id: "group:inner", label: "Inner", source: [{ resourceId: "ex:inner" }] },
+    { id: "group:outer", label: "Outer", source: [{ resourceId: "ex:outer" }] },
+  ];
+  block.nodes[0]!.groupIds = ["group:outer"];
+  block.nodes[1]!.groupIds = ["group:inner"];
+  assert.doesNotThrow(() => validateSceneDocument(value));
+
+  block.diagramType = "flow";
+  assert.throws(() => validateSceneDocument(value), /flow diagram must contain at least one edge/);
+});
+
 test("diagram groups and visual roles remain semantic while membership is validated", () => {
   const value = structuredClone(flowDocument());
   const block = value.scenes[0]!.blocks[0]!;

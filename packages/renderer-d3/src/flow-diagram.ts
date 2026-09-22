@@ -240,7 +240,7 @@ function validateFlowBlock(block: DiagramBlock): void {
 
 function flowStaticFallback(block: DiagramBlock): string {
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
-  const groupMembership = new Map((block.groups ?? []).map((group) => [
+  const groupMembership = new Map<string, string[]>((block.groups ?? []).map((group): [string, string[]] => [
     group.id,
     block.nodes.filter((node) => node.groupIds?.includes(group.id)).map((node) => node.label),
   ]));
