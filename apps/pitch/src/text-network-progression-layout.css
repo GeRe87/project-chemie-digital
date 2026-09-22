@@ -2,8 +2,8 @@
 .reveal .slides section[data-layout="text-network-progression"] {
   display:grid !important;
   grid-template-rows:auto 3.35rem minmax(0,1fr) 3.35rem;
-  grid-template-columns:.92fr 1.13fr 1.05fr;
-  gap:.82rem 3rem;
+  grid-template-columns:.84fr 1.06fr 1.20fr;
+  gap:.82rem 2.6rem;
   align-content:stretch;
   padding:1.45rem 2.15rem 1.45rem !important;
 }
@@ -143,4 +143,61 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
     grid-row:5; min-height:20rem;
   }
   .reveal .slides section[data-layout="text-network-progression"] > [data-layout-slot="takeaway"] { grid-row:6; }
+}
+
+/* Compact relational networks use a lighter card grammar than process flows. */
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node {
+  filter: drop-shadow(0 4px 0 color-mix(in srgb, #063d47 28%, transparent));
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-shape {
+  fill: #55d4da;
+  stroke: #073f49;
+  stroke-width: 5;
+  filter:
+    drop-shadow(0 -2px 0 #e8ffff)
+    drop-shadow(4px 5px 0 color-mix(in srgb, #073f49 38%, transparent));
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-label {
+  fill: #063d47;
+  stroke: #e8ffff;
+  stroke-width: 3px;
+  font: 950 15px/1.05 "Cascadia Mono","SFMono-Regular",Consolas,monospace;
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge {
+  stroke-width: 3;
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge-label-panel {
+  fill: #cceff1;
+  stroke: #167d87;
+  stroke-width: 2.5;
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, #073f49 24%, transparent));
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge-label {
+  fill: #064b55;
+  stroke: none;
+  font-size: 12px;
+  letter-spacing: -.025em;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-shape {
+  fill: #0b6f7b;
+  stroke: #b8f9fd;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-label {
+  fill: #edffff;
+  stroke: #0b2533;
 }

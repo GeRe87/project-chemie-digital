@@ -454,22 +454,22 @@ function compactRadialNetworkLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
-  const height = Math.max(300, Math.min(430, width * 0.86));
+  const height = Math.max(320, Math.min(450, width * 0.9));
   const centerX = width / 2;
   const centerY = height / 2;
-  const nodeWidth = Math.max(96, Math.min(138, width * 0.29));
-  const radiusX = Math.max(88, Math.min(width * 0.31, (width - nodeWidth) / 2 - 16));
-  const radiusY = Math.max(82, Math.min(height * 0.31, (height - 74) / 2 - 14));
+  const nodeWidth = Math.max(146, Math.min(176, width * 0.39));
+  const radiusX = Math.max(96, Math.min(width * 0.32, (width - nodeWidth) / 2 - 14));
+  const radiusY = Math.max(96, Math.min(height * 0.34, (height - 68) / 2 - 16));
 
   const nodes = prepared.map((node, index): D3FlowLayoutNode => {
     const angle = -Math.PI / 2 + (2 * Math.PI * index) / prepared.length;
-    const labelLines = wrapFlowText(node.label, Math.max(74, nodeWidth - 24));
+    const labelLines = wrapFlowText(node.label, Math.max(118, nodeWidth - 28));
     return {
       id: node.id,
       x: centerX + Math.cos(angle) * radiusX,
       y: centerY + Math.sin(angle) * radiusY,
       width: nodeWidth,
-      height: Math.max(58, 26 + labelLines.length * 20),
+      height: Math.max(62, 28 + labelLines.length * 21),
       labelLines,
     };
   });
@@ -479,10 +479,10 @@ function compactRadialNetworkLayout(
 function networkEdgeGeometry(
   source: D3FlowLayoutNode,
   target: D3FlowLayoutNode,
+  layoutCenter?: { readonly x: number; readonly y: number },
 ): Pick<D3FlowLayoutEdge, "x1" | "y1" | "x2" | "y2" | "labelX" | "labelY"> {
   const dx = target.x - source.x;
   const dy = target.y - source.y;
-  const length = Math.hypot(dx, dy) || 1;
   const boundaryScale = (node: D3FlowLayoutNode): number => {
     const normalizedX = Math.abs(dx) / Math.max(node.width / 2, 1);
     const normalizedY = Math.abs(dy) / Math.max(node.height / 2, 1);
@@ -494,14 +494,33 @@ function networkEdgeGeometry(
   const y1 = source.y + dy * sourceScale;
   const x2 = target.x - dx * targetScale;
   const y2 = target.y - dy * targetScale;
+  const edgeMidX = midpoint(x1, x2);
+  const edgeMidY = midpoint(y1, y2);
+
+  if (layoutCenter) {
+    const outwardX = edgeMidX - layoutCenter.x;
+    const outwardY = edgeMidY - layoutCenter.y;
+    const outwardLength = Math.hypot(outwardX, outwardY) || 1;
+    const labelOffset = 30;
+    return {
+      x1,
+      y1,
+      x2,
+      y2,
+      labelX: edgeMidX + (outwardX / outwardLength) * labelOffset,
+      labelY: edgeMidY + (outwardY / outwardLength) * labelOffset,
+    };
+  }
+
+  const length = Math.hypot(dx, dy) || 1;
   const labelOffset = 16;
   return {
     x1,
     y1,
     x2,
     y2,
-    labelX: midpoint(x1, x2) - (dy / length) * labelOffset,
-    labelY: midpoint(y1, y2) + (dx / length) * labelOffset,
+    labelX: edgeMidX - (dy / length) * labelOffset,
+    labelY: edgeMidY + (dx / length) * labelOffset,
   };
 }
 
@@ -533,10 +552,10 @@ function concentricNetworkLayout(
   const focusNode = prepared.find((node) => node.id === input.focusNodeId);
   if (!focusNode) throw new Error("Concentric network requires its focus node in the node set");
 
-  const width = Math.max(760, hostWidth);
-  const groupRadius = (index: number): number => 165 + index * 105;
+  const groupRadius = (index: number): number => 180 + index * 120;
   const outerRadius = groupRadius(Math.max(0, groups.length - 1));
-  const height = Math.max(650, outerRadius * 2 + 150);
+  const width = Math.max(780, Math.min(hostWidth, 1040), outerRadius * 2 + 180);
+  const height = Math.max(690, outerRadius * 2 + 150);
   const cx = width / 2;
   const cy = outerRadius + 75;
   const nodes: D3FlowLayoutNode[] = [];
@@ -567,8 +586,8 @@ function concentricNetworkLayout(
     });
 
     const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const maximumNodeWidth = groupIndex === 0 ? 146 : 104;
-    const nodeWidth = Math.max(groupIndex === 0 ? 118 : 86, Math.min(maximumNodeWidth, arcAllowance * 0.72));
+    const maximumNodeWidth = groupIndex === 0 ? 160 : 124;
+    const nodeWidth = Math.max(groupIndex === 0 ? 136 : 108, Math.min(maximumNodeWidth, arcAllowance * 0.74));
     members.forEach((node, memberIndex) => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
       const labelLines = wrapFlowText(node.label, Math.max(70, nodeWidth - 20));
@@ -577,7 +596,7 @@ function concentricNetworkLayout(
         x: cx + Math.cos(angle) * radius,
         y: cy + Math.sin(angle) * radius,
         width: nodeWidth,
-        height: Math.max(groupIndex === 0 ? 62 : 46, 24 + labelLines.length * 17),
+        height: Math.max(groupIndex === 0 ? 68 : 54, 24 + labelLines.length * 17),
         labelLines,
       });
     });
@@ -649,7 +668,11 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         id: edge.id,
         sourceNodeId: edge.sourceNodeId,
         targetNodeId: edge.targetNodeId,
-        ...networkEdgeGeometry(source, target),
+        ...networkEdgeGeometry(
+          source,
+          target,
+          radial ? { x: geometry.width / 2, y: geometry.height / 2 } : undefined,
+        ),
         labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };

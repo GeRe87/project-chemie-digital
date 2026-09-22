@@ -26,13 +26,13 @@
   display: block;
   width: 100%;
   min-height: 0;
-  max-height: 46rem;
+  max-height: 48rem;
   overflow: visible;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-band {
   stroke: color-mix(in srgb, var(--pcd-accent) 9%, transparent);
-  stroke-width: 68;
+  stroke-width: 76;
   vector-effect: non-scaling-stroke;
 }
 
@@ -88,12 +88,12 @@
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 900;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-label {
-  font-size: 9.5px;
+  font-size: 10.5px;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] .d3-flow-node-label {
@@ -130,4 +130,13 @@
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
   fill: white;
   stroke: color-mix(in srgb, var(--pcd-accent) 72%, black);
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-shape {
+  filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-foreground) 12%, transparent));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-label {
+  font-size: 15px;
+  letter-spacing: .105em;
 }
