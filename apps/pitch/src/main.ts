@@ -242,24 +242,23 @@ const showcaseSceneIds = new Set([
 // replaces the content without animating the Scroll View. The second scene in each pair
 // restores normal scrolling for the following transition.
 const hardCutSceneIds = new Set([
-  "ex:scene-cogniflow-domain-specifications--scene",
-  "ex:scene-cogniflow-ui-specifications--scene",
   "ex:scene-cogniflow-showcase-still--scene",
   "ex:scene-cogniflow-showcase-video-one--scene",
 ]);
 
 const frozenBackgroundSceneIds = new Set([
-  "ex:scene-cogniflow-domain-specifications--scene",
-  "ex:scene-cogniflow-ui-specifications--scene",
-  "ex:scene-cogniflow-presentation-specifications--scene",
   ...showcaseSceneIds,
 ]);
 
 function syncNavigationMode(): void {
-  const sceneId = deck.getCurrentSlide()?.id ?? "";
+  const current = deck.getCurrentSlide() as HTMLElement | undefined;
+  const sceneId = current?.id ?? "";
+  const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
+  const sameStructuralSequence = current?.dataset.layout === "concept-specification"
+    && next?.dataset.layout === current.dataset.layout;
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
-    appearance.view === "scroll" && hardCutSceneIds.has(sceneId),
+    appearance.view === "scroll" && (sameStructuralSequence || hardCutSceneIds.has(sceneId)),
   );
 }
 
@@ -328,8 +327,10 @@ function createProgressSource(): BackgroundProgressSource {
 
 const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
-  const currentSceneId = deck.getCurrentSlide()?.id ?? "";
-  if (appearance.view === "scroll" && frozenBackgroundSceneIds.has(currentSceneId)) return;
+  const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
+  const currentSceneId = currentSlide?.id ?? "";
+  const freezeForLayout = currentSlide?.dataset.layout === "concept-specification";
+  if (appearance.view === "scroll" && (freezeForLayout || frozenBackgroundSceneIds.has(currentSceneId))) return;
   backgroundRuntime.setProgress(offset);
 });
 
