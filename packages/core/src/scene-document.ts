@@ -2,12 +2,14 @@ export const SCENE_DOCUMENT_VERSION = "1.0" as const;
 export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
 export const SCENE_DOCUMENT_SEQUENCE_VERSION = "1.3" as const;
+export const SCENE_DOCUMENT_DEFINITION_LIST_VERSION = "1.4" as const;
 
 export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_VERSION
   | typeof SCENE_DOCUMENT_FLOW_VERSION
   | typeof SCENE_DOCUMENT_CHART_VERSION
-  | typeof SCENE_DOCUMENT_SEQUENCE_VERSION;
+  | typeof SCENE_DOCUMENT_SEQUENCE_VERSION
+  | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -86,6 +88,18 @@ export interface ListBlock extends SceneBlockBase {
   readonly kind: "list";
   readonly listStyle: "unordered" | "ordered";
   readonly items: readonly ListItem[];
+}
+
+export interface DefinitionListEntry {
+  readonly id: string;
+  readonly term: string;
+  readonly description?: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface DefinitionListBlock extends SceneBlockBase {
+  readonly kind: "definition-list";
+  readonly entries: readonly DefinitionListEntry[];
 }
 
 export interface GroupBlock extends SceneBlockBase {
@@ -260,6 +274,7 @@ export type SceneBlock =
   | CodeBlock
   | MediaReferenceBlock
   | ListBlock
+  | DefinitionListBlock
   | GroupBlock
   | PromptBlock
   | DiagramBlock
@@ -323,6 +338,19 @@ function validateListItems(items: readonly ListItem[], label: string): void {
     requireNonEmpty(item.id, `${label} item id`);
     requireNonEmpty(item.text, `${label} item ${item.id} text`);
     validateSource(item.source, `${label} item ${item.id} source`);
+  }
+}
+
+function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], label: string): void {
+  if (entries.length === 0) throw new SceneContractError(`${label} must contain at least one entry`);
+  const ids = new Set<string>();
+  for (const entry of entries) {
+    requireNonEmpty(entry.id, `${label} entry id`);
+    if (ids.has(entry.id)) throw new SceneContractError(`${label} contains duplicate entry ids`);
+    ids.add(entry.id);
+    requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
+    if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
+    validateSource(entry.source, `${label} entry ${entry.id} source`);
   }
 }
 
@@ -546,6 +574,12 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       }
       validateListItems(block.items, `${label} list ${block.id}`);
     }
+    if (block.kind === "definition-list") {
+      if (version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} definition list requires SceneDocument ${SCENE_DOCUMENT_DEFINITION_LIST_VERSION}`);
+      }
+      validateDefinitionListEntries(block.entries, `${label} definition list ${block.id}`);
+    }
     if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
     if (block.kind === "code") {
       requireNonEmpty(block.language, `${label} code ${block.id} language`);
@@ -555,16 +589,16 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
     if (block.kind === "diagram") {
-       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
-      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} sequence diagram requires SceneDocument ${SCENE_DOCUMENT_SEQUENCE_VERSION}`);
       }
       if (block.diagramType !== "sequence" && (block.participantRoles !== undefined || block.messages !== undefined)) {
         throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define participant roles or messages`);
       }
-       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       if (block.diagramType !== "sequence" && block.states?.some((state) => state.activeMessageIds !== undefined || state.participantBindings !== undefined)) {
@@ -573,7 +607,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateChart(block, `${label} block ${block.id}`);
@@ -587,6 +621,7 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_FLOW_VERSION
     && document.version !== SCENE_DOCUMENT_CHART_VERSION
     && document.version !== SCENE_DOCUMENT_SEQUENCE_VERSION
+    && document.version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }
