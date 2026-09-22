@@ -533,27 +533,7 @@ Next migration target: **Explicit Context**, because it currently reconstructs s
 
 ---
 
-### Increment 2 — generic hierarchy-flow and reference-code layouts
 
-Status: **implemented on this branch**
-
-Completed:
-
-- migrated `A Hierarchy of Meaning` from CSS-made list hierarchy to a canonical `FlowDiagram` in TriG;
-- added structural `hierarchy-flow` inference from a linear three-node/two-edge flow topology;
-- added generic layout slots for heading, intro, diagram and takeaway;
-- added a reusable hierarchy-flow layout with renderer-owned responsive realization;
-- migrated `A Small Grammar for Meaning` to the generic `reference-code` layout;
-- reference-code inference uses block kinds/order/cardinality only, never labels, scene ids or code language;
-- introduced generic layout slots for banner, term cards, code label, code block and interpretation;
-- removed the obsolete `cogniflow-semantic-hierarchy.css` and `cogniflow-core-grammar.css` implementations;
-- removed migrated scene ids from shared dark/mobile styling;
-- extended standardization guardrails and opaque-id layout tests;
-- fixed the portrait-mobile selector left behind by the previous scene-id cleanup.
-
-Next migration target: Explicit Context, replacing lexical regex parsing with explicit structured semantic data.
-
----
 
 ### Increment 3 — structured Explicit Context
 
@@ -579,6 +559,33 @@ Result:
 The presentation no longer has to reconstruct `purpose`, `input`, `output`, `parameters`, `implementation`, `version` or provenance semantics from rendered strings. Those distinctions are now authored explicitly in TriG and survive into the SceneDocument.
 
 Next migration target: FAIR tabular data and the remaining motivation/semantics card layouts.
+
+---
+
+### Increment 4 — semantic tables and generic data explanation
+
+Status: **implemented on this branch**
+
+Completed:
+
+- introduced `TableDefinition`, `TableColumn`, `TableRow`, `TableCell` and `TableRole`;
+- added `SceneDocument 1.5` with renderer-neutral `table` blocks;
+- added canonical compiler, ownership/order validation, provenance propagation and SHACL constraints;
+- added Reveal render-plan support plus semantic `<table>/<caption>/<thead>/<tbody>` pitch rendering;
+- migrated the FAIR DATA OBJECT from a TSV `CodeExample` to a canonical `TableDefinition`;
+- removed the TSV-language rendering heuristic from `preview.ts`;
+- migrated the opening feature-results table to the same table primitive;
+- added generic `data-explanation` layout inference for heading + four principles + table;
+- added generic `analysis-result` layout inference for heading + chart + table + process diagram;
+- removed the legacy FAIR intro/gap scene-specific styles;
+- converted the FAIR processing-gap structured lists to DefinitionList semantics and reused the generic process-context family;
+- added anti-TSV and anti-scene-id guardrails.
+
+Result:
+
+Tabular scientific content is now authored as table structure in TriG rather than masquerading as source code. The same table contract is reused across two different presentation narratives.
+
+Next migration target: Semantics First and Semantic Triples, replacing CSS-made semantic diagrams with standard diagram data.
 
 ---
 
