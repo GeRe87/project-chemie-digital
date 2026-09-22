@@ -183,3 +183,47 @@ test("core and composer sources do not import the renderer package", async () =>
     assert.doesNotMatch(content, /renderer-reveal|RevealRenderPlan|reveal\.js/i);
   }
 });
+
+
+test("table blocks map to source-linked Reveal table plans", () => {
+  const document: SceneDocument = {
+    version: "1.5",
+    id: "scene-document:table-adapter",
+    sourcePathId: "path:table-adapter",
+    scenes: [{
+      id: "scene:table",
+      source: [{ resourceId: "resource:scene" }],
+      blocks: [{
+        kind: "table",
+        id: "block:table",
+        source: [{ resourceId: "resource:table", relationPath: "cd:hasTableRow" }],
+        caption: "Illustrative table",
+        description: "Source-linked table",
+        columns: [
+          { id: "column:a", label: "A", source: [{ resourceId: "resource:column:a" }] },
+          { id: "column:b", label: "B", source: [{ resourceId: "resource:column:b" }] },
+        ],
+        rows: [{
+          id: "row:1",
+          source: [{ resourceId: "resource:row:1" }],
+          cells: [
+            { id: "cell:a", text: "alpha", source: [{ resourceId: "resource:cell:a" }] },
+            { id: "cell:b", text: "beta", source: [{ resourceId: "resource:cell:b" }] },
+          ],
+        }],
+      }],
+      readingOrder: ["block:table"],
+    }],
+  };
+
+  const result = createRevealRenderPlan(document, interactive);
+  assert.deepEqual(result.diagnostics, []);
+  const node = result.plan!.sections[0]!.nodes[0]!;
+  assert.equal(node.kind, "table");
+  if (node.kind !== "table") throw new Error("expected table plan");
+  assert.equal(node.caption, "Illustrative table");
+  assert.equal(node.columns[0]?.label, "A");
+  assert.equal(node.rows[0]?.cells[1]?.text, "beta");
+  assert.match(node.staticFallback, /A \| B/);
+  assert.match(node.staticFallback, /alpha \| beta/);
+});
