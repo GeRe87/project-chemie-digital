@@ -4,7 +4,8 @@ export type RevealLayoutFamily =
   | "concept-specification"
   | "hierarchy-flow"
   | "reference-code"
-  | "process-context";
+  | "process-context"
+  | "data-explanation";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -50,6 +51,25 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "concept-specification",
         slots: ["heading", "cards", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, principles, tableHeading, table] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && principles?.kind === "list"
+      && principles.listStyle === "unordered"
+      && principles.items.length === 4
+      && tableHeading?.kind === "prose"
+      && tableHeading.intent?.kind === "explain"
+      && table?.kind === "table"
+    ) {
+      return {
+        family: "data-explanation",
+        slots: ["heading", "principles", "table-heading", "table"],
       };
     }
   }
