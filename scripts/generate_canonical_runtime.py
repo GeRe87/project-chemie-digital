@@ -242,6 +242,118 @@ def definition_list_sequence(
     return records
 
 
+def table_payload(dataset: Dataset, table: URIRef, language: str | None) -> tuple[dict[str, Any], str | None]:
+    if language is None:
+        raise ValueError(f"TableRole requires explicit cd:language for {compact(table)}")
+
+    column_predicate = iri(CD, "hasTableColumn")
+    row_predicate = iri(CD, "hasTableRow")
+    cell_predicate = iri(CD, "hasTableCell")
+
+    columns = [
+        (column, integer(dataset, column, iri(CD, "position")))
+        for column in objects(dataset, table, column_predicate)
+        if isinstance(column, URIRef)
+    ]
+    rows = [
+        (row, integer(dataset, row, iri(CD, "position")))
+        for row in objects(dataset, table, row_predicate)
+        if isinstance(row, URIRef)
+    ]
+    columns.sort(key=lambda record: (record[1], str(record[0])))
+    rows.sort(key=lambda record: (record[1], str(record[0])))
+
+    if not columns or not rows:
+        raise ValueError(f"TableDefinition {compact(table)} requires columns and rows")
+    if [position for _column, position in columns] != list(range(1, len(columns) + 1)):
+        raise ValueError(f"TableColumn positions must be unique and contiguous for {compact(table)}")
+    if [position for _row, position in rows] != list(range(1, len(rows) + 1)):
+        raise ValueError(f"TableRow positions must be unique and contiguous for {compact(table)}")
+
+    column_values: list[dict[str, Any]] = []
+    for column, _position in columns:
+        if not is_resource_type(dataset, column, "TableColumn"):
+            raise ValueError(f"Linked resource {compact(column)} is not a TableColumn")
+        owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, column_predicate, column, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if owners != [table]:
+            raise ValueError(f"TableColumn {compact(column)} must have exactly one owning TableDefinition")
+        label = selected_literal(dataset, column, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
+        column_values.append({
+            "id": compact(column),
+            "label": label,
+            "source": [source_reference(dataset, column, f"skos:prefLabel@{language}")],
+        })
+
+    row_values: list[dict[str, Any]] = []
+    for row, _position in rows:
+        if not is_resource_type(dataset, row, "TableRow"):
+            raise ValueError(f"Linked resource {compact(row)} is not a TableRow")
+        row_owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, row_predicate, row, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if row_owners != [table]:
+            raise ValueError(f"TableRow {compact(row)} must have exactly one owning TableDefinition")
+
+        cells = [
+            (cell, integer(dataset, cell, iri(CD, "position")))
+            for cell in objects(dataset, row, cell_predicate)
+            if isinstance(cell, URIRef)
+        ]
+        cells.sort(key=lambda record: (record[1], str(record[0])))
+        if [position for _cell, position in cells] != list(range(1, len(cells) + 1)):
+            raise ValueError(f"TableCell positions must be unique and contiguous for {compact(row)}")
+        if len(cells) != len(columns):
+            raise ValueError(f"TableRow {compact(row)} must contain exactly one cell per column")
+
+        cell_values: list[dict[str, Any]] = []
+        for cell, _cell_position in cells:
+            if not is_resource_type(dataset, cell, "TableCell"):
+                raise ValueError(f"Linked resource {compact(cell)} is not a TableCell")
+            cell_owners = sorted(
+                {
+                    subject
+                    for subject, _predicate, _object, _graph in dataset.quads((None, cell_predicate, cell, None))
+                    if isinstance(subject, URIRef)
+                },
+                key=str,
+            )
+            if cell_owners != [row]:
+                raise ValueError(f"TableCell {compact(cell)} must have exactly one owning TableRow")
+            text = selected_literal(dataset, cell, iri(CD, "body"), "cd:body", language)
+            cell_values.append({
+                "id": compact(cell),
+                "text": text,
+                "source": [source_reference(dataset, cell, "cd:body")],
+            })
+
+        row_values.append({
+            "id": compact(row),
+            "cells": cell_values,
+            "source": [source_reference(dataset, row, "cd:hasTableCell")],
+        })
+
+    caption, caption_relation_path = selected_label_reference(dataset, table, language)
+    description = literal(dataset, table, iri(CD, "body"), language)
+    return {
+        "caption": caption,
+        **({"description": description} if description is not None else {}),
+        "columns": column_values,
+        "rows": row_values,
+    }, caption_relation_path
+
+
 def selected_label_reference(dataset: Dataset, resource: URIRef, language: str | None) -> tuple[str, str | None]:
     if language is not None:
         preferred = literal(dataset, resource, SKOS.prefLabel, language)
@@ -670,7 +782,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5}
     return required if versions[required] > versions[current] else current
 
 
@@ -708,8 +820,11 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram") or is_resource_type(dataset, selected, "SequenceDiagram")
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             selected_is_definition_list = is_resource_type(dataset, selected, "DefinitionList")
+            selected_is_table_definition = is_resource_type(dataset, selected, "TableDefinition")
             if selected_is_definition_list and role != "DefinitionListRole":
                 raise ValueError(f"DefinitionList {compact(selected)} requires DefinitionListRole in {compact(item)}")
+            if selected_is_table_definition and role != "TableRole":
+                raise ValueError(f"TableDefinition {compact(selected)} requires TableRole in {compact(item)}")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
             if selected_is_flow_diagram and role != "DiagramRole":
@@ -803,6 +918,27 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "intent": {"kind": "explain"},
                 }
                 document_version = promote_document_version(document_version, "1.4")
+            elif role == "TableRole":
+                if relation_path != "cd:hasTableRow":
+                    raise ValueError(f"TableRole requires direct cd:hasTableRow selection in {compact(item)}")
+                if not selected_is_table_definition:
+                    raise ValueError(f"TableRole requires TableDefinition in {compact(item)}")
+                payload, caption_relation_path = table_payload(dataset, selected, language)
+                block_sources = [source_reference(dataset, selected, relation_path)]
+                if caption_relation_path is not None and caption_relation_path != relation_path:
+                    block_sources.append(source_reference(dataset, selected, caption_relation_path))
+                if literal(dataset, selected, iri(CD, "body"), language) is not None:
+                    block_sources.append(source_reference(dataset, selected, "cd:body"))
+                block = {
+                    "id": block_id,
+                    "kind": "table",
+                    "source": block_sources,
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = promote_document_version(document_version, "1.5")
             elif role == "AttributionRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"AttributionRole requires direct cd:body selection in {compact(item)}")
