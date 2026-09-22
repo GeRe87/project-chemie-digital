@@ -158,6 +158,30 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(figure);
     return;
   }
+  if (block.kind === "definition-list") {
+    const list = dom.createElement("dl");
+    list.className = "definition-list";
+    layoutSlotAttribute(list, layoutSlot);
+    sourceAttributes(list, block.source);
+    for (const entry of block.entries) {
+      const term = dom.createElement("dt");
+      term.className = "definition-list-term";
+      term.textContent = entry.term;
+      term.setAttribute("data-definition-entry-id", entry.id);
+      sourceAttributes(term, entry.source);
+      list.appendChild(term);
+      if (entry.description) {
+        const description = dom.createElement("dd");
+        description.className = "definition-list-description";
+        description.textContent = entry.description;
+        description.setAttribute("data-definition-entry-id", entry.id);
+        sourceAttributes(description, entry.source);
+        list.appendChild(description);
+      }
+    }
+    parent.appendChild(list);
+    return;
+  }
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
