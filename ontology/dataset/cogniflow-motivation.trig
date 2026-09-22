@@ -732,9 +732,8 @@ DATA"""@en ;
     cd:body "EXAMPLE: S/N CALCULATION"@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-explicit-example a cd:Interpretation ;
-    cd:body "One concrete processing step becomes reproducible once its scientific and technical context is explicit."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-explicit-example-purpose,
+  ex:cogniflow-explicit-example a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-explicit-example-purpose,
       ex:keypoint-cogniflow-explicit-example-input,
       ex:keypoint-cogniflow-explicit-example-output,
       ex:keypoint-cogniflow-explicit-example-parameters,
@@ -742,34 +741,40 @@ DATA"""@en ;
       ex:keypoint-cogniflow-explicit-example-version ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-purpose a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-purpose a cd:DefinitionListEntry ;
     cd:position 1 ;
-    cd:body "purpose: quantify signal relative to background"@en ;
+    skos:prefLabel "purpose"@en ;
+    cd:body "quantify signal relative to background"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-input a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-input a cd:DefinitionListEntry ;
     cd:position 2 ;
-    cd:body "input: peak height + defined noise window"@en ;
+    skos:prefLabel "input"@en ;
+    cd:body "peak height + defined noise window"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-output a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-output a cd:DefinitionListEntry ;
     cd:position 3 ;
-    cd:body "output: S/N value"@en ;
+    skos:prefLabel "output"@en ;
+    cd:body "S/N value"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-parameters a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-parameters a cd:DefinitionListEntry ;
     cd:position 4 ;
-    cd:body "parameters: noise window + RMS estimator"@en ;
+    skos:prefLabel "parameters"@en ;
+    cd:body "noise window + RMS estimator"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-implementation a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-implementation a cd:DefinitionListEntry ;
     cd:position 5 ;
-    cd:body "implementation: calculate_snr() in a named package"@en ;
+    skos:prefLabel "implementation"@en ;
+    cd:body "calculate_snr() in a named package"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-example-version a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-example-version a cd:DefinitionListEntry ;
     cd:position 6 ;
-    cd:body "version: exact package release or commit"@en ;
+    skos:prefLabel "version"@en ;
+    cd:body "exact package release or commit"@en ;
     cd:authoredResource true .
 
   ex:cogniflow-explicit-example-note a cd:Interpretation ;
@@ -780,9 +785,8 @@ DATA"""@en ;
     cd:body "EXPLICIT CONTEXT"@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-explicit-context a cd:Interpretation ;
-    cd:body "Scientific processing context becomes explicit, linked digital information."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-explicit-purpose,
+  ex:cogniflow-explicit-context a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-explicit-purpose,
       ex:keypoint-cogniflow-explicit-interface,
       ex:keypoint-cogniflow-explicit-parameters,
       ex:keypoint-cogniflow-explicit-implementation,
@@ -790,34 +794,36 @@ DATA"""@en ;
       ex:keypoint-cogniflow-explicit-provenance ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-purpose a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-purpose a cd:DefinitionListEntry ;
     cd:position 1 ;
-    cd:body "purpose"@en ;
+    skos:prefLabel "purpose"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-interface a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-interface a cd:DefinitionListEntry ;
     cd:position 2 ;
-    cd:body "interface: inputs + outputs"@en ;
+    skos:prefLabel "interface"@en ;
+    cd:body "inputs + outputs"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-parameters a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-parameters a cd:DefinitionListEntry ;
     cd:position 3 ;
-    cd:body "parameters"@en ;
+    skos:prefLabel "parameters"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-implementation a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-implementation a cd:DefinitionListEntry ;
     cd:position 4 ;
-    cd:body "implementation"@en ;
+    skos:prefLabel "implementation"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-version a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-version a cd:DefinitionListEntry ;
     cd:position 5 ;
-    cd:body "version"@en ;
+    skos:prefLabel "version"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-explicit-provenance a cd:KeyPoint ;
+  ex:keypoint-cogniflow-explicit-provenance a cd:DefinitionListEntry ;
     cd:position 6 ;
-    cd:body "execution + provenance"@en ;
+    skos:prefLabel "execution"@en ;
+    cd:body "+ provenance"@en ;
     cd:authoredResource true .
 
   ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram ;
@@ -962,8 +968,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-data-intro-principles a cd:SceneItem ;
     cd:position 2 ;
     cd:selectsResource ex:cogniflow-fair-data-principles ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
@@ -1021,8 +1027,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem ;
     cd:position 4 ;
     cd:selectsResource ex:cogniflow-snr-example ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
