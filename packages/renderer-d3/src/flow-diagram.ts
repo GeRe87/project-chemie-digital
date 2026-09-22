@@ -792,6 +792,14 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           group.setAttribute("class", "d3-flow-group");
           group.setAttribute("data-key", `group:${layoutGroup.id}`);
           group.setAttribute("data-group-id", layoutGroup.id);
+          const band = document.createElementNS(namespace, "circle");
+          band.setAttribute("class", "d3-flow-group-band");
+          band.setAttribute("cx", String(layoutGroup.cx));
+          band.setAttribute("cy", String(layoutGroup.cy));
+          band.setAttribute("r", String(layoutGroup.radius));
+          band.setAttribute("fill", "none");
+          band.setAttribute("aria-hidden", "true");
+          group.append(band);
           const ring = document.createElementNS(namespace, "circle");
           ring.setAttribute("class", "d3-flow-group-ring");
           ring.setAttribute("cx", String(layoutGroup.cx));
@@ -840,7 +848,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (resolvedState.focusNodeIds.has(edge.sourceNodeId) && resolvedState.focusNodeIds.has(edge.targetNodeId)) path.setAttribute("data-diagram-state-focus", "true");
            if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
            if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
-          path.setAttribute("d", orthogonalEdgePath(edge, layout.orientation));
+          path.setAttribute("d", layout.strategy === "layered-flow"
+            ? orthogonalEdgePath(edge, layout.orientation)
+            : `M ${edge.x1} ${edge.y1} L ${edge.x2} ${edge.y2}`);
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
@@ -888,7 +898,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("y", String(-layoutNode.height / 2));
           rect.setAttribute("width", String(layoutNode.width));
           rect.setAttribute("height", String(layoutNode.height));
-          rect.setAttribute("rx", layout.strategy === "concentric-network" ? (modelNode.id === model.focusNodeId ? "18" : "10") : "8");
+          rect.setAttribute("rx", layout.strategy === "concentric-network" ? String(layoutNode.height / 2) : "8");
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);

@@ -146,6 +146,29 @@ test("network layouts place the authored focus centrally and cluster typed group
   assert.ok(byId.get("lcms")!.y < byId.get("hplc")!.y);
 });
 
+test("small ungrouped networks stay spatial inside a narrow presentation panel", () => {
+  const layout = createD3FlowLayout({
+    diagramType: "network",
+    nodes: [
+      { id: "anna", label: "Anna" },
+      { id: "essen", label: "Essen" },
+      { id: "university", label: "University" },
+    ],
+    edges: [
+      { id: "lives", sourceNodeId: "anna", targetNodeId: "essen", label: "livesIn" },
+      { id: "works", sourceNodeId: "anna", targetNodeId: "university", label: "worksAt" },
+      { id: "located", sourceNodeId: "university", targetNodeId: "essen", label: "locatedIn" },
+    ],
+  }, 420);
+
+  assert.equal(layout.strategy, "radial-network");
+  const byId = new Map(layout.nodes.map((node) => [node.id, node]));
+  assert.notEqual(byId.get("anna")!.x, byId.get("essen")!.x);
+  assert.notEqual(byId.get("essen")!.x, byId.get("university")!.x);
+  assert.equal(new Set(layout.nodes.map((node) => node.y)).size, 2);
+  assert.ok(layout.edges.some((edge) => edge.x1 !== edge.x2 && edge.y1 !== edge.y2));
+});
+
 test("relation-free focused grouped networks use deterministic concentric rings", () => {
   const layout = createD3FlowLayout({
     diagramType: "network",
@@ -168,6 +191,7 @@ test("relation-free focused grouped networks use deterministic concentric rings"
   assert.equal(layout.strategy, "concentric-network");
   assert.equal(layout.groups.length, 2);
   assert.ok(layout.groups[1]!.radius > layout.groups[0]!.radius);
+  assert.ok(layout.nodes.find((node) => node.id === "inner:a")!.width > layout.nodes.find((node) => node.id === "outer:a")!.width);
   const byId = new Map(layout.nodes.map((node) => [node.id, node]));
   assert.equal(byId.get("focus")!.x, layout.width / 2);
   assert.equal(byId.get("focus")!.y, layout.groups[0]!.cy);
