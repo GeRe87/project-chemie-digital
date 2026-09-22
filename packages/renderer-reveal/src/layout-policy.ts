@@ -6,7 +6,9 @@ export type RevealLayoutFamily =
   | "reference-code"
   | "process-context"
   | "data-explanation"
-  | "analysis-result";
+  | "analysis-result"
+  | "card-sequence"
+  | "text-network-progression";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -71,6 +73,49 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "data-explanation",
         slots: ["heading", "principles", "table"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, banner, cards, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && banner?.kind === "prose"
+      && banner.intent?.kind === "explain"
+      && cards?.kind === "list"
+      && cards.listStyle === "unordered"
+      && cards.items.length === 3
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "card-sequence",
+        slots: ["heading", "banner", "cards", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 5) {
+    const [heading, banner, views, network, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && banner?.kind === "prose"
+      && banner.intent?.kind === "explain"
+      && views?.kind === "list"
+      && views.listStyle === "unordered"
+      && views.items.length === 2
+      && network?.kind === "diagram"
+      && network.diagramType === "network"
+      && network.nodes.length >= 2
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "text-network-progression",
+        slots: ["heading", "banner", "views", "network", "takeaway"],
       };
     }
   }
