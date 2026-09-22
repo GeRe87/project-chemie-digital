@@ -96,37 +96,7 @@ body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cognif
   --step-text: var(--cf-dark-pink-text);
 }
 
-/* Core meta-grammar cards. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  --core-fill: var(--cf-dark-blue-fill);
-  --core-stroke: var(--cf-dark-blue-stroke);
-  --core-text: var(--cf-dark-blue-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  --core-fill: var(--cf-dark-purple-fill);
-  --core-stroke: var(--cf-dark-purple-stroke);
-  --core-text: var(--cf-dark-purple-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
-  --core-fill: var(--cf-dark-green-fill);
-  --core-stroke: var(--cf-dark-green-stroke);
-  --core-text: var(--cf-dark-green-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
-  --core-fill: var(--cf-dark-amber-fill);
-  --core-stroke: var(--cf-dark-amber-stroke);
-  --core-text: var(--cf-dark-amber-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
-  --core-fill: var(--cf-dark-pink-fill);
-  --core-stroke: var(--cf-dark-pink-stroke);
-  --core-text: var(--cf-dark-pink-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-core-grammar--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
-  --core-fill: var(--cf-dark-yellow-fill);
-  --core-stroke: var(--cf-dark-yellow-stroke);
-  --core-text: var(--cf-dark-yellow-text);
-}
+/* Reference-code cards now use generic data-layout theme rules. */
 
 /* Extension modules. */
 body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
@@ -245,7 +215,6 @@ body[data-presentation-theme="dark"] .reveal .slides section:is(
   [id="ex:scene-cogniflow-semantics-first--scene"],
   [id="ex:scene-cogniflow-semantic-triples--scene"],
   [id="ex:scene-cogniflow-processing-pipeline--scene"],
-  [id="ex:scene-cogniflow-core-grammar--scene"],
   [id="ex:scene-cogniflow-extension-system--scene"],
   [id="ex:scene-cogniflow-take-home--scene"]
 ) .keypoint-list > li {
