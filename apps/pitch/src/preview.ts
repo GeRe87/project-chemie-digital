@@ -1,9 +1,9 @@
 import katex from "katex";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
-import { inferRevealLayoutFamily } from "../../../packages/renderer-reveal/src/layout-policy.ts";
+import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -26,6 +26,10 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
   const relationPaths = sources.flatMap((source) => source.relationPath ? [source.relationPath] : []);
   if (provenance.length) node.setAttribute("data-provenance-ids", [...new Set(provenance)].sort().join(" "));
   if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
+}
+
+function layoutSlotAttribute(node: MinimalElement, layoutSlot?: string): void {
+  if (layoutSlot) node.setAttribute("data-layout-slot", layoutSlot);
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
@@ -67,10 +71,11 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
   ].join("\n");
 }
 
-function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBlock, headingId: string): void {
+function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBlock, headingId: string, layoutSlot?: string): void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
     node.className = "math-display";
+    layoutSlotAttribute(node, layoutSlot);
     node.setAttribute("role", "math");
     node.setAttribute("aria-label", block.spokenText);
     node.innerHTML = katex.renderToString(block.expression, {
@@ -87,6 +92,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "code") {
     const shell = dom.createElement("div");
     shell.className = "code-block";
+    layoutSlotAttribute(shell, layoutSlot);
     shell.setAttribute("data-code-block-id", block.id);
     shell.setAttribute("data-language", block.language);
     shell.setAttribute("data-editable", String(block.editable));
@@ -121,6 +127,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "media-reference") {
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
+    layoutSlotAttribute(figure, layoutSlot);
     figure.setAttribute("data-media-block-id", block.id);
     figure.setAttribute("data-media-uri", block.uri);
     if (block.mediaType) figure.setAttribute("data-media-type", block.mediaType);
@@ -154,6 +161,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
+    layoutSlotAttribute(shell, layoutSlot);
     shell.setAttribute("data-group-block-id", block.id);
     sourceAttributes(shell, block.source);
     for (const childId of block.readingOrder) {
@@ -167,6 +175,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
+    layoutSlotAttribute(list, layoutSlot);
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
@@ -181,6 +190,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "prompt") {
     const shell = dom.createElement("div");
     shell.className = "live-poll";
+    layoutSlotAttribute(shell, layoutSlot);
     shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
     const optionIds = block.source.slice(1).map((source) => source.resourceId);
     if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
@@ -205,6 +215,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
+    layoutSlotAttribute(shell, layoutSlot);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
@@ -227,6 +238,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind === "chart") {
     const shell = dom.createElement("div");
     shell.className = "d3-chart-host retro-neon-chart-window";
+    layoutSlotAttribute(shell, layoutSlot);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
     shell.setAttribute("role", "group");
@@ -241,6 +253,7 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
+  layoutSlotAttribute(node, layoutSlot);
   if (tag === "h2") node.setAttribute("id", headingId);
   node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
@@ -258,6 +271,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
     const semanticMultiView = semanticCode && scene.blocks.some((block) => block.kind === "chart");
     const semanticGraphCompanion = semanticCode && !semanticMultiView && scene.blocks.length === 2;
+    const inferredLayout = inferRevealLayoutDecision(scene);
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
@@ -265,14 +279,14 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-source-path-id", document.sourcePathId);
     section.setAttribute(
       "data-layout",
-      semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (inferRevealLayoutFamily(scene) ?? layoutByScene[scene.id] ?? "statement"),
+      inferredLayout?.family ?? (semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement")),
     );
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
-    for (const blockId of scene.readingOrder) {
+    for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
-      appendBlock(section, dom, block, headingId);
+      appendBlock(section, dom, block, headingId, inferredLayout?.slots[blockIndex]);
     }
     if (semanticGraphCompanion) {
       const graphHost = dom.createElement("div");
