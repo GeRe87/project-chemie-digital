@@ -1,6 +1,11 @@
 name: Deploy CogniFlow presentation
 
 on:
+  push:
+    branches:
+      - visual/cogniflow-d3-restart
+    paths:
+      - ".github/workflows/deploy-cogniflow-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -40,8 +45,10 @@ jobs:
           npm ci
           npm install --no-save @rollup/rollup-linux-x64-gnu@4.62.3
 
-      - name: Build CogniFlow presentation
-        run: npm --workspace @project-chemie-digital/pitch run build:cogniflow
+      - name: Build Standard Deviation presentation
+        run: |
+          python scripts/generate_canonical_runtime.py
+          npm --workspace @project-chemie-digital/pitch exec -- vite build --base=./
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
