@@ -794,9 +794,8 @@ Illustrative LC-HRMS dataset"""@en ;
     cd:body "MISSING CONTEXT"@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-missing-processing-context a cd:Interpretation ;
-    cd:body "The crucial scientific and technical context of custom processing is often missing or implicit."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-missing-algorithm,
+  ex:cogniflow-missing-processing-context a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-missing-algorithm,
       ex:keypoint-cogniflow-missing-implementation,
       ex:keypoint-cogniflow-missing-version,
       ex:keypoint-cogniflow-missing-parameters,
@@ -804,66 +803,57 @@ Illustrative LC-HRMS dataset"""@en ;
       ex:keypoint-cogniflow-missing-dependencies ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-algorithm a cd:KeyPoint ;
-    cd:position 1 ;
-    cd:body "algorithm"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-algorithm a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "algorithm"@en ; cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-implementation a cd:KeyPoint ;
-    cd:position 2 ;
-    cd:body "implementation"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-implementation a cd:DefinitionListEntry ;
+    cd:position 2 ; skos:prefLabel "implementation"@en ; cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-version a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body "version"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-version a cd:DefinitionListEntry ;
+    cd:position 3 ; skos:prefLabel "version"@en ; cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-parameters a cd:KeyPoint ;
-    cd:position 4 ;
-    cd:body "parameters"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-parameters a cd:DefinitionListEntry ;
+    cd:position 4 ; skos:prefLabel "parameters"@en ; cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-environment a cd:KeyPoint ;
-    cd:position 5 ;
-    cd:body "environment"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-environment a cd:DefinitionListEntry ;
+    cd:position 5 ; skos:prefLabel "environment"@en ; cd:authoredResource true .
 
-  ex:keypoint-cogniflow-missing-dependencies a cd:KeyPoint ;
-    cd:position 6 ;
-    cd:body "dependencies"@en ;
-    cd:authoredResource true .
+  ex:keypoint-cogniflow-missing-dependencies a cd:DefinitionListEntry ;
+    cd:position 6 ; skos:prefLabel "dependencies"@en ; cd:authoredResource true .
 
   ex:cogniflow-snr-example-heading a cd:Interpretation ;
     cd:body "EXAMPLE: SIGNAL-TO-NOISE RATIO"@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-snr-example a cd:Interpretation ;
-    cd:body "The same analytical term can hide different operational definitions."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-snr-height-sd,
+  ex:cogniflow-snr-example a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-snr-height-sd,
       ex:keypoint-cogniflow-snr-height-rms,
       ex:keypoint-cogniflow-snr-height-ptp,
       ex:keypoint-cogniflow-snr-area-noise ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-snr-height-sd a cd:KeyPoint ;
+  ex:keypoint-cogniflow-snr-height-sd a cd:DefinitionListEntry ;
     cd:position 1 ;
-    cd:body "S/N = peak height / σ(noise)"@en ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak height / σ(noise)"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-snr-height-rms a cd:KeyPoint ;
+  ex:keypoint-cogniflow-snr-height-rms a cd:DefinitionListEntry ;
     cd:position 2 ;
-    cd:body "S/N = peak height / RMS(noise)"@en ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak height / RMS(noise)"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-snr-height-ptp a cd:KeyPoint ;
+  ex:keypoint-cogniflow-snr-height-ptp a cd:DefinitionListEntry ;
     cd:position 3 ;
-    cd:body "S/N = 2 × peak height / peak-to-peak noise"@en ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "2 × peak height / peak-to-peak noise"@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-snr-area-noise a cd:KeyPoint ;
+  ex:keypoint-cogniflow-snr-area-noise a cd:DefinitionListEntry ;
     cd:position 4 ;
-    cd:body "S/N = peak area / noise estimate"@en ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak area / noise estimate"@en ;
     cd:authoredResource true .
 
   ex:cogniflow-snr-example-note a cd:Interpretation ;
@@ -1225,8 +1215,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem ;
     cd:position 4 ;
     cd:selectsResource ex:cogniflow-snr-example ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
@@ -1249,8 +1239,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem ;
     cd:position 7 ;
     cd:selectsResource ex:cogniflow-missing-processing-context ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
