@@ -51,7 +51,7 @@
    */
   body.pcd-cogniflow-mobile .reveal .slides section:is(
     [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"]
   ) {
     grid-template-rows: auto auto auto auto !important;
     row-gap: .52rem !important;
@@ -60,7 +60,7 @@
 
   body.pcd-cogniflow-mobile .reveal .slides section:is(
     [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"]
   ) > h2 + .lead + .keypoint-list {
     grid-template-columns: 1fr !important;
     gap: .55rem !important;
@@ -70,7 +70,7 @@
 
   body.pcd-cogniflow-mobile .reveal .slides section:is(
     [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"]
   ) > h2 + .lead + .keypoint-list > li {
     min-height: 0 !important;
     padding: .72rem .78rem !important;
@@ -81,7 +81,7 @@
 
   body.pcd-cogniflow-mobile .reveal .slides section:is(
     [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"],
+    [id="ex:scene-cogniflow-semantic-triples--scene"]
   ) > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
     font-size: .9rem !important;
     bottom: -.78rem !important;
