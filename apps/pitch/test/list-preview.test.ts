@@ -60,3 +60,50 @@ test("pitch preview renders semantic list markup with item-level source identity
   assert.equal(list.children[0]?.attributes.get("data-relation-path"), "cd:body");
   destroy();
 });
+
+
+const conceptSpecificationDocument: SceneDocument = {
+  version: "1.0",
+  id: "scene-document:generic-concept-specification",
+  sourcePathId: "path:opaque",
+  scenes: [{
+    id: "scene:opaque",
+    source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      {
+        kind: "prose",
+        id: "block:heading",
+        text: "Generic semantic model",
+        intent: { kind: "introduce" },
+        source: [{ resourceId: "resource:heading" }],
+      },
+      {
+        kind: "list",
+        id: "block:cards",
+        listStyle: "unordered",
+        intent: { kind: "explain" },
+        source: [{ resourceId: "resource:cards" }],
+        items: [
+          { id: "item:a", text: "First", source: [{ resourceId: "resource:a" }] },
+          { id: "item:b", text: "Second", source: [{ resourceId: "resource:b" }] },
+          { id: "item:c", text: "Third", source: [{ resourceId: "resource:c" }] },
+        ],
+      },
+      {
+        kind: "prose",
+        id: "block:takeaway",
+        text: "Generic takeaway",
+        intent: { kind: "explain" },
+        source: [{ resourceId: "resource:takeaway" }],
+      },
+    ],
+    readingOrder: ["block:heading", "block:cards", "block:takeaway"],
+  }],
+};
+
+test("pitch preview selects concept-specification from generic scene structure", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [conceptSpecificationDocument]);
+  assert.equal(root.children[0]?.attributes.get("data-layout"), "concept-specification");
+  destroy();
+});
