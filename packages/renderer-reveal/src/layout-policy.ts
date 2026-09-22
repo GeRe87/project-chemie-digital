@@ -5,7 +5,8 @@ export type RevealLayoutFamily =
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
-  | "data-explanation";
+  | "data-explanation"
+  | "analysis-result";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -65,6 +66,23 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "data-explanation",
         slots: ["heading", "principles", "table"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, signal, results, process] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && signal?.kind === "chart"
+      && results?.kind === "table"
+      && process?.kind === "diagram"
+      && process.diagramType === "flow"
+    ) {
+      return {
+        family: "analysis-result",
+        slots: ["heading", "signal", "results", "process"],
       };
     }
   }
