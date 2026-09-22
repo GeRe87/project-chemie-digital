@@ -441,5 +441,6 @@ export function canonicalSerializeRevealRenderPlan(plan: RevealRenderPlan): stri
   return JSON.stringify(plan);
 }
 
+export * from "./layout-policy.ts";
 export * from "./pitch-theme.ts";
 export * from "./presenter-mode.ts";
