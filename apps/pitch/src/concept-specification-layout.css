@@ -115,7 +115,7 @@
   --pcd-card-text: #5d2041;
 }
 
-.reveal .slides section[data-layout="concept-specification"] > [data-layout-slot="cards"] + .lead {
+.reveal .slides section[data-layout="concept-specification"] > [data-layout-slot="takeaway"] {
   grid-row: 3;
   box-sizing: border-box;
   align-self: center;
@@ -170,7 +170,7 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="concep
     width: 100%;
   }
 
-  .reveal .slides section[data-layout="concept-specification"] > [data-layout-slot="cards"] + .lead {
+  .reveal .slides section[data-layout="concept-specification"] > [data-layout-slot="takeaway"] {
     grid-row: 3;
   }
 
