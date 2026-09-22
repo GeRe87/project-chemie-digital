@@ -533,6 +533,28 @@ Next migration target: **Explicit Context**, because it currently reconstructs s
 
 ---
 
+### Increment 2 — generic hierarchy-flow and reference-code layouts
+
+Status: **implemented on this branch**
+
+Completed:
+
+- migrated `A Hierarchy of Meaning` from CSS-made list hierarchy to a canonical `FlowDiagram` in TriG;
+- added structural `hierarchy-flow` inference from a linear three-node/two-edge flow topology;
+- added generic layout slots for heading, intro, diagram and takeaway;
+- added a reusable hierarchy-flow layout with renderer-owned responsive realization;
+- migrated `A Small Grammar for Meaning` to the generic `reference-code` layout;
+- reference-code inference uses block kinds/order/cardinality only, never labels, scene ids or code language;
+- introduced generic layout slots for banner, term cards, code label, code block and interpretation;
+- removed the obsolete `cogniflow-semantic-hierarchy.css` and `cogniflow-core-grammar.css` implementations;
+- removed migrated scene ids from shared dark/mobile styling;
+- extended standardization guardrails and opaque-id layout tests;
+- fixed the portrait-mobile selector left behind by the previous scene-id cleanup.
+
+Next migration target: Explicit Context, replacing lexical regex parsing with explicit structured semantic data.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.
