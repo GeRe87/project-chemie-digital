@@ -2,20 +2,24 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import type { Scene } from "../../core/src/scene-document.ts";
-import { inferRevealLayoutFamily } from "../src/layout-policy.ts";
+import { inferRevealLayoutDecision, inferRevealLayoutFamily } from "../src/layout-policy.ts";
+
+function prose(id: string, intent: "introduce" | "explain") {
+  return {
+    id,
+    kind: "prose" as const,
+    text: id,
+    intent: { kind: intent } as const,
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
 
 function threeCardScene(id: string, itemCount = 3): Scene {
   return {
     id,
     source: [{ resourceId: `${id}:source` }],
     blocks: [
-      {
-        id: `${id}:heading`,
-        kind: "prose",
-        text: "Opaque heading",
-        intent: { kind: "introduce" },
-        source: [{ resourceId: "resource:heading" }],
-      },
+      prose(`${id}:heading`, "introduce"),
       {
         id: `${id}:cards`,
         kind: "list",
@@ -28,23 +32,95 @@ function threeCardScene(id: string, itemCount = 3): Scene {
         intent: { kind: "explain" },
         source: [{ resourceId: "resource:cards" }],
       },
-      {
-        id: `${id}:takeaway`,
-        kind: "prose",
-        text: "Opaque takeaway",
-        intent: { kind: "explain" },
-        source: [{ resourceId: "resource:takeaway" }],
-      },
+      prose(`${id}:takeaway`, "explain"),
     ],
     readingOrder: [`${id}:heading`, `${id}:cards`, `${id}:takeaway`],
+  };
+}
+
+function hierarchyScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:hierarchy-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:intro", "explain"),
+      {
+        id: "block:diagram",
+        kind: "diagram",
+        diagramType: "flow",
+        label: "Opaque hierarchy",
+        description: "Opaque hierarchy description",
+        nodes: [
+          { id: "node:a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "node:b", label: "B", source: [{ resourceId: "resource:b" }] },
+          { id: "node:c", label: "C", source: [{ resourceId: "resource:c" }] },
+        ],
+        edges: [
+          { id: "edge:ab", sourceNodeId: "node:a", targetNodeId: "node:b", label: "x", source: [{ resourceId: "resource:ab" }] },
+          { id: "edge:bc", sourceNodeId: "node:b", targetNodeId: "node:c", label: "y", source: [{ resourceId: "resource:bc" }] },
+        ],
+        source: [{ resourceId: "resource:diagram" }],
+      },
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:intro", "block:diagram", "block:takeaway"],
+  };
+}
+
+function referenceCodeScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:reference-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:banner", "explain"),
+      {
+        id: "block:terms",
+        kind: "list",
+        listStyle: "unordered",
+        items: Array.from({ length: 6 }, (_, index) => ({
+          id: `item:${index + 1}`,
+          text: `Term ${index + 1}`,
+          source: [{ resourceId: `resource:term:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:terms" }],
+      },
+      prose("block:code-label", "explain"),
+      {
+        id: "block:code",
+        kind: "code",
+        language: "text",
+        code: "opaque",
+        fallback: "opaque",
+        editable: false,
+        executable: false,
+        source: [{ resourceId: "resource:code" }],
+      },
+      prose("block:reading", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:banner", "block:terms", "block:code-label", "block:code", "block:reading"],
   };
 }
 
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");
+  assert.deepEqual(inferRevealLayoutDecision(threeCardScene("scene:slots"))?.slots, ["heading", "cards", "takeaway"]);
 });
 
 test("does not infer concept-specification from an arbitrary keypoint list", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:two-cards", 2)), undefined);
+});
+
+test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {
+  assert.equal(inferRevealLayoutFamily(hierarchyScene("scene:alpha")), "hierarchy-flow");
+  assert.equal(inferRevealLayoutFamily(hierarchyScene("totally:opaque")), "hierarchy-flow");
+  assert.deepEqual(inferRevealLayoutDecision(hierarchyScene("scene:slots"))?.slots, ["heading", "intro", "diagram", "takeaway"]);
+});
+
+test("infers reusable reference-code composition without inspecting labels or language", () => {
+  assert.equal(inferRevealLayoutFamily(referenceCodeScene("scene:alpha")), "reference-code");
+  assert.equal(inferRevealLayoutFamily(referenceCodeScene("totally:opaque")), "reference-code");
+  assert.deepEqual(inferRevealLayoutDecision(referenceCodeScene("scene:slots"))?.slots, ["heading", "banner", "terms", "code-label", "code", "reading"]);
 });
