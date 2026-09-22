@@ -188,3 +188,58 @@ test("pitch preview exposes generic reference-code slots", () => {
   assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "banner", "terms", "code-label", "code", "reading"]);
   destroy();
 });
+
+
+const definitionListDocument: SceneDocument = {
+  version: "1.4",
+  id: "scene-document:definition-list-preview",
+  sourcePathId: "ex:path-definition-list-preview",
+  scenes: [{
+    id: "scene:definition-list-preview",
+    source: [{ resourceId: "ex:definition-list-preview-scene" }],
+    blocks: [
+      {
+        kind: "prose",
+        id: "block:heading",
+        source: [{ resourceId: "ex:definition-list-preview-focus" }],
+        text: "Definition list preview",
+        intent: { kind: "introduce" },
+      },
+      {
+        kind: "definition-list",
+        id: "block:definitions",
+        source: [{ resourceId: "ex:definition-list-owner", relationPath: "cd:hasDefinitionListEntry" }],
+        entries: [
+          {
+            id: "entry:purpose",
+            term: "purpose",
+            description: "quantify signal",
+            source: [{ resourceId: "ex:purpose", relationPath: "skos:prefLabel@en" }],
+          },
+          {
+            id: "entry:version",
+            term: "version",
+            source: [{ resourceId: "ex:version", relationPath: "skos:prefLabel@en" }],
+          },
+        ],
+      },
+    ],
+    readingOrder: ["block:heading", "block:definitions"],
+  }],
+};
+
+test("pitch preview renders definition-list semantic markup without lexical parsing", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [definitionListDocument]);
+  const section = root.children[0]!;
+  const list = section.children[1]!;
+  assert.equal(list.className, "definition-list");
+  assert.equal(list.attributes.get("data-relation-path"), "cd:hasDefinitionListEntry");
+  assert.equal(list.children[0]?.className, "definition-list-term");
+  assert.equal(list.children[0]?.textContent, "purpose");
+  assert.equal(list.children[1]?.className, "definition-list-description");
+  assert.equal(list.children[1]?.textContent, "quantify signal");
+  assert.equal(list.children[2]?.className, "definition-list-term");
+  assert.equal(list.children[2]?.textContent, "version");
+  destroy();
+});
