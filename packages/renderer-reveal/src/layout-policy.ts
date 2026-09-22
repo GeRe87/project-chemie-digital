@@ -19,13 +19,18 @@ function orderedBlocks(scene: Scene): readonly SceneBlock[] | undefined {
   return ordered.every((block): block is SceneBlock => block !== undefined) ? ordered : undefined;
 }
 
-function isLinearThreeNodeFlow(block: SceneBlock): block is DiagramBlock {
+function isLinearFlow(block: SceneBlock, minimumNodes = 2): block is DiagramBlock {
   if (block.kind !== "diagram" || block.diagramType !== "flow") return false;
-  if (block.nodes.length !== 3 || block.edges.length !== 2) return false;
-  const [first, second, third] = block.nodes;
-  if (!first || !second || !third) return false;
-  return block.edges.some((edge) => edge.sourceNodeId === first.id && edge.targetNodeId === second.id)
-    && block.edges.some((edge) => edge.sourceNodeId === second.id && edge.targetNodeId === third.id);
+  if (block.nodes.length < minimumNodes || block.edges.length !== block.nodes.length - 1) return false;
+  return block.nodes.slice(0, -1).every((node, index) => {
+    const next = block.nodes[index + 1];
+    return next !== undefined
+      && block.edges.some((edge) => edge.sourceNodeId === node.id && edge.targetNodeId === next.id);
+  });
+}
+
+function isLinearThreeNodeFlow(block: SceneBlock): block is DiagramBlock {
+  return isLinearFlow(block, 3) && block.nodes.length === 3;
 }
 
 /**
@@ -111,10 +116,8 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
-      && diagram?.kind === "diagram"
-      && diagram.diagramType === "flow"
-      && diagram.nodes.length === 3
-      && diagram.edges.length === 2
+      && diagram !== undefined
+      && isLinearFlow(diagram, 3)
       && exampleHeading?.kind === "prose"
       && exampleHeading.intent?.kind === "explain"
       && exampleDefinitions?.kind === "definition-list"
