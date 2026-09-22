@@ -9,7 +9,7 @@ import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
-import "./cogniflow-fair-intro.css";
+import "./data-explanation-layout.css";
 import "./cogniflow-fair-gap.css";
 import "./process-context-layout.css";
 import "./cogniflow-semantics-first.css";
