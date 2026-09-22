@@ -98,23 +98,6 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     shell.setAttribute("data-editable", String(block.editable));
     shell.setAttribute("data-executable", String(block.executable));
     sourceAttributes(shell, block.source);
-    if (block.language === "tsv") {
-      const rows = block.code.split("\n").filter((row) => row.trim()).map((row) => row.split("\t"));
-      const table = dom.createElement("table");
-      table.className = "data-table";
-      for (const [rowIndex, cells] of rows.entries()) {
-        const row = dom.createElement("tr");
-        for (const cellText of cells) {
-          const cell = dom.createElement(rowIndex === 0 ? "th" : "td");
-          cell.textContent = cellText;
-          row.appendChild(cell);
-        }
-        table.appendChild(row);
-      }
-      shell.appendChild(table);
-      parent.appendChild(shell);
-      return;
-    }
     const pre = dom.createElement("pre");
     pre.className = "code-static-fallback";
     const code = dom.createElement("code");
