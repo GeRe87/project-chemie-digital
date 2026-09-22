@@ -72,52 +72,7 @@ body[data-presentation-theme="dark"] .reveal .slides section:is(
   --triple-text: var(--cf-dark-purple-text);
 }
 
-/* Three concept / specification examples. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .keypoint-list > li:nth-child(1),
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-ui-specifications--scene"] > h2 + .keypoint-list > li:nth-child(1),
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list > li:nth-child(1) {
-  --domain-fill: var(--cf-dark-blue-fill);
-  --domain-stroke: var(--cf-dark-blue-stroke);
-  --domain-text: var(--cf-dark-blue-text);
-  --ui-fill: var(--cf-dark-blue-fill);
-  --ui-stroke: var(--cf-dark-blue-stroke);
-  --ui-text: var(--cf-dark-blue-text);
-  --meta-fill: var(--cf-dark-blue-fill);
-  --meta-stroke: var(--cf-dark-blue-stroke);
-  --meta-text: var(--cf-dark-blue-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .keypoint-list > li:nth-child(2),
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-ui-specifications--scene"] > h2 + .keypoint-list > li:nth-child(2) {
-  --domain-fill: var(--cf-dark-amber-fill);
-  --domain-stroke: var(--cf-dark-amber-stroke);
-  --domain-text: var(--cf-dark-amber-text);
-  --ui-fill: var(--cf-dark-amber-fill);
-  --ui-stroke: var(--cf-dark-amber-stroke);
-  --ui-text: var(--cf-dark-amber-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list > li:nth-child(2) {
-  --meta-fill: var(--cf-dark-teal-fill);
-  --meta-stroke: var(--cf-dark-teal-stroke);
-  --meta-text: var(--cf-dark-teal-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-domain-specifications--scene"] > h2 + .keypoint-list > li:nth-child(3),
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-ui-specifications--scene"] > h2 + .keypoint-list > li:nth-child(3) {
-  --domain-fill: var(--cf-dark-pink-fill);
-  --domain-stroke: var(--cf-dark-pink-stroke);
-  --domain-text: var(--cf-dark-pink-text);
-  --ui-fill: var(--cf-dark-pink-fill);
-  --ui-stroke: var(--cf-dark-pink-stroke);
-  --ui-text: var(--cf-dark-pink-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-presentation-specifications--scene"] > h2 + .keypoint-list > li:nth-child(3) {
-  --meta-fill: var(--cf-dark-amber-fill);
-  --meta-stroke: var(--cf-dark-amber-stroke);
-  --meta-text: var(--cf-dark-amber-text);
-}
+/* Concept/specification cards now use the generic data-layout theme rules. */
 
 /* Processing pipeline. */
 body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
@@ -289,9 +244,6 @@ body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cognif
 body[data-presentation-theme="dark"] .reveal .slides section:is(
   [id="ex:scene-cogniflow-semantics-first--scene"],
   [id="ex:scene-cogniflow-semantic-triples--scene"],
-  [id="ex:scene-cogniflow-domain-specifications--scene"],
-  [id="ex:scene-cogniflow-ui-specifications--scene"],
-  [id="ex:scene-cogniflow-presentation-specifications--scene"],
   [id="ex:scene-cogniflow-processing-pipeline--scene"],
   [id="ex:scene-cogniflow-core-grammar--scene"],
   [id="ex:scene-cogniflow-extension-system--scene"],
