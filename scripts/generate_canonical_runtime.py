@@ -1257,6 +1257,46 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<{tag} class="keypoint-list"{fallback_attributes(block["source"])}>{items}</{tag}>'
                 )
                 continue
+            if block["kind"] == "definition-list":
+                entries = "".join(
+                    f'<div data-definition-entry-id="{html.escape(entry["id"], quote=True)}"{fallback_attributes(entry["source"])}>'
+                    f'<dt>{html.escape(entry["term"])}</dt>'
+                    + (f'<dd>{html.escape(entry["description"])}</dd>' if entry.get("description") else "")
+                    + '</div>'
+                    for entry in block["entries"]
+                )
+                blocks.append(
+                    f'<dl class="definition-list-fallback"{fallback_attributes(block["source"])}>{entries}</dl>'
+                )
+                continue
+            if block["kind"] == "table":
+                headers = "".join(
+                    f'<th scope="col" data-table-column-id="{html.escape(column["id"], quote=True)}"{fallback_attributes(column["source"])}>'
+                    f'{html.escape(column["label"])}</th>'
+                    for column in block["columns"]
+                )
+                rows = "".join(
+                    f'<tr data-table-row-id="{html.escape(row["id"], quote=True)}"{fallback_attributes(row["source"])}>'
+                    + "".join(
+                        f'<td data-table-cell-id="{html.escape(cell["id"], quote=True)}"{fallback_attributes(cell["source"])}>'
+                        f'{html.escape(cell["text"])}</td>'
+                        for cell in row["cells"]
+                    )
+                    + '</tr>'
+                    for row in block["rows"]
+                )
+                description = (
+                    f' <span>{html.escape(block["description"])}</span>'
+                    if block.get("description")
+                    else ""
+                )
+                blocks.append(
+                    f'<figure class="table-fallback"{fallback_attributes(block["source"])}>'
+                    f'<figcaption><strong>{html.escape(block["caption"])}</strong>{description}</figcaption>'
+                    f'<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>'
+                    f'</figure>'
+                )
+                continue
             if block["kind"] == "chart":
                 if block["chartType"] == "bar":
                     unit = block.get("yAxis", {}).get("unit")
