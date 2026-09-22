@@ -82,6 +82,56 @@ SELECT $this WHERE {
       }"""
     ] .
 
+
+  cd:DefinitionListShape a sh:NodeShape ;
+    sh:targetClass cd:DefinitionList ;
+    sh:property [ sh:path cd:hasDefinitionListEntry ; sh:minCount 1 ; sh:class cd:DefinitionListEntry ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:sparql [
+      sh:message "DefinitionList entry positions must be unique." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDefinitionListEntry ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A DefinitionList sequence must start at position 1." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDefinitionListEntry ?entry .
+        FILTER NOT EXISTS { $this cd:hasDefinitionListEntry ?first . ?first cd:position 1 . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DefinitionList entry positions must be contiguous." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasDefinitionListEntry ?entry .
+        ?entry cd:position ?position .
+        FILTER (?position > 1)
+        FILTER NOT EXISTS {
+          $this cd:hasDefinitionListEntry ?previous .
+          ?previous cd:position ?previousPosition .
+          FILTER (?previousPosition = ?position - 1)
+        }
+      }"""
+    ] .
+
+  cd:DefinitionListEntryShape a sh:NodeShape ;
+    sh:targetClass cd:DefinitionListEntry ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [
+      sh:path [ sh:inversePath cd:hasDefinitionListEntry ] ;
+      sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DefinitionList ;
+      sh:message "A DefinitionListEntry must have exactly one owning DefinitionList."
+    ] .
+
   cd:ChartDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:ChartDefinition ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
@@ -456,8 +506,8 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
@@ -480,6 +530,30 @@ SELECT $this WHERE {
 SELECT $this WHERE {
         $this cd:communicativeRole cd:KeyPointRole ; cd:selectsResource ?source .
         FILTER NOT EXISTS { ?source cd:hasKeyPoint ?point . ?point a cd:KeyPoint . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DefinitionListRole requires exactly the cd:hasDefinitionListEntry selector." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath ?selector .
+        FILTER (?selector != "cd:hasDefinitionListEntry")
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "The cd:hasDefinitionListEntry selector requires DefinitionListRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectionPath "cd:hasDefinitionListEntry" ; cd:communicativeRole ?role .
+        FILTER (?role != cd:DefinitionListRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "DefinitionListRole must select a DefinitionList." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:DefinitionListRole ; cd:selectsResource ?source .
+        FILTER NOT EXISTS { ?source a cd:DefinitionList ; cd:hasDefinitionListEntry ?entry . }
       }"""
     ] ;
     sh:sparql [
