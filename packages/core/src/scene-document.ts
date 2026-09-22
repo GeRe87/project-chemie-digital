@@ -3,13 +3,15 @@ export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
 export const SCENE_DOCUMENT_SEQUENCE_VERSION = "1.3" as const;
 export const SCENE_DOCUMENT_DEFINITION_LIST_VERSION = "1.4" as const;
+export const SCENE_DOCUMENT_TABLE_VERSION = "1.5" as const;
 
 export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_VERSION
   | typeof SCENE_DOCUMENT_FLOW_VERSION
   | typeof SCENE_DOCUMENT_CHART_VERSION
   | typeof SCENE_DOCUMENT_SEQUENCE_VERSION
-  | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION;
+  | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION
+  | typeof SCENE_DOCUMENT_TABLE_VERSION;
 
 export interface SourceReference {
   readonly resourceId: string;
@@ -100,6 +102,32 @@ export interface DefinitionListEntry {
 export interface DefinitionListBlock extends SceneBlockBase {
   readonly kind: "definition-list";
   readonly entries: readonly DefinitionListEntry[];
+}
+
+export interface TableColumn {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface TableCell {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface TableRow {
+  readonly id: string;
+  readonly cells: readonly TableCell[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface TableBlock extends SceneBlockBase {
+  readonly kind: "table";
+  readonly caption: string;
+  readonly description?: string;
+  readonly columns: readonly TableColumn[];
+  readonly rows: readonly TableRow[];
 }
 
 export interface GroupBlock extends SceneBlockBase {
@@ -275,6 +303,7 @@ export type SceneBlock =
   | MediaReferenceBlock
   | ListBlock
   | DefinitionListBlock
+  | TableBlock
   | GroupBlock
   | PromptBlock
   | DiagramBlock
@@ -351,6 +380,41 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
     validateSource(entry.source, `${label} entry ${entry.id} source`);
+  }
+}
+
+function validateTable(block: TableBlock, label: string): void {
+  requireNonEmpty(block.caption, `${label} caption`);
+  if (block.description !== undefined) requireNonEmpty(block.description, `${label} description`);
+  if (block.columns.length === 0) throw new SceneContractError(`${label} must contain at least one column`);
+  if (block.rows.length === 0) throw new SceneContractError(`${label} must contain at least one row`);
+
+  const columnIds = new Set<string>();
+  for (const column of block.columns) {
+    requireNonEmpty(column.id, `${label} column id`);
+    if (columnIds.has(column.id)) throw new SceneContractError(`${label} contains duplicate column ids`);
+    columnIds.add(column.id);
+    requireNonEmpty(column.label, `${label} column ${column.id} label`);
+    validateSource(column.source, `${label} column ${column.id} source`);
+  }
+
+  const rowIds = new Set<string>();
+  const cellIds = new Set<string>();
+  for (const row of block.rows) {
+    requireNonEmpty(row.id, `${label} row id`);
+    if (rowIds.has(row.id)) throw new SceneContractError(`${label} contains duplicate row ids`);
+    rowIds.add(row.id);
+    validateSource(row.source, `${label} row ${row.id} source`);
+    if (row.cells.length !== block.columns.length) {
+      throw new SceneContractError(`${label} row ${row.id} must contain exactly one cell per column`);
+    }
+    for (const cell of row.cells) {
+      requireNonEmpty(cell.id, `${label} cell id`);
+      if (cellIds.has(cell.id)) throw new SceneContractError(`${label} contains duplicate cell ids`);
+      cellIds.add(cell.id);
+      requireNonEmpty(cell.text, `${label} cell ${cell.id} text`);
+      validateSource(cell.source, `${label} cell ${cell.id} source`);
+    }
   }
 }
 
@@ -575,10 +639,16 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateListItems(block.items, `${label} list ${block.id}`);
     }
     if (block.kind === "definition-list") {
-      if (version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
-        throw new SceneContractError(`${label} block ${block.id} definition list requires SceneDocument ${SCENE_DOCUMENT_DEFINITION_LIST_VERSION}`);
+      if (version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} definition list requires SceneDocument ${SCENE_DOCUMENT_DEFINITION_LIST_VERSION} or newer`);
       }
       validateDefinitionListEntries(block.entries, `${label} definition list ${block.id}`);
+    }
+    if (block.kind === "table") {
+      if (version !== SCENE_DOCUMENT_TABLE_VERSION) {
+        throw new SceneContractError(`${label} block ${block.id} table requires SceneDocument ${SCENE_DOCUMENT_TABLE_VERSION}`);
+      }
+      validateTable(block, `${label} table ${block.id}`);
     }
     if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
     if (block.kind === "code") {
@@ -589,16 +659,16 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
     if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
     if (block.kind === "diagram") {
-       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
-      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} sequence diagram requires SceneDocument ${SCENE_DOCUMENT_SEQUENCE_VERSION}`);
       }
       if (block.diagramType !== "sequence" && (block.participantRoles !== undefined || block.messages !== undefined)) {
         throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define participant roles or messages`);
       }
-       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       if (block.diagramType !== "sequence" && block.states?.some((state) => state.activeMessageIds !== undefined || state.participantBindings !== undefined)) {
@@ -607,7 +677,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       validateChart(block, `${label} block ${block.id}`);
@@ -622,6 +692,7 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_CHART_VERSION
     && document.version !== SCENE_DOCUMENT_SEQUENCE_VERSION
     && document.version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION
+    && document.version !== SCENE_DOCUMENT_TABLE_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }
