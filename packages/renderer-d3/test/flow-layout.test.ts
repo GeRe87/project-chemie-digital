@@ -166,7 +166,17 @@ test("small ungrouped networks stay spatial inside a narrow presentation panel",
   assert.notEqual(byId.get("anna")!.x, byId.get("essen")!.x);
   assert.notEqual(byId.get("essen")!.x, byId.get("university")!.x);
   assert.equal(new Set(layout.nodes.map((node) => node.y)).size, 2);
+  assert.ok(layout.nodes.every((node) => node.labelLines.length === 1), "short entity labels stay on one line");
+  assert.ok(layout.nodes.every((node) => node.width >= 146), "compact network nodes reserve readable label width");
   assert.ok(layout.edges.some((edge) => edge.x1 !== edge.x2 && edge.y1 !== edge.y2));
+
+  const center = { x: layout.width / 2, y: layout.height / 2 };
+  for (const edge of layout.edges) {
+    const edgeMid = { x: (edge.x1 + edge.x2) / 2, y: (edge.y1 + edge.y2) / 2 };
+    const midpointDistance = Math.hypot(edgeMid.x - center.x, edgeMid.y - center.y);
+    const labelDistance = Math.hypot(edge.labelX - center.x, edge.labelY - center.y);
+    assert.ok(labelDistance > midpointDistance, "relationship labels move away from the network center");
+  }
 });
 
 test("relation-free focused grouped networks use deterministic concentric rings", () => {
@@ -202,6 +212,48 @@ test("relation-free focused grouped networks use deterministic concentric rings"
   assert.ok(Math.abs(radius("inner:a") - layout.groups[0]!.radius) < 0.001);
   assert.ok(Math.abs(radius("outer:a") - layout.groups[1]!.radius) < 0.001);
   assert.deepEqual(layout.nodes.map((node) => node.id), ["focus", "inner:a", "inner:b", "outer:a", "outer:b", "outer:c"]);
+});
+
+test("dense outer rings reserve enough width for readable two-line labels", () => {
+  const outerLabels = [
+    "Package template",
+    "Example package",
+    "Service client",
+    "MCP gateway",
+    "Service creator",
+    "Runtime",
+    "Workspace store",
+    "Bootstrap core",
+    "Bootstrap instance",
+    "Bootstrap orchestrator",
+    "Local source",
+    "PyPI source",
+  ];
+  const layout = createD3FlowLayout({
+    diagramType: "network",
+    focusNodeId: "core",
+    groups: [
+      { id: "concepts", label: "Concept layer" },
+      { id: "specifications", label: "Specification layer" },
+    ],
+    nodes: [
+      { id: "core", label: "Core" },
+      { id: "concept:a", label: "Service", groupIds: ["concepts"] },
+      { id: "concept:b", label: "Workspace", groupIds: ["concepts"] },
+      { id: "concept:c", label: "Data processing", groupIds: ["concepts"] },
+      { id: "concept:d", label: "Package", groupIds: ["concepts"] },
+      { id: "concept:e", label: "Installation profile", groupIds: ["concepts"] },
+      ...outerLabels.map((label, index) => ({ id: `spec:${index}`, label, groupIds: ["specifications"] })),
+    ],
+    edges: [],
+  }, 1180);
+
+  assert.equal(layout.strategy, "concentric-network");
+  const outer = layout.nodes.filter((node) => node.id.startsWith("spec:"));
+  assert.equal(outer.length, outerLabels.length);
+  assert.ok(outer.every((node) => node.width >= 108));
+  assert.ok(outer.every((node) => node.labelLines.length <= 2), "outer labels should not fragment into three or more lines");
+  assert.ok(layout.groups[1]!.radius >= 300);
 });
 
 test("wrapFlowText preserves all authored characters", () => {
