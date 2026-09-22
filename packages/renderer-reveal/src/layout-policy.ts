@@ -53,23 +53,18 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
         slots: ["heading", "cards", "takeaway"],
       };
     }
-  }
 
-  if (blocks.length === 4) {
-    const [heading, principles, tableHeading, table] = blocks;
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
-      && principles?.kind === "list"
-      && principles.listStyle === "unordered"
-      && principles.items.length === 4
-      && tableHeading?.kind === "prose"
-      && tableHeading.intent?.kind === "explain"
-      && table?.kind === "table"
+      && body?.kind === "list"
+      && body.listStyle === "unordered"
+      && body.items.length === 4
+      && takeaway?.kind === "table"
     ) {
       return {
         family: "data-explanation",
-        slots: ["heading", "principles", "table-heading", "table"],
+        slots: ["heading", "principles", "table"],
       };
     }
   }
