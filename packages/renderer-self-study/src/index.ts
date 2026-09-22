@@ -3,6 +3,7 @@ import {
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
   SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
+  SCENE_DOCUMENT_TABLE_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -97,6 +98,32 @@ export interface SelfStudyDefinitionListPlan extends SelfStudyNodeBase {
   readonly entries: readonly SelfStudyDefinitionListEntryPlan[];
 }
 
+export interface SelfStudyTableColumnPlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyTableCellPlan {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyTableRowPlan {
+  readonly id: string;
+  readonly cells: readonly SelfStudyTableCellPlan[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyTablePlan extends SelfStudyNodeBase {
+  readonly kind: "table";
+  readonly caption: string;
+  readonly description?: string;
+  readonly columns: readonly SelfStudyTableColumnPlan[];
+  readonly rows: readonly SelfStudyTableRowPlan[];
+}
+
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
   readonly children: readonly SelfStudyNodePlan[];
@@ -171,6 +198,7 @@ export type SelfStudyNodePlan =
   | SelfStudyMediaPlan
   | SelfStudyListPlan
   | SelfStudyDefinitionListPlan
+  | SelfStudyTablePlan
   | SelfStudyGroupPlan
   | SelfStudyPromptPlan
   | SelfStudyDiagramPlan;
@@ -342,6 +370,36 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           source: sourceCopy(entry.source),
         })),
       };
+    case "table":
+      return {
+        ...baseFor(
+          block,
+          position,
+          [
+            block.caption,
+            ...(block.description ? [block.description] : []),
+            block.columns.map((column) => column.label).join(" | "),
+            ...block.rows.map((row) => row.cells.map((cell) => cell.text).join(" | ")),
+          ].join("\n"),
+        ),
+        kind: "table",
+        caption: block.caption,
+        ...(block.description ? { description: block.description } : {}),
+        columns: block.columns.map((column) => ({
+          id: column.id,
+          label: column.label,
+          source: sourceCopy(column.source),
+        })),
+        rows: block.rows.map((row) => ({
+          id: row.id,
+          source: sourceCopy(row.source),
+          cells: row.cells.map((cell) => ({
+            id: cell.id,
+            text: cell.text,
+            source: sourceCopy(cell.source),
+          })),
+        })),
+      };
     case "group": {
       const children = orderedBlocks(block.children, block.readingOrder).map((child, index) => mapBlock(child, index));
       return {
@@ -413,7 +471,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -515,6 +573,13 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
     case "definition-list": {
       const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}</div>`).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
+    }
+    case "table": {
+      const caption = `<caption>${escapeHtml(node.caption)}</caption>`;
+      const head = `<thead><tr>${node.columns.map((column) => `<th scope="col" data-table-column-id="${escapeHtml(column.id)}"${sourceAttributes(column.source)}>${escapeHtml(column.label)}</th>`).join("")}</tr></thead>`;
+      const body = `<tbody>${node.rows.map((row) => `<tr data-table-row-id="${escapeHtml(row.id)}"${sourceAttributes(row.source)}>${row.cells.map((cell) => `<td data-table-cell-id="${escapeHtml(cell.id)}"${sourceAttributes(cell.source)}>${escapeHtml(cell.text)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+      const description = node.description ? ` aria-description="${escapeHtml(node.description)}"` : "";
+      return `<table class="self-study-table"${description}>${caption}${head}${body}</table>`;
     }
     case "group":
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
