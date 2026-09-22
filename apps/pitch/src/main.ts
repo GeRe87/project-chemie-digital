@@ -11,7 +11,7 @@ import "./flow-theme.css";
 import "./cogniflow-opening-sequence.css";
 import "./cogniflow-fair-intro.css";
 import "./cogniflow-fair-gap.css";
-import "./cogniflow-explicit-context.css";
+import "./process-context-layout.css";
 import "./cogniflow-semantics-first.css";
 import "./cogniflow-semantic-triples.css";
 import "./cogniflow-semantic-core.css";
@@ -50,7 +50,6 @@ import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import { mountCogniflowPresentationProjection } from "./cogniflow-presentation-projection.ts";
 import { mountCogniflowClockPanel } from "./cogniflow-clock-panel.ts";
 import { mountCogniflowLaserPointer } from "./cogniflow-laser-pointer.ts";
-import { mountCogniflowExplicitContextSignals } from "./cogniflow-explicit-context.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -126,7 +125,6 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   canonicalDatasetSnapshot,
 );
 preparePresentationStepFragments(root);
-const unmountExplicitContextSignals = mountCogniflowExplicitContextSignals(root);
 const unmountPresentationProjection = mountCogniflowPresentationProjection(root);
 
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
@@ -372,7 +370,6 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-cogniflow-mobile");
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
-  unmountExplicitContextSignals();
   unmountPresentationProjection();
   unmountCogniflowLaserPointer();
   unmountCogniflowClock();
