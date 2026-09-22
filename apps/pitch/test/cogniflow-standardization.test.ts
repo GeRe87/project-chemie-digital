@@ -14,6 +14,7 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-explicit-processing-context--scene",
   "ex:scene-cogniflow-fair-data-intro--scene",
   "ex:scene-cogniflow-processing-black-box--scene",
+  "ex:scene-cogniflow-fair-processing-gap--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -59,6 +60,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./data-explanation-layout.css"'), true);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
   assert.equal(main.includes('import "./cogniflow-explicit-context.css"'), false);
   assert.equal(main.includes('cogniflow-explicit-context.ts'), false);
 });
@@ -83,4 +85,13 @@ test("CogniFlow tables no longer use TSV code heuristics", () => {
   assert.equal(flowTheme.includes(":has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host)"), false);
   assert.equal(trig.includes("ex:table-cogniflow-feature-results a cd:TableDefinition"), true);
   assert.equal(trig.includes("ex:table-cogniflow-fair-data-object a cd:TableDefinition"), true);
+});
+
+
+test("FAIR processing gap reuses the generic process-context layout semantics", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-motivation.trig");
+  assert.equal(trig.includes("ex:cogniflow-snr-example a cd:DefinitionList"), true);
+  assert.equal(trig.includes("ex:cogniflow-missing-processing-context a cd:DefinitionList"), true);
+  assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem"), true);
+  assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem"), true);
 });
