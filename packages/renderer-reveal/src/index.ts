@@ -2,6 +2,7 @@ import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
+  SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -94,6 +95,18 @@ export interface RevealListPlan extends RevealNodeBase {
   readonly items: readonly RevealListItemPlan[];
 }
 
+export interface RevealDefinitionListEntryPlan {
+  readonly id: string;
+  readonly term: string;
+  readonly description?: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealDefinitionListPlan extends RevealNodeBase {
+  readonly kind: "definition-list";
+  readonly entries: readonly RevealDefinitionListEntryPlan[];
+}
+
 export interface RevealGroupPlan extends RevealNodeBase {
   readonly kind: "group";
   readonly children: readonly RevealNodePlan[];
@@ -168,6 +181,7 @@ export type RevealNodePlan =
   | RevealCodePlan
   | RevealMediaPlan
   | RevealListPlan
+  | RevealDefinitionListPlan
   | RevealGroupPlan
   | RevealPromptPlan
   | RevealDiagramPlan;
@@ -320,6 +334,22 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         listStyle: block.listStyle,
         items: block.items.map((item) => ({ id: item.id, text: item.text, source: sourceCopy(item.source) })),
       };
+    case "definition-list":
+      return {
+        ...baseFor(
+          block,
+          position,
+          options,
+          block.entries.map((entry) => entry.description ? `${entry.term}: ${entry.description}` : entry.term).join("\n"),
+        ),
+        kind: "definition-list",
+        entries: block.entries.map((entry) => ({
+          id: entry.id,
+          term: entry.term,
+          ...(entry.description ? { description: entry.description } : {}),
+          source: sourceCopy(entry.source),
+        })),
+      };
     case "group": {
       const children = block.children.map((child, index) => mapBlock(child, index, options));
       return {
@@ -398,7 +428,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
