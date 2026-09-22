@@ -214,6 +214,32 @@ class FlowDiagramProjectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "requires DiagramRole"):
             RUNTIME.compile_scene_document(dataset, selected_path())
 
+    def test_pure_relation_free_network_projects_through_diagram_role(self) -> None:
+        dataset = flow_scene_dataset()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.remove((DIAGRAM, RDF.type, cd("FlowDiagram")))
+        graph.add((DIAGRAM, RDF.type, cd("NetworkDiagram")))
+        graph.remove((DIAGRAM, cd("hasDiagramEdge"), EDGE_ONE))
+
+        for group, label in ((GROUP_ONE, "Core"), (GROUP_TWO, "Context")):
+            graph.add((DIAGRAM, cd("hasDiagramGroup"), group))
+            graph.add((group, RDF.type, cd("DiagramGroup")))
+            graph.add((group, SKOS.prefLabel, Literal(label, lang="de")))
+            graph.add((group, cd("authoredResource"), Literal(True)))
+
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), GROUP_ONE))
+        graph.add((NODE_TWO, cd("memberOfDiagramGroup"), GROUP_TWO))
+
+        block = self.diagram_block(RUNTIME.compile_scene_document(dataset, selected_path()))
+
+        self.assertEqual("network", block["diagramType"])
+        self.assertEqual([], block["edges"])
+        self.assertEqual(
+            [RUNTIME.compact(GROUP_ONE), RUNTIME.compact(GROUP_TWO)],
+            [group["id"] for group in block["groups"]],
+        )
+
+
     def test_synthetic_network_state_projects_selection_focus_and_context(self) -> None:
         dataset = flow_scene_dataset()
         graph = dataset.graph(RESOURCE_GRAPH)

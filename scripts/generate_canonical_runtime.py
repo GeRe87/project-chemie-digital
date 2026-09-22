@@ -156,6 +156,13 @@ def is_resource_type(dataset: Dataset, resource: URIRef, type_name: str) -> bool
     return any(obj == iri(CD, type_name) for obj in objects(dataset, resource, RDF.type))
 
 
+def is_diagram_resource(dataset: Dataset, resource: URIRef) -> bool:
+    return any(
+        is_resource_type(dataset, resource, type_name)
+        for type_name in ("FlowDiagram", "NetworkDiagram", "SequenceDiagram")
+    )
+
+
 def selected_literal(
     dataset: Dataset,
     resource: URIRef,
@@ -832,7 +839,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
-            selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram") or is_resource_type(dataset, selected, "SequenceDiagram")
+            selected_is_diagram = is_diagram_resource(dataset, selected)
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             selected_is_definition_list = is_resource_type(dataset, selected, "DefinitionList")
             selected_is_table_definition = is_resource_type(dataset, selected, "TableDefinition")
@@ -842,8 +849,8 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 raise ValueError(f"TableDefinition {compact(selected)} requires TableRole in {compact(item)}")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
-            if selected_is_flow_diagram and role != "DiagramRole":
-                raise ValueError(f"FlowDiagram {compact(selected)} requires DiagramRole in {compact(item)}")
+            if selected_is_diagram and role != "DiagramRole":
+                raise ValueError(f"Diagram {compact(selected)} requires DiagramRole in {compact(item)}")
             if selected_is_chart_definition and role != "ChartRole":
                 raise ValueError(f"ChartDefinition {compact(selected)} requires ChartRole in {compact(item)}")
             if role == "FormulaRole":
@@ -990,8 +997,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
-                if not selected_is_flow_diagram:
-                    raise ValueError(f"DiagramRole requires FlowDiagram in {compact(item)}")
+                if not selected_is_diagram:
+                    raise ValueError(
+                        f"DiagramRole requires FlowDiagram, NetworkDiagram, or SequenceDiagram in {compact(item)}"
+                    )
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
