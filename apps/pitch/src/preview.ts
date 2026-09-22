@@ -182,6 +182,49 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     parent.appendChild(list);
     return;
   }
+  if (block.kind === "table") {
+    const table = dom.createElement("table");
+    table.className = "data-table";
+    layoutSlotAttribute(table, layoutSlot);
+    table.setAttribute("data-table-block-id", block.id);
+    if (block.description) table.setAttribute("aria-description", block.description);
+    sourceAttributes(table, block.source);
+
+    const caption = dom.createElement("caption");
+    caption.textContent = block.caption;
+    table.appendChild(caption);
+
+    const head = dom.createElement("thead");
+    const headRow = dom.createElement("tr");
+    for (const column of block.columns) {
+      const cell = dom.createElement("th");
+      cell.setAttribute("scope", "col");
+      cell.setAttribute("data-table-column-id", column.id);
+      cell.textContent = column.label;
+      sourceAttributes(cell, column.source);
+      headRow.appendChild(cell);
+    }
+    head.appendChild(headRow);
+    table.appendChild(head);
+
+    const body = dom.createElement("tbody");
+    for (const row of block.rows) {
+      const rowElement = dom.createElement("tr");
+      rowElement.setAttribute("data-table-row-id", row.id);
+      sourceAttributes(rowElement, row.source);
+      for (const cellValue of row.cells) {
+        const cell = dom.createElement("td");
+        cell.setAttribute("data-table-cell-id", cellValue.id);
+        cell.textContent = cellValue.text;
+        sourceAttributes(cell, cellValue.source);
+        rowElement.appendChild(cell);
+      }
+      body.appendChild(rowElement);
+    }
+    table.appendChild(body);
+    parent.appendChild(table);
+    return;
+  }
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
