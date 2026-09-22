@@ -589,6 +589,31 @@ Next migration target: Semantics First and Semantic Triples, replacing CSS-made 
 
 ---
 
+### Increment 5 — semantics progression and explicit knowledge graph
+
+Status: **implemented on this branch**
+
+Completed:
+
+- added generic `card-sequence` layout inference for heading + banner + three ordered cards + takeaway;
+- migrated `Semantics First — Meaning Before Implementation` to that reusable layout;
+- removed its scene-specific stylesheet and mobile/dark overrides;
+- kept sequence arrows, numbering and tone assignment as renderer-owned decoration rather than authored RDF;
+- added generic `text-network-progression` inference for heading + banner + two textual representations + NetworkDiagram + takeaway;
+- replaced the CSS-injected Anna knowledge-graph SVG with a canonical `NetworkDiagram` in TriG;
+- modeled Anna, Essen and University as DiagramNodes and `livesIn`, `worksAt`, `locatedIn` as DiagramEdges;
+- removed the obsolete third Knowledge Graph KeyPoint and the scene-specific Semantic Triples stylesheet;
+- reused the existing generic D3 diagram runtime for `diagramType="network"`;
+- added opaque-id renderer tests and anti-hardcoding guardrails.
+
+Result:
+
+The Semantic Triples slide no longer contains audience-visible scientific relationships in CSS or a presentation-specific image asset. The graph is part of the canonical semantic source and reaches the renderer as standard diagram data.
+
+Next migration target: the semantic-ring view, which remains the largest bespoke visualization runtime.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.
