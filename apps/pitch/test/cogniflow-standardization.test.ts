@@ -12,6 +12,7 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-semantic-hierarchy--scene",
   "ex:scene-cogniflow-core-grammar--scene",
   "ex:scene-cogniflow-explicit-processing-context--scene",
+  "ex:scene-cogniflow-fair-data-intro--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -21,6 +22,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/hierarchy-flow-layout.css"),
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),
+    source("../src/data-explanation-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -52,6 +54,17 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), true);
   assert.equal(main.includes('import "./reference-code-layout.css"'), true);
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
+  assert.equal(main.includes('import "./data-explanation-layout.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-explicit-context.css"'), false);
   assert.equal(main.includes('cogniflow-explicit-context.ts'), false);
+});
+
+
+test("FAIR data object is authored as a semantic table rather than TSV code", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-motivation.trig");
+  assert.equal(trig.includes("ex:code-cogniflow-fair-data-object"), false);
+  assert.equal(trig.includes("ex:table-cogniflow-fair-data-object a cd:TableDefinition"), true);
+  assert.equal(trig.includes("cd:communicativeRole cd:TableRole"), true);
+  assert.equal(trig.includes('cd:selectionPath "cd:hasTableRow"'), true);
 });
