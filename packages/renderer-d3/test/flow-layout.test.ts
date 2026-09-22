@@ -161,12 +161,15 @@ test("small ungrouped networks stay spatial inside a narrow presentation panel",
     ],
   }, 420);
 
-  assert.equal(layout.strategy, "radial-network");
+  assert.equal(layout.strategy, "triadic-network");
   const byId = new Map(layout.nodes.map((node) => [node.id, node]));
   assert.notEqual(byId.get("anna")!.x, byId.get("essen")!.x);
   assert.notEqual(byId.get("essen")!.x, byId.get("university")!.x);
   assert.equal(new Set(layout.nodes.map((node) => node.y)).size, 2);
   assert.ok(layout.nodes.every((node) => node.labelLines.length === 1), "short entity labels stay on one line");
+  assert.ok(byId.get("anna")!.y < byId.get("essen")!.y);
+  assert.equal(byId.get("essen")!.y, byId.get("university")!.y);
+  assert.equal(byId.get("anna")!.x, layout.width / 2);
   assert.ok(layout.nodes.every((node) => node.width >= 146), "compact network nodes reserve readable label width");
   assert.ok(layout.edges.some((edge) => edge.x1 !== edge.x2 && edge.y1 !== edge.y2));
 
@@ -254,6 +257,7 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.ok(outer.every((node) => node.width >= 108));
   assert.ok(outer.every((node) => node.labelLines.length <= 2), "outer labels should not fragment into three or more lines");
   assert.ok(layout.groups[1]!.radius >= 300);
+  assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
 });
 
 test("wrapFlowText preserves all authored characters", () => {

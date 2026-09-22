@@ -587,7 +587,7 @@ function addEdgeLabel(
   const namespace = "http://www.w3.org/2000/svg";
   const lineCount = Math.max(edge.labelLines.length, 1);
   const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
-  const compactNetwork = strategy === "radial-network";
+  const compactNetwork = strategy === "radial-network" || strategy === "triadic-network";
   const panelWidth = textWidth + (compactNetwork ? 18 : 26);
   const panelHeight = Math.max(compactNetwork ? 30 : 34, lineCount * (compactNetwork ? 20 : 22) + (compactNetwork ? 8 : 12));
   const group = document.createElementNS(namespace, "g");
@@ -909,7 +909,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("y", String(-layoutNode.height / 2));
           rect.setAttribute("width", String(layoutNode.width));
           rect.setAttribute("height", String(layoutNode.height));
-          rect.setAttribute("rx", layout.strategy === "concentric-network" ? String(layoutNode.height / 2) : layout.strategy === "radial-network" ? "6" : "8");
+          rect.setAttribute("rx", layout.strategy === "concentric-network"
+            ? String(layoutNode.height / 2)
+            : layout.strategy === "radial-network" || layout.strategy === "triadic-network"
+              ? "6"
+              : "8");
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
@@ -918,7 +922,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             title.textContent = modelNode.description;
             group.append(title);
           }
-          if (layout.strategy === "concentric-network" || layout.strategy === "radial-network") {
+          if (layout.strategy === "concentric-network" || layout.strategy === "radial-network" || layout.strategy === "triadic-network") {
             addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           } else {
             addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);

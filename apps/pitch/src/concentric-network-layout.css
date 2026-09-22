@@ -16,28 +16,37 @@
 .reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] {
   align-self: stretch;
   width: 100%;
+  height: 100%;
   min-width: 0;
   min-height: 0;
   margin: 0;
   padding: 0;
 }
 
+.reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] .d3-flow-runtime,
+.reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] .d3-flow-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] {
   display: block;
   width: 100%;
+  height: 100%;
   min-height: 0;
-  max-height: 48rem;
+  max-height: none;
   overflow: visible;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-band {
-  stroke: color-mix(in srgb, var(--pcd-accent) 9%, transparent);
-  stroke-width: 76;
+  stroke: color-mix(in srgb, var(--pcd-accent) 13%, transparent);
+  stroke-width: 82;
   vector-effect: non-scaling-stroke;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-ring {
-  stroke: color-mix(in srgb, var(--pcd-accent) 42%, var(--pcd-muted));
+  stroke: color-mix(in srgb, var(--pcd-accent) 52%, var(--pcd-muted));
   stroke-width: 2.5;
   stroke-dasharray: 8 9;
   vector-effect: non-scaling-stroke;
@@ -137,6 +146,7 @@
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-label {
-  font-size: 15px;
-  letter-spacing: .105em;
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: .10em;
 }

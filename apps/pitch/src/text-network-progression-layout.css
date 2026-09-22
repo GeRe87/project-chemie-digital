@@ -147,12 +147,12 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
 
 /* Compact relational networks use a lighter card grammar than process flows. */
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-node {
   filter: drop-shadow(0 4px 0 color-mix(in srgb, #063d47 28%, transparent));
 }
 
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-shape {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
   fill: #55d4da;
   stroke: #073f49;
   stroke-width: 5;
@@ -162,7 +162,7 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
 }
 
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-label {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-node-label {
   fill: #063d47;
   stroke: #e8ffff;
   stroke-width: 3px;
@@ -170,12 +170,12 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
 }
 
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-edge {
   stroke-width: 3;
 }
 
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge-label-panel {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-edge-label-panel {
   fill: #cceff1;
   stroke: #167d87;
   stroke-width: 2.5;
@@ -183,7 +183,7 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
 }
 
 .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-edge-label {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-edge-label {
   fill: #064b55;
   stroke: none;
   font-size: 12px;
@@ -191,13 +191,31 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-n
 }
 
 body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-shape {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
   fill: #0b6f7b;
   stroke: #b8f9fd;
 }
 
 body[data-presentation-theme="dark"] .reveal .slides section[data-layout="text-network-progression"]
-  .d3-flow-svg[data-layout-strategy="radial-network"] .d3-flow-node-label {
+  .d3-flow-svg:is([data-layout-strategy="radial-network"],[data-layout-strategy="triadic-network"]) .d3-flow-node-label {
   fill: #edffff;
   stroke: #0b2533;
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  [data-layout-slot="network"] .d3-flow-svg[data-layout-strategy="triadic-network"] {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="triadic-network"] .d3-flow-edge-label-group {
+  transform: translateZ(0);
+}
+
+.reveal .slides section[data-layout="text-network-progression"]
+  .d3-flow-svg[data-layout-strategy="triadic-network"] .d3-flow-edge-label {
+  font-size: 12.5px;
+  font-weight: 950;
 }

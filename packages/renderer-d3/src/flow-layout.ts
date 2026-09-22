@@ -1,5 +1,5 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
@@ -441,6 +441,52 @@ function groupedNetworkLayout(
   };
 }
 
+function isTriadicNetwork(input: D3FlowLayoutInput): boolean {
+  if (input.diagramType !== "network" || (input.groups?.length ?? 0) !== 0) return false;
+  if (input.nodes.length !== 3 || input.edges.length < 2) return false;
+  const connected = new Set<string>();
+  for (const edge of input.edges) {
+    connected.add(edge.sourceNodeId);
+    connected.add(edge.targetNodeId);
+  }
+  return input.nodes.every((node) => connected.has(node.id));
+}
+
+function triadicNetworkLayout(
+  prepared: readonly PreparedNode[],
+  hostWidth: number,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const width = Math.max(360, hostWidth);
+  const height = Math.max(320, Math.min(390, width * 0.78));
+  const nodeWidth = Math.max(158, Math.min(188, width * 0.39));
+  const topY = height * 0.24;
+  const bottomY = height * 0.68;
+  const leftX = width * 0.27;
+  const rightX = width * 0.73;
+  const positions = [
+    { x: width / 2, y: topY },
+    { x: leftX, y: bottomY },
+    { x: rightX, y: bottomY },
+  ] as const;
+
+  return {
+    width,
+    height,
+    nodes: prepared.map((node, index): D3FlowLayoutNode => {
+      const labelLines = wrapFlowText(node.label, Math.max(126, nodeWidth - 24));
+      const position = positions[index]!;
+      return {
+        id: node.id,
+        x: position.x,
+        y: position.y,
+        width: nodeWidth,
+        height: Math.max(64, 30 + labelLines.length * 21),
+        labelLines,
+      };
+    }),
+  };
+}
+
 function isCompactRadialNetwork(input: D3FlowLayoutInput): boolean {
   return input.diagramType === "network"
     && (input.groups?.length ?? 0) === 0
@@ -555,9 +601,9 @@ function concentricNetworkLayout(
   const groupRadius = (index: number): number => 190 + index * 135;
   const outerRadius = groupRadius(Math.max(0, groups.length - 1));
   const width = Math.max(780, Math.min(hostWidth, 1040), outerRadius * 2 + 180);
-  const height = Math.max(690, outerRadius * 2 + 150);
+  const height = Math.max(740, outerRadius * 2 + 120);
   const cx = width / 2;
-  const cy = outerRadius + 75;
+  const cy = outerRadius + 58;
   const nodes: D3FlowLayoutNode[] = [];
   const layoutGroups: D3FlowLayoutGroup[] = [];
 
@@ -566,8 +612,8 @@ function concentricNetworkLayout(
     id: focusNode.id,
     x: cx,
     y: cy,
-    width: Math.max(170, Math.min(220, Math.max(...focusLines.map((line) => deterministicFlowTextMeasure(line)), 0) + 42)),
-    height: Math.max(78, 32 + focusLines.length * 20),
+    width: Math.max(190, Math.min(236, Math.max(...focusLines.map((line) => deterministicFlowTextMeasure(line)), 0) + 48)),
+    height: Math.max(88, 36 + focusLines.length * 21),
     labelLines: focusLines,
   });
 
@@ -581,13 +627,13 @@ function concentricNetworkLayout(
       cy,
       radius,
       labelX: cx,
-      labelY: cy - radius - 48,
+      labelY: cy - radius - 34,
       memberNodeIds: members.map((node) => node.id),
     });
 
     const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const maximumNodeWidth = groupIndex === 0 ? 172 : 154;
-    const nodeWidth = Math.max(groupIndex === 0 ? 152 : 136, Math.min(maximumNodeWidth, arcAllowance * 0.82));
+    const maximumNodeWidth = groupIndex === 0 ? 182 : 160;
+    const nodeWidth = Math.max(groupIndex === 0 ? 160 : 142, Math.min(maximumNodeWidth, arcAllowance * 0.84));
     members.forEach((node, memberIndex) => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
       const labelLines = wrapFlowText(node.label, Math.max(78, nodeWidth - 12));
@@ -596,7 +642,7 @@ function concentricNetworkLayout(
         x: cx + Math.cos(angle) * radius,
         y: cy + Math.sin(angle) * radius,
         width: nodeWidth,
-        height: Math.max(groupIndex === 0 ? 68 : 54, 24 + labelLines.length * 17),
+        height: Math.max(groupIndex === 0 ? 76 : 58, 26 + labelLines.length * 17),
         labelLines,
       });
     });
@@ -627,10 +673,14 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const concentric = isConcentricNetwork(input)
     ? concentricNetworkLayout(input, prepared, hostWidth)
     : undefined;
-  const radial = !concentric && isCompactRadialNetwork(input)
+  const triadic = !concentric && isTriadicNetwork(input)
+    ? triadicNetworkLayout(prepared, hostWidth)
+    : undefined;
+  const radial = !concentric && !triadic && isCompactRadialNetwork(input)
     ? compactRadialNetworkLayout(prepared, hostWidth)
     : undefined;
   const geometry = concentric
+    ?? triadic
     ?? radial
     ?? (input.diagramType === "network"
       ? groupedNetworkLayout(input, prepared, hostWidth)
@@ -671,7 +721,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         ...networkEdgeGeometry(
           source,
           target,
-          radial ? { x: geometry.width / 2, y: geometry.height / 2 } : undefined,
+          radial || triadic ? { x: geometry.width / 2, y: geometry.height / 2 } : undefined,
         ),
         labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
@@ -698,7 +748,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
 
   return {
     orientation,
-    strategy: concentric ? "concentric-network" : radial ? "radial-network" : input.diagramType === "network" ? "grouped-network" : "layered-flow",
+    strategy: concentric ? "concentric-network" : triadic ? "triadic-network" : radial ? "radial-network" : input.diagramType === "network" ? "grouped-network" : "layered-flow",
     width: geometry.width,
     height: geometry.height,
     nodes: geometry.nodes,
