@@ -276,6 +276,42 @@ function textNetworkScene(id: string): Scene {
   };
 }
 
+function concentricNetworkScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:radial-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      {
+        id: "block:network",
+        kind: "diagram",
+        diagramType: "network",
+        label: "Opaque grouped network",
+        description: "Opaque grouped network description",
+        focusNodeId: "node:focus",
+        groups: [
+          { id: "group:a", label: "A", source: [{ resourceId: "resource:group:a" }] },
+          { id: "group:b", label: "B", source: [{ resourceId: "resource:group:b" }] },
+        ],
+        nodes: [
+          { id: "node:focus", label: "Focus", source: [{ resourceId: "resource:focus" }] },
+          { id: "node:a", label: "A", groupIds: ["group:a"], source: [{ resourceId: "resource:a" }] },
+          { id: "node:b", label: "B", groupIds: ["group:b"], source: [{ resourceId: "resource:b" }] },
+        ],
+        edges: [],
+        source: [{ resourceId: "resource:network" }],
+      },
+    ],
+    readingOrder: ["block:heading", "block:network"],
+  };
+}
+
+test("infers concentric-network from focused grouped topology without scene identity", () => {
+  assert.equal(inferRevealLayoutFamily(concentricNetworkScene("scene:alpha")), "concentric-network");
+  assert.equal(inferRevealLayoutFamily(concentricNetworkScene("opaque:scene")), "concentric-network");
+  assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
+});
+
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");

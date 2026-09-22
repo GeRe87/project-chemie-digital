@@ -371,8 +371,16 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
     sh:property [ sh:path cd:hasDiagramNode ; sh:minCount 2 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
-    sh:property [ sh:path cd:hasDiagramEdge ; sh:minCount 1 ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasDiagramEdge ; sh:class cd:DiagramEdge ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:hasDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "FlowDiagram requires at least one DiagramEdge unless it is a NetworkDiagram." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        FILTER NOT EXISTS { $this a cd:NetworkDiagram . }
+        FILTER NOT EXISTS { $this cd:hasDiagramEdge ?edge . }
+      }"""
+    ] ;
     sh:property [ sh:path cd:hasDiagramState ; sh:class cd:DiagramState ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:focusNode ; sh:maxCount 1 ; sh:class cd:DiagramNode ; sh:nodeKind sh:IRI ] ;
     sh:sparql [
@@ -562,6 +570,7 @@ SELECT $this WHERE { $this cd:hasSequenceState ?state . { ?state cd:activeIntera
   cd:DiagramGroupShape a sh:NodeShape ;
     sh:targetClass cd:DiagramGroup ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
 
   cd:DiagramEdgeShape a sh:NodeShape ;

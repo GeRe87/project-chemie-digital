@@ -177,7 +177,7 @@ function validateFlowBlock(block: DiagramBlock): void {
   requireNonEmpty(block.label, "Flow diagram label");
   requireNonEmpty(block.description, "Flow diagram description");
   if (block.nodes.length < 2) throw new Error("Flow diagram requires at least two nodes");
-  if (block.edges.length < 1) throw new Error("Flow diagram requires at least one edge");
+  if (block.diagramType === "flow" && block.edges.length < 1) throw new Error("Flow diagram requires at least one edge");
 
   const nodeIds = block.nodes.map((node) => node.id);
   if (new Set(nodeIds).size !== nodeIds.length) throw new Error("Flow diagram node ids must be unique");
@@ -240,13 +240,23 @@ function validateFlowBlock(block: DiagramBlock): void {
 
 function flowStaticFallback(block: DiagramBlock): string {
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
+  const groupMembership = new Map((block.groups ?? []).map((group) => [
+    group.id,
+    block.nodes.filter((node) => node.groupIds?.includes(group.id)).map((node) => node.label),
+  ]));
   return [
     block.label,
     block.description,
     "Nodes:",
     ...block.nodes.map((node) => `- ${node.label}`),
-    "Relations:",
-    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...((block.groups?.length ?? 0) > 0 ? [
+      "Groups:",
+      ...(block.groups ?? []).map((group) => `- ${group.label}: ${(groupMembership.get(group.id) ?? []).join(", ")}`),
+    ] : []),
+    ...(block.edges.length > 0 ? [
+      "Relations:",
+      ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ] : []),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
@@ -727,6 +737,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let nodeElements = new Map<string, SVGGElement>();
       let activeNodeId = initialActiveNodeId;
       let activeStateId = initialActiveStateId;
+      let groupLayer: SVGGElement | undefined;
       let edgeLayer: SVGGElement | undefined;
       let nodeLayer: SVGGElement | undefined;
       let descriptionElement: SVGElement | undefined;
@@ -740,6 +751,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
         svg.setAttribute("height", String(layout.height));
         svg.setAttribute("data-orientation", layout.orientation);
+        svg.setAttribute("data-layout-strategy", layout.strategy);
         svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
 
         const desc = descriptionElement ?? document.createElementNS(namespace, "desc");
@@ -771,6 +783,40 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           }
           definitionsElement = defs;
           svg.append(defs);
+        }
+
+        const nextGroupLayer = document.createElementNS(namespace, "g");
+        nextGroupLayer.setAttribute("class", "d3-flow-group-layer");
+        for (const layoutGroup of layout.groups) {
+          const group = document.createElementNS(namespace, "g");
+          group.setAttribute("class", "d3-flow-group");
+          group.setAttribute("data-key", `group:${layoutGroup.id}`);
+          group.setAttribute("data-group-id", layoutGroup.id);
+          const ring = document.createElementNS(namespace, "circle");
+          ring.setAttribute("class", "d3-flow-group-ring");
+          ring.setAttribute("cx", String(layoutGroup.cx));
+          ring.setAttribute("cy", String(layoutGroup.cy));
+          ring.setAttribute("r", String(layoutGroup.radius));
+          ring.setAttribute("fill", "none");
+          ring.setAttribute("aria-hidden", "true");
+          group.append(ring);
+          addTextLines(
+            group,
+            wrapFlowText(layoutGroup.label, 180),
+            layoutGroup.labelX,
+            layoutGroup.labelY,
+            "d3-flow-group-label",
+          );
+          nextGroupLayer.append(group);
+        }
+        if (layout.groups.length > 0) {
+          if (!groupLayer) {
+            groupLayer = nextGroupLayer;
+            svg.insertBefore(groupLayer, edgeLayer ?? nodeLayer ?? null);
+          } else reconcileKeyedChildren(groupLayer, nextGroupLayer);
+        } else if (groupLayer) {
+          groupLayer.remove();
+          groupLayer = undefined;
         }
 
         const nextEdgeLayer = document.createElementNS(namespace, "g");
@@ -823,6 +869,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           group.setAttribute("data-node-id", modelNode.id);
            if (modelNode.visualRole) group.setAttribute("data-visual-role", modelNode.visualRole);
           if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
+          const ringIndex = modelNode.groupIds
+            ?.map((groupId) => model.groups.findIndex((candidate) => candidate.id === groupId))
+            .find((index) => index >= 0);
+          if (layout.strategy === "concentric-network" && ringIndex !== undefined) group.setAttribute("data-ring-index", String(ringIndex));
+          if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
           group.setAttribute("aria-label", modelNode.label);
@@ -837,13 +888,17 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("y", String(-layoutNode.height / 2));
           rect.setAttribute("width", String(layoutNode.width));
           rect.setAttribute("height", String(layoutNode.height));
-          rect.setAttribute("rx", "8");
+          rect.setAttribute("rx", layout.strategy === "concentric-network" ? (modelNode.id === model.focusNodeId ? "18" : "10") : "8");
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
-          addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
-          const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
-          addTextLines(group, layoutNode.labelLines, (-layoutNode.width / 2 + 18 + indexSegmentWidth + layoutNode.width / 2) / 2, 0, "d3-flow-node-label");
+          if (layout.strategy === "concentric-network") {
+            addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
+          } else {
+            addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+            const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
+            addTextLines(group, layoutNode.labelLines, (-layoutNode.width / 2 + 18 + indexSegmentWidth + layoutNode.width / 2) / 2, 0, "d3-flow-node-label");
+          }
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
           nextNodeLayer.append(group);
           nextNodeElements.set(modelNode.id, group);

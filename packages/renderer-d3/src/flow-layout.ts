@@ -1,4 +1,5 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
+export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
@@ -18,7 +19,7 @@ export interface D3FlowLayoutInput {
   readonly nodes: readonly D3FlowLayoutNodeInput[];
   readonly edges: readonly D3FlowLayoutEdgeInput[];
   readonly diagramType?: "flow" | "network";
-  readonly groups?: readonly { readonly id: string }[];
+  readonly groups?: readonly { readonly id: string; readonly label?: string }[];
   readonly focusNodeId?: string;
   readonly states?: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
@@ -46,12 +47,25 @@ export interface D3FlowLayoutEdge {
   readonly visualRole?: string;
 }
 
+export interface D3FlowLayoutGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly cx: number;
+  readonly cy: number;
+  readonly radius: number;
+  readonly labelX: number;
+  readonly labelY: number;
+  readonly memberNodeIds: readonly string[];
+}
+
 export interface D3FlowLayout {
   readonly orientation: D3FlowOrientation;
+  readonly strategy: D3FlowLayoutStrategy;
   readonly width: number;
   readonly height: number;
   readonly nodes: readonly D3FlowLayoutNode[];
   readonly edges: readonly D3FlowLayoutEdge[];
+  readonly groups: readonly D3FlowLayoutGroup[];
   readonly states: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
 
@@ -427,6 +441,92 @@ function groupedNetworkLayout(
   };
 }
 
+function isConcentricNetwork(input: D3FlowLayoutInput): boolean {
+  if (input.diagramType !== "network" || !input.focusNodeId || input.edges.length !== 0) return false;
+  const groups = input.groups ?? [];
+  if (groups.length < 2) return false;
+  const groupIds = new Set(groups.map((group) => group.id));
+  const members = input.nodes.filter((node) => node.id !== input.focusNodeId);
+  if (members.length === 0) return false;
+  if (!groups.every((group) => members.some((node) => node.groupIds?.includes(group.id)))) return false;
+  return members.every((node) => {
+    const memberships = (node.groupIds ?? []).filter((groupId) => groupIds.has(groupId));
+    return memberships.length === 1;
+  });
+}
+
+function concentricNetworkLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  hostWidth: number,
+): {
+  readonly width: number;
+  readonly height: number;
+  readonly nodes: readonly D3FlowLayoutNode[];
+  readonly groups: readonly D3FlowLayoutGroup[];
+} {
+  const groups = input.groups ?? [];
+  const focusNode = prepared.find((node) => node.id === input.focusNodeId);
+  if (!focusNode) throw new Error("Concentric network requires its focus node in the node set");
+
+  const width = Math.max(760, hostWidth);
+  const groupRadius = (index: number): number => 150 + index * 120;
+  const outerRadius = groupRadius(Math.max(0, groups.length - 1));
+  const height = Math.max(620, outerRadius * 2 + 170);
+  const cx = width / 2;
+  const cy = outerRadius + 85;
+  const nodes: D3FlowLayoutNode[] = [];
+  const layoutGroups: D3FlowLayoutGroup[] = [];
+
+  const focusLines = wrapFlowText(focusNode.label, 160);
+  nodes.push({
+    id: focusNode.id,
+    x: cx,
+    y: cy,
+    width: Math.max(168, Math.min(230, Math.max(...focusLines.map((line) => deterministicFlowTextMeasure(line)), 0) + 34)),
+    height: Math.max(72, 28 + focusLines.length * 19),
+    labelLines: focusLines,
+  });
+
+  groups.forEach((group, groupIndex) => {
+    const members = prepared.filter((node) => node.id !== focusNode.id && node.groupIds?.includes(group.id));
+    const radius = groupRadius(groupIndex);
+    layoutGroups.push({
+      id: group.id,
+      label: group.label ?? group.id,
+      cx,
+      cy,
+      radius,
+      labelX: cx,
+      labelY: cy - radius - 48,
+      memberNodeIds: members.map((node) => node.id),
+    });
+
+    const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
+    const maximumNodeWidth = groupIndex === 0 ? 182 : 138;
+    const nodeWidth = Math.max(92, Math.min(maximumNodeWidth, arcAllowance * 0.76));
+    members.forEach((node, memberIndex) => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
+      const labelLines = wrapFlowText(node.label, Math.max(72, nodeWidth - 20));
+      nodes.push({
+        id: node.id,
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius,
+        width: nodeWidth,
+        height: Math.max(50, 24 + labelLines.length * 17),
+        labelLines,
+      });
+    });
+  });
+
+  return {
+    width,
+    height,
+    nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!),
+    groups: layoutGroups,
+  };
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
@@ -441,11 +541,15 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const geometry = input.diagramType === "network"
-    ? groupedNetworkLayout(input, prepared, hostWidth)
-    : orientation === "horizontal"
-      ? horizontalLayeredLayout(input, prepared, layers, hostWidth)
-      : verticalLayeredLayout(prepared, layers, hostWidth);
+  const concentric = isConcentricNetwork(input)
+    ? concentricNetworkLayout(input, prepared, hostWidth)
+    : undefined;
+  const geometry = concentric
+    ?? (input.diagramType === "network"
+      ? groupedNetworkLayout(input, prepared, hostWidth)
+      : orientation === "horizontal"
+        ? horizontalLayeredLayout(input, prepared, layers, hostWidth)
+        : verticalLayeredLayout(prepared, layers, hostWidth));
 
   const nodeById = new Map(geometry.nodes.map((node) => [node.id, node]));
   const edges = input.edges.map((edge) => {
@@ -492,10 +596,12 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
 
   return {
     orientation,
+    strategy: concentric ? "concentric-network" : input.diagramType === "network" ? "grouped-network" : "layered-flow",
     width: geometry.width,
     height: geometry.height,
     nodes: geometry.nodes,
     edges,
+    groups: concentric?.groups ?? [],
     states: (input.states ?? []).map((state) => ({
       id: state.id,
       sharedEdgeAnnotations: state.sharedEdgeAnnotations.map((annotation) => ({ id: annotation.id, edgeIds: [...annotation.edgeIds] })),

@@ -8,7 +8,8 @@ export type RevealLayoutFamily =
   | "data-explanation"
   | "analysis-result"
   | "card-sequence"
-  | "text-network-progression";
+  | "text-network-progression"
+  | "concentric-network";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -35,6 +36,22 @@ function isLinearThreeNodeFlow(block: SceneBlock): block is DiagramBlock {
   return isLinearFlow(block, 3) && block.nodes.length === 3;
 }
 
+function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
+  if (
+    block.kind !== "diagram"
+    || block.diagramType !== "network"
+    || !block.focusNodeId
+    || block.edges.length !== 0
+    || (block.groups?.length ?? 0) < 2
+  ) return false;
+  const groups = block.groups ?? [];
+  const groupIds = new Set(groups.map((group) => group.id));
+  const members = block.nodes.filter((node) => node.id !== block.focusNodeId);
+  return members.length > 0
+    && groups.every((group) => members.some((node) => node.groupIds?.includes(group.id)))
+    && members.every((node) => (node.groupIds ?? []).filter((groupId) => groupIds.has(groupId)).length === 1);
+}
+
 /**
  * Renderer-owned structural inference.
  *
@@ -44,6 +61,21 @@ function isLinearThreeNodeFlow(block: SceneBlock): block is DiagramBlock {
 export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | undefined {
   const blocks = orderedBlocks(scene);
   if (!blocks) return undefined;
+
+  if (blocks.length === 2) {
+    const [heading, network] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && network !== undefined
+      && isConcentricNetwork(network)
+    ) {
+      return {
+        family: "concentric-network",
+        slots: ["heading", "network"],
+      };
+    }
+  }
 
   if (blocks.length === 3) {
     const [heading, body, takeaway] = blocks;

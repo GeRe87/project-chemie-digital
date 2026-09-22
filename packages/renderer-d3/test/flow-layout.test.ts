@@ -146,6 +146,40 @@ test("network layouts place the authored focus centrally and cluster typed group
   assert.ok(byId.get("lcms")!.y < byId.get("hplc")!.y);
 });
 
+test("relation-free focused grouped networks use deterministic concentric rings", () => {
+  const layout = createD3FlowLayout({
+    diagramType: "network",
+    focusNodeId: "focus",
+    groups: [
+      { id: "group:inner", label: "Inner layer" },
+      { id: "group:outer", label: "Outer layer" },
+    ],
+    nodes: [
+      { id: "focus", label: "Core" },
+      { id: "inner:a", label: "Alpha", groupIds: ["group:inner"] },
+      { id: "inner:b", label: "Beta", groupIds: ["group:inner"] },
+      { id: "outer:a", label: "Gamma", groupIds: ["group:outer"] },
+      { id: "outer:b", label: "Delta", groupIds: ["group:outer"] },
+      { id: "outer:c", label: "Epsilon", groupIds: ["group:outer"] },
+    ],
+    edges: [],
+  }, 1200);
+
+  assert.equal(layout.strategy, "concentric-network");
+  assert.equal(layout.groups.length, 2);
+  assert.ok(layout.groups[1]!.radius > layout.groups[0]!.radius);
+  const byId = new Map(layout.nodes.map((node) => [node.id, node]));
+  assert.equal(byId.get("focus")!.x, layout.width / 2);
+  assert.equal(byId.get("focus")!.y, layout.groups[0]!.cy);
+  const radius = (id: string) => Math.hypot(
+    byId.get(id)!.x - layout.groups[0]!.cx,
+    byId.get(id)!.y - layout.groups[0]!.cy,
+  );
+  assert.ok(Math.abs(radius("inner:a") - layout.groups[0]!.radius) < 0.001);
+  assert.ok(Math.abs(radius("outer:a") - layout.groups[1]!.radius) < 0.001);
+  assert.deepEqual(layout.nodes.map((node) => node.id), ["focus", "inner:a", "inner:b", "outer:a", "outer:b", "outer:c"]);
+});
+
 test("wrapFlowText preserves all authored characters", () => {
   const text = "alpha  beta gamma-delta";
   const lines = wrapFlowText(text, 7, (value) => Array.from(value).length);

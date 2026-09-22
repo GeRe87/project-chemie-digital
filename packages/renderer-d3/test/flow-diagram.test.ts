@@ -55,9 +55,20 @@ test("optional focus is valid and does not invent a focus node", () => {
   assert.equal(result.model.focusNodeId, undefined);
 });
 
-test("accepts network diagrams and fails closed for unsupported types and unknown edge endpoints", () => {
+test("accepts network diagrams including relation-free semantic groupings and fails closed for unsupported types", () => {
   const network = createD3FlowRenderModel({ ...block, diagramType: "network" }, keyboardOptions);
   assert.equal(network.model?.diagramType, "network");
+
+  const relationFree = createD3FlowRenderModel({
+    ...block,
+    diagramType: "network",
+    edges: [],
+    groups: [{ id: "group:layer", label: "Layer", source: [{ resourceId: "group:layer" }] }],
+    nodes: block.nodes.map((node) => ({ ...node, groupIds: node.id === "node:metadata" ? undefined : ["group:layer"] })),
+  }, keyboardOptions);
+  assert.equal(relationFree.model?.diagramType, "network");
+  assert.deepEqual(relationFree.model?.edges, []);
+  assert.match(relationFree.model?.staticFallback ?? "", /Groups:/);
 
   const unsupported = createD3FlowRenderModel({ ...block, diagramType: "hierarchy" } as unknown as DiagramBlock, keyboardOptions);
   assert.equal(unsupported.model, undefined);

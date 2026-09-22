@@ -614,6 +614,31 @@ Next migration target: the semantic-ring view, which remains the largest bespoke
 
 ---
 
+### Increment 6 — generic concentric semantic networks
+
+Status: **implemented on this branch**
+
+Completed:
+
+- migrated `CogniFlow Starts with Meaning` from three prose/list payloads to one canonical `cd:NetworkDiagram`;
+- modeled the core as the authored `focusNode` and concept/specification layers as ordinary `DiagramGroup` memberships;
+- added optional semantic ordering for diagram groups through the existing `cd:position` attribute;
+- allowed relation-free `NetworkDiagram` instances while retaining the edge requirement for ordinary `FlowDiagram` content;
+- added a renderer-owned `concentric-network` strategy inferred only from graph structure: focused node + ordered groups + no authored edges;
+- added generic concentric ring geometry, group labels and responsive SVG rendering to the shared D3 flow/network renderer;
+- added generic Reveal `concentric-network` layout inference and styling with no scene, resource or CogniFlow identity checks;
+- removed `cogniflow-semantic-rings-runtime.ts`, `cogniflow-semantic-core.css` and their presentation-specific parser/projection test;
+- removed the bespoke semantic-ring mount from `main.ts`;
+- extended anti-hardcoding, renderer-layout and network-contract regression tests.
+
+Result:
+
+The semantic-ring view is now an ordinary semantic network. TriG owns the nodes, focus and layer membership; the renderer alone decides that this topology is best realized as concentric layers. Changing package labels, membership or group order no longer requires a CogniFlow TypeScript runtime.
+
+Next migration target: the remaining processing/service/extension presentation shells before the publication projection and shell capabilities are generalized.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.

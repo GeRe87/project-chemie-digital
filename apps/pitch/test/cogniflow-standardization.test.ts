@@ -17,6 +17,7 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-fair-processing-gap--scene",
   "ex:scene-cogniflow-semantics-first--scene",
   "ex:scene-cogniflow-semantic-triples--scene",
+  "ex:scene-cogniflow-semantic-core--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -30,6 +31,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/analysis-result-layout.css"),
     source("../src/card-sequence-layout.css"),
     source("../src/text-network-progression-layout.css"),
+    source("../src/concentric-network-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -67,6 +69,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./text-network-progression-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-semantics-first.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-semantic-core.css"'), false);
+  assert.equal(main.includes('import "./concentric-network-layout.css"'), true);
+  assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
   assert.equal(main.includes('import "./cogniflow-explicit-context.css"'), false);
@@ -114,4 +119,16 @@ test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
   assert.equal(trig.includes('skos:prefLabel "locatedIn"@en'), true);
   assert.equal(trig.includes("ex:keypoint-cogniflow-semantic-graph a cd:KeyPoint"), false);
   assert.equal(main.includes("anna-knowledge-graph.svg"), false);
+});
+
+
+test("semantic core is canonical grouped network data rather than a bespoke ring payload", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-semantic-core.trig");
+  const main = source("../src/main.ts");
+  assert.equal(trig.includes("ex:diagram-cogniflow-semantic-core a cd:NetworkDiagram"), true);
+  assert.equal(trig.includes("cd:focusNode ex:node-cogniflow-semantic-core"), true);
+  assert.equal(trig.includes("cd:hasDiagramGroup ex:group-cogniflow-semantic-concepts"), true);
+  assert.equal(trig.includes("cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications"), true);
+  assert.equal(trig.includes("ex:cogniflow-ring-core a cd:Interpretation"), false);
+  assert.equal(main.includes("mountCogniflowSemanticRings"), false);
 });

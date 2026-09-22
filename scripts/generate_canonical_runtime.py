@@ -387,7 +387,7 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
     edge_records.sort(key=lambda record: (record[1], str(record[0])))
     if len(node_records) < 2:
         raise ValueError(f"FlowDiagram {compact(diagram)} requires at least two DiagramNodes")
-    if not edge_records:
+    if diagram_type == "flow" and not edge_records:
         raise ValueError(f"FlowDiagram {compact(diagram)} requires at least one DiagramEdge")
     node_positions = [position for _node, position in node_records]
     if node_positions != list(range(1, len(node_records) + 1)):
@@ -439,10 +439,25 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    group_resources = [group for group in objects(dataset, diagram, iri(CD, "hasDiagramGroup")) if isinstance(group, URIRef)]
+    positioned_groups = [
+        (group, integer(dataset, group, iri(CD, "position")))
+        for group in group_resources
+        if objects(dataset, group, iri(CD, "position"))
+    ]
+    if positioned_groups:
+        if len(positioned_groups) != len(group_resources):
+            raise ValueError(f"DiagramGroup positions must be present for every group of {compact(diagram)}")
+        positioned_groups.sort(key=lambda record: (record[1], str(record[0])))
+        group_positions = [position for _group, position in positioned_groups]
+        if group_positions != list(range(1, len(positioned_groups) + 1)):
+            raise ValueError(f"DiagramGroup positions must be unique and contiguous for {compact(diagram)}")
+        ordered_groups = [group for group, _position in positioned_groups]
+    else:
+        ordered_groups = sorted(group_resources, key=str)
+
     groups = []
-    for group in sorted(objects(dataset, diagram, iri(CD, "hasDiagramGroup")), key=str):
-        if not isinstance(group, URIRef):
-            continue
+    for group in ordered_groups:
         group_label, group_relation_path = selected_label_reference(dataset, group, language)
         groups.append({"id": compact(group), "label": group_label, "source": [source_reference(dataset, group, group_relation_path)]})
 

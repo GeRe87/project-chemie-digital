@@ -423,7 +423,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   requireNonEmpty(block.description, `${label} diagram description`);
   if (block.diagramType !== "flow" && block.diagramType !== "network" && block.diagramType !== "sequence") throw new SceneContractError(`${label} diagram type must be flow, network or sequence`);
   if (block.diagramType !== "sequence" && block.nodes.length < 2) throw new SceneContractError(`${label} diagram must contain at least two nodes`);
-  if (block.diagramType !== "sequence" && block.edges.length < 1) throw new SceneContractError(`${label} diagram must contain at least one edge`);
+  if (block.diagramType === "flow" && block.edges.length < 1) throw new SceneContractError(`${label} flow diagram must contain at least one edge`);
   if (block.diagramType === "sequence" && (block.participantRoles?.length ?? 0) < 2) throw new SceneContractError(`${label} sequence must contain at least two participant roles`);
   if (block.diagramType === "sequence" && (block.messages?.length ?? 0) < 1) throw new SceneContractError(`${label} sequence must contain at least one message`);
 
