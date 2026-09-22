@@ -181,3 +181,46 @@ test("core does not import the self-study renderer", async () => {
     assert.doesNotMatch(source, /renderer-self-study|SelfStudyRenderPlan/i);
   }
 });
+
+
+test("table blocks remain structured in self-study output", () => {
+  const document: SceneDocument = {
+    version: "1.5",
+    id: "scene-document:self-study-table",
+    sourcePathId: "path:self-study-table",
+    scenes: [{
+      id: "scene:table",
+      source: [{ resourceId: "resource:scene" }],
+      blocks: [{
+        kind: "table",
+        id: "block:table",
+        source: [{ resourceId: "resource:table", relationPath: "cd:hasTableRow" }],
+        caption: "Illustrative table",
+        description: "Two-column example",
+        columns: [
+          { id: "column:a", label: "A", source: [{ resourceId: "resource:column:a" }] },
+          { id: "column:b", label: "B", source: [{ resourceId: "resource:column:b" }] },
+        ],
+        rows: [{
+          id: "row:1",
+          source: [{ resourceId: "resource:row:1" }],
+          cells: [
+            { id: "cell:a", text: "alpha", source: [{ resourceId: "resource:cell:a" }] },
+            { id: "cell:b", text: "beta", source: [{ resourceId: "resource:cell:b" }] },
+          ],
+        }],
+      }],
+      readingOrder: ["block:table"],
+    }],
+  };
+
+  const result = createSelfStudyRenderPlan(document);
+  assert.deepEqual(result.diagnostics, []);
+  const node = result.plan!.sections[0]!.nodes[0]!;
+  assert.equal(node.kind, "table");
+  const html = renderSelfStudyHtml(result.plan!, { interactive: false });
+  assert.match(html, /<table class="self-study-table"/);
+  assert.match(html, /<caption>Illustrative table<\/caption>/);
+  assert.match(html, /<th scope="col"[^>]*>A<\/th>/);
+  assert.match(html, /<td[^>]*>beta<\/td>/);
+});
