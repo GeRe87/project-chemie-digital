@@ -211,6 +211,71 @@ function analysisResultScene(id: string): Scene {
   };
 }
 
+function cardSequenceScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:card-sequence" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:banner", "explain"),
+      {
+        id: "block:cards",
+        kind: "list",
+        listStyle: "unordered",
+        items: Array.from({ length: 3 }, (_, index) => ({
+          id: `card:${index + 1}`,
+          text: `Card ${index + 1}`,
+          source: [{ resourceId: `resource:card:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:cards" }],
+      },
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:banner", "block:cards", "block:takeaway"],
+  };
+}
+
+function textNetworkScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:text-network" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:banner", "explain"),
+      {
+        id: "block:views",
+        kind: "list",
+        listStyle: "unordered",
+        items: [
+          { id: "view:1", text: "First representation", source: [{ resourceId: "resource:view:1" }] },
+          { id: "view:2", text: "Second representation", source: [{ resourceId: "resource:view:2" }] },
+        ],
+        source: [{ resourceId: "resource:views" }],
+      },
+      {
+        id: "block:network",
+        kind: "diagram",
+        diagramType: "network",
+        label: "Opaque network",
+        description: "Opaque network description",
+        nodes: [
+          { id: "node:a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "node:b", label: "B", source: [{ resourceId: "resource:b" }] },
+          { id: "node:c", label: "C", source: [{ resourceId: "resource:c" }] },
+        ],
+        edges: [
+          { id: "edge:ab", sourceNodeId: "node:a", targetNodeId: "node:b", label: "r1", source: [{ resourceId: "resource:ab" }] },
+          { id: "edge:ac", sourceNodeId: "node:a", targetNodeId: "node:c", label: "r2", source: [{ resourceId: "resource:ac" }] },
+          { id: "edge:cb", sourceNodeId: "node:c", targetNodeId: "node:b", label: "r3", source: [{ resourceId: "resource:cb" }] },
+        ],
+        source: [{ resourceId: "resource:network" }],
+      },
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:banner", "block:views", "block:network", "block:takeaway"],
+  };
+}
+
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");
@@ -337,4 +402,21 @@ test("process-context supports longer linear flows without introducing a new lay
     source: [{ resourceId: "resource:cd" }],
   });
   assert.equal(inferRevealLayoutFamily(scene), "process-context");
+});
+
+
+test("infers generic card-sequence without scene or label identity", () => {
+  assert.equal(inferRevealLayoutFamily(cardSequenceScene("scene:alpha")), "card-sequence");
+  assert.equal(inferRevealLayoutFamily(cardSequenceScene("opaque:scene")), "card-sequence");
+  assert.deepEqual(inferRevealLayoutDecision(cardSequenceScene("scene:slots"))?.slots, [
+    "heading", "banner", "cards", "takeaway",
+  ]);
+});
+
+test("infers text-network-progression from structured network content", () => {
+  assert.equal(inferRevealLayoutFamily(textNetworkScene("scene:alpha")), "text-network-progression");
+  assert.equal(inferRevealLayoutFamily(textNetworkScene("opaque:scene")), "text-network-progression");
+  assert.deepEqual(inferRevealLayoutDecision(textNetworkScene("scene:slots"))?.slots, [
+    "heading", "banner", "views", "network", "takeaway",
+  ]);
 });
