@@ -23,6 +23,7 @@ export interface D3FlowDiagnostic {
 export interface D3FlowRenderNode {
   readonly id: string;
   readonly label: string;
+  readonly description?: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
@@ -185,6 +186,7 @@ function validateFlowBlock(block: DiagramBlock): void {
   for (const node of block.nodes) {
     requireNonEmpty(node.id, "Flow node id");
     requireNonEmpty(node.label, `Flow node ${node.id} label`);
+    if (node.description !== undefined) requireNonEmpty(node.description, `Flow node ${node.id} description`);
     validateVisualRole(node.visualRole, `Flow node ${node.id}`);
   }
   const groupIds = (block.groups ?? []).map((group) => group.id);
@@ -248,7 +250,7 @@ function flowStaticFallback(block: DiagramBlock): string {
     block.label,
     block.description,
     "Nodes:",
-    ...block.nodes.map((node) => `- ${node.label}`),
+    ...block.nodes.map((node) => `- ${node.label}${node.description ? ` — ${node.description}` : ""}`),
     ...((block.groups?.length ?? 0) > 0 ? [
       "Groups:",
       ...(block.groups ?? []).map((group) => `- ${group.label}: ${(groupMembership.get(group.id) ?? []).join(", ")}`),
@@ -384,6 +386,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
     const nodes = block.nodes.map((node, readingIndex): D3FlowRenderNode => ({
       id: node.id,
       label: node.label,
+      ...(node.description ? { description: node.description } : {}),
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
        ...(node.visualRole ? { visualRole: node.visualRole } : {}),
@@ -886,7 +889,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
-          group.setAttribute("aria-label", modelNode.label);
+          group.setAttribute("aria-label", modelNode.description ? `${modelNode.label}: ${modelNode.description}` : modelNode.label);
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {
             group.setAttribute("tabindex", "0");
@@ -902,6 +905,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           rect.setAttribute("fill", "none");
           rect.setAttribute("stroke", "currentColor");
           group.append(rect);
+          if (modelNode.description) {
+            const title = document.createElementNS(namespace, "title");
+            title.textContent = modelNode.description;
+            group.append(title);
+          }
           if (layout.strategy === "concentric-network") {
             addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           } else {

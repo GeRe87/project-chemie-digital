@@ -562,6 +562,7 @@ SELECT $this WHERE { $this cd:hasSequenceState ?state . { ?state cd:activeIntera
   cd:DiagramNodeShape a sh:NodeShape ;
     sh:targetClass cd:DiagramNode ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:visualRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[a-z][a-z0-9-]*$" ] ;
     sh:property [ sh:path cd:memberOfDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;

@@ -97,6 +97,7 @@ def flow_scene_dataset(*, include_focus: bool = False, include_heading: bool = T
     graph.add((NODE_ONE, RDF.type, cd("DiagramNode")))
     graph.add((NODE_ONE, SKOS.prefLabel, Literal("Eingang", lang="de")))
     graph.add((NODE_ONE, SKOS.prefLabel, Literal("Input", lang="en")))
+    graph.add((NODE_ONE, cd("body"), Literal("Rohdatenquelle", lang="de")))
     graph.add((NODE_ONE, cd("position"), Literal(1, datatype=XSD.integer)))
     graph.add((NODE_ONE, cd("authoredResource"), Literal(True)))
 
@@ -138,6 +139,8 @@ class FlowDiagramProjectionTests(unittest.TestCase):
             {source["relationPath"] for source in block["source"]},
         )
         self.assertEqual("skos:prefLabel@de", block["nodes"][0]["source"][0]["relationPath"])
+        self.assertEqual("Rohdatenquelle", block["nodes"][0]["description"])
+        self.assertEqual("cd:body", block["nodes"][0]["source"][1]["relationPath"])
         self.assertEqual("Ausgangstitel", block["nodes"][1]["label"])
         self.assertEqual("dct:title", block["nodes"][1]["source"][0]["relationPath"])
         self.assertEqual("skos:prefLabel@de", block["edges"][0]["source"][0]["relationPath"])

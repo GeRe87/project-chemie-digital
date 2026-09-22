@@ -49,108 +49,126 @@
     cd:authoredResource true .
 
   ex:node-cogniflow-semantic-core a cd:DiagramNode ;
-    skos:prefLabel "CORE · cf_ontology"@en ;
+    skos:prefLabel "CORE"@en ;
+    cd:body "cf_ontology"@en ;
     cd:position 1 ;
     cd:authoredResource true .
 
   ex:node-cogniflow-concept-service a cd:DiagramNode ;
-    skos:prefLabel "SERVICE · cf_concept_service"@en ;
+    skos:prefLabel "SERVICE"@en ;
+    cd:body "cf_concept_service"@en ;
     cd:position 2 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-concepts ;
     cd:authoredResource true .
 
   ex:node-cogniflow-concept-workspace a cd:DiagramNode ;
-    skos:prefLabel "WORKSPACE · cf_concept_workspace"@en ;
+    skos:prefLabel "WORKSPACE"@en ;
+    cd:body "cf_concept_workspace"@en ;
     cd:position 3 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-concepts ;
     cd:authoredResource true .
 
   ex:node-cogniflow-concept-processing a cd:DiagramNode ;
-    skos:prefLabel "DATA PROCESSING · cf_concept_processing · ProcessingUnit · ProcessingStep · ProcessingPipeline · Port · PortRole"@en ;
+    skos:prefLabel "DATA PROCESSING"@en ;
+    cd:body "cf_concept_processing — ProcessingUnit · ProcessingStep · ProcessingPipeline · Port · PortRole"@en ;
     cd:position 4 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-concepts ;
     cd:authoredResource true .
 
   ex:node-cogniflow-concept-package a cd:DiagramNode ;
-    skos:prefLabel "PACKAGE · cf_concept_package · CfPackage · Manifest · Version · Role · Contributions"@en ;
+    skos:prefLabel "PACKAGE"@en ;
+    cd:body "cf_concept_package — CfPackage · Manifest · Version · Role · Contributions"@en ;
     cd:position 5 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-concepts ;
     cd:authoredResource true .
 
   ex:node-cogniflow-concept-installation-profile a cd:DiagramNode ;
-    skos:prefLabel "INSTALLATION PROFILE · cf_concept_installation_profile"@en ;
+    skos:prefLabel "INSTALLATION PROFILE"@en ;
+    cd:body "cf_concept_installation_profile"@en ;
     cd:position 6 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-concepts ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-package-template a cd:DiagramNode ;
-    skos:prefLabel "PKG TEMPLATE · cf_package_template_basic"@en ;
+    skos:prefLabel "PKG TEMPLATE"@en ;
+    cd:body "cf_package_template_basic"@en ;
     cd:position 7 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-example-package a cd:DiagramNode ;
-    skos:prefLabel "EXAMPLE PKG · cf_package_example_arithmetic"@en ;
+    skos:prefLabel "EXAMPLE PKG"@en ;
+    cd:body "cf_package_example_arithmetic"@en ;
     cd:position 8 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-service-client a cd:DiagramNode ;
-    skos:prefLabel "SERVICE CLIENT · cf_service_client"@en ;
+    skos:prefLabel "SERVICE CLIENT"@en ;
+    cd:body "cf_service_client"@en ;
     cd:position 9 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-mcp-gateway a cd:DiagramNode ;
-    skos:prefLabel "MCP GATEWAY · cf_service_mcp_server"@en ;
+    skos:prefLabel "MCP GATEWAY"@en ;
+    cd:body "cf_service_mcp_server"@en ;
     cd:position 10 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-service-creator a cd:DiagramNode ;
-    skos:prefLabel "SERVICE CREATOR · cf_service_creator"@en ;
+    skos:prefLabel "SERVICE CREATOR"@en ;
+    cd:body "cf_service_creator"@en ;
     cd:position 11 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-runtime a cd:DiagramNode ;
-    skos:prefLabel "RUNTIME · cf_runtime"@en ;
+    skos:prefLabel "RUNTIME"@en ;
+    cd:body "cf_runtime"@en ;
     cd:position 12 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-workspace-store a cd:DiagramNode ;
-    skos:prefLabel "WORKSPACE STORE · cf_workspace_store"@en ;
+    skos:prefLabel "WORKSPACE STORE"@en ;
+    cd:body "cf_workspace_store"@en ;
     cd:position 13 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-bootstrap-core a cd:DiagramNode ;
-    skos:prefLabel "BOOTSTRAP CORE · cf_bootstrap_core"@en ;
+    skos:prefLabel "BOOTSTRAP CORE"@en ;
+    cd:body "cf_bootstrap_core"@en ;
     cd:position 14 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-bootstrap-instance a cd:DiagramNode ;
-    skos:prefLabel "BOOTSTRAP INSTANCE · cf_bootstrap_instance"@en ;
+    skos:prefLabel "BOOTSTRAP INSTANCE"@en ;
+    cd:body "cf_bootstrap_instance"@en ;
     cd:position 15 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-bootstrap-orchestrator a cd:DiagramNode ;
-    skos:prefLabel "BOOTSTRAP ORCH. · cf_bootstrap_orchestrator"@en ;
+    skos:prefLabel "BOOTSTRAP ORCH."@en ;
+    cd:body "cf_bootstrap_orchestrator"@en ;
     cd:position 16 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-local-source a cd:DiagramNode ;
-    skos:prefLabel "LOCAL SOURCE · cf_bootstrap_source_local"@en ;
+    skos:prefLabel "LOCAL SOURCE"@en ;
+    cd:body "cf_bootstrap_source_local"@en ;
     cd:position 17 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
 
   ex:node-cogniflow-spec-pypi-source a cd:DiagramNode ;
-    skos:prefLabel "PYPI SOURCE · cf_bootstrap_source_pypi"@en ;
+    skos:prefLabel "PYPI SOURCE"@en ;
+    cd:body "cf_bootstrap_source_pypi"@en ;
     cd:position 18 ;
     cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications ;
     cd:authoredResource true .
