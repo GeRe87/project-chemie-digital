@@ -45,65 +45,9 @@
     letter-spacing: .015em !important;
   }
 
-  /*
-   * Semantic-model triptychs: preserve the visual grammar, but use compact vertical
-   * cards instead of 1440px cards that Reveal would otherwise scale down.
-   */
-  body.pcd-cogniflow-mobile .reveal .slides section:is(
-    [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"]
-  ) {
-    grid-template-rows: auto auto auto auto !important;
-    row-gap: .52rem !important;
-    align-content: start !important;
-  }
-
-  body.pcd-cogniflow-mobile .reveal .slides section:is(
-    [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"]
-  ) > h2 + .lead + .keypoint-list {
-    grid-template-columns: 1fr !important;
-    gap: .55rem !important;
-    width: 100% !important;
-    padding: 0 !important;
-  }
-
-  body.pcd-cogniflow-mobile .reveal .slides section:is(
-    [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"]
-  ) > h2 + .lead + .keypoint-list > li {
-    min-height: 0 !important;
-    padding: .72rem .78rem !important;
-    font-size: .9rem !important;
-    line-height: 1.28 !important;
-    transform: none !important;
-  }
-
-  body.pcd-cogniflow-mobile .reveal .slides section:is(
-    [id="ex:scene-cogniflow-semantics-first--scene"],
-    [id="ex:scene-cogniflow-semantic-triples--scene"]
-  ) > h2 + .lead + .keypoint-list > li:not(:last-child)::after {
-    font-size: .9rem !important;
-    bottom: -.78rem !important;
-  }
-
-
+  /* Semantic card/network responsiveness is owned by generic layouts. */
 
   /* Concept/specification responsiveness is owned by the generic layout. */
-
-  /* Keep the knowledge-graph illustration large enough to read on a phone. */
-  body.pcd-cogniflow-mobile
-    .reveal .slides section[id="ex:scene-cogniflow-semantic-triples--scene"]
-    > h2 + .lead + .keypoint-list > li:nth-child(3) {
-    min-height: 13.5rem !important;
-    padding-bottom: 9.5rem !important;
-  }
-
-  body.pcd-cogniflow-mobile
-    .reveal .slides section[id="ex:scene-cogniflow-semantic-triples--scene"]
-    > h2 + .lead + .keypoint-list > li:nth-child(3)::after {
-    height: 8.4rem !important;
-  }
 
   /* Four processing steps remain a compact 2 x 2 board on portrait phones. */
   body.pcd-cogniflow-mobile
