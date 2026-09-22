@@ -504,6 +504,35 @@ Next migration target: `A Hierarchy of Meaning` followed by `A Small Grammar for
 
 ---
 
+### Increment 2 — hierarchy + reference/code standardization
+
+Status: **implemented on this branch**
+
+Completed:
+
+- migrated `A Hierarchy of Meaning` from CSS-generated list arrows to a canonical `cd:FlowDiagram`;
+- hierarchy levels and relations now exist as `DiagramNode` / `DiagramEdge` resources in TriG;
+- added generic `hierarchy-flow` inference based on a three-node linear flow topology, not on scene/resource identity;
+- added renderer-owned layout slots and exposed them as `data-layout-slot` only after SceneDocument compilation;
+- added generic `hierarchy-flow-layout.css`; its narrow host deliberately selects the existing D3 renderer's vertical flow realization;
+- migrated `A Small Grammar for Meaning` to a generic `reference-code` layout inferred from block structure;
+- moved the visible `READING TRIG · CONCEPT DOMAIN` label from CSS into canonical TriG;
+- added generic `reference-code-layout.css` with desktop/mobile and light/dark realization;
+- deleted `cogniflow-semantic-hierarchy.css` and `cogniflow-core-grammar.css`;
+- removed the Grammar scene id from shared dark/mobile styles;
+- upgraded the earlier `concept-specification` layout to renderer-owned slots as well;
+- added identity-independent renderer tests, slot-projection tests and anti-hardcoding guardrails.
+
+The standardized layout pipeline now demonstrates three reusable families:
+
+- `concept-specification`;
+- `hierarchy-flow`;
+- `reference-code`.
+
+Next migration target: **Explicit Context**, because it currently reconstructs semantics with a regex over rendered prose. This is the first case where we must decide whether existing list/group semantics are sufficient or whether a small structured key/value primitive is justified.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.
