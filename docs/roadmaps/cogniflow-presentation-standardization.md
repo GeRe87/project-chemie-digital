@@ -476,6 +476,34 @@ Final automated invariants should include:
 
 ---
 
+## Implementation status
+
+### Increment 1 — generic Concept → Structure → Specification layout
+
+Status: **implemented on this branch**
+
+Completed:
+
+- added renderer-owned structural layout inference in `packages/renderer-reveal/src/layout-policy.ts`;
+- inference uses only block kind/order/intent/list cardinality and deliberately ignores scene/path/resource ids and labels;
+- introduced the reusable `concept-specification` layout;
+- migrated the Data Processing, Web Interface and Presentation semantic-model scenes to that shared layout automatically;
+- deleted their three obsolete per-scene layout stylesheets;
+- moved light/dark and narrow rendering into the generic layout;
+- removed those three scene ids from shared dark/mobile styling;
+- replaced scene-id-driven hard cuts/background freezing for the three-scene sequence with layout-driven behavior;
+- isolated the still-bespoke InfoBox/Publication projection into its own compatibility stylesheet/runtime;
+- added renderer and pitch regression tests using opaque/non-CogniFlow scene ids;
+- added a guardrail test preventing the migrated scene ids from returning to shared layout/navigation code.
+
+Remaining known exception for this group:
+
+- `cogniflow-presentation-projection.ts/css` still selects the meta-presentation scene by id and authors alternate-projection content outside TriG. This is intentionally retained until the generic multi-projection phase.
+
+Next migration target: `A Hierarchy of Meaning` followed by `A Small Grammar for Meaning`.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.
