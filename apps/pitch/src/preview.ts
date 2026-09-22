@@ -1,8 +1,9 @@
 import katex from "katex";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
+import { inferRevealLayoutFamily } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -264,7 +265,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-source-path-id", document.sourcePathId);
     section.setAttribute(
       "data-layout",
-      semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement"),
+      semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (inferRevealLayoutFamily(scene) ?? layoutByScene[scene.id] ?? "statement"),
     );
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
