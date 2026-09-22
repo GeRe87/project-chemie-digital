@@ -1,0 +1,123 @@
+/* Generic three-level hierarchy rendered from a linear FlowDiagram.
+   The narrow diagram host intentionally selects the renderer's vertical flow variant. */
+.reveal .slides section[data-layout="hierarchy-flow"] {
+  display: grid !important;
+  grid-template-rows: auto 3.8rem minmax(0, 1fr) 3.4rem;
+  row-gap: .68rem;
+  align-content: stretch;
+  padding: 1.35rem 2.2rem 1.35rem !important;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="heading"] {
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.55em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="intro"] {
+  grid-row: 2;
+  align-self: center;
+  width: min(1040px, 92%);
+  max-width: none;
+  margin: 0 auto;
+  color: var(--pcd-muted);
+  font: 850 1.08em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] {
+  grid-row: 3;
+  align-self: stretch;
+  justify-self: center;
+  width: min(780px, 78%);
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] .d3-flow-runtime,
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] .d3-flow-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] .d3-flow-svg {
+  width: 100%;
+  height: 100%;
+  min-height: 28rem;
+  overflow: visible;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] .d3-flow-caption {
+  display: none;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="takeaway"] {
+  grid-row: 4;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1080px, 94%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .64rem 1rem .58rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 10%, var(--pcd-surface-strong));
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  color: var(--pcd-accent);
+  font: 950 .98em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .035em;
+  text-align: center;
+}
+
+/* Stable renderer-owned tone sequence for the three ordered hierarchy levels. */
+.reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(1) .d3-flow-node-shape {
+  fill: #ffd28f;
+  stroke: #c96a12;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(2) .d3-flow-node-shape {
+  fill: #bfe9e7;
+  stroke: #168e9c;
+}
+
+.reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(3) .d3-flow-node-shape {
+  fill: #d5c5f4;
+  stroke: #7046ad;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(1) .d3-flow-node-shape {
+  fill: #3a2811;
+  stroke: #f0a343;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(2) .d3-flow-node-shape {
+  fill: #0e302f;
+  stroke: #4bd8d1;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="hierarchy-flow"] .d3-flow-node-layer > .d3-flow-node:nth-child(3) .d3-flow-node-shape {
+  fill: #281d3d;
+  stroke: #b18cff;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="hierarchy-flow"] {
+    grid-template-rows: auto auto minmax(24rem, auto) auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] {
+    width: 100%;
+    height: auto;
+  }
+
+  .reveal .slides section[data-layout="hierarchy-flow"] > [data-layout-slot="diagram"] .d3-flow-svg {
+    min-height: 24rem;
+  }
+}
