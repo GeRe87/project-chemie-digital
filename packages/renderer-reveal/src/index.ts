@@ -3,6 +3,7 @@ import {
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
   SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
+  SCENE_DOCUMENT_TABLE_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -107,6 +108,32 @@ export interface RevealDefinitionListPlan extends RevealNodeBase {
   readonly entries: readonly RevealDefinitionListEntryPlan[];
 }
 
+export interface RevealTableColumnPlan {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealTableCellPlan {
+  readonly id: string;
+  readonly text: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealTableRowPlan {
+  readonly id: string;
+  readonly cells: readonly RevealTableCellPlan[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface RevealTablePlan extends RevealNodeBase {
+  readonly kind: "table";
+  readonly caption: string;
+  readonly description?: string;
+  readonly columns: readonly RevealTableColumnPlan[];
+  readonly rows: readonly RevealTableRowPlan[];
+}
+
 export interface RevealGroupPlan extends RevealNodeBase {
   readonly kind: "group";
   readonly children: readonly RevealNodePlan[];
@@ -182,6 +209,7 @@ export type RevealNodePlan =
   | RevealMediaPlan
   | RevealListPlan
   | RevealDefinitionListPlan
+  | RevealTablePlan
   | RevealGroupPlan
   | RevealPromptPlan
   | RevealDiagramPlan;
@@ -350,6 +378,37 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           source: sourceCopy(entry.source),
         })),
       };
+    case "table":
+      return {
+        ...baseFor(
+          block,
+          position,
+          options,
+          [
+            block.caption,
+            ...(block.description ? [block.description] : []),
+            block.columns.map((column) => column.label).join(" | "),
+            ...block.rows.map((row) => row.cells.map((cell) => cell.text).join(" | ")),
+          ].join("\n"),
+        ),
+        kind: "table",
+        caption: block.caption,
+        ...(block.description ? { description: block.description } : {}),
+        columns: block.columns.map((column) => ({
+          id: column.id,
+          label: column.label,
+          source: sourceCopy(column.source),
+        })),
+        rows: block.rows.map((row) => ({
+          id: row.id,
+          source: sourceCopy(row.source),
+          cells: row.cells.map((cell) => ({
+            id: cell.id,
+            text: cell.text,
+            source: sourceCopy(cell.source),
+          })),
+        })),
+      };
     case "group": {
       const children = block.children.map((child, index) => mapBlock(child, index, options));
       return {
@@ -428,7 +487,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
