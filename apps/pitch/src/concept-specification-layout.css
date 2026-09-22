@@ -1,0 +1,190 @@
+/* Generic Concept → Structure → Specification layout.
+   Selected from renderer-neutral block structure, never from scene/resource ids. */
+.reveal .slides section[data-layout="concept-specification"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) 3.3rem;
+  row-gap: .72rem;
+  align-content: stretch;
+  padding: 1.42rem 2rem 1.38rem !important;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 {
+  grid-row: 1;
+  margin: 0 0 .08rem;
+  max-width: none;
+  font-size: 2.48em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list {
+  grid-row: 2;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: .9fr 1.22fr .98fr;
+  gap: 2.35rem;
+  width: min(1180px, 99%);
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: .18rem 0 .1rem;
+  list-style: none;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li {
+  --pcd-card-fill: #d7f1ef;
+  --pcd-card-stroke: #168e9c;
+  --pcd-card-text: #073f49;
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 20rem;
+  margin: 0;
+  padding: 1.35rem 1.24rem 1.15rem;
+  border: 5px solid var(--pcd-card-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pcd-card-fill) 96%, var(--pcd-surface-strong)) 0 25%,
+      color-mix(in srgb, var(--pcd-card-fill) 76%, var(--pcd-surface-strong)) 25% 100%
+    );
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--pcd-card-stroke) 25%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 42%, transparent);
+  color: var(--pcd-card-text);
+  font: 875 1.13em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li::before {
+  content: "";
+  position: absolute;
+  top: .45rem;
+  right: .48rem;
+  width: .52rem;
+  height: .52rem;
+  background: var(--pcd-card-stroke);
+  box-shadow:
+    -.82rem 0 0 color-mix(in srgb, var(--pcd-card-stroke) 62%, transparent),
+    0 .82rem 0 color-mix(in srgb, var(--pcd-card-stroke) 38%, transparent);
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li::first-line {
+  font-size: 1.27em;
+  font-weight: 950;
+  letter-spacing: .018em;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:not(:last-child)::after {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  right: -1.98rem;
+  z-index: 3;
+  transform: translateY(-50%);
+  color: var(--pcd-accent);
+  font: 950 1.7rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-shadow:
+    3px 3px 0 color-mix(in srgb, var(--pcd-surface-strong) 92%, transparent),
+    5px 5px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(1) {
+  --pcd-card-fill: #b9e4ff;
+  --pcd-card-stroke: #176da0;
+  --pcd-card-text: #07364e;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(2) {
+  --pcd-card-fill: #ffd28f;
+  --pcd-card-stroke: #c96a12;
+  --pcd-card-text: #522800;
+  transform: translateY(-.28rem);
+  box-shadow:
+    10px 10px 0 color-mix(in srgb, var(--pcd-card-stroke) 28%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--pcd-card-stroke) 12%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, white 42%, transparent);
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(3) {
+  --pcd-card-fill: #f4c3df;
+  --pcd-card-stroke: #a33d72;
+  --pcd-card-text: #5d2041;
+}
+
+.reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list + .lead {
+  grid-row: 3;
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1120px, 96%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .57rem 1rem .52rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 90%, var(--pcd-accent) 10%);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  color: var(--pcd-accent);
+  font: 950 1.02em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .035em;
+  text-align: center;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(1) {
+  --pcd-card-fill: #10283a;
+  --pcd-card-stroke: #55bdf0;
+  --pcd-card-text: #e8f8ff;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(2) {
+  --pcd-card-fill: #3a2811;
+  --pcd-card-stroke: #f0a343;
+  --pcd-card-text: #fff1d8;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:nth-child(3) {
+  --pcd-card-fill: #391d2d;
+  --pcd-card-stroke: #e16d9f;
+  --pcd-card-text: #ffeaf3;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, currentColor 10%, transparent),
+    0 0 16px color-mix(in srgb, currentColor 10%, transparent),
+    5px 5px 0 rgb(0 0 0 / .28);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="concept-specification"] {
+    grid-template-rows: auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list {
+    grid-row: 2;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list + .lead {
+    grid-row: 3;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li {
+    min-height: 9rem;
+    transform: none;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"] > h2 + .keypoint-list > li:not(:last-child)::after {
+    content: "▼";
+    top: auto;
+    right: 50%;
+    bottom: -1.2rem;
+    transform: translateX(50%);
+    font-size: 1.25rem;
+  }
+}
