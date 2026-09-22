@@ -968,8 +968,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-data-intro-principles a cd:SceneItem ;
     cd:position 2 ;
     cd:selectsResource ex:cogniflow-fair-data-principles ;
-    cd:communicativeRole cd:DefinitionListRole ;
-    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
     cd:language "en" ;
     cd:authoredResource true .
 
@@ -1027,8 +1027,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem ;
     cd:position 4 ;
     cd:selectsResource ex:cogniflow-snr-example ;
-    cd:communicativeRole cd:DefinitionListRole ;
-    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
     cd:language "en" ;
     cd:authoredResource true .
 
@@ -1094,8 +1094,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-explicit-processing-example-list a cd:SceneItem ;
     cd:position 4 ;
     cd:selectsResource ex:cogniflow-explicit-example ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
@@ -1118,8 +1118,8 @@ DATA"""@en ;
   ex:scene-item-cogniflow-explicit-processing-context-panel-list a cd:SceneItem ;
     cd:position 7 ;
     cd:selectsResource ex:cogniflow-explicit-context ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
