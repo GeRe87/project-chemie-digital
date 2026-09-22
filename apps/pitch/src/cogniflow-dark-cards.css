@@ -35,42 +35,7 @@ body[data-presentation-theme="dark"] {
   --cf-dark-red-text: #ffe9ed;
 }
 
-/* Semantics First + language-to-graph example. */
-body[data-presentation-theme="dark"] .reveal .slides section:is(
-  [id="ex:scene-cogniflow-semantics-first--scene"],
-  [id="ex:scene-cogniflow-semantic-triples--scene"]
-) > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  --sem-fill: var(--cf-dark-amber-fill);
-  --sem-stroke: var(--cf-dark-amber-stroke);
-  --sem-text: var(--cf-dark-amber-text);
-  --triple-fill: var(--cf-dark-amber-fill);
-  --triple-stroke: var(--cf-dark-amber-stroke);
-  --triple-text: var(--cf-dark-amber-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section:is(
-  [id="ex:scene-cogniflow-semantics-first--scene"],
-  [id="ex:scene-cogniflow-semantic-triples--scene"]
-) > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  --sem-fill: var(--cf-dark-teal-fill);
-  --sem-stroke: var(--cf-dark-teal-stroke);
-  --sem-text: var(--cf-dark-teal-text);
-  --triple-fill: var(--cf-dark-teal-fill);
-  --triple-stroke: var(--cf-dark-teal-stroke);
-  --triple-text: var(--cf-dark-teal-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section:is(
-  [id="ex:scene-cogniflow-semantics-first--scene"],
-  [id="ex:scene-cogniflow-semantic-triples--scene"]
-) > h2 + .lead + .keypoint-list > li:nth-child(3) {
-  --sem-fill: var(--cf-dark-purple-fill);
-  --sem-stroke: var(--cf-dark-purple-stroke);
-  --sem-text: var(--cf-dark-purple-text);
-  --triple-fill: var(--cf-dark-purple-fill);
-  --triple-stroke: var(--cf-dark-purple-stroke);
-  --triple-text: var(--cf-dark-purple-text);
-}
+/* Semantic card/network layouts now own their generic dark-mode tone rules. */
 
 /* Concept/specification cards now use the generic data-layout theme rules. */
 
@@ -212,8 +177,6 @@ body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cognif
 
 /* Soften the old pixel-offset card shadows on dark surfaces. */
 body[data-presentation-theme="dark"] .reveal .slides section:is(
-  [id="ex:scene-cogniflow-semantics-first--scene"],
-  [id="ex:scene-cogniflow-semantic-triples--scene"],
   [id="ex:scene-cogniflow-processing-pipeline--scene"],
   [id="ex:scene-cogniflow-extension-system--scene"],
   [id="ex:scene-cogniflow-take-home--scene"]
