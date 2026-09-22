@@ -555,6 +555,33 @@ Next migration target: Explicit Context, replacing lexical regex parsing with ex
 
 ---
 
+### Increment 3 — structured Explicit Context
+
+Status: **implemented on this branch**
+
+Completed:
+
+- introduced the reusable `DefinitionList` / `DefinitionListEntry` semantic vocabulary and `DefinitionListRole`;
+- added `SceneDocument 1.4` with a renderer-neutral `definition-list` block;
+- added canonical compiler support including ownership, order, language, provenance and version promotion;
+- added SHACL constraints for definition-list ownership, selectors and scene roles;
+- added Reveal render-plan support for definition lists;
+- added semantic `<dl>/<dt>/<dd>` rendering in the pitch preview;
+- migrated the S/N example and general explicit-context panel from free-text KeyPoints to explicit term/description entries in TriG;
+- added the generic `process-context` layout inferred from block structure only;
+- moved colored signal emphasis to structured definition terms instead of regex-parsed words;
+- removed `cogniflow-explicit-context.ts` and its lexical signal-word parser;
+- removed the scene-specific `cogniflow-explicit-context.css`;
+- added opaque-id layout inference tests, definition-list rendering tests and anti-hardcoding guardrails.
+
+Result:
+
+The presentation no longer has to reconstruct `purpose`, `input`, `output`, `parameters`, `implementation`, `version` or provenance semantics from rendered strings. Those distinctions are now authored explicitly in TriG and survive into the SceneDocument.
+
+Next migration target: FAIR tabular data and the remaining motivation/semantics card layouts.
+
+---
+
 ## Recommended first implementation slice
 
 Do **not** start with the semantic rings or the publication projection. They are the hardest cases and would encourage premature new contracts.
