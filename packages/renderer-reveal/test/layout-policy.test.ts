@@ -103,6 +103,47 @@ function referenceCodeScene(id: string): Scene {
   };
 }
 
+function dataExplanationScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:data-explanation" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      {
+        id: "block:principles",
+        kind: "list",
+        listStyle: "unordered",
+        items: Array.from({ length: 4 }, (_, index) => ({
+          id: `principle:${index + 1}`,
+          text: `Principle ${index + 1}`,
+          source: [{ resourceId: `resource:principle:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:principles" }],
+      },
+      {
+        id: "block:table",
+        kind: "table",
+        caption: "Opaque table",
+        description: "Opaque description",
+        columns: [
+          { id: "column:a", label: "A", source: [{ resourceId: "resource:column:a" }] },
+          { id: "column:b", label: "B", source: [{ resourceId: "resource:column:b" }] },
+        ],
+        rows: [{
+          id: "row:1",
+          source: [{ resourceId: "resource:row:1" }],
+          cells: [
+            { id: "cell:1:a", text: "a1", source: [{ resourceId: "resource:cell:1:a" }] },
+            { id: "cell:1:b", text: "b1", source: [{ resourceId: "resource:cell:1:b" }] },
+          ],
+        }],
+        source: [{ resourceId: "resource:table" }],
+      },
+    ],
+    readingOrder: ["block:heading", "block:principles", "block:table"],
+  };
+}
+
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");
@@ -189,5 +230,16 @@ test("infers process-context from diagram and definition-list structure without 
     "example-note",
     "context-heading",
     "context-definitions",
+  ]);
+});
+
+
+test("infers data-explanation from list and table structure without identity", () => {
+  assert.equal(inferRevealLayoutFamily(dataExplanationScene("scene:alpha")), "data-explanation");
+  assert.equal(inferRevealLayoutFamily(dataExplanationScene("opaque:scene")), "data-explanation");
+  assert.deepEqual(inferRevealLayoutDecision(dataExplanationScene("scene:slots"))?.slots, [
+    "heading",
+    "principles",
+    "table",
   ]);
 });
