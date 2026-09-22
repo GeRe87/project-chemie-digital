@@ -9,21 +9,25 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-domain-specifications--scene",
   "ex:scene-cogniflow-ui-specifications--scene",
   "ex:scene-cogniflow-presentation-specifications--scene",
+  "ex:scene-cogniflow-semantic-hierarchy--scene",
+  "ex:scene-cogniflow-core-grammar--scene",
 ] as const;
 
-test("generic concept-specification layout contains no CogniFlow identity coupling", () => {
-  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
-  const css = source("../src/concept-specification-layout.css");
+test("generic migrated layouts contain no CogniFlow identity coupling", () => {
+  const genericSources = [
+    source("../../../packages/renderer-reveal/src/layout-policy.ts"),
+    source("../src/concept-specification-layout.css"),
+    source("../src/hierarchy-flow-layout.css"),
+    source("../src/reference-code-layout.css"),
+  ];
 
-  assert.equal(policy.includes("cogniflow"), false);
-  assert.equal(css.includes("cogniflow"), false);
-  for (const sceneId of migratedSceneIds) {
-    assert.equal(policy.includes(sceneId), false);
-    assert.equal(css.includes(sceneId), false);
+  for (const genericSource of genericSources) {
+    assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
+    for (const sceneId of migratedSceneIds) assert.equal(genericSource.includes(sceneId), false);
   }
 });
 
-test("migrated concept-specification scenes are not selected by id in shared app styling or navigation", () => {
+test("migrated scenes are not selected by id in shared app styling or navigation", () => {
   const sharedRuntime = [
     source("../src/main.ts"),
     source("../src/cogniflow-dark-cards.css"),
@@ -40,5 +44,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-domain-specifications.css"'), false);
   assert.equal(main.includes('import "./cogniflow-ui-specifications.css"'), false);
   assert.equal(main.includes('import "./cogniflow-presentation-specifications.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-semantic-hierarchy.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-core-grammar.css"'), false);
   assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
+  assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), true);
+  assert.equal(main.includes('import "./reference-code-layout.css"'), true);
 });
