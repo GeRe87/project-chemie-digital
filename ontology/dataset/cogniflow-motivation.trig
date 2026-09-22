@@ -54,19 +54,78 @@
     cd:targetNode ex:node-cogniflow-black-box-result ;
     cd:authoredResource true .
 
-  ex:code-cogniflow-feature-results a cd:CodeExample ;
+  ex:table-cogniflow-feature-results a cd:TableDefinition ;
     skos:prefLabel "Feature results"@en ;
-    cd:code """Feature\tRT (min)\tm/z\tArea
-F-01\t4.2\t181.071\t12,480
-F-02\t4.4\t237.103\t39,160
-F-03\t4.8\t325.134\t101,920
-F-04\t5.1\t421.187\t17,640
-F-05\t5.3\t512.284\t9,870""" ;
-    cd:programmingLanguage "tsv" ;
-    cd:editable false ;
-    cd:executable false ;
-    cd:showsResource ex:diagram-cogniflow-processing-black-box ;
+    cd:body "Illustrative extracted feature table derived from the analytical signal."@en ;
+    cd:hasTableColumn ex:table-column-cogniflow-feature-id,
+      ex:table-column-cogniflow-feature-rt,
+      ex:table-column-cogniflow-feature-mz,
+      ex:table-column-cogniflow-feature-area ;
+    cd:hasTableRow ex:table-row-cogniflow-feature-01,
+      ex:table-row-cogniflow-feature-02,
+      ex:table-row-cogniflow-feature-03,
+      ex:table-row-cogniflow-feature-04,
+      ex:table-row-cogniflow-feature-05 ;
     cd:authoredResource true .
+
+  ex:table-column-cogniflow-feature-id a cd:TableColumn ;
+    skos:prefLabel "Feature"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-rt a cd:TableColumn ;
+    skos:prefLabel "RT (min)"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-mz a cd:TableColumn ;
+    skos:prefLabel "m/z"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-area a cd:TableColumn ;
+    skos:prefLabel "Area"@en ; cd:position 4 ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-01 a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-01-id, ex:table-cell-cogniflow-feature-01-rt,
+      ex:table-cell-cogniflow-feature-01-mz, ex:table-cell-cogniflow-feature-01-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-id a cd:TableCell ; cd:position 1 ; cd:body "F-01"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-rt a cd:TableCell ; cd:position 2 ; cd:body "4.2"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-mz a cd:TableCell ; cd:position 3 ; cd:body "181.071"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-area a cd:TableCell ; cd:position 4 ; cd:body "12,480"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-02 a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-02-id, ex:table-cell-cogniflow-feature-02-rt,
+      ex:table-cell-cogniflow-feature-02-mz, ex:table-cell-cogniflow-feature-02-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-id a cd:TableCell ; cd:position 1 ; cd:body "F-02"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-rt a cd:TableCell ; cd:position 2 ; cd:body "4.4"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-mz a cd:TableCell ; cd:position 3 ; cd:body "237.103"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-area a cd:TableCell ; cd:position 4 ; cd:body "39,160"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-03 a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-03-id, ex:table-cell-cogniflow-feature-03-rt,
+      ex:table-cell-cogniflow-feature-03-mz, ex:table-cell-cogniflow-feature-03-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-id a cd:TableCell ; cd:position 1 ; cd:body "F-03"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-rt a cd:TableCell ; cd:position 2 ; cd:body "4.8"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-mz a cd:TableCell ; cd:position 3 ; cd:body "325.134"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-area a cd:TableCell ; cd:position 4 ; cd:body "101,920"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-04 a cd:TableRow ;
+    cd:position 4 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-04-id, ex:table-cell-cogniflow-feature-04-rt,
+      ex:table-cell-cogniflow-feature-04-mz, ex:table-cell-cogniflow-feature-04-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-id a cd:TableCell ; cd:position 1 ; cd:body "F-04"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-rt a cd:TableCell ; cd:position 2 ; cd:body "5.1"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-mz a cd:TableCell ; cd:position 3 ; cd:body "421.187"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-area a cd:TableCell ; cd:position 4 ; cd:body "17,640"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-05 a cd:TableRow ;
+    cd:position 5 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-05-id, ex:table-cell-cogniflow-feature-05-rt,
+      ex:table-cell-cogniflow-feature-05-mz, ex:table-cell-cogniflow-feature-05-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-id a cd:TableCell ; cd:position 1 ; cd:body "F-05"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-rt a cd:TableCell ; cd:position 2 ; cd:body "5.3"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-mz a cd:TableCell ; cd:position 3 ; cd:body "512.284"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-area a cd:TableCell ; cd:position 4 ; cd:body "9,870"@en ; cd:authoredResource true .
 
   ex:chart-cogniflow-processing-signal a cd:ChartDefinition ;
     skos:prefLabel "Raw analytical signal"@en ;
@@ -1021,7 +1080,7 @@ DATA"""@en ;
   ex:path-step-cogniflow-processing-black-box a cd:PathStep ;
     cd:position 2 ;
     cd:usesResource ex:chart-cogniflow-processing-signal,
-      ex:code-cogniflow-feature-results,
+      ex:table-cogniflow-feature-results,
       ex:diagram-cogniflow-processing-black-box ;
     cd:usesScene ex:scene-cogniflow-processing-black-box ;
     cd:authoredResource true .
@@ -1083,9 +1142,9 @@ DATA"""@en ;
 
   ex:scene-item-cogniflow-processing-black-box-feature-results a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:code-cogniflow-feature-results ;
-    cd:communicativeRole cd:CodeRole ;
-    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:table-cogniflow-feature-results ;
+    cd:communicativeRole cd:TableRole ;
+    cd:selectionPath "cd:hasTableRow" ;
     cd:language "en" ;
     cd:authoredResource true .
 
