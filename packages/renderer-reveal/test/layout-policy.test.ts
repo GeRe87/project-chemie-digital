@@ -322,3 +322,19 @@ test("infers analysis-result from chart table and flow without identity", () => 
     "process",
   ]);
 });
+
+
+test("process-context supports longer linear flows without introducing a new layout identity", () => {
+  const scene = structuredClone(processContextScene("scene:four-node-flow")) as Scene & { blocks: any[] };
+  const diagram = scene.blocks[1];
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  diagram.nodes.push({ id: "node:d", label: "D", source: [{ resourceId: "resource:d" }] });
+  diagram.edges.push({
+    id: "edge:cd",
+    sourceNodeId: "node:c",
+    targetNodeId: "node:d",
+    label: "z",
+    source: [{ resourceId: "resource:cd" }],
+  });
+  assert.equal(inferRevealLayoutFamily(scene), "process-context");
+});
