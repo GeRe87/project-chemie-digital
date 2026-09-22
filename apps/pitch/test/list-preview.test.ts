@@ -243,3 +243,57 @@ test("pitch preview renders definition-list semantic markup without lexical pars
   assert.equal(list.children[2]?.textContent, "version");
   destroy();
 });
+
+
+const tableDocumentPreview: SceneDocument = {
+  version: "1.5",
+  id: "scene-document:table-preview",
+  sourcePathId: "path:table-preview",
+  scenes: [{
+    id: "scene:table-preview",
+    source: [{ resourceId: "resource:table-scene" }],
+    blocks: [
+      {
+        kind: "prose",
+        id: "block:heading",
+        source: [{ resourceId: "resource:heading" }],
+        text: "Table preview",
+        intent: { kind: "introduce" },
+      },
+      {
+        kind: "table",
+        id: "block:table",
+        source: [{ resourceId: "resource:table", relationPath: "cd:hasTableRow" }],
+        caption: "Illustrative data object",
+        description: "Two-column example",
+        columns: [
+          { id: "column:field", label: "Field", source: [{ resourceId: "resource:column-field" }] },
+          { id: "column:value", label: "Example", source: [{ resourceId: "resource:column-value" }] },
+        ],
+        rows: [{
+          id: "row:identifier",
+          source: [{ resourceId: "resource:row-identifier" }],
+          cells: [
+            { id: "cell:field", text: "Identifier", source: [{ resourceId: "resource:cell-field" }] },
+            { id: "cell:value", text: "doi:example", source: [{ resourceId: "resource:cell-value" }] },
+          ],
+        }],
+      },
+    ],
+    readingOrder: ["block:heading", "block:table"],
+  }],
+};
+
+test("pitch preview renders semantic table markup with source identity", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [tableDocumentPreview]);
+  const section = root.children[0]!;
+  const table = section.children[1]!;
+  assert.equal(table.className, "data-table");
+  assert.equal(table.attributes.get("data-table-block-id"), "block:table");
+  assert.equal(table.children[0]?.textContent, "Illustrative data object");
+  assert.equal(table.children[1]?.children[0]?.children[0]?.textContent, "Field");
+  assert.equal(table.children[2]?.children[0]?.children[0]?.textContent, "Identifier");
+  assert.equal(table.children[2]?.children[0]?.children[1]?.textContent, "doi:example");
+  destroy();
+});
