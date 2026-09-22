@@ -107,3 +107,84 @@ test("pitch preview selects concept-specification from generic scene structure",
   assert.equal(root.children[0]?.attributes.get("data-layout"), "concept-specification");
   destroy();
 });
+
+
+const hierarchyFlowDocument: SceneDocument = {
+  version: "1.1",
+  id: "scene-document:generic-hierarchy",
+  sourcePathId: "path:generic-hierarchy",
+  scenes: [{
+    id: "scene:generic-hierarchy",
+    source: [{ resourceId: "resource:hierarchy-scene" }],
+    blocks: [
+      { kind: "prose", id: "hier:heading", text: "Hierarchy", intent: { kind: "introduce" }, source: [{ resourceId: "resource:hier-heading" }] },
+      { kind: "prose", id: "hier:intro", text: "Intro", intent: { kind: "explain" }, source: [{ resourceId: "resource:hier-intro" }] },
+      {
+        kind: "diagram",
+        id: "hier:diagram",
+        diagramType: "flow",
+        label: "Three levels",
+        description: "Three levels",
+        source: [{ resourceId: "resource:hier-diagram" }],
+        nodes: [
+          { id: "hier:a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "hier:b", label: "B", source: [{ resourceId: "resource:b" }] },
+          { id: "hier:c", label: "C", source: [{ resourceId: "resource:c" }] },
+        ],
+        edges: [
+          { id: "hier:ab", sourceNodeId: "hier:a", targetNodeId: "hier:b", label: "ab", source: [{ resourceId: "resource:ab" }] },
+          { id: "hier:bc", sourceNodeId: "hier:b", targetNodeId: "hier:c", label: "bc", source: [{ resourceId: "resource:bc" }] },
+        ],
+      },
+      { kind: "prose", id: "hier:takeaway", text: "Takeaway", intent: { kind: "explain" }, source: [{ resourceId: "resource:hier-takeaway" }] },
+    ],
+    readingOrder: ["hier:heading", "hier:intro", "hier:diagram", "hier:takeaway"],
+  }],
+};
+
+test("pitch preview exposes generic hierarchy-flow slots", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [hierarchyFlowDocument]);
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "hierarchy-flow");
+  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "intro", "diagram", "takeaway"]);
+  destroy();
+});
+
+const referenceCodeDocument: SceneDocument = {
+  version: "1.0",
+  id: "scene-document:generic-reference-code",
+  sourcePathId: "path:generic-reference-code",
+  scenes: [{
+    id: "scene:generic-reference-code",
+    source: [{ resourceId: "resource:reference-scene" }],
+    blocks: [
+      { kind: "prose", id: "ref:heading", text: "Reference", intent: { kind: "introduce" }, source: [{ resourceId: "resource:ref-heading" }] },
+      { kind: "prose", id: "ref:banner", text: "Banner", intent: { kind: "explain" }, source: [{ resourceId: "resource:ref-banner" }] },
+      {
+        kind: "list",
+        id: "ref:terms",
+        listStyle: "unordered",
+        source: [{ resourceId: "resource:ref-terms" }],
+        items: Array.from({ length: 6 }, (_, index) => ({
+          id: `ref:item:${index + 1}`,
+          text: `Term ${index + 1}`,
+          source: [{ resourceId: `resource:ref-item:${index + 1}` }],
+        })),
+      },
+      { kind: "prose", id: "ref:code-label", text: "Code label", intent: { kind: "explain" }, source: [{ resourceId: "resource:ref-code-label" }] },
+      { kind: "code", id: "ref:code", language: "text", code: "opaque", fallback: "opaque", editable: false, executable: false, source: [{ resourceId: "resource:ref-code" }] },
+      { kind: "prose", id: "ref:reading", text: "Reading", intent: { kind: "explain" }, source: [{ resourceId: "resource:ref-reading" }] },
+    ],
+    readingOrder: ["ref:heading", "ref:banner", "ref:terms", "ref:code-label", "ref:code", "ref:reading"],
+  }],
+};
+
+test("pitch preview exposes generic reference-code slots", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [referenceCodeDocument]);
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "reference-code");
+  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "banner", "terms", "code-label", "code", "reading"]);
+  destroy();
+});
