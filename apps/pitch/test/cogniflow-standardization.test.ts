@@ -15,6 +15,8 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-fair-data-intro--scene",
   "ex:scene-cogniflow-processing-black-box--scene",
   "ex:scene-cogniflow-fair-processing-gap--scene",
+  "ex:scene-cogniflow-semantics-first--scene",
+  "ex:scene-cogniflow-semantic-triples--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -26,6 +28,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/process-context-layout.css"),
     source("../src/data-explanation-layout.css"),
     source("../src/analysis-result-layout.css"),
+    source("../src/card-sequence-layout.css"),
+    source("../src/text-network-progression-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -59,6 +63,10 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), true);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), true);
+  assert.equal(main.includes('import "./card-sequence-layout.css"'), true);
+  assert.equal(main.includes('import "./text-network-progression-layout.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-semantics-first.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
   assert.equal(main.includes('import "./cogniflow-explicit-context.css"'), false);
@@ -94,4 +102,16 @@ test("FAIR processing gap reuses the generic process-context layout semantics", 
   assert.equal(trig.includes("ex:cogniflow-missing-processing-context a cd:DefinitionList"), true);
   assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem"), true);
   assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem"), true);
+});
+
+
+test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-semantic-triples.trig");
+  const main = source("../src/main.ts");
+  assert.equal(trig.includes("ex:diagram-cogniflow-semantic-triples-network a cd:NetworkDiagram"), true);
+  assert.equal(trig.includes('skos:prefLabel "livesIn"@en'), true);
+  assert.equal(trig.includes('skos:prefLabel "worksAt"@en'), true);
+  assert.equal(trig.includes('skos:prefLabel "locatedIn"@en'), true);
+  assert.equal(trig.includes("ex:keypoint-cogniflow-semantic-graph a cd:KeyPoint"), false);
+  assert.equal(main.includes("anna-knowledge-graph.svg"), false);
 });
