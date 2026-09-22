@@ -202,6 +202,46 @@ def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> 
     return records
 
 
+def definition_list_sequence(
+    dataset: Dataset,
+    owner: URIRef,
+    language: str | None,
+) -> list[tuple[URIRef, int, str, str, str | None]]:
+    predicate = iri(CD, "hasDefinitionListEntry")
+    linked = [value for value in objects(dataset, owner, predicate) if isinstance(value, URIRef)]
+    if not linked:
+        raise ValueError(f"DefinitionListRole requires linked entries for {compact(owner)}")
+    records: list[tuple[URIRef, int, str, str, str | None]] = []
+    seen_positions: set[int] = set()
+    for entry in linked:
+        if not is_resource_type(dataset, entry, "DefinitionListEntry"):
+            raise ValueError(f"Linked resource {compact(entry)} is not a DefinitionListEntry")
+        owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, predicate, entry, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if owners != [owner]:
+            raise ValueError(f"DefinitionListEntry {compact(entry)} must have exactly one owning DefinitionList")
+        position = integer(dataset, entry, iri(CD, "position"))
+        if position in seen_positions:
+            raise ValueError(f"DefinitionList entry positions must be unique for {compact(owner)}")
+        seen_positions.add(position)
+        if language is None:
+            raise ValueError(f"DefinitionListRole requires explicit cd:language for {compact(owner)}")
+        term = selected_literal(dataset, entry, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
+        description = literal(dataset, entry, iri(CD, "body"), language)
+        records.append((entry, position, term, f"skos:prefLabel@{language}", description))
+    records.sort(key=lambda record: (record[1], str(record[0])))
+    positions = [position for _entry, position, _term, _term_path, _description in records]
+    if positions != list(range(1, len(records) + 1)):
+        raise ValueError(f"DefinitionList entry positions must be contiguous for {compact(owner)}")
+    return records
+
+
 def selected_label_reference(dataset: Dataset, resource: URIRef, language: str | None) -> tuple[str, str | None]:
     if language is not None:
         preferred = literal(dataset, resource, SKOS.prefLabel, language)
@@ -630,7 +670,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4}
     return required if versions[required] > versions[current] else current
 
 
@@ -667,6 +707,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
             selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram") or is_resource_type(dataset, selected, "SequenceDiagram")
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
+            selected_is_definition_list = is_resource_type(dataset, selected, "DefinitionList")
+            if selected_is_definition_list and role != "DefinitionListRole":
+                raise ValueError(f"DefinitionList {compact(selected)} requires DefinitionListRole in {compact(item)}")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
             if selected_is_flow_diagram and role != "DiagramRole":
@@ -733,6 +776,33 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
+            elif role == "DefinitionListRole":
+                if relation_path != "cd:hasDefinitionListEntry":
+                    raise ValueError(f"DefinitionListRole requires direct cd:hasDefinitionListEntry selection in {compact(item)}")
+                if not selected_is_definition_list:
+                    raise ValueError(f"DefinitionListRole requires DefinitionList in {compact(item)}")
+                entries = definition_list_sequence(dataset, selected, language)
+                block = {
+                    "id": block_id,
+                    "kind": "definition-list",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "entries": [
+                        {
+                            "id": f"{compact(entry)}--definition-entry",
+                            "term": term,
+                            **({"description": description} if description is not None else {}),
+                            "source": [
+                                source_reference(dataset, entry, term_path),
+                                *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
+                            ],
+                        }
+                        for entry, _entry_position, term, term_path, description in entries
+                    ],
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = promote_document_version(document_version, "1.4")
             elif role == "AttributionRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"AttributionRole requires direct cd:body selection in {compact(item)}")
