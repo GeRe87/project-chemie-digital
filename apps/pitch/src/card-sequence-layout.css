@@ -56,6 +56,7 @@
   margin:0 auto;
   padding:.45rem 0 .25rem;
   list-style:none;
+  counter-reset:pcd-sequence;
 }
 
 .reveal .slides section[data-layout="card-sequence"] > [data-layout-slot="cards"] > li {
@@ -77,10 +78,11 @@
   font:875 1.22em/1.5 "Cascadia Mono","SFMono-Regular",Consolas,monospace;
   text-align:left;
   white-space:pre-line;
+  counter-increment:pcd-sequence;
 }
 
 .reveal .slides section[data-layout="card-sequence"] > [data-layout-slot="cards"] > li::before {
-  content:attr(data-sequence-index);
+  content:counter(pcd-sequence, decimal-leading-zero);
   position:absolute;
   right:.85rem;
   bottom:.65rem;
