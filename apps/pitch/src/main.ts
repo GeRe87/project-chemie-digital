@@ -8,6 +8,7 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
+import "./analysis-result-layout.css";
 import "./cogniflow-opening-sequence.css";
 import "./data-explanation-layout.css";
 import "./cogniflow-fair-gap.css";
