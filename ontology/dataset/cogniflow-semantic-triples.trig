@@ -17,10 +17,9 @@
     cd:authoredResource true .
 
   ex:cogniflow-semantic-triples-cards a cd:Interpretation ;
-    cd:body "The same information can be read as natural language, explicit semantic statements, or a connected knowledge graph."@en ;
+    cd:body "The same information can be read as natural language or as explicit semantic statements before it is rendered as a connected graph."@en ;
     cd:hasKeyPoint ex:keypoint-cogniflow-semantic-prose,
-      ex:keypoint-cogniflow-semantic-statements,
-      ex:keypoint-cogniflow-semantic-graph ;
+      ex:keypoint-cogniflow-semantic-statements ;
     cd:authoredResource true .
 
   ex:keypoint-cogniflow-semantic-prose a cd:KeyPoint ;
@@ -41,12 +40,51 @@ Anna → worksAt → University
 University → locatedIn → Essen"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-semantic-graph a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body """KNOWLEDGE GRAPH
+  ex:diagram-cogniflow-semantic-triples-network a cd:NetworkDiagram ;
+    skos:prefLabel "Knowledge graph"@en ;
+    cd:body "Anna, Essen and University are connected through explicit labeled relationships."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-semantic-triples-anna,
+      ex:node-cogniflow-semantic-triples-essen,
+      ex:node-cogniflow-semantic-triples-university ;
+    cd:hasDiagramEdge ex:edge-cogniflow-semantic-triples-lives-in,
+      ex:edge-cogniflow-semantic-triples-works-at,
+      ex:edge-cogniflow-semantic-triples-located-in ;
+    cd:authoredResource true .
 
-same entities
-explicit labeled relationships"""@en ;
+  ex:node-cogniflow-semantic-triples-anna a cd:DiagramNode ;
+    skos:prefLabel "Anna"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-semantic-triples-essen a cd:DiagramNode ;
+    skos:prefLabel "Essen"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-semantic-triples-university a cd:DiagramNode ;
+    skos:prefLabel "University"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-lives-in a cd:DiagramEdge ;
+    skos:prefLabel "livesIn"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-anna ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-essen ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-works-at a cd:DiagramEdge ;
+    skos:prefLabel "worksAt"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-anna ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-university ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-located-in a cd:DiagramEdge ;
+    skos:prefLabel "locatedIn"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-university ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-essen ;
     cd:authoredResource true .
 
   ex:cogniflow-semantic-triples-note a cd:Interpretation ;
@@ -59,6 +97,7 @@ explicit labeled relationships"""@en ;
     cd:position 7 ;
     cd:usesResource ex:cogniflow-semantic-triples-banner,
       ex:cogniflow-semantic-triples-cards,
+      ex:diagram-cogniflow-semantic-triples-network,
       ex:cogniflow-semantic-triples-note ;
     cd:usesScene ex:scene-cogniflow-semantic-triples ;
     cd:authoredResource true .
@@ -70,6 +109,7 @@ explicit labeled relationships"""@en ;
     cd:hasSceneItem ex:scene-item-cogniflow-semantic-triples-heading,
       ex:scene-item-cogniflow-semantic-triples-banner,
       ex:scene-item-cogniflow-semantic-triples-cards,
+      ex:scene-item-cogniflow-semantic-triples-network,
       ex:scene-item-cogniflow-semantic-triples-note ;
     cd:authoredResource true .
 
@@ -97,8 +137,16 @@ explicit labeled relationships"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-semantic-triples-note a cd:SceneItem ;
+  ex:scene-item-cogniflow-semantic-triples-network a cd:SceneItem ;
     cd:position 4 ;
+    cd:selectsResource ex:diagram-cogniflow-semantic-triples-network ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-note a cd:SceneItem ;
+    cd:position 5 ;
     cd:selectsResource ex:cogniflow-semantic-triples-note ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
