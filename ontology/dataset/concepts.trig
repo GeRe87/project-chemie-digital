@@ -14,12 +14,13 @@ graph:concepts {
       cd:ExpectedResult, cd:AssessmentCriterion, cd:Interpretation, cd:UnitRule,
       cd:Misconception, cd:Correction, cd:Comparison, cd:Dataset, cd:Observation,
       cd:CalculationStep, cd:PitchResource, cd:KeyPoint, cd:Attribution,
+        cd:DefinitionList, cd:DefinitionListEntry,
         cd:FlowDiagram, cd:NetworkDiagram, cd:DiagramNode, cd:DiagramEdge, cd:DiagramGroup, cd:DiagramState, cd:SharedEdgeAnnotation, cd:ChartDefinition,
       cd:ChartAnnotation, cd:ChartPointAnnotation, cd:ChartRangeAnnotation,
       cd:LearningPath, cd:PathStep,
       cd:Source, cd:PitchSource, cd:SceneDefinition, cd:SceneItem ;
     cdm:definesRelation cd:hasDefinition, cd:hasMathExpression, cd:hasSymbol,
-      cd:hasExample, cd:hasExercise, cd:hasSource, cd:hasKeyPoint, cd:forTopic, cd:hasStep,
+      cd:hasExample, cd:hasExercise, cd:hasSource, cd:hasKeyPoint, cd:hasDefinitionListEntry, cd:forTopic, cd:hasStep,
       cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
       cd:selectsResource, cd:communicativeRole, cd:prerequisite, cd:dependsOn,
       cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
@@ -36,7 +37,7 @@ graph:concepts {
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:KeyPointRole, cd:AttributionRole, cd:DiagramRole, cd:ChartRole,
+      cd:KeyPointRole, cd:DefinitionListRole, cd:AttributionRole, cd:DiagramRole, cd:ChartRole,
       cd:BarChart, cd:LineChart, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
@@ -58,6 +59,8 @@ graph:concepts {
   cd:CalculationStep a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:PitchResource a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:KeyPoint a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:DefinitionList a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:DefinitionListEntry a rdfs:Class, cdm:ConceptDescriptor .
   cd:Attribution a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:FlowDiagram a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
   cd:NetworkDiagram a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:FlowDiagram .
@@ -89,6 +92,7 @@ graph:concepts {
   cd:ExampleRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ExerciseRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:KeyPointRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:DefinitionListRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:AttributionRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DiagramRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ChartRole a cd:CommunicativeRole, cdm:ControlledValue .
@@ -103,6 +107,7 @@ graph:concepts {
   cd:hasExercise a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Exercise .
   cd:hasSource a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Source .
   cd:hasKeyPoint a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range cd:KeyPoint .
+  cd:hasDefinitionListEntry a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DefinitionList ; rdfs:range cd:DefinitionListEntry .
   cd:forTopic a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:Concept .
   cd:hasStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningPath ; rdfs:range cd:PathStep .
   cd:usesResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:LearningResource .
