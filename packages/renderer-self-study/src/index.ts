@@ -2,6 +2,7 @@ import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
+  SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -84,6 +85,18 @@ export interface SelfStudyListPlan extends SelfStudyNodeBase {
   readonly items: readonly SelfStudyListItemPlan[];
 }
 
+export interface SelfStudyDefinitionListEntryPlan {
+  readonly id: string;
+  readonly term: string;
+  readonly description?: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyDefinitionListPlan extends SelfStudyNodeBase {
+  readonly kind: "definition-list";
+  readonly entries: readonly SelfStudyDefinitionListEntryPlan[];
+}
+
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
   readonly children: readonly SelfStudyNodePlan[];
@@ -157,6 +170,7 @@ export type SelfStudyNodePlan =
   | SelfStudyCodePlan
   | SelfStudyMediaPlan
   | SelfStudyListPlan
+  | SelfStudyDefinitionListPlan
   | SelfStudyGroupPlan
   | SelfStudyPromptPlan
   | SelfStudyDiagramPlan;
@@ -313,6 +327,21 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         listStyle: block.listStyle,
         items: block.items.map((item) => ({ id: item.id, text: item.text, source: sourceCopy(item.source) })),
       };
+    case "definition-list":
+      return {
+        ...baseFor(
+          block,
+          position,
+          block.entries.map((entry) => entry.description ? `${entry.term}: ${entry.description}` : entry.term).join("\n"),
+        ),
+        kind: "definition-list",
+        entries: block.entries.map((entry) => ({
+          id: entry.id,
+          term: entry.term,
+          ...(entry.description ? { description: entry.description } : {}),
+          source: sourceCopy(entry.source),
+        })),
+      };
     case "group": {
       const children = orderedBlocks(block.children, block.readingOrder).map((child, index) => mapBlock(child, index));
       return {
@@ -384,7 +413,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -482,6 +511,10 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       const tag = node.listStyle === "ordered" ? "ol" : "ul";
       const items = node.items.map((item) => `<li data-list-item-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.text)}</li>`).join("");
       return `<${tag} class="self-study-list">${items}</${tag}>`;
+    }
+    case "definition-list": {
+      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}</div>`).join("");
+      return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "group":
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
