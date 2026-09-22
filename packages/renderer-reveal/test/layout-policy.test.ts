@@ -144,6 +144,73 @@ function dataExplanationScene(id: string): Scene {
   };
 }
 
+function analysisResultScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:analysis-result" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      {
+        id: "block:signal",
+        kind: "chart",
+        chartType: "line",
+        label: "Opaque signal",
+        description: "Opaque chart",
+        xAxis: { label: "x" },
+        yAxis: { label: "y" },
+        series: [{
+          id: "series:1",
+          label: "Series",
+          data: [
+            { id: "datum:1", x: 0, y: 1, source: [{ resourceId: "resource:datum:1" }] },
+            { id: "datum:2", x: 1, y: 2, source: [{ resourceId: "resource:datum:2" }] },
+          ],
+          source: [{ resourceId: "resource:series" }],
+        }],
+        source: [{ resourceId: "resource:chart" }],
+      },
+      {
+        id: "block:results",
+        kind: "table",
+        caption: "Opaque results",
+        columns: [
+          { id: "column:a", label: "A", source: [{ resourceId: "resource:column:a" }] },
+          { id: "column:b", label: "B", source: [{ resourceId: "resource:column:b" }] },
+        ],
+        rows: [{
+          id: "row:1",
+          source: [{ resourceId: "resource:row:1" }],
+          cells: [
+            { id: "cell:a", text: "alpha", source: [{ resourceId: "resource:cell:a" }] },
+            { id: "cell:b", text: "beta", source: [{ resourceId: "resource:cell:b" }] },
+          ],
+        }],
+        source: [{ resourceId: "resource:table" }],
+      },
+      {
+        id: "block:process",
+        kind: "diagram",
+        diagramType: "flow",
+        label: "Opaque process",
+        description: "Opaque flow",
+        nodes: [
+          { id: "node:a", label: "A", source: [{ resourceId: "resource:node:a" }] },
+          { id: "node:b", label: "B", source: [{ resourceId: "resource:node:b" }] },
+        ],
+        edges: [{
+          id: "edge:ab",
+          sourceNodeId: "node:a",
+          targetNodeId: "node:b",
+          label: "to",
+          source: [{ resourceId: "resource:edge:ab" }],
+        }],
+        source: [{ resourceId: "resource:diagram" }],
+      },
+    ],
+    readingOrder: ["block:heading", "block:signal", "block:results", "block:process"],
+  };
+}
+
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");
@@ -241,5 +308,17 @@ test("infers data-explanation from list and table structure without identity", (
     "heading",
     "principles",
     "table",
+  ]);
+});
+
+
+test("infers analysis-result from chart table and flow without identity", () => {
+  assert.equal(inferRevealLayoutFamily(analysisResultScene("scene:alpha")), "analysis-result");
+  assert.equal(inferRevealLayoutFamily(analysisResultScene("opaque:scene")), "analysis-result");
+  assert.deepEqual(inferRevealLayoutDecision(analysisResultScene("scene:slots"))?.slots, [
+    "heading",
+    "signal",
+    "results",
+    "process",
   ]);
 });
