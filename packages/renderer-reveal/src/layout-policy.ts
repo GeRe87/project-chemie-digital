@@ -3,7 +3,8 @@ import type { DiagramBlock, Scene, SceneBlock } from "../../core/src/scene-docum
 export type RevealLayoutFamily =
   | "concept-specification"
   | "hierarchy-flow"
-  | "reference-code";
+  | "reference-code"
+  | "process-context";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -68,6 +69,33 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "hierarchy-flow",
         slots: ["heading", "intro", "diagram", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 7) {
+    const [heading, diagram, exampleHeading, exampleDefinitions, exampleNote, contextHeading, contextDefinitions] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && diagram?.kind === "diagram"
+      && diagram.diagramType === "flow"
+      && diagram.nodes.length === 3
+      && diagram.edges.length === 2
+      && exampleHeading?.kind === "prose"
+      && exampleHeading.intent?.kind === "explain"
+      && exampleDefinitions?.kind === "definition-list"
+      && exampleDefinitions.entries.length >= 4
+      && exampleNote?.kind === "prose"
+      && exampleNote.intent?.kind === "explain"
+      && contextHeading?.kind === "prose"
+      && contextHeading.intent?.kind === "explain"
+      && contextDefinitions?.kind === "definition-list"
+      && contextDefinitions.entries.length >= 4
+    ) {
+      return {
+        family: "process-context",
+        slots: ["heading", "diagram", "example-heading", "example-definitions", "example-note", "context-heading", "context-definitions"],
       };
     }
   }
