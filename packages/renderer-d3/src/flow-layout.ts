@@ -552,7 +552,7 @@ function concentricNetworkLayout(
   const focusNode = prepared.find((node) => node.id === input.focusNodeId);
   if (!focusNode) throw new Error("Concentric network requires its focus node in the node set");
 
-  const groupRadius = (index: number): number => 180 + index * 120;
+  const groupRadius = (index: number): number => 190 + index * 135;
   const outerRadius = groupRadius(Math.max(0, groups.length - 1));
   const width = Math.max(780, Math.min(hostWidth, 1040), outerRadius * 2 + 180);
   const height = Math.max(690, outerRadius * 2 + 150);
@@ -586,11 +586,11 @@ function concentricNetworkLayout(
     });
 
     const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const maximumNodeWidth = groupIndex === 0 ? 160 : 124;
-    const nodeWidth = Math.max(groupIndex === 0 ? 136 : 108, Math.min(maximumNodeWidth, arcAllowance * 0.74));
+    const maximumNodeWidth = groupIndex === 0 ? 172 : 154;
+    const nodeWidth = Math.max(groupIndex === 0 ? 152 : 136, Math.min(maximumNodeWidth, arcAllowance * 0.82));
     members.forEach((node, memberIndex) => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
-      const labelLines = wrapFlowText(node.label, Math.max(70, nodeWidth - 20));
+      const labelLines = wrapFlowText(node.label, Math.max(78, nodeWidth - 12));
       nodes.push({
         id: node.id,
         x: cx + Math.cos(angle) * radius,
