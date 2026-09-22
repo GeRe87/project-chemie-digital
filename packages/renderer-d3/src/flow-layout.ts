@@ -465,8 +465,8 @@ function triadicNetworkLayout(
   const rightX = width * 0.73;
   const positions = [
     { x: width / 2, y: topY },
-    { x: leftX, y: bottomY },
     { x: rightX, y: bottomY },
+    { x: leftX, y: bottomY },
   ] as const;
 
   return {

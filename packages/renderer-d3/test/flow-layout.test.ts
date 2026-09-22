@@ -170,6 +170,8 @@ test("small ungrouped networks stay spatial inside a narrow presentation panel",
   assert.ok(byId.get("anna")!.y < byId.get("essen")!.y);
   assert.equal(byId.get("essen")!.y, byId.get("university")!.y);
   assert.equal(byId.get("anna")!.x, layout.width / 2);
+  assert.ok(byId.get("university")!.x < byId.get("anna")!.x);
+  assert.ok(byId.get("essen")!.x > byId.get("anna")!.x);
   assert.ok(layout.nodes.every((node) => node.width >= 146), "compact network nodes reserve readable label width");
   assert.ok(layout.edges.some((edge) => edge.x1 !== edge.x2 && edge.y1 !== edge.y2));
 
