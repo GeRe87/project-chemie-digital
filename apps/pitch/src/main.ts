@@ -11,7 +11,6 @@ import "./flow-theme.css";
 import "./analysis-result-layout.css";
 import "./cogniflow-opening-sequence.css";
 import "./data-explanation-layout.css";
-import "./cogniflow-fair-gap.css";
 import "./process-context-layout.css";
 import "./cogniflow-semantics-first.css";
 import "./cogniflow-semantic-triples.css";
