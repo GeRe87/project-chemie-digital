@@ -69,6 +69,21 @@
   stroke-width: 4px;
 }
 
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-line {
+  stroke: color-mix(in srgb, var(--pcd-accent) 74%, var(--pcd-foreground));
+  stroke-width: 2.5;
+  stroke-dasharray: 5 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-anchor {
+  fill: var(--pcd-surface-strong);
+  stroke: color-mix(in srgb, var(--pcd-accent) 82%, var(--pcd-foreground));
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node {
   filter: drop-shadow(0 4px 0 color-mix(in srgb, var(--pcd-foreground) 13%, transparent));
 }

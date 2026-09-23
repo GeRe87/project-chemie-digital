@@ -55,6 +55,11 @@ export interface D3FlowLayoutGroup {
   readonly radius: number;
   readonly labelX: number;
   readonly labelY: number;
+  readonly labelWidth: number;
+  readonly labelHeight: number;
+  readonly labelLines: readonly string[];
+  readonly labelAnchorX: number;
+  readonly labelAnchorY: number;
   readonly memberNodeIds: readonly string[];
 }
 
@@ -720,6 +725,131 @@ function networkEdgeGeometry(
   };
 }
 
+function normalizedAngle(angle: number): number {
+  const fullTurn = Math.PI * 2;
+  return ((angle % fullTurn) + fullTurn) % fullTurn;
+}
+
+function angularDistance(left: number, right: number): number {
+  const fullTurn = Math.PI * 2;
+  const delta = Math.abs(normalizedAngle(left) - normalizedAngle(right));
+  return Math.min(delta, fullTurn - delta);
+}
+
+function concentricGroupGapAngles(
+  group: Pick<D3FlowLayoutGroup, "cx" | "cy" | "memberNodeIds">,
+  nodes: readonly D3FlowLayoutNode[],
+  preferredAngle: number,
+): readonly number[] {
+  const byId = new Map(nodes.map((node) => [node.id, node]));
+  const angles = group.memberNodeIds
+    .map((id) => byId.get(id))
+    .filter((node): node is D3FlowLayoutNode => Boolean(node))
+    .map((node) => normalizedAngle(Math.atan2(node.y - group.cy, node.x - group.cx)))
+    .sort((left, right) => left - right);
+
+  if (angles.length === 0) return [preferredAngle];
+  if (angles.length === 1) return [normalizedAngle(angles[0]! + Math.PI / 2), normalizedAngle(angles[0]! - Math.PI / 2)];
+
+  const gaps = angles.map((angle, index) => {
+    const next = index === angles.length - 1 ? angles[0]! + Math.PI * 2 : angles[index + 1]!;
+    return {
+      size: next - angle,
+      angle: normalizedAngle(angle + (next - angle) / 2),
+    };
+  });
+  return gaps
+    .sort((left, right) =>
+      right.size - left.size
+      || angularDistance(left.angle, preferredAngle) - angularDistance(right.angle, preferredAngle)
+      || left.angle - right.angle)
+    .map((gap) => gap.angle);
+}
+
+function resolveConcentricGroupAnnotations(
+  groups: readonly D3FlowLayoutGroup[],
+  nodes: readonly D3FlowLayoutNode[],
+  width: number,
+  height: number,
+): readonly D3FlowLayoutGroup[] {
+  const nodeRects: LayoutRect[] = nodes.map((node) => ({
+    x: node.x,
+    y: node.y,
+    width: node.width,
+    height: node.height,
+  }));
+  const placedLabels: LayoutRect[] = [];
+
+  return groups.map((group, groupIndex) => {
+    const labelLines = wrapFlowText(group.label, 260);
+    const labelWidth = Math.min(
+      280,
+      Math.max(120, ...labelLines.map((line) => deterministicFlowTextMeasure(line) + 34)),
+    );
+    const labelHeight = Math.max(34, labelLines.length * 25 + 10);
+    const preferredAngle = groupIndex % 2 === 0 ? -Math.PI * 0.72 : -Math.PI * 0.28;
+    const gapAngles = concentricGroupGapAngles(group, nodes, preferredAngle);
+    const fallbackAngles = [
+      preferredAngle,
+      -preferredAngle,
+      Math.PI - preferredAngle,
+      Math.PI + preferredAngle,
+      0,
+      Math.PI,
+      Math.PI / 2,
+      -Math.PI / 2,
+    ].map(normalizedAngle);
+    const candidates = [...gapAngles, ...fallbackAngles.filter((angle) =>
+      !gapAngles.some((existing) => angularDistance(existing, angle) < 0.01))];
+
+    const outwardOffset = labelHeight / 2 + 42;
+    let chosen: D3FlowLayoutGroup | undefined;
+    for (const angle of candidates) {
+      const anchorX = group.cx + Math.cos(angle) * group.radius;
+      const anchorY = group.cy + Math.sin(angle) * group.radius;
+      const labelRadius = group.radius + outwardOffset;
+      const labelX = group.cx + Math.cos(angle) * labelRadius;
+      const labelY = group.cy + Math.sin(angle) * labelRadius;
+      const rect: LayoutRect = { x: labelX, y: labelY, width: labelWidth, height: labelHeight };
+      if (!insideLayout(rect, width, height, 18)) continue;
+      if (nodeRects.some((node) => overlaps(rect, node, 14))) continue;
+      if (placedLabels.some((other) => overlaps(rect, other, 16))) continue;
+
+      chosen = {
+        ...group,
+        labelX,
+        labelY,
+        labelWidth,
+        labelHeight,
+        labelLines,
+        labelAnchorX: anchorX,
+        labelAnchorY: anchorY,
+      };
+      placedLabels.push(rect);
+      break;
+    }
+
+    if (chosen) return chosen;
+
+    const fallbackAngle = normalizedAngle(preferredAngle);
+    const anchorX = group.cx + Math.cos(fallbackAngle) * group.radius;
+    const anchorY = group.cy + Math.sin(fallbackAngle) * group.radius;
+    const labelX = Math.max(labelWidth / 2 + 18, Math.min(width - labelWidth / 2 - 18, group.cx + Math.cos(fallbackAngle) * (group.radius + outwardOffset)));
+    const labelY = Math.max(labelHeight / 2 + 18, Math.min(height - labelHeight / 2 - 18, group.cy + Math.sin(fallbackAngle) * (group.radius + outwardOffset)));
+    placedLabels.push({ x: labelX, y: labelY, width: labelWidth, height: labelHeight });
+    return {
+      ...group,
+      labelX,
+      labelY,
+      labelWidth,
+      labelHeight,
+      labelLines,
+      labelAnchorX: anchorX,
+      labelAnchorY: anchorY,
+    };
+  });
+}
+
 function isConcentricNetwork(input: D3FlowLayoutInput): boolean {
   if (input.diagramType !== "network" || !input.focusNodeId || input.edges.length !== 0) return false;
   const groups = input.groups ?? [];
@@ -798,8 +928,6 @@ function concentricNetworkLayout(
         labelLines,
       };
     });
-    const maxMemberHeight = Math.max(0, ...memberLayouts.map((node) => node.height));
-    const labelClearance = Math.max(54, maxMemberHeight / 2 + 28);
     layoutGroups.push({
       id: group.id,
       label: group.label ?? group.id,
@@ -807,17 +935,23 @@ function concentricNetworkLayout(
       cy,
       radius,
       labelX: cx,
-      labelY: cy - radius - labelClearance,
+      labelY: cy - radius,
+      labelWidth: 0,
+      labelHeight: 0,
+      labelLines: [],
+      labelAnchorX: cx,
+      labelAnchorY: cy - radius,
       memberNodeIds: members.map((node) => node.id),
     });
     nodes.push(...memberLayouts);
   });
 
+  const orderedNodes = prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!);
   return {
     width,
     height,
-    nodes: prepared.map((node) => nodes.find((candidate) => candidate.id === node.id)!),
-    groups: layoutGroups,
+    nodes: orderedNodes,
+    groups: resolveConcentricGroupAnnotations(layoutGroups, orderedNodes, width, height),
   };
 }
 

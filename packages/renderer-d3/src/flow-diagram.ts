@@ -822,9 +822,33 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           ring.setAttribute("fill", "none");
           ring.setAttribute("aria-hidden", "true");
           group.append(ring);
+          const annotationDx = layoutGroup.labelAnchorX - layoutGroup.labelX;
+          const annotationDy = layoutGroup.labelAnchorY - layoutGroup.labelY;
+          const annotationScale = 1 / Math.max(
+            Math.abs(annotationDx) / Math.max(layoutGroup.labelWidth / 2, 1),
+            Math.abs(annotationDy) / Math.max(layoutGroup.labelHeight / 2, 1),
+            1e-6,
+          );
+          const annotationLine = document.createElementNS(namespace, "line");
+          annotationLine.setAttribute("class", "d3-flow-group-annotation-line");
+          annotationLine.setAttribute("x1", String(layoutGroup.labelX + annotationDx * annotationScale));
+          annotationLine.setAttribute("y1", String(layoutGroup.labelY + annotationDy * annotationScale));
+          annotationLine.setAttribute("x2", String(layoutGroup.labelAnchorX));
+          annotationLine.setAttribute("y2", String(layoutGroup.labelAnchorY));
+          annotationLine.setAttribute("aria-hidden", "true");
+          group.append(annotationLine);
+
+          const annotationAnchor = document.createElementNS(namespace, "circle");
+          annotationAnchor.setAttribute("class", "d3-flow-group-annotation-anchor");
+          annotationAnchor.setAttribute("cx", String(layoutGroup.labelAnchorX));
+          annotationAnchor.setAttribute("cy", String(layoutGroup.labelAnchorY));
+          annotationAnchor.setAttribute("r", "4.5");
+          annotationAnchor.setAttribute("aria-hidden", "true");
+          group.append(annotationAnchor);
+
           addTextLines(
             group,
-            wrapFlowText(layoutGroup.label, 260),
+            layoutGroup.labelLines,
             layoutGroup.labelX,
             layoutGroup.labelY,
             "d3-flow-group-label",

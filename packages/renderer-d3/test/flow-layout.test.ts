@@ -287,14 +287,33 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   );
   assert.ok(layout.groups[1]!.radius >= 300);
   assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
+  const labelRects = layout.groups.map((group) => ({
+    id: group.id,
+    x: group.labelX,
+    y: group.labelY,
+    width: group.labelWidth,
+    height: group.labelHeight,
+  }));
+  const collides = (
+    left: { x: number; y: number; width: number; height: number },
+    right: { x: number; y: number; width: number; height: number },
+    padding = 0,
+  ) => Math.abs(left.x - right.x) < (left.width + right.width) / 2 + padding
+    && Math.abs(left.y - right.y) < (left.height + right.height) / 2 + padding;
+
   for (const group of layout.groups) {
-    const members = layout.nodes.filter((node) => group.memberNodeIds.includes(node.id));
-    const topMember = members.reduce((top, node) => node.y < top.y ? node : top, members[0]!);
+    const labelRect = labelRects.find((candidate) => candidate.id === group.id)!;
+    assert.ok(layout.nodes.every((node) => !collides(labelRect, node, 10)), `${group.id} label clears every node`);
     assert.ok(
-      group.labelY < topMember.y - topMember.height / 2 - 12,
-      `${group.id} label clears the top member node`,
+      Math.abs(Math.hypot(group.labelAnchorX - group.cx, group.labelAnchorY - group.cy) - group.radius) < 0.001,
+      `${group.id} annotation anchor lies on its ring`,
+    );
+    assert.ok(
+      Math.hypot(group.labelX - group.labelAnchorX, group.labelY - group.labelAnchorY) > 20,
+      `${group.id} annotation line has visible length`,
     );
   }
+  assert.equal(collides(labelRects[0]!, labelRects[1]!, 12), false, "layer labels must not overlap each other");
 });
 
 test("vertical flow labels avoid all node cards and each other", () => {
