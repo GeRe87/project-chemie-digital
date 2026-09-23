@@ -222,6 +222,7 @@ test("relation-free focused grouped networks use deterministic concentric rings"
   assert.equal(layout.groups.length, 2);
   assert.ok(layout.groups[1]!.radius > layout.groups[0]!.radius);
   assert.ok(layout.nodes.find((node) => node.id === "inner:a")!.width > layout.nodes.find((node) => node.id === "outer:a")!.width);
+  assert.ok(layout.nodes.every((node) => node.width === node.height), "concentric nodes render as true circles");
   const byId = new Map(layout.nodes.map((node) => [node.id, node]));
   assert.equal(byId.get("focus")!.x, layout.width / 2);
   assert.equal(byId.get("focus")!.y, layout.groups[0]!.cy);
@@ -271,8 +272,9 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.equal(layout.strategy, "concentric-network");
   const outer = layout.nodes.filter((node) => node.id.startsWith("spec:"));
   assert.equal(outer.length, outerLabels.length);
-  assert.ok(outer.every((node) => node.width >= 108));
-  assert.ok(outer.every((node) => node.labelLines.length <= 2), "outer labels should not fragment into three or more lines");
+  assert.ok(outer.every((node) => node.width >= 120));
+  assert.ok(outer.every((node) => node.width === node.height), "outer ring nodes stay circular");
+  assert.ok(outer.every((node) => node.labelLines.length <= 3), "outer labels should stay within three lines");
   assert.ok(layout.groups[1]!.radius >= 300);
   assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
   for (const group of layout.groups) {

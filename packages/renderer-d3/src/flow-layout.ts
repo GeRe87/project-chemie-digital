@@ -748,7 +748,7 @@ function concentricNetworkLayout(
   const focusNode = prepared.find((node) => node.id === input.focusNodeId);
   if (!focusNode) throw new Error("Concentric network requires its focus node in the node set");
 
-  const groupRadius = (index: number): number => 190 + index * 135;
+  const groupRadius = (index: number): number => 205 + index * 145;
   const outerRadius = groupRadius(Math.max(0, groups.length - 1));
   const width = Math.max(780, Math.min(hostWidth, 1040), outerRadius * 2 + 180);
   const height = Math.max(740, outerRadius * 2 + 120);
@@ -757,13 +757,14 @@ function concentricNetworkLayout(
   const nodes: D3FlowLayoutNode[] = [];
   const layoutGroups: D3FlowLayoutGroup[] = [];
 
-  const focusLines = wrapFlowText(focusNode.label, 150);
+  const focusDiameter = 154;
+  const focusLines = wrapFlowText(focusNode.label, focusDiameter - 42);
   nodes.push({
     id: focusNode.id,
     x: cx,
     y: cy,
-    width: Math.max(190, Math.min(236, Math.max(...focusLines.map((line) => deterministicFlowTextMeasure(line)), 0) + 48)),
-    height: Math.max(88, 36 + focusLines.length * 21),
+    width: focusDiameter,
+    height: focusDiameter,
     labelLines: focusLines,
   });
 
@@ -771,23 +772,31 @@ function concentricNetworkLayout(
     const members = prepared.filter((node) => node.id !== focusNode.id && node.groupIds?.includes(group.id));
     const radius = groupRadius(groupIndex);
     const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const maximumNodeWidth = groupIndex === 0 ? 182 : 160;
-    const nodeWidth = Math.max(groupIndex === 0 ? 160 : 142, Math.min(maximumNodeWidth, arcAllowance * 0.84));
+    const minimumDiameter = groupIndex === 0 ? 148 : 120;
+    const maximumDiameter = groupIndex === 0 ? 166 : 136;
+    const availableDiameter = Math.max(minimumDiameter, Math.min(maximumDiameter, arcAllowance * 0.74));
     const memberLayouts = members.map((node, memberIndex): D3FlowLayoutNode => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
-      const labelLines = wrapFlowText(node.label, Math.max(78, nodeWidth - 12));
-      const nodeHeight = Math.max(groupIndex === 0 ? 76 : 58, 26 + labelLines.length * 17);
+      const wrapWidth = Math.max(88, availableDiameter - (groupIndex === 0 ? 34 : 26));
+      const labelLines = wrapFlowText(node.label, wrapWidth);
+      const textHeight = Math.max(1, labelLines.length) * 17;
+      const longestLine = Math.max(0, ...labelLines.map((line) => deterministicFlowTextMeasure(line)));
+      const textDiameter = Math.max(longestLine + 28, textHeight + 38);
+      const diameter = Math.max(
+        minimumDiameter,
+        Math.min(maximumDiameter, Math.max(availableDiameter, textDiameter)),
+      );
       return {
         id: node.id,
         x: cx + Math.cos(angle) * radius,
         y: cy + Math.sin(angle) * radius,
-        width: nodeWidth,
-        height: nodeHeight,
+        width: diameter,
+        height: diameter,
         labelLines,
       };
     });
     const maxMemberHeight = Math.max(0, ...memberLayouts.map((node) => node.height));
-    const labelClearance = Math.max(48, maxMemberHeight / 2 + 24);
+    const labelClearance = Math.max(54, maxMemberHeight / 2 + 28);
     layoutGroups.push({
       id: group.id,
       label: group.label ?? group.id,
