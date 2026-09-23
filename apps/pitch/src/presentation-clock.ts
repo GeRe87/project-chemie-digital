@@ -14,20 +14,21 @@ function clockParts(date: Date): ClockParts {
   };
 }
 
-function createClockLine(className: string): HTMLSpanElement {
-  const line = document.createElement("span");
+function createClockLine(documentRef: Document, className: string): HTMLSpanElement {
+  const line = documentRef.createElement("span");
   line.className = className;
   return line;
 }
 
-export function mountCogniflowClockPanel(host: HTMLElement): () => void {
-  const panel = document.createElement("aside");
-  panel.className = "cogniflow-clock-panel";
+export function mountPresentationClock(host: HTMLElement): () => void {
+  const documentRef = host.ownerDocument;
+  const panel = documentRef.createElement("aside");
+  panel.className = "presentation-clock-panel";
   panel.setAttribute("aria-label", "Current local time");
 
-  const hours = createClockLine("cogniflow-clock-hours");
-  const minutes = createClockLine("cogniflow-clock-minutes");
-  const meridiem = createClockLine("cogniflow-clock-meridiem");
+  const hours = createClockLine(documentRef, "presentation-clock-hours");
+  const minutes = createClockLine(documentRef, "presentation-clock-minutes");
+  const meridiem = createClockLine(documentRef, "presentation-clock-meridiem");
 
   panel.append(hours, minutes, meridiem);
   host.append(panel);

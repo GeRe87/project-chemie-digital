@@ -1,12 +1,13 @@
-export function mountCogniflowLaserPointer(presentation: HTMLElement): () => void {
+export function mountPresentationLaserPointer(presentation: HTMLElement): () => void {
   const finePointer = window.matchMedia("(pointer: fine)");
   if (!finePointer.matches) return () => undefined;
 
-  const pointer = document.createElement("div");
-  pointer.className = "cogniflow-laser-pointer";
+  const documentRef = presentation.ownerDocument;
+  const pointer = documentRef.createElement("div");
+  pointer.className = "presentation-laser-pointer";
   pointer.setAttribute("aria-hidden", "true");
-  document.body.append(pointer);
-  document.body.classList.add("pcd-cogniflow-laser-pointer");
+  documentRef.body.append(pointer);
+  documentRef.body.classList.add("pcd-presentation-laser-pointer");
 
   let visible = false;
 
@@ -26,17 +27,9 @@ export function mountCogniflowLaserPointer(presentation: HTMLElement): () => voi
     setVisible(true);
   };
 
-  const enter = (event: PointerEvent): void => {
-    move(event);
-  };
-
-  const leave = (): void => {
-    setVisible(false);
-  };
-
-  const blur = (): void => {
-    setVisible(false);
-  };
+  const enter = (event: PointerEvent): void => move(event);
+  const leave = (): void => setVisible(false);
+  const blur = (): void => setVisible(false);
 
   presentation.addEventListener("pointerenter", enter);
   presentation.addEventListener("pointermove", move);
@@ -48,7 +41,7 @@ export function mountCogniflowLaserPointer(presentation: HTMLElement): () => voi
     presentation.removeEventListener("pointermove", move);
     presentation.removeEventListener("pointerleave", leave);
     window.removeEventListener("blur", blur);
-    document.body.classList.remove("pcd-cogniflow-laser-pointer");
+    documentRef.body.classList.remove("pcd-presentation-laser-pointer");
     pointer.remove();
   };
 }

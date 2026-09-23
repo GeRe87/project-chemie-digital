@@ -31,8 +31,8 @@ import "./cogniflow-take-home.css";
 import "./cogniflow-showcase.css";
 import "./cogniflow-closing.css";
 import "./cogniflow-mobile.css";
-import "./cogniflow-clock-panel.css";
-import "./cogniflow-laser-pointer.css";
+import "./presentation-clock.css";
+import "./presentation-laser-pointer.css";
 import "./cogniflow-dark-cards.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
@@ -46,8 +46,8 @@ import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
 import { mountPresentationProjections } from "./presentation-projection.ts";
-import { mountCogniflowClockPanel } from "./cogniflow-clock-panel.ts";
-import { mountCogniflowLaserPointer } from "./cogniflow-laser-pointer.ts";
+import { mountPresentationClock } from "./presentation-clock.ts";
+import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -126,11 +126,11 @@ const unmountPresentationProjection = mountPresentationProjections(root);
 
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
-const unmountCogniflowClock = appearance.profile.id === "cogniflow-standardized-data-processing"
-  ? mountCogniflowClockPanel(document.body)
+const unmountPresentationClock = appearance.profile.presenterCapabilities?.clock
+  ? mountPresentationClock(document.body)
   : () => undefined;
-const unmountCogniflowLaserPointer = appearance.profile.id === "cogniflow-standardized-data-processing"
-  ? mountCogniflowLaserPointer(presentation)
+const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities?.laserPointer
+  ? mountPresentationLaserPointer(presentation)
   : () => undefined;
 
 const cogniflowPortraitMobile = appearance.profile.id === "cogniflow-standardized-data-processing"
@@ -368,8 +368,8 @@ window.addEventListener("pagehide", () => {
   for (const video of showcaseVideos) video.pause();
   unmountPresentationSteps();
   unmountPresentationProjection();
-  unmountCogniflowLaserPointer();
-  unmountCogniflowClock();
+  unmountPresentationLaserPointer();
+  unmountPresentationClock();
   unmountSemanticSourceSteps();
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();

@@ -9,12 +9,18 @@ import {
 export type PresentationView = "scroll" | "deck";
 export type DiagramThemeId = "neutral" | "eco-city";
 
+export interface PresenterCapabilities {
+  readonly clock?: boolean;
+  readonly laserPointer?: boolean;
+}
+
 export interface PresentationProfile {
   readonly id: string;
   readonly label: string;
   readonly defaultView: PresentationView;
   readonly defaultTheme: PresentationThemeMode;
   readonly defaultBackgroundFamilyId?: string;
+  readonly presenterCapabilities?: PresenterCapabilities;
 }
 
 export interface ResolvedPresentationAppearance {
@@ -85,6 +91,10 @@ export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
   defaultView: "scroll",
   defaultTheme: "light",
   defaultBackgroundFamilyId: chemometricsCityFamily.id,
+  presenterCapabilities: Object.freeze({
+    clock: true,
+    laserPointer: true,
+  }),
 });
 
 export function findBackgroundFamily(familyId: string | undefined): ThemedBackgroundPackFamily | undefined {

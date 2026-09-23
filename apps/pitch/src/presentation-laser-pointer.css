@@ -1,6 +1,6 @@
-/* Desktop presentation laser pointer.
+/* Generic desktop presentation laser pointer.
    The native cursor remains untouched on touch/coarse-pointer devices. */
-.cogniflow-laser-pointer {
+.presentation-laser-pointer {
   --laser-x: -100px;
   --laser-y: -100px;
   position: fixed;
@@ -22,8 +22,8 @@
   transition: opacity 90ms linear;
 }
 
-.cogniflow-laser-pointer::before,
-.cogniflow-laser-pointer::after {
+.presentation-laser-pointer::before,
+.presentation-laser-pointer::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -32,7 +32,7 @@
   transform: translate(-50%, -50%);
 }
 
-.cogniflow-laser-pointer::before {
+.presentation-laser-pointer::before {
   width: 2.3rem;
   height: 2.3rem;
   background: radial-gradient(
@@ -48,7 +48,7 @@
           drop-shadow(0 0 34px rgb(255 20 48 / .46));
 }
 
-.cogniflow-laser-pointer::after {
+.presentation-laser-pointer::after {
   width: .58rem;
   height: .58rem;
   border: 2px solid rgb(255 255 255 / .92);
@@ -60,19 +60,19 @@
     0 0 30px rgb(255 20 48 / .7);
 }
 
-.cogniflow-laser-pointer.is-visible {
+.presentation-laser-pointer.is-visible {
   opacity: 1;
 }
 
 @media (pointer: fine) {
-  body.pcd-cogniflow-laser-pointer .reveal,
-  body.pcd-cogniflow-laser-pointer .reveal * {
+  body.pcd-presentation-laser-pointer .reveal,
+  body.pcd-presentation-laser-pointer .reveal * {
     cursor: none !important;
   }
 }
 
 @media (pointer: coarse) {
-  .cogniflow-laser-pointer {
+  .presentation-laser-pointer {
     display: none !important;
   }
 }

@@ -1,10 +1,10 @@
-/* Small desktop-only clock panel for the CogniFlow web presentation. */
-.cogniflow-clock-panel {
+/* Generic desktop presentation clock panel. */
+.presentation-clock-panel {
   display: none;
 }
 
 @media (min-width: 901px) {
-  .cogniflow-clock-panel {
+  .presentation-clock-panel {
     position: fixed;
     top: 50%;
     right: -.22rem;
@@ -30,12 +30,12 @@
     text-align: center;
   }
 
-  body.reveal-scroll .cogniflow-clock-panel {
+  body.reveal-scroll .presentation-clock-panel {
     background: color-mix(in srgb, var(--pcd-world-shell-scroll-bg) 94%, transparent);
     backdrop-filter: none;
   }
 
-  body[data-presentation-theme="dark"] .cogniflow-clock-panel {
+  body[data-presentation-theme="dark"] .presentation-clock-panel {
     background: rgba(5, 8, 16, .92);
     box-shadow:
       inset 1px 0 0 rgba(98, 239, 255, .18),
@@ -46,20 +46,20 @@
       -28px 0 92px rgba(98, 239, 255, .08);
   }
 
-  body[data-presentation-theme="dark"] .cogniflow-clock-hours,
-  body[data-presentation-theme="dark"] .cogniflow-clock-minutes {
+  body[data-presentation-theme="dark"] .presentation-clock-hours,
+  body[data-presentation-theme="dark"] .presentation-clock-minutes {
     text-shadow:
       0 0 8px rgba(98, 239, 255, .22),
       0 0 18px rgba(98, 239, 255, .12);
   }
 
-  body[data-presentation-theme="dark"] .cogniflow-clock-hours {
+  body[data-presentation-theme="dark"] .presentation-clock-hours {
     border-bottom-color: rgba(98, 239, 255, .34);
     box-shadow: 0 5px 12px -8px rgba(98, 239, 255, .5);
   }
 
-  .cogniflow-clock-hours,
-  .cogniflow-clock-minutes {
+  .presentation-clock-hours,
+  .presentation-clock-minutes {
     display: block;
     width: 100%;
     font-size: 1.62rem;
@@ -68,16 +68,16 @@
     letter-spacing: -.06em;
   }
 
-  .cogniflow-clock-hours {
+  .presentation-clock-hours {
     padding-bottom: .18rem;
     border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 32%, transparent);
   }
 
-  .cogniflow-clock-minutes {
+  .presentation-clock-minutes {
     padding-top: .22rem;
   }
 
-  .cogniflow-clock-meridiem {
+  .presentation-clock-meridiem {
     display: block;
     margin-top: .34rem;
     color: var(--pcd-muted);
@@ -90,7 +90,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cogniflow-clock-panel {
+  .presentation-clock-panel {
     transition: none !important;
   }
 }

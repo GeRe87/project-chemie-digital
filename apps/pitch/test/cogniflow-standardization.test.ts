@@ -39,6 +39,10 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/foundation-card-grid-layout.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
+    source("../src/presentation-clock.ts"),
+    source("../src/presentation-clock.css"),
+    source("../src/presentation-laser-pointer.ts"),
+    source("../src/presentation-laser-pointer.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -219,4 +223,23 @@ test("alternate publication projection is generic and reuses compiled scene cont
   assert.equal(runtime.includes("Processing Unit Info Box"), false);
   assert.equal(runtime.includes("Separating Meaning from Presentation"), false);
   assert.equal(css.includes("section[id="), false);
+});
+
+
+test("presenter clock and laser pointer are generic profile capabilities", () => {
+  const main = source("../src/main.ts");
+  const profile = source("../src/presentation-profile.ts");
+  const clock = source("../src/presentation-clock.ts");
+  const laser = source("../src/presentation-laser-pointer.ts");
+
+  assert.equal(clock.toLowerCase().includes("cogniflow"), false);
+  assert.equal(laser.toLowerCase().includes("cogniflow"), false);
+  assert.equal(main.includes("mountPresentationClock"), true);
+  assert.equal(main.includes("mountPresentationLaserPointer"), true);
+  assert.equal(main.includes("mountCogniflowClockPanel"), false);
+  assert.equal(main.includes("mountCogniflowLaserPointer"), false);
+  assert.equal(main.includes('appearance.profile.id === "cogniflow-standardized-data-processing"\n  ? mountPresentationClock'), false);
+  assert.equal(main.includes("appearance.profile.presenterCapabilities?.clock"), true);
+  assert.equal(main.includes("appearance.profile.presenterCapabilities?.laserPointer"), true);
+  assert.equal(profile.includes("readonly presenterCapabilities?: PresenterCapabilities"), true);
 });

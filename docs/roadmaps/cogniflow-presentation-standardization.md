@@ -760,3 +760,23 @@ Result:
 The same compiled semantic scene can now be realized as cards or publication prose without a second content source. Projection changes presentation only; it no longer changes or duplicates the authored semantics.
 
 Next migration target: presentation-shell capabilities (clock and laser pointer), followed by showcase transition/background policy.
+
+
+### Increment 8b — generic presenter clock and laser pointer capabilities
+
+Status: **implemented on this branch**
+
+Completed:
+
+- renamed the clock and laser-pointer runtimes/styles from CogniFlow-specific files to generic presentation-shell capabilities;
+- removed CogniFlow identity from their DOM classes, body marker and exported mount functions;
+- added declarative `presenterCapabilities` to `PresentationProfile`;
+- enabled clock and laser pointer for the CogniFlow profile through capability flags rather than a profile-id conditional in `main.ts`;
+- kept other profiles unchanged unless they opt into the same capabilities;
+- deleted the four obsolete CogniFlow-specific shell files and extended anti-hardcoding/profile tests.
+
+Result:
+
+Clock and laser pointer are reusable presenter features. A presentation profile may request them, but the capabilities themselves contain no knowledge of CogniFlow.
+
+Next migration target: showcase/media transition and background-freeze policy still encoded through concrete scene-id sets in `main.ts`.
