@@ -1,3 +1,5 @@
+import { forceCollide, forceSimulation, forceX, forceY } from "d3-force";
+
 export type D3FlowOrientation = "horizontal" | "vertical";
 export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
@@ -192,6 +194,126 @@ function horizontalNodeWidth(lines: readonly string[]): number {
 
 function midpoint(a: number, b: number): number {
   return a + (b - a) / 2;
+}
+
+interface EdgeLabelParticle {
+  readonly id: string;
+  readonly anchorX: number;
+  readonly anchorY: number;
+  readonly width: number;
+  readonly height: number;
+  x: number;
+  y: number;
+  vx?: number;
+  vy?: number;
+  index?: number;
+}
+
+function seededRandom(): () => number {
+  let state = 0x9e3779b9;
+  return () => {
+    state = (Math.imul(state ^ (state >>> 16), 0x21f0aaad) + 0x6d2b79f5) | 0;
+    state = Math.imul(state ^ (state >>> 15), 0x735a2d97);
+    return ((state ^ (state >>> 15)) >>> 0) / 4294967296;
+  };
+}
+
+function edgeLabelPanelSize(edge: D3FlowLayoutEdge, compact: boolean): { readonly width: number; readonly height: number } {
+  const lineCount = Math.max(edge.labelLines.length, 1);
+  const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
+  return {
+    width: textWidth + (compact ? 18 : 26),
+    height: Math.max(
+      compact ? 30 : EDGE_LABEL_MIN_HEIGHT,
+      lineCount * (compact ? 20 : EDGE_LABEL_LINE_HEIGHT) + (compact ? 8 : EDGE_LABEL_VERTICAL_PADDING),
+    ),
+  };
+}
+
+function nodeAvoidanceForce(
+  rectangles: readonly D3FlowLayoutNode[],
+  padding: number,
+): ((alpha: number) => void) & { initialize(nodes: EdgeLabelParticle[]): void } {
+  let particles: EdgeLabelParticle[] = [];
+  const force = ((alpha: number): void => {
+    for (const particle of particles) {
+      for (const rectangle of rectangles) {
+        const dx = particle.x - rectangle.x;
+        const dy = particle.y - rectangle.y;
+        const overlapX = rectangle.width / 2 + particle.width / 2 + padding - Math.abs(dx);
+        const overlapY = rectangle.height / 2 + particle.height / 2 + padding - Math.abs(dy);
+        if (overlapX <= 0 || overlapY <= 0) continue;
+
+        // Push along the least-penetrating axis; this keeps the label close to its edge.
+        if (overlapX < overlapY) {
+          const direction = dx === 0 ? (particle.anchorX >= rectangle.x ? 1 : -1) : Math.sign(dx);
+          particle.vx = (particle.vx ?? 0) + direction * overlapX * alpha * 1.15;
+        } else {
+          const direction = dy === 0 ? (particle.anchorY >= rectangle.y ? 1 : -1) : Math.sign(dy);
+          particle.vy = (particle.vy ?? 0) + direction * overlapY * alpha * 1.15;
+        }
+      }
+    }
+  }) as ((alpha: number) => void) & { initialize(nodes: EdgeLabelParticle[]): void };
+  force.initialize = (nodes: EdgeLabelParticle[]): void => {
+    particles = nodes;
+  };
+  return force;
+}
+
+function resolveEdgeLabelCollisions(
+  edges: readonly D3FlowLayoutEdge[],
+  nodes: readonly D3FlowLayoutNode[],
+  width: number,
+  height: number,
+  strategy: D3FlowLayoutStrategy,
+): readonly D3FlowLayoutEdge[] {
+  if (edges.length === 0) return edges;
+  const compact = strategy === "radial-network" || strategy === "triadic-network";
+  const particles: EdgeLabelParticle[] = edges.map((edge) => {
+    const panel = edgeLabelPanelSize(edge, compact);
+    return {
+      id: edge.id,
+      anchorX: edge.labelX,
+      anchorY: edge.labelY,
+      width: panel.width,
+      height: panel.height,
+      x: edge.labelX,
+      y: edge.labelY,
+    };
+  });
+
+  const simulation = forceSimulation(particles)
+    .randomSource(seededRandom())
+    .force("anchor-x", forceX((particle: EdgeLabelParticle) => particle.anchorX).strength(compact ? 0.11 : 0.16))
+    .force("anchor-y", forceY((particle: EdgeLabelParticle) => particle.anchorY).strength(compact ? 0.11 : 0.16))
+    .force(
+      "label-collision",
+      forceCollide((particle: EdgeLabelParticle) => Math.hypot(particle.width, particle.height) / 2 + 5)
+        .strength(1)
+        .iterations(4),
+    )
+    .force("node-collision", nodeAvoidanceForce(nodes, compact ? 14 : 18))
+    .stop();
+
+  for (let index = 0; index < 120; index += 1) simulation.tick();
+
+  const positions = new Map(particles.map((particle) => {
+    const halfWidth = particle.width / 2;
+    const halfHeight = particle.height / 2;
+    return [
+      particle.id,
+      {
+        x: Math.max(halfWidth + 8, Math.min(width - halfWidth - 8, particle.x)),
+        y: Math.max(halfHeight + 8, Math.min(height - halfHeight - 8, particle.y)),
+      },
+    ] as const;
+  }));
+
+  return edges.map((edge) => {
+    const position = positions.get(edge.id);
+    return position ? { ...edge, labelX: position.x, labelY: position.y } : edge;
+  });
 }
 
 function topologicalLayers(input: D3FlowLayoutInput): readonly (readonly string[])[] {
@@ -544,10 +666,21 @@ function networkEdgeGeometry(
   const edgeMidY = midpoint(y1, y2);
 
   if (layoutCenter) {
+    if (Math.abs(dy) < 1 && edgeMidY > layoutCenter.y) {
+      return {
+        x1,
+        y1,
+        x2,
+        y2,
+        labelX: edgeMidX,
+        labelY: Math.max(source.y + source.height / 2, target.y + target.height / 2) + 34,
+      };
+    }
+
     const outwardX = edgeMidX - layoutCenter.x;
     const outwardY = edgeMidY - layoutCenter.y;
     const outwardLength = Math.hypot(outwardX, outwardY) || 1;
-    const labelOffset = 30;
+    const labelOffset = 34;
     return {
       x1,
       y1,
@@ -689,7 +822,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         : verticalLayeredLayout(prepared, layers, hostWidth));
 
   const nodeById = new Map(geometry.nodes.map((node) => [node.id, node]));
-  const edges = input.edges.map((edge) => {
+  const rawEdges = input.edges.map((edge) => {
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
@@ -746,9 +879,20 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
+  const strategy: D3FlowLayoutStrategy = concentric
+    ? "concentric-network"
+    : triadic
+      ? "triadic-network"
+      : radial
+        ? "radial-network"
+        : input.diagramType === "network"
+          ? "grouped-network"
+          : "layered-flow";
+  const edges = resolveEdgeLabelCollisions(rawEdges, geometry.nodes, geometry.width, geometry.height, strategy);
+
   return {
     orientation,
-    strategy: concentric ? "concentric-network" : triadic ? "triadic-network" : radial ? "radial-network" : input.diagramType === "network" ? "grouped-network" : "layered-flow",
+    strategy,
     width: geometry.width,
     height: geometry.height,
     nodes: geometry.nodes,

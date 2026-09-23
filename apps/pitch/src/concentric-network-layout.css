@@ -72,10 +72,13 @@
   vector-effect: non-scaling-stroke;
 }
 
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index] .d3-flow-node-shape {
+  fill: var(--d3-ring-fill, color-mix(in srgb, var(--pcd-surface-strong) 94%, var(--pcd-surface)));
+  stroke: var(--d3-ring-stroke, var(--pcd-accent));
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-shape {
-  fill: color-mix(in srgb, var(--pcd-surface-strong) 97%, transparent);
-  stroke: color-mix(in srgb, var(--pcd-accent) 64%, var(--pcd-muted));
-  stroke-width: 2;
+  stroke-width: 2.5;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] {
@@ -96,6 +99,11 @@
   letter-spacing: -.015em;
 }
 
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index] .d3-flow-node-label {
+  fill: var(--d3-ring-text, var(--pcd-foreground));
+  stroke: var(--d3-ring-label-stroke, var(--pcd-surface-strong));
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
   font-size: 12.5px;
   font-weight: 900;
@@ -103,6 +111,7 @@
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-label {
   font-size: 10.5px;
+  font-weight: 900;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] .d3-flow-node-label {
@@ -132,14 +141,6 @@
   }
 }
 
-.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-shape {
-  fill: color-mix(in srgb, var(--pcd-accent) 76%, var(--pcd-surface-strong));
-}
-
-.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
-  fill: white;
-  stroke: color-mix(in srgb, var(--pcd-accent) 72%, black);
-}
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-shape {
   filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-foreground) 12%, transparent));
