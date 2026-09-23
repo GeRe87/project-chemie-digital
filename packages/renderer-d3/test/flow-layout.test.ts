@@ -71,6 +71,37 @@ test("long horizontal node labels wrap before colliding with card chrome", () =>
   assert.equal(processing.labelLines.join(""), "CUSTOM PROCESSING");
 });
 
+test("structured flow nodes separate title and body geometry without changing plain nodes", () => {
+  const structured = createD3FlowLayout({
+    diagramType: "flow",
+    nodes: [
+      {
+        id: "baseline",
+        label: "BASELINE CORRECTION",
+        description: "ProcessingStep\nIN · chromatogram\nPARAM · baseline window\nOUT · corrected chromatogram",
+      },
+      {
+        id: "detection",
+        label: "PEAK DETECTION",
+        description: "ProcessingStep\nIN · corrected chromatogram\nPARAM · detection threshold\nOUT · peak candidates",
+      },
+    ],
+    edges: [
+      { id: "next", sourceNodeId: "baseline", targetNodeId: "detection", label: "corrected chromatogram" },
+    ],
+  }, 1200);
+
+  const baseline = structured.nodes[0]!;
+  assert.deepEqual(baseline.labelLines, ["BASELINE CORRECTION"]);
+  assert.equal(baseline.bodyLines[0], "ProcessingStep\n");
+  assert.ok(baseline.bodyLines.some((line) => line.includes("PARAM")));
+  assert.ok(baseline.height >= 154);
+  assert.ok(baseline.width <= 298);
+
+  const plain = createD3FlowLayout(input, 1200);
+  assert.deepEqual(plain.nodes[0]!.bodyLines, []);
+});
+
 test("horizontal flow content is centered when the host is wider than its intrinsic graph", () => {
   const wide = createD3FlowLayout(input, 1600);
   const left = Math.min(...wide.nodes.map((node) => node.x - node.width / 2));

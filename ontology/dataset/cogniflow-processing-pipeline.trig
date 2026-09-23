@@ -30,8 +30,8 @@ compatible Ports connect reusable ProcessingSteps"""@en ;
     cd:authoredResource true .
 
   ex:node-cogniflow-step-baseline a cd:DiagramNode ;
-    skos:prefLabel """BASELINE CORRECTION
-ProcessingStep
+    skos:prefLabel "BASELINE CORRECTION"@en ;
+    cd:body """ProcessingStep
 IN · chromatogram
 PARAM · baseline window
 OUT · corrected chromatogram"""@en ;
@@ -39,8 +39,8 @@ OUT · corrected chromatogram"""@en ;
     cd:authoredResource true .
 
   ex:node-cogniflow-step-detection a cd:DiagramNode ;
-    skos:prefLabel """PEAK DETECTION
-ProcessingStep
+    skos:prefLabel "PEAK DETECTION"@en ;
+    cd:body """ProcessingStep
 IN · corrected chromatogram
 PARAM · detection threshold
 OUT · peak candidates"""@en ;
@@ -48,8 +48,8 @@ OUT · peak candidates"""@en ;
     cd:authoredResource true .
 
   ex:node-cogniflow-step-integration a cd:DiagramNode ;
-    skos:prefLabel """PEAK INTEGRATION
-ProcessingStep
+    skos:prefLabel "PEAK INTEGRATION"@en ;
+    cd:body """ProcessingStep
 IN · peak candidates
 PARAM · integration window
 OUT · integrated peaks"""@en ;
@@ -57,8 +57,8 @@ OUT · integrated peaks"""@en ;
     cd:authoredResource true .
 
   ex:node-cogniflow-step-grouping a cd:DiagramNode ;
-    skos:prefLabel """PEAK GROUPING
-ProcessingStep
+    skos:prefLabel "PEAK GROUPING"@en ;
+    cd:body """ProcessingStep
 IN · integrated peaks
 PARAM · RT tolerance
 OUT · grouped features"""@en ;

@@ -162,6 +162,29 @@ body[data-presentation-theme="dark"] .reveal {
 }
 
 .reveal .d3-flow-node-label { stroke-width: 3px; }
+.reveal .d3-flow-node-title {
+  fill: var(--pcd-foreground);
+  font-size: 20px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.reveal .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font-size: 14px;
+  font-weight: 650;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+.reveal .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 46%, var(--pcd-surface-strong));
+  stroke-width: 2;
+  pointer-events: none;
+}
 .reveal .d3-flow-edge-label,
 .reveal .d3-flow-shared-edge-annotation-label { stroke-width: 2px; }
 
@@ -477,6 +500,38 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   letter-spacing: -.05em;
   paint-order: stroke fill;
   filter: drop-shadow(1px 2px 0 var(--pcd-flow-pixel-highlight));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-title {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 48%, transparent);
+  stroke-width: 2.5px;
+  stroke-linejoin: miter;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 19px;
+  font-weight: 950;
+  letter-spacing: -.04em;
+  paint-order: stroke fill;
+  filter: drop-shadow(1px 2px 0 var(--pcd-flow-pixel-highlight));
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-body {
+  fill: var(--pcd-flow-pixel-text);
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-highlight) 30%, transparent);
+  stroke-width: 2px;
+  stroke-linejoin: miter;
+  font-family: var(--pcd-flow-pixel-font);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  paint-order: stroke fill;
+}
+
+body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-flow-pixel-ink-deep) 68%, var(--pcd-flow-pixel-highlight));
+  stroke-width: 3;
+  shape-rendering: crispEdges;
+  vector-effect: non-scaling-stroke;
 }
 
 /* Solid low-profile connectors preserve the cards as the primary visual weight. */

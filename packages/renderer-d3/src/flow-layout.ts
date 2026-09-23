@@ -4,6 +4,7 @@ export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
+  readonly description?: string;
   readonly groupIds?: readonly string[];
 }
 
@@ -31,6 +32,7 @@ export interface D3FlowLayoutNode {
   readonly width: number;
   readonly height: number;
   readonly labelLines: readonly string[];
+  readonly bodyLines: readonly string[];
 }
 
 export interface D3FlowLayoutEdge {
@@ -89,6 +91,7 @@ interface GraphemeSegmenterConstructor {
 interface PreparedNode extends D3FlowLayoutNodeInput {
   readonly inputIndex: number;
   readonly labelLines: readonly string[];
+  readonly bodyLines: readonly string[];
   readonly width: number;
   readonly height: number;
 }
@@ -101,6 +104,10 @@ const HORIZONTAL_LABEL_WIDTH = 178;
 const HORIZONTAL_NODE_MIN_WIDTH = 268;
 const HORIZONTAL_NODE_MAX_WIDTH = 326;
 const HORIZONTAL_NODE_CHROME = 132;
+const STRUCTURED_NODE_MIN_WIDTH = 252;
+const STRUCTURED_NODE_MAX_WIDTH = 298;
+const STRUCTURED_NODE_CHROME = 104;
+const FLOW_BODY_LINE_HEIGHT = 18;
 // Keep relationship callouts above the workflow rather than inside card bounds.
 const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
 const EDGE_LABEL_MAX_WIDTH = 130;
@@ -183,16 +190,44 @@ export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
   return hostWidth < FLOW_HORIZONTAL_BREAKPOINT ? "vertical" : "horizontal";
 }
 
-function nodeHeight(lines: readonly string[]): number {
-  return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + Math.max(lines.length, 1) * 24);
+function bodyTextMeasure(value: string): number {
+  return deterministicFlowTextMeasure(value) * 0.72;
 }
 
-function horizontalNodeWidth(lines: readonly string[]): number {
-  const longestLine = Math.max(0, ...lines.map((line) => deterministicFlowTextMeasure(line)));
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
+  if (bodyLines.length === 0) {
+    return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + Math.max(labelLines.length, 1) * 24);
+  }
+  const titleHeight = Math.max(labelLines.length, 1) * 22;
+  const bodyHeight = Math.max(bodyLines.length, 1) * FLOW_BODY_LINE_HEIGHT;
+  return Math.max(154, 62 + titleHeight + bodyHeight + 18);
+}
+
+function horizontalNodeWidth(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
+  const titleWidth = Math.max(0, ...labelLines.map((line) => deterministicFlowTextMeasure(line)));
+  if (bodyLines.length === 0) {
+    return Math.max(
+      HORIZONTAL_NODE_MIN_WIDTH,
+      Math.min(HORIZONTAL_NODE_MAX_WIDTH, titleWidth + HORIZONTAL_NODE_CHROME),
+    );
+  }
+  const bodyWidth = Math.max(0, ...bodyLines.map((line) => bodyTextMeasure(line)));
   return Math.max(
-    HORIZONTAL_NODE_MIN_WIDTH,
-    Math.min(HORIZONTAL_NODE_MAX_WIDTH, longestLine + HORIZONTAL_NODE_CHROME),
+    STRUCTURED_NODE_MIN_WIDTH,
+    Math.min(STRUCTURED_NODE_MAX_WIDTH, Math.max(titleWidth, bodyWidth) + STRUCTURED_NODE_CHROME),
   );
+}
+
+function structuredNodeText(
+  label: string,
+  description: string | undefined,
+  maxWidth: number,
+): { readonly labelLines: readonly string[]; readonly bodyLines: readonly string[] } {
+  const labelLines = wrapFlowText(label, maxWidth);
+  const bodyLines = description
+    ? wrapFlowText(description, maxWidth, bodyTextMeasure)
+    : [];
+  return { labelLines, bodyLines };
 }
 
 function midpoint(a: number, b: number): number {
@@ -435,6 +470,7 @@ function horizontalLayeredLayout(
         width: node.width,
         height: node.height,
         labelLines: node.labelLines,
+        bodyLines: node.bodyLines,
       });
       cursorY += node.height + rowGap;
     }
@@ -466,8 +502,19 @@ function verticalLayeredLayout(
     const nodeWidth = Math.max(180, Math.min(390, availableWidth / Math.max(1, layer.length)));
     const layerNodes = layer.map((id) => {
       const original = nodeById.get(id)!;
-      const labelLines = wrapFlowText(original.label, Math.max(120, nodeWidth - 64));
-      return { ...original, labelLines, width: nodeWidth, height: nodeHeight(labelLines) };
+      const contentWidth = Math.max(120, nodeWidth - 64);
+      const { labelLines, bodyLines } = structuredNodeText(
+        original.label,
+        original.description,
+        contentWidth,
+      );
+      return {
+        ...original,
+        labelLines,
+        bodyLines,
+        width: nodeWidth,
+        height: nodeHeight(labelLines, bodyLines),
+      };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
     const contentWidth = layerNodes.length * nodeWidth + Math.max(0, layerNodes.length - 1) * siblingGap;
@@ -480,6 +527,7 @@ function verticalLayeredLayout(
         width: nodeWidth,
         height: node.height,
         labelLines: node.labelLines,
+        bodyLines: node.bodyLines,
       });
       cursorX += nodeWidth + siblingGap;
     }
@@ -531,6 +579,7 @@ function groupedNetworkLayout(
         width: Math.min(networkNodeWidth, focusNode.width),
         height: focusNode.height,
         labelLines: focusNode.labelLines,
+        bodyLines: [],
       });
       cursorY += focusNode.height + NETWORK_CLUSTER_GAP;
     }
@@ -543,6 +592,7 @@ function groupedNetworkLayout(
           width: Math.min(networkNodeWidth, node.width),
           height: node.height,
           labelLines: node.labelLines,
+          bodyLines: [],
         });
         cursorY += node.height + NETWORK_CLUSTER_GAP;
       }
@@ -569,6 +619,7 @@ function groupedNetworkLayout(
       width: Math.min(240, focusNode.width),
       height: focusNode.height,
       labelLines: focusNode.labelLines,
+      bodyLines: [],
     });
   }
   for (const [index, [, bucket]] of clusteredBuckets.entries()) {
@@ -585,6 +636,7 @@ function groupedNetworkLayout(
         width: Math.min(networkNodeWidth, node.width),
         height: node.height,
         labelLines: node.labelLines,
+        bodyLines: [],
       });
     });
   }
@@ -637,6 +689,7 @@ function triadicNetworkLayout(
         width: nodeWidth,
         height: Math.max(64, 30 + labelLines.length * 21),
         labelLines,
+        bodyLines: [],
       };
     }),
   };
@@ -672,6 +725,7 @@ function compactRadialNetworkLayout(
       width: nodeWidth,
       height: Math.max(62, 28 + labelLines.length * 21),
       labelLines,
+      bodyLines: [],
     };
   });
   return { width, height, nodes };
@@ -961,6 +1015,7 @@ function concentricNetworkLayout(
     width: focusDiameter,
     height: focusDiameter,
     labelLines: focusLines,
+    bodyLines: [],
   });
 
   groups.forEach((group, groupIndex) => {
@@ -991,6 +1046,7 @@ function concentricNetworkLayout(
         width: diameter,
         height: diameter,
         labelLines,
+        bodyLines: [],
       };
     });
     layoutGroups.push({
@@ -1024,13 +1080,20 @@ function concentricNetworkLayout(
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const orientation = flowOrientationForWidth(hostWidth);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
-    const labelLines = wrapFlowText(node.label, HORIZONTAL_LABEL_WIDTH);
+    const description = input.diagramType === "network" ? undefined : node.description;
+    const { labelLines, bodyLines } = structuredNodeText(
+      node.label,
+      description,
+      HORIZONTAL_LABEL_WIDTH,
+    );
     return {
       ...node,
+      ...(description ? { description } : {}),
       inputIndex,
       labelLines,
-      width: horizontalNodeWidth(labelLines),
-      height: nodeHeight(labelLines),
+      bodyLines,
+      width: horizontalNodeWidth(labelLines, bodyLines),
+      height: nodeHeight(labelLines, bodyLines),
     };
   });
   const layers = topologicalLayers(input);

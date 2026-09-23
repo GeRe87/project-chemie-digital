@@ -697,3 +697,21 @@ Result:
 Processing and service presentation geometry no longer depends on CogniFlow scene ids, participant ids or CSS-made process connectors. The processing topology is semantic diagram data, while service participant sizing and tone assignment are generic renderer behavior.
 
 Next migration target: the Extension System, currently a six-item list whose architecture-board geometry and glyphs are encoded through CogniFlow-specific `:nth-child()` CSS.
+
+
+### Increment 7b — structured FlowDiagram node content
+
+Status: **implemented on this branch**
+
+Completed:
+
+- reused the existing canonical DiagramNode contract as structured content: `label` is the node title and optional `description` is the node body;
+- made FlowDiagram layout geometry body-aware while leaving NetworkDiagram descriptions non-visual;
+- added separate title/body wrapping, typography and a renderer-owned divider for structured flow cards;
+- kept plain FlowDiagram nodes backward-compatible with the existing single-label rendering path;
+- migrated the Processing Pipeline nodes from multiline `skos:prefLabel` blobs to concise titles plus authored `cd:body` content;
+- added regression coverage for title/body geometry and anti-hardcoding checks.
+
+Result:
+
+A FlowDiagram node can now carry a readable title and a lower-emphasis body without encoding visual hierarchy inside one label string. The capability is generic and can be reused by future workflow and architecture diagrams.

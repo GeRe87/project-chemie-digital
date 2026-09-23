@@ -161,3 +161,18 @@ test("processing and service scenes use canonical diagrams and generic shells", 
   assert.equal(theme.includes("ex:role-service-consumer"), false);
   assert.equal(theme.includes("data-participant-index"), true);
 });
+
+
+test("processing pipeline nodes author title and body separately", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-processing-pipeline.trig");
+  const renderer = source("../../../packages/renderer-d3/src/flow-diagram.ts");
+  const layout = source("../../../packages/renderer-d3/src/flow-layout.ts");
+
+  assert.equal(trig.includes('skos:prefLabel "BASELINE CORRECTION"@en'), true);
+  assert.equal(trig.includes('cd:body """ProcessingStep'), true);
+  assert.equal(trig.includes('skos:prefLabel """BASELINE CORRECTION'), false);
+  assert.equal(renderer.includes("d3-flow-node-title"), true);
+  assert.equal(renderer.includes("d3-flow-node-body"), true);
+  assert.equal(renderer.includes("d3-flow-node-title-divider"), true);
+  assert.equal(layout.includes("readonly bodyLines"), true);
+});

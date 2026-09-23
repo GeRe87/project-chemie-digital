@@ -476,20 +476,27 @@ function markerIdFor(model: D3FlowRenderModel, mountSequence: number, visualRole
   return `d3-flow-arrow${role}-${model.sourceBlockId.replace(/[^A-Za-z0-9_-]/gu, "_")}-${mountSequence}`;
 }
 
-function addTextLines(parent: SVGElement, lines: readonly string[], x: number, y: number, className: string): SVGTextElement {
+function addTextLines(
+  parent: SVGElement,
+  lines: readonly string[],
+  x: number,
+  y: number,
+  className: string,
+  lineHeight = 22,
+): SVGTextElement {
   const namespace = "http://www.w3.org/2000/svg";
   const xmlNamespace = "http://www.w3.org/XML/1998/namespace";
   const text = document.createElementNS(namespace, "text");
   text.setAttribute("class", className);
   text.setAttribute("x", String(x));
-  text.setAttribute("y", String(y - ((Math.max(lines.length, 1) - 1) * 11)));
+  text.setAttribute("y", String(y - ((Math.max(lines.length, 1) - 1) * lineHeight / 2)));
   text.setAttribute("text-anchor", "middle");
   text.setAttribute("fill", "currentColor");
   text.setAttributeNS(xmlNamespace, "xml:space", "preserve");
   lines.forEach((line, index) => {
     const tspan = document.createElementNS(namespace, "tspan");
     tspan.setAttribute("x", String(x));
-    tspan.setAttribute("dy", index === 0 ? "0" : "22");
+    tspan.setAttribute("dy", index === 0 ? "0" : String(lineHeight));
     tspan.textContent = line;
     text.append(tspan);
   });
@@ -993,7 +1000,37 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           } else {
             addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
             const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
-            addTextLines(group, layoutNode.labelLines, (-layoutNode.width / 2 + 18 + indexSegmentWidth + layoutNode.width / 2) / 2, 0, "d3-flow-node-label");
+            const contentLeft = -layoutNode.width / 2 + 18 + indexSegmentWidth + 18;
+            const contentRight = layoutNode.width / 2 - 18;
+            const contentX = (contentLeft + contentRight) / 2;
+            if (layoutNode.bodyLines.length > 0) {
+              group.setAttribute("data-structured-node", "true");
+              const titleLineHeight = 22;
+              const bodyLineHeight = 18;
+              const titleHeight = Math.max(layoutNode.labelLines.length, 1) * titleLineHeight;
+              const bodyHeight = Math.max(layoutNode.bodyLines.length, 1) * bodyLineHeight;
+              const dividerGap = 18;
+              const totalHeight = titleHeight + dividerGap + bodyHeight;
+              const top = -totalHeight / 2;
+              const titleY = top + titleHeight / 2;
+              const dividerY = top + titleHeight + dividerGap / 2;
+              const bodyY = top + titleHeight + dividerGap + bodyHeight / 2;
+
+              addTextLines(group, layoutNode.labelLines, contentX, titleY, "d3-flow-node-title", titleLineHeight);
+
+              const titleDivider = document.createElementNS(namespace, "line");
+              titleDivider.setAttribute("class", "d3-flow-node-title-divider");
+              titleDivider.setAttribute("x1", String(contentLeft));
+              titleDivider.setAttribute("x2", String(contentRight));
+              titleDivider.setAttribute("y1", String(dividerY));
+              titleDivider.setAttribute("y2", String(dividerY));
+              titleDivider.setAttribute("aria-hidden", "true");
+              group.append(titleDivider);
+
+              addTextLines(group, layoutNode.bodyLines, contentX, bodyY, "d3-flow-node-body", bodyLineHeight);
+            } else {
+              addTextLines(group, layoutNode.labelLines, contentX, 0, "d3-flow-node-label");
+            }
           }
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");
           nextNodeLayer.append(group);
