@@ -896,7 +896,21 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           const ringIndex = modelNode.groupIds
             ?.map((groupId) => model.groups.findIndex((candidate) => candidate.id === groupId))
             .find((index) => index >= 0);
-          if (layout.strategy === "concentric-network" && ringIndex !== undefined) group.setAttribute("data-ring-index", String(ringIndex));
+          if (layout.strategy === "concentric-network" && ringIndex !== undefined) {
+            group.setAttribute("data-ring-index", String(ringIndex));
+            const ringGroupId = model.groups[ringIndex]?.id;
+            const ringMembers = ringGroupId
+              ? model.nodes.filter((candidate) => candidate.groupIds?.includes(ringGroupId))
+              : [];
+            const ringOrder = ringMembers.findIndex((candidate) => candidate.id === modelNode.id);
+            if (ringOrder >= 0 && ringMembers.length > 0) {
+              const progress = ringMembers.length <= 1 ? 0.5 : ringOrder / (ringMembers.length - 1);
+              const hue = 300 - progress * 300;
+              group.setAttribute("data-ring-order", String(ringOrder));
+              group.setAttribute("data-ring-size", String(ringMembers.length));
+              group.style.setProperty("--d3-ring-hue", hue.toFixed(1));
+            }
+          }
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");

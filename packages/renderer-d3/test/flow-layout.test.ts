@@ -275,6 +275,14 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.ok(outer.every((node) => node.labelLines.length <= 2), "outer labels should not fragment into three or more lines");
   assert.ok(layout.groups[1]!.radius >= 300);
   assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
+  for (const group of layout.groups) {
+    const members = layout.nodes.filter((node) => group.memberNodeIds.includes(node.id));
+    const topMember = members.reduce((top, node) => node.y < top.y ? node : top, members[0]!);
+    assert.ok(
+      group.labelY < topMember.y - topMember.height / 2 - 12,
+      `${group.id} label clears the top member node`,
+    );
+  }
 });
 
 test("vertical flow labels avoid all node cards and each other", () => {

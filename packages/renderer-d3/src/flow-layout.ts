@@ -770,6 +770,24 @@ function concentricNetworkLayout(
   groups.forEach((group, groupIndex) => {
     const members = prepared.filter((node) => node.id !== focusNode.id && node.groupIds?.includes(group.id));
     const radius = groupRadius(groupIndex);
+    const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
+    const maximumNodeWidth = groupIndex === 0 ? 182 : 160;
+    const nodeWidth = Math.max(groupIndex === 0 ? 160 : 142, Math.min(maximumNodeWidth, arcAllowance * 0.84));
+    const memberLayouts = members.map((node, memberIndex): D3FlowLayoutNode => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
+      const labelLines = wrapFlowText(node.label, Math.max(78, nodeWidth - 12));
+      const nodeHeight = Math.max(groupIndex === 0 ? 76 : 58, 26 + labelLines.length * 17);
+      return {
+        id: node.id,
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius,
+        width: nodeWidth,
+        height: nodeHeight,
+        labelLines,
+      };
+    });
+    const maxMemberHeight = Math.max(0, ...memberLayouts.map((node) => node.height));
+    const labelClearance = Math.max(48, maxMemberHeight / 2 + 24);
     layoutGroups.push({
       id: group.id,
       label: group.label ?? group.id,
@@ -777,25 +795,10 @@ function concentricNetworkLayout(
       cy,
       radius,
       labelX: cx,
-      labelY: cy - radius - 34,
+      labelY: cy - radius - labelClearance,
       memberNodeIds: members.map((node) => node.id),
     });
-
-    const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const maximumNodeWidth = groupIndex === 0 ? 182 : 160;
-    const nodeWidth = Math.max(groupIndex === 0 ? 160 : 142, Math.min(maximumNodeWidth, arcAllowance * 0.84));
-    members.forEach((node, memberIndex) => {
-      const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
-      const labelLines = wrapFlowText(node.label, Math.max(78, nodeWidth - 12));
-      nodes.push({
-        id: node.id,
-        x: cx + Math.cos(angle) * radius,
-        y: cy + Math.sin(angle) * radius,
-        width: nodeWidth,
-        height: Math.max(groupIndex === 0 ? 76 : 58, 26 + labelLines.length * 17),
-        labelLines,
-      });
-    });
+    nodes.push(...memberLayouts);
   });
 
   return {
