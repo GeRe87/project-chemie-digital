@@ -607,16 +607,19 @@ function addEdgeLabel(
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
   group.append(panel);
 
-  if (strategy === "layered-flow") {
+  const edgeMidX = midpoint(edge.x1, edge.x2);
+  const edgeMidY = midpoint(edge.y1, edge.y2);
+  const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
+  if (strategy === "layered-flow" || displaced) {
     const stem = document.createElementNS(namespace, "line");
     stem.setAttribute("class", "d3-flow-edge-label-stem");
     stem.setAttribute("x1", String(edge.labelX));
-    stem.setAttribute("x2", String(edge.labelX));
-    stem.setAttribute("y1", String(edge.labelY + panelHeight / 2 - 2));
-    stem.setAttribute("y2", String(orientation === "horizontal" ? edge.y1 - 8 : edge.labelY + panelHeight / 2 + 14));
+    stem.setAttribute("y1", String(edge.labelY));
+    stem.setAttribute("x2", String(edgeMidX));
+    stem.setAttribute("y2", String(edgeMidY));
     stem.setAttribute("aria-hidden", "true");
     if (edge.visualRole) stem.setAttribute("data-visual-role", edge.visualRole);
-    group.append(stem);
+    group.insertBefore(stem, panel);
   }
 
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");

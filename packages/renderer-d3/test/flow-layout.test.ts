@@ -182,6 +182,21 @@ test("small ungrouped networks stay spatial inside a narrow presentation panel",
     const labelDistance = Math.hypot(edge.labelX - center.x, edge.labelY - center.y);
     assert.ok(labelDistance > midpointDistance, "relationship labels move away from the network center");
   }
+
+  const baseEdge = layout.edges.find((edge) => {
+    const source = byId.get(edge.sourceNodeId)!;
+    const target = byId.get(edge.targetNodeId)!;
+    return Math.abs(source.y - target.y) < 1;
+  })!;
+  const baseSource = byId.get(baseEdge.sourceNodeId)!;
+  const baseTarget = byId.get(baseEdge.targetNodeId)!;
+  assert.ok(
+    baseEdge.labelY > Math.max(
+      baseSource.y + baseSource.height / 2,
+      baseTarget.y + baseTarget.height / 2,
+    ),
+    "lower relationship label clears both endpoint nodes",
+  );
 });
 
 test("relation-free focused grouped networks use deterministic concentric rings", () => {
@@ -260,6 +275,39 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.ok(outer.every((node) => node.labelLines.length <= 2), "outer labels should not fragment into three or more lines");
   assert.ok(layout.groups[1]!.radius >= 300);
   assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
+});
+
+test("vertical flow labels avoid all node cards and each other", () => {
+  const layout = createD3FlowLayout({
+    nodes: [
+      { id: "core", label: "Core" },
+      { id: "concepts", label: "Concepts" },
+      { id: "specifications", label: "Specifications" },
+    ],
+    edges: [
+      { id: "core-concepts", sourceNodeId: "core", targetNodeId: "concepts", label: "vocabulary for" },
+      { id: "concepts-specs", sourceNodeId: "concepts", targetNodeId: "specifications", label: "used by" },
+    ],
+  }, 780);
+
+  assert.equal(layout.orientation, "vertical");
+  const rect = (edge: (typeof layout.edges)[number]) => ({
+    x: edge.labelX,
+    y: edge.labelY,
+    width: Math.max(48, ...edge.labelLines.map((line) => line.length * 11)) + 18,
+    height: Math.max(30, edge.labelLines.length * 22 + 12),
+  });
+  const hit = (a: {x:number;y:number;width:number;height:number}, b: {x:number;y:number;width:number;height:number}) =>
+    Math.abs(a.x - b.x) < (a.width + b.width) / 2 + 6
+    && Math.abs(a.y - b.y) < (a.height + b.height) / 2 + 6;
+
+  for (const edge of layout.edges) {
+    const label = rect(edge);
+    for (const node of layout.nodes) {
+      assert.equal(hit(label, node), false, `${edge.id} label must not overlap ${node.id}`);
+    }
+  }
+  assert.equal(hit(rect(layout.edges[0]!), rect(layout.edges[1]!)), false, "edge labels must not overlap each other");
 });
 
 test("wrapFlowText preserves all authored characters", () => {

@@ -194,6 +194,156 @@ function midpoint(a: number, b: number): number {
   return a + (b - a) / 2;
 }
 
+interface LayoutRect {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+}
+
+function edgeLabelRect(edge: D3FlowLayoutEdge): LayoutRect {
+  const lineCount = Math.max(edge.labelLines.length, 1);
+  const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
+  const compact = textWidth <= 130;
+  return {
+    x: edge.labelX,
+    y: edge.labelY,
+    width: textWidth + (compact ? 18 : 26),
+    height: Math.max(compact ? 30 : EDGE_LABEL_MIN_HEIGHT, lineCount * EDGE_LABEL_LINE_HEIGHT + EDGE_LABEL_VERTICAL_PADDING),
+  };
+}
+
+function overlaps(left: LayoutRect, right: LayoutRect, padding = 0): boolean {
+  return Math.abs(left.x - right.x) < (left.width + right.width) / 2 + padding
+    && Math.abs(left.y - right.y) < (left.height + right.height) / 2 + padding;
+}
+
+function insideLayout(rect: LayoutRect, width: number, height: number, margin = 8): boolean {
+  return rect.x - rect.width / 2 >= margin
+    && rect.x + rect.width / 2 <= width - margin
+    && rect.y - rect.height / 2 >= margin
+    && rect.y + rect.height / 2 <= height - margin;
+}
+
+function translatedEdge(edge: D3FlowLayoutEdge, x: number, y: number): D3FlowLayoutEdge {
+  return { ...edge, labelX: x, labelY: y };
+}
+
+function candidateEdgeLabelPositions(
+  edge: D3FlowLayoutEdge,
+  source: D3FlowLayoutNode,
+  target: D3FlowLayoutNode,
+  strategy: D3FlowLayoutStrategy,
+  orientation: D3FlowOrientation,
+  layoutWidth: number,
+): readonly { readonly x: number; readonly y: number }[] {
+  const panel = edgeLabelRect(edge);
+  const edgeMidX = midpoint(edge.x1, edge.x2);
+  const edgeMidY = midpoint(edge.y1, edge.y2);
+  const candidates: Array<{ x: number; y: number }> = [];
+
+  if (strategy === "triadic-network" && Math.abs(source.y - target.y) < 1) {
+    const below = Math.max(
+      source.y + source.height / 2,
+      target.y + target.height / 2,
+    ) + panel.height / 2 + 18;
+    candidates.push({ x: edgeMidX, y: below });
+    candidates.push({ x: edgeMidX, y: below + 24 });
+  }
+
+  if (strategy === "layered-flow" && orientation === "vertical") {
+    const right = Math.max(
+      source.x + source.width / 2,
+      target.x + target.width / 2,
+    ) + panel.width / 2 + 22;
+    const left = Math.min(
+      source.x - source.width / 2,
+      target.x - target.width / 2,
+    ) - panel.width / 2 - 22;
+    const preferRight = right + panel.width / 2 <= layoutWidth - 8;
+    if (preferRight) {
+      candidates.push({ x: right, y: edgeMidY });
+      candidates.push({ x: left, y: edgeMidY });
+    } else {
+      candidates.push({ x: left, y: edgeMidY });
+      candidates.push({ x: right, y: edgeMidY });
+    }
+  }
+
+  if (strategy === "layered-flow" && orientation === "horizontal") {
+    const above = Math.min(
+      source.y - source.height / 2,
+      target.y - target.height / 2,
+    ) - panel.height / 2 - 18;
+    const below = Math.max(
+      source.y + source.height / 2,
+      target.y + target.height / 2,
+    ) + panel.height / 2 + 18;
+    candidates.push({ x: edgeMidX, y: above });
+    candidates.push({ x: edgeMidX, y: below });
+  }
+
+  candidates.push({ x: edge.labelX, y: edge.labelY });
+
+  const step = 24;
+  for (let ring = 1; ring <= 8; ring += 1) {
+    if (orientation === "vertical") {
+      candidates.push({ x: edge.labelX + ring * step, y: edge.labelY });
+      candidates.push({ x: edge.labelX - ring * step, y: edge.labelY });
+      candidates.push({ x: edge.labelX + ring * step, y: edge.labelY + ring * 8 });
+      candidates.push({ x: edge.labelX - ring * step, y: edge.labelY - ring * 8 });
+    } else {
+      candidates.push({ x: edge.labelX, y: edge.labelY - ring * step });
+      candidates.push({ x: edge.labelX, y: edge.labelY + ring * step });
+      candidates.push({ x: edge.labelX + ring * 8, y: edge.labelY - ring * step });
+      candidates.push({ x: edge.labelX - ring * 8, y: edge.labelY + ring * step });
+    }
+  }
+  return candidates;
+}
+
+function resolveEdgeLabelCollisions(
+  edges: readonly D3FlowLayoutEdge[],
+  nodes: readonly D3FlowLayoutNode[],
+  width: number,
+  height: number,
+  strategy: D3FlowLayoutStrategy,
+  orientation: D3FlowOrientation,
+): readonly D3FlowLayoutEdge[] {
+  const placedLabelRects: LayoutRect[] = [];
+  const nodeRects: LayoutRect[] = nodes.map((node) => ({
+    x: node.x,
+    y: node.y,
+    width: node.width,
+    height: node.height,
+  }));
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+
+  return edges.map((edge) => {
+    const source = nodeById.get(edge.sourceNodeId);
+    const target = nodeById.get(edge.targetNodeId);
+    if (!source || !target) return edge;
+
+    const candidates = candidateEdgeLabelPositions(edge, source, target, strategy, orientation, width);
+    let chosen = edge;
+    let chosenRect = edgeLabelRect(edge);
+
+    for (const candidate of candidates) {
+      const translated = translatedEdge(edge, candidate.x, candidate.y);
+      const rect = edgeLabelRect(translated);
+      if (!insideLayout(rect, width, height)) continue;
+      if (nodeRects.some((node) => overlaps(rect, node, 10))) continue;
+      if (placedLabelRects.some((label) => overlaps(rect, label, 8))) continue;
+      chosen = translated;
+      chosenRect = rect;
+      break;
+    }
+
+    placedLabelRects.push(chosenRect);
+    return chosen;
+  });
+}
+
 function topologicalLayers(input: D3FlowLayoutInput): readonly (readonly string[])[] {
   const ids = new Set(input.nodes.map((node) => node.id));
   const indegree = new Map(input.nodes.map((node) => [node.id, 0]));
@@ -689,7 +839,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         : verticalLayeredLayout(prepared, layers, hostWidth));
 
   const nodeById = new Map(geometry.nodes.map((node) => [node.id, node]));
-  const edges = input.edges.map((edge) => {
+  const rawEdges = input.edges.map((edge) => {
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
@@ -746,9 +896,27 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
+  const strategy: D3FlowLayoutStrategy = concentric
+    ? "concentric-network"
+    : triadic
+      ? "triadic-network"
+      : radial
+        ? "radial-network"
+        : input.diagramType === "network"
+          ? "grouped-network"
+          : "layered-flow";
+  const edges = resolveEdgeLabelCollisions(
+    rawEdges,
+    geometry.nodes,
+    geometry.width,
+    geometry.height,
+    strategy,
+    orientation,
+  );
+
   return {
     orientation,
-    strategy: concentric ? "concentric-network" : triadic ? "triadic-network" : radial ? "radial-network" : input.diagramType === "network" ? "grouped-network" : "layered-flow",
+    strategy,
     width: geometry.width,
     height: geometry.height,
     nodes: geometry.nodes,
