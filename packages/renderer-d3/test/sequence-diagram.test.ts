@@ -93,6 +93,7 @@ test("generic Client Registry Runtime Consumer sequence preserves substitutions 
   assert.deepEqual(result.model.states[0]?.participantBindings?.map((binding) => binding.label), ["Template", "Web UI"]);
   assert.deepEqual(createD3SequenceLayout(result.model, 960), wide);
   assert.ok(wide.lanes.every((lane, index) => index === 0 || lane.x > wide.lanes[index - 1]!.x));
+  assert.ok(wide.lanes.every((lane) => lane.x - lane.cardWidth / 2 >= 0 && lane.x + lane.cardWidth / 2 <= wide.width));
   assert.ok(wide.messages.every((message, index) => index === 0 || message.y > wide.messages[index - 1]!.y));
   assert.ok(narrow.lanes.every((lane, index) => index === 0 || lane.y > narrow.lanes[index - 1]!.y));
   assert.ok(narrow.messages.every((message) => message.y >= 24 && message.y <= narrow.height));
@@ -166,10 +167,7 @@ test("compact sequence layout routes messages orthogonally outside participant c
   if (!result.model) return;
   const compact = createD3SequenceLayout(result.model, 480);
   const laneById = new Map(compact.lanes.map((lane) => [lane.roleId, lane]));
-  const cardWidth = 120;
-  const cardHeight = 32;
-  const cardColumnLeft = compact.width / 2 - cardWidth / 2;
-  const cardColumnRight = compact.width / 2 + cardWidth / 2;
+  const cardHeight = 36;
   const rightGutter = compact.width - 24;
   const leftGutter = 24;
 

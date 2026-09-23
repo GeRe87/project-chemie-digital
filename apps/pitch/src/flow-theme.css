@@ -579,3 +579,25 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="high
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 14px; }
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 11px; }
 }
+
+
+/* Eco-city sequence tones remain structural: participant order, never role identity. */
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-participant-index="0"] { fill: #b9e4ff; stroke: #176da0; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="0"] { fill: #07364e; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="0"] { stroke: #176da0; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="0"] .d3-sequence-message-line { stroke: #176da0; color: #176da0; }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-participant-index="1"] { fill: #bfe9e7; stroke: #168e9c; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="1"] { fill: #063d47; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="1"] { stroke: #168e9c; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="1"] .d3-sequence-message-line { stroke: #168e9c; color: #168e9c; }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-participant-index="2"] { fill: #ffd28f; stroke: #c96a12; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="2"] { fill: #522800; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="2"] { stroke: #c96a12; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="2"] .d3-sequence-message-line { stroke: #c96a12; color: #c96a12; }
+
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-participant-index="3"] { fill: #d5c5f4; stroke: #7046ad; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="3"] { fill: #3b2164; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="3"] { stroke: #7046ad; }
+body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="3"] .d3-sequence-message-line { stroke: #7046ad; color: #7046ad; }

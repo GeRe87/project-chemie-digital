@@ -30,9 +30,12 @@ function sequenceRoleCardWidth(model: D3SequenceRenderModel, roleId: string, lab
 /** Geometry is derived only from ordered roles/messages and the host width. */
 export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: number): D3SequenceLayout {
   const width = Math.max(320, hostWidth);
-  const compact = width < 720;
-  const margin = 42;
   const roleCount = model.participantRoles.length;
+  const wideCardWidths = model.participantRoles.map((role) => sequenceRoleCardWidth(model, role.id, role.label, false));
+  const requiredWideWidth = wideCardWidths.reduce((sum, cardWidth) => sum + cardWidth, 0)
+    + Math.max(0, roleCount - 1) * 36
+    + 84;
+  const compact = width < Math.max(720, requiredWideWidth);
 
   if (compact) {
     const cardHeight = 36;
@@ -97,13 +100,15 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
     return { width, height, compact, lanes, messages };
   }
 
+  const maximumCardWidth = Math.max(...wideCardWidths, 144);
+  const margin = Math.max(42, maximumCardWidth / 2 + 24);
   const laneSpan = roleCount > 1 ? (width - margin * 2) / (roleCount - 1) : 0;
   const lanes = model.participantRoles.map((role, index) => ({
     roleId: role.id,
     label: role.label,
     x: margin + index * laneSpan,
     y: 30,
-    cardWidth: sequenceRoleCardWidth(model, role.id, role.label, false),
+    cardWidth: wideCardWidths[index] ?? 144,
     cardHeight: 36,
     toneIndex: index,
   }));
