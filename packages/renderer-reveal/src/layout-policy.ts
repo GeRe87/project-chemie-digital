@@ -9,7 +9,8 @@ export type RevealLayoutFamily =
   | "analysis-result"
   | "card-sequence"
   | "text-network-progression"
-  | "concentric-network";
+  | "concentric-network"
+  | "process-diagram";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -183,6 +184,29 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     ) {
       return {
         family: "hierarchy-flow",
+        slots: ["heading", "intro", "diagram", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, intro, diagram, takeaway] = blocks;
+    const processDiagram = diagram?.kind === "diagram"
+      && (
+        diagram.diagramType === "sequence"
+        || (diagram.diagramType === "flow" && isLinearFlow(diagram, 4))
+      );
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && processDiagram
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "process-diagram",
         slots: ["heading", "intro", "diagram", "takeaway"],
       };
     }

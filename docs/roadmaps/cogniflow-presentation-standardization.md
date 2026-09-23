@@ -675,3 +675,25 @@ The migration is complete when a clean checkout can:
 8. pass the same platform tests used by other presentations.
 
 At that point CogniFlow is no longer a special presentation implementation. It is a comprehensive integration fixture demonstrating the reusable Project Chemie Digital presentation standard.
+
+
+### Increment 7a — generic process and service diagrams
+
+Status: **implemented on this branch**
+
+Completed:
+
+- migrated the Processing Pipeline from a CSS-connected KeyPoint list to a canonical four-node `FlowDiagram` with explicit data-transfer edges;
+- added generic `process-diagram` Reveal layout inference for heading + explanatory statement + longer linear FlowDiagram or SequenceDiagram + takeaway;
+- moved the Processing Pipeline and Service Process presentation shells onto the shared `process-diagram` layout;
+- removed their CogniFlow-specific stylesheet imports;
+- generalized SequenceDiagram participant width from authored/bound label length instead of role-id-specific scaling;
+- added renderer-owned deterministic participant tones by participant order rather than concrete service role ids;
+- updated compact sequence routing to attach to the actual dynamic participant-card bounds;
+- extended opaque-id layout and renderer regression tests plus CogniFlow anti-hardcoding guardrails.
+
+Result:
+
+Processing and service presentation geometry no longer depends on CogniFlow scene ids, participant ids or CSS-made process connectors. The processing topology is semantic diagram data, while service participant sizing and tone assignment are generic renderer behavior.
+
+Next migration target: the Extension System, currently a six-item list whose architecture-board geometry and glyphs are encoded through CogniFlow-specific `:nth-child()` CSS.

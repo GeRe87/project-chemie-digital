@@ -100,13 +100,34 @@ test("generic Client Registry Runtime Consumer sequence preserves substitutions 
   assert.match(sequenceLayoutDataAttributes(narrow).join(" "), /mode:compact/);
 });
 
+test("participant cards derive width from the longest authored or bound label", () => {
+  const longFixture: DiagramBlock = {
+    ...fixture,
+    participantRoles: [
+      { id: "short", label: "A", source },
+      { id: "gateway", label: "Semantic Gateway", source },
+    ],
+    messages: [{ id: "call", sourceRoleId: "short", targetRoleId: "gateway", label: "call", source }],
+    states: [{ id: "bound-long", label: "Bound", source, sharedEdgeAnnotations: [], activeMessageIds: ["call"], participantBindings: [
+      { roleId: "short", participantId: "implementation", label: "Long Bound Implementation", source },
+    ] }],
+  };
+  const result = createD3SequenceRenderModel(longFixture, { reducedMotion: true, interactionPolicy: "static" });
+  assert.ok(result.model);
+  if (!result.model) return;
+  const wide = createD3SequenceLayout(result.model, 960);
+  assert.ok(wide.lanes.find((lane) => lane.roleId === "short")!.cardWidth > 144);
+  assert.ok(wide.lanes.find((lane) => lane.roleId === "gateway")!.cardWidth > 144);
+  assert.deepEqual(wide.lanes.map((lane) => lane.toneIndex), [0, 1]);
+});
+
 test("compact sequence layout stacks participants vertically without overlap", () => {
   const result = createD3SequenceRenderModel(fixture, { reducedMotion: true, interactionPolicy: "static" });
   assert.ok(result.model);
   if (!result.model) return;
   const compact = createD3SequenceLayout(result.model, 480);
   assert.equal(compact.compact, true);
-  const cardHeight = 32;
+  const cardHeight = 36;
   for (let index = 0; index < compact.lanes.length; index += 1) {
     const lane = compact.lanes[index]!;
     assert.equal(lane.x, 240);
@@ -163,18 +184,18 @@ test("compact sequence layout routes messages orthogonally outside participant c
     const sourceIndex = compact.lanes.indexOf(source);
     const targetIndex = compact.lanes.indexOf(target);
     if (sourceIndex < targetIndex) {
-      assert.equal(start.x, cardColumnRight, `forward ${message.id} must start at the source right edge`);
-      assert.equal(end.x, cardColumnRight, `forward ${message.id} must end at the target right edge`);
+      assert.equal(start.x, source.x + source.cardWidth / 2, `forward ${message.id} must start at the source right edge`);
+      assert.equal(end.x, target.x + target.cardWidth / 2, `forward ${message.id} must end at the target right edge`);
       assert.equal(end.y, target.y);
       assert.ok(message.path.slice(1, -1).every((point) => point.x === rightGutter), `forward ${message.id} must use the right gutter`);
     } else if (sourceIndex > targetIndex) {
-      assert.equal(start.x, cardColumnLeft, `reverse ${message.id} must start at the source left edge`);
-      assert.equal(end.x, cardColumnLeft, `reverse ${message.id} must end at the target left edge`);
+      assert.equal(start.x, source.x - source.cardWidth / 2, `reverse ${message.id} must start at the source left edge`);
+      assert.equal(end.x, target.x - target.cardWidth / 2, `reverse ${message.id} must end at the target left edge`);
       assert.equal(end.y, target.y);
       assert.ok(message.path.slice(1, -1).every((point) => point.x === leftGutter), `reverse ${message.id} must use the left gutter`);
     } else {
-      assert.equal(start.x, cardColumnRight, `self ${message.id} must attach at the participant right edge`);
-      assert.equal(end.x, cardColumnRight, `self ${message.id} terminal arrow must attach beside the participant`);
+      assert.equal(start.x, source.x + source.cardWidth / 2, `self ${message.id} must attach at the participant right edge`);
+      assert.equal(end.x, source.x + source.cardWidth / 2, `self ${message.id} terminal arrow must attach beside the participant`);
       assert.ok(end.y > source.y + cardHeight / 2, `self ${message.id} terminal arrow must remain below the participant card`);
     }
 
@@ -188,7 +209,7 @@ test("compact sequence layout routes messages orthogonally outside participant c
     }
 
     for (const lane of compact.lanes) {
-      const rect = cardBounds(lane, cardWidth, cardHeight);
+      const rect = cardBounds(lane, lane.cardWidth, lane.cardHeight);
       for (let index = 1; index < message.path.length; index += 1) {
         const previous = message.path[index - 1]!;
         const current = message.path[index]!;

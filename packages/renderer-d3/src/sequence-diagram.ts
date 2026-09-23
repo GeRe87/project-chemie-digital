@@ -1,7 +1,7 @@
 import type { DiagramBlock } from "../../core/src/scene-document.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 
-export interface D3SequenceLane { readonly roleId: string; readonly label: string; readonly x: number; readonly y: number; }
+export interface D3SequenceLane { readonly roleId: string; readonly label: string; readonly x: number; readonly y: number; readonly cardWidth: number; readonly cardHeight: number; readonly toneIndex: number; }
 export interface D3SequencePathPoint { readonly x: number; readonly y: number; }
 export interface D3SequenceMessage { readonly id: string; readonly label: string; readonly sourceRoleId: string; readonly targetRoleId: string; readonly y: number; readonly sourceX: number; readonly targetX: number; readonly path: readonly D3SequencePathPoint[]; }
 export interface D3SequenceLayout { readonly width: number; readonly height: number; readonly compact: boolean; readonly lanes: readonly D3SequenceLane[]; readonly messages: readonly D3SequenceMessage[]; }
@@ -11,6 +11,22 @@ export interface D3SequenceRuntimeMount { update(layout: D3SequenceLayout, state
 export interface D3SequenceRuntimePort { measureHost(host: unknown): number; mount(host: unknown, model: D3SequenceRenderModel, layout: D3SequenceLayout, stateId?: string): D3SequenceRuntimeMount; observeResize?(host: unknown, callback: (width: number) => void): () => void; }
 export interface D3SequenceComponent { readonly model: D3SequenceRenderModel; readonly layout: D3SequenceLayout; readonly staticFallback: string; readonly activeStateId?: string; setActiveState(stateId?: string): void; handleKey(key: string): boolean; resize(width?: number): D3SequenceLayout; destroy(): void; }
 
+function sequenceLabelWidth(value: string): number {
+  return Array.from(value).reduce((width, character) => width + (/[MW@#%]/u.test(character) ? 11 : /[ilI1 .,:;]/u.test(character) ? 5.5 : 8.5), 0);
+}
+
+function sequenceRoleCardWidth(model: D3SequenceRenderModel, roleId: string, label: string, compact: boolean): number {
+  const labels = [
+    label,
+    ...model.states.flatMap((state) =>
+      (state.participantBindings ?? [])
+        .filter((binding) => binding.roleId === roleId)
+        .map((binding) => binding.label)),
+  ];
+  const measured = Math.max(...labels.map(sequenceLabelWidth), 0) + (compact ? 30 : 38);
+  return Math.max(compact ? 120 : 144, Math.min(compact ? 176 : 210, measured));
+}
+
 /** Geometry is derived only from ordered roles/messages and the host width. */
 export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: number): D3SequenceLayout {
   const width = Math.max(320, hostWidth);
@@ -19,9 +35,8 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
   const roleCount = model.participantRoles.length;
 
   if (compact) {
-    const cardHeight = 32;
-    const cardWidth = 120;
-    const spacing = 80;
+    const cardHeight = 36;
+    const spacing = 84;
     const laneX = width / 2;
     const rightGutter = width - 24;
     const leftGutter = 24;
@@ -30,6 +45,9 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
       label: role.label,
       x: laneX,
       y: 8 + index * spacing + cardHeight / 2,
+      cardWidth: sequenceRoleCardWidth(model, role.id, role.label, true),
+      cardHeight,
+      toneIndex: index,
     }));
     const laneById = new Map(lanes.map((lane) => [lane.roleId, lane]));
     const roleOrder = new Map(model.participantRoles.map((role, index) => [role.id, index]));
@@ -39,8 +57,10 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
       const sourceIndex = roleOrder.get(message.sourceRoleId) ?? 0;
       const targetIndex = roleOrder.get(message.targetRoleId) ?? 0;
       const samePairEarlier = model.messages.slice(0, index).filter((m) => m.sourceRoleId === message.sourceRoleId && m.targetRoleId === message.targetRoleId).length;
-      const cardLeft = laneX - cardWidth / 2;
-      const cardRight = laneX + cardWidth / 2;
+      const sourceCardLeft = laneX - sourceLane.cardWidth / 2;
+      const sourceCardRight = laneX + sourceLane.cardWidth / 2;
+      const targetCardLeft = laneX - targetLane.cardWidth / 2;
+      const targetCardRight = laneX + targetLane.cardWidth / 2;
       const forward = sourceIndex <= targetIndex;
       const gutterX = forward ? rightGutter : leftGutter;
       let path: D3SequencePathPoint[];
@@ -49,19 +69,20 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
         y = sourceLane.y + cardHeight / 2 + 14 + samePairEarlier * 14;
         const loopOut = 28 + samePairEarlier * 10;
         path = [
-          { x: cardRight, y: sourceLane.y },
-          { x: cardRight + loopOut, y: sourceLane.y },
-          { x: cardRight + loopOut, y },
-          { x: cardRight, y },
+          { x: sourceCardRight, y: sourceLane.y },
+          { x: sourceCardRight + loopOut, y: sourceLane.y },
+          { x: sourceCardRight + loopOut, y },
+          { x: sourceCardRight, y },
         ];
       } else {
         y = (sourceLane.y + targetLane.y) / 2 + samePairEarlier * 14;
-        const anchorX = forward ? cardRight : cardLeft;
+        const sourceAnchorX = forward ? sourceCardRight : sourceCardLeft;
+        const targetAnchorX = forward ? targetCardRight : targetCardLeft;
         path = [
-          { x: anchorX, y: sourceLane.y },
+          { x: sourceAnchorX, y: sourceLane.y },
           { x: gutterX, y: sourceLane.y },
           { x: gutterX, y: targetLane.y },
-          { x: anchorX, y: targetLane.y },
+          { x: targetAnchorX, y: targetLane.y },
         ];
       }
       return {
@@ -82,6 +103,9 @@ export function createD3SequenceLayout(model: D3SequenceRenderModel, hostWidth: 
     label: role.label,
     x: margin + index * laneSpan,
     y: 30,
+    cardWidth: sequenceRoleCardWidth(model, role.id, role.label, false),
+    cardHeight: 36,
+    toneIndex: index,
   }));
   const messages = model.messages.map((message, index) => {
     const sourceX = lanes.find((lane) => lane.roleId === message.sourceRoleId)!.x;
@@ -186,26 +210,29 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
             const card = document.createElementNS(namespace, "rect");
             card.setAttribute("class", "d3-sequence-participant-card");
             card.setAttribute("data-role-id", lane.roleId);
-            card.setAttribute("x", String(lane.x - 60));
-            card.setAttribute("y", String(lane.y - 16));
-            card.setAttribute("width", "120");
-            card.setAttribute("height", "32");
+            card.setAttribute("data-participant-index", String(lane.toneIndex));
+            card.setAttribute("x", String(lane.x - lane.cardWidth / 2));
+            card.setAttribute("y", String(lane.y - lane.cardHeight / 2));
+            card.setAttribute("width", String(lane.cardWidth));
+            card.setAttribute("height", String(lane.cardHeight));
             card.setAttribute("rx", "4");
             svg.append(card);
           } else {
             const card = document.createElementNS(namespace, "rect");
             card.setAttribute("class", "d3-sequence-participant-card");
             card.setAttribute("data-role-id", lane.roleId);
-            card.setAttribute("x", String(lane.x - 72));
-            card.setAttribute("y", "8");
-            card.setAttribute("width", "144");
-            card.setAttribute("height", "32");
+            card.setAttribute("data-participant-index", String(lane.toneIndex));
+            card.setAttribute("x", String(lane.x - lane.cardWidth / 2));
+            card.setAttribute("y", String(lane.y - lane.cardHeight / 2));
+            card.setAttribute("width", String(lane.cardWidth));
+            card.setAttribute("height", String(lane.cardHeight));
             card.setAttribute("rx", "4");
             svg.append(card);
           }
           const label = document.createElementNS(namespace, "text");
           label.setAttribute("class", "d3-sequence-participant");
           label.setAttribute("data-role-id", lane.roleId);
+          label.setAttribute("data-participant-index", String(lane.toneIndex));
           label.setAttribute("x", String(lane.x));
           label.setAttribute("y", String(layout.compact ? lane.y : 30));
           label.setAttribute("text-anchor", "middle");
@@ -215,6 +242,7 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
             const lifeline = document.createElementNS(namespace, "line");
             lifeline.setAttribute("class", "d3-sequence-lifeline");
             lifeline.setAttribute("data-role-id", lane.roleId);
+            lifeline.setAttribute("data-participant-index", String(lane.toneIndex));
             lifeline.setAttribute("x1", String(lane.x));
             lifeline.setAttribute("x2", String(lane.x));
             lifeline.setAttribute("y1", "42");
@@ -231,6 +259,7 @@ export function createSvgD3SequenceRuntime(): D3SequenceRuntimePort {
           group.setAttribute("data-message-id", message.id);
           group.setAttribute("data-source-role-id", message.sourceRoleId);
           group.setAttribute("data-target-role-id", message.targetRoleId);
+          group.setAttribute("data-source-participant-index", String(source.toneIndex));
           const path = document.createElementNS(namespace, "path");
           path.setAttribute("class", "d3-sequence-message-line");
           path.setAttribute("d", pathCommands(message.path));

@@ -200,6 +200,35 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-message,
 .reveal .d3-sequence-svg:not([data-reduced-motion="true"]) .d3-sequence-participant { transition: opacity var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
 
+/* Deterministic participant tones are renderer-owned presentation decoration. */
+.reveal .d3-sequence-participant-card[data-participant-index="0"] { fill: #b9e4ff; stroke: #176da0; }
+.reveal .d3-sequence-participant[data-participant-index="0"] { fill: #07364e; }
+.reveal .d3-sequence-lifeline[data-participant-index="0"] { stroke: #176da0; }
+.reveal .d3-sequence-message[data-source-participant-index="0"] .d3-sequence-message-line { stroke: #176da0; color: #176da0; }
+
+.reveal .d3-sequence-participant-card[data-participant-index="1"] { fill: #bfe9e7; stroke: #168e9c; }
+.reveal .d3-sequence-participant[data-participant-index="1"] { fill: #063d47; }
+.reveal .d3-sequence-lifeline[data-participant-index="1"] { stroke: #168e9c; }
+.reveal .d3-sequence-message[data-source-participant-index="1"] .d3-sequence-message-line { stroke: #168e9c; color: #168e9c; }
+
+.reveal .d3-sequence-participant-card[data-participant-index="2"] { fill: #ffd28f; stroke: #c96a12; }
+.reveal .d3-sequence-participant[data-participant-index="2"] { fill: #522800; }
+.reveal .d3-sequence-lifeline[data-participant-index="2"] { stroke: #c96a12; }
+.reveal .d3-sequence-message[data-source-participant-index="2"] .d3-sequence-message-line { stroke: #c96a12; color: #c96a12; }
+
+.reveal .d3-sequence-participant-card[data-participant-index="3"] { fill: #d5c5f4; stroke: #7046ad; }
+.reveal .d3-sequence-participant[data-participant-index="3"] { fill: #3b2164; }
+.reveal .d3-sequence-lifeline[data-participant-index="3"] { stroke: #7046ad; }
+.reveal .d3-sequence-message[data-source-participant-index="3"] .d3-sequence-message-line { stroke: #7046ad; color: #7046ad; }
+
+.reveal .d3-sequence-participant-card[data-participant-index="4"] { fill: #cbeab7; stroke: #4f8a45; }
+.reveal .d3-sequence-participant[data-participant-index="4"] { fill: #244c26; }
+.reveal .d3-sequence-lifeline[data-participant-index="4"] { stroke: #4f8a45; }
+
+.reveal .d3-sequence-participant-card[data-participant-index="5"] { fill: #f4cbd2; stroke: #a63c4d; }
+.reveal .d3-sequence-participant[data-participant-index="5"] { fill: #5d1f2b; }
+.reveal .d3-sequence-lifeline[data-participant-index="5"] { stroke: #a63c4d; }
+
 /* Semantic roles remain portable across diagram families and presentation themes. */
 body[data-diagram-theme][data-presentation-theme] .reveal .d3-flow-node[data-visual-role="comparison"] .d3-flow-node-shape {
   fill: var(--pcd-flow-role-comparison-fill);

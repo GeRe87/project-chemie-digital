@@ -17,52 +17,73 @@
 compatible Ports connect reusable ProcessingSteps"""@en ;
     cd:authoredResource true .
 
-  ex:cogniflow-processing-pipeline-steps a cd:Interpretation ;
-    cd:body "Illustrative analytical pipeline using the same ProcessingStep interface for every node."@en ;
-    cd:hasKeyPoint ex:keypoint-cogniflow-step-baseline,
-      ex:keypoint-cogniflow-step-detection,
-      ex:keypoint-cogniflow-step-integration,
-      ex:keypoint-cogniflow-step-grouping ;
+  ex:diagram-cogniflow-processing-pipeline a cd:FlowDiagram ;
+    skos:prefLabel "Composable analytical processing pipeline"@en ;
+    cd:body "Four reusable ProcessingSteps form a pipeline because each output is semantically compatible with the following input."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-step-baseline,
+      ex:node-cogniflow-step-detection,
+      ex:node-cogniflow-step-integration,
+      ex:node-cogniflow-step-grouping ;
+    cd:hasDiagramEdge ex:edge-cogniflow-step-baseline-detection,
+      ex:edge-cogniflow-step-detection-integration,
+      ex:edge-cogniflow-step-integration-grouping ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-step-baseline a cd:KeyPoint ;
-    cd:position 1 ;
-    cd:body """BASELINE CORRECTION
+  ex:node-cogniflow-step-baseline a cd:DiagramNode ;
+    skos:prefLabel """BASELINE CORRECTION
 ProcessingStep
-
 IN · chromatogram
 PARAM · baseline window
 OUT · corrected chromatogram"""@en ;
+    cd:position 1 ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-step-detection a cd:KeyPoint ;
-    cd:position 2 ;
-    cd:body """PEAK DETECTION
+  ex:node-cogniflow-step-detection a cd:DiagramNode ;
+    skos:prefLabel """PEAK DETECTION
 ProcessingStep
-
 IN · corrected chromatogram
 PARAM · detection threshold
 OUT · peak candidates"""@en ;
+    cd:position 2 ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-step-integration a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body """PEAK INTEGRATION
+  ex:node-cogniflow-step-integration a cd:DiagramNode ;
+    skos:prefLabel """PEAK INTEGRATION
 ProcessingStep
-
 IN · peak candidates
 PARAM · integration window
 OUT · integrated peaks"""@en ;
+    cd:position 3 ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-step-grouping a cd:KeyPoint ;
-    cd:position 4 ;
-    cd:body """PEAK GROUPING
+  ex:node-cogniflow-step-grouping a cd:DiagramNode ;
+    skos:prefLabel """PEAK GROUPING
 ProcessingStep
-
 IN · integrated peaks
 PARAM · RT tolerance
 OUT · grouped features"""@en ;
+    cd:position 4 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-step-baseline-detection a cd:DiagramEdge ;
+    skos:prefLabel "corrected chromatogram"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-step-baseline ;
+    cd:targetNode ex:node-cogniflow-step-detection ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-step-detection-integration a cd:DiagramEdge ;
+    skos:prefLabel "peak candidates"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-step-detection ;
+    cd:targetNode ex:node-cogniflow-step-integration ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-step-integration-grouping a cd:DiagramEdge ;
+    skos:prefLabel "integrated peaks"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-step-integration ;
+    cd:targetNode ex:node-cogniflow-step-grouping ;
     cd:authoredResource true .
 
   ex:cogniflow-processing-pipeline-note a cd:Interpretation ;
@@ -74,7 +95,7 @@ OUT · grouped features"""@en ;
   ex:path-step-cogniflow-processing-pipeline a cd:PathStep ;
     cd:position 14 ;
     cd:usesResource ex:cogniflow-processing-pipeline-banner,
-      ex:cogniflow-processing-pipeline-steps,
+      ex:diagram-cogniflow-processing-pipeline,
       ex:cogniflow-processing-pipeline-note ;
     cd:usesScene ex:scene-cogniflow-processing-pipeline ;
     cd:authoredResource true .
@@ -85,7 +106,7 @@ OUT · grouped features"""@en ;
     cd:focusConcept ex:cogniflow-processing-pipeline ;
     cd:hasSceneItem ex:scene-item-cogniflow-processing-pipeline-heading,
       ex:scene-item-cogniflow-processing-pipeline-banner,
-      ex:scene-item-cogniflow-processing-pipeline-steps,
+      ex:scene-item-cogniflow-processing-pipeline-diagram,
       ex:scene-item-cogniflow-processing-pipeline-note ;
     cd:authoredResource true .
 
@@ -105,11 +126,11 @@ OUT · grouped features"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-processing-pipeline-steps a cd:SceneItem ;
+  ex:scene-item-cogniflow-processing-pipeline-diagram a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:cogniflow-processing-pipeline-steps ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:selectsResource ex:diagram-cogniflow-processing-pipeline ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 

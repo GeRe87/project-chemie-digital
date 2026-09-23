@@ -18,6 +18,8 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-semantics-first--scene",
   "ex:scene-cogniflow-semantic-triples--scene",
   "ex:scene-cogniflow-semantic-core--scene",
+  "ex:scene-cogniflow-processing-pipeline--scene",
+  "ex:scene-cogniflow-service-process--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -32,6 +34,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/card-sequence-layout.css"),
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
+    source("../src/process-diagram-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -71,6 +74,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-core.css"'), false);
   assert.equal(main.includes('import "./concentric-network-layout.css"'), true);
+  assert.equal(main.includes('import "./process-diagram-layout.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
   assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
@@ -140,4 +146,18 @@ test("semantic core is canonical grouped network data rather than a bespoke ring
   assert.equal(trig.includes("cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications"), true);
   assert.equal(trig.includes("ex:cogniflow-ring-core a cd:Interpretation"), false);
   assert.equal(main.includes("mountCogniflowSemanticRings"), false);
+});
+
+
+test("processing and service scenes use canonical diagrams and generic shells", () => {
+  const processing = source("../../../ontology/dataset/cogniflow-processing-pipeline.trig");
+  const service = source("../../../ontology/dataset/cogniflow-service-process.trig");
+  const theme = source("../src/flow-theme.css");
+
+  assert.equal(processing.includes("ex:diagram-cogniflow-processing-pipeline a cd:FlowDiagram"), true);
+  assert.equal(processing.includes("cd:communicativeRole cd:DiagramRole"), true);
+  assert.equal(processing.includes("ex:keypoint-cogniflow-step-baseline a cd:KeyPoint"), false);
+  assert.equal(service.includes("ex:diagram-cogniflow-service-process a cd:SequenceDiagram"), true);
+  assert.equal(theme.includes("ex:role-service-consumer"), false);
+  assert.equal(theme.includes("data-participant-index"), true);
 });

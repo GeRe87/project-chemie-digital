@@ -374,6 +374,55 @@ function processContextScene(id: string): Scene {
   };
 }
 
+function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scene {
+  const diagram = diagramType === "flow"
+    ? {
+        id: "block:diagram",
+        kind: "diagram" as const,
+        diagramType: "flow" as const,
+        label: "Opaque process",
+        description: "Opaque process",
+        nodes: ["A", "B", "C", "D"].map((label, index) => ({ id: `node:${index}`, label, source: [{ resourceId: `resource:node:${index}` }] })),
+        edges: [0, 1, 2].map((index) => ({ id: `edge:${index}`, sourceNodeId: `node:${index}`, targetNodeId: `node:${index + 1}`, label: "next", source: [{ resourceId: `resource:edge:${index}` }] })),
+        source: [{ resourceId: "resource:diagram" }],
+      }
+    : {
+        id: "block:diagram",
+        kind: "diagram" as const,
+        diagramType: "sequence" as const,
+        label: "Opaque service",
+        description: "Opaque service",
+        nodes: [],
+        edges: [],
+        participantRoles: [
+          { id: "role:a", label: "A", source: [{ resourceId: "resource:role:a" }] },
+          { id: "role:b", label: "B", source: [{ resourceId: "resource:role:b" }] },
+        ],
+        messages: [
+          { id: "message:a", sourceRoleId: "role:a", targetRoleId: "role:b", label: "call", source: [{ resourceId: "resource:message:a" }] },
+        ],
+        states: [],
+        source: [{ resourceId: "resource:diagram" }],
+      };
+  return {
+    id,
+    source: [{ resourceId: "resource:process-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:intro", "explain"),
+      diagram,
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:intro", "block:diagram", "block:takeaway"],
+  };
+}
+
+test("infers generic process-diagram for longer flows and sequence diagrams", () => {
+  assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow")), "process-diagram");
+  assert.equal(inferRevealLayoutFamily(processDiagramScene("opaque:service", "sequence")), "process-diagram");
+  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow"))?.slots, ["heading", "intro", "diagram", "takeaway"]);
+});
+
 test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {
   assert.equal(inferRevealLayoutFamily(hierarchyScene("scene:alpha")), "hierarchy-flow");
   assert.equal(inferRevealLayoutFamily(hierarchyScene("totally:opaque")), "hierarchy-flow");
