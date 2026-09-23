@@ -777,7 +777,10 @@ function concentricNetworkLayout(
     const availableDiameter = Math.max(minimumDiameter, Math.min(maximumDiameter, arcAllowance * 0.74));
     const memberLayouts = members.map((node, memberIndex): D3FlowLayoutNode => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
-      const wrapWidth = Math.max(78, availableDiameter - (groupIndex === 0 ? 48 : 38));
+      const wrapWidth = Math.max(
+        groupIndex === 0 ? 132 : 108,
+        availableDiameter - (groupIndex === 0 ? 16 : 14),
+      );
       const labelLines = wrapFlowText(node.label, wrapWidth);
       const textHeight = Math.max(1, labelLines.length) * 17;
       const longestLine = Math.max(0, ...labelLines.map((line) => deterministicFlowTextMeasure(line)));

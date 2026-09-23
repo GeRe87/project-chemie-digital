@@ -275,6 +275,16 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.ok(outer.every((node) => node.width >= 126));
   assert.ok(outer.every((node) => node.width === node.height), "outer ring nodes stay circular");
   assert.ok(outer.every((node) => node.labelLines.length <= 3), "outer labels should stay within three lines");
+  const conceptById = new Map(layout.nodes.map((node) => [node.id, node]));
+  assert.deepEqual(
+    conceptById.get("concept:e")!.labelLines.map((line) => line.trim()),
+    ["Installation", "profile"],
+    "inner-ring wrap should use the circle width before splitting words",
+  );
+  assert.ok(
+    outer.find((node) => node.id === "spec:8")!.labelLines.every((line) => line.trim() !== "Bootstra"),
+    "outer-ring wrap should not split Bootstrap prematurely",
+  );
   assert.ok(layout.groups[1]!.radius >= 300);
   assert.ok(layout.height <= layout.groups[1]!.radius * 2 + 125, "concentric viewBox stays tight enough for scale-to-fit");
   for (const group of layout.groups) {
