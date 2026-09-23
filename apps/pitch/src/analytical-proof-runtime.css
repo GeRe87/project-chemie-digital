@@ -1,8 +1,8 @@
 [data-analytical-proof="true"] {
-  --pcd-proof-baseline: #57e0bd;
-  --pcd-proof-model: #b08cff;
-  --pcd-proof-quant: #ffb36b;
-  --pcd-proof-final: #66f2c3;
+  --pcd-proof-tone-1: #57e0bd;
+  --pcd-proof-tone-2: #b08cff;
+  --pcd-proof-tone-3: #ffb36b;
+  --pcd-proof-complete: #66f2c3;
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr) auto;
   align-content: stretch;
@@ -67,22 +67,19 @@
   transition: opacity 300ms ease, transform 300ms cubic-bezier(.2,.8,.2,1), filter 240ms ease;
 }
 
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-baseline--annotation"] .d3-chart-annotation-focus,
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-baseline"] .d3-chart-annotation-focus {
-  fill: var(--pcd-proof-baseline);
-  stroke: var(--pcd-proof-baseline);
+[data-analytical-proof="true"] [data-annotation-index="0"] .d3-chart-annotation-focus {
+  fill: var(--pcd-proof-tone-1);
+  stroke: var(--pcd-proof-tone-1);
 }
 
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-peak-model--annotation"] .d3-chart-annotation-focus,
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-peak-model"] .d3-chart-annotation-focus {
-  fill: var(--pcd-proof-model);
-  stroke: var(--pcd-proof-model);
+[data-analytical-proof="true"] [data-annotation-index="1"] .d3-chart-annotation-focus {
+  fill: var(--pcd-proof-tone-2);
+  stroke: var(--pcd-proof-tone-2);
 }
 
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-quantification--annotation"] .d3-chart-range-highlight,
-[data-analytical-proof="true"] [data-annotation-id="ex:annotation-cogniflow-proof-quantification"] .d3-chart-range-highlight {
-  fill: color-mix(in srgb, var(--pcd-proof-quant) 34%, transparent);
-  stroke: var(--pcd-proof-quant);
+[data-analytical-proof="true"] [data-annotation-index="2"] .d3-chart-range-highlight {
+  fill: color-mix(in srgb, var(--pcd-proof-tone-3) 34%, transparent);
+  stroke: var(--pcd-proof-tone-3);
 }
 
 [data-analytical-proof="true"] .pcd-analytical-proof-flow.d3-flow-host {
@@ -120,23 +117,23 @@
 
 [data-analytical-proof="true"][data-analytical-proof-step="2"] .pcd-analytical-proof-chart {
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-proof-baseline) 48%, transparent),
-    9px 11px 0 color-mix(in srgb, var(--pcd-proof-baseline) 13%, transparent),
-    0 0 34px color-mix(in srgb, var(--pcd-proof-baseline) 14%, transparent);
+    0 0 0 2px color-mix(in srgb, var(--pcd-proof-tone-1) 48%, transparent),
+    9px 11px 0 color-mix(in srgb, var(--pcd-proof-tone-1) 13%, transparent),
+    0 0 34px color-mix(in srgb, var(--pcd-proof-tone-1) 14%, transparent);
 }
 
 [data-analytical-proof="true"][data-analytical-proof-step="3"] .pcd-analytical-proof-chart {
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-proof-model) 48%, transparent),
-    9px 11px 0 color-mix(in srgb, var(--pcd-proof-model) 13%, transparent),
-    0 0 34px color-mix(in srgb, var(--pcd-proof-model) 14%, transparent);
+    0 0 0 2px color-mix(in srgb, var(--pcd-proof-tone-2) 48%, transparent),
+    9px 11px 0 color-mix(in srgb, var(--pcd-proof-tone-2) 13%, transparent),
+    0 0 34px color-mix(in srgb, var(--pcd-proof-tone-2) 14%, transparent);
 }
 
 [data-analytical-proof="true"][data-analytical-proof-step="4"] .pcd-analytical-proof-chart {
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--pcd-proof-quant) 52%, transparent),
-    9px 11px 0 color-mix(in srgb, var(--pcd-proof-quant) 13%, transparent),
-    0 0 36px color-mix(in srgb, var(--pcd-proof-quant) 15%, transparent);
+    0 0 0 2px color-mix(in srgb, var(--pcd-proof-tone-3) 52%, transparent),
+    9px 11px 0 color-mix(in srgb, var(--pcd-proof-tone-3) 13%, transparent),
+    0 0 36px color-mix(in srgb, var(--pcd-proof-tone-3) 15%, transparent);
 }
 
 [data-analytical-proof="true"][data-analytical-proof-step="5"] .pcd-analytical-proof-chart {
@@ -145,7 +142,7 @@
 }
 
 [data-analytical-proof="true"][data-analytical-proof-step="5"] .pcd-analytical-proof-flow {
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--pcd-proof-final) 22%, transparent));
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--pcd-proof-complete) 22%, transparent));
 }
 
 @media (max-width: 900px) {

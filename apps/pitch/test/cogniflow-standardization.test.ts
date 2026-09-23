@@ -348,3 +348,19 @@ test("production generator and browser regression contain no CogniFlow identity 
   assert.equal(diagramCheck.includes("--expected-nodes"), true);
   assert.equal(diagramCheck.includes('data-layout="diagram-stage"'), true);
 });
+
+
+test("analytical proof annotation decoration follows canonical order, not resource identity", () => {
+  const proofCss = source("../src/analytical-proof-runtime.css");
+  const lineRenderer = source("../../../packages/renderer-d3/src/line-chart.ts");
+
+  assert.equal(proofCss.toLowerCase().includes("cogniflow"), false);
+  assert.equal(proofCss.includes("data-annotation-id="), false);
+  assert.equal(proofCss.includes('data-annotation-index="0"'), true);
+  assert.equal(proofCss.includes('data-annotation-index="1"'), true);
+  assert.equal(proofCss.includes('data-annotation-index="2"'), true);
+  assert.equal(proofCss.includes("--pcd-proof-baseline"), false);
+  assert.equal(proofCss.includes("--pcd-proof-model"), false);
+  assert.equal(proofCss.includes("--pcd-proof-quant"), false);
+  assert.equal(lineRenderer.includes("group.dataset.annotationIndex = String(annotationIndex)"), true);
+});

@@ -240,6 +240,7 @@ export function mountD3LineChart(
       const group = svg("g");
       group.classList.add("d3-chart-progressive-annotation");
       group.dataset.annotationStep = String(annotationIndex + 2);
+      group.dataset.annotationIndex = String(annotationIndex);
       group.dataset.annotationId = annotation.id;
       group.style.opacity = "0";
       group.style.transform = "translateY(8px)";

@@ -892,3 +892,20 @@ Audit classification:
 - Application layout/runtime, renderer packages and production generation no longer branch on CogniFlow scene/resource identity.
 
 Next step: run the full local generator/test suite, then perform a final repository-level residual scan and mark the standardization roadmap complete if no behavioral identity coupling remains.
+
+
+### Increment 9b — generic analytical-proof annotation tones
+
+Status: **implemented on this branch**
+
+Completed:
+
+- removed concrete CogniFlow annotation-resource selectors from the analytical-proof stylesheet;
+- exposed canonical annotation order as renderer-owned data-annotation-index on progressive line-chart annotations;
+- assigned proof colors by deterministic annotation order instead of RDF/resource identity;
+- renamed content-semantic proof color tokens (baseline/model/quant) to neutral tone-1/tone-2/tone-3 and complete tokens;
+- added anti-hardcoding coverage for the proof runtime and line-chart renderer.
+
+Result:
+
+The analytical-proof composition remains driven by the generic structural contract (progressive annotated line chart + compatible linear flow), and its visual annotation palette no longer assumes specific CogniFlow annotation ids or scientific labels.
