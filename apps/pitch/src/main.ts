@@ -21,7 +21,7 @@ import "./reference-code-layout.css";
 import "./hierarchy-flow-layout.css";
 import "./concept-specification-layout.css";
 import "./presentation-projection.css";
-import "./title-attributions-layout.css";
+import "./hero-title-panel.css";
 import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";

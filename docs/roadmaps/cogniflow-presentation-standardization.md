@@ -848,3 +848,24 @@ Result:
 `apps/pitch/src` no longer requires a CogniFlow-named presentation layout/runtime stylesheet. Title, opening diagrams, semantic-source/multi-view scenes and provenance are all selected from SceneDocument structure.
 
 Next step: final invariant audit across application, renderer and generation scripts, followed by removal of any residual compatibility or validation exceptions that still key on CogniFlow lexical identity.
+
+
+### Increment 8f — hero title panel
+
+Status: **implemented on this branch**
+
+Completed:
+
+- replaced the generic but visually weak `title-attributions` realization with `hero-title-panel`;
+- retained the same structural inference: one authored heading followed by three attribution/media groups;
+- removed the oversized inner-card treatment and let the presentation world panel remain the only large surface;
+- promoted the title to a true hero block with stronger scale, tighter line-height and renderer-owned accent bars;
+- grouped the two speaker affiliations visually into a compact left-side attribution stack without parsing names or organizations;
+- introduced a dedicated right-side partner/funder rail using only ordered layout slots;
+- forced partner media to render fully opaque with modest contrast normalization so organization and funding marks remain legible;
+- kept all visible organization, speaker and funding text authored in SceneDocument content; the CSS generates no new audience-visible labels;
+- replaced `title-attributions-layout.css` with `hero-title-panel.css` and updated opaque-id policy/anti-hardcoding tests.
+
+Result:
+
+The opening scene remains structurally generic but now behaves as a real presentation hero rather than an attribution board.

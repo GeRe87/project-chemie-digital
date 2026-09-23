@@ -14,7 +14,7 @@ export type RevealLayoutFamily =
   | "foundation-card-grid"
   | "full-media"
   | "closing"
-  | "title-attributions"
+  | "hero-title-panel"
   | "semantic-source"
   | "semantic-multi-view"
   | "diagram-stage";
@@ -118,7 +118,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && isAttributionMediaGroup(supportingAttribution)
     ) {
       return {
-        family: "title-attributions",
+        family: "hero-title-panel",
         slots: ["heading", "primary-attribution", "secondary-attribution", "supporting-attribution"],
       };
     }

@@ -576,8 +576,8 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
   };
 }
 
-test("infers title-attributions, semantic runtimes and diagram-stage without identity", () => {
-  assert.equal(inferRevealLayoutFamily(titleAttributionsScene("opaque:title")), "title-attributions");
+test("infers hero-title-panel, semantic runtimes and diagram-stage without identity", () => {
+  assert.equal(inferRevealLayoutFamily(titleAttributionsScene("opaque:title")), "hero-title-panel");
   assert.deepEqual(inferRevealLayoutDecision(titleAttributionsScene("opaque:title-slots"))?.slots, [
     "heading", "primary-attribution", "secondary-attribution", "supporting-attribution",
   ]);

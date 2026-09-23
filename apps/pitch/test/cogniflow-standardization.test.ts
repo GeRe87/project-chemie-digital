@@ -58,7 +58,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/full-media-layout.css"),
     source("../src/closing-layout.css"),
     source("../src/presentation-mobile.css"),
-    source("../src/title-attributions-layout.css"),
+    source("../src/hero-title-panel.css"),
     source("../src/diagram-stage-layout.css"),
     source("../src/semantic-source-runtime.css"),
     source("../src/semantic-multi-view-runtime.css"),
@@ -106,7 +106,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-opening-sequence.css"'), false);
   assert.equal(main.includes('import "./cogniflow-title-media.css"'), false);
   assert.equal(main.includes('import "./cogniflow-core-sequence.css"'), false);
-  assert.equal(main.includes('import "./title-attributions-layout.css"'), true);
+  assert.equal(main.includes('import "./title-attributions-layout.css"'), false);
+  assert.equal(main.includes('import "./hero-title-panel.css"'), true);
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), true);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
@@ -317,10 +318,11 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const main = source("../src/main.ts");
   const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
   const preview = source("../src/preview.ts");
-  const titleCss = source("../src/title-attributions-layout.css");
+  const titleCss = source("../src/hero-title-panel.css");
   const diagramCss = source("../src/diagram-stage-layout.css");
 
-  assert.equal(policy.includes('"title-attributions"'), true);
+  assert.equal(policy.includes('"hero-title-panel"'), true);
+  assert.equal(policy.includes('"title-attributions"'), false);
   assert.equal(policy.includes('"semantic-source"'), true);
   assert.equal(policy.includes('"semantic-multi-view"'), true);
   assert.equal(policy.includes('"diagram-stage"'), true);
