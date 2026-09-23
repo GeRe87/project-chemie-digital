@@ -736,15 +736,81 @@ function angularDistance(left: number, right: number): number {
   return Math.min(delta, fullTurn - delta);
 }
 
+function circleOverlapsRect(
+  circle: D3FlowLayoutNode,
+  rect: LayoutRect,
+  padding: number,
+): boolean {
+  const radius = Math.min(circle.width, circle.height) / 2 + padding;
+  const dx = Math.abs(circle.x - rect.x);
+  const dy = Math.abs(circle.y - rect.y);
+  if (dx > rect.width / 2 + radius || dy > rect.height / 2 + radius) return false;
+  if (dx <= rect.width / 2 || dy <= rect.height / 2) return true;
+  const cornerX = dx - rect.width / 2;
+  const cornerY = dy - rect.height / 2;
+  return cornerX * cornerX + cornerY * cornerY < radius * radius;
+}
+
+function distancePointToSegment(
+  px: number,
+  py: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const lengthSquared = dx * dx + dy * dy;
+  if (lengthSquared <= 1e-9) return Math.hypot(px - x1, py - y1);
+  const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / lengthSquared));
+  return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+}
+
+function annotationLineStart(
+  labelX: number,
+  labelY: number,
+  labelWidth: number,
+  labelHeight: number,
+  anchorX: number,
+  anchorY: number,
+): { readonly x: number; readonly y: number } {
+  const dx = anchorX - labelX;
+  const dy = anchorY - labelY;
+  const scale = 1 / Math.max(
+    Math.abs(dx) / Math.max(labelWidth / 2, 1),
+    Math.abs(dy) / Math.max(labelHeight / 2, 1),
+    1e-6,
+  );
+  return { x: labelX + dx * scale, y: labelY + dy * scale };
+}
+
+function annotationLineClearsNodes(
+  labelX: number,
+  labelY: number,
+  labelWidth: number,
+  labelHeight: number,
+  anchorX: number,
+  anchorY: number,
+  nodes: readonly D3FlowLayoutNode[],
+): boolean {
+  const start = annotationLineStart(labelX, labelY, labelWidth, labelHeight, anchorX, anchorY);
+  return nodes.every((node) =>
+    distancePointToSegment(node.x, node.y, start.x, start.y, anchorX, anchorY)
+      > Math.min(node.width, node.height) / 2 + 10);
+}
+
+
 function concentricGroupGapAngles(
   group: Pick<D3FlowLayoutGroup, "cx" | "cy" | "memberNodeIds">,
   nodes: readonly D3FlowLayoutNode[],
   preferredAngle: number,
 ): readonly number[] {
   const byId = new Map(nodes.map((node) => [node.id, node]));
-  const angles = group.memberNodeIds
-    .map((id) => byId.get(id))
-    .filter((node): node is D3FlowLayoutNode => Boolean(node))
+  const memberIds = new Set(group.memberNodeIds);
+  const radialNodes = nodes.filter((node) => node.id !== "focus" && (memberIds.has(node.id) || Math.hypot(node.x - group.cx, node.y - group.cy) > 1));
+  const angles = radialNodes
+    .filter((node) => Math.hypot(node.x - group.cx, node.y - group.cy) > 1)
     .map((node) => normalizedAngle(Math.atan2(node.y - group.cy, node.x - group.cx)))
     .sort((left, right) => left - right);
 
@@ -772,21 +838,15 @@ function resolveConcentricGroupAnnotations(
   width: number,
   height: number,
 ): readonly D3FlowLayoutGroup[] {
-  const nodeRects: LayoutRect[] = nodes.map((node) => ({
-    x: node.x,
-    y: node.y,
-    width: node.width,
-    height: node.height,
-  }));
   const placedLabels: LayoutRect[] = [];
 
   return groups.map((group, groupIndex) => {
-    const labelLines = wrapFlowText(group.label, 230);
+    const labelLines = wrapFlowText(group.label, 150);
     const labelWidth = Math.min(
-      300,
-      Math.max(150, ...labelLines.map((line) => deterministicFlowTextMeasure(line) * (20 / 15) + 44)),
+      250,
+      Math.max(150, ...labelLines.map((line) => deterministicFlowTextMeasure(line) * (20 / 15) + 40)),
     );
-    const labelHeight = Math.max(44, labelLines.length * 28 + 16);
+    const labelHeight = Math.max(44, labelLines.length * 28 + 14);
     const preferredAngle = groupIndex % 2 === 0 ? -Math.PI * 0.72 : -Math.PI * 0.28;
     const gapAngles = concentricGroupGapAngles(group, nodes, preferredAngle);
     const fallbackAngles = [
@@ -794,28 +854,29 @@ function resolveConcentricGroupAnnotations(
       -preferredAngle,
       Math.PI - preferredAngle,
       Math.PI + preferredAngle,
+      -Math.PI / 4,
+      -Math.PI * 3 / 4,
+      Math.PI / 4,
+      Math.PI * 3 / 4,
       0,
       Math.PI,
-      Math.PI / 2,
-      -Math.PI / 2,
     ].map(normalizedAngle);
-    const candidates = [...gapAngles, ...fallbackAngles.filter((angle) =>
+    const angles = [...gapAngles, ...fallbackAngles.filter((angle) =>
       !gapAngles.some((existing) => angularDistance(existing, angle) < 0.01))];
 
-    const outwardOffset = labelHeight / 2 + 54;
-    let chosen: D3FlowLayoutGroup | undefined;
-    for (const angle of candidates) {
+    const candidateFor = (
+      labelX: number,
+      labelY: number,
+      angle: number,
+    ): D3FlowLayoutGroup | undefined => {
       const anchorX = group.cx + Math.cos(angle) * group.radius;
       const anchorY = group.cy + Math.sin(angle) * group.radius;
-      const labelRadius = group.radius + outwardOffset;
-      const labelX = group.cx + Math.cos(angle) * labelRadius;
-      const labelY = group.cy + Math.sin(angle) * labelRadius;
       const rect: LayoutRect = { x: labelX, y: labelY, width: labelWidth, height: labelHeight };
-      if (!insideLayout(rect, width, height, 18)) continue;
-      if (nodeRects.some((node) => overlaps(rect, node, 24))) continue;
-      if (placedLabels.some((other) => overlaps(rect, other, 22))) continue;
-
-      chosen = {
+      if (!insideLayout(rect, width, height, 18)) return undefined;
+      if (nodes.some((node) => circleOverlapsRect(node, rect, 14))) return undefined;
+      if (placedLabels.some((other) => overlaps(rect, other, 18))) return undefined;
+      if (!annotationLineClearsNodes(labelX, labelY, labelWidth, labelHeight, anchorX, anchorY, nodes)) return undefined;
+      return {
         ...group,
         labelX,
         labelY,
@@ -825,28 +886,46 @@ function resolveConcentricGroupAnnotations(
         labelAnchorX: anchorX,
         labelAnchorY: anchorY,
       };
-      placedLabels.push(rect);
-      break;
+    };
+
+    const radialClearances = [54, 94, 134, 174, 214];
+    for (const angle of angles) {
+      for (const clearance of radialClearances) {
+        const labelRadius = group.radius + labelHeight / 2 + clearance;
+        const labelX = group.cx + Math.cos(angle) * labelRadius;
+        const labelY = group.cy + Math.sin(angle) * labelRadius;
+        const candidate = candidateFor(labelX, labelY, angle);
+        if (!candidate) continue;
+        placedLabels.push({ x: labelX, y: labelY, width: labelWidth, height: labelHeight });
+        return candidate;
+      }
     }
 
-    if (chosen) return chosen;
+    // Exhaustive deterministic fallback: still collision-checked, never an unsafe placement.
+    const gridStep = 18;
+    const gridCandidates: Array<{ x: number; y: number; angle: number; score: number }> = [];
+    for (let y = labelHeight / 2 + 18; y <= height - labelHeight / 2 - 18; y += gridStep) {
+      for (let x = labelWidth / 2 + 18; x <= width - labelWidth / 2 - 18; x += gridStep) {
+        const angle = normalizedAngle(Math.atan2(y - group.cy, x - group.cx));
+        const radialDistance = Math.hypot(x - group.cx, y - group.cy);
+        if (radialDistance <= group.radius + 34) continue;
+        gridCandidates.push({
+          x,
+          y,
+          angle,
+          score: angularDistance(angle, preferredAngle) * 180 + Math.abs(radialDistance - (group.radius + 150)),
+        });
+      }
+    }
+    gridCandidates.sort((left, right) => left.score - right.score || left.y - right.y || left.x - right.x);
+    for (const grid of gridCandidates) {
+      const candidate = candidateFor(grid.x, grid.y, grid.angle);
+      if (!candidate) continue;
+      placedLabels.push({ x: grid.x, y: grid.y, width: labelWidth, height: labelHeight });
+      return candidate;
+    }
 
-    const fallbackAngle = normalizedAngle(preferredAngle);
-    const anchorX = group.cx + Math.cos(fallbackAngle) * group.radius;
-    const anchorY = group.cy + Math.sin(fallbackAngle) * group.radius;
-    const labelX = Math.max(labelWidth / 2 + 18, Math.min(width - labelWidth / 2 - 18, group.cx + Math.cos(fallbackAngle) * (group.radius + outwardOffset)));
-    const labelY = Math.max(labelHeight / 2 + 18, Math.min(height - labelHeight / 2 - 18, group.cy + Math.sin(fallbackAngle) * (group.radius + outwardOffset)));
-    placedLabels.push({ x: labelX, y: labelY, width: labelWidth, height: labelHeight });
-    return {
-      ...group,
-      labelX,
-      labelY,
-      labelWidth,
-      labelHeight,
-      labelLines,
-      labelAnchorX: anchorX,
-      labelAnchorY: anchorY,
-    };
+    throw new Error(`Unable to place concentric group annotation without collision: ${group.id}`);
   });
 }
 

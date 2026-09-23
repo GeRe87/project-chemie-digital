@@ -300,10 +300,22 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
     padding = 0,
   ) => Math.abs(left.x - right.x) < (left.width + right.width) / 2 + padding
     && Math.abs(left.y - right.y) < (left.height + right.height) / 2 + padding;
+  const circleHitsRect = (
+    node: { x: number; y: number; width: number; height: number },
+    rect: { x: number; y: number; width: number; height: number },
+    padding = 0,
+  ) => {
+    const radius = Math.min(node.width, node.height) / 2 + padding;
+    const dx = Math.abs(node.x - rect.x);
+    const dy = Math.abs(node.y - rect.y);
+    if (dx > rect.width / 2 + radius || dy > rect.height / 2 + radius) return false;
+    if (dx <= rect.width / 2 || dy <= rect.height / 2) return true;
+    return (dx - rect.width / 2) ** 2 + (dy - rect.height / 2) ** 2 < radius ** 2;
+  };
 
   for (const group of layout.groups) {
     const labelRect = labelRects.find((candidate) => candidate.id === group.id)!;
-    assert.ok(layout.nodes.every((node) => !collides(labelRect, node, 20)), `${group.id} label clears every node`);
+    assert.ok(layout.nodes.every((node) => !circleHitsRect(node, labelRect, 12)), `${group.id} label clears every node circle`);
     assert.ok(
       Math.abs(Math.hypot(group.labelAnchorX - group.cx, group.labelAnchorY - group.cy) - group.radius) < 0.001,
       `${group.id} annotation anchor lies on its ring`,
@@ -314,7 +326,7 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
     );
   }
   assert.equal(collides(labelRects[0]!, labelRects[1]!, 20), false, "layer labels must not overlap each other");
-  assert.ok(layout.groups.every((group) => group.labelWidth >= 150));
+  assert.ok(layout.groups.every((group) => group.labelWidth >= 150 && group.labelWidth <= 250));
   assert.ok(layout.groups.every((group) => group.labelHeight >= 44));
 });
 
