@@ -5,6 +5,11 @@
 <https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-closing> {
   ex:cogniflow-closing a cd:Concept ;
     skos:prefLabel "Thank you for your attention"@en ;
+    cd:hasDefinition ex:def-cogniflow-closing ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-closing a cd:Definition ;
+    cd:body "Closing acknowledgment for the standardized data-processing presentation."@en ;
     cd:authoredResource true .
 }
 

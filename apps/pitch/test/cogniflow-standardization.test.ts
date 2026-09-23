@@ -411,3 +411,13 @@ test("production behavior has a single explicit CogniFlow lexical allowlist", ()
 
   assert.deepEqual(violations, []);
 });
+
+
+test("closing focus concept satisfies the canonical Concept definition contract", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-closing.trig");
+
+  assert.equal(trig.includes("cd:hasDefinition ex:def-cogniflow-closing"), true);
+  assert.equal(trig.includes("ex:def-cogniflow-closing a cd:Definition"), true);
+  assert.equal(trig.includes('cd:body "Closing acknowledgment for the standardized data-processing presentation."@en'), true);
+  assert.equal(trig.includes("cd:selectsResource ex:def-cogniflow-closing"), false);
+});
