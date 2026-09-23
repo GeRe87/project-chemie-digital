@@ -1,0 +1,69 @@
+/* Generic one-diagram presentation stage: authored heading + renderer-owned diagram. */
+.reveal .slides section[data-layout="diagram-stage"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: stretch;
+  padding: 2.2rem 3.2rem 2rem !important;
+}
+
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="heading"] {
+  max-width: 20ch;
+  margin: 0 0 .28em;
+  font-size: 2.42em;
+  line-height: .98;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] {
+  align-self: stretch;
+  width: min(1190px, 94vw);
+  min-width: 0;
+  min-height: 0;
+  margin: .15rem auto 0;
+  padding-top: 2rem;
+}
+
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-runtime,
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-svg {
+  width: 100%;
+  min-height: 24rem;
+}
+
+.reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="diagram-stage"] {
+    padding: 1.4rem 1rem 1.2rem !important;
+  }
+
+  .reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="heading"] {
+    max-width: none;
+    font-size: 1.9em;
+  }
+
+  .reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] {
+    width: 100%;
+    padding-top: .8rem;
+  }
+
+  .reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-svg {
+    min-height: 30rem;
+  }
+}

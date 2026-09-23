@@ -26,6 +26,13 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-showcase-video-two--scene",
   "ex:scene-cogniflow-take-home--scene",
   "ex:scene-cogniflow-closing--scene",
+  "ex:scene-cogniflow-title--scene",
+  "ex:scene-cogniflow-coupling-problem--scene",
+  "ex:scene-cogniflow-laboratory-diversity--scene",
+  "ex:scene-cogniflow-service-architecture--scene",
+  "ex:scene-cogniflow-semantics-as-source--scene",
+  "ex:scene-cogniflow-same-semantics-different-views--scene",
+  "ex:scene-cogniflow-provenance-pipeline--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -51,6 +58,10 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/full-media-layout.css"),
     source("../src/closing-layout.css"),
     source("../src/presentation-mobile.css"),
+    source("../src/title-attributions-layout.css"),
+    source("../src/diagram-stage-layout.css"),
+    source("../src/semantic-source-runtime.css"),
+    source("../src/semantic-multi-view-runtime.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -92,6 +103,11 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./process-diagram-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-opening-sequence.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-title-media.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-core-sequence.css"'), false);
+  assert.equal(main.includes('import "./title-attributions-layout.css"'), true);
+  assert.equal(main.includes('import "./diagram-stage-layout.css"'), true);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
   assert.equal(main.includes('import "./full-media-layout.css"'), true);
@@ -294,4 +310,25 @@ test("take-home, closing and portrait viewport no longer depend on CogniFlow ide
   assert.equal(mobile.toLowerCase().includes("cogniflow"), false);
   assert.equal(closing.includes('data-layout="closing"'), true);
   assert.equal(main.includes("available anywhere via pip"), false);
+});
+
+
+test("final title opening and semantic-core layouts are structurally selected", () => {
+  const main = source("../src/main.ts");
+  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+  const preview = source("../src/preview.ts");
+  const titleCss = source("../src/title-attributions-layout.css");
+  const diagramCss = source("../src/diagram-stage-layout.css");
+
+  assert.equal(policy.includes('"title-attributions"'), true);
+  assert.equal(policy.includes('"semantic-source"'), true);
+  assert.equal(policy.includes('"semantic-multi-view"'), true);
+  assert.equal(policy.includes('"diagram-stage"'), true);
+  assert.equal(preview.includes('semanticMultiView ? "semantic-multi-view"'), false);
+  assert.equal(preview.includes('semanticCode ? "semantic-source"'), false);
+  assert.equal(titleCss.toLowerCase().includes("cogniflow"), false);
+  assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
+  assert.equal(titleCss.includes("data-resource-id~="), false);
+  assert.equal(diagramCss.includes("section[id="), false);
+  assert.equal(main.includes("scene-cogniflow-title"), false);
 });

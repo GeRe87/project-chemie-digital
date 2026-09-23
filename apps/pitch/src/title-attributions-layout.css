@@ -1,0 +1,226 @@
+/* Generic title scene with ordered attribution/media groups.
+   Authored names and media stay in SceneDocument; the renderer owns only placement. */
+.reveal .slides section[data-layout="title-attributions"] {
+  position: relative;
+  isolation: isolate;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, .48fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 3rem;
+  row-gap: .2rem;
+  align-content: center;
+  min-height: 100%;
+  padding: 0 5.2rem !important;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-layout="title-attributions"]::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 18% 3.4rem;
+  border: 1px solid var(--pcd-world-panel-border);
+  border-radius: 20px;
+  background: var(--pcd-world-panel-bg);
+  box-shadow: var(--pcd-world-panel-shadow);
+  pointer-events: none;
+}
+
+body.reveal-scroll .reveal .slides section[data-layout="title-attributions"]::before {
+  background: var(--pcd-world-panel-scroll-bg);
+  backdrop-filter: none;
+}
+
+.reveal .slides section[data-layout="title-attributions"] > [data-layout-slot="heading"] {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  width: min(49rem, 100%);
+  margin: 0;
+  font-size: clamp(3.15rem, 3.8vw, 4.65rem);
+  line-height: .98;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="title-attributions"] > [data-layout-slot="heading"]::after {
+  content: "";
+  display: block;
+  width: 6.5rem;
+  height: .28rem;
+  margin-top: .9rem;
+  background: var(--pcd-accent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--pcd-accent) 28%, transparent);
+}
+
+.reveal .slides section[data-layout="title-attributions"] > .scene-group {
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > .scene-group:is(
+    [data-layout-slot="primary-attribution"],
+    [data-layout-slot="secondary-attribution"]
+  ) {
+  display: contents;
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="primary-attribution"] > cite {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  margin-top: 1.05rem;
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="secondary-attribution"] > cite {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: start;
+  margin-top: .2rem;
+}
+
+.reveal .slides section[data-layout="title-attributions"] .scene-group > cite {
+  display: block;
+  margin-inline: 0;
+  color: var(--pcd-foreground);
+  font-size: clamp(.94rem, 1.05vw, 1.16rem);
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1.28;
+}
+
+.reveal .slides section[data-layout="title-attributions"] .media-reference {
+  margin: 0;
+  padding: .7rem .85rem;
+  border: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
+  border-radius: .45rem;
+  background: #fff;
+}
+
+.reveal .slides section[data-layout="title-attributions"] .media-reference img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 5.5rem;
+  object-fit: contain;
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="primary-attribution"] > .media-reference {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  justify-self: start;
+  width: min(15rem, 100%);
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="secondary-attribution"] > .media-reference {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  justify-self: end;
+  width: min(12rem, 82%);
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="supporting-attribution"] {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: end;
+  justify-self: stretch;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .42rem;
+  padding-top: .72rem;
+  border-top: 1px solid color-mix(in srgb, var(--pcd-border) 72%, transparent);
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="supporting-attribution"] > cite {
+  color: var(--pcd-muted);
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.reveal .slides section[data-layout="title-attributions"]
+  > [data-layout-slot="supporting-attribution"] > .media-reference {
+  width: min(16rem, 100%);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="title-attributions"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    align-content: start;
+    padding: 1.3rem 1.25rem !important;
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]::before {
+    inset: .8rem .35rem;
+    border-radius: 14px;
+  }
+
+  .reveal .slides section[data-layout="title-attributions"] > [data-layout-slot="heading"] {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    padding-top: .4rem;
+    font-size: clamp(2.35rem, 9vw, 3.9rem);
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]
+    > [data-layout-slot="primary-attribution"] > .media-reference {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    width: min(10.5rem, 48vw);
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]
+    > [data-layout-slot="secondary-attribution"] > .media-reference {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    justify-self: start;
+    width: min(8.5rem, 42vw);
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]
+    > [data-layout-slot="primary-attribution"] > cite {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: .8rem;
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]
+    > [data-layout-slot="secondary-attribution"] > cite {
+    grid-column: 1;
+    grid-row: 5;
+    margin-top: .2rem;
+  }
+
+  .reveal .slides section[data-layout="title-attributions"]
+    > [data-layout-slot="supporting-attribution"] {
+    grid-column: 1;
+    grid-row: 6;
+    justify-self: end;
+    width: min(18rem, 75vw);
+    margin-top: .8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section[data-layout="title-attributions"] .media-reference,
+  .reveal .slides section[data-layout="title-attributions"] .scene-group {
+    transition: none !important;
+    animation: none !important;
+  }
+}

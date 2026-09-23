@@ -13,7 +13,11 @@ export type RevealLayoutFamily =
   | "process-diagram"
   | "foundation-card-grid"
   | "full-media"
-  | "closing";
+  | "closing"
+  | "title-attributions"
+  | "semantic-source"
+  | "semantic-multi-view"
+  | "diagram-stage";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -47,6 +51,19 @@ function isFullMediaGroup(block: SceneBlock): boolean {
   if (media.length !== 1 || prose.length !== 1) return false;
   const mediaType = media[0]?.kind === "media-reference" ? media[0].mediaType : undefined;
   return mediaType === undefined || mediaType.startsWith("image/") || mediaType.startsWith("video/");
+}
+
+function isAttributionMediaGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const prose = block.children.filter(
+    (child) => child.kind === "prose" && child.intent?.kind === "emphasize",
+  );
+  const media = block.children.filter((child) => child.kind === "media-reference");
+  return prose.length === 1 && media.length === 1;
+}
+
+function isTrigCode(block: SceneBlock | undefined): boolean {
+  return block?.kind === "code" && block.language.toLowerCase() === "trig";
 }
 
 function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
@@ -88,6 +105,54 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     }
   }
 
+  if (blocks.length === 4) {
+    const [heading, primaryAttribution, secondaryAttribution, supportingAttribution] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && primaryAttribution !== undefined
+      && secondaryAttribution !== undefined
+      && supportingAttribution !== undefined
+      && isAttributionMediaGroup(primaryAttribution)
+      && isAttributionMediaGroup(secondaryAttribution)
+      && isAttributionMediaGroup(supportingAttribution)
+    ) {
+      return {
+        family: "title-attributions",
+        slots: ["heading", "primary-attribution", "secondary-attribution", "supporting-attribution"],
+      };
+    }
+  }
+
+  if (blocks.length === 3) {
+    const [heading, source, chart] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && isTrigCode(source)
+      && chart?.kind === "chart"
+    ) {
+      return {
+        family: "semantic-multi-view",
+        slots: ["heading", "source", "chart"],
+      };
+    }
+  }
+
+  if (blocks.length === 2) {
+    const [heading, source] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && isTrigCode(source)
+    ) {
+      return {
+        family: "semantic-source",
+        slots: ["heading", "source"],
+      };
+    }
+  }
+
   if (blocks.length === 2) {
     const [heading, mediaGroup] = blocks;
     if (
@@ -114,6 +179,20 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "concentric-network",
         slots: ["heading", "network"],
+      };
+    }
+  }
+
+  if (blocks.length === 2) {
+    const [heading, diagram] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && diagram?.kind === "diagram"
+    ) {
+      return {
+        family: "diagram-stage",
+        slots: ["heading", "diagram"],
       };
     }
   }

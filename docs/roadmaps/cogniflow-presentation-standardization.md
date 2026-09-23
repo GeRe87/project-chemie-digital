@@ -826,3 +826,25 @@ Result:
 Take Home now uses the same ordered-card vocabulary as other semantic sequences, Closing is a reusable minimal layout, and narrow portrait rendering is a profile capability rather than a CogniFlow-specific application branch.
 
 Next migration target: the remaining title/opening/core-sequence styles. These are now the final CogniFlow-specific presentation layout files.
+
+
+### Increment 8e — final title, opening and semantic-core layout migration
+
+Status: **implemented on this branch**
+
+Completed:
+
+- added generic `title-attributions` inference for one heading followed by three attribution/media groups;
+- replaced title organization/logo placement by ordered layout slots rather than attribution, organization or media resource ids;
+- added generic `diagram-stage` inference for a heading plus an ordinary diagram while preserving the higher-priority concentric-network strategy;
+- moved coupling, laboratory-diversity, service-architecture and provenance slides onto the shared diagram-stage layout;
+- promoted `semantic-source` and `semantic-multi-view` decisions into the central renderer layout policy rather than assigning them ad hoc in the pitch preview;
+- moved the scene-scale semantic source and multi-view sizing rules into their existing generic runtime styles;
+- removed the final three CogniFlow-specific presentation stylesheets: opening sequence, title media and core sequence;
+- extended opaque-id policy tests and anti-hardcoding guardrails for every scene previously covered by those styles.
+
+Result:
+
+`apps/pitch/src` no longer requires a CogniFlow-named presentation layout/runtime stylesheet. Title, opening diagrams, semantic-source/multi-view scenes and provenance are all selected from SceneDocument structure.
+
+Next step: final invariant audit across application, renderer and generation scripts, followed by removal of any residual compatibility or validation exceptions that still key on CogniFlow lexical identity.

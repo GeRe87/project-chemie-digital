@@ -374,6 +374,108 @@ function processContextScene(id: string): Scene {
   };
 }
 
+function attributionGroup(id: string): Scene["blocks"][number] {
+  return {
+    id,
+    kind: "group",
+    children: [
+      {
+        ...prose(`${id}:text`, "emphasize"),
+        emphasis: "supporting",
+      },
+      {
+        id: `${id}:media`,
+        kind: "media-reference",
+        uri: "/assets/logo.svg",
+        mediaType: "image/svg+xml",
+        alternativeText: "Organization logo",
+        intent: { kind: "emphasize" },
+        emphasis: "supporting",
+        source: [{ resourceId: `resource:${id}:media` }],
+      },
+    ],
+    readingOrder: [`${id}:text`, `${id}:media`],
+    intent: { kind: "emphasize" },
+    emphasis: "supporting",
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+function titleAttributionsScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:title" }],
+    blocks: [
+      prose("title:heading", "introduce"),
+      attributionGroup("title:primary"),
+      attributionGroup("title:secondary"),
+      attributionGroup("title:supporting"),
+    ],
+    readingOrder: ["title:heading", "title:primary", "title:secondary", "title:supporting"],
+  };
+}
+
+function semanticSourceScene(id: string, includeChart = false): Scene {
+  const blocks: Scene["blocks"] = [
+    prose("semantic:heading", "introduce"),
+    {
+      id: "semantic:code",
+      kind: "code",
+      language: "trig",
+      code: "ex:a ex:b ex:c .",
+      fallback: "ex:a ex:b ex:c .",
+      editable: false,
+      executable: false,
+      source: [{ resourceId: "resource:semantic-code" }],
+    },
+  ];
+  if (includeChart) {
+    blocks.push({
+      id: "semantic:chart",
+      kind: "chart",
+      chartType: "bar",
+      label: "Opaque chart",
+      description: "Opaque chart description",
+      xAxis: { label: "x" },
+      yAxis: { label: "y" },
+      data: [{ id: "datum:1", category: "A", value: 1, source: [{ resourceId: "resource:datum" }] }],
+      source: [{ resourceId: "resource:chart" }],
+    });
+  }
+  return {
+    id,
+    source: [{ resourceId: "resource:semantic-scene" }],
+    blocks,
+    readingOrder: blocks.map((block) => block.id),
+  };
+}
+
+function diagramStageScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:diagram-stage" }],
+    blocks: [
+      prose("diagram:heading", "introduce"),
+      {
+        id: "diagram:body",
+        kind: "diagram",
+        diagramType: "flow",
+        label: "Opaque diagram",
+        description: "Opaque diagram",
+        nodes: [
+          { id: "node:a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "node:b", label: "B", source: [{ resourceId: "resource:b" }] },
+        ],
+        edges: [
+          { id: "edge:ab", sourceNodeId: "node:a", targetNodeId: "node:b", label: "next", source: [{ resourceId: "resource:ab" }] },
+        ],
+        source: [{ resourceId: "resource:diagram" }],
+      },
+    ],
+    readingOrder: ["diagram:heading", "diagram:body"],
+  };
+}
+
 function fullMediaScene(id: string, mediaType: string): Scene {
   return {
     id,
@@ -469,6 +571,16 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
     readingOrder: ["block:heading", "block:intro", "block:diagram", "block:takeaway"],
   };
 }
+
+test("infers title-attributions, semantic runtimes and diagram-stage without identity", () => {
+  assert.equal(inferRevealLayoutFamily(titleAttributionsScene("opaque:title")), "title-attributions");
+  assert.deepEqual(inferRevealLayoutDecision(titleAttributionsScene("opaque:title-slots"))?.slots, [
+    "heading", "primary-attribution", "secondary-attribution", "supporting-attribution",
+  ]);
+  assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:source")), "semantic-source");
+  assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:multi", true)), "semantic-multi-view");
+  assert.equal(inferRevealLayoutFamily(diagramStageScene("opaque:diagram")), "diagram-stage");
+});
 
 test("infers generic closing from a single authored heading", () => {
   const scene: Scene = {

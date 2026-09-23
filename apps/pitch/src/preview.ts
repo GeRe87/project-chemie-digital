@@ -3,7 +3,7 @@ import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram" | "foundation-card-grid";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram" | "foundation-card-grid" | "full-media" | "closing" | "title-attributions" | "diagram-stage";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -326,10 +326,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
   for (const document of documents) for (const scene of document.scenes) {
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
-    const semanticCode = scene.blocks.some((block) => block.kind === "code" && block.language.toLowerCase() === "trig");
-    const semanticMultiView = semanticCode && scene.blocks.some((block) => block.kind === "chart");
-    const semanticGraphCompanion = semanticCode && !semanticMultiView && scene.blocks.length === 2;
     const inferredLayout = inferRevealLayoutDecision(scene);
+    const semanticGraphCompanion = inferredLayout?.family === "semantic-source";
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
@@ -337,7 +335,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-source-path-id", document.sourcePathId);
     section.setAttribute(
       "data-layout",
-      inferredLayout?.family ?? (semanticMultiView ? "semantic-multi-view" : semanticCode ? "semantic-source" : (layoutByScene[scene.id] ?? "statement")),
+      inferredLayout?.family ?? (layoutByScene[scene.id] ?? "statement"),
     );
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);

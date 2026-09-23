@@ -59,3 +59,49 @@
     transition: none !important;
   }
 }
+
+
+/* Generic semantic-source scene composition. */
+.reveal .slides section[data-layout="semantic-source"] {
+  padding: 2.2rem 3.2rem 2rem !important;
+}
+
+.reveal .slides section[data-layout="semantic-source"] > [data-layout-slot="heading"] {
+  max-width: 20ch;
+  margin: 0 0 .3em;
+  font-size: 2.42em;
+  line-height: .98;
+  letter-spacing: -.028em;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="semantic-source"] .code-static-fallback {
+  box-sizing: border-box;
+  min-height: 25rem;
+  max-height: 25rem;
+  margin: 0;
+  padding: 1.15rem 1.2rem;
+  font-size: .64em;
+  line-height: 1.42;
+}
+
+.reveal .slides section[data-layout="semantic-source"] .d3-scene-knowledge-host {
+  min-height: 25rem;
+  height: 25rem;
+}
+
+.reveal .slides section[data-layout="semantic-source"] .d3-graph-svg {
+  min-height: 22rem !important;
+}
+
+@media (max-width: 1000px) {
+  .reveal .slides section[data-layout="semantic-source"] {
+    padding: 1.4rem 1rem 1.2rem !important;
+  }
+
+  .reveal .slides section[data-layout="semantic-source"] .code-static-fallback,
+  .reveal .slides section[data-layout="semantic-source"] .d3-scene-knowledge-host {
+    min-height: 19rem;
+    height: auto;
+  }
+}
