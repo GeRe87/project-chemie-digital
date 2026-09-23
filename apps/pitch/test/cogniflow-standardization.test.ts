@@ -122,6 +122,15 @@ test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
 });
 
 
+test("generic concentric renderer uses true SVG circles instead of themed card rectangles", () => {
+  const renderer = source("../../../packages/renderer-d3/src/flow-diagram.ts");
+  const css = source("../src/concentric-network-layout.css");
+
+  assert.equal(renderer.includes('layout.strategy === "concentric-network"\n            ? document.createElementNS(namespace, "circle")'), true);
+  assert.equal(css.includes('circle.d3-flow-node-shape'), true);
+  assert.equal(css.includes('clip-path: none'), true);
+});
+
 test("semantic core is canonical grouped network data rather than a bespoke ring payload", () => {
   const trig = source("../../../ontology/dataset/cogniflow-semantic-core.trig");
   const main = source("../src/main.ts");

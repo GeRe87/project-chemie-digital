@@ -920,20 +920,24 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             group.setAttribute("tabindex", "0");
             group.setAttribute("role", "button");
           }
-          const rect = document.createElementNS(namespace, "rect");
-          rect.setAttribute("class", "d3-flow-node-shape");
-          rect.setAttribute("x", String(-layoutNode.width / 2));
-          rect.setAttribute("y", String(-layoutNode.height / 2));
-          rect.setAttribute("width", String(layoutNode.width));
-          rect.setAttribute("height", String(layoutNode.height));
-          rect.setAttribute("rx", layout.strategy === "concentric-network"
-            ? String(layoutNode.height / 2)
-            : layout.strategy === "radial-network" || layout.strategy === "triadic-network"
-              ? "6"
-              : "8");
-          rect.setAttribute("fill", "none");
-          rect.setAttribute("stroke", "currentColor");
-          group.append(rect);
+          const shape = layout.strategy === "concentric-network"
+            ? document.createElementNS(namespace, "circle")
+            : document.createElementNS(namespace, "rect");
+          shape.setAttribute("class", "d3-flow-node-shape");
+          if (layout.strategy === "concentric-network") {
+            shape.setAttribute("cx", "0");
+            shape.setAttribute("cy", "0");
+            shape.setAttribute("r", String(Math.min(layoutNode.width, layoutNode.height) / 2));
+          } else {
+            shape.setAttribute("x", String(-layoutNode.width / 2));
+            shape.setAttribute("y", String(-layoutNode.height / 2));
+            shape.setAttribute("width", String(layoutNode.width));
+            shape.setAttribute("height", String(layoutNode.height));
+            shape.setAttribute("rx", layout.strategy === "radial-network" || layout.strategy === "triadic-network" ? "6" : "8");
+          }
+          shape.setAttribute("fill", "none");
+          shape.setAttribute("stroke", "currentColor");
+          group.append(shape);
           if (modelNode.description) {
             const title = document.createElementNS(namespace, "title");
             title.textContent = modelNode.description;
