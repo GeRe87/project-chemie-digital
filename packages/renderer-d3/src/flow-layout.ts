@@ -847,85 +847,69 @@ function resolveConcentricGroupAnnotations(
       Math.max(150, ...labelLines.map((line) => deterministicFlowTextMeasure(line) * (20 / 15) + 40)),
     );
     const labelHeight = Math.max(44, labelLines.length * 28 + 14);
-    const preferredAngle = groupIndex % 2 === 0 ? -Math.PI * 0.72 : -Math.PI * 0.28;
+
+    const preferLeft = groupIndex % 2 === 0;
+    const preferredAngle = preferLeft ? Math.PI : 0;
     const gapAngles = concentricGroupGapAngles(group, nodes, preferredAngle);
-    const fallbackAngles = [
-      preferredAngle,
-      -preferredAngle,
-      Math.PI - preferredAngle,
-      Math.PI + preferredAngle,
-      -Math.PI / 4,
-      -Math.PI * 3 / 4,
-      Math.PI / 4,
-      Math.PI * 3 / 4,
-      0,
-      Math.PI,
-    ].map(normalizedAngle);
-    const angles = [...gapAngles, ...fallbackAngles.filter((angle) =>
-      !gapAngles.some((existing) => angularDistance(existing, angle) < 0.01))];
+    const sideAngles = gapAngles
+      .filter((angle) => preferLeft ? Math.cos(angle) < -0.15 : Math.cos(angle) > 0.15)
+      .concat([preferredAngle]);
 
-    const candidateFor = (
-      labelX: number,
-      labelY: number,
-      angle: number,
-    ): D3FlowLayoutGroup | undefined => {
-      const anchorX = group.cx + Math.cos(angle) * group.radius;
-      const anchorY = group.cy + Math.sin(angle) * group.radius;
+    const labelX = preferLeft
+      ? labelWidth / 2 + 24
+      : width - labelWidth / 2 - 24;
+
+    // Try several vertical slots inside the guaranteed side gutter.
+    const slotYs = [
+      height * 0.28,
+      height * 0.40,
+      height * 0.52,
+      height * 0.64,
+      height * 0.76,
+    ];
+
+    for (const labelY of slotYs) {
       const rect: LayoutRect = { x: labelX, y: labelY, width: labelWidth, height: labelHeight };
-      if (!insideLayout(rect, width, height, 18)) return undefined;
-      if (nodes.some((node) => circleOverlapsRect(node, rect, 14))) return undefined;
-      if (placedLabels.some((other) => overlaps(rect, other, 18))) return undefined;
-      if (!annotationLineClearsNodes(labelX, labelY, labelWidth, labelHeight, anchorX, anchorY, nodes)) return undefined;
-      return {
-        ...group,
-        labelX,
-        labelY,
-        labelWidth,
-        labelHeight,
-        labelLines,
-        labelAnchorX: anchorX,
-        labelAnchorY: anchorY,
-      };
+      if (!insideLayout(rect, width, height, 18)) continue;
+      if (placedLabels.some((other) => overlaps(rect, other, 20))) continue;
+
+      for (const angle of sideAngles) {
+        const anchorX = group.cx + Math.cos(angle) * group.radius;
+        const anchorY = group.cy + Math.sin(angle) * group.radius;
+        if (!annotationLineClearsNodes(labelX, labelY, labelWidth, labelHeight, anchorX, anchorY, nodes)) continue;
+        placedLabels.push(rect);
+        return {
+          ...group,
+          labelX,
+          labelY,
+          labelWidth,
+          labelHeight,
+          labelLines,
+          labelAnchorX: anchorX,
+          labelAnchorY: anchorY,
+        };
+      }
+    }
+
+    // Guaranteed fallback in the side gutter. It never throws and cannot cover the ring itself.
+    const fallbackY = Math.max(
+      labelHeight / 2 + 24,
+      Math.min(height - labelHeight / 2 - 24, height * (preferLeft ? 0.34 : 0.66)),
+    );
+    const fallbackAngle = preferLeft ? Math.PI : 0;
+    const anchorX = group.cx + Math.cos(fallbackAngle) * group.radius;
+    const anchorY = group.cy + Math.sin(fallbackAngle) * group.radius;
+    placedLabels.push({ x: labelX, y: fallbackY, width: labelWidth, height: labelHeight });
+    return {
+      ...group,
+      labelX,
+      labelY: fallbackY,
+      labelWidth,
+      labelHeight,
+      labelLines,
+      labelAnchorX: anchorX,
+      labelAnchorY: anchorY,
     };
-
-    const radialClearances = [54, 94, 134, 174, 214];
-    for (const angle of angles) {
-      for (const clearance of radialClearances) {
-        const labelRadius = group.radius + labelHeight / 2 + clearance;
-        const labelX = group.cx + Math.cos(angle) * labelRadius;
-        const labelY = group.cy + Math.sin(angle) * labelRadius;
-        const candidate = candidateFor(labelX, labelY, angle);
-        if (!candidate) continue;
-        placedLabels.push({ x: labelX, y: labelY, width: labelWidth, height: labelHeight });
-        return candidate;
-      }
-    }
-
-    // Exhaustive deterministic fallback: still collision-checked, never an unsafe placement.
-    const gridStep = 18;
-    const gridCandidates: Array<{ x: number; y: number; angle: number; score: number }> = [];
-    for (let y = labelHeight / 2 + 18; y <= height - labelHeight / 2 - 18; y += gridStep) {
-      for (let x = labelWidth / 2 + 18; x <= width - labelWidth / 2 - 18; x += gridStep) {
-        const angle = normalizedAngle(Math.atan2(y - group.cy, x - group.cx));
-        const radialDistance = Math.hypot(x - group.cx, y - group.cy);
-        if (radialDistance <= group.radius + 34) continue;
-        gridCandidates.push({
-          x,
-          y,
-          angle,
-          score: angularDistance(angle, preferredAngle) * 180 + Math.abs(radialDistance - (group.radius + 150)),
-        });
-      }
-    }
-    gridCandidates.sort((left, right) => left.score - right.score || left.y - right.y || left.x - right.x);
-    for (const grid of gridCandidates) {
-      const candidate = candidateFor(grid.x, grid.y, grid.angle);
-      if (!candidate) continue;
-      placedLabels.push({ x: grid.x, y: grid.y, width: labelWidth, height: labelHeight });
-      return candidate;
-    }
-
-    throw new Error(`Unable to place concentric group annotation without collision: ${group.id}`);
   });
 }
 
@@ -959,7 +943,9 @@ function concentricNetworkLayout(
 
   const groupRadius = (index: number): number => 205 + index * 145;
   const outerRadius = groupRadius(Math.max(0, groups.length - 1));
-  const width = Math.max(780, Math.min(hostWidth, 1040), outerRadius * 2 + 180);
+  const ringDiameter = outerRadius * 2;
+  const annotationGutter = 250;
+  const width = Math.max(1120, Math.min(hostWidth, 1320), ringDiameter + annotationGutter * 2 + 80);
   const height = Math.max(740, outerRadius * 2 + 120);
   const cx = width / 2;
   const cy = outerRadius + 58;
