@@ -607,8 +607,8 @@ function addEdgeLabel(
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
   group.append(panel);
 
-  const edgeMidX = midpoint(edge.x1, edge.x2);
-  const edgeMidY = midpoint(edge.y1, edge.y2);
+  const edgeMidX = edge.x1 + (edge.x2 - edge.x1) / 2;
+  const edgeMidY = edge.y1 + (edge.y2 - edge.y1) / 2;
   const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
   if (strategy === "layered-flow" || displaced) {
     const stem = document.createElementNS(namespace, "line");
