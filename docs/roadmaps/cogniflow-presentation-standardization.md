@@ -16,6 +16,23 @@ The migration branch is:
 
 The talk branch remains the visual/reference baseline.
 
+## Completion status
+
+**COMPLETE — locally accepted on the standardization branch.**
+
+The owner has completed the final local acceptance pass after the production identity audit:
+
+- CogniFlow canonical runtime generation succeeds;
+- the Pitch test suite succeeds;
+- `dev:cogniflow` starts successfully;
+- the standardized presentation has passed the final visual smoke pass;
+- title, diagrams, semantic-network layouts, media sequences, presenter shell and responsive behavior were accepted through iterative local review.
+
+The production identity invariant is now enforced by test: application/runtime, core, renderer and production scripts may not contain CogniFlow lexical identity, except the explicit presentation-profile/path selector. CogniFlow identity remains valid in authored ontology/data, content-specific tests/documentation, package commands and profile selection.
+
+Integration status at completion: the branch is based directly on current `main` with no commits behind at the final comparison before Draft PR creation.
+
+
 ---
 
 ## Architectural guardrails
@@ -935,3 +952,41 @@ Audit result:
 - Remaining CogniFlow identity is confined to authored ontology/data, migration tests/documentation, package/profile entry points and the explicit presentation-profile content selector.
 
 The implementation-side standardization target is therefore met. Final acceptance now depends on the local generator/test suite and one visual smoke pass of the presentation.
+
+
+---
+
+## Final acceptance record
+
+Status: **standardization roadmap complete**
+
+Accepted end state:
+
+```text
+canonical TriG
+    ↓
+canonical compiler / semantic projection
+    ↓
+renderer-neutral SceneDocument
+    ↓
+generic structural layout inference
+    ↓
+generic renderer/runtime components
+    ↓
+Reveal / scroll / mobile / self-study consumers
+```
+
+The completed migration establishes these invariants:
+
+1. Audience-visible CogniFlow content is authored in TriG rather than TypeScript/CSS.
+2. Renderer behavior does not branch on CogniFlow scene/resource ids.
+3. Layout families are inferred from SceneDocument structure, not presentation identity.
+4. Responsive/mobile behavior remains renderer/profile-owned rather than duplicated per scene.
+5. Diagrams, charts, tables, definition lists, media and provenance preserve canonical source evidence.
+6. Presenter features such as clock, laser pointer and native portrait viewport are reusable profile capabilities.
+7. Alternate publication projection changes realization without introducing a second authored content source.
+8. Full-media sequences, transitions and background policy are structural rather than scene-id lists.
+9. The production identity regression guard prevents future CogniFlow coupling from re-entering application/core/renderer/scripts.
+10. The reference CogniFlow presentation remains authored content built on the same generic platform contracts as other Project Chemie Digital presentations.
+
+No additional presentation-standardization migration increment is planned on this branch. Further changes should be treated as independent generic platform features or ordinary CogniFlow content revisions.

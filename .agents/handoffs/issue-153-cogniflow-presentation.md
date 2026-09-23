@@ -1,103 +1,121 @@
-# Issue #153 — CogniFlow presentation handoff
+# Issue #153 — final CogniFlow presentation standardization handoff
 
 ## Status
 
-Implementation is complete on `agent/153-bar-chart-draft` and ready for fresh exact-head validation and independent review. The branch must remain Draft/unmerged until those gates are complete.
+Implementation and owner-side local acceptance are complete on:
 
-## Original issue boundary
+`standardization/cogniflow-trig-rendering`
 
-Issue #153 started as the first semantics-authored quantitative chart vertical slice:
+The branch is ready for a Draft PR and independent/exact-head validation. It must remain Draft and unmerged until the repository workflow gates are satisfied.
+
+## Scope evolution
+
+Issue #153 began as the first semantics-authored quantitative chart vertical slice:
 
 `TriG + SHACL -> canonical ChartBlock -> renderer-d3 -> Pitch`
 
-with one illustrative CogniFlow bar-chart example.
+Owner-directed work intentionally expanded that slice into the complete CogniFlow presentation and then into a full standardization pass. The resulting branch should therefore be reviewed as a generic presentation-platform migration plus the authored CogniFlow reference presentation, not as a narrow bar-chart-only change.
 
-During owner-directed follow-up work, the same branch was intentionally expanded into the complete eight-scene CogniFlow presentation and its supporting generic presentation runtime behavior. This expanded presentation scope is deliberate and should be reviewed as such rather than treated as an accidental issue-scope leak.
+## Final architecture
 
-## Final audience narrative
+The accepted implementation follows:
 
-The selected CogniFlow path now compiles to exactly eight ordered scenes:
+```text
+canonical TriG
+    ↓
+canonical compiler / semantic projection
+    ↓
+renderer-neutral SceneDocument
+    ↓
+generic structural layout inference
+    ↓
+generic renderer/runtime components
+    ↓
+Reveal / scroll / mobile / self-study consumers
+```
 
-1. `Standardized Data Processing - Project CogniFlow`
-2. `One Dependency Can Break the Workflow`
-3. `One Interface. Specialized Providers.`
-4. `Interfaces Need Shared Meaning`
-5. `One Meaning. Multiple Views.`
-6. `The Result Carries Its History`
-7. `From Raw Signal to Reusable Result`
-8. `Take-Home`
+Key architectural invariants:
 
-The speaker/reveal choreography is documented in `docs/cogniflow-talk-runbook.md`.
+- CogniFlow audience content is authored in TriG.
+- Application/core/renderer behavior does not select layout or runtime behavior from CogniFlow scene/resource ids.
+- Presentation-specific pixel geometry, CSS classes, breakpoints and layout-family names remain renderer-owned.
+- SceneDocument remains renderer-neutral and preserves source/provenance evidence.
+- Responsive behavior is generic and deterministic.
+- CogniFlow identity remains only where it legitimately selects content/configuration: authored ontology/data, package/profile entry points, tests/docs and `presentation-profile.ts`.
 
-## Implemented semantic/runtime capabilities
+## Major generic capabilities delivered
 
-- additive `ChartDefinition` / `ChartRole` semantics and SHACL coverage;
-- renderer-neutral SceneDocument chart blocks with provenance-preserving ordered data;
-- renderer-d3 bar chart support and later line-chart/annotation support used by the analytical proof scene;
-- generic Pitch chart hosts and transactional mounting;
-- generic DAG-derived progressive flow reveals;
-- semantic-source reveal coupling between authored RDF and the semantic graph;
-- same-semantics multi-view projection (`RDF -> TABLE -> CHART`) without duplicating the semantic source;
-- synchronized analytical proof progression from raw signal to FAIR artifact;
-- three-principle take-home scene with one explicit closing statement;
-- responsive/light/dark presentation styling built on existing theme variables;
-- static fallback and source/provenance identity remain downstream of canonical semantic content.
+- bar and line ChartBlock contracts with D3 renderers and progressive annotations;
+- FlowDiagram / NetworkDiagram / SequenceDiagram projection and generic layouts;
+- relation-free grouped concentric networks;
+- structured diagram node title/body rendering;
+- semantic-source and semantic-multi-view projections;
+- analytical-proof synchronized chart/flow progression;
+- tables and definition lists as canonical structured blocks;
+- generic concept/specification, hierarchy, card-sequence, foundation-card-grid, process-diagram, diagram-stage and hero-title layouts;
+- generic full-media sequences with structural hard cuts/background suppression/playback lifecycle;
+- generic alternate publication projection from existing compiled content;
+- reusable presenter clock, laser pointer and native portrait viewport capabilities;
+- generic closing scene and responsive presentation shell;
+- generic browser diagram regression utility.
 
-## Current presentation design
+## Removed implementation coupling
 
-The final presentation deliberately keeps one claim per scene and low visible density:
+The migration removed the former CogniFlow-specific presentation implementation layer, including:
 
-- problem and architecture use matching four-step reveal cadence;
-- semantics, views and provenance form one conceptual middle block;
-- provenance scene is domain-neutral (`INPUT DATA -> PROCESSING -> DERIVED ARTIFACT -> REUSABLE RESULT`) so it does not duplicate the analytical proof;
-- analytical proof distinguishes visible chart evidence (`Baseline estimate`, `Peak apex / model anchor`, `Integration window`) from scientific result states;
-- final scene is reduced to `DECOUPLED. SEMANTIC. REPRODUCIBLE.` plus `Standardize the contract, not the implementation.`
+- scene-id-specific layout styles;
+- CogniFlow-specific dark/mobile compatibility styles;
+- CogniFlow-specific semantic-ring runtime;
+- CogniFlow-specific publication-projection content/runtime;
+- CogniFlow-specific clock and laser-pointer implementations;
+- concrete showcase/hard-cut/background-freeze scene-id sets;
+- concrete analytical-proof annotation-id color selectors;
+- production-generator validation keyed to a CogniFlow scene id;
+- the CogniFlow-specific scroll regression script.
 
-## Focused validation evidence obtained in the worker environment
+A repository-level regression guard now fails if CogniFlow lexical identity re-enters production application/core/renderer/script logic outside the explicit profile selector allowlist.
 
-- branch comparison to `main`: ahead, zero commits behind at the time of handoff preparation;
-- updated CogniFlow TriG files touched late in the presentation pass were individually syntax-smoke-checked with RDFLib where possible;
-- isolated `analytical-proof-runtime` Node test: 4/4 passed;
-- static inspection confirms semantic-source step count derives from exactly three shown resources;
-- multi-view runtime is fixed at semantic/table/chart stages (two Reveal clicks after initial RDF state);
-- flow reveal counts are derived from authored DAG topology;
-- analytical proof keeps five synchronized result states with final chart state frozen while lineage advances to the FAIR artifact;
-- Light/Dark presentation variables required by the new CogniFlow CSS are defined centrally in `apps/pitch/src/styles.css`.
+## Validation / acceptance evidence
 
-## Validation that is NOT claimed
+Owner-side local acceptance has been completed after the final migration/audit:
 
-The worker environment cannot resolve `github.com` from the local execution container, so a full checkout cannot be obtained. Therefore this handoff does **not** claim:
+- `npm --workspace @project-chemie-digital/pitch run generate:cogniflow` — accepted;
+- `npm --workspace @project-chemie-digital/pitch test` — accepted;
+- `npm --workspace @project-chemie-digital/pitch run dev:cogniflow` — accepted;
+- iterative visual acceptance was completed for the standardized slides, including the final hero title, semantic ring network, graph/flow layouts and shell behavior.
 
-- repository-wide `npm test`;
-- full pySHACL validation on the exact final head;
-- canonical runtime generation/check on the exact final head;
-- full Pitch test suite;
-- Vite production/dev browser build;
-- Firefox/Chromium visual acceptance at 1440x900, narrow widths, Light mode and Dark mode.
+The final documentation/handoff commit is non-runtime. A fresh exact-head repository validator should still be run on the Draft PR as required by project workflow.
 
-GitHub currently reports no ordinary commit status checks on the branch. Per repository workflow, fresh exact-head `agent-validator/project-chemie-digital` evidence is required before acceptance.
+## Branch integration state
 
-## Known core follow-up
+At final pre-PR comparison:
 
-`scripts/generate_canonical_runtime.py` currently promotes a chart-bearing document to SceneDocument `1.2`, but a later `DiagramRole` assignment can overwrite the version back to `1.1`. The current CogniFlow analytical scene is authored with diagram before chart, so its final compiled document remains `1.2`, and the CogniFlow regression pins that contract.
+- base: `main`
+- branch: `standardization/cogniflow-trig-rendering`
+- behind `main`: **0**
+- branch is directly ahead of `main`.
 
-This is a generic compiler robustness defect: version promotion should be monotonic (`1.0 < 1.1 < 1.2`) and independent of SceneItem order. It should be repaired in a separate bounded core/compiler follow-up rather than by a risky partial edit from the connector-only environment.
+The branch is intentionally large because it contains the owner-directed presentation build plus the subsequent standardization migration.
 
-## Required next gates
+## Previously known compiler follow-up
 
-1. Run the repository's exact-head validator on the Draft PR head.
-2. If validator succeeds, run the owner/browser acceptance with `npm --workspace @project-chemie-digital/pitch run dev:cogniflow`.
-3. Check the eight-scene sequence in both Light and Dark themes at the canonical 1440x900 deck size and a narrow viewport.
-4. Walk all reveals forward and backward, especially scenes 2, 3, 4, 5, 6 and 7.
-5. Confirm no content clipping, stale chart/flow state or duplicate fragments after slide revisit.
-6. Keep the PR Draft until independent review is clean; do not self-accept or merge.
+The earlier handoff warned that SceneDocument version promotion could be order-dependent. That defect is no longer present: canonical compilation now uses monotonic `promote_document_version()` calls for chart/diagram/table/definition-list capabilities, so later scene items cannot downgrade a previously required document version.
 
-## PR metadata requirement
+There is therefore no known generic compiler blocker carried forward from the previous handoff.
 
-The Draft PR should include:
+## Required remaining gates
+
+1. Open/keep the PR as **Draft**.
+2. Run the repository's fresh exact-head validator on the PR head.
+3. Perform independent review of the generic architectural changes.
+4. Do not self-accept or merge as part of this handoff.
+
+## PR metadata
+
+The Draft PR must contain:
 
 `<!-- agent-workflow-validator:project-chemie-digital -->`
 
-and
+and:
 
 `Closes #153`
