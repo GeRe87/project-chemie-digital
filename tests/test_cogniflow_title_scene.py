@@ -89,29 +89,36 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertEqual("en", RUNTIME.effective_path_language(self.dataset, selection.path))
         self.assertEqual(selection, RUNTIME.select_course_unit_path(self.dataset, request()))
 
-    def test_cogniflow_compiles_standardized_narrative_by_semantic_scene_identity(self) -> None:
+    def test_cogniflow_compiles_exact_runtime_narrative(self) -> None:
         self.assertEqual("ex:path-cogniflow-standardized-data-processing", self.document["sourcePathId"])
         self.assertEqual("1.5", self.document["version"])
         ids = [scene["id"] for scene in self.document["scenes"]]
-        self.assertEqual(len(ids), len(set(ids)))
-        self.assertEqual("ex:scene-cogniflow-title--scene", ids[0])
-        self.assertEqual("ex:scene-cogniflow-closing--scene", ids[-1])
-
-        required_in_order = [
-            "ex:scene-cogniflow-processing-black-box--scene",
-            "ex:scene-cogniflow-fair-processing-gap--scene",
-            "ex:scene-cogniflow-explicit-processing-context--scene",
-            "ex:scene-cogniflow-semantics-first--scene",
-            "ex:scene-cogniflow-semantic-core--scene",
-            "ex:scene-cogniflow-processing-pipeline--scene",
-            "ex:scene-cogniflow-service-process--scene",
-            "ex:scene-cogniflow-semantics-as-source--scene",
-            "ex:scene-cogniflow-same-semantics-different-views--scene",
-            "ex:scene-cogniflow-provenance-pipeline--scene",
-            "ex:scene-cogniflow-analytical-proof--scene",
-            "ex:scene-cogniflow-take-home--scene",
-        ]
-        self.assertTrue(set(required_in_order) <= set(ids))
+        self.assertEqual(
+            [
+                "ex:scene-cogniflow-title--scene",
+                "ex:scene-cogniflow-processing-black-box--scene",
+                "ex:scene-cogniflow-fair-data-intro--scene",
+                "ex:scene-cogniflow-fair-processing-gap--scene",
+                "ex:scene-cogniflow-explicit-processing-context--scene",
+                "ex:scene-cogniflow-semantics-first--scene",
+                "ex:scene-cogniflow-semantic-triples--scene",
+                "ex:scene-cogniflow-semantic-core--scene",
+                "ex:scene-cogniflow-semantic-hierarchy--scene",
+                "ex:scene-cogniflow-core-grammar--scene",
+                "ex:scene-cogniflow-domain-specifications--scene",
+                "ex:scene-cogniflow-ui-specifications--scene",
+                "ex:scene-cogniflow-presentation-specifications--scene",
+                "ex:scene-cogniflow-processing-pipeline--scene",
+                "ex:scene-cogniflow-service-process--scene",
+                "ex:scene-cogniflow-extension-system--scene",
+                "ex:scene-cogniflow-showcase-still--scene",
+                "ex:scene-cogniflow-showcase-video-one--scene",
+                "ex:scene-cogniflow-showcase-video-two--scene",
+                "ex:scene-cogniflow-take-home--scene",
+                "ex:scene-cogniflow-closing--scene",
+            ],
+            ids,
+        )
 
     def test_curated_service_process_projects_marketplace_sequence_without_stages(self) -> None:
         scene = self.scene("ex:scene-cogniflow-service-process--scene")
@@ -138,7 +145,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             ],
             [message["label"] for message in diagram["messages"]],
         )
-        self.assertEqual([], diagram["states"])
+        self.assertNotIn("states", diagram)
         self.assertEqual(
             "CONSUMERS DEPEND ON THE SERVICE CONTRACT — NOT ON CONCRETE PROVIDER IMPLEMENTATIONS",
             note["text"],
@@ -278,38 +285,50 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             [node["description"].splitlines()[0] for node in diagram["nodes"]],
         )
 
-    def test_semantic_views_and_provenance_form_single_core_argument(self) -> None:
-        semantic = self.scene("ex:scene-cogniflow-semantics-as-source--scene")
-        multi_view = self.scene("ex:scene-cogniflow-same-semantics-different-views--scene")
-        provenance = self.scene("ex:scene-cogniflow-provenance-pipeline--scene")
+    def test_semantic_triples_and_hierarchy_project_current_core_argument(self) -> None:
+        triples = self.scene("ex:scene-cogniflow-semantic-triples--scene")
+        hierarchy = self.scene("ex:scene-cogniflow-semantic-hierarchy--scene")
 
-        semantic_code = next(block for block in semantic["blocks"] if block["kind"] == "code")
-        multi_chart = next(block for block in multi_view["blocks"] if block["kind"] == "chart")
-        provenance_diagram = next(block for block in provenance["blocks"] if block["kind"] == "diagram")
+        self.assertEqual(
+            ["prose", "prose", "list", "diagram", "prose"],
+            [block["kind"] for block in triples["blocks"]],
+        )
+        triples_diagram = next(block for block in triples["blocks"] if block["kind"] == "diagram")
+        self.assertEqual("network", triples_diagram["diagramType"])
+        self.assertEqual(["Anna", "Essen", "University"], [node["label"] for node in triples_diagram["nodes"]])
+        self.assertEqual(["livesIn", "worksAt", "locatedIn"], [edge["label"] for edge in triples_diagram["edges"]])
 
-        self.assertIn("@prefix skos:", semantic_code["code"])
-        self.assertIn('skos:prefLabel "Injection 2"@en', semantic_code["code"])
-        self.assertEqual("bar", multi_chart["chartType"])
         self.assertEqual(
-            ["INPUT DATA", "PROCESSING · method + version + parameters", "DERIVED ARTIFACT · linked to input + process", "REUSABLE RESULT · data + provenance"],
-            [node["label"] for node in provenance_diagram["nodes"]],
+            ["prose", "prose", "diagram", "prose"],
+            [block["kind"] for block in hierarchy["blocks"]],
         )
-        self.assertEqual("ex:node-cogniflow-prov-reusable", provenance_diagram["focusNodeId"])
+        hierarchy_diagram = next(block for block in hierarchy["blocks"] if block["kind"] == "diagram")
+        self.assertEqual("flow", hierarchy_diagram["diagramType"])
+        self.assertEqual(3, len(hierarchy_diagram["nodes"]))
+        self.assertEqual(["defines vocabulary for", "used by"], [edge["label"] for edge in hierarchy_diagram["edges"]])
 
-    def test_analytical_proof_keeps_visual_evidence_distinct_from_result_states(self) -> None:
-        proof = self.scene("ex:scene-cogniflow-analytical-proof--scene")
-        chart = next(block for block in proof["blocks"] if block["kind"] == "chart")
-        lineage = next(block for block in proof["blocks"] if block["kind"] == "diagram")
-        self.assertEqual("One signal. Five explicit states.", chart["label"])
+    def test_ui_and_presentation_specifications_share_semantic_card_pattern(self) -> None:
+        ui = self.scene("ex:scene-cogniflow-ui-specifications--scene")
+        presentation = self.scene("ex:scene-cogniflow-presentation-specifications--scene")
+
+        self.assertEqual(["prose", "list", "prose"], [block["kind"] for block in ui["blocks"]])
+        self.assertEqual(["prose", "list", "prose"], [block["kind"] for block in presentation["blocks"]])
+
+        ui_heading, ui_cards, ui_note = ui["blocks"]
+        presentation_heading, presentation_cards, presentation_note = presentation["blocks"]
+
+        self.assertEqual("A Semantic Model for Web Interfaces", ui_heading["text"])
+        self.assertEqual(3, len(ui_cards["items"]))
+        self.assertIn("SIDEBAR MENU", ui_cards["items"][1]["text"])
         self.assertEqual(
-            ["Baseline estimate", "Peak apex / model anchor", "Integration window"],
-            [annotation["label"] for annotation in chart["annotations"]],
+            "THE CONCEPT DEFINES THE STRUCTURE — THE SPECIFICATION PROVIDES THE CONCRETE INTERFACE",
+            ui_note["text"],
         )
-        self.assertEqual(
-            ["RAW SIGNAL", "BASELINE ESTIMATE", "ASYMMETRIC MODEL", "AREA + UNCERTAINTY", "FAIR ARTIFACT"],
-            [node["label"] for node in lineage["nodes"]],
-        )
-        self.assertEqual(["estimate", "model", "quantify", "package"], [edge["label"] for edge in lineage["edges"]])
+
+        self.assertEqual("A Semantic Model for This Presentation", presentation_heading["text"])
+        self.assertEqual(3, len(presentation_cards["items"]))
+        self.assertIn("INFO BOX", presentation_cards["items"][1]["text"])
+        self.assertEqual("SAME SEMANTICS — DIFFERENT PROJECTIONS", presentation_note["text"])
 
     def test_take_home_preserves_authored_semantics_services_workflows_chain(self) -> None:
         scene = self.scene("ex:scene-cogniflow-take-home--scene")
@@ -321,14 +340,33 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
         self.assertIn("Standardize meaning — not implementations.", explanatory)
         self.assertIn("GET COGNIFLOW\npip install cogniflow", explanatory)
 
-    def test_semantic_and_multiview_scenes_use_analytical_replicate_data(self) -> None:
-        semantic = self.scene("ex:scene-cogniflow-semantics-as-source--scene")
-        multi_view = self.scene("ex:scene-cogniflow-same-semantics-different-views--scene")
-        code = next(block for block in semantic["blocks"] if block["kind"] == "code")
-        chart = next(block for block in multi_view["blocks"] if block["kind"] == "chart")
-        self.assertIn("ex:chart-cogniflow-replicate-peak-area", code["code"])
-        self.assertEqual(["Injection 1", "Injection 2", "Injection 3", "Injection 4"], [datum["category"] for datum in chart["data"]])
-        self.assertEqual([98.6, 100.3, 99.5, 101.1], [datum["value"] for datum in chart["data"]])
+    def test_extension_system_and_showcase_close_runtime_sequence(self) -> None:
+        extension = self.scene("ex:scene-cogniflow-extension-system--scene")
+        self.assertEqual(
+            ["prose", "prose", "prose", "definition-list", "prose"],
+            [block["kind"] for block in extension["blocks"]],
+        )
+        modules = next(block for block in extension["blocks"] if block["kind"] == "definition-list")
+        self.assertEqual(
+            ["Bootstrap Installer", "Web UI", "Pipeline Engine", "Service Module", "Report Generator"],
+            [entry["term"] for entry in modules["entries"]],
+        )
+
+        showcase_ids = [
+            "ex:scene-cogniflow-showcase-still--scene",
+            "ex:scene-cogniflow-showcase-video-one--scene",
+            "ex:scene-cogniflow-showcase-video-two--scene",
+        ]
+        showcase_texts = [
+            "CogniFlow Web UI overview before the walkthrough starts.",
+            "CogniFlow Web UI walkthrough, part one.",
+            "CogniFlow Web UI walkthrough, part two.",
+        ]
+        for scene_id, text in zip(showcase_ids, showcase_texts, strict=True):
+            scene = self.scene(scene_id)
+            self.assertEqual(["prose", "prose"], [block["kind"] for block in scene["blocks"]])
+            self.assertEqual("CogniFlow Web UI", scene["blocks"][0]["text"])
+            self.assertEqual(text, scene["blocks"][1]["text"])
 
     def test_attribution_role_rejects_wrong_selector(self) -> None:
         dataset = copy_dataset(self.dataset)
