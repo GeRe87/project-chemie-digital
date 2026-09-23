@@ -380,8 +380,12 @@ function attributionGroup(id: string): Scene["blocks"][number] {
     kind: "group",
     children: [
       {
-        ...prose(`${id}:text`, "emphasize"),
+        id: `${id}:text`,
+        kind: "prose",
+        text: `${id}:text`,
+        intent: { kind: "emphasize" },
         emphasis: "supporting",
+        source: [{ resourceId: `resource:${id}:text` }],
       },
       {
         id: `${id}:media`,
@@ -416,7 +420,7 @@ function titleAttributionsScene(id: string): Scene {
 }
 
 function semanticSourceScene(id: string, includeChart = false): Scene {
-  const blocks: Scene["blocks"] = [
+  const blocks: Array<Scene["blocks"][number]> = [
     prose("semantic:heading", "introduce"),
     {
       id: "semantic:code",
