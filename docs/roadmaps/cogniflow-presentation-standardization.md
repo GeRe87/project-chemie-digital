@@ -869,3 +869,26 @@ Completed:
 Result:
 
 The opening scene remains structurally generic but now behaves as a real presentation hero rather than an attribution board.
+
+
+### Increment 9a — remove residual generator and browser-check identity exceptions
+
+Status: **implemented on this branch**
+
+Completed:
+
+- removed the production-only validate_cogniflow_opening_chart() gate from the media-enriched canonical-runtime generator;
+- removed its hard-coded scene id, 61-point count and 0–12 min domain assertion from generation behavior;
+- retained chart/content correctness as an authored-data concern rather than a special runtime-generation contract;
+- replaced check_cogniflow_scroll.py with generic check_presentation_diagram.py;
+- the browser regression now discovers the first generic diagram-stage flow scene by default or accepts an explicit --scene-id;
+- content-specific geometry assertions are optional CLI inputs (--expected-nodes, --expected-dots-min) rather than embedded project constants;
+- generalized regression output naming and removed CogniFlow lexical identity from the script;
+- added anti-hardcoding coverage for both production generation and browser-regression utilities.
+
+Audit classification:
+
+- presentation-profile.ts intentionally retains the CogniFlow path/profile identifiers because they select authored presentation content and configuration;
+- Application layout/runtime, renderer packages and production generation no longer branch on CogniFlow scene/resource identity.
+
+Next step: run the full local generator/test suite, then perform a final repository-level residual scan and mark the standardization roadmap complete if no behavioral identity coupling remains.

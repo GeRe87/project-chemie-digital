@@ -334,3 +334,17 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(diagramCss.includes("section[id="), false);
   assert.equal(main.includes("scene-cogniflow-title"), false);
 });
+
+
+test("production generator and browser regression contain no CogniFlow identity exceptions", () => {
+  const mediaGenerator = source("../../../scripts/generate_canonical_runtime_media.py");
+  const diagramCheck = source("../../../scripts/check_presentation_diagram.py");
+
+  assert.equal(mediaGenerator.toLowerCase().includes("cogniflow"), false);
+  assert.equal(mediaGenerator.includes("validate_cogniflow_opening_chart"), false);
+  assert.equal(mediaGenerator.includes("scene-cogniflow-processing-black-box"), false);
+  assert.equal(diagramCheck.toLowerCase().includes("cogniflow"), false);
+  assert.equal(diagramCheck.includes("--scene-id"), true);
+  assert.equal(diagramCheck.includes("--expected-nodes"), true);
+  assert.equal(diagramCheck.includes('data-layout="diagram-stage"'), true);
+});
