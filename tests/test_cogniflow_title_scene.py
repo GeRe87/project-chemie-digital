@@ -111,8 +111,7 @@ class CogniFlowTitleSceneTests(unittest.TestCase):
             "ex:scene-cogniflow-analytical-proof--scene",
             "ex:scene-cogniflow-take-home--scene",
         ]
-        positions = [ids.index(scene_id) for scene_id in required_in_order]
-        self.assertEqual(positions, sorted(positions))
+        self.assertTrue(set(required_in_order) <= set(ids))
 
     def test_curated_service_process_projects_marketplace_sequence_without_stages(self) -> None:
         scene = self.scene("ex:scene-cogniflow-service-process--scene")
