@@ -95,37 +95,6 @@ export interface D3FlowComponent {
   destroy(): void;
 }
 
-export interface D3ConcentricSpectralPalette {
-  readonly fill: string;
-  readonly stroke: string;
-  readonly text: string;
-  readonly labelStroke: string;
-}
-
-export function resolveD3ConcentricSpectralPalette(
-  ringIndex: number,
-  ringOrder: number,
-  ringSize: number,
-): D3ConcentricSpectralPalette {
-  if (!Number.isInteger(ringIndex) || ringIndex < 0) throw new Error("ringIndex must be a non-negative integer");
-  if (!Number.isInteger(ringOrder) || ringOrder < 0) throw new Error("ringOrder must be a non-negative integer");
-  if (!Number.isInteger(ringSize) || ringSize < 1 || ringOrder >= ringSize) throw new Error("ringOrder must be inside ringSize");
-
-  const progress = ringSize <= 1 ? 0.5 : ringOrder / (ringSize - 1);
-  const hue = 285 - progress * 285;
-  const inner = ringIndex === 0;
-  const saturation = inner ? 72 : 78;
-  const lightness = inner ? 56 : 72;
-  const strokeLightness = inner ? 34 : 46;
-  const useDarkText = !inner || (hue >= 42 && hue <= 205);
-  return {
-    fill: `hsl(${hue.toFixed(1)} ${saturation}% ${lightness}%)`,
-    stroke: `hsl(${hue.toFixed(1)} ${Math.min(92, saturation + 8)}% ${strokeLightness}%)`,
-    text: useDarkText ? "#07313a" : "#ffffff",
-    labelStroke: useDarkText ? "#f3ffff" : "#17333d",
-  };
-}
-
 function cloneSources(values: readonly SourceReference[]): readonly SourceReference[] {
   return values.map((value) => ({
     resourceId: value.resourceId,
@@ -638,19 +607,16 @@ function addEdgeLabel(
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
   group.append(panel);
 
-  const edgeMidX = midpoint(edge.x1, edge.x2);
-  const edgeMidY = midpoint(edge.y1, edge.y2);
-  const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 10;
-  if (strategy === "layered-flow" || displaced) {
+  if (strategy === "layered-flow") {
     const stem = document.createElementNS(namespace, "line");
     stem.setAttribute("class", "d3-flow-edge-label-stem");
     stem.setAttribute("x1", String(edge.labelX));
-    stem.setAttribute("y1", String(edge.labelY));
-    stem.setAttribute("x2", String(edgeMidX));
-    stem.setAttribute("y2", String(edgeMidY));
+    stem.setAttribute("x2", String(edge.labelX));
+    stem.setAttribute("y1", String(edge.labelY + panelHeight / 2 - 2));
+    stem.setAttribute("y2", String(orientation === "horizontal" ? edge.y1 - 8 : edge.labelY + panelHeight / 2 + 14));
     stem.setAttribute("aria-hidden", "true");
     if (edge.visualRole) stem.setAttribute("data-visual-role", edge.visualRole);
-    group.insertBefore(stem, panel);
+    group.append(stem);
   }
 
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
@@ -927,23 +893,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           const ringIndex = modelNode.groupIds
             ?.map((groupId) => model.groups.findIndex((candidate) => candidate.id === groupId))
             .find((index) => index >= 0);
-          if (layout.strategy === "concentric-network" && ringIndex !== undefined) {
-            group.setAttribute("data-ring-index", String(ringIndex));
-            const groupId = modelNode.groupIds?.find((candidate) => model.groups[ringIndex]?.id === candidate);
-            const ringMembers = groupId
-              ? model.nodes.filter((candidate) => candidate.groupIds?.includes(groupId))
-              : [];
-            const ringOrder = ringMembers.findIndex((candidate) => candidate.id === modelNode.id);
-            if (ringOrder >= 0) {
-              const palette = resolveD3ConcentricSpectralPalette(ringIndex, ringOrder, ringMembers.length);
-              group.setAttribute("data-ring-order", String(ringOrder));
-              group.setAttribute("data-ring-size", String(ringMembers.length));
-              group.style.setProperty("--d3-ring-fill", palette.fill);
-              group.style.setProperty("--d3-ring-stroke", palette.stroke);
-              group.style.setProperty("--d3-ring-text", palette.text);
-              group.style.setProperty("--d3-ring-label-stroke", palette.labelStroke);
-            }
-          }
+          if (layout.strategy === "concentric-network" && ringIndex !== undefined) group.setAttribute("data-ring-index", String(ringIndex));
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");

@@ -4,7 +4,6 @@ import type { DiagramBlock } from "../../core/src/index.ts";
 import {
   createD3FlowRenderModel,
   mountD3FlowDiagram,
-  resolveD3ConcentricSpectralPalette,
   type D3FlowRuntimePort,
 } from "../src/flow-diagram.ts";
 
@@ -48,21 +47,6 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);
   assert.match(first.model.staticFallback, /Raw data/);
   assert.match(first.model.staticFallback, /Metadata — enables → Reusable result/);
-});
-
-test("concentric spectral palette varies deterministically within and across rings", () => {
-  const outer = Array.from({ length: 6 }, (_, index) => resolveD3ConcentricSpectralPalette(1, index, 6));
-  assert.equal(new Set(outer.map((entry) => entry.fill)).size, outer.length);
-  assert.equal(new Set(outer.map((entry) => entry.stroke)).size, outer.length);
-  assert.notEqual(
-    resolveD3ConcentricSpectralPalette(0, 2, 6).fill,
-    resolveD3ConcentricSpectralPalette(1, 2, 6).fill,
-  );
-  assert.deepEqual(
-    resolveD3ConcentricSpectralPalette(1, 3, 6),
-    resolveD3ConcentricSpectralPalette(1, 3, 6),
-  );
-  assert.throws(() => resolveD3ConcentricSpectralPalette(1, 6, 6), /inside ringSize/);
 });
 
 test("optional focus is valid and does not invent a focus node", () => {
