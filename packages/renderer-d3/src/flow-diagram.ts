@@ -754,6 +754,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let groupLayer: SVGGElement | undefined;
       let edgeLayer: SVGGElement | undefined;
       let nodeLayer: SVGGElement | undefined;
+      let groupAnnotationLayer: SVGGElement | undefined;
       let descriptionElement: SVGElement | undefined;
       let definitionsElement: SVGElement | undefined;
 
@@ -801,6 +802,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
 
         const nextGroupLayer = document.createElementNS(namespace, "g");
         nextGroupLayer.setAttribute("class", "d3-flow-group-layer");
+        const nextGroupAnnotationLayer = document.createElementNS(namespace, "g");
+        nextGroupAnnotationLayer.setAttribute("class", "d3-flow-group-annotation-layer");
         for (const layoutGroup of layout.groups) {
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", "d3-flow-group");
@@ -822,6 +825,13 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           ring.setAttribute("fill", "none");
           ring.setAttribute("aria-hidden", "true");
           group.append(ring);
+          nextGroupLayer.append(group);
+
+          const annotation = document.createElementNS(namespace, "g");
+          annotation.setAttribute("class", "d3-flow-group-annotation");
+          annotation.setAttribute("data-key", `group-annotation:${layoutGroup.id}`);
+          annotation.setAttribute("data-group-id", layoutGroup.id);
+
           const annotationDx = layoutGroup.labelAnchorX - layoutGroup.labelX;
           const annotationDy = layoutGroup.labelAnchorY - layoutGroup.labelY;
           const annotationScale = 1 / Math.max(
@@ -829,6 +839,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             Math.abs(annotationDy) / Math.max(layoutGroup.labelHeight / 2, 1),
             1e-6,
           );
+
           const annotationLine = document.createElementNS(namespace, "line");
           annotationLine.setAttribute("class", "d3-flow-group-annotation-line");
           annotationLine.setAttribute("x1", String(layoutGroup.labelX + annotationDx * annotationScale));
@@ -836,7 +847,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           annotationLine.setAttribute("x2", String(layoutGroup.labelAnchorX));
           annotationLine.setAttribute("y2", String(layoutGroup.labelAnchorY));
           annotationLine.setAttribute("aria-hidden", "true");
-          group.append(annotationLine);
+          annotation.append(annotationLine);
 
           const annotationAnchor = document.createElementNS(namespace, "circle");
           annotationAnchor.setAttribute("class", "d3-flow-group-annotation-anchor");
@@ -844,16 +855,26 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           annotationAnchor.setAttribute("cy", String(layoutGroup.labelAnchorY));
           annotationAnchor.setAttribute("r", "4.5");
           annotationAnchor.setAttribute("aria-hidden", "true");
-          group.append(annotationAnchor);
+          annotation.append(annotationAnchor);
+
+          const annotationPanel = document.createElementNS(namespace, "rect");
+          annotationPanel.setAttribute("class", "d3-flow-group-annotation-panel");
+          annotationPanel.setAttribute("x", String(layoutGroup.labelX - layoutGroup.labelWidth / 2));
+          annotationPanel.setAttribute("y", String(layoutGroup.labelY - layoutGroup.labelHeight / 2));
+          annotationPanel.setAttribute("width", String(layoutGroup.labelWidth));
+          annotationPanel.setAttribute("height", String(layoutGroup.labelHeight));
+          annotationPanel.setAttribute("rx", "8");
+          annotationPanel.setAttribute("aria-hidden", "true");
+          annotation.append(annotationPanel);
 
           addTextLines(
-            group,
+            annotation,
             layoutGroup.labelLines,
             layoutGroup.labelX,
             layoutGroup.labelY,
             "d3-flow-group-label",
           );
-          nextGroupLayer.append(group);
+          nextGroupAnnotationLayer.append(annotation);
         }
         if (layout.groups.length > 0) {
           if (!groupLayer) {
@@ -982,6 +1003,20 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nodeLayer = nextNodeLayer;
           svg.append(nodeLayer);
         } else reconcileKeyedChildren(nodeLayer, nextNodeLayer);
+
+        if (layout.groups.length > 0) {
+          if (!groupAnnotationLayer) {
+            groupAnnotationLayer = nextGroupAnnotationLayer;
+            svg.append(groupAnnotationLayer);
+          } else {
+            reconcileKeyedChildren(groupAnnotationLayer, nextGroupAnnotationLayer);
+            svg.append(groupAnnotationLayer);
+          }
+        } else if (groupAnnotationLayer) {
+          groupAnnotationLayer.remove();
+          groupAnnotationLayer = undefined;
+        }
+
         nodeElements = nextNodeElements;
         if (model.interactionPolicy === "keyboard" && previouslyFocusedId && previouslyFocusedId === activeNodeId) {
           nodeElements.get(previouslyFocusedId)?.focus();

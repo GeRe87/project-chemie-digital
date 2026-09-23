@@ -781,12 +781,12 @@ function resolveConcentricGroupAnnotations(
   const placedLabels: LayoutRect[] = [];
 
   return groups.map((group, groupIndex) => {
-    const labelLines = wrapFlowText(group.label, 260);
+    const labelLines = wrapFlowText(group.label, 230);
     const labelWidth = Math.min(
-      280,
-      Math.max(120, ...labelLines.map((line) => deterministicFlowTextMeasure(line) + 34)),
+      300,
+      Math.max(150, ...labelLines.map((line) => deterministicFlowTextMeasure(line) * (20 / 15) + 44)),
     );
-    const labelHeight = Math.max(34, labelLines.length * 25 + 10);
+    const labelHeight = Math.max(44, labelLines.length * 28 + 16);
     const preferredAngle = groupIndex % 2 === 0 ? -Math.PI * 0.72 : -Math.PI * 0.28;
     const gapAngles = concentricGroupGapAngles(group, nodes, preferredAngle);
     const fallbackAngles = [
@@ -802,7 +802,7 @@ function resolveConcentricGroupAnnotations(
     const candidates = [...gapAngles, ...fallbackAngles.filter((angle) =>
       !gapAngles.some((existing) => angularDistance(existing, angle) < 0.01))];
 
-    const outwardOffset = labelHeight / 2 + 42;
+    const outwardOffset = labelHeight / 2 + 54;
     let chosen: D3FlowLayoutGroup | undefined;
     for (const angle of candidates) {
       const anchorX = group.cx + Math.cos(angle) * group.radius;
@@ -812,8 +812,8 @@ function resolveConcentricGroupAnnotations(
       const labelY = group.cy + Math.sin(angle) * labelRadius;
       const rect: LayoutRect = { x: labelX, y: labelY, width: labelWidth, height: labelHeight };
       if (!insideLayout(rect, width, height, 18)) continue;
-      if (nodeRects.some((node) => overlaps(rect, node, 14))) continue;
-      if (placedLabels.some((other) => overlaps(rect, other, 16))) continue;
+      if (nodeRects.some((node) => overlaps(rect, node, 24))) continue;
+      if (placedLabels.some((other) => overlaps(rect, other, 22))) continue;
 
       chosen = {
         ...group,

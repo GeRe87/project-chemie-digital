@@ -69,12 +69,24 @@
   stroke-width: 4px;
 }
 
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-layer {
+  pointer-events: none;
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-line {
-  stroke: color-mix(in srgb, var(--pcd-accent) 74%, var(--pcd-foreground));
-  stroke-width: 2.5;
-  stroke-dasharray: 5 4;
+  stroke: color-mix(in srgb, var(--pcd-accent) 78%, var(--pcd-foreground));
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 91%, transparent);
+  stroke: color-mix(in srgb, var(--pcd-accent) 62%, var(--pcd-foreground));
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-foreground) 16%, transparent));
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-anchor {
@@ -191,4 +203,11 @@ body[data-diagram-theme="eco-city"] .reveal
   font-size: 20px;
   font-weight: 1000;
   letter-spacing: .085em;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation .d3-flow-group-label {
+  fill: var(--pcd-foreground);
+  stroke: color-mix(in srgb, var(--pcd-surface-strong) 96%, transparent);
+  stroke-width: 3px;
+  paint-order: stroke fill;
 }
