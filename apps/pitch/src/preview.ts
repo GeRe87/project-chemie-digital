@@ -3,7 +3,7 @@ import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram";
+export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram" | "foundation-card-grid";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
   "ex:scene-sd-definition--scene": "opening",
   "ex:scene-sd-process--scene": "process",
@@ -146,22 +146,30 @@ function appendBlock(parent: MinimalElement, dom: PitchDomPort, block: SceneBloc
     list.className = "definition-list";
     layoutSlotAttribute(list, layoutSlot);
     sourceAttributes(list, block.source);
-    for (const entry of block.entries) {
+    block.entries.forEach((entry, index) => {
+      const entryShell = dom.createElement("div");
+      entryShell.className = "definition-list-entry";
+      entryShell.setAttribute("data-definition-entry-id", entry.id);
+      entryShell.setAttribute("data-definition-entry-index", String(index));
+      entryShell.setAttribute("style", `--definition-entry-hue: ${(205 + index * 58) % 360}deg`);
+      sourceAttributes(entryShell, entry.source);
+
       const term = dom.createElement("dt");
       term.className = "definition-list-term";
       term.textContent = entry.term;
       term.setAttribute("data-definition-entry-id", entry.id);
       sourceAttributes(term, entry.source);
-      list.appendChild(term);
+      entryShell.appendChild(term);
       if (entry.description) {
         const description = dom.createElement("dd");
         description.className = "definition-list-description";
         description.textContent = entry.description;
         description.setAttribute("data-definition-entry-id", entry.id);
         sourceAttributes(description, entry.source);
-        list.appendChild(description);
+        entryShell.appendChild(description);
       }
-    }
+      list.appendChild(entryShell);
+    });
     parent.appendChild(list);
     return;
   }

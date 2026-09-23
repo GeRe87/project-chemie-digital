@@ -10,7 +10,8 @@ export type RevealLayoutFamily =
   | "card-sequence"
   | "text-network-progression"
   | "concentric-network"
-  | "process-diagram";
+  | "process-diagram"
+  | "foundation-card-grid";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -126,6 +127,28 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "card-sequence",
         slots: ["heading", "banner", "cards", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 5) {
+    const [heading, banner, foundation, cards, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && banner?.kind === "prose"
+      && banner.intent?.kind === "explain"
+      && foundation?.kind === "prose"
+      && foundation.intent?.kind === "explain"
+      && cards?.kind === "definition-list"
+      && cards.entries.length >= 4
+      && cards.entries.length <= 6
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "foundation-card-grid",
+        slots: ["heading", "banner", "foundation", "cards", "takeaway"],
       };
     }
   }

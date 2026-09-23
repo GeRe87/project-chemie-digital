@@ -10,13 +10,6 @@
 
   ex:def-cogniflow-extension-system a cd:Definition ;
     cd:body "CogniFlow defines the rules for how functionality is described and exposed. Conforming modules combine implementation logic with machine-readable semantics and publish their capabilities through the common service boundary."@en ;
-    cd:hasKeyPoint
-      ex:keypoint-cogniflow-extension-rulebook,
-      ex:keypoint-cogniflow-extension-bootstrap,
-      ex:keypoint-cogniflow-extension-webui,
-      ex:keypoint-cogniflow-extension-pipeline,
-      ex:keypoint-cogniflow-extension-service,
-      ex:keypoint-cogniflow-extension-report ;
     cd:authoredResource true .
 
   ex:cogniflow-extension-system-banner a cd:Interpretation ;
@@ -24,54 +17,62 @@
 the core defines how functionality is described — modules supply what it does"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-rulebook a cd:KeyPoint ;
-    cd:position 1 ;
+  ex:cogniflow-extension-rulebook a cd:Interpretation ;
     cd:body """RULEBOOK · HUMAN + MACHINE READABLE
 RDF/TriG semantics · SHACL conformance · package model · service contracts"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-bootstrap a cd:KeyPoint ;
-    cd:position 2 ;
-    cd:body """Bootstrap Installer
-runtime setup
+  ex:cogniflow-extension-modules a cd:DefinitionList ;
+    cd:hasDefinitionListEntry
+      ex:cogniflow-extension-module-bootstrap,
+      ex:cogniflow-extension-module-webui,
+      ex:cogniflow-extension-module-pipeline,
+      ex:cogniflow-extension-module-service,
+      ex:cogniflow-extension-module-report ;
+    cd:authoredResource true .
+
+  ex:cogniflow-extension-module-bootstrap a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "Bootstrap Installer"@en ;
+    cd:body """runtime setup
 dependency installation
 profile bootstrap
 → install + initialize"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-webui a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body """Web UI
-REWORK IN PROGRESS
+  ex:cogniflow-extension-module-webui a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "Web UI"@en ;
+    cd:body """REWORK IN PROGRESS
 browser-based interface
 workflow control
 status + results views
 → user interaction"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-pipeline a cd:KeyPoint ;
-    cd:position 4 ;
-    cd:body """Pipeline Engine
-REWORK IN PROGRESS
+  ex:cogniflow-extension-module-pipeline a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "Pipeline Engine"@en ;
+    cd:body """REWORK IN PROGRESS
 workflow orchestration
 processing execution
 step coordination
 → pipeline runtime"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-service a cd:KeyPoint ;
-    cd:position 5 ;
-    cd:body """Service Module
-service boundary
+  ex:cogniflow-extension-module-service a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "Service Module"@en ;
+    cd:body """service boundary
 tool exposure
 standardized calls/results
 → service access"""@en ;
     cd:authoredResource true .
 
-  ex:keypoint-cogniflow-extension-report a cd:KeyPoint ;
-    cd:position 6 ;
-    cd:body """Report Generator
-report creation
+  ex:cogniflow-extension-module-report a cd:DefinitionListEntry ;
+    cd:position 5 ;
+    skos:prefLabel "Report Generator"@en ;
+    cd:body """report creation
 FAIR summaries
 exported artifacts
 → reporting"""@en ;
@@ -92,8 +93,10 @@ EXTEND BY ADDING A CONFORMING MODULE — NOT BY CHANGING THE CORE"""@en ;
     cd:position 16 ;
     cd:usesResource
       ex:cogniflow-extension-system-banner,
-      ex:def-cogniflow-extension-system,
-      ex:cogniflow-extension-service-boundary ;
+      ex:cogniflow-extension-rulebook,
+      ex:cogniflow-extension-modules,
+      ex:cogniflow-extension-service-boundary,
+      ex:def-cogniflow-extension-system ;
     cd:usesScene ex:scene-cogniflow-extension-system ;
     cd:authoredResource true .
 }
@@ -104,6 +107,7 @@ EXTEND BY ADDING A CONFORMING MODULE — NOT BY CHANGING THE CORE"""@en ;
     cd:hasSceneItem
       ex:scene-item-cogniflow-extension-system-heading,
       ex:scene-item-cogniflow-extension-system-banner,
+      ex:scene-item-cogniflow-extension-system-rulebook,
       ex:scene-item-cogniflow-extension-system-modules,
       ex:scene-item-cogniflow-extension-system-boundary ;
     cd:authoredResource true .
@@ -124,16 +128,24 @@ EXTEND BY ADDING A CONFORMING MODULE — NOT BY CHANGING THE CORE"""@en ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-cogniflow-extension-system-modules a cd:SceneItem ;
+  ex:scene-item-cogniflow-extension-system-rulebook a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:def-cogniflow-extension-system ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:selectsResource ex:cogniflow-extension-rulebook ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-extension-system-modules a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-extension-modules ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
   ex:scene-item-cogniflow-extension-system-boundary a cd:SceneItem ;
-    cd:position 4 ;
+    cd:position 5 ;
     cd:selectsResource ex:cogniflow-extension-service-boundary ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;

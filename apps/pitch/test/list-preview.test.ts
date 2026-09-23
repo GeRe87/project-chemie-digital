@@ -235,12 +235,16 @@ test("pitch preview renders definition-list semantic markup without lexical pars
   const list = section.children[1]!;
   assert.equal(list.className, "definition-list");
   assert.equal(list.attributes.get("data-relation-path"), "cd:hasDefinitionListEntry");
-  assert.equal(list.children[0]?.className, "definition-list-term");
-  assert.equal(list.children[0]?.textContent, "purpose");
-  assert.equal(list.children[1]?.className, "definition-list-description");
-  assert.equal(list.children[1]?.textContent, "quantify signal");
-  assert.equal(list.children[2]?.className, "definition-list-term");
-  assert.equal(list.children[2]?.textContent, "version");
+  assert.equal(list.children[0]?.className, "definition-list-entry");
+  assert.equal(list.children[0]?.attributes.get("data-definition-entry-index"), "0");
+  assert.match(list.children[0]?.attributes.get("style") ?? "", /--definition-entry-hue:/);
+  assert.equal(list.children[0]?.children[0]?.className, "definition-list-term");
+  assert.equal(list.children[0]?.children[0]?.textContent, "purpose");
+  assert.equal(list.children[0]?.children[1]?.className, "definition-list-description");
+  assert.equal(list.children[0]?.children[1]?.textContent, "quantify signal");
+  assert.equal(list.children[1]?.className, "definition-list-entry");
+  assert.equal(list.children[1]?.children[0]?.className, "definition-list-term");
+  assert.equal(list.children[1]?.children[0]?.textContent, "version");
   destroy();
 });
 

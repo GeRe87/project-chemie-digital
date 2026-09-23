@@ -374,6 +374,31 @@ function processContextScene(id: string): Scene {
   };
 }
 
+function foundationCardGridScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:foundation-card-grid-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:banner", "explain"),
+      prose("block:foundation", "explain"),
+      {
+        id: "block:cards",
+        kind: "definition-list",
+        entries: Array.from({ length: 5 }, (_, index) => ({
+          id: `entry:${index + 1}`,
+          term: `Module ${index + 1}`,
+          description: `Capability ${index + 1}`,
+          source: [{ resourceId: `resource:entry:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:cards" }],
+      },
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:banner", "block:foundation", "block:cards", "block:takeaway"],
+  };
+}
+
 function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scene {
   const diagram = diagramType === "flow"
     ? {
@@ -416,6 +441,14 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
     readingOrder: ["block:heading", "block:intro", "block:diagram", "block:takeaway"],
   };
 }
+
+test("infers foundation-card-grid from structured definition entries without identity", () => {
+  assert.equal(inferRevealLayoutFamily(foundationCardGridScene("scene:alpha")), "foundation-card-grid");
+  assert.equal(inferRevealLayoutFamily(foundationCardGridScene("opaque:scene")), "foundation-card-grid");
+  assert.deepEqual(inferRevealLayoutDecision(foundationCardGridScene("scene:slots"))?.slots, [
+    "heading", "banner", "foundation", "cards", "takeaway",
+  ]);
+});
 
 test("infers generic process-diagram for longer flows and sequence diagrams", () => {
   assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow")), "process-diagram");

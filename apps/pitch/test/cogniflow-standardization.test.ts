@@ -20,6 +20,7 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-semantic-core--scene",
   "ex:scene-cogniflow-processing-pipeline--scene",
   "ex:scene-cogniflow-service-process--scene",
+  "ex:scene-cogniflow-extension-system--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -35,6 +36,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
     source("../src/process-diagram-layout.css"),
+    source("../src/foundation-card-grid-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -77,6 +79,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./process-diagram-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
+  assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
   assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
@@ -175,4 +179,22 @@ test("processing pipeline nodes author title and body separately", () => {
   assert.equal(renderer.includes("d3-flow-node-body"), true);
   assert.equal(renderer.includes("d3-flow-node-title-divider"), true);
   assert.equal(layout.includes("readonly bodyLines"), true);
+});
+
+
+test("extension system uses structured module entries and generic foundation-card-grid", () => {
+  const trig = source("../../../ontology/dataset/cogniflow-extension-system.trig");
+  const main = source("../src/main.ts");
+  const css = source("../src/foundation-card-grid-layout.css");
+  const preview = source("../src/preview.ts");
+
+  assert.equal(trig.includes("ex:cogniflow-extension-modules a cd:DefinitionList"), true);
+  assert.equal(trig.includes("a cd:DefinitionListEntry"), true);
+  assert.equal(trig.includes("cd:communicativeRole cd:DefinitionListRole"), true);
+  assert.equal(trig.includes("ex:keypoint-cogniflow-extension-"), false);
+  assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
+  assert.equal(css.toLowerCase().includes("cogniflow"), false);
+  assert.equal(css.includes(":nth-child("), false);
+  assert.equal(preview.includes("definition-list-entry"), true);
+  assert.equal(preview.includes("--definition-entry-hue"), true);
 });

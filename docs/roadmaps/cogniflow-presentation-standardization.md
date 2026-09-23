@@ -715,3 +715,26 @@ Completed:
 Result:
 
 A FlowDiagram node can now carry a readable title and a lower-emphasis body without encoding visual hierarchy inside one label string. The capability is generic and can be reused by future workflow and architecture diagrams.
+
+
+### Increment 7c — generic foundation + extension card grid
+
+Status: **implemented on this branch**
+
+Completed:
+
+- separated the extension-system rulebook from the module collection as its own semantic statement;
+- migrated five extension modules from multiline KeyPoints to structured `DefinitionListEntry` resources with explicit term + body;
+- added generic `foundation-card-grid` layout inference from block structure only;
+- grouped DefinitionList term/description pairs into semantic entry wrappers in the pitch renderer while retaining `display: contents` compatibility for existing table-like definition lists;
+- added renderer-derived deterministic card tones and index badges from canonical entry order, with no module-name or scene-id checks;
+- replaced the six-position `:nth-child()` architecture board and CSS-authored module glyphs with a responsive 3+2 flex grid;
+- removed the Extension System stylesheet from the application runtime;
+- removed stale Processing, Service and Extension scene-id overrides from shared mobile/dark compatibility styles;
+- added opaque-id layout tests, preview entry-wrapper coverage and anti-hardcoding guardrails.
+
+Result:
+
+The Extension System is now authored as one foundation statement plus a structured set of conforming modules. Module names and details live in TriG; card arrangement, color and responsive behavior are generic renderer concerns.
+
+Next migration target: publication projection / remaining presentation-shell and showcase special cases.

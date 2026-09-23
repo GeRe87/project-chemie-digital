@@ -39,61 +39,9 @@ body[data-presentation-theme="dark"] {
 
 /* Concept/specification cards now use the generic data-layout theme rules. */
 
-/* Processing pipeline. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  --step-fill: var(--cf-dark-blue-fill);
-  --step-stroke: var(--cf-dark-blue-stroke);
-  --step-text: var(--cf-dark-blue-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  --step-fill: var(--cf-dark-green-fill);
-  --step-stroke: var(--cf-dark-green-stroke);
-  --step-text: var(--cf-dark-green-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
-  --step-fill: var(--cf-dark-amber-fill);
-  --step-stroke: var(--cf-dark-amber-stroke);
-  --step-text: var(--cf-dark-amber-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-processing-pipeline--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
-  --step-fill: var(--cf-dark-pink-fill);
-  --step-stroke: var(--cf-dark-pink-stroke);
-  --step-text: var(--cf-dark-pink-text);
-}
+/* Processing pipeline dark behavior is owned by the generic flow/process theme. */
 
 /* Reference-code cards now use generic data-layout theme rules. */
-
-/* Extension modules. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(1) {
-  --module-fill: var(--cf-dark-amber-fill);
-  --module-stroke: var(--cf-dark-amber-stroke);
-  --module-text: var(--cf-dark-amber-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(2) {
-  --module-fill: var(--cf-dark-blue-fill);
-  --module-stroke: var(--cf-dark-blue-stroke);
-  --module-text: var(--cf-dark-blue-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(3) {
-  --module-fill: var(--cf-dark-green-fill);
-  --module-stroke: var(--cf-dark-green-stroke);
-  --module-text: var(--cf-dark-green-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(4) {
-  --module-fill: var(--cf-dark-purple-fill);
-  --module-stroke: var(--cf-dark-purple-stroke);
-  --module-text: var(--cf-dark-purple-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(5) {
-  --module-fill: var(--cf-dark-red-fill);
-  --module-stroke: var(--cf-dark-red-stroke);
-  --module-text: var(--cf-dark-red-text);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-extension-system--scene"] > h2 + .lead + .keypoint-list > li:nth-child(6) {
-  --module-fill: var(--cf-dark-teal-fill);
-  --module-stroke: var(--cf-dark-teal-stroke);
-  --module-text: var(--cf-dark-teal-text);
-}
 
 /* Take-home cards and the two larger callout bars. */
 body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-take-home--scene"] > h2 + .lead {
@@ -142,68 +90,10 @@ body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cognif
   color: color-mix(in srgb, var(--cf-dark-teal-text) 72%, transparent);
 }
 
-/* Service-system participant cards are SVG, so override fill/text directly. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-consumer"] {
-  fill: var(--cf-dark-blue-fill);
-  stroke: var(--cf-dark-blue-stroke);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-consumer"] {
-  fill: var(--cf-dark-blue-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-gateway"] {
-  fill: var(--cf-dark-teal-fill);
-  stroke: var(--cf-dark-teal-stroke);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-gateway"] {
-  fill: var(--cf-dark-teal-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-authority"] {
-  fill: var(--cf-dark-amber-fill);
-  stroke: var(--cf-dark-amber-stroke);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-authority"] {
-  fill: var(--cf-dark-amber-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant-card[data-role-id="ex:role-service-executor"] {
-  fill: var(--cf-dark-purple-fill);
-  stroke: var(--cf-dark-purple-stroke);
-}
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] .d3-sequence-participant[data-role-id="ex:role-service-executor"] {
-  fill: var(--cf-dark-purple-text);
-}
-
 /* Soften the old pixel-offset card shadows on dark surfaces. */
-body[data-presentation-theme="dark"] .reveal .slides section:is(
-  [id="ex:scene-cogniflow-processing-pipeline--scene"],
-  [id="ex:scene-cogniflow-extension-system--scene"],
-  [id="ex:scene-cogniflow-take-home--scene"]
-) .keypoint-list > li {
+body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-take-home--scene"] .keypoint-list > li {
   box-shadow:
     0 0 0 1px color-mix(in srgb, currentColor 10%, transparent),
     0 0 16px color-mix(in srgb, currentColor 10%, transparent),
     5px 5px 0 rgb(0 0 0 / .28);
-}
-
-
-/* Service marketplace callout: keep the new colorful hierarchy without returning
-   to a bright light-mode pastel in the city-night theme. */
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead {
-  border-color: var(--cf-dark-teal-stroke);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--cf-dark-teal-stroke) 20%, var(--cf-dark-teal-fill)) 0 43%,
-      var(--cf-dark-teal-fill) 43% 100%
-    );
-  box-shadow:
-    0 0 18px color-mix(in srgb, var(--cf-dark-teal-stroke) 15%, transparent),
-    7px 7px 0 rgb(0 0 0 / .28);
-  color: var(--cf-dark-teal-text);
-}
-
-body[data-presentation-theme="dark"] .reveal .slides section[id="ex:scene-cogniflow-service-process--scene"] > h2 + .lead::first-line {
-  color: var(--cf-dark-teal-stroke);
 }
