@@ -115,26 +115,27 @@ body[data-diagram-theme="eco-city"] .reveal
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node-label {
   fill: var(--pcd-foreground);
   stroke: var(--pcd-surface-strong);
-  stroke-width: 3px;
-  font: 850 11px/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: -.015em;
+  stroke-width: 4px;
+  font: 950 15px/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: -.025em;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
-  font-size: 12.5px;
-  font-weight: 900;
+  font-size: 20px;
+  font-weight: 950;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-label {
-  font-size: 10.5px;
+  font-size: 17px;
+  font-weight: 950;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] .d3-flow-node-label {
   fill: white;
   stroke: color-mix(in srgb, var(--pcd-accent) 72%, black);
-  stroke-width: 3px;
-  font-size: 15px;
-  font-weight: 950;
+  stroke-width: 5px;
+  font-size: 24px;
+  font-weight: 1000;
 }
 
 .reveal .slides section[data-layout="concentric-network"] .d3-flow-caption {
@@ -172,7 +173,7 @@ body[data-diagram-theme="eco-city"] .reveal
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-label {
-  font-size: 16px;
-  font-weight: 950;
-  letter-spacing: .10em;
+  font-size: 20px;
+  font-weight: 1000;
+  letter-spacing: .085em;
 }

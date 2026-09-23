@@ -757,7 +757,7 @@ function concentricNetworkLayout(
   const nodes: D3FlowLayoutNode[] = [];
   const layoutGroups: D3FlowLayoutGroup[] = [];
 
-  const focusDiameter = 154;
+  const focusDiameter = 166;
   const focusLines = wrapFlowText(focusNode.label, focusDiameter - 42);
   nodes.push({
     id: focusNode.id,
@@ -772,12 +772,12 @@ function concentricNetworkLayout(
     const members = prepared.filter((node) => node.id !== focusNode.id && node.groupIds?.includes(group.id));
     const radius = groupRadius(groupIndex);
     const arcAllowance = members.length > 0 ? (2 * Math.PI * radius) / members.length : 180;
-    const minimumDiameter = groupIndex === 0 ? 148 : 120;
-    const maximumDiameter = groupIndex === 0 ? 166 : 136;
+    const minimumDiameter = groupIndex === 0 ? 156 : 126;
+    const maximumDiameter = groupIndex === 0 ? 174 : 142;
     const availableDiameter = Math.max(minimumDiameter, Math.min(maximumDiameter, arcAllowance * 0.74));
     const memberLayouts = members.map((node, memberIndex): D3FlowLayoutNode => {
       const angle = -Math.PI / 2 + (2 * Math.PI * memberIndex) / Math.max(1, members.length);
-      const wrapWidth = Math.max(88, availableDiameter - (groupIndex === 0 ? 34 : 26));
+      const wrapWidth = Math.max(78, availableDiameter - (groupIndex === 0 ? 48 : 38));
       const labelLines = wrapFlowText(node.label, wrapWidth);
       const textHeight = Math.max(1, labelLines.length) * 17;
       const longestLine = Math.max(0, ...labelLines.map((line) => deterministicFlowTextMeasure(line)));

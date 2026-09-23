@@ -272,7 +272,7 @@ test("dense outer rings reserve enough width for readable two-line labels", () =
   assert.equal(layout.strategy, "concentric-network");
   const outer = layout.nodes.filter((node) => node.id.startsWith("spec:"));
   assert.equal(outer.length, outerLabels.length);
-  assert.ok(outer.every((node) => node.width >= 120));
+  assert.ok(outer.every((node) => node.width >= 126));
   assert.ok(outer.every((node) => node.width === node.height), "outer ring nodes stay circular");
   assert.ok(outer.every((node) => node.labelLines.length <= 3), "outer labels should stay within three lines");
   assert.ok(layout.groups[1]!.radius >= 300);
