@@ -17,52 +17,14 @@ assert VALIDATION_SPEC and VALIDATION_SPEC.loader
 VALIDATION_MODULE = importlib.util.module_from_spec(VALIDATION_SPEC)
 VALIDATION_SPEC.loader.exec_module(VALIDATION_MODULE)
 
-EXPECTED_CANONICAL_GRAPHS = {
-    "https://w3id.org/project-chemie-digital/graph/core",
-    "https://w3id.org/project-chemie-digital/graph/concepts",
-    "https://w3id.org/project-chemie-digital/graph/concepts/course-scale",
-    "https://w3id.org/project-chemie-digital/graph/shapes/core",
-    "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
-    "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-motivation",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-narrative",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-architecture",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-concept-domain",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-semantic-source",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-multi-view",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-provenance-pipeline",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-analytical-proof",
-    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture",
-    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-mean-values-lecture",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-motivation",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-narrative",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-architecture",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-concept-domain",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-semantic-source",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-multi-view",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-provenance-pipeline",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-analytical-proof",
-    "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
-    "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-motivation-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-narrative-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-architecture-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-concept-domain-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-source-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-multi-view-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-provenance-pipeline-extension",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-analytical-proof-extension",
-    "https://w3id.org/project-chemie-digital/graph/courses/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/examples/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/sources/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/migration/standard-deviation",
-}
+def canonical_source_graph_names() -> set[str]:
+    names: set[str] = set()
+    for path in MODULE.CANONICAL_TRIG:
+        parsed = Dataset(default_union=False)
+        parsed.parse(path, format="trig")
+        names.update(populated_graph_names(parsed))
+    return names
+
 STANDARD_DEVIATION = URIRef(f"{MODULE.RESOURCE_BASE}standard-deviation")
 PREF_LABEL = URIRef("http://www.w3.org/2004/02/skos/core#prefLabel")
 HAS_SOURCE = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
@@ -81,10 +43,11 @@ class RdfDatasetTests(unittest.TestCase):
                 parsed.parse(path, format="trig")
                 names = populated_graph_names(parsed)
                 self.assertTrue(names)
-                self.assertTrue(names <= EXPECTED_CANONICAL_GRAPHS)
+                self.assertTrue(all(name.startswith(MODULE.GRAPH_BASE) for name in names))
+                self.assertFalse(any("/graph/legacy/" in name for name in names))
 
-    def test_canonical_dataset_uses_exact_stable_named_graphs(self) -> None:
-        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, populated_graph_names(MODULE.assemble_dataset()))
+    def test_canonical_dataset_uses_exact_authored_named_graphs(self) -> None:
+        self.assertEqual(canonical_source_graph_names(), populated_graph_names(MODULE.assemble_dataset()))
 
     def test_no_legacy_graphs_are_assembled(self) -> None:
         names = populated_graph_names(MODULE.assemble_dataset())

@@ -137,6 +137,8 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("AttributionRole"),
                 cd("DiagramRole"),
                 cd("ChartRole"),
+                cd("TableRole"),
+                cd("DefinitionListRole"),
             },
             self.shacl_in_values(cd("communicativeRole")),
         )
@@ -153,6 +155,8 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 Literal("cd:body"),
                 Literal("cd:latex"),
                 Literal("cd:hasKeyPoint"),
+                Literal("cd:hasTableRow"),
+                Literal("cd:hasDefinitionListEntry"),
             },
             self.shacl_in_values(cd("selectionPath")),
         )
