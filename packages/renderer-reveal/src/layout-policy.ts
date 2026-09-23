@@ -12,7 +12,8 @@ export type RevealLayoutFamily =
   | "concentric-network"
   | "process-diagram"
   | "foundation-card-grid"
-  | "full-media";
+  | "full-media"
+  | "closing";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -73,6 +74,19 @@ function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
 export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | undefined {
   const blocks = orderedBlocks(scene);
   if (!blocks) return undefined;
+
+  if (blocks.length === 1) {
+    const [heading] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+    ) {
+      return {
+        family: "closing",
+        slots: ["heading"],
+      };
+    }
+  }
 
   if (blocks.length === 2) {
     const [heading, mediaGroup] = blocks;

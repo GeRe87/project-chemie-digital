@@ -27,13 +27,11 @@ import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
-import "./cogniflow-take-home.css";
 import "./full-media-layout.css";
-import "./cogniflow-closing.css";
-import "./cogniflow-mobile.css";
+import "./closing-layout.css";
+import "./presentation-mobile.css";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
-import "./cogniflow-dark-cards.css";
 import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
@@ -133,11 +131,11 @@ const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities
   ? mountPresentationLaserPointer(presentation)
   : () => undefined;
 
-const cogniflowPortraitMobile = appearance.profile.id === "cogniflow-standardized-data-processing"
+const nativePortraitViewport = appearance.profile.viewportPolicy === "native-portrait"
   && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
-document.body.classList.toggle("pcd-cogniflow-mobile", cogniflowPortraitMobile);
-const mobileDeckWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
-const mobileDeckHeight = Math.max(560, Math.round(window.visualViewport?.height ?? window.innerHeight));
+document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
+const nativeViewportWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
+const nativeViewportHeight = Math.max(560, Math.round(window.visualViewport?.height ?? window.innerHeight));
 
 let currentTheme: PresentationThemeMode = appearance.theme;
 let selectedBackgroundFamilyId = appearance.backgroundFamilyId;
@@ -214,9 +212,9 @@ const deck = new Reveal({
   transition: reducedMotion ? "none" : "slide",
   backgroundTransition: reducedMotion ? "none" : "fade",
   center: false,
-  width: cogniflowPortraitMobile ? mobileDeckWidth : 1440,
-  height: cogniflowPortraitMobile ? mobileDeckHeight : 900,
-  margin: cogniflowPortraitMobile ? 0 : 0.04,
+  width: nativePortraitViewport ? nativeViewportWidth : 1440,
+  height: nativePortraitViewport ? nativeViewportHeight : 900,
+  margin: nativePortraitViewport ? 0 : 0.04,
   ...(appearance.view === "scroll"
     ? { view: "scroll", scrollProgress: true, scrollSnap: "mandatory", scrollLayout: "full" }
     : { scrollActivationWidth: 0 }),
@@ -351,7 +349,7 @@ window.addEventListener("pagehide", () => {
   deck.off("slidechanged", syncNavigationMode);
   document.body.classList.remove("pcd-no-scroll-transition");
   document.body.classList.remove("pcd-full-media-active");
-  document.body.classList.remove("pcd-cogniflow-mobile");
+  document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
   unmountPresentationSteps();
   unmountPresentationProjection();

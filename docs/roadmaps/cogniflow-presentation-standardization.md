@@ -803,3 +803,26 @@ Result:
 Full-screen image/video sequences are now a reusable presentation pattern. Media content remains RDF-authored, while fullscreen realization, consecutive hard cuts, background suppression and playback lifecycle are inferred from generic scene structure.
 
 Next migration target: remaining CogniFlow-specific presentation-shell/layout files, especially title/opening, take-home and closing, plus the profile-specific mobile shell.
+
+
+### Increment 8d — generic take-home, closing and native portrait viewport
+
+Status: **implemented on this branch**
+
+Completed:
+
+- removed the CogniFlow Take Home stylesheet and let the scene render through the existing generic `card-sequence` family;
+- eliminated the CSS-authored phrase “available anywhere via pip”; the visible install callout now contains authored semantic content only;
+- added generic `closing` layout inference for a one-heading scene and replaced the closing scene-id stylesheet with `closing-layout.css`;
+- promoted portrait 1:1 viewport behavior to a reusable PresentationProfile `viewportPolicy="native-portrait"`;
+- renamed the mobile body marker and stylesheet to generic `pcd-native-mobile` / `presentation-mobile.css`;
+- removed the CogniFlow profile-id conditional from viewport sizing in `main.ts`;
+- deleted obsolete CogniFlow Take Home, Closing, Mobile and Dark compatibility styles;
+- deleted the already unreferenced Processing Pipeline and Service System legacy stylesheets;
+- extended opaque-id layout, profile and anti-hardcoding coverage.
+
+Result:
+
+Take Home now uses the same ordered-card vocabulary as other semantic sequences, Closing is a reusable minimal layout, and narrow portrait rendering is a profile capability rather than a CogniFlow-specific application branch.
+
+Next migration target: the remaining title/opening/core-sequence styles. These are now the final CogniFlow-specific presentation layout files.

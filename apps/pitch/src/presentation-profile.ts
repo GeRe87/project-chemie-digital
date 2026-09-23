@@ -14,6 +14,8 @@ export interface PresenterCapabilities {
   readonly laserPointer?: boolean;
 }
 
+export type PresentationViewportPolicy = "fixed-canvas" | "native-portrait";
+
 export interface PresentationProfile {
   readonly id: string;
   readonly label: string;
@@ -21,6 +23,7 @@ export interface PresentationProfile {
   readonly defaultTheme: PresentationThemeMode;
   readonly defaultBackgroundFamilyId?: string;
   readonly presenterCapabilities?: PresenterCapabilities;
+  readonly viewportPolicy?: PresentationViewportPolicy;
 }
 
 export interface ResolvedPresentationAppearance {
@@ -95,6 +98,7 @@ export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
     clock: true,
     laserPointer: true,
   }),
+  viewportPolicy: "native-portrait",
 });
 
 export function findBackgroundFamily(familyId: string | undefined): ThemedBackgroundPackFamily | undefined {

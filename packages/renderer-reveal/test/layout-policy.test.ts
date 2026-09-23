@@ -470,6 +470,17 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
   };
 }
 
+test("infers generic closing from a single authored heading", () => {
+  const scene: Scene = {
+    id: "opaque:closing",
+    source: [{ resourceId: "resource:closing" }],
+    blocks: [prose("block:heading", "introduce")],
+    readingOrder: ["block:heading"],
+  };
+  assert.equal(inferRevealLayoutFamily(scene), "closing");
+  assert.deepEqual(inferRevealLayoutDecision(scene)?.slots, ["heading"]);
+});
+
 test("infers full-media from heading plus one prose/media group without identity", () => {
   assert.equal(inferRevealLayoutFamily(fullMediaScene("scene:image", "image/png")), "full-media");
   assert.equal(inferRevealLayoutFamily(fullMediaScene("opaque:video", "video/mp4")), "full-media");

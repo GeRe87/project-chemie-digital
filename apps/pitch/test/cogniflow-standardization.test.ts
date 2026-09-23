@@ -24,6 +24,8 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-showcase-still--scene",
   "ex:scene-cogniflow-showcase-video-one--scene",
   "ex:scene-cogniflow-showcase-video-two--scene",
+  "ex:scene-cogniflow-take-home--scene",
+  "ex:scene-cogniflow-closing--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -47,6 +49,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-laser-pointer.ts"),
     source("../src/presentation-laser-pointer.css"),
     source("../src/full-media-layout.css"),
+    source("../src/closing-layout.css"),
+    source("../src/presentation-mobile.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -58,8 +62,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 test("migrated scenes are not selected by id in shared app styling or navigation", () => {
   const sharedRuntime = [
     source("../src/main.ts"),
-    source("../src/cogniflow-dark-cards.css"),
-    source("../src/cogniflow-mobile.css"),
+    source("../src/presentation-mobile.css"),
   ].join("\n");
 
   for (const sceneId of migratedSceneIds) {
@@ -93,6 +96,14 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
   assert.equal(main.includes('import "./full-media-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-showcase.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-take-home.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-closing.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-mobile.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-dark-cards.css"'), false);
+  assert.equal(main.includes('import "./closing-layout.css"'), true);
+  assert.equal(main.includes('import "./presentation-mobile.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
+  assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
   assert.equal(main.includes('import "./presentation-projection.css"'), true);
   assert.equal(main.includes('import "./cogniflow-presentation-projection.css"'), false);
   assert.equal(main.includes("mountPresentationProjections"), true);
@@ -265,4 +276,22 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
   assert.equal(main.includes("frozenBackgroundSceneIds"), false);
   assert.equal(main.includes('dataset.layout === "full-media"'), true);
   assert.equal(main.includes("pcd-full-media-active"), true);
+});
+
+
+test("take-home, closing and portrait viewport no longer depend on CogniFlow identity", () => {
+  const main = source("../src/main.ts");
+  const profile = source("../src/presentation-profile.ts");
+  const closing = source("../src/closing-layout.css");
+  const mobile = source("../src/presentation-mobile.css");
+  const takeHome = source("../../../ontology/dataset/cogniflow-take-home.trig");
+
+  assert.equal(takeHome.includes("cd:hasKeyPoint ex:keypoint-cogniflow-take-home-semantics"), true);
+  assert.equal(main.includes('appearance.profile.id === "cogniflow-standardized-data-processing"'), false);
+  assert.equal(main.includes('appearance.profile.viewportPolicy === "native-portrait"'), true);
+  assert.equal(profile.includes('readonly viewportPolicy?: PresentationViewportPolicy'), true);
+  assert.equal(closing.toLowerCase().includes("cogniflow"), false);
+  assert.equal(mobile.toLowerCase().includes("cogniflow"), false);
+  assert.equal(closing.includes('data-layout="closing"'), true);
+  assert.equal(main.includes("available anywhere via pip"), false);
 });
