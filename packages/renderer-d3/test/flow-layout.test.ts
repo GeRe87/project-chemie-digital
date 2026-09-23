@@ -285,7 +285,9 @@ test("vertical flow relationship labels relax away from node bounds", () => {
       { id: "vocabulary", sourceNodeId: "core", targetNodeId: "concepts", label: "vocabulary for" },
       { id: "used-by", sourceNodeId: "concepts", targetNodeId: "specifications", label: "used by" },
     ],
-  }, 640);
+  }, 780);
+
+  assert.equal(layout.orientation, "vertical");
 
   const intersects = (
     label: { x: number; y: number; width: number; height: number },

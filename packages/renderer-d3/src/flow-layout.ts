@@ -233,6 +233,7 @@ function edgeLabelPanelSize(edge: D3FlowLayoutEdge, compact: boolean): { readonl
 function nodeAvoidanceForce(
   rectangles: readonly D3FlowLayoutNode[],
   padding: number,
+  preferredAxis: "x" | "y" | "auto",
 ): ((alpha: number) => void) & { initialize(nodes: EdgeLabelParticle[]): void } {
   let particles: EdgeLabelParticle[] = [];
   const force = ((alpha: number): void => {
@@ -244,8 +245,8 @@ function nodeAvoidanceForce(
         const overlapY = rectangle.height / 2 + particle.height / 2 + padding - Math.abs(dy);
         if (overlapX <= 0 || overlapY <= 0) continue;
 
-        // Push along the least-penetrating axis; this keeps the label close to its edge.
-        if (overlapX < overlapY) {
+        const useX = preferredAxis === "x" || (preferredAxis === "auto" && overlapX < overlapY);
+        if (useX) {
           const direction = dx === 0 ? (particle.anchorX >= rectangle.x ? 1 : -1) : Math.sign(dx);
           particle.vx = (particle.vx ?? 0) + direction * overlapX * alpha * 1.15;
         } else {
@@ -267,6 +268,7 @@ function resolveEdgeLabelCollisions(
   width: number,
   height: number,
   strategy: D3FlowLayoutStrategy,
+  orientation: D3FlowOrientation,
 ): readonly D3FlowLayoutEdge[] {
   if (edges.length === 0) return edges;
   const compact = strategy === "radial-network" || strategy === "triadic-network";
@@ -293,7 +295,14 @@ function resolveEdgeLabelCollisions(
         .strength(1)
         .iterations(4),
     )
-    .force("node-collision", nodeAvoidanceForce(nodes, compact ? 14 : 18))
+    .force(
+      "node-collision",
+      nodeAvoidanceForce(
+        nodes,
+        compact ? 14 : 18,
+        strategy === "layered-flow" ? (orientation === "vertical" ? "x" : "y") : "auto",
+      ),
+    )
     .stop();
 
   for (let index = 0; index < 120; index += 1) simulation.tick();
@@ -888,7 +897,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         : input.diagramType === "network"
           ? "grouped-network"
           : "layered-flow";
-  const edges = resolveEdgeLabelCollisions(rawEdges, geometry.nodes, geometry.width, geometry.height, strategy);
+  const edges = resolveEdgeLabelCollisions(rawEdges, geometry.nodes, geometry.width, geometry.height, strategy, orientation);
 
   return {
     orientation,
