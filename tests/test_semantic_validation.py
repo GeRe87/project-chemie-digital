@@ -72,3 +72,18 @@ class SemanticValidationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CanonicalValidationCacheTests(unittest.TestCase):
+    def test_repeated_canonical_validation_reuses_exact_result(self) -> None:
+        MODULE._cached_canonical_validation.cache_clear()
+        first = MODULE.run_validation()
+        cache_after_first = MODULE._cached_canonical_validation.cache_info()
+        second = MODULE.run_validation()
+        cache_after_second = MODULE._cached_canonical_validation.cache_info()
+
+        self.assertEqual(first, second)
+        self.assertEqual(1, cache_after_first.misses)
+        self.assertEqual(0, cache_after_first.hits)
+        self.assertEqual(1, cache_after_second.misses)
+        self.assertEqual(1, cache_after_second.hits)
