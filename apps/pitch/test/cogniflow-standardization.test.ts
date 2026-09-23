@@ -37,6 +37,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/concentric-network-layout.css"),
     source("../src/process-diagram-layout.css"),
     source("../src/foundation-card-grid-layout.css"),
+    source("../src/presentation-projection.ts"),
+    source("../src/presentation-projection.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -81,6 +83,10 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
+  assert.equal(main.includes('import "./presentation-projection.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-presentation-projection.css"'), false);
+  assert.equal(main.includes("mountPresentationProjections"), true);
+  assert.equal(main.includes("mountCogniflowPresentationProjection"), false);
   assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
@@ -197,4 +203,20 @@ test("extension system uses structured module entries and generic foundation-car
   assert.equal(css.includes(":nth-child("), false);
   assert.equal(preview.includes("definition-list-entry"), true);
   assert.equal(preview.includes("--definition-entry-hue"), true);
+});
+
+
+test("alternate publication projection is generic and reuses compiled scene content", () => {
+  const runtime = source("../src/presentation-projection.ts");
+  const css = source("../src/presentation-projection.css");
+
+  assert.equal(runtime.toLowerCase().includes("cogniflow"), false);
+  assert.equal(css.toLowerCase().includes("cogniflow"), false);
+  assert.equal(runtime.includes('section[data-layout="concept-specification"]'), true);
+  assert.equal(runtime.includes('[data-layout-slot="cards"]'), true);
+  assert.equal(runtime.includes('[data-layout-slot="takeaway"]'), true);
+  assert.equal(runtime.includes("Presentation elements can be described independently"), false);
+  assert.equal(runtime.includes("Processing Unit Info Box"), false);
+  assert.equal(runtime.includes("Separating Meaning from Presentation"), false);
+  assert.equal(css.includes("section[id="), false);
 });

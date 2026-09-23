@@ -20,7 +20,7 @@ import "./foundation-card-grid-layout.css";
 import "./reference-code-layout.css";
 import "./hierarchy-flow-layout.css";
 import "./concept-specification-layout.css";
-import "./cogniflow-presentation-projection.css";
+import "./presentation-projection.css";
 import "./cogniflow-title-media.css";
 import "./cogniflow-core-sequence.css";
 import "./knowledge-network-runtime.css";
@@ -45,7 +45,7 @@ import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
 import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
-import { mountCogniflowPresentationProjection } from "./cogniflow-presentation-projection.ts";
+import { mountPresentationProjections } from "./presentation-projection.ts";
 import { mountCogniflowClockPanel } from "./cogniflow-clock-panel.ts";
 import { mountCogniflowLaserPointer } from "./cogniflow-laser-pointer.ts";
 import {
@@ -122,7 +122,7 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   canonicalDatasetSnapshot,
 );
 preparePresentationStepFragments(root);
-const unmountPresentationProjection = mountCogniflowPresentationProjection(root);
+const unmountPresentationProjection = mountPresentationProjections(root);
 
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);

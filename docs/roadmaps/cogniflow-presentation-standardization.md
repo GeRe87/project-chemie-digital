@@ -738,3 +738,25 @@ Result:
 The Extension System is now authored as one foundation statement plus a structured set of conforming modules. Module names and details live in TriG; card arrangement, color and responsive behavior are generic renderer concerns.
 
 Next migration target: publication projection / remaining presentation-shell and showcase special cases.
+
+
+### Increment 8a — generic alternate publication projection
+
+Status: **implemented on this branch**
+
+Completed:
+
+- replaced the CogniFlow scene-id projection runtime with a generic projection runtime selected only by the inferred `concept-specification` layout;
+- removed the hard-coded publication article and its audience-visible scientific prose from TypeScript;
+- publication mode now reuses the already compiled heading, card texts and takeaway from the same SceneDocument;
+- made the projection control available to every structurally compatible concept/specification scene rather than one named scene;
+- moved all projection styling to generic `presentation-projection.css` selectors based on layout and projection mode;
+- removed CogniFlow scene/resource identity from projection behavior and styling;
+- removed the accepted obsolete Extension System stylesheet together with the old CogniFlow projection runtime/style files;
+- added anti-hardcoding checks that prohibit the previous authored article prose from returning to runtime code.
+
+Result:
+
+The same compiled semantic scene can now be realized as cards or publication prose without a second content source. Projection changes presentation only; it no longer changes or duplicates the authored semantics.
+
+Next migration target: presentation-shell capabilities (clock and laser pointer), followed by showcase transition/background policy.
