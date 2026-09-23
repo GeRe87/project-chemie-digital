@@ -1,9 +1,27 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const source = (relative: string): string =>
   readFileSync(new URL(relative, import.meta.url), "utf8");
+
+const repoRoot = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../..");
+
+function recursiveProductionFiles(relativeDirectory: string): string[] {
+  const directory = join(repoRoot, relativeDirectory);
+  const files: string[] = [];
+  for (const entry of readdirSync(directory)) {
+    const absolute = join(directory, entry);
+    if (statSync(absolute).isDirectory()) {
+      files.push(...recursiveProductionFiles(relative(join(repoRoot), absolute)));
+      continue;
+    }
+    if (/\.(?:ts|css|py)$/u.test(entry)) files.push(absolute);
+  }
+  return files;
+}
 
 const migratedSceneIds = [
   "ex:scene-cogniflow-domain-specifications--scene",
@@ -363,4 +381,33 @@ test("analytical proof annotation decoration follows canonical order, not resour
   assert.equal(proofCss.includes("--pcd-proof-model"), false);
   assert.equal(proofCss.includes("--pcd-proof-quant"), false);
   assert.equal(lineRenderer.includes("group.dataset.annotationIndex = String(annotationIndex)"), true);
+});
+
+
+test("production behavior has a single explicit CogniFlow lexical allowlist", () => {
+  const roots = [
+    "apps/pitch/src",
+    "packages/core/src",
+    "packages/renderer-d3/src",
+    "packages/renderer-reveal/src",
+    "packages/renderer-self-study/src",
+    "scripts",
+  ];
+  const allowed = new Set([
+    "apps/pitch/src/presentation-profile.ts",
+  ]);
+
+  const violations: string[] = [];
+  for (const root of roots) {
+    for (const absolute of recursiveProductionFiles(root)) {
+      const path = relative(repoRoot, absolute).replaceAll("\\", "/");
+      if (allowed.has(path)) continue;
+      const content = readFileSync(absolute, "utf8");
+      if (/cogniflow/iu.test(content) || path.toLowerCase().includes("cogniflow")) {
+        violations.push(path);
+      }
+    }
+  }
+
+  assert.deepEqual(violations, []);
 });

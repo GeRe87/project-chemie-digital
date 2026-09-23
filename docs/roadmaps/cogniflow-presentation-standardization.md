@@ -909,3 +909,29 @@ Completed:
 Result:
 
 The analytical-proof composition remains driven by the generic structural contract (progressive annotated line chart + compatible linear flow), and its visual annotation palette no longer assumes specific CogniFlow annotation ids or scientific labels.
+
+
+### Increment 9c — enforce the production identity invariant
+
+Status: **implemented on this branch**
+
+Completed:
+
+- completed a branch-specific residual scan across pitch application source, core, renderer-d3, renderer-reveal, renderer-self-study and production Python scripts;
+- confirmed that no production behavior outside presentation-profile selection still contains CogniFlow lexical identity;
+- added a repository-level regression guard that recursively scans production TypeScript, CSS and Python sources;
+- the only explicit allowlisted production file is apps/pitch/src/presentation-profile.ts, where CogniFlow profile/path ids select authored content and configuration rather than renderer behavior;
+- the guard also rejects future production filenames containing CogniFlow outside that allowlist.
+
+Audit result:
+
+- Application layout/runtime: clean.
+- Core contracts/projection: clean.
+- D3 renderer: clean.
+- Reveal renderer/background/presenter: clean.
+- Self-study renderer: clean.
+- Canonical runtime generation and semantic media enrichment: clean.
+- Browser diagram regression utility: clean.
+- Remaining CogniFlow identity is confined to authored ontology/data, migration tests/documentation, package/profile entry points and the explicit presentation-profile content selector.
+
+The implementation-side standardization target is therefore met. Final acceptance now depends on the local generator/test suite and one visual smoke pass of the presentation.
