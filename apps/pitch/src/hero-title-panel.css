@@ -14,27 +14,26 @@
   position: relative;
   isolation: isolate;
   display: grid !important;
-  grid-template-columns: minmax(0, 1.48fr) minmax(19rem, .58fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) auto auto;
-  column-gap: 4.1rem;
-  row-gap: .48rem;
+  row-gap: .18rem;
   align-content: stretch;
   min-height: 100%;
-  padding: 3.45rem 4.75rem 3.35rem !important;
+  padding: 3.45rem 31.5% 3.15rem 4.75rem !important;
   overflow: hidden;
 }
 
-/* Partner rail: geometry only, no generated audience-visible text. */
+/* Partner rail: its outer edge shares the slide panel's right-hand geometry. */
 .reveal .slides section[data-layout="hero-title-panel"]::after {
   content: "";
   position: absolute;
   z-index: 0;
-  top: 2.75rem;
-  right: 3.35rem;
-  bottom: 2.75rem;
-  width: min(24.5rem, 31%);
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  width: 29.4%;
   border: 1px solid color-mix(in srgb, var(--pcd-border) 82%, transparent);
-  border-radius: 18px;
+  border-radius: 0 18px 18px 0;
   background:
     linear-gradient(
       155deg,
@@ -43,8 +42,8 @@
       color-mix(in srgb, var(--pcd-accent) 5%, var(--pcd-surface-strong)) 100%
     );
   box-shadow:
-    0 18px 40px rgb(7 28 34 / .13),
-    inset 0 0 0 1px rgb(255 255 255 / .44);
+    -12px 0 34px rgb(7 28 34 / .08),
+    inset 1px 0 0 rgb(255 255 255 / .42);
   pointer-events: none;
 }
 
@@ -56,7 +55,7 @@
   align-self: center;
   width: min(13.2ch, 100%);
   margin: 0;
-  padding: 0 0 1.35rem;
+  padding: 0 0 1.18rem;
   color: var(--pcd-accent);
   font-size: clamp(4.05rem, 5.05vw, 5.75rem);
   font-weight: 900;
@@ -99,29 +98,30 @@
   position: relative;
   z-index: 2;
   grid-column: 1;
-  align-self: center;
+  align-self: start;
   box-sizing: border-box;
   width: min(52rem, 100%);
   margin: 0;
-  padding: .42rem 0 .42rem 1rem;
+  padding: .24rem 0 .24rem .95rem;
   border-left: 4px solid color-mix(in srgb, var(--pcd-accent) 78%, transparent);
   color: var(--pcd-foreground);
   font-size: clamp(.96rem, 1.02vw, 1.12rem);
   font-style: normal;
   font-weight: 720;
-  line-height: 1.25;
+  line-height: 1.18;
   text-align: left;
 }
 
 .reveal .slides section[data-layout="hero-title-panel"]
   > [data-layout-slot="primary-attribution"] > cite {
   grid-row: 2;
+  margin-top: .42rem;
 }
 
 .reveal .slides section[data-layout="hero-title-panel"]
   > [data-layout-slot="secondary-attribution"] > cite {
   grid-row: 3;
-  margin-top: -.15rem;
+  margin-top: -.04rem;
   border-left-color: color-mix(in srgb, var(--pcd-accent) 48%, var(--pcd-border));
 }
 
@@ -147,7 +147,7 @@
   display: block;
   width: 100%;
   height: auto;
-  max-height: 5.9rem;
+  max-height: 6.25rem;
   margin: 0 auto;
   object-fit: contain;
   opacity: 1 !important;
@@ -155,35 +155,34 @@
 }
 
 .reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="primary-attribution"] > .media-reference,
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="secondary-attribution"] > .media-reference,
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] {
+  position: absolute;
+  right: 3.15%;
+  z-index: 2;
+  width: 23.1%;
+  margin: 0;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
   > [data-layout-slot="primary-attribution"] > .media-reference {
-  grid-column: 2;
-  grid-row: 1;
-  align-self: end;
-  justify-self: center;
-  width: min(17.25rem, 82%);
-  margin-bottom: .55rem;
+  top: 10.5%;
 }
 
 .reveal .slides section[data-layout="hero-title-panel"]
   > [data-layout-slot="secondary-attribution"] > .media-reference {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: center;
-  justify-self: center;
-  width: min(17.25rem, 82%);
+  top: 38.5%;
 }
 
 /* The supporting attribution stays intact as a semantic group. */
 .reveal .slides section[data-layout="hero-title-panel"]
   > [data-layout-slot="supporting-attribution"] {
-  grid-column: 2;
-  grid-row: 3;
-  align-self: end;
-  justify-self: center;
+  bottom: 8.4%;
   display: grid;
-  width: min(17.25rem, 82%);
   gap: .42rem;
-  margin-top: .2rem;
   padding-top: .65rem;
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 78%, transparent);
 }
@@ -248,7 +247,7 @@ body[data-presentation-theme="dark"] .reveal
     left: .6rem;
     width: auto;
     height: 43%;
-    border-radius: 14px;
+    border-radius: 12px;
   }
 
   .reveal .slides section[data-layout="hero-title-panel"] > [data-layout-slot="heading"] {
@@ -274,6 +273,9 @@ body[data-presentation-theme="dark"] .reveal
 
   .reveal .slides section[data-layout="hero-title-panel"]
     > [data-layout-slot="primary-attribution"] > .media-reference {
+    position: relative;
+    top: auto;
+    right: auto;
     grid-column: 1;
     grid-row: 4;
     justify-self: start;
@@ -283,6 +285,9 @@ body[data-presentation-theme="dark"] .reveal
 
   .reveal .slides section[data-layout="hero-title-panel"]
     > [data-layout-slot="secondary-attribution"] > .media-reference {
+    position: relative;
+    top: auto;
+    right: auto;
     grid-column: 1;
     grid-row: 5;
     justify-self: end;
@@ -291,6 +296,9 @@ body[data-presentation-theme="dark"] .reveal
 
   .reveal .slides section[data-layout="hero-title-panel"]
     > [data-layout-slot="supporting-attribution"] {
+    position: relative;
+    right: auto;
+    bottom: auto;
     grid-column: 1;
     grid-row: 6;
     justify-self: end;
