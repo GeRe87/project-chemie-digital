@@ -53,18 +53,7 @@
 
   /* Reference-code responsiveness is owned by the generic layout. */
 
-  /* Full-screen showcase beats should use the phone viewport, not the 1440px deck. */
-  body.pcd-cogniflow-mobile.reveal-scroll
-    .reveal .slides section:is(
-      [id="ex:scene-cogniflow-showcase-still--scene"],
-      [id="ex:scene-cogniflow-showcase-video-one--scene"],
-      [id="ex:scene-cogniflow-showcase-video-two--scene"]
-    ) {
-    width: 100vw !important;
-    height: 100svh !important;
-    min-height: 100svh !important;
-    max-height: 100svh !important;
-  }
+  /* Full-media viewport behavior is owned by the generic full-media layout. */
 
   body.pcd-cogniflow-mobile
     .reveal .slides section[id="ex:scene-cogniflow-closing--scene"] > h2 {

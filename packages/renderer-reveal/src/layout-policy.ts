@@ -11,7 +11,8 @@ export type RevealLayoutFamily =
   | "text-network-progression"
   | "concentric-network"
   | "process-diagram"
-  | "foundation-card-grid";
+  | "foundation-card-grid"
+  | "full-media";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -36,6 +37,15 @@ function isLinearFlow(block: SceneBlock, minimumNodes = 2): block is DiagramBloc
 
 function isLinearThreeNodeFlow(block: SceneBlock): block is DiagramBlock {
   return isLinearFlow(block, 3) && block.nodes.length === 3;
+}
+
+function isFullMediaGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const media = block.children.filter((child) => child.kind === "media-reference");
+  const prose = block.children.filter((child) => child.kind === "prose");
+  if (media.length !== 1 || prose.length !== 1) return false;
+  const mediaType = media[0]?.kind === "media-reference" ? media[0].mediaType : undefined;
+  return mediaType === undefined || mediaType.startsWith("image/") || mediaType.startsWith("video/");
 }
 
 function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
@@ -63,6 +73,21 @@ function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
 export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | undefined {
   const blocks = orderedBlocks(scene);
   if (!blocks) return undefined;
+
+  if (blocks.length === 2) {
+    const [heading, mediaGroup] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && mediaGroup !== undefined
+      && isFullMediaGroup(mediaGroup)
+    ) {
+      return {
+        family: "full-media",
+        slots: ["heading", "media"],
+      };
+    }
+  }
 
   if (blocks.length === 2) {
     const [heading, network] = blocks;

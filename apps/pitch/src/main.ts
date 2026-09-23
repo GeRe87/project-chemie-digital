@@ -28,7 +28,7 @@ import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
 import "./cogniflow-take-home.css";
-import "./cogniflow-showcase.css";
+import "./full-media-layout.css";
 import "./cogniflow-closing.css";
 import "./cogniflow-mobile.css";
 import "./presentation-clock.css";
@@ -224,68 +224,55 @@ const deck = new Reveal({
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
 
-const showcaseVideos = Array.from(
+const presentationVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
 );
-const showcaseSceneIds = new Set([
-  "ex:scene-cogniflow-showcase-still--scene",
-  "ex:scene-cogniflow-showcase-video-one--scene",
-  "ex:scene-cogniflow-showcase-video-two--scene",
-]);
 
-// Some consecutive scenes are deliberate "same camera position" swaps: advancing
-// replaces the content without animating the Scroll View. The second scene in each pair
-// restores normal scrolling for the following transition.
-const hardCutSceneIds = new Set([
-  "ex:scene-cogniflow-showcase-still--scene",
-  "ex:scene-cogniflow-showcase-video-one--scene",
-]);
-
-const frozenBackgroundSceneIds = new Set([
-  ...showcaseSceneIds,
-]);
+function isFullMediaScene(scene: HTMLElement | undefined): boolean {
+  return scene?.dataset.layout === "full-media";
+}
 
 function syncNavigationMode(): void {
   const current = deck.getCurrentSlide() as HTMLElement | undefined;
-  const sceneId = current?.id ?? "";
   const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
-  const sameStructuralSequence = current?.dataset.layout === "concept-specification"
+  const sameConceptSequence = current?.dataset.layout === "concept-specification"
     && next?.dataset.layout === current.dataset.layout;
+  const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
-    appearance.view === "scroll" && (sameStructuralSequence || hardCutSceneIds.has(sceneId)),
+    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
   );
 }
 
-function syncShowcaseMode(): void {
-  const sceneId = deck.getCurrentSlide()?.id ?? "";
-  document.body.classList.toggle("pcd-showcase-active", showcaseSceneIds.has(sceneId));
+function syncFullMediaMode(): void {
+  const current = deck.getCurrentSlide() as HTMLElement | undefined;
+  document.body.classList.toggle("pcd-full-media-active", isFullMediaScene(current));
 }
 
-function syncShowcaseVideos(): void {
+function syncPresentationVideos(): void {
   const currentSlide = deck.getCurrentSlide();
-  for (const video of showcaseVideos) {
+  for (const video of presentationVideos) {
     const active = currentSlide?.contains(video) ?? false;
     if (!active) {
       video.pause();
       video.currentTime = 0;
-      delete video.dataset.pcdShowcaseStarted;
+      delete video.dataset.pcdPresentationStarted;
       continue;
     }
-    if (video.dataset.pcdShowcaseStarted === "true") continue;
-    video.dataset.pcdShowcaseStarted = "true";
+    if (video.dataset.pcdPresentationStarted === "true") continue;
+    video.dataset.pcdPresentationStarted = "true";
     video.currentTime = 0;
     void video.play().catch(() => {
       // Browser autoplay policy may require a direct click; controls stay visible.
     });
   }
 }
-deck.on("slidechanged", syncShowcaseVideos);
-deck.on("slidechanged", syncShowcaseMode);
+deck.on("slidechanged", syncPresentationVideos);
+deck.on("slidechanged", syncFullMediaMode);
 deck.on("slidechanged", syncNavigationMode);
 syncNavigationMode();
-syncShowcaseMode();
-syncShowcaseVideos();
+syncFullMediaMode();
+syncPresentationVideos();
 
 function revealScrollOffset(): number {
   const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
@@ -323,9 +310,9 @@ function createProgressSource(): BackgroundProgressSource {
 const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
-  const currentSceneId = currentSlide?.id ?? "";
-  const freezeForLayout = currentSlide?.dataset.layout === "concept-specification";
-  if (appearance.view === "scroll" && (freezeForLayout || frozenBackgroundSceneIds.has(currentSceneId))) return;
+  const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
+    || currentSlide?.dataset.layout === "full-media";
+  if (appearance.view === "scroll" && freezeForLayout) return;
   backgroundRuntime.setProgress(offset);
 });
 
@@ -359,13 +346,13 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
-  deck.off("slidechanged", syncShowcaseVideos);
-  deck.off("slidechanged", syncShowcaseMode);
+  deck.off("slidechanged", syncPresentationVideos);
+  deck.off("slidechanged", syncFullMediaMode);
   deck.off("slidechanged", syncNavigationMode);
   document.body.classList.remove("pcd-no-scroll-transition");
-  document.body.classList.remove("pcd-showcase-active");
+  document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-cogniflow-mobile");
-  for (const video of showcaseVideos) video.pause();
+  for (const video of presentationVideos) video.pause();
   unmountPresentationSteps();
   unmountPresentationProjection();
   unmountPresentationLaserPointer();

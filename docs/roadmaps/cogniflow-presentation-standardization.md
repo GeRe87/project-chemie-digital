@@ -780,3 +780,26 @@ Result:
 Clock and laser pointer are reusable presenter features. A presentation profile may request them, but the capabilities themselves contain no knowledge of CogniFlow.
 
 Next migration target: showcase/media transition and background-freeze policy still encoded through concrete scene-id sets in `main.ts`.
+
+
+### Increment 8c — generic full-media sequence and transition policy
+
+Status: **implemented on this branch**
+
+Completed:
+
+- added renderer-owned `full-media` layout inference for scenes consisting of a heading plus one semantic prose/media group;
+- replaced the CogniFlow Showcase stylesheet with generic `full-media-layout.css`;
+- removed all three Showcase scene ids from CSS and navigation/runtime policy;
+- inferred hard cuts structurally when one `full-media` scene is followed by another;
+- froze parallax/background progress from the active layout family rather than a scene-id set;
+- generalized video start/reset lifecycle naming and active full-media shell state;
+- moved mobile viewport handling into the generic full-media layout and removed the old Showcase scene-id block;
+- intentionally dropped content-specific video crop transforms; generic full-media video preserves authored media with `object-fit: contain`;
+- deleted `cogniflow-showcase.css` and extended anti-hardcoding/layout tests.
+
+Result:
+
+Full-screen image/video sequences are now a reusable presentation pattern. Media content remains RDF-authored, while fullscreen realization, consecutive hard cuts, background suppression and playback lifecycle are inferred from generic scene structure.
+
+Next migration target: remaining CogniFlow-specific presentation-shell/layout files, especially title/opening, take-home and closing, plus the profile-specific mobile shell.

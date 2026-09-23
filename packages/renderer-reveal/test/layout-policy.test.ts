@@ -374,6 +374,34 @@ function processContextScene(id: string): Scene {
   };
 }
 
+function fullMediaScene(id: string, mediaType: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:full-media-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      {
+        id: "block:media-group",
+        kind: "group",
+        source: [{ resourceId: "resource:media-group" }],
+        children: [
+          prose("block:description", "explain"),
+          {
+            id: "block:media",
+            kind: "media-reference",
+            uri: "/assets/demo",
+            mediaType,
+            alternativeText: "Demonstration media",
+            source: [{ resourceId: "resource:media" }],
+          },
+        ],
+        readingOrder: ["block:description", "block:media"],
+      },
+    ],
+    readingOrder: ["block:heading", "block:media-group"],
+  };
+}
+
 function foundationCardGridScene(id: string): Scene {
   return {
     id,
@@ -441,6 +469,12 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
     readingOrder: ["block:heading", "block:intro", "block:diagram", "block:takeaway"],
   };
 }
+
+test("infers full-media from heading plus one prose/media group without identity", () => {
+  assert.equal(inferRevealLayoutFamily(fullMediaScene("scene:image", "image/png")), "full-media");
+  assert.equal(inferRevealLayoutFamily(fullMediaScene("opaque:video", "video/mp4")), "full-media");
+  assert.deepEqual(inferRevealLayoutDecision(fullMediaScene("scene:slots", "video/webm"))?.slots, ["heading", "media"]);
+});
 
 test("infers foundation-card-grid from structured definition entries without identity", () => {
   assert.equal(inferRevealLayoutFamily(foundationCardGridScene("scene:alpha")), "foundation-card-grid");

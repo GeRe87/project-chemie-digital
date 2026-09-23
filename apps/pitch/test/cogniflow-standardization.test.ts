@@ -21,6 +21,9 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-processing-pipeline--scene",
   "ex:scene-cogniflow-service-process--scene",
   "ex:scene-cogniflow-extension-system--scene",
+  "ex:scene-cogniflow-showcase-still--scene",
+  "ex:scene-cogniflow-showcase-video-one--scene",
+  "ex:scene-cogniflow-showcase-video-two--scene",
 ] as const;
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
@@ -43,6 +46,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-clock.css"),
     source("../src/presentation-laser-pointer.ts"),
     source("../src/presentation-laser-pointer.css"),
+    source("../src/full-media-layout.css"),
   ];
 
   for (const genericSource of genericSources) {
@@ -87,6 +91,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
+  assert.equal(main.includes('import "./full-media-layout.css"'), true);
+  assert.equal(main.includes('import "./cogniflow-showcase.css"'), false);
   assert.equal(main.includes('import "./presentation-projection.css"'), true);
   assert.equal(main.includes('import "./cogniflow-presentation-projection.css"'), false);
   assert.equal(main.includes("mountPresentationProjections"), true);
@@ -242,4 +248,21 @@ test("presenter clock and laser pointer are generic profile capabilities", () =>
   assert.equal(main.includes("appearance.profile.presenterCapabilities?.clock"), true);
   assert.equal(main.includes("appearance.profile.presenterCapabilities?.laserPointer"), true);
   assert.equal(profile.includes("readonly presenterCapabilities?: PresenterCapabilities"), true);
+});
+
+
+test("full-media showcase behavior is structural rather than scene-id driven", () => {
+  const main = source("../src/main.ts");
+  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+  const css = source("../src/full-media-layout.css");
+
+  assert.equal(policy.includes('"full-media"'), true);
+  assert.equal(policy.includes("isFullMediaGroup"), true);
+  assert.equal(css.toLowerCase().includes("cogniflow"), false);
+  assert.equal(css.includes("section[id="), false);
+  assert.equal(main.includes("showcaseSceneIds"), false);
+  assert.equal(main.includes("hardCutSceneIds"), false);
+  assert.equal(main.includes("frozenBackgroundSceneIds"), false);
+  assert.equal(main.includes('dataset.layout === "full-media"'), true);
+  assert.equal(main.includes("pcd-full-media-active"), true);
 });
