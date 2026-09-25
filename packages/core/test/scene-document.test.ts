@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
+  SCENE_DOCUMENT_TABLE_VERSION,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   type SceneDocument,
@@ -72,6 +73,49 @@ function flowDocument(): SceneDocument {
       },
     ],
   };
+}
+
+function tableDocument(): SceneDocument {
+  return {
+    version: SCENE_DOCUMENT_TABLE_VERSION,
+    id: "scene:table",
+    sourcePathId: "ex:path-table",
+    scenes: [{
+      id: "scene:table-example",
+      source: [{ resourceId: "ex:table-example" }],
+      blocks: [{
+        kind: "table",
+        id: "block:table",
+        source: [{ resourceId: "ex:table", relationPath: "cd:hasTableRow" }],
+        caption: "Illustrative dataset",
+        description: "A small source-linked table.",
+        columns: [
+          { id: "column:field", label: "Field", source: [{ resourceId: "ex:column-field", relationPath: "skos:prefLabel@en" }] },
+          { id: "column:value", label: "Example", source: [{ resourceId: "ex:column-value", relationPath: "skos:prefLabel@en" }] },
+        ],
+        rows: [
+          {
+            id: "row:identifier",
+            source: [{ resourceId: "ex:row-identifier", relationPath: "cd:hasTableCell" }],
+            cells: [
+              { id: "cell:identifier-field", text: "Identifier", source: [{ resourceId: "ex:cell-identifier-field", relationPath: "cd:body" }] },
+              { id: "cell:identifier-value", text: "doi:10.xxxx/sample.017", source: [{ resourceId: "ex:cell-identifier-value", relationPath: "cd:body" }] },
+            ],
+          },
+        ],
+      }],
+      readingOrder: ["block:table"],
+    }],
+  };
+}
+
+function expectTableError(mutator: (value: SceneDocument) => void, message: RegExp): void {
+  const value = structuredClone(tableDocument());
+  mutator(value);
+  assert.throws(
+    () => validateSceneDocument(value),
+    (error: unknown) => error instanceof SceneContractError && message.test(error.message),
+  );
 }
 
 function expectError(mutator: (value: SceneDocument) => void, message: RegExp): void {
@@ -236,4 +280,79 @@ test("rejects tied disclosure orders among nested group children", () => {
     ];
     value.scenes[0].readingOrder = ["group:explanation"];
   }, /group group:explanation disclosure orders must be unique among siblings/);
+});
+
+test("network diagrams may model grouped semantic structure without authored edges", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.diagramType = "network";
+  block.edges = [];
+  block.groups = [
+    { id: "group:inner", label: "Inner", source: [{ resourceId: "ex:inner" }] },
+    { id: "group:outer", label: "Outer", source: [{ resourceId: "ex:outer" }] },
+  ];
+  block.nodes[0]!.groupIds = ["group:outer"];
+  block.nodes[1]!.groupIds = ["group:inner"];
+  assert.doesNotThrow(() => validateSceneDocument(value));
+
+  block.diagramType = "flow";
+  assert.throws(() => validateSceneDocument(value), /flow diagram must contain at least one edge/);
+});
+
+test("diagram groups and visual roles remain semantic while membership is validated", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.groups = [{ id: "group:instruments", label: "Instruments", source: [{ resourceId: "ex:instruments" }] }];
+  block.nodes[0]!.visualRole = "comparison";
+  block.nodes[0]!.groupIds = ["group:instruments"];
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  block.nodes[0]!.groupIds = ["group:missing"];
+  assert.throws(() => validateSceneDocument(value), /references an unknown group/);
+});
+
+test("diagram edge visual roles use the same portable token contract as node roles", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.edges[0]!.visualRole = "annotation";
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  block.edges[0]!.visualRole = "Annotation";
+  assert.throws(() => validateSceneDocument(value), /edge .* visualRole must be a lowercase token/);
+});
+
+
+test("accepts a renderer-neutral table only in SceneDocument 1.5", () => {
+  assert.doesNotThrow(() => validateSceneDocument(tableDocument()));
+  const legacy = structuredClone(tableDocument()) as SceneDocument & { version: string };
+  legacy.version = "1.4";
+  assert.throws(() => validateSceneDocument(legacy as SceneDocument), /table requires SceneDocument 1\.5/);
+});
+
+test("table shape fails closed on malformed rows and identities", () => {
+  expectTableError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "table") block.rows[0]!.cells = [block.rows[0]!.cells[0]!];
+  }, /exactly one cell per column/);
+
+  expectTableError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "table") block.columns = [];
+  }, /at least one column/);
+
+  expectTableError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "table") block.rows = [];
+  }, /at least one row/);
+
+  expectTableError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "table") block.columns = [block.columns[0]!, { ...block.columns[1]!, id: block.columns[0]!.id }];
+  }, /duplicate column ids/);
+
+  expectTableError((value) => {
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind === "table") block.rows = [block.rows[0]!, { ...block.rows[0]!, id: "row:second", cells: block.rows[0]!.cells.map((cell) => ({ ...cell })) }];
+  }, /duplicate cell ids/);
 });

@@ -6,14 +6,19 @@
   "exports": {
     ".": "./src/index.ts",
     "./flow": "./src/flow-diagram.ts",
-    "./flow-layout": "./src/flow-layout.ts"
+    "./flow-layout": "./src/flow-layout.ts",
+    "./bar": "./src/bar-chart.ts",
+    "./line": "./src/line-chart.ts",
+    "./chart": "./src/chart.ts"
   },
   "scripts": {
     "test": "node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {
     "@project-chemie-digital/core": "0.0.0",
-    "d3-force": "^3.0.0"
+    "d3-force": "^3.0.0",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0"
   },
   "engines": {
     "node": ">=22"

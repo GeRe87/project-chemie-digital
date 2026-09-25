@@ -124,6 +124,18 @@ body.pcd-background-active.reveal-scroll .reveal .slides section {
   backdrop-filter: none;
 }
 
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) .pcd-background-world,
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) #view-switch-shell {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+body.pcd-background-active:not(.reveal-scroll):has(.reveal .slides section.present .d3-flow-host) .reveal {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 body.pcd-background-active.reveal-scroll .pcd-background-layer[data-background-layer-id="atmosphere"] {
   mix-blend-mode: normal !important;
 }

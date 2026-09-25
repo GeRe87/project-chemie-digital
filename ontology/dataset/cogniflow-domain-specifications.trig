@@ -1,0 +1,103 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-domain-specifications> {
+  ex:cogniflow-domain-specifications a cd:Concept ;
+    skos:prefLabel "A Semantic Model for Data Processing"@en ;
+    cd:hasDefinition ex:def-cogniflow-domain-specifications ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-domain-specifications a cd:Definition ;
+    cd:body "CogniFlow models data processing around a reusable ProcessingUnit with explicit ports. A ProcessingUnit can be specialized as an atomic ProcessingStep or a composite ProcessingPipeline; concrete scientific operations such as peak integration are specifications of that model."@en ;
+    cd:authoredResource true .
+
+
+  ex:cogniflow-domain-cards a cd:Interpretation ;
+    cd:body "The current Stonecastle data-processing vocabulary defines ProcessingUnit, Port and PortRole, ProcessingStep and ProcessingPipeline, plus pipeline composition through PipelineNode and RunTarget."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-processing-domain,
+      ex:keypoint-cogniflow-processing-unit,
+      ex:keypoint-cogniflow-peak-integration-specification ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-processing-domain a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """CONCEPT DOMAIN
+DATA PROCESSING
+defines ProcessingUnit
+Port · PortRole
+Input · Output · Parameter"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-processing-unit a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """PROCESSING UNIT
+hasPort → Port
+Port has PortRole
+
+PROCESSING STEP
+atomic ProcessingUnit
+
+PROCESSING PIPELINE
+composite ProcessingUnit
+PipelineNode → runs → ProcessingUnit"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-peak-integration-specification a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """SPECIFICATION
+PEAK INTEGRATION
+a ProcessingStep
+
+INPUT · chromatographic signal
+PARAMETER · integration window
+OUTPUT · peak area"""@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-domain-compatibility-note a cd:Interpretation ;
+    cd:body "THE CONCEPT DEFINES THE STRUCTURE — THE SPECIFICATION PROVIDES THE SCIENTIFIC METHOD"@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-domain-specifications-extension> {
+  ex:path-step-cogniflow-domain-specifications a cd:PathStep ;
+    cd:position 11 ;
+    cd:usesResource ex:cogniflow-domain-cards,
+      ex:cogniflow-domain-compatibility-note ;
+    cd:usesScene ex:scene-cogniflow-domain-specifications ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-domain-specifications> {
+  ex:scene-cogniflow-domain-specifications a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-domain-specifications ;
+    cd:hasSceneItem ex:scene-item-cogniflow-domain-specifications-heading,
+      ex:scene-item-cogniflow-domain-specifications-cards,
+      ex:scene-item-cogniflow-domain-specifications-note ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-domain-specifications-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-domain-specifications ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+
+  ex:scene-item-cogniflow-domain-specifications-cards a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-domain-cards ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-domain-specifications-note a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-domain-compatibility-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}

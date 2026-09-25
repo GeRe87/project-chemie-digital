@@ -1,0 +1,155 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-semantic-triples> {
+  ex:cogniflow-semantic-triples a cd:Concept ;
+    skos:prefLabel "From Language to a Knowledge Graph"@en ;
+    cd:hasDefinition ex:def-cogniflow-semantic-triples ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-semantic-triples a cd:Definition ;
+    cd:body "Semantics makes relationships explicit by expressing statements as subject-predicate-object triples. Multiple triples that share entities naturally connect into a knowledge graph."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-triples-banner a cd:Interpretation ;
+    cd:body "SUBJECT → PREDICATE → OBJECT"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-triples-cards a cd:Interpretation ;
+    cd:body "The same information can be read as natural language or as explicit semantic statements before it is rendered as a connected graph."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-semantic-prose,
+      ex:keypoint-cogniflow-semantic-statements ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-semantic-prose a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """PROSE
+
+“Anna, who lives in Essen, works at a university that is located in the same city.”"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-semantic-statements a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """SEMANTIC STATEMENTS
+
+Anna → livesIn → Essen
+
+Anna → worksAt → University
+
+University → locatedIn → Essen"""@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-semantic-triples-network a cd:NetworkDiagram ;
+    skos:prefLabel "Knowledge graph"@en ;
+    cd:body "Anna, Essen and University are connected through explicit labeled relationships."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-semantic-triples-anna,
+      ex:node-cogniflow-semantic-triples-essen,
+      ex:node-cogniflow-semantic-triples-university ;
+    cd:hasDiagramEdge ex:edge-cogniflow-semantic-triples-lives-in,
+      ex:edge-cogniflow-semantic-triples-works-at,
+      ex:edge-cogniflow-semantic-triples-located-in ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-semantic-triples-anna a cd:DiagramNode ;
+    skos:prefLabel "Anna"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-semantic-triples-essen a cd:DiagramNode ;
+    skos:prefLabel "Essen"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-semantic-triples-university a cd:DiagramNode ;
+    skos:prefLabel "University"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-lives-in a cd:DiagramEdge ;
+    skos:prefLabel "livesIn"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-anna ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-essen ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-works-at a cd:DiagramEdge ;
+    skos:prefLabel "worksAt"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-anna ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-university ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-semantic-triples-located-in a cd:DiagramEdge ;
+    skos:prefLabel "locatedIn"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-semantic-triples-university ;
+    cd:targetNode ex:node-cogniflow-semantic-triples-essen ;
+    cd:authoredResource true .
+
+  ex:cogniflow-semantic-triples-note a cd:Interpretation ;
+    cd:body "THREE SIMPLE STATEMENTS — ONE CONNECTED GRAPH"@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-semantic-triples-extension> {
+  ex:path-step-cogniflow-semantic-triples a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:cogniflow-semantic-triples-banner,
+      ex:cogniflow-semantic-triples-cards,
+      ex:diagram-cogniflow-semantic-triples-network,
+      ex:cogniflow-semantic-triples-note ;
+    cd:usesScene ex:scene-cogniflow-semantic-triples ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-semantic-triples> {
+  ex:scene-cogniflow-semantic-triples a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-semantic-triples ;
+    cd:hasSceneItem ex:scene-item-cogniflow-semantic-triples-heading,
+      ex:scene-item-cogniflow-semantic-triples-banner,
+      ex:scene-item-cogniflow-semantic-triples-cards,
+      ex:scene-item-cogniflow-semantic-triples-network,
+      ex:scene-item-cogniflow-semantic-triples-note ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-semantic-triples ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-banner a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-semantic-triples-banner ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-cards a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-semantic-triples-cards ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-network a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:diagram-cogniflow-semantic-triples-network ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-semantic-triples-note a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-semantic-triples-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}

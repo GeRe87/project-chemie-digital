@@ -1,0 +1,221 @@
+/* Generic alternate projection for concept-specification scenes.
+   The publication realization reuses the exact compiled scene content. */
+
+.reveal .slides section[data-layout="concept-specification"] {
+  position: relative;
+}
+
+.presentation-projection-toggle {
+  position: absolute;
+  top: 5.08rem;
+  right: 2.15rem;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: .62rem;
+  padding: .38rem .48rem .38rem .62rem;
+  border: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 88%, var(--pcd-accent) 12%);
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent);
+  color: var(--pcd-accent);
+  font: 900 .68rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .06em;
+}
+
+.presentation-projection-toggle-label {
+  white-space: nowrap;
+}
+
+.presentation-projection-toggle-button {
+  display: flex;
+  align-items: center;
+  gap: .38rem;
+  margin: 0;
+  padding: .28rem .38rem;
+  border: 2px solid var(--pcd-accent);
+  background: var(--pcd-surface-strong);
+  color: var(--pcd-foreground);
+  font: 900 .68rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  cursor: pointer;
+}
+
+.presentation-projection-toggle-button:focus-visible {
+  outline: 4px solid var(--pcd-focus);
+  outline-offset: 4px;
+}
+
+.presentation-projection-option {
+  opacity: .48;
+  transition: opacity 140ms ease;
+}
+
+section[data-projection-mode="cards"] .presentation-projection-option-cards,
+section[data-projection-mode="publication"] .presentation-projection-option-publication {
+  opacity: 1;
+}
+
+.presentation-projection-track {
+  position: relative;
+  display: inline-block;
+  width: 2.7rem;
+  height: 1.25rem;
+  border: 2px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 16%, var(--pcd-surface));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--pcd-surface-strong) 60%, transparent);
+}
+
+.presentation-projection-thumb {
+  position: absolute;
+  top: .13rem;
+  left: .16rem;
+  width: .79rem;
+  height: .79rem;
+  background: var(--pcd-accent);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pcd-accent) 38%, transparent);
+  transition: transform 160ms ease;
+}
+
+section[data-projection-mode="publication"] .presentation-projection-thumb {
+  transform: translateX(1.32rem);
+}
+
+.presentation-publication-projection {
+  display: none;
+}
+
+.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"] {
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  row-gap: .8rem;
+}
+
+.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+  > [data-layout-slot="cards"],
+.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+  > [data-layout-slot="takeaway"] {
+  display: none !important;
+}
+
+.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+  > [data-layout-slot="heading"] {
+  grid-row: 1;
+  width: min(1160px, 96%);
+  margin: .15rem auto 0;
+  padding: 0 0 .72rem;
+  border-bottom: 1px solid #8d887b;
+  color: #201e1a;
+  font: 700 2.25rem/1.08 Georgia, "Times New Roman", serif;
+  letter-spacing: -.015em;
+  text-align: left;
+}
+
+.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+  .presentation-publication-projection {
+  grid-row: 2;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(1160px, 96%);
+  min-height: 0;
+  margin: 0 auto;
+  padding: 1.35rem 2.6rem 1.45rem;
+  border: 1px solid color-mix(in srgb, #3e3a32 38%, transparent);
+  background:
+    linear-gradient(rgb(255 255 255 / .96), rgb(252 249 239 / .96)),
+    repeating-linear-gradient(0deg, rgb(62 58 50 / .025) 0 1px, transparent 1px 5px);
+  box-shadow:
+    0 18px 45px rgb(15 54 62 / .18),
+    9px 9px 0 rgb(255 255 255 / .48);
+  color: #28251f;
+  text-align: left;
+}
+
+.presentation-publication-meta {
+  margin-bottom: .72rem;
+  color: #5e5a50;
+  font: 700 .68rem/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.presentation-publication-body {
+  min-height: 0;
+  column-count: 2;
+  column-gap: 3.2rem;
+  column-rule: 1px solid #b8b2a5;
+  color: #28251f;
+  font: 400 1.06rem/1.55 Georgia, "Times New Roman", serif;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.presentation-publication-body p {
+  margin: 0 0 1.15rem !important;
+  color: inherit !important;
+  white-space: pre-line;
+  break-inside: avoid;
+}
+
+.presentation-publication-body p:first-child::first-letter {
+  float: left;
+  margin: .08rem .32rem 0 0;
+  color: #0c667b;
+  font-size: 3.15rem;
+  font-weight: 700;
+  line-height: .78;
+}
+
+.presentation-publication-footer {
+  margin-top: .8rem;
+  padding-top: .55rem;
+  border-top: 1px solid #8d887b;
+  color: #5e5a50;
+  font: 700 .72rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .presentation-projection-toggle {
+    top: .62rem;
+    right: .62rem;
+    transform: scale(.78);
+    transform-origin: top right;
+  }
+
+  .presentation-projection-toggle-label {
+    display: none;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"] {
+    display: flex !important;
+    flex-direction: column;
+    gap: .7rem;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+    > [data-layout-slot="heading"] {
+    width: 100%;
+    font-size: 1.65rem;
+  }
+
+  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+    .presentation-publication-projection {
+    width: 100%;
+    padding: 1.05rem 1rem 1rem;
+  }
+
+  .presentation-publication-body {
+    column-count: 1;
+    font-size: .95rem;
+    line-height: 1.48;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .presentation-projection-thumb,
+  .presentation-projection-option {
+    transition: none;
+  }
+}

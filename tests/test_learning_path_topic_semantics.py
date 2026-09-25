@@ -1,27 +1,19 @@
 from __future__ import annotations
 
-import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Graph, Literal, Namespace, RDF, RDFS, URIRef
+from rdflib import BNode, Graph, Literal, Namespace, RDF, RDFS, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
 
-RDF_SPEC = importlib.util.spec_from_file_location(
-    "rdf_dataset", ROOT / "scripts" / "rdf_dataset.py"
-)
-assert RDF_SPEC and RDF_SPEC.loader
-RDF_DATASET = importlib.util.module_from_spec(RDF_SPEC)
-RDF_SPEC.loader.exec_module(RDF_DATASET)
-
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+import rdf_dataset as RDF_DATASET  # noqa: E402
+import validate_semantics as VALIDATION  # noqa: E402
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
@@ -36,20 +28,54 @@ SYNTHETIC_PATH = EX["path-test-multi-topic"]
 SYNTHETIC_STEP = EX["path-step-test-multi-topic"]
 
 
+def shape_closure(source: Graph, root: URIRef) -> Graph:
+    """Copy one SHACL shape and recursively owned blank-node structures."""
+    focused = Graph()
+    pending = [root]
+    seen = set()
+    while pending:
+        subject = pending.pop()
+        if subject in seen:
+            continue
+        seen.add(subject)
+        for triple in source.triples((subject, None, None)):
+            focused.add(triple)
+            obj = triple[2]
+            if isinstance(obj, BNode):
+                pending.append(obj)
+    return focused
+
+
+def learning_path_fixture(topics: tuple[URIRef, ...] = (STANDARD_DEVIATION_TOPIC,)) -> Graph:
+    graph = Graph()
+    path = STANDARD_DEVIATION_PATH
+    step = EX["path-step-topic-fixture"]
+    resource = EX["topic-fixture-resource"]
+    graph.add((path, RDF.type, CD.LearningPath))
+    graph.add((path, CD.hasStep, step))
+    for topic in topics:
+        graph.add((path, CD.forTopic, topic))
+    graph.add((step, RDF.type, CD.PathStep))
+    graph.add((step, CD.position, Literal(1)))
+    graph.add((step, CD.usesResource, resource))
+    return graph
+
+
 class LearningPathTopicSemanticTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
+        cls.learning_path_shapes = shape_closure(
+            VALIDATION.detached_graph(cls.dataset.graph(SHAPES_GRAPH)),
+            CD.LearningPathShape,
+        )
 
     def _copy_graph(self) -> Graph:
-        graph = Graph()
-        for triple in self.graph:
-            graph.add(triple)
-        return graph
+        return learning_path_fixture()
 
     def _fresh_shapes(self) -> Graph:
-        return VALIDATION.detached_graph(self.dataset.graph(SHAPES_GRAPH))
+        return VALIDATION.detached_graph(self.learning_path_shapes)
 
     def _validate(self, graph: Graph) -> tuple[bool, str]:
         conforms, _, report = validate(
@@ -59,7 +85,7 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
             abort_on_first=False,
             allow_infos=False,
             allow_warnings=False,
-            meta_shacl=True,
+            meta_shacl=False,
         )
         return bool(conforms), str(report)
 
@@ -72,12 +98,12 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
         self.assertFalse(conforms, report)
 
     def _multi_topic_graph(self, topics: tuple[URIRef, ...]) -> Graph:
-        graph = self._copy_graph()
+        graph = learning_path_fixture(())
+        graph.remove((STANDARD_DEVIATION_PATH, None, None))
+        step = EX["path-step-topic-fixture"]
+        resource = EX["topic-fixture-resource"]
         graph.add((SYNTHETIC_PATH, RDF.type, CD.LearningPath))
-        graph.add((SYNTHETIC_PATH, CD.hasStep, SYNTHETIC_STEP))
-        graph.add((SYNTHETIC_STEP, RDF.type, CD.PathStep))
-        graph.add((SYNTHETIC_STEP, CD.position, Literal(1)))
-        graph.add((SYNTHETIC_STEP, CD.usesResource, EX["sd-definition-basic-de"]))
+        graph.add((SYNTHETIC_PATH, CD.hasStep, step))
         for topic in topics:
             graph.add((SYNTHETIC_PATH, CD.forTopic, topic))
         return graph
@@ -96,7 +122,7 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
             {RANDOM_VARIABLE_TOPIC},
             set(self.graph.objects(RANDOM_VARIABLES_PATH, CD.forTopic)),
         )
-        self._assert_conformant(self._copy_graph())
+        self._assert_conformant(learning_path_fixture())
 
     def test_multi_topic_learning_path_is_conformant_as_unordered_membership(self) -> None:
         topics = (STANDARD_DEVIATION_TOPIC, RANDOM_VARIABLE_TOPIC)

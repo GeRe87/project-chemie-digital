@@ -11,13 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics_keypoint_tests",
-    SCRIPTS / "validate_semantics.py",
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+import validate_semantics as VALIDATION  # noqa: E402
 
 RUNTIME_SPEC = importlib.util.spec_from_file_location(
     "generate_canonical_runtime_keypoint_tests",
@@ -44,6 +41,10 @@ OWNER = URIRef(f"{EX}keypoint-system-interpretation")
 OWNER_TWO = URIRef(f"{EX}keypoint-system-second-owner")
 POINT_ONE = URIRef(f"{EX}keypoint-system-point-one")
 POINT_TWO = URIRef(f"{EX}keypoint-system-point-two")
+CONSTRAINT_TRIG = (
+    ROOT / "ontology" / "dataset" / "concepts.trig",
+    ROOT / "ontology" / "dataset" / "shapes.trig",
+)
 
 
 def cd(local: str) -> URIRef:
@@ -124,8 +125,8 @@ def add_fixture(
     return dataset
 
 
-def canonical_fixture(**kwargs: object) -> Dataset:
-    return add_fixture(VALIDATION.assemble_dataset(), **kwargs)
+def constraint_fixture(**kwargs: object) -> Dataset:
+    return add_fixture(VALIDATION.assemble_dataset(trig_paths=CONSTRAINT_TRIG), **kwargs)
 
 
 def runtime_fixture(**kwargs: object) -> Dataset:
@@ -134,11 +135,11 @@ def runtime_fixture(**kwargs: object) -> Dataset:
 
 class KeyPointSemanticTests(unittest.TestCase):
     def assert_conforms(self, dataset: Dataset) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertTrue(conforms, report)
 
     def assert_violates(self, dataset: Dataset, message: str) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertFalse(conforms, report)
         self.assertIn(message, report)
 
@@ -147,10 +148,10 @@ class KeyPointSemanticTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_valid_source_linked_keypoint_sequence_conforms(self) -> None:
-        self.assert_conforms(canonical_fixture())
+        self.assert_conforms(constraint_fixture())
 
     def test_orphan_keypoint_is_rejected(self) -> None:
-        dataset = canonical_fixture()
+        dataset = constraint_fixture()
         graph = dataset.graph(URIRef(RESOURCE_GRAPH))
         orphan = URIRef(f"{EX}keypoint-system-orphan")
         graph.add((orphan, RDF.type, cd("KeyPoint")))
@@ -160,22 +161,22 @@ class KeyPointSemanticTests(unittest.TestCase):
         self.assert_violates(dataset, "exactly one owning LearningResource")
 
     def test_multi_owner_keypoint_is_rejected(self) -> None:
-        self.assert_violates(canonical_fixture(second_owner=True), "exactly one owning LearningResource")
+        self.assert_violates(constraint_fixture(second_owner=True), "exactly one owning LearningResource")
 
     def test_duplicate_keypoint_positions_are_rejected(self) -> None:
-        self.assert_violates(canonical_fixture(positions=(1, 1)), "positions must be unique")
+        self.assert_violates(constraint_fixture(positions=(1, 1)), "positions must be unique")
 
     def test_non_contiguous_keypoint_sequence_is_rejected(self) -> None:
-        self.assert_violates(canonical_fixture(positions=(1, 3)), "contiguous")
+        self.assert_violates(constraint_fixture(positions=(1, 3)), "contiguous")
 
     def test_keypoint_role_requires_linked_points(self) -> None:
-        self.assert_violates(canonical_fixture(include_points=False), "one or more linked KeyPoints")
+        self.assert_violates(constraint_fixture(include_points=False), "one or more linked KeyPoints")
 
     def test_keypoint_role_requires_keypoint_selector(self) -> None:
-        self.assert_violates(canonical_fixture(selector="cd:body"), "KeyPointRole requires exactly the cd:hasKeyPoint selector")
+        self.assert_violates(constraint_fixture(selector="cd:body"), "KeyPointRole requires exactly the cd:hasKeyPoint selector")
 
     def test_keypoint_selector_requires_keypoint_role(self) -> None:
-        self.assert_violates(canonical_fixture(role="StatementRole"), "The cd:hasKeyPoint selector requires KeyPointRole")
+        self.assert_violates(constraint_fixture(role="StatementRole"), "The cd:hasKeyPoint selector requires KeyPointRole")
 
     def test_runtime_emits_one_ordered_source_linked_list_block(self) -> None:
         document = RUNTIME.compile_scene_document(runtime_fixture(), selected_path())

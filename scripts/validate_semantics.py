@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 from pyshacl import validate
@@ -42,8 +43,13 @@ def detached_graph(source: Graph) -> Graph:
     return graph
 
 
-def validate_dataset(dataset: Dataset) -> tuple[bool, Graph, str]:
-    """Apply the repository's one canonical SHACL policy without mutating ``dataset``."""
+def validate_dataset(dataset: Dataset, *, meta_shacl: bool = True) -> tuple[bool, Graph, str]:
+    """Apply the repository's SHACL policy without mutating ``dataset``.
+
+    Canonical repository validation keeps meta-SHACL enabled. Focused constraint
+    fixtures may disable repeated shapes-graph self-validation after the canonical
+    end-to-end gate has covered it.
+    """
     data_graph = dataset_union(dataset)
     shapes_graph = detached_graph(dataset.graph(SHAPES_GRAPH))
     conforms, report_graph, report_text = validate(
@@ -53,16 +59,29 @@ def validate_dataset(dataset: Dataset) -> tuple[bool, Graph, str]:
         abort_on_first=False,
         allow_infos=False,
         allow_warnings=False,
-        meta_shacl=True,
+        meta_shacl=meta_shacl,
     )
     return bool(conforms), report_graph, str(report_text)
 
 
-def run_validation() -> tuple[bool, str]:
+@lru_cache(maxsize=1)
+def _cached_canonical_validation() -> tuple[bool, str]:
+    """Validate the immutable canonical repository dataset once per Python process.
+
+    The semantic unittest suite calls run_validation() from several independent
+    contract tests. Re-running pySHACL with RDFS inference and meta-SHACL over the
+    same canonical dataset is expensive and adds no coverage. Dataset-specific
+    mutation tests continue to call validate_dataset(dataset) directly and are
+    intentionally not cached.
+    """
     dataset = assemble_dataset()
     fingerprint = dataset_fingerprint(dataset)
     conforms, _report_graph, report_text = validate_dataset(dataset)
     return bool(conforms), f"Dataset fingerprint: {fingerprint}\n{report_text}"
+
+
+def run_validation() -> tuple[bool, str]:
+    return _cached_canonical_validation()
 
 
 def main() -> int:

@@ -1,26 +1,129 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "busy",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 153,
-  "expectedDeliverable": "Implement System Issue #153 as one bounded vertical slice: semantics-authored single-series bar chart using Dataset/Observation, additive canonical ChartBlock projection, deterministic renderer-d3 SVG, retro-neon Pitch styling, and a directly visible second CogniFlow Pitch scene with the illustrative 12/18/25/14/9 workload example. Open a Draft PR and return to manager without Ready/review/merge actions.",
-  "lastCompletedTurn": "manager: planned the first quantitative D3 chart increment and created System Issue #153. The contract requires RDF/TriG -> canonical ChartBlock -> renderer-d3 -> Pitch, reuses Dataset/Observation values, keeps presentation styling renderer-owned, and establishes the rule that every new chart/diagram type ships with a locally visible semantic Pitch example. Cross-track check found Chemometrics #140 remains content-scoped/blocked and does not conflict with this System work.",
-  "lastUpdated": "2026-09-11T10:41:13+02:00",
-  "lease": {"owner": null, "claimedAt": null, "expiresAt": null},
-  "blockedBy": [],
-  "stateRevision": 191,
+  "expectedDeliverable": "Perform one bounded review repair for Issue #153 / PR #154: remove `.github/workflows/deploy-cogniflow-pages.yml` because deployment/publishing is outside the accepted scope without separate human approval; update only the Issue #153 handoff if needed to record that deployment remains out of scope; make no unrelated implementation/content changes; return to the System manager for fresh exact-head validation and final review.",
+  "lastCompletedTurn": "worker: completed the manager-authorized bounded Issue #153 review repair by removing `.github/workflows/deploy-cogniflow-pages.yml` and adding only a handoff note that deployment/publishing remains outside #153 without separate approval. No presentation implementation, semantic content, renderer, compiler, or Chemometrics content was changed in this repair.",
+  "lastUpdated": "2026-09-25T16:59:00+02:00",
+  "lease": {
+    "owner": "interactive-system-manager-issue153-final-acceptance-20260925T165900+0200",
+    "claimedAt": "2026-09-25T16:59:00+02:00",
+    "expiresAt": "2026-09-25T18:59:00+02:00"
+  },
+  "blockedBy": [
+    "PR #154 requires fresh exact-head agent-validator/project-chemie-digital success after the deployment-workflow removal and workflow-state handoff commits",
+    "PR #154 requires final System manager acceptance and Ready-for-review lifecycle gate before merge"
+  ],
+  "stateRevision": 197,
   "transitionHistory": [
-    {"at":"2026-09-11T08:07:00+02:00","from":"blocked/manager","to":"ready/worker","actor":"interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200","reason":"Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."},
-    {"at":"2026-09-11T08:13:13+02:00","from":"ready/worker","to":"busy/worker","actor":"interactive-system-worker-issue151-test-repair-20260911T081313+0200","reason":"Claimed the manager-authorized bounded #151 test-only review repair turn."},
-    {"at":"2026-09-11T08:15:05+02:00","from":"busy/worker","to":"blocked/manager","actor":"interactive-system-worker-issue151-test-repair-20260911T081313+0200","reason":"Completed the accepted Copilot test-only invariant repair, updated the handoff, left the review thread unresolved for manager verification, and returned for fresh exact-head validation and configured re-review."},
-    {"at":"2026-09-11T08:17:06+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue151-final-review-20260911T081706+0200","reason":"Claimed one bounded manager turn to verify the test-only Copilot repair and final review gates for PR #152."},
-    {"at":"2026-09-11T08:18:44+02:00","from":"busy/manager","to":"blocked/manager","actor":"interactive-system-manager-issue151-final-review-20260911T081706+0200","reason":"Verified the accepted Copilot test finding is repaired and scoped; returned blocked while waiting for fresh exact-head validator success before resolving the thread and requesting final re-review."},
-    {"at":"2026-09-11T08:32:59+02:00","from":"blocked/manager","to":"busy/manager","actor":"interactive-system-manager-issue151-final-gates-20260911T083259+0200","reason":"Claimed the final manager gate turn after exact-head validator success on the prior blocked state head; this claim head must itself validate before review resolution and merge gates proceed."},
-    {"at":"2026-09-11T10:20:09+02:00","from":"busy/manager","to":"ready/manager","actor":"interactive-system-manager-issue151-final-gates-20260911T083259+0200","reason":"Exact-head validation succeeded, final Copilot re-review produced 0 new comments, all review threads were resolved, PR #152 was 0 behind and mergeable, and the PR was squash-merged as 64bd41add05d5a89d7a9027145aa7953fc705aa8; System returned to idle manager state."},
-    {"at":"2026-09-11T10:38:37+02:00","from":"ready/manager","to":"busy/manager","actor":"interactive-system-manager-bar-chart-plan-20260911T103837+0200","reason":"Claimed one bounded manager planning turn for the first semantics-authored quantitative D3 chart with a directly visible CogniFlow Pitch example."},
-    {"at":"2026-09-11T10:41:13+02:00","from":"busy/manager","to":"ready/worker","actor":"interactive-system-manager-bar-chart-plan-20260911T103837+0200","reason":"Created System Issue #153 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for the complete semantics-authored bar-chart vertical slice, including the required visible CogniFlow Pitch example."}
+    {
+      "at": "2026-09-11T08:07:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200",
+      "reason": "Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."
+    },
+    {
+      "at": "2026-09-11T08:13:13+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
+      "reason": "Claimed the manager-authorized bounded #151 test-only review repair turn."
+    },
+    {
+      "at": "2026-09-11T08:15:05+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
+      "reason": "Completed the accepted Copilot test-only invariant repair, updated the handoff, left the review thread unresolved for manager verification, and returned for fresh exact-head validation and configured re-review."
+    },
+    {
+      "at": "2026-09-11T08:17:06+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
+      "reason": "Claimed one bounded manager turn to verify the test-only Copilot repair and final review gates for PR #152."
+    },
+    {
+      "at": "2026-09-11T08:18:44+02:00",
+      "from": "busy/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
+      "reason": "Verified the accepted Copilot test finding is repaired and scoped; returned blocked while waiting for fresh exact-head validator success before resolving the thread and requesting final re-review."
+    },
+    {
+      "at": "2026-09-11T08:32:59+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
+      "reason": "Claimed the final manager gate turn after exact-head validator success on the prior blocked state head; this claim head must itself validate before review resolution and merge gates proceed."
+    },
+    {
+      "at": "2026-09-11T10:20:09+02:00",
+      "from": "busy/manager",
+      "to": "ready/manager",
+      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
+      "reason": "Exact-head validation succeeded, final Copilot re-review produced 0 new comments, all review threads were resolved, PR #152 was 0 behind and mergeable, and the PR was squash-merged as 64bd41add05d5a89d7a9027145aa7953fc705aa8; System returned to idle manager state."
+    },
+    {
+      "at": "2026-09-11T10:38:37+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-bar-chart-plan-20260911T103837+0200",
+      "reason": "Claimed one bounded manager planning turn for the first semantics-authored quantitative D3 chart with a directly visible CogniFlow Pitch example."
+    },
+    {
+      "at": "2026-09-11T10:41:13+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-bar-chart-plan-20260911T103837+0200",
+      "reason": "Created System Issue #153 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for the complete semantics-authored bar-chart vertical slice, including the required visible CogniFlow Pitch example."
+    },
+    {
+      "at": "2026-09-23T13:55:00+02:00",
+      "from": "ready/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue153-standardization-handoff-20260923T135500+0200",
+      "reason": "Completed the expanded Issue #153 implementation and CogniFlow presentation standardization, opened Draft PR #156, updated the final handoff/roadmap, and returned control to the System manager for fresh exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-25T16:39:53+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
+      "reason": "Claimed one bounded System manager review turn for Issue #153 / PR #154 after fresh exact-head validator success on the pre-claim head; the claim changes the PR head, so acceptance remains gated on fresh validation of the claim head."
+    },
+    {
+      "at": "2026-09-25T16:43:33+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
+      "reason": "Independent manager review found one bounded actionable blocker: the PR adds a GitHub Pages deployment workflow without separate human approval. Authorized only removal of that workflow (plus minimal handoff note) before fresh exact-head validation and final manager acceptance."
+    },
+    {
+      "at": "2026-09-25T16:48:38+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue153-deployment-repair-20260925T164838+0200",
+      "reason": "Claimed the manager-authorized bounded Issue #153 review repair: remove only the unauthorised GitHub Pages deployment workflow and make at most a minimal handoff note."
+    },
+    {
+      "at": "2026-09-25T16:49:30+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue153-deployment-repair-20260925T164838+0200",
+      "reason": "Completed the bounded review repair: removed the unauthorised GitHub Pages deployment workflow and documented the deployment boundary in the handoff; returned to manager for fresh exact-head validation and final review."
+    },
+    {
+      "at": "2026-09-25T16:59:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue153-final-acceptance-20260925T165900+0200",
+      "reason": "Claimed the final Issue #153 manager acceptance turn after fresh exact-head validator success on repair head 80cca2ba26b19c19d549f401cc8821f25ff076d1; this claim changes the PR head, so acceptance remains gated on fresh validation of the claim head."
+    }
   ]
 }

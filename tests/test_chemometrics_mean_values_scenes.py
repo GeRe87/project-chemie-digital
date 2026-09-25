@@ -16,10 +16,10 @@ assert DATASET_SPEC and DATASET_SPEC.loader
 RDF_DATASET = importlib.util.module_from_spec(DATASET_SPEC)
 DATASET_SPEC.loader.exec_module(RDF_DATASET)
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location("validate_semantics", SCRIPTS / "validate_semantics.py")
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+import validate_semantics as VALIDATION  # noqa: E402
 
 RUNTIME_SPEC = importlib.util.spec_from_file_location("generate_canonical_runtime", SCRIPTS / "generate_canonical_runtime.py")
 assert RUNTIME_SPEC and RUNTIME_SPEC.loader

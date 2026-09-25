@@ -1,0 +1,78 @@
+/* Generic desktop presentation laser pointer.
+   The native cursor remains untouched on touch/coarse-pointer devices. */
+.presentation-laser-pointer {
+  --laser-x: -100px;
+  --laser-y: -100px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100000;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate3d(
+    calc(var(--laser-x) - 50%),
+    calc(var(--laser-y) - 50%),
+    0
+  );
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+  transition: opacity 90ms linear;
+}
+
+.presentation-laser-pointer::before,
+.presentation-laser-pointer::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.presentation-laser-pointer::before {
+  width: 2.3rem;
+  height: 2.3rem;
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / .95) 0 7%,
+    rgb(255 50 69 / 1) 8% 20%,
+    rgb(255 20 48 / .52) 21% 38%,
+    rgb(255 20 48 / .18) 39% 58%,
+    transparent 72%
+  );
+  filter: drop-shadow(0 0 8px rgb(255 20 48 / .92))
+          drop-shadow(0 0 18px rgb(255 20 48 / .72))
+          drop-shadow(0 0 34px rgb(255 20 48 / .46));
+}
+
+.presentation-laser-pointer::after {
+  width: .58rem;
+  height: .58rem;
+  border: 2px solid rgb(255 255 255 / .92);
+  background: rgb(255 38 58);
+  box-shadow:
+    0 0 4px rgb(255 255 255 / .9),
+    0 0 9px rgb(255 20 48),
+    0 0 18px rgb(255 20 48 / .95),
+    0 0 30px rgb(255 20 48 / .7);
+}
+
+.presentation-laser-pointer.is-visible {
+  opacity: 1;
+}
+
+@media (pointer: fine) {
+  body.pcd-presentation-laser-pointer .reveal,
+  body.pcd-presentation-laser-pointer .reveal * {
+    cursor: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .presentation-laser-pointer {
+    display: none !important;
+  }
+}

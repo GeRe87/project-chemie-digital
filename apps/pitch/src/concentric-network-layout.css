@@ -1,0 +1,213 @@
+.reveal .slides section[data-layout="concentric-network"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: stretch;
+  padding: 1.35rem 1.6rem 1rem !important;
+}
+
+.reveal .slides section[data-layout="concentric-network"] > h2 {
+  margin: 0 0 .15rem;
+  max-width: none;
+  font-size: 2.45em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] {
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] .d3-flow-runtime,
+.reveal .slides section[data-layout="concentric-network"] > .d3-flow-host[data-layout-slot="network"] .d3-flow-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group:nth-child(1) .d3-flow-group-band {
+  stroke: color-mix(in srgb, #38cfd3 18%, transparent);
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group:nth-child(2) .d3-flow-group-band {
+  stroke: color-mix(in srgb, #a975e8 16%, transparent);
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-band {
+  stroke-width: 74;
+  opacity: .72;
+  vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-ring {
+  stroke: color-mix(in srgb, var(--pcd-accent) 52%, var(--pcd-muted));
+  stroke-width: 2.5;
+  stroke-dasharray: 8 9;
+  vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-label {
+  fill: var(--pcd-muted);
+  font: 900 14px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .12em;
+  paint-order: stroke;
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-layer {
+  pointer-events: none;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-line {
+  stroke: color-mix(in srgb, var(--pcd-accent) 78%, var(--pcd-foreground));
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 91%, transparent);
+  stroke: color-mix(in srgb, var(--pcd-accent) 62%, var(--pcd-foreground));
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(3px 4px 0 color-mix(in srgb, var(--pcd-foreground) 16%, transparent));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation-anchor {
+  fill: var(--pcd-surface-strong);
+  stroke: color-mix(in srgb, var(--pcd-accent) 82%, var(--pcd-foreground));
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node {
+  filter: drop-shadow(0 4px 0 color-mix(in srgb, var(--pcd-foreground) 13%, transparent));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 94%, var(--pcd-surface));
+  stroke: var(--pcd-accent);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Concentric nodes are true SVG circles. Override the generic eco-city card silhouette. */
+body[data-diagram-theme="eco-city"] .reveal
+  .d3-flow-svg[data-layout-strategy="concentric-network"] circle.d3-flow-node-shape {
+  clip-path: none;
+  rx: initial;
+  ry: initial;
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index] .d3-flow-node-shape {
+  fill: hsl(calc(var(--d3-ring-hue, 190) * 1deg) 72% 62%);
+  stroke: hsl(calc(var(--d3-ring-hue, 190) * 1deg) 78% 34%);
+  stroke-width: 3;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-shape {
+  fill: hsl(calc(var(--d3-ring-hue, 190) * 1deg) 78% 72%);
+  stroke: hsl(calc(var(--d3-ring-hue, 190) * 1deg) 82% 42%);
+  stroke-width: 2.5;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] {
+  filter: drop-shadow(0 7px 0 color-mix(in srgb, var(--pcd-accent) 28%, transparent));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] .d3-flow-node-shape {
+  fill: var(--pcd-accent);
+  stroke: color-mix(in srgb, var(--pcd-accent) 62%, white);
+  stroke-width: 5;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node-label {
+  fill: var(--pcd-foreground);
+  stroke: var(--pcd-surface-strong);
+  stroke-width: 4px;
+  font: 950 15px/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: -.025em;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-label {
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-concentric-focus="true"] .d3-flow-node-label {
+  fill: white;
+  stroke: color-mix(in srgb, var(--pcd-accent) 72%, black);
+  stroke-width: 5px;
+  font-size: 24px;
+  font-weight: 1000;
+}
+
+.reveal .slides section[data-layout="concentric-network"] .d3-flow-caption {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="concentric-network"] {
+    padding: .9rem .65rem !important;
+  }
+
+  .reveal .slides section[data-layout="concentric-network"] > h2 {
+    font-size: 2em;
+  }
+
+  .reveal .d3-flow-svg[data-layout-strategy="concentric-network"] {
+    width: 100%;
+    max-height: none;
+  }
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="0"] .d3-flow-node-label {
+  fill: #ffffff;
+  stroke: color-mix(in srgb, #102e38 82%, transparent);
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-label {
+  fill: #092f37;
+  stroke: color-mix(in srgb, white 88%, transparent);
+  stroke-width: 3px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-node[data-ring-index="1"] .d3-flow-node-shape {
+  filter: drop-shadow(0 3px 0 color-mix(in srgb, var(--pcd-foreground) 12%, transparent));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-label {
+  font-size: 20px;
+  font-weight: 1000;
+  letter-spacing: .085em;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="concentric-network"] .d3-flow-group-annotation .d3-flow-group-label {
+  fill: var(--pcd-foreground);
+  stroke: color-mix(in srgb, var(--pcd-surface-strong) 96%, transparent);
+  stroke-width: 3px;
+  paint-order: stroke fill;
+}

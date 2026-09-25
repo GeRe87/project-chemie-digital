@@ -1,0 +1,1314 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-motivation> {
+  ex:cogniflow-processing-black-box a cd:Concept ;
+    skos:prefLabel "What Happened Between the Raw Data and This Result?"@en ;
+    cd:hasDefinition ex:def-cogniflow-processing-black-box ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-processing-black-box a cd:Definition ;
+    cd:body "A scientific result depends on a processing history that is often much less visible than the raw data and the result themselves."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-processing-black-box a cd:FlowDiagram ;
+    skos:prefLabel "The hidden processing history"@en ;
+    cd:body "Raw analytical data and a final result are connected by processing whose scientific and technical context is often implicit."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-black-box-raw,
+      ex:node-cogniflow-black-box-processing,
+      ex:node-cogniflow-black-box-result ;
+    cd:hasDiagramEdge ex:edge-cogniflow-black-box-raw-processing,
+      ex:edge-cogniflow-black-box-processing-result ;
+    cd:focusNode ex:node-cogniflow-black-box-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-black-box-raw a cd:DiagramNode ;
+    skos:prefLabel "RAW SIGNAL"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-black-box-processing a cd:DiagramNode ;
+    skos:prefLabel "PROCESSING ?"@en ;
+    cd:position 2 ;
+    cd:visualRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-black-box-result a cd:DiagramNode ;
+    skos:prefLabel "RESULT"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-black-box-raw-processing a cd:DiagramEdge ;
+    skos:prefLabel "transformed by"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-black-box-raw ;
+    cd:targetNode ex:node-cogniflow-black-box-processing ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-black-box-processing-result a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-black-box-processing ;
+    cd:targetNode ex:node-cogniflow-black-box-result ;
+    cd:authoredResource true .
+
+  ex:table-cogniflow-feature-results a cd:TableDefinition ;
+    skos:prefLabel "Feature results"@en ;
+    cd:body "Illustrative extracted feature table derived from the analytical signal."@en ;
+    cd:hasTableColumn ex:table-column-cogniflow-feature-id,
+      ex:table-column-cogniflow-feature-rt,
+      ex:table-column-cogniflow-feature-mz,
+      ex:table-column-cogniflow-feature-area ;
+    cd:hasTableRow ex:table-row-cogniflow-feature-01,
+      ex:table-row-cogniflow-feature-02,
+      ex:table-row-cogniflow-feature-03,
+      ex:table-row-cogniflow-feature-04,
+      ex:table-row-cogniflow-feature-05 ;
+    cd:authoredResource true .
+
+  ex:table-column-cogniflow-feature-id a cd:TableColumn ;
+    skos:prefLabel "Feature"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-rt a cd:TableColumn ;
+    skos:prefLabel "RT (min)"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-mz a cd:TableColumn ;
+    skos:prefLabel "m/z"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-column-cogniflow-feature-area a cd:TableColumn ;
+    skos:prefLabel "Area"@en ; cd:position 4 ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-01 a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-01-id, ex:table-cell-cogniflow-feature-01-rt,
+      ex:table-cell-cogniflow-feature-01-mz, ex:table-cell-cogniflow-feature-01-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-id a cd:TableCell ; cd:position 1 ; cd:body "F-01"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-rt a cd:TableCell ; cd:position 2 ; cd:body "4.2"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-mz a cd:TableCell ; cd:position 3 ; cd:body "181.071"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-01-area a cd:TableCell ; cd:position 4 ; cd:body "12,480"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-02 a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-02-id, ex:table-cell-cogniflow-feature-02-rt,
+      ex:table-cell-cogniflow-feature-02-mz, ex:table-cell-cogniflow-feature-02-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-id a cd:TableCell ; cd:position 1 ; cd:body "F-02"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-rt a cd:TableCell ; cd:position 2 ; cd:body "4.4"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-mz a cd:TableCell ; cd:position 3 ; cd:body "237.103"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-02-area a cd:TableCell ; cd:position 4 ; cd:body "39,160"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-03 a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-03-id, ex:table-cell-cogniflow-feature-03-rt,
+      ex:table-cell-cogniflow-feature-03-mz, ex:table-cell-cogniflow-feature-03-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-id a cd:TableCell ; cd:position 1 ; cd:body "F-03"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-rt a cd:TableCell ; cd:position 2 ; cd:body "4.8"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-mz a cd:TableCell ; cd:position 3 ; cd:body "325.134"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-03-area a cd:TableCell ; cd:position 4 ; cd:body "101,920"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-04 a cd:TableRow ;
+    cd:position 4 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-04-id, ex:table-cell-cogniflow-feature-04-rt,
+      ex:table-cell-cogniflow-feature-04-mz, ex:table-cell-cogniflow-feature-04-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-id a cd:TableCell ; cd:position 1 ; cd:body "F-04"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-rt a cd:TableCell ; cd:position 2 ; cd:body "5.1"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-mz a cd:TableCell ; cd:position 3 ; cd:body "421.187"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-04-area a cd:TableCell ; cd:position 4 ; cd:body "17,640"@en ; cd:authoredResource true .
+
+  ex:table-row-cogniflow-feature-05 a cd:TableRow ;
+    cd:position 5 ;
+    cd:hasTableCell ex:table-cell-cogniflow-feature-05-id, ex:table-cell-cogniflow-feature-05-rt,
+      ex:table-cell-cogniflow-feature-05-mz, ex:table-cell-cogniflow-feature-05-area ;
+    cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-id a cd:TableCell ; cd:position 1 ; cd:body "F-05"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-rt a cd:TableCell ; cd:position 2 ; cd:body "5.3"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-mz a cd:TableCell ; cd:position 3 ; cd:body "512.284"@en ; cd:authoredResource true .
+  ex:table-cell-cogniflow-feature-05-area a cd:TableCell ; cd:position 4 ; cd:body "9,870"@en ; cd:authoredResource true .
+
+  ex:chart-cogniflow-processing-signal a cd:ChartDefinition ;
+    skos:prefLabel "Raw analytical signal"@en ;
+    cd:body "Synthetic chromatogram illustrating the raw signal before feature extraction."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Retention time"@en ;
+    cd:yAxisLabel "Intensity"@en ;
+    cd:xAxisUnit "min" ;
+    cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:dataset-cogniflow-opening-chromatogram ;
+    cd:authoredResource true .
+
+  ex:dataset-cogniflow-opening-chromatogram a cd:Dataset ;
+    skos:prefLabel "Illustrative multi-peak chromatographic signal"@en ;
+    cd:hasObservation ex:cogniflow-opening-chrom-00,
+      ex:cogniflow-opening-chrom-01,
+      ex:cogniflow-opening-chrom-02,
+      ex:cogniflow-opening-chrom-03,
+      ex:cogniflow-opening-chrom-04,
+      ex:cogniflow-opening-chrom-05,
+      ex:cogniflow-opening-chrom-06,
+      ex:cogniflow-opening-chrom-07,
+      ex:cogniflow-opening-chrom-08,
+      ex:cogniflow-opening-chrom-09,
+      ex:cogniflow-opening-chrom-10,
+      ex:cogniflow-opening-chrom-11,
+      ex:cogniflow-opening-chrom-12,
+      ex:cogniflow-opening-chrom-13,
+      ex:cogniflow-opening-chrom-14,
+      ex:cogniflow-opening-chrom-15,
+      ex:cogniflow-opening-chrom-16,
+      ex:cogniflow-opening-chrom-17,
+      ex:cogniflow-opening-chrom-18,
+      ex:cogniflow-opening-chrom-19,
+      ex:cogniflow-opening-chrom-20,
+      ex:cogniflow-opening-chrom-21,
+      ex:cogniflow-opening-chrom-22,
+      ex:cogniflow-opening-chrom-23,
+      ex:cogniflow-opening-chrom-24,
+      ex:cogniflow-opening-chrom-25,
+      ex:cogniflow-opening-chrom-26,
+      ex:cogniflow-opening-chrom-27,
+      ex:cogniflow-opening-chrom-28,
+      ex:cogniflow-opening-chrom-29,
+      ex:cogniflow-opening-chrom-30,
+      ex:cogniflow-opening-chrom-31,
+      ex:cogniflow-opening-chrom-32,
+      ex:cogniflow-opening-chrom-33,
+      ex:cogniflow-opening-chrom-34,
+      ex:cogniflow-opening-chrom-35,
+      ex:cogniflow-opening-chrom-36,
+      ex:cogniflow-opening-chrom-37,
+      ex:cogniflow-opening-chrom-38,
+      ex:cogniflow-opening-chrom-39,
+      ex:cogniflow-opening-chrom-40,
+      ex:cogniflow-opening-chrom-41,
+      ex:cogniflow-opening-chrom-42,
+      ex:cogniflow-opening-chrom-43,
+      ex:cogniflow-opening-chrom-44,
+      ex:cogniflow-opening-chrom-45,
+      ex:cogniflow-opening-chrom-46,
+      ex:cogniflow-opening-chrom-47,
+      ex:cogniflow-opening-chrom-48,
+      ex:cogniflow-opening-chrom-49,
+      ex:cogniflow-opening-chrom-50,
+      ex:cogniflow-opening-chrom-51,
+      ex:cogniflow-opening-chrom-52,
+      ex:cogniflow-opening-chrom-53,
+      ex:cogniflow-opening-chrom-54,
+      ex:cogniflow-opening-chrom-55,
+      ex:cogniflow-opening-chrom-56,
+      ex:cogniflow-opening-chrom-57,
+      ex:cogniflow-opening-chrom-58,
+      ex:cogniflow-opening-chrom-59,
+      ex:cogniflow-opening-chrom-60 ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-00 a cd:Observation ;
+    cd:position 1 ;
+    cd:xValue "0.0"^^xsd:decimal ;
+    cd:numericValue "3.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-01 a cd:Observation ;
+    cd:position 2 ;
+    cd:xValue "0.2"^^xsd:decimal ;
+    cd:numericValue "4.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-02 a cd:Observation ;
+    cd:position 3 ;
+    cd:xValue "0.4"^^xsd:decimal ;
+    cd:numericValue "4.6"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-03 a cd:Observation ;
+    cd:position 4 ;
+    cd:xValue "0.6"^^xsd:decimal ;
+    cd:numericValue "6.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-04 a cd:Observation ;
+    cd:position 5 ;
+    cd:xValue "0.8"^^xsd:decimal ;
+    cd:numericValue "17.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-05 a cd:Observation ;
+    cd:position 6 ;
+    cd:xValue "1.0"^^xsd:decimal ;
+    cd:numericValue "27.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-06 a cd:Observation ;
+    cd:position 7 ;
+    cd:xValue "1.2"^^xsd:decimal ;
+    cd:numericValue "16.7"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-07 a cd:Observation ;
+    cd:position 8 ;
+    cd:xValue "1.4"^^xsd:decimal ;
+    cd:numericValue "5.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-08 a cd:Observation ;
+    cd:position 9 ;
+    cd:xValue "1.6"^^xsd:decimal ;
+    cd:numericValue "5.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-09 a cd:Observation ;
+    cd:position 10 ;
+    cd:xValue "1.8"^^xsd:decimal ;
+    cd:numericValue "11.3"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-10 a cd:Observation ;
+    cd:position 11 ;
+    cd:xValue "2.0"^^xsd:decimal ;
+    cd:numericValue "28.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-11 a cd:Observation ;
+    cd:position 12 ;
+    cd:xValue "2.2"^^xsd:decimal ;
+    cd:numericValue "41.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-12 a cd:Observation ;
+    cd:position 13 ;
+    cd:xValue "2.4"^^xsd:decimal ;
+    cd:numericValue "27.8"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-13 a cd:Observation ;
+    cd:position 14 ;
+    cd:xValue "2.6"^^xsd:decimal ;
+    cd:numericValue "9.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-14 a cd:Observation ;
+    cd:position 15 ;
+    cd:xValue "2.8"^^xsd:decimal ;
+    cd:numericValue "3.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-15 a cd:Observation ;
+    cd:position 16 ;
+    cd:xValue "3.0"^^xsd:decimal ;
+    cd:numericValue "3.6"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-16 a cd:Observation ;
+    cd:position 17 ;
+    cd:xValue "3.2"^^xsd:decimal ;
+    cd:numericValue "12.3"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-17 a cd:Observation ;
+    cd:position 18 ;
+    cd:xValue "3.4"^^xsd:decimal ;
+    cd:numericValue "23.6"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-18 a cd:Observation ;
+    cd:position 19 ;
+    cd:xValue "3.6"^^xsd:decimal ;
+    cd:numericValue "13.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-19 a cd:Observation ;
+    cd:position 20 ;
+    cd:xValue "3.8"^^xsd:decimal ;
+    cd:numericValue "7.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-20 a cd:Observation ;
+    cd:position 21 ;
+    cd:xValue "4.0"^^xsd:decimal ;
+    cd:numericValue "17.3"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-21 a cd:Observation ;
+    cd:position 22 ;
+    cd:xValue "4.2"^^xsd:decimal ;
+    cd:numericValue "42.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-22 a cd:Observation ;
+    cd:position 23 ;
+    cd:xValue "4.4"^^xsd:decimal ;
+    cd:numericValue "58.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-23 a cd:Observation ;
+    cd:position 24 ;
+    cd:xValue "4.6"^^xsd:decimal ;
+    cd:numericValue "43.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-24 a cd:Observation ;
+    cd:position 25 ;
+    cd:xValue "4.8"^^xsd:decimal ;
+    cd:numericValue "19.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-25 a cd:Observation ;
+    cd:position 26 ;
+    cd:xValue "5.0"^^xsd:decimal ;
+    cd:numericValue "15.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-26 a cd:Observation ;
+    cd:position 27 ;
+    cd:xValue "5.2"^^xsd:decimal ;
+    cd:numericValue "31.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-27 a cd:Observation ;
+    cd:position 28 ;
+    cd:xValue "5.4"^^xsd:decimal ;
+    cd:numericValue "31.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-28 a cd:Observation ;
+    cd:position 29 ;
+    cd:xValue "5.6"^^xsd:decimal ;
+    cd:numericValue "11.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-29 a cd:Observation ;
+    cd:position 30 ;
+    cd:xValue "5.8"^^xsd:decimal ;
+    cd:numericValue "4.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-30 a cd:Observation ;
+    cd:position 31 ;
+    cd:xValue "6.0"^^xsd:decimal ;
+    cd:numericValue "7.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-31 a cd:Observation ;
+    cd:position 32 ;
+    cd:xValue "6.2"^^xsd:decimal ;
+    cd:numericValue "18.8"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-32 a cd:Observation ;
+    cd:position 33 ;
+    cd:xValue "6.4"^^xsd:decimal ;
+    cd:numericValue "37.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-33 a cd:Observation ;
+    cd:position 34 ;
+    cd:xValue "6.6"^^xsd:decimal ;
+    cd:numericValue "47.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-34 a cd:Observation ;
+    cd:position 35 ;
+    cd:xValue "6.8"^^xsd:decimal ;
+    cd:numericValue "37.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-35 a cd:Observation ;
+    cd:position 36 ;
+    cd:xValue "7.0"^^xsd:decimal ;
+    cd:numericValue "18.7"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-36 a cd:Observation ;
+    cd:position 37 ;
+    cd:xValue "7.2"^^xsd:decimal ;
+    cd:numericValue "7.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-37 a cd:Observation ;
+    cd:position 38 ;
+    cd:xValue "7.4"^^xsd:decimal ;
+    cd:numericValue "7.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-38 a cd:Observation ;
+    cd:position 39 ;
+    cd:xValue "7.6"^^xsd:decimal ;
+    cd:numericValue "20.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-39 a cd:Observation ;
+    cd:position 40 ;
+    cd:xValue "7.8"^^xsd:decimal ;
+    cd:numericValue "31.3"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-40 a cd:Observation ;
+    cd:position 41 ;
+    cd:xValue "8.0"^^xsd:decimal ;
+    cd:numericValue "21.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-41 a cd:Observation ;
+    cd:position 42 ;
+    cd:xValue "8.2"^^xsd:decimal ;
+    cd:numericValue "8.4"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-42 a cd:Observation ;
+    cd:position 43 ;
+    cd:xValue "8.4"^^xsd:decimal ;
+    cd:numericValue "5.6"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-43 a cd:Observation ;
+    cd:position 44 ;
+    cd:xValue "8.6"^^xsd:decimal ;
+    cd:numericValue "10.4"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-44 a cd:Observation ;
+    cd:position 45 ;
+    cd:xValue "8.8"^^xsd:decimal ;
+    cd:numericValue "26.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-45 a cd:Observation ;
+    cd:position 46 ;
+    cd:xValue "9.0"^^xsd:decimal ;
+    cd:numericValue "47.8"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-46 a cd:Observation ;
+    cd:position 47 ;
+    cd:xValue "9.2"^^xsd:decimal ;
+    cd:numericValue "47.9"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-47 a cd:Observation ;
+    cd:position 48 ;
+    cd:xValue "9.4"^^xsd:decimal ;
+    cd:numericValue "27.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-48 a cd:Observation ;
+    cd:position 49 ;
+    cd:xValue "9.6"^^xsd:decimal ;
+    cd:numericValue "10.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-49 a cd:Observation ;
+    cd:position 50 ;
+    cd:xValue "9.8"^^xsd:decimal ;
+    cd:numericValue "4.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-50 a cd:Observation ;
+    cd:position 51 ;
+    cd:xValue "10.0"^^xsd:decimal ;
+    cd:numericValue "3.4"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-51 a cd:Observation ;
+    cd:position 52 ;
+    cd:xValue "10.2"^^xsd:decimal ;
+    cd:numericValue "9.8"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-52 a cd:Observation ;
+    cd:position 53 ;
+    cd:xValue "10.4"^^xsd:decimal ;
+    cd:numericValue "28.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-53 a cd:Observation ;
+    cd:position 54 ;
+    cd:xValue "10.6"^^xsd:decimal ;
+    cd:numericValue "28.4"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-54 a cd:Observation ;
+    cd:position 55 ;
+    cd:xValue "10.8"^^xsd:decimal ;
+    cd:numericValue "11.0"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-55 a cd:Observation ;
+    cd:position 56 ;
+    cd:xValue "11.0"^^xsd:decimal ;
+    cd:numericValue "7.4"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-56 a cd:Observation ;
+    cd:position 57 ;
+    cd:xValue "11.2"^^xsd:decimal ;
+    cd:numericValue "17.5"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-57 a cd:Observation ;
+    cd:position 58 ;
+    cd:xValue "11.4"^^xsd:decimal ;
+    cd:numericValue "26.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-58 a cd:Observation ;
+    cd:position 59 ;
+    cd:xValue "11.6"^^xsd:decimal ;
+    cd:numericValue "17.2"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-59 a cd:Observation ;
+    cd:position 60 ;
+    cd:xValue "11.8"^^xsd:decimal ;
+    cd:numericValue "6.8"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-opening-chrom-60 a cd:Observation ;
+    cd:position 61 ;
+    cd:xValue "12.0"^^xsd:decimal ;
+    cd:numericValue "4.1"^^xsd:decimal ;
+    cd:authoredResource true .
+
+  ex:cogniflow-fair-data-intro a cd:Concept ;
+    skos:prefLabel "What FAIR Data Means in Practice"@en ;
+    cd:hasDefinition ex:def-cogniflow-fair-data-intro ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-fair-data-intro a cd:Definition ;
+    cd:body "FAIR data are well-described digital objects that can be found, accessed under clear conditions, interpreted across systems and reused with sufficient context."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-fair-data-principles a cd:Interpretation ;
+    cd:body "The FAIR principles describe four complementary properties of reusable scientific data."@en ;
+    cd:hasKeyPoint ex:keypoint-cogniflow-fair-findable,
+      ex:keypoint-cogniflow-fair-accessible,
+      ex:keypoint-cogniflow-fair-interoperable,
+      ex:keypoint-cogniflow-fair-reusable ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-findable a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """F — FINDABLE
+Persistent identifier + searchable metadata"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-accessible a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """A — ACCESSIBLE
+Retrievable under clear access conditions"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-interoperable a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """I — INTEROPERABLE
+Structured formats + shared vocabularies"""@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-fair-reusable a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body """R — REUSABLE
+Rich metadata + provenance + clear reuse conditions"""@en ;
+    cd:authoredResource true .
+
+  ex:table-cogniflow-fair-data-object a cd:TableDefinition ;
+    skos:prefLabel """FAIR DATA OBJECT
+Illustrative LC-HRMS dataset"""@en ;
+    cd:body "Illustrative metadata fields for one FAIR LC-HRMS data object."@en ;
+    cd:hasTableColumn ex:table-column-cogniflow-fair-field,
+      ex:table-column-cogniflow-fair-example ;
+    cd:hasTableRow ex:table-row-cogniflow-fair-identifier,
+      ex:table-row-cogniflow-fair-data-file,
+      ex:table-row-cogniflow-fair-format,
+      ex:table-row-cogniflow-fair-sample,
+      ex:table-row-cogniflow-fair-instrument,
+      ex:table-row-cogniflow-fair-metadata,
+      ex:table-row-cogniflow-fair-vocabulary,
+      ex:table-row-cogniflow-fair-access,
+      ex:table-row-cogniflow-fair-reuse ;
+    cd:authoredResource true .
+
+  ex:table-column-cogniflow-fair-field a cd:TableColumn ;
+    skos:prefLabel "Field"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:table-column-cogniflow-fair-example a cd:TableColumn ;
+    skos:prefLabel "Example"@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-identifier a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-identifier-field,
+      ex:table-cell-cogniflow-fair-identifier-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-identifier-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Identifier"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-identifier-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "doi:10.xxxx/sample.017"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-data-file a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-data-file-field,
+      ex:table-cell-cogniflow-fair-data-file-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-data-file-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Data file"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-data-file-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "sample_017.mzML"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-format a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-format-field,
+      ex:table-cell-cogniflow-fair-format-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-format-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Format"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-format-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "mzML"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-sample a cd:TableRow ;
+    cd:position 4 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-sample-field,
+      ex:table-cell-cogniflow-fair-sample-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-sample-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Sample"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-sample-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "River water extract"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-instrument a cd:TableRow ;
+    cd:position 5 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-instrument-field,
+      ex:table-cell-cogniflow-fair-instrument-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-instrument-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Instrument"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-instrument-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "UHPLC-QTOF-MS"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-metadata a cd:TableRow ;
+    cd:position 6 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-metadata-field,
+      ex:table-cell-cogniflow-fair-metadata-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-metadata-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Metadata"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-metadata-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "structured + searchable"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-vocabulary a cd:TableRow ;
+    cd:position 7 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-vocabulary-field,
+      ex:table-cell-cogniflow-fair-vocabulary-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-vocabulary-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Vocabulary"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-vocabulary-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "controlled terms"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-access a cd:TableRow ;
+    cd:position 8 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-access-field,
+      ex:table-cell-cogniflow-fair-access-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-access-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Access"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-access-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "HTTPS / repository"@en ;
+    cd:authoredResource true .
+
+  ex:table-row-cogniflow-fair-reuse a cd:TableRow ;
+    cd:position 9 ;
+    cd:hasTableCell ex:table-cell-cogniflow-fair-reuse-field,
+      ex:table-cell-cogniflow-fair-reuse-value ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-reuse-field a cd:TableCell ;
+    cd:position 1 ;
+    cd:body "Reuse"@en ;
+    cd:authoredResource true .
+
+  ex:table-cell-cogniflow-fair-reuse-value a cd:TableCell ;
+    cd:position 2 ;
+    cd:body "license + provenance"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-fair-processing-gap a cd:Concept ;
+    skos:prefLabel "FAIR Data Are Not FAIR Processing"@en ;
+    cd:hasDefinition ex:def-cogniflow-fair-processing-gap ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-fair-processing-gap a cd:Definition ;
+    cd:body "Open formats and rich metadata can make data FAIR while the processing that transforms them into a scientific result remains insufficiently described."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-missing-processing-context-heading a cd:Interpretation ;
+    cd:body "MISSING CONTEXT"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-missing-processing-context a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-missing-algorithm,
+      ex:keypoint-cogniflow-missing-implementation,
+      ex:keypoint-cogniflow-missing-version,
+      ex:keypoint-cogniflow-missing-parameters,
+      ex:keypoint-cogniflow-missing-environment,
+      ex:keypoint-cogniflow-missing-dependencies ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-algorithm a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "algorithm"@en ; cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-implementation a cd:DefinitionListEntry ;
+    cd:position 2 ; skos:prefLabel "implementation"@en ; cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-version a cd:DefinitionListEntry ;
+    cd:position 3 ; skos:prefLabel "version"@en ; cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-parameters a cd:DefinitionListEntry ;
+    cd:position 4 ; skos:prefLabel "parameters"@en ; cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-environment a cd:DefinitionListEntry ;
+    cd:position 5 ; skos:prefLabel "environment"@en ; cd:authoredResource true .
+
+  ex:keypoint-cogniflow-missing-dependencies a cd:DefinitionListEntry ;
+    cd:position 6 ; skos:prefLabel "dependencies"@en ; cd:authoredResource true .
+
+  ex:cogniflow-snr-example-heading a cd:Interpretation ;
+    cd:body "EXAMPLE: SIGNAL-TO-NOISE RATIO"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-snr-example a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-snr-height-sd,
+      ex:keypoint-cogniflow-snr-height-rms,
+      ex:keypoint-cogniflow-snr-height-ptp,
+      ex:keypoint-cogniflow-snr-area-noise ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-snr-height-sd a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak height / σ(noise)"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-snr-height-rms a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak height / RMS(noise)"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-snr-height-ptp a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "2 × peak height / peak-to-peak noise"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-snr-area-noise a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "S/N"@en ;
+    cd:body "peak area / noise estimate"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-snr-example-note a cd:Interpretation ;
+    cd:body "Same label — different operational definitions."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-fair-processing-gap a cd:FlowDiagram ;
+    skos:prefLabel "FAIR data can still pass through opaque custom processing"@en ;
+    cd:body "Well-described FAIR data can enter custom processing and produce a scientific result even when the processing context is not explicit."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-fair-instrument,
+      ex:node-cogniflow-fair-data,
+      ex:node-cogniflow-fair-processing,
+      ex:node-cogniflow-fair-result ;
+    cd:hasDiagramEdge ex:edge-cogniflow-fair-instrument-data,
+      ex:edge-cogniflow-fair-data-processing,
+      ex:edge-cogniflow-fair-processing-result ;
+    cd:focusNode ex:node-cogniflow-fair-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-fair-instrument a cd:DiagramNode ;
+    skos:prefLabel "INSTRUMENT"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-fair-data a cd:DiagramNode ;
+    skos:prefLabel """FAIR / OPEN
+DATA"""@en ;
+    cd:position 2 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-fair-processing a cd:DiagramNode ;
+    skos:prefLabel "CUSTOM PROCESSING"@en ;
+    cd:position 3 ;
+    cd:visualRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-fair-result a cd:DiagramNode ;
+    skos:prefLabel "RESULT"@en ;
+    cd:position 4 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-fair-instrument-data a cd:DiagramEdge ;
+    skos:prefLabel "measurement"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-fair-instrument ;
+    cd:targetNode ex:node-cogniflow-fair-data ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-fair-data-processing a cd:DiagramEdge ;
+    skos:prefLabel "processed by"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-fair-data ;
+    cd:targetNode ex:node-cogniflow-fair-processing ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-fair-processing-result a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-fair-processing ;
+    cd:targetNode ex:node-cogniflow-fair-result ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-processing-context a cd:Concept ;
+    skos:prefLabel "Make Nothing Important Implicit"@en ;
+    cd:hasDefinition ex:def-cogniflow-explicit-processing-context ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-explicit-processing-context a cd:Definition ;
+    cd:body "CogniFlow treats the processing context itself as digital scientific information that can be understood by humans and machines."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-example-heading a cd:Interpretation ;
+    cd:body "EXAMPLE: S/N CALCULATION"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-example a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-explicit-example-purpose,
+      ex:keypoint-cogniflow-explicit-example-input,
+      ex:keypoint-cogniflow-explicit-example-output,
+      ex:keypoint-cogniflow-explicit-example-parameters,
+      ex:keypoint-cogniflow-explicit-example-implementation,
+      ex:keypoint-cogniflow-explicit-example-version ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-purpose a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "purpose"@en ;
+    cd:body "quantify signal relative to background"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-input a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "input"@en ;
+    cd:body "peak height + defined noise window"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-output a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "output"@en ;
+    cd:body "S/N value"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-parameters a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "parameters"@en ;
+    cd:body "noise window + RMS estimator"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-implementation a cd:DefinitionListEntry ;
+    cd:position 5 ;
+    skos:prefLabel "implementation"@en ;
+    cd:body "calculate_snr() in a named package"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-example-version a cd:DefinitionListEntry ;
+    cd:position 6 ;
+    skos:prefLabel "version"@en ;
+    cd:body "exact package release or commit"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-example-note a cd:Interpretation ;
+    cd:body "Now the processing step is no longer a black box."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-context-heading a cd:Interpretation ;
+    cd:body "EXPLICIT CONTEXT"@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-explicit-context a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:keypoint-cogniflow-explicit-purpose,
+      ex:keypoint-cogniflow-explicit-interface,
+      ex:keypoint-cogniflow-explicit-parameters,
+      ex:keypoint-cogniflow-explicit-implementation,
+      ex:keypoint-cogniflow-explicit-version,
+      ex:keypoint-cogniflow-explicit-provenance ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-purpose a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "purpose"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-interface a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "interface"@en ;
+    cd:body "inputs + outputs"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-parameters a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "parameters"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-implementation a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "implementation"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-version a cd:DefinitionListEntry ;
+    cd:position 5 ;
+    skos:prefLabel "version"@en ;
+    cd:authoredResource true .
+
+  ex:keypoint-cogniflow-explicit-provenance a cd:DefinitionListEntry ;
+    cd:position 6 ;
+    skos:prefLabel "execution"@en ;
+    cd:body "+ provenance"@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-explicit-processing-context a cd:FlowDiagram ;
+    skos:prefLabel "Processing as an explicit digital object"@en ;
+    cd:body "Input, processing and output remain the scientific flow while the scientific and technical context is represented explicitly beside it."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-explicit-input,
+      ex:node-cogniflow-explicit-processing,
+      ex:node-cogniflow-explicit-output ;
+    cd:hasDiagramEdge ex:edge-cogniflow-explicit-input-processing,
+      ex:edge-cogniflow-explicit-processing-output ;
+    cd:focusNode ex:node-cogniflow-explicit-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-explicit-input a cd:DiagramNode ;
+    skos:prefLabel "INPUT"@en ;
+    cd:position 1 ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-explicit-processing a cd:DiagramNode ;
+    skos:prefLabel "PROCESSING"@en ;
+    cd:position 2 ;
+    cd:visualRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-explicit-output a cd:DiagramNode ;
+    skos:prefLabel "OUTPUT"@en ;
+    cd:position 3 ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-explicit-input-processing a cd:DiagramEdge ;
+    skos:prefLabel "consumed by"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-explicit-input ;
+    cd:targetNode ex:node-cogniflow-explicit-processing ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-explicit-processing-output a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-explicit-processing ;
+    cd:targetNode ex:node-cogniflow-explicit-output ;
+    cd:authoredResource true .
+
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-motivation-extension> {
+  ex:path-step-cogniflow-processing-black-box a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:chart-cogniflow-processing-signal,
+      ex:table-cogniflow-feature-results,
+      ex:diagram-cogniflow-processing-black-box ;
+    cd:usesScene ex:scene-cogniflow-processing-black-box ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-fair-data-intro a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:cogniflow-fair-data-principles,
+      ex:table-cogniflow-fair-data-object ;
+    cd:usesScene ex:scene-cogniflow-fair-data-intro ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-fair-processing-gap a cd:PathStep ;
+    cd:position 4 ;
+    cd:usesResource ex:diagram-cogniflow-fair-processing-gap,
+      ex:cogniflow-snr-example-heading,
+      ex:cogniflow-snr-example,
+      ex:cogniflow-snr-example-note,
+      ex:cogniflow-missing-processing-context-heading,
+      ex:cogniflow-missing-processing-context ;
+    cd:usesScene ex:scene-cogniflow-fair-processing-gap ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-explicit-processing-context a cd:PathStep ;
+    cd:position 5 ;
+    cd:usesResource ex:diagram-cogniflow-explicit-processing-context,
+      ex:cogniflow-explicit-example-heading,
+      ex:cogniflow-explicit-example,
+      ex:cogniflow-explicit-example-note,
+      ex:cogniflow-explicit-context-heading,
+      ex:cogniflow-explicit-context ;
+    cd:usesScene ex:scene-cogniflow-explicit-processing-context ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-motivation> {
+  ex:scene-cogniflow-processing-black-box a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-processing-black-box ;
+    cd:hasSceneItem ex:scene-item-cogniflow-processing-black-box-heading,
+      ex:scene-item-cogniflow-processing-black-box-chromatogram,
+      ex:scene-item-cogniflow-processing-black-box-feature-results,
+      ex:scene-item-cogniflow-processing-black-box-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-processing-black-box ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-chromatogram a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chart-cogniflow-processing-signal ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-feature-results a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:table-cogniflow-feature-results ;
+    cd:communicativeRole cd:TableRole ;
+    cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-processing-black-box-diagram a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:diagram-cogniflow-processing-black-box ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-fair-data-intro a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-fair-data-intro ;
+    cd:hasSceneItem ex:scene-item-cogniflow-fair-data-intro-heading,
+      ex:scene-item-cogniflow-fair-data-intro-principles,
+      ex:scene-item-cogniflow-fair-data-intro-object ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-fair-data-intro ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-principles a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-fair-data-principles ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-data-intro-object a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:table-cogniflow-fair-data-object ;
+    cd:communicativeRole cd:TableRole ;
+    cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-fair-processing-gap a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-fair-processing-gap ;
+    cd:hasSceneItem ex:scene-item-cogniflow-fair-processing-gap-heading,
+      ex:scene-item-cogniflow-fair-processing-gap-diagram,
+      ex:scene-item-cogniflow-fair-processing-gap-example-heading,
+      ex:scene-item-cogniflow-fair-processing-gap-example-list,
+      ex:scene-item-cogniflow-fair-processing-gap-example-note,
+      ex:scene-item-cogniflow-fair-processing-gap-missing-heading,
+      ex:scene-item-cogniflow-fair-processing-gap-missing-list ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-fair-processing-gap ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-diagram a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:diagram-cogniflow-fair-processing-gap ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-example-heading a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-snr-example-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-snr-example ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-example-note a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-snr-example-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-missing-heading a cd:SceneItem ;
+    cd:position 6 ;
+    cd:selectsResource ex:cogniflow-missing-processing-context-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem ;
+    cd:position 7 ;
+    cd:selectsResource ex:cogniflow-missing-processing-context ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-explicit-processing-context a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-explicit-processing-context ;
+    cd:hasSceneItem ex:scene-item-cogniflow-explicit-processing-context-heading,
+      ex:scene-item-cogniflow-explicit-processing-context-diagram,
+      ex:scene-item-cogniflow-explicit-processing-example-heading,
+      ex:scene-item-cogniflow-explicit-processing-example-list,
+      ex:scene-item-cogniflow-explicit-processing-example-note,
+      ex:scene-item-cogniflow-explicit-processing-context-panel-heading,
+      ex:scene-item-cogniflow-explicit-processing-context-panel-list ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-explicit-processing-context ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-diagram a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:diagram-cogniflow-explicit-processing-context ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-heading a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:cogniflow-explicit-example-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-list a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:cogniflow-explicit-example ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-example-note a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:cogniflow-explicit-example-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-panel-heading a cd:SceneItem ;
+    cd:position 6 ;
+    cd:selectsResource ex:cogniflow-explicit-context-heading ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-explicit-processing-context-panel-list a cd:SceneItem ;
+    cd:position 7 ;
+    cd:selectsResource ex:cogniflow-explicit-context ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+}

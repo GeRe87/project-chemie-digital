@@ -1,0 +1,99 @@
+/* Generic process-diagram composition: heading + context + diagram + takeaway. */
+.reveal .slides section[data-layout="process-diagram"] {
+  display: grid !important;
+  grid-template-rows: auto 4.8rem minmax(0, 1fr) 3.6rem;
+  row-gap: .7rem;
+  align-content: stretch;
+  padding: 1.3rem 1.75rem 1.25rem !important;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="heading"] {
+  margin: 0;
+  max-width: none;
+  font-size: 2.4em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="intro"],
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="takeaway"] {
+  box-sizing: border-box;
+  width: min(1140px, 96%);
+  max-width: none;
+  margin: 0 auto;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 10%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="intro"] {
+  padding: .58rem 1.1rem .52rem;
+  color: var(--pcd-foreground);
+  font-size: .98em;
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="intro"]::first-line {
+  color: var(--pcd-accent);
+  font-size: 1.28em;
+  font-weight: 950;
+  letter-spacing: .045em;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] {
+  align-self: stretch;
+  width: min(1240px, 100%);
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: .1rem .2rem 0;
+  overflow: visible;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-flow-runtime,
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-flow-figure,
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-sequence-runtime,
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-sequence-figure {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-flow-svg,
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-sequence-svg {
+  width: 100%;
+  height: 100%;
+  min-height: 23rem;
+  overflow: visible;
+}
+
+.reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="takeaway"] {
+  align-self: center;
+  padding: .58rem 1rem .52rem;
+  color: var(--pcd-accent);
+  font-size: .98em;
+  font-weight: 950;
+  line-height: 1.08;
+  letter-spacing: .025em;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="process-diagram"] {
+    grid-template-rows: auto auto minmax(24rem, 1fr) auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="intro"],
+  .reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="takeaway"] {
+    width: 100%;
+  }
+
+  .reveal .slides section[data-layout="process-diagram"] > [data-layout-slot="diagram"] .d3-sequence-svg {
+    min-height: 31rem;
+  }
+}

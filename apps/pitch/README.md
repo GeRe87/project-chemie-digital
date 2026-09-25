@@ -145,3 +145,58 @@ The slide DOM reading order, block identities, provenance, D3 semantic ordering 
 ## Runtime boundary
 
 The runtime keeps the existing no-network guard. Generated `canonical-runtime.json` is disposable transport and is not an authored content source. The app may render the selected canonical path in Reveal and provide the existing accessible graph summary without querying Fuseki directly.
+
+## Diagram runtime
+
+Diagram appearance and geometry are owned by the generic D3 runtime. Canonical
+RDF supplies source-linked roles and group membership only; it supplies neither
+colors nor coordinates. The runtime derives deterministic flow and grouped
+network layouts without inspecting CogniFlow scene, node, edge or path IDs.
+
+Review on `visual/cogniflow` against the local `soll.png`. After each bounded
+visual commit, compare `visual-evidence:cogniflow/latest.json`'s `source_sha`
+with that exact commit, require zero page errors, and open the workflow scene's
+`.review.webp` alongside its `.layout.json`. Pitch tests and a Vite build are
+local checks; screenshots remain the visual acceptance evidence.
+
+### Local worker configuration
+
+On the current Windows review host, `config.toml` under
+`%LOCALAPPDATA%/AgentWorkflowValidator/` selects `runtime-profiles/`.
+The authoritative `runtime-profiles/project-chemie-digital.toml`
+`[[visual_reviews]]` entry named `cogniflow` now uses:
+
+```toml
+start_argv = ["C:/Program Files/nodejs/npm.cmd", "--workspace", "@project-chemie-digital/pitch", "run", "dev:cogniflow", "--", "--port", "5175"]
+ready_url = "http://127.0.0.1:5175/?view=scroll&background=chemometrics-city&theme=light"
+scene_selector = "#pitch-slides section[id]"
+```
+
+Port 5175 isolates the worker's exact-head checkout from the developer's server
+on 5173. Descendant scene discovery accounts for Reveal's scroll-page wrappers.
+`cogniflow/request.json` supports the generic visual-worker schema `1.2` capture matrix: named scene/step captures crossed with the target's allowed light/dark themes. The project request template is maintained with the validator profile, not as authored presentation content.
+
+The installed worker's `src/awv/visual.py` scroll branch navigates to the selected
+page's final **native scroll snap point**, waits until its host steps equal their
+counts, and repeats navigation after review-viewport resizing. It does not mark
+fragments visible or dispatch synthetic presentation-step events in scroll mode.
+`latest.json` records `render_url` and observed `presentation_state`; layout JSON
+records actual URL, scroll/deck mode, scene visibility, scroll-page membership,
+theme/background and host step/count. Require `view: scroll`, visible scene,
+`scene_in_scroll_page: true` and step `4/4` as well as the exact source SHA.
+The scheduled task `Agent Visual Review Worker` must be restarted after changing
+installed Python code. These worker installation changes live outside this repo.
+
+### Browser regression
+
+With the CogniFlow development server running, use a Python environment with
+Playwright and installed Edge (the local worker runtime supplies both):
+
+```powershell
+& "$env:LOCALAPPDATA/AgentWorkflowValidator/runtime/Scripts/python.exe" scripts/check_cogniflow_scroll.py --output "$env:TEMP/opencode"
+```
+
+The output directory must exist. The check compares deck/scroll geometry at
+1440×900 and 1200×750, drives native steps forward/backward and revisits the
+scene, verifies scene-local canvas isolation and zero page errors, and writes
+disposable full/neighbor screenshots for inspection.

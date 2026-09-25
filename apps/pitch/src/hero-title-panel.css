@@ -1,0 +1,316 @@
+/*
+ * Generic hero title with ordered attribution/media groups.
+ *
+ * Semantic input:
+ *   heading
+ *   primary attribution + media
+ *   secondary attribution + media
+ *   supporting attribution + media
+ *
+ * The renderer owns only visual hierarchy and placement. Names, organizations,
+ * funding labels and media all remain authored SceneDocument content.
+ */
+.reveal .slides section[data-layout="hero-title-panel"] {
+  position: relative;
+  isolation: isolate;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  row-gap: .18rem;
+  align-content: stretch;
+  min-height: 100%;
+  padding: 3.45rem 31.5% 3.15rem 4.75rem !important;
+  overflow: hidden;
+}
+
+/* Partner rail: its outer edge shares the slide panel's right-hand geometry. */
+.reveal .slides section[data-layout="hero-title-panel"]::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  width: 29.4%;
+  border: 1px solid color-mix(in srgb, var(--pcd-border) 82%, transparent);
+  border-radius: 0 18px 18px 0;
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong)) 0%,
+      color-mix(in srgb, var(--pcd-surface-strong) 96%, transparent) 42%,
+      color-mix(in srgb, var(--pcd-accent) 5%, var(--pcd-surface-strong)) 100%
+    );
+  box-shadow:
+    -12px 0 34px rgb(7 28 34 / .08),
+    inset 1px 0 0 rgb(255 255 255 / .42);
+  pointer-events: none;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"] > [data-layout-slot="heading"] {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  width: min(13.2ch, 100%);
+  margin: 0;
+  padding: 0 0 1.18rem;
+  color: var(--pcd-accent);
+  font-size: clamp(4.05rem, 5.05vw, 5.75rem);
+  font-weight: 900;
+  line-height: .92;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"] > [data-layout-slot="heading"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: .52rem;
+  width: 7.8rem;
+  height: .32rem;
+  background: var(--pcd-accent);
+  box-shadow:
+    0 .48rem 0 color-mix(in srgb, var(--pcd-accent) 44%, transparent),
+    0 0 16px color-mix(in srgb, var(--pcd-accent) 25%, transparent);
+}
+
+.reveal .slides section[data-layout="hero-title-panel"] > .scene-group {
+  position: relative;
+  z-index: 2;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > .scene-group:is(
+    [data-layout-slot="primary-attribution"],
+    [data-layout-slot="secondary-attribution"]
+  ) {
+  display: contents;
+}
+
+/* The two authored speaker affiliations form one compact visual block. */
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="primary-attribution"] > cite,
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="secondary-attribution"] > cite {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  align-self: start;
+  box-sizing: border-box;
+  width: min(52rem, 100%);
+  margin: 0;
+  padding: .24rem 0 .24rem .95rem;
+  border-left: 4px solid color-mix(in srgb, var(--pcd-accent) 78%, transparent);
+  color: var(--pcd-foreground);
+  font-size: clamp(.96rem, 1.02vw, 1.12rem);
+  font-style: normal;
+  font-weight: 720;
+  line-height: 1.18;
+  text-align: left;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="primary-attribution"] > cite {
+  grid-row: 2;
+  margin-top: .42rem;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="secondary-attribution"] > cite {
+  grid-row: 3;
+  margin-top: -.04rem;
+  border-left-color: color-mix(in srgb, var(--pcd-accent) 48%, var(--pcd-border));
+}
+
+/* All partner/funder media stay crisp and fully opaque inside the right rail. */
+.reveal .slides section[data-layout="hero-title-panel"] .media-reference {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  margin: 0;
+  padding: .85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--pcd-border) 76%, transparent);
+  border-radius: 11px;
+  background: rgb(255 255 255 / .98);
+  box-shadow:
+    0 8px 20px rgb(7 28 34 / .10),
+    inset 0 0 0 1px rgb(255 255 255 / .66);
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"] .media-reference img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 6.25rem;
+  margin: 0 auto;
+  object-fit: contain;
+  opacity: 1 !important;
+  filter: contrast(1.15) saturate(1.08);
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="primary-attribution"] > .media-reference,
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="secondary-attribution"] > .media-reference,
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] {
+  position: absolute;
+  right: 3.15%;
+  z-index: 2;
+  width: 23.1%;
+  margin: 0;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="primary-attribution"] > .media-reference {
+  top: 10.5%;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="secondary-attribution"] > .media-reference {
+  top: 38.5%;
+}
+
+/* The supporting attribution stays intact as a semantic group. */
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] {
+  bottom: 8.4%;
+  display: grid;
+  gap: .42rem;
+  padding-top: .65rem;
+  border-top: 1px solid color-mix(in srgb, var(--pcd-border) 78%, transparent);
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] > cite {
+  margin: 0;
+  color: var(--pcd-muted);
+  font-size: .76rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .11em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] > .media-reference {
+  width: 100%;
+  padding: .72rem .8rem;
+}
+
+.reveal .slides section[data-layout="hero-title-panel"]
+  > [data-layout-slot="supporting-attribution"] > .media-reference img {
+  max-height: 4.5rem;
+}
+
+/* The base world panel remains the only large surface; avoid a second giant inner card. */
+body.reveal-scroll .reveal .slides section[data-layout="hero-title-panel"] {
+  backdrop-filter: none;
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .slides section[data-layout="hero-title-panel"]::after {
+  border-color: color-mix(in srgb, var(--pcd-accent) 30%, var(--pcd-border));
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--pcd-accent) 12%, #071319) 0%,
+      color-mix(in srgb, #071319 92%, transparent) 55%,
+      color-mix(in srgb, var(--pcd-accent) 6%, #071319) 100%
+    );
+  box-shadow:
+    0 18px 42px rgb(0 0 0 / .28),
+    inset 0 0 0 1px rgb(255 255 255 / .05);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="hero-title-panel"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    align-content: start;
+    row-gap: .55rem;
+    padding: 1.2rem 1.1rem 1.1rem !important;
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]::after {
+    top: auto;
+    right: .6rem;
+    bottom: .55rem;
+    left: .6rem;
+    width: auto;
+    height: 43%;
+    border-radius: 12px;
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"] > [data-layout-slot="heading"] {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    width: 100%;
+    padding-bottom: 1.2rem;
+    font-size: clamp(2.45rem, 9.1vw, 3.65rem);
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]
+    > [data-layout-slot="primary-attribution"] > cite {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]
+    > [data-layout-slot="secondary-attribution"] > cite {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]
+    > [data-layout-slot="primary-attribution"] > .media-reference {
+    position: relative;
+    top: auto;
+    right: auto;
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: start;
+    width: min(11.5rem, 55vw);
+    margin: .65rem 0 0;
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]
+    > [data-layout-slot="secondary-attribution"] > .media-reference {
+    position: relative;
+    top: auto;
+    right: auto;
+    grid-column: 1;
+    grid-row: 5;
+    justify-self: end;
+    width: min(10rem, 50vw);
+  }
+
+  .reveal .slides section[data-layout="hero-title-panel"]
+    > [data-layout-slot="supporting-attribution"] {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    grid-column: 1;
+    grid-row: 6;
+    justify-self: end;
+    width: min(15rem, 70vw);
+    padding-top: .5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section[data-layout="hero-title-panel"] .media-reference,
+  .reveal .slides section[data-layout="hero-title-panel"] .scene-group {
+    transition: none !important;
+    animation: none !important;
+  }
+}

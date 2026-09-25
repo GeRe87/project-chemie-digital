@@ -1,0 +1,277 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-concept-domain> {
+  ex:cogniflow-concept-domain a cd:Concept ;
+    skos:prefLabel "From concepts to executable learning views"@en ;
+    cd:hasDefinition ex:def-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-concept-domain a cd:Definition ;
+    cd:body "The current ontology separates a learning domain and its concepts from processing resources and presentation affordances. The same semantic resources can therefore support reusable views without encoding a presentation-specific implementation."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-concept-domain a cd:FlowDiagram, cd:NetworkDiagram ;
+    skos:prefLabel "Concept domain, processing and presentation affordances"@en ;
+    cd:body "A learning domain defines concepts and learning resources. Processing resources record observations and calculation steps, while diagram and scene resources make the same semantics available as an interactive view."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-domain-root,
+      ex:node-cogniflow-concept,
+      ex:node-cogniflow-definition,
+      ex:node-cogniflow-learning-resource,
+      ex:node-cogniflow-dataset,
+      ex:node-cogniflow-observation,
+      ex:node-cogniflow-calculation-step,
+      ex:node-cogniflow-diagram,
+      ex:node-cogniflow-diagram-state,
+      ex:node-cogniflow-scene ;
+    cd:hasDiagramEdge ex:edge-cogniflow-domain-concept,
+      ex:edge-cogniflow-domain-resource,
+      ex:edge-cogniflow-concept-definition,
+      ex:edge-cogniflow-resource-dataset,
+      ex:edge-cogniflow-dataset-observation,
+      ex:edge-cogniflow-observation-calculation,
+      ex:edge-cogniflow-resource-diagram,
+      ex:edge-cogniflow-diagram-state,
+      ex:edge-cogniflow-diagram-scene ;
+    cd:hasDiagramGroup ex:diagram-group-cogniflow-concept-domain,
+      ex:diagram-group-cogniflow-processing,
+      ex:diagram-group-cogniflow-affordances ;
+    cd:hasDiagramState ex:diagram-state-cogniflow-domain-root,
+      ex:diagram-state-cogniflow-domain-concepts,
+      ex:diagram-state-cogniflow-domain-processing,
+      ex:diagram-state-cogniflow-domain-affordances,
+      ex:diagram-state-cogniflow-domain-overview ;
+    cd:focusNode ex:node-cogniflow-domain-root ;
+    cd:authoredResource true .
+
+  ex:diagram-group-cogniflow-concept-domain a cd:DiagramGroup ;
+    skos:prefLabel "Concept domain"@en ;
+    cd:authoredResource true .
+
+  ex:diagram-group-cogniflow-processing a cd:DiagramGroup ;
+    skos:prefLabel "Processing concepts"@en ;
+    cd:authoredResource true .
+
+  ex:diagram-group-cogniflow-affordances a cd:DiagramGroup ;
+    skos:prefLabel "Presentation affordances"@en ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-domain-root a cd:DiagramNode ;
+    skos:prefLabel "Learning domain"@en ;
+    cd:position 1 ;
+    cd:visualRole "highlight" ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-concept a cd:DiagramNode ;
+    skos:prefLabel "Concept"@en ;
+    cd:position 2 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-definition a cd:DiagramNode ;
+    skos:prefLabel "Definition"@en ;
+    cd:position 3 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-learning-resource a cd:DiagramNode ;
+    skos:prefLabel "Learning resource"@en ;
+    cd:position 4 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-dataset a cd:DiagramNode ;
+    skos:prefLabel "Dataset"@en ;
+    cd:position 5 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-observation a cd:DiagramNode ;
+    skos:prefLabel "Observation"@en ;
+    cd:position 6 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-calculation-step a cd:DiagramNode ;
+    skos:prefLabel "Calculation step"@en ;
+    cd:position 7 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-processing ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-diagram a cd:DiagramNode ;
+    skos:prefLabel "Diagram"@en ;
+    cd:position 8 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-affordances ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-diagram-state a cd:DiagramNode ;
+    skos:prefLabel "Diagram state"@en ;
+    cd:position 9 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-affordances ;
+    cd:authoredResource true .
+
+  ex:node-cogniflow-scene a cd:DiagramNode ;
+    skos:prefLabel "Scene definition"@en ;
+    cd:position 10 ;
+    cd:memberOfDiagramGroup ex:diagram-group-cogniflow-affordances ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-domain-concept a cd:DiagramEdge ;
+    skos:prefLabel "defines"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-cogniflow-domain-root ;
+    cd:targetNode ex:node-cogniflow-concept ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-domain-resource a cd:DiagramEdge ;
+    skos:prefLabel "defines"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-cogniflow-domain-root ;
+    cd:targetNode ex:node-cogniflow-learning-resource ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-concept-definition a cd:DiagramEdge ;
+    skos:prefLabel "has definition"@en ;
+    cd:position 3 ;
+    cd:sourceNode ex:node-cogniflow-concept ;
+    cd:targetNode ex:node-cogniflow-definition ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-resource-dataset a cd:DiagramEdge ;
+    skos:prefLabel "includes"@en ;
+    cd:position 4 ;
+    cd:sourceNode ex:node-cogniflow-learning-resource ;
+    cd:targetNode ex:node-cogniflow-dataset ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-dataset-observation a cd:DiagramEdge ;
+    skos:prefLabel "has observation"@en ;
+    cd:position 5 ;
+    cd:sourceNode ex:node-cogniflow-dataset ;
+    cd:targetNode ex:node-cogniflow-observation ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-observation-calculation a cd:DiagramEdge ;
+    skos:prefLabel "supports"@en ;
+    cd:position 6 ;
+    cd:sourceNode ex:node-cogniflow-observation ;
+    cd:targetNode ex:node-cogniflow-calculation-step ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-resource-diagram a cd:DiagramEdge ;
+    skos:prefLabel "can be presented as"@en ;
+    cd:position 7 ;
+    cd:sourceNode ex:node-cogniflow-learning-resource ;
+    cd:targetNode ex:node-cogniflow-diagram ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-diagram-state a cd:DiagramEdge ;
+    skos:prefLabel "has state"@en ;
+    cd:position 8 ;
+    cd:sourceNode ex:node-cogniflow-diagram ;
+    cd:targetNode ex:node-cogniflow-diagram-state ;
+    cd:authoredResource true .
+
+  ex:edge-cogniflow-diagram-scene a cd:DiagramEdge ;
+    skos:prefLabel "is selected by"@en ;
+    cd:position 9 ;
+    cd:sourceNode ex:node-cogniflow-diagram ;
+    cd:targetNode ex:node-cogniflow-scene ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-domain-root a cd:DiagramState ;
+    cd:position 1 ;
+    skos:prefLabel "Learning domain"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-domain-root ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:focusDiagramNode ex:node-cogniflow-domain-root ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-domain-concepts a cd:DiagramState ;
+    cd:position 2 ;
+    skos:prefLabel "Concepts and learning resources"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-domain-root, ex:node-cogniflow-concept,
+      ex:node-cogniflow-definition, ex:node-cogniflow-learning-resource ;
+    cd:activeDiagramEdge ex:edge-cogniflow-domain-concept, ex:edge-cogniflow-domain-resource,
+      ex:edge-cogniflow-concept-definition ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:focusDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-domain-processing a cd:DiagramState ;
+    cd:position 3 ;
+    skos:prefLabel "Processing concepts"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-dataset, ex:node-cogniflow-observation,
+      ex:node-cogniflow-calculation-step ;
+    cd:activeDiagramEdge ex:edge-cogniflow-resource-dataset, ex:edge-cogniflow-dataset-observation,
+      ex:edge-cogniflow-observation-calculation ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-processing ;
+    cd:focusDiagramGroup ex:diagram-group-cogniflow-processing ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-concept-domain ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-domain-affordances a cd:DiagramState ;
+    cd:position 4 ;
+    skos:prefLabel "Presentation affordances"@en ;
+    cd:activeDiagramNode ex:node-cogniflow-diagram, ex:node-cogniflow-diagram-state,
+      ex:node-cogniflow-scene ;
+    cd:activeDiagramEdge ex:edge-cogniflow-resource-diagram, ex:edge-cogniflow-diagram-state,
+      ex:edge-cogniflow-diagram-scene ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-affordances ;
+    cd:focusDiagramGroup ex:diagram-group-cogniflow-affordances ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-concept-domain,
+      ex:diagram-group-cogniflow-processing ;
+    cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-domain-overview a cd:DiagramState ;
+    cd:position 5 ;
+    skos:prefLabel "One semantic source, several views"@en ;
+    cd:activeDiagramGroup ex:diagram-group-cogniflow-concept-domain,
+      ex:diagram-group-cogniflow-processing, ex:diagram-group-cogniflow-affordances ;
+    cd:activeDiagramEdge ex:edge-cogniflow-domain-concept, ex:edge-cogniflow-domain-resource,
+      ex:edge-cogniflow-concept-definition, ex:edge-cogniflow-resource-dataset,
+      ex:edge-cogniflow-dataset-observation, ex:edge-cogniflow-observation-calculation,
+      ex:edge-cogniflow-resource-diagram, ex:edge-cogniflow-diagram-state,
+      ex:edge-cogniflow-diagram-scene ;
+    cd:focusDiagramNode ex:node-cogniflow-diagram ;
+    cd:contextDiagramGroup ex:diagram-group-cogniflow-concept-domain,
+      ex:diagram-group-cogniflow-processing ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-concept-domain-extension> {
+  ex:path-cogniflow-standardized-data-processing
+    cd:hasStep ex:path-step-cogniflow-concept-domain .
+
+  ex:path-step-cogniflow-concept-domain a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:diagram-cogniflow-concept-domain ;
+    cd:usesScene ex:scene-cogniflow-concept-domain ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-concept-domain> {
+  ex:scene-cogniflow-concept-domain a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-concept-domain ;
+    cd:hasSceneItem ex:scene-item-cogniflow-concept-domain-heading,
+      ex:scene-item-cogniflow-concept-domain-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-concept-domain-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-concept-domain ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-concept-domain-diagram a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:diagram-cogniflow-concept-domain ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}

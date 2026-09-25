@@ -16,7 +16,7 @@ const block: DiagramBlock = {
   source: [{ resourceId: "scene:flow", relationPath: "cd:body", provenanceIds: ["prov:scene"] }],
   nodes: [
     { id: "node:raw", label: "Raw data", source: [{ resourceId: "ex:raw", relationPath: "skos:prefLabel@en" }] },
-    { id: "node:metadata", label: "Metadata", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary" },
+    { id: "node:metadata", label: "Metadata", description: "Semantic description", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary" },
     { id: "node:reuse", label: "Reusable result", source: [{ resourceId: "ex:reuse", relationPath: "schema:name" }] },
   ],
   edges: [
@@ -42,6 +42,7 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.deepEqual(first.model.nodeReadingOrder, ["node:raw", "node:metadata", "node:reuse"]);
   assert.deepEqual(first.model.edgeReadingOrder, ["edge:describe", "edge:reuse"]);
   assert.equal(first.model.nodes[1]!.emphasis, "primary");
+  assert.equal(first.model.nodes[1]!.description, "Semantic description");
   assert.equal(first.model.nodes[1]!.source[0]!.relationPath, "dct:title");
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);
   assert.match(first.model.staticFallback, /Raw data/);
@@ -55,8 +56,22 @@ test("optional focus is valid and does not invent a focus node", () => {
   assert.equal(result.model.focusNodeId, undefined);
 });
 
-test("fails closed for unsupported diagram types and unknown edge endpoints", () => {
-  const unsupported = createD3FlowRenderModel({ ...block, diagramType: "network" } as unknown as DiagramBlock, keyboardOptions);
+test("accepts network diagrams including relation-free semantic groupings and fails closed for unsupported types", () => {
+  const network = createD3FlowRenderModel({ ...block, diagramType: "network" }, keyboardOptions);
+  assert.equal(network.model?.diagramType, "network");
+
+  const relationFree = createD3FlowRenderModel({
+    ...block,
+    diagramType: "network",
+    edges: [],
+    groups: [{ id: "group:layer", label: "Layer", source: [{ resourceId: "group:layer" }] }],
+    nodes: block.nodes.map((node) => ({ ...node, groupIds: node.id === "node:metadata" ? undefined : ["group:layer"] })),
+  }, keyboardOptions);
+  assert.equal(relationFree.model?.diagramType, "network");
+  assert.deepEqual(relationFree.model?.edges, []);
+  assert.match(relationFree.model?.staticFallback ?? "", /Groups:/);
+
+  const unsupported = createD3FlowRenderModel({ ...block, diagramType: "hierarchy" } as unknown as DiagramBlock, keyboardOptions);
   assert.equal(unsupported.model, undefined);
   assert.equal(unsupported.diagnostics[0]!.code, "UNSUPPORTED_FLOW_DIAGRAM_TYPE");
 
@@ -67,6 +82,38 @@ test("fails closed for unsupported diagram types and unknown edge endpoints", ()
   assert.equal(invalid.model, undefined);
   assert.equal(invalid.diagnostics[0]!.code, "INVALID_FLOW_DIAGRAM");
   assert.match(invalid.diagnostics[0]!.message, /unknown node/);
+});
+
+test("network layout is deterministic from group membership rather than node identities or coordinates", () => {
+  const network: DiagramBlock = {
+    ...block,
+    diagramType: "network",
+    groups: [
+      { id: "group:instruments", label: "Instruments", source: [{ resourceId: "ex:instruments" }] },
+      { id: "group:processing", label: "Processing", source: [{ resourceId: "ex:processing-group" }] },
+    ],
+    nodes: [
+      { ...block.nodes[0]!, groupIds: ["group:instruments"] },
+      { ...block.nodes[1]!, groupIds: ["group:instruments"] },
+      { ...block.nodes[2]!, visualRole: "highlight", groupIds: ["group:processing"] },
+    ],
+  };
+  const first = mountD3FlowDiagram({}, network, keyboardOptions, {
+    measureHost() { return 900; },
+    mount() { return { update() {}, focusNode() {}, destroy() {} }; },
+  });
+  const second = mountD3FlowDiagram({}, structuredClone(network), keyboardOptions, {
+    measureHost() { return 900; },
+    mount() { return { update() {}, focusNode() {}, destroy() {} }; },
+  });
+  assert.ok(!("diagnostics" in first));
+  assert.ok(!("diagnostics" in second));
+  if ("diagnostics" in first || "diagnostics" in second) return;
+  assert.deepEqual(first.layout, second.layout);
+  const positions = new Map(first.layout.nodes.map((node) => [node.id, node]));
+  assert.equal(positions.get("node:metadata")!.x, first.layout.width / 2);
+  assert.equal(first.model.nodes[2]!.visualRole, "highlight");
+  assert.deepEqual(first.model.nodes[2]!.groupIds, ["group:processing"]);
 });
 
 test("keyboard lifecycle prefers canonical focus and preserves it across responsive rerender", () => {

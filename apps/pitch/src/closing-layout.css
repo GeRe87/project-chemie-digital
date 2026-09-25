@@ -1,0 +1,24 @@
+/* Generic minimal closing scene: one authored heading only. */
+.reveal .slides section[data-layout="closing"] {
+  display: grid !important;
+  place-items: center;
+  min-height: 100%;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="closing"] > [data-layout-slot="heading"] {
+  margin: 0;
+  max-width: 1100px;
+  font-size: clamp(3.6rem, 6.3vw, 6.6rem) !important;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .reveal .slides section[data-layout="closing"] > [data-layout-slot="heading"] {
+    max-width: 100%;
+    padding: 0 1rem;
+    font-size: clamp(2.25rem, 10vw, 3rem) !important;
+  }
+}

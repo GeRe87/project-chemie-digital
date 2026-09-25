@@ -12,13 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics",
-    SCRIPTS / "validate_semantics.py",
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+import validate_semantics as VALIDATION  # noqa: E402
 
 RUNTIME_SPEC = importlib.util.spec_from_file_location(
     "generate_canonical_runtime_formula_tests",
@@ -136,6 +133,9 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("KeyPointRole"),
                 cd("AttributionRole"),
                 cd("DiagramRole"),
+                cd("ChartRole"),
+                cd("TableRole"),
+                cd("DefinitionListRole"),
             },
             self.shacl_in_values(cd("communicativeRole")),
         )
@@ -152,6 +152,8 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 Literal("cd:body"),
                 Literal("cd:latex"),
                 Literal("cd:hasKeyPoint"),
+                Literal("cd:hasTableRow"),
+                Literal("cd:hasDefinitionListEntry"),
             },
             self.shacl_in_values(cd("selectionPath")),
         )

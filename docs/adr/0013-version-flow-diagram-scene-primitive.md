@@ -1,7 +1,7 @@
 # ADR-0013: Version the renderer-neutral flow-diagram scene primitive
 
-- Status: Proposed
-- Date: 2026-09-09
+- Status: Accepted
+- Date: 2026-09-17
 
 ## Context
 
@@ -20,9 +20,10 @@ The 1.1 flow-diagram primitive contains only semantic and accessibility-relevant
 - authored label and description;
 - ordered, source-linked nodes with stable ids and labels;
 - ordered, source-linked directed edges with stable ids, endpoint ids and labels;
-- optional semantic focus through `focusNodeId` and/or node emphasis.
+- optional semantic focus through `focusNodeId` and/or node emphasis;
+- optional semantic visual roles and source-linked `DiagramGroup` membership.
 
-It contains no coordinates, pixel dimensions, orientation, colors, CSS classes, SVG paths, D3 force parameters, breakpoints, theme names or other renderer layout instructions.
+It contains no coordinates, pixel dimensions, orientation, colors, CSS classes, SVG paths, D3 force parameters, breakpoints, theme names or other renderer layout instructions. A visual role describes semantic prominence or comparison, never a color; groups describe authored membership, never placement.
 
 ## Core compatibility
 
@@ -40,7 +41,7 @@ The existing generic scene composer remains a `1.0` producer until a bounded con
 
 ## RDF authoring boundary
 
-The reusable RDF vocabulary defines `FlowDiagram`, `DiagramNode`, `DiagramEdge` and their structural relations. SHACL requires positive deterministic positions and validates node/edge sequence uniqueness and contiguity, edge membership and optional focus membership.
+The reusable RDF vocabulary defines `FlowDiagram`, `DiagramNode`, `DiagramEdge`, `DiagramGroup` and their structural relations. SHACL requires positive deterministic positions and validates node/edge sequence uniqueness and contiguity, edge membership, group membership and optional focus membership.
 
 This architecture increment intentionally does **not** activate a new SceneItem communicative role or canonical RDF-to-SceneDocument compiler branch. That authoring activation belongs to the bounded presentation increment that first selects a diagram into a scene; it must then emit `SceneDocument 1.1` and preserve the effective path language. This avoids a temporary state in which SHACL accepts a selectable diagram scene that the canonical compiler cannot yet project.
 
@@ -58,7 +59,7 @@ Existing 1.0 scene documents remain consumable and are normalized to the current
 
 ## D3 boundary
 
-A D3 flow renderer may realize the same `DiagramBlock` visually. D3 owns geometry, text measurement, responsive orientation, pixel styling, focus interaction and SVG lifecycle. None of those decisions are written back into RDF or `SceneDocument`.
+A D3 flow renderer may realize the same `DiagramBlock` visually. D3 owns geometry, including deterministic grouped network placement, text measurement, responsive orientation, pixel styling, focus interaction and SVG lifecycle. None of those decisions are written back into RDF or `SceneDocument`.
 
 The user-developed `local/cogniflow-presentation-layout` branch is an implementation reference for this later renderer realization, not part of this architecture increment.
 

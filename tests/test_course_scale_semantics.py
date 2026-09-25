@@ -1,28 +1,45 @@
 from __future__ import annotations
 
-import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import BNode, Graph, Literal, Namespace, RDF, URIRef
+from rdflib import BNode, Dataset, Graph, Literal, Namespace, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("rdf_dataset", ROOT / "scripts" / "rdf_dataset.py")
-assert SPEC and SPEC.loader
-RDF_DATASET = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(RDF_DATASET)
+SCRIPTS = ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+import rdf_dataset as RDF_DATASET  # noqa: E402
+import validate_semantics as VALIDATION  # noqa: E402
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
 SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core")
+COURSE_SCALE_SHAPES = ROOT / "ontology" / "dataset" / "course-scale-shapes.trig"
+
+
+def focused_course_scale_fixture() -> Graph:
+    graph = Graph()
+    offering = EX["teaching-offering-digital-chemistry"]
+    unit = EX["learning-unit-standard-deviation"]
+    placement = EX["unit-placement-standard-deviation"]
+    concept = EX["standard-deviation"]
+    path = EX["path-standard-deviation"]
+
+    graph.add((offering, RDF.type, CD.TeachingOffering))
+    graph.add((offering, CD.hasUnitPlacement, placement))
+    graph.add((unit, RDF.type, CD.LearningUnit))
+    graph.add((unit, CD.hasFocusConcept, concept))
+    graph.add((concept, RDF.type, CD.Concept))
+    graph.add((placement, RDF.type, CD.UnitPlacement))
+    graph.add((placement, CD.position, Literal(10)))
+    graph.add((placement, CD.placesLearningUnit, unit))
+    graph.add((path, RDF.type, CD.LearningPath))
+    graph.add((path, CD.forLearningUnit, unit))
+    return graph
 
 
 class CourseScaleSemanticTests(unittest.TestCase):
@@ -30,6 +47,9 @@ class CourseScaleSemanticTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
+        focused_shapes = RDF_DATASET.assemble_dataset(trig_paths=(COURSE_SCALE_SHAPES,))
+        cls.course_scale_shapes = VALIDATION.detached_graph(focused_shapes.graph(SHAPES_GRAPH))
+        cls.focused_graph = focused_course_scale_fixture()
         cls.offering = EX["teaching-offering-digital-chemistry"]
         cls.unit = EX["learning-unit-standard-deviation"]
         cls.placement = EX["unit-placement-standard-deviation"]
@@ -37,19 +57,19 @@ class CourseScaleSemanticTests(unittest.TestCase):
 
     def _copy_graph(self) -> Graph:
         graph = Graph()
-        for triple in self.graph:
+        for triple in self.focused_graph:
             graph.add(triple)
         return graph
 
     def _assert_nonconformant(self, graph: Graph) -> None:
         conforms, _, report = validate(
             data_graph=graph,
-            shacl_graph=VALIDATION.detached_graph(self.dataset.graph(SHAPES_GRAPH)),
+            shacl_graph=VALIDATION.detached_graph(self.course_scale_shapes),
             inference="rdfs",
             abort_on_first=False,
             allow_infos=False,
             allow_warnings=False,
-            meta_shacl=True,
+            meta_shacl=False,
         )
         self.assertFalse(bool(conforms), str(report))
 

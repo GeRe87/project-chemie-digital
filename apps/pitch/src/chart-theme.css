@@ -1,0 +1,164 @@
+:root {
+  --pcd-chart-window-border: #31586a;
+  --pcd-chart-window-highlight: #b9d9e4;
+  --pcd-chart-header-from: #557080;
+  --pcd-chart-header-to: #3f5969;
+  --pcd-chart-grid: color-mix(in srgb, #769aaa 24%, transparent);
+  --pcd-chart-axis: #31586a;
+  --pcd-chart-text: #233c48;
+  --pcd-chart-surface: #f7fbfc;
+  --pcd-chart-shadow: color-mix(in srgb, #31586a 18%, transparent);
+  --pcd-chart-series-1: #4d91ad;
+  --pcd-chart-series-2: #61a488;
+  --pcd-chart-series-3: #8178b5;
+  --pcd-chart-series-4: #c98262;
+  --pcd-chart-series-5: #c7a94f;
+}
+
+/* Eco City diagram family: chart and flow skins follow the same background family. */
+body[data-diagram-theme="eco-city"] {
+  --pcd-chart-window-border: #0a5364;
+  --pcd-chart-window-highlight: #9cecf0;
+  --pcd-chart-header-from: #177f8f;
+  --pcd-chart-header-to: #0a5364;
+  --pcd-chart-grid: color-mix(in srgb, #138696 24%, transparent);
+  --pcd-chart-axis: #0a5364;
+  --pcd-chart-text: #083c49;
+  --pcd-chart-surface: color-mix(in srgb, #eafafb 94%, transparent);
+  --pcd-chart-shadow: rgb(3 73 86 / 0.18);
+  --pcd-chart-series-1: #4ebde1;
+  --pcd-chart-series-2: #5bcf9c;
+  --pcd-chart-series-3: #8e79dd;
+  --pcd-chart-series-4: #f49a69;
+  --pcd-chart-series-5: #f1c75e;
+}
+
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
+  --pcd-chart-window-border: #5ce7ef;
+  --pcd-chart-window-highlight: #153d55;
+  --pcd-chart-header-from: #17677a;
+  --pcd-chart-header-to: #0b344c;
+  --pcd-chart-grid: color-mix(in srgb, #5ce7ef 22%, transparent);
+  --pcd-chart-axis: #bafaff;
+  --pcd-chart-text: #e8feff;
+  --pcd-chart-surface: color-mix(in srgb, #0a2434 92%, transparent);
+  --pcd-chart-shadow: rgb(34 224 235 / 0.20);
+  --pcd-chart-series-1: #54d8ff;
+  --pcd-chart-series-2: #5ce6ae;
+  --pcd-chart-series-3: #a48cff;
+  --pcd-chart-series-4: #ff9f78;
+  --pcd-chart-series-5: #ffd56b;
+}
+
+.retro-neon-chart-window {
+  position: relative;
+  box-sizing: border-box;
+  width: min(1120px, 92vw);
+  margin: .6rem auto 0;
+  padding: 5.1rem 2.1rem 1.5rem;
+  border: 4px solid var(--pcd-chart-window-border);
+  border-radius: 18px;
+  background: var(--pcd-chart-surface);
+  box-shadow: 0 0 0 3px var(--pcd-chart-window-highlight), 12px 14px 0 var(--pcd-chart-shadow);
+  overflow: hidden;
+}
+
+body[data-diagram-theme="eco-city"] .retro-neon-chart-window {
+  border-radius: 0;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, calc(100% - 10px) 5px, 100% 5px, 100% calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 0 calc(100% - 5px), 0 5px, 10px 5px);
+  box-shadow: 0 0 0 3px var(--pcd-chart-window-highlight), 8px 8px 0 var(--pcd-chart-shadow);
+}
+
+.retro-neon-chart-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  min-height: 3.65rem;
+  display: flex;
+  align-items: center;
+  padding: .55rem 1.35rem;
+  border-bottom: 4px solid var(--pcd-chart-window-border);
+  background: linear-gradient(180deg, var(--pcd-chart-header-from), var(--pcd-chart-header-to));
+  color: white;
+  font-weight: 800;
+  letter-spacing: .025em;
+  text-shadow: 2px 2px 0 color-mix(in srgb, var(--pcd-chart-window-border) 70%, transparent);
+}
+
+body[data-diagram-theme="eco-city"] .retro-neon-chart-header {
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  text-transform: uppercase;
+}
+
+.retro-neon-chart-header::after { content: "■ ■ ■"; margin-left: auto; font-size: .7em; letter-spacing: .35em; opacity: .8; }
+.retro-neon-chart-subtitle { margin: -.25rem 0 .5rem; color: var(--pcd-chart-text); font-size: .78em; opacity: .82; }
+.d3-chart-figure { margin: 0; }
+.d3-chart-svg { display: block; width: 100%; min-height: 420px; overflow: visible; }
+.d3-chart-grid-line { stroke: var(--pcd-chart-grid); stroke-width: 2; stroke-dasharray: 6 5; }
+.d3-chart-axis { stroke: var(--pcd-chart-axis); stroke-width: 3; }
+.d3-chart-tick-label,.d3-chart-category-label,.d3-chart-axis-title,.d3-chart-value-label { fill: var(--pcd-chart-text); font-family: inherit; }
+body[data-diagram-theme="eco-city"] .d3-chart-tick-label,
+body[data-diagram-theme="eco-city"] .d3-chart-category-label,
+body[data-diagram-theme="eco-city"] .d3-chart-axis-title,
+body[data-diagram-theme="eco-city"] .d3-chart-value-label { font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+.d3-chart-tick-label,.d3-chart-category-label { font-size: 16px; }
+.d3-chart-axis-title { font-size: 19px; font-weight: 700; }
+.d3-chart-value-label { font-size: 20px; font-weight: 900; }
+.d3-chart-bar { stroke: var(--pcd-chart-window-border); stroke-width: 3; rx: 4; filter: drop-shadow(4px 5px 0 var(--pcd-chart-shadow)); }
+body[data-diagram-theme="eco-city"] .d3-chart-bar { rx: 0; shape-rendering: crispEdges; }
+.d3-chart-series-1 { fill: var(--pcd-chart-series-1); }
+.d3-chart-series-2 { fill: var(--pcd-chart-series-2); }
+.d3-chart-series-3 { fill: var(--pcd-chart-series-3); }
+.d3-chart-series-4 { fill: var(--pcd-chart-series-4); }
+.d3-chart-series-5 { fill: var(--pcd-chart-series-5); }
+.d3-chart-caption { color: var(--pcd-chart-text); font-size: .62em; opacity: .72; }
+.d3-chart-static-fallback { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: pre-wrap !important; border: 0 !important; }
+
+.d3-chart-line {
+  stroke: var(--pcd-chart-series-1);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px var(--pcd-chart-shadow));
+}
+
+body[data-diagram-theme="eco-city"] .d3-chart-line {
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.d3-chart-line-point {
+  fill: var(--pcd-chart-surface);
+  stroke: var(--pcd-chart-series-1);
+  stroke-width: 3;
+}
+
+.d3-chart-range-highlight {
+  fill: color-mix(in srgb, var(--pcd-chart-series-4) 32%, transparent);
+  stroke: color-mix(in srgb, var(--pcd-chart-series-4) 78%, transparent);
+  stroke-width: 2;
+}
+
+.d3-chart-annotation-connector {
+  fill: none;
+  stroke: var(--pcd-chart-series-5);
+  stroke-width: 3;
+  stroke-dasharray: 7 5;
+}
+
+.d3-chart-annotation-label {
+  fill: var(--pcd-chart-text);
+  font-size: 18px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--pcd-chart-surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.d3-chart-range-label { fill: var(--pcd-chart-series-4); }
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .d3-chart-range-label { fill: #ffb289; }
+
+@media (max-width: 900px) {
+  .retro-neon-chart-window { width: 96vw; padding-inline: 1rem; }
+  .d3-chart-svg { min-height: 500px; }
+}

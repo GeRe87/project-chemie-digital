@@ -1,0 +1,47 @@
+/*
+ * Generic native portrait viewport layer.
+ *
+ * Profiles opt in through viewportPolicy="native-portrait". The presentation canvas
+ * then uses the real narrow viewport while layout-family styles retain responsibility
+ * for component-specific responsive behavior.
+ */
+@media (max-width: 700px) and (orientation: portrait) {
+  body.pcd-native-mobile .reveal {
+    font-size: 16px;
+  }
+
+  body.pcd-native-mobile .reveal .slides section {
+    box-sizing: border-box;
+    padding: .9rem .78rem 1rem !important;
+  }
+
+  body.pcd-native-mobile .reveal .slides section > h2 {
+    margin: 0 0 .48rem !important;
+    max-width: none !important;
+    font-size: clamp(1.7rem, 8.2vw, 2.15rem) !important;
+    line-height: 1.03 !important;
+    text-wrap: balance;
+  }
+
+  body.pcd-native-mobile .reveal .slides section > h2 + .lead {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    padding: .5rem .6rem !important;
+    font-size: .78rem !important;
+    line-height: 1.18 !important;
+    letter-spacing: .02em !important;
+  }
+
+  body.pcd-native-mobile .reveal .slides section > h2 + .lead + .keypoint-list + .lead,
+  body.pcd-native-mobile .reveal .slides section > h2 + .keypoint-list + .lead,
+  body.pcd-native-mobile .reveal .slides section > .d3-sequence-host + .lead {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    padding: .48rem .58rem !important;
+    font-size: .72rem !important;
+    line-height: 1.16 !important;
+    letter-spacing: .015em !important;
+  }
+}

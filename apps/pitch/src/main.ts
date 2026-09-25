@@ -5,12 +5,52 @@ import "./styles.css";
 import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
+import "./chart-theme.css";
+import "./diagram-tokens.css";
+import "./flow-theme.css";
+import "./analysis-result-layout.css";
+import "./diagram-stage-layout.css";
+import "./data-explanation-layout.css";
+import "./process-context-layout.css";
+import "./card-sequence-layout.css";
+import "./text-network-progression-layout.css";
+import "./concentric-network-layout.css";
+import "./process-diagram-layout.css";
+import "./foundation-card-grid-layout.css";
+import "./reference-code-layout.css";
+import "./hierarchy-flow-layout.css";
+import "./concept-specification-layout.css";
+import "./presentation-projection.css";
+import "./hero-title-panel.css";
+import "./knowledge-network-runtime.css";
+import "./semantic-source-runtime.css";
+import "./semantic-multi-view-runtime.css";
+import "./analytical-proof-runtime.css";
+import "./full-media-layout.css";
+import "./closing-layout.css";
+import "./presentation-mobile.css";
+import "./presentation-clock.css";
+import "./presentation-laser-pointer.css";
+import "./presentation-step-runtime.css";
 import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
-import { mountPitchFlowDiagrams } from "./flow-runtime.ts";
+import { mountPitchDiagrams } from "./flow-runtime.ts";
+import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
+import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
+import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
+import { mountAnalyticalProofSteps } from "./analytical-proof-runtime.ts";
+import { mountPresentationProjections } from "./presentation-projection.ts";
+import { mountPresentationClock } from "./presentation-clock.ts";
+import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
+import {
+  mountPresentationStepRuntime,
+  preparePresentationStepFragments,
+} from "./presentation-step-runtime.ts";
 import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
+import { resolvePublicAssetPath, resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
   createDeckProgressSource,
@@ -22,6 +62,7 @@ import {
   backgroundPackRegistry,
   mountAppearanceControls,
   resolveBackgroundPackId,
+  resolveDiagramThemeId,
   resolvePresentationAppearance,
 } from "./presentation-profile.ts";
 
@@ -47,13 +88,53 @@ try {
 }
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const unmountFlowDiagrams = mountPitchFlowDiagrams(
-  Array.from(root.querySelectorAll<HTMLElement>("[data-flow-block-id]")),
+const unmountDiagrams = mountPitchDiagrams(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-diagram-block-id]")),
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
+const unmountCharts = mountPitchCharts(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
+  documents,
+  { reducedMotion },
+);
+const unmountSemanticMultiViews = mountSemanticMultiViews(
+  root,
+  documents,
+  canonicalDatasetSnapshot,
+);
+const unmountAnalyticalProofSteps = mountAnalyticalProofSteps(
+  root,
+  documents,
+);
+const unmountKnowledgeNetworks = mountPitchKnowledgeNetworks(
+  Array.from(root.querySelectorAll<HTMLElement>("[data-knowledge-scene-id]")),
+  documents,
+  canonicalDatasetSnapshot,
+  { reducedMotion, interactionPolicy: "keyboard" },
+);
+const unmountSemanticSourceSteps = mountSemanticSourceSteps(
+  root,
+  documents,
+  canonicalDatasetSnapshot,
+);
+preparePresentationStepFragments(root);
+const unmountPresentationProjection = mountPresentationProjections(root);
+
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
+const unmountPresentationClock = appearance.profile.presenterCapabilities?.clock
+  ? mountPresentationClock(document.body)
+  : () => undefined;
+const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities?.laserPointer
+  ? mountPresentationLaserPointer(presentation)
+  : () => undefined;
+
+const nativePortraitViewport = appearance.profile.viewportPolicy === "native-portrait"
+  && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
+document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
+const nativeViewportWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
+const nativeViewportHeight = Math.max(560, Math.round(window.visualViewport?.height ?? window.innerHeight));
 
 let currentTheme: PresentationThemeMode = appearance.theme;
 let selectedBackgroundFamilyId = appearance.backgroundFamilyId;
@@ -64,11 +145,24 @@ function applyThemeMarker(theme: PresentationThemeMode): void {
   document.body.style.colorScheme = theme;
 }
 
+function applyDiagramThemeMarker(): void {
+  document.body.dataset.diagramTheme = resolveDiagramThemeId(selectedBackgroundFamilyId, backgroundEnabled);
+}
+
 applyThemeMarker(currentTheme);
+applyDiagramThemeMarker();
+
+const runtimeBackgroundPacks = backgroundPackRegistry.map((pack) => ({
+  ...pack,
+  layers: pack.layers.map((layer) => ({
+    ...layer,
+    asset: resolvePublicAssetPath(layer.asset),
+  })),
+}));
 
 const backgroundRuntime = mountBackgroundRuntime({
   host: document.body,
-  packs: backgroundPackRegistry,
+  packs: runtimeBackgroundPacks,
   initialPackId: appearance.backgroundPackId,
   reducedMotion,
 });
@@ -79,6 +173,7 @@ function applyBackgroundSelection(): void {
     ? resolveBackgroundPackId(selectedBackgroundFamilyId, currentTheme)
     : undefined;
   backgroundRuntime.setPack(concretePackId);
+  applyDiagramThemeMarker();
 }
 
 const appearanceControls = mountAppearanceControls({
@@ -116,14 +211,65 @@ const deck = new Reveal({
   transition: reducedMotion ? "none" : "slide",
   backgroundTransition: reducedMotion ? "none" : "fade",
   center: false,
-  width: 1440,
-  height: 900,
-  margin: 0.04,
+  width: nativePortraitViewport ? nativeViewportWidth : 1440,
+  height: nativePortraitViewport ? nativeViewportHeight : 900,
+  margin: nativePortraitViewport ? 0 : 0.04,
   ...(appearance.view === "scroll"
     ? { view: "scroll", scrollProgress: true, scrollSnap: "mandatory", scrollLayout: "full" }
     : { scrollActivationWidth: 0 }),
 });
 await deck.initialize();
+const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
+
+const presentationVideos = Array.from(
+  root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
+);
+
+function isFullMediaScene(scene: HTMLElement | undefined): boolean {
+  return scene?.dataset.layout === "full-media";
+}
+
+function syncNavigationMode(): void {
+  const current = deck.getCurrentSlide() as HTMLElement | undefined;
+  const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
+  const sameConceptSequence = current?.dataset.layout === "concept-specification"
+    && next?.dataset.layout === current.dataset.layout;
+  const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
+  document.body.classList.toggle(
+    "pcd-no-scroll-transition",
+    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
+  );
+}
+
+function syncFullMediaMode(): void {
+  const current = deck.getCurrentSlide() as HTMLElement | undefined;
+  document.body.classList.toggle("pcd-full-media-active", isFullMediaScene(current));
+}
+
+function syncPresentationVideos(): void {
+  const currentSlide = deck.getCurrentSlide();
+  for (const video of presentationVideos) {
+    const active = currentSlide?.contains(video) ?? false;
+    if (!active) {
+      video.pause();
+      video.currentTime = 0;
+      delete video.dataset.pcdPresentationStarted;
+      continue;
+    }
+    if (video.dataset.pcdPresentationStarted === "true") continue;
+    video.dataset.pcdPresentationStarted = "true";
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      // Browser autoplay policy may require a direct click; controls stay visible.
+    });
+  }
+}
+deck.on("slidechanged", syncPresentationVideos);
+deck.on("slidechanged", syncFullMediaMode);
+deck.on("slidechanged", syncNavigationMode);
+syncNavigationMode();
+syncFullMediaMode();
+syncPresentationVideos();
 
 function revealScrollOffset(): number {
   const viewport = deck.getViewportElement?.() as HTMLElement | undefined;
@@ -141,8 +287,8 @@ function createProgressSource(): BackgroundProgressSource {
         window.addEventListener("scroll", listener, options);
         viewport?.addEventListener("scroll", listener, options);
         return () => {
-          window.removeEventListener("scroll", listener);
-          viewport?.removeEventListener("scroll", listener);
+          window.removeEventListener("scroll", listener, options);
+          viewport?.removeEventListener("scroll", listener, options);
         };
       },
       requestAnimationFrame: (callback) => window.requestAnimationFrame(callback),
@@ -159,7 +305,13 @@ function createProgressSource(): BackgroundProgressSource {
 }
 
 const progressSource = createProgressSource();
-const stopBackgroundProgress = progressSource.start((offset) => backgroundRuntime.setProgress(offset));
+const stopBackgroundProgress = progressSource.start((offset) => {
+  const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
+  const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
+    || currentSlide?.dataset.layout === "full-media";
+  if (appearance.view === "scroll" && freezeForLayout) return;
+  backgroundRuntime.setProgress(offset);
+});
 
 let codeRuntime: CodeRuntimeController | undefined;
 let pollRuntime: PollRuntimeController | undefined;
@@ -191,7 +343,23 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   codeRuntime?.destroy();
-  unmountFlowDiagrams();
+  deck.off("slidechanged", syncPresentationVideos);
+  deck.off("slidechanged", syncFullMediaMode);
+  deck.off("slidechanged", syncNavigationMode);
+  document.body.classList.remove("pcd-no-scroll-transition");
+  document.body.classList.remove("pcd-full-media-active");
+  document.body.classList.remove("pcd-native-mobile");
+  for (const video of presentationVideos) video.pause();
+  unmountPresentationSteps();
+  unmountPresentationProjection();
+  unmountPresentationLaserPointer();
+  unmountPresentationClock();
+  unmountSemanticSourceSteps();
+  unmountKnowledgeNetworks();
+  unmountAnalyticalProofSteps();
+  unmountSemanticMultiViews();
+  unmountCharts();
+  unmountDiagrams();
   stopBackgroundProgress();
   appearanceControls.destroy();
   backgroundRuntime.destroy();

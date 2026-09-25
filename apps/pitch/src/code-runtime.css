@@ -16,6 +16,55 @@
   text-align: left;
 }
 
+.reveal .code-block[data-language="trig"] {
+  position: relative;
+  max-width: min(68rem, 94vw);
+  margin: 1.2rem auto 0;
+  padding-top: 2.7rem;
+  border: 3px solid var(--pcd-accent);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--pcd-surface-strong) 92%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pcd-accent) 45%, transparent),
+    10px 12px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  overflow: hidden;
+}
+
+.reveal .code-block[data-language="trig"]::before {
+  content: "SEMANTIC SOURCE  ·  TRIG";
+  position: absolute;
+  inset: 0 0 auto 0;
+  box-sizing: border-box;
+  min-height: 2.35rem;
+  padding: 0.55rem 1rem;
+  border-bottom: 3px solid var(--pcd-accent);
+  background: linear-gradient(180deg, #654fd0, #3e2b98);
+  color: #fff;
+  font-size: 0.72em;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-shadow: 2px 2px 0 #20105f;
+}
+
+.reveal .code-block[data-language="trig"] .code-static-fallback {
+  max-height: 29rem;
+  padding: 1.25rem 1.45rem 1.45rem;
+  overflow: auto;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pcd-accent) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--pcd-accent) 9%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--pcd-surface-strong) 96%, transparent);
+  background-size: 20px 20px;
+  color: var(--pcd-foreground);
+  font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.78em;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
 .reveal .code-editor-host {
   overflow: hidden;
   border: 2px solid var(--pcd-accent);

@@ -1,0 +1,319 @@
+/* Generic reference + code composition.
+   A vocabulary/reference list remains in semantic reading order while Reveal places
+   the authored code label, code example and interpretation in a supporting column. */
+.reveal .slides section[data-layout="reference-code"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.55fr) minmax(22rem, .85fr);
+  grid-template-rows: auto 3.2rem 2.35rem minmax(0, 1fr) auto;
+  column-gap: 1.45rem;
+  row-gap: .58rem;
+  align-content: stretch;
+  padding: 1.45rem 2.05rem 1.45rem !important;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0 0 .08rem;
+  max-width: none;
+  font-size: 2.48em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="banner"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  box-sizing: border-box;
+  width: min(980px, 92%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .56rem 1rem .5rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 21%, transparent);
+  color: var(--pcd-accent);
+  font: 950 1.04em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .065em;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] {
+  grid-column: 1;
+  grid-row: 3 / 6;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto repeat(2, minmax(0, 1fr)) auto;
+  gap: .75rem;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li {
+  --pcd-reference-fill: #d7f1ef;
+  --pcd-reference-stroke: #168e9c;
+  --pcd-reference-text: #073f49;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 1.18rem 1.28rem 1.08rem;
+  border: 4px solid var(--pcd-reference-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pcd-reference-fill) 96%, var(--pcd-surface-strong)) 0 35%,
+      color-mix(in srgb, var(--pcd-reference-fill) 74%, var(--pcd-surface-strong)) 35% 100%
+    );
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-reference-stroke) 24%, transparent);
+  color: var(--pcd-reference-text);
+  font: 875 1.28em/1.4 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li::before {
+  content: "";
+  position: absolute;
+  top: .38rem;
+  right: .4rem;
+  width: .45rem;
+  height: .45rem;
+  background: var(--pcd-reference-stroke);
+  box-shadow: -.72rem 0 0 color-mix(in srgb, var(--pcd-reference-stroke) 58%, transparent);
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li::first-line {
+  font-size: 1.22em;
+  font-weight: 950;
+  letter-spacing: .015em;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(1) {
+  grid-column: 1 / -1;
+  --pcd-reference-fill: #b9e4ff;
+  --pcd-reference-stroke: #176da0;
+  --pcd-reference-text: #07364e;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(2) {
+  --pcd-reference-fill: #d5c5f4;
+  --pcd-reference-stroke: #7046ad;
+  --pcd-reference-text: #3b2164;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(3) {
+  --pcd-reference-fill: #cbeab7;
+  --pcd-reference-stroke: #4f8a45;
+  --pcd-reference-text: #244c26;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(4) {
+  --pcd-reference-fill: #ffd28f;
+  --pcd-reference-stroke: #c96a12;
+  --pcd-reference-text: #522800;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(5) {
+  --pcd-reference-fill: #f4c3df;
+  --pcd-reference-stroke: #a33d72;
+  --pcd-reference-text: #5d2041;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(6) {
+  grid-column: 1 / -1;
+  --pcd-reference-fill: #f7e7a8;
+  --pcd-reference-stroke: #a57813;
+  --pcd-reference-text: #513d06;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code-label"] {
+  grid-column: 2;
+  grid-row: 3;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .58rem .8rem .48rem;
+  border: 4px solid var(--pcd-accent);
+  border-bottom: 0;
+  background: linear-gradient(180deg, #654fd0, #3e2b98);
+  color: #fff;
+  font: 950 .76em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .075em;
+  text-align: left;
+  text-shadow: 2px 2px 0 #20105f;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"] {
+  grid-column: 2;
+  grid-row: 4;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding-top: 0;
+  border-width: 4px;
+  border-radius: 0;
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent);
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"][data-language="trig"]::before {
+  display: none;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"] .code-static-fallback {
+  max-height: none;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.12rem 1rem 1.18rem;
+  overflow: hidden;
+  font-size: 1.08em;
+  line-height: 1.58;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="reading"] {
+  grid-column: 2;
+  grid-row: 5;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .98rem 1.08rem .92rem;
+  border: 4px solid #c96a12;
+  background: color-mix(in srgb, #ffd28f 76%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, #c96a12 22%, transparent);
+  color: #522800;
+  font: 900 1.12em/1.38 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.reveal .slides section[data-layout="reference-code"] > [data-layout-slot="reading"]::first-line {
+  font-size: 1.15em;
+  font-weight: 950;
+  letter-spacing: .04em;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(1) {
+  --pcd-reference-fill: #10283a;
+  --pcd-reference-stroke: #55bdf0;
+  --pcd-reference-text: #e8f8ff;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(2) {
+  --pcd-reference-fill: #281d3d;
+  --pcd-reference-stroke: #b18cff;
+  --pcd-reference-text: #f2eaff;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(3) {
+  --pcd-reference-fill: #18321e;
+  --pcd-reference-stroke: #79cf72;
+  --pcd-reference-text: #efffed;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(4) {
+  --pcd-reference-fill: #3a2811;
+  --pcd-reference-stroke: #f0a343;
+  --pcd-reference-text: #fff1d8;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(5) {
+  --pcd-reference-fill: #391d2d;
+  --pcd-reference-stroke: #e16d9f;
+  --pcd-reference-text: #ffeaf3;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(6) {
+  --pcd-reference-fill: #352e14;
+  --pcd-reference-stroke: #dcc45e;
+  --pcd-reference-text: #fff7cf;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, currentColor 10%, transparent),
+    0 0 16px color-mix(in srgb, currentColor 10%, transparent),
+    5px 5px 0 rgb(0 0 0 / .28);
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="reading"] {
+  border-color: #f0a343;
+  background: #3a2811;
+  color: #fff1d8;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="reference-code"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    gap: .52rem;
+    height: auto !important;
+    min-height: 100svh !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot] {
+    grid-column: 1;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="heading"] { grid-row: 1; }
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="banner"] { grid-row: 2; }
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] { grid-row: 3; }
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code-label"] { grid-row: 4; }
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"] { grid-row: 5; }
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="reading"] { grid-row: 6; }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: .45rem;
+    width: 100%;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+    padding: .62rem .58rem;
+    font-size: .7rem;
+    line-height: 1.24;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(1),
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="terms"] > li:nth-child(6) {
+    grid-column: 1 / -1;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"] {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-size: .66rem;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="code"] .code-static-fallback {
+    max-height: 11.5rem;
+    height: auto;
+    overflow: auto;
+    padding: .72rem;
+    font-size: .7rem;
+    line-height: 1.38;
+  }
+
+  .reveal .slides section[data-layout="reference-code"] > [data-layout-slot="reading"] {
+    width: 100%;
+    margin: 0;
+    padding: .62rem .68rem;
+    font-size: .72rem;
+    line-height: 1.28;
+  }
+}

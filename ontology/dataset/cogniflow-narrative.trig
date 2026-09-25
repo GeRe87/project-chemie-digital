@@ -1,0 +1,92 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-narrative> {
+  ex:cogniflow-coupling-problem a cd:Concept ;
+    skos:prefLabel "A Common Analytical Workflow"@en ;
+    cd:hasDefinition ex:def-cogniflow-coupling-problem ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-coupling-problem a cd:Definition ;
+    cd:body "A typical analytical workflow moves from instrument analysis through measured data and an open format to reusable results."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-cogniflow-common-workflow a cd:FlowDiagram ;
+    skos:prefLabel "Common workflow from analysis to results"@en ;
+    cd:body "Vendor software produces measured data, which is converted into the open mzML format, and a custom script turns that into reusable results."@en ;
+    cd:hasDiagramNode ex:node-cogniflow-common-analysis,
+      ex:node-cogniflow-common-meas-data,
+      ex:node-cogniflow-common-open-format,
+      ex:node-cogniflow-common-results,
+      ex:node-cogniflow-common-analysis-b,
+      ex:node-cogniflow-common-meas-data-b,
+      ex:node-cogniflow-common-open-format-b,
+      ex:node-cogniflow-common-results-b ;
+    cd:hasDiagramGroup ex:diagram-group-cogniflow-common-primary,
+      ex:diagram-group-cogniflow-common-alternative ;
+    cd:hasDiagramState ex:diagram-state-cogniflow-common-custom-script ;
+    cd:hasDiagramEdge ex:edge-cogniflow-common-analysis-meas,
+      ex:edge-cogniflow-common-meas-open,
+      ex:edge-cogniflow-common-open-results,
+      ex:edge-cogniflow-common-analysis-b-meas,
+      ex:edge-cogniflow-common-meas-b-open,
+      ex:edge-cogniflow-common-open-b-results ;
+    cd:focusNode ex:node-cogniflow-common-open-format ;
+    cd:authoredResource true .
+
+  ex:diagram-group-cogniflow-common-primary a cd:DiagramGroup ; skos:prefLabel "Primary workflow"@en ; cd:authoredResource true .
+  ex:diagram-group-cogniflow-common-alternative a cd:DiagramGroup ; skos:prefLabel "Alternative workflow"@en ; cd:authoredResource true .
+  ex:node-cogniflow-common-analysis a cd:DiagramNode ; skos:prefLabel "Analysis"@en ; cd:position 1 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-meas-data a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 2 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-open-format a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 3 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-results a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 4 ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-primary ; cd:authoredResource true .
+  ex:node-cogniflow-common-analysis-b a cd:DiagramNode ; skos:prefLabel "Analysis B"@en ; cd:position 5 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-meas-data-b a cd:DiagramNode ; skos:prefLabel "meas Data"@en ; cd:position 6 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-open-format-b a cd:DiagramNode ; skos:prefLabel "meas Data Open Format"@en ; cd:position 7 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+  ex:node-cogniflow-common-results-b a cd:DiagramNode ; skos:prefLabel "results"@en ; cd:position 8 ; cd:visualRole "comparison" ; cd:memberOfDiagramGroup ex:diagram-group-cogniflow-common-alternative ; cd:authoredResource true .
+
+  ex:edge-cogniflow-common-analysis-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 1 ; cd:sourceNode ex:node-cogniflow-common-analysis ; cd:targetNode ex:node-cogniflow-common-meas-data ; cd:authoredResource true .
+  ex:edge-cogniflow-common-meas-open a cd:DiagramEdge ; skos:prefLabel "mzML"@en ; cd:position 2 ; cd:sourceNode ex:node-cogniflow-common-meas-data ; cd:targetNode ex:node-cogniflow-common-open-format ; cd:authoredResource true .
+  ex:edge-cogniflow-common-open-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 3 ; cd:sourceNode ex:node-cogniflow-common-open-format ; cd:targetNode ex:node-cogniflow-common-results ; cd:authoredResource true .
+  ex:edge-cogniflow-common-analysis-b-meas a cd:DiagramEdge ; skos:prefLabel "vendor Software"@en ; cd:position 4 ; cd:sourceNode ex:node-cogniflow-common-analysis-b ; cd:targetNode ex:node-cogniflow-common-meas-data-b ; cd:authoredResource true .
+  ex:edge-cogniflow-common-meas-b-open a cd:DiagramEdge ; skos:prefLabel "csv"@en ; cd:position 5 ; cd:sourceNode ex:node-cogniflow-common-meas-data-b ; cd:targetNode ex:node-cogniflow-common-open-format-b ; cd:authoredResource true .
+  ex:edge-cogniflow-common-open-b-results a cd:DiagramEdge ; skos:prefLabel "custom Script"@en ; cd:position 6 ; cd:sourceNode ex:node-cogniflow-common-open-format-b ; cd:targetNode ex:node-cogniflow-common-results-b ; cd:authoredResource true .
+
+  ex:diagram-state-cogniflow-common-custom-script a cd:DiagramState ;
+    cd:position 1 ;
+    skos:prefLabel "Common custom script"@en ;
+    cd:hasSharedEdgeAnnotation ex:shared-edge-annotation-cogniflow-common-custom-script ;
+    cd:authoredResource true .
+  ex:shared-edge-annotation-cogniflow-common-custom-script a cd:SharedEdgeAnnotation ;
+    cd:body "Both workflows use the same custom script after conversion to an open format."@en ;
+    cd:annotatesDiagramEdge ex:edge-cogniflow-common-open-results, ex:edge-cogniflow-common-open-b-results ;
+    cd:authoredResource true .
+
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-narrative-extension> {
+  ex:path-step-cogniflow-coupling-problem a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:diagram-cogniflow-common-workflow ;
+    cd:usesScene ex:scene-cogniflow-coupling-problem ;
+    cd:authoredResource true .
+
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-narrative> {
+  ex:scene-cogniflow-coupling-problem a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-coupling-problem ;
+    cd:hasSceneItem ex:scene-item-cogniflow-problem-heading,
+      ex:scene-item-cogniflow-problem-diagram ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-problem-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:cogniflow-coupling-problem ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-item-cogniflow-problem-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:diagram-cogniflow-common-workflow ; cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+}

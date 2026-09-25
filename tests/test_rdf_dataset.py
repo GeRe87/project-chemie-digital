@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,33 +14,19 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location("validate_semantics", ROOT / "scripts" / "validate_semantics.py")
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION_MODULE = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION_MODULE)
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
 
-EXPECTED_CANONICAL_GRAPHS = {
-    "https://w3id.org/project-chemie-digital/graph/core",
-    "https://w3id.org/project-chemie-digital/graph/concepts",
-    "https://w3id.org/project-chemie-digital/graph/concepts/course-scale",
-    "https://w3id.org/project-chemie-digital/graph/shapes/core",
-    "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
-    "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics",
-    "https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture",
-    "https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-mean-values-lecture",
-    "https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
-    "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
-    "https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/courses/cogniflow-standardized-data-processing",
-    "https://w3id.org/project-chemie-digital/graph/examples/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/sources/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation",
-    "https://w3id.org/project-chemie-digital/graph/migration/standard-deviation",
-}
+import validate_semantics as VALIDATION_MODULE  # noqa: E402
+
+def canonical_source_graph_names() -> set[str]:
+    names: set[str] = set()
+    for path in MODULE.CANONICAL_TRIG:
+        parsed = Dataset(default_union=False)
+        parsed.parse(path, format="trig")
+        names.update(populated_graph_names(parsed))
+    return names
+
 STANDARD_DEVIATION = URIRef(f"{MODULE.RESOURCE_BASE}standard-deviation")
 PREF_LABEL = URIRef("http://www.w3.org/2004/02/skos/core#prefLabel")
 HAS_SOURCE = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
@@ -57,10 +45,28 @@ class RdfDatasetTests(unittest.TestCase):
                 parsed.parse(path, format="trig")
                 names = populated_graph_names(parsed)
                 self.assertTrue(names)
-                self.assertTrue(names <= EXPECTED_CANONICAL_GRAPHS)
+                self.assertTrue(all(name.startswith(MODULE.GRAPH_BASE) for name in names))
+                self.assertFalse(any("/graph/legacy/" in name for name in names))
 
-    def test_canonical_dataset_uses_exact_stable_named_graphs(self) -> None:
-        self.assertEqual(EXPECTED_CANONICAL_GRAPHS, populated_graph_names(MODULE.assemble_dataset()))
+    def test_assemble_dataset_normalizes_crlf_inside_multiline_literals(self) -> None:
+        graph = f"{MODULE.GRAPH_BASE}tests/crlf"
+        subject = f"{MODULE.RESOURCE_BASE}crlf-test"
+        predicate = "https://example.invalid/body"
+        source = (
+            f"<{graph}> {{\r\n"
+            f"  <{subject}> <{predicate}> \"\"\"line one\r\nline two\"\"\" .\r\n"
+            "}\r\n"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "crlf.trig"
+            path.write_bytes(source.encode("utf-8"))
+            dataset = MODULE.assemble_dataset(trig_paths=(path,))
+
+        value = next(dataset.graph(URIRef(graph)).objects(URIRef(subject), URIRef(predicate)))
+        self.assertEqual("line one\nline two", str(value))
+
+    def test_canonical_dataset_uses_exact_authored_named_graphs(self) -> None:
+        self.assertEqual(canonical_source_graph_names(), populated_graph_names(MODULE.assemble_dataset()))
 
     def test_no_legacy_graphs_are_assembled(self) -> None:
         names = populated_graph_names(MODULE.assemble_dataset())

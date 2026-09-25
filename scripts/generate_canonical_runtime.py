@@ -9,7 +9,9 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import math
 import re
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -52,6 +54,10 @@ def local_name(value: URIRef | str) -> str:
     return text.rsplit("/", 1)[-1].rsplit("#", 1)[-1].replace("-", " ")
 
 
+def normalize_newlines(value: str) -> str:
+    return value.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def quads(dataset: Dataset, subject: URIRef | None = None, predicate: URIRef | None = None) -> Iterable[tuple[Any, Any, Any, Any]]:
     return dataset.quads((subject, predicate, None, None))
 
@@ -83,7 +89,7 @@ def literal(dataset: Dataset, subject: URIRef, predicate: URIRef, language: str 
         return None
     if len(values) > 1:
         raise ValueError(f"Ambiguous literal {compact(predicate)} for {compact(subject)}")
-    return str(values[0])
+    return normalize_newlines(str(values[0]))
 
 
 def deterministic_authored_literal(
@@ -100,7 +106,7 @@ def deterministic_authored_literal(
     if not values:
         return None
     values.sort(key=lambda value: (value.language or "", str(value.datatype or ""), str(value), value.n3()))
-    return str(values[0])
+    return normalize_newlines(str(values[0]))
 
 
 def boolean_literal(dataset: Dataset, subject: URIRef, predicate: URIRef) -> bool:
@@ -150,6 +156,13 @@ def is_resource_type(dataset: Dataset, resource: URIRef, type_name: str) -> bool
     return any(obj == iri(CD, type_name) for obj in objects(dataset, resource, RDF.type))
 
 
+def is_diagram_resource(dataset: Dataset, resource: URIRef) -> bool:
+    return any(
+        is_resource_type(dataset, resource, type_name)
+        for type_name in ("FlowDiagram", "NetworkDiagram", "SequenceDiagram")
+    )
+
+
 def selected_literal(
     dataset: Dataset,
     resource: URIRef,
@@ -196,6 +209,158 @@ def keypoint_sequence(dataset: Dataset, owner: URIRef, language: str | None) -> 
     return records
 
 
+def definition_list_sequence(
+    dataset: Dataset,
+    owner: URIRef,
+    language: str | None,
+) -> list[tuple[URIRef, int, str, str, str | None]]:
+    predicate = iri(CD, "hasDefinitionListEntry")
+    linked = [value for value in objects(dataset, owner, predicate) if isinstance(value, URIRef)]
+    if not linked:
+        raise ValueError(f"DefinitionListRole requires linked entries for {compact(owner)}")
+    records: list[tuple[URIRef, int, str, str, str | None]] = []
+    seen_positions: set[int] = set()
+    for entry in linked:
+        if not is_resource_type(dataset, entry, "DefinitionListEntry"):
+            raise ValueError(f"Linked resource {compact(entry)} is not a DefinitionListEntry")
+        owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, predicate, entry, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if owners != [owner]:
+            raise ValueError(f"DefinitionListEntry {compact(entry)} must have exactly one owning DefinitionList")
+        position = integer(dataset, entry, iri(CD, "position"))
+        if position in seen_positions:
+            raise ValueError(f"DefinitionList entry positions must be unique for {compact(owner)}")
+        seen_positions.add(position)
+        if language is None:
+            raise ValueError(f"DefinitionListRole requires explicit cd:language for {compact(owner)}")
+        term = selected_literal(dataset, entry, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
+        description = literal(dataset, entry, iri(CD, "body"), language)
+        records.append((entry, position, term, f"skos:prefLabel@{language}", description))
+    records.sort(key=lambda record: (record[1], str(record[0])))
+    positions = [position for _entry, position, _term, _term_path, _description in records]
+    if positions != list(range(1, len(records) + 1)):
+        raise ValueError(f"DefinitionList entry positions must be contiguous for {compact(owner)}")
+    return records
+
+
+def table_payload(dataset: Dataset, table: URIRef, language: str | None) -> tuple[dict[str, Any], str | None]:
+    if language is None:
+        raise ValueError(f"TableRole requires explicit cd:language for {compact(table)}")
+
+    column_predicate = iri(CD, "hasTableColumn")
+    row_predicate = iri(CD, "hasTableRow")
+    cell_predicate = iri(CD, "hasTableCell")
+
+    columns = [
+        (column, integer(dataset, column, iri(CD, "position")))
+        for column in objects(dataset, table, column_predicate)
+        if isinstance(column, URIRef)
+    ]
+    rows = [
+        (row, integer(dataset, row, iri(CD, "position")))
+        for row in objects(dataset, table, row_predicate)
+        if isinstance(row, URIRef)
+    ]
+    columns.sort(key=lambda record: (record[1], str(record[0])))
+    rows.sort(key=lambda record: (record[1], str(record[0])))
+
+    if not columns or not rows:
+        raise ValueError(f"TableDefinition {compact(table)} requires columns and rows")
+    if [position for _column, position in columns] != list(range(1, len(columns) + 1)):
+        raise ValueError(f"TableColumn positions must be unique and contiguous for {compact(table)}")
+    if [position for _row, position in rows] != list(range(1, len(rows) + 1)):
+        raise ValueError(f"TableRow positions must be unique and contiguous for {compact(table)}")
+
+    column_values: list[dict[str, Any]] = []
+    for column, _position in columns:
+        if not is_resource_type(dataset, column, "TableColumn"):
+            raise ValueError(f"Linked resource {compact(column)} is not a TableColumn")
+        owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, column_predicate, column, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if owners != [table]:
+            raise ValueError(f"TableColumn {compact(column)} must have exactly one owning TableDefinition")
+        label = selected_literal(dataset, column, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
+        column_values.append({
+            "id": compact(column),
+            "label": label,
+            "source": [source_reference(dataset, column, f"skos:prefLabel@{language}")],
+        })
+
+    row_values: list[dict[str, Any]] = []
+    for row, _position in rows:
+        if not is_resource_type(dataset, row, "TableRow"):
+            raise ValueError(f"Linked resource {compact(row)} is not a TableRow")
+        row_owners = sorted(
+            {
+                subject
+                for subject, _predicate, _object, _graph in dataset.quads((None, row_predicate, row, None))
+                if isinstance(subject, URIRef)
+            },
+            key=str,
+        )
+        if row_owners != [table]:
+            raise ValueError(f"TableRow {compact(row)} must have exactly one owning TableDefinition")
+
+        cells = [
+            (cell, integer(dataset, cell, iri(CD, "position")))
+            for cell in objects(dataset, row, cell_predicate)
+            if isinstance(cell, URIRef)
+        ]
+        cells.sort(key=lambda record: (record[1], str(record[0])))
+        if [position for _cell, position in cells] != list(range(1, len(cells) + 1)):
+            raise ValueError(f"TableCell positions must be unique and contiguous for {compact(row)}")
+        if len(cells) != len(columns):
+            raise ValueError(f"TableRow {compact(row)} must contain exactly one cell per column")
+
+        cell_values: list[dict[str, Any]] = []
+        for cell, _cell_position in cells:
+            if not is_resource_type(dataset, cell, "TableCell"):
+                raise ValueError(f"Linked resource {compact(cell)} is not a TableCell")
+            cell_owners = sorted(
+                {
+                    subject
+                    for subject, _predicate, _object, _graph in dataset.quads((None, cell_predicate, cell, None))
+                    if isinstance(subject, URIRef)
+                },
+                key=str,
+            )
+            if cell_owners != [row]:
+                raise ValueError(f"TableCell {compact(cell)} must have exactly one owning TableRow")
+            text = selected_literal(dataset, cell, iri(CD, "body"), "cd:body", language)
+            cell_values.append({
+                "id": compact(cell),
+                "text": text,
+                "source": [source_reference(dataset, cell, "cd:body")],
+            })
+
+        row_values.append({
+            "id": compact(row),
+            "cells": cell_values,
+            "source": [source_reference(dataset, row, "cd:hasTableCell")],
+        })
+
+    caption, caption_relation_path = selected_label_reference(dataset, table, language)
+    description = literal(dataset, table, iri(CD, "body"), language)
+    return {
+        "caption": caption,
+        **({"description": description} if description is not None else {}),
+        "columns": column_values,
+        "rows": row_values,
+    }, caption_relation_path
+
+
 def selected_label_reference(dataset: Dataset, resource: URIRef, language: str | None) -> tuple[str, str | None]:
     if language is not None:
         preferred = literal(dataset, resource, SKOS.prefLabel, language)
@@ -212,6 +377,9 @@ def selected_label_reference(dataset: Dataset, resource: URIRef, language: str |
 
 
 def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    if is_resource_type(dataset, diagram, "SequenceDiagram"):
+        return sequence_diagram_payload(dataset, diagram, language)
+    diagram_type = "network" if is_resource_type(dataset, diagram, "NetworkDiagram") else "flow"
     node_records = [
         (node, integer(dataset, node, iri(CD, "position")))
         for node in objects(dataset, diagram, iri(CD, "hasDiagramNode"))
@@ -226,7 +394,7 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
     edge_records.sort(key=lambda record: (record[1], str(record[0])))
     if len(node_records) < 2:
         raise ValueError(f"FlowDiagram {compact(diagram)} requires at least two DiagramNodes")
-    if not edge_records:
+    if diagram_type == "flow" and not edge_records:
         raise ValueError(f"FlowDiagram {compact(diagram)} requires at least one DiagramEdge")
     node_positions = [position for _node, position in node_records]
     if node_positions != list(range(1, len(node_records) + 1)):
@@ -243,11 +411,22 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
     nodes: list[dict[str, Any]] = []
     for node, _position in node_records:
         label, relation_path = selected_label_reference(dataset, node, language)
+        node_description = literal(dataset, node, iri(CD, "body"), language)
+        node_sources = [source_reference(dataset, node, relation_path)]
+        if node_description is not None:
+            node_sources.append(source_reference(dataset, node, "cd:body"))
         node_value: dict[str, Any] = {
             "id": compact(node),
             "label": label,
-            "source": [source_reference(dataset, node, relation_path)],
+            **({"description": node_description} if node_description is not None else {}),
+            "source": node_sources,
         }
+        visual_role = one(dataset, node, iri(CD, "visualRole"), required=False)
+        if visual_role is not None:
+            node_value["visualRole"] = str(visual_role)
+        group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
+        if group_ids:
+            node_value["groupIds"] = sorted(group_ids)
         if node == focus_node:
             node_value["emphasis"] = "primary"
         nodes.append(node_value)
@@ -259,26 +438,333 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         if source_node not in node_ids or target_node not in node_ids:
             raise ValueError(f"FlowDiagram edge {compact(edge)} references a node outside {compact(diagram)}")
         label, relation_path = selected_label_reference(dataset, edge, language)
-        edges.append({
+        edge_value: dict[str, Any] = {
             "id": compact(edge),
             "sourceNodeId": compact(source_node),
             "targetNodeId": compact(target_node),
             "label": label,
             "source": [source_reference(dataset, edge, relation_path)],
-        })
+        }
+        visual_role = one(dataset, edge, iri(CD, "visualRole"), required=False)
+        if visual_role is not None:
+            edge_value["visualRole"] = str(visual_role)
+        edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    group_resources = [group for group in objects(dataset, diagram, iri(CD, "hasDiagramGroup")) if isinstance(group, URIRef)]
+    positioned_groups = [
+        (group, integer(dataset, group, iri(CD, "position")))
+        for group in group_resources
+        if objects(dataset, group, iri(CD, "position"))
+    ]
+    if positioned_groups:
+        if len(positioned_groups) != len(group_resources):
+            raise ValueError(f"DiagramGroup positions must be present for every group of {compact(diagram)}")
+        positioned_groups.sort(key=lambda record: (record[1], str(record[0])))
+        group_positions = [position for _group, position in positioned_groups]
+        if group_positions != list(range(1, len(positioned_groups) + 1)):
+            raise ValueError(f"DiagramGroup positions must be unique and contiguous for {compact(diagram)}")
+        ordered_groups = [group for group, _position in positioned_groups]
+    else:
+        ordered_groups = sorted(group_resources, key=str)
+
+    groups = []
+    for group in ordered_groups:
+        group_label, group_relation_path = selected_label_reference(dataset, group, language)
+        groups.append({"id": compact(group), "label": group_label, "source": [source_reference(dataset, group, group_relation_path)]})
+
     payload: dict[str, Any] = {
-        "diagramType": "flow",
+        "diagramType": diagram_type,
         "label": label,
         "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
         "nodes": nodes,
         "edges": edges,
+        **({"groups": groups} if groups else {}),
     }
+    state_resources = [state for state in objects(dataset, diagram, iri(CD, "hasDiagramState")) if isinstance(state, URIRef)]
+    positioned_states = [(state, integer(dataset, state, iri(CD, "position"))) for state in state_resources if objects(dataset, state, iri(CD, "position"))]
+    if positioned_states:
+        if len(positioned_states) != len(state_resources):
+            raise ValueError(f"DiagramState positions must be present for every state of {compact(diagram)}")
+        state_records = sorted(positioned_states, key=lambda record: (record[1], str(record[0])))
+        state_positions = [position for _state, position in state_records]
+        if state_positions != list(range(1, len(state_records) + 1)):
+            raise ValueError(f"DiagramState positions must be unique and contiguous for {compact(diagram)}")
+    else:
+        # Existing state resources without authored progression retain their stable lexical order.
+        state_records = [(state, 0) for state in sorted(state_resources, key=str)]
+    states: list[dict[str, Any]] = []
+    for state, _position in state_records:
+        if not isinstance(state, URIRef):
+            continue
+        state_label, state_relation_path = selected_label_reference(dataset, state, language)
+        annotations: list[dict[str, Any]] = []
+        for annotation in sorted(objects(dataset, state, iri(CD, "hasSharedEdgeAnnotation")), key=str):
+            if not isinstance(annotation, URIRef):
+                continue
+            annotation_edges = [edge for edge in objects(dataset, annotation, iri(CD, "annotatesDiagramEdge")) if isinstance(edge, URIRef)]
+            if len(annotation_edges) < 2 or len(set(annotation_edges)) != len(annotation_edges):
+                raise ValueError(f"SharedEdgeAnnotation {compact(annotation)} requires at least two unique DiagramEdges")
+            if any(edge not in {edge for edge, _position in edge_records} for edge in annotation_edges):
+                raise ValueError(f"SharedEdgeAnnotation {compact(annotation)} references an edge outside {compact(diagram)}")
+            annotations.append({
+                "id": compact(annotation),
+                "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+                "edgeIds": [compact(edge) for edge in sorted(annotation_edges, key=lambda edge: next(position for candidate, position in edge_records if candidate == edge))],
+                "source": [source_reference(dataset, annotation, "cd:body")],
+            })
+        def state_members(predicate: str, allowed: set[URIRef], label: str) -> list[URIRef]:
+            members = [member for member in objects(dataset, state, iri(CD, predicate)) if isinstance(member, URIRef)]
+            if any(member not in allowed for member in members):
+                raise ValueError(f"DiagramState {compact(state)} references a {label} outside {compact(diagram)}")
+            return sorted(set(members), key=str)
+
+        active_nodes = state_members("activeDiagramNode", node_ids, "node")
+        active_edges = state_members("activeDiagramEdge", {edge for edge, _position in edge_records}, "edge")
+        group_resources = {group for group in objects(dataset, diagram, iri(CD, "hasDiagramGroup")) if isinstance(group, URIRef)}
+        active_groups = state_members("activeDiagramGroup", group_resources, "group")
+        context_groups = state_members("contextDiagramGroup", group_resources, "context group")
+        focus_nodes = state_members("focusDiagramNode", node_ids, "focus node")
+        focus_groups = state_members("focusDiagramGroup", group_resources, "focus group")
+        if len(focus_nodes) > 1 or len(focus_groups) > 1 or (focus_nodes and focus_groups):
+            raise ValueError(f"DiagramState {compact(state)} may focus one node or one group, not both")
+        state_value: dict[str, Any] = {
+            "id": compact(state),
+            "label": state_label,
+            "source": [source_reference(dataset, state, state_relation_path)],
+            "sharedEdgeAnnotations": annotations,
+        }
+        if active_nodes:
+            state_value["activeNodeIds"] = [compact(node) for node in active_nodes]
+        if active_edges:
+            state_value["activeEdgeIds"] = [compact(edge) for edge in active_edges]
+        if active_groups:
+            state_value["activeGroupIds"] = [compact(group) for group in active_groups]
+        if context_groups:
+            state_value["contextGroupIds"] = [compact(group) for group in context_groups]
+        if focus_nodes:
+            state_value["focusNodeId"] = compact(focus_nodes[0])
+        if focus_groups:
+            state_value["focusGroupId"] = compact(focus_groups[0])
+        states.append(state_value)
+    if states:
+        payload["states"] = states
     if focus_node is not None:
         payload["focusNodeId"] = compact(focus_node)
     return payload, label_relation_path
 
+
+def sequence_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    label, label_relation_path = selected_label_reference(dataset, diagram, language)
+    roles = sorted(
+        [(role, integer(dataset, role, iri(CD, "position"))) for role in objects(dataset, diagram, iri(CD, "hasParticipantRole")) if isinstance(role, URIRef)],
+        key=lambda record: (record[1], str(record[0])),
+    )
+    messages = sorted(
+        [(message, integer(dataset, message, iri(CD, "position"))) for message in objects(dataset, diagram, iri(CD, "hasInteractionMessage")) if isinstance(message, URIRef)],
+        key=lambda record: (record[1], str(record[0])),
+    )
+    if len(roles) < 2 or len(messages) < 1:
+        raise ValueError(f"SequenceDiagram {compact(diagram)} requires participant roles and messages")
+    if [position for _value, position in roles] != list(range(1, len(roles) + 1)) or [position for _value, position in messages] != list(range(1, len(messages) + 1)):
+        raise ValueError(f"SequenceDiagram positions must be unique and contiguous for {compact(diagram)}")
+    role_ids = {role for role, _position in roles}
+    payload: dict[str, Any] = {
+        "diagramType": "sequence", "label": label,
+        "description": selected_literal(dataset, diagram, iri(CD, "body"), "cd:body", language),
+        "nodes": [], "edges": [],
+        "participantRoles": [{"id": compact(role), "label": selected_label_reference(dataset, role, language)[0], "source": [source_reference(dataset, role, selected_label_reference(dataset, role, language)[1])]} for role, _position in roles],
+        "messages": [],
+    }
+    for message, _position in messages:
+        source_role = one(dataset, message, iri(CD, "sourceParticipantRole")); target_role = one(dataset, message, iri(CD, "targetParticipantRole"))
+        if source_role not in role_ids or target_role not in role_ids: raise ValueError(f"InteractionMessage {compact(message)} references a role outside {compact(diagram)}")
+        message_label, relation_path = selected_label_reference(dataset, message, language)
+        payload["messages"].append({"id": compact(message), "sourceRoleId": compact(source_role), "targetRoleId": compact(target_role), "label": message_label, "source": [source_reference(dataset, message, relation_path)]})
+    states = []
+    for state, _position in sorted([(state, integer(dataset, state, iri(CD, "position"))) for state in objects(dataset, diagram, iri(CD, "hasSequenceState")) if isinstance(state, URIRef)], key=lambda record: (record[1], str(record[0]))):
+        state_label, relation_path = selected_label_reference(dataset, state, language)
+        active = [message for message in objects(dataset, state, iri(CD, "activeInteractionMessage")) if isinstance(message, URIRef)]
+        if any(message not in {message for message, _position in messages} for message in active): raise ValueError(f"DiagramState {compact(state)} references a message outside {compact(diagram)}")
+        bindings = []
+        for binding in sorted(objects(dataset, state, iri(CD, "hasParticipantBinding")), key=str):
+            role = one(dataset, binding, iri(CD, "bindsParticipantRole")); participant = one(dataset, binding, iri(CD, "bindsParticipant"))
+            if role not in role_ids: raise ValueError(f"ParticipantBinding {compact(binding)} references a role outside {compact(diagram)}")
+            binding_label, binding_path = selected_label_reference(dataset, binding, language)
+            bindings.append({"roleId": compact(role), "participantId": compact(participant), "label": binding_label, "source": [source_reference(dataset, binding, binding_path)]})
+        states.append({"id": compact(state), "label": state_label, "source": [source_reference(dataset, state, relation_path)], "sharedEdgeAnnotations": [], **({"activeMessageIds": [compact(message) for message in active]} if active else {}), **({"participantBindings": bindings} if bindings else {})})
+    if states: payload["states"] = states
+    return payload, label_relation_path
+
+
+def decimal_number(dataset: Dataset, subject: URIRef, predicate: URIRef) -> float:
+    value = one(dataset, subject, predicate)
+    try:
+        decimal_value = Decimal(str(value))
+        result = float(decimal_value)
+    except (InvalidOperation, ValueError, TypeError, OverflowError) as error:
+        raise ValueError(f"Invalid decimal {compact(predicate)} for {compact(subject)}") from error
+    if not math.isfinite(result):
+        raise ValueError(f"Non-finite decimal {compact(predicate)} for {compact(subject)}")
+    return result
+
+
+def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type != iri(CD, "BarChart"):
+        raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
+
+    observations = [
+        (observation, integer(dataset, observation, iri(CD, "position")))
+        for observation in objects(dataset, chart_dataset, iri(CD, "hasObservation"))
+        if isinstance(observation, URIRef)
+    ]
+    observations.sort(key=lambda record: (record[1], str(record[0])))
+    if not observations:
+        raise ValueError(f"Chart dataset {compact(chart_dataset)} requires at least one Observation")
+    positions = [position for _observation, position in observations]
+    if positions != list(range(1, len(observations) + 1)):
+        raise ValueError(f"Chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
+
+    data: list[dict[str, Any]] = []
+    for observation, _position in observations:
+        category, relation_path = selected_label_reference(dataset, observation, language)
+        data.append({
+            "id": compact(observation),
+            "category": category,
+            "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
+            "source": [
+                source_reference(dataset, observation, relation_path),
+                source_reference(dataset, observation, "cd:numericValue"),
+            ],
+        })
+
+    label, label_relation_path = selected_label_reference(dataset, chart, language)
+    x_axis_label = selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language)
+    y_axis_label = selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language)
+    unit = literal(dataset, chart_dataset, iri(CD, "unit"))
+
+    payload: dict[str, Any] = {
+        "chartType": "bar",
+        "label": label,
+        "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+        "xAxis": {"label": x_axis_label, **({"unit": literal(dataset, chart, iri(CD, "xAxisUnit"))} if literal(dataset, chart, iri(CD, "xAxisUnit")) else {})},
+        "yAxis": {"label": y_axis_label, **({"unit": literal(dataset, chart, iri(CD, "yAxisUnit")) or unit} if (literal(dataset, chart, iri(CD, "yAxisUnit")) or unit) else {})},
+        "data": data,
+    }
+    return payload, label_relation_path
+
+
+
+def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
+
+    observation_records = [
+        (observation, integer(dataset, observation, iri(CD, "position")))
+        for observation in objects(dataset, chart_dataset, iri(CD, "hasObservation"))
+        if isinstance(observation, URIRef)
+    ]
+    observation_records.sort(key=lambda record: (record[1], str(record[0])))
+    if len(observation_records) < 2:
+        raise ValueError(f"Line-chart dataset {compact(chart_dataset)} requires at least two observations")
+    positions = [position for _observation, position in observation_records]
+    if positions != list(range(1, len(observation_records) + 1)):
+        raise ValueError(f"Line-chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
+
+    data: list[dict[str, Any]] = []
+    observation_ids: set[URIRef] = set()
+    previous_x: float | None = None
+    for observation, _position in observation_records:
+        observation_ids.add(observation)
+        x_value = decimal_number(dataset, observation, iri(CD, "xValue"))
+        y_value = decimal_number(dataset, observation, iri(CD, "numericValue"))
+        if previous_x is not None and x_value <= previous_x:
+            raise ValueError(f"Line-chart x-values must be strictly increasing for {compact(chart_dataset)}")
+        previous_x = x_value
+        data.append({
+            "id": compact(observation),
+            "x": x_value,
+            "y": y_value,
+            "source": [
+                source_reference(dataset, observation, "cd:xValue"),
+                source_reference(dataset, observation, "cd:numericValue"),
+            ],
+        })
+
+    series_label, series_label_path = selected_label_reference(dataset, chart_dataset, language)
+    series_id = compact(chart_dataset)
+    annotation_records = [
+        (annotation, integer(dataset, annotation, iri(CD, "position")))
+        for annotation in objects(dataset, chart, iri(CD, "hasChartAnnotation"))
+        if isinstance(annotation, URIRef)
+    ]
+    annotation_records.sort(key=lambda record: (record[1], str(record[0])))
+    annotations: list[dict[str, Any]] = []
+    for annotation, _position in annotation_records:
+        base = {
+            "id": compact(annotation),
+            "seriesId": series_id,
+            "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+            "source": [source_reference(dataset, annotation, "cd:body")],
+        }
+        if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
+            target = one(dataset, annotation, iri(CD, "targetObservation"))
+            if target not in observation_ids:
+                raise ValueError(f"Point annotation {compact(annotation)} targets an observation outside the chart dataset")
+            annotations.append({**base, "kind": "point", "datumId": compact(target)})
+        elif is_resource_type(dataset, annotation, "ChartRangeAnnotation"):
+            start_observation = one(dataset, annotation, iri(CD, "startObservation"))
+            end_observation = one(dataset, annotation, iri(CD, "endObservation"))
+            if start_observation not in observation_ids or end_observation not in observation_ids:
+                raise ValueError(f"Range annotation {compact(annotation)} targets an observation outside the chart dataset")
+            annotations.append({
+                **base,
+                "kind": "x-range",
+                "startDatumId": compact(start_observation),
+                "endDatumId": compact(end_observation),
+            })
+        else:
+            raise ValueError(f"Unsupported chart annotation type for {compact(annotation)}")
+
+    label, label_relation_path = selected_label_reference(dataset, chart, language)
+    x_unit = literal(dataset, chart, iri(CD, "xAxisUnit"))
+    y_unit = literal(dataset, chart, iri(CD, "yAxisUnit"))
+    payload: dict[str, Any] = {
+        "chartType": "line",
+        "label": label,
+        "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+        "xAxis": {
+            "label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language),
+            **({"unit": x_unit} if x_unit else {}),
+        },
+        "yAxis": {
+            "label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language),
+            **({"unit": y_unit} if y_unit else {}),
+        },
+        "series": [{
+            "id": series_id,
+            "label": series_label,
+            "data": data,
+            "source": [source_reference(dataset, chart_dataset, series_label_path)],
+        }],
+        "annotations": annotations,
+    }
+    return payload, label_relation_path
+
+
+def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "BarChart"):
+        return bar_chart_payload(dataset, chart, language)
+    if chart_type == iri(CD, "LineChart"):
+        return line_chart_payload(dataset, chart, language)
+    raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
 
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
@@ -322,6 +808,11 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
     return languages[0]
 
 
+def promote_document_version(current: str, required: str) -> str:
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5}
+    return required if versions[required] > versions[current] else current
+
+
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -353,11 +844,20 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             block_id = f"{compact(item)}--block"
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
-            selected_is_flow_diagram = is_resource_type(dataset, selected, "FlowDiagram")
+            selected_is_diagram = is_diagram_resource(dataset, selected)
+            selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
+            selected_is_definition_list = is_resource_type(dataset, selected, "DefinitionList")
+            selected_is_table_definition = is_resource_type(dataset, selected, "TableDefinition")
+            if selected_is_definition_list and role != "DefinitionListRole":
+                raise ValueError(f"DefinitionList {compact(selected)} requires DefinitionListRole in {compact(item)}")
+            if selected_is_table_definition and role != "TableRole":
+                raise ValueError(f"TableDefinition {compact(selected)} requires TableRole in {compact(item)}")
             if selected_is_attribution and role != "AttributionRole":
                 raise ValueError(f"Attribution {compact(selected)} requires AttributionRole in {compact(item)}")
-            if selected_is_flow_diagram and role != "DiagramRole":
-                raise ValueError(f"FlowDiagram {compact(selected)} requires DiagramRole in {compact(item)}")
+            if selected_is_diagram and role != "DiagramRole":
+                raise ValueError(f"Diagram {compact(selected)} requires DiagramRole in {compact(item)}")
+            if selected_is_chart_definition and role != "ChartRole":
+                raise ValueError(f"ChartDefinition {compact(selected)} requires ChartRole in {compact(item)}")
             if role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
@@ -418,6 +918,54 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
+            elif role == "DefinitionListRole":
+                if relation_path != "cd:hasDefinitionListEntry":
+                    raise ValueError(f"DefinitionListRole requires direct cd:hasDefinitionListEntry selection in {compact(item)}")
+                if not selected_is_definition_list:
+                    raise ValueError(f"DefinitionListRole requires DefinitionList in {compact(item)}")
+                entries = definition_list_sequence(dataset, selected, language)
+                block = {
+                    "id": block_id,
+                    "kind": "definition-list",
+                    "source": [source_reference(dataset, selected, relation_path)],
+                    "entries": [
+                        {
+                            "id": f"{compact(entry)}--definition-entry",
+                            "term": term,
+                            **({"description": description} if description is not None else {}),
+                            "source": [
+                                source_reference(dataset, entry, term_path),
+                                *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
+                            ],
+                        }
+                        for entry, _entry_position, term, term_path, description in entries
+                    ],
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = promote_document_version(document_version, "1.4")
+            elif role == "TableRole":
+                if relation_path != "cd:hasTableRow":
+                    raise ValueError(f"TableRole requires direct cd:hasTableRow selection in {compact(item)}")
+                if not selected_is_table_definition:
+                    raise ValueError(f"TableRole requires TableDefinition in {compact(item)}")
+                payload, caption_relation_path = table_payload(dataset, selected, language)
+                block_sources = [source_reference(dataset, selected, relation_path)]
+                if caption_relation_path is not None and caption_relation_path != relation_path:
+                    block_sources.append(source_reference(dataset, selected, caption_relation_path))
+                if literal(dataset, selected, iri(CD, "body"), language) is not None:
+                    block_sources.append(source_reference(dataset, selected, "cd:body"))
+                block = {
+                    "id": block_id,
+                    "kind": "table",
+                    "source": block_sources,
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = promote_document_version(document_version, "1.5")
             elif role == "AttributionRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"AttributionRole requires direct cd:body selection in {compact(item)}")
@@ -431,11 +979,33 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "supporting", "intent": {"kind": "emphasize"},
                 }
+            elif role == "ChartRole":
+                if relation_path != "cd:body":
+                    raise ValueError(f"ChartRole requires direct cd:body selection in {compact(item)}")
+                if not selected_is_chart_definition:
+                    raise ValueError(f"ChartRole requires ChartDefinition in {compact(item)}")
+                path_language = effective_path_language(dataset, selected_path)
+                payload, label_relation_path = chart_payload(dataset, selected, path_language)
+                block_sources = [source_reference(dataset, selected, relation_path)]
+                if label_relation_path is not None and label_relation_path != relation_path:
+                    block_sources.append(source_reference(dataset, selected, label_relation_path))
+                block = {
+                    "id": block_id,
+                    "kind": "chart",
+                    "source": block_sources,
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "primary",
+                    "intent": {"kind": "explain"},
+                }
+                document_version = promote_document_version(document_version, "1.2")
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
-                if not selected_is_flow_diagram:
-                    raise ValueError(f"DiagramRole requires FlowDiagram in {compact(item)}")
+                if not selected_is_diagram:
+                    raise ValueError(
+                        f"DiagramRole requires FlowDiagram, NetworkDiagram, or SequenceDiagram in {compact(item)}"
+                    )
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
@@ -450,7 +1020,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = "1.1"
+                document_version = promote_document_version(
+                    document_version,
+                    "1.3" if is_resource_type(dataset, selected, "SequenceDiagram") else "1.2",
+                )
             elif role in {"StatementRole", "ExampleRole", "ExerciseRole"}:
                 if relation_path != "cd:body":
                     raise ValueError(f"{role} requires direct cd:body selection in {compact(item)}")
@@ -689,7 +1262,134 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     f'<{tag} class="keypoint-list"{fallback_attributes(block["source"])}>{items}</{tag}>'
                 )
                 continue
+            if block["kind"] == "definition-list":
+                entries = "".join(
+                    f'<div data-definition-entry-id="{html.escape(entry["id"], quote=True)}"{fallback_attributes(entry["source"])}>'
+                    f'<dt>{html.escape(entry["term"])}</dt>'
+                    + (f'<dd>{html.escape(entry["description"])}</dd>' if entry.get("description") else "")
+                    + '</div>'
+                    for entry in block["entries"]
+                )
+                blocks.append(
+                    f'<dl class="definition-list-fallback"{fallback_attributes(block["source"])}>{entries}</dl>'
+                )
+                continue
+            if block["kind"] == "table":
+                headers = "".join(
+                    f'<th scope="col" data-table-column-id="{html.escape(column["id"], quote=True)}"{fallback_attributes(column["source"])}>'
+                    f'{html.escape(column["label"])}</th>'
+                    for column in block["columns"]
+                )
+                rows = "".join(
+                    f'<tr data-table-row-id="{html.escape(row["id"], quote=True)}"{fallback_attributes(row["source"])}>'
+                    + "".join(
+                        f'<td data-table-cell-id="{html.escape(cell["id"], quote=True)}"{fallback_attributes(cell["source"])}>'
+                        f'{html.escape(cell["text"])}</td>'
+                        for cell in row["cells"]
+                    )
+                    + '</tr>'
+                    for row in block["rows"]
+                )
+                description = (
+                    f' <span>{html.escape(block["description"])}</span>'
+                    if block.get("description")
+                    else ""
+                )
+                blocks.append(
+                    f'<figure class="table-fallback"{fallback_attributes(block["source"])}>'
+                    f'<figcaption><strong>{html.escape(block["caption"])}</strong>{description}</figcaption>'
+                    f'<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>'
+                    f'</figure>'
+                )
+                continue
+            if block["kind"] == "chart":
+                if block["chartType"] == "bar":
+                    unit = block.get("yAxis", {}).get("unit")
+                    value_items = "".join(
+                        f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
+                        f'<span class="chart-category">{html.escape(datum["category"])}</span>: '
+                        f'<span class="chart-value">{html.escape(str(datum["value"]))}{(" " + html.escape(unit)) if unit else ""}</span>'
+                        f'</li>'
+                        for datum in block["data"]
+                    )
+                    body = f'<ol class="chart-data">{value_items}</ol>'
+                elif block["chartType"] == "line":
+                    point_items = "".join(
+                        f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
+                        f'x={html.escape(str(datum["x"]))}, y={html.escape(str(datum["y"]))}</li>'
+                        for series in block["series"]
+                        for datum in series["data"]
+                    )
+                    annotation_items = "".join(
+                        f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
+                        f'{html.escape(annotation["label"])}</li>'
+                        for annotation in block.get("annotations", [])
+                    )
+                    body = f'<ol class="chart-data">{point_items}</ol><ul class="chart-annotations">{annotation_items}</ul>'
+                else:
+                    raise ValueError(f'Unsupported chart type in static fallback: {block["chartType"]}')
+                blocks.append(
+                    f'<figure class="chart-fallback" data-chart-type="{html.escape(block["chartType"], quote=True)}"'
+                    f'{fallback_attributes(block["source"])}>'
+                    f'<figcaption><strong>{html.escape(block["label"])}</strong> '
+                    f'<span>{html.escape(block["description"])}</span></figcaption>'
+                    f'<p class="chart-axis-summary">{html.escape(block["xAxis"]["label"])} / '
+                    f'{html.escape(block["yAxis"]["label"])}</p>{body}</figure>'
+                )
+                continue
             if block["kind"] == "diagram":
+                if block["diagramType"] == "sequence":
+                    role_labels = {role["id"]: role["label"] for role in block["participantRoles"]}
+                    message_labels = {message["id"]: message["label"] for message in block["messages"]}
+                    participants = "".join(
+                        f'<li data-participant-role-id="{html.escape(role["id"], quote=True)}"{fallback_attributes(role["source"])}>{html.escape(role["label"])}</li>'
+                        for role in block["participantRoles"]
+                    )
+                    messages = "".join(
+                        f'<li data-interaction-message-id="{html.escape(message["id"], quote=True)}" '
+                        f'data-source-role-id="{html.escape(message["sourceRoleId"], quote=True)}" '
+                        f'data-target-role-id="{html.escape(message["targetRoleId"], quote=True)}"{fallback_attributes(message["source"])}>'
+                        f'{html.escape(role_labels.get(message["sourceRoleId"], message["sourceRoleId"]))} — '
+                        f'{html.escape(message["label"])} → '
+                        f'{html.escape(role_labels.get(message["targetRoleId"], message["targetRoleId"]))}</li>'
+                        for message in block["messages"]
+                    )
+                    state_fragments = []
+                    for state in block.get("states", []):
+                        active_message_ids = state.get("activeMessageIds", [])
+                        active_messages = (
+                            f'<p class="diagram-active-messages">Active messages: '
+                            f'{html.escape(", ".join(message_labels.get(message_id, message_id) for message_id in active_message_ids))}</p>'
+                            if active_message_ids
+                            else ""
+                        )
+                        bindings = "".join(
+                            f'<li data-participant-binding-role-id="{html.escape(binding["roleId"], quote=True)}" '
+                            f'data-participant-id="{html.escape(binding["participantId"], quote=True)}"{fallback_attributes(binding["source"])}>'
+                            f'{html.escape(role_labels.get(binding["roleId"], binding["roleId"]))}: {html.escape(binding["label"])}</li>'
+                            for binding in state.get("participantBindings", [])
+                        )
+                        bindings_markup = f'<ul class="diagram-participant-bindings">{bindings}</ul>' if bindings else ""
+                        active_attribute = (
+                            f' data-active-message-ids="{html.escape(" ".join(active_message_ids), quote=True)}"'
+                            if active_message_ids
+                            else ""
+                        )
+                        state_fragments.append(
+                            f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"'
+                            f'{active_attribute}{fallback_attributes(state["source"])}><strong>{html.escape(state["label"])}</strong>'
+                            f'{active_messages}{bindings_markup}</section>'
+                        )
+                    states = "".join(state_fragments)
+                    blocks.append(
+                        f'<figure class="diagram-fallback" data-diagram-type="sequence"{fallback_attributes(block["source"])}>'
+                        f'<figcaption><strong>{html.escape(block["label"])}</strong> <span>{html.escape(block["description"])}</span></figcaption>'
+                        f'<ol class="diagram-participants">{participants}</ol>'
+                        f'<ol class="diagram-messages">{messages}</ol>'
+                        f'{states}'
+                        f'</figure>'
+                    )
+                    continue
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
                 nodes = "".join(
                     f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}</li>'
@@ -708,12 +1408,25 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     if block.get("focusNodeId")
                     else ""
                 )
+                states = "".join(
+                    f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"{fallback_attributes(state["source"])}>'
+                    f'<strong>{html.escape(state["label"])}</strong>'
+                    + "".join(
+                        f'<p data-shared-edge-annotation-id="{html.escape(annotation["id"], quote=True)}" '
+                        f'data-edge-ids="{html.escape(" ".join(annotation["edgeIds"]), quote=True)}"{fallback_attributes(annotation["source"])}>'
+                        f'{html.escape(annotation["label"])}</p>'
+                        for annotation in state["sharedEdgeAnnotations"]
+                    )
+                    + '</section>'
+                    for state in block.get("states", [])
+                )
                 blocks.append(
                     f'<figure class="diagram-fallback" data-diagram-type="{html.escape(block["diagramType"], quote=True)}"'
                     f'{focus_attribute}{fallback_attributes(block["source"])}>'
                     f'<figcaption><strong>{html.escape(block["label"])}</strong> <span>{html.escape(block["description"])}</span></figcaption>'
                     f'<ol class="diagram-nodes">{nodes}</ol>'
                     f'<ol class="diagram-edges">{edges}</ol>'
+                    f'{states}'
                     f'</figure>'
                 )
                 continue
@@ -799,8 +1512,8 @@ def main() -> int:
             raise SystemExit("Stale canonical runtime static fallback: apps/pitch/index.html")
         return 0
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(rendered, encoding="utf-8")
-    PITCH_INDEX.write_text(rendered_html, encoding="utf-8")
+    output.write_text(rendered, encoding="utf-8", newline="\n")
+    PITCH_INDEX.write_text(rendered_html, encoding="utf-8", newline="\n")
     return 0
 
 

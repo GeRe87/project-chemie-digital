@@ -21,6 +21,18 @@ def populated_graph_ids(dataset: Dataset) -> tuple[URIRef, ...]:
     return tuple(sorted(identifiers, key=str))
 
 
+def parse_trig_path(dataset: Dataset, path: Path) -> None:
+    """Parse TriG with platform-independent LF semantics for multiline literals.
+
+    Git may materialize repository text with CRLF on Windows. RDF long-string
+    literals preserve those physical line endings, which would otherwise make the
+    logical Dataset and its fingerprint depend on the checkout platform. Reading in
+    text mode normalizes universal newlines before RDFLib sees the TriG source.
+    """
+    normalized = path.read_text(encoding="utf-8")
+    dataset.parse(data=normalized, format="trig", publicID=path.resolve().as_uri())
+
+
 def assemble_dataset(
     *,
     trig_paths: tuple[Path, ...] | None = None,
@@ -36,7 +48,7 @@ def assemble_dataset(
         raise ValueError("Legacy JSON-LD dataset inputs have been retired; canonical TriG is the sole source")
     dataset = Dataset(default_union=False)
     for path in sorted(trig_paths or CANONICAL_TRIG, key=lambda item: item.as_posix()):
-        dataset.parse(path, format="trig")
+        parse_trig_path(dataset, path)
     validate_dataset_contract(dataset)
     return dataset
 

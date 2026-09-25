@@ -7,6 +7,14 @@ import {
 } from "../../../packages/renderer-reveal/src/background/themed-background.ts";
 
 export type PresentationView = "scroll" | "deck";
+export type DiagramThemeId = "neutral" | "eco-city";
+
+export interface PresenterCapabilities {
+  readonly clock?: boolean;
+  readonly laserPointer?: boolean;
+}
+
+export type PresentationViewportPolicy = "fixed-canvas" | "native-portrait";
 
 export interface PresentationProfile {
   readonly id: string;
@@ -14,6 +22,8 @@ export interface PresentationProfile {
   readonly defaultView: PresentationView;
   readonly defaultTheme: PresentationThemeMode;
   readonly defaultBackgroundFamilyId?: string;
+  readonly presenterCapabilities?: PresenterCapabilities;
+  readonly viewportPolicy?: PresentationViewportPolicy;
 }
 
 export interface ResolvedPresentationAppearance {
@@ -23,6 +33,7 @@ export interface ResolvedPresentationAppearance {
   readonly backgroundEnabled: boolean;
   readonly backgroundFamilyId?: string;
   readonly backgroundPackId?: string;
+  readonly diagramThemeId: DiagramThemeId;
   readonly diagnostics: readonly string[];
 }
 
@@ -32,13 +43,13 @@ export const COGNIFLOW_SOURCE_PATH_ID = "ex:path-cogniflow-standardized-data-pro
 const chemometricsCityDarkPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-city-dark",
-  label: "Chemometrics City — Dark",
+  label: "Eco City — Dark",
   baseColor: "#07101f",
   layers: Object.freeze([
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-neon-city/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-left", asset: "/presentation-backgrounds/chemometrics-neon-city/facade-left.webp", speed: 0.22, anchor: "left", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-right", asset: "/presentation-backgrounds/chemometrics-neon-city/facade-right.webp", speed: 0.27, anchor: "right", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
-    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-neon-city/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 0.55, blendMode: "normal", sizing: "cover-width" }),
+    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-neon-city/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "atmosphere", asset: "/presentation-backgrounds/chemometrics-neon-city/rain-fog.webp", speed: 0.72, anchor: "center", repeat: "y", opacity: 0.18, blendMode: "screen", sizing: "cover-width" }),
   ]),
 });
@@ -46,20 +57,20 @@ const chemometricsCityDarkPack: BackgroundPack = Object.freeze({
 const chemometricsCityLightPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-city-light",
-  label: "Chemometrics City — Light",
+  label: "Eco City — Light",
   baseColor: "#dff4ff",
   layers: Object.freeze([
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-city/light/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-left", asset: "/presentation-backgrounds/chemometrics-city/light/facade-left.webp", speed: 0.22, anchor: "left", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "facade-right", asset: "/presentation-backgrounds/chemometrics-city/light/facade-right.webp", speed: 0.27, anchor: "right", repeat: "y", opacity: 0.95, blendMode: "normal", sizing: "cover-width" }),
-    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-city/light/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 0.52, blendMode: "normal", sizing: "cover-width" }),
+    Object.freeze({ id: "bridges", asset: "/presentation-backgrounds/chemometrics-city/light/bridges.webp", speed: 0.44, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
     Object.freeze({ id: "atmosphere", asset: "/presentation-backgrounds/chemometrics-city/light/sunbeam-sky-overlay.webp", speed: 0.72, anchor: "center", repeat: "y", opacity: 0.24, blendMode: "screen", sizing: "cover-width" }),
   ]),
 });
 
 export const chemometricsCityFamily: ThemedBackgroundPackFamily = Object.freeze({
   id: "chemometrics-city",
-  label: "Chemometrics City",
+  label: "Eco City",
   variants: Object.freeze({
     dark: chemometricsCityDarkPack,
     light: chemometricsCityLightPack,
@@ -79,9 +90,15 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
 
 export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
   id: "cogniflow-standardized-data-processing",
-  label: "Standardized Data Processing - Project CogniFlow",
+  label: "From FAIR Data to FAIR Data Processing — Project CogniFlow",
   defaultView: "scroll",
   defaultTheme: "light",
+  defaultBackgroundFamilyId: chemometricsCityFamily.id,
+  presenterCapabilities: Object.freeze({
+    clock: true,
+    laserPointer: true,
+  }),
+  viewportPolicy: "native-portrait",
 });
 
 export function findBackgroundFamily(familyId: string | undefined): ThemedBackgroundPackFamily | undefined {
@@ -95,6 +112,15 @@ export function resolveBackgroundPackId(
 ): string | undefined {
   const family = findBackgroundFamily(familyId);
   return family ? resolveThemedBackgroundPack(family, theme).id : undefined;
+}
+
+/** Diagram visuals belong to the same family as the presentation world. */
+export function resolveDiagramThemeId(
+  familyId: string | undefined,
+  backgroundEnabled = true,
+): DiagramThemeId {
+  if (!backgroundEnabled) return "neutral";
+  return familyId === chemometricsCityFamily.id ? "eco-city" : "neutral";
 }
 
 function resolveProfile(sourcePathId?: string): PresentationProfile {
@@ -142,6 +168,7 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
   }
 
   const backgroundPackId = backgroundEnabled ? resolveBackgroundPackId(backgroundFamilyId, theme) : undefined;
+  const diagramThemeId = resolveDiagramThemeId(backgroundFamilyId, backgroundEnabled);
   return Object.freeze({
     profile,
     view,
@@ -149,6 +176,7 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
     backgroundEnabled,
     ...(backgroundFamilyId ? { backgroundFamilyId } : {}),
     ...(backgroundPackId ? { backgroundPackId } : {}),
+    diagramThemeId,
     diagnostics: Object.freeze(diagnostics),
   });
 }

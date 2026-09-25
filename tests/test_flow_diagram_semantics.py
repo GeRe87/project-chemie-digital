@@ -11,24 +11,29 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics_flow_diagram_tests",
-    SCRIPTS / "validate_semantics.py",
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+import validate_semantics as VALIDATION  # noqa: E402
 
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 RESOURCE_GRAPH = URIRef(f"{GRAPH}tests/flow-diagram")
+CONSTRAINT_TRIG = (
+    ROOT / "ontology" / "dataset" / "concepts.trig",
+    ROOT / "ontology" / "dataset" / "shapes.trig",
+)
 
 DIAGRAM = URIRef(f"{EX}flow-diagram-system-fixture")
 NODE_ONE = URIRef(f"{EX}flow-node-one")
 NODE_TWO = URIRef(f"{EX}flow-node-two")
 EDGE_ONE = URIRef(f"{EX}flow-edge-one")
 OUTSIDE_NODE = URIRef(f"{EX}flow-node-outside")
+OUTSIDE_GROUP = URIRef(f"{EX}flow-group-outside")
+GROUP_ONE = URIRef(f"{EX}flow-group-one")
+GROUP_TWO = URIRef(f"{EX}flow-group-two")
+STATE = URIRef(f"{EX}flow-state-drill-down")
 SCENE_ITEM = URIRef(f"{EX}flow-diagram-scene-item")
 
 
@@ -63,7 +68,7 @@ def add_diagram_scene_item(dataset: Dataset, *, role: str = "DiagramRole", selec
 
 
 def fixture() -> Dataset:
-    dataset = VALIDATION.assemble_dataset()
+    dataset = VALIDATION.assemble_dataset(trig_paths=CONSTRAINT_TRIG)
     graph = dataset.graph(RESOURCE_GRAPH)
     graph.add((DIAGRAM, RDF.type, cd("FlowDiagram")))
     graph.add((DIAGRAM, SKOS.prefLabel, Literal("System flow fixture", lang="en")))
@@ -81,11 +86,11 @@ def fixture() -> Dataset:
 
 class FlowDiagramSemanticTests(unittest.TestCase):
     def assert_conforms(self, dataset: Dataset) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertTrue(conforms, report)
 
     def assert_violates(self, dataset: Dataset, message: str) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertFalse(conforms, report)
         self.assertIn(message, report)
 
@@ -133,6 +138,15 @@ class FlowDiagramSemanticTests(unittest.TestCase):
         graph.add((EDGE_ONE, cd("targetNode"), OUTSIDE_NODE))
         self.assert_violates(dataset, "endpoint must belong to the owning FlowDiagram node set")
 
+    def test_group_membership_must_belong_to_diagram(self) -> None:
+        dataset = fixture()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((OUTSIDE_GROUP, RDF.type, cd("DiagramGroup")))
+        graph.add((OUTSIDE_GROUP, SKOS.prefLabel, Literal("Outside", lang="en")))
+        graph.add((OUTSIDE_GROUP, cd("authoredResource"), Literal(True)))
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), OUTSIDE_GROUP))
+        self.assert_violates(dataset, "group membership must belong to the owning FlowDiagram")
+
     def test_node_positions_must_be_unique_and_contiguous(self) -> None:
         dataset = fixture()
         graph = dataset.graph(RESOURCE_GRAPH)
@@ -158,6 +172,31 @@ class FlowDiagramSemanticTests(unittest.TestCase):
         graph.add((DIAGRAM, cd("hasDiagramEdge"), edge_two))
         add_edge(graph, edge_two, 3, NODE_TWO, NODE_ONE)
         self.assert_violates(dataset, "DiagramEdge positions must be contiguous")
+
+    def test_synthetic_network_state_selects_owned_members_and_one_focus(self) -> None:
+        dataset = fixture()
+        graph = dataset.graph(RESOURCE_GRAPH)
+        graph.add((DIAGRAM, RDF.type, cd("NetworkDiagram")))
+        for group, label in ((GROUP_ONE, "Domain"), (GROUP_TWO, "Context")):
+            graph.add((DIAGRAM, cd("hasDiagramGroup"), group))
+            graph.add((group, RDF.type, cd("DiagramGroup")))
+            graph.add((group, SKOS.prefLabel, Literal(label, lang="en")))
+            graph.add((group, cd("authoredResource"), Literal(True)))
+        graph.add((NODE_ONE, cd("memberOfDiagramGroup"), GROUP_ONE))
+        graph.add((NODE_TWO, cd("memberOfDiagramGroup"), GROUP_TWO))
+        graph.add((DIAGRAM, cd("hasDiagramState"), STATE))
+        graph.add((STATE, RDF.type, cd("DiagramState")))
+        graph.add((STATE, SKOS.prefLabel, Literal("Drill down", lang="en")))
+        graph.add((STATE, cd("authoredResource"), Literal(True)))
+        graph.add((STATE, cd("activeDiagramNode"), NODE_ONE))
+        graph.add((STATE, cd("activeDiagramEdge"), EDGE_ONE))
+        graph.add((STATE, cd("activeDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("focusDiagramGroup"), GROUP_ONE))
+        graph.add((STATE, cd("contextDiagramGroup"), GROUP_TWO))
+        self.assert_conforms(dataset)
+
+        graph.add((STATE, cd("focusDiagramNode"), NODE_ONE))
+        self.assert_violates(dataset, "may focus one DiagramNode or one DiagramGroup")
 
 
 if __name__ == "__main__":

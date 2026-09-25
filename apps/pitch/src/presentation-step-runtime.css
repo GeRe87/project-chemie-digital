@@ -1,0 +1,66 @@
+.pcd-presentation-step-fragment {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  clip-path: inset(50%) !important;
+}
+
+.d3-chart-emphasis {
+  filter: drop-shadow(0 0 12px var(--pcd-chart-window-highlight))
+          drop-shadow(0 0 26px var(--pcd-chart-shadow)) !important;
+}
+
+.d3-chart-annotation-focus {
+  fill: var(--pcd-chart-surface);
+  stroke: var(--pcd-chart-series-5);
+  stroke-width: 4;
+  filter: drop-shadow(0 0 9px var(--pcd-chart-series-5));
+}
+
+.d3-chart-progressive-annotation {
+  will-change: opacity, transform;
+}
+
+.d3-flow-node,
+.d3-flow-edge,
+.d3-flow-edge-label {
+  transition: opacity 380ms ease, filter 380ms ease;
+}
+
+.d3-flow-node.pcd-flow-focus {
+  filter:
+    drop-shadow(0 0 8px var(--pcd-accent))
+    drop-shadow(0 0 18px color-mix(in srgb, var(--pcd-accent) 68%, transparent));
+}
+
+.d3-flow-node.pcd-flow-focus .d3-flow-node-shape {
+  stroke-width: 4;
+}
+
+/* Reveal owns slide visibility. Scene-specific layouts may use display:grid !important
+   for their active composition, but they must never surface inactive sibling slides. */
+#pitch-slides > section:not(.present) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#pitch-slides > section.present {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d3-chart-bar,
+  .d3-chart-line,
+  .d3-chart-value-label,
+  .d3-chart-progressive-annotation,
+  .d3-flow-node,
+  .d3-flow-edge,
+  .d3-flow-edge-label {
+    transition: none !important;
+  }
+}

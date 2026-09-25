@@ -1,0 +1,145 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/cogniflow-showcase> {
+  ex:cogniflow-web-showcase a cd:Concept ;
+    skos:prefLabel "CogniFlow Web UI"@en ;
+    cd:hasDefinition ex:def-cogniflow-web-showcase ;
+    cd:authoredResource true .
+
+  ex:def-cogniflow-web-showcase a cd:Definition ;
+    cd:body "A visual walkthrough of the CogniFlow Web UI and its workflow-oriented interaction model."@en ;
+    cd:authoredResource true .
+
+  ex:cogniflow-showcase-still a cd:Interpretation ;
+    cd:body "CogniFlow Web UI overview before the walkthrough starts."@en ;
+    cd:hasMedia ex:media-cogniflow-showcase-home ;
+    cd:authoredResource true .
+
+  ex:cogniflow-showcase-video-one a cd:Interpretation ;
+    cd:body "CogniFlow Web UI walkthrough, part one."@en ;
+    cd:hasMedia ex:media-cogniflow-showcase-video-one ;
+    cd:authoredResource true .
+
+  ex:cogniflow-showcase-video-two a cd:Interpretation ;
+    cd:body "CogniFlow Web UI walkthrough, part two."@en ;
+    cd:hasMedia ex:media-cogniflow-showcase-video-two ;
+    cd:authoredResource true .
+
+  ex:media-cogniflow-showcase-home a cd:MediaAsset ;
+    cd:uri "/cogniflow-showcase/cf_web_home.png"^^xsd:anyURI ;
+    cd:mediaType "image/png" ;
+    cd:alternativeText "CogniFlow Web UI home screen with six large navigation tiles."@en ;
+    cd:authoredResource true .
+
+  ex:media-cogniflow-showcase-video-one a cd:MediaAsset ;
+    cd:uri "/cogniflow-showcase/cf_web_showcase_1.mp4"^^xsd:anyURI ;
+    cd:mediaType "video/mp4" ;
+    cd:alternativeText "CogniFlow Web UI walkthrough, first video."@en ;
+    cd:authoredResource true .
+
+  ex:media-cogniflow-showcase-video-two a cd:MediaAsset ;
+    cd:uri "/cogniflow-showcase/cf_web_showcase_2.mp4"^^xsd:anyURI ;
+    cd:mediaType "video/mp4" ;
+    cd:alternativeText "CogniFlow Web UI walkthrough, second video."@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing> {
+  ex:path-cogniflow-standardized-data-processing
+    cd:hasStep
+      ex:path-step-cogniflow-showcase-still,
+      ex:path-step-cogniflow-showcase-video-one,
+      ex:path-step-cogniflow-showcase-video-two .
+
+  ex:path-step-cogniflow-showcase-still a cd:PathStep ;
+    cd:position 17 ;
+    cd:usesResource ex:cogniflow-showcase-still, ex:media-cogniflow-showcase-home ;
+    cd:usesScene ex:scene-cogniflow-showcase-still ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-showcase-video-one a cd:PathStep ;
+    cd:position 18 ;
+    cd:usesResource ex:cogniflow-showcase-video-one, ex:media-cogniflow-showcase-video-one ;
+    cd:usesScene ex:scene-cogniflow-showcase-video-one ;
+    cd:authoredResource true .
+
+  ex:path-step-cogniflow-showcase-video-two a cd:PathStep ;
+    cd:position 19 ;
+    cd:usesResource ex:cogniflow-showcase-video-two, ex:media-cogniflow-showcase-video-two ;
+    cd:usesScene ex:scene-cogniflow-showcase-video-two ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/cogniflow-showcase> {
+  ex:scene-cogniflow-showcase-still a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-web-showcase ;
+    cd:hasSceneItem
+      ex:scene-item-cogniflow-showcase-still-heading,
+      ex:scene-item-cogniflow-showcase-still-media ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-still-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-web-showcase ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-still-media a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-showcase-still ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-showcase-video-one a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-web-showcase ;
+    cd:hasSceneItem
+      ex:scene-item-cogniflow-showcase-video-one-heading,
+      ex:scene-item-cogniflow-showcase-video-one-media ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-video-one-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-web-showcase ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-video-one-media a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-showcase-video-one ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-cogniflow-showcase-video-two a cd:SceneDefinition ;
+    cd:focusConcept ex:cogniflow-web-showcase ;
+    cd:hasSceneItem
+      ex:scene-item-cogniflow-showcase-video-two-heading,
+      ex:scene-item-cogniflow-showcase-video-two-media ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-video-two-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:cogniflow-web-showcase ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-cogniflow-showcase-video-two-media a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:cogniflow-showcase-video-two ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
