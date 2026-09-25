@@ -17,6 +17,10 @@ import validate_semantics as MODULE  # noqa: E402
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 SKOS = "http://www.w3.org/2004/02/skos/core#"
+FOCUSED_TRIG = (
+    ROOT / "ontology" / "dataset" / "concepts.trig",
+    ROOT / "ontology" / "dataset" / "shapes.trig",
+)
 
 
 def clone_graph(source):
@@ -24,6 +28,69 @@ def clone_graph(source):
     for triple in source:
         cloned.add(triple)
     return cloned
+
+
+def add_reference_scene_fixture(graph):
+    concept = URIRef(EX + "standard-deviation")
+    definition = URIRef(EX + "sd-definition-basic-de")
+    source = URIRef(EX + "source-nist-dispersion")
+    scene = URIRef(EX + "scene-sd-definition")
+    heading = URIRef(EX + "scene1-i1")
+    statement = URIRef(EX + "scene1-i2")
+    citation = URIRef(EX + "scene1-i3")
+    code_resource = URIRef(EX + "scene-code-resource")
+    poll_resource = URIRef(EX + "scene-poll-resource")
+    code_item = URIRef(EX + "scene9-code")
+    poll_item = URIRef(EX + "scene9-poll")
+
+    authored = URIRef(CD + "authoredResource")
+    body = URIRef(CD + "body")
+    communicative_role = URIRef(CD + "communicativeRole")
+    focus_concept = URIRef(CD + "focusConcept")
+    has_definition = URIRef(CD + "hasDefinition")
+    has_scene_item = URIRef(CD + "hasSceneItem")
+    has_source = URIRef(CD + "hasSource")
+    position = URIRef(CD + "position")
+    selection_path = URIRef(CD + "selectionPath")
+    selects_resource = URIRef(CD + "selectsResource")
+
+    graph.add((concept, RDF.type, URIRef(CD + "Concept")))
+    graph.add((concept, URIRef(SKOS + "prefLabel"), Literal("standard deviation", lang="en")))
+    graph.add((concept, has_definition, definition))
+    graph.add((concept, authored, Literal(True)))
+
+    graph.add((definition, RDF.type, URIRef(CD + "Definition")))
+    graph.add((definition, body, Literal("Reference definition.", lang="en")))
+    graph.add((definition, has_source, source))
+    graph.add((definition, authored, Literal(True)))
+
+    graph.add((source, RDF.type, URIRef(CD + "Source")))
+    graph.add((source, authored, Literal(True)))
+
+    graph.add((code_resource, RDF.type, URIRef(CD + "LearningResource")))
+    graph.add((code_resource, authored, Literal(True)))
+    graph.add((poll_resource, RDF.type, URIRef(CD + "LearningResource")))
+    graph.add((poll_resource, authored, Literal(True)))
+
+    graph.add((scene, RDF.type, URIRef(CD + "SceneDefinition")))
+    graph.add((scene, focus_concept, concept))
+
+    items = (
+        (heading, 1, concept, "HeadingRole", "skos:prefLabel@en"),
+        (statement, 2, definition, "StatementRole", "cd:body"),
+        (citation, 3, source, "CitationRole", "cd:body"),
+        (poll_item, 4, poll_resource, "PollRole", "cd:hasAudiencePoll"),
+        (code_item, 5, code_resource, "CodeRole", "cd:hasCodeExample"),
+    )
+    for item, item_position, resource, role, selector in items:
+        graph.add((scene, has_scene_item, item))
+        graph.add((item, RDF.type, URIRef(CD + "SceneItem")))
+        graph.add((item, position, Literal(item_position)))
+        graph.add((item, selects_resource, resource))
+        graph.add((item, communicative_role, URIRef(CD + role)))
+        graph.add((item, selection_path, Literal(selector)))
+
+    return graph
 
 
 def add_generic_scene_fixture(graph):
@@ -89,12 +156,14 @@ def add_generic_scene_fixture(graph):
 class SceneSemanticValidationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        dataset = MODULE.assemble_dataset()
-        cls.base_graph = MODULE.dataset_union(dataset)
-        cls.shapes_graph = MODULE.detached_graph(dataset.graph(MODULE.SHAPES_GRAPH))
+        focused = MODULE.assemble_dataset(trig_paths=FOCUSED_TRIG)
+        cls.base_graph = MODULE.dataset_union(focused)
+        cls.shapes_graph = MODULE.detached_graph(focused.graph(MODULE.SHAPES_GRAPH))
+        cls.canonical_graph = MODULE.dataset_union(MODULE.assemble_dataset())
 
     def fresh_graph(self):
-        return clone_graph(self.base_graph)
+        graph = clone_graph(self.base_graph)
+        return add_reference_scene_fixture(graph)
 
     def validate_graph(self, graph):
         return validate(
@@ -107,7 +176,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
     def test_reference_scene_conforms_and_traces_graph_relations(self) -> None:
         conforms, report = MODULE.run_validation()
         self.assertTrue(conforms, report)
-        graph = self.fresh_graph()
+        graph = self.canonical_graph
         concept = URIRef(EX + "standard-deviation")
         definition = URIRef(EX + "sd-definition-basic-de")
         source = URIRef(EX + "source-nist-dispersion")
@@ -119,7 +188,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertIn((source, authored, Literal(True)), graph)
 
     def test_all_scene_definitions_are_renderer_neutral(self) -> None:
-        graph = self.fresh_graph()
+        graph = self.canonical_graph
         scene_type = URIRef(CD + "SceneDefinition")
         body = URIRef(CD + "body")
         scenes = set(graph.subjects(RDF.type, scene_type))
