@@ -612,8 +612,6 @@ function addEdgeLabel(
   panel.setAttribute("rx", "4");
   panel.setAttribute("aria-hidden", "true");
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
-  group.append(panel);
-
   const edgeMidX = edge.x1 + (edge.x2 - edge.x1) / 2;
   const edgeMidY = edge.y1 + (edge.y2 - edge.y1) / 2;
   const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
@@ -626,9 +624,10 @@ function addEdgeLabel(
     stem.setAttribute("y2", String(edgeMidY));
     stem.setAttribute("aria-hidden", "true");
     if (edge.visualRole) stem.setAttribute("data-visual-role", edge.visualRole);
-    group.insertBefore(stem, panel);
+    group.append(stem);
   }
 
+  group.append(panel);
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
   parent.append(group);
 }

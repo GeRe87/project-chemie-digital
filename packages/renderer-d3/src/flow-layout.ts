@@ -190,6 +190,12 @@ export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
   return hostWidth < FLOW_HORIZONTAL_BREAKPOINT ? "vertical" : "horizontal";
 }
 
+function structuredTitleTextMeasure(value: string): number {
+  // Structured titles render at 20px, smaller than the plain-node label style.
+  // Keep the conservative deterministic metric, scaled to that authored typography.
+  return deterministicFlowTextMeasure(value) * (5 / 6);
+}
+
 function bodyTextMeasure(value: string): number {
   return deterministicFlowTextMeasure(value) * 0.72;
 }
@@ -204,7 +210,8 @@ function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] 
 }
 
 function horizontalNodeWidth(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
-  const titleWidth = Math.max(0, ...labelLines.map((line) => deterministicFlowTextMeasure(line)));
+  const titleMeasure = bodyLines.length > 0 ? structuredTitleTextMeasure : deterministicFlowTextMeasure;
+  const titleWidth = Math.max(0, ...labelLines.map((line) => titleMeasure(line)));
   if (bodyLines.length === 0) {
     return Math.max(
       HORIZONTAL_NODE_MIN_WIDTH,
@@ -223,7 +230,11 @@ function structuredNodeText(
   description: string | undefined,
   maxWidth: number,
 ): { readonly labelLines: readonly string[]; readonly bodyLines: readonly string[] } {
-  const labelLines = wrapFlowText(label, maxWidth);
+  const labelLines = wrapFlowText(
+    label,
+    maxWidth,
+    description ? structuredTitleTextMeasure : deterministicFlowTextMeasure,
+  );
   const bodyLines = description
     ? wrapFlowText(description, maxWidth, bodyTextMeasure)
     : [];
