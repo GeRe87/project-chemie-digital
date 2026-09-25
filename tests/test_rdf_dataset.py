@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -46,6 +47,23 @@ class RdfDatasetTests(unittest.TestCase):
                 self.assertTrue(names)
                 self.assertTrue(all(name.startswith(MODULE.GRAPH_BASE) for name in names))
                 self.assertFalse(any("/graph/legacy/" in name for name in names))
+
+    def test_assemble_dataset_normalizes_crlf_inside_multiline_literals(self) -> None:
+        graph = f"{MODULE.GRAPH_BASE}tests/crlf"
+        subject = f"{MODULE.RESOURCE_BASE}crlf-test"
+        predicate = "https://example.invalid/body"
+        source = (
+            f"<{graph}> {{\r\n"
+            f"  <{subject}> <{predicate}> \"\"\"line one\r\nline two\"\"\" .\r\n"
+            "}\r\n"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "crlf.trig"
+            path.write_bytes(source.encode("utf-8"))
+            dataset = MODULE.assemble_dataset(trig_paths=(path,))
+
+        value = next(dataset.objects(URIRef(subject), URIRef(predicate)))
+        self.assertEqual("line one\nline two", str(value))
 
     def test_canonical_dataset_uses_exact_authored_named_graphs(self) -> None:
         self.assertEqual(canonical_source_graph_names(), populated_graph_names(MODULE.assemble_dataset()))

@@ -32,6 +32,7 @@ from generate_canonical_runtime import (  # noqa: E402
 from rdf_dataset import (  # noqa: E402
     assemble_dataset,
     dataset_fingerprint,
+    parse_trig_path,
     populated_graph_ids,
     validate_dataset_contract,
 )
@@ -158,7 +159,7 @@ def _parse_candidate(draft_root: Path) -> Dataset:
         raise AuthoringError(f"Draft candidate is missing: {candidate_path}")
     parsed = Dataset(default_union=False)
     try:
-        parsed.parse(candidate_path, format="trig")
+        parse_trig_path(parsed, candidate_path)
     except Exception as exc:
         raise AuthoringError(f"Draft candidate is not valid TriG: {exc}") from exc
 
