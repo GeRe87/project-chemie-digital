@@ -1,23 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 140,
-  "expectedDeliverable": "Resume Chemometrics Issue #140 only after System Issue #141 is merged to main. Then author source-linked KeyPoints for the eleven specified Mean Values explanatory resources, switch only their SceneItems to KeyPointRole + cd:hasKeyPoint, and prove slides show concise lists while the text summary retains the original detailed owner cd:body.",
-  "lastCompletedTurn": "worker: inspected the merged KeyPoint/list contract before content mutation and found that the canonical dataset snapshot currently drops English Mean Values cd:body@en from entity descriptions because snapshot metadata is German-only. Returned #140 to manager without changing scientific content. System Issue #141 now tracks the required language-aware snapshot/summary prerequisite.",
-  "lastUpdated": "2026-09-25T17:15:00+02:00",
+  "expectedDeliverable": "Resume Chemometrics Issue #140 on a fresh branch from current main. Author source-linked KeyPoints for exactly the eleven specified Mean Values explanatory resources while preserving each owner cd:body byte-for-byte; switch only the corresponding eleven SceneItems from StatementRole + cd:body to KeyPointRole + cd:hasKeyPoint; prove presentation output uses concise lists while graph/text-summary output retains the detailed owner prose. Do not change examples, exercises, formulas, headings, shared ontology/SHACL/runtime contracts, System state, or unrelated course content.",
+  "lastCompletedTurn": "manager: verified System prerequisite Issue #141 is closed completed and its language-aware canonical snapshot/graph-summary behavior is present on current main, including exact English cd:body@en preservation for the eleven #140 owner resources. System lane is idle and no cross-track conflict remains. Cleared the stale #141 blocker and re-authorized the original bounded #140 Chemometrics content worker scope.",
+  "lastUpdated": "2026-09-25T17:17:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-issue140-resume-20260925T171500+0200",
-    "claimedAt": "2026-09-25T17:15:00+02:00",
-    "expiresAt": "2026-09-25T19:15:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [
-    "System Issue #141 must be merged to main before Chemometrics Issue #140 resumes"
-  ],
-  "stateRevision": 62,
+  "blockedBy": [],
+  "stateRevision": 63,
   "transitionHistory": [
     {
       "at": "2026-09-03T09:04:00+02:00",
@@ -144,6 +142,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-issue140-resume-20260925T171500+0200",
       "reason": "Claimed one bounded Chemometrics manager turn to re-evaluate Issue #140 after verifying its sole System prerequisite #141 is completed and the language-aware summary projection is present on current main; System is independently idle."
+    },
+    {
+      "at": "2026-09-25T17:17:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue140-resume-20260925T171500+0200",
+      "reason": "Verified #141 is completed on current main and removes the only #140 blocker; re-authorized the bounded eleven-resource KeyPoint content increment with no shared-contract or System mutations."
     }
   ]
 }
