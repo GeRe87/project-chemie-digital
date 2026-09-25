@@ -8,10 +8,12 @@ ignored local state. It never writes canonical TriG and never mutates Fuseki.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import shutil
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +32,7 @@ from generate_canonical_runtime import (  # noqa: E402
     default_selection_request,
 )
 from rdf_dataset import (  # noqa: E402
+    CANONICAL_TRIG,
     assemble_dataset,
     dataset_fingerprint,
     parse_trig_path,
@@ -68,6 +71,35 @@ def _sha256_bytes(content: bytes) -> str:
 
 def _file_sha256(path: Path) -> str:
     return _sha256_bytes(path.read_bytes())
+
+
+def _canonical_source_signature() -> str:
+    """Hash the exact canonical TriG source bytes for cache invalidation."""
+    digest = hashlib.sha256()
+    for path in CANONICAL_TRIG:
+        digest.update(path.relative_to(ROOT).as_posix().encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+@lru_cache(maxsize=2)
+def _cached_canonical_context(source_signature: str) -> tuple[Dataset, str]:
+    """Return a process-local read-only canonical Dataset and fingerprint.
+
+    The cache key is derived from the actual source bytes, so edits invalidate the
+    snapshot automatically. Callers must treat the returned Dataset as immutable.
+    """
+    canonical = assemble_dataset()
+    return canonical, "sha256:" + dataset_fingerprint(canonical)
+
+
+def _canonical_context() -> tuple[Dataset, str]:
+    return _cached_canonical_context(_canonical_source_signature())
+
+
+_VALIDATION_RESULT_CACHE: dict[tuple[str, str], dict[str, Any]] = {}
 
 
 def _canonical_json(value: Any) -> str:
@@ -130,10 +162,9 @@ def checkout_draft(draft_root: Path = DEFAULT_DRAFT_ROOT, *, force: bool = False
             raise AuthoringError(f"Draft workspace already exists: {draft_root}; pass --force to replace it")
         shutil.rmtree(draft_root)
 
-    canonical = assemble_dataset()
+    canonical, base_fingerprint = _canonical_context()
     if TARGET_GRAPH not in populated_graph_ids(canonical):
         raise AuthoringError(f"Canonical target graph is missing: {TARGET_GRAPH}")
-    base_fingerprint = "sha256:" + dataset_fingerprint(canonical)
     candidate_text = canonical_single_graph_trig(canonical, TARGET_GRAPH)
 
     draft_root.mkdir(parents=True, exist_ok=True)
@@ -177,8 +208,7 @@ def _parse_candidate(draft_root: Path) -> Dataset:
 
 def assemble_candidate_dataset(draft_root: Path = DEFAULT_DRAFT_ROOT) -> tuple[Dataset, dict[str, Any]]:
     metadata = _read_metadata(draft_root)
-    canonical = assemble_dataset()
-    current_base = "sha256:" + dataset_fingerprint(canonical)
+    canonical, current_base = _canonical_context()
     if metadata.get("baseDatasetFingerprint") != current_base:
         raise AuthoringError(
             "Draft base Dataset fingerprint is stale: expected "
@@ -280,21 +310,28 @@ def _validate_candidate(
     *,
     write_reports: bool,
 ) -> dict[str, Any]:
-    # Draft authoring can replace only TARGET_GRAPH. The SHACL graph is copied
-    # unchanged from the canonical Dataset, whose authoritative end-to-end gate
-    # already runs meta-SHACL. Re-validating the same shapes graph here would add
-    # substantial repeated cost without increasing draft-content coverage.
-    conforms, report_graph, _report_text = validate_dataset(candidate, meta_shacl=False)
-    result = {
-        "contractVersion": VALIDATION_CONTRACT_VERSION,
-        "draftId": DRAFT_ID,
-        "targetGraphIri": str(TARGET_GRAPH),
-        "baseDatasetFingerprint": metadata["baseDatasetFingerprint"],
-        "candidateFileSha256": _file_sha256(_candidate_path(draft_root)),
-        "candidateDatasetFingerprint": "sha256:" + dataset_fingerprint(candidate),
-        "conforms": bool(conforms),
-        "diagnostics": _diagnostics(report_graph),
-    }
+    candidate_file_sha = _file_sha256(_candidate_path(draft_root))
+    cache_key = (metadata["baseDatasetFingerprint"], candidate_file_sha)
+    cached = _VALIDATION_RESULT_CACHE.get(cache_key)
+    if cached is not None:
+        result = copy.deepcopy(cached)
+    else:
+        # Draft authoring can replace only TARGET_GRAPH. The SHACL graph is copied
+        # unchanged from the canonical Dataset, whose authoritative end-to-end gate
+        # already runs meta-SHACL. Re-validating the same shapes graph here would add
+        # substantial repeated cost without increasing draft-content coverage.
+        conforms, report_graph, _report_text = validate_dataset(candidate, meta_shacl=False)
+        result = {
+            "contractVersion": VALIDATION_CONTRACT_VERSION,
+            "draftId": DRAFT_ID,
+            "targetGraphIri": str(TARGET_GRAPH),
+            "baseDatasetFingerprint": metadata["baseDatasetFingerprint"],
+            "candidateFileSha256": candidate_file_sha,
+            "candidateDatasetFingerprint": "sha256:" + dataset_fingerprint(candidate),
+            "conforms": bool(conforms),
+            "diagnostics": _diagnostics(report_graph),
+        }
+        _VALIDATION_RESULT_CACHE[cache_key] = copy.deepcopy(result)
     if write_reports:
         _write_text(draft_root / VALIDATION_JSON, _canonical_json(result))
         _write_text(draft_root / VALIDATION_TEXT, _render_validation_text(result))
