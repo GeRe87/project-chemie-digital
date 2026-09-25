@@ -5,7 +5,7 @@ import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const source = (relative: string): string =>
-  readFileSync(new URL(relative, import.meta.url), "utf8");
+  readFileSync(new URL(relative, import.meta.url), "utf8").replace(/\r\n?/gu, "\n");
 
 const repoRoot = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../..");
 
