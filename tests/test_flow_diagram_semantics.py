@@ -90,7 +90,7 @@ class FlowDiagramSemanticTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def assert_violates(self, dataset: Dataset, message: str) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertFalse(conforms, report)
         self.assertIn(message, report)
 
