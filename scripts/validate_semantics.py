@@ -43,8 +43,13 @@ def detached_graph(source: Graph) -> Graph:
     return graph
 
 
-def validate_dataset(dataset: Dataset) -> tuple[bool, Graph, str]:
-    """Apply the repository's one canonical SHACL policy without mutating ``dataset``."""
+def validate_dataset(dataset: Dataset, *, meta_shacl: bool = True) -> tuple[bool, Graph, str]:
+    """Apply the repository's SHACL policy without mutating ``dataset``.
+
+    Canonical repository validation keeps meta-SHACL enabled. Focused constraint
+    fixtures may disable repeated shapes-graph self-validation after the canonical
+    end-to-end gate has covered it.
+    """
     data_graph = dataset_union(dataset)
     shapes_graph = detached_graph(dataset.graph(SHAPES_GRAPH))
     conforms, report_graph, report_text = validate(
@@ -54,7 +59,7 @@ def validate_dataset(dataset: Dataset) -> tuple[bool, Graph, str]:
         abort_on_first=False,
         allow_infos=False,
         allow_warnings=False,
-        meta_shacl=True,
+        meta_shacl=meta_shacl,
     )
     return bool(conforms), report_graph, str(report_text)
 

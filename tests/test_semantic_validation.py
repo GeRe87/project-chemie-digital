@@ -59,7 +59,7 @@ class SemanticValidationTests(unittest.TestCase):
         concept = URIRef("https://w3id.org/project-chemie-digital/resource/standard-deviation")
         has_definition = URIRef("https://w3id.org/project-chemie-digital/ontology/hasDefinition")
         graph.remove((concept, has_definition, None))
-        conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=True)
+        conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=False)
         self.assertFalse(conforms, str(report))
 
     def test_definition_without_repository_source_is_rejected(self) -> None:
@@ -67,7 +67,7 @@ class SemanticValidationTests(unittest.TestCase):
         resource = URIRef("https://w3id.org/project-chemie-digital/resource/sd-definition-basic-de")
         has_source = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
         graph.remove((resource, has_source, None))
-        conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=True)
+        conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=False)
         self.assertFalse(conforms, str(report))
 
 

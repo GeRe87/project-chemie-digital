@@ -20,6 +20,10 @@ CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 RESOURCE_GRAPH = URIRef(f"{GRAPH}tests/flow-diagram")
+CONSTRAINT_TRIG = (
+    ROOT / "ontology" / "dataset" / "concepts.trig",
+    ROOT / "ontology" / "dataset" / "shapes.trig",
+)
 
 DIAGRAM = URIRef(f"{EX}flow-diagram-system-fixture")
 NODE_ONE = URIRef(f"{EX}flow-node-one")
@@ -64,7 +68,7 @@ def add_diagram_scene_item(dataset: Dataset, *, role: str = "DiagramRole", selec
 
 
 def fixture() -> Dataset:
-    dataset = VALIDATION.assemble_dataset()
+    dataset = VALIDATION.assemble_dataset(trig_paths=CONSTRAINT_TRIG)
     graph = dataset.graph(RESOURCE_GRAPH)
     graph.add((DIAGRAM, RDF.type, cd("FlowDiagram")))
     graph.add((DIAGRAM, SKOS.prefLabel, Literal("System flow fixture", lang="en")))
@@ -82,7 +86,7 @@ def fixture() -> Dataset:
 
 class FlowDiagramSemanticTests(unittest.TestCase):
     def assert_conforms(self, dataset: Dataset) -> None:
-        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset)
+        conforms, _report_graph, report = VALIDATION.validate_dataset(dataset, meta_shacl=False)
         self.assertTrue(conforms, report)
 
     def assert_violates(self, dataset: Dataset, message: str) -> None:
