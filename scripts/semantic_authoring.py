@@ -273,13 +273,18 @@ def _render_validation_text(result: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def validate_draft(
-    draft_root: Path = DEFAULT_DRAFT_ROOT,
+def _validate_candidate(
+    draft_root: Path,
+    candidate: Dataset,
+    metadata: dict[str, Any],
     *,
-    write_reports: bool = True,
+    write_reports: bool,
 ) -> dict[str, Any]:
-    candidate, metadata = assemble_candidate_dataset(draft_root)
-    conforms, report_graph, _report_text = validate_dataset(candidate)
+    # Draft authoring can replace only TARGET_GRAPH. The SHACL graph is copied
+    # unchanged from the canonical Dataset, whose authoritative end-to-end gate
+    # already runs meta-SHACL. Re-validating the same shapes graph here would add
+    # substantial repeated cost without increasing draft-content coverage.
+    conforms, report_graph, _report_text = validate_dataset(candidate, meta_shacl=False)
     result = {
         "contractVersion": VALIDATION_CONTRACT_VERSION,
         "draftId": DRAFT_ID,
@@ -296,11 +301,25 @@ def validate_draft(
     return result
 
 
-def preview_draft(draft_root: Path = DEFAULT_DRAFT_ROOT) -> dict[str, Any]:
-    validation = validate_draft(draft_root, write_reports=True)
-    if not validation["conforms"]:
-        raise NonConformingDraft("Draft does not conform; preview was not produced")
-    candidate, _metadata = assemble_candidate_dataset(draft_root)
+def validate_draft(
+    draft_root: Path = DEFAULT_DRAFT_ROOT,
+    *,
+    write_reports: bool = True,
+) -> dict[str, Any]:
+    candidate, metadata = assemble_candidate_dataset(draft_root)
+    return _validate_candidate(
+        draft_root,
+        candidate,
+        metadata,
+        write_reports=write_reports,
+    )
+
+
+def _preview_validated_candidate(
+    draft_root: Path,
+    candidate: Dataset,
+    validation: dict[str, Any],
+) -> dict[str, Any]:
     selection = select_course_unit_path(candidate, default_selection_request())
     scene_document = compile_scene_document(candidate, selection.path)
     preview = {
@@ -314,11 +333,30 @@ def preview_draft(draft_root: Path = DEFAULT_DRAFT_ROOT) -> dict[str, Any]:
     return preview
 
 
+def preview_draft(draft_root: Path = DEFAULT_DRAFT_ROOT) -> dict[str, Any]:
+    candidate, metadata = assemble_candidate_dataset(draft_root)
+    validation = _validate_candidate(
+        draft_root,
+        candidate,
+        metadata,
+        write_reports=True,
+    )
+    if not validation["conforms"]:
+        raise NonConformingDraft("Draft does not conform; preview was not produced")
+    return _preview_validated_candidate(draft_root, candidate, validation)
+
+
 def prepare_promotion(draft_root: Path = DEFAULT_DRAFT_ROOT) -> dict[str, Any]:
-    validation = validate_draft(draft_root, write_reports=True)
+    candidate, metadata = assemble_candidate_dataset(draft_root)
+    validation = _validate_candidate(
+        draft_root,
+        candidate,
+        metadata,
+        write_reports=True,
+    )
     if not validation["conforms"]:
         raise NonConformingDraft("Draft does not conform; promotion preparation was refused")
-    preview = preview_draft(draft_root)
+    preview = _preview_validated_candidate(draft_root, candidate, validation)
     validation_path = draft_root / VALIDATION_JSON
     preview_path = draft_root / PREVIEW_JSON
     manifest = {
