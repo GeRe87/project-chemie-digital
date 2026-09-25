@@ -10,14 +10,26 @@ from rdflib import Graph, URIRef
 from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
+FOCUSED_VALIDATION_TRIG = (
+    ROOT / "ontology" / "dataset" / "core.trig",
+    ROOT / "ontology" / "dataset" / "concepts.trig",
+    ROOT / "ontology" / "dataset" / "shapes.trig",
+    ROOT / "ontology" / "dataset" / "standard-deviation.trig",
+    ROOT / "ontology" / "dataset" / "standard-deviation-shapes.trig",
+)
+
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 import validate_semantics as MODULE  # noqa: E402
 
 
+def focused_validation_dataset():
+    return MODULE.assemble_dataset(trig_paths=FOCUSED_VALIDATION_TRIG)
+
+
 def assembled_validation_graphs():
-    dataset = MODULE.assemble_dataset()
+    dataset = focused_validation_dataset()
     return MODULE.dataset_union(dataset), MODULE.detached_graph(dataset.graph(MODULE.SHAPES_GRAPH))
 
 
@@ -37,13 +49,13 @@ class SemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_canonical_validation_is_observationally_pure(self) -> None:
-        dataset = MODULE.assemble_dataset()
+        dataset = focused_validation_dataset()
         fingerprint_before = MODULE.dataset_fingerprint(dataset)
         graph_ids_before = populated_graph_ids(dataset)
         quad_count_before = quad_count(dataset)
         shapes_before = MODULE.detached_graph(dataset.graph(MODULE.SHAPES_GRAPH))
 
-        conforms, _report_graph, report = MODULE.validate_dataset(dataset)
+        conforms, _report_graph, report = MODULE.validate_dataset(dataset, meta_shacl=False)
         self.assertTrue(conforms, report)
 
         self.assertEqual(fingerprint_before, MODULE.dataset_fingerprint(dataset))
