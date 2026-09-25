@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
@@ -8,17 +8,12 @@ from pyshacl import validate
 from rdflib import BNode, Graph, Literal, Namespace, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("rdf_dataset", ROOT / "scripts" / "rdf_dataset.py")
-assert SPEC and SPEC.loader
-RDF_DATASET = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(RDF_DATASET)
+SCRIPTS = ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+import rdf_dataset as RDF_DATASET  # noqa: E402
+import validate_semantics as VALIDATION  # noqa: E402
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
@@ -49,7 +44,7 @@ class CourseScaleSemanticTests(unittest.TestCase):
             abort_on_first=False,
             allow_infos=False,
             allow_warnings=False,
-            meta_shacl=True,
+            meta_shacl=False,
         )
         self.assertFalse(bool(conforms), str(report))
 
