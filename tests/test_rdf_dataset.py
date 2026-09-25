@@ -62,7 +62,7 @@ class RdfDatasetTests(unittest.TestCase):
             path.write_bytes(source.encode("utf-8"))
             dataset = MODULE.assemble_dataset(trig_paths=(path,))
 
-        value = next(dataset.objects(URIRef(subject), URIRef(predicate)))
+        value = next(dataset.graph(URIRef(graph)).objects(URIRef(subject), URIRef(predicate)))
         self.assertEqual("line one\nline two", str(value))
 
     def test_canonical_dataset_uses_exact_authored_named_graphs(self) -> None:
