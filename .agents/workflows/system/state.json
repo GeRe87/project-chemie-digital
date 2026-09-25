@@ -1,24 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 153,
   "expectedDeliverable": "Implement System Issue #153 as one bounded vertical slice: semantics-authored single-series bar chart using Dataset/Observation, additive canonical ChartBlock projection, deterministic renderer-d3 SVG, retro-neon Pitch styling, and a directly visible second CogniFlow Pitch scene with the illustrative 12/18/25/14/9 workload example. Open a Draft PR and return to manager without Ready/review/merge actions.",
   "lastCompletedTurn": "worker: completed the owner-directed Issue #153 CogniFlow presentation and the subsequent standardization migration on Draft PR #156. Canonical generation, Pitch tests and iterative visual acceptance passed locally before the final documentation/state-only commits. The branch now enforces the production identity invariant and is 0 behind main; returned to manager because fresh exact-head external validator status and independent review are still required before acceptance/merge.",
-  "lastUpdated": "2026-09-23T13:55:00+02:00",
+  "lastUpdated": "2026-09-25T16:39:53+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
+    "claimedAt": "2026-09-25T16:39:53+02:00",
+    "expiresAt": "2026-09-25T18:39:53+02:00"
   },
   "blockedBy": [
     "Draft PR #156 requires fresh exact-head agent-validator/project-chemie-digital success on the current head before manager acceptance",
     "Draft PR #156 requires independent review and Ready-for-review lifecycle gate before merge"
   ],
-  "stateRevision": 192,
+  "stateRevision": 193,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -89,6 +89,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue153-standardization-handoff-20260923T135500+0200",
       "reason": "Completed the expanded Issue #153 implementation and CogniFlow presentation standardization, opened Draft PR #156, updated the final handoff/roadmap, and returned control to the System manager for fresh exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-25T16:39:53+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
+      "reason": "Claimed one bounded System manager review turn for Issue #153 / PR #154 after fresh exact-head validator success on the pre-claim head; the claim changes the PR head, so acceptance remains gated on fresh validation of the claim head."
     }
   ]
 }
