@@ -1,24 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 153,
   "expectedDeliverable": "Perform one bounded review repair for Issue #153 / PR #154: remove `.github/workflows/deploy-cogniflow-pages.yml` because deployment/publishing is outside the accepted scope without separate human approval; update only the Issue #153 handoff if needed to record that deployment remains out of scope; make no unrelated implementation/content changes; return to the System manager for fresh exact-head validation and final review.",
   "lastCompletedTurn": "worker: completed the manager-authorized bounded Issue #153 review repair by removing `.github/workflows/deploy-cogniflow-pages.yml` and adding only a handoff note that deployment/publishing remains outside #153 without separate approval. No presentation implementation, semantic content, renderer, compiler, or Chemometrics content was changed in this repair.",
-  "lastUpdated": "2026-09-25T16:49:30+02:00",
+  "lastUpdated": "2026-09-25T16:59:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue153-final-acceptance-20260925T165900+0200",
+    "claimedAt": "2026-09-25T16:59:00+02:00",
+    "expiresAt": "2026-09-25T18:59:00+02:00"
   },
   "blockedBy": [
     "PR #154 requires fresh exact-head agent-validator/project-chemie-digital success after the deployment-workflow removal and workflow-state handoff commits",
     "PR #154 requires final System manager acceptance and Ready-for-review lifecycle gate before merge"
   ],
-  "stateRevision": 196,
+  "stateRevision": 197,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -117,6 +117,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue153-deployment-repair-20260925T164838+0200",
       "reason": "Completed the bounded review repair: removed the unauthorised GitHub Pages deployment workflow and documented the deployment boundary in the handoff; returned to manager for fresh exact-head validation and final review."
+    },
+    {
+      "at": "2026-09-25T16:59:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue153-final-acceptance-20260925T165900+0200",
+      "reason": "Claimed the final Issue #153 manager acceptance turn after fresh exact-head validator success on repair head 80cca2ba26b19c19d549f401cc8821f25ff076d1; this claim changes the PR head, so acceptance remains gated on fresh validation of the claim head."
     }
   ]
 }
