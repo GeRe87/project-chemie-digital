@@ -19,8 +19,11 @@ EX = "https://w3id.org/project-chemie-digital/resource/"
 SKOS = "http://www.w3.org/2004/02/skos/core#"
 
 
-def assembled_data_graph():
-    return MODULE.dataset_union(MODULE.assemble_dataset())
+def clone_graph(source):
+    cloned = source.__class__()
+    for triple in source:
+        cloned.add(triple)
+    return cloned
 
 
 def add_generic_scene_fixture(graph):
@@ -84,14 +87,27 @@ def add_generic_scene_fixture(graph):
 
 
 class SceneSemanticValidationTests(unittest.TestCase):
-    def validate_graph(self, graph):
+    @classmethod
+    def setUpClass(cls) -> None:
         dataset = MODULE.assemble_dataset()
-        return validate(data_graph=graph, shacl_graph=dataset.graph(MODULE.SHAPES_GRAPH), inference="rdfs", meta_shacl=True)
+        cls.base_graph = MODULE.dataset_union(dataset)
+        cls.shapes_graph = MODULE.detached_graph(dataset.graph(MODULE.SHAPES_GRAPH))
+
+    def fresh_graph(self):
+        return clone_graph(self.base_graph)
+
+    def validate_graph(self, graph):
+        return validate(
+            data_graph=graph,
+            shacl_graph=clone_graph(self.shapes_graph),
+            inference="rdfs",
+            meta_shacl=False,
+        )
 
     def test_reference_scene_conforms_and_traces_graph_relations(self) -> None:
         conforms, report = MODULE.run_validation()
         self.assertTrue(conforms, report)
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         concept = URIRef(EX + "standard-deviation")
         definition = URIRef(EX + "sd-definition-basic-de")
         source = URIRef(EX + "source-nist-dispersion")
@@ -103,7 +119,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertIn((source, authored, Literal(True)), graph)
 
     def test_all_scene_definitions_are_renderer_neutral(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         scene_type = URIRef(CD + "SceneDefinition")
         body = URIRef(CD + "body")
         scenes = set(graph.subjects(RDF.type, scene_type))
@@ -111,14 +127,14 @@ class SceneSemanticValidationTests(unittest.TestCase):
             self.assertEqual([], list(graph.objects(scene, body)))
 
     def test_missing_selected_resource_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         source = URIRef(EX + "source-nist-dispersion")
         graph.remove((source, None, None))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
     def test_typed_but_unmarked_selected_resource_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         source = URIRef(EX + "source-nist-dispersion")
         graph.remove((source, URIRef(CD + "authoredResource"), None))
         self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
@@ -126,7 +142,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms)
 
     def test_present_typed_and_authored_selected_resource_is_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         source = URIRef(EX + "source-nist-dispersion")
         self.assertIn((source, RDF.type, URIRef(CD + "Source")), graph)
         self.assertIn((source, URIRef(CD + "authoredResource"), Literal(True)), graph)
@@ -134,7 +150,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_duplicate_scene_item_position_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene1-i3")
         position = URIRef(CD + "position")
         graph.set((item, position, Literal(2)))
@@ -142,7 +158,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertFalse(conforms)
 
     def test_code_scene_item_role_and_selection_path_are_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene9-code")
         self.assertIn((item, URIRef(CD + "communicativeRole"), URIRef(CD + "CodeRole")), graph)
         self.assertIn((item, URIRef(CD + "selectionPath"), Literal("cd:hasCodeExample")), graph)
@@ -150,7 +166,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_poll_scene_item_role_and_selection_path_are_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene9-poll")
         self.assertIn((item, URIRef(CD + "communicativeRole"), URIRef(CD + "PollRole")), graph)
         self.assertIn((item, URIRef(CD + "selectionPath"), Literal("cd:hasAudiencePoll")), graph)
@@ -158,7 +174,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_generic_english_heading_selection_is_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         fixture = add_generic_scene_fixture(graph)
         item = fixture["items"]["heading"]
         self.assertIn((item, URIRef(CD + "communicativeRole"), URIRef(CD + "HeadingRole")), graph)
@@ -167,7 +183,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_generic_statement_role_with_direct_body_selection_is_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         fixture = add_generic_scene_fixture(graph)
         item = fixture["items"]["statement"]
         self.assertIn((item, URIRef(CD + "selectsResource"), fixture["definition"]), graph)
@@ -177,7 +193,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_generic_example_role_with_direct_body_selection_is_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         fixture = add_generic_scene_fixture(graph)
         item = fixture["items"]["example"]
         self.assertIn((item, URIRef(CD + "selectsResource"), fixture["example"]), graph)
@@ -187,7 +203,7 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_generic_exercise_role_with_direct_body_selection_is_accepted(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         fixture = add_generic_scene_fixture(graph)
         item = fixture["items"]["exercise"]
         self.assertIn((item, URIRef(CD + "selectsResource"), fixture["exercise"]), graph)
@@ -197,28 +213,28 @@ class SceneSemanticValidationTests(unittest.TestCase):
         self.assertTrue(conforms, report)
 
     def test_poll_scene_item_with_unsupported_role_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene9-poll")
         graph.set((item, URIRef(CD + "communicativeRole"), URIRef(CD + "UnsupportedRole")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
     def test_poll_scene_item_with_unsupported_selection_path_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene9-poll")
         graph.set((item, URIRef(CD + "selectionPath"), Literal("cd:unsupportedPollPath")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
     def test_unsupported_communicative_role_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene1-i2")
         graph.set((item, URIRef(CD + "communicativeRole"), URIRef(CD + "UnsupportedRole")))
         conforms, _, _ = self.validate_graph(graph)
         self.assertFalse(conforms)
 
     def test_unsupported_selection_path_is_rejected(self) -> None:
-        graph = assembled_data_graph()
+        graph = self.fresh_graph()
         item = URIRef(EX + "scene9-code")
         graph.set((item, URIRef(CD + "selectionPath"), Literal("cd:unsupportedPath")))
         conforms, _, _ = self.validate_graph(graph)
