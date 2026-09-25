@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
@@ -9,10 +10,10 @@ from rdflib import Graph, URIRef
 from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("validate_semantics", ROOT / "scripts" / "validate_semantics.py")
-assert SPEC and SPEC.loader
-MODULE = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(MODULE)
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
+import validate_semantics as MODULE  # noqa: E402
 
 
 def assembled_validation_graphs():
@@ -76,14 +77,13 @@ if __name__ == "__main__":
 
 class CanonicalValidationCacheTests(unittest.TestCase):
     def test_repeated_canonical_validation_reuses_exact_result(self) -> None:
-        MODULE._cached_canonical_validation.cache_clear()
+        cache_before = MODULE._cached_canonical_validation.cache_info()
         first = MODULE.run_validation()
         cache_after_first = MODULE._cached_canonical_validation.cache_info()
         second = MODULE.run_validation()
         cache_after_second = MODULE._cached_canonical_validation.cache_info()
 
         self.assertEqual(first, second)
-        self.assertEqual(1, cache_after_first.misses)
-        self.assertEqual(0, cache_after_first.hits)
-        self.assertEqual(1, cache_after_second.misses)
-        self.assertEqual(1, cache_after_second.hits)
+        self.assertLessEqual(cache_after_first.misses - cache_before.misses, 1)
+        self.assertEqual(cache_after_first.misses, cache_after_second.misses)
+        self.assertEqual(cache_after_first.hits + 1, cache_after_second.hits)

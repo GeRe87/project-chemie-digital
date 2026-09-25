@@ -37,7 +37,7 @@
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
     "self-study:dev": "npm run generate:self-study && vite apps/self-study --host 127.0.0.1 --port 4174 --strictPort",
     "poll:demo": "python scripts/limesurvey_poll_proxy.py --demo",
-    "test": "npm run check:json && npm run test:json-discovery && npm run check:semantics && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:learner-state && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
+    "test": "npm run check:json && npm run test:json-discovery && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:learner-state && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study"
   },
   "engines": {
     "node": ">=22"

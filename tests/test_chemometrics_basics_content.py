@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
@@ -14,12 +15,10 @@ assert DATASET_SPEC and DATASET_SPEC.loader
 RDF_DATASET = importlib.util.module_from_spec(DATASET_SPEC)
 DATASET_SPEC.loader.exec_module(RDF_DATASET)
 
-VALIDATION_SPEC = importlib.util.spec_from_file_location(
-    "validate_semantics", ROOT / "scripts" / "validate_semantics.py"
-)
-assert VALIDATION_SPEC and VALIDATION_SPEC.loader
-VALIDATION = importlib.util.module_from_spec(VALIDATION_SPEC)
-VALIDATION_SPEC.loader.exec_module(VALIDATION)
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
+import validate_semantics as VALIDATION  # noqa: E402
 
 CD = Namespace("https://w3id.org/project-chemie-digital/ontology/")
 EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
