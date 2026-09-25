@@ -119,3 +119,7 @@ The Draft PR must contain:
 and:
 
 `Closes #153`
+
+## Deployment boundary
+
+GitHub Pages deployment/publishing is not part of Issue #153 acceptance. The previously added `.github/workflows/deploy-cogniflow-pages.yml` was removed during manager review because deployment targets require separate explicit approval. Local Pitch build/dev workflows remain the supported inspection path for this handoff.
