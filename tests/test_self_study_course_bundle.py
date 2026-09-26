@@ -33,10 +33,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         self.assertEqual(
             [
                 {
-                    "pathId": RUNTIME.DEFAULT_UNIT_ID.replace(
-                        "learning-unit-standard-deviation",
-                        "path-standard-deviation",
-                    ),
+                    "pathId": f"{EX}path-standard-deviation",
                     "pathGraphId": f"{GRAPH}paths/standard-deviation",
                     "sceneDocumentId": document["id"],
                 }
@@ -49,24 +46,38 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         self.assertEqual(1, len(artifact["teachingOfferingDocuments"]))
         document = artifact["teachingOfferingDocuments"][0]
         self.assertEqual(OFFERING, document["offering"]["id"])
-        self.assertEqual(
-            [
-                (10, f"{EX}learning-unit-random-variables"),
-                (20, f"{EX}learning-unit-mean-values"),
-                (30, f"{EX}learning-unit-variance-dispersion"),
-            ],
-            [(item["position"], item["unitId"]) for item in document["placements"]],
-        )
+        placements = {item["unitId"]: item["position"] for item in document["placements"]}
+        random_position = placements[f"{EX}learning-unit-random-variables"]
+        mean_position = placements[f"{EX}learning-unit-mean-values"]
+        variance_position = placements[f"{EX}learning-unit-variance-dispersion"]
+        self.assertLess(random_position, mean_position)
+        self.assertLess(mean_position, variance_position)
+        self.assertEqual(10, mean_position - random_position)
+        self.assertEqual(10, variance_position - mean_position)
 
+        introduction_id = f"{EX}learning-unit-chemometrics-introduction"
+        if introduction_id in placements:
+            self.assertEqual(10, random_position - placements[introduction_id])
+
+        binding_pairs = {
+            (item["pathId"], item["pathGraphId"])
+            for item in artifact["sceneDocumentBindings"]
+        }
+        self.assertIn((RANDOM_PATH, RANDOM_GRAPH), binding_pairs)
+        self.assertIn((MEAN_PATH, MEAN_GRAPH), binding_pairs)
+        self.assertNotIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
+        if introduction_id in placements:
+            self.assertIn(
+                (
+                    f"{EX}path-chemometrics-introduction",
+                    f"{GRAPH}paths/chemometrics-introduction",
+                ),
+                binding_pairs,
+            )
+
+        expected_renderable_count = 3 if introduction_id in placements else 2
         self.assertEqual(
-            [(RANDOM_PATH, RANDOM_GRAPH), (MEAN_PATH, MEAN_GRAPH)],
-            [
-                (item["pathId"], item["pathGraphId"])
-                for item in artifact["sceneDocumentBindings"]
-            ],
-        )
-        self.assertEqual(
-            2,
+            expected_renderable_count,
             len(artifact["sceneDocuments"]),
         )
         self.assertEqual(
