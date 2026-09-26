@@ -1,21 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Implement System Issue #162 as one bounded Self-Study course-overworld vertical slice: add additive validated absolute LearningPath-to-SceneDocument bindings, generate the explicit Chemometrics offering bundle with all fully scene-bound paths while preserving scene-free paths as visible In preparation units, add a pure course-world view model and accessible retro-inspired static/browser map navigation, preserve mounted learner-state controllers, and avoid Chemometrics RDF, learner-state schema, Pitch/Reveal, ontology/SHACL, deployment or persistence changes.",
-  "lastCompletedTurn": "manager: defined Issue #162 after reviewing Self-Study, CanonicalRuntimeArtifact, ADR-0010/0011 and current generator boundaries. Chose an additive exact path↔SceneDocument binding instead of reverse-parsing compact sourcePathId, a generic offering-bundle generator that skips only wholly scene-free paths, and an original accessible CSS course-world over TeachingOffering placements; #160 is not a prerequisite and will be picked up automatically after merge.",
-  "lastUpdated": "2026-09-26T20:23:00+02:00",
+  "lastCompletedTurn": "worker: completed System Issue #162 on Draft PR #163. Added backward-compatible exact absolute LearningPath-to-SceneDocument bindings to CanonicalRuntimeArtifact 1.0, generic offering-bundle generation with scene-free/fully-bound/partial-bound classification, a dedicated Chemometrics Self-Study runtime generator, a pure validated course-world projection, accessible retro-inspired browser/static map navigation, forward compatibility with pending Introduction #160, and focused Core/Python/Self-Study regressions. No Chemometrics RDF/state, learner-state schema, Pitch/Reveal, ontology/SHACL, deployment or persistence change was introduced.",
+  "lastUpdated": "2026-09-26T20:42:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
-    "claimedAt": "2026-09-26T20:23:00+02:00",
-    "expiresAt": "2026-09-26T22:23:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 201,
+  "blockedBy": [
+    "Draft PR #163 requires repository-local focused tests and a visual browser smoke review",
+    "Draft PR #163 requires fresh exact-head agent-validator/project-chemie-digital success after the final manager acceptance claim",
+    "Draft PR #163 requires independent manager review and Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 202,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -149,6 +153,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
       "reason": "Claimed bounded System Issue #162 on fresh branch agent/162-course-overworld for additive exact path-to-SceneDocument runtime bindings, Chemometrics Self-Study multi-path bundle generation and accessible retro-inspired course-world navigation."
+    },
+    {
+      "at": "2026-09-26T20:42:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
+      "reason": "Completed the bounded Self-Study course-overworld/runtime-binding vertical slice with Draft PR #163, focused regressions and structured handoff; returned to System manager for local tests, visual smoke review, exact-head validation and independent review."
     }
   ]
 }
