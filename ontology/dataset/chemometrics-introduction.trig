@@ -1,0 +1,142 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-introduction> {
+  ex:chemometrics-course-overview a cd:Concept ;
+    skos:prefLabel "Course Overview"@en ;
+    cd:hasDefinition ex:def-chemometrics-course-overview ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-course-overview a cd:Definition ;
+    cd:body "The course overview describes the purpose, scope and learning orientation of Chemometrics and Applied Statistics."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-overview-note a cd:Interpretation ;
+    cd:body "Chemometrics and Applied Statistics connects statistical reasoning, quantitative data analysis and modeling with problems from analytical chemistry. The course emphasizes understanding what a method measures, the assumptions behind it, how results are interpreted, and how calculations can be reproduced."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-lecturer-context a cd:Concept ;
+    skos:prefLabel "About the Lecturer"@en ;
+    cd:hasDefinition ex:def-chemometrics-lecturer-context ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-lecturer-context a cd:Definition ;
+    cd:body "The lecturer context introduces the teaching perspective and disciplinary background from which the course is presented."@en ;
+    cd:authoredResource true .
+
+  ex:attribution-chemometrics-gerrit-renner a cd:Attribution ;
+    cd:body "Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-lecturer-context-note a cd:Interpretation ;
+    cd:body "Teaching and research connect chemometrics, analytical data science and instrumental analytical chemistry, with a focus on processing and interpreting complex analytical data."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format a cd:Concept ;
+    skos:prefLabel "Lecture and Tutorial"@en ;
+    cd:hasDefinition ex:def-chemometrics-course-format ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-course-format a cd:Definition ;
+    cd:body "The course format describes how lecture, tutorial, reproducible computation, questions and discussion work together."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-list a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-course-format-lecture,
+      ex:chemometrics-course-format-tutorial,
+      ex:chemometrics-course-format-reproducible-computation,
+      ex:chemometrics-course-format-questions ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-lecture a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "Lecture"@en ;
+    cd:body "Concepts, assumptions, derivations, worked examples and interpretation."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-tutorial a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "Tutorial"@en ;
+    cd:body "Guided exercises, calculations, discussion of solutions and transfer to analytical-data problems."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-reproducible-computation a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "Reproducible computation"@en ;
+    cd:body "Selected exercises use code examples where this helps make calculations transparent and reproducible."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-questions a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "Questions and discussion"@en ;
+    cd:body "Use the tutorial to test reasoning, compare approaches and resolve open questions from the lecture."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap a cd:Concept ;
+    skos:prefLabel "Course Roadmap"@en ;
+    cd:hasDefinition ex:def-chemometrics-course-roadmap ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-course-roadmap a cd:Definition ;
+    cd:body "The course roadmap groups the main lecture topics into a progression from statistical foundations to multivariate analysis and machine learning."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-list a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-course-roadmap-foundations,
+      ex:chemometrics-course-roadmap-inference,
+      ex:chemometrics-course-roadmap-regression,
+      ex:chemometrics-course-roadmap-doe,
+      ex:chemometrics-course-roadmap-multivariate,
+      ex:chemometrics-course-roadmap-machine-learning ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-foundations a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "Statistical foundations"@en ;
+    cd:body "Random variables, mean values, variance and dispersion, quantiles, distributions and moments."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-inference a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "Statistical inference"@en ;
+    cd:body "Hypothesis testing, t-tests and analysis of variance."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-regression a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "Regression and uncertainty"@en ;
+    cd:body "Linear regression, model assessment, measurement uncertainty, confidence/prediction and validation."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-doe a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "Design of experiments"@en ;
+    cd:body "Full-factorial and advanced experimental designs, effects, interactions and optimization."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-multivariate a cd:DefinitionListEntry ;
+    cd:position 5 ;
+    skos:prefLabel "Multivariate analysis"@en ;
+    cd:body "Distance and similarity, clustering, principal-component analysis and dimensionality reduction."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-roadmap-machine-learning a cd:DefinitionListEntry ;
+    cd:position 6 ;
+    skos:prefLabel "Machine learning"@en ;
+    cd:body "Prediction and classification, trees/random forests, validation and model interpretation."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round a cd:Concept ;
+    skos:prefLabel "Introduction Round"@en ;
+    cd:hasDefinition ex:def-chemometrics-introduction-round ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-introduction-round a cd:Definition ;
+    cd:body "The introduction round is a short opening activity for sharing background, prior experience and learning expectations."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-chemometrics-introduction-round a cd:Exercise ;
+    cd:body "Briefly introduce yourself: your study programme or scientific background, your previous experience with statistics or chemometrics, your experience with R or other data-analysis tools, and one thing you would like to take away from this course."@en ;
+    cd:authoredResource true .
+}
