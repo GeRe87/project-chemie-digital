@@ -1,24 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 140,
   "expectedDeliverable": "Resume Chemometrics Issue #140 on a fresh branch from current main. Author source-linked KeyPoints for exactly the eleven specified Mean Values explanatory resources while preserving each owner cd:body byte-for-byte; switch only the corresponding eleven SceneItems from StatementRole + cd:body to KeyPointRole + cd:hasKeyPoint; prove presentation output uses concise lists while graph/text-summary output retains the detailed owner prose. Do not change examples, exercises, formulas, headings, shared ontology/SHACL/runtime contracts, System state, or unrelated course content.",
   "lastCompletedTurn": "worker: completed Issue #140 on Draft PR #157. Added 21 source-linked KeyPoints to exactly eleven Mean Values owner resources without rewriting their existing cd:body@en, switched exactly eleven SceneItems to KeyPointRole + cd:hasKeyPoint, extended the scene runtime regressions, and added a focused content/runtime test proving concise slide lists while the canonical English snapshot retains the detailed owner prose. No shared contract, System state, renderer/app, example, exercise, formula, heading or unrelated course content was changed.",
-  "lastUpdated": "2026-09-26T11:35:00+02:00",
+  "lastUpdated": "2026-09-26T11:27:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue140-review-20260926T112700+0200",
+    "claimedAt": "2026-09-26T11:27:00+02:00",
+    "expiresAt": "2026-09-26T13:27:00+02:00"
   },
   "blockedBy": [
     "Draft PR #157 requires fresh exact-head agent-validator/project-chemie-digital success before manager acceptance",
     "Draft PR #157 requires independent manager review and Ready-for-review lifecycle gate before merge"
   ],
-  "stateRevision": 65,
+  "stateRevision": 66,
   "transitionHistory": [
     {
       "at": "2026-09-03T09:04:00+02:00",
@@ -166,6 +166,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue140-keypoints-20260926T112700+0200",
       "reason": "Completed the bounded eleven-owner Mean Values KeyPoint migration with focused content/runtime regressions and Draft PR #157; returned to Chemometrics manager for fresh exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-26T11:27:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue140-review-20260926T112700+0200",
+      "reason": "Claimed the independent Chemometrics manager review for Issue #140 / PR #157 after owner-side focused tests passed 17/17 on the worker result; this claim changes the PR head, so final acceptance remains gated on fresh exact-head external validation."
     }
   ]
 }
