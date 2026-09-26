@@ -1,32 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 160,
   "expectedDeliverable": "Implement Chemometrics Issue #160 as one bounded Introduction vertical slice: add the Introduction LearningUnit at course position 10, shift existing Chemometrics unit placements to 20/30/40, author exactly five course-orientation concepts and the manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, create the exact five-step LearningPath and five graph-backed scenes using only existing generic roles/primitives, add focused course/path/scene/runtime/SHACL regressions, and avoid scientific-content, ontology/SHACL, renderer/app, System or external-research expansion.",
   "lastCompletedTurn": "worker: completed Issue #160 on Draft PR #161. Added the Introduction LearningUnit at course position 10, shifted existing Chemometrics placements to 20/30/40, authored exactly five course-orientation concepts plus their minimal SHACL-required definitions and manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, created a five-step LearningPath and exactly five graph-backed scenes using existing generic roles, and added focused course/path/scene/runtime/SHACL regressions. No scientific resource body, ontology/SHACL contract, runtime/compiler, renderer/app, System state, learner state or external research was changed.",
-  "lastUpdated": "2026-09-26T19:55:00+02:00",
+  "lastUpdated": "2026-09-26T19:58:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue160-review-20260926T195800+0200",
+    "claimedAt": "2026-09-26T19:58:00+02:00",
+    "expiresAt": "2026-09-26T21:58:00+02:00"
   },
   "blockedBy": [
     "Draft PR #161 requires repository-local focused tests and fresh exact-head agent-validator/project-chemie-digital success before manager acceptance",
     "Draft PR #161 requires independent manager review and Ready-for-review lifecycle gate before merge"
   ],
-  "stateRevision": 77,
+  "stateRevision": 78,
   "transitionHistory": [
-    {
-      "at": "2026-09-04T13:43:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200",
-      "reason": "Completed Issue #130 with Draft PR #131 and returned to manager review. The exact six-file feature diff contains eight Mean Values scenes, eight additive usesScene bindings, focused RDF/SHACL/runtime regressions, one graph-whitelist entry and the handoff; fresh exact-head validator evidence is still pending."
-    },
     {
       "at": "2026-09-04T13:45:00+02:00",
       "from": "blocked/manager",
@@ -194,6 +187,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
       "reason": "Completed bounded Introduction unit/content/path/five-scene vertical slice with Draft PR #161, focused regressions and structured handoff; returned to Chemometrics manager for local test evidence, exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-26T19:58:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue160-review-20260926T195800+0200",
+      "reason": "Claimed independent Chemometrics manager review for Issue #160 / PR #161 before local test and validator gates, so the final review head can be established now and later evidence can bind to one exact head."
     }
   ]
 }
