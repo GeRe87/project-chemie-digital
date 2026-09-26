@@ -1,0 +1,64 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:path-chemometrics-variance-dispersion-lecture a cd:LearningPath ;
+    skos:prefLabel "Chemometrics Variance and Dispersion lecture path"@en ;
+    cd:forTopic ex:variance,
+      ex:standard-deviation,
+      ex:standard-error,
+      ex:relative-standard-deviation ;
+    cd:forLearningUnit ex:learning-unit-variance-dispersion ;
+    cd:hasStep ex:path-step-chemometrics-variance-dispersion-variance,
+      ex:path-step-chemometrics-variance-dispersion-standard-deviation,
+      ex:path-step-chemometrics-variance-dispersion-bessel,
+      ex:path-step-chemometrics-variance-dispersion-standard-error,
+      ex:path-step-chemometrics-variance-dispersion-rsd,
+      ex:path-step-chemometrics-variance-dispersion-practice ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-variance a cd:PathStep ;
+    cd:position 1 ;
+    cd:usesResource ex:population-variance-formula,
+      ex:sample-variance-formula,
+      ex:variance-unit-rule ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-standard-deviation a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:sd-definition-university-en,
+      ex:sample-sd-formula,
+      ex:population-sd-formula,
+      ex:sd-unit-rule,
+      ex:normal-empirical-rule-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-bessel a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:sample,
+      ex:population,
+      ex:sample-variance,
+      ex:population-variance,
+      ex:n-minus-one,
+      ex:degrees-of-freedom ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-standard-error a cd:PathStep ;
+    cd:position 4 ;
+    cd:usesResource ex:sem-population-formula,
+      ex:sem-estimated-formula,
+      ex:sem-scope-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-rsd a cd:PathStep ;
+    cd:position 5 ;
+    cd:usesResource ex:relative-standard-deviation-formula,
+      ex:relative-standard-deviation-scope-interpretation ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-practice a cd:PathStep ;
+    cd:position 6 ;
+    cd:usesResource ex:exercise-summary-statistics-r ;
+    cd:authoredResource true .
+}
