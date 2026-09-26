@@ -90,11 +90,35 @@
 
   ex:arithmetic-mean-applicability-interpretation a cd:Interpretation ;
     cd:body "The arithmetic mean is defined for numerical data for which addition and division by the number of observations are meaningful; normality is not a prerequisite for computing it. Its usefulness as a representative center can be reduced by strong skewness or extreme observations."@en ;
+    cd:hasKeyPoint ex:arithmetic-mean-applicability-interpretation-keypoint-1,
+      ex:arithmetic-mean-applicability-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:arithmetic-mean-applicability-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "The arithmetic mean can be computed for numerical data when addition and division by the number of observations are meaningful; normality is not required."@en ;
+    cd:authoredResource true .
+
+  ex:arithmetic-mean-applicability-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Strong skewness or extreme observations can reduce how representative the arithmetic mean is as a center."@en ;
     cd:authoredResource true .
 
   ex:sample-mean-estimator-interpretation a cd:Interpretation ;
     cd:body "The sample arithmetic mean is a statistic computed from observed data and can be used to estimate a population expected value under an appropriate sampling model. It is not semantically identical to the expected value of a random variable."@en ;
     cd:hasSource ex:source-openstax-statistics ;
+    cd:hasKeyPoint ex:sample-mean-estimator-interpretation-keypoint-1,
+      ex:sample-mean-estimator-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:sample-mean-estimator-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "The sample arithmetic mean is a statistic computed from observed data."@en ;
+    cd:authoredResource true .
+
+  ex:sample-mean-estimator-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Under an appropriate sampling model it can estimate a population expected value, but it is not semantically identical to that expected value."@en ;
     cd:authoredResource true .
 
   ex:expected-value a cd:Concept ;
@@ -108,6 +132,18 @@
   ex:def-expected-value a cd:Definition ;
     cd:body "The expected value of an integrable random variable is the probability-weighted average defined by its probability distribution. It is a property of that distribution, not the arithmetic mean of one particular observed sample."@en ;
     cd:hasSource ex:source-openstax-statistics ;
+    cd:hasKeyPoint ex:def-expected-value-keypoint-1,
+      ex:def-expected-value-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:def-expected-value-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "Expected value is the probability-weighted average defined by an integrable random variable's probability distribution."@en ;
+    cd:authoredResource true .
+
+  ex:def-expected-value-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "It is a property of the distribution, not the arithmetic mean of one observed sample."@en ;
     cd:authoredResource true .
 
   ex:discrete-expected-value-formula a cd:MathExpression ;
@@ -126,11 +162,29 @@
   ex:def-law-of-large-numbers a cd:Definition ;
     cd:body "Under standard conditions such as independent identically distributed observations with a finite expected absolute value, the sample arithmetic mean converges to the expected value as the sample size grows."@en ;
     cd:hasSource ex:source-openstax-statistics ;
+    cd:hasKeyPoint ex:def-law-of-large-numbers-keypoint-1 ;
+    cd:authoredResource true .
+
+  ex:def-law-of-large-numbers-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "For independent identically distributed observations with a finite expected absolute value, the sample arithmetic mean converges to the expected value as sample size grows."@en ;
     cd:authoredResource true .
 
   ex:lln-not-standard-error-interpretation a cd:Interpretation ;
     cd:body "The law of large numbers concerns convergence of sample averages. The formula for the standard error of a sample mean and the approximate normal shape of its sampling distribution are separate sampling-distribution results and must not be used as the definition of the law of large numbers."@en ;
     cd:hasSource ex:source-openstax-statistics ;
+    cd:hasKeyPoint ex:lln-not-standard-error-interpretation-keypoint-1,
+      ex:lln-not-standard-error-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:lln-not-standard-error-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "The law of large numbers concerns convergence of sample averages."@en ;
+    cd:authoredResource true .
+
+  ex:lln-not-standard-error-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Standard-error formulas and approximate normal sampling distributions are separate results, not definitions of the law of large numbers."@en ;
     cd:authoredResource true .
 
   ex:geometric-mean a cd:Concept ;
@@ -147,6 +201,18 @@
   ex:def-geometric-mean a cd:Definition ;
     cd:body "For n strictly positive observations, the geometric mean is the nth root of their product, equivalently the exponential of the arithmetic mean of their logarithms."@en ;
     cd:hasSource ex:source-legacy-mean-value ;
+    cd:hasKeyPoint ex:def-geometric-mean-keypoint-1,
+      ex:def-geometric-mean-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:def-geometric-mean-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "For strictly positive observations, the geometric mean is the nth root of their product."@en ;
+    cd:authoredResource true .
+
+  ex:def-geometric-mean-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Equivalently, it is the exponential of the arithmetic mean of their logarithms."@en ;
     cd:authoredResource true .
 
   ex:geometric-mean-product-formula a cd:MathExpression ;
@@ -163,6 +229,18 @@
 
   ex:geometric-mean-applicability-interpretation a cd:Interpretation ;
     cd:body "The geometric mean is appropriate for strictly positive quantities when equal weighting on a logarithmic scale is scientifically meaningful, for example multiplicative factors or ratios. It is not a universal replacement for the arithmetic mean for every quantity described as a rate."@en ;
+    cd:hasKeyPoint ex:geometric-mean-applicability-interpretation-keypoint-1,
+      ex:geometric-mean-applicability-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:geometric-mean-applicability-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "The geometric mean is appropriate for strictly positive quantities when equal weighting on a logarithmic scale is scientifically meaningful."@en ;
+    cd:authoredResource true .
+
+  ex:geometric-mean-applicability-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "It suits multiplicative factors or ratios but is not a universal replacement for the arithmetic mean for every rate."@en ;
     cd:authoredResource true .
 
   ex:worked-example-multiplicative-growth a cd:WorkedExample ;
@@ -203,6 +281,18 @@ exp(mean(log(growth_factors)))""" ;
   ex:def-harmonic-mean a cd:Definition ;
     cd:body "For n nonzero observations whose reciprocal sum is nonzero, the harmonic mean is n divided by the sum of their reciprocals. In common rate applications the values are positive."@en ;
     cd:hasSource ex:source-legacy-mean-value ;
+    cd:hasKeyPoint ex:def-harmonic-mean-keypoint-1,
+      ex:def-harmonic-mean-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:def-harmonic-mean-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "For nonzero observations with a nonzero reciprocal sum, the harmonic mean is n divided by the sum of their reciprocals."@en ;
+    cd:authoredResource true .
+
+  ex:def-harmonic-mean-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Common rate applications use positive values."@en ;
     cd:authoredResource true .
 
   ex:harmonic-mean-formula a cd:MathExpression ;
@@ -213,6 +303,18 @@ exp(mean(log(growth_factors)))""" ;
 
   ex:harmonic-mean-rate-interpretation a cd:Interpretation ;
     cd:body "For positive rates applied over equal distances or, more generally, equal quantities in the rate denominator, the harmonic mean gives the overall average rate because the corresponding times or reciprocal contributions add. Equal time intervals instead lead to an arithmetic mean of the rates."@en ;
+    cd:hasKeyPoint ex:harmonic-mean-rate-interpretation-keypoint-1,
+      ex:harmonic-mean-rate-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:harmonic-mean-rate-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "For positive rates over equal distances or equal quantities in the rate denominator, the harmonic mean gives the overall average rate."@en ;
+    cd:authoredResource true .
+
+  ex:harmonic-mean-rate-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "For equal time intervals, the arithmetic mean of the rates applies instead."@en ;
     cd:authoredResource true .
 
   ex:worked-example-equal-distance-speed a cd:WorkedExample ;
@@ -233,6 +335,18 @@ exp(mean(log(growth_factors)))""" ;
   ex:def-median a cd:Definition ;
     cd:body "A median is a central value such that at least half of the observations are no greater and at least half are no smaller. For a finite ordered sample, the conventional sample median is the middle order statistic for odd n and the arithmetic mean of the two middle order statistics for even n."@en ;
     cd:hasSource ex:source-legacy-mean-value ;
+    cd:hasKeyPoint ex:def-median-keypoint-1,
+      ex:def-median-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:def-median-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "A median is a central value with at least half of the observations no greater and at least half no smaller."@en ;
+    cd:authoredResource true .
+
+  ex:def-median-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "For an ordered finite sample, use the middle order statistic for odd n and the arithmetic mean of the two middle order statistics for even n."@en ;
     cd:authoredResource true .
 
   ex:sample-median-formula a cd:MathExpression ;
@@ -243,6 +357,18 @@ exp(mean(log(growth_factors)))""" ;
 
   ex:median-robustness-interpretation a cd:Interpretation ;
     cd:body "Because the sample median depends on order rather than the magnitudes of all observations, it is substantially less sensitive to extreme values than the arithmetic mean. It is robust to outliers, but extreme observations are not guaranteed to have no effect in every dataset."@en ;
+    cd:hasKeyPoint ex:median-robustness-interpretation-keypoint-1,
+      ex:median-robustness-interpretation-keypoint-2 ;
+    cd:authoredResource true .
+
+  ex:median-robustness-interpretation-keypoint-1 a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "The sample median depends on order and is substantially less sensitive to extreme values than the arithmetic mean."@en ;
+    cd:authoredResource true .
+
+  ex:median-robustness-interpretation-keypoint-2 a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "It is robust to outliers, but extreme observations are not guaranteed to have no effect in every dataset."@en ;
     cd:authoredResource true .
 
   ex:worked-example-turbidity-median a cd:WorkedExample ;

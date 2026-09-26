@@ -44,34 +44,34 @@ SCENE_MATRIX = {
         "items": dict([
             item("arithmetic-mean", "heading", 1, "arithmetic-mean", CD.HeadingRole, "skos:prefLabel@en"),
             item("arithmetic-mean", "formula", 2, "arithmetic-mean-formula", CD.FormulaRole, "cd:latex"),
-            item("arithmetic-mean", "interpretation", 3, "arithmetic-mean-applicability-interpretation", CD.StatementRole, "cd:body"),
+            item("arithmetic-mean", "interpretation", 3, "arithmetic-mean-applicability-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
         ]),
     },
     EX["scene-chemometrics-mean-values-expected-value"]: {
         "focus": EX["expected-value"],
         "items": dict([
             item("expected-value", "heading", 1, "expected-value", CD.HeadingRole, "skos:prefLabel@en"),
-            item("expected-value", "definition", 2, "def-expected-value", CD.StatementRole, "cd:body"),
+            item("expected-value", "definition", 2, "def-expected-value", CD.KeyPointRole, "cd:hasKeyPoint"),
             item("expected-value", "formula", 3, "discrete-expected-value-formula", CD.FormulaRole, "cd:latex"),
-            item("expected-value", "interpretation", 4, "sample-mean-estimator-interpretation", CD.StatementRole, "cd:body"),
+            item("expected-value", "interpretation", 4, "sample-mean-estimator-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
         ]),
     },
     EX["scene-chemometrics-mean-values-law-of-large-numbers"]: {
         "focus": EX["law-of-large-numbers"],
         "items": dict([
             item("law-of-large-numbers", "heading", 1, "law-of-large-numbers", CD.HeadingRole, "skos:prefLabel@en"),
-            item("law-of-large-numbers", "definition", 2, "def-law-of-large-numbers", CD.StatementRole, "cd:body"),
-            item("law-of-large-numbers", "interpretation", 3, "lln-not-standard-error-interpretation", CD.StatementRole, "cd:body"),
+            item("law-of-large-numbers", "definition", 2, "def-law-of-large-numbers", CD.KeyPointRole, "cd:hasKeyPoint"),
+            item("law-of-large-numbers", "interpretation", 3, "lln-not-standard-error-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
         ]),
     },
     EX["scene-chemometrics-mean-values-geometric-mean"]: {
         "focus": EX["geometric-mean"],
         "items": dict([
             item("geometric-mean", "heading", 1, "geometric-mean", CD.HeadingRole, "skos:prefLabel@en"),
-            item("geometric-mean", "definition", 2, "def-geometric-mean", CD.StatementRole, "cd:body"),
+            item("geometric-mean", "definition", 2, "def-geometric-mean", CD.KeyPointRole, "cd:hasKeyPoint"),
             item("geometric-mean", "product-formula", 3, "geometric-mean-product-formula", CD.FormulaRole, "cd:latex"),
             item("geometric-mean", "log-formula", 4, "geometric-mean-log-formula", CD.FormulaRole, "cd:latex"),
-            item("geometric-mean", "interpretation", 5, "geometric-mean-applicability-interpretation", CD.StatementRole, "cd:body"),
+            item("geometric-mean", "interpretation", 5, "geometric-mean-applicability-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
             item("geometric-mean", "example", 6, "worked-example-multiplicative-growth", CD.ExampleRole, "cd:body"),
         ]),
     },
@@ -87,9 +87,9 @@ SCENE_MATRIX = {
         "items": dict([
             item("harmonic-mean", "heading", 1, "harmonic-mean", CD.HeadingRole, "skos:prefLabel@en"),
             item("harmonic-mean", "example", 2, "worked-example-equal-distance-speed", CD.ExampleRole, "cd:body"),
-            item("harmonic-mean", "definition", 3, "def-harmonic-mean", CD.StatementRole, "cd:body"),
+            item("harmonic-mean", "definition", 3, "def-harmonic-mean", CD.KeyPointRole, "cd:hasKeyPoint"),
             item("harmonic-mean", "formula", 4, "harmonic-mean-formula", CD.FormulaRole, "cd:latex"),
-            item("harmonic-mean", "interpretation", 5, "harmonic-mean-rate-interpretation", CD.StatementRole, "cd:body"),
+            item("harmonic-mean", "interpretation", 5, "harmonic-mean-rate-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
         ]),
     },
     EX["scene-chemometrics-mean-values-median"]: {
@@ -97,9 +97,9 @@ SCENE_MATRIX = {
         "items": dict([
             item("median", "heading", 1, "median", CD.HeadingRole, "skos:prefLabel@en"),
             item("median", "example", 2, "worked-example-turbidity-median", CD.ExampleRole, "cd:body"),
-            item("median", "definition", 3, "def-median", CD.StatementRole, "cd:body"),
+            item("median", "definition", 3, "def-median", CD.KeyPointRole, "cd:hasKeyPoint"),
             item("median", "formula", 4, "sample-median-formula", CD.FormulaRole, "cd:latex"),
-            item("median", "interpretation", 5, "median-robustness-interpretation", CD.StatementRole, "cd:body"),
+            item("median", "interpretation", 5, "median-robustness-interpretation", CD.KeyPointRole, "cd:hasKeyPoint"),
         ]),
     },
     EX["scene-chemometrics-mean-values-median-practice"]: {
@@ -184,6 +184,11 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
                     self.assertEqual(str(next(self.graph.objects(resource, CD.latex))), block["expression"])
                 elif role == CD.ExerciseRole:
                     self.assertEqual("prompt", block["kind"])
+                elif role == CD.KeyPointRole:
+                    self.assertEqual("list", block["kind"])
+                    self.assertEqual("unordered", block["listStyle"])
+                    self.assertEqual(f"ex:{str(resource).removeprefix(str(EX))}", block["source"][0]["resourceId"])
+                    self.assertEqual("cd:hasKeyPoint", block["source"][0]["relationPath"])
                 else:
                     self.assertEqual("prose", block["kind"])
 
