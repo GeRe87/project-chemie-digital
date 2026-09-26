@@ -375,11 +375,11 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual(str(PATH).replace(str(EX), "ex:"), self.document["sourcePathId"])
         self.assertEqual(
             [
-                "scene:ex:scene-chemometrics-introduction-overview",
-                "scene:ex:scene-chemometrics-introduction-lecturer",
-                "scene:ex:scene-chemometrics-introduction-format",
-                "scene:ex:scene-chemometrics-introduction-roadmap",
-                "scene:ex:scene-chemometrics-introduction-round",
+                "ex:scene-chemometrics-introduction-overview--scene",
+                "ex:scene-chemometrics-introduction-lecturer--scene",
+                "ex:scene-chemometrics-introduction-format--scene",
+                "ex:scene-chemometrics-introduction-roadmap--scene",
+                "ex:scene-chemometrics-introduction-round--scene",
             ],
             [scene["id"] for scene in self.document["scenes"]],
         )
