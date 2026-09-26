@@ -1,22 +1,24 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chemie digital – Selbstlernansicht</title>
+    <title>Chemie digital – Self-study course</title>
   </head>
   <body>
-    <a class="skip-link" href="#self-study-static">Zum Lerninhalt springen</a>
+    <a class="skip-link" href="#self-study-app">Skip to course content</a>
     <header class="self-study-header">
       <p class="eyebrow">Chemie digital</p>
-      <h1>Selbstlernansicht</h1>
-      <p class="prototype-note">Renderer-Prototyp auf Basis des kanonischen Lernpfads.</p>
+      <h1>Self-study course</h1>
+      <p class="prototype-note">Explore the course map and open any learning unit that is already available.</p>
     </header>
-    <main id="self-study-static" aria-label="Statische Selbstlernansicht">
-      <!-- self-study-runtime-fallback:start -->
-      <!-- self-study-runtime-fallback:end -->
+    <main id="self-study-app" aria-label="Self-study course">
+      <section id="self-study-static" aria-label="Static self-study course">
+        <!-- self-study-runtime-fallback:start -->
+        <!-- self-study-runtime-fallback:end -->
+      </section>
+      <section id="self-study-enhanced" aria-label="Interactive self-study course" hidden></section>
     </main>
-    <main id="self-study-enhanced" aria-label="Interaktive Selbstlernansicht" hidden></main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
