@@ -141,12 +141,14 @@ test("course world fails closed for bindings outside the selected course or miss
 });
 
 test("reused learning-unit placements keep separate stations but mount one bound document", () => {
-  const reused = offering();
-  reused.placements = [
-    { id: `${BASE}placement-a-first`, position: 10, unitId: `${BASE}unit-a` },
-    { id: `${BASE}placement-a-repeat`, position: 20, unitId: `${BASE}unit-a` },
-    { id: `${BASE}placement-b`, position: 30, unitId: `${BASE}unit-b` },
-  ];
+  const reused: TeachingOfferingRuntimeDocument = {
+    ...offering(),
+    placements: [
+      { id: `${BASE}placement-a-first`, position: 10, unitId: `${BASE}unit-a` },
+      { id: `${BASE}placement-a-repeat`, position: 20, unitId: `${BASE}unit-a` },
+      { id: `${BASE}placement-b`, position: 30, unitId: `${BASE}unit-b` },
+    ],
+  };
 
   const model = createCourseWorldModel(reused, documents(), bindings());
   assert.deepEqual(
