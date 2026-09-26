@@ -151,7 +151,7 @@ class ChemometricsRandomVariablesPathTests(unittest.TestCase):
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
-    def test_random_and_mean_values_units_have_paths_while_variance_remains_pathless(self) -> None:
+    def test_first_three_chemometrics_units_have_exact_paths(self) -> None:
         self.assertEqual(
             {PATH},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
@@ -161,7 +161,7 @@ class ChemometricsRandomVariablesPathTests(unittest.TestCase):
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-mean-values"])),
         )
         self.assertEqual(
-            set(),
+            {EX["path-chemometrics-variance-dispersion-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-variance-dispersion"])),
         )
 

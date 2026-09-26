@@ -1,43 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "busy",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 158,
   "expectedDeliverable": "Implement Chemometrics Issue #158 as one bounded path-only increment: create ex:path-chemometrics-variance-dispersion-lecture in its dedicated named graph with exactly the four LearningUnit focus topics and six manager-approved PathSteps/resource sets; add focused path/discovery/SHACL/graph-whitelist regressions and only the minimum stale pathlessness test updates. Do not author scenes, usesScene, new scientific resources, shared contracts, renderer/runtime/app code, System state, learner state, course-scale RDF, or external research.",
-  "lastCompletedTurn": "manager: after Issue #140 merged, reviewed the first three Chemometrics units and identified Variance and Dispersion as the sole remaining pathless unit. Verified Issue #108 already supplies the reviewed reusable scientific resources, defined a six-step path-only sequence, created Issue #158 with exact topic/resource/test boundaries, and found no System dependency or shared-contract change.",
-  "lastUpdated": "2026-09-26T12:40:00+02:00",
+  "lastCompletedTurn": "worker: completed Issue #158 on Draft PR #159. Authored the path-only Chemometrics Variance and Dispersion lecture LearningPath with exactly four current LearningUnit focus topics, six contiguous PathSteps and the manager-approved 20 existing canonical authored resources; added one focused path/discovery/SHACL regression and only the three stale pathlessness assertion updates. No scenes, usesScene, scientific-resource mutation, shared contract, runtime/renderer/app, System state or external research was introduced. Current graph-inventory tests are source-derived, so no obsolete static whitelist edit was made.",
+  "lastUpdated": "2026-09-26T13:45:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue158-review-20260926T134500+0200",
+    "claimedAt": "2026-09-26T13:45:00+02:00",
+    "expiresAt": "2026-09-26T15:45:00+02:00"
   },
-  "blockedBy": [],
-  "stateRevision": 69,
+  "blockedBy": [
+    "Draft PR #159 requires fresh exact-head agent-validator/project-chemie-digital success before manager acceptance",
+    "Draft PR #159 requires independent manager review and Ready-for-review lifecycle gate before merge"
+  ],
+  "stateRevision": 72,
   "transitionHistory": [
-    {
-      "at": "2026-09-03T09:04:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-merge-20260903T090100+0200",
-      "reason": "Accepted and squash-merged Issue #126 / PR #127 after all gates passed."
-    },
-    {
-      "at": "2026-09-03T09:10:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-mean-values-scenes-gate-20260903T091000+0200",
-      "reason": "Claimed Mean Values scene-authoring contract evaluation."
-    },
-    {
-      "at": "2026-09-03T09:13:00+02:00",
-      "from": "busy/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-manager-mean-values-scenes-gate-20260903T091000+0200",
-      "reason": "Classified explicit FormulaRole/cd:latex SHACL-runtime alignment and historical Standard Deviation migration as a System-owned prerequisite before Mean Values scene authoring."
-    },
     {
       "at": "2026-09-04T10:33:30+02:00",
       "from": "blocked/manager",
@@ -191,6 +173,27 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
       "reason": "Created Chemometrics Issue #158 and authorized exactly one Semantic Web and Ontology Engineer worker turn for the path-only Variance and Dispersion lecture LearningPath over existing reviewed resources; scenes and all shared/System changes remain out of scope."
+    },
+    {
+      "at": "2026-09-26T13:35:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
+      "reason": "Claimed bounded Chemometrics Issue #158 on fresh branch agent/158-variance-dispersion-path for the path-only Variance and Dispersion lecture LearningPath, focused regressions and minimum stale pathlessness/graph-whitelist updates."
+    },
+    {
+      "at": "2026-09-26T13:43:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
+      "reason": "Completed bounded path-only Issue #158 with Draft PR #159, focused regressions and handoff; returned to Chemometrics manager for exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-26T13:45:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue158-review-20260926T134500+0200",
+      "reason": "Claimed independent Chemometrics manager review for Issue #158 / PR #159 after fresh validator success on worker head 67d92d1983840790fd698783a192278258a96e6e. This claim changes the PR head; final acceptance remains gated on fresh exact-head validation of the claim head."
     }
   ]
 }

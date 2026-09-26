@@ -119,7 +119,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")
 
-    def test_random_and_mean_values_have_exact_paths_while_variance_remains_pathless(self) -> None:
+    def test_first_three_chemometrics_units_have_exact_paths(self) -> None:
         self.assertEqual(
             {EX["path-chemometrics-random-variables-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
@@ -129,7 +129,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-mean-values"])),
         )
         self.assertEqual(
-            set(),
+            {EX["path-chemometrics-variance-dispersion-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-variance-dispersion"])),
         )
 
