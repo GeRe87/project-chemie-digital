@@ -55,3 +55,10 @@ npm test
 ```
 
 The path, scene, course-runtime and knowledge-network transformations have no UI surface, user tracking, network access or personal-data processing. Accessibility metadata and authored localized course metadata remain explicit contract values and are validated before successful consumption.
+
+### Exact course-path to SceneDocument bindings
+
+`CanonicalRuntimeArtifact 1.0` supports optional additive `sceneDocumentBindings[]` records containing an absolute `pathId`, absolute `pathGraphId`, and exact `sceneDocumentId`. The shared validator checks absolute path identities, referenced SceneDocument existence, one-to-one SceneDocument ownership, duplicate path pairs, and deterministic exact-path ordering. Artifacts that predate this additive field remain valid.
+
+Consumers that need course-level navigation should use these explicit bindings rather than reverse-parsing `SceneDocument.sourcePathId`, which remains an opaque renderer transport identity.
+
