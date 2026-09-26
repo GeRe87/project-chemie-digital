@@ -1,0 +1,123 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-introduction> {
+  ex:scene-chemometrics-introduction-overview a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-course-overview ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-overview-heading,
+      ex:scene-item-chemometrics-introduction-overview-note ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-overview-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-course-overview ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-overview-note a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chemometrics-course-overview-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-lecturer-context ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-lecturer-heading,
+      ex:scene-item-chemometrics-introduction-lecturer-attribution,
+      ex:scene-item-chemometrics-introduction-lecturer-note ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-lecturer-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-lecturer-context ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-lecturer-attribution a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:attribution-chemometrics-gerrit-renner ;
+    cd:communicativeRole cd:AttributionRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-lecturer-note a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:chemometrics-lecturer-context-note ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-course-format ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,
+      ex:scene-item-chemometrics-introduction-format-list ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-format-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-course-format ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-format-list a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chemometrics-course-format-list ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-introduction-roadmap a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-course-roadmap ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-roadmap-heading,
+      ex:scene-item-chemometrics-introduction-roadmap-list ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-roadmap-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-course-roadmap ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-roadmap-list a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:chemometrics-course-roadmap-list ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-introduction-round a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-introduction-round ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-round-heading,
+      ex:scene-item-chemometrics-introduction-round-exercise ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-round-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-introduction-round ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-round-exercise a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:exercise-chemometrics-introduction-round ;
+    cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+}
