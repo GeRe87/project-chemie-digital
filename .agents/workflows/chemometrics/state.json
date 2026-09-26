@@ -1,29 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 160,
   "expectedDeliverable": "Implement Chemometrics Issue #160 as one bounded Introduction vertical slice: add the Introduction LearningUnit at course position 10, shift existing Chemometrics unit placements to 20/30/40, author exactly five course-orientation concepts and the manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, create the exact five-step LearningPath and five graph-backed scenes using only existing generic roles/primitives, add focused course/path/scene/runtime/SHACL regressions, and avoid scientific-content, ontology/SHACL, renderer/app, System or external-research expansion.",
-  "lastCompletedTurn": "manager: after Issue #158 completed, reviewed the legacy Chemometrics inventory and current semantic contracts, confirmed the old chemometricsCourseIntro.md itself is no longer available, and created Issue #160 as a newly authored five-scene Introduction vertical slice covering course overview, lecturer context, lecture/tutorial workflow, roadmap and introduction round using only existing generic semantic and renderer-neutral primitives.",
-  "lastUpdated": "2026-09-26T19:45:00+02:00",
+  "lastCompletedTurn": "worker: completed Issue #160 on Draft PR #161. Added the Introduction LearningUnit at course position 10, shifted existing Chemometrics placements to 20/30/40, authored exactly five course-orientation concepts plus their minimal SHACL-required definitions and manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, created a five-step LearningPath and exactly five graph-backed scenes using existing generic roles, and added focused course/path/scene/runtime/SHACL regressions. No scientific resource body, ontology/SHACL contract, runtime/compiler, renderer/app, System state, learner state or external research was changed.",
+  "lastUpdated": "2026-09-26T19:55:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
-    "claimedAt": "2026-09-26T19:45:00+02:00",
-    "expiresAt": "2026-09-26T21:45:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 76,
+  "blockedBy": [
+    "Draft PR #161 requires repository-local focused tests and fresh exact-head agent-validator/project-chemie-digital success before manager acceptance",
+    "Draft PR #161 requires independent manager review and Ready-for-review lifecycle gate before merge"
+  ],
+  "stateRevision": 77,
   "transitionHistory": [
-    {
-      "at": "2026-09-04T13:36:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-mean-values-scenes-20260904T133600+0200",
-      "reason": "Claimed Chemometrics Issue #130 within the bounded eight-scene, eight-binding, focused-test and handoff scope. Scientific resources, shared contracts, System state and external research remain out of scope."
-    },
     {
       "at": "2026-09-04T13:43:00+02:00",
       "from": "busy/worker",
@@ -191,6 +187,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
       "reason": "Claimed bounded Chemometrics Issue #160 on fresh branch agent/160-chemometrics-introduction for the complete Introduction LearningUnit/content/path/five-scene vertical slice using existing generic semantic primitives."
+    },
+    {
+      "at": "2026-09-26T19:55:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
+      "reason": "Completed bounded Introduction unit/content/path/five-scene vertical slice with Draft PR #161, focused regressions and structured handoff; returned to Chemometrics manager for local test evidence, exact-head validation and independent review."
     }
   ]
 }
