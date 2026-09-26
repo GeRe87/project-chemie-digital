@@ -1,6 +1,7 @@
 import runtimeArtifact from "./generated/canonical-runtime.json" with { type: "json" };
 import {
   validateCanonicalRuntimeArtifact,
+  type CanonicalRuntimeSceneDocumentBinding,
   type SceneDocument,
   type TeachingOfferingRuntimeDocument,
 } from "../../../packages/core/src/index.ts";
@@ -16,4 +17,12 @@ export function canonicalSelfStudySceneDocuments(): readonly SceneDocument[] {
 
 export function canonicalSelfStudyTeachingOfferingDocuments(): readonly TeachingOfferingRuntimeDocument[] {
   return artifact.teachingOfferingDocuments;
+}
+
+
+export function canonicalSelfStudySceneDocumentBindings(): readonly CanonicalRuntimeSceneDocumentBinding[] {
+  if (!artifact.sceneDocumentBindings) {
+    throw new Error("Canonical self-study runtime contains no sceneDocumentBindings");
+  }
+  return artifact.sceneDocumentBindings;
 }
