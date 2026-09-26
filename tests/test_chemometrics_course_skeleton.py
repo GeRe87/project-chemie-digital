@@ -25,16 +25,21 @@ CHEMOMETRICS = EX["teaching-offering-chemometrics-applied-statistics"]
 CHEMOMETRICS_ROWS = [
     (
         10,
+        str(EX["unit-placement-chemometrics-introduction"]),
+        str(EX["learning-unit-chemometrics-introduction"]),
+    ),
+    (
+        20,
         str(EX["unit-placement-chemometrics-random-variables"]),
         str(EX["learning-unit-random-variables"]),
     ),
     (
-        20,
+        30,
         str(EX["unit-placement-chemometrics-mean-values"]),
         str(EX["learning-unit-mean-values"]),
     ),
     (
-        30,
+        40,
         str(EX["unit-placement-chemometrics-variance-dispersion"]),
         str(EX["learning-unit-variance-dispersion"]),
     ),
@@ -88,8 +93,15 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             self._ordered_rows(self.dataset, DIGITAL_CHEMISTRY),
         )
 
-    def test_learning_units_reuse_reviewed_scientific_concepts(self) -> None:
+    def test_learning_units_use_expected_focus_concepts(self) -> None:
         expected = {
+            EX["learning-unit-chemometrics-introduction"]: {
+                EX["chemometrics-course-overview"],
+                EX["chemometrics-lecturer-context"],
+                EX["chemometrics-course-format"],
+                EX["chemometrics-course-roadmap"],
+                EX["chemometrics-introduction-round"],
+            },
             EX["learning-unit-random-variables"]: {
                 EX["random-variable"],
                 EX["discrete-random-variable"],
@@ -119,7 +131,11 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")
 
-    def test_first_three_chemometrics_units_have_exact_paths(self) -> None:
+    def test_all_four_chemometrics_units_have_exact_paths(self) -> None:
+        self.assertEqual(
+            {EX["path-chemometrics-introduction"]},
+            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-chemometrics-introduction"])),
+        )
         self.assertEqual(
             {EX["path-chemometrics-random-variables-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
