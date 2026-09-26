@@ -198,7 +198,15 @@ export function renderCourseWorldHtml(
 }
 
 export function availableCourseWorldDocumentIds(model: CourseWorldModel): readonly string[] {
-  return model.units.flatMap((unit) =>
-    unit.paths.flatMap((path) => path.sceneDocumentId ? [path.sceneDocumentId] : []),
-  );
+  const seen = new Set<string>();
+  const ordered: string[] = [];
+  for (const unit of model.units) {
+    for (const path of unit.paths) {
+      const documentId = path.sceneDocumentId;
+      if (!documentId || seen.has(documentId)) continue;
+      seen.add(documentId);
+      ordered.push(documentId);
+    }
+  }
+  return ordered;
 }
