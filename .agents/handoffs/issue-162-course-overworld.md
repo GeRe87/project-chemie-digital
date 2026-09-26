@@ -70,6 +70,7 @@ The projection:
 - uses authored labels;
 - marks exactly bound paths `available`;
 - marks unbound semantic paths `in-preparation`;
+- preserves repeated UnitPlacements as separate world stations while deduplicating bound SceneDocument ids for browser/static mounting in first authored occurrence order;
 - rejects bindings outside the selected course;
 - rejects missing or unbound compiled documents;
 - never derives identity from label, local name, array position, or compact `sourcePathId`.
