@@ -36,32 +36,42 @@ test("self-study app consumes a validated generated canonical SceneDocument tran
   }
 });
 
-test("generated runtime exposes the validated Standardabweichung TeachingOffering read model", async () => {
+test("generated runtime exposes the validated Chemometrics course bundle in authored placement order", async () => {
   const artifact = await readRuntimeArtifact();
   assert.equal(artifact.teachingOfferingDocuments.length, 1);
   const documentValue = artifact.teachingOfferingDocuments[0]!;
   assert.equal(documentValue.datasetFingerprint, artifact.datasetFingerprint);
   assert.equal(
     documentValue.offering.id,
-    "https://w3id.org/project-chemie-digital/resource/teaching-offering-digital-chemistry",
+    "https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics",
   );
-  assert.deepEqual(documentValue.placements, [
-    {
-      id: "https://w3id.org/project-chemie-digital/resource/unit-placement-standard-deviation",
-      position: 10,
-      unitId: "https://w3id.org/project-chemie-digital/resource/learning-unit-standard-deviation",
-    },
-  ]);
-  assert.equal(documentValue.units.length, 1);
-  assert.deepEqual(documentValue.units[0]!.labels, [{ value: "Standardabweichung", language: "de" }]);
-  assert.deepEqual(documentValue.units[0]!.paths, [
-    {
-      id: "https://w3id.org/project-chemie-digital/resource/path-standard-deviation",
-      graphId: "https://w3id.org/project-chemie-digital/graph/paths/standard-deviation",
-      labels: [],
-      descriptions: [],
-    },
-  ]);
+
+  const placementsByUnit = new Map(documentValue.placements.map((item) => [item.unitId, item]));
+  const random = placementsByUnit.get("https://w3id.org/project-chemie-digital/resource/learning-unit-random-variables");
+  const mean = placementsByUnit.get("https://w3id.org/project-chemie-digital/resource/learning-unit-mean-values");
+  const variance = placementsByUnit.get("https://w3id.org/project-chemie-digital/resource/learning-unit-variance-dispersion");
+  assert.ok(random);
+  assert.ok(mean);
+  assert.ok(variance);
+  assert.ok(random.position < mean.position);
+  assert.ok(mean.position < variance.position);
+  assert.equal(mean.position - random.position, 10);
+  assert.equal(variance.position - mean.position, 10);
+
+  const introduction = placementsByUnit.get("https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-introduction");
+  if (introduction) {
+    assert.ok(introduction.position < random.position);
+    assert.equal(random.position - introduction.position, 10);
+  }
+
+  assert.ok(artifact.sceneDocumentBindings);
+  const boundPathIds = new Set(artifact.sceneDocumentBindings.map((item) => item.pathId));
+  assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture"));
+  assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture"));
+  assert.ok(!boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture"));
+  if (introduction) {
+    assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction"));
+  }
 });
 
 test("browser and static loaders share the core runtime validator without app-local artifact schemas", async () => {
@@ -82,6 +92,10 @@ test("generated static-first shell contains all self-study leaf fallback content
   assert.match(index, /self-study-runtime-fallback:start/);
   assert.match(index, /self-study-runtime-fallback:end/);
   assert.match(index, /class="self-study-document"/);
+  assert.match(index, /class="course-world"/);
+  assert.match(index, /Course map/);
+  assert.match(index, /In preparation/);
+  assert.match(index, /href="#course-document-/);
   for (const documentValue of artifact.sceneDocuments) {
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
@@ -96,10 +110,22 @@ test("generated static-first shell contains all self-study leaf fallback content
 });
 
 test("browser app has no semantic-store, persistence, account or telemetry integration", async () => {
-  for (const path of ["src/main.ts", "src/scene-data.ts", "src/learner-state.ts", "scripts/generate-static.mts"]) {
+  for (const path of ["src/main.ts", "src/scene-data.ts", "src/course-world.ts", "src/learner-state.ts", "scripts/generate-static.mts"]) {
     const source = await readFile(new URL(path, appRoot), "utf8");
     assert.doesNotMatch(source, /Fuseki|SPARQL|localStorage|indexedDB|document\.cookie|telemetry|analytics|account|fetch\s*\(/i);
   }
+});
+
+test("course world browser navigation keeps all renderable documents mounted and switches visibility only", async () => {
+  const main = await readFile(new URL("src/main.ts", appRoot), "utf8");
+  assert.match(main, /availableCourseWorldDocumentIds/);
+  assert.match(main, /controllers\.push\(mountSelfStudyRenderPlan/);
+  assert.match(main, /documentRoot\.hidden = true/);
+  assert.match(main, /element\.hidden = candidateId !== documentId/);
+  assert.match(main, /worldRoot\.hidden = true/);
+  assert.match(main, /studyRoot\.hidden = false/);
+  assert.match(main, /Back to course map/);
+  assert.doesNotMatch(main, /sourcePathId\.(replace|split)|endsWith\(|startsWith\("ex:"\)/);
 });
 
 test("successful enhancement removes static duplicate anchor targets only after all mounts", async () => {
