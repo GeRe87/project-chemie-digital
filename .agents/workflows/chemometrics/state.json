@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": null,
   "lastCompletedTurn": "manager: independently reviewed and accepted Issue #140 / PR #157 after 17/17 focused local tests, fresh exact-head agent-validator success on 5b057c685c0edc4edfed8e5437d1f6e17a7429dc, unchanged integration basis, bounded six-file scope and no unresolved review threads. Squash-merged PR #157 as 9356c264245bcd3bb84fd18321b24dd2774b8121; Issue #140 closed completed; verified the squash commit has exactly one parent. Chemometrics returned to idle manager state.",
-  "lastUpdated": "2026-09-26T12:31:00+02:00",
+  "lastUpdated": "2026-09-26T12:36:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
+    "claimedAt": "2026-09-26T12:36:00+02:00",
+    "expiresAt": "2026-09-26T14:36:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 67,
+  "stateRevision": 68,
   "transitionHistory": [
     {
       "at": "2026-09-03T09:04:00+02:00",
@@ -177,6 +177,13 @@
       "to": "ready/manager",
       "actor": "interactive-chemometrics-manager-issue140-review-20260926T112700+0200",
       "reason": "Accepted and squash-merged Issue #140 / PR #157 after all content, validation, integration and lifecycle gates passed; verified issue closure and single-parent squash result and returned the Chemometrics lane to idle manager state."
+    },
+    {
+      "at": "2026-09-26T12:36:00+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
+      "reason": "Claimed one bounded Chemometrics manager planning turn to define the next course increment after Mean Values: a path-only Variance and Dispersion lecture LearningPath over already reviewed canonical resources."
     }
   ]
 }
