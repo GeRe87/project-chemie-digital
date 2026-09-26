@@ -187,6 +187,13 @@ test("restore preflights every controller before applying any learner-state muta
   assert.equal(commits, 0);
 });
 
+test("course world styling has a reduced-motion fallback", async () => {
+  const styles = await readFile(new URL("src/styles.css", appRoot), "utf8");
+  assert.match(styles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(styles, /transition:\s*none\s*!important/);
+  assert.match(styles, /animation:\s*none\s*!important/);
+});
+
 test("explicit learner-state chrome is local-file based and reload remains ephemeral", async () => {
   const source = await readFile(new URL("src/learner-state.ts", appRoot), "utf8");
   assert.match(source, /Lernstand exportieren/);
