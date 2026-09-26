@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 158,
   "expectedDeliverable": "Implement Chemometrics Issue #158 as one bounded path-only increment: create ex:path-chemometrics-variance-dispersion-lecture in its dedicated named graph with exactly the four LearningUnit focus topics and six manager-approved PathSteps/resource sets; add focused path/discovery/SHACL/graph-whitelist regressions and only the minimum stale pathlessness test updates. Do not author scenes, usesScene, new scientific resources, shared contracts, renderer/runtime/app code, System state, learner state, course-scale RDF, or external research.",
   "lastCompletedTurn": "manager: after Issue #140 merged, reviewed the first three Chemometrics units and identified Variance and Dispersion as the sole remaining pathless unit. Verified Issue #108 already supplies the reviewed reusable scientific resources, defined a six-step path-only sequence, created Issue #158 with exact topic/resource/test boundaries, and found no System dependency or shared-contract change.",
-  "lastUpdated": "2026-09-26T12:40:00+02:00",
+  "lastUpdated": "2026-09-26T13:35:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
+    "claimedAt": "2026-09-26T13:35:00+02:00",
+    "expiresAt": "2026-09-26T15:35:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 69,
+  "stateRevision": 70,
   "transitionHistory": [
-    {
-      "at": "2026-09-03T09:04:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-merge-20260903T090100+0200",
-      "reason": "Accepted and squash-merged Issue #126 / PR #127 after all gates passed."
-    },
     {
       "at": "2026-09-03T09:10:00+02:00",
       "from": "ready/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
       "reason": "Created Chemometrics Issue #158 and authorized exactly one Semantic Web and Ontology Engineer worker turn for the path-only Variance and Dispersion lecture LearningPath over existing reviewed resources; scenes and all shared/System changes remain out of scope."
+    },
+    {
+      "at": "2026-09-26T13:35:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
+      "reason": "Claimed bounded Chemometrics Issue #158 on fresh branch agent/158-variance-dispersion-path for the path-only Variance and Dispersion lecture LearningPath, focused regressions and minimum stale pathlessness/graph-whitelist updates."
     }
   ]
 }
