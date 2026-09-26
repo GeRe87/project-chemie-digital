@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
-  "expectedDeliverable": "Implement System Issue #162 as one bounded Self-Study course-overworld vertical slice: add additive validated absolute LearningPath-to-SceneDocument bindings, generate the explicit Chemometrics offering bundle with all fully scene-bound paths while preserving scene-free paths as visible In preparation units, add a pure course-world view model and accessible retro-inspired static/browser map navigation, preserve mounted learner-state controllers, and avoid Chemometrics RDF, learner-state schema, Pitch/Reveal, ontology/SHACL, deployment or persistence changes.",
-  "lastCompletedTurn": "manager: defined Issue #162 after reviewing Self-Study, CanonicalRuntimeArtifact, ADR-0010/0011 and current generator boundaries. Chose an additive exact path↔SceneDocument binding instead of reverse-parsing compact sourcePathId, a generic offering-bundle generator that skips only wholly scene-free paths, and an original accessible CSS course-world over TeachingOffering placements; #160 is not a prerequisite and will be picked up automatically after merge.",
-  "lastUpdated": "2026-09-26T20:20:00+02:00",
+  "expectedDeliverable": "Repair only the Issue #162 reused-LearningUnit navigation edge case: deduplicate available bound SceneDocument ids in first authored placement/path occurrence order so repeated UnitPlacements remain visible/startable but browser/static content mounts exactly once; add a focused regression and make no other feature, contract, visual, content or cross-track change.",
+  "lastCompletedTurn": "manager: independent static review of Issue #162 / PR #163 is clean after the bounded reused-LearningUnit repair. Verified exact path-to-SceneDocument runtime binding architecture, generic scene-readiness classification, dedicated Chemometrics Self-Study bundle generation, browser/static course-world parity, accessible original retro styling, first-occurrence document deduplication for repeated UnitPlacements, 20-file System-only scope, 0-behind/mergeable integration, no review threads and no Chemometrics/Pitch/Reveal/learner-state-schema/ontology/deployment mutation. Remaining gates are repository-local tests, visual smoke review, final manager acceptance claim plus fresh exact-head validator, and Ready-for-review.",
+  "lastUpdated": "2026-09-26T21:03:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 200,
+  "blockedBy": [
+    "Draft PR #163 requires repository-local focused tests and a visual browser smoke review",
+    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 208,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:07:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200",
-      "reason": "Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."
-    },
     {
       "at": "2026-09-11T08:13:13+02:00",
       "from": "ready/worker",
@@ -142,6 +139,62 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-course-overworld-plan-20260926T201500+0200",
       "reason": "Created System Issue #162 and authorized one Frontend and Reveal Renderer Engineer worker turn for the bounded Self-Study course-overworld/runtime-binding vertical slice; Chemometrics content state remains independently blocked on #160 gates."
+    },
+    {
+      "at": "2026-09-26T20:23:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
+      "reason": "Claimed bounded System Issue #162 on fresh branch agent/162-course-overworld for additive exact path-to-SceneDocument runtime bindings, Chemometrics Self-Study multi-path bundle generation and accessible retro-inspired course-world navigation."
+    },
+    {
+      "at": "2026-09-26T20:42:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
+      "reason": "Completed the bounded Self-Study course-overworld/runtime-binding vertical slice with Draft PR #163, focused regressions and structured handoff; returned to System manager for local tests, visual smoke review, exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-26T20:46:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-static-review-20260926T204600+0200",
+      "reason": "Claimed independent static System manager review for Issue #162 / PR #163 while local execution is unavailable, to verify runtime-binding architecture, browser/static navigation lifecycle, scope, accessibility boundaries and integration freshness before the later local-test and exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-26T20:50:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-static-review-20260926T204600+0200",
+      "reason": "Authorized one bounded #162 review repair only: deduplicate mounted/rendered SceneDocument ids for repeated placements of the same reusable LearningUnit/path, preserving separate world stations and authored first-occurrence order."
+    },
+    {
+      "at": "2026-09-26T20:52:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+      "reason": "Claimed the manager-authorized bounded Issue #162 review repair: deduplicate bound SceneDocument mount/render ids for repeated placements of one reusable LearningUnit/path while preserving all world stations."
+    },
+    {
+      "at": "2026-09-26T20:58:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+      "reason": "Completed only the authorized reused-unit deduplication repair and focused regression; returned PR #163 to System manager review with local execution and final validation still pending."
+    },
+    {
+      "at": "2026-09-26T21:00:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+      "reason": "Claimed one bounded manager verification turn for the Issue #162 reused-LearningUnit repair only; local test, visual smoke, exact-head validator and Ready gates remain separate."
+    },
+    {
+      "at": "2026-09-26T21:03:00+02:00",
+      "from": "busy/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+      "reason": "Verified the reused-LearningUnit repair and the complete #162 static scope as clean; released the manager lease and parked PR #163 pending local test/visual evidence and later exact-head acceptance gates."
     }
   ]
 }

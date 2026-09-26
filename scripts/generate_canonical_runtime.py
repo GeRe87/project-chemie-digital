@@ -1190,6 +1190,89 @@ def default_selection_request() -> CourseUnitPathSelectionRequest:
     )
 
 
+def scene_document_binding(
+    path: CoursePathReference,
+    document: dict[str, Any],
+) -> dict[str, str]:
+    return {
+        "pathId": path.path_id,
+        "pathGraphId": path.path_graph_id,
+        "sceneDocumentId": document["id"],
+    }
+
+
+def path_is_fully_scene_bound(dataset: Dataset, path: CoursePathReference) -> bool:
+    path_resource = URIRef(path.path_id)
+    path_graph = dataset.graph(URIRef(path.path_graph_id))
+    steps = sorted(
+        set(path_graph.objects(path_resource, iri(CD, "hasStep"))),
+        key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)),
+    )
+    if not steps:
+        raise ValueError(f"LearningPath {compact(path_resource)} has no PathSteps")
+
+    scene_counts = [
+        len(set(path_graph.objects(step, iri(CD, "usesScene"))))
+        for step in steps
+    ]
+    if all(count == 0 for count in scene_counts):
+        return False
+    if not all(count == 1 for count in scene_counts):
+        raise ValueError(
+            f"LearningPath {compact(path_resource)} has partial or multiple scene bindings"
+        )
+    return True
+
+
+def build_offering_artifact(
+    offering_id: str,
+    *,
+    snapshot_language: str,
+) -> dict[str, Any]:
+    dataset = assemble_dataset()
+    fingerprint = dataset_fingerprint(dataset)
+    fingerprint_identity = f"sha256:{fingerprint}"
+    offering_document = project_teaching_offering_runtime_document(
+        dataset,
+        offering_id,
+        fingerprint_identity,
+    )
+
+    units_by_id = {
+        unit["id"]: unit
+        for unit in offering_document["units"]
+    }
+    references: list[CoursePathReference] = []
+    seen: set[CoursePathReference] = set()
+    for placement in offering_document["placements"]:
+        unit = units_by_id[placement["unitId"]]
+        for path_record in unit["paths"]:
+            reference = CoursePathReference(path_record["id"], path_record["graphId"])
+            if reference in seen:
+                continue
+            seen.add(reference)
+            references.append(reference)
+
+    scene_documents: list[dict[str, Any]] = []
+    bindings: list[dict[str, str]] = []
+    for reference in references:
+        if not path_is_fully_scene_bound(dataset, reference):
+            continue
+        document = compile_scene_document(dataset, reference)
+        scene_documents.append(document)
+        bindings.append(scene_document_binding(reference, document))
+
+    bindings.sort(key=lambda item: (item["pathId"], item["pathGraphId"]))
+    return {
+        "artifactVersion": "1.0",
+        "datasetFingerprint": fingerprint_identity,
+        "datasetSnapshot": dataset_snapshot(dataset, fingerprint, snapshot_language),
+        "teachingOfferingDocuments": [offering_document],
+        "sceneDocuments": scene_documents,
+        "sceneDocumentBindings": bindings,
+    }
+
+
 def build_artifact(
     selection_request: CourseUnitPathSelectionRequest | None = None,
 ) -> dict[str, Any]:
@@ -1199,6 +1282,7 @@ def build_artifact(
     language = effective_path_language(dataset, selection.path)
     fingerprint = dataset_fingerprint(dataset)
     fingerprint_identity = f"sha256:{fingerprint}"
+    document = compile_scene_document(dataset, selection.path)
     return {
         "artifactVersion": "1.0", "datasetFingerprint": fingerprint_identity,
         "datasetSnapshot": dataset_snapshot(dataset, fingerprint, language),
@@ -1209,7 +1293,8 @@ def build_artifact(
                 fingerprint_identity,
             )
         ],
-        "sceneDocuments": [compile_scene_document(dataset, selection.path)],
+        "sceneDocuments": [document],
+        "sceneDocumentBindings": [scene_document_binding(selection.path, document)],
     }
 
 
