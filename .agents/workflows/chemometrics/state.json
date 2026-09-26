@@ -1,32 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 160,
   "expectedDeliverable": "Implement Chemometrics Issue #160 as one bounded Introduction vertical slice: add the Introduction LearningUnit at course position 10, shift existing Chemometrics unit placements to 20/30/40, author exactly five course-orientation concepts and the manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, create the exact five-step LearningPath and five graph-backed scenes using only existing generic roles/primitives, add focused course/path/scene/runtime/SHACL regressions, and avoid scientific-content, ontology/SHACL, renderer/app, System or external-research expansion.",
-  "lastCompletedTurn": "worker: completed Issue #160 on Draft PR #161. Added the Introduction LearningUnit at course position 10, shifted existing Chemometrics placements to 20/30/40, authored exactly five course-orientation concepts plus their minimal SHACL-required definitions and manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources, created a five-step LearningPath and exactly five graph-backed scenes using existing generic roles, and added focused course/path/scene/runtime/SHACL regressions. No scientific resource body, ontology/SHACL contract, runtime/compiler, renderer/app, System state, learner state or external research was changed.",
-  "lastUpdated": "2026-09-26T19:58:00+02:00",
+  "lastCompletedTurn": "manager: independent static review of Issue #160 / PR #161 found the Introduction vertical slice scope- and architecture-clean: exact 10/20/30/40 Chemometrics order; five Introduction focus concepts with minimal existing-contract definitions; manager-approved overview/lecturer/lecture+tutorial/roadmap/introduction-round resources; five-step path; five generic-role scenes; focused runtime/SHACL regressions; no unverified schedule/exam claims; no scientific-content, ontology/SHACL, renderer/app or System mutation. Acceptance remains blocked only on repository-local focused tests, fresh exact-head validator success and Ready-for-review.",
+  "lastUpdated": "2026-09-26T20:03:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-issue160-review-20260926T195800+0200",
-    "claimedAt": "2026-09-26T19:58:00+02:00",
-    "expiresAt": "2026-09-26T21:58:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [
-    "Draft PR #161 requires repository-local focused tests and fresh exact-head agent-validator/project-chemie-digital success before manager acceptance",
-    "Draft PR #161 requires independent manager review and Ready-for-review lifecycle gate before merge"
+    "Draft PR #161 requires repository-local focused tests for the Introduction/course compatibility slice",
+    "Draft PR #161 requires fresh exact-head agent-validator/project-chemie-digital success after the final acceptance claim",
+    "Draft PR #161 requires Ready-for-review lifecycle completion before merge"
   ],
-  "stateRevision": 78,
+  "stateRevision": 79,
   "transitionHistory": [
-    {
-      "at": "2026-09-04T13:45:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-review-20260904T134500+0200",
-      "reason": "Fresh exact-head validator success is present for PR #131. Claimed Chemometrics manager review to verify six-file scope, formula semantics, review/thread state, mergeability, integration freshness and the mandatory Ready-for-review gate."
-    },
     {
       "at": "2026-09-04T13:47:00+02:00",
       "from": "busy/manager",
@@ -194,6 +188,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-issue160-review-20260926T195800+0200",
       "reason": "Claimed independent Chemometrics manager review for Issue #160 / PR #161 before local test and validator gates, so the final review head can be established now and later evidence can bind to one exact head."
+    },
+    {
+      "at": "2026-09-26T20:03:00+02:00",
+      "from": "busy/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue160-review-20260926T195800+0200",
+      "reason": "Independent static review found no content, scope or architecture blocker. Released the review lease while the user is away; PR #161 remains blocked only on local focused tests, later final acceptance claim plus fresh exact-head validator success, and Ready-for-review."
     }
   ]
 }
