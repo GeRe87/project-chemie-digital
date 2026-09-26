@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": null,
   "activeIssue": null,
   "expectedDeliverable": null,
   "lastCompletedTurn": "manager: independently reviewed and accepted Issue #153 / PR #154 after the bounded deployment-workflow repair, fresh exact-head validator success on 4daa1f37b503c462a9a9d13172047b44c8250abd, unchanged integration basis, no unresolved review threads, and Ready-for-review completion. Squash-merged PR #154 as 5d981138f41fab178f6fa81fe1d1b8bc85b4dad6; Issue #153 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
-  "lastUpdated": "2026-09-25T17:09:00+02:00",
+  "lastUpdated": "2026-09-26T20:15:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-course-overworld-plan-20260926T201500+0200",
+    "claimedAt": "2026-09-26T20:15:00+02:00",
+    "expiresAt": "2026-09-26T22:15:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 198,
+  "stateRevision": 199,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -128,6 +128,13 @@
       "to": "ready/manager",
       "actor": "interactive-system-manager-issue153-final-acceptance-20260925T165900+0200",
       "reason": "Accepted and squash-merged Issue #153 / PR #154 after all gates passed, verified issue closure and single-parent squash result, and returned the System lane to idle manager state."
+    },
+    {
+      "at": "2026-09-26T20:15:00+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-course-overworld-plan-20260926T201500+0200",
+      "reason": "Claimed one bounded System manager planning turn for a retro-inspired Self-Study course overworld driven entirely by validated TeachingOfferingRuntimeDocument placements/units/paths and explicit absolute path-to-SceneDocument runtime bindings."
     }
   ]
 }
