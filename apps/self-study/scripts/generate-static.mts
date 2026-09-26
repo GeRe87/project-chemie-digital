@@ -35,7 +35,7 @@ const renderedDocuments = availableCourseWorldDocumentIds(world).map((documentId
   if (!result.plan || result.diagnostics.length > 0) {
     throw new Error(result.diagnostics.map((item) => `${item.code}: ${item.message}`).join("; ") || "Self-study render plan unavailable");
   }
-  return `<article id="${sceneDocumentAnchorId(documentId)}" class="self-study-document" data-source-document-id="${documentId}">
+  return `<article id="${sceneDocumentAnchorId(documentId)}" class="self-study-document" data-source-document-id="${documentId.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}">
     <nav class="course-world-back-navigation" aria-label="Course navigation"><a class="course-world-back" href="#course-world">← Back to course map</a></nav>
     ${renderSelfStudyHtml(result.plan, { interactive: false })}
   </article>`;
