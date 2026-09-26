@@ -394,6 +394,32 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
+        offering_document = self.artifact["teachingOfferingDocuments"][0]
+        self.assertEqual(
+            [
+                (10, str(PLACEMENT), str(UNIT)),
+                (
+                    20,
+                    str(EX["unit-placement-chemometrics-random-variables"]),
+                    str(EX["learning-unit-random-variables"]),
+                ),
+                (
+                    30,
+                    str(EX["unit-placement-chemometrics-mean-values"]),
+                    str(EX["learning-unit-mean-values"]),
+                ),
+                (
+                    40,
+                    str(EX["unit-placement-chemometrics-variance-dispersion"]),
+                    str(EX["learning-unit-variance-dispersion"]),
+                ),
+            ],
+            [
+                (placement["position"], placement["id"], placement["unitId"])
+                for placement in offering_document["placements"]
+            ],
+        )
+
         lecturer = self.document["scenes"][1]["blocks"][1]
         self.assertEqual("Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen", lecturer["text"])
         self.assertEqual({"kind": "emphasize"}, lecturer["intent"])
