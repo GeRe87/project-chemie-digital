@@ -244,6 +244,112 @@ test("uses offering IRI as the root collection identity and rejects duplicate of
   );
 });
 
+
+test("accepts exact additive SceneDocument path bindings while preserving old artifacts without them", () => {
+  const legacy = artifact();
+  assert.doesNotThrow(() => validateCanonicalRuntimeArtifact(legacy));
+
+  const bound = artifact();
+  bound.sceneDocumentBindings = [
+    {
+      pathId: `${BASE}path-a`,
+      pathGraphId: `${GRAPH}paths/a`,
+      sceneDocumentId: "ex:path-a--scene-document",
+    },
+  ];
+  const validated = validateCanonicalRuntimeArtifact(bound);
+  assert.deepEqual(validated.sceneDocumentBindings, bound.sceneDocumentBindings);
+});
+
+test("fails closed for invalid or ambiguous SceneDocument path bindings", () => {
+  expectContractError(
+    (value) => {
+      value.sceneDocumentBindings = [{
+        pathId: "ex:path-a",
+        pathGraphId: `${GRAPH}paths/a`,
+        sceneDocumentId: "ex:path-a--scene-document",
+      }];
+    },
+    /pathId must be an absolute HTTP\(S\) IRI/,
+  );
+  expectContractError(
+    (value) => {
+      value.sceneDocumentBindings = [{
+        pathId: `${BASE}path-a`,
+        pathGraphId: `${GRAPH}paths/a`,
+        sceneDocumentId: "missing-document",
+      }];
+    },
+    /references unknown SceneDocument id/,
+  );
+  expectContractError(
+    (value) => {
+      value.sceneDocumentBindings = [
+        {
+          pathId: `${BASE}path-a`,
+          pathGraphId: `${GRAPH}paths/a`,
+          sceneDocumentId: "ex:path-a--scene-document",
+        },
+        {
+          pathId: `${BASE}path-a`,
+          pathGraphId: `${GRAPH}paths/a`,
+          sceneDocumentId: "ex:path-a--scene-document",
+        },
+      ];
+    },
+    /duplicate exact path bindings/,
+  );
+  expectContractError(
+    (value) => {
+      value.sceneDocuments.push({
+        version: "1.0",
+        id: "scene-document:b",
+        sourcePathId: "ex:path-b",
+        scenes: [],
+      });
+      value.sceneDocumentBindings = [
+        {
+          pathId: `${BASE}path-a`,
+          pathGraphId: `${GRAPH}paths/a`,
+          sceneDocumentId: "ex:path-a--scene-document",
+        },
+        {
+          pathId: `${BASE}path-b`,
+          pathGraphId: `${GRAPH}paths/b`,
+          sceneDocumentId: "ex:path-a--scene-document",
+        },
+      ];
+    },
+    /binds one SceneDocument to multiple paths/,
+  );
+});
+
+test("requires SceneDocument path bindings to use deterministic exact path ordering", () => {
+  expectContractError(
+    (value) => {
+      value.sceneDocuments.push({
+        version: "1.0",
+        id: "scene-document:b",
+        sourcePathId: "ex:path-b",
+        scenes: [],
+      });
+      value.sceneDocumentBindings = [
+        {
+          pathId: `${BASE}path-b`,
+          pathGraphId: `${GRAPH}paths/b`,
+          sceneDocumentId: "scene-document:b",
+        },
+        {
+          pathId: `${BASE}path-a`,
+          pathGraphId: `${GRAPH}paths/a`,
+          sceneDocumentId: "ex:path-a--scene-document",
+        },
+      ];
+    },
+    /deterministically sorted by exact \(pathId, pathGraphId\)/,
+  );
+});
+
 test("delegates SceneDocument validation to the existing SceneDocument contract", () => {
   expectContractError(
     (value) => { value.sceneDocuments[0].version = "2.0"; },
