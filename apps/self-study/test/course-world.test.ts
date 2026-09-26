@@ -140,6 +140,28 @@ test("course world fails closed for bindings outside the selected course or miss
   );
 });
 
+test("reused learning-unit placements keep separate stations but mount one bound document", () => {
+  const reused = offering();
+  reused.placements = [
+    { id: `${BASE}placement-a-first`, position: 10, unitId: `${BASE}unit-a` },
+    { id: `${BASE}placement-a-repeat`, position: 20, unitId: `${BASE}unit-a` },
+    { id: `${BASE}placement-b`, position: 30, unitId: `${BASE}unit-b` },
+  ];
+
+  const model = createCourseWorldModel(reused, documents(), bindings());
+  assert.deepEqual(
+    model.units.map((unit) => unit.placementId),
+    [
+      `${BASE}placement-a-first`,
+      `${BASE}placement-a-repeat`,
+      `${BASE}placement-b`,
+    ],
+  );
+  assert.equal(model.units[0]!.paths[0]!.sceneDocumentId, "opaque-scene-document");
+  assert.equal(model.units[1]!.paths[0]!.sceneDocumentId, "opaque-scene-document");
+  assert.deepEqual(availableCourseWorldDocumentIds(model), ["opaque-scene-document"]);
+});
+
 test("course world fails closed when a compiled SceneDocument is not explicitly bound", () => {
   assert.throws(
     () => createCourseWorldModel(offering(), documents(), []),
