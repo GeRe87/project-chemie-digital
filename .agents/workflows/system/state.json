@@ -1,25 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Repair only the Issue #162 reused-LearningUnit navigation edge case: deduplicate available bound SceneDocument ids in first authored placement/path occurrence order so repeated UnitPlacements remain visible/startable but browser/static content mounts exactly once; add a focused regression and make no other feature, contract, visual, content or cross-track change.",
   "lastCompletedTurn": "worker: completed the manager-authorized Issue #162 reused-LearningUnit repair. availableCourseWorldDocumentIds now deduplicates bound SceneDocument ids in first authored placement/path occurrence order while repeated UnitPlacements remain separate world stations with independently startable controls. Added an immutable focused regression proving two placements of one reusable unit produce two stations but one mounted/rendered document id. No other feature, contract, visual, content or cross-track change was made.",
-  "lastUpdated": "2026-09-26T20:58:00+02:00",
+  "lastUpdated": "2026-09-26T21:00:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+    "claimedAt": "2026-09-26T21:00:00+02:00",
+    "expiresAt": "2026-09-26T23:00:00+02:00"
   },
   "blockedBy": [
     "Draft PR #163 requires repository-local focused tests and a visual browser smoke review",
     "Draft PR #163 requires fresh exact-head agent-validator/project-chemie-digital success after the final manager acceptance claim",
     "Draft PR #163 requires independent manager verification of the bounded reused-unit repair and Ready-for-review lifecycle completion"
   ],
-  "stateRevision": 206,
+  "stateRevision": 207,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -188,6 +188,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
       "reason": "Completed only the authorized reused-unit deduplication repair and focused regression; returned PR #163 to System manager review with local execution and final validation still pending."
+    },
+    {
+      "at": "2026-09-26T21:00:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+      "reason": "Claimed one bounded manager verification turn for the Issue #162 reused-LearningUnit repair only; local test, visual smoke, exact-head validator and Ready gates remain separate."
     }
   ]
 }
