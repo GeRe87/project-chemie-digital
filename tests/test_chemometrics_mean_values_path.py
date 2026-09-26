@@ -220,7 +220,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
             selection.path,
         )
 
-    def test_random_variables_path_and_scenes_remain_present_and_variance_stays_pathless(self) -> None:
+    def test_random_variables_path_and_scenes_remain_present_and_variance_path_is_added(self) -> None:
         self.assertEqual(
             {EX["path-chemometrics-random-variables-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
@@ -233,7 +233,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
             self.assertEqual(1, len(set(self.graph.objects(step, CD.usesScene))))
 
         self.assertEqual(
-            set(),
+            {EX["path-chemometrics-variance-dispersion-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-variance-dispersion"])),
         )
 
