@@ -1,21 +1,21 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Repair only the Issue #162 reused-LearningUnit navigation edge case: deduplicate available bound SceneDocument ids in first authored placement/path occurrence order so repeated UnitPlacements remain visible/startable but browser/static content mounts exactly once; add a focused regression and make no other feature, contract, visual, content or cross-track change.",
   "lastCompletedTurn": "manager: independent static review of PR #163 found one bounded generic navigation blocker. TeachingOfferingRuntimeDocument allows a reusable LearningUnit in multiple UnitPlacements, but availableCourseWorldDocumentIds currently repeats the same bound document per placement, risking duplicate DOM ids/controllers. All other reviewed scope, runtime-binding, accessibility and cross-track boundaries are clean.",
-  "lastUpdated": "2026-09-26T20:50:00+02:00",
+  "lastUpdated": "2026-09-26T20:52:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+    "claimedAt": "2026-09-26T20:52:00+02:00",
+    "expiresAt": "2026-09-26T22:52:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 204,
+  "stateRevision": 205,
   "transitionHistory": [
     {
       "at": "2026-09-11T08:07:00+02:00",
@@ -170,6 +170,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue162-static-review-20260926T204600+0200",
       "reason": "Authorized one bounded #162 review repair only: deduplicate mounted/rendered SceneDocument ids for repeated placements of the same reusable LearningUnit/path, preserving separate world stations and authored first-occurrence order."
+    },
+    {
+      "at": "2026-09-26T20:52:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+      "reason": "Claimed the manager-authorized bounded Issue #162 review repair: deduplicate bound SceneDocument mount/render ids for repeated placements of one reusable LearningUnit/path while preserving all world stations."
     }
   ]
 }
