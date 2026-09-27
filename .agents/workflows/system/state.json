@@ -1,33 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
-  "expectedDeliverable": "Repair only the Issue #162 reused-LearningUnit navigation edge case: deduplicate available bound SceneDocument ids in first authored placement/path occurrence order so repeated UnitPlacements remain visible/startable but browser/static content mounts exactly once; add a focused regression and make no other feature, contract, visual, content or cross-track change.",
-  "lastCompletedTurn": "manager: independent static review of Issue #162 / PR #163 is clean after the bounded reused-LearningUnit repair. Verified exact path-to-SceneDocument runtime binding architecture, generic scene-readiness classification, dedicated Chemometrics Self-Study bundle generation, browser/static course-world parity, accessible original retro styling, first-occurrence document deduplication for repeated UnitPlacements, 20-file System-only scope, 0-behind/mergeable integration, no review threads and no Chemometrics/Pitch/Reveal/learner-state-schema/ontology/deployment mutation. Remaining gates are repository-local tests, visual smoke review, final manager acceptance claim plus fresh exact-head validator, and Ready-for-review.",
-  "lastUpdated": "2026-09-26T21:03:00+02:00",
+  "expectedDeliverable": "Repair only the Issue #162 Self-Study static-fallback regression exposed by the newly merged Introduction DefinitionList: update the static-first test so DefinitionList term/description content is asserted across semantic <dt>/<dd> markup rather than as one concatenated string, add a focused DefinitionList fallback regression, and change no renderer, runtime, canonical content, application behavior, Chemometrics state or unrelated tests.",
+  "lastCompletedTurn": "manager: reconciled PR #163 with current main including Issue #160 Introduction. Local Self-Study tests then exposed one stale assertion: DefinitionList staticFallback concatenates term and description with ': ', while correct semantic HTML renders them across <dt>/<dd>, so the fallback content is present but the old contiguous-string probe cannot match it. Classified as a test-only integration repair; renderer/content/runtime remain correct.",
+  "lastUpdated": "2026-09-27T11:28:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Draft PR #163 requires repository-local focused tests and a visual browser smoke review",
-    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
-  ],
-  "stateRevision": 208,
+  "blockedBy": [],
+  "stateRevision": 209,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:13:13+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
-      "reason": "Claimed the manager-authorized bounded #151 test-only review repair turn."
-    },
     {
       "at": "2026-09-11T08:15:05+02:00",
       "from": "busy/worker",
@@ -195,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
       "reason": "Verified the reused-LearningUnit repair and the complete #162 static scope as clean; released the manager lease and parked PR #163 pending local test/visual evidence and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T11:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-definition-list-test-repair-20260927T112800+0200",
+      "reason": "After reconciling #162 with merged Introduction, local test:self-study exposed a stale contiguous-string assertion for semantic DefinitionList <dt>/<dd> fallback markup. Authorized only a test-side repair plus focused regression; no production/content/runtime change."
     }
   ]
 }
