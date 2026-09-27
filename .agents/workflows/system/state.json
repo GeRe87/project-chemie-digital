@@ -7,8 +7,8 @@
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 166,
   "expectedDeliverable": "Final manager acceptance for generic Issue #166 after clean independent review and owner-local focused/full test evidence. No implementation expansion. Require fresh exact-head agent-validator/project-chemie-digital success on the manager-claim head before Ready and squash merge.",
-  "lastCompletedTurn": "manager: independent #166 review is clean; owner-local focused/Core tests (84/84) and full repository npm test including Self-Study (19/19) passed on the current implementation head, generated HTML outputs were identified as out-of-scope disposable generator changes, and the PR is 0 behind main with no review threads. Claimed final acceptance; fresh exact-head validation is now required.",
-  "lastUpdated": "2026-09-27T14:15:00+02:00",
+  "lastCompletedTurn": "manager: exact-head validation failed only because System transitionHistory contained 26 entries while the configured limit is 25. Pruned the oldest retained history entry to restore the bounded state contract; no OfferingSection implementation, tests, runtime semantics or PR scope changed. Fresh exact-head validation is required.",
+  "lastUpdated": "2026-09-27T14:27:00+02:00",
   "lease": {
     "owner": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
     "claimedAt": "2026-09-27T14:15:00+02:00",
@@ -18,15 +18,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 227,
+  "stateRevision": 228,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T20:42:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
-      "reason": "Completed the bounded Self-Study course-overworld/runtime-binding vertical slice with Draft PR #163, focused regressions and structured handoff; returned to System manager for local tests, visual smoke review, exact-head validation and independent review."
-    },
     {
       "at": "2026-09-26T20:46:00+02:00",
       "from": "blocked/manager",
