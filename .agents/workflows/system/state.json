@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
-  "lastCompletedTurn": "manager: local root npm test passed 19/19 and browser smoke confirmed the course-world navigation principle. Generated apps/self-study/index.html is materially stale on the branch because the reconciled Introduction is absent from its tracked static fallback; apps/pitch/index.html changes are unrelated CogniFlow generator output and explicitly excluded. Authorized only the Self-Study generated-artifact refresh.",
-  "lastUpdated": "2026-09-27T12:28:00+02:00",
+  "lastCompletedTurn": "worker: claimed the manager-authorized generated-artifact-only refresh for apps/self-study/index.html; unrelated apps/pitch/index.html and all source/runtime/content/style/test files remain out of scope.",
+  "lastUpdated": "2026-09-27T12:29:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
+    "claimedAt": "2026-09-27T12:29:00+02:00",
+    "expiresAt": "2026-09-27T14:29:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 212,
+  "stateRevision": 213,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:32:59+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
-      "reason": "Claimed the final manager gate turn after exact-head validator success on the prior blocked state head; this claim head must itself validate before review resolution and merge gates proceed."
-    },
     {
       "at": "2026-09-11T10:20:09+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
       "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
+    },
+    {
+      "at": "2026-09-27T12:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
+      "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
     }
   ]
 }
