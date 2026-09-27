@@ -1,29 +1,30 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 168,
-  "expectedDeliverable": "On one fresh branch, extend the generic Self-Study course-world view model/rendering to consume TeachingOfferingRuntimeDocument 1.1 sections[] as accessible regions; derive section title/description/member units/order from runtime only; preserve exact path availability and unit Start behavior, repeated-placement semantics, static-first parity and 1.0/sectionless flat fallback; add responsive/reduced-motion/keyboard regressions and structured handoff. No RDF, learner-state/progress, scientific-content or shared semantic-contract mutation.",
-  "lastCompletedTurn": "worker: claimed bounded Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study course-world projection/rendering, accessibility/static parity and flat fallback only.",
-  "lastUpdated": "2026-09-27T15:47:00+02:00",
+  "expectedDeliverable": "Review Issue #168 / PR #178 after owner-local Self-Study tests, deterministic generated static fallback commit and desktop/narrow browser smoke. Verify generic 1.1 section projection, flat fallback, exact membership/order, empty sections, keyboard/reduced-motion/static parity and no RDF/progress/content leakage; then claim final acceptance and require fresh exact-head validator success before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed bounded #168 source implementation with generic OfferingSection region projection/rendering, browser focus behavior, responsive presentation, flat fallback and focused regressions; opened Draft PR #178 and structured handoff. Returned to manager pending local Self-Study generation/tests, generated index review and browser smoke.",
+  "lastUpdated": "2026-09-27T15:50:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
-    "claimedAt": "2026-09-27T15:47:00+02:00",
-    "expiresAt": "2026-09-27T17:47:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 232,
+  "blockedBy": [
+    "Issue #168 requires owner-local npm run test:self-study",
+    "Generated apps/self-study/index.html must be reviewed and committed from deterministic local generation",
+    "Issue #168 requires desktop and narrow browser visual smoke",
+    "Issue #168 requires full repository npm test after generated fallback commit",
+    "Draft PR #178 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 233,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T21:00:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
-      "reason": "Claimed one bounded manager verification turn for the Issue #162 reused-LearningUnit repair only; local test, visual smoke, exact-head validator and Ready gates remain separate."
-    },
     {
       "at": "2026-09-26T21:03:00+02:00",
       "from": "busy/manager",
@@ -191,6 +192,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
       "reason": "Claimed bounded System Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study regions, static/browser parity, accessibility and legacy flat fallback only."
+    },
+    {
+      "at": "2026-09-27T15:50:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
+      "reason": "Completed bounded Issue #168 source implementation, focused regressions, Draft PR #178 and structured handoff; returned to manager for local Self-Study generation/tests, generated fallback review, visual smoke and later exact-head acceptance gates."
     }
   ]
 }
