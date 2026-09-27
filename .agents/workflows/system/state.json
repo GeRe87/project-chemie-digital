@@ -1,27 +1,24 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 166,
-  "expectedDeliverable": "On one fresh branch, add exactly the ADR-0015 generic implementation: cd:OfferingSection, cd:hasOfferingSection, cd:groupsUnitPlacement; SHACL invariants for section identity/position/ownership/same-offering membership/total coverage/no duplicate grouping/empty sections; Python projection to TeachingOfferingRuntimeDocument 1.1 sections[]; TypeScript contract accepting both legacy 1.0 and 1.1; deterministic synthetic tests. Existing real offerings remain section-free. Update ADR-0015 implementation note and structured handoff. No Chemometrics instances or UI/progress work.",
-  "lastCompletedTurn": "worker: completed the bounded generic OfferingSection implementation for Issue #166: vocabulary and SHACL, active TeachingOfferingRuntimeDocument 1.1 projection with explicit sections[], TypeScript legacy-1.0/current-1.1 tagged validation, focused semantic/Python/Core regressions, runtime docs and ADR implementation note. No course-specific section instances, UI regions or learner-state progress were added. Returned to manager pending local tests and generated-artifact review.",
-  "lastUpdated": "2026-09-27T14:12:00+02:00",
+  "expectedDeliverable": "Final manager acceptance for generic Issue #166 after clean independent review and owner-local focused/full test evidence. No implementation expansion. Require fresh exact-head agent-validator/project-chemie-digital success on the manager-claim head before Ready and squash merge.",
+  "lastCompletedTurn": "manager: independent #166 review is clean; owner-local focused/Core tests (84/84) and full repository npm test including Self-Study (19/19) passed on the current implementation head, generated HTML outputs were identified as out-of-scope disposable generator changes, and the PR is 0 behind main with no review threads. Claimed final acceptance; fresh exact-head validation is now required.",
+  "lastUpdated": "2026-09-27T14:15:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
+    "claimedAt": "2026-09-27T14:15:00+02:00",
+    "expiresAt": "2026-09-27T16:15:00+02:00"
   },
   "blockedBy": [
-    "Issue #166 requires repository-local focused semantic/runtime/Core tests and generated-artifact diff review",
-    "Issue #166 requires full repository npm test after focused tests",
-    "Draft PR requires independent manager review and final acceptance claim",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before merge"
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 226,
+  "stateRevision": 227,
   "transitionHistory": [
     {
       "at": "2026-09-26T20:42:00+02:00",
@@ -197,6 +194,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue166-offering-section-runtime-20260927T135300+0200",
       "reason": "Completed generic #166 OfferingSection semantic/runtime implementation and structured handoff; returned to manager for local execution, artifact review and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T14:15:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
+      "reason": "Claimed final Issue #166 acceptance after independent static review, owner-local focused/Core and full repository tests, generated-artifact scope review and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
     }
   ]
 }
