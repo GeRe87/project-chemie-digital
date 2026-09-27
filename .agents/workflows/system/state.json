@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 168,
   "expectedDeliverable": "On one fresh branch, extend the generic Self-Study course-world view model/rendering to consume TeachingOfferingRuntimeDocument 1.1 sections[] as accessible regions; derive section title/description/member units/order from runtime only; preserve exact path availability and unit Start behavior, repeated-placement semantics, static-first parity and 1.0/sectionless flat fallback; add responsive/reduced-motion/keyboard regressions and structured handoff. No RDF, learner-state/progress, scientific-content or shared semantic-contract mutation.",
-  "lastCompletedTurn": "manager: reviewed #168 architecture and authorized one bounded Frontend and Reveal Renderer Engineer worker turn. The existing course-world.ts shared view-model/render path must remain the single source for browser and static output; sections are generic runtime input, not Chemometrics hardcoding.",
-  "lastUpdated": "2026-09-27T15:45:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study course-world projection/rendering, accessibility/static parity and flat fallback only.",
+  "lastUpdated": "2026-09-27T15:47:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
+    "claimedAt": "2026-09-27T15:47:00+02:00",
+    "expiresAt": "2026-09-27T17:47:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 231,
+  "stateRevision": 232,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T20:58:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
-      "reason": "Completed only the authorized reused-unit deduplication repair and focused regression; returned PR #163 to System manager review with local execution and final validation still pending."
-    },
     {
       "at": "2026-09-26T21:00:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue168-section-regions-20260927T154200+0200",
       "reason": "Authorized one bounded Frontend and Reveal Renderer Engineer turn for generic section-aware Self-Study regions using the existing shared course-world view-model/render path, preserving flat fallback and excluding RDF/progress/content changes."
+    },
+    {
+      "at": "2026-09-27T15:47:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
+      "reason": "Claimed bounded System Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study regions, static/browser parity, accessibility and legacy flat fallback only."
     }
   ]
 }
