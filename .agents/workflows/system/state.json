@@ -1,32 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
-  "lastCompletedTurn": "worker: completed the manager-authorized generated-artifact-only refresh by committing only apps/self-study/index.html as 21015df947e9af6fbada174419221803cfded343. The tracked fallback now reflects the reconciled Introduction-aware Self-Study runtime. Unrelated generated apps/pitch/index.html was restored and excluded. Working tree was clean after push. Local root npm test had passed 19/19 and browser smoke had already confirmed functional course-world navigation on the same generated Self-Study output.",
-  "lastUpdated": "2026-09-27T12:35:00+02:00",
+  "lastCompletedTurn": "manager: local Issue #162 evidence is complete on the reconciled Introduction-aware implementation: Self-Study tests passed after the DefinitionList test repair, root npm test passed 19/19, browser smoke confirmed map/open/back navigation and Introduction integration, and the resulting tracked Self-Study static fallback was committed as generated artifact only. Claimed the final acceptance turn; this state mutation creates the final PR head that must receive fresh exact-head validator success before Ready and merge.",
+  "lastUpdated": "2026-09-27T12:36:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
+    "claimedAt": "2026-09-27T12:36:00+02:00",
+    "expiresAt": "2026-09-27T14:36:00+02:00"
   },
   "blockedBy": [
-    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR #163 requires fresh exact-head agent-validator/project-chemie-digital success on the final manager-claim head",
     "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
   ],
-  "stateRevision": 214,
+  "stateRevision": 215,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T10:38:37+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-bar-chart-plan-20260911T103837+0200",
-      "reason": "Claimed one bounded manager planning turn for the first semantics-authored quantitative D3 chart with a directly visible CogniFlow Pitch example."
-    },
     {
       "at": "2026-09-11T10:41:13+02:00",
       "from": "busy/manager",
@@ -194,6 +187,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
       "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
+    },
+    {
+      "at": "2026-09-27T12:36:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
+      "reason": "Claimed final Issue #162 acceptance after local Self-Study/root tests, browser smoke, current-main reconciliation and generated fallback refresh. The resulting exact claim head now requires fresh external validator success before Ready/merge."
     }
   ]
 }
