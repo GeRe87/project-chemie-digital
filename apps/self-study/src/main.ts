@@ -43,6 +43,16 @@ try {
   const worldRoot = document.createElement("section");
   worldRoot.className = "course-world-shell";
   worldRoot.innerHTML = renderCourseWorldHtml(world, { interactive: true });
+  const courseWorldElement = worldRoot.querySelector<HTMLElement>("#course-world");
+  if (!courseWorldElement) throw new Error("Course world renderer did not produce its root element");
+
+  const sectionRegions = new Map<string, HTMLElement>();
+  for (const region of worldRoot.querySelectorAll<HTMLElement>(".course-world-region[data-course-section-id]")) {
+    const sectionId = region.dataset.courseSectionId;
+    if (!sectionId) throw new Error("Course-world region is missing its OfferingSection identity");
+    if (sectionRegions.has(sectionId)) throw new Error(`Duplicate course-world region identity: ${sectionId}`);
+    sectionRegions.set(sectionId, region);
+  }
 
   const studyRoot = document.createElement("section");
   studyRoot.className = "self-study-active-path";
@@ -109,6 +119,24 @@ try {
     }
     target.focus();
   };
+
+  const sectionFocusButtons = [...worldRoot.querySelectorAll<HTMLButtonElement>("button[data-focus-course-section-id]")];
+  for (const button of sectionFocusButtons) {
+    const sectionId = button.dataset.focusCourseSectionId;
+    if (!sectionId) throw new Error("Course-world section focus control is missing an OfferingSection identity");
+    const target = sectionRegions.get(sectionId);
+    if (!target) throw new Error(`Course-world section focus control references an absent region: ${sectionId}`);
+    const onFocusRegion = (): void => {
+      for (const candidate of sectionRegions.values()) candidate.classList.remove("is-focused");
+      for (const candidate of sectionFocusButtons) candidate.setAttribute("aria-pressed", "false");
+      courseWorldElement.classList.add("has-focused-section");
+      target.classList.add("is-focused");
+      button.setAttribute("aria-pressed", "true");
+      target.focus();
+    };
+    button.addEventListener("click", onFocusRegion);
+    disposers.push(() => button.removeEventListener("click", onFocusRegion));
+  }
 
   for (const button of worldRoot.querySelectorAll<HTMLButtonElement>("button[data-scene-document-id]")) {
     const documentId = button.dataset.sceneDocumentId;
