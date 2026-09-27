@@ -302,3 +302,42 @@ test("section-capable offerings without authored sections retain the flat-world 
   assert.match(html, /class="course-world-route"/);
   assert.doesNotMatch(html, /course-world-sections/);
 });
+
+
+test("sectioned reused-unit placements remain separate region stations while sharing one bound document", () => {
+  const reused: TeachingOfferingRuntimeDocument = {
+    ...offering(),
+    version: "1.1",
+    placements: [
+      { id: `${BASE}placement-a-first`, position: 10, unitId: `${BASE}unit-a` },
+      { id: `${BASE}placement-a-repeat`, position: 20, unitId: `${BASE}unit-a` },
+      { id: `${BASE}placement-b`, position: 30, unitId: `${BASE}unit-b` },
+    ],
+    sections: [
+      {
+        id: `${BASE}section-reused`,
+        position: 10,
+        labels: [{ value: "Reusable Region", language: "en" }],
+        descriptions: [],
+        placementIds: [
+          `${BASE}placement-a-repeat`,
+          `${BASE}placement-b`,
+          `${BASE}placement-a-first`,
+        ],
+      },
+    ],
+  };
+
+  const model = createCourseWorldModel(reused, documents(), bindings());
+  assert.deepEqual(
+    model.sections[0]!.units.map((unit) => unit.placementId),
+    [
+      `${BASE}placement-a-first`,
+      `${BASE}placement-a-repeat`,
+      `${BASE}placement-b`,
+    ],
+  );
+  assert.equal(model.sections[0]!.units[0]!.paths[0]!.sceneDocumentId, "opaque-scene-document");
+  assert.equal(model.sections[0]!.units[1]!.paths[0]!.sceneDocumentId, "opaque-scene-document");
+  assert.deepEqual(availableCourseWorldDocumentIds(model), ["opaque-scene-document"]);
+});
