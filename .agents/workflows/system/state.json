@@ -1,43 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "busy",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Software Architect",
   "activeIssue": 165,
   "expectedDeliverable": "Author one ADR for Issue #165 defining OfferingSection as an additive offering-specific grouping overlay over existing UnitPlacements; require stable identity, section order, total placement coverage when sections exist, empty sections, no duplicate placement membership, same-offering membership, and no UI/progress/path semantics. Decide TeachingOfferingRuntimeDocument 1.1 adds explicit sections[] while 1.0 remains accepted as legacy flat composition and canonical-runtime artifactVersion remains 1.0. Add a structured handoff only; do not implement ontology/SHACL/runtime/app/content.",
-  "lastCompletedTurn": "manager: bounded Issue #165 architecture scope is approved. Runtime compatibility decision for the worker to record: introduce TeachingOfferingRuntimeDocument 1.1 with explicit sections[]; continue accepting 1.0 as legacy flat composition; keep outer canonical-runtime artifactVersion 1.0 because the container change is not incompatible. This avoids ambiguity between legacy producers and a new offering that genuinely has zero sections.",
-  "lastUpdated": "2026-09-27T12:57:00+02:00",
+  "lastCompletedTurn": "manager: independently reviewed Issue #165 / PR #175 and found the three-file ADR-only scope clean. ADR-0015 preserves ADR-0008 direct placement composition, defines strict opt-in total coverage and valid empty sections, keeps renderer/path/learner-state semantics separate, and introduces TeachingOfferingRuntimeDocument 1.1 with explicit sections[] while preserving 1.0 legacy flat compatibility and outer artifactVersion 1.0. Claimed final acceptance; the resulting exact head requires fresh validator success before Ready/merge.",
+  "lastUpdated": "2026-09-27T13:14:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue165-final-acceptance-20260927T131400+0200",
+    "claimedAt": "2026-09-27T13:14:00+02:00",
+    "expiresAt": "2026-09-27T15:14:00+02:00"
   },
-  "blockedBy": [],
-  "stateRevision": 218,
+  "blockedBy": [
+    "Draft PR #175 requires fresh exact-head agent-validator/project-chemie-digital success on the final manager-claim head",
+    "Draft PR #175 requires Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 221,
   "transitionHistory": [
-    {
-      "at": "2026-09-25T16:43:33+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
-      "reason": "Independent manager review found one bounded actionable blocker: the PR adds a GitHub Pages deployment workflow without separate human approval. Authorized only removal of that workflow (plus minimal handoff note) before fresh exact-head validation and final manager acceptance."
-    },
-    {
-      "at": "2026-09-25T16:48:38+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue153-deployment-repair-20260925T164838+0200",
-      "reason": "Claimed the manager-authorized bounded Issue #153 review repair: remove only the unauthorised GitHub Pages deployment workflow and make at most a minimal handoff note."
-    },
-    {
-      "at": "2026-09-25T16:49:30+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue153-deployment-repair-20260925T164838+0200",
-      "reason": "Completed the bounded review repair: removed the unauthorised GitHub Pages deployment workflow and documented the deployment boundary in the handoff; returned to manager for fresh exact-head validation and final review."
-    },
     {
       "at": "2026-09-25T16:59:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +173,27 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
       "reason": "Authorized one Software Architect worker turn to record the OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility rule only."
+    },
+    {
+      "at": "2026-09-27T13:00:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
+      "reason": "Claimed Issue #165 to author the renderer-neutral OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility decision only."
+    },
+    {
+      "at": "2026-09-27T13:08:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
+      "reason": "Completed ADR-0015 and the Issue #165 handoff within architecture-only scope; returned to manager for exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-27T13:14:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue165-final-acceptance-20260927T131400+0200",
+      "reason": "Independent architecture review of ADR-0015 is clean; claimed final Issue #165 acceptance. The resulting exact PR head now requires fresh external validator success before Ready/merge."
     }
   ]
 }
