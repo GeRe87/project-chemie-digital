@@ -1,32 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 162,
-  "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
-  "lastCompletedTurn": "manager: local Issue #162 evidence is complete on the reconciled Introduction-aware implementation: Self-Study tests passed after the DefinitionList test repair, root npm test passed 19/19, browser smoke confirmed map/open/back navigation and Introduction integration, and the resulting tracked Self-Study static fallback was committed as generated artifact only. Claimed the final acceptance turn; this state mutation creates the final PR head that must receive fresh exact-head validator success before Ready and merge.",
-  "lastUpdated": "2026-09-27T12:36:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: formally accepted Issue #162 / PR #163 after local Self-Study verification, full npm test 19/19, browser smoke, current-main reconciliation, generated Self-Study fallback refresh and fresh exact-head agent-validator/project-chemie-digital success on 578fc81db2316e9fcb44e9349aa916d489ceceb0. Marked PR Ready and squash-merged it as 9369e976017f70afac17f6d80de3e7bf26d1d7ef; Issue #162 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
+  "lastUpdated": "2026-09-27T12:43:00+02:00",
   "lease": {
-    "owner": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-    "claimedAt": "2026-09-27T12:36:00+02:00",
-    "expiresAt": "2026-09-27T14:36:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [
-    "Draft PR #163 requires fresh exact-head agent-validator/project-chemie-digital success on the final manager-claim head",
-    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
-  ],
-  "stateRevision": 215,
+  "blockedBy": [],
+  "stateRevision": 216,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T10:41:13+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-bar-chart-plan-20260911T103837+0200",
-      "reason": "Created System Issue #153 and authorized one bounded Frontend and Reveal Renderer Engineer worker turn for the complete semantics-authored bar-chart vertical slice, including the required visible CogniFlow Pitch example."
-    },
     {
       "at": "2026-09-23T13:55:00+02:00",
       "from": "ready/worker",
@@ -194,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
       "reason": "Claimed final Issue #162 acceptance after local Self-Study/root tests, browser smoke, current-main reconciliation and generated fallback refresh. The resulting exact claim head now requires fresh external validator success before Ready/merge."
+    },
+    {
+      "at": "2026-09-27T12:43:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/manager",
+      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
+      "reason": "Exact-head validator success, local tests, browser smoke, integration freshness and Ready lifecycle all passed for PR #163. Squash-merged Issue #162 as 9369e976017f70afac17f6d80de3e7bf26d1d7ef, verified Issue #162 closed completed and single-parent squash, and returned System to idle manager state."
     }
   ]
 }
