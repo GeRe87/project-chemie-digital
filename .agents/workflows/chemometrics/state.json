@@ -1,29 +1,28 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 167,
-  "expectedDeliverable": "On one fresh branch, author exactly seven Chemometrics OfferingSections using the stable IRIs, labels, descriptions and positions from Issue #167; group Introduction only under Getting Started and Random Variables/Mean Values/Variance and Dispersion under Data Characterization; keep the other five sections empty; preserve all existing UnitPlacement identities/order; add focused tests proving exact membership/order/descriptions/runtime empty-section preservation/source anchor; add structured handoff; no System contract/UI/progress/future-unit changes.",
-  "lastCompletedTurn": "worker: claimed bounded Issue #167 on fresh branch agent/167-chemometrics-offering-sections for exact seven-section Chemometrics OfferingSection authoring and focused regressions only.",
-  "lastUpdated": "2026-09-27T14:46:00+02:00",
+  "expectedDeliverable": "Review Issue #167 / PR #177 after owner-local focused Chemometrics course-section tests and full repository tests. Verify exact seven-section metadata/membership, five empty sections, unchanged placements, runtime 1.1 projection, source anchor and no System/UI/progress leakage; then claim final acceptance and require fresh exact-head validator success before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed bounded Issue #167 with exactly seven Chemometrics OfferingSections, exact current placement grouping, five empty roadmap sections, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff. Returned to manager pending owner-local tests and independent review.",
+  "lastUpdated": "2026-09-27T14:52:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
-    "claimedAt": "2026-09-27T14:46:00+02:00",
-    "expiresAt": "2026-09-27T16:46:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 84,
+  "blockedBy": [
+    "Issue #167 requires owner-local focused Chemometrics course-section test execution",
+    "Issue #167 requires full repository npm test after focused tests",
+    "Draft PR #177 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 85,
   "transitionHistory": [
-    {
-      "at": "2026-09-07T14:47:00+02:00",
-      "from": "ready/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-keypoints-20260907T144700+0200",
-      "reason": "Stopped before scientific content mutation after proving the current canonical dataset snapshot omits English Mean Values cd:body@en from entity descriptions. Returned #140 to manager with a structured blocker handoff; no KeyPoints, SceneItems, formulas, examples or exercises were changed."
-    },
     {
       "at": "2026-09-07T15:02:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +190,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
       "reason": "Claimed bounded Chemometrics Issue #167 on fresh branch agent/167-chemometrics-offering-sections to author exactly seven OfferingSections, exact current placement membership and focused runtime/semantic regressions."
+    },
+    {
+      "at": "2026-09-27T14:52:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
+      "reason": "Completed bounded Issue #167 with exact seven-section Chemometrics OfferingSection data, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff; returned to manager for local tests, independent review and later exact-head acceptance gates."
     }
   ]
 }
