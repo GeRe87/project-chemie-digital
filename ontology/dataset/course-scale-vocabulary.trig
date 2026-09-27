@@ -5,13 +5,16 @@
 
 <https://w3id.org/project-chemie-digital/graph/concepts/course-scale> {
   cd:CourseScaleDomain a cdm:ConceptDomain ;
-    cdm:definesConcept cd:TeachingOffering, cd:LearningUnit, cd:UnitPlacement ;
+    cdm:definesConcept cd:TeachingOffering, cd:LearningUnit, cd:UnitPlacement,
+      cd:OfferingSection ;
     cdm:definesRelation cd:hasUnitPlacement, cd:placesLearningUnit,
+      cd:hasOfferingSection, cd:groupsUnitPlacement,
       cd:hasFocusConcept, cd:forLearningUnit .
 
   cd:TeachingOffering a rdfs:Class, cdm:ConceptDescriptor .
   cd:LearningUnit a rdfs:Class, cdm:ConceptDescriptor .
   cd:UnitPlacement a rdfs:Class, cdm:ConceptDescriptor .
+  cd:OfferingSection a rdfs:Class, cdm:ConceptDescriptor .
 
   # Target typing is governed by SHACL rather than rdfs:range. Repository
   # validation runs with RDFS inference; declaring these ranges would infer
@@ -21,6 +24,10 @@
     rdfs:domain cd:TeachingOffering .
   cd:placesLearningUnit a rdf:Property, cdm:RelationDescriptor ;
     rdfs:domain cd:UnitPlacement .
+  cd:hasOfferingSection a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:TeachingOffering .
+  cd:groupsUnitPlacement a rdf:Property, cdm:RelationDescriptor ;
+    rdfs:domain cd:OfferingSection .
   cd:hasFocusConcept a rdf:Property, cdm:RelationDescriptor ;
     rdfs:domain cd:LearningUnit .
   cd:forLearningUnit a rdf:Property, cdm:RelationDescriptor ;

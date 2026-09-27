@@ -76,9 +76,9 @@ python scripts/generate_canonical_runtime.py \
 
 ## Generated TeachingOffering runtime read model
 
-The same offline generation now adds `teachingOfferingDocuments[]` to the existing `canonical-runtime` container without changing root `artifactVersion: "1.0"`. Each `TeachingOfferingRuntimeDocument 1.0` is disposable generated read state for one explicitly requested teaching offering and is derived from the same immutable canonical RDF Dataset snapshot as the root artifact and selected `SceneDocument`.
+The same offline generation adds `teachingOfferingDocuments[]` to the existing `canonical-runtime` container without changing root `artifactVersion: "1.0"`. The active projector emits `TeachingOfferingRuntimeDocument 1.1`, while the shared consumer still accepts legacy `1.0` documents as flat course composition.
 
-The document preserves absolute TeachingOffering, UnitPlacement, LearningUnit and LearningPath IRIs, the validated offering composition graph, authored placement positions, and exact `{path id, graphId}` references. Offering and unit order remain separate responsibilities: `placements[]` follows authored `cd:position`, while normalized units and path references use deterministic serialization order only.
+The document preserves absolute TeachingOffering, UnitPlacement, LearningUnit and LearningPath IRIs, the validated offering composition graph, authored placement positions, and exact `{path id, graphId}` references. Version 1.1 additionally carries explicit `sections[]` records for renderer-neutral `OfferingSection` groupings. `sections: []` means the validated current offering has no authored sections; legacy 1.0 absence of section state means only that the older contract cannot express it. Placement order follows authored `cd:position`; section order follows authored section position; grouped `placementIds[]` retain the existing placement order.
 
 Only explicitly supported authored display metadata is transported: `skos:prefLabel` as `labels[]` and `dct:description` as `descriptions[]`, with RDF language tags preserved. Missing values remain empty arrays. In particular, the current Standardabweichung path has no authored human-readable path label, so its runtime reference deliberately contains `labels: []` and `descriptions: []`; no IRI-local-name, filename, renderer or route fallback is fabricated.
 

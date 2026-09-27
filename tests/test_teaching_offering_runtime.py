@@ -26,8 +26,11 @@ COURSE_GRAPH = f"{GRAPH}specifications/course-scale"
 PATH_GRAPH = f"{GRAPH}paths/standard-deviation"
 
 TEACHING_OFFERING = URIRef(f"{CD}TeachingOffering")
+OFFERING_SECTION = URIRef(f"{CD}OfferingSection")
 LEARNING_PATH = URIRef(f"{CD}LearningPath")
 HAS_UNIT_PLACEMENT = URIRef(f"{CD}hasUnitPlacement")
+HAS_OFFERING_SECTION = URIRef(f"{CD}hasOfferingSection")
+GROUPS_UNIT_PLACEMENT = URIRef(f"{CD}groupsUnitPlacement")
 PLACES_LEARNING_UNIT = URIRef(f"{CD}placesLearningUnit")
 POSITION = URIRef(f"{CD}position")
 FOR_LEARNING_UNIT = URIRef(f"{CD}forLearningUnit")
@@ -59,6 +62,26 @@ def add_placement(
     graph.add((URIRef(placement_id), PLACES_LEARNING_UNIT, URIRef(unit_id)))
 
 
+def add_section(
+    dataset: Dataset,
+    section_id: str,
+    position: Literal,
+    *,
+    offering_id: str = OFFERING,
+    label: str | None = "Section",
+    placements: tuple[str, ...] = (),
+) -> None:
+    graph = dataset.graph(URIRef(COURSE_GRAPH))
+    section = URIRef(section_id)
+    graph.add((URIRef(offering_id), HAS_OFFERING_SECTION, section))
+    graph.add((section, RDF.type, OFFERING_SECTION))
+    graph.add((section, POSITION, position))
+    if label is not None:
+        graph.add((section, SKOS.prefLabel, Literal(label, lang="en")))
+    for placement_id in placements:
+        graph.add((section, GROUPS_UNIT_PLACEMENT, URIRef(placement_id)))
+
+
 def add_path(dataset: Dataset, path_id: str, path_graph_id: str, unit_id: str) -> object:
     graph = dataset.graph(URIRef(path_graph_id))
     graph.add((URIRef(path_id), RDF.type, LEARNING_PATH))
@@ -72,7 +95,7 @@ class TeachingOfferingRuntimeTests(unittest.TestCase):
         identity = f"sha256:{dataset_fingerprint(current)}"
         document = project_teaching_offering_runtime_document(current, OFFERING, identity)
 
-        self.assertEqual("1.0", document["version"])
+        self.assertEqual("1.1", document["version"])
         self.assertEqual(identity, document["datasetFingerprint"])
         self.assertEqual(
             {
@@ -108,6 +131,7 @@ class TeachingOfferingRuntimeTests(unittest.TestCase):
             ],
             unit["paths"],
         )
+        self.assertEqual([], document["sections"])
 
     def test_placement_order_is_independent_of_rdf_insertion_order(self) -> None:
         placement_a = f"{EX}placement-a"
@@ -254,6 +278,202 @@ class TeachingOfferingRuntimeTests(unittest.TestCase):
             ],
             document["units"][0]["labels"],
         )
+
+    def test_sections_are_projected_deterministically_and_empty_sections_are_retained(self) -> None:
+        current = Dataset(default_union=False)
+        add_offering(current)
+        placement_a = f"{EX}placement-a"
+        placement_b = f"{EX}placement-b"
+        add_placement(current, placement_a, f"{EX}unit-a", Literal(20, datatype=XSD.integer))
+        add_placement(current, placement_b, f"{EX}unit-b", Literal(10, datatype=XSD.integer))
+
+        section_b = f"{EX}section-b"
+        section_a = f"{EX}section-a"
+        add_section(
+            current,
+            section_b,
+            Literal(20, datatype=XSD.integer),
+            label="Second",
+        )
+        add_section(
+            current,
+            section_a,
+            Literal(10, datatype=XSD.integer),
+            label="First",
+            placements=(placement_b, placement_a),
+        )
+        graph = current.graph(URIRef(COURSE_GRAPH))
+        graph.add((URIRef(section_a), DCTERMS.description, Literal("First section", lang="en")))
+
+        document = project(current)
+        self.assertEqual("1.1", document["version"])
+        self.assertEqual(
+            [
+                {
+                    "id": section_a,
+                    "position": 10,
+                    "labels": [{"value": "First", "language": "en"}],
+                    "descriptions": [{"value": "First section", "language": "en"}],
+                    "placementIds": [placement_b, placement_a],
+                },
+                {
+                    "id": section_b,
+                    "position": 20,
+                    "labels": [{"value": "Second", "language": "en"}],
+                    "descriptions": [],
+                    "placementIds": [],
+                },
+            ],
+            document["sections"],
+        )
+
+    def test_section_projection_is_independent_of_rdf_insertion_order(self) -> None:
+        section = f"{EX}section-order"
+        placement_a = f"{EX}placement-order-a"
+        placement_b = f"{EX}placement-order-b"
+        rows = [
+            (URIRef(OFFERING), RDF.type, TEACHING_OFFERING),
+            (URIRef(OFFERING), HAS_UNIT_PLACEMENT, URIRef(placement_a)),
+            (URIRef(placement_a), POSITION, Literal(20, datatype=XSD.integer)),
+            (URIRef(placement_a), PLACES_LEARNING_UNIT, URIRef(f"{EX}unit-order-a")),
+            (URIRef(OFFERING), HAS_UNIT_PLACEMENT, URIRef(placement_b)),
+            (URIRef(placement_b), POSITION, Literal(10, datatype=XSD.integer)),
+            (URIRef(placement_b), PLACES_LEARNING_UNIT, URIRef(f"{EX}unit-order-b")),
+            (URIRef(OFFERING), HAS_OFFERING_SECTION, URIRef(section)),
+            (URIRef(section), RDF.type, OFFERING_SECTION),
+            (URIRef(section), POSITION, Literal(10, datatype=XSD.integer)),
+            (URIRef(section), SKOS.prefLabel, Literal("Ordered", lang="en")),
+            (URIRef(section), GROUPS_UNIT_PLACEMENT, URIRef(placement_a)),
+            (URIRef(section), GROUPS_UNIT_PLACEMENT, URIRef(placement_b)),
+        ]
+        first = Dataset(default_union=False)
+        second = Dataset(default_union=False)
+        for row in rows:
+            first.graph(URIRef(COURSE_GRAPH)).add(row)
+        for row in reversed(rows):
+            second.graph(URIRef(COURSE_GRAPH)).add(row)
+
+        self.assertEqual(project(first), project(second))
+        self.assertEqual(
+            [placement_b, placement_a],
+            project(first)["sections"][0]["placementIds"],
+        )
+
+    def test_section_projection_rejects_duplicate_positions(self) -> None:
+        current = Dataset(default_union=False)
+        add_offering(current)
+        placement = f"{EX}placement-section-position"
+        add_placement(current, placement, f"{EX}unit-section-position", Literal(10, datatype=XSD.integer))
+        add_section(
+            current,
+            f"{EX}section-position-a",
+            Literal(10, datatype=XSD.integer),
+            label="A",
+            placements=(placement,),
+        )
+        add_section(
+            current,
+            f"{EX}section-position-b",
+            Literal(10, datatype=XSD.integer),
+            label="B",
+        )
+        with self.assertRaisesRegex(ValueError, "duplicate OfferingSection position"):
+            project(current)
+
+    def test_section_projection_rejects_unknown_or_multiply_grouped_placements(self) -> None:
+        current = Dataset(default_union=False)
+        add_offering(current)
+        placement = f"{EX}placement-section-membership"
+        add_placement(current, placement, f"{EX}unit-section-membership", Literal(10, datatype=XSD.integer))
+        add_section(
+            current,
+            f"{EX}section-unknown",
+            Literal(10, datatype=XSD.integer),
+            placements=(f"{EX}placement-not-in-offering",),
+        )
+        with self.assertRaisesRegex(ValueError, "only direct UnitPlacements"):
+            project(current)
+
+        duplicated = Dataset(default_union=False)
+        add_offering(duplicated)
+        add_placement(duplicated, placement, f"{EX}unit-section-membership", Literal(10, datatype=XSD.integer))
+        add_section(
+            duplicated,
+            f"{EX}section-left",
+            Literal(10, datatype=XSD.integer),
+            label="Left",
+            placements=(placement,),
+        )
+        add_section(
+            duplicated,
+            f"{EX}section-right",
+            Literal(20, datatype=XSD.integer),
+            label="Right",
+            placements=(placement,),
+        )
+        with self.assertRaisesRegex(ValueError, "multiple OfferingSections"):
+            project(duplicated)
+
+    def test_section_projection_requires_total_coverage_when_sections_exist(self) -> None:
+        current = Dataset(default_union=False)
+        add_offering(current)
+        placement_a = f"{EX}placement-covered"
+        placement_b = f"{EX}placement-uncovered"
+        add_placement(current, placement_a, f"{EX}unit-covered", Literal(10, datatype=XSD.integer))
+        add_placement(current, placement_b, f"{EX}unit-uncovered", Literal(20, datatype=XSD.integer))
+        add_section(
+            current,
+            f"{EX}section-partial",
+            Literal(10, datatype=XSD.integer),
+            placements=(placement_a,),
+        )
+        with self.assertRaisesRegex(ValueError, "group every UnitPlacement exactly once"):
+            project(current)
+
+    def test_section_projection_rejects_missing_label_type_and_multiple_owners(self) -> None:
+        placement = f"{EX}placement-section-evidence"
+
+        missing_label = Dataset(default_union=False)
+        add_offering(missing_label)
+        add_placement(missing_label, placement, f"{EX}unit-section-evidence", Literal(10, datatype=XSD.integer))
+        add_section(
+            missing_label,
+            f"{EX}section-missing-label",
+            Literal(10, datatype=XSD.integer),
+            label=None,
+            placements=(placement,),
+        )
+        with self.assertRaisesRegex(ValueError, "at least one authored label"):
+            project(missing_label)
+
+        missing_type = Dataset(default_union=False)
+        add_offering(missing_type)
+        add_placement(missing_type, placement, f"{EX}unit-section-evidence", Literal(10, datatype=XSD.integer))
+        section = URIRef(f"{EX}section-missing-type")
+        graph = missing_type.graph(URIRef(COURSE_GRAPH))
+        graph.add((URIRef(OFFERING), HAS_OFFERING_SECTION, section))
+        graph.add((section, POSITION, Literal(10, datatype=XSD.integer)))
+        graph.add((section, SKOS.prefLabel, Literal("Missing type", lang="en")))
+        graph.add((section, GROUPS_UNIT_PLACEMENT, URIRef(placement)))
+        with self.assertRaisesRegex(ValueError, "explicitly typed"):
+            project(missing_type)
+
+        multiple_owners = Dataset(default_union=False)
+        add_offering(multiple_owners)
+        add_placement(multiple_owners, placement, f"{EX}unit-section-evidence", Literal(10, datatype=XSD.integer))
+        section_id = f"{EX}section-multiple-owners"
+        add_section(
+            multiple_owners,
+            section_id,
+            Literal(10, datatype=XSD.integer),
+            placements=(placement,),
+        )
+        other_offering = URIRef(f"{EX}teaching-offering-other-owner")
+        other_graph = multiple_owners.graph(URIRef(f"{GRAPH}specifications/other-owner"))
+        other_graph.add((other_offering, RDF.type, TEACHING_OFFERING))
+        other_graph.add((other_offering, HAS_OFFERING_SECTION, URIRef(section_id)))
+        with self.assertRaisesRegex(ValueError, "exactly one TeachingOffering"):
+            project(multiple_owners)
 
     def test_duplicate_placement_positions_fail_closed(self) -> None:
         current = Dataset(default_union=False)

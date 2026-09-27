@@ -81,13 +81,13 @@ def _localized_text(graph: Graph, subject: URIRef, predicate: URIRef) -> list[di
     return result
 
 
-def _positive_position(graph: Graph, placement: URIRef) -> int:
-    values = sorted(set(graph.objects(placement, iri("position"))), key=lambda value: value.n3())
+def _positive_position(graph: Graph, subject: URIRef, semantic_type: str) -> int:
+    values = sorted(set(graph.objects(subject, iri("position"))), key=lambda value: value.n3())
     if len(values) != 1 or not isinstance(values[0], Literal):
-        raise ValueError(f"UnitPlacement must have exactly one integer position: {placement}")
+        raise ValueError(f"{semantic_type} must have exactly one integer position: {subject}")
     value = values[0].toPython()
     if not isinstance(value, int) or isinstance(value, bool) or value < 1:
-        raise ValueError(f"UnitPlacement position must be a positive integer: {placement}")
+        raise ValueError(f"{semantic_type} position must be a positive integer: {subject}")
     return value
 
 
@@ -127,7 +127,7 @@ def project_teaching_offering_runtime_document(
         if not isinstance(term, URIRef):
             raise ValueError(f"TeachingOffering contains a non-IRI UnitPlacement: {offering}")
         placement = _require_http_iri("placementId", str(term))
-        position = _positive_position(graph, placement)
+        position = _positive_position(graph, placement, "UnitPlacement")
         if position in positions:
             raise ValueError(f"TeachingOffering contains duplicate UnitPlacement position: {position}")
         positions.add(position)
@@ -141,6 +141,88 @@ def project_teaching_offering_runtime_document(
             }
         )
     placements.sort(key=lambda item: (item["position"], item["id"]))
+
+    placement_positions = {item["id"]: item["position"] for item in placements}
+    placement_ids = set(placement_positions)
+
+    section_terms = sorted(set(graph.objects(offering, iri("hasOfferingSection"))), key=lambda value: value.n3())
+    sections: list[dict[str, Any]] = []
+    section_ids: set[str] = set()
+    section_positions: set[int] = set()
+    grouped_placements: dict[str, str] = {}
+
+    for term in section_terms:
+        if not isinstance(term, URIRef):
+            raise ValueError(f"TeachingOffering contains a non-IRI OfferingSection: {offering}")
+        section = _require_http_iri("sectionId", str(term))
+        section_id = str(section)
+        if section_id in section_ids:
+            raise ValueError(f"TeachingOffering contains duplicate OfferingSection id: {section_id}")
+        section_ids.add(section_id)
+
+        if (section, RDF.type, iri("OfferingSection")) not in graph:
+            raise ValueError(f"OfferingSection must be explicitly typed in the offering graph: {section}")
+
+        owners = {
+            subject
+            for subject, _predicate, _obj, _graph_id in dataset.quads(
+                (None, iri("hasOfferingSection"), section, None)
+            )
+            if isinstance(subject, URIRef)
+        }
+        if owners != {offering}:
+            raise ValueError(f"OfferingSection must belong to exactly one TeachingOffering: {section}")
+
+        position = _positive_position(graph, section, "OfferingSection")
+        if position in section_positions:
+            raise ValueError(f"TeachingOffering contains duplicate OfferingSection position: {position}")
+        section_positions.add(position)
+
+        display = _display_record(graph, section)
+        if not display["labels"]:
+            raise ValueError(f"OfferingSection must have at least one authored label: {section}")
+
+        grouped_terms = sorted(set(graph.objects(section, iri("groupsUnitPlacement"))), key=lambda value: value.n3())
+        grouped_ids: list[str] = []
+        for grouped_term in grouped_terms:
+            if not isinstance(grouped_term, URIRef):
+                raise ValueError(f"OfferingSection contains a non-IRI UnitPlacement: {section}")
+            grouped = _require_http_iri("placementId", str(grouped_term))
+            grouped_id = str(grouped)
+            if grouped_id not in placement_ids:
+                raise ValueError(
+                    f"OfferingSection may group only direct UnitPlacements of its TeachingOffering: {grouped}"
+                )
+            previous_section = grouped_placements.get(grouped_id)
+            if previous_section is not None:
+                raise ValueError(
+                    f"UnitPlacement is grouped by multiple OfferingSections: {grouped}"
+                )
+            grouped_placements[grouped_id] = section_id
+            grouped_ids.append(grouped_id)
+
+        grouped_ids.sort(key=lambda placement_id: (placement_positions[placement_id], placement_id))
+        sections.append(
+            {
+                "id": section_id,
+                "position": position,
+                **display,
+                "placementIds": grouped_ids,
+            }
+        )
+
+    sections.sort(key=lambda item: (item["position"], item["id"]))
+
+    if sections:
+        missing = sorted(
+            placement_ids - set(grouped_placements),
+            key=lambda placement_id: (placement_positions[placement_id], placement_id),
+        )
+        if missing:
+            raise ValueError(
+                "TeachingOffering with OfferingSections must group every UnitPlacement exactly once: "
+                + ", ".join(missing)
+            )
 
     unit_records: list[dict[str, Any]] = []
     for unit in sorted(units, key=str):
@@ -166,7 +248,7 @@ def project_teaching_offering_runtime_document(
         )
 
     return {
-        "version": "1.0",
+        "version": "1.1",
         "datasetFingerprint": fingerprint,
         "offering": {
             "id": str(offering),
@@ -175,4 +257,5 @@ def project_teaching_offering_runtime_document(
         },
         "placements": placements,
         "units": unit_records,
+        "sections": sections,
     }

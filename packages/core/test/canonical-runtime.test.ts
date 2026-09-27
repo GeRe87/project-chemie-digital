@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   CANONICAL_RUNTIME_ARTIFACT_VERSION,
   CanonicalRuntimeContractError,
+  TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION,
   TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION,
   validateCanonicalRuntimeArtifact,
 } from "../src/canonical-runtime.ts";
@@ -65,6 +66,22 @@ function artifact(): MutableArtifact {
             ],
           },
         ],
+        sections: [
+          {
+            id: `${BASE}section-a`,
+            position: 10,
+            labels: [{ value: "Section A", language: "en" }],
+            descriptions: [],
+            placementIds: [`${BASE}placement-a`],
+          },
+          {
+            id: `${BASE}section-b`,
+            position: 20,
+            labels: [{ value: "Section B", language: "en" }],
+            descriptions: [],
+            placementIds: [`${BASE}placement-b`],
+          },
+        ],
       },
     ],
     sceneDocuments: [
@@ -77,6 +94,14 @@ function artifact(): MutableArtifact {
     ],
     futureAdditiveRootField: { accepted: true },
   };
+}
+
+function legacyArtifact(): MutableArtifact {
+  const value = artifact();
+  const documentValue = value.teachingOfferingDocuments[0];
+  documentValue.version = TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION;
+  delete documentValue.sections;
+  return value;
 }
 
 function expectContractError(mutator: (value: MutableArtifact) => void, message: RegExp): void {
@@ -94,6 +119,17 @@ test("accepts current-shaped canonical runtime and unrelated additive root field
   assert.equal(validated, value);
   assert.equal(validated.datasetFingerprint, FINGERPRINT);
   assert.equal(validated.teachingOfferingDocuments[0]!.units[0]!.paths.length, 0);
+  const documentValue = validated.teachingOfferingDocuments[0]!;
+  assert.equal(documentValue.version, TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION);
+  if (documentValue.version === TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION) {
+    assert.equal(documentValue.sections.length, 2);
+  }
+});
+
+test("accepts legacy TeachingOfferingRuntimeDocument 1.0 without section capability", () => {
+  const value = legacyArtifact();
+  const validated = validateCanonicalRuntimeArtifact(value);
+  assert.equal(validated.teachingOfferingDocuments[0]!.version, TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION);
 });
 
 test("rejects unsupported root and TeachingOffering document versions", () => {
@@ -101,6 +137,20 @@ test("rejects unsupported root and TeachingOffering document versions", () => {
   expectContractError(
     (value) => { value.teachingOfferingDocuments[0].version = "2.0"; },
     /teachingOfferingDocuments\[0\]\.version is unsupported/,
+  );
+});
+
+test("keeps section capability explicit across TeachingOffering runtime versions", () => {
+  expectContractError(
+    (value) => { delete value.teachingOfferingDocuments[0].sections; },
+    /sections is required for TeachingOfferingRuntimeDocument 1\.1/,
+  );
+  const legacyWithSections = legacyArtifact();
+  legacyWithSections.teachingOfferingDocuments[0].sections = [];
+  assert.throws(
+    () => validateCanonicalRuntimeArtifact(legacyWithSections),
+    (error: unknown) => error instanceof CanonicalRuntimeContractError
+      && /sections is not supported by TeachingOfferingRuntimeDocument 1\.0/.test(error.message),
   );
 });
 
@@ -244,6 +294,78 @@ test("uses offering IRI as the root collection identity and rejects duplicate of
   );
 });
 
+
+test("accepts explicit empty sections in 1.1 as a section-capable flat offering", () => {
+  const value = artifact();
+  value.teachingOfferingDocuments[0].sections = [];
+  assert.doesNotThrow(() => validateCanonicalRuntimeArtifact(value));
+});
+
+test("validates section identities, labels, positions and deterministic section order", () => {
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[1].id = `${BASE}section-a`; },
+    /duplicate section ids/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[0].position = 0; },
+    /sections\[0\]\.position must be a positive integer/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[1].position = 10; },
+    /sections contains duplicate positions/,
+  );
+  expectContractError(
+    (value) => {
+      const sections = value.teachingOfferingDocuments[0].sections;
+      [sections[0], sections[1]] = [sections[1], sections[0]];
+    },
+    /sections must be deterministically sorted by position then section id/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[0].labels = []; },
+    /labels must contain at least one authored label/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[0].id = "ex:section"; },
+    /sections\[0\]\.id must be an absolute HTTP\(S\) IRI/,
+  );
+});
+
+test("validates section placement membership, order, uniqueness and total coverage", () => {
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[0].placementIds[0] = `${BASE}placement-missing`; },
+    /references unknown placement id/,
+  );
+  expectContractError(
+    (value) => {
+      value.teachingOfferingDocuments[0].sections = [{
+        id: `${BASE}section-all`,
+        position: 10,
+        labels: [{ value: "All", language: "en" }],
+        descriptions: [],
+        placementIds: [`${BASE}placement-b`, `${BASE}placement-a`],
+      }];
+    },
+    /placementIds must follow authored UnitPlacement order/,
+  );
+  expectContractError(
+    (value) => {
+      value.teachingOfferingDocuments[0].sections[0].placementIds = [
+        `${BASE}placement-a`,
+        `${BASE}placement-a`,
+      ];
+    },
+    /placementIds contains duplicate placement ids/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[1].placementIds = [`${BASE}placement-a`, `${BASE}placement-b`]; },
+    /groups one placement in multiple sections/,
+  );
+  expectContractError(
+    (value) => { value.teachingOfferingDocuments[0].sections[1].placementIds = []; },
+    /sections must cover every UnitPlacement exactly once/,
+  );
+});
 
 test("accepts exact additive SceneDocument path bindings while preserving old artifacts without them", () => {
   const legacy = artifact();
