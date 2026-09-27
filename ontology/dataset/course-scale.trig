@@ -18,9 +18,16 @@
   ex:teaching-offering-chemometrics-applied-statistics a cd:TeachingOffering ;
     skos:prefLabel "Chemometrics and Applied Statistics"@en ;
     cd:hasUnitPlacement
+      ex:unit-placement-chemometrics-introduction,
       ex:unit-placement-chemometrics-random-variables,
       ex:unit-placement-chemometrics-mean-values,
       ex:unit-placement-chemometrics-variance-dispersion .
+
+  ex:learning-unit-chemometrics-introduction a cd:LearningUnit ;
+    skos:prefLabel "Introduction"@en ;
+    cd:hasFocusConcept ex:chemometrics-course-overview, ex:chemometrics-lecturer-context,
+      ex:chemometrics-course-format, ex:chemometrics-course-roadmap,
+      ex:chemometrics-introduction-round .
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
     skos:prefLabel "Random Variables"@en ;
@@ -36,16 +43,20 @@
     cd:hasFocusConcept ex:variance, ex:standard-deviation, ex:standard-error,
       ex:relative-standard-deviation .
 
-  ex:unit-placement-chemometrics-random-variables a cd:UnitPlacement ;
+  ex:unit-placement-chemometrics-introduction a cd:UnitPlacement ;
     cd:position 10 ;
+    cd:placesLearningUnit ex:learning-unit-chemometrics-introduction .
+
+  ex:unit-placement-chemometrics-random-variables a cd:UnitPlacement ;
+    cd:position 20 ;
     cd:placesLearningUnit ex:learning-unit-random-variables .
 
   ex:unit-placement-chemometrics-mean-values a cd:UnitPlacement ;
-    cd:position 20 ;
+    cd:position 30 ;
     cd:placesLearningUnit ex:learning-unit-mean-values .
 
   ex:unit-placement-chemometrics-variance-dispersion a cd:UnitPlacement ;
-    cd:position 30 ;
+    cd:position 40 ;
     cd:placesLearningUnit ex:learning-unit-variance-dispersion .
 }
 
