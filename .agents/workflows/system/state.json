@@ -1,29 +1,27 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Repair only the Issue #162 Self-Study static-fallback regression exposed by the newly merged Introduction DefinitionList: update the static-first test so DefinitionList term/description content is asserted across semantic <dt>/<dd> markup rather than as one concatenated string, add a focused DefinitionList fallback regression, and change no renderer, runtime, canonical content, application behavior, Chemometrics state or unrelated tests.",
-  "lastCompletedTurn": "worker: claimed the manager-authorized test-only DefinitionList fallback regression repair for Issue #162; production renderer/runtime/content/app code remains explicitly out of scope.",
-  "lastUpdated": "2026-09-27T11:29:00+02:00",
+  "lastCompletedTurn": "worker: completed only the manager-authorized Issue #162 DefinitionList static-fallback test repair. Updated the generic static-first assertion to verify DefinitionList terms/descriptions across semantic markup and added a focused <dl>/<dt>/<dd> regression. No renderer, runtime, canonical content, app behavior, styling, ontology, learner-state schema or Chemometrics state changed. Returned to manager pending fresh local tests and visual smoke review.",
+  "lastUpdated": "2026-09-27T11:34:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-    "claimedAt": "2026-09-27T11:29:00+02:00",
-    "expiresAt": "2026-09-27T13:29:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 210,
+  "blockedBy": [
+    "Draft PR #163 requires repository-local Self-Study tests after the DefinitionList test-only integration repair",
+    "Draft PR #163 requires a visual browser smoke review on the reconciled Introduction-aware course world",
+    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 211,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:17:06+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
-      "reason": "Claimed one bounded manager turn to verify the test-only Copilot repair and final review gates for PR #152."
-    },
     {
       "at": "2026-09-11T08:18:44+02:00",
       "from": "busy/manager",
@@ -191,6 +189,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
       "reason": "Claimed only the #162 test-side DefinitionList fallback repair authorized after current-main reconciliation."
+    },
+    {
+      "at": "2026-09-27T11:34:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
+      "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
     }
   ]
 }
