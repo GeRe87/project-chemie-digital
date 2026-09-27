@@ -1,29 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
   "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
-  "lastCompletedTurn": "worker: claimed the manager-authorized generated-artifact-only refresh for apps/self-study/index.html; unrelated apps/pitch/index.html and all source/runtime/content/style/test files remain out of scope.",
-  "lastUpdated": "2026-09-27T12:29:00+02:00",
+  "lastCompletedTurn": "worker: completed the manager-authorized generated-artifact-only refresh by committing only apps/self-study/index.html as 21015df947e9af6fbada174419221803cfded343. The tracked fallback now reflects the reconciled Introduction-aware Self-Study runtime. Unrelated generated apps/pitch/index.html was restored and excluded. Working tree was clean after push. Local root npm test had passed 19/19 and browser smoke had already confirmed functional course-world navigation on the same generated Self-Study output.",
+  "lastUpdated": "2026-09-27T12:35:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-    "claimedAt": "2026-09-27T12:29:00+02:00",
-    "expiresAt": "2026-09-27T14:29:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 213,
+  "blockedBy": [
+    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 214,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T10:20:09+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
-      "reason": "Exact-head validation succeeded, final Copilot re-review produced 0 new comments, all review threads were resolved, PR #152 was 0 behind and mergeable, and the PR was squash-merged as 64bd41add05d5a89d7a9027145aa7953fc705aa8; System returned to idle manager state."
-    },
     {
       "at": "2026-09-11T10:38:37+02:00",
       "from": "ready/manager",
@@ -191,6 +187,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
       "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
+    },
+    {
+      "at": "2026-09-27T12:35:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
+      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
     }
   ]
 }
