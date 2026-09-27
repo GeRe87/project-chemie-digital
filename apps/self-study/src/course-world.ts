@@ -265,6 +265,7 @@ function renderPathOptions(
 function renderUnitNode(
   unit: CourseWorldUnit,
   options: { readonly interactive: boolean },
+  headingLevel: 3 | 4,
 ): string {
   const available = unit.status === "available";
   const side = unit.levelNumber % 2 === 1 ? "left" : "right";
@@ -272,7 +273,7 @@ function renderUnitNode(
       <div class="course-world-marker" aria-hidden="true">${unit.levelNumber}</div>
       <article class="course-world-card">
         <p class="course-world-level">Level ${unit.levelNumber}</p>
-        <h4>${escapeHtml(unit.label)}</h4>
+        <h${headingLevel}>${escapeHtml(unit.label)}</h${headingLevel}>
         <p class="course-world-status">${available ? "Available" : "In preparation"}</p>
         <div class="course-world-path-options">${renderPathOptions(unit, options)}</div>
       </article>
@@ -283,7 +284,7 @@ function renderFlatWorld(
   model: CourseWorldModel,
   options: { readonly interactive: boolean },
 ): string {
-  const nodes = model.units.map((unit) => renderUnitNode(unit, options)).join("");
+  const nodes = model.units.map((unit) => renderUnitNode(unit, options, 3)).join("");
   return `<ol class="course-world-route">${nodes}</ol>`;
 }
 
@@ -302,7 +303,7 @@ function renderSectionedWorld(
       : "";
     const body = section.units.length === 0
       ? '<p class="course-world-section-empty">In preparation</p>'
-      : `<ol class="course-world-route course-world-section-route">${section.units.map((unit) => renderUnitNode(unit, options)).join("")}</ol>`;
+      : `<ol class="course-world-route course-world-section-route">${section.units.map((unit) => renderUnitNode(unit, options, 4)).join("")}</ol>`;
 
     return `<li class="course-world-section-item">
       <section id="${escapeHtml(regionId)}" class="course-world-region" data-course-section-id="${escapeHtml(section.id)}" data-section-status="${section.status}" data-region-variant="${index % 6}" aria-labelledby="${escapeHtml(headingId)}"${options.interactive ? ' tabindex="-1"' : ""}>
