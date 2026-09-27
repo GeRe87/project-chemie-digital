@@ -1,5 +1,6 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/shapes/core> {
@@ -12,6 +13,11 @@
       sh:class cd:UnitPlacement ;
       sh:nodeKind sh:IRI
     ] ;
+    sh:property [
+      sh:path cd:hasOfferingSection ;
+      sh:class cd:OfferingSection ;
+      sh:nodeKind sh:IRI
+    ] ;
     sh:sparql [
       sh:message "Unit placement positions must be unique within a teaching offering." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
@@ -19,6 +25,38 @@ SELECT $this WHERE {
         $this cd:hasUnitPlacement ?left, ?right .
         ?left cd:position ?position .
         ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "Offering section positions must be unique within a teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasOfferingSection ?left, ?right .
+        ?left cd:position ?position .
+        ?right cd:position ?position .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "When offering sections exist, every direct unit placement must be grouped by exactly one section of that teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasOfferingSection ?section ;
+              cd:hasUnitPlacement ?placement .
+        FILTER NOT EXISTS {
+          $this cd:hasOfferingSection ?ownedSection .
+          ?ownedSection cd:groupsUnitPlacement ?placement .
+        }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "A unit placement may not be grouped by two sections of the same teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:hasOfferingSection ?left, ?right .
+        ?left cd:groupsUnitPlacement ?placement .
+        ?right cd:groupsUnitPlacement ?placement .
         FILTER (?left != ?right)
       }"""
     ] .
@@ -57,6 +95,52 @@ SELECT $this WHERE {
         ?left cd:hasUnitPlacement $this .
         ?right cd:hasUnitPlacement $this .
         FILTER (?left != ?right)
+      }"""
+    ] .
+
+  cd:OfferingSectionShape a sh:NodeShape ;
+    sh:targetClass cd:OfferingSection ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path cd:position ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:integer ;
+      sh:minExclusive 0
+    ] ;
+    sh:property [
+      sh:path skos:prefLabel ;
+      sh:minCount 1 ;
+      sh:nodeKind sh:Literal
+    ] ;
+    sh:property [
+      sh:path cd:groupsUnitPlacement ;
+      sh:class cd:UnitPlacement ;
+      sh:nodeKind sh:IRI
+    ] ;
+    sh:sparql [
+      sh:message "An offering section must belong to exactly one teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        FILTER NOT EXISTS { ?offering cd:hasOfferingSection $this . }
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "An offering section must belong to exactly one teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        ?left cd:hasOfferingSection $this .
+        ?right cd:hasOfferingSection $this .
+        FILTER (?left != ?right)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "An offering section may group only direct unit placements of its owning teaching offering." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        ?offering cd:hasOfferingSection $this .
+        $this cd:groupsUnitPlacement ?placement .
+        FILTER NOT EXISTS { ?offering cd:hasUnitPlacement ?placement . }
       }"""
     ] .
 
