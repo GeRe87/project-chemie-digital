@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 167,
-  "expectedDeliverable": "Plan and authorize the bounded Chemometrics #167 content increment: author exactly seven OfferingSections on the existing Chemometrics TeachingOffering, group only the four currently authored placements as specified, preserve five valid empty sections, add focused tests and handoff, and do not mutate shared System contracts, renderer/UI, learner state or future scientific LearningUnits.",
-  "lastCompletedTurn": "manager: verified Issue #167 dependencies are satisfied (#160 and #166 completed), the Chemometrics lane is idle, and the requested seven-section organization is content-only over the accepted OfferingSection contract.",
-  "lastUpdated": "2026-09-27T14:41:00+02:00",
+  "expectedDeliverable": "On one fresh branch, author exactly seven Chemometrics OfferingSections using the stable IRIs, labels, descriptions and positions from Issue #167; group Introduction only under Getting Started and Random Variables/Mean Values/Variance and Dispersion under Data Characterization; keep the other five sections empty; preserve all existing UnitPlacement identities/order; add focused tests proving exact membership/order/descriptions/runtime empty-section preservation/source anchor; add structured handoff; no System contract/UI/progress/future-unit changes.",
+  "lastCompletedTurn": "manager: authorized one bounded Semantic Web and Ontology Engineer worker turn for Issue #167. The accepted #166 OfferingSection contract is now available on main; only Chemometrics instance data, focused tests, handoff and Chemometrics workflow state may change.",
+  "lastUpdated": "2026-09-27T14:43:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
-    "claimedAt": "2026-09-27T14:41:00+02:00",
-    "expiresAt": "2026-09-27T16:41:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 82,
+  "stateRevision": 83,
   "transitionHistory": [
-    {
-      "at": "2026-09-07T14:33:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-keypoints-20260907T143300+0200",
-      "reason": "Claimed one bounded Chemometrics manager turn for the user-requested KeyPoints-on-slides / detailed-text-in-summary behavior after confirming Issue #133 already supplies the shared semantic/runtime contract and the Chemometrics lane is independently idle."
-    },
     {
       "at": "2026-09-07T14:34:00+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
       "reason": "Claimed bounded Chemometrics Issue #167 after verifying #160 and #166 are completed and the Chemometrics lane is idle; scope is exactly seven authored OfferingSections plus focused content/runtime tests, with no System/UI/progress expansion."
+    },
+    {
+      "at": "2026-09-27T14:43:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
+      "reason": "Authorized one bounded Semantic Web and Ontology Engineer worker turn for Issue #167 to author the exact seven Chemometrics OfferingSections and focused regressions only; no shared System contract, renderer/UI, learner-state or future scientific LearningUnit work."
     }
   ]
 }
