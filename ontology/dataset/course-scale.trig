@@ -1,5 +1,6 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
@@ -15,13 +16,63 @@
     cd:position 10 ;
     cd:placesLearningUnit ex:learning-unit-standard-deviation .
 
+  # Chemometrics OfferingSection roadmap source anchor:
+  # GeRe87/chemometrics_lecture@db2c5ef266641399c2b495646064e16cfdd473e4
   ex:teaching-offering-chemometrics-applied-statistics a cd:TeachingOffering ;
     skos:prefLabel "Chemometrics and Applied Statistics"@en ;
     cd:hasUnitPlacement
       ex:unit-placement-chemometrics-introduction,
       ex:unit-placement-chemometrics-random-variables,
       ex:unit-placement-chemometrics-mean-values,
+      ex:unit-placement-chemometrics-variance-dispersion ;
+    cd:hasOfferingSection
+      ex:offering-section-chemometrics-getting-started,
+      ex:offering-section-chemometrics-data-characterization,
+      ex:offering-section-chemometrics-similarity-analysis,
+      ex:offering-section-chemometrics-data-modeling,
+      ex:offering-section-chemometrics-signal-processing,
+      ex:offering-section-chemometrics-uncertainties,
+      ex:offering-section-chemometrics-experimental-design .
+
+  ex:offering-section-chemometrics-getting-started a cd:OfferingSection ;
+    cd:position 10 ;
+    skos:prefLabel "Getting Started"@en ;
+    dct:description "Course orientation, lecturer context, learning workflow, materials and introduction activities."@en ;
+    cd:groupsUnitPlacement ex:unit-placement-chemometrics-introduction .
+
+  ex:offering-section-chemometrics-data-characterization a cd:OfferingSection ;
+    cd:position 20 ;
+    skos:prefLabel "Data Characterization"@en ;
+    dct:description "Basic statistical measures, location and dispersion, distributions and statistical moments."@en ;
+    cd:groupsUnitPlacement
+      ex:unit-placement-chemometrics-random-variables,
+      ex:unit-placement-chemometrics-mean-values,
       ex:unit-placement-chemometrics-variance-dispersion .
+
+  ex:offering-section-chemometrics-similarity-analysis a cd:OfferingSection ;
+    cd:position 30 ;
+    skos:prefLabel "Similarity Analysis"@en ;
+    dct:description "Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."@en .
+
+  ex:offering-section-chemometrics-data-modeling a cd:OfferingSection ;
+    cd:position 40 ;
+    skos:prefLabel "Data Modeling"@en ;
+    dct:description "Linear and non-linear regression, model diagnostics and machine-learning methods for prediction and classification."@en .
+
+  ex:offering-section-chemometrics-signal-processing a cd:OfferingSection ;
+    cd:position 50 ;
+    skos:prefLabel "Signal Processing"@en ;
+    dct:description "Normalization, smoothing and denoising with convolution, Savitzky-Golay methods, Fourier filtering and wavelet analysis."@en .
+
+  ex:offering-section-chemometrics-uncertainties a cd:OfferingSection ;
+    cd:position 60 ;
+    skos:prefLabel "Uncertainties"@en ;
+    dct:description "Measurement uncertainty, uncertainty propagation, errors and bias, outliers, bootstrap methods and classification-error concepts."@en .
+
+  ex:offering-section-chemometrics-experimental-design a cd:OfferingSection ;
+    cd:position 70 ;
+    skos:prefLabel "Experimental Design"@en ;
+    dct:description "Downhill-simplex optimization and design of experiments including factorial, fractional and response-surface designs."@en .
 
   ex:learning-unit-chemometrics-introduction a cd:LearningUnit ;
     skos:prefLabel "Introduction"@en ;
