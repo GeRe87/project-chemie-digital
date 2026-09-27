@@ -101,9 +101,43 @@ test("generated static-first shell contains all self-study leaf fallback content
     for (const section of plan.sections) {
       assert.ok(index.includes(section.semanticLabel), `missing static section ${section.semanticLabel}`);
       for (const node of leaves(section.nodes)) {
+        if (node.kind === "definition-list") {
+          for (const entry of node.entries) {
+            const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            assert.ok(index.includes(term), `missing static definition term ${entry.id}`);
+            if (entry.description) {
+              const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+              assert.ok(index.includes(description), `missing static definition description ${entry.id}`);
+            }
+          }
+          continue;
+        }
         const probe = node.staticFallback.slice(0, Math.min(24, node.staticFallback.length));
         const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         assert.ok(index.includes(escaped) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
+      }
+    }
+  }
+});
+
+test("generated static-first shell renders DefinitionList terms and descriptions through semantic dl markup", async () => {
+  const artifact = await readRuntimeArtifact();
+  const index = await readFile(new URL("index.html", appRoot), "utf8");
+  const definitionLists = artifact.sceneDocuments.flatMap((documentValue) => {
+    const plan = createSelfStudyRenderPlan(documentValue).plan!;
+    return plan.sections.flatMap((section) => leaves(section.nodes))
+      .filter((node): node is Extract<SelfStudyNodePlan, { readonly kind: "definition-list" }> => node.kind === "definition-list");
+  });
+
+  assert.ok(definitionLists.length > 0, "expected at least one generated DefinitionList block");
+  for (const node of definitionLists) {
+    assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
+    for (const entry of node.entries) {
+      const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      assert.ok(index.includes(`<dt>${term}</dt>`), `missing semantic dt for ${entry.id}`);
+      if (entry.description) {
+        const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        assert.ok(index.includes(`<dd>${description}</dd>`), `missing semantic dd for ${entry.id}`);
       }
     }
   }
