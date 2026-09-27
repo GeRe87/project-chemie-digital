@@ -453,3 +453,16 @@ Rejected. Missing `sections` would be ambiguous between a legacy producer that c
 ### Bump outer CanonicalRuntimeArtifact solely for sections
 
 Rejected. The independently versioned TeachingOffering document can evolve to 1.1 while existing outer root-field semantics remain unchanged.
+
+## Implementation note — Issue #166
+
+The generic implementation follows this ADR without introducing course-specific section instances:
+
+- `cd:OfferingSection`, `cd:hasOfferingSection` and `cd:groupsUnitPlacement` extend the course-scale vocabulary;
+- SHACL enforces section IRI identity, positive unique section positions, authored labels, exactly-one offering ownership, same-offering placement membership, exact total placement coverage once sections exist, and rejection of duplicate grouping while keeping empty sections valid;
+- the offline projector emits `TeachingOfferingRuntimeDocument 1.1` for current generated read state and always includes `sections[]`;
+- section-free current offerings therefore project as `version: "1.1", sections: []`;
+- the shared TypeScript validator continues to accept legacy `1.0` documents only without section state and accepts `1.1` only with explicit section state;
+- the outer `CanonicalRuntimeArtifact.artifactVersion` remains `"1.0"`;
+- no Chemometrics section instances, Self-Study world/region visuals or learner-progress rules are part of this implementation.
+
