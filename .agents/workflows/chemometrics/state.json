@@ -1,35 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 167,
-  "expectedDeliverable": "Review Issue #167 / PR #177 after owner-local focused Chemometrics course-section tests and full repository tests. Verify exact seven-section metadata/membership, five empty sections, unchanged placements, runtime 1.1 projection, source anchor and no System/UI/progress leakage; then claim final acceptance and require fresh exact-head validator success before Ready/squash merge.",
-  "lastCompletedTurn": "worker: completed bounded Issue #167 with exactly seven Chemometrics OfferingSections, exact current placement grouping, five empty roadmap sections, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff. Returned to manager pending owner-local tests and independent review.",
-  "lastUpdated": "2026-09-27T14:52:00+02:00",
+  "expectedDeliverable": "Final manager acceptance for Issue #167 after clean independent review and owner-local focused/full test evidence. No content expansion. Require fresh exact-head agent-validator/project-chemie-digital success on the manager-claim head before Ready and squash merge.",
+  "lastCompletedTurn": "manager: independent #167 review is clean; owner-local focused Chemometrics tests passed 12/12 and full repository npm test passed 19/19 on worker head a3ce07599aac51efa7d0713385715d6d2e605c06; generated Pitch/Self-Study HTML changes were restored and the local working tree is clean. Claimed final acceptance; fresh exact-head validation is now required.",
+  "lastUpdated": "2026-09-27T15:16:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
+    "claimedAt": "2026-09-27T15:16:00+02:00",
+    "expiresAt": "2026-09-27T17:16:00+02:00"
   },
   "blockedBy": [
-    "Issue #167 requires owner-local focused Chemometrics course-section test execution",
-    "Issue #167 requires full repository npm test after focused tests",
-    "Draft PR #177 requires independent manager review and final acceptance claim",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 85,
+  "stateRevision": 86,
   "transitionHistory": [
-    {
-      "at": "2026-09-07T15:02:00+02:00",
-      "from": "blocked/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-manager-keypoints-blocker-20260907T150200+0200",
-      "reason": "Accepted the worker blocker classification and linked Chemometrics #140 to queued System prerequisite #141. #140 remains blocked with its original bounded content scope unchanged until #141 is merged to main."
-    },
     {
       "at": "2026-09-25T17:15:00+02:00",
       "from": "blocked/manager",
@@ -197,6 +187,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
       "reason": "Completed bounded Issue #167 with exact seven-section Chemometrics OfferingSection data, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff; returned to manager for local tests, independent review and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T15:16:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
+      "reason": "Claimed final Issue #167 acceptance after independent review, owner-local focused 12/12 and full repository 19/19 test evidence, clean-tree restoration and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
     }
   ]
 }
