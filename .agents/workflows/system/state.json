@@ -1,34 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
-  "expectedDeliverable": "Repair only the Issue #162 Self-Study static-fallback regression exposed by the newly merged Introduction DefinitionList: update the static-first test so DefinitionList term/description content is asserted across semantic <dt>/<dd> markup rather than as one concatenated string, add a focused DefinitionList fallback regression, and change no renderer, runtime, canonical content, application behavior, Chemometrics state or unrelated tests.",
-  "lastCompletedTurn": "worker: completed only the manager-authorized Issue #162 DefinitionList static-fallback test repair. Updated the generic static-first assertion to verify DefinitionList terms/descriptions across semantic markup and added a focused <dl>/<dt>/<dd> regression. No renderer, runtime, canonical content, app behavior, styling, ontology, learner-state schema or Chemometrics state changed. Returned to manager pending fresh local tests and visual smoke review.",
-  "lastUpdated": "2026-09-27T11:34:00+02:00",
+  "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
+  "lastCompletedTurn": "manager: local root npm test passed 19/19 and browser smoke confirmed the course-world navigation principle. Generated apps/self-study/index.html is materially stale on the branch because the reconciled Introduction is absent from its tracked static fallback; apps/pitch/index.html changes are unrelated CogniFlow generator output and explicitly excluded. Authorized only the Self-Study generated-artifact refresh.",
+  "lastUpdated": "2026-09-27T12:28:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Draft PR #163 requires repository-local Self-Study tests after the DefinitionList test-only integration repair",
-    "Draft PR #163 requires a visual browser smoke review on the reconciled Introduction-aware course world",
-    "Draft PR #163 requires a final manager acceptance claim followed by fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
-  ],
-  "stateRevision": 211,
+  "blockedBy": [],
+  "stateRevision": 212,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:18:44+02:00",
-      "from": "busy/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
-      "reason": "Verified the accepted Copilot test finding is repaired and scoped; returned blocked while waiting for fresh exact-head validator success before resolving the thread and requesting final re-review."
-    },
     {
       "at": "2026-09-11T08:32:59+02:00",
       "from": "blocked/manager",
@@ -196,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
       "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T12:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
+      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
     }
   ]
 }
