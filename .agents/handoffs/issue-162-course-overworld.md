@@ -248,3 +248,15 @@ Those can be added later over the stable exact-binding/course-world boundary.
 ## Recommended manager action
 
 `review` after repository-local focused tests and visual smoke review. Verify exact-head validation, 19-file System-only scope, current-main freshness, browser/static parity, runtime binding compatibility, no cross-track mutation, and Ready-for-review before merge.
+
+## 2026-09-27 integration repair after Introduction merge
+
+After reconciling PR #163 with current `main` (including Issue #160 Introduction), the local `npm run test:self-study` suite exposed one stale test assumption in `apps/self-study/test/app.test.ts`: the generic fallback probe expected the first characters of `DefinitionList.staticFallback` (for example `Lecture: Concepts...`) to appear as one contiguous HTML string. The renderer correctly emits semantic `<dl><dt>…</dt><dd>…</dd></dl>` markup, so the content was present but split by markup.
+
+Manager classified this as a **test-only integration repair**. The repair:
+- asserts DefinitionList terms and descriptions independently in the existing all-leaf static-fallback coverage;
+- adds a focused regression requiring every generated DefinitionList to expose its source block plus semantic `<dt>` and `<dd>` content;
+- changes no renderer, runtime, canonical content, application behavior, Chemometrics workflow state, ontology, learner-state schema or visual styling.
+
+Fresh local execution is still required after pulling this repair. Exact-head validator evidence remains a later manager gate after the visual browser smoke review.
+
