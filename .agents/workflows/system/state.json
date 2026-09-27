@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: formally accepted Issue #162 / PR #163 after local Self-Study verification, full npm test 19/19, browser smoke, current-main reconciliation, generated Self-Study fallback refresh and fresh exact-head agent-validator/project-chemie-digital success on 578fc81db2316e9fcb44e9349aa916d489ceceb0. Marked PR Ready and squash-merged it as 9369e976017f70afac17f6d80de3e7bf26d1d7ef; Issue #162 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
-  "lastUpdated": "2026-09-27T12:43:00+02:00",
+  "activeRole": "Software Architect",
+  "activeIssue": 165,
+  "expectedDeliverable": "Define the renderer-neutral OfferingSection architecture boundary only: relationship to TeachingOffering/UnitPlacement, total-coverage and empty-section invariants, metadata ownership, renderer/learner-state exclusions, and an explicit TeachingOfferingRuntimeDocument 1.1 compatibility decision. No ontology, SHACL, runtime/compiler, application, learner-state or Chemometrics content implementation.",
+  "lastCompletedTurn": "manager: claimed bounded System architecture Issue #165 after #162 merged and the System lane returned idle. The turn is architecture-only and must not implement ontology/runtime/UI/content.",
+  "lastUpdated": "2026-09-27T12:55:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
+    "claimedAt": "2026-09-27T12:55:00+02:00",
+    "expiresAt": "2026-09-27T14:55:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 216,
+  "stateRevision": 217,
   "transitionHistory": [
-    {
-      "at": "2026-09-23T13:55:00+02:00",
-      "from": "ready/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue153-standardization-handoff-20260923T135500+0200",
-      "reason": "Completed the expanded Issue #153 implementation and CogniFlow presentation standardization, opened Draft PR #156, updated the final handoff/roadmap, and returned control to the System manager for fresh exact-head validation and independent review."
-    },
     {
       "at": "2026-09-25T16:39:53+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/manager",
       "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
       "reason": "Exact-head validator success, local tests, browser smoke, integration freshness and Ready lifecycle all passed for PR #163. Squash-merged Issue #162 as 9369e976017f70afac17f6d80de3e7bf26d1d7ef, verified Issue #162 closed completed and single-parent squash, and returned System to idle manager state."
+    },
+    {
+      "at": "2026-09-27T12:55:00+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
+      "reason": "Claimed Issue #165 to define OfferingSection as a renderer-neutral offering-specific curriculum grouping overlay and settle its versioned runtime compatibility boundary."
     }
   ]
 }
