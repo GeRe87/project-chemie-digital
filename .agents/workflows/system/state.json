@@ -1,78 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "busy",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 162,
-  "expectedDeliverable": "Implement System Issue #162 as one bounded Self-Study course-overworld vertical slice: add additive validated absolute LearningPath-to-SceneDocument bindings, generate the explicit Chemometrics offering bundle with all fully scene-bound paths while preserving scene-free paths as visible In preparation units, add a pure course-world view model and accessible retro-inspired static/browser map navigation, preserve mounted learner-state controllers, and avoid Chemometrics RDF, learner-state schema, Pitch/Reveal, ontology/SHACL, deployment or persistence changes.",
-  "lastCompletedTurn": "manager: defined Issue #162 after reviewing Self-Study, CanonicalRuntimeArtifact, ADR-0010/0011 and current generator boundaries. Chose an additive exact path↔SceneDocument binding instead of reverse-parsing compact sourcePathId, a generic offering-bundle generator that skips only wholly scene-free paths, and an original accessible CSS course-world over TeachingOffering placements; #160 is not a prerequisite and will be picked up automatically after merge.",
-  "lastUpdated": "2026-09-26T20:20:00+02:00",
+  "expectedDeliverable": "Refresh only tracked apps/self-study/index.html from the already verified Issue #162 generator on the reconciled Introduction-aware runtime. Do not include apps/pitch/index.html or modify renderer/runtime/content/styles/tests/ontology/learner-state/Chemometrics state.",
+  "lastCompletedTurn": "manager: local Issue #162 evidence is complete on the reconciled Introduction-aware implementation: Self-Study tests passed after the DefinitionList test repair, root npm test passed 19/19, browser smoke confirmed map/open/back navigation and Introduction integration, and the resulting tracked Self-Study static fallback was committed as generated artifact only. Claimed the final acceptance turn; this state mutation creates the final PR head that must receive fresh exact-head validator success before Ready and merge.",
+  "lastUpdated": "2026-09-27T12:36:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
+    "claimedAt": "2026-09-27T12:36:00+02:00",
+    "expiresAt": "2026-09-27T14:36:00+02:00"
   },
-  "blockedBy": [],
-  "stateRevision": 200,
+  "blockedBy": [
+    "Draft PR #163 requires fresh exact-head agent-validator/project-chemie-digital success on the final manager-claim head",
+    "Draft PR #163 requires Ready-for-review lifecycle completion before merge"
+  ],
+  "stateRevision": 215,
   "transitionHistory": [
-    {
-      "at": "2026-09-11T08:07:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue151-copilot-test-repair-20260911T080700+0200",
-      "reason": "Accepted the single Copilot finding that the presentation-profile registry regression is brittle, confirmed the light assets are already verified, converted PR #152 back to Draft, and authorized one test-only invariant repair."
-    },
-    {
-      "at": "2026-09-11T08:13:13+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
-      "reason": "Claimed the manager-authorized bounded #151 test-only review repair turn."
-    },
-    {
-      "at": "2026-09-11T08:15:05+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue151-test-repair-20260911T081313+0200",
-      "reason": "Completed the accepted Copilot test-only invariant repair, updated the handoff, left the review thread unresolved for manager verification, and returned for fresh exact-head validation and configured re-review."
-    },
-    {
-      "at": "2026-09-11T08:17:06+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
-      "reason": "Claimed one bounded manager turn to verify the test-only Copilot repair and final review gates for PR #152."
-    },
-    {
-      "at": "2026-09-11T08:18:44+02:00",
-      "from": "busy/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-system-manager-issue151-final-review-20260911T081706+0200",
-      "reason": "Verified the accepted Copilot test finding is repaired and scoped; returned blocked while waiting for fresh exact-head validator success before resolving the thread and requesting final re-review."
-    },
-    {
-      "at": "2026-09-11T08:32:59+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
-      "reason": "Claimed the final manager gate turn after exact-head validator success on the prior blocked state head; this claim head must itself validate before review resolution and merge gates proceed."
-    },
-    {
-      "at": "2026-09-11T10:20:09+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue151-final-gates-20260911T083259+0200",
-      "reason": "Exact-head validation succeeded, final Copilot re-review produced 0 new comments, all review threads were resolved, PR #152 was 0 behind and mergeable, and the PR was squash-merged as 64bd41add05d5a89d7a9027145aa7953fc705aa8; System returned to idle manager state."
-    },
-    {
-      "at": "2026-09-11T10:38:37+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-bar-chart-plan-20260911T103837+0200",
-      "reason": "Claimed one bounded manager planning turn for the first semantics-authored quantitative D3 chart with a directly visible CogniFlow Pitch example."
-    },
     {
       "at": "2026-09-11T10:41:13+02:00",
       "from": "busy/manager",
@@ -142,6 +89,111 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-course-overworld-plan-20260926T201500+0200",
       "reason": "Created System Issue #162 and authorized one Frontend and Reveal Renderer Engineer worker turn for the bounded Self-Study course-overworld/runtime-binding vertical slice; Chemometrics content state remains independently blocked on #160 gates."
+    },
+    {
+      "at": "2026-09-26T20:23:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
+      "reason": "Claimed bounded System Issue #162 on fresh branch agent/162-course-overworld for additive exact path-to-SceneDocument runtime bindings, Chemometrics Self-Study multi-path bundle generation and accessible retro-inspired course-world navigation."
+    },
+    {
+      "at": "2026-09-26T20:42:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-course-overworld-20260926T202300+0200",
+      "reason": "Completed the bounded Self-Study course-overworld/runtime-binding vertical slice with Draft PR #163, focused regressions and structured handoff; returned to System manager for local tests, visual smoke review, exact-head validation and independent review."
+    },
+    {
+      "at": "2026-09-26T20:46:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-static-review-20260926T204600+0200",
+      "reason": "Claimed independent static System manager review for Issue #162 / PR #163 while local execution is unavailable, to verify runtime-binding architecture, browser/static navigation lifecycle, scope, accessibility boundaries and integration freshness before the later local-test and exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-26T20:50:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-static-review-20260926T204600+0200",
+      "reason": "Authorized one bounded #162 review repair only: deduplicate mounted/rendered SceneDocument ids for repeated placements of the same reusable LearningUnit/path, preserving separate world stations and authored first-occurrence order."
+    },
+    {
+      "at": "2026-09-26T20:52:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+      "reason": "Claimed the manager-authorized bounded Issue #162 review repair: deduplicate bound SceneDocument mount/render ids for repeated placements of one reusable LearningUnit/path while preserving all world stations."
+    },
+    {
+      "at": "2026-09-26T20:58:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-reused-unit-repair-20260926T205200+0200",
+      "reason": "Completed only the authorized reused-unit deduplication repair and focused regression; returned PR #163 to System manager review with local execution and final validation still pending."
+    },
+    {
+      "at": "2026-09-26T21:00:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+      "reason": "Claimed one bounded manager verification turn for the Issue #162 reused-LearningUnit repair only; local test, visual smoke, exact-head validator and Ready gates remain separate."
+    },
+    {
+      "at": "2026-09-26T21:03:00+02:00",
+      "from": "busy/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-system-manager-issue162-repair-verification-20260926T210000+0200",
+      "reason": "Verified the reused-LearningUnit repair and the complete #162 static scope as clean; released the manager lease and parked PR #163 pending local test/visual evidence and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T11:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-definition-list-test-repair-20260927T112800+0200",
+      "reason": "After reconciling #162 with merged Introduction, local test:self-study exposed a stale contiguous-string assertion for semantic DefinitionList <dt>/<dd> fallback markup. Authorized only a test-side repair plus focused regression; no production/content/runtime change."
+    },
+    {
+      "at": "2026-09-27T11:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
+      "reason": "Claimed only the #162 test-side DefinitionList fallback repair authorized after current-main reconciliation."
+    },
+    {
+      "at": "2026-09-27T11:34:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
+      "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-27T12:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
+      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
+    },
+    {
+      "at": "2026-09-27T12:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
+      "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
+    },
+    {
+      "at": "2026-09-27T12:35:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
+      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
+    },
+    {
+      "at": "2026-09-27T12:36:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
+      "reason": "Claimed final Issue #162 acceptance after local Self-Study/root tests, browser smoke, current-main reconciliation and generated fallback refresh. The resulting exact claim head now requires fresh external validator success before Ready/merge."
     }
   ]
 }

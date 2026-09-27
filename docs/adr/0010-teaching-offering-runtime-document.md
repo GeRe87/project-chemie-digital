@@ -566,3 +566,12 @@ Rejected. An IRI local name is technical identity syntax, not authored education
 ### Require a root `canonical-runtime` version bump for the additive document
 
 Rejected for the current migration. Existing root fields keep the same semantics and current consumers ignore additional keys. The new document has its own version. A root version bump is reserved for incompatible container changes.
+
+## Additive SceneDocument path bindings
+
+Course-level application navigation needs an exact bridge between the absolute LearningPath identity exposed by `TeachingOfferingRuntimeDocument.units[].paths[]` and a compiled `SceneDocument`. It must not reverse-parse compact `SceneDocument.sourcePathId` values.
+
+`CanonicalRuntimeArtifact 1.0` may therefore carry an additive `sceneDocumentBindings[]` collection. Each binding contains the exact absolute `pathId`, exact absolute `pathGraphId`, and the exact generated `sceneDocumentId`. Existing artifacts without this additive collection remain valid.
+
+The collection is generated read state, not authored RDF and not learner state. Bindings are deterministic by exact path identity, one SceneDocument may belong to only one path binding, and a binding to an absent SceneDocument fails closed. Applications may use this collection to associate course navigation candidates with compiled content without assigning selection authority to labels, array order, IRI local names, compact-prefix expansion or renderer state.
+

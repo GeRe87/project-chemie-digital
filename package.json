@@ -32,7 +32,7 @@
     "test:renderer-d3": "npm --workspace @project-chemie-digital/renderer-d3 test",
     "test:renderer-self-study": "node --experimental-strip-types --test packages/renderer-self-study/test/*.test.ts",
     "test:pitch": "npm --workspace @project-chemie-digital/pitch test",
-    "generate:self-study": "python scripts/generate_canonical_runtime.py --output apps/self-study/src/generated/canonical-runtime.json && node --experimental-strip-types apps/self-study/scripts/generate-static.mts",
+    "generate:self-study": "python apps/self-study/scripts/generate-runtime.py && node --experimental-strip-types apps/self-study/scripts/generate-static.mts",
     "test:self-study": "npm run generate:self-study && node --experimental-strip-types --test apps/self-study/test/*.test.ts",
     "pitch:dev": "npm --workspace @project-chemie-digital/pitch run dev",
     "self-study:dev": "npm run generate:self-study && vite apps/self-study --host 127.0.0.1 --port 4174 --strictPort",

@@ -41,12 +41,19 @@ export interface TeachingOfferingRuntimeDocument {
   readonly units: readonly TeachingOfferingRuntimeUnit[];
 }
 
+export interface CanonicalRuntimeSceneDocumentBinding {
+  readonly pathId: string;
+  readonly pathGraphId: string;
+  readonly sceneDocumentId: string;
+}
+
 export interface CanonicalRuntimeArtifact {
   readonly artifactVersion: typeof CANONICAL_RUNTIME_ARTIFACT_VERSION;
   readonly datasetFingerprint: string;
   readonly datasetSnapshot: unknown;
   readonly teachingOfferingDocuments: readonly TeachingOfferingRuntimeDocument[];
   readonly sceneDocuments: readonly SceneDocument[];
+  readonly sceneDocumentBindings?: readonly CanonicalRuntimeSceneDocumentBinding[];
 }
 
 export class CanonicalRuntimeContractError extends Error {
@@ -255,13 +262,54 @@ export function validateCanonicalRuntimeArtifact(value: unknown): CanonicalRunti
   }
 
   const sceneDocuments = requireArray(root.sceneDocuments, "CanonicalRuntimeArtifact.sceneDocuments");
+  const sceneDocumentIds = new Set<string>();
   for (const [index, raw] of sceneDocuments.entries()) {
-    requireRecord(raw, `CanonicalRuntimeArtifact.sceneDocuments[${index}]`);
+    const sceneDocument = requireRecord(raw, `CanonicalRuntimeArtifact.sceneDocuments[${index}]`);
     try {
       validateSceneDocument(raw as SceneDocument);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       fail(`CanonicalRuntimeArtifact.sceneDocuments[${index}] is invalid: ${message}`);
+    }
+    const id = requireString(sceneDocument.id, `CanonicalRuntimeArtifact.sceneDocuments[${index}].id`);
+    if (sceneDocumentIds.has(id)) fail("CanonicalRuntimeArtifact.sceneDocuments contains duplicate ids");
+    sceneDocumentIds.add(id);
+  }
+
+  if (root.sceneDocumentBindings !== undefined) {
+    const bindings = requireArray(
+      root.sceneDocumentBindings,
+      "CanonicalRuntimeArtifact.sceneDocumentBindings",
+    );
+    const pathPairs = new Set<string>();
+    const boundDocuments = new Set<string>();
+    let previous: readonly [string, string] | undefined;
+    for (const [index, raw] of bindings.entries()) {
+      const label = `CanonicalRuntimeArtifact.sceneDocumentBindings[${index}]`;
+      const binding = requireRecord(raw, label);
+      const pathId = requireHttpIri(binding.pathId, `${label}.pathId`);
+      const pathGraphId = requireHttpIri(binding.pathGraphId, `${label}.pathGraphId`);
+      const sceneDocumentId = requireString(binding.sceneDocumentId, `${label}.sceneDocumentId`);
+      if (!sceneDocumentIds.has(sceneDocumentId)) {
+        fail(`${label}.sceneDocumentId references unknown SceneDocument id ${sceneDocumentId}`);
+      }
+      const pairKey = `${pathId}\u0000${pathGraphId}`;
+      if (pathPairs.has(pairKey)) {
+        fail("CanonicalRuntimeArtifact.sceneDocumentBindings contains duplicate exact path bindings");
+      }
+      pathPairs.add(pairKey);
+      if (boundDocuments.has(sceneDocumentId)) {
+        fail("CanonicalRuntimeArtifact.sceneDocumentBindings binds one SceneDocument to multiple paths");
+      }
+      boundDocuments.add(sceneDocumentId);
+      if (previous !== undefined) {
+        const idOrder = compareStrings(previous[0], pathId);
+        const order = idOrder !== 0 ? idOrder : compareStrings(previous[1], pathGraphId);
+        if (order > 0) {
+          fail("CanonicalRuntimeArtifact.sceneDocumentBindings must be deterministically sorted by exact (pathId, pathGraphId)");
+        }
+      }
+      previous = [pathId, pathGraphId];
     }
   }
 
