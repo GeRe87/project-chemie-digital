@@ -236,3 +236,80 @@ test("explicit learner-state chrome is local-file based and reload remains ephem
   assert.match(source, /file\.text\(\)/);
   assert.doesNotMatch(source, /beforeunload|pagehide|visibilitychange/i);
 });
+
+
+test("generated Chemometrics runtime exposes section-aware 1.1 regions with exact current coverage", async () => {
+  const artifact = await readRuntimeArtifact();
+  const documentValue = artifact.teachingOfferingDocuments[0]!;
+  assert.equal(documentValue.version, "1.1");
+  if (documentValue.version !== "1.1") throw new Error("expected section-aware TeachingOfferingRuntimeDocument");
+
+  assert.equal(documentValue.sections.length, 7);
+  const grouped = documentValue.sections.flatMap((section) => section.placementIds);
+  assert.deepEqual(
+    [...grouped].sort(),
+    documentValue.placements.map((placement) => placement.id).sort(),
+  );
+  assert.equal(new Set(grouped).size, grouped.length);
+  assert.equal(documentValue.sections.filter((section) => section.placementIds.length === 0).length, 5);
+});
+
+test("course-world projection stays generic and does not hardcode Chemometrics section labels", async () => {
+  const source = await readFile(new URL("src/course-world.ts", appRoot), "utf8");
+  assert.match(source, /offering\.version === "1\.1"/);
+  assert.match(source, /section\.placementIds/);
+  assert.match(source, /section\.position/);
+  assert.doesNotMatch(
+    source,
+    /Getting Started|Data Characterization|Similarity Analysis|Data Modeling|Signal Processing|Uncertainties|Experimental Design/,
+  );
+});
+
+test("generated static world renders every authored region, description, member route and empty state", async () => {
+  const artifact = await readRuntimeArtifact();
+  const documentValue = artifact.teachingOfferingDocuments[0]!;
+  assert.equal(documentValue.version, "1.1");
+  if (documentValue.version !== "1.1") throw new Error("expected section-aware TeachingOfferingRuntimeDocument");
+  const index = await readFile(new URL("index.html", appRoot), "utf8");
+
+  assert.match(index, /class="course-world-sections"/);
+  assert.match(index, /class="course-world-region"/);
+  for (const section of documentValue.sections) {
+    for (const label of section.labels) assert.ok(index.includes(label.value), `missing static section label ${section.id}`);
+    for (const description of section.descriptions) {
+      assert.ok(index.includes(description.value), `missing static section description ${section.id}`);
+    }
+  }
+  assert.ok(
+    (index.match(/class="course-world-section-empty">In preparation/g) ?? []).length >= 5,
+    "expected all authored empty sections to remain visible",
+  );
+});
+
+test("browser region focus is keyboard-semantic and preserves direct unit start navigation", async () => {
+  const main = await readFile(new URL("src/main.ts", appRoot), "utf8");
+  const courseWorld = await readFile(new URL("src/course-world.ts", appRoot), "utf8");
+
+  assert.match(courseWorld, /button type="button" class="course-world-section-focus"/);
+  assert.match(courseWorld, /aria-controls=/);
+  assert.match(courseWorld, /aria-pressed="false"/);
+  assert.match(main, /button\[data-focus-course-section-id\]/);
+  assert.match(main, /candidate\.setAttribute\("aria-pressed", "false"\)/);
+  assert.match(main, /target\.classList\.add\("is-focused"\)/);
+  assert.match(main, /target\.focus\(\)/);
+  assert.match(main, /button\[data-scene-document-id\]/);
+  assert.match(main, /returnFocus = trigger/);
+});
+
+test("section-region styling is responsive and reduced-motion safe without semantic label selectors", async () => {
+  const styles = await readFile(new URL("src/styles.css", appRoot), "utf8");
+  assert.match(styles, /\.course-world-sections\s*\{/);
+  assert.match(styles, /\.course-world-region\s*\{/);
+  assert.match(styles, /nth-child\(6n \+ 1\)/);
+  assert.match(styles, /@media\s*\(max-width:\s*48rem\)[\s\S]*\.course-world-sections/);
+  assert.match(styles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  assert.doesNotMatch(
+    styles,
+    /Getting Started|Data Characterization|Similarity Analysis|Data Modeling|Signal Processing|Uncertainties|Experimental Design/,
+  );
+});
