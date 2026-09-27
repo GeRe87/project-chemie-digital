@@ -102,6 +102,176 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; }
   max-width: 40rem;
 }
 
+
+.course-world-sections {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 1.6rem;
+  width: min(68rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1rem 0 4rem;
+  list-style: none;
+}
+
+.course-world-section-item {
+  min-width: 0;
+}
+
+.course-world-region {
+  --region-accent: #496d86;
+  --region-surface: rgba(245, 251, 255, .95);
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: 1rem;
+  border: .12rem solid color-mix(in srgb, var(--region-accent) 58%, white);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--region-accent) 12%, transparent), transparent 42%),
+    var(--region-surface);
+  box-shadow: 0 .8rem 2rem rgba(34, 52, 66, .12);
+  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+}
+
+.course-world-region::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 1.4rem, color-mix(in srgb, var(--region-accent) 12%, transparent) 1.4rem 1.5rem),
+    radial-gradient(circle at 88% 18%, color-mix(in srgb, var(--region-accent) 16%, transparent) 0 4rem, transparent 4.1rem);
+  opacity: .7;
+}
+
+.course-world-section-item:nth-child(6n + 1) .course-world-region {
+  --region-accent: #4c7658;
+  --region-surface: rgba(244, 251, 241, .96);
+}
+.course-world-section-item:nth-child(6n + 2) .course-world-region {
+  --region-accent: #456f8c;
+  --region-surface: rgba(241, 248, 253, .96);
+}
+.course-world-section-item:nth-child(6n + 3) .course-world-region {
+  --region-accent: #765e8f;
+  --region-surface: rgba(248, 244, 252, .96);
+}
+.course-world-section-item:nth-child(6n + 4) .course-world-region {
+  --region-accent: #9a6b42;
+  --region-surface: rgba(253, 247, 240, .96);
+}
+.course-world-section-item:nth-child(6n + 5) .course-world-region {
+  --region-accent: #447f7c;
+  --region-surface: rgba(240, 251, 250, .96);
+}
+.course-world-section-item:nth-child(6n) .course-world-region {
+  --region-accent: #7d6c3d;
+  --region-surface: rgba(252, 249, 239, .96);
+}
+
+.course-world.has-focused-section .course-world-region {
+  opacity: .72;
+  transform: scale(.992);
+}
+
+.course-world.has-focused-section .course-world-region.is-focused {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 1rem 2.6rem color-mix(in srgb, var(--region-accent) 22%, transparent);
+}
+
+.course-world-region:focus {
+  outline: .22rem solid var(--region-accent);
+  outline-offset: .25rem;
+}
+
+.course-world-section-header {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .55rem 1rem;
+  align-items: start;
+  padding: 1.25rem 1.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--region-accent) 24%, transparent);
+}
+
+.course-world-region-index {
+  margin: 0;
+  color: var(--region-accent);
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.course-world-section-header h3 {
+  margin: .15rem 0 0;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.1;
+}
+
+.course-world-section-description,
+.course-world-section-status {
+  grid-column: 1 / -1;
+}
+
+.course-world-section-description {
+  margin: 0;
+  max-width: 55rem;
+  color: #42515d;
+}
+
+.course-world-section-status {
+  margin: .1rem 0 0;
+  font-weight: 800;
+}
+
+.course-world-region[data-section-status="available"] .course-world-section-status {
+  color: var(--world-available);
+}
+
+.course-world-region[data-section-status="in-preparation"] .course-world-section-status {
+  color: var(--world-pending);
+}
+
+.course-world-section-focus {
+  min-height: 2.4rem;
+  padding: .5rem .8rem;
+  border: .1rem solid var(--region-accent);
+  border-radius: .65rem;
+  background: rgba(255, 255, 255, .82);
+  color: var(--world-ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.course-world-section-focus[aria-pressed="true"] {
+  background: var(--region-accent);
+  color: white;
+}
+
+.course-world-section-empty {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 1.5rem 1.35rem 1.75rem;
+  color: var(--world-pending);
+  font-weight: 800;
+}
+
+.course-world-section-route {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 1rem 2.25rem;
+  background: rgba(255, 255, 255, .36);
+}
+
+.course-world-section-route::before {
+  top: 1.5rem;
+  bottom: 2.25rem;
+}
+
 .course-world-route {
   position: relative;
   z-index: 2;
@@ -184,7 +354,8 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; }
   backdrop-filter: blur(.25rem);
 }
 
-.course-world-card h3 {
+.course-world-card h3,
+.course-world-card h4 {
   margin: .25rem 0 .35rem;
   font-size: clamp(1.2rem, 3vw, 1.65rem);
   line-height: 1.15;
@@ -352,6 +523,19 @@ textarea:focus-visible {
 @media (max-width: 48rem) {
   .self-study-header, #self-study-app { width: min(100% - 1rem, 76rem); }
   .course-world { border-radius: .85rem; }
+  .course-world-sections {
+    width: calc(100% - 1rem);
+    gap: 1rem;
+    padding: .5rem 0 2.5rem;
+  }
+  .course-world-region { border-radius: .85rem; }
+  .course-world-section-header {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .course-world-section-focus { justify-self: start; }
+  .course-world-section-empty { padding: 1.25rem 1rem 1.5rem; }
+  .course-world-section-route { width: 100%; }
   .course-world-route {
     grid-template-columns: 4.5rem minmax(0, 1fr);
     gap: 1rem;
