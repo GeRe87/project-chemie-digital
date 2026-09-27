@@ -1,32 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 167,
-  "expectedDeliverable": "Final manager acceptance for Issue #167 after clean independent review and owner-local focused/full test evidence. No content expansion. Require fresh exact-head agent-validator/project-chemie-digital success on the manager-claim head before Ready and squash merge.",
-  "lastCompletedTurn": "manager: independent #167 review is clean; owner-local focused Chemometrics tests passed 12/12 and full repository npm test passed 19/19 on worker head a3ce07599aac51efa7d0713385715d6d2e605c06; generated Pitch/Self-Study HTML changes were restored and the local working tree is clean. Claimed final acceptance; fresh exact-head validation is now required.",
-  "lastUpdated": "2026-09-27T15:16:00+02:00",
+  "activeRole": null,
+  "activeIssue": null,
+  "expectedDeliverable": null,
+  "lastCompletedTurn": "manager: formally accepted Issue #167 / PR #177 after fresh exact-head agent-validator/project-chemie-digital success on bf61437095ddf87b9394693b81e87349f4f0b8c3. Marked PR Ready and squash-merged it as 1e0346df26b4650c49d573182dc10f205989d2e0; Issue #167 closed completed; verified the squash commit has exactly one parent. Chemometrics returned to idle manager state without System mutation.",
+  "lastUpdated": "2026-09-27T15:40:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
-    "claimedAt": "2026-09-27T15:16:00+02:00",
-    "expiresAt": "2026-09-27T17:16:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 86,
+  "blockedBy": [],
+  "stateRevision": 87,
   "transitionHistory": [
-    {
-      "at": "2026-09-25T17:15:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue140-resume-20260925T171500+0200",
-      "reason": "Claimed one bounded Chemometrics manager turn to re-evaluate Issue #140 after verifying its sole System prerequisite #141 is completed and the language-aware summary projection is present on current main; System is independently idle."
-    },
     {
       "at": "2026-09-25T17:17:00+02:00",
       "from": "busy/manager",
@@ -194,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
       "reason": "Claimed final Issue #167 acceptance after independent review, owner-local focused 12/12 and full repository 19/19 test evidence, clean-tree restoration and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
+    },
+    {
+      "at": "2026-09-27T15:40:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/manager",
+      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
+      "reason": "Exact-head validator success, local focused/full tests, independent review, integration freshness and Ready lifecycle all passed for PR #177. Squash-merged Issue #167 as 1e0346df26b4650c49d573182dc10f205989d2e0, verified Issue #167 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
     }
   ]
 }
