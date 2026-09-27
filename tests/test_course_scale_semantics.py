@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import BNode, Dataset, Graph, Literal, Namespace, RDF, URIRef
+from rdflib import BNode, Dataset, Graph, Literal, Namespace, RDF, SKOS, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
@@ -61,8 +61,8 @@ class CourseScaleSemanticTests(unittest.TestCase):
             graph.add(triple)
         return graph
 
-    def _assert_nonconformant(self, graph: Graph) -> None:
-        conforms, _, report = validate(
+    def _validate(self, graph: Graph):
+        return validate(
             data_graph=graph,
             shacl_graph=VALIDATION.detached_graph(self.course_scale_shapes),
             inference="rdfs",
@@ -71,6 +71,13 @@ class CourseScaleSemanticTests(unittest.TestCase):
             allow_warnings=False,
             meta_shacl=False,
         )
+
+    def _assert_conformant(self, graph: Graph) -> None:
+        conforms, _, report = self._validate(graph)
+        self.assertTrue(bool(conforms), str(report))
+
+    def _assert_nonconformant(self, graph: Graph) -> None:
+        conforms, _, report = self._validate(graph)
         self.assertFalse(bool(conforms), str(report))
 
     @staticmethod
@@ -191,6 +198,136 @@ class CourseScaleSemanticTests(unittest.TestCase):
         graph.add((other_offering, RDF.type, CD.TeachingOffering))
         graph.add((other_offering, CD.hasUnitPlacement, self.placement))
         self._assert_nonconformant(graph)
+
+    def _add_section(
+        self,
+        graph: Graph,
+        section,
+        position: int,
+        *,
+        label: str = "Section",
+        placements=(),
+        offering=None,
+    ) -> None:
+        owner = self.offering if offering is None else offering
+        graph.add((section, RDF.type, CD.OfferingSection))
+        graph.add((section, CD.position, Literal(position)))
+        graph.add((section, SKOS.prefLabel, Literal(label, lang="en")))
+        graph.add((owner, CD.hasOfferingSection, section))
+        for placement in placements:
+            graph.add((section, CD.groupsUnitPlacement, placement))
+
+    def test_shacl_accepts_complete_sections_and_empty_planned_section(self) -> None:
+        graph = self._copy_graph()
+        active = EX["offering-section-active"]
+        planned = EX["offering-section-planned"]
+        self._add_section(graph, active, 10, label="Active", placements=(self.placement,))
+        self._add_section(graph, planned, 20, label="Planned")
+        self._assert_conformant(graph)
+
+    def test_shacl_rejects_blank_node_offering_section_identity(self) -> None:
+        graph = self._copy_graph()
+        section = BNode()
+        self._add_section(graph, section, 10, placements=(self.placement,))
+        self._assert_nonconformant(graph)
+
+    def test_shacl_rejects_section_without_owner_or_label_or_valid_position(self) -> None:
+        missing_owner = self._copy_graph()
+        section = EX["section-missing-owner"]
+        missing_owner.add((section, RDF.type, CD.OfferingSection))
+        missing_owner.add((section, CD.position, Literal(10)))
+        missing_owner.add((section, SKOS.prefLabel, Literal("Missing owner", lang="en")))
+        self._assert_nonconformant(missing_owner)
+
+        missing_label = self._copy_graph()
+        section = EX["section-missing-label"]
+        missing_label.add((section, RDF.type, CD.OfferingSection))
+        missing_label.add((section, CD.position, Literal(10)))
+        missing_label.add((self.offering, CD.hasOfferingSection, section))
+        missing_label.add((section, CD.groupsUnitPlacement, self.placement))
+        self._assert_nonconformant(missing_label)
+
+        invalid_position = self._copy_graph()
+        section = EX["section-invalid-position"]
+        invalid_position.add((section, RDF.type, CD.OfferingSection))
+        invalid_position.add((section, CD.position, Literal(0)))
+        invalid_position.add((section, SKOS.prefLabel, Literal("Invalid", lang="en")))
+        invalid_position.add((self.offering, CD.hasOfferingSection, section))
+        invalid_position.add((section, CD.groupsUnitPlacement, self.placement))
+        self._assert_nonconformant(invalid_position)
+
+    def test_shacl_rejects_duplicate_section_positions(self) -> None:
+        graph = self._copy_graph()
+        self._add_section(
+            graph,
+            EX["section-a"],
+            10,
+            label="A",
+            placements=(self.placement,),
+        )
+        self._add_section(graph, EX["section-b"], 10, label="B")
+        self._assert_nonconformant(graph)
+
+    def test_shacl_rejects_uncovered_or_multiply_grouped_placements(self) -> None:
+        uncovered = self._copy_graph()
+        self._add_section(uncovered, EX["section-empty"], 10, label="Empty")
+        self._assert_nonconformant(uncovered)
+
+        duplicated = self._copy_graph()
+        self._add_section(
+            duplicated,
+            EX["section-left"],
+            10,
+            label="Left",
+            placements=(self.placement,),
+        )
+        self._add_section(
+            duplicated,
+            EX["section-right"],
+            20,
+            label="Right",
+            placements=(self.placement,),
+        )
+        self._assert_nonconformant(duplicated)
+
+    def test_shacl_rejects_cross_offering_section_membership_and_multiple_owners(self) -> None:
+        graph = self._copy_graph()
+        other_offering = EX["other-section-offering"]
+        other_unit = EX["other-section-unit"]
+        other_placement = EX["other-section-placement"]
+        graph.add((other_offering, RDF.type, CD.TeachingOffering))
+        graph.add((other_unit, RDF.type, CD.LearningUnit))
+        graph.add((other_unit, CD.hasFocusConcept, EX["standard-deviation"]))
+        graph.add((other_placement, RDF.type, CD.UnitPlacement))
+        graph.add((other_placement, CD.position, Literal(20)))
+        graph.add((other_placement, CD.placesLearningUnit, other_unit))
+        graph.add((other_offering, CD.hasUnitPlacement, other_placement))
+
+        cross = EX["cross-section"]
+        self._add_section(graph, cross, 10, label="Cross", placements=(other_placement,))
+        self._assert_nonconformant(graph)
+
+        multiple = self._copy_graph()
+        section = EX["multiply-owned-section"]
+        self._add_section(
+            multiple,
+            section,
+            10,
+            label="Shared",
+            placements=(self.placement,),
+        )
+        other_offering = EX["second-owner"]
+        other_unit = EX["second-owner-unit"]
+        other_placement = EX["second-owner-placement"]
+        multiple.add((other_offering, RDF.type, CD.TeachingOffering))
+        multiple.add((other_unit, RDF.type, CD.LearningUnit))
+        multiple.add((other_unit, CD.hasFocusConcept, EX["standard-deviation"]))
+        multiple.add((other_placement, RDF.type, CD.UnitPlacement))
+        multiple.add((other_placement, CD.position, Literal(20)))
+        multiple.add((other_placement, CD.placesLearningUnit, other_unit))
+        multiple.add((other_offering, CD.hasUnitPlacement, other_placement))
+        multiple.add((other_offering, CD.hasOfferingSection, section))
+        self._assert_nonconformant(multiple)
 
     def test_shacl_rejects_path_target_that_is_not_learning_unit(self) -> None:
         graph = self._copy_graph()
