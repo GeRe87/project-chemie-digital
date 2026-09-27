@@ -15,25 +15,49 @@
     <main id="self-study-app" aria-label="Self-study course">
       <section id="self-study-static" aria-label="Static self-study course">
         <!-- self-study-runtime-fallback:start -->
-<section id="course-world" class="course-world" aria-labelledby="course-world-title">
+<section id="course-world" class="course-world" data-course-world-mode="sectioned" aria-labelledby="course-world-title">
     <header class="course-world-header">
       <p class="course-world-kicker">Course map</p>
-      <h2 id="course-world-title">Chemometrics and Applied Statistics</h2>
-      <p>Choose a level to start learning. Units still being prepared remain visible on the route.</p>
+      <h2 id="course-world-title" tabindex="-1">Chemometrics and Applied Statistics</h2>
+      <p>Choose a region, then start any available learning path. Empty authored regions remain visible while their content is prepared.</p>
     </header>
-    <ol class="course-world-route"><li class="course-world-node" data-world-side="left" data-unit-status="available" data-placement-position="10">
+    <ol class="course-world-sections"><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-getting-started" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-getting-started" data-section-status="available" data-region-variant="0" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-getting-started-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 1</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-getting-started-title">Getting Started</h3>
+          </div>
+          
+          <p class="course-world-section-description">Course orientation, lecturer context, learning workflow, materials and introduction activities.</p>
+          <p class="course-world-section-status">Available</p>
+        </header>
+        <ol class="course-world-route course-world-section-route"><li class="course-world-node" data-world-side="left" data-unit-status="available" data-placement-position="10">
       <div class="course-world-marker" aria-hidden="true">1</div>
       <article class="course-world-card">
         <p class="course-world-level">Level 1</p>
-        <h3>Introduction</h3>
+        <h4>Introduction</h4>
         <p class="course-world-status">Available</p>
         <div class="course-world-path-options"><div class="course-world-path-option" data-path-status="available"><span class="course-world-path-label">Chemometrics Introduction path</span><a class="course-world-start" href="#course-document-ex%3Apath-chemometrics-introduction--scene-document">Start</a></div></div>
       </article>
-    </li><li class="course-world-node" data-world-side="right" data-unit-status="available" data-placement-position="20">
+    </li></ol>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-characterization" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-data-characterization" data-section-status="available" data-region-variant="1" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-characterization-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 2</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-characterization-title">Data Characterization</h3>
+          </div>
+          
+          <p class="course-world-section-description">Basic statistical measures, location and dispersion, distributions and statistical moments.</p>
+          <p class="course-world-section-status">Available</p>
+        </header>
+        <ol class="course-world-route course-world-section-route"><li class="course-world-node" data-world-side="right" data-unit-status="available" data-placement-position="20">
       <div class="course-world-marker" aria-hidden="true">2</div>
       <article class="course-world-card">
         <p class="course-world-level">Level 2</p>
-        <h3>Random Variables</h3>
+        <h4>Random Variables</h4>
         <p class="course-world-status">Available</p>
         <div class="course-world-path-options"><div class="course-world-path-option" data-path-status="available"><span class="course-world-path-label">Chemometrics Random Variables lecture path</span><a class="course-world-start" href="#course-document-ex%3Apath-chemometrics-random-variables-lecture--scene-document">Start</a></div></div>
       </article>
@@ -41,7 +65,7 @@
       <div class="course-world-marker" aria-hidden="true">3</div>
       <article class="course-world-card">
         <p class="course-world-level">Level 3</p>
-        <h3>Mean Values</h3>
+        <h4>Mean Values</h4>
         <p class="course-world-status">Available</p>
         <div class="course-world-path-options"><div class="course-world-path-option" data-path-status="available"><span class="course-world-path-label">Chemometrics Mean Values lecture path</span><a class="course-world-start" href="#course-document-ex%3Apath-chemometrics-mean-values-lecture--scene-document">Start</a></div></div>
       </article>
@@ -49,10 +73,77 @@
       <div class="course-world-marker" aria-hidden="true">4</div>
       <article class="course-world-card">
         <p class="course-world-level">Level 4</p>
-        <h3>Variance and Dispersion</h3>
+        <h4>Variance and Dispersion</h4>
         <p class="course-world-status">In preparation</p>
         <div class="course-world-path-options"><div class="course-world-path-option" data-path-status="in-preparation"><span class="course-world-path-label">Chemometrics Variance and Dispersion lecture path</span><span class="course-world-path-state">In preparation</span></div></div>
       </article>
+    </li></ol>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-similarity-analysis" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-similarity-analysis" data-section-status="in-preparation" data-region-variant="2" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-similarity-analysis-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 3</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-similarity-analysis-title">Similarity Analysis</h3>
+          </div>
+          
+          <p class="course-world-section-description">Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis.</p>
+          <p class="course-world-section-status">In preparation</p>
+        </header>
+        <p class="course-world-section-empty">In preparation</p>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-modeling" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-data-modeling" data-section-status="in-preparation" data-region-variant="3" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-modeling-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 4</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-data-modeling-title">Data Modeling</h3>
+          </div>
+          
+          <p class="course-world-section-description">Linear and non-linear regression, model diagnostics and machine-learning methods for prediction and classification.</p>
+          <p class="course-world-section-status">In preparation</p>
+        </header>
+        <p class="course-world-section-empty">In preparation</p>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-signal-processing" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-signal-processing" data-section-status="in-preparation" data-region-variant="4" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-signal-processing-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 5</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-signal-processing-title">Signal Processing</h3>
+          </div>
+          
+          <p class="course-world-section-description">Normalization, smoothing and denoising with convolution, Savitzky-Golay methods, Fourier filtering and wavelet analysis.</p>
+          <p class="course-world-section-status">In preparation</p>
+        </header>
+        <p class="course-world-section-empty">In preparation</p>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-uncertainties" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-uncertainties" data-section-status="in-preparation" data-region-variant="5" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-uncertainties-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 6</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-uncertainties-title">Uncertainties</h3>
+          </div>
+          
+          <p class="course-world-section-description">Measurement uncertainty, uncertainty propagation, errors and bias, outliers, bootstrap methods and classification-error concepts.</p>
+          <p class="course-world-section-status">In preparation</p>
+        </header>
+        <p class="course-world-section-empty">In preparation</p>
+      </section>
+    </li><li class="course-world-section-item">
+      <section id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-experimental-design" class="course-world-region" data-course-section-id="https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-experimental-design" data-section-status="in-preparation" data-region-variant="0" aria-labelledby="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-experimental-design-title">
+        <header class="course-world-section-header">
+          <div>
+            <p class="course-world-region-index">Region 7</p>
+            <h3 id="course-world-section-https%3A%2F%2Fw3id.org%2Fproject-chemie-digital%2Fresource%2Foffering-section-chemometrics-experimental-design-title">Experimental Design</h3>
+          </div>
+          
+          <p class="course-world-section-description">Downhill-simplex optimization and design of experiments including factorial, fractional and response-surface designs.</p>
+          <p class="course-world-section-status">In preparation</p>
+        </header>
+        <p class="course-world-section-empty">In preparation</p>
+      </section>
     </li></ol>
   </section>
 <section class="self-study-static-documents" aria-label="Available course content">
