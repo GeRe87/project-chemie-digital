@@ -1,7 +1,8 @@
 import { validateSceneDocument, type SceneDocument } from "./scene-document.ts";
 
 export const CANONICAL_RUNTIME_ARTIFACT_VERSION = "1.0" as const;
-export const TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION = "1.0" as const;
+export const TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION = "1.0" as const;
+export const TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION = "1.1" as const;
 
 export interface RuntimeLocalizedText {
   readonly value: string;
@@ -28,8 +29,7 @@ export interface TeachingOfferingRuntimePlacement {
   readonly unitId: string;
 }
 
-export interface TeachingOfferingRuntimeDocument {
-  readonly version: typeof TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION;
+interface TeachingOfferingRuntimeDocumentBase {
   readonly datasetFingerprint: string;
   readonly offering: {
     readonly id: string;
@@ -40,6 +40,27 @@ export interface TeachingOfferingRuntimeDocument {
   readonly placements: readonly TeachingOfferingRuntimePlacement[];
   readonly units: readonly TeachingOfferingRuntimeUnit[];
 }
+
+export interface TeachingOfferingRuntimeSection {
+  readonly id: string;
+  readonly position: number;
+  readonly labels: readonly RuntimeLocalizedText[];
+  readonly descriptions: readonly RuntimeLocalizedText[];
+  readonly placementIds: readonly string[];
+}
+
+export interface TeachingOfferingRuntimeDocumentV1_0 extends TeachingOfferingRuntimeDocumentBase {
+  readonly version: typeof TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION;
+}
+
+export interface TeachingOfferingRuntimeDocumentV1_1 extends TeachingOfferingRuntimeDocumentBase {
+  readonly version: typeof TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION;
+  readonly sections: readonly TeachingOfferingRuntimeSection[];
+}
+
+export type TeachingOfferingRuntimeDocument =
+  | TeachingOfferingRuntimeDocumentV1_0
+  | TeachingOfferingRuntimeDocumentV1_1;
 
 export interface CanonicalRuntimeSceneDocumentBinding {
   readonly pathId: string;
@@ -174,8 +195,18 @@ function validatePathReferences(value: unknown, label: string): void {
 function validateTeachingOfferingDocument(value: unknown, rootFingerprint: string, index: number): TeachingOfferingRuntimeDocument {
   const label = `teachingOfferingDocuments[${index}]`;
   const documentValue = requireRecord(value, label);
-  if (documentValue.version !== TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION) {
-    fail(`${label}.version is unsupported: ${String(documentValue.version)}`);
+  const version = documentValue.version;
+  if (
+    version !== TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION
+    && version !== TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION
+  ) {
+    fail(`${label}.version is unsupported: ${String(version)}`);
+  }
+  if (version === TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION && Object.hasOwn(documentValue, "sections")) {
+    fail(`${label}.sections is not supported by TeachingOfferingRuntimeDocument 1.0`);
+  }
+  if (version === TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION && !Object.hasOwn(documentValue, "sections")) {
+    fail(`${label}.sections is required for TeachingOfferingRuntimeDocument 1.1`);
   }
   const fingerprint = requireDatasetFingerprint(documentValue.datasetFingerprint, `${label}.datasetFingerprint`);
   if (fingerprint !== rootFingerprint) fail(`${label}.datasetFingerprint must equal the root Dataset fingerprint`);
@@ -189,6 +220,7 @@ function validateTeachingOfferingDocument(value: unknown, rootFingerprint: strin
   const placements = requireArray(documentValue.placements, `${label}.placements`);
   if (placements.length === 0) fail(`${label}.placements must contain at least one UnitPlacement`);
   const placementIds = new Set<string>();
+  const placementOrder = new Map<string, number>();
   const placementUnitIds: string[] = [];
   const positions = new Set<number>();
   let previousPosition: number | undefined;
@@ -204,6 +236,7 @@ function validateTeachingOfferingDocument(value: unknown, rootFingerprint: strin
     }
     if (positions.has(position)) fail(`${label}.placements contains duplicate positions`);
     positions.add(position);
+    placementOrder.set(id, position);
     if (previousPosition !== undefined && position < previousPosition) {
       fail(`${label}.placements must be serialized by position ascending`);
     }
@@ -235,6 +268,87 @@ function validateTeachingOfferingDocument(value: unknown, rootFingerprint: strin
   const referencedUnits = new Set(placementUnitIds);
   for (const unitId of unitIds) {
     if (!referencedUnits.has(unitId)) fail(`${label}.units contains unreferenced unit ${unitId}`);
+  }
+
+  if (version === TEACHING_OFFERING_RUNTIME_DOCUMENT_VERSION) {
+    const sections = requireArray(documentValue.sections, `${label}.sections`);
+    const sectionIds = new Set<string>();
+    const sectionPositions = new Set<number>();
+    const groupedPlacementIds = new Set<string>();
+    let previousSectionPosition: number | undefined;
+    let previousSectionId: string | undefined;
+
+    for (const [sectionIndex, raw] of sections.entries()) {
+      const sectionLabel = `${label}.sections[${sectionIndex}]`;
+      const section = requireRecord(raw, sectionLabel);
+      const id = requireHttpIri(section.id, `${sectionLabel}.id`);
+      if (sectionIds.has(id)) fail(`${label}.sections contains duplicate section ids`);
+      sectionIds.add(id);
+
+      const position = section.position;
+      if (typeof position !== "number" || !Number.isInteger(position) || position < 1) {
+        fail(`${sectionLabel}.position must be a positive integer`);
+      }
+      if (sectionPositions.has(position)) fail(`${label}.sections contains duplicate positions`);
+      sectionPositions.add(position);
+      if (
+        previousSectionPosition !== undefined
+        && (
+          position < previousSectionPosition
+          || (position === previousSectionPosition && previousSectionId !== undefined && compareStrings(previousSectionId, id) > 0)
+        )
+      ) {
+        fail(`${label}.sections must be deterministically sorted by position then section id`);
+      }
+      previousSectionPosition = position;
+      previousSectionId = id;
+
+      const labels = validateLocalizedText(section.labels, `${sectionLabel}.labels`);
+      if (labels.length === 0) fail(`${sectionLabel}.labels must contain at least one authored label`);
+      validateLocalizedText(section.descriptions, `${sectionLabel}.descriptions`);
+
+      const memberIds = requireArray(section.placementIds, `${sectionLabel}.placementIds`);
+      const localMembers = new Set<string>();
+      let previousMemberPosition: number | undefined;
+      let previousMemberId: string | undefined;
+      for (const [memberIndex, rawPlacementId] of memberIds.entries()) {
+        const memberLabel = `${sectionLabel}.placementIds[${memberIndex}]`;
+        const placementId = requireHttpIri(rawPlacementId, memberLabel);
+        const placementPosition = placementOrder.get(placementId);
+        if (placementPosition === undefined) {
+          fail(`${memberLabel} references unknown placement id ${placementId}`);
+        }
+        if (localMembers.has(placementId)) fail(`${sectionLabel}.placementIds contains duplicate placement ids`);
+        localMembers.add(placementId);
+        if (groupedPlacementIds.has(placementId)) {
+          fail(`${label}.sections groups one placement in multiple sections`);
+        }
+        groupedPlacementIds.add(placementId);
+        if (
+          previousMemberPosition !== undefined
+          && (
+            placementPosition < previousMemberPosition
+            || (
+              placementPosition === previousMemberPosition
+              && previousMemberId !== undefined
+              && compareStrings(previousMemberId, placementId) > 0
+            )
+          )
+        ) {
+          fail(`${sectionLabel}.placementIds must follow authored UnitPlacement order`);
+        }
+        previousMemberPosition = placementPosition;
+        previousMemberId = placementId;
+      }
+    }
+
+    if (sections.length > 0) {
+      for (const placementId of placementIds) {
+        if (!groupedPlacementIds.has(placementId)) {
+          fail(`${label}.sections must cover every UnitPlacement exactly once`);
+        }
+      }
+    }
   }
 
   return value as TeachingOfferingRuntimeDocument;
