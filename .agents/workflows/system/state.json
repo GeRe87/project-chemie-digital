@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Software Architect",
   "activeIssue": 165,
-  "expectedDeliverable": "Define the renderer-neutral OfferingSection architecture boundary only: relationship to TeachingOffering/UnitPlacement, total-coverage and empty-section invariants, metadata ownership, renderer/learner-state exclusions, and an explicit TeachingOfferingRuntimeDocument 1.1 compatibility decision. No ontology, SHACL, runtime/compiler, application, learner-state or Chemometrics content implementation.",
-  "lastCompletedTurn": "manager: claimed bounded System architecture Issue #165 after #162 merged and the System lane returned idle. The turn is architecture-only and must not implement ontology/runtime/UI/content.",
-  "lastUpdated": "2026-09-27T12:55:00+02:00",
+  "expectedDeliverable": "Author one ADR for Issue #165 defining OfferingSection as an additive offering-specific grouping overlay over existing UnitPlacements; require stable identity, section order, total placement coverage when sections exist, empty sections, no duplicate placement membership, same-offering membership, and no UI/progress/path semantics. Decide TeachingOfferingRuntimeDocument 1.1 adds explicit sections[] while 1.0 remains accepted as legacy flat composition and canonical-runtime artifactVersion remains 1.0. Add a structured handoff only; do not implement ontology/SHACL/runtime/app/content.",
+  "lastCompletedTurn": "manager: bounded Issue #165 architecture scope is approved. Runtime compatibility decision for the worker to record: introduce TeachingOfferingRuntimeDocument 1.1 with explicit sections[]; continue accepting 1.0 as legacy flat composition; keep outer canonical-runtime artifactVersion 1.0 because the container change is not incompatible. This avoids ambiguity between legacy producers and a new offering that genuinely has zero sections.",
+  "lastUpdated": "2026-09-27T12:57:00+02:00",
   "lease": {
-    "owner": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-    "claimedAt": "2026-09-27T12:55:00+02:00",
-    "expiresAt": "2026-09-27T14:55:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 217,
+  "stateRevision": 218,
   "transitionHistory": [
-    {
-      "at": "2026-09-25T16:39:53+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue153-independent-review-20260925T163953+0200",
-      "reason": "Claimed one bounded System manager review turn for Issue #153 / PR #154 after fresh exact-head validator success on the pre-claim head; the claim changes the PR head, so acceptance remains gated on fresh validation of the claim head."
-    },
     {
       "at": "2026-09-25T16:43:33+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
       "reason": "Claimed Issue #165 to define OfferingSection as a renderer-neutral offering-specific curriculum grouping overlay and settle its versioned runtime compatibility boundary."
+    },
+    {
+      "at": "2026-09-27T12:57:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
+      "reason": "Authorized one Software Architect worker turn to record the OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility rule only."
     }
   ]
 }
