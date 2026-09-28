@@ -38,8 +38,21 @@ test("lecture mode exposes a reusable four-colour marker palette", () => {
     assert.match(lectureStyles, new RegExp(className));
   }
 
-  assert.match(lectureStyles, /color-mix\(in srgb, var\(--pcd-marker-color\) 62%/);
-  assert.match(lectureStyles, /transform:\s*rotate\(-\.65deg\) skewX\(-3deg\)/);
+  const markerBlock = lectureStyles.slice(
+    lectureStyles.indexOf(".pcd-marker-highlight {"),
+    lectureStyles.indexOf(".pcd-marker-highlight--yellow"),
+  );
+  assert.ok((markerBlock.match(/linear-gradient\(/g) ?? []).length >= 3);
+  assert.match(markerBlock, /26%, transparent/);
+  assert.match(markerBlock, /38%, transparent/);
+  assert.match(markerBlock, /29%, transparent/);
+  assert.doesNotMatch(markerBlock, /border-radius/);
+
+  assert.match(lectureStyles, /\.keypoint-list > li::before,/);
+  assert.match(lectureStyles, /\.keypoint-list > li::after/);
+  assert.ok((lectureStyles.match(/clip-path:\s*polygon\(/g) ?? []).length >= 2);
+  assert.match(lectureStyles, /rotate\(-\.55deg\)/);
+  assert.match(lectureStyles, /rotate\(\.42deg\)/);
 });
 
 test("lecture case-study analysis uses a larger projection-scale chart area", () => {
@@ -54,8 +67,11 @@ test("lecture case-study analysis uses a larger projection-scale chart area", ()
 });
 
 test("staged slides freeze scroll containers and background progress structurally", () => {
-  assert.match(stageStyles, /body\.pcd-stage-lock-active[\s\S]*?overflow:\s*hidden\s*!important/);
   assert.match(stageStyles, /scrollbar-gutter:\s*stable/);
+  assert.doesNotMatch(
+    stageStyles,
+    /body\.pcd-stage-lock-active[^{]*\{[^}]*overflow:\s*hidden\s*!important/s,
+  );
   assert.match(stageStyles, /section\[data-stage-lock="true"\][\s\S]*?overflow:\s*hidden\s*!important/);
 
   assert.match(stageRuntime, /data-has-stages/);
@@ -63,14 +79,17 @@ test("staged slides freeze scroll containers and background progress structurall
   assert.match(stageRuntime, /preventDefault\(\)/);
   assert.match(stageRuntime, /fragmentshown/);
   assert.match(stageRuntime, /fragmenthidden/);
+  assert.match(stageRuntime, /settleFrameOne/);
+  assert.match(stageRuntime, /settleFrameTwo/);
+  assert.match(stageRuntime, /activateAfterRevealSettles/);
 
   assert.match(
     mainSource,
     /freezeForLayout[\s\S]*?isStageLockedSlide\(currentSlide\)/,
   );
-  assert.match(
+  assert.doesNotMatch(
     mainSource,
-    /sameFullMediaSequence[\s\S]*?isStageLockedSlide\(current\)/,
+    /sameFullMediaSequence[\s\S]{0,400}?isStageLockedSlide\(current\)/,
   );
 });
 
