@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Sixth #188 browser follow-up: direct terminal slide navigation is still blocked by the active stage lock before slidechanged. Add a generic synchronous staged-exit signal before terminal slide(h,v,f); mountPresentationStageLock must consume that signal and unlock immediately so fragmenthidden/scroll restoration cannot pull the viewport back during programmatic slide transition. Preserve settled-entry relock and all internal fragment navigation.",
-  "lastCompletedTurn": "worker: claimed synchronous unlock-before-slide lifecycle fix.",
-  "lastUpdated": "2026-09-28T16:32:00+02:00",
+  "expectedDeliverable": "Review sixth #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify terminal staged navigation unlocks on Reveal beforeslidechange before scroll-view movement, direct slide(h,v,f) then reaches the adjacent slide, no loop/stall remains, all six Intro slides remain reachable, and settled-entry relock still works. Then continue renderer/full-suite/final-validator gates.",
+  "lastCompletedTurn": "worker: completed sixth #188 browser follow-up: stage lock now releases on Reveal beforeslidechange, which fires before scroll-view scrollToSlide; direct terminal slide navigation therefore cannot be pulled back by outgoing fragment/scroll restoration. Custom exit event removed; two-frame relock on the destination is preserved.",
+  "lastUpdated": "2026-09-28T16:38:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
-    "claimedAt": "2026-09-28T16:32:00+02:00",
-    "expiresAt": "2026-09-28T18:32:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 261,
+  "blockedBy": [
+    "Issue #188 sixth browser follow-up requires owner-local npm run test:pitch",
+    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→adjacent slide, no loop/stall, backward terminal navigation, all six Introduction slides reachable",
+    "Issue #188 requires owner-local renderer-reveal tests",
+    "Issue #188 requires owner-local renderer-d3 tests",
+    "Issue #188 requires owner-local Chemometrics Introduction tests",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 262,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T12:44:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
-      "reason": "Completed generic #186 Reveal fit implementation and handoff on PR #185; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with content Issue #184."
-    },
     {
       "at": "2026-09-28T13:58:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
       "reason": "Claimed bounded lifecycle fix: synchronous staged-exit unlock must precede direct slide navigation."
+    },
+    {
+      "at": "2026-09-28T16:38:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
+      "reason": "Completed pre-slide lifecycle fix: stage lock now unlocks synchronously on Reveal beforeslidechange before scroll-view transition; direct slide navigation and destination relock remain intact."
     }
   ]
 }
