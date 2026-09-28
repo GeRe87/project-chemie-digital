@@ -22,9 +22,7 @@
 
   ex:path-step-chemometrics-introduction-title a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:chemometrics-title-attribution,
-      ex:chemometrics-title-pillars,
-      ex:chemometrics-title-takeaway ;
+    cd:usesResource ex:def-chemometrics-course-title ;
     cd:usesScene ex:scene-chemometrics-introduction-title ;
     cd:authoredResource true .
 
