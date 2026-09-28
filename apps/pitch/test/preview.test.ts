@@ -9,6 +9,7 @@ import {
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -81,6 +82,26 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   assert.match(first.children[1]?.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
   assert.equal(first.children[1]?.attributes.get("data-relation-path"), "cd:hasDefinition");
   destroy(); assert.equal(root.children.length, 0); destroy();
+});
+
+test("mounts generic layout variant and density markers for inferred layouts", () => {
+  const documents = compilePitchSceneDocuments();
+  const document = documents[0]!;
+  const sceneIndex = document.scenes.findIndex((scene) => inferRevealLayoutDecision(scene) !== undefined);
+  assert.ok(sceneIndex >= 0, "expected at least one structurally inferred layout in the canonical preview fixture");
+  const decision = inferRevealLayoutDecision(document.scenes[sceneIndex]!);
+  assert.ok(decision);
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
+  const section = root.children[sceneIndex]!;
+  assert.equal(section.attributes.get("data-layout"), decision.family);
+  assert.equal(section.attributes.get("data-layout-variant"), "default");
+  assert.ok(
+    ["comfortable", "dense", "compact"].includes(section.attributes.get("data-layout-density") ?? ""),
+    "expected a renderer-owned density marker",
+  );
+  destroy();
 });
 
 test("renders the canonical formula locally as KaTeX math", () => {
