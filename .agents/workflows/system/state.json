@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Third #188 browser follow-up: staged slides in Reveal scroll view must consume forward/back keyboard navigation as fragment navigation before any slide movement. Add generic capture-phase staged navigation using Reveal availableFragments/nextFragment/prevFragment, falling through to next/prev only after the internal stages are exhausted. Preserve stage lock, six-slide scroll deck and marker styling.",
-  "lastCompletedTurn": "manager: fresh browser smoke confirms the six-slide renderer regression is fixed, but staged content remains stuck at stage 0 because scroll-view navigation and scroll-lock conflict. Authorized a bounded #188 staged-navigation follow-up.",
-  "lastUpdated": "2026-09-28T15:48:00+02:00",
+  "lastCompletedTurn": "worker: claimed staged-navigation follow-up for scroll-view fragment control.",
+  "lastUpdated": "2026-09-28T15:49:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
+    "claimedAt": "2026-09-28T15:49:00+02:00",
+    "expiresAt": "2026-09-28T17:49:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 251,
+  "stateRevision": 252,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:12:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue166-offering-section-runtime-20260927T135300+0200",
-      "reason": "Completed generic #166 OfferingSection semantic/runtime implementation and structured handoff; returned to manager for local execution, artifact review and later exact-head acceptance gates."
-    },
     {
       "at": "2026-09-27T14:15:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-stage-navigation-20260928T154800+0200",
       "reason": "Authorized bounded #188 follow-up: in scroll view, staged slides must use fragment navigation without scroll movement, then continue to adjacent slides only after stages are exhausted."
+    },
+    {
+      "at": "2026-09-28T15:49:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
+      "reason": "Claimed staged-navigation follow-up; scope limited to generic keyboard fragment navigation on structurally staged slides."
     }
   ]
 }
