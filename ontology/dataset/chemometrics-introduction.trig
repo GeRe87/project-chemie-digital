@@ -1,6 +1,7 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-introduction> {
   # Slide 1 — title -----------------------------------------------------------
@@ -13,59 +14,136 @@
     cd:body "The opening scene frames Chemometrics and Applied Statistics as the connection between analytical measurements, quantitative reasoning and defensible interpretation."@en ;
     cd:authoredResource true .
 
-  # Slide 2 — course overview ------------------------------------------------
+  # Slide 2 — nitrate mini case study ----------------------------------------
   ex:chemometrics-course-overview a cd:Concept ;
     skos:prefLabel "What is this course about?"@en ;
     cd:hasDefinition ex:def-chemometrics-course-overview ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-overview a cd:Definition ;
-    cd:body "The course overview describes the purpose, scope and learning orientation of Chemometrics and Applied Statistics."@en ;
+    cd:body "A simple nitrate example introduces the central Chemometrics workflow: formulate an analytical question, inspect repeated measurements, summarize variation and interpret the result."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-banner a cd:Interpretation ;
-    cd:body """CHEMOMETRICS = DATA + CHEMISTRY + DECISIONS
-Quantitative methods become useful when they answer an analytical question."""@en ;
+  ex:chemometrics-nitrate-case-problem a cd:Interpretation ;
+    cd:body """AN ANALYTICAL QUESTION
+Three water samples are measured four times for nitrate. Which sample is clearly more contaminated, and how confident are we in that conclusion?"""@en ;
+    cd:hasMedia ex:media-chemometrics-nitrate-water-samples ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-foundation a cd:Interpretation ;
-    cd:body """METHOD + ASSUMPTIONS + INTERPRETATION
-We do not just calculate — we ask what a method measures, what it assumes and what its result means."""@en ;
+  ex:media-chemometrics-nitrate-water-samples a cd:MediaAsset ;
+    cd:uri "/chemometrics/nitrate-water-samples.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Three transparent water-sample vials labelled A upstream, B tap water and C runoff."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-list a cd:DefinitionList ;
-    cd:hasDefinitionListEntry ex:chemometrics-course-overview-statistics,
-      ex:chemometrics-course-overview-chemometrics,
-      ex:chemometrics-course-overview-analytical-context,
-      ex:chemometrics-course-overview-reproducibility ;
+  ex:table-chemometrics-nitrate-replicates a cd:TableDefinition ;
+    skos:prefLabel "Nitrate measurements"@en ;
+    cd:body "Illustrative nitrate concentrations in mg/L for three water samples measured in four replicates."@en ;
+    cd:hasTableColumn ex:table-column-nitrate-sample,
+      ex:table-column-nitrate-rep-1,
+      ex:table-column-nitrate-rep-2,
+      ex:table-column-nitrate-rep-3,
+      ex:table-column-nitrate-rep-4 ;
+    cd:hasTableRow ex:table-row-nitrate-a,
+      ex:table-row-nitrate-b,
+      ex:table-row-nitrate-c ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-statistics a cd:DefinitionListEntry ;
+  ex:table-column-nitrate-sample a cd:TableColumn ;
+    skos:prefLabel "Sample"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-1 a cd:TableColumn ;
+    skos:prefLabel "Rep 1"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-2 a cd:TableColumn ;
+    skos:prefLabel "Rep 2"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-3 a cd:TableColumn ;
+    skos:prefLabel "Rep 3"@en ; cd:position 4 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-4 a cd:TableColumn ;
+    skos:prefLabel "Rep 4"@en ; cd:position 5 ; cd:authoredResource true .
+
+  ex:table-row-nitrate-a a cd:TableRow ;
     cd:position 1 ;
-    skos:prefLabel "Statistics"@en ;
-    cd:body "Describe variation, distributions, uncertainty and evidence."@en ;
+    cd:hasTableCell ex:table-cell-nitrate-a-sample, ex:table-cell-nitrate-a-1,
+      ex:table-cell-nitrate-a-2, ex:table-cell-nitrate-a-3, ex:table-cell-nitrate-a-4 ;
     cd:authoredResource true .
+  ex:table-cell-nitrate-a-sample a cd:TableCell ; cd:position 1 ; cd:body "A · upstream"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-1 a cd:TableCell ; cd:position 2 ; cd:body "2.1"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-2 a cd:TableCell ; cd:position 3 ; cd:body "2.4"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-3 a cd:TableCell ; cd:position 4 ; cd:body "2.0"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-4 a cd:TableCell ; cd:position 5 ; cd:body "2.3"@en ; cd:authoredResource true .
 
-  ex:chemometrics-course-overview-chemometrics a cd:DefinitionListEntry ;
+  ex:table-row-nitrate-b a cd:TableRow ;
     cd:position 2 ;
-    skos:prefLabel "Chemometrics"@en ;
-    cd:body "Model complex and multivariate chemical data."@en ;
+    cd:hasTableCell ex:table-cell-nitrate-b-sample, ex:table-cell-nitrate-b-1,
+      ex:table-cell-nitrate-b-2, ex:table-cell-nitrate-b-3, ex:table-cell-nitrate-b-4 ;
     cd:authoredResource true .
+  ex:table-cell-nitrate-b-sample a cd:TableCell ; cd:position 1 ; cd:body "B · tap water"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-1 a cd:TableCell ; cd:position 2 ; cd:body "4.8"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-2 a cd:TableCell ; cd:position 3 ; cd:body "5.1"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-3 a cd:TableCell ; cd:position 4 ; cd:body "4.9"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-4 a cd:TableCell ; cd:position 5 ; cd:body "5.0"@en ; cd:authoredResource true .
 
-  ex:chemometrics-course-overview-analytical-context a cd:DefinitionListEntry ;
+  ex:table-row-nitrate-c a cd:TableRow ;
     cd:position 3 ;
-    skos:prefLabel "Analytical context"@en ;
-    cd:body "Connect methods to real measurements, instruments and chemical questions."@en ;
+    cd:hasTableCell ex:table-cell-nitrate-c-sample, ex:table-cell-nitrate-c-1,
+      ex:table-cell-nitrate-c-2, ex:table-cell-nitrate-c-3, ex:table-cell-nitrate-c-4 ;
+    cd:authoredResource true .
+  ex:table-cell-nitrate-c-sample a cd:TableCell ; cd:position 1 ; cd:body "C · runoff"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-1 a cd:TableCell ; cd:position 2 ; cd:body "18.5"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-2 a cd:TableCell ; cd:position 3 ; cd:body "19.2"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-3 a cd:TableCell ; cd:position 4 ; cd:body "18.9"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-4 a cd:TableCell ; cd:position 5 ; cd:body "19.1"@en ; cd:authoredResource true .
+
+  ex:chart-chemometrics-nitrate-means a cd:ChartDefinition ;
+    skos:prefLabel "Mean nitrate concentration"@en ;
+    cd:body "Mean ± sample standard deviation: A = 2.20 ± 0.18 mg/L, B = 4.95 ± 0.13 mg/L, C = 18.93 ± 0.31 mg/L. The bars show the means; the numerical spread is stated explicitly because this introductory chart does not encode error bars."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Water sample"@en ;
+    cd:yAxisLabel "Mean nitrate concentration"@en ;
+    cd:yAxisUnit "mg/L" ;
+    cd:usesDataset ex:dataset-chemometrics-nitrate-means ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-reproducibility a cd:DefinitionListEntry ;
-    cd:position 4 ;
-    skos:prefLabel "Reproducibility"@en ;
-    cd:body "Make calculations transparent, inspectable and repeatable."@en ;
+  ex:dataset-chemometrics-nitrate-means a cd:Dataset ;
+    skos:prefLabel "Illustrative nitrate means"@en ;
+    cd:hasObservation ex:observation-nitrate-mean-a,
+      ex:observation-nitrate-mean-b,
+      ex:observation-nitrate-mean-c ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-takeaway a cd:Interpretation ;
-    cd:body "FROM RAW MEASUREMENTS → DEFENSIBLE INTERPRETATION"@en ;
+  ex:observation-nitrate-mean-a a cd:Observation ;
+    skos:prefLabel "A · upstream"@en ;
+    cd:position 1 ; cd:numericValue 2.20 ; cd:authoredResource true .
+  ex:observation-nitrate-mean-b a cd:Observation ;
+    skos:prefLabel "B · tap water"@en ;
+    cd:position 2 ; cd:numericValue 4.95 ; cd:authoredResource true .
+  ex:observation-nitrate-mean-c a cd:Observation ;
+    skos:prefLabel "C · runoff"@en ;
+    cd:position 3 ; cd:numericValue 18.925 ; cd:authoredResource true .
+
+  ex:chemometrics-nitrate-case-discussion a cd:Interpretation ;
+    cd:body "Three observations turn the calculation into an analytical conclusion."@en ;
+    cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest,
+      ex:chemometrics-nitrate-discussion-variation,
+      ex:chemometrics-nitrate-discussion-decision ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-discussion-c-highest a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "Sample C is clearly highest in this illustrative dataset."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-discussion-variation a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Repeated measurements vary — so a result needs more than one number."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-discussion-decision a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "Chemometrics turns measurements, variation and assumptions into a defensible decision."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-case-takeaway a cd:Interpretation ;
+    cd:body "MEASUREMENTS → SUMMARY → VARIATION → INTERPRETATION"@en ;
     cd:authoredResource true .
 
   # Slide 3 — lecturer -------------------------------------------------------
