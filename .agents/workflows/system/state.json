@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Test-only #188 follow-up: align pitch list regressions with the new neutral pcd-list-item-text span. Update the existing semantic list preview test to assert text through the child span while retaining item provenance assertions, and replace the marker-span preview regression's invalid assumption about the Standard Deviation fixture with a neutral synthetic list scene. No runtime/style/content changes.",
-  "lastCompletedTurn": "manager: owner-local pitch tests exposed two fixture-only regressions after list text was wrapped for marker backgrounds. Authorized a test-only follow-up; runtime/style behavior must remain unchanged.",
-  "lastUpdated": "2026-09-28T15:34:00+02:00",
+  "lastCompletedTurn": "worker: claimed test-only #188 follow-up for marker-span DOM regressions.",
+  "lastUpdated": "2026-09-28T15:35:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
+    "claimedAt": "2026-09-28T15:35:00+02:00",
+    "expiresAt": "2026-09-28T17:35:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 248,
+  "stateRevision": 249,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:48:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue166-offering-section-implementation-20260927T134800+0200",
-      "reason": "Claimed Issue #166 to implement the accepted generic OfferingSection vocabulary, SHACL and TeachingOfferingRuntimeDocument 1.1 projection/validation contract."
-    },
     {
       "at": "2026-09-27T13:50:00+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-test-followup-20260928T153400+0200",
       "reason": "Authorized test-only #188 follow-up for the new list text span DOM contract; no runtime, style or scientific-content mutation."
+    },
+    {
+      "at": "2026-09-28T15:35:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
+      "reason": "Claimed test-only marker-span follow-up; runtime, CSS and authored scientific content remain unchanged."
     }
   ]
 }
