@@ -42,14 +42,15 @@
   stroke-width: 4;
 }
 
-/* Reveal owns slide visibility. Scene-specific layouts may use display:grid !important
-   for their active composition, but they must never surface inactive sibling slides. */
-#pitch-slides > section:not(.present) {
+/* Reveal owns slide visibility. In deck view, layout CSS with display:grid !important
+   must not surface inactive siblings. Scroll view intentionally keeps every slide in
+   the document flow, so never hide non-present slides there. */
+body[data-presentation-view="deck"] #pitch-slides > section:not(.present) {
   display: none !important;
   pointer-events: none !important;
 }
 
-#pitch-slides > section.present {
+body[data-presentation-view="deck"] #pitch-slides > section.present {
   pointer-events: auto;
 }
 
