@@ -200,8 +200,8 @@ function orderedBlocks(scene: Scene): readonly SceneBlock[] {
 }
 
 function densityForScore(totalScore: number): RevealLayoutDensity {
-  if (totalScore >= 42) return "compact";
-  if (totalScore >= 25) return "dense";
+  if (totalScore >= 48) return "compact";
+  if (totalScore >= 27) return "dense";
   return "comfortable";
 }
 
