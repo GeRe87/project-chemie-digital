@@ -251,7 +251,10 @@ function appendBlock(
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
-      listItem.textContent = item.text;
+      const itemText = dom.createElement("span");
+      itemText.className = "pcd-list-item-text";
+      itemText.textContent = item.text;
+      listItem.appendChild(itemText);
       listItem.setAttribute("data-list-item-id", item.id);
       sourceAttributes(listItem, item.source);
       list.appendChild(listItem);
