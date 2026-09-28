@@ -139,6 +139,7 @@
   ex:source-chemometrics-signal-processing-pinned a cd:Source ;
     dct:title "Chemometrics and Statistics — 09. Signal Processing" ;
     dct:creator "Gerrit Renner" ;
+    dct:description "Pinned public migration evidence for Signal Processing. The retained 2026 Chemometrics Markdown inventory contains no dedicated Signal Processing file."@en ;
     dct:identifier "GeRe87/chemometrics_lecture@db2c5ef266641399c2b495646064e16cfdd473e4:topics/09_SignalProcessing.html#blob=1ac2cee2ea96d42c077fff12901f9783ff6efc7c" ;
     dct:source <https://github.com/GeRe87/chemometrics_lecture/blob/db2c5ef266641399c2b495646064e16cfdd473e4/topics/09_SignalProcessing.html> ;
     cd:supportsResource
