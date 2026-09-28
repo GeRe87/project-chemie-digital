@@ -38,13 +38,17 @@ test("marks staged slides structurally without scene identity", () => {
   assert.equal(isStageLockedSlide(slide), true);
 });
 
-test("stage lock blocks wheel movement and restores captured scroll positions", () => {
+test("stage lock waits for Reveal to settle, then stabilizes fragments and unlocks on slide exit", () => {
   const deckListeners = new Map<string, Set<() => void>>();
-  const currentSlide = {
+  const stagedSlide = {
     getAttribute(name: string) {
       return name === "data-stage-lock" ? "true" : null;
     },
   } as unknown as HTMLElement;
+  const plainSlide = {
+    getAttribute() { return null; },
+  } as unknown as HTMLElement;
+  let currentSlide = stagedSlide;
 
   const viewportListeners = new Map<string, Set<EventListener>>();
   const viewport = {
@@ -70,8 +74,8 @@ test("stage lock blocks wheel movement and restores captured scroll positions", 
       remove(name: string) { bodyClasses.delete(name); },
     },
   };
-
   const root = { ownerDocument: { body } } as unknown as HTMLElement;
+
   const deck = {
     on(event: string, listener: () => void) {
       const set = deckListeners.get(event) ?? new Set<() => void>();
@@ -88,7 +92,8 @@ test("stage lock blocks wheel movement and restores captured scroll positions", 
   const windowListeners = new Map<string, Set<EventListener>>();
   let scrollX = 12;
   let scrollY = 220;
-  let frameCallback: FrameRequestCallback | undefined;
+  let nextFrameId = 1;
+  const frames = new Map<number, FrameRequestCallback>();
   const browserWindow = {
     get scrollX() { return scrollX; },
     get scrollY() { return scrollY; },
@@ -102,10 +107,21 @@ test("stage lock blocks wheel movement and restores captured scroll positions", 
       windowListeners.get(type)?.delete(listener);
     },
     requestAnimationFrame(callback: FrameRequestCallback) {
-      frameCallback = callback;
-      return 1;
+      const id = nextFrameId++;
+      frames.set(id, callback);
+      return id;
     },
-    cancelAnimationFrame() { frameCallback = undefined; },
+    cancelAnimationFrame(handle: number) {
+      frames.delete(handle);
+    },
+  };
+
+  const runNextFrame = (): void => {
+    const next = [...frames.entries()].sort(([a], [b]) => a - b)[0];
+    assert.ok(next, "expected a queued animation frame");
+    const [id, callback] = next;
+    frames.delete(id);
+    callback(0);
   };
 
   const destroy = mountPresentationStageLock(
@@ -113,8 +129,26 @@ test("stage lock blocks wheel movement and restores captured scroll positions", 
     deck as Parameters<typeof mountPresentationStageLock>[1],
     browserWindow,
   );
+
+  // Entry remains completely unlocked while Reveal positions the new slide.
+  assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
+  let preventedBeforeSettle = false;
+  const beforeSettleWheel = {
+    preventDefault() { preventedBeforeSettle = true; },
+  } as unknown as Event;
+  for (const listener of windowListeners.get("wheel") ?? []) listener(beforeSettleWheel);
+  assert.equal(preventedBeforeSettle, false);
+
+  // Simulate Reveal settling the slide at its final position across two frames.
+  scrollX = 24;
+  scrollY = 480;
+  viewport.scrollTop = 510;
+  runNextFrame();
+  assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
+  runNextFrame();
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), true);
 
+  // Once settled, wheel/touch attempts restore the captured stable position.
   scrollX = 99;
   scrollY = 999;
   viewport.scrollTop = 888;
@@ -123,18 +157,32 @@ test("stage lock blocks wheel movement and restores captured scroll positions", 
     preventDefault() { prevented = true; },
   } as unknown as Event;
   for (const listener of windowListeners.get("wheel") ?? []) listener(wheel);
-
   assert.equal(prevented, true);
-  assert.equal(scrollX, 12);
-  assert.equal(scrollY, 220);
-  assert.equal(viewport.scrollTop, 340);
+  assert.equal(scrollX, 24);
+  assert.equal(scrollY, 480);
+  assert.equal(viewport.scrollTop, 510);
 
+  // Fragment changes remain fixed at the same final slide position.
   scrollY = 777;
   viewport.scrollTop = 666;
   for (const listener of deckListeners.get("fragmentshown") ?? []) listener();
-  frameCallback?.(0);
-  assert.equal(scrollY, 220);
-  assert.equal(viewport.scrollTop, 340);
+  assert.equal(scrollY, 480);
+  assert.equal(viewport.scrollTop, 510);
+  runNextFrame();
+  assert.equal(scrollY, 480);
+  assert.equal(viewport.scrollTop, 510);
+
+  // Leaving the staged slide unlocks immediately before the next slide settles.
+  currentSlide = plainSlide;
+  for (const listener of deckListeners.get("slidechanged") ?? []) listener();
+  assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
+
+  let preventedAfterExit = false;
+  const afterExitWheel = {
+    preventDefault() { preventedAfterExit = true; },
+  } as unknown as Event;
+  for (const listener of windowListeners.get("wheel") ?? []) listener(afterExitWheel);
+  assert.equal(preventedAfterExit, false);
 
   destroy();
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
