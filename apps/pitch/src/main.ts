@@ -29,6 +29,7 @@ import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
 import "./full-media-layout.css";
 import "./closing-layout.css";
+import "./lecture-readability.css";
 import "./presentation-mobile.css";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
