@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 187,
-  "expectedDeliverable": "Review Issue #187 on PR #185 after owner-local renderer/pitch/Introduction tests and fresh browser smoke. Verify profile-driven Chemometrics lecture mode, 30px base/readability floors, structure-only content-budget diagnostics, two-column lecture-scale nitrate case study, no identity leakage, and no regressions to non-lecture profiles. Then coordinate full npm test and final exact-head validator with #184/#186 before Ready/squash merge.",
-  "lastCompletedTurn": "worker: completed #187 lecture readability mode on PR #185: Chemometrics profile defaults to lecture scale; 30px base typography with table/chart/supporting floors; generic SceneDocument content-budget diagnostics; over-budget slides warn authors instead of shrinking; nitrate case simplified to four primary regions/two major columns; focused profile/budget/layout tests and handoff added. Non-lecture profile remains standard.",
-  "lastUpdated": "2026-09-28T14:08:00+02:00",
+  "activeIssue": 188,
+  "expectedDeliverable": "Implement generic staged-slide lock, larger lecture analysis utilization, and generic lecture accent/marker styling on PR #185. Mark staged slides structurally, block wheel/touch scrolling and restore scroll position across fragment changes, freeze background progress for staged slides, enlarge lecture chart area, and add projection-safe marker/accent utilities without any course/topic identity logic.",
+  "lastCompletedTurn": "manager: created System Issue #188 from browser review after #187; authorized one bounded renderer/runtime styling turn for staged-slide stability, chart-space utilization and generic lecture accents only.",
+  "lastUpdated": "2026-09-28T14:35:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-stage-lock-accents-20260928T143500+0200",
+    "claimedAt": "2026-09-28T14:35:00+02:00",
+    "expiresAt": "2026-09-28T16:35:00+02:00"
   },
-  "blockedBy": [
-    "Issue #187 requires owner-local renderer-reveal tests",
-    "Issue #187 requires owner-local renderer-d3 tests",
-    "Issue #187 requires owner-local pitch tests",
-    "Issue #187 requires owner-local Chemometrics Introduction tests",
-    "Issue #187 requires fresh browser smoke via npm run pitch:intro",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 239,
+  "blockedBy": [],
+  "stateRevision": 240,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:35:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
-    },
     {
       "at": "2026-09-27T12:36:00+02:00",
       "from": "blocked/manager",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
       "reason": "Completed profile-driven lecture readability, generic content budgets and lecture-scale case-study simplification for #187; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with #184/#186."
+    },
+    {
+      "at": "2026-09-28T14:35:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-stage-lock-accents-20260928T143500+0200",
+      "reason": "Claimed #188 to implement generic stage-lock runtime, staged background freeze, larger lecture analysis utilization and reusable marker/accent styling; no scientific-content mutation or identity-specific renderer logic."
     }
   ]
 }
