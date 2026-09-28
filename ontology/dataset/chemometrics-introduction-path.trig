@@ -22,7 +22,8 @@
 
   ex:path-step-chemometrics-introduction-title a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:chemometrics-title-pillars,
+    cd:usesResource ex:chemometrics-title-attribution,
+      ex:chemometrics-title-pillars,
       ex:chemometrics-title-takeaway ;
     cd:usesScene ex:scene-chemometrics-introduction-title ;
     cd:authoredResource true .
@@ -46,8 +47,7 @@
   ex:path-step-chemometrics-introduction-format a cd:PathStep ;
     cd:position 4 ;
     cd:usesResource ex:chemometrics-course-format-banner,
-      ex:chemometrics-course-format-foundation,
-      ex:chemometrics-course-format-list,
+      ex:diagram-chemometrics-course-format,
       ex:chemometrics-course-format-takeaway ;
     cd:usesScene ex:scene-chemometrics-introduction-format ;
     cd:authoredResource true .
