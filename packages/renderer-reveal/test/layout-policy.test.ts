@@ -256,16 +256,11 @@ function caseStudyScene(id: string): Scene {
     description: "Three means",
     xAxis: { label: "Sample" },
     yAxis: { label: "Mean" },
-    series: [{
-      id: "series:1",
-      label: "Mean",
-      data: [
-        { id: "datum:a", category: "A", y: 1, source: [{ resourceId: "resource:datum:a" }] },
-        { id: "datum:b", category: "B", y: 2, source: [{ resourceId: "resource:datum:b" }] },
-        { id: "datum:c", category: "C", y: 3, source: [{ resourceId: "resource:datum:c" }] },
-      ],
-      source: [{ resourceId: "resource:series" }],
-    }],
+    data: [
+      { id: "datum:a", category: "A", value: 1, source: [{ resourceId: "resource:datum:a" }] },
+      { id: "datum:b", category: "B", value: 2, source: [{ resourceId: "resource:datum:b" }] },
+      { id: "datum:c", category: "C", value: 3, source: [{ resourceId: "resource:datum:c" }] },
+    ],
     source: [{ resourceId: "resource:analysis" }],
   };
   const discussion = {
