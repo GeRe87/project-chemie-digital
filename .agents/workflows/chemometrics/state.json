@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
   "expectedDeliverable": "Apply the visual-feedback follow-up to #184 only: make the title scene structurally distinct with an Attribution block and convert Lecture and Tutorial from a card-only scene into a semantic four-node linear FlowDiagram process scene. Preserve six-scene order and all other content. No renderer changes in this Chemometrics branch.",
-  "lastCompletedTurn": "manager: visual smoke feedback found the first #184 pass insufficiently distinct. Authorized a bounded content follow-up: title Attribution structure plus a real Lecture→Tutorial→Reproducible computation→Discussion flow diagram.",
-  "lastUpdated": "2026-09-28T11:32:00+02:00",
+  "lastCompletedTurn": "worker: claimed the manager-authorized #184 visual-feedback follow-up after the first browser review found the redesign insufficiently distinct; scope is true hero title plus Course Format FlowDiagram only.",
+  "lastUpdated": "2026-09-28T11:41:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
+    "claimedAt": "2026-09-28T11:41:00+02:00",
+    "expiresAt": "2026-09-28T13:41:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 109,
+  "stateRevision": 110,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:52:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
-      "reason": "Completed bounded Issue #167 with exact seven-section Chemometrics OfferingSection data, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff; returned to manager for local tests, independent review and later exact-head acceptance gates."
-    },
     {
       "at": "2026-09-27T15:16:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-issue184-visual-followup-20260928T113200+0200",
       "reason": "User visual smoke found the first redesign too similar; authorized only a title-attribution structural refinement and a real four-step course-format FlowDiagram, leaving renderer work to a separate System issue."
+    },
+    {
+      "at": "2026-09-28T11:41:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
+      "reason": "Claimed only the authorized visual follow-up: full-screen hero title plus four-node Course Format FlowDiagram, preserving all other six-scene Intro scope."
     }
   ]
 }
