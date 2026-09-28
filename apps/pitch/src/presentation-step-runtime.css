@@ -67,12 +67,20 @@
 
 
 /* Staged slides evolve in place: fragment changes must never move or scroll the slide. */
+html:has(body.pcd-stage-lock-active),
 body.pcd-stage-lock-active,
 body.pcd-stage-lock-active.reveal-viewport,
 body.pcd-stage-lock-active .reveal-viewport,
 body.pcd-stage-lock-active .reveal {
   scroll-behavior: auto !important;
   overscroll-behavior: none !important;
+  scrollbar-gutter: stable;
+}
+
+body.pcd-stage-lock-active,
+body.pcd-stage-lock-active.reveal-viewport,
+body.pcd-stage-lock-active .reveal-viewport {
+  overflow: hidden !important;
 }
 
 body.pcd-stage-lock-active .reveal-viewport,
