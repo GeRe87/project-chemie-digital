@@ -48,6 +48,7 @@ import { mountPresentationProjections } from "./presentation-projection.ts";
 import { mountPresentationClock } from "./presentation-clock.ts";
 import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
+  isStageLockedSlide,
   mountPresentationStageLock,
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
@@ -251,7 +252,7 @@ function syncNavigationMode(): void {
   const sameConceptSequence = current?.dataset.layout === "concept-specification"
     && next?.dataset.layout === current.dataset.layout;
   const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
-  const stagedSlide = current?.dataset.stageLock === "true";
+  const stagedSlide = isStageLockedSlide(current);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
     appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence || stagedSlide),
@@ -326,7 +327,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
   const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
     || currentSlide?.dataset.layout === "full-media"
-    || currentSlide?.dataset.stageLock === "true";
+    || isStageLockedSlide(currentSlide);
   if (appearance.view === "scroll" && freezeForLayout) return;
   backgroundRuntime.setProgress(offset);
 });
