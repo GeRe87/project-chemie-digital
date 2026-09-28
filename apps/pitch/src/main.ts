@@ -237,7 +237,12 @@ const deck = new Reveal({
 });
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
-const unmountPresentationStageNavigation = mountPresentationStageNavigation(deck, window, presentation);
+const unmountPresentationStageNavigation = mountPresentationStageNavigation(
+  deck,
+  window,
+  presentation,
+  { view: appearance.view, root },
+);
 const unmountPresentationStageLock = mountPresentationStageLock(root, deck, window);
 
 const presentationVideos = Array.from(
