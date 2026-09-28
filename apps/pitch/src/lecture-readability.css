@@ -94,7 +94,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-layou
   --pcd-case-chart-caption-font: .74em;
   --pcd-case-chart-header-font: .82em;
   --pcd-case-card-pad: .68rem;
-  --pcd-case-chart-height: clamp(28rem, 54vh, 32rem);
+  --pcd-case-chart-height: clamp(30rem, 60vh, 34rem);
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides section[data-layout="case-study"][data-layout-density="dense"],
@@ -105,7 +105,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-layou
   --pcd-case-chart-caption-font: .74em;
   --pcd-case-chart-header-font: .82em;
   --pcd-case-card-pad: .62rem;
-  --pcd-case-chart-height: clamp(28rem, 54vh, 32rem);
+  --pcd-case-chart-height: clamp(30rem, 60vh, 34rem);
 }
 
 /* Lecture case studies use two primary columns. Problem + raw evidence live on
@@ -309,4 +309,29 @@ body[data-presentation-readability="lecture"] .reveal
   background:
     linear-gradient(100deg, color-mix(in srgb, var(--pcd-lecture-pink) 13%, transparent), transparent 62%),
     var(--pcd-surface-strong);
+}
+
+
+/* Evidence tables get the same generic four-colour lecture rhythm. */
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n + 1) {
+  --pcd-lecture-row-accent: var(--pcd-lecture-cyan);
+}
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n + 2) {
+  --pcd-lecture-row-accent: var(--pcd-lecture-green);
+}
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n) {
+  --pcd-lecture-row-accent: var(--pcd-lecture-yellow);
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr {
+  background: color-mix(in srgb, var(--pcd-lecture-row-accent) 9%, transparent);
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] tbody td:first-child {
+  border-left: .28rem solid var(--pcd-lecture-row-accent);
 }
