@@ -13,39 +13,6 @@
     cd:body "The opening scene frames Chemometrics and Applied Statistics as the connection between analytical measurements, quantitative reasoning and defensible interpretation."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-title-pillars a cd:Interpretation ;
-    cd:body "Three recurring questions structure the course."@en ;
-    cd:hasKeyPoint ex:chemometrics-title-pillar-understand,
-      ex:chemometrics-title-pillar-uncertainty,
-      ex:chemometrics-title-pillar-interpret ;
-    cd:authoredResource true .
-
-  ex:chemometrics-title-pillar-understand a cd:KeyPoint ;
-    cd:position 1 ;
-    cd:body """UNDERSTAND DATA
-Recognize structure, variation and assumptions in analytical measurements."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-title-pillar-uncertainty a cd:KeyPoint ;
-    cd:position 2 ;
-    cd:body """QUANTIFY UNCERTAINTY
-Separate variation, evidence and model limitations from apparent certainty."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-title-pillar-interpret a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body """INTERPRET RESULTS
-Turn calculations and models into conclusions that make chemical sense."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-title-attribution a cd:Attribution ;
-    cd:body "Gerrit Renner · Analytical Data Science · Instrumental Analytical Chemistry"@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-title-takeaway a cd:Interpretation ;
-    cd:body "UNIVERSITY OF DUISBURG-ESSEN · MASTER COURSE"@en ;
-    cd:authoredResource true .
-
   # Slide 2 — course overview ------------------------------------------------
   ex:chemometrics-course-overview a cd:Concept ;
     skos:prefLabel "What is this course about?"@en ;
