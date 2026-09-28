@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Fourth #188 browser follow-up only: eliminate final-stage looping in Reveal scroll view. On structurally staged slides, capture forward/back navigation for the entire staged lifecycle. Advance/rewind fragments while available; when exhausted, explicitly call deck.next()/deck.prev() and consume the original browser event so Reveal does not run a second scroll-navigation path that resets fragments under the stage lock.",
-  "lastCompletedTurn": "manager: browser smoke confirms internal stages now advance, but final-stage fallthrough to Reveal scroll navigation resets fragments to stage 0 while stage lock prevents leaving the slide. Authorized one bounded navigation-terminal fix.",
-  "lastUpdated": "2026-09-28T16:08:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded terminal staged-navigation fix.",
+  "lastUpdated": "2026-09-28T16:09:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-terminal-navigation-20260928T160900+0200",
+    "claimedAt": "2026-09-28T16:09:00+02:00",
+    "expiresAt": "2026-09-28T18:09:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 254,
+  "stateRevision": 255,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T15:42:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue168-section-regions-20260927T154200+0200",
-      "reason": "Claimed bounded System Issue #168 after verifying #162, #166 and #167 are completed; scope is generic section-aware Self-Study regions, static-first parity and accessibility only, with no RDF/progress/scientific-content mutation."
-    },
     {
       "at": "2026-09-27T15:45:00+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-terminal-navigation-20260928T160800+0200",
       "reason": "Authorized bounded #188 terminal navigation fix: staged slides must own final/initial navigation and call deck.next()/deck.prev() explicitly instead of falling through to Reveal scroll navigation."
+    },
+    {
+      "at": "2026-09-28T16:09:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-terminal-navigation-20260928T160900+0200",
+      "reason": "Claimed terminal staged-navigation fix; scope limited to explicit next/prev slide transition after stage exhaustion."
     }
   ]
 }
