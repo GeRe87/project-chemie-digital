@@ -38,8 +38,12 @@ Separate variation, evidence and model limitations from apparent certainty."""@e
 Turn calculations and models into conclusions that make chemical sense."""@en ;
     cd:authoredResource true .
 
+  ex:chemometrics-title-attribution a cd:Attribution ;
+    cd:body "Gerrit Renner · Analytical Data Science · Instrumental Analytical Chemistry"@en ;
+    cd:authoredResource true .
+
   ex:chemometrics-title-takeaway a cd:Interpretation ;
-    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · INSTRUMENTAL ANALYTICAL CHEMISTRY · UNIVERSITY OF DUISBURG-ESSEN"@en ;
+    cd:body "UNIVERSITY OF DUISBURG-ESSEN · MASTER COURSE"@en ;
     cd:authoredResource true .
 
   # Slide 2 — course overview ------------------------------------------------
@@ -193,6 +197,63 @@ Concepts are taught together with assumptions, calculation, application and inte
 
   ex:chemometrics-course-format-takeaway a cd:Interpretation ;
     cd:body "THE GOAL IS NOT FORMULA RECALL — IT IS REASONED DATA ANALYSIS"@en ;
+    cd:authoredResource true .
+
+  ex:diagram-chemometrics-course-format a cd:FlowDiagram ;
+    skos:prefLabel "Course learning cycle"@en ;
+    cd:body "Lecture introduces a method, tutorial turns it into practice, reproducible computation makes the calculation inspectable, and discussion tests the reasoning."@en ;
+    cd:hasDiagramNode ex:node-chemometrics-format-lecture,
+      ex:node-chemometrics-format-tutorial,
+      ex:node-chemometrics-format-reproduce,
+      ex:node-chemometrics-format-discuss ;
+    cd:hasDiagramEdge ex:edge-chemometrics-format-1-2,
+      ex:edge-chemometrics-format-2-3,
+      ex:edge-chemometrics-format-3-4 ;
+    cd:authoredResource true .
+
+  ex:node-chemometrics-format-lecture a cd:DiagramNode ;
+    cd:position 1 ;
+    skos:prefLabel "LECTURE"@en ;
+    cd:body "Concepts · assumptions · interpretation"@en ;
+    cd:authoredResource true .
+
+  ex:node-chemometrics-format-tutorial a cd:DiagramNode ;
+    cd:position 2 ;
+    skos:prefLabel "TUTORIAL"@en ;
+    cd:body "Exercises · calculations · transfer"@en ;
+    cd:authoredResource true .
+
+  ex:node-chemometrics-format-reproduce a cd:DiagramNode ;
+    cd:position 3 ;
+    skos:prefLabel "REPRODUCE"@en ;
+    cd:body "Transparent code · inspectable calculation"@en ;
+    cd:authoredResource true .
+
+  ex:node-chemometrics-format-discuss a cd:DiagramNode ;
+    cd:position 4 ;
+    skos:prefLabel "DISCUSS"@en ;
+    cd:body "Compare reasoning · challenge assumptions"@en ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-format-1-2 a cd:DiagramEdge ;
+    cd:position 1 ;
+    skos:prefLabel "practice"@en ;
+    cd:sourceNode ex:node-chemometrics-format-lecture ;
+    cd:targetNode ex:node-chemometrics-format-tutorial ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-format-2-3 a cd:DiagramEdge ;
+    cd:position 2 ;
+    skos:prefLabel "make reproducible"@en ;
+    cd:sourceNode ex:node-chemometrics-format-tutorial ;
+    cd:targetNode ex:node-chemometrics-format-reproduce ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-format-3-4 a cd:DiagramEdge ;
+    cd:position 3 ;
+    skos:prefLabel "reflect"@en ;
+    cd:sourceNode ex:node-chemometrics-format-reproduce ;
+    cd:targetNode ex:node-chemometrics-format-discuss ;
     cd:authoredResource true .
 
   # Slide 5 — course roadmap -------------------------------------------------
