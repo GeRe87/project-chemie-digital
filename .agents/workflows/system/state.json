@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review test-only #188 marker-span follow-up on PR #185 after owner-local npm run test:pitch. Verify existing semantic list preview now asserts child pcd-list-item-text spans while retaining li-level provenance, and the new marker-span regression uses a neutral synthetic list scene instead of assuming the Standard Deviation fixture contains a list. No runtime/style/content changes were made. Then continue renderer/Introduction/browser/full-suite gates.",
-  "lastCompletedTurn": "worker: completed test-only #188 follow-up for the two owner-local pitch failures. Updated list-preview expectations to the neutral pcd-list-item-text child span while retaining item provenance assertions, and replaced the fixture-dependent marker-span test with a neutral synthetic list scene. Runtime/style/content unchanged.",
-  "lastUpdated": "2026-09-28T15:39:00+02:00",
+  "expectedDeliverable": "Third #188 browser follow-up: staged slides in Reveal scroll view must consume forward/back keyboard navigation as fragment navigation before any slide movement. Add generic capture-phase staged navigation using Reveal availableFragments/nextFragment/prevFragment, falling through to next/prev only after the internal stages are exhausted. Preserve stage lock, six-slide scroll deck and marker styling.",
+  "lastCompletedTurn": "manager: fresh browser smoke confirms the six-slide renderer regression is fixed, but staged content remains stuck at stage 0 because scroll-view navigation and scroll-lock conflict. Authorized a bounded #188 staged-navigation follow-up.",
+  "lastUpdated": "2026-09-28T15:48:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 test-only follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "Issue #188 requires fresh browser smoke: all six Introduction slides navigable, staged slide entry/exit stable, strong layered marker appearance",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 250,
+  "blockedBy": [],
+  "stateRevision": 251,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:53:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue166-offering-section-runtime-20260927T135300+0200",
-      "reason": "Claimed generic OfferingSection vocabulary/SHACL/runtime 1.1 implementation only; no Chemometrics instances, Self-Study region UI or learner-state progress."
-    },
     {
       "at": "2026-09-27T14:12:00+02:00",
       "from": "busy/worker",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
       "reason": "Completed test-only marker-span follow-up: semantic list preview and neutral marker-span regression now match the renderer DOM contract; no runtime/style/content changes."
+    },
+    {
+      "at": "2026-09-28T15:48:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-stage-navigation-20260928T154800+0200",
+      "reason": "Authorized bounded #188 follow-up: in scroll view, staged slides must use fragment navigation without scroll movement, then continue to adjacent slides only after stages are exhausted."
     }
   ]
 }
