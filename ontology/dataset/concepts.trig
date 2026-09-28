@@ -25,7 +25,7 @@ graph:concepts {
       cd:hasTableColumn, cd:hasTableRow, cd:hasTableCell, cd:forTopic, cd:hasStep,
       cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
       cd:selectsResource, cd:communicativeRole, cd:prerequisite, cd:dependsOn,
-      cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
+      cd:derivedFrom, cd:derivedFromResource, cd:interpretsResource, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
       cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
@@ -129,6 +129,8 @@ graph:concepts {
   cd:prerequisite a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Concept .
   cd:dependsOn a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
   cd:derivedFrom a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:derivedFromResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range cd:LearningResource .
+  cd:interpretsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Interpretation ; rdfs:range cd:LearningResource .
   cd:quantifiesProperty a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
   cd:hasInterpretation a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Interpretation .
   cd:hasUnitRule a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:UnitRule .
