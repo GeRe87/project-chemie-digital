@@ -238,7 +238,7 @@ function appendBlock(
     for (const childId of block.readingOrder) {
       const child = block.children.find((candidate) => candidate.id === childId);
       if (!child) throw new Error(`Group ${block.id} reading order references unknown block ${childId}`);
-      appendBlock(shell, dom, child, headingId);
+      appendBlock(shell, dom, child, headingId, undefined, layoutDensity);
     }
     parent.appendChild(shell);
     return;
