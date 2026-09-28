@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Third #188 browser follow-up: staged slides in Reveal scroll view must consume forward/back keyboard navigation as fragment navigation before any slide movement. Add generic capture-phase staged navigation using Reveal availableFragments/nextFragment/prevFragment, falling through to next/prev only after the internal stages are exhausted. Preserve stage lock, six-slide scroll deck and marker styling.",
-  "lastCompletedTurn": "worker: claimed staged-navigation follow-up for scroll-view fragment control.",
-  "lastUpdated": "2026-09-28T15:49:00+02:00",
+  "expectedDeliverable": "Review third #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify staged scroll-view navigation consumes chart/diagram fragments before any slide movement, forward/backward navigation falls through to adjacent slides only when stages are exhausted, settled-entry lock remains stable, full six-slide Introduction remains navigable, and marker styling remains strong. Then continue renderer/full-suite/final-validator gates.",
+  "lastCompletedTurn": "worker: completed third #188 browser follow-up: added generic capture-phase staged navigation for keyboard and Reveal controls using availableFragments/nextFragment/prevFragment, with normal Reveal fallthrough after final/initial stage; existing synthetic fragments, step dispatch, stage lock and six-slide scroll deck preserved.",
+  "lastUpdated": "2026-09-28T15:57:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
-    "claimedAt": "2026-09-28T15:49:00+02:00",
-    "expiresAt": "2026-09-28T17:49:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 252,
+  "blockedBy": [
+    "Issue #188 third browser follow-up requires owner-local npm run test:pitch",
+    "Issue #188 requires fresh browser smoke: staged chart/diagram fragments advance in place, final/initial stage falls through to adjacent slide, all six Introduction slides remain navigable",
+    "Issue #188 requires owner-local renderer-reveal tests",
+    "Issue #188 requires owner-local renderer-d3 tests",
+    "Issue #188 requires owner-local Chemometrics Introduction tests",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 253,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:15:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
-      "reason": "Claimed final Issue #166 acceptance after independent static review, owner-local focused/Core and full repository tests, generated-artifact scope review and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
     {
       "at": "2026-09-27T14:38:00+02:00",
       "from": "busy/manager",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
       "reason": "Claimed staged-navigation follow-up; scope limited to generic keyboard fragment navigation on structurally staged slides."
+    },
+    {
+      "at": "2026-09-28T15:57:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
+      "reason": "Completed bounded #188 staged-navigation follow-up: capture-phase keyboard/control navigation now advances internal Reveal fragments without scroll movement and falls through to normal slide navigation when stages are exhausted."
     }
   ]
 }
