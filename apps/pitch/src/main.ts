@@ -49,6 +49,7 @@ import { mountPresentationClock } from "./presentation-clock.ts";
 import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
   mountPresentationStageLock,
+  mountPresentationStageNavigation,
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
@@ -236,6 +237,7 @@ const deck = new Reveal({
 });
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
+const unmountPresentationStageNavigation = mountPresentationStageNavigation(deck, window, presentation);
 const unmountPresentationStageLock = mountPresentationStageLock(root, deck, window);
 
 const presentationVideos = Array.from(
@@ -369,6 +371,7 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
   unmountPresentationStageLock();
+  unmountPresentationStageNavigation();
   unmountPresentationSteps();
   unmountPresentationProjection();
   unmountPresentationLaserPointer();
