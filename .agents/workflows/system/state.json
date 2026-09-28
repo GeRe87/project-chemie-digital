@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Second #188 browser follow-up only: restore complete Reveal scroll-view navigation by scoping inactive-slide hiding to deck view; expose presentation view on body; strengthen lecture text-marker rendering by placing layered inhomogeneous strokes directly behind list-item text spans; preserve settled-entry stage lock.",
-  "lastCompletedTurn": "manager: fresh browser smoke confirms settled-entry stage lock fixed half-slide entry, but uncovered two remaining #188 regressions: global non-present slide hiding collapses scroll-view navigation, and marker strokes remain too weak. Authorized a bounded second browser follow-up.",
-  "lastUpdated": "2026-09-28T15:18:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded second #188 browser follow-up for scroll-view navigation restoration and stronger text-backed marker strokes.",
+  "lastUpdated": "2026-09-28T15:19:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-browser-followup2-20260928T151900+0200",
+    "claimedAt": "2026-09-28T15:19:00+02:00",
+    "expiresAt": "2026-09-28T17:19:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 245,
+  "stateRevision": 246,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:08:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
-      "reason": "Completed ADR-0015 and the Issue #165 handoff within architecture-only scope; returned to manager for exact-head validation and independent review."
-    },
     {
       "at": "2026-09-27T13:14:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-browser-followup2-20260928T151800+0200",
       "reason": "Authorized bounded #188 follow-up: scope inactive-slide hiding to deck mode so six-slide scroll navigation survives, and move stronger layered highlighter strokes directly behind list-item text."
+    },
+    {
+      "at": "2026-09-28T15:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-browser-followup2-20260928T151900+0200",
+      "reason": "Claimed only scroll-view navigation and marker-strength fixes; settled-entry stage lock remains unchanged."
     }
   ]
 }
