@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
-  "expectedDeliverable": "Redesign the Chemometrics Introduction as exactly six semantically authored scenes using existing generic KeyPoint, DefinitionList and FlowDiagram primitives so renderer-owned concept-specification, foundation-card-grid and diagram-stage layouts apply without Intro-specific renderer code.",
-  "lastCompletedTurn": "manager: Issue #184 created for the requested visual redesign of the Chemometrics Introduction. Existing generic Reveal layouts already support the required cards, bullets and flow diagram, so no System/renderer mutation is planned.",
-  "lastUpdated": "2026-09-28T11:12:00+02:00",
+  "expectedDeliverable": "On one fresh branch, implement the exact six-slide Chemometrics Introduction redesign using existing generic semantic primitives only: title KeyPoint cards, overview DefinitionList cards, lecturer KeyPoint cards, format DefinitionList cards, six-node FlowDiagram roadmap, four-card introduction round. Update path/scenes/focused tests. No renderer/System changes.",
+  "lastCompletedTurn": "manager: verified generic concept-specification, foundation-card-grid and diagram-stage layouts already cover the requested visual structures and authorized one bounded content worker turn.",
+  "lastUpdated": "2026-09-28T11:13:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
-    "claimedAt": "2026-09-28T11:12:00+02:00",
-    "expiresAt": "2026-09-28T13:12:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 105,
+  "stateRevision": 106,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T11:18:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue160-final-acceptance-20260927T111200+0200",
-      "reason": "Exact-head validator success, integration freshness, review/thread state and Ready lifecycle all passed for PR #161. Squash-merged Issue #160 as 991a39682c4921191d653d71a5e6d4230e91b9de, verified Issue #160 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
     {
       "at": "2026-09-27T14:41:00+02:00",
       "from": "ready/manager",
@@ -191,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
       "reason": "Claimed bounded Issue #184 to redesign the six-slide Introduction using generic semantic cards, key-point lists and a flow diagram only; no renderer-specific Intro logic."
+    },
+    {
+      "at": "2026-09-28T11:13:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
+      "reason": "Authorized one bounded Semantic Web and Ontology Engineer turn for #184 six-slide Intro redesign; existing generic renderer layouts must be used without System mutation."
     }
   ]
 }
