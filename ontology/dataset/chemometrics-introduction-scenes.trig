@@ -2,13 +2,10 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 
 <https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-introduction> {
-  # Slide 1 — concept-specification ------------------------------------------
+  # Slide 1 — hero title ------------------------------------------------------
   ex:scene-chemometrics-introduction-title a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-title ;
-    cd:hasSceneItem ex:scene-item-chemometrics-introduction-title-heading,
-      ex:scene-item-chemometrics-introduction-title-attribution,
-      ex:scene-item-chemometrics-introduction-title-pillars,
-      ex:scene-item-chemometrics-introduction-title-takeaway ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-title-heading ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-title-heading a cd:SceneItem ;
@@ -16,30 +13,6 @@
     cd:selectsResource ex:chemometrics-course-title ;
     cd:communicativeRole cd:HeadingRole ;
     cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-title-attribution a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:chemometrics-title-attribution ;
-    cd:communicativeRole cd:AttributionRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-title-pillars a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:chemometrics-title-pillars ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-title-takeaway a cd:SceneItem ;
-    cd:position 4 ;
-    cd:selectsResource ex:chemometrics-title-takeaway ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
