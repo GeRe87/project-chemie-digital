@@ -40,6 +40,7 @@ export interface Disclosure {
   readonly order: number;
   readonly mode: "initial" | "progressive" | "optional";
   readonly step?: number;
+  readonly triggerResourceId?: string;
 }
 
 interface SceneBlockBase {
@@ -659,6 +660,12 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       if (block.disclosure.mode !== "progressive") {
         throw new SceneContractError(`${label} block ${block.id} disclosure step requires progressive mode`);
       }
+      if (block.disclosure.triggerResourceId === undefined) {
+        throw new SceneContractError(`${label} block ${block.id} progressive disclosure step requires triggerResourceId`);
+      }
+    }
+    if (block.disclosure?.triggerResourceId !== undefined) {
+      requireNonEmpty(block.disclosure.triggerResourceId, `${label} block ${block.id} disclosure triggerResourceId`);
     }
     if (block.kind === "group") {
       validateBlocks(block.children, `${label} group ${block.id}`, version);
