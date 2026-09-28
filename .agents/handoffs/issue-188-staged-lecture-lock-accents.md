@@ -246,3 +246,42 @@ Regression coverage now asserts:
 - list text is wrapped in `.pcd-list-item-text`;
 - automatic marker contains exactly three strong gradient layers behind the text;
 - no legacy pseudo-element marker remains.
+
+
+## Browser follow-up 3: fragment-first staged navigation
+
+Fresh browser smoke confirmed the slide entry/exit regression was fixed, but the chart remained at stage 0. The root cause is architectural:
+
+- Chemometrics uses Reveal `view: "scroll"`;
+- Reveal scroll view normally advances fragments through its scroll/navigation path;
+- staged slides deliberately block scrolling to keep their geometry fixed.
+
+This creates a deadlock if staged navigation remains entirely scroll-driven.
+
+The generic fix adds `mountPresentationStageNavigation()`.
+
+While the current slide is structurally marked `data-stage-lock="true"`:
+
+- forward keys (`ArrowRight`, `ArrowDown`, `PageDown`, Space) first inspect `deck.availableFragments()`;
+- if `next` is available, the event is consumed and `deck.nextFragment()` is called;
+- backward keys analogously use `prevFragment()`;
+- Reveal navigation-control clicks (`.navigate-right`, `.navigate-down`, `.navigate-next` and reverse controls) use the same fragment-first policy;
+- once no internal fragment remains, the event is **not consumed**, so Reveal performs normal slide navigation;
+- at stage 0, backward navigation likewise falls through to the previous slide.
+
+The listener runs in capture phase so scroll-view keyboard movement cannot occur before fragment navigation.
+
+This preserves:
+- the existing synthetic Reveal fragment model;
+- the existing `mountPresentationStepRuntime()` event dispatch;
+- D3/flow/knowledge-network listeners on `pcd-presentation-step`;
+- settled-entry stage lock;
+- normal slide navigation after the final stage.
+
+Focused regressions cover:
+- three internal stages consumed before slide movement;
+- final forward key falls through;
+- backward staged navigation;
+- capture-phase keyboard interception;
+- Reveal next-control click interception;
+- no topic/scene/resource identity checks.
