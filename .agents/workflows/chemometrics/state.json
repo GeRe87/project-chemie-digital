@@ -1,29 +1,28 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 182,
-  "expectedDeliverable": "On one fresh branch, implement resource-only Issue #182 exactly: new canonical Signal Processing Foundations/Preprocessing resources, pinned source/provenance, explicit corrections, and focused tests. Reuse existing arithmetic-mean/standard-deviation; no LearningUnit, UnitPlacement, OfferingSection membership, LearningPath, Scene, renderer or generated artifact.",
-  "lastCompletedTurn": "worker: claimed bounded resource-only Issue #182 on fresh branch agent/182-signal-preprocessing-resources for Foundations/Preprocessing scientific resources and focused semantic tests only.",
-  "lastUpdated": "2026-09-28T09:56:00+02:00",
+  "expectedDeliverable": "Review Issue #182 / PR #183 after owner-local focused and full repository tests. Verify exact resource-only scope, canonical reuse/no duplication, corrected min-max/z-score/harmonization semantics, pinned source provenance with correction separation, no course/path/scene/System leakage, then claim final acceptance and require fresh exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed bounded resource-only #182 with canonical Signal Processing Foundations/Preprocessing resources, strict legacy-evidence versus correction provenance separation, focused regressions, Draft PR #183 and structured handoff; returned to manager pending local test evidence and independent review.",
+  "lastUpdated": "2026-09-28T10:00:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
-    "claimedAt": "2026-09-28T09:56:00+02:00",
-    "expiresAt": "2026-09-28T11:56:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 101,
+  "blockedBy": [
+    "Issue #182 requires owner-local focused test tests.test_chemometrics_signal_processing_resources",
+    "Issue #182 requires full repository npm test",
+    "Draft PR #183 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 102,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T19:55:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
-      "reason": "Completed bounded Introduction unit/content/path/five-scene vertical slice with Draft PR #161, focused regressions and structured handoff; returned to Chemometrics manager for local test evidence, exact-head validation and independent review."
-    },
     {
       "at": "2026-09-26T19:58:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +190,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
       "reason": "Claimed bounded resource-only #182 branch for canonical Foundations/Preprocessing resources, pinned provenance and focused regressions only."
+    },
+    {
+      "at": "2026-09-28T10:00:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
+      "reason": "Completed bounded resource-only Issue #182 with canonical Foundations/Preprocessing resources, strict provenance separation, focused regressions, Draft PR #183 and handoff; returned to manager for local tests, independent review and exact-head acceptance gates."
     }
   ]
 }
