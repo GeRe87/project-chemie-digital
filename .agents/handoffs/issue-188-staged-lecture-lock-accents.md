@@ -371,3 +371,34 @@ Regression coverage requires:
 - listener teardown;
 - direct `slide(...)` terminal navigation remains;
 - no relative `next()/prev()` or custom exit event remains.
+
+
+## Browser follow-up 7: scroll-page terminal navigation
+
+Browser smoke after the Reveal `beforeslidechange` unlock showed:
+- background/scroll progress moved;
+- the staged foreground slide remained visible;
+- the next slide did not replace it.
+
+Reveal 5.2 scroll-view source explains why. Slides with fragments are wrapped in sticky `.scroll-page` containers and gain extra `--page-scroll-padding` for fragment scroll triggers. Our presentation stages intentionally advance through `nextFragment()` without physically scrolling, so the visual stage reached its final state while the viewport remained near the beginning of the same sticky page.
+
+Terminal navigation in scroll view therefore no longer uses Reveal slide/fragment navigation.
+
+New generic scroll-mode terminal path:
+1. resolve the adjacent linear slide from `deck.getSlides()`;
+2. resolve its `.scroll-page` wrapper;
+3. dispatch a synchronous `pcd-presentation-stage-exit` so the active stage lock releases;
+4. set the Reveal viewport `scrollTop` directly to the target page `offsetTop`;
+5. for backward navigation, add the target page's last `.scroll-snap-point` offset when present.
+
+This skips the outgoing sticky page's synthetic fragment padding completely.
+
+Deck view remains unchanged and still uses direct `slide(h,v,f)`.
+
+Regression coverage now requires:
+- scroll terminal navigation sends the exit signal;
+- viewport scrollTop lands exactly on the adjacent page boundary;
+- no `deck.slide()` call occurs in the scroll-mode terminal test;
+- main passes the resolved presentation view and root into staged navigation;
+- deck fallback still uses direct `slide(h,v,f)`;
+- no course/topic identity conditions.
