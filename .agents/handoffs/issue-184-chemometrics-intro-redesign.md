@@ -29,22 +29,40 @@ This matches the existing generic full-screen `closing` layout and therefore act
 
 ### 2. What is this course about?
 
-Replaced the long overview paragraph with:
+The abstract four-card overview was removed after visual review and replaced by one coherent nitrate mini case study.
 
-- banner: `CHEMOMETRICS = DATA + CHEMISTRY + DECISIONS`
-- foundation statement: `METHOD + ASSUMPTIONS + INTERPRETATION`
-- four `DefinitionListEntry` cards:
-  - Statistics
-  - Chemometrics
-  - Analytical context
-  - Reproducibility
-- takeaway: `FROM RAW MEASUREMENTS → DEFENSIBLE INTERPRETATION`
+The slide now combines:
 
-Block structure:
+- **Problem + illustration**
+  - three illustrative water samples measured four times for nitrate;
+  - a local transparent SVG asset at `apps/pitch/public/chemometrics/nitrate-water-samples.svg`;
+  - media is linked semantically through `cd:hasMedia`, not injected by scene id.
 
-`prose → prose → prose → definition-list(4) → prose`
+- **Raw data**
+  - a semantic `TableDefinition` with A upstream, B tap water and C runoff;
+  - four replicate nitrate concentrations per sample in mg/L.
 
-This matches the existing generic `foundation-card-grid` layout.
+- **Analysis**
+  - a semantic `BarChart` of the three means;
+  - chart description explicitly states mean ± sample SD:
+    - A = 2.20 ± 0.18 mg/L
+    - B = 4.95 ± 0.13 mg/L
+    - C = 18.93 ± 0.31 mg/L
+
+- **Discussion**
+  - three concise KeyPoints:
+    1. C is clearly highest in this illustrative dataset;
+    2. repeated measurements vary;
+    3. Chemometrics turns measurement + variation + assumptions into a defensible decision.
+
+- **Takeaway**
+  - `MEASUREMENTS → SUMMARY → VARIATION → INTERPRETATION`
+
+The actual media-aware SceneDocument structure is:
+
+`prose → group(prose + media-reference) → table → chart → unordered list(3) → prose`
+
+This triggers the new generic renderer-owned `case-study` layout. The layout is inferred purely from block structure and contains no Chemometrics, nitrate, scene-id or resource-id checks.
 
 ### 3. About the Lecturer
 
@@ -138,17 +156,21 @@ Existing unit/path IRIs remain stable.
 
 ## Renderer boundary
 
-No renderer or CSS code changed.
+The final visual review required one additive generic renderer primitive: `case-study`.
 
-The visual redesign relies entirely on existing generic structural inference:
+Renderer-owned structural families used by the six-slide Introduction are now:
 
 - `closing`
+- `case-study`
 - `concept-specification`
-- `foundation-card-grid`
 - `process-diagram`
 - `diagram-stage`
+- `foundation-card-grid`
 
-There are no checks for Chemometrics labels, scene IDs or resource IDs in renderer code.
+The new `case-study` family is generic and recognizes only:
+heading → prose/image group → table → chart → three-point list → takeaway.
+
+There are no checks for Chemometrics labels, nitrate wording, scene IDs or resource IDs in renderer code.
 
 ## Tests
 
@@ -175,12 +197,18 @@ There are no checks for Chemometrics labels, scene IDs or resource IDs in render
 - `ontology/dataset/chemometrics-introduction-scenes.trig`
 - `ontology/dataset/course-scale.trig`
 - `tests/test_chemometrics_introduction.py`
+- `apps/pitch/public/chemometrics/nitrate-water-samples.svg`
+- `packages/renderer-reveal/src/layout-policy.ts`
+- `packages/renderer-reveal/test/layout-policy.test.ts`
+- `apps/pitch/src/case-study-layout.css`
+- `apps/pitch/src/main.ts`
+- `apps/pitch/package.json`
+- `package.json`
 - `.agents/handoffs/issue-184-chemometrics-intro-redesign.md`
 - `.agents/workflows/chemometrics/state.json`
 
 Explicitly unchanged:
 
-- renderer code/CSS;
 - ontology vocabulary and SHACL contracts;
 - learner state;
 - application navigation;
@@ -200,19 +228,13 @@ Then full:
 npm test
 ```
 
-To preview this exact Introduction branch:
+To preview this exact Introduction branch with semantic media enrichment:
 
 ```powershell
-python scripts/generate_canonical_runtime.py `
-  --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics `
-  --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-introduction `
-  --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-introduction `
-  --path-id https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction `
-  --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction
-
-cd apps/pitch
-npm exec vite -- --host 127.0.0.1 --port 5173 --strictPort
+npm run pitch:intro
 ```
+
+This command regenerates the Introduction with `generate_canonical_runtime_media.py` and then starts Vite with `--force`.
 
 ## Pending
 
