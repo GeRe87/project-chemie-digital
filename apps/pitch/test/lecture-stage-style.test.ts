@@ -85,12 +85,9 @@ test("staged slides freeze scroll containers and background progress structurall
 
   assert.match(
     mainSource,
-    /freezeForLayout[\s\S]*?isStageLockedSlide\(currentSlide\)/,
+    /freezeForActiveStage\s*=\s*document\.body\.classList\.contains\("pcd-stage-lock-active"\)/,
   );
-  assert.doesNotMatch(
-    mainSource,
-    /sameFullMediaSequence[\s\S]{0,400}?isStageLockedSlide\(current\)/,
-  );
+  assert.doesNotMatch(mainSource, /isStageLockedSlide\(/);
 });
 
 test("new lecture stage and accent renderer rules contain no course identity checks", () => {
