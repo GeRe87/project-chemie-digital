@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review Issue #188 on PR #185 after owner-local pitch/renderer tests and fresh browser smoke. Verify staged slides are structurally marked, wheel/touch scrolling and scroll movement are locked across fragments, background progress freezes, chart analysis height is larger, lecture accent/highlighter rules are generic and readable, and no identity-specific logic exists. Then coordinate full npm test and final exact-head validator with #184/#186/#187.",
-  "lastCompletedTurn": "worker: completed #188 staged lecture improvements on PR #185: structural staged-slide markers, wheel/touch block and scroll restoration, staged background freeze/no-scroll transition, stable stage CSS, larger lecture chart area, generic four-colour lecture accents, reusable marker-highlight utilities, evidence-row colour rhythm, focused runtime/style regressions and handoff.",
-  "lastUpdated": "2026-09-28T14:48:00+02:00",
+  "expectedDeliverable": "Follow-up #188 browser regression fix only: stage lock must activate only after the entered staged slide has settled for two animation frames, must not globally hide Reveal overflow, must unlock immediately on slide exit, and marker highlights must become layered inhomogeneous horizontal strokes instead of dark oval blobs. Preserve all other #188 behavior and generic identity-free scope.",
+  "lastCompletedTurn": "manager: browser smoke found #188 stage lock activates before Reveal finishes positioning the entered slide and the marker effect is too dark/blob-like; authorized a bounded worker follow-up for delayed stage activation and layered highlighter styling.",
+  "lastUpdated": "2026-09-28T14:58:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 requires owner-local pitch tests",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "Issue #188 requires fresh browser smoke of staged slides and lecture accents via npm run pitch:intro",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 241,
+  "blockedBy": [],
+  "stateRevision": 242,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-      "reason": "Exact-head validator success, local tests, browser smoke, integration freshness and Ready lifecycle all passed for PR #163. Squash-merged Issue #162 as 9369e976017f70afac17f6d80de3e7bf26d1d7ef, verified Issue #162 closed completed and single-parent squash, and returned System to idle manager state."
-    },
     {
       "at": "2026-09-27T12:55:00+02:00",
       "from": "ready/manager",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-stage-lock-accents-20260928T143500+0200",
       "reason": "Completed generic #188 staged-slide scroll/movement lock, background freeze, larger lecture analysis area, four-colour accent rhythm and reusable marker-highlight utilities; returned to manager for focused tests, browser smoke, full-suite verification and coordinated acceptance."
+    },
+    {
+      "at": "2026-09-28T14:58:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-browser-followup-20260928T145800+0200",
+      "reason": "Authorized a bounded #188 browser follow-up: delay stage lock until Reveal settles, avoid global overflow suppression, unlock on exit, and replace dark blob highlights with layered inhomogeneous marker strokes."
     }
   ]
 }
