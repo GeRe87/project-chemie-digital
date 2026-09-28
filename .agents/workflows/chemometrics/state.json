@@ -1,29 +1,29 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
-  "expectedDeliverable": "On one fresh branch, implement the exact six-slide Chemometrics Introduction redesign using existing generic semantic primitives only: title KeyPoint cards, overview DefinitionList cards, lecturer KeyPoint cards, format DefinitionList cards, six-node FlowDiagram roadmap, four-card introduction round. Update path/scenes/focused tests. No renderer/System changes.",
-  "lastCompletedTurn": "worker: claimed bounded Issue #184 on fresh branch agent/184-chemometrics-intro-redesign for the six-slide semantic Intro redesign using existing generic KeyPoint, DefinitionList and FlowDiagram primitives.",
-  "lastUpdated": "2026-09-28T11:14:00+02:00",
+  "expectedDeliverable": "Review Issue #184 / PR #185 after owner-local focused tests and visual browser smoke. Verify exactly six scenes, generic concept-specification/foundation-card-grid/diagram-stage block structures, six-node linear roadmap, no renderer hardcoding, no unrelated content changes, then require full repository tests and final exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed bounded #184 visual Introduction redesign with six semantic scenes, KeyPoint cards, DefinitionList card grids, six-node FlowDiagram roadmap, updated path/course focus/tests, Draft PR #185 and structured handoff; returned to manager.",
+  "lastUpdated": "2026-09-28T11:18:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
-    "claimedAt": "2026-09-28T11:14:00+02:00",
-    "expiresAt": "2026-09-28T13:14:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 107,
+  "blockedBy": [
+    "Issue #184 requires owner-local focused Introduction tests",
+    "Issue #184 requires browser visual smoke of all six slides",
+    "Issue #184 requires full repository npm test",
+    "Draft PR #185 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 108,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer worker turn for Issue #167 to author the exact seven Chemometrics OfferingSections and focused regressions only; no shared System contract, renderer/UI, learner-state or future scientific LearningUnit work."
-    },
     {
       "at": "2026-09-27T14:46:00+02:00",
       "from": "ready/worker",
@@ -191,6 +191,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
       "reason": "Claimed bounded #184 branch for exactly six semantically authored Introduction scenes using existing generic renderer structures only."
+    },
+    {
+      "at": "2026-09-28T11:18:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
+      "reason": "Completed #184 six-slide semantic Intro redesign and Draft PR #185 using existing generic renderer structures only; returned to manager for focused tests, visual smoke, full tests and exact-head gates."
     }
   ]
 }
