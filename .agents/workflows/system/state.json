@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Test-only #188 follow-up: align pitch list regressions with the new neutral pcd-list-item-text span. Update the existing semantic list preview test to assert text through the child span while retaining item provenance assertions, and replace the marker-span preview regression's invalid assumption about the Standard Deviation fixture with a neutral synthetic list scene. No runtime/style/content changes.",
-  "lastCompletedTurn": "worker: claimed test-only #188 follow-up for marker-span DOM regressions.",
-  "lastUpdated": "2026-09-28T15:35:00+02:00",
+  "expectedDeliverable": "Review test-only #188 marker-span follow-up on PR #185 after owner-local npm run test:pitch. Verify existing semantic list preview now asserts child pcd-list-item-text spans while retaining li-level provenance, and the new marker-span regression uses a neutral synthetic list scene instead of assuming the Standard Deviation fixture contains a list. No runtime/style/content changes were made. Then continue renderer/Introduction/browser/full-suite gates.",
+  "lastCompletedTurn": "worker: completed test-only #188 follow-up for the two owner-local pitch failures. Updated list-preview expectations to the neutral pcd-list-item-text child span while retaining item provenance assertions, and replaced the fixture-dependent marker-span test with a neutral synthetic list scene. Runtime/style/content unchanged.",
+  "lastUpdated": "2026-09-28T15:39:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
-    "claimedAt": "2026-09-28T15:35:00+02:00",
-    "expiresAt": "2026-09-28T17:35:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 249,
+  "blockedBy": [
+    "Issue #188 test-only follow-up requires owner-local npm run test:pitch",
+    "Issue #188 requires owner-local renderer-reveal tests",
+    "Issue #188 requires owner-local renderer-d3 tests",
+    "Issue #188 requires owner-local Chemometrics Introduction tests",
+    "Issue #188 requires fresh browser smoke: all six Introduction slides navigable, staged slide entry/exit stable, strong layered marker appearance",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 250,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:50:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue166-offering-section-implementation-20260927T134800+0200",
-      "reason": "Authorized one generic #166 implementation worker turn with explicit 1.0/1.1 compatibility and no course-specific/UI expansion."
-    },
     {
       "at": "2026-09-27T13:53:00+02:00",
       "from": "ready/worker",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
       "reason": "Claimed test-only marker-span follow-up; runtime, CSS and authored scientific content remain unchanged."
+    },
+    {
+      "at": "2026-09-28T15:39:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
+      "reason": "Completed test-only marker-span follow-up: semantic list preview and neutral marker-span regression now match the renderer DOM contract; no runtime/style/content changes."
     }
   ]
 }
