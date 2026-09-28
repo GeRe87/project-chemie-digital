@@ -257,7 +257,7 @@ export function inferRevealLayoutFit(
   return {
     family: layout.family,
     variant: "default",
-    density,
+    density: "comfortable",
     totalScore,
     evidenceScore,
     blocks: footprints,
