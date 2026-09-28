@@ -48,7 +48,6 @@ import { mountPresentationProjections } from "./presentation-projection.ts";
 import { mountPresentationClock } from "./presentation-clock.ts";
 import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
-  isStageLockedSlide,
   mountPresentationStageLock,
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
