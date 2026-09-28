@@ -62,7 +62,7 @@ EXPECTED_SCENES = [
 
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
-    ["prose", "group", "table", "chart", "list", "prose"],
+    ["prose", "group", "table", "chart", "list"],
     ["prose", "list", "prose"],
     ["prose", "prose", "diagram", "prose"],
     ["prose", "diagram"],
@@ -191,10 +191,9 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             self.content_graph.objects(EX["chemometrics-nitrate-case-discussion"], CD.hasKeyPoint),
             key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
         )
-        self.assertEqual(3, len(discussion))
-        self.assertIn("Sample C is clearly highest", str(next(self.content_graph.objects(discussion[0], CD.body))))
-        self.assertIn("Repeated measurements vary", str(next(self.content_graph.objects(discussion[1], CD.body))))
-        self.assertIn("defensible decision", str(next(self.content_graph.objects(discussion[2], CD.body))))
+        self.assertEqual(2, len(discussion))
+        self.assertIn("Sample C is much higher", str(next(self.content_graph.objects(discussion[0], CD.body))))
+        self.assertIn("Replicates reveal spread", str(next(self.content_graph.objects(discussion[1], CD.body))))
 
     def test_nitrate_case_study_asset_is_local_transparent_svg(self) -> None:
         asset = ROOT / "apps" / "pitch" / "public" / "chemometrics" / "nitrate-water-samples.svg"
@@ -344,7 +343,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
 
         discussion = overview["blocks"][4]
         self.assertEqual("unordered", discussion["listStyle"])
-        self.assertEqual(3, len(discussion["items"]))
+        self.assertEqual(2, len(discussion["items"]))
 
         lecturer_cards = self.document["scenes"][2]["blocks"][1]
         self.assertEqual("unordered", lecturer_cards["listStyle"])
