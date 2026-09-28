@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 180,
-  "expectedDeliverable": "Repair only the #180 source-section count wording: the pinned file has 33 section elements total, consisting of one title section and 32 substantive content sections. Preserve all four mapped ranges (2–5, 6–13, 14–23, 24–33) and all reconciliation decisions unchanged; then return to manager.",
-  "lastCompletedTurn": "worker: claimed only the manager-authorized #180 source-section count wording repair; no reconciliation decision or scope change.",
-  "lastUpdated": "2026-09-28T09:28:00+02:00",
+  "expectedDeliverable": "Final independent review of Issue #180 / PR #181 after the count-only repair. Verify 33 total source sections = one title + 32 substantive, four ranges still cover all 32 substantive sections, reconciliation decisions unchanged, documentation-only scope, then claim final acceptance and require fresh exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed only the manager-authorized #180 count repair: source map and handoff now state 33 total section elements, one title plus 32 substantive content sections. Four mapped ranges and all reconciliation decisions remain unchanged.",
+  "lastUpdated": "2026-09-28T09:29:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
-    "claimedAt": "2026-09-28T09:28:00+02:00",
-    "expiresAt": "2026-09-28T10:28:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 95,
+  "blockedBy": [
+    "Draft PR #181 requires final independent manager review after count-only repair",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 96,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T13:43:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
-      "reason": "Completed bounded path-only Issue #158 with Draft PR #159, focused regressions and handoff; returned to Chemometrics manager for exact-head validation and independent review."
-    },
     {
       "at": "2026-09-26T13:45:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +188,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
       "reason": "Claimed only the count wording repair authorized by the independent manager review."
+    },
+    {
+      "at": "2026-09-28T09:29:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
+      "reason": "Completed the count-only documentation repair and returned #180 to manager; no source mapping, scientific correction, unit-boundary or implementation scope changed."
     }
   ]
 }
