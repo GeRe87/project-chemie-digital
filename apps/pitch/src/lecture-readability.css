@@ -11,6 +11,11 @@ body[data-presentation-readability="lecture"] .reveal {
   --pcd-lecture-chart-axis: 26px;
   --pcd-lecture-chart-value: 26px;
   --pcd-lecture-heading: clamp(3.4rem, 4.45vw, 4.15rem);
+  --pcd-lecture-yellow: #ffd84a;
+  --pcd-lecture-cyan: #39dfe8;
+  --pcd-lecture-pink: #ff6bb5;
+  --pcd-lecture-green: #69dfa2;
+  --pcd-marker-color: var(--pcd-lecture-yellow);
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides section {
@@ -89,7 +94,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-layou
   --pcd-case-chart-caption-font: .74em;
   --pcd-case-chart-header-font: .82em;
   --pcd-case-card-pad: .68rem;
-  --pcd-case-chart-height: 20rem;
+  --pcd-case-chart-height: clamp(28rem, 54vh, 32rem);
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides section[data-layout="case-study"][data-layout-density="dense"],
@@ -100,7 +105,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-layou
   --pcd-case-chart-caption-font: .74em;
   --pcd-case-chart-header-font: .82em;
   --pcd-case-card-pad: .62rem;
-  --pcd-case-chart-height: 20rem;
+  --pcd-case-chart-height: clamp(28rem, 54vh, 32rem);
 }
 
 /* Lecture case studies use two primary columns. Problem + raw evidence live on
@@ -173,4 +178,135 @@ body[data-presentation-readability="lecture"] .reveal .slides
 body[data-presentation-readability="lecture"] .reveal .slides
   section[data-lecture-budget="over-budget"] {
   --pcd-lecture-budget-overflow: 1;
+}
+
+
+/* Reusable lecture marker highlights --------------------------------------
+   These utilities are deliberately semantic-identity agnostic. They can be
+   applied to any inline phrase or short statement that deserves projection-
+   safe emphasis. */
+body[data-presentation-readability="lecture"] .pcd-marker-highlight {
+  --pcd-marker-color: var(--pcd-lecture-yellow);
+  position: relative;
+  z-index: 0;
+  display: inline;
+  padding-inline: .06em;
+  font-weight: 850;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background:
+    linear-gradient(
+      101deg,
+      transparent 0 2%,
+      color-mix(in srgb, var(--pcd-marker-color) 62%, transparent) 3% 96%,
+      transparent 98% 100%
+    )
+    0 88% / 100% .62em no-repeat;
+}
+
+body[data-presentation-readability="lecture"] .pcd-marker-highlight--yellow {
+  --pcd-marker-color: var(--pcd-lecture-yellow);
+}
+body[data-presentation-readability="lecture"] .pcd-marker-highlight--cyan {
+  --pcd-marker-color: var(--pcd-lecture-cyan);
+}
+body[data-presentation-readability="lecture"] .pcd-marker-highlight--pink {
+  --pcd-marker-color: var(--pcd-lecture-pink);
+}
+body[data-presentation-readability="lecture"] .pcd-marker-highlight--green {
+  --pcd-marker-color: var(--pcd-lecture-green);
+}
+
+/* Generic lecture colour rhythm for concise key-point lists. */
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li {
+  --pcd-lecture-item-accent: var(--pcd-lecture-cyan);
+  position: relative;
+  isolation: isolate;
+}
+
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li:nth-child(4n + 1) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-cyan);
+}
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li:nth-child(4n + 2) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-yellow);
+}
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li:nth-child(4n + 3) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-pink);
+}
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li:nth-child(4n) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-green);
+}
+
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -.12em;
+  top: .62em;
+  width: min(76%, 16em);
+  height: .72em;
+  border-radius: 42% 18% 36% 12%;
+  background: color-mix(in srgb, var(--pcd-lecture-item-accent) 38%, transparent);
+  transform: rotate(-.65deg) skewX(-3deg);
+  opacity: .9;
+}
+
+/* Definition cards inherit a consistent colourful lecture rhythm. */
+body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 1) {
+  --pcd-lecture-card-accent: var(--pcd-lecture-cyan);
+}
+body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 2) {
+  --pcd-lecture-card-accent: var(--pcd-lecture-yellow);
+}
+body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 3) {
+  --pcd-lecture-card-accent: var(--pcd-lecture-pink);
+}
+body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n) {
+  --pcd-lecture-card-accent: var(--pcd-lecture-green);
+}
+
+body[data-presentation-readability="lecture"] .reveal .definition-list-entry {
+  border-top-color: var(--pcd-lecture-card-accent, var(--pcd-accent)) !important;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--pcd-lecture-card-accent, var(--pcd-accent)) 13%, transparent),
+      transparent 64%
+    ),
+    var(--pcd-surface-strong);
+}
+
+/* Case-study regions use the same palette without any topic-specific selector. */
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="problem"] {
+  border-color: var(--pcd-lecture-cyan);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--pcd-lecture-cyan) 18%, transparent);
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="data"] {
+  border-top: 5px solid var(--pcd-lecture-yellow);
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="analysis"] {
+  border-top-color: var(--pcd-lecture-pink) !important;
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="discussion"] > li:nth-child(odd) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-green);
+  border-top-color: var(--pcd-lecture-green);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--pcd-lecture-green) 14%, transparent), transparent 62%),
+    var(--pcd-surface-strong);
+}
+
+body[data-presentation-readability="lecture"] .reveal
+  section[data-layout="case-study"] > [data-layout-slot="discussion"] > li:nth-child(even) {
+  --pcd-lecture-item-accent: var(--pcd-lecture-pink);
+  border-top-color: var(--pcd-lecture-pink);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--pcd-lecture-pink) 13%, transparent), transparent 62%),
+    var(--pcd-surface-strong);
 }
