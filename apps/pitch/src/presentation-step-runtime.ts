@@ -12,8 +12,9 @@ export interface PresentationStageNavigationDeck extends PresentationStageLockDe
   availableFragments(): { readonly prev: boolean; readonly next: boolean };
   nextFragment(): boolean;
   prevFragment(): boolean;
-  next(): void;
-  prev(): void;
+  getSlides(): HTMLElement[];
+  getIndices(slide?: HTMLElement): { readonly h: number; readonly v?: number; readonly f?: number };
+  slide(indexh: number, indexv?: number, indexf?: number): void;
 }
 
 export interface PresentationStageNavigationTarget {
@@ -191,6 +192,33 @@ function stageDirectionForControlClick(event: MouseEvent): PresentationStageDire
   return undefined;
 }
 
+function navigateToAdjacentSlide(
+  deck: PresentationStageNavigationDeck,
+  direction: PresentationStageDirection,
+): boolean {
+  const current = deck.getCurrentSlide();
+  if (!current) return false;
+
+  const slides = deck.getSlides();
+  const currentIndex = slides.indexOf(current);
+  if (currentIndex < 0) return false;
+
+  const targetIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1;
+  const target = slides[targetIndex];
+  if (!target) return false;
+
+  const indices = deck.getIndices(target);
+  const fragmentCount = target.querySelectorAll(".fragment").length;
+  const targetFragment = direction === "next"
+    ? -1
+    : fragmentCount > 0
+      ? fragmentCount - 1
+      : -1;
+
+  deck.slide(indices.h, indices.v ?? 0, targetFragment);
+  return true;
+}
+
 export function consumePresentationStageNavigation(
   deck: PresentationStageNavigationDeck,
   direction: PresentationStageDirection,
@@ -199,15 +227,16 @@ export function consumePresentationStageNavigation(
   if (!isStageLockedSlide(slide)) return false;
 
   const available = deck.availableFragments();
-  if (direction === "next") {
-    if (available.next) deck.nextFragment();
-    else deck.next();
+  if (direction === "next" && available.next) {
+    deck.nextFragment();
+    return true;
+  }
+  if (direction === "prev" && available.prev) {
+    deck.prevFragment();
     return true;
   }
 
-  if (available.prev) deck.prevFragment();
-  else deck.prev();
-  return true;
+  return navigateToAdjacentSlide(deck, direction);
 }
 
 export function mountPresentationStageNavigation(
