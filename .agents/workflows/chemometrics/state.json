@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
-  "expectedDeliverable": "Review Issue #184 / PR #185 after owner-local focused tests and visual browser smoke. Verify exactly six scenes, generic concept-specification/foundation-card-grid/diagram-stage block structures, six-node linear roadmap, no renderer hardcoding, no unrelated content changes, then require full repository tests and final exact-head validator before Ready/squash merge.",
-  "lastCompletedTurn": "worker: completed bounded #184 visual Introduction redesign with six semantic scenes, KeyPoint cards, DefinitionList card grids, six-node FlowDiagram roadmap, updated path/course focus/tests, Draft PR #185 and structured handoff; returned to manager.",
-  "lastUpdated": "2026-09-28T11:18:00+02:00",
+  "expectedDeliverable": "Apply the visual-feedback follow-up to #184 only: make the title scene structurally distinct with an Attribution block and convert Lecture and Tutorial from a card-only scene into a semantic four-node linear FlowDiagram process scene. Preserve six-scene order and all other content. No renderer changes in this Chemometrics branch.",
+  "lastCompletedTurn": "manager: visual smoke feedback found the first #184 pass insufficiently distinct. Authorized a bounded content follow-up: title Attribution structure plus a real Lecture→Tutorial→Reproducible computation→Discussion flow diagram.",
+  "lastUpdated": "2026-09-28T11:32:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #184 requires owner-local focused Introduction tests",
-    "Issue #184 requires browser visual smoke of all six slides",
-    "Issue #184 requires full repository npm test",
-    "Draft PR #185 requires independent manager review and final acceptance claim",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 108,
+  "blockedBy": [],
+  "stateRevision": 109,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:46:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
-      "reason": "Claimed bounded Chemometrics Issue #167 on fresh branch agent/167-chemometrics-offering-sections to author exactly seven OfferingSections, exact current placement membership and focused runtime/semantic regressions."
-    },
     {
       "at": "2026-09-27T14:52:00+02:00",
       "from": "busy/worker",
@@ -198,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
       "reason": "Completed #184 six-slide semantic Intro redesign and Draft PR #185 using existing generic renderer structures only; returned to manager for focused tests, visual smoke, full tests and exact-head gates."
+    },
+    {
+      "at": "2026-09-28T11:32:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue184-visual-followup-20260928T113200+0200",
+      "reason": "User visual smoke found the first redesign too similar; authorized only a title-attribution structural refinement and a real four-step course-format FlowDiagram, leaving renderer work to a separate System issue."
     }
   ]
 }
