@@ -16,7 +16,7 @@
   - `topics/09_SignalProcessing.html`
   - blob `1ac2cee2ea96d42c077fff12901f9783ff6efc7c`
 - Added `docs/migration/chemometrics-signal-processing-source-map.md`.
-- Extracted the 33 substantive source sections and mapped them to four bounded recommended LearningUnits:
+- Verified 33 source section elements in total (one title section plus 32 substantive content sections) and mapped the 32 substantive sections to four bounded recommended LearningUnits:
   1. Signal Processing Foundations and Preprocessing
   2. Convolution, Smoothing and Savitzky-Golay
   3. Fourier Filtering
