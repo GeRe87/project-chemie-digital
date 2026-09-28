@@ -28,7 +28,7 @@ charts, tabs, sliders and slide boundaries are presentation evidence, not semant
 
 ## Source structure
 
-The pinned file contains 33 substantive slide sections after its title slide. The headings cluster
+The pinned file contains 33 slide sections in total: one title section and 32 substantive content sections. The content headings cluster
 into four coherent scientific/didactic scopes:
 
 | Source sections | Legacy headings / scope | Recommended unit |
