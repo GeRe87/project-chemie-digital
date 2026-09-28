@@ -61,10 +61,10 @@ EXPECTED_SCENES = [
 ]
 
 EXPECTED_BLOCK_KINDS = [
-    ["prose", "list", "prose"],
+    ["prose", "prose", "list", "prose"],
     ["prose", "prose", "prose", "definition-list", "prose"],
     ["prose", "list", "prose"],
-    ["prose", "prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "diagram", "prose"],
     ["prose", "diagram"],
     ["prose", "prose", "prose", "definition-list", "prose"],
 ]
@@ -176,19 +176,26 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertIn("IAC", takeaway)
         self.assertIn("UNIVERSITY OF DUISBURG-ESSEN", takeaway)
 
-    def test_course_format_is_a_four_card_semantic_grid(self) -> None:
-        owner = EX["chemometrics-course-format-list"]
-        entries = sorted(
-            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
-            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
+    def test_course_format_is_exact_four_node_linear_flow(self) -> None:
+        diagram = EX["diagram-chemometrics-course-format"]
+        self.assertEqual({CD.FlowDiagram}, set(self.content_graph.objects(diagram, RDF.type)))
+        nodes = sorted(
+            self.content_graph.objects(diagram, CD.hasDiagramNode),
+            key=lambda node: int(next(self.content_graph.objects(node, CD.position))),
+        )
+        edges = sorted(
+            self.content_graph.objects(diagram, CD.hasDiagramEdge),
+            key=lambda edge: int(next(self.content_graph.objects(edge, CD.position))),
         )
         self.assertEqual(
-            ["Lecture", "Tutorial", "Reproducible computation", "Questions and discussion"],
-            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
+            ["LECTURE", "TUTORIAL", "REPRODUCE", "DISCUSS"],
+            [str(next(self.content_graph.objects(node, SKOS.prefLabel))) for node in nodes],
         )
-        self.assertEqual([1, 2, 3, 4], [
-            int(next(self.content_graph.objects(entry, CD.position))) for entry in entries
-        ])
+        self.assertEqual(4, len(nodes))
+        self.assertEqual(3, len(edges))
+        for index, edge in enumerate(edges):
+            self.assertEqual({nodes[index]}, set(self.content_graph.objects(edge, CD.sourceNode)))
+            self.assertEqual({nodes[index + 1]}, set(self.content_graph.objects(edge, CD.targetNode)))
         banner = str(next(self.content_graph.objects(EX["chemometrics-course-format-banner"], CD.body)))
         self.assertIn("LEARN → PRACTICE → REPRODUCE → DISCUSS", banner)
 
@@ -272,7 +279,10 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-        title_cards = self.document["scenes"][0]["blocks"][1]
+        title_attribution = self.document["scenes"][0]["blocks"][1]
+        self.assertEqual({"kind": "emphasize"}, title_attribution["intent"])
+        self.assertIn("Gerrit Renner", title_attribution["text"])
+        title_cards = self.document["scenes"][0]["blocks"][2]
         self.assertEqual("unordered", title_cards["listStyle"])
         self.assertEqual(3, len(title_cards["items"]))
 
@@ -283,8 +293,10 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual("unordered", lecturer_cards["listStyle"])
         self.assertEqual(3, len(lecturer_cards["items"]))
 
-        format_cards = self.document["scenes"][3]["blocks"][3]
-        self.assertEqual(4, len(format_cards["entries"]))
+        format_diagram = self.document["scenes"][3]["blocks"][2]
+        self.assertEqual("flow", format_diagram["diagramType"])
+        self.assertEqual(4, len(format_diagram["nodes"]))
+        self.assertEqual(3, len(format_diagram["edges"]))
 
         roadmap = self.document["scenes"][4]["blocks"][1]
         self.assertEqual("flow", roadmap["diagramType"])
