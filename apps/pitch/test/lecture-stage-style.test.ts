@@ -95,6 +95,16 @@ test("staged slides freeze scroll containers and background progress structurall
   assert.doesNotMatch(mainSource, /isStageLockedSlide\(/);
 });
 
+test("staged scroll-view terminal navigation targets the adjacent scroll page boundary", () => {
+  assert.match(stageRuntime, /target\.closest\("\.scroll-page"\)/);
+  assert.match(stageRuntime, /viewport\.scrollTop\s*=\s*top/);
+  assert.match(stageRuntime, /pcd-presentation-stage-exit/);
+  assert.match(
+    mainSource,
+    /mountPresentationStageNavigation\([\s\S]*?view:\s*appearance\.view[\s\S]*?root/,
+  );
+});
+
 test("inactive-slide hiding is deck-only so Reveal scroll view retains the full deck", () => {
   assert.match(
     stageStyles,
