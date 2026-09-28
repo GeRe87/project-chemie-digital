@@ -312,3 +312,34 @@ Focused regressions require:
 - initial backward action uses explicit previous-slide transition;
 - keyboard and Reveal-control events remain consumed at the terminal stage;
 - no topic/scene/resource identity checks.
+
+
+## Browser follow-up 5: direct adjacent-slide navigation
+
+The prior terminal fix used Reveal `next()/prev()`, but browser smoke showed those relative APIs still re-enter the staged fragment cycle in scroll view.
+
+Reveal 5.2 exposes direct navigation via:
+- `getSlides()`
+- `getIndices(targetSlide)`
+- `slide(h, v, f)`
+
+The staged controller now uses those APIs at terminal boundaries.
+
+Forward:
+1. internal fragments still use `nextFragment()`;
+2. when no next fragment remains, find the next linear DOM slide via `getSlides()`;
+3. resolve its Reveal coordinates with `getIndices(target)`;
+4. call `slide(h, v, -1)` to enter that slide before its fragments.
+
+Backward:
+1. internal fragments still use `prevFragment()`;
+2. at stage 0, find the previous linear slide;
+3. call `slide(h, v, lastFragmentIndex)` so backwards navigation lands at the previous slide's final fragment state when it has fragments.
+
+No relative `next()/prev()` remains in staged terminal navigation.
+
+Regression coverage asserts:
+- stage 0 → 1 → 2 → 3 stays fragment-local;
+- the next action invokes exactly `slide(1, 0, -1)`;
+- backwards terminal navigation targets the previous slide's final fragment index;
+- keyboard and Reveal-control paths use the same direct terminal navigation.
