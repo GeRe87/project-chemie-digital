@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review sixth #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify terminal staged navigation unlocks on Reveal beforeslidechange before scroll-view movement, direct slide(h,v,f) then reaches the adjacent slide, no loop/stall remains, all six Intro slides remain reachable, and settled-entry relock still works. Then continue renderer/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed sixth #188 browser follow-up: stage lock now releases on Reveal beforeslidechange, which fires before scroll-view scrollToSlide; direct terminal slide navigation therefore cannot be pulled back by outgoing fragment/scroll restoration. Custom exit event removed; two-frame relock on the destination is preserved.",
-  "lastUpdated": "2026-09-28T16:38:00+02:00",
+  "expectedDeliverable": "Seventh #188 browser follow-up: fix terminal navigation in Reveal scroll view at the scroll-page level. Refactor stage lock to expose an explicit synchronous release controller. For staged terminal navigation in scroll view, release the lock, resolve the adjacent slide's .scroll-page wrapper and set the Reveal viewport directly to that page boundary; do not use fragment-relative Reveal slide navigation. Keep direct slide(h,v,f) for deck view. Preserve internal stages and six-slide scroll deck.",
+  "lastCompletedTurn": "manager: browser smoke plus Reveal 5.2 source review identified the remaining stall: synthetic fragments make the current slide a sticky scroll-page with extra trigger padding, while stages are advanced without scroll movement. Terminal Reveal navigation therefore moves background progress but leaves the sticky current page visible. Authorized a page-level scroll transition fix.",
+  "lastUpdated": "2026-09-28T16:47:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 sixth browser follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→adjacent slide, no loop/stall, backward terminal navigation, all six Introduction slides reachable",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 262,
+  "blockedBy": [],
+  "stateRevision": 263,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T13:58:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
-      "reason": "Claimed #187 to establish profile-driven lecture readability floors and generic content budgets after browser evidence showed that fit-by-shrinking remains unsuitable for projected teaching."
-    },
     {
       "at": "2026-09-28T14:08:00+02:00",
       "from": "busy/worker",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
       "reason": "Completed pre-slide lifecycle fix: stage lock now unlocks synchronously on Reveal beforeslidechange before scroll-view transition; direct slide navigation and destination relock remain intact."
+    },
+    {
+      "at": "2026-09-28T16:47:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-scroll-page-terminal-20260928T164700+0200",
+      "reason": "Authorized bounded #188 scroll-page terminal fix: stage controller must release lock and directly position Reveal viewport at adjacent .scroll-page boundary in scroll view; deck view keeps direct slide navigation."
     }
   ]
 }
