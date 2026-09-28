@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: advanced roadmap/controller Issue #169 without semantic authoring. Audited Library and Project/Conversation files and found no exact 2026 Quantiles.md source; created source-recovery Issue #179. Verified the pinned public Signal Processing source and created reconciliation-only Issue #180 with explicit source pin/blob and candidate bounded unit split. #169 remains open as controller; Chemometrics lane returned to idle.",
-  "lastUpdated": "2026-09-27T16:50:00+02:00",
+  "activeRole": "Chemometrics Content Manager",
+  "activeIssue": 180,
+  "expectedDeliverable": "Plan and authorize bounded Issue #180 source reconciliation only: analyze pinned Signal Processing source db2c5ef266641399c2b495646064e16cfdd473e4/topics/09_SignalProcessing.html, audit canonical REUSE candidates, classify source evidence as REUSE/CREATE/PATH/RENDERER, record scientific corrections/ambiguities, recommend final LearningUnit boundaries and placement order. No RDF, path, scene or renderer implementation.",
+  "lastCompletedTurn": "manager: verified #180 source pin/blob and performed preliminary source/canonical audit. Exact scientific concepts for convolution, Savitzky-Golay, Fourier and wavelets are not yet canonical; arithmetic mean and standard deviation are reusable. Several legacy claims require explicit correction before migration, including z-score/outlier wording and Fourier/DWT explanations.",
+  "lastUpdated": "2026-09-28T09:18:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
+    "claimedAt": "2026-09-28T09:18:00+02:00",
+    "expiresAt": "2026-09-28T11:18:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 89,
+  "stateRevision": 90,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T11:35:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue140-keypoints-20260926T112700+0200",
-      "reason": "Completed the bounded eleven-owner Mean Values KeyPoint migration with focused content/runtime regressions and Draft PR #157; returned to Chemometrics manager for fresh exact-head validation and independent review."
-    },
     {
       "at": "2026-09-26T11:27:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/manager",
       "actor": "interactive-chemometrics-manager-issue169-source-audit-20260927T164800+0200",
       "reason": "Completed the bounded #169 controller turn: documented missing 2026 primary-source evidence, created recovery Issue #179, prepared source-complete Signal Processing reconciliation Issue #180 from the pinned public source, authorized no semantic worker, and returned Chemometrics to idle manager state."
+    },
+    {
+      "at": "2026-09-28T09:18:00+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
+      "reason": "Claimed planning-only Issue #180 after verifying the pinned Signal Processing source and preliminary canonical reuse/correction audit; no semantic authoring is authorized in the manager turn."
     }
   ]
 }
