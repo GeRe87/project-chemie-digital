@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 187,
-  "expectedDeliverable": "Implement generic lecture readability mode on the existing #184/#186 integration branch: profile-driven lecture typography floors, structure-driven content budget markers/warnings, no automatic micro-typography fallback, and simplify the nitrate case-study composition to two primary lecture-scale regions while preserving problem+data+analysis+discussion on one slide.",
-  "lastCompletedTurn": "manager: browser comparison against established Chemometrics lecture slides confirmed that the remaining problem is global lecture readability, not isolated case-study fitting. Created #187 and authorized one renderer-focused follow-up on the current integration branch.",
-  "lastUpdated": "2026-09-28T13:58:00+02:00",
+  "expectedDeliverable": "Review Issue #187 on PR #185 after owner-local renderer/pitch/Introduction tests and fresh browser smoke. Verify profile-driven Chemometrics lecture mode, 30px base/readability floors, structure-only content-budget diagnostics, two-column lecture-scale nitrate case study, no identity leakage, and no regressions to non-lecture profiles. Then coordinate full npm test and final exact-head validator with #184/#186 before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed #187 lecture readability mode on PR #185: Chemometrics profile defaults to lecture scale; 30px base typography with table/chart/supporting floors; generic SceneDocument content-budget diagnostics; over-budget slides warn authors instead of shrinking; nitrate case simplified to four primary regions/two major columns; focused profile/budget/layout tests and handoff added. Non-lecture profile remains standard.",
+  "lastUpdated": "2026-09-28T14:08:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
-    "claimedAt": "2026-09-28T13:58:00+02:00",
-    "expiresAt": "2026-09-28T15:58:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 238,
+  "blockedBy": [
+    "Issue #187 requires owner-local renderer-reveal tests",
+    "Issue #187 requires owner-local renderer-d3 tests",
+    "Issue #187 requires owner-local pitch tests",
+    "Issue #187 requires owner-local Chemometrics Introduction tests",
+    "Issue #187 requires fresh browser smoke via npm run pitch:intro",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 239,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
-    },
     {
       "at": "2026-09-27T12:35:00+02:00",
       "from": "busy/worker",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
       "reason": "Claimed #187 to establish profile-driven lecture readability floors and generic content budgets after browser evidence showed that fit-by-shrinking remains unsuitable for projected teaching."
+    },
+    {
+      "at": "2026-09-28T14:08:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
+      "reason": "Completed profile-driven lecture readability, generic content budgets and lecture-scale case-study simplification for #187; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with #184/#186."
     }
   ]
 }
