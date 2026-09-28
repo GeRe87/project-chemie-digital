@@ -1,29 +1,29 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 189,
-  "expectedDeliverable": "Implement #189 authored semantic evidence chain for the nitrate case study plus minimal reusable vocabulary/SHACL: derivedFromResource, interpretsResource, ChartPointAnnotation target, and exact content regressions.",
-  "lastCompletedTurn": "manager: authorized integrated #189 semantic evidence/disclosure implementation on PR #185; chemometrics worker claimed only its bounded ontology/content or compiler/renderer responsibilities.",
-  "lastUpdated": "2026-09-28T17:22:00+02:00",
+  "expectedDeliverable": "Review #189 Chemometrics semantics on PR #185 after owner-local SHACL and focused Introduction/compiler tests. Verify exact chart→table→annotation→interpretation chain, compiled table step 1 and discussion step 3 triggers, and canonical dataset conformance. Then coordinate full npm test and final validator.",
+  "lastCompletedTurn": "worker: completed #189 Chemometrics work: added reusable LearningResource evidence relations + SHACL, authored nitrate chart→table and interpretation→annotation links, authored Sample-C ChartPointAnnotation, and exact RDF/runtime regressions; returned to manager for local semantic verification and browser smoke.",
+  "lastUpdated": "2026-09-28T17:51:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
-    "claimedAt": "2026-09-28T17:22:00+02:00",
-    "expiresAt": "2026-09-28T19:22:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 113,
+  "blockedBy": [
+    "Issue #189 requires owner-local SHACL/core/D3/pitch/semantic-disclosure/Introduction focused tests",
+    "Issue #189 requires fresh browser smoke of semantic progressive disclosure via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance",
+    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 114,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T16:50:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue169-source-audit-20260927T164800+0200",
-      "reason": "Completed the bounded #169 controller turn: documented missing 2026 primary-source evidence, created recovery Issue #179, prepared source-complete Signal Processing reconciliation Issue #180 from the pinned public source, authorized no semantic worker, and returned Chemometrics to idle manager state."
-    },
     {
       "at": "2026-09-28T09:18:00+02:00",
       "from": "ready/manager",
@@ -191,6 +191,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
       "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
+    },
+    {
+      "at": "2026-09-28T17:51:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
+      "reason": "Completed #189 semantic evidence-driven disclosure implementation and focused regressions; returned to manager for owner-local verification, browser smoke, full suite and final acceptance gates."
     }
   ]
 }
