@@ -149,10 +149,43 @@ export function mountPresentationStageLock(
   const body = root.ownerDocument?.body ?? null;
 
   let locked = false;
+  let targetSlide: HTMLElement | null = null;
   let windowX = browserWindow.scrollX;
   let windowY = browserWindow.scrollY;
   let viewportTop = viewport?.scrollTop ?? 0;
   let restoreFrame: number | undefined;
+  let settleFrameOne: number | undefined;
+  let settleFrameTwo: number | undefined;
+
+  const setLocked = (active: boolean): void => {
+    locked = active;
+    body?.classList.toggle("pcd-stage-lock-active", active);
+  };
+
+  const cancelRestore = (): void => {
+    if (restoreFrame !== undefined) {
+      browserWindow.cancelAnimationFrame(restoreFrame);
+      restoreFrame = undefined;
+    }
+  };
+
+  const cancelSettle = (): void => {
+    if (settleFrameOne !== undefined) {
+      browserWindow.cancelAnimationFrame(settleFrameOne);
+      settleFrameOne = undefined;
+    }
+    if (settleFrameTwo !== undefined) {
+      browserWindow.cancelAnimationFrame(settleFrameTwo);
+      settleFrameTwo = undefined;
+    }
+  };
+
+  const unlock = (): void => {
+    cancelRestore();
+    cancelSettle();
+    targetSlide = null;
+    setLocked(false);
+  };
 
   const capture = (): void => {
     windowX = browserWindow.scrollX;
@@ -167,18 +200,33 @@ export function mountPresentationStageLock(
   };
 
   const queueRestore = (): void => {
+    if (!locked) return;
     restore();
-    if (restoreFrame !== undefined) browserWindow.cancelAnimationFrame(restoreFrame);
+    cancelRestore();
     restoreFrame = browserWindow.requestAnimationFrame(() => {
       restoreFrame = undefined;
       restore();
     });
   };
 
-  const sync = (): void => {
-    locked = isStageLockedSlide(deck.getCurrentSlide());
-    body?.classList.toggle("pcd-stage-lock-active", locked);
-    if (locked) capture();
+  const activateAfterRevealSettles = (): void => {
+    unlock();
+    const slide = deck.getCurrentSlide() ?? null;
+    if (!slide || !isStageLockedSlide(slide)) return;
+
+    targetSlide = slide;
+    settleFrameOne = browserWindow.requestAnimationFrame(() => {
+      settleFrameOne = undefined;
+      settleFrameTwo = browserWindow.requestAnimationFrame(() => {
+        settleFrameTwo = undefined;
+        if (deck.getCurrentSlide() !== targetSlide || !isStageLockedSlide(targetSlide)) {
+          targetSlide = null;
+          return;
+        }
+        capture();
+        setLocked(true);
+      });
+    });
   };
 
   const blockScroll = (event: Event): void => {
@@ -193,7 +241,9 @@ export function mountPresentationStageLock(
   };
 
   const onSlideChanged = (): void => {
-    sync();
+    // Reveal must first finish positioning the newly entered slide. We unlock
+    // immediately, then capture the final stable position after two frames.
+    activateAfterRevealSettles();
   };
 
   deck.on("fragmentshown", onFragment);
@@ -203,13 +253,13 @@ export function mountPresentationStageLock(
   browserWindow.addEventListener("touchmove", blockScroll, { passive: false });
   viewport?.addEventListener("wheel", blockScroll, { passive: false });
   viewport?.addEventListener("touchmove", blockScroll, { passive: false });
-  sync();
+  activateAfterRevealSettles();
 
   let destroyed = false;
   return () => {
     if (destroyed) return;
     destroyed = true;
-    if (restoreFrame !== undefined) browserWindow.cancelAnimationFrame(restoreFrame);
+    unlock();
     deck.off("fragmentshown", onFragment);
     deck.off("fragmenthidden", onFragment);
     deck.off("slidechanged", onSlideChanged);
@@ -217,6 +267,5 @@ export function mountPresentationStageLock(
     browserWindow.removeEventListener("touchmove", blockScroll);
     viewport?.removeEventListener("wheel", blockScroll);
     viewport?.removeEventListener("touchmove", blockScroll);
-    body?.classList.remove("pcd-stage-lock-active");
   };
 }
