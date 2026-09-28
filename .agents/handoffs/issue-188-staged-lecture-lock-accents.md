@@ -196,3 +196,53 @@ Focused regressions now require:
 - marker utilities contain at least three gradient layers;
 - automatic KeyPoint marker uses two polygon-clipped layers;
 - no course/topic identity checks.
+
+
+## Browser follow-up 2: restore full scroll-view deck
+
+Fresh browser smoke after the settled-entry fix showed the staged slide itself was stable, but the Introduction appeared to contain only the title plus the case-study slide.
+
+The authored Introduction remained correct at all times:
+- six SceneDefinitions;
+- six ordered PathSteps;
+- six projected scene shapes covered by the Chemometrics Introduction regression.
+
+The renderer regression was caused by a global CSS workaround:
+
+`#pitch-slides > section:not(.present) { display: none !important; }`
+
+Chemometrics defaults to Reveal `view: "scroll"`. Scroll view intentionally keeps all slides in the document flow, so hiding every non-`.present` section collapses the scroll deck/navigation.
+
+The fix is generic:
+- `body[data-presentation-view]` now exposes the resolved Reveal view;
+- hard inactive-slide hiding is scoped to `body[data-presentation-view="deck"]` only;
+- scroll view has no hard `.present` visibility override and remains under Reveal ownership.
+
+This preserves the original reason for the workaround in classic deck mode: scene layout CSS may use `display:grid !important`, which must not surface inactive deck siblings.
+
+## Browser follow-up 2: marker visibility
+
+The previous pseudo-element marker strokes remained too weak and could visually cross the glyphs.
+
+List rendering now wraps each semantic list item text in a neutral:
+
+`<span class="pcd-list-item-text">…</span>`
+
+The semantic list/item/provenance structure is unchanged.
+
+Automatic lecture markers are applied directly as the span background, therefore always behind the glyphs. The marker now uses:
+- three independent horizontal gradient layers;
+- approximately 50–64% peak colour contribution in the main stroke;
+- a 0.78em main marker band;
+- different angle/direction, vertical position, length and opacity per layer;
+- `box-decoration-break: clone` so multi-line statements receive marker strokes per line;
+- no pseudo-element blob, no border radius and no clip-path oval.
+
+The explicit `.pcd-marker-highlight` utility was strengthened in the same direction.
+
+Regression coverage now asserts:
+- inactive slide hiding is deck-view-only;
+- main exports `data-presentation-view`;
+- list text is wrapped in `.pcd-list-item-text`;
+- automatic marker contains exactly three strong gradient layers behind the text;
+- no legacy pseudo-element marker remains.
