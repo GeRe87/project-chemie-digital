@@ -135,12 +135,43 @@ function currentStepForHost(host: HTMLElement): number {
   return stepFromVisibleCount(visibleCount, count);
 }
 
+function resourceIdTokens(element: Element, attribute: string): ReadonlySet<string> {
+  return new Set(
+    (element.getAttribute(attribute) ?? "")
+      .split(/\s+/u)
+      .map((value) => value.trim())
+      .filter(Boolean),
+  );
+}
+
+export function applySemanticDisclosure(host: HTMLElement, step: number): void {
+  const slide = host.closest("section");
+  if (!slide) return;
+
+  const stageResources = resourceIdTokens(host, "data-presentation-step-resource-id");
+  if (!stageResources.size) return;
+
+  for (const element of slide.querySelectorAll<HTMLElement>(
+    '[data-presentation-disclosure-mode="progressive"][data-presentation-disclosure-step]',
+  )) {
+    const trigger = element.getAttribute("data-presentation-disclosure-trigger-resource-id");
+    if (!trigger || !stageResources.has(trigger)) continue;
+
+    const required = Number(element.getAttribute("data-presentation-disclosure-step"));
+    if (!Number.isInteger(required) || required < 1) continue;
+    const visible = step >= required;
+    element.dataset.presentationDisclosureVisible = String(visible);
+    element.setAttribute("aria-hidden", String(!visible));
+  }
+}
+
 function dispatchStep(host: HTMLElement, step: number): void {
   host.dispatchEvent(new CustomEvent("pcd-presentation-step", {
     bubbles: false,
     detail: { step },
   }));
   host.dataset.presentationStep = String(step);
+  applySemanticDisclosure(host, step);
 }
 
 export function mountPresentationStepRuntime(
