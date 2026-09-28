@@ -16,13 +16,14 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 2 — foundation-card-grid ------------------------------------------
+  # Slide 2 — analytical case study -----------------------------------------
   ex:scene-chemometrics-introduction-overview a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-overview ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-overview-heading,
-      ex:scene-item-chemometrics-introduction-overview-banner,
-      ex:scene-item-chemometrics-introduction-overview-foundation,
-      ex:scene-item-chemometrics-introduction-overview-list,
+      ex:scene-item-chemometrics-introduction-overview-problem,
+      ex:scene-item-chemometrics-introduction-overview-table,
+      ex:scene-item-chemometrics-introduction-overview-chart,
+      ex:scene-item-chemometrics-introduction-overview-discussion,
       ex:scene-item-chemometrics-introduction-overview-takeaway ;
     cd:authoredResource true .
 
@@ -34,33 +35,41 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-overview-banner a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-overview-problem a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chemometrics-course-overview-banner ;
+    cd:selectsResource ex:chemometrics-nitrate-case-problem ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-overview-foundation a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-overview-table a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:chemometrics-course-overview-foundation ;
-    cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:table-chemometrics-nitrate-replicates ;
+    cd:communicativeRole cd:TableRole ;
+    cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-overview-chart a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:chart-chemometrics-nitrate-means ;
+    cd:communicativeRole cd:ChartRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-overview-list a cd:SceneItem ;
-    cd:position 4 ;
-    cd:selectsResource ex:chemometrics-course-overview-list ;
-    cd:communicativeRole cd:DefinitionListRole ;
-    cd:selectionPath "cd:hasDefinitionListEntry" ;
+  ex:scene-item-chemometrics-introduction-overview-discussion a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:chemometrics-nitrate-case-discussion ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
     cd:language "en" ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-overview-takeaway a cd:SceneItem ;
-    cd:position 5 ;
-    cd:selectsResource ex:chemometrics-course-overview-takeaway ;
+    cd:position 6 ;
+    cd:selectsResource ex:chemometrics-nitrate-case-takeaway ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
