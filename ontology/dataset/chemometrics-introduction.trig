@@ -121,29 +121,19 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     cd:position 3 ; cd:numericValue 18.925 ; cd:authoredResource true .
 
   ex:chemometrics-nitrate-case-discussion a cd:Interpretation ;
-    cd:body "Three observations turn the calculation into an analytical conclusion."@en ;
+    cd:body "The result is useful only when level and variation are interpreted together."@en ;
     cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest,
-      ex:chemometrics-nitrate-discussion-variation,
-      ex:chemometrics-nitrate-discussion-decision ;
+      ex:chemometrics-nitrate-discussion-variation ;
     cd:authoredResource true .
 
   ex:chemometrics-nitrate-discussion-c-highest a cd:KeyPoint ;
     cd:position 1 ;
-    cd:body "Sample C is clearly highest in this illustrative dataset."@en ;
+    cd:body "Sample C is much higher than A and B in this illustrative dataset."@en ;
     cd:authoredResource true .
 
   ex:chemometrics-nitrate-discussion-variation a cd:KeyPoint ;
     cd:position 2 ;
-    cd:body "Repeated measurements vary — so a result needs more than one number."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-nitrate-discussion-decision a cd:KeyPoint ;
-    cd:position 3 ;
-    cd:body "Chemometrics turns measurements, variation and assumptions into a defensible decision."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-nitrate-case-takeaway a cd:Interpretation ;
-    cd:body "MEASUREMENTS → SUMMARY → VARIATION → INTERPRETATION"@en ;
+    cd:body "Replicates reveal spread: a defensible conclusion needs both concentration level and variation."@en ;
     cd:authoredResource true .
 
   # Slide 3 — lecturer -------------------------------------------------------
