@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Follow-up #188 browser regression fix only: stage lock must activate only after the entered staged slide has settled for two animation frames, must not globally hide Reveal overflow, must unlock immediately on slide exit, and marker highlights must become layered inhomogeneous horizontal strokes instead of dark oval blobs. Preserve all other #188 behavior and generic identity-free scope.",
-  "lastCompletedTurn": "worker: claimed bounded #188 browser follow-up for delayed stage-lock activation and layered inhomogeneous marker styling only.",
-  "lastUpdated": "2026-09-28T14:59:00+02:00",
+  "expectedDeliverable": "Review #188 browser follow-up on PR #185 after owner-local pitch/renderer tests and fresh browser smoke. Verify staged slide entry is fully visible before locking, navigation continues after final stage, fragment changes remain position-stable, no global overflow suppression remains, background freezes only after lock activation, and marker highlights render as layered inhomogeneous horizontal strokes rather than dark blobs. Then coordinate full npm test and final exact-head validator with #184/#186/#187.",
+  "lastCompletedTurn": "worker: completed #188 browser-regression follow-up: stage lock now waits two animation frames after slide entry before capture/activation, global body/viewport overflow suppression removed, slide exit unlocks immediately, background freeze starts only after active lock, and marker/highlight styling was replaced by three-layer inline strokes plus two irregular polygon-clipped KeyPoint strokes.",
+  "lastUpdated": "2026-09-28T15:07:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
-    "claimedAt": "2026-09-28T14:59:00+02:00",
-    "expiresAt": "2026-09-28T16:59:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 243,
+  "blockedBy": [
+    "Issue #188 browser follow-up requires owner-local pitch tests",
+    "Issue #188 browser follow-up requires owner-local renderer-reveal tests",
+    "Issue #188 browser follow-up requires owner-local renderer-d3 tests",
+    "Issue #188 browser follow-up requires owner-local Chemometrics Introduction tests",
+    "Issue #188 requires fresh browser smoke: fully visible staged entry, stable stages, normal navigation after final stage, layered marker appearance",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 244,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:57:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-      "reason": "Authorized one Software Architect worker turn to record the OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility rule only."
-    },
     {
       "at": "2026-09-27T13:00:00+02:00",
       "from": "ready/worker",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
       "reason": "Claimed browser-regression follow-up: staged slide entry must settle before lock activation, slide exit must unlock immediately, and marker styling must become layered/inhomegeneous without topic identity."
+    },
+    {
+      "at": "2026-09-28T15:07:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
+      "reason": "Completed bounded #188 browser follow-up: delayed settle/capture/lock lifecycle, navigation-safe unlock, no global overflow suppression, active-only background freeze and layered irregular marker strokes; returned to manager for focused tests and fresh browser verification."
     }
   ]
 }
