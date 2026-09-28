@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 186,
-  "expectedDeliverable": "Implement generic second-stage Reveal layout fit on the existing #184 integration branch: deterministic block-footprint estimation; case-study variants balanced/evidence-right/stacked; densities comfortable/dense/compact; data-layout-variant and data-layout-density DOM markers; variant/density-aware generic CSS and focused tests. No Chemometrics/Nitrate identity checks and no scientific-content mutation in the System turn.",
-  "lastCompletedTurn": "manager: created System Issue #186 after browser evidence showed that family-only static CSS is insufficient for dense mixed-evidence slides; authorized a generic renderer-only fit layer coordinated with PR #185.",
-  "lastUpdated": "2026-09-28T12:27:00+02:00",
+  "expectedDeliverable": "Independently review Issue #186 on PR #185 after owner-local focused renderer/pitch tests and browser smoke. Verify deterministic structure-only footprint inference, case-study variants/density, DOM markers, density-aware chart geometry, no identity leakage and no regressions to existing layout families. Then coordinate final acceptance with Chemometrics Issue #184 and require full npm test plus fresh exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed generic Reveal fit layer for #186 on PR #185: deterministic block footprints, case-study balanced/evidence-right/stacked variants, comfortable/dense/compact density, DOM markers, density propagation, slot-bounded case-study CSS, density-aware bar-chart geometry, focused regressions and structured handoff. Adaptive density is contained to case-study; no identity-specific renderer logic.",
+  "lastUpdated": "2026-09-28T12:44:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
-    "claimedAt": "2026-09-28T12:27:00+02:00",
-    "expiresAt": "2026-09-28T14:27:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 236,
+  "blockedBy": [
+    "Issue #186 requires owner-local renderer-reveal tests",
+    "Issue #186 requires owner-local renderer-d3 tests",
+    "Issue #186 requires owner-local pitch tests",
+    "Issue #186 requires fresh browser visual smoke of #184 case-study via npm run pitch:intro",
+    "Issue #186 requires full repository npm test before final acceptance",
+    "PR #185 requires coordinated Chemometrics #184 and System #186 manager review",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 237,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T11:34:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-      "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
-    },
     {
       "at": "2026-09-27T12:28:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
       "reason": "Claimed System Issue #186 to add deterministic generic Reveal fit decisions (variant+density), DOM markers, density-aware case-study CSS and renderer regressions on the current integration branch; no identity-specific renderer logic."
+    },
+    {
+      "at": "2026-09-28T12:44:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
+      "reason": "Completed generic #186 Reveal fit implementation and handoff on PR #185; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with content Issue #184."
     }
   ]
 }
