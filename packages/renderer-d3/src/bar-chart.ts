@@ -195,7 +195,6 @@ export function mountD3BarChart(
   const applyStep = (): void => {
     const emphasizedDatumIds = barChartEmphasisDatumIds(model);
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
-      const value = Number(rect.dataset.value ?? 0);
       const datumId = rect.dataset.datumId ?? "";
       const visible = currentStep >= 1;
       const focused = currentStep >= 3;
@@ -205,7 +204,6 @@ export function mountD3BarChart(
       rect.classList.toggle("d3-chart-emphasis", emphasized);
     }
     for (const label of chartSvg.querySelectorAll<SVGTextElement>(".d3-chart-value-label")) {
-      const value = Number(label.dataset.value ?? 0);
       const datumId = label.dataset.datumId ?? "";
       const focused = currentStep >= 3;
       const emphasized = focused && emphasizedDatumIds.has(datumId);
