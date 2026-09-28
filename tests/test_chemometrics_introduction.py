@@ -187,6 +187,33 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertIn("B 0.13", chart_body)
         self.assertIn("C 0.31", chart_body)
 
+        self.assertEqual(
+            {table},
+            set(self.content_graph.objects(chart, CD.derivedFromResource)),
+        )
+        annotation = EX["annotation-chemometrics-nitrate-runoff-high"]
+        self.assertEqual(
+            {annotation},
+            set(self.content_graph.objects(chart, CD.hasChartAnnotation)),
+        )
+        self.assertEqual(
+            {CD.ChartPointAnnotation},
+            set(self.content_graph.objects(annotation, RDF.type)),
+        )
+        self.assertEqual(
+            {EX["observation-nitrate-mean-c"]},
+            set(self.content_graph.objects(annotation, CD.targetObservation)),
+        )
+        self.assertEqual(
+            {annotation},
+            set(
+                self.content_graph.objects(
+                    EX["chemometrics-nitrate-case-discussion"],
+                    CD.interpretsResource,
+                )
+            ),
+        )
+
         discussion = sorted(
             self.content_graph.objects(EX["chemometrics-nitrate-case-discussion"], CD.hasKeyPoint),
             key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
@@ -335,15 +362,45 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual("Nitrate measurements", data_table["caption"])
         self.assertEqual(5, len(data_table["columns"]))
         self.assertEqual(3, len(data_table["rows"]))
+        self.assertEqual(
+            {
+                "order": 2,
+                "mode": "progressive",
+                "step": 1,
+                "triggerResourceId": "ex:chart-chemometrics-nitrate-means",
+            },
+            data_table["disclosure"],
+        )
 
         analysis = overview["blocks"][3]
         self.assertEqual("bar", analysis["chartType"])
         self.assertEqual(["A · upstream", "B · tap water", "C · runoff"], [datum["category"] for datum in analysis["data"]])
         self.assertEqual([2.2, 4.95, 18.925], [datum["value"] for datum in analysis["data"]])
+        self.assertEqual(
+            [
+                {
+                    "id": "ex:annotation-chemometrics-nitrate-runoff-high",
+                    "kind": "point",
+                    "datumId": "ex:observation-nitrate-mean-c",
+                    "label": "Sample C has the highest mean nitrate concentration.",
+                    "source": analysis["annotations"][0]["source"],
+                }
+            ],
+            analysis["annotations"],
+        )
 
         discussion = overview["blocks"][4]
         self.assertEqual("unordered", discussion["listStyle"])
         self.assertEqual(2, len(discussion["items"]))
+        self.assertEqual(
+            {
+                "order": 4,
+                "mode": "progressive",
+                "step": 3,
+                "triggerResourceId": "ex:annotation-chemometrics-nitrate-runoff-high",
+            },
+            discussion["disclosure"],
+        )
 
         lecturer_cards = self.document["scenes"][2]["blocks"][1]
         self.assertEqual("unordered", lecturer_cards["listStyle"])
