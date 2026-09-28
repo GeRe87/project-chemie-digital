@@ -52,6 +52,11 @@ function hostId(host: Element, fallbackIndex: number): string {
     ?? `presentation-step-host-${fallbackIndex}`;
 }
 
+export function markStageLockedSlide(slide: Element): void {
+  slide.setAttribute("data-has-stages", "true");
+  slide.setAttribute("data-stage-lock", "true");
+}
+
 export function preparePresentationStepFragments(root: HTMLElement): void {
   const hosts = Array.from(root.querySelectorAll<HTMLElement>("[data-presentation-step-count]"));
 
@@ -64,8 +69,7 @@ export function preparePresentationStepFragments(root: HTMLElement): void {
 
     const slide = host.closest("section");
     if (!slide) return;
-    slide.setAttribute("data-has-stages", "true");
-    slide.setAttribute("data-stage-lock", "true");
+    markStageLockedSlide(slide);
 
     const existing = Array.from(
       slide.querySelectorAll<HTMLElement>(".pcd-presentation-step-fragment"),
