@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  applySemanticDisclosure,
   clampPresentationStep,
   consumePresentationStageNavigation,
   isStageLockedSlide,
@@ -25,6 +26,59 @@ test("visible Reveal fragments reconstruct the absolute D3 step", () => {
   assert.equal(stepFromVisibleCount(7, 4), 4);
 });
 
+
+test("semantic disclosure responds only to matching staged resource triggers", () => {
+  const makeDisclosure = (trigger: string, requiredStep: number) => {
+    const attributes = new Map<string, string>([
+      ["data-presentation-disclosure-mode", "progressive"],
+      ["data-presentation-disclosure-step", String(requiredStep)],
+      ["data-presentation-disclosure-trigger-resource-id", trigger],
+      ["data-presentation-disclosure-visible", "false"],
+      ["aria-hidden", "true"],
+    ]);
+    return {
+      dataset: {} as Record<string, string>,
+      getAttribute(name: string) { return attributes.get(name) ?? null; },
+      setAttribute(name: string, value: string) { attributes.set(name, value); },
+      attributes,
+    };
+  };
+
+  const table = makeDisclosure("resource:chart", 1);
+  const conclusion = makeDisclosure("resource:annotation", 3);
+  const unrelated = makeDisclosure("resource:other", 1);
+  const slide = {
+    querySelectorAll() { return [table, conclusion, unrelated]; },
+  };
+  const host = {
+    getAttribute(name: string) {
+      return name === "data-presentation-step-resource-id"
+        ? "resource:chart resource:annotation"
+        : null;
+    },
+    closest(selector: string) {
+      return selector === "section" ? slide : null;
+    },
+  } as unknown as HTMLElement;
+
+  applySemanticDisclosure(host, 0);
+  assert.equal(table.attributes.get("data-presentation-disclosure-visible"), "false");
+  assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "false");
+
+  applySemanticDisclosure(host, 1);
+  assert.equal(table.attributes.get("data-presentation-disclosure-visible"), "true");
+  assert.equal(table.attributes.get("aria-hidden"), "false");
+  assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "false");
+  assert.equal(unrelated.attributes.get("data-presentation-disclosure-visible"), "false");
+
+  applySemanticDisclosure(host, 3);
+  assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "true");
+  assert.equal(conclusion.attributes.get("aria-hidden"), "false");
+
+  applySemanticDisclosure(host, 0);
+  assert.equal(table.attributes.get("data-presentation-disclosure-visible"), "false");
+  assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "false");
+});
 
 test("marks staged slides structurally without scene identity", () => {
   const attributes = new Map<string, string>();
