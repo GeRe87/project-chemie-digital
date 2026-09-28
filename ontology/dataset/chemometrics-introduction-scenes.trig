@@ -23,8 +23,7 @@
       ex:scene-item-chemometrics-introduction-overview-problem,
       ex:scene-item-chemometrics-introduction-overview-table,
       ex:scene-item-chemometrics-introduction-overview-chart,
-      ex:scene-item-chemometrics-introduction-overview-discussion,
-      ex:scene-item-chemometrics-introduction-overview-takeaway ;
+      ex:scene-item-chemometrics-introduction-overview-discussion ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-overview-heading a cd:SceneItem ;
@@ -67,13 +66,6 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-overview-takeaway a cd:SceneItem ;
-    cd:position 6 ;
-    cd:selectsResource ex:chemometrics-nitrate-case-takeaway ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
 
   # Slide 3 — concept-specification ------------------------------------------
   ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
