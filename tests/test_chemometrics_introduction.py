@@ -61,7 +61,7 @@ EXPECTED_SCENES = [
 ]
 
 EXPECTED_BLOCK_KINDS = [
-    ["prose", "prose", "list", "prose"],
+    ["prose"],
     ["prose", "prose", "prose", "definition-list", "prose"],
     ["prose", "list", "prose"],
     ["prose", "prose", "diagram", "prose"],
@@ -125,24 +125,12 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                 self.assertEqual({CD.Concept}, set(self.content_graph.objects(concept, RDF.type)))
                 self.assertEqual(1, len(set(self.content_graph.objects(concept, CD.hasDefinition))))
 
-    def test_title_slide_has_three_ordered_keypoint_cards(self) -> None:
-        owner = EX["chemometrics-title-pillars"]
-        points = sorted(
-            self.content_graph.objects(owner, CD.hasKeyPoint),
-            key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
-        )
-        self.assertEqual(3, len(points))
-        self.assertEqual(
-            [1, 2, 3],
-            [int(next(self.content_graph.objects(point, CD.position))) for point in points],
-        )
-        bodies = [str(next(self.content_graph.objects(point, CD.body))) for point in points]
-        self.assertTrue(bodies[0].startswith("UNDERSTAND DATA\n"))
-        self.assertTrue(bodies[1].startswith("QUANTIFY UNCERTAINTY\n"))
-        self.assertTrue(bodies[2].startswith("INTERPRET RESULTS\n"))
-        takeaway = str(next(self.content_graph.objects(EX["chemometrics-title-takeaway"], CD.body)))
-        self.assertIn("GERRIT RENNER", takeaway)
-        self.assertIn("UNIVERSITY OF DUISBURG-ESSEN", takeaway)
+    def test_title_slide_is_a_single_hero_heading_scene(self) -> None:
+        scene = self.document["scenes"][0]
+        self.assertEqual(["prose"], [block["kind"] for block in scene["blocks"]])
+        heading = scene["blocks"][0]
+        self.assertEqual("Chemometrics & Applied Statistics", heading["text"])
+        self.assertEqual({"kind": "introduce"}, heading["intent"])
 
     def test_course_overview_is_a_four_card_semantic_grid(self) -> None:
         owner = EX["chemometrics-course-overview-list"]
@@ -278,13 +266,6 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             EXPECTED_BLOCK_KINDS,
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
-
-        title_attribution = self.document["scenes"][0]["blocks"][1]
-        self.assertEqual({"kind": "emphasize"}, title_attribution["intent"])
-        self.assertIn("Gerrit Renner", title_attribution["text"])
-        title_cards = self.document["scenes"][0]["blocks"][2]
-        self.assertEqual("unordered", title_cards["listStyle"])
-        self.assertEqual(3, len(title_cards["items"]))
 
         overview_cards = self.document["scenes"][1]["blocks"][3]
         self.assertEqual(4, len(overview_cards["entries"]))
