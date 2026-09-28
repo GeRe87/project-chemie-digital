@@ -18,18 +18,14 @@ The Introduction was redesigned from five mostly text/list scenes into exactly *
 
 New real opening scene:
 
-- heading: `Chemometrics & Applied Statistics`
-- three ordered `KeyPoint` cards:
-  - UNDERSTAND DATA
-  - QUANTIFY UNCERTAINTY
-  - INTERPRET RESULTS
-- concise lecturer/course takeaway
+- a single authored heading: `Chemometrics & Applied Statistics`
+- no paragraph, card grid or diagram competing with the course title
 
 Renderer-neutral block structure:
 
-`prose → unordered list(3) → prose`
+`prose`
 
-This matches the existing generic `concept-specification` layout.
+This matches the existing generic full-screen `closing` layout and therefore acts as a true Hero title without any scene-specific renderer logic.
 
 ### 2. What is this course about?
 
@@ -70,20 +66,20 @@ The original `Attribution` resource remains available in the content graph for r
 
 ### 4. Lecture and Tutorial
 
-The existing four semantic course-format entries were retained but shortened for slide readability.
+The visible slide is now a genuine four-stage semantic process:
 
-Added:
+1. LECTURE
+2. TUTORIAL
+3. REPRODUCE
+4. DISCUSS
 
-- banner: `LEARN → PRACTICE → REPRODUCE → DISCUSS`
-- foundation statement
-- four DefinitionList cards
-- takeaway
+The nodes are connected by three ordered FlowDiagram edges. The original DefinitionList resources remain available semantically but are no longer the visible lecture scene.
 
 Block structure:
 
-`prose → prose → prose → definition-list(4) → prose`
+`prose → prose → diagram(flow, 4 nodes) → prose`
 
-This matches `foundation-card-grid`.
+This matches the existing generic `process-diagram` layout.
 
 ### 5. Course Roadmap
 
@@ -146,8 +142,10 @@ No renderer or CSS code changed.
 
 The visual redesign relies entirely on existing generic structural inference:
 
+- `closing`
 - `concept-specification`
 - `foundation-card-grid`
+- `process-diagram`
 - `diagram-stage`
 
 There are no checks for Chemometrics labels, scene IDs or resource IDs in renderer code.
