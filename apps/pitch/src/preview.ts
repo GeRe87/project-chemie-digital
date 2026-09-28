@@ -2,6 +2,7 @@ import katex from "katex";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
+import { inferRevealLayoutFit } from "../../../packages/renderer-reveal/src/layout-fit.ts";
 
 export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram" | "foundation-card-grid" | "full-media" | "closing" | "hero-title-panel" | "diagram-stage";
 const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
@@ -327,6 +328,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
     const inferredLayout = inferRevealLayoutDecision(scene);
+    const inferredFit = inferRevealLayoutFit(scene, inferredLayout);
     const semanticGraphCompanion = inferredLayout?.family === "semantic-source";
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
@@ -337,6 +339,10 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       "data-layout",
       inferredLayout?.family ?? (layoutByScene[scene.id] ?? "statement"),
     );
+    if (inferredFit) {
+      section.setAttribute("data-layout-variant", inferredFit.variant);
+      section.setAttribute("data-layout-density", inferredFit.density);
+    }
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
     for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
