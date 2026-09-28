@@ -182,9 +182,10 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [float(next(self.content_graph.objects(observation, CD.numericValue))) for observation in observations],
         )
         chart_body = str(next(self.content_graph.objects(chart, CD.body)))
-        self.assertIn("2.20 ± 0.18", chart_body)
-        self.assertIn("4.95 ± 0.13", chart_body)
-        self.assertIn("18.93 ± 0.31", chart_body)
+        self.assertIn("Sample SD (mg/L)", chart_body)
+        self.assertIn("A 0.18", chart_body)
+        self.assertIn("B 0.13", chart_body)
+        self.assertIn("C 0.31", chart_body)
 
         discussion = sorted(
             self.content_graph.objects(EX["chemometrics-nitrate-case-discussion"], CD.hasKeyPoint),
