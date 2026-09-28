@@ -31,8 +31,7 @@
     cd:usesResource ex:chemometrics-nitrate-case-problem,
       ex:table-chemometrics-nitrate-replicates,
       ex:chart-chemometrics-nitrate-means,
-      ex:chemometrics-nitrate-case-discussion,
-      ex:chemometrics-nitrate-case-takeaway ;
+      ex:chemometrics-nitrate-case-discussion ;
     cd:usesScene ex:scene-chemometrics-introduction-overview ;
     cd:authoredResource true .
 
