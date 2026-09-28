@@ -95,7 +95,7 @@ Three water samples are measured four times for nitrate. Which sample is clearly
 
   ex:chart-chemometrics-nitrate-means a cd:ChartDefinition ;
     skos:prefLabel "Mean nitrate concentration"@en ;
-    cd:body "Mean ± sample standard deviation: A = 2.20 ± 0.18 mg/L, B = 4.95 ± 0.13 mg/L, C = 18.93 ± 0.31 mg/L. The bars show the means; the numerical spread is stated explicitly because this introductory chart does not encode error bars."@en ;
+    cd:body "Bars: mean nitrate concentration. Sample SD (mg/L): A 0.18 · B 0.13 · C 0.31."@en ;
     cd:chartType cd:BarChart ;
     cd:xAxisLabel "Water sample"@en ;
     cd:yAxisLabel "Mean nitrate concentration"@en ;
