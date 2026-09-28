@@ -143,6 +143,14 @@ function wrapLabel(text: string, maxCharacters = 16): string[] {
   return lines.length ? lines : [text];
 }
 
+export function barChartEmphasisDatumIds(model: D3BarChartRenderModel): ReadonlySet<string> {
+  if (model.annotations.length) {
+    return new Set(model.annotations.map((annotation) => annotation.datumId));
+  }
+  const maximum = Math.max(...model.data.map((datum) => datum.value));
+  return new Set(model.data.filter((datum) => datum.value === maximum).map((datum) => datum.id));
+}
+
 function clampStep(step: number, count: number): number {
   return Math.max(0, Math.min(count, Math.trunc(Number.isFinite(step) ? step : 0)));
 }
@@ -185,17 +193,13 @@ export function mountD3BarChart(
   host.append(figure);
 
   const applyStep = (): void => {
-    const maximum = Math.max(...model.data.map((datum) => datum.value));
-    const annotatedDatumIds = new Set(model.annotations.map((annotation) => annotation.datumId));
-    const hasSemanticFocus = annotatedDatumIds.size > 0;
+    const emphasizedDatumIds = barChartEmphasisDatumIds(model);
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
       const value = Number(rect.dataset.value ?? 0);
       const datumId = rect.dataset.datumId ?? "";
       const visible = currentStep >= 1;
       const focused = currentStep >= 3;
-      const emphasized = focused && (
-        hasSemanticFocus ? annotatedDatumIds.has(datumId) : value === maximum
-      );
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       rect.style.transform = visible ? "scaleY(1)" : "scaleY(0)";
       rect.style.opacity = focused ? (emphasized ? "1" : "0.28") : (visible ? "1" : "0");
       rect.classList.toggle("d3-chart-emphasis", emphasized);
@@ -204,9 +208,7 @@ export function mountD3BarChart(
       const value = Number(label.dataset.value ?? 0);
       const datumId = label.dataset.datumId ?? "";
       const focused = currentStep >= 3;
-      const emphasized = focused && (
-        hasSemanticFocus ? annotatedDatumIds.has(datumId) : value === maximum
-      );
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       label.style.opacity = currentStep >= 2 ? (focused ? (emphasized ? "1" : "0.22") : "1") : "0";
       label.classList.toggle("d3-chart-emphasis", emphasized);
     }
