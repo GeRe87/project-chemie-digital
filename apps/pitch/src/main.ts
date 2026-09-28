@@ -325,9 +325,9 @@ const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
   const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
-    || currentSlide?.dataset.layout === "full-media"
-    || isStageLockedSlide(currentSlide);
-  if (appearance.view === "scroll" && freezeForLayout) return;
+    || currentSlide?.dataset.layout === "full-media";
+  const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
+  if (appearance.view === "scroll" && (freezeForLayout || freezeForActiveStage)) return;
   backgroundRuntime.setProgress(offset);
 });
 
