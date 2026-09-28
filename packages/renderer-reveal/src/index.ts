@@ -531,5 +531,6 @@ export function canonicalSerializeRevealRenderPlan(plan: RevealRenderPlan): stri
 }
 
 export * from "./layout-policy.ts";
+export * from "./layout-fit.ts";
 export * from "./pitch-theme.ts";
 export * from "./presenter-mode.ts";
