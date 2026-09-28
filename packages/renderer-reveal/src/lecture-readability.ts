@@ -25,9 +25,7 @@ function isHeading(block: SceneBlock): boolean {
 }
 
 function isPrimaryRegion(block: SceneBlock): boolean {
-  if (isHeading(block)) return false;
-  if (block.kind !== "prose") return true;
-  return estimateRevealBlockFootprint(block).textUnits >= 1;
+  return !isHeading(block);
 }
 
 export function evaluateLectureContentBudget(scene: Scene): LectureContentBudgetDecision {
