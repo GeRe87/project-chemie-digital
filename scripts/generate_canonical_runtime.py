@@ -631,6 +631,7 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
         raise ValueError(f"Chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
 
     data: list[dict[str, Any]] = []
+    observation_ids = {observation for observation, _position in observations}
     for observation, _position in observations:
         category, relation_path = selected_label_reference(dataset, observation, language)
         data.append({
@@ -641,6 +642,31 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
                 source_reference(dataset, observation, relation_path),
                 source_reference(dataset, observation, "cd:numericValue"),
             ],
+        })
+
+    annotation_records = [
+        (annotation, integer(dataset, annotation, iri(CD, "position")))
+        for annotation in objects(dataset, chart, iri(CD, "hasChartAnnotation"))
+        if isinstance(annotation, URIRef)
+    ]
+    annotation_records.sort(key=lambda record: (record[1], str(record[0])))
+    annotations: list[dict[str, Any]] = []
+    for annotation, _position in annotation_records:
+        if not is_resource_type(dataset, annotation, "ChartPointAnnotation"):
+            raise ValueError(
+                f"Bar chart {compact(chart)} supports ChartPointAnnotation only; got {compact(annotation)}"
+            )
+        target = one(dataset, annotation, iri(CD, "targetObservation"))
+        if target not in observation_ids:
+            raise ValueError(
+                f"Point annotation {compact(annotation)} targets an observation outside the chart dataset"
+            )
+        annotations.append({
+            "id": compact(annotation),
+            "kind": "point",
+            "datumId": compact(target),
+            "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+            "source": [source_reference(dataset, annotation, "cd:body")],
         })
 
     label, label_relation_path = selected_label_reference(dataset, chart, language)
@@ -655,6 +681,7 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
         "xAxis": {"label": x_axis_label, **({"unit": literal(dataset, chart, iri(CD, "xAxisUnit"))} if literal(dataset, chart, iri(CD, "xAxisUnit")) else {})},
         "yAxis": {"label": y_axis_label, **({"unit": literal(dataset, chart, iri(CD, "yAxisUnit")) or unit} if (literal(dataset, chart, iri(CD, "yAxisUnit")) or unit) else {})},
         "data": data,
+        **({"annotations": annotations} if annotations else {}),
     }
     return payload, label_relation_path
 
@@ -835,6 +862,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
         focus = one(dataset, scene_id, iri(CD, "focusConcept"))
         items = sorted(objects(dataset, scene_id, iri(CD, "hasSceneItem")), key=lambda item: (integer(dataset, item, iri(CD, "position")), str(item)))
         blocks: list[dict[str, Any]] = []
+        selected_blocks: list[tuple[URIRef, dict[str, Any]]] = []
         for item in items:
             position = integer(dataset, item, iri(CD, "position"))
             selected = one(dataset, item, iri(CD, "selectsResource"))
@@ -1116,6 +1144,59 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
             blocks.append(block)
+            if isinstance(selected, URIRef):
+                selected_blocks.append((selected, block))
+
+        blocks_by_resource: dict[URIRef, list[dict[str, Any]]] = {}
+        for resource, block in selected_blocks:
+            blocks_by_resource.setdefault(resource, []).append(block)
+
+        for resource, chart_block in selected_blocks:
+            if not is_resource_type(dataset, resource, "ChartDefinition"):
+                continue
+            if one(dataset, resource, iri(CD, "chartType")) != iri(CD, "BarChart"):
+                continue
+
+            derived_resources = [
+                target
+                for target in objects(dataset, resource, iri(CD, "derivedFromResource"))
+                if isinstance(target, URIRef)
+            ]
+            for derived_resource in derived_resources:
+                for evidence_block in blocks_by_resource.get(derived_resource, []):
+                    evidence_block["disclosure"] = {
+                        "order": evidence_block["disclosure"]["order"],
+                        "mode": "progressive",
+                        "step": 1,
+                        "triggerResourceId": compact(resource),
+                    }
+
+            chart_annotations = {
+                annotation
+                for annotation in objects(dataset, resource, iri(CD, "hasChartAnnotation"))
+                if isinstance(annotation, URIRef)
+            }
+            if not chart_annotations:
+                continue
+
+            for interpretation_resource, interpretation_block in selected_blocks:
+                if not is_resource_type(dataset, interpretation_resource, "Interpretation"):
+                    continue
+                interpreted_resources = {
+                    target
+                    for target in objects(dataset, interpretation_resource, iri(CD, "interpretsResource"))
+                    if isinstance(target, URIRef)
+                }
+                matching_annotations = sorted(chart_annotations & interpreted_resources, key=str)
+                if not matching_annotations:
+                    continue
+                interpretation_block["disclosure"] = {
+                    "order": interpretation_block["disclosure"]["order"],
+                    "mode": "progressive",
+                    "step": 3,
+                    "triggerResourceId": compact(matching_annotations[0]),
+                }
+
         scene_compact = compact(scene_id)
         first_block = blocks[0]
         accessibility_label = (
