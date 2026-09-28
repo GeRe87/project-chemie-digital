@@ -8,16 +8,20 @@
   ex:analytical-signal-processing a cd:Concept ;
     skos:prefLabel "analytical signal processing"@en ;
     cd:hasDefinition ex:def-analytical-signal-processing ;
-    cd:hasInterpretation ex:analytical-signal-influences-interpretation ;
+    cd:hasInterpretation ex:analytical-signal-influences-interpretation,
+      ex:legacy-signal-processing-scope-interpretation ;
     cd:authoredResource true .
 
   ex:def-analytical-signal-processing a cd:Definition ;
     cd:body "Analytical signal processing comprises transformations or analyses applied to recorded analytical data to separate, characterize or extract information relevant to the analytical question while making assumptions and possible distortions explicit."@en ;
-    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
     cd:authoredResource true .
 
   ex:analytical-signal-influences-interpretation a cd:Interpretation ;
     cd:body "An observed analytical signal can contain contributions associated with analyte response, matrix effects or interferences, and instrument or system behavior such as noise, drift or baseline. These are useful explanatory categories, not a claim that every signal is exactly the additive sum of three independent components; the physical mechanisms can interact."@en ;
+    cd:authoredResource true .
+
+  ex:legacy-signal-processing-scope-interpretation a cd:Interpretation ;
+    cd:body "The pinned lecture motivates signal processing by distinguishing analyte-related, matrix-related and system-related signal contributions and by framing the didactic goal as extracting the analyte signal."@en ;
     cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
     cd:authoredResource true .
 
@@ -94,7 +98,8 @@
   ex:data-harmonization a cd:Concept ;
     skos:prefLabel "data harmonization"@en ;
     cd:hasDefinition ex:def-data-harmonization ;
-    cd:hasInterpretation ex:data-harmonization-scope-interpretation ;
+    cd:hasInterpretation ex:data-harmonization-scope-interpretation,
+      ex:legacy-harmonization-scope-interpretation ;
     cd:authoredResource true .
 
   ex:unit-harmonization a cd:Concept ;
@@ -112,21 +117,23 @@
 
   ex:def-data-harmonization a cd:Definition ;
     cd:body "Data harmonization aligns compatible representations from different sources so they can be interpreted or processed consistently while preserving the meaning and provenance of the original data."@en ;
-    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
     cd:authoredResource true .
 
   ex:data-harmonization-scope-interpretation a cd:Interpretation ;
     cd:body "Harmonization can include compatible-unit conversion, controlled label or schema alignment, and other representation changes. It does not by itself establish that differently named variables measure the same quantity."@en ;
     cd:authoredResource true .
 
+  ex:legacy-harmonization-scope-interpretation a cd:Interpretation ;
+    cd:body "The pinned lecture presents unit conversion and label renaming as examples of harmonization used to make datasets from different sources more comparable."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
   ex:def-unit-harmonization a cd:Definition ;
     cd:body "Unit harmonization converts quantitative values to compatible units using a dimensionally valid conversion and an explicit conversion factor; values already expressed in the target unit remain numerically unchanged."@en ;
-    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
     cd:authoredResource true .
 
   ex:def-label-harmonization a cd:Definition ;
     cd:body "Label and schema harmonization aligns field names or categorical labels to an agreed representation only after their intended meanings have been matched; renaming alone is not evidence of semantic equivalence."@en ;
-    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
     cd:authoredResource true .
 
   ex:worked-example-harmonized-concentrations a cd:WorkedExample ;
@@ -143,15 +150,12 @@
     dct:identifier "GeRe87/chemometrics_lecture@db2c5ef266641399c2b495646064e16cfdd473e4:topics/09_SignalProcessing.html#blob=1ac2cee2ea96d42c077fff12901f9783ff6efc7c" ;
     dct:source <https://github.com/GeRe87/chemometrics_lecture/blob/db2c5ef266641399c2b495646064e16cfdd473e4/topics/09_SignalProcessing.html> ;
     cd:supportsResource
-      ex:def-analytical-signal-processing,
-      ex:analytical-signal-influences-interpretation,
+      ex:legacy-signal-processing-scope-interpretation,
       ex:def-min-max-normalization,
       ex:min-max-normalization-formula,
       ex:min-max-extrema-sensitivity-interpretation,
       ex:def-z-score-standardization,
       ex:z-score-standardization-population-formula,
-      ex:def-data-harmonization,
-      ex:def-unit-harmonization,
-      ex:def-label-harmonization ;
+      ex:legacy-harmonization-scope-interpretation ;
     cd:authoredResource true .
 }
