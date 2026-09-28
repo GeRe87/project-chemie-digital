@@ -285,3 +285,30 @@ Focused regressions cover:
 - capture-phase keyboard interception;
 - Reveal next-control click interception;
 - no topic/scene/resource identity checks.
+
+
+## Browser follow-up 4: terminal stage navigation
+
+Browser smoke after fragment-first navigation showed a terminal loop:
+- stages 0 → 1 → 2 → 3 worked;
+- the next forward action fell back to Reveal scroll navigation;
+- stage lock prevented the scroll transition from completing;
+- Reveal reset synthetic fragment visibility, returning the same slide to stage 0.
+
+The staged controller now owns the entire forward/back lifecycle for structurally staged slides:
+
+- if a forward fragment exists → `deck.nextFragment()`;
+- otherwise → `deck.next()`;
+- if a backward fragment exists → `deck.prevFragment()`;
+- otherwise → `deck.prev()`.
+
+The originating keyboard/control event is consumed in all staged cases, so Reveal cannot run a second scroll-navigation path.
+
+Non-staged slides are untouched.
+
+Focused regressions require:
+- internal stages are consumed first;
+- final forward action calls exactly one explicit slide transition;
+- initial backward action uses explicit previous-slide transition;
+- keyboard and Reveal-control events remain consumed at the terminal stage;
+- no topic/scene/resource identity checks.
