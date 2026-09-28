@@ -1,64 +1,25 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "busy",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 180,
-  "expectedDeliverable": "On one fresh branch, author a source-reconciliation document for pinned Signal Processing only. Record exact source pin/blob, heading-to-scope map, canonical REUSE audit, REUSE/CREATE/PATH/RENDERER classification, scientific corrections/ambiguities, final bounded LearningUnit recommendation and placement order, plus renderer follow-up candidates. Documentation/workflow/handoff only; no RDF, LearningUnit, UnitPlacement, LearningPath, Scene, renderer or generated artifact changes.",
-  "lastCompletedTurn": "manager: completed preliminary #180 source/canonical audit and authorized one documentation-only Semantic Web and Ontology Engineer turn. Final recommended boundaries must be evidence-based and preserve explicit corrections rather than copying questionable legacy claims.",
-  "lastUpdated": "2026-09-28T09:20:00+02:00",
+  "expectedDeliverable": "Final manager acceptance for documentation-only Issue #180 after clean independent review and count repair. No scope expansion. Require fresh exact-head agent-validator/project-chemie-digital success on the manager-claim head before Ready and squash merge.",
+  "lastCompletedTurn": "manager: final independent #180 review is clean after count-only repair; verified exact source pin/blob, 33 total = one title + 32 substantive sections, complete four-range coverage, conservative reuse decisions, explicit scientific correction log, documentation-only scope, no review threads and 0 behind main. Claimed final acceptance; fresh exact-head validation is now required.",
+  "lastUpdated": "2026-09-28T09:31:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
+    "claimedAt": "2026-09-28T09:31:00+02:00",
+    "expiresAt": "2026-09-28T11:31:00+02:00"
   },
-  "blockedBy": [],
-  "stateRevision": 91,
+  "blockedBy": [
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 97,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T12:31:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue140-review-20260926T112700+0200",
-      "reason": "Accepted and squash-merged Issue #140 / PR #157 after all content, validation, integration and lifecycle gates passed; verified issue closure and single-parent squash result and returned the Chemometrics lane to idle manager state."
-    },
-    {
-      "at": "2026-09-26T12:36:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
-      "reason": "Claimed one bounded Chemometrics manager planning turn to define the next course increment after Mean Values: a path-only Variance and Dispersion lecture LearningPath over already reviewed canonical resources."
-    },
-    {
-      "at": "2026-09-26T12:40:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
-      "reason": "Created Chemometrics Issue #158 and authorized exactly one Semantic Web and Ontology Engineer worker turn for the path-only Variance and Dispersion lecture LearningPath over existing reviewed resources; scenes and all shared/System changes remain out of scope."
-    },
-    {
-      "at": "2026-09-26T13:35:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
-      "reason": "Claimed bounded Chemometrics Issue #158 on fresh branch agent/158-variance-dispersion-path for the path-only Variance and Dispersion lecture LearningPath, focused regressions and minimum stale pathlessness/graph-whitelist updates."
-    },
-    {
-      "at": "2026-09-26T13:43:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
-      "reason": "Completed bounded path-only Issue #158 with Draft PR #159, focused regressions and handoff; returned to Chemometrics manager for exact-head validation and independent review."
-    },
-    {
-      "at": "2026-09-26T13:45:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue158-review-20260926T134500+0200",
-      "reason": "Claimed independent Chemometrics manager review for Issue #158 / PR #159 after fresh validator success on worker head 67d92d1983840790fd698783a192278258a96e6e. This claim changes the PR head; final acceptance remains gated on fresh exact-head validation of the claim head."
-    },
     {
       "at": "2026-09-26T15:16:00+02:00",
       "from": "busy/manager",
@@ -191,6 +152,48 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
       "reason": "Authorized one documentation-only Semantic Web and Ontology Engineer turn for #180 source reconciliation; RDF/content/path/scene/renderer implementation remains explicitly out of scope."
+    },
+    {
+      "at": "2026-09-28T09:22:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
+      "reason": "Claimed documentation-only #180 branch for exact source mapping, canonical reuse audit, scientific correction log, bounded unit split and renderer-boundary planning only."
+    },
+    {
+      "at": "2026-09-28T09:24:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
+      "reason": "Completed documentation-only #180 source reconciliation, Draft PR #181 and structured handoff; returned to manager for independent review and exact-head acceptance gates."
+    },
+    {
+      "at": "2026-09-28T09:27:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
+      "reason": "Independent #180 review found one count-only documentation mismatch; authorized a bounded worker repair changing 33 substantive-after-title to 33 total / 32 substantive while preserving all mapped ranges and decisions."
+    },
+    {
+      "at": "2026-09-28T09:28:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
+      "reason": "Claimed only the count wording repair authorized by the independent manager review."
+    },
+    {
+      "at": "2026-09-28T09:29:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
+      "reason": "Completed the count-only documentation repair and returned #180 to manager; no source mapping, scientific correction, unit-boundary or implementation scope changed."
+    },
+    {
+      "at": "2026-09-28T09:31:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
+      "reason": "Claimed final documentation-only #180 acceptance after clean independent review and count repair; exact-head external validation is the remaining technical gate before Ready/merge."
     }
   ]
 }
