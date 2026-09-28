@@ -174,7 +174,11 @@ test("stage lock waits for Reveal to settle, then stabilizes fragments and unloc
   assert.equal(scrollY, 480);
   assert.equal(viewport.scrollTop, 510);
 
-  // Leaving the staged slide unlocks immediately before the next slide settles.
+  // Reveal's pre-slide lifecycle unlocks synchronously before scroll-view
+  // positioning starts, so the outgoing stage lock cannot restore the old position.
+  for (const listener of deckListeners.get("beforeslidechange") ?? []) listener();
+  assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
+
   currentSlide = plainSlide;
   for (const listener of deckListeners.get("slidechanged") ?? []) listener();
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
@@ -188,6 +192,7 @@ test("stage lock waits for Reveal to settle, then stabilizes fragments and unloc
 
   destroy();
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
+  assert.equal(deckListeners.get("beforeslidechange")?.size ?? 0, 0);
 });
 
 test("stage lock leaves wheel movement untouched on non-staged slides", () => {
