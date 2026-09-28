@@ -77,12 +77,6 @@ body.pcd-stage-lock-active .reveal {
   scrollbar-gutter: stable;
 }
 
-body.pcd-stage-lock-active,
-body.pcd-stage-lock-active.reveal-viewport,
-body.pcd-stage-lock-active .reveal-viewport {
-  overflow: hidden !important;
-}
-
 body.pcd-stage-lock-active .reveal-viewport,
 body.pcd-stage-lock-active .reveal {
   touch-action: none;
