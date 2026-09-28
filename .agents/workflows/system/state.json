@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review fifth #188 browser follow-up on PR #185 after owner-local npm run test:pitch and browser smoke. Verify stages advance in place and the terminal forward action leaves the staged slide through direct Reveal slide(h,v,-1) navigation with no loop; backward terminal navigation targets the previous slide final fragment; all six Intro slides remain reachable. Then continue remaining renderer/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed fifth #188 browser follow-up: removed relative next()/prev() from staged terminal navigation and now resolves adjacent linear slides via getSlides/getIndices and jumps directly with slide(h,v,f); internal fragment navigation is unchanged.",
-  "lastUpdated": "2026-09-28T16:24:00+02:00",
+  "expectedDeliverable": "Sixth #188 browser follow-up: direct terminal slide navigation is still blocked by the active stage lock before slidechanged. Add a generic synchronous staged-exit signal before terminal slide(h,v,f); mountPresentationStageLock must consume that signal and unlock immediately so fragmenthidden/scroll restoration cannot pull the viewport back during programmatic slide transition. Preserve settled-entry relock and all internal fragment navigation.",
+  "lastCompletedTurn": "manager: browser smoke shows direct slide(h,v,f) no longer loops but still cannot leave the staged slide. Root cause: stage lock remains active until slidechanged and restores old position during terminal transition fragment events. Authorized synchronous unlock-before-slide follow-up.",
+  "lastUpdated": "2026-09-28T16:31:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 fifth browser follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→direct next slide without loop; backward terminal direct previous slide; all six Introduction slides remain reachable",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 259,
+  "blockedBy": [],
+  "stateRevision": 260,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T16:44:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue168-final-acceptance-20260927T162700+0200",
-      "reason": "Exact-head validator success, focused/full local tests, desktop/narrow browser smoke, generated fallback review, integration freshness and Ready lifecycle all passed for PR #178. Squash-merged Issue #168 as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412, verified Issue #168 closed completed and single-parent squash, and returned System to idle manager state."
-    },
     {
       "at": "2026-09-28T12:27:00+02:00",
       "from": "ready/manager",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
       "reason": "Completed direct staged terminal navigation: adjacent slide resolved from linear Reveal slide list and entered via slide(h,v,f), eliminating relative next()/prev() fragment-loop behavior."
+    },
+    {
+      "at": "2026-09-28T16:31:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-unlock-before-slide-20260928T163100+0200",
+      "reason": "Authorized bounded #188 lifecycle fix: terminal staged navigation must synchronously release the active lock before direct slide(h,v,f), preventing fragmenthidden scroll restoration from blocking the programmatic slide transition."
     }
   ]
 }
