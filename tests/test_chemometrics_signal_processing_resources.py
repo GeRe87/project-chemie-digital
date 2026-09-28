@@ -161,27 +161,29 @@ class ChemometricsSignalProcessingResourceTests(unittest.TestCase):
 
         supported = set(self.source_graph.objects(source, CD.supportsResource))
         for resource in (
-            EX["def-analytical-signal-processing"],
-            EX["analytical-signal-influences-interpretation"],
+            EX["legacy-signal-processing-scope-interpretation"],
             EX["def-min-max-normalization"],
             EX["min-max-normalization-formula"],
             EX["def-z-score-standardization"],
             EX["z-score-standardization-population-formula"],
-            EX["def-data-harmonization"],
-            EX["def-unit-harmonization"],
-            EX["def-label-harmonization"],
+            EX["legacy-harmonization-scope-interpretation"],
         ):
             with self.subTest(resource=resource):
                 self.assertIn(resource, supported)
                 self.assertEqual({source}, set(self.graph.objects(resource, CD.hasSource)))
 
         for corrected_resource in (
+            EX["def-analytical-signal-processing"],
+            EX["analytical-signal-influences-interpretation"],
             EX["min-max-range-interpretation"],
             EX["min-max-constant-vector-interpretation"],
             EX["z-score-standardization-sample-formula"],
             EX["z-score-convention-interpretation"],
             EX["z-score-outlier-sensitivity-interpretation"],
+            EX["def-data-harmonization"],
             EX["data-harmonization-scope-interpretation"],
+            EX["def-unit-harmonization"],
+            EX["def-label-harmonization"],
             EX["worked-example-harmonized-concentrations"],
         ):
             with self.subTest(corrected_resource=corrected_resource):
