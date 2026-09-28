@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review fourth #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify staged slides progress through internal fragments, then explicitly leave via deck.next()/deck.prev() without resetting to stage 0; all six Intro slides remain reachable; settled-entry lock and marker styling remain correct. Then continue renderer/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed fourth #188 browser follow-up: staged navigation now owns terminal forward/back actions and explicitly calls deck.next()/deck.prev() after fragment exhaustion, preventing Reveal scroll-view reset loops under stage lock.",
-  "lastUpdated": "2026-09-28T16:14:00+02:00",
+  "expectedDeliverable": "Fifth #188 browser follow-up: replace terminal deck.next()/deck.prev() on staged scroll-view slides with direct adjacent-slide navigation using Reveal getSlides(), getIndices(target), and slide(h,v,f), so the current slide fragment sequence cannot be re-entered/reset. Forward target enters with f=-1; backward target restores its final fragment when applicable. Preserve internal nextFragment/prevFragment navigation.",
+  "lastCompletedTurn": "manager: browser smoke confirms explicit deck.next() still loops the staged slide. Reveal 5.2 API review shows relative next()/prev() may continue to process fragments; authorized direct target-slide navigation using getSlides/getIndices/slide.",
+  "lastUpdated": "2026-09-28T16:18:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 fourth browser follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→next slide without loop; backward stage 0→previous slide; all six Introduction slides remain reachable",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 256,
+  "blockedBy": [],
+  "stateRevision": 257,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T15:47:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
-      "reason": "Claimed bounded System Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study regions, static/browser parity, accessibility and legacy flat fallback only."
-    },
     {
       "at": "2026-09-27T15:50:00+02:00",
       "from": "busy/worker",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-terminal-navigation-20260928T160900+0200",
       "reason": "Completed terminal staged-navigation fix: staged slides now own final/initial navigation and explicitly leave via deck.next()/deck.prev(), preventing fragment reset loops."
+    },
+    {
+      "at": "2026-09-28T16:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-direct-slide-20260928T161800+0200",
+      "reason": "Authorized bounded #188 terminal fix using Reveal direct slide(h,v,f) navigation to adjacent DOM slides instead of relative next()/prev(), which still re-enters fragments in scroll view."
     }
   ]
 }
