@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Fifth #188 browser follow-up: replace terminal deck.next()/deck.prev() on staged scroll-view slides with direct adjacent-slide navigation using Reveal getSlides(), getIndices(target), and slide(h,v,f), so the current slide fragment sequence cannot be re-entered/reset. Forward target enters with f=-1; backward target restores its final fragment when applicable. Preserve internal nextFragment/prevFragment navigation.",
-  "lastCompletedTurn": "worker: claimed direct target-slide navigation follow-up after Reveal 5.2 API verification.",
-  "lastUpdated": "2026-09-28T16:19:00+02:00",
+  "expectedDeliverable": "Review fifth #188 browser follow-up on PR #185 after owner-local npm run test:pitch and browser smoke. Verify stages advance in place and the terminal forward action leaves the staged slide through direct Reveal slide(h,v,-1) navigation with no loop; backward terminal navigation targets the previous slide final fragment; all six Intro slides remain reachable. Then continue remaining renderer/full-suite/final-validator gates.",
+  "lastCompletedTurn": "worker: completed fifth #188 browser follow-up: removed relative next()/prev() from staged terminal navigation and now resolves adjacent linear slides via getSlides/getIndices and jumps directly with slide(h,v,f); internal fragment navigation is unchanged.",
+  "lastUpdated": "2026-09-28T16:24:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
-    "claimedAt": "2026-09-28T16:19:00+02:00",
-    "expiresAt": "2026-09-28T18:19:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 258,
+  "blockedBy": [
+    "Issue #188 fifth browser follow-up requires owner-local npm run test:pitch",
+    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→direct next slide without loop; backward terminal direct previous slide; all six Introduction slides remain reachable",
+    "Issue #188 requires owner-local renderer-reveal tests",
+    "Issue #188 requires owner-local renderer-d3 tests",
+    "Issue #188 requires owner-local Chemometrics Introduction tests",
+    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 259,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T16:27:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue168-final-acceptance-20260927T162700+0200",
-      "reason": "Claimed final Issue #168 acceptance after clean static/artifact review, owner-local Self-Study 29/29, full repository test success, desktop/narrow browser smoke, no review threads and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
     {
       "at": "2026-09-27T16:44:00+02:00",
       "from": "busy/manager",
@@ -191,6 +193,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
       "reason": "Claimed direct target-slide terminal navigation fix using getSlides/getIndices/slide; relative next()/prev() will be removed from staged terminal navigation."
+    },
+    {
+      "at": "2026-09-28T16:24:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
+      "reason": "Completed direct staged terminal navigation: adjacent slide resolved from linear Reveal slide list and entered via slide(h,v,f), eliminating relative next()/prev() fragment-loop behavior."
     }
   ]
 }
