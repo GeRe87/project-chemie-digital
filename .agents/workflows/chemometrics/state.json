@@ -1,37 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 184,
-  "expectedDeliverable": "Review the user-requested nitrate mini-case-study redesign in PR #185 after owner-local focused tests and browser smoke via npm run pitch:intro. Verify Slide 2 renders as one coherent case-study composition with semantic problem+SVG, replicate table, bar-chart analysis, three-point discussion and takeaway; verify generic case-study layout inference has no Chemometrics identity checks; then require full repository tests and final exact-head validator before Ready/squash merge.",
-  "lastCompletedTurn": "worker: incorporated the second visual-feedback request for #184 by replacing abstract Slide 2 with one nitrate mini case study, adding a local transparent SVG, semantic TableDefinition and BarChart, three discussion KeyPoints, a generic structure-only case-study Reveal layout, media-aware focused tests, and deterministic npm run pitch:intro preview command. No ontology vocabulary, SHACL, learner-state or course-navigation changes.",
-  "lastUpdated": "2026-09-28T12:06:00+02:00",
+  "activeIssue": 189,
+  "expectedDeliverable": "Implement #189 authored semantic evidence chain for the nitrate case study plus minimal reusable vocabulary/SHACL: derivedFromResource, interpretsResource, ChartPointAnnotation target, and exact content regressions.",
+  "lastCompletedTurn": "manager: authorized integrated #189 semantic evidence/disclosure implementation on PR #185; chemometrics worker claimed only its bounded ontology/content or compiler/renderer responsibilities.",
+  "lastUpdated": "2026-09-28T17:22:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
+    "claimedAt": "2026-09-28T17:22:00+02:00",
+    "expiresAt": "2026-09-28T19:22:00+02:00"
   },
-  "blockedBy": [
-    "Issue #184 requires owner-local focused Introduction tests after nitrate case-study redesign",
-    "Issue #184 requires fresh browser visual smoke via npm run pitch:intro",
-    "Issue #184 requires focused renderer-reveal layout-policy tests",
-    "Issue #184 requires full repository npm test",
-    "Draft PR #185 requires independent manager review and final acceptance claim",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 112,
+  "blockedBy": [],
+  "stateRevision": 113,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T16:48:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue169-source-audit-20260927T164800+0200",
-      "reason": "Claimed planning-only Issue #169 to audit current availability of the 2026 Chemometrics Markdown sources and create the bounded source-recovery child issue; no semantic content worker is authorized from inventory-only evidence."
-    },
     {
       "at": "2026-09-27T16:50:00+02:00",
       "from": "busy/manager",
@@ -199,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-manager-issue184-nitrate-case-study-20260928T120600+0200",
       "reason": "Expanded #184 in response to user visual feedback: replaced abstract Slide 2 with one coherent illustrative nitrate case study and added the minimal generic structure-only case-study renderer support plus deterministic media-aware intro preview. Returned to manager verification gates."
+    },
+    {
+      "at": "2026-09-28T17:22:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
+      "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
     }
   ]
 }
