@@ -1,29 +1,29 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
-  "expectedDeliverable": "Apply the visual-feedback follow-up to #184 only: make the title scene structurally distinct with an Attribution block and convert Lecture and Tutorial from a card-only scene into a semantic four-node linear FlowDiagram process scene. Preserve six-scene order and all other content. No renderer changes in this Chemometrics branch.",
-  "lastCompletedTurn": "worker: claimed the manager-authorized #184 visual-feedback follow-up after the first browser review found the redesign insufficiently distinct; scope is true hero title plus Course Format FlowDiagram only.",
-  "lastUpdated": "2026-09-28T11:41:00+02:00",
+  "expectedDeliverable": "Review the second visual-feedback pass of Issue #184 / PR #185. Require owner-local focused tests and a fresh browser smoke after regenerating the Introduction runtime. Verify visible rhythm: full-screen hero title, overview cards, lecturer cards, four-stage process diagram, six-stage roadmap diagram, introduction-round cards. Then require full repository tests and exact-head validation.",
+  "lastCompletedTurn": "worker: completed #184 visual-feedback follow-up: title is now a single full-screen hero-heading scene using existing closing layout; Lecture and Tutorial is now a four-node linear FlowDiagram using existing process-diagram layout; stale first-pass title resources removed; tests/handoff/PR body updated; no renderer code changed.",
+  "lastUpdated": "2026-09-28T11:42:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
-    "claimedAt": "2026-09-28T11:41:00+02:00",
-    "expiresAt": "2026-09-28T13:41:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 110,
+  "blockedBy": [
+    "Issue #184 requires owner-local focused Introduction tests after second visual pass",
+    "Issue #184 requires fresh browser visual smoke after deterministic Introduction runtime regeneration",
+    "Issue #184 requires full repository npm test",
+    "Draft PR #185 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 111,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T15:16:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
-      "reason": "Claimed final Issue #167 acceptance after independent review, owner-local focused 12/12 and full repository 19/19 test evidence, clean-tree restoration and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
     {
       "at": "2026-09-27T15:40:00+02:00",
       "from": "busy/manager",
@@ -191,6 +191,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
       "reason": "Claimed only the authorized visual follow-up: full-screen hero title plus four-node Course Format FlowDiagram, preserving all other six-scene Intro scope."
+    },
+    {
+      "at": "2026-09-28T11:42:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
+      "reason": "Completed the second visual-feedback pass with full-screen hero opener and real Course Format FlowDiagram, removed stale first-pass title resources, and returned #184 to manager for fresh local test/browser verification."
     }
   ]
 }
