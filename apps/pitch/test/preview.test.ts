@@ -123,32 +123,51 @@ test("mounts generic layout variant and density markers for an inferred scene", 
 });
 
 test("wraps rendered list text in a neutral marker span without changing semantic text", () => {
-  const documents = compilePitchSceneDocuments();
-  const document = documents[0]!;
-  let found:
-    | { sceneIndex: number; blockIndex: number; text: string }
-    | undefined;
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading, "expected a graph-backed heading in the canonical fixture");
 
-  for (const [sceneIndex, scene] of document.scenes.entries()) {
-    for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
-      const block = scene.blocks.find((candidate) => candidate.id === blockId);
-      if (block?.kind === "list" && block.items[0]) {
-        found = { sceneIndex, blockIndex, text: block.items[0].text };
-        break;
-      }
-    }
-    if (found) break;
-  }
-  assert.ok(found, "expected at least one list block in the canonical preview fixture");
+  const listBlock = {
+    kind: "list" as const,
+    id: "block:generic-marker-list",
+    listStyle: "unordered" as const,
+    source: [{ resourceId: "resource:generic-marker-list" }],
+    items: [
+      {
+        id: "item:generic-marker-one",
+        text: "Generic highlighted statement",
+        source: [{ resourceId: "resource:generic-marker-one" }],
+      },
+    ],
+  };
+  const listScene = {
+    ...sourceScene,
+    id: "scene:generic-marker-list",
+    blocks: [heading, listBlock],
+    readingOrder: [heading.id, listBlock.id],
+  };
+  const listDocument = {
+    ...document,
+    id: "document:generic-marker-list",
+    scenes: [listScene],
+  };
 
   const root = new FakeElement();
-  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
-  const list = root.children[found.sceneIndex]!.children[found.blockIndex]!;
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [listDocument],
+  );
+  const list = root.children[0]!.children[1]!;
   assert.equal(list.className, "keypoint-list");
   const item = list.children[0]!;
+  assert.equal(item.attributes.get("data-list-item-id"), "item:generic-marker-one");
   const textSpan = item.children[0]!;
   assert.equal(textSpan.className, "pcd-list-item-text");
-  assert.equal(textSpan.textContent, found.text);
+  assert.equal(textSpan.textContent, "Generic highlighted statement");
   destroy();
 });
 
