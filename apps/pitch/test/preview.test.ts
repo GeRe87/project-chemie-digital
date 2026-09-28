@@ -185,6 +185,63 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   destroy();
 });
 
+test("chart stage host publishes chart and annotation resources for semantic disclosure", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const chart = {
+    id: "block:semantic-chart",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Generic chart",
+    description: "Generic evidence",
+    xAxis: { label: "Category" },
+    yAxis: { label: "Value" },
+    data: [{
+      id: "datum:a",
+      category: "A",
+      value: 1,
+      source: [{ resourceId: "resource:datum-a" }],
+    }],
+    annotations: [{
+      id: "annotation:a",
+      kind: "point" as const,
+      datumId: "datum:a",
+      label: "Generic focus",
+      source: [{ resourceId: "resource:annotation-a" }],
+    }],
+    source: [{ resourceId: "resource:chart-a" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:semantic-chart-host",
+    blocks: [heading, chart],
+    readingOrder: [heading.id, chart.id],
+  };
+  const renderedDocument = {
+    ...document,
+    id: "document:semantic-chart-host",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const chartHost = root.children[0]!.children[1]!;
+  assert.equal(
+    chartHost.attributes.get("data-presentation-step-resource-id"),
+    "resource:chart-a resource:annotation-a",
+  );
+  destroy();
+});
+
 test("renders the canonical formula locally as KaTeX math", () => {
   const documents = compilePitchSceneDocuments();
   const formulaBlock = documents[0]!.scenes[3]!.blocks[1]!;
