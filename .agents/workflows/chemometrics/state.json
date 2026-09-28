@@ -6,31 +6,25 @@
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
-  "expectedDeliverable": "Review the second visual-feedback pass of Issue #184 / PR #185. Require owner-local focused tests and a fresh browser smoke after regenerating the Introduction runtime. Verify visible rhythm: full-screen hero title, overview cards, lecturer cards, four-stage process diagram, six-stage roadmap diagram, introduction-round cards. Then require full repository tests and exact-head validation.",
-  "lastCompletedTurn": "worker: completed #184 visual-feedback follow-up: title is now a single full-screen hero-heading scene using existing closing layout; Lecture and Tutorial is now a four-node linear FlowDiagram using existing process-diagram layout; stale first-pass title resources removed; tests/handoff/PR body updated; no renderer code changed.",
-  "lastUpdated": "2026-09-28T11:42:00+02:00",
+  "expectedDeliverable": "Review the user-requested nitrate mini-case-study redesign in PR #185 after owner-local focused tests and browser smoke via npm run pitch:intro. Verify Slide 2 renders as one coherent case-study composition with semantic problem+SVG, replicate table, bar-chart analysis, three-point discussion and takeaway; verify generic case-study layout inference has no Chemometrics identity checks; then require full repository tests and final exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: incorporated the second visual-feedback request for #184 by replacing abstract Slide 2 with one nitrate mini case study, adding a local transparent SVG, semantic TableDefinition and BarChart, three discussion KeyPoints, a generic structure-only case-study Reveal layout, media-aware focused tests, and deterministic npm run pitch:intro preview command. No ontology vocabulary, SHACL, learner-state or course-navigation changes.",
+  "lastUpdated": "2026-09-28T12:06:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #184 requires owner-local focused Introduction tests after second visual pass",
-    "Issue #184 requires fresh browser visual smoke after deterministic Introduction runtime regeneration",
+    "Issue #184 requires owner-local focused Introduction tests after nitrate case-study redesign",
+    "Issue #184 requires fresh browser visual smoke via npm run pitch:intro",
+    "Issue #184 requires focused renderer-reveal layout-policy tests",
     "Issue #184 requires full repository npm test",
     "Draft PR #185 requires independent manager review and final acceptance claim",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 111,
+  "stateRevision": 112,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T15:40:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
-      "reason": "Exact-head validator success, local focused/full tests, independent review, integration freshness and Ready lifecycle all passed for PR #177. Squash-merged Issue #167 as 1e0346df26b4650c49d573182dc10f205989d2e0, verified Issue #167 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
     {
       "at": "2026-09-27T16:48:00+02:00",
       "from": "ready/manager",
@@ -198,6 +192,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
       "reason": "Completed the second visual-feedback pass with full-screen hero opener and real Course Format FlowDiagram, removed stale first-pass title resources, and returned #184 to manager for fresh local test/browser verification."
+    },
+    {
+      "at": "2026-09-28T12:06:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue184-nitrate-case-study-20260928T120600+0200",
+      "reason": "Expanded #184 in response to user visual feedback: replaced abstract Slide 2 with one coherent illustrative nitrate case study and added the minimal generic structure-only case-study renderer support plus deterministic media-aware intro preview. Returned to manager verification gates."
     }
   ]
 }
