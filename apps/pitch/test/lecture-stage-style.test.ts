@@ -19,7 +19,7 @@ const stageRuntime = readFileSync(
   "utf8",
 );
 
-test("lecture mode exposes a reusable four-colour marker palette", () => {
+test("lecture mode exposes strong layered marker strokes behind list text", () => {
   for (const token of [
     "--pcd-lecture-yellow",
     "--pcd-lecture-cyan",
@@ -42,17 +42,22 @@ test("lecture mode exposes a reusable four-colour marker palette", () => {
     lectureStyles.indexOf(".pcd-marker-highlight {"),
     lectureStyles.indexOf(".pcd-marker-highlight--yellow"),
   );
-  assert.ok((markerBlock.match(/linear-gradient\(/g) ?? []).length >= 3);
-  assert.match(markerBlock, /26%, transparent/);
-  assert.match(markerBlock, /38%, transparent/);
-  assert.match(markerBlock, /29%, transparent/);
+  assert.equal((markerBlock.match(/linear-gradient\(/g) ?? []).length, 3);
+  assert.match(markerBlock, /60%, transparent/);
+  assert.match(markerBlock, /58%, transparent/);
+  assert.match(markerBlock, /\.74em no-repeat/);
   assert.doesNotMatch(markerBlock, /border-radius/);
 
-  assert.match(lectureStyles, /\.keypoint-list > li::before,/);
-  assert.match(lectureStyles, /\.keypoint-list > li::after/);
-  assert.ok((lectureStyles.match(/clip-path:\s*polygon\(/g) ?? []).length >= 2);
-  assert.match(lectureStyles, /rotate\(-\.55deg\)/);
-  assert.match(lectureStyles, /rotate\(\.42deg\)/);
+  const automaticMarker = lectureStyles.slice(
+    lectureStyles.indexOf(".keypoint-list > li > .pcd-list-item-text"),
+    lectureStyles.indexOf("/* Definition cards inherit"),
+  );
+  assert.equal((automaticMarker.match(/linear-gradient\(/g) ?? []).length, 3);
+  assert.match(automaticMarker, /64%, transparent/);
+  assert.match(automaticMarker, /61%, transparent/);
+  assert.match(automaticMarker, /\.78em no-repeat/);
+  assert.match(automaticMarker, /box-decoration-break:\s*clone/);
+  assert.doesNotMatch(automaticMarker, /::before|::after|border-radius|clip-path/);
 });
 
 test("lecture case-study analysis uses a larger projection-scale chart area", () => {
@@ -88,6 +93,21 @@ test("staged slides freeze scroll containers and background progress structurall
     /freezeForActiveStage\s*=\s*document\.body\.classList\.contains\("pcd-stage-lock-active"\)/,
   );
   assert.doesNotMatch(mainSource, /isStageLockedSlide\(/);
+});
+
+test("inactive-slide hiding is deck-only so Reveal scroll view retains the full deck", () => {
+  assert.match(
+    stageStyles,
+    /body\[data-presentation-view="deck"\]\s+#pitch-slides\s*>\s*section:not\(\.present\)/,
+  );
+  assert.doesNotMatch(
+    stageStyles,
+    /(?:^|\n)#pitch-slides\s*>\s*section:not\(\.present\)\s*\{/,
+  );
+  assert.match(
+    mainSource,
+    /document\.body\.dataset\.presentationView\s*=\s*appearance\.view/,
+  );
 });
 
 test("new lecture stage and accent renderer rules contain no course identity checks", () => {
