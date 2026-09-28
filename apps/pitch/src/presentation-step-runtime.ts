@@ -36,6 +36,11 @@ export interface PresentationStageNavigationTarget {
   ): void;
 }
 
+export interface PresentationStageNavigationOptions {
+  readonly view?: "scroll" | "deck";
+  readonly root?: HTMLElement;
+}
+
 export interface PresentationStageLockWindow {
   readonly scrollX: number;
   readonly scrollY: number;
@@ -198,9 +203,33 @@ function stageDirectionForControlClick(event: MouseEvent): PresentationStageDire
   return undefined;
 }
 
+function scrollToAdjacentPage(
+  deck: PresentationStageNavigationDeck,
+  target: HTMLElement,
+  direction: PresentationStageDirection,
+  root?: HTMLElement,
+): boolean {
+  const viewport = deck.getViewportElement?.();
+  const page = target.closest(".scroll-page") as HTMLElement | null;
+  if (!viewport || !page) return false;
+
+  root?.dispatchEvent(new CustomEvent("pcd-presentation-stage-exit", { bubbles: false }));
+
+  let top = page.offsetTop;
+  if (direction === "prev") {
+    const snapPoints = Array.from(page.querySelectorAll<HTMLElement>(".scroll-snap-point"));
+    const lastSnap = snapPoints.at(-1);
+    if (lastSnap) top += lastSnap.offsetTop;
+  }
+
+  viewport.scrollTop = top;
+  return true;
+}
+
 function navigateToAdjacentSlide(
   deck: PresentationStageNavigationDeck,
   direction: PresentationStageDirection,
+  options: PresentationStageNavigationOptions = {},
 ): boolean {
   const current = deck.getCurrentSlide();
   if (!current) return false;
@@ -212,6 +241,10 @@ function navigateToAdjacentSlide(
   const targetIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1;
   const target = slides[targetIndex];
   if (!target) return false;
+
+  if (options.view === "scroll" && scrollToAdjacentPage(deck, target, direction, options.root)) {
+    return true;
+  }
 
   const indices = deck.getIndices(target);
   const fragmentCount = target.querySelectorAll(".fragment").length;
@@ -228,6 +261,7 @@ function navigateToAdjacentSlide(
 export function consumePresentationStageNavigation(
   deck: PresentationStageNavigationDeck,
   direction: PresentationStageDirection,
+  options: PresentationStageNavigationOptions = {},
 ): boolean {
   const slide = deck.getCurrentSlide();
   if (!isStageLockedSlide(slide)) return false;
@@ -242,18 +276,19 @@ export function consumePresentationStageNavigation(
     return true;
   }
 
-  return navigateToAdjacentSlide(deck, direction);
+  return navigateToAdjacentSlide(deck, direction, options);
 }
 
 export function mountPresentationStageNavigation(
   deck: PresentationStageNavigationDeck,
   keyboardTarget: PresentationStageNavigationTarget,
   controlTarget?: PresentationStageNavigationTarget,
+  options: PresentationStageNavigationOptions = {},
 ): () => void {
   const onKeyDown: EventListener = (event) => {
     const keyboardEvent = event as KeyboardEvent;
     const direction = stageDirectionForKey(keyboardEvent);
-    if (!direction || !consumePresentationStageNavigation(deck, direction)) return;
+    if (!direction || !consumePresentationStageNavigation(deck, direction, options)) return;
     keyboardEvent.preventDefault();
     keyboardEvent.stopImmediatePropagation();
   };
@@ -261,7 +296,7 @@ export function mountPresentationStageNavigation(
   const onClick: EventListener = (event) => {
     const mouseEvent = event as MouseEvent;
     const direction = stageDirectionForControlClick(mouseEvent);
-    if (!direction || !consumePresentationStageNavigation(deck, direction)) return;
+    if (!direction || !consumePresentationStageNavigation(deck, direction, options)) return;
     mouseEvent.preventDefault();
     mouseEvent.stopImmediatePropagation();
   };
@@ -395,6 +430,11 @@ export function mountPresentationStageLock(
     unlock();
   };
 
+  const onStageExit = (): void => {
+    unlock();
+  };
+
+  root.addEventListener("pcd-presentation-stage-exit", onStageExit);
   deck.on("beforeslidechange", onBeforeSlideChange);
   deck.on("fragmentshown", onFragment);
   deck.on("fragmenthidden", onFragment);
@@ -410,6 +450,7 @@ export function mountPresentationStageLock(
     if (destroyed) return;
     destroyed = true;
     unlock();
+    root.removeEventListener("pcd-presentation-stage-exit", onStageExit);
     deck.off("beforeslidechange", onBeforeSlideChange);
     deck.off("fragmentshown", onFragment);
     deck.off("fragmenthidden", onFragment);
