@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Follow-up #188 browser regression fix only: stage lock must activate only after the entered staged slide has settled for two animation frames, must not globally hide Reveal overflow, must unlock immediately on slide exit, and marker highlights must become layered inhomogeneous horizontal strokes instead of dark oval blobs. Preserve all other #188 behavior and generic identity-free scope.",
-  "lastCompletedTurn": "manager: browser smoke found #188 stage lock activates before Reveal finishes positioning the entered slide and the marker effect is too dark/blob-like; authorized a bounded worker follow-up for delayed stage activation and layered highlighter styling.",
-  "lastUpdated": "2026-09-28T14:58:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded #188 browser follow-up for delayed stage-lock activation and layered inhomogeneous marker styling only.",
+  "lastUpdated": "2026-09-28T14:59:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
+    "claimedAt": "2026-09-28T14:59:00+02:00",
+    "expiresAt": "2026-09-28T16:59:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 242,
+  "stateRevision": 243,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:55:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-      "reason": "Claimed Issue #165 to define OfferingSection as a renderer-neutral offering-specific curriculum grouping overlay and settle its versioned runtime compatibility boundary."
-    },
     {
       "at": "2026-09-27T12:57:00+02:00",
       "from": "busy/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-browser-followup-20260928T145800+0200",
       "reason": "Authorized a bounded #188 browser follow-up: delay stage lock until Reveal settles, avoid global overflow suppression, unlock on exit, and replace dark blob highlights with layered inhomogeneous marker strokes."
+    },
+    {
+      "at": "2026-09-28T14:59:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
+      "reason": "Claimed browser-regression follow-up: staged slide entry must settle before lock activation, slide exit must unlock immediately, and marker styling must become layered/inhomegeneous without topic identity."
     }
   ]
 }
