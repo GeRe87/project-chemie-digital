@@ -64,3 +64,28 @@
     transition: none !important;
   }
 }
+
+
+/* Staged slides evolve in place: fragment changes must never move or scroll the slide. */
+body.pcd-stage-lock-active,
+body.pcd-stage-lock-active.reveal-viewport,
+body.pcd-stage-lock-active .reveal-viewport,
+body.pcd-stage-lock-active .reveal {
+  scroll-behavior: auto !important;
+  overscroll-behavior: none !important;
+}
+
+body.pcd-stage-lock-active .reveal-viewport,
+body.pcd-stage-lock-active .reveal {
+  touch-action: none;
+}
+
+#pitch-slides > section[data-stage-lock="true"] {
+  overflow: hidden !important;
+  contain: layout paint;
+}
+
+#pitch-slides > section[data-stage-lock="true"] .pcd-presentation-step-fragment {
+  position: absolute !important;
+  inset: auto !important;
+}
