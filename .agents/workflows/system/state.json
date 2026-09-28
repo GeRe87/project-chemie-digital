@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 186,
-  "expectedDeliverable": "Independently review Issue #186 on PR #185 after owner-local focused renderer/pitch tests and browser smoke. Verify deterministic structure-only footprint inference, case-study variants/density, DOM markers, density-aware chart geometry, no identity leakage and no regressions to existing layout families. Then coordinate final acceptance with Chemometrics Issue #184 and require full npm test plus fresh exact-head validator before Ready/squash merge.",
-  "lastCompletedTurn": "worker: completed generic Reveal fit layer for #186 on PR #185: deterministic block footprints, case-study balanced/evidence-right/stacked variants, comfortable/dense/compact density, DOM markers, density propagation, slot-bounded case-study CSS, density-aware bar-chart geometry, focused regressions and structured handoff. Adaptive density is contained to case-study; no identity-specific renderer logic.",
-  "lastUpdated": "2026-09-28T12:44:00+02:00",
+  "activeIssue": 187,
+  "expectedDeliverable": "Implement generic lecture readability mode on the existing #184/#186 integration branch: profile-driven lecture typography floors, structure-driven content budget markers/warnings, no automatic micro-typography fallback, and simplify the nitrate case-study composition to two primary lecture-scale regions while preserving problem+data+analysis+discussion on one slide.",
+  "lastCompletedTurn": "manager: browser comparison against established Chemometrics lecture slides confirmed that the remaining problem is global lecture readability, not isolated case-study fitting. Created #187 and authorized one renderer-focused follow-up on the current integration branch.",
+  "lastUpdated": "2026-09-28T13:58:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
+    "claimedAt": "2026-09-28T13:58:00+02:00",
+    "expiresAt": "2026-09-28T15:58:00+02:00"
   },
-  "blockedBy": [
-    "Issue #186 requires owner-local renderer-reveal tests",
-    "Issue #186 requires owner-local renderer-d3 tests",
-    "Issue #186 requires owner-local pitch tests",
-    "Issue #186 requires fresh browser visual smoke of #184 case-study via npm run pitch:intro",
-    "Issue #186 requires full repository npm test before final acceptance",
-    "PR #185 requires coordinated Chemometrics #184 and System #186 manager review",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 237,
+  "blockedBy": [],
+  "stateRevision": 238,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:28:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
-      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
-    },
     {
       "at": "2026-09-27T12:29:00+02:00",
       "from": "ready/worker",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
       "reason": "Completed generic #186 Reveal fit implementation and handoff on PR #185; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with content Issue #184."
+    },
+    {
+      "at": "2026-09-28T13:58:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
+      "reason": "Claimed #187 to establish profile-driven lecture readability floors and generic content budgets after browser evidence showed that fit-by-shrinking remains unsuitable for projected teaching."
     }
   ]
 }
