@@ -54,7 +54,14 @@ test("pitch preview renders semantic list markup with item-level source identity
   assert.equal(list.className, "keypoint-list");
   assert.equal(list.attributes.get("data-resource-id"), "ex:keypoint-owner");
   assert.equal(list.attributes.get("data-relation-path"), "cd:hasKeyPoint");
-  assert.deepEqual(list.children.map((item) => item.textContent), ["First authored point", "Second authored point"]);
+  assert.deepEqual(
+    list.children.map((item) => item.children[0]?.textContent),
+    ["First authored point", "Second authored point"],
+  );
+  assert.deepEqual(
+    list.children.map((item) => item.children[0]?.className),
+    ["pcd-list-item-text", "pcd-list-item-text"],
+  );
   assert.equal(list.children[0]?.attributes.get("data-list-item-id"), "item:one");
   assert.equal(list.children[0]?.attributes.get("data-resource-id"), "ex:keypoint-one");
   assert.equal(list.children[0]?.attributes.get("data-relation-path"), "cd:body");
