@@ -63,7 +63,14 @@ export function mountPitchCharts(
         throw new Error(`Pitch chart host references unknown block ${blockId}`);
       }
 
-      const result = mount(host, block, options);
+      const density = host.getAttribute("data-layout-density");
+      const result = mount(
+        host,
+        block,
+        density === "comfortable" || density === "dense" || density === "compact"
+          ? { ...options, density }
+          : options,
+      );
       if ("diagnostics" in result) {
         const message = result.diagnostics
           .map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`)
