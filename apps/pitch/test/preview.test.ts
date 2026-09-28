@@ -143,6 +143,12 @@ test("wraps rendered list text in a neutral marker span without changing semanti
         source: [{ resourceId: "resource:generic-marker-one" }],
       },
     ],
+    disclosure: {
+      order: 1,
+      mode: "progressive" as const,
+      step: 2,
+      triggerResourceId: "resource:generic-trigger",
+    },
   };
   const listScene = {
     ...sourceScene,
@@ -163,6 +169,14 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   );
   const list = root.children[0]!.children[1]!;
   assert.equal(list.className, "keypoint-list");
+  assert.equal(list.attributes.get("data-presentation-disclosure-mode"), "progressive");
+  assert.equal(list.attributes.get("data-presentation-disclosure-step"), "2");
+  assert.equal(
+    list.attributes.get("data-presentation-disclosure-trigger-resource-id"),
+    "resource:generic-trigger",
+  );
+  assert.equal(list.attributes.get("data-presentation-disclosure-visible"), "false");
+  assert.equal(list.attributes.get("aria-hidden"), "true");
   const item = list.children[0]!;
   assert.equal(item.attributes.get("data-list-item-id"), "item:generic-marker-one");
   const textSpan = item.children[0]!;
