@@ -389,8 +389,10 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     }
   }
 
-  if (blocks.length === 6) {
+  if (blocks.length === 5 || blocks.length === 6) {
     const [heading, problem, data, analysis, discussion, takeaway] = blocks;
+    const hasValidTakeaway = takeaway === undefined
+      || (takeaway.kind === "prose" && takeaway.intent?.kind === "explain");
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
@@ -400,13 +402,15 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && analysis?.kind === "chart"
       && discussion?.kind === "list"
       && discussion.listStyle === "unordered"
-      && discussion.items.length === 3
-      && takeaway?.kind === "prose"
-      && takeaway.intent?.kind === "explain"
+      && discussion.items.length >= 2
+      && discussion.items.length <= 3
+      && hasValidTakeaway
     ) {
       return {
         family: "case-study",
-        slots: ["heading", "problem", "data", "analysis", "discussion", "takeaway"],
+        slots: takeaway === undefined
+          ? ["heading", "problem", "data", "analysis", "discussion"]
+          : ["heading", "problem", "data", "analysis", "discussion", "takeaway"],
       };
     }
   }
