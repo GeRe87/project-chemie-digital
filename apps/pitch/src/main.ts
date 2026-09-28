@@ -252,10 +252,9 @@ function syncNavigationMode(): void {
   const sameConceptSequence = current?.dataset.layout === "concept-specification"
     && next?.dataset.layout === current.dataset.layout;
   const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
-  const stagedSlide = isStageLockedSlide(current);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
-    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence || stagedSlide),
+    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
   );
 }
 
