@@ -215,6 +215,7 @@ function navigateToAdjacentSlide(
       ? fragmentCount - 1
       : -1;
 
+  current.dispatchEvent(new CustomEvent("pcd-presentation-stage-exit", { bubbles: true }));
   deck.slide(indices.h, indices.v ?? 0, targetFragment);
   return true;
 }
@@ -382,6 +383,13 @@ export function mountPresentationStageLock(
     activateAfterRevealSettles();
   };
 
+  const onStageExit = (): void => {
+    // Terminal staged navigation must release the current position before
+    // Reveal mutates fragment visibility or scrolls to the adjacent slide.
+    unlock();
+  };
+
+  root.addEventListener("pcd-presentation-stage-exit", onStageExit);
   deck.on("fragmentshown", onFragment);
   deck.on("fragmenthidden", onFragment);
   deck.on("slidechanged", onSlideChanged);
@@ -396,6 +404,7 @@ export function mountPresentationStageLock(
     if (destroyed) return;
     destroyed = true;
     unlock();
+    root.removeEventListener("pcd-presentation-stage-exit", onStageExit);
     deck.off("fragmentshown", onFragment);
     deck.off("fragmenthidden", onFragment);
     deck.off("slidechanged", onSlideChanged);
