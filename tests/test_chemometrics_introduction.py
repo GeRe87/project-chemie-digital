@@ -11,7 +11,7 @@ SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
-import generate_canonical_runtime as RUNTIME  # noqa: E402
+import generate_canonical_runtime_media as RUNTIME  # noqa: E402
 import rdf_dataset as RDF_DATASET  # noqa: E402
 import validate_semantics as VALIDATION  # noqa: E402
 
@@ -62,7 +62,7 @@ EXPECTED_SCENES = [
 
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
-    ["prose", "prose", "prose", "definition-list", "prose"],
+    ["prose", "group", "table", "chart", "list", "prose"],
     ["prose", "list", "prose"],
     ["prose", "prose", "diagram", "prose"],
     ["prose", "diagram"],
@@ -132,22 +132,68 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual("Chemometrics & Applied Statistics", heading["text"])
         self.assertEqual({"kind": "introduce"}, heading["intent"])
 
-    def test_course_overview_is_a_four_card_semantic_grid(self) -> None:
-        owner = EX["chemometrics-course-overview-list"]
-        entries = sorted(
-            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
-            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
+    def test_course_overview_is_a_single_nitrate_case_study(self) -> None:
+        problem = str(next(self.content_graph.objects(EX["chemometrics-nitrate-case-problem"], CD.body)))
+        self.assertIn("Three water samples", problem)
+        self.assertIn("measured four times", problem)
+
+        media = EX["media-chemometrics-nitrate-water-samples"]
+        self.assertEqual(
+            {Literal("/chemometrics/nitrate-water-samples.svg", datatype=URIRef("http://www.w3.org/2001/XMLSchema#anyURI"))},
+            set(self.content_graph.objects(media, CD.uri)),
+        )
+        self.assertEqual({"image/svg+xml"}, {str(value) for value in self.content_graph.objects(media, CD.mediaType)})
+
+        table = EX["table-chemometrics-nitrate-replicates"]
+        rows = sorted(
+            self.content_graph.objects(table, CD.hasTableRow),
+            key=lambda row: int(next(self.content_graph.objects(row, CD.position))),
+        )
+        self.assertEqual(3, len(rows))
+        table_values = []
+        for row in rows:
+            cells = sorted(
+                self.content_graph.objects(row, CD.hasTableCell),
+                key=lambda cell: int(next(self.content_graph.objects(cell, CD.position))),
+            )
+            table_values.append([str(next(self.content_graph.objects(cell, CD.body))) for cell in cells])
+        self.assertEqual(
+            [
+                ["A · upstream", "2.1", "2.4", "2.0", "2.3"],
+                ["B · tap water", "4.8", "5.1", "4.9", "5.0"],
+                ["C · runoff", "18.5", "19.2", "18.9", "19.1"],
+            ],
+            table_values,
+        )
+
+        chart = EX["chart-chemometrics-nitrate-means"]
+        self.assertEqual({CD.BarChart}, set(self.content_graph.objects(chart, CD.chartType)))
+        dataset = next(self.content_graph.objects(chart, CD.usesDataset))
+        observations = sorted(
+            self.content_graph.objects(dataset, CD.hasObservation),
+            key=lambda observation: int(next(self.content_graph.objects(observation, CD.position))),
         )
         self.assertEqual(
-            ["Statistics", "Chemometrics", "Analytical context", "Reproducibility"],
-            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
+            ["A · upstream", "B · tap water", "C · runoff"],
+            [str(next(self.content_graph.objects(observation, SKOS.prefLabel))) for observation in observations],
         )
-        banner = str(next(self.content_graph.objects(EX["chemometrics-course-overview-banner"], CD.body)))
-        foundation = str(next(self.content_graph.objects(EX["chemometrics-course-overview-foundation"], CD.body)))
-        takeaway = str(next(self.content_graph.objects(EX["chemometrics-course-overview-takeaway"], CD.body)))
-        self.assertIn("DATA + CHEMISTRY + DECISIONS", banner)
-        self.assertIn("METHOD + ASSUMPTIONS + INTERPRETATION", foundation)
-        self.assertIn("DEFENSIBLE INTERPRETATION", takeaway)
+        self.assertEqual(
+            [2.20, 4.95, 18.925],
+            [float(next(self.content_graph.objects(observation, CD.numericValue))) for observation in observations],
+        )
+        chart_body = str(next(self.content_graph.objects(chart, CD.body)))
+        self.assertIn("2.20 ± 0.18", chart_body)
+        self.assertIn("4.95 ± 0.13", chart_body)
+        self.assertIn("18.93 ± 0.31", chart_body)
+
+        discussion = sorted(
+            self.content_graph.objects(EX["chemometrics-nitrate-case-discussion"], CD.hasKeyPoint),
+            key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
+        )
+        self.assertEqual(3, len(discussion))
+        self.assertIn("Sample C is clearly highest", str(next(self.content_graph.objects(discussion[0], CD.body))))
+        self.assertIn("Repeated measurements vary", str(next(self.content_graph.objects(discussion[1], CD.body))))
+        self.assertIn("defensible decision", str(next(self.content_graph.objects(discussion[2], CD.body))))
 
     def test_lecturer_slide_has_three_keypoint_cards_and_affiliation_takeaway(self) -> None:
         owner = EX["chemometrics-lecturer-pillars"]
@@ -267,8 +313,26 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-        overview_cards = self.document["scenes"][1]["blocks"][3]
-        self.assertEqual(4, len(overview_cards["entries"]))
+        overview = self.document["scenes"][1]
+        problem_group = overview["blocks"][1]
+        self.assertEqual("group", problem_group["kind"])
+        self.assertEqual(["prose", "media-reference"], [child["kind"] for child in problem_group["children"]])
+        self.assertEqual("/chemometrics/nitrate-water-samples.svg", problem_group["children"][1]["uri"])
+        self.assertEqual("image/svg+xml", problem_group["children"][1]["mediaType"])
+
+        data_table = overview["blocks"][2]
+        self.assertEqual("Nitrate measurements", data_table["caption"])
+        self.assertEqual(5, len(data_table["columns"]))
+        self.assertEqual(3, len(data_table["rows"]))
+
+        analysis = overview["blocks"][3]
+        self.assertEqual("bar", analysis["chartType"])
+        self.assertEqual(["A · upstream", "B · tap water", "C · runoff"], [datum["category"] for datum in analysis["data"]])
+        self.assertEqual([2.2, 4.95, 18.925], [datum["value"] for datum in analysis["data"]])
+
+        discussion = overview["blocks"][4]
+        self.assertEqual("unordered", discussion["listStyle"])
+        self.assertEqual(3, len(discussion["items"]))
 
         lecturer_cards = self.document["scenes"][2]["blocks"][1]
         self.assertEqual("unordered", lecturer_cards["listStyle"])
