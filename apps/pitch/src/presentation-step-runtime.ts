@@ -8,6 +8,25 @@ export interface PresentationStageLockDeck extends PresentationStepDeck {
   getViewportElement?(): HTMLElement | null | undefined;
 }
 
+export interface PresentationStageNavigationDeck extends PresentationStageLockDeck {
+  availableFragments(): { readonly prev: boolean; readonly next: boolean };
+  nextFragment(): boolean;
+  prevFragment(): boolean;
+}
+
+export interface PresentationStageNavigationTarget {
+  addEventListener(
+    type: "keydown" | "click",
+    listener: EventListener,
+    options?: AddEventListenerOptions | boolean,
+  ): void;
+  removeEventListener(
+    type: "keydown" | "click",
+    listener: EventListener,
+    options?: EventListenerOptions | boolean,
+  ): void;
+}
+
 export interface PresentationStageLockWindow {
   readonly scrollX: number;
   readonly scrollY: number;
@@ -135,6 +154,92 @@ export function mountPresentationStepRuntime(
   };
 }
 
+
+type PresentationStageDirection = "next" | "prev";
+
+function stageDirectionForKey(event: KeyboardEvent): PresentationStageDirection | undefined {
+  if (event.altKey || event.ctrlKey || event.metaKey) return undefined;
+
+  const target = event.target as { tagName?: string; isContentEditable?: boolean } | null;
+  const tagName = target?.tagName?.toLowerCase();
+  if (target?.isContentEditable || tagName === "input" || tagName === "textarea" || tagName === "select") {
+    return undefined;
+  }
+
+  if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === "PageDown") {
+    return "next";
+  }
+  if ((event.key === " " || event.key === "Spacebar") && !event.shiftKey) {
+    return "next";
+  }
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp" || event.key === "PageUp") {
+    return "prev";
+  }
+  if ((event.key === " " || event.key === "Spacebar") && event.shiftKey) {
+    return "prev";
+  }
+  return undefined;
+}
+
+function stageDirectionForControlClick(event: MouseEvent): PresentationStageDirection | undefined {
+  const target = event.target as { closest?: (selector: string) => unknown } | null;
+  if (typeof target?.closest !== "function") return undefined;
+  if (target.closest(".navigate-right, .navigate-down, .navigate-next")) return "next";
+  if (target.closest(".navigate-left, .navigate-up, .navigate-prev")) return "prev";
+  return undefined;
+}
+
+export function consumePresentationStageNavigation(
+  deck: PresentationStageNavigationDeck,
+  direction: PresentationStageDirection,
+): boolean {
+  const slide = deck.getCurrentSlide();
+  if (!isStageLockedSlide(slide)) return false;
+
+  const available = deck.availableFragments();
+  if (direction === "next" && available.next) {
+    deck.nextFragment();
+    return true;
+  }
+  if (direction === "prev" && available.prev) {
+    deck.prevFragment();
+    return true;
+  }
+  return false;
+}
+
+export function mountPresentationStageNavigation(
+  deck: PresentationStageNavigationDeck,
+  keyboardTarget: PresentationStageNavigationTarget,
+  controlTarget?: PresentationStageNavigationTarget,
+): () => void {
+  const onKeyDown: EventListener = (event) => {
+    const keyboardEvent = event as KeyboardEvent;
+    const direction = stageDirectionForKey(keyboardEvent);
+    if (!direction || !consumePresentationStageNavigation(deck, direction)) return;
+    keyboardEvent.preventDefault();
+    keyboardEvent.stopImmediatePropagation();
+  };
+
+  const onClick: EventListener = (event) => {
+    const mouseEvent = event as MouseEvent;
+    const direction = stageDirectionForControlClick(mouseEvent);
+    if (!direction || !consumePresentationStageNavigation(deck, direction)) return;
+    mouseEvent.preventDefault();
+    mouseEvent.stopImmediatePropagation();
+  };
+
+  keyboardTarget.addEventListener("keydown", onKeyDown, { capture: true });
+  controlTarget?.addEventListener("click", onClick, { capture: true });
+
+  let destroyed = false;
+  return () => {
+    if (destroyed) return;
+    destroyed = true;
+    keyboardTarget.removeEventListener("keydown", onKeyDown, { capture: true });
+    controlTarget?.removeEventListener("click", onClick, { capture: true });
+  };
+}
 
 export function isStageLockedSlide(slide: Element | null | undefined): boolean {
   return slide?.getAttribute("data-stage-lock") === "true";
