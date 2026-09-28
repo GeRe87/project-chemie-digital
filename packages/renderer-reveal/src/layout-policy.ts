@@ -17,7 +17,8 @@ export type RevealLayoutFamily =
   | "hero-title-panel"
   | "semantic-source"
   | "semantic-multi-view"
-  | "diagram-stage";
+  | "diagram-stage"
+  | "case-study";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -59,6 +60,16 @@ function isAttributionMediaGroup(block: SceneBlock): boolean {
     (child) => child.kind === "prose" && child.intent?.kind === "emphasize",
   );
   const media = block.children.filter((child) => child.kind === "media-reference");
+  return prose.length === 1 && media.length === 1;
+}
+
+function isProseImageGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const prose = block.children.filter((child) => child.kind === "prose");
+  const media = block.children.filter(
+    (child) => child.kind === "media-reference"
+      && (child.mediaType === undefined || child.mediaType.startsWith("image/")),
+  );
   return prose.length === 1 && media.length === 1;
 }
 
@@ -374,6 +385,28 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "process-context",
         slots: ["heading", "diagram", "example-heading", "example-definitions", "example-note", "context-heading", "context-definitions"],
+      };
+    }
+  }
+
+  if (blocks.length === 6) {
+    const [heading, problem, data, analysis, discussion, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && problem !== undefined
+      && isProseImageGroup(problem)
+      && data?.kind === "table"
+      && analysis?.kind === "chart"
+      && discussion?.kind === "list"
+      && discussion.listStyle === "unordered"
+      && discussion.items.length === 3
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "case-study",
+        slots: ["heading", "problem", "data", "analysis", "discussion", "takeaway"],
       };
     }
   }
