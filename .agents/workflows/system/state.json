@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review #188 browser follow-up on PR #185 after owner-local pitch/renderer tests and fresh browser smoke. Verify staged slide entry is fully visible before locking, navigation continues after final stage, fragment changes remain position-stable, no global overflow suppression remains, background freezes only after lock activation, and marker highlights render as layered inhomogeneous horizontal strokes rather than dark blobs. Then coordinate full npm test and final exact-head validator with #184/#186/#187.",
-  "lastCompletedTurn": "worker: completed #188 browser-regression follow-up: stage lock now waits two animation frames after slide entry before capture/activation, global body/viewport overflow suppression removed, slide exit unlocks immediately, background freeze starts only after active lock, and marker/highlight styling was replaced by three-layer inline strokes plus two irregular polygon-clipped KeyPoint strokes.",
-  "lastUpdated": "2026-09-28T15:07:00+02:00",
+  "expectedDeliverable": "Second #188 browser follow-up only: restore complete Reveal scroll-view navigation by scoping inactive-slide hiding to deck view; expose presentation view on body; strengthen lecture text-marker rendering by placing layered inhomogeneous strokes directly behind list-item text spans; preserve settled-entry stage lock.",
+  "lastCompletedTurn": "manager: fresh browser smoke confirms settled-entry stage lock fixed half-slide entry, but uncovered two remaining #188 regressions: global non-present slide hiding collapses scroll-view navigation, and marker strokes remain too weak. Authorized a bounded second browser follow-up.",
+  "lastUpdated": "2026-09-28T15:18:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 browser follow-up requires owner-local pitch tests",
-    "Issue #188 browser follow-up requires owner-local renderer-reveal tests",
-    "Issue #188 browser follow-up requires owner-local renderer-d3 tests",
-    "Issue #188 browser follow-up requires owner-local Chemometrics Introduction tests",
-    "Issue #188 requires fresh browser smoke: fully visible staged entry, stable stages, normal navigation after final stage, layered marker appearance",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 244,
+  "blockedBy": [],
+  "stateRevision": 245,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:00:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
-      "reason": "Claimed Issue #165 to author the renderer-neutral OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility decision only."
-    },
     {
       "at": "2026-09-27T13:08:00+02:00",
       "from": "busy/worker",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
       "reason": "Completed bounded #188 browser follow-up: delayed settle/capture/lock lifecycle, navigation-safe unlock, no global overflow suppression, active-only background freeze and layered irregular marker strokes; returned to manager for focused tests and fresh browser verification."
+    },
+    {
+      "at": "2026-09-28T15:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-browser-followup2-20260928T151800+0200",
+      "reason": "Authorized bounded #188 follow-up: scope inactive-slide hiding to deck mode so six-slide scroll navigation survives, and move stronger layered highlighter strokes directly behind list-item text."
     }
   ]
 }
