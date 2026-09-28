@@ -3,9 +3,11 @@ import test from "node:test";
 
 import {
   clampPresentationStep,
+  consumePresentationStageNavigation,
   isStageLockedSlide,
   markStageLockedSlide,
   mountPresentationStageLock,
+  mountPresentationStageNavigation,
   stepFromVisibleCount,
 } from "../src/presentation-step-runtime.ts";
 
@@ -233,5 +235,188 @@ test("stage lock leaves wheel movement untouched on non-staged slides", () => {
   const wheel = { preventDefault() { prevented = true; } } as unknown as Event;
   for (const listener of listeners.get("wheel") ?? []) listener(wheel);
   assert.equal(prevented, false);
+  destroy();
+});
+
+
+test("staged navigation consumes internal fragments before Reveal slide movement", () => {
+  const stagedSlide = {
+    getAttribute(name: string) {
+      return name === "data-stage-lock" ? "true" : null;
+    },
+  } as unknown as HTMLElement;
+
+  let step = 0;
+  const deck = {
+    on() {},
+    off() {},
+    getCurrentSlide() { return stagedSlide; },
+    availableFragments() {
+      return { prev: step > 0, next: step < 3 };
+    },
+    nextFragment() {
+      if (step >= 3) return false;
+      step += 1;
+      return true;
+    },
+    prevFragment() {
+      if (step <= 0) return false;
+      step -= 1;
+      return true;
+    },
+  };
+
+  assert.equal(consumePresentationStageNavigation(deck, "next"), true);
+  assert.equal(step, 1);
+  assert.equal(consumePresentationStageNavigation(deck, "next"), true);
+  assert.equal(step, 2);
+  assert.equal(consumePresentationStageNavigation(deck, "next"), true);
+  assert.equal(step, 3);
+
+  // At the final internal stage, the event must fall through to Reveal.
+  assert.equal(consumePresentationStageNavigation(deck, "next"), false);
+  assert.equal(step, 3);
+
+  assert.equal(consumePresentationStageNavigation(deck, "prev"), true);
+  assert.equal(step, 2);
+});
+
+test("stage navigation captures forward keys only while an internal stage is available", () => {
+  const stagedSlide = {
+    getAttribute(name: string) {
+      return name === "data-stage-lock" ? "true" : null;
+    },
+  } as unknown as HTMLElement;
+
+  let step = 0;
+  const deck = {
+    on() {},
+    off() {},
+    getCurrentSlide() { return stagedSlide; },
+    availableFragments() {
+      return { prev: step > 0, next: step < 1 };
+    },
+    nextFragment() {
+      if (step >= 1) return false;
+      step += 1;
+      return true;
+    },
+    prevFragment() {
+      if (step <= 0) return false;
+      step -= 1;
+      return true;
+    },
+  };
+
+  const listeners = new Map<string, Set<EventListener>>();
+  const keyboardTarget = {
+    addEventListener(type: string, listener: EventListener) {
+      const set = listeners.get(type) ?? new Set<EventListener>();
+      set.add(listener);
+      listeners.set(type, set);
+    },
+    removeEventListener(type: string, listener: EventListener) {
+      listeners.get(type)?.delete(listener);
+    },
+  };
+
+  const destroy = mountPresentationStageNavigation(
+    deck,
+    keyboardTarget as Parameters<typeof mountPresentationStageNavigation>[1],
+  );
+
+  let prevented = false;
+  let stopped = false;
+  const first = {
+    key: "ArrowRight",
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+    target: null,
+    preventDefault() { prevented = true; },
+    stopImmediatePropagation() { stopped = true; },
+  } as unknown as Event;
+  for (const listener of listeners.get("keydown") ?? []) listener(first);
+  assert.equal(step, 1);
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
+
+  // No next fragment remains: do not consume the key, so Reveal can change slide.
+  prevented = false;
+  stopped = false;
+  const final = {
+    key: "ArrowRight",
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+    target: null,
+    preventDefault() { prevented = true; },
+    stopImmediatePropagation() { stopped = true; },
+  } as unknown as Event;
+  for (const listener of listeners.get("keydown") ?? []) listener(final);
+  assert.equal(step, 1);
+  assert.equal(prevented, false);
+  assert.equal(stopped, false);
+
+  destroy();
+  assert.equal(listeners.get("keydown")?.size ?? 0, 0);
+});
+
+test("stage navigation also consumes Reveal next-control clicks while fragments remain", () => {
+  const stagedSlide = {
+    getAttribute(name: string) {
+      return name === "data-stage-lock" ? "true" : null;
+    },
+  } as unknown as HTMLElement;
+
+  let step = 0;
+  const deck = {
+    on() {},
+    off() {},
+    getCurrentSlide() { return stagedSlide; },
+    availableFragments() {
+      return { prev: step > 0, next: step < 1 };
+    },
+    nextFragment() { step += 1; return true; },
+    prevFragment() { step -= 1; return true; },
+  };
+
+  const keyboardListeners = new Map<string, Set<EventListener>>();
+  const controlListeners = new Map<string, Set<EventListener>>();
+  const makeTarget = (store: Map<string, Set<EventListener>>) => ({
+    addEventListener(type: string, listener: EventListener) {
+      const set = store.get(type) ?? new Set<EventListener>();
+      set.add(listener);
+      store.set(type, set);
+    },
+    removeEventListener(type: string, listener: EventListener) {
+      store.get(type)?.delete(listener);
+    },
+  });
+
+  const destroy = mountPresentationStageNavigation(
+    deck,
+    makeTarget(keyboardListeners) as Parameters<typeof mountPresentationStageNavigation>[1],
+    makeTarget(controlListeners) as Parameters<typeof mountPresentationStageNavigation>[2],
+  );
+
+  let prevented = false;
+  let stopped = false;
+  const click = {
+    target: {
+      closest(selector: string) {
+        return selector.includes(".navigate-right") ? {} : null;
+      },
+    },
+    preventDefault() { prevented = true; },
+    stopImmediatePropagation() { stopped = true; },
+  } as unknown as Event;
+  for (const listener of controlListeners.get("click") ?? []) listener(click);
+
+  assert.equal(step, 1);
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
   destroy();
 });
