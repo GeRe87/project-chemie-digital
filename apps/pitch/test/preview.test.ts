@@ -116,6 +116,9 @@ test("mounts generic layout variant and density markers for an inferred scene", 
   assert.equal(section.attributes.get("data-layout"), "closing");
   assert.equal(section.attributes.get("data-layout-variant"), "default");
   assert.equal(section.attributes.get("data-layout-density"), "comfortable");
+  assert.ok(["within-budget", "over-budget"].includes(section.attributes.get("data-lecture-budget") ?? ""));
+  assert.match(section.attributes.get("data-lecture-budget-score") ?? "", /^\d+\.\d$/);
+  assert.match(section.attributes.get("data-lecture-primary-regions") ?? "", /^\d+$/);
   destroy();
 });
 
