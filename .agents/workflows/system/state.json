@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Seventh #188 browser follow-up: fix terminal navigation in Reveal scroll view at the scroll-page level. Refactor stage lock to expose an explicit synchronous release controller. For staged terminal navigation in scroll view, release the lock, resolve the adjacent slide's .scroll-page wrapper and set the Reveal viewport directly to that page boundary; do not use fragment-relative Reveal slide navigation. Keep direct slide(h,v,f) for deck view. Preserve internal stages and six-slide scroll deck.",
-  "lastCompletedTurn": "manager: browser smoke plus Reveal 5.2 source review identified the remaining stall: synthetic fragments make the current slide a sticky scroll-page with extra trigger padding, while stages are advanced without scroll movement. Terminal Reveal navigation therefore moves background progress but leaves the sticky current page visible. Authorized a page-level scroll transition fix.",
-  "lastUpdated": "2026-09-28T16:47:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded scroll-page terminal navigation fix.",
+  "lastUpdated": "2026-09-28T16:48:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-scroll-page-terminal-20260928T164800+0200",
+    "claimedAt": "2026-09-28T16:48:00+02:00",
+    "expiresAt": "2026-09-28T18:48:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 263,
+  "stateRevision": 264,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T14:08:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue187-lecture-readability-20260928T135800+0200",
-      "reason": "Completed profile-driven lecture readability, generic content budgets and lecture-scale case-study simplification for #187; returned to manager for focused tests, visual smoke, full-suite verification and coordinated acceptance with #184/#186."
-    },
     {
       "at": "2026-09-28T14:35:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-scroll-page-terminal-20260928T164700+0200",
       "reason": "Authorized bounded #188 scroll-page terminal fix: stage controller must release lock and directly position Reveal viewport at adjacent .scroll-page boundary in scroll view; deck view keeps direct slide navigation."
+    },
+    {
+      "at": "2026-09-28T16:48:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-scroll-page-terminal-20260928T164800+0200",
+      "reason": "Claimed scroll-page terminal navigation fix; scope limited to explicit lock release plus adjacent scroll-page viewport positioning in scroll mode."
     }
   ]
 }
