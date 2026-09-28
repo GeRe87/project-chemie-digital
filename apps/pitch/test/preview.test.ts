@@ -84,23 +84,38 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   destroy(); assert.equal(root.children.length, 0); destroy();
 });
 
-test("mounts generic layout variant and density markers for inferred layouts", () => {
-  const documents = compilePitchSceneDocuments();
-  const document = documents[0]!;
-  const sceneIndex = document.scenes.findIndex((scene) => inferRevealLayoutDecision(scene) !== undefined);
-  assert.ok(sceneIndex >= 0, "expected at least one structurally inferred layout in the canonical preview fixture");
-  const decision = inferRevealLayoutDecision(document.scenes[sceneIndex]!);
-  assert.ok(decision);
-
-  const root = new FakeElement();
-  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
-  const section = root.children[sceneIndex]!;
-  assert.equal(section.attributes.get("data-layout"), decision.family);
-  assert.equal(section.attributes.get("data-layout-variant"), "default");
-  assert.ok(
-    ["comfortable", "dense", "compact"].includes(section.attributes.get("data-layout-density") ?? ""),
-    "expected a renderer-owned density marker",
+test("mounts generic layout variant and density markers for an inferred scene", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
   );
+  assert.ok(heading, "expected a graph-backed heading in the canonical fixture");
+
+  const inferredScene = {
+    ...sourceScene,
+    id: "scene:generic-layout-marker",
+    blocks: [heading],
+    readingOrder: [heading.id],
+  };
+  const decision = inferRevealLayoutDecision(inferredScene);
+  assert.equal(decision?.family, "closing");
+
+  const inferredDocument = {
+    ...document,
+    id: "document:generic-layout-marker",
+    scenes: [inferredScene],
+  };
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [inferredDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "closing");
+  assert.equal(section.attributes.get("data-layout-variant"), "default");
+  assert.equal(section.attributes.get("data-layout-density"), "comfortable");
   destroy();
 });
 
