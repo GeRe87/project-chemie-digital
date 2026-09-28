@@ -1,7 +1,10 @@
 import { scaleBand, scaleLinear } from "d3-scale";
 import type { ChartBlock } from "../../core/src/scene-document.ts";
 
-export interface D3BarChartOptions { readonly reducedMotion: boolean; }
+export interface D3BarChartOptions {
+  readonly reducedMotion: boolean;
+  readonly density?: "comfortable" | "dense" | "compact";
+}
 export interface D3BarDatum { readonly id: string; readonly category: string; readonly value: number; }
 export interface D3BarChartRenderModel {
   readonly version: "1.0";
@@ -155,9 +158,17 @@ export function mountD3BarChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const width = Math.max(640, Math.round(host.getBoundingClientRect().width || 960));
-    const height = Math.max(460, Math.round(width * 0.52));
-    const margin = { top: 58, right: 36, bottom: 112, left: 92 };
+    const density = options.density ?? "comfortable";
+    const minimumWidth = density === "compact" ? 420 : density === "dense" ? 500 : 640;
+    const minimumHeight = density === "compact" ? 310 : density === "dense" ? 350 : 460;
+    const heightRatio = density === "compact" ? 0.48 : density === "dense" ? 0.5 : 0.52;
+    const margin = density === "compact"
+      ? { top: 34, right: 18, bottom: 68, left: 58 }
+      : density === "dense"
+        ? { top: 40, right: 22, bottom: 78, left: 66 }
+        : { top: 58, right: 36, bottom: 112, left: 92 };
+    const width = Math.max(minimumWidth, Math.round(host.getBoundingClientRect().width || 960));
+    const height = Math.max(minimumHeight, Math.round(width * heightRatio));
     const plotWidth = Math.max(100, width - margin.left - margin.right);
     const plotHeight = Math.max(100, height - margin.top - margin.bottom);
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
