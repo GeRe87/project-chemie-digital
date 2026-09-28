@@ -76,7 +76,22 @@ test("stage lock waits for Reveal to settle, then stabilizes fragments and unloc
       remove(name: string) { bodyClasses.delete(name); },
     },
   };
-  const root = { ownerDocument: { body } } as unknown as HTMLElement;
+  const rootListeners = new Map<string, Set<EventListener>>();
+  const root = {
+    ownerDocument: { body },
+    addEventListener(type: string, listener: EventListener) {
+      const set = rootListeners.get(type) ?? new Set<EventListener>();
+      set.add(listener);
+      rootListeners.set(type, set);
+    },
+    removeEventListener(type: string, listener: EventListener) {
+      rootListeners.get(type)?.delete(listener);
+    },
+    dispatchEvent(event: Event) {
+      for (const listener of rootListeners.get(event.type) ?? []) listener(event);
+      return true;
+    },
+  } as unknown as HTMLElement;
 
   const deck = {
     on(event: string, listener: () => void) {
@@ -197,6 +212,7 @@ test("stage lock waits for Reveal to settle, then stabilizes fragments and unloc
 
 test("stage lock leaves wheel movement untouched on non-staged slides", () => {
   const listeners = new Map<string, Set<EventListener>>();
+  const rootListeners = new Map<string, Set<EventListener>>();
   const root = {
     ownerDocument: {
       body: {
@@ -205,6 +221,18 @@ test("stage lock leaves wheel movement untouched on non-staged slides", () => {
           remove() {},
         },
       },
+    },
+    addEventListener(type: string, listener: EventListener) {
+      const set = rootListeners.get(type) ?? new Set<EventListener>();
+      set.add(listener);
+      rootListeners.set(type, set);
+    },
+    removeEventListener(type: string, listener: EventListener) {
+      rootListeners.get(type)?.delete(listener);
+    },
+    dispatchEvent(event: Event) {
+      for (const listener of rootListeners.get(event.type) ?? []) listener(event);
+      return true;
     },
   } as unknown as HTMLElement;
   const deck = {
@@ -243,6 +271,58 @@ test("stage lock leaves wheel movement untouched on non-staged slides", () => {
   destroy();
 });
 
+
+test("scroll-view terminal navigation releases the lock and jumps to the adjacent scroll page boundary", () => {
+  const currentSlide = {
+    getAttribute(name: string) {
+      return name === "data-stage-lock" ? "true" : null;
+    },
+    closest() { return null; },
+  } as unknown as HTMLElement;
+
+  const targetPage = {
+    offsetTop: 2400,
+    querySelectorAll() { return []; },
+  } as unknown as HTMLElement;
+  const nextSlide = {
+    getAttribute() { return null; },
+    closest(selector: string) {
+      return selector === ".scroll-page" ? targetPage : null;
+    },
+    querySelectorAll() { return []; },
+  } as unknown as HTMLElement;
+
+  const viewport = { scrollTop: 320 } as HTMLElement;
+  const slideCalls: Array<[number, number | undefined, number | undefined]> = [];
+  const deck = {
+    on() {},
+    off() {},
+    getCurrentSlide() { return currentSlide; },
+    getViewportElement() { return viewport; },
+    availableFragments() { return { prev: false, next: false }; },
+    nextFragment() { return false; },
+    prevFragment() { return false; },
+    getSlides() { return [currentSlide, nextSlide]; },
+    getIndices() { return { h: 1, v: 0 }; },
+    slide(h: number, v?: number, f?: number) { slideCalls.push([h, v, f]); },
+  };
+
+  let exitSignals = 0;
+  const root = {
+    dispatchEvent(event: Event) {
+      if (event.type === "pcd-presentation-stage-exit") exitSignals += 1;
+      return true;
+    },
+  } as unknown as HTMLElement;
+
+  assert.equal(
+    consumePresentationStageNavigation(deck, "next", { view: "scroll", root }),
+    true,
+  );
+  assert.equal(exitSignals, 1);
+  assert.equal(viewport.scrollTop, 2400);
+  assert.deepEqual(slideCalls, []);
+});
 
 test("staged navigation consumes internal fragments then jumps directly to the next slide", () => {
   const makeSlide = (staged: boolean, fragmentCount = 0) => ({
