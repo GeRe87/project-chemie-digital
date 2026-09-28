@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
-  "expectedDeliverable": "Review third #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify staged scroll-view navigation consumes chart/diagram fragments before any slide movement, forward/backward navigation falls through to adjacent slides only when stages are exhausted, settled-entry lock remains stable, full six-slide Introduction remains navigable, and marker styling remains strong. Then continue renderer/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed third #188 browser follow-up: added generic capture-phase staged navigation for keyboard and Reveal controls using availableFragments/nextFragment/prevFragment, with normal Reveal fallthrough after final/initial stage; existing synthetic fragments, step dispatch, stage lock and six-slide scroll deck preserved.",
-  "lastUpdated": "2026-09-28T15:57:00+02:00",
+  "expectedDeliverable": "Fourth #188 browser follow-up only: eliminate final-stage looping in Reveal scroll view. On structurally staged slides, capture forward/back navigation for the entire staged lifecycle. Advance/rewind fragments while available; when exhausted, explicitly call deck.next()/deck.prev() and consume the original browser event so Reveal does not run a second scroll-navigation path that resets fragments under the stage lock.",
+  "lastCompletedTurn": "manager: browser smoke confirms internal stages now advance, but final-stage fallthrough to Reveal scroll navigation resets fragments to stage 0 while stage lock prevents leaving the slide. Authorized one bounded navigation-terminal fix.",
+  "lastUpdated": "2026-09-28T16:08:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Issue #188 third browser follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires fresh browser smoke: staged chart/diagram fragments advance in place, final/initial stage falls through to adjacent slide, all six Introduction slides remain navigable",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 253,
+  "blockedBy": [],
+  "stateRevision": 254,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:38:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
-      "reason": "Exact-head validator success, local tests, independent review, integration freshness and Ready lifecycle all passed for PR #176. Squash-merged Issue #166 as 904f4af423bdfa674991e0398f8d78ecbcfb39e4, verified Issue #166 closed completed and single-parent squash, and returned System to idle manager state."
-    },
     {
       "at": "2026-09-27T15:42:00+02:00",
       "from": "ready/manager",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
       "reason": "Completed bounded #188 staged-navigation follow-up: capture-phase keyboard/control navigation now advances internal Reveal fragments without scroll movement and falls through to normal slide navigation when stages are exhausted."
+    },
+    {
+      "at": "2026-09-28T16:08:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue188-terminal-navigation-20260928T160800+0200",
+      "reason": "Authorized bounded #188 terminal navigation fix: staged slides must own final/initial navigation and call deck.next()/deck.prev() explicitly instead of falling through to Reveal scroll navigation."
     }
   ]
 }
