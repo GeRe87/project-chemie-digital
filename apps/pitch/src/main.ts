@@ -155,6 +155,7 @@ function applyDiagramThemeMarker(): void {
 applyThemeMarker(currentTheme);
 applyDiagramThemeMarker();
 document.body.dataset.presentationReadability = appearance.readability;
+document.body.dataset.presentationView = appearance.view;
 
 if (appearance.readability === "lecture") {
   for (const section of Array.from(root.querySelectorAll<HTMLElement>('section[data-lecture-budget="over-budget"]'))) {
