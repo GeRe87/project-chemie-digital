@@ -122,6 +122,36 @@ test("mounts generic layout variant and density markers for an inferred scene", 
   destroy();
 });
 
+test("wraps rendered list text in a neutral marker span without changing semantic text", () => {
+  const documents = compilePitchSceneDocuments();
+  const document = documents[0]!;
+  let found:
+    | { sceneIndex: number; blockIndex: number; text: string }
+    | undefined;
+
+  for (const [sceneIndex, scene] of document.scenes.entries()) {
+    for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
+      const block = scene.blocks.find((candidate) => candidate.id === blockId);
+      if (block?.kind === "list" && block.items[0]) {
+        found = { sceneIndex, blockIndex, text: block.items[0].text };
+        break;
+      }
+    }
+    if (found) break;
+  }
+  assert.ok(found, "expected at least one list block in the canonical preview fixture");
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, documents);
+  const list = root.children[found.sceneIndex]!.children[found.blockIndex]!;
+  assert.equal(list.className, "keypoint-list");
+  const item = list.children[0]!;
+  const textSpan = item.children[0]!;
+  assert.equal(textSpan.className, "pcd-list-item-text");
+  assert.equal(textSpan.textContent, found.text);
+  destroy();
+});
+
 test("renders the canonical formula locally as KaTeX math", () => {
   const documents = compilePitchSceneDocuments();
   const formulaBlock = documents[0]!.scenes[3]!.blocks[1]!;
