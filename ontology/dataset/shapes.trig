@@ -270,6 +270,28 @@ SELECT $this WHERE {
       sh:message "A TableCell must have exactly one owning TableRow."
     ] .
 
+  cd:DerivedFromResourceShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:derivedFromResource ;
+    sh:class cd:LearningResource ;
+    sh:property [
+      sh:path cd:derivedFromResource ;
+      sh:minCount 1 ;
+      sh:class cd:LearningResource ;
+      sh:nodeKind sh:IRI ;
+      sh:message "cd:derivedFromResource must connect authored LearningResources."
+    ] .
+
+  cd:InterpretsResourceShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:interpretsResource ;
+    sh:class cd:Interpretation ;
+    sh:property [
+      sh:path cd:interpretsResource ;
+      sh:minCount 1 ;
+      sh:class cd:LearningResource ;
+      sh:nodeKind sh:IRI ;
+      sh:message "cd:interpretsResource must point from an Interpretation to a LearningResource."
+    ] .
+
   cd:ChartDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:ChartDefinition ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
