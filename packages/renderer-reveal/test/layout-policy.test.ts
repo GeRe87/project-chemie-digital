@@ -741,6 +741,19 @@ test("infers data-explanation from list and table structure without identity", (
 });
 
 
+test("infers lecture-scale case-study without a separate takeaway micro-region", () => {
+  const original = caseStudyScene("scene:lecture-case");
+  const blocks = original.blocks.slice(0, 5);
+  const scene = {
+    ...original,
+    blocks,
+    readingOrder: blocks.map((block) => block.id),
+  };
+  const decision = inferRevealLayoutDecision(scene);
+  assert.equal(decision?.family, "case-study");
+  assert.deepEqual(decision?.slots, ["heading", "problem", "data", "analysis", "discussion"]);
+});
+
 test("infers generic case-study from image problem, table, chart and discussion without identity", () => {
   assert.equal(inferRevealLayoutFamily(caseStudyScene("scene:case-study")), "case-study");
   assert.equal(inferRevealLayoutFamily(caseStudyScene("opaque:anything")), "case-study");
