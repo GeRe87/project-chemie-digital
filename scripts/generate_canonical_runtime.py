@@ -1478,7 +1478,15 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                         f'</li>'
                         for datum in block["data"]
                     )
-                    body = f'<ol class="chart-data">{value_items}</ol>'
+                    annotation_items = "".join(
+                        f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
+                        f'{html.escape(annotation["label"])}</li>'
+                        for annotation in block.get("annotations", [])
+                    )
+                    body = (
+                        f'<ol class="chart-data">{value_items}</ol>'
+                        f'<ul class="chart-annotations">{annotation_items}</ul>'
+                    )
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
