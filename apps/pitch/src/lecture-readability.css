@@ -187,21 +187,36 @@ body[data-presentation-readability="lecture"] .reveal .slides
    safe emphasis. */
 body[data-presentation-readability="lecture"] .pcd-marker-highlight {
   --pcd-marker-color: var(--pcd-lecture-yellow);
-  position: relative;
-  z-index: 0;
   display: inline;
-  padding-inline: .06em;
+  padding-inline: .035em;
   font-weight: 850;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   background:
     linear-gradient(
-      101deg,
-      transparent 0 2%,
-      color-mix(in srgb, var(--pcd-marker-color) 62%, transparent) 3% 96%,
+      97deg,
+      transparent 0 1%,
+      color-mix(in srgb, var(--pcd-marker-color) 26%, transparent) 2% 18%,
+      color-mix(in srgb, var(--pcd-marker-color) 38%, transparent) 26% 49%,
+      color-mix(in srgb, var(--pcd-marker-color) 29%, transparent) 57% 79%,
+      color-mix(in srgb, var(--pcd-marker-color) 35%, transparent) 86% 96%,
+      transparent 99% 100%
+    ) 0 76% / 100% .48em no-repeat,
+    linear-gradient(
+      102deg,
+      transparent 0 3%,
+      color-mix(in srgb, var(--pcd-marker-color) 18%, transparent) 5% 31%,
+      color-mix(in srgb, var(--pcd-marker-color) 29%, transparent) 38% 67%,
+      color-mix(in srgb, var(--pcd-marker-color) 20%, transparent) 75% 94%,
       transparent 98% 100%
-    )
-    0 88% / 100% .62em no-repeat;
+    ) .04em 90% / 97% .28em no-repeat,
+    linear-gradient(
+      89deg,
+      transparent 0 5%,
+      color-mix(in srgb, var(--pcd-marker-color) 14%, transparent) 7% 45%,
+      color-mix(in srgb, var(--pcd-marker-color) 22%, transparent) 53% 90%,
+      transparent 96% 100%
+    ) -.02em 64% / 94% .18em no-repeat;
 }
 
 body[data-presentation-readability="lecture"] .pcd-marker-highlight--yellow {
@@ -237,18 +252,56 @@ body[data-presentation-readability="lecture"] .reveal .keypoint-list > li:nth-ch
   --pcd-lecture-item-accent: var(--pcd-lecture-green);
 }
 
-body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::before {
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::before,
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::after {
   content: "";
   position: absolute;
-  z-index: -1;
-  left: -.12em;
-  top: .62em;
-  width: min(76%, 16em);
-  height: .72em;
-  border-radius: 42% 18% 36% 12%;
-  background: color-mix(in srgb, var(--pcd-lecture-item-accent) 38%, transparent);
-  transform: rotate(-.65deg) skewX(-3deg);
-  opacity: .9;
+  pointer-events: none;
+  left: .02em;
+  transform-origin: left center;
+}
+
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::before {
+  top: .68em;
+  width: min(84%, 18em);
+  height: .52em;
+  background:
+    linear-gradient(
+      96deg,
+      transparent 0 1%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 22%, transparent) 3% 20%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 34%, transparent) 28% 52%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 25%, transparent) 61% 83%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 31%, transparent) 89% 96%,
+      transparent 99% 100%
+    );
+  clip-path: polygon(
+    0 24%, 4% 7%, 16% 13%, 29% 4%, 43% 14%, 57% 6%,
+    72% 12%, 86% 3%, 100% 18%, 98% 83%, 84% 94%, 67% 86%,
+    51% 96%, 34% 87%, 18% 95%, 3% 82%
+  );
+  transform: rotate(-.55deg) skewX(-1.5deg);
+}
+
+body[data-presentation-readability="lecture"] .reveal .keypoint-list > li::after {
+  top: .83em;
+  left: .14em;
+  width: min(78%, 16.8em);
+  height: .24em;
+  background:
+    linear-gradient(
+      103deg,
+      transparent 0 2%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 13%, transparent) 4% 27%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 24%, transparent) 35% 68%,
+      color-mix(in srgb, var(--pcd-lecture-item-accent) 16%, transparent) 77% 95%,
+      transparent 98% 100%
+    );
+  clip-path: polygon(
+    0 31%, 8% 12%, 24% 21%, 42% 7%, 59% 19%, 76% 9%, 100% 27%,
+    98% 76%, 79% 91%, 61% 79%, 39% 93%, 20% 82%, 2% 94%
+  );
+  transform: rotate(.42deg) skewX(1deg);
 }
 
 /* Definition cards inherit a consistent colourful lecture rhythm. */
