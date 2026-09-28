@@ -15,6 +15,7 @@ export interface PresenterCapabilities {
 }
 
 export type PresentationViewportPolicy = "fixed-canvas" | "native-portrait";
+export type PresentationReadabilityMode = "standard" | "lecture";
 
 export interface PresentationProfile {
   readonly id: string;
@@ -24,6 +25,7 @@ export interface PresentationProfile {
   readonly defaultBackgroundFamilyId?: string;
   readonly presenterCapabilities?: PresenterCapabilities;
   readonly viewportPolicy?: PresentationViewportPolicy;
+  readonly defaultReadability?: PresentationReadabilityMode;
 }
 
 export interface ResolvedPresentationAppearance {
@@ -34,6 +36,7 @@ export interface ResolvedPresentationAppearance {
   readonly backgroundFamilyId?: string;
   readonly backgroundPackId?: string;
   readonly diagramThemeId: DiagramThemeId;
+  readonly readability: PresentationReadabilityMode;
   readonly diagnostics: readonly string[];
 }
 
@@ -86,6 +89,7 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
   defaultView: "scroll",
   defaultTheme: "dark",
   defaultBackgroundFamilyId: chemometricsCityFamily.id,
+  defaultReadability: "lecture",
 });
 
 export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
@@ -99,6 +103,7 @@ export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
     laserPointer: true,
   }),
   viewportPolicy: "native-portrait",
+  defaultReadability: "standard",
 });
 
 export function findBackgroundFamily(familyId: string | undefined): ThemedBackgroundPackFamily | undefined {
@@ -140,6 +145,16 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
     diagnostics.push(`Unsupported view '${requestedView}', using '${view}'.`);
   }
 
+  const requestedReadability = params.get("readability");
+  const defaultReadability = profile.defaultReadability ?? "standard";
+  const readability: PresentationReadabilityMode =
+    requestedReadability === "lecture" || requestedReadability === "standard"
+      ? requestedReadability
+      : defaultReadability;
+  if (requestedReadability && requestedReadability !== "lecture" && requestedReadability !== "standard") {
+    diagnostics.push(`Unsupported readability '${requestedReadability}', using '${readability}'.`);
+  }
+
   const requestedTheme = params.get("theme");
   const theme: PresentationThemeMode = requestedTheme === "dark" || requestedTheme === "light"
     ? requestedTheme
@@ -177,6 +192,7 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
     ...(backgroundFamilyId ? { backgroundFamilyId } : {}),
     ...(backgroundPackId ? { backgroundPackId } : {}),
     diagramThemeId,
+    readability,
     diagnostics: Object.freeze(diagnostics),
   });
 }
