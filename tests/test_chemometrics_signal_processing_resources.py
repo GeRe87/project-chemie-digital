@@ -155,6 +155,9 @@ class ChemometricsSignalProcessingResourceTests(unittest.TestCase):
             },
             set(self.source_graph.objects(source, DCT.source)),
         )
+        source_description = str(next(self.source_graph.objects(source, DCT.description)))
+        self.assertIn("Pinned public migration evidence", source_description)
+        self.assertIn("2026 Chemometrics Markdown inventory contains no dedicated Signal Processing file", source_description)
 
         supported = set(self.source_graph.objects(source, CD.supportsResource))
         for resource in (
