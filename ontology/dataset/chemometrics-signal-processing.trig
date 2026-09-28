@@ -1,0 +1,156 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-signal-processing-foundations> {
+  # Signal-processing purpose and analytical influences ----------------------
+  ex:analytical-signal-processing a cd:Concept ;
+    skos:prefLabel "analytical signal processing"@en ;
+    cd:hasDefinition ex:def-analytical-signal-processing ;
+    cd:hasInterpretation ex:analytical-signal-influences-interpretation ;
+    cd:authoredResource true .
+
+  ex:def-analytical-signal-processing a cd:Definition ;
+    cd:body "Analytical signal processing comprises transformations or analyses applied to recorded analytical data to separate, characterize or extract information relevant to the analytical question while making assumptions and possible distortions explicit."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:analytical-signal-influences-interpretation a cd:Interpretation ;
+    cd:body "An observed analytical signal can contain contributions associated with analyte response, matrix effects or interferences, and instrument or system behavior such as noise, drift or baseline. These are useful explanatory categories, not a claim that every signal is exactly the additive sum of three independent components; the physical mechanisms can interact."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  # Min-max normalization ----------------------------------------------------
+  ex:min-max-normalization a cd:Concept ;
+    skos:prefLabel "min-max normalization"@en ;
+    cd:hasDefinition ex:def-min-max-normalization ;
+    cd:hasMathExpression ex:min-max-normalization-formula ;
+    cd:hasInterpretation ex:min-max-range-interpretation,
+      ex:min-max-extrema-sensitivity-interpretation,
+      ex:min-max-constant-vector-interpretation ;
+    cd:authoredResource true .
+
+  ex:def-min-max-normalization a cd:Definition ;
+    cd:body "For numerical observations with distinct minimum and maximum, min-max normalization to the interval [0,1] subtracts the observed minimum and divides by the observed range."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:min-max-normalization-formula a cd:MathExpression ;
+    cd:latex "x_i' = \\frac{x_i - x_{\\min}}{x_{\\max} - x_{\\min}}, \\qquad x_{\\max} \\ne x_{\\min}" ;
+    cd:formulaFamily "min-max-normalization-zero-one" ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:min-max-range-interpretation a cd:Interpretation ;
+    cd:body "When parameters are estimated from the same dataset and the denominator is non-zero, the observed minimum maps to 0 and the observed maximum maps to 1. Values transformed later with those fixed parameters can fall outside [0,1] if they lie outside the original range."@en ;
+    cd:authoredResource true .
+
+  ex:min-max-extrema-sensitivity-interpretation a cd:Interpretation ;
+    cd:body "Min-max normalization depends directly on the selected minimum and maximum, so extreme observations can strongly change the scaling of all transformed values."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:min-max-constant-vector-interpretation a cd:Interpretation ;
+    cd:body "If all values are equal, then x_max = x_min and the usual min-max formula has a zero denominator; the transformation is undefined unless a separate constant-vector convention is stated explicitly."@en ;
+    cd:authoredResource true .
+
+  # Z-score standardization --------------------------------------------------
+  ex:z-score-standardization a cd:Concept ;
+    skos:prefLabel "z-score standardization"@en ;
+    cd:hasDefinition ex:def-z-score-standardization ;
+    cd:hasMathExpression ex:z-score-standardization-sample-formula,
+      ex:z-score-standardization-population-formula ;
+    cd:hasInterpretation ex:z-score-convention-interpretation,
+      ex:z-score-outlier-sensitivity-interpretation ;
+    cd:dependsOn ex:arithmetic-mean, ex:standard-deviation ;
+    cd:authoredResource true .
+
+  ex:def-z-score-standardization a cd:Definition ;
+    cd:body "Z-score standardization centers a numerical value by a mean and scales the centered value by a non-zero standard deviation defined under the same statistical convention."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:z-score-standardization-sample-formula a cd:MathExpression ;
+    cd:latex "z_i = \\frac{x_i - \\bar{x}}{s}, \\qquad s > 0" ;
+    cd:formulaFamily "sample-z-score-standardization" ;
+    cd:authoredResource true .
+
+  ex:z-score-standardization-population-formula a cd:MathExpression ;
+    cd:latex "z = \\frac{x - \\mu}{\\sigma}, \\qquad \\sigma > 0" ;
+    cd:formulaFamily "population-z-score-standardization" ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:z-score-convention-interpretation a cd:Interpretation ;
+    cd:body "Using the sample mean and the same sample-standard-deviation convention gives transformed sample values with sample mean 0 and sample standard deviation 1 when s is non-zero. Using population parameters gives population mean 0 and population standard deviation 1 when sigma is non-zero. The conventions must not be mixed silently."@en ;
+    cd:authoredResource true .
+
+  ex:z-score-outlier-sensitivity-interpretation a cd:Interpretation ;
+    cd:body "Ordinary mean-and-standard-deviation z-score standardization is not robust to outliers: extreme observations can affect both the centering mean and the scaling standard deviation."@en ;
+    cd:authoredResource true .
+
+  # Data harmonization -------------------------------------------------------
+  ex:data-harmonization a cd:Concept ;
+    skos:prefLabel "data harmonization"@en ;
+    cd:hasDefinition ex:def-data-harmonization ;
+    cd:hasInterpretation ex:data-harmonization-scope-interpretation ;
+    cd:authoredResource true .
+
+  ex:unit-harmonization a cd:Concept ;
+    skos:prefLabel "unit harmonization"@en ;
+    skos:broader ex:data-harmonization ;
+    cd:hasDefinition ex:def-unit-harmonization ;
+    cd:hasExample ex:worked-example-harmonized-concentrations ;
+    cd:authoredResource true .
+
+  ex:label-harmonization a cd:Concept ;
+    skos:prefLabel "label and schema harmonization"@en ;
+    skos:broader ex:data-harmonization ;
+    cd:hasDefinition ex:def-label-harmonization ;
+    cd:authoredResource true .
+
+  ex:def-data-harmonization a cd:Definition ;
+    cd:body "Data harmonization aligns compatible representations from different sources so they can be interpreted or processed consistently while preserving the meaning and provenance of the original data."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:data-harmonization-scope-interpretation a cd:Interpretation ;
+    cd:body "Harmonization can include compatible-unit conversion, controlled label or schema alignment, and other representation changes. It does not by itself establish that differently named variables measure the same quantity."@en ;
+    cd:authoredResource true .
+
+  ex:def-unit-harmonization a cd:Definition ;
+    cd:body "Unit harmonization converts quantitative values to compatible units using a dimensionally valid conversion and an explicit conversion factor; values already expressed in the target unit remain numerically unchanged."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:def-label-harmonization a cd:Definition ;
+    cd:body "Label and schema harmonization aligns field names or categorical labels to an agreed representation only after their intended meanings have been matched; renaming alone is not evidence of semantic equivalence."@en ;
+    cd:hasSource ex:source-chemometrics-signal-processing-pinned ;
+    cd:authoredResource true .
+
+  ex:worked-example-harmonized-concentrations a cd:WorkedExample ;
+    skos:prefLabel "corrected concentration-unit harmonization example"@en ;
+    cd:body "Target unit: µg/L. Table A Fe is already 0.1, 0.2 and 0.3 µg/L and therefore remains 0.1, 0.2 and 0.3 µg/L. Table A Cu values 0.2, 0.3 and 0.4 mg/L become 200, 300 and 400 µg/L. Table B Fe values 0.0003, 0.0007 and 0.0011 mg/L become 0.3, 0.7 and 1.1 µg/L. Table B Cu values 0.15, 0.25 and 0.335 mg/L become 150, 250 and 335 µg/L."@en ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/sources/chemometrics-signal-processing> {
+  ex:source-chemometrics-signal-processing-pinned a cd:Source ;
+    dct:title "Chemometrics and Statistics — 09. Signal Processing" ;
+    dct:creator "Gerrit Renner" ;
+    dct:identifier "GeRe87/chemometrics_lecture@db2c5ef266641399c2b495646064e16cfdd473e4:topics/09_SignalProcessing.html#blob=1ac2cee2ea96d42c077fff12901f9783ff6efc7c" ;
+    dct:source <https://github.com/GeRe87/chemometrics_lecture/blob/db2c5ef266641399c2b495646064e16cfdd473e4/topics/09_SignalProcessing.html> ;
+    cd:supportsResource
+      ex:def-analytical-signal-processing,
+      ex:analytical-signal-influences-interpretation,
+      ex:def-min-max-normalization,
+      ex:min-max-normalization-formula,
+      ex:min-max-extrema-sensitivity-interpretation,
+      ex:def-z-score-standardization,
+      ex:z-score-standardization-population-formula,
+      ex:def-data-harmonization,
+      ex:def-unit-harmonization,
+      ex:def-label-harmonization ;
+    cd:authoredResource true .
+}
