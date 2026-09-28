@@ -39,6 +39,26 @@ function layoutSlotAttribute(
   if (layoutDensity) node.setAttribute("data-layout-density", layoutDensity);
 }
 
+function blockPresentationAttributes(
+  node: MinimalElement,
+  block: SceneBlock,
+  layoutSlot?: string,
+  layoutDensity?: "comfortable" | "dense" | "compact",
+): void {
+  layoutSlotAttribute(node, layoutSlot, layoutDensity);
+  const disclosure = block.disclosure;
+  if (disclosure?.mode !== "progressive" || disclosure.step === undefined) return;
+
+  node.setAttribute("data-presentation-disclosure-mode", "progressive");
+  node.setAttribute("data-presentation-disclosure-step", String(disclosure.step));
+  node.setAttribute(
+    "data-presentation-disclosure-trigger-resource-id",
+    disclosure.triggerResourceId ?? "",
+  );
+  node.setAttribute("data-presentation-disclosure-visible", "false");
+  node.setAttribute("aria-hidden", "true");
+}
+
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
   if (block.chartType === "bar") {
     const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
@@ -46,6 +66,7 @@ function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): str
       block.label,
       block.description,
       ...block.data.map((datum) => `${datum.category}: ${datum.value}${unit}`),
+      ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
     ].join("\n");
   }
 
@@ -89,7 +110,7 @@ function appendBlock(
   if (block.kind === "math") {
     const node = dom.createElement("div");
     node.className = "math-display";
-    layoutSlotAttribute(node, layoutSlot, layoutDensity);
+    blockPresentationAttributes(node, block, layoutSlot, layoutDensity);
     node.setAttribute("role", "math");
     node.setAttribute("aria-label", block.spokenText);
     node.innerHTML = katex.renderToString(block.expression, {
@@ -106,7 +127,7 @@ function appendBlock(
   if (block.kind === "code") {
     const shell = dom.createElement("div");
     shell.className = "code-block";
-    layoutSlotAttribute(shell, layoutSlot, layoutDensity);
+    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-code-block-id", block.id);
     shell.setAttribute("data-language", block.language);
     shell.setAttribute("data-editable", String(block.editable));
@@ -124,7 +145,7 @@ function appendBlock(
   if (block.kind === "media-reference") {
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
-    layoutSlotAttribute(figure, layoutSlot, layoutDensity);
+    blockPresentationAttributes(figure, block, layoutSlot, layoutDensity);
     figure.setAttribute("data-media-block-id", block.id);
     figure.setAttribute("data-media-uri", block.uri);
     if (block.mediaType) figure.setAttribute("data-media-type", block.mediaType);
@@ -158,7 +179,7 @@ function appendBlock(
   if (block.kind === "definition-list") {
     const list = dom.createElement("dl");
     list.className = "definition-list";
-    layoutSlotAttribute(list, layoutSlot, layoutDensity);
+    blockPresentationAttributes(list, block, layoutSlot, layoutDensity);
     sourceAttributes(list, block.source);
     block.entries.forEach((entry, index) => {
       const entryShell = dom.createElement("div");
@@ -190,7 +211,7 @@ function appendBlock(
   if (block.kind === "table") {
     const table = dom.createElement("table");
     table.className = "data-table";
-    layoutSlotAttribute(table, layoutSlot, layoutDensity);
+    blockPresentationAttributes(table, block, layoutSlot, layoutDensity);
     table.setAttribute("data-table-block-id", block.id);
     if (block.description) table.setAttribute("aria-description", block.description);
     sourceAttributes(table, block.source);
@@ -233,7 +254,7 @@ function appendBlock(
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
-    layoutSlotAttribute(shell, layoutSlot, layoutDensity);
+    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-group-block-id", block.id);
     sourceAttributes(shell, block.source);
     for (const childId of block.readingOrder) {
@@ -247,7 +268,7 @@ function appendBlock(
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
-    layoutSlotAttribute(list, layoutSlot, layoutDensity);
+    blockPresentationAttributes(list, block, layoutSlot, layoutDensity);
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
@@ -265,7 +286,7 @@ function appendBlock(
   if (block.kind === "prompt") {
     const shell = dom.createElement("div");
     shell.className = "live-poll";
-    layoutSlotAttribute(shell, layoutSlot, layoutDensity);
+    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
     const optionIds = block.source.slice(1).map((source) => source.resourceId);
     if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
@@ -290,7 +311,7 @@ function appendBlock(
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
-    layoutSlotAttribute(shell, layoutSlot, layoutDensity);
+    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
@@ -313,9 +334,19 @@ function appendBlock(
   if (block.kind === "chart") {
     const shell = dom.createElement("div");
     shell.className = "d3-chart-host retro-neon-chart-window";
-    layoutSlotAttribute(shell, layoutSlot, layoutDensity);
+    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
+    const stageResourceIds = [
+      ...block.source.map((source) => source.resourceId),
+      ...(block.annotations ?? []).flatMap((annotation) =>
+        annotation.source.map((source) => source.resourceId)
+      ),
+    ];
+    shell.setAttribute(
+      "data-presentation-step-resource-id",
+      [...new Set(stageResourceIds)].join(" "),
+    );
     shell.setAttribute("role", "group");
     shell.setAttribute("aria-label", block.label);
     sourceAttributes(shell, block.source);
@@ -328,7 +359,7 @@ function appendBlock(
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
-  layoutSlotAttribute(node, layoutSlot, layoutDensity);
+  blockPresentationAttributes(node, block, layoutSlot, layoutDensity);
   if (tag === "h2") node.setAttribute("id", headingId);
   node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
