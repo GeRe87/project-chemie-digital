@@ -1,29 +1,29 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 189,
-  "expectedDeliverable": "Implement #189 generic semantic progressive disclosure: project bar-chart annotations, derive block disclosure from LearningResource evidence relations, expose disclosure in DOM/runtime, and stage table/conclusion without topic identity checks.",
-  "lastCompletedTurn": "manager: authorized integrated #189 semantic evidence/disclosure implementation on PR #185; system worker claimed only its bounded ontology/content or compiler/renderer responsibilities.",
-  "lastUpdated": "2026-09-28T17:22:00+02:00",
+  "expectedDeliverable": "Review #189 System implementation on PR #185 after owner-local semantics/core/D3/pitch tests and browser smoke. Verify resource-triggered progressive disclosure, semantic BarChart focus, geometry preservation, identity-free compiler/runtime policy, and no regressions to #188 staged navigation. Then coordinate full npm test and final validator.",
+  "lastCompletedTurn": "worker: completed #189 System work: generic semantic disclosure contract, BarChart annotation projection support, resource-triggered pitch disclosure, geometry-preserving visibility, semantic D3 focus and generic regressions; returned to manager for local verification and browser smoke.",
+  "lastUpdated": "2026-09-28T17:51:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
-    "claimedAt": "2026-09-28T17:22:00+02:00",
-    "expiresAt": "2026-09-28T19:22:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 266,
+  "blockedBy": [
+    "Issue #189 requires owner-local SHACL/core/D3/pitch/semantic-disclosure/Introduction focused tests",
+    "Issue #189 requires fresh browser smoke of semantic progressive disclosure via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance",
+    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 267,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T14:58:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-browser-followup-20260928T145800+0200",
-      "reason": "Authorized a bounded #188 browser follow-up: delay stage lock until Reveal settles, avoid global overflow suppression, unlock on exit, and replace dark blob highlights with layered inhomogeneous marker strokes."
-    },
     {
       "at": "2026-09-28T14:59:00+02:00",
       "from": "ready/worker",
@@ -191,6 +191,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
       "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
+    },
+    {
+      "at": "2026-09-28T17:51:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
+      "reason": "Completed #189 semantic evidence-driven disclosure implementation and focused regressions; returned to manager for owner-local verification, browser smoke, full suite and final acceptance gates."
     }
   ]
 }
