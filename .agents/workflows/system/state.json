@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Sixth #188 browser follow-up: direct terminal slide navigation is still blocked by the active stage lock before slidechanged. Add a generic synchronous staged-exit signal before terminal slide(h,v,f); mountPresentationStageLock must consume that signal and unlock immediately so fragmenthidden/scroll restoration cannot pull the viewport back during programmatic slide transition. Preserve settled-entry relock and all internal fragment navigation.",
-  "lastCompletedTurn": "manager: browser smoke shows direct slide(h,v,f) no longer loops but still cannot leave the staged slide. Root cause: stage lock remains active until slidechanged and restores old position during terminal transition fragment events. Authorized synchronous unlock-before-slide follow-up.",
-  "lastUpdated": "2026-09-28T16:31:00+02:00",
+  "lastCompletedTurn": "worker: claimed synchronous unlock-before-slide lifecycle fix.",
+  "lastUpdated": "2026-09-28T16:32:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
+    "claimedAt": "2026-09-28T16:32:00+02:00",
+    "expiresAt": "2026-09-28T18:32:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 260,
+  "stateRevision": 261,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T12:27:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
-      "reason": "Claimed System Issue #186 to add deterministic generic Reveal fit decisions (variant+density), DOM markers, density-aware case-study CSS and renderer regressions on the current integration branch; no identity-specific renderer logic."
-    },
     {
       "at": "2026-09-28T12:44:00+02:00",
       "from": "busy/worker",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-unlock-before-slide-20260928T163100+0200",
       "reason": "Authorized bounded #188 lifecycle fix: terminal staged navigation must synchronously release the active lock before direct slide(h,v,f), preventing fragmenthidden scroll restoration from blocking the programmatic slide transition."
+    },
+    {
+      "at": "2026-09-28T16:32:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
+      "reason": "Claimed bounded lifecycle fix: synchronous staged-exit unlock must precede direct slide navigation."
     }
   ]
 }
