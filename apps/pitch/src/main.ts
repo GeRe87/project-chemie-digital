@@ -152,6 +152,18 @@ function applyDiagramThemeMarker(): void {
 
 applyThemeMarker(currentTheme);
 applyDiagramThemeMarker();
+document.body.dataset.presentationReadability = appearance.readability;
+
+if (appearance.readability === "lecture") {
+  for (const section of Array.from(root.querySelectorAll<HTMLElement>('section[data-lecture-budget="over-budget"]'))) {
+    const score = section.dataset.lectureBudgetScore ?? "unknown";
+    const regions = section.dataset.lecturePrimaryRegions ?? "unknown";
+    console.warn(
+      `[lecture-budget] Slide '${section.id || "unknown"}' exceeds the lecture content budget `
+      + `(score=${score}, primaryRegions=${regions}). Split or simplify the slide instead of shrinking typography.`,
+    );
+  }
+}
 
 const runtimeBackgroundPacks = backgroundPackRegistry.map((pack) => ({
   ...pack,
