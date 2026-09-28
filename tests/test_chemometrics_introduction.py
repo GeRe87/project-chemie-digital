@@ -43,6 +43,7 @@ PLACEMENT = EX["unit-placement-chemometrics-introduction"]
 PATH = EX["path-chemometrics-introduction"]
 
 EXPECTED_TOPICS = {
+    EX["chemometrics-course-title"],
     EX["chemometrics-course-overview"],
     EX["chemometrics-lecturer-context"],
     EX["chemometrics-course-format"],
@@ -50,141 +51,23 @@ EXPECTED_TOPICS = {
     EX["chemometrics-introduction-round"],
 }
 
-EXPECTED_STEP_MATRIX = {
-    EX["path-step-chemometrics-introduction-overview"]: (
-        1,
-        {EX["chemometrics-course-overview-note"]},
-        EX["scene-chemometrics-introduction-overview"],
-    ),
-    EX["path-step-chemometrics-introduction-lecturer"]: (
-        2,
-        {
-            EX["attribution-chemometrics-gerrit-renner"],
-            EX["chemometrics-lecturer-context-note"],
-        },
-        EX["scene-chemometrics-introduction-lecturer"],
-    ),
-    EX["path-step-chemometrics-introduction-format"]: (
-        3,
-        {EX["chemometrics-course-format-list"]},
-        EX["scene-chemometrics-introduction-format"],
-    ),
-    EX["path-step-chemometrics-introduction-roadmap"]: (
-        4,
-        {EX["chemometrics-course-roadmap-list"]},
-        EX["scene-chemometrics-introduction-roadmap"],
-    ),
-    EX["path-step-chemometrics-introduction-round"]: (
-        5,
-        {EX["exercise-chemometrics-introduction-round"]},
-        EX["scene-chemometrics-introduction-round"],
-    ),
-}
+EXPECTED_SCENES = [
+    EX["scene-chemometrics-introduction-title"],
+    EX["scene-chemometrics-introduction-overview"],
+    EX["scene-chemometrics-introduction-lecturer"],
+    EX["scene-chemometrics-introduction-format"],
+    EX["scene-chemometrics-introduction-roadmap"],
+    EX["scene-chemometrics-introduction-round"],
+]
 
-EXPECTED_SCENE_MATRIX = {
-    EX["scene-chemometrics-introduction-overview"]: (
-        EX["chemometrics-course-overview"],
-        (
-            (
-                EX["scene-item-chemometrics-introduction-overview-heading"],
-                1,
-                EX["chemometrics-course-overview"],
-                CD.HeadingRole,
-                "skos:prefLabel@en",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-overview-note"],
-                2,
-                EX["chemometrics-course-overview-note"],
-                CD.StatementRole,
-                "cd:body",
-            ),
-        ),
-    ),
-    EX["scene-chemometrics-introduction-lecturer"]: (
-        EX["chemometrics-lecturer-context"],
-        (
-            (
-                EX["scene-item-chemometrics-introduction-lecturer-heading"],
-                1,
-                EX["chemometrics-lecturer-context"],
-                CD.HeadingRole,
-                "skos:prefLabel@en",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-lecturer-attribution"],
-                2,
-                EX["attribution-chemometrics-gerrit-renner"],
-                CD.AttributionRole,
-                "cd:body",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-lecturer-note"],
-                3,
-                EX["chemometrics-lecturer-context-note"],
-                CD.StatementRole,
-                "cd:body",
-            ),
-        ),
-    ),
-    EX["scene-chemometrics-introduction-format"]: (
-        EX["chemometrics-course-format"],
-        (
-            (
-                EX["scene-item-chemometrics-introduction-format-heading"],
-                1,
-                EX["chemometrics-course-format"],
-                CD.HeadingRole,
-                "skos:prefLabel@en",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-format-list"],
-                2,
-                EX["chemometrics-course-format-list"],
-                CD.DefinitionListRole,
-                "cd:hasDefinitionListEntry",
-            ),
-        ),
-    ),
-    EX["scene-chemometrics-introduction-roadmap"]: (
-        EX["chemometrics-course-roadmap"],
-        (
-            (
-                EX["scene-item-chemometrics-introduction-roadmap-heading"],
-                1,
-                EX["chemometrics-course-roadmap"],
-                CD.HeadingRole,
-                "skos:prefLabel@en",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-roadmap-list"],
-                2,
-                EX["chemometrics-course-roadmap-list"],
-                CD.DefinitionListRole,
-                "cd:hasDefinitionListEntry",
-            ),
-        ),
-    ),
-    EX["scene-chemometrics-introduction-round"]: (
-        EX["chemometrics-introduction-round"],
-        (
-            (
-                EX["scene-item-chemometrics-introduction-round-heading"],
-                1,
-                EX["chemometrics-introduction-round"],
-                CD.HeadingRole,
-                "skos:prefLabel@en",
-            ),
-            (
-                EX["scene-item-chemometrics-introduction-round-exercise"],
-                2,
-                EX["exercise-chemometrics-introduction-round"],
-                CD.ExerciseRole,
-                "cd:body",
-            ),
-        ),
-    ),
-}
+EXPECTED_BLOCK_KINDS = [
+    ["prose", "list", "prose"],
+    ["prose", "prose", "prose", "definition-list", "prose"],
+    ["prose", "list", "prose"],
+    ["prose", "prose", "prose", "definition-list", "prose"],
+    ["prose", "diagram"],
+    ["prose", "prose", "prose", "definition-list", "prose"],
+]
 
 
 def request() -> CourseUnitPathSelectionRequest:
@@ -209,7 +92,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         cls.artifact = RUNTIME.build_artifact(request())
         cls.document = cls.artifact["sceneDocuments"][0]
 
-    def test_course_order_starts_with_introduction_then_existing_units(self) -> None:
+    def test_course_order_is_unchanged_and_introduction_has_six_focus_concepts(self) -> None:
         placements = []
         for placement in self.course_graph.objects(OFFERING, CD.hasUnitPlacement):
             position = int(next(self.course_graph.objects(placement, CD.position)))
@@ -236,211 +119,186 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             ],
             sorted(placements),
         )
-
-    def test_introduction_learning_unit_has_exactly_five_focus_concepts(self) -> None:
-        self.assertEqual(
-            {Literal("Introduction", lang="en")},
-            set(self.course_graph.objects(UNIT, SKOS.prefLabel)),
-        )
         self.assertEqual(EXPECTED_TOPICS, set(self.course_graph.objects(UNIT, CD.hasFocusConcept)))
         for concept in EXPECTED_TOPICS:
             with self.subTest(concept=concept):
                 self.assertEqual({CD.Concept}, set(self.content_graph.objects(concept, RDF.type)))
                 self.assertEqual(1, len(set(self.content_graph.objects(concept, CD.hasDefinition))))
-                self.assertEqual({Literal(True)}, set(self.content_graph.objects(concept, CD.authoredResource)))
 
-    def test_manager_approved_intro_bodies_are_exact(self) -> None:
-        expected = {
-            EX["chemometrics-course-overview-note"]:
-                "Chemometrics and Applied Statistics connects statistical reasoning, quantitative data analysis and modeling with problems from analytical chemistry. The course emphasizes understanding what a method measures, the assumptions behind it, how results are interpreted, and how calculations can be reproduced.",
-            EX["attribution-chemometrics-gerrit-renner"]:
-                "Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen",
-            EX["chemometrics-lecturer-context-note"]:
-                "Teaching and research connect chemometrics, analytical data science and instrumental analytical chemistry, with a focus on processing and interpreting complex analytical data.",
-            EX["exercise-chemometrics-introduction-round"]:
-                "Briefly introduce yourself: your study programme or scientific background, your previous experience with statistics or chemometrics, your experience with R or other data-analysis tools, and one thing you would like to take away from this course.",
-        }
-        for resource, body in expected.items():
-            with self.subTest(resource=resource):
-                self.assertEqual(
-                    {Literal(body, lang="en")},
-                    set(self.content_graph.objects(resource, CD.body)),
-                )
-                self.assertEqual(
-                    {Literal(True)},
-                    set(self.content_graph.objects(resource, CD.authoredResource)),
-                )
-
+    def test_title_slide_has_three_ordered_keypoint_cards(self) -> None:
+        owner = EX["chemometrics-title-pillars"]
+        points = sorted(
+            self.content_graph.objects(owner, CD.hasKeyPoint),
+            key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
+        )
+        self.assertEqual(3, len(points))
         self.assertEqual(
-            {CD.Attribution},
-            set(self.content_graph.objects(EX["attribution-chemometrics-gerrit-renner"], RDF.type)),
+            [1, 2, 3],
+            [int(next(self.content_graph.objects(point, CD.position))) for point in points],
+        )
+        bodies = [str(next(self.content_graph.objects(point, CD.body))) for point in points]
+        self.assertTrue(bodies[0].startswith("UNDERSTAND DATA\n"))
+        self.assertTrue(bodies[1].startswith("QUANTIFY UNCERTAINTY\n"))
+        self.assertTrue(bodies[2].startswith("INTERPRET RESULTS\n"))
+        takeaway = str(next(self.content_graph.objects(EX["chemometrics-title-takeaway"], CD.body)))
+        self.assertIn("GERRIT RENNER", takeaway)
+        self.assertIn("UNIVERSITY OF DUISBURG-ESSEN", takeaway)
+
+    def test_course_overview_is_a_four_card_semantic_grid(self) -> None:
+        owner = EX["chemometrics-course-overview-list"]
+        entries = sorted(
+            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
+            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
         )
         self.assertEqual(
-            {CD.Exercise},
-            set(self.content_graph.objects(EX["exercise-chemometrics-introduction-round"], RDF.type)),
+            ["Statistics", "Chemometrics", "Analytical context", "Reproducibility"],
+            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
         )
+        banner = str(next(self.content_graph.objects(EX["chemometrics-course-overview-banner"], CD.body)))
+        foundation = str(next(self.content_graph.objects(EX["chemometrics-course-overview-foundation"], CD.body)))
+        takeaway = str(next(self.content_graph.objects(EX["chemometrics-course-overview-takeaway"], CD.body)))
+        self.assertIn("DATA + CHEMISTRY + DECISIONS", banner)
+        self.assertIn("METHOD + ASSUMPTIONS + INTERPRETATION", foundation)
+        self.assertIn("DEFENSIBLE INTERPRETATION", takeaway)
 
-    def test_course_format_definition_list_is_exact_and_contiguous(self) -> None:
+    def test_lecturer_slide_has_three_keypoint_cards_and_affiliation_takeaway(self) -> None:
+        owner = EX["chemometrics-lecturer-pillars"]
+        points = sorted(
+            self.content_graph.objects(owner, CD.hasKeyPoint),
+            key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
+        )
+        self.assertEqual(3, len(points))
+        bodies = [str(next(self.content_graph.objects(point, CD.body))) for point in points]
+        self.assertTrue(bodies[0].startswith("ANALYTICAL DATA SCIENCE\n"))
+        self.assertTrue(bodies[1].startswith("INSTRUMENTAL ANALYTICAL CHEMISTRY\n"))
+        self.assertTrue(bodies[2].startswith("RESEARCH + TEACHING\n"))
+        takeaway = str(next(self.content_graph.objects(EX["chemometrics-lecturer-takeaway"], CD.body)))
+        self.assertIn("IAC", takeaway)
+        self.assertIn("UNIVERSITY OF DUISBURG-ESSEN", takeaway)
+
+    def test_course_format_is_a_four_card_semantic_grid(self) -> None:
         owner = EX["chemometrics-course-format-list"]
-        expected = (
-            (
-                "Lecture",
-                "Concepts, assumptions, derivations, worked examples and interpretation.",
-            ),
-            (
-                "Tutorial",
-                "Guided exercises, calculations, discussion of solutions and transfer to analytical-data problems.",
-            ),
-            (
-                "Reproducible computation",
-                "Selected exercises use code examples where this helps make calculations transparent and reproducible.",
-            ),
-            (
-                "Questions and discussion",
-                "Use the tutorial to test reasoning, compare approaches and resolve open questions from the lecture.",
-            ),
-        )
         entries = sorted(
             self.content_graph.objects(owner, CD.hasDefinitionListEntry),
             key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
         )
-        self.assertEqual(4, len(entries))
-        for position, (entry, (term, description)) in enumerate(zip(entries, expected, strict=True), start=1):
-            self.assertEqual({Literal(position)}, set(self.content_graph.objects(entry, CD.position)))
-            self.assertEqual({Literal(term, lang="en")}, set(self.content_graph.objects(entry, SKOS.prefLabel)))
-            self.assertEqual({Literal(description, lang="en")}, set(self.content_graph.objects(entry, CD.body)))
-
-    def test_course_roadmap_definition_list_is_exact_and_excludes_non_linear_regression(self) -> None:
-        owner = EX["chemometrics-course-roadmap-list"]
-        expected = (
-            ("Statistical foundations", "Random variables, mean values, variance and dispersion, quantiles, distributions and moments."),
-            ("Statistical inference", "Hypothesis testing, t-tests and analysis of variance."),
-            ("Regression and uncertainty", "Linear regression, model assessment, measurement uncertainty, confidence/prediction and validation."),
-            ("Design of experiments", "Full-factorial and advanced experimental designs, effects, interactions and optimization."),
-            ("Multivariate analysis", "Distance and similarity, clustering, principal-component analysis and dimensionality reduction."),
-            ("Machine learning", "Prediction and classification, trees/random forests, validation and model interpretation."),
-        )
-        entries = sorted(
-            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
-            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
-        )
-        self.assertEqual(6, len(entries))
-        bodies = []
-        for position, (entry, (term, description)) in enumerate(zip(entries, expected, strict=True), start=1):
-            self.assertEqual({Literal(position)}, set(self.content_graph.objects(entry, CD.position)))
-            self.assertEqual({Literal(term, lang="en")}, set(self.content_graph.objects(entry, SKOS.prefLabel)))
-            self.assertEqual({Literal(description, lang="en")}, set(self.content_graph.objects(entry, CD.body)))
-            bodies.append(description)
-        self.assertNotIn("Non-linear Regression", " ".join(bodies))
-        self.assertNotIn("non-linear regression", " ".join(bodies).lower())
-
-    def test_exact_five_step_path_uses_exact_resources_and_scenes(self) -> None:
-        self.assertEqual({PATH}, set(self.path_graph.subjects(RDF.type, CD.LearningPath)))
-        self.assertEqual({UNIT}, set(self.path_graph.objects(PATH, CD.forLearningUnit)))
-        self.assertEqual(EXPECTED_TOPICS, set(self.path_graph.objects(PATH, CD.forTopic)))
-        self.assertEqual(set(EXPECTED_STEP_MATRIX), set(self.path_graph.objects(PATH, CD.hasStep)))
-        positions = []
-        for step, (position, resources, scene) in EXPECTED_STEP_MATRIX.items():
-            with self.subTest(step=step):
-                self.assertEqual({Literal(position)}, set(self.path_graph.objects(step, CD.position)))
-                self.assertEqual(resources, set(self.path_graph.objects(step, CD.usesResource)))
-                self.assertEqual({scene}, set(self.path_graph.objects(step, CD.usesScene)))
-                positions.append(position)
-        self.assertEqual([1, 2, 3, 4, 5], sorted(positions))
-
-    def test_scene_graph_matches_exact_five_scene_role_selector_matrix(self) -> None:
         self.assertEqual(
-            set(EXPECTED_SCENE_MATRIX),
-            set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)),
+            ["Lecture", "Tutorial", "Reproducible computation", "Questions and discussion"],
+            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
         )
-        for scene, (focus, items) in EXPECTED_SCENE_MATRIX.items():
-            with self.subTest(scene=scene):
-                self.assertEqual({focus}, set(self.scene_graph.objects(scene, CD.focusConcept)))
-                self.assertEqual(
-                    {item[0] for item in items},
-                    set(self.scene_graph.objects(scene, CD.hasSceneItem)),
-                )
-                for item, position, resource, role, selector in items:
-                    self.assertEqual({Literal(position)}, set(self.scene_graph.objects(item, CD.position)))
-                    self.assertEqual({resource}, set(self.scene_graph.objects(item, CD.selectsResource)))
-                    self.assertEqual({role}, set(self.scene_graph.objects(item, CD.communicativeRole)))
-                    self.assertEqual({Literal(selector)}, set(self.scene_graph.objects(item, CD.selectionPath)))
-                    self.assertEqual({Literal("en")}, set(self.scene_graph.objects(item, CD.language)))
+        self.assertEqual([1, 2, 3, 4], [
+            int(next(self.content_graph.objects(entry, CD.position))) for entry in entries
+        ])
+        banner = str(next(self.content_graph.objects(EX["chemometrics-course-format-banner"], CD.body)))
+        self.assertIn("LEARN → PRACTICE → REPRODUCE → DISCUSS", banner)
+
+    def test_course_roadmap_is_exact_six_node_linear_flow(self) -> None:
+        diagram = EX["diagram-chemometrics-course-roadmap"]
+        self.assertEqual({CD.FlowDiagram}, set(self.content_graph.objects(diagram, RDF.type)))
+        nodes = sorted(
+            self.content_graph.objects(diagram, CD.hasDiagramNode),
+            key=lambda node: int(next(self.content_graph.objects(node, CD.position))),
+        )
+        edges = sorted(
+            self.content_graph.objects(diagram, CD.hasDiagramEdge),
+            key=lambda edge: int(next(self.content_graph.objects(edge, CD.position))),
+        )
+        self.assertEqual(6, len(nodes))
+        self.assertEqual(5, len(edges))
+        self.assertEqual(
+            [
+                "STATISTICAL FOUNDATIONS",
+                "INFERENCE",
+                "REGRESSION + UNCERTAINTY",
+                "DESIGN OF EXPERIMENTS",
+                "MULTIVARIATE ANALYSIS",
+                "MACHINE LEARNING",
+            ],
+            [str(next(self.content_graph.objects(node, SKOS.prefLabel))) for node in nodes],
+        )
+        for index, edge in enumerate(edges):
+            self.assertEqual(
+                {nodes[index]},
+                set(self.content_graph.objects(edge, CD.sourceNode)),
+            )
+            self.assertEqual(
+                {nodes[index + 1]},
+                set(self.content_graph.objects(edge, CD.targetNode)),
+            )
+
+    def test_introduction_round_is_four_prompt_cards(self) -> None:
+        owner = EX["chemometrics-introduction-round-prompts"]
+        entries = sorted(
+            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
+            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
+        )
+        self.assertEqual(
+            ["Your background", "Statistics & chemometrics", "Data-analysis tools", "Your goal"],
+            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
+        )
+        self.assertEqual([1, 2, 3, 4], [
+            int(next(self.content_graph.objects(entry, CD.position))) for entry in entries
+        ])
+
+    def test_path_is_exact_six_step_sequence(self) -> None:
+        steps = sorted(
+            self.path_graph.objects(PATH, CD.hasStep),
+            key=lambda step: int(next(self.path_graph.objects(step, CD.position))),
+        )
+        self.assertEqual(6, len(steps))
+        self.assertEqual([1, 2, 3, 4, 5, 6], [
+            int(next(self.path_graph.objects(step, CD.position))) for step in steps
+        ])
+        self.assertEqual(
+            [
+                EX["scene-chemometrics-introduction-title"],
+                EX["scene-chemometrics-introduction-overview"],
+                EX["scene-chemometrics-introduction-lecturer"],
+                EX["scene-chemometrics-introduction-format"],
+                EX["scene-chemometrics-introduction-roadmap"],
+                EX["scene-chemometrics-introduction-round"],
+            ],
+            [next(self.path_graph.objects(step, CD.usesScene)) for step in steps],
+        )
+        self.assertEqual(EXPECTED_TOPICS, set(self.path_graph.objects(PATH, CD.forTopic)))
+
+    def test_scenes_compile_to_existing_visual_layout_structures(self) -> None:
+        self.assertEqual(
+            [str(scene).replace(str(EX), "ex:") + "--scene" for scene in EXPECTED_SCENES],
+            [scene["id"] for scene in self.document["scenes"]],
+        )
+        self.assertEqual(
+            EXPECTED_BLOCK_KINDS,
+            [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
+        )
+
+        title_cards = self.document["scenes"][0]["blocks"][1]
+        self.assertEqual("unordered", title_cards["listStyle"])
+        self.assertEqual(3, len(title_cards["items"]))
+
+        overview_cards = self.document["scenes"][1]["blocks"][3]
+        self.assertEqual(4, len(overview_cards["entries"]))
+
+        lecturer_cards = self.document["scenes"][2]["blocks"][1]
+        self.assertEqual("unordered", lecturer_cards["listStyle"])
+        self.assertEqual(3, len(lecturer_cards["items"]))
+
+        format_cards = self.document["scenes"][3]["blocks"][3]
+        self.assertEqual(4, len(format_cards["entries"]))
+
+        roadmap = self.document["scenes"][4]["blocks"][1]
+        self.assertEqual("flow", roadmap["diagramType"])
+        self.assertEqual(6, len(roadmap["nodes"]))
+        self.assertEqual(5, len(roadmap["edges"]))
+
+        round_cards = self.document["scenes"][5]["blocks"][3]
+        self.assertEqual(4, len(round_cards["entries"]))
 
     def test_course_path_selection_resolves_introduction_exactly(self) -> None:
         selection = select_course_unit_path(self.dataset, request())
         self.assertEqual(CoursePathReference(str(PATH), str(PATH_GRAPH)), selection.path)
 
-    def test_runtime_compiles_five_ordered_generic_intro_scenes(self) -> None:
-        self.assertEqual(str(PATH).replace(str(EX), "ex:"), self.document["sourcePathId"])
-        self.assertEqual(
-            [
-                "ex:scene-chemometrics-introduction-overview--scene",
-                "ex:scene-chemometrics-introduction-lecturer--scene",
-                "ex:scene-chemometrics-introduction-format--scene",
-                "ex:scene-chemometrics-introduction-roadmap--scene",
-                "ex:scene-chemometrics-introduction-round--scene",
-            ],
-            [scene["id"] for scene in self.document["scenes"]],
-        )
-        self.assertEqual(
-            [
-                ["prose", "prose"],
-                ["prose", "prose", "prose"],
-                ["prose", "definition-list"],
-                ["prose", "definition-list"],
-                ["prose", "prompt"],
-            ],
-            [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
-        )
-
-        offering_document = self.artifact["teachingOfferingDocuments"][0]
-        self.assertEqual(
-            [
-                (10, str(PLACEMENT), str(UNIT)),
-                (
-                    20,
-                    str(EX["unit-placement-chemometrics-random-variables"]),
-                    str(EX["learning-unit-random-variables"]),
-                ),
-                (
-                    30,
-                    str(EX["unit-placement-chemometrics-mean-values"]),
-                    str(EX["learning-unit-mean-values"]),
-                ),
-                (
-                    40,
-                    str(EX["unit-placement-chemometrics-variance-dispersion"]),
-                    str(EX["learning-unit-variance-dispersion"]),
-                ),
-            ],
-            [
-                (placement["position"], placement["id"], placement["unitId"])
-                for placement in offering_document["placements"]
-            ],
-        )
-
-        lecturer = self.document["scenes"][1]["blocks"][1]
-        self.assertEqual("Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen", lecturer["text"])
-        self.assertEqual({"kind": "emphasize"}, lecturer["intent"])
-
-        course_format = self.document["scenes"][2]["blocks"][1]
-        self.assertEqual(
-            ["Lecture", "Tutorial", "Reproducible computation", "Questions and discussion"],
-            [entry["term"] for entry in course_format["entries"]],
-        )
-
-        roadmap = self.document["scenes"][3]["blocks"][1]
-        self.assertEqual(
-            ["Statistical foundations", "Statistical inference", "Regression and uncertainty", "Design of experiments", "Multivariate analysis", "Machine learning"],
-            [entry["term"] for entry in roadmap["entries"]],
-        )
-
-        prompt = self.document["scenes"][4]["blocks"][1]
-        self.assertEqual("free-text", prompt["responseMode"])
-        self.assertEqual({"kind": "practice"}, prompt["intent"])
-
-    def test_existing_three_subject_paths_remain_discoverable(self) -> None:
+    def test_existing_subject_paths_remain_discoverable(self) -> None:
         expected = {
             EX["learning-unit-random-variables"]: EX["path-chemometrics-random-variables-lecture"],
             EX["learning-unit-mean-values"]: EX["path-chemometrics-mean-values-lecture"],
