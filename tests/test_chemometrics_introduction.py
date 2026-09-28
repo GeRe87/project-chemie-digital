@@ -195,6 +195,17 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertIn("Repeated measurements vary", str(next(self.content_graph.objects(discussion[1], CD.body))))
         self.assertIn("defensible decision", str(next(self.content_graph.objects(discussion[2], CD.body))))
 
+    def test_nitrate_case_study_asset_is_local_transparent_svg(self) -> None:
+        asset = ROOT / "apps" / "pitch" / "public" / "chemometrics" / "nitrate-water-samples.svg"
+        self.assertTrue(asset.is_file())
+        svg = asset.read_text(encoding="utf-8")
+        self.assertIn("<svg", svg)
+        self.assertIn('viewBox="0 0 720 520"', svg)
+        self.assertIn(">A</text>", svg)
+        self.assertIn(">B</text>", svg)
+        self.assertIn(">C</text>", svg)
+        self.assertNotIn("<rect width=\"720\" height=\"520\"", svg)
+
     def test_lecturer_slide_has_three_keypoint_cards_and_affiliation_takeaway(self) -> None:
         owner = EX["chemometrics-lecturer-pillars"]
         points = sorted(
