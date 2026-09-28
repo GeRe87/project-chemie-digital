@@ -101,6 +101,8 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     cd:yAxisLabel "Mean nitrate concentration"@en ;
     cd:yAxisUnit "mg/L" ;
     cd:usesDataset ex:dataset-chemometrics-nitrate-means ;
+    cd:derivedFromResource ex:table-chemometrics-nitrate-replicates ;
+    cd:hasChartAnnotation ex:annotation-chemometrics-nitrate-runoff-high ;
     cd:authoredResource true .
 
   ex:dataset-chemometrics-nitrate-means a cd:Dataset ;
@@ -120,8 +122,15 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     skos:prefLabel "C · runoff"@en ;
     cd:position 3 ; cd:numericValue 18.925 ; cd:authoredResource true .
 
+  ex:annotation-chemometrics-nitrate-runoff-high a cd:ChartPointAnnotation ;
+    cd:position 1 ;
+    cd:body "Sample C has the highest mean nitrate concentration."@en ;
+    cd:targetObservation ex:observation-nitrate-mean-c ;
+    cd:authoredResource true .
+
   ex:chemometrics-nitrate-case-discussion a cd:Interpretation ;
     cd:body "The result is useful only when level and variation are interpreted together."@en ;
+    cd:interpretsResource ex:annotation-chemometrics-nitrate-runoff-high ;
     cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest,
       ex:chemometrics-nitrate-discussion-variation ;
     cd:authoredResource true .
