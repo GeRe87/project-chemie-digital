@@ -28,10 +28,11 @@
 
   ex:path-step-chemometrics-introduction-overview a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:chemometrics-course-overview-banner,
-      ex:chemometrics-course-overview-foundation,
-      ex:chemometrics-course-overview-list,
-      ex:chemometrics-course-overview-takeaway ;
+    cd:usesResource ex:chemometrics-nitrate-case-problem,
+      ex:table-chemometrics-nitrate-replicates,
+      ex:chart-chemometrics-nitrate-means,
+      ex:chemometrics-nitrate-case-discussion,
+      ex:chemometrics-nitrate-case-takeaway ;
     cd:usesScene ex:scene-chemometrics-introduction-overview ;
     cd:authoredResource true .
 
