@@ -211,6 +211,96 @@ function analysisResultScene(id: string): Scene {
   };
 }
 
+function caseStudyScene(id: string): Scene {
+  const problemText = prose("block:problem-text", "explain");
+  const problem = {
+    id: "block:problem",
+    kind: "group" as const,
+    children: [
+      problemText,
+      {
+        id: "block:problem-media",
+        kind: "media-reference" as const,
+        uri: "/assets/sample.svg",
+        mediaType: "image/svg+xml",
+        alternativeText: "Illustrative samples",
+        source: [{ resourceId: "resource:sample-media" }],
+      },
+    ],
+    readingOrder: ["block:problem-text", "block:problem-media"],
+    source: [{ resourceId: "resource:problem" }],
+  };
+  const data = {
+    id: "block:data",
+    kind: "table" as const,
+    caption: "Illustrative data",
+    columns: [
+      { id: "column:sample", label: "Sample", source: [{ resourceId: "resource:column:sample" }] },
+      { id: "column:value", label: "Value", source: [{ resourceId: "resource:column:value" }] },
+    ],
+    rows: [{
+      id: "row:1",
+      source: [{ resourceId: "resource:row:1" }],
+      cells: [
+        { id: "cell:sample", text: "A", source: [{ resourceId: "resource:cell:sample" }] },
+        { id: "cell:value", text: "1.0", source: [{ resourceId: "resource:cell:value" }] },
+      ],
+    }],
+    source: [{ resourceId: "resource:data" }],
+  };
+  const analysis = {
+    id: "block:analysis",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Illustrative analysis",
+    description: "Three means",
+    xAxis: { label: "Sample" },
+    yAxis: { label: "Mean" },
+    series: [{
+      id: "series:1",
+      label: "Mean",
+      data: [
+        { id: "datum:a", category: "A", y: 1, source: [{ resourceId: "resource:datum:a" }] },
+        { id: "datum:b", category: "B", y: 2, source: [{ resourceId: "resource:datum:b" }] },
+        { id: "datum:c", category: "C", y: 3, source: [{ resourceId: "resource:datum:c" }] },
+      ],
+      source: [{ resourceId: "resource:series" }],
+    }],
+    source: [{ resourceId: "resource:analysis" }],
+  };
+  const discussion = {
+    id: "block:discussion",
+    kind: "list" as const,
+    listStyle: "unordered" as const,
+    items: Array.from({ length: 3 }, (_, index) => ({
+      id: `discussion:${index + 1}`,
+      text: `Observation ${index + 1}`,
+      source: [{ resourceId: `resource:discussion:${index + 1}` }],
+    })),
+    source: [{ resourceId: "resource:discussion" }],
+  };
+  return {
+    id,
+    source: [{ resourceId: "resource:case-study" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      problem,
+      data,
+      analysis,
+      discussion,
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: [
+      "block:heading",
+      "block:problem",
+      "block:data",
+      "block:analysis",
+      "block:discussion",
+      "block:takeaway",
+    ],
+  };
+}
+
 function cardSequenceScene(id: string): Scene {
   return {
     id,
@@ -655,6 +745,14 @@ test("infers data-explanation from list and table structure without identity", (
   ]);
 });
 
+
+test("infers generic case-study from image problem, table, chart and discussion without identity", () => {
+  assert.equal(inferRevealLayoutFamily(caseStudyScene("scene:case-study")), "case-study");
+  assert.equal(inferRevealLayoutFamily(caseStudyScene("opaque:anything")), "case-study");
+  assert.deepEqual(inferRevealLayoutDecision(caseStudyScene("scene:slots"))?.slots, [
+    "heading", "problem", "data", "analysis", "discussion", "takeaway",
+  ]);
+});
 
 test("infers analysis-result from chart table and flow without identity", () => {
   assert.equal(inferRevealLayoutFamily(analysisResultScene("scene:alpha")), "analysis-result");
