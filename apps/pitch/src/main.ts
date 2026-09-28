@@ -48,6 +48,7 @@ import { mountPresentationProjections } from "./presentation-projection.ts";
 import { mountPresentationClock } from "./presentation-clock.ts";
 import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
+  mountPresentationStageLock,
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
@@ -234,6 +235,7 @@ const deck = new Reveal({
 });
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
+const unmountPresentationStageLock = mountPresentationStageLock(root, deck, window);
 
 const presentationVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
@@ -249,9 +251,10 @@ function syncNavigationMode(): void {
   const sameConceptSequence = current?.dataset.layout === "concept-specification"
     && next?.dataset.layout === current.dataset.layout;
   const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
+  const stagedSlide = current?.dataset.stageLock === "true";
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
-    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
+    appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence || stagedSlide),
   );
 }
 
@@ -322,7 +325,8 @@ const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
   const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
-    || currentSlide?.dataset.layout === "full-media";
+    || currentSlide?.dataset.layout === "full-media"
+    || currentSlide?.dataset.stageLock === "true";
   if (appearance.view === "scroll" && freezeForLayout) return;
   backgroundRuntime.setProgress(offset);
 });
@@ -364,6 +368,7 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
+  unmountPresentationStageLock();
   unmountPresentationSteps();
   unmountPresentationProjection();
   unmountPresentationLaserPointer();
