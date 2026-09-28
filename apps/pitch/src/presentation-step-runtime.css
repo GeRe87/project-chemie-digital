@@ -92,3 +92,29 @@ body.pcd-stage-lock-active .reveal {
   position: absolute !important;
   inset: auto !important;
 }
+
+
+/* Semantic progressive disclosure reserves the authored layout slot. Content
+   visibility changes with the staged resource that semantically triggers it,
+   never by removing the block from layout flow. */
+[data-presentation-disclosure-mode="progressive"] {
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+
+[data-presentation-disclosure-mode="progressive"][data-presentation-disclosure-visible="false"] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-presentation-disclosure-mode="progressive"][data-presentation-disclosure-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-presentation-disclosure-mode="progressive"] {
+    transition: none !important;
+  }
+}
