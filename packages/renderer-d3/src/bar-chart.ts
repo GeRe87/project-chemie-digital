@@ -5,6 +5,39 @@ export interface D3BarChartOptions {
   readonly reducedMotion: boolean;
   readonly density?: "comfortable" | "dense" | "compact";
 }
+export interface D3BarChartGeometry {
+  readonly minimumWidth: number;
+  readonly minimumHeight: number;
+  readonly heightRatio: number;
+  readonly margin: { readonly top: number; readonly right: number; readonly bottom: number; readonly left: number };
+}
+
+export function barChartGeometryForDensity(
+  density: D3BarChartOptions["density"] = "comfortable",
+): D3BarChartGeometry {
+  if (density === "compact") {
+    return {
+      minimumWidth: 420,
+      minimumHeight: 310,
+      heightRatio: 0.48,
+      margin: { top: 34, right: 18, bottom: 68, left: 58 },
+    };
+  }
+  if (density === "dense") {
+    return {
+      minimumWidth: 500,
+      minimumHeight: 350,
+      heightRatio: 0.5,
+      margin: { top: 40, right: 22, bottom: 78, left: 66 },
+    };
+  }
+  return {
+    minimumWidth: 640,
+    minimumHeight: 460,
+    heightRatio: 0.52,
+    margin: { top: 58, right: 36, bottom: 112, left: 92 },
+  };
+}
 export interface D3BarDatum { readonly id: string; readonly category: string; readonly value: number; }
 export interface D3BarChartRenderModel {
   readonly version: "1.0";
@@ -158,15 +191,8 @@ export function mountD3BarChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const density = options.density ?? "comfortable";
-    const minimumWidth = density === "compact" ? 420 : density === "dense" ? 500 : 640;
-    const minimumHeight = density === "compact" ? 310 : density === "dense" ? 350 : 460;
-    const heightRatio = density === "compact" ? 0.48 : density === "dense" ? 0.5 : 0.52;
-    const margin = density === "compact"
-      ? { top: 34, right: 18, bottom: 68, left: 58 }
-      : density === "dense"
-        ? { top: 40, right: 22, bottom: 78, left: 66 }
-        : { top: 58, right: 36, bottom: 112, left: 92 };
+    const geometry = barChartGeometryForDensity(options.density);
+    const { minimumWidth, minimumHeight, heightRatio, margin } = geometry;
     const width = Math.max(minimumWidth, Math.round(host.getBoundingClientRect().width || 960));
     const height = Math.max(minimumHeight, Math.round(width * heightRatio));
     const plotWidth = Math.max(100, width - margin.left - margin.right);
