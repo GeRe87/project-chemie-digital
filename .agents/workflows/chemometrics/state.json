@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 180,
   "expectedDeliverable": "Repair only the #180 source-section count wording: the pinned file has 33 section elements total, consisting of one title section and 32 substantive content sections. Preserve all four mapped ranges (2–5, 6–13, 14–23, 24–33) and all reconciliation decisions unchanged; then return to manager.",
-  "lastCompletedTurn": "manager: independent review of PR #181 is clean except for one documentation count mismatch: the source has 33 section elements total, not 33 substantive sections after the title. The four mapped content ranges already correctly cover 32 substantive sections.",
-  "lastUpdated": "2026-09-28T09:27:00+02:00",
+  "lastCompletedTurn": "worker: claimed only the manager-authorized #180 source-section count wording repair; no reconciliation decision or scope change.",
+  "lastUpdated": "2026-09-28T09:28:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
+    "claimedAt": "2026-09-28T09:28:00+02:00",
+    "expiresAt": "2026-09-28T10:28:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 94,
+  "stateRevision": 95,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T13:35:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue158-variance-path-20260926T133500+0200",
-      "reason": "Claimed bounded Chemometrics Issue #158 on fresh branch agent/158-variance-dispersion-path for the path-only Variance and Dispersion lecture LearningPath, focused regressions and minimum stale pathlessness/graph-whitelist updates."
-    },
     {
       "at": "2026-09-26T13:43:00+02:00",
       "from": "busy/worker",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
       "reason": "Independent #180 review found one count-only documentation mismatch; authorized a bounded worker repair changing 33 substantive-after-title to 33 total / 32 substantive while preserving all mapped ranges and decisions."
+    },
+    {
+      "at": "2026-09-28T09:28:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
+      "reason": "Claimed only the count wording repair authorized by the independent manager review."
     }
   ]
 }
