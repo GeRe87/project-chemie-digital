@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 188,
   "expectedDeliverable": "Fifth #188 browser follow-up: replace terminal deck.next()/deck.prev() on staged scroll-view slides with direct adjacent-slide navigation using Reveal getSlides(), getIndices(target), and slide(h,v,f), so the current slide fragment sequence cannot be re-entered/reset. Forward target enters with f=-1; backward target restores its final fragment when applicable. Preserve internal nextFragment/prevFragment navigation.",
-  "lastCompletedTurn": "manager: browser smoke confirms explicit deck.next() still loops the staged slide. Reveal 5.2 API review shows relative next()/prev() may continue to process fragments; authorized direct target-slide navigation using getSlides/getIndices/slide.",
-  "lastUpdated": "2026-09-28T16:18:00+02:00",
+  "lastCompletedTurn": "worker: claimed direct target-slide navigation follow-up after Reveal 5.2 API verification.",
+  "lastUpdated": "2026-09-28T16:19:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
+    "claimedAt": "2026-09-28T16:19:00+02:00",
+    "expiresAt": "2026-09-28T18:19:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 257,
+  "stateRevision": 258,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T15:50:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
-      "reason": "Completed bounded Issue #168 source implementation, focused regressions, Draft PR #178 and structured handoff; returned to manager for local Self-Study generation/tests, generated fallback review, visual smoke and later exact-head acceptance gates."
-    },
     {
       "at": "2026-09-27T16:27:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue188-direct-slide-20260928T161800+0200",
       "reason": "Authorized bounded #188 terminal fix using Reveal direct slide(h,v,f) navigation to adjacent DOM slides instead of relative next()/prev(), which still re-enters fragments in scroll view."
+    },
+    {
+      "at": "2026-09-28T16:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
+      "reason": "Claimed direct target-slide terminal navigation fix using getSlides/getIndices/slide; relative next()/prev() will be removed from staged terminal navigation."
     }
   ]
 }
