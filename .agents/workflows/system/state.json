@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: formally accepted Issue #168 / PR #178 after fresh exact-head agent-validator/project-chemie-digital success on 15b0a7641d7b5922f89a7f5025df8afcdd0fbab4. Marked PR Ready and squash-merged it as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412; Issue #168 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
-  "lastUpdated": "2026-09-27T16:44:00+02:00",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 186,
+  "expectedDeliverable": "Implement generic second-stage Reveal layout fit on the existing #184 integration branch: deterministic block-footprint estimation; case-study variants balanced/evidence-right/stacked; densities comfortable/dense/compact; data-layout-variant and data-layout-density DOM markers; variant/density-aware generic CSS and focused tests. No Chemometrics/Nitrate identity checks and no scientific-content mutation in the System turn.",
+  "lastCompletedTurn": "manager: created System Issue #186 after browser evidence showed that family-only static CSS is insufficient for dense mixed-evidence slides; authorized a generic renderer-only fit layer coordinated with PR #185.",
+  "lastUpdated": "2026-09-28T12:27:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
+    "claimedAt": "2026-09-28T12:27:00+02:00",
+    "expiresAt": "2026-09-28T14:27:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 235,
+  "stateRevision": 236,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T11:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-      "reason": "Claimed only the #162 test-side DefinitionList fallback repair authorized after current-main reconciliation."
-    },
     {
       "at": "2026-09-27T11:34:00+02:00",
       "from": "busy/worker",
@@ -191,6 +184,13 @@
       "to": "ready/manager",
       "actor": "interactive-system-manager-issue168-final-acceptance-20260927T162700+0200",
       "reason": "Exact-head validator success, focused/full local tests, desktop/narrow browser smoke, generated fallback review, integration freshness and Ready lifecycle all passed for PR #178. Squash-merged Issue #168 as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412, verified Issue #168 closed completed and single-parent squash, and returned System to idle manager state."
+    },
+    {
+      "at": "2026-09-28T12:27:00+02:00",
+      "from": "ready/manager",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue186-layout-fit-20260928T122700+0200",
+      "reason": "Claimed System Issue #186 to add deterministic generic Reveal fit decisions (variant+density), DOM markers, density-aware case-study CSS and renderer regressions on the current integration branch; no identity-specific renderer logic."
     }
   ]
 }
