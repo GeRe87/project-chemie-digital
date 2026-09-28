@@ -12,6 +12,8 @@ export interface PresentationStageNavigationDeck extends PresentationStageLockDe
   availableFragments(): { readonly prev: boolean; readonly next: boolean };
   nextFragment(): boolean;
   prevFragment(): boolean;
+  next(): void;
+  prev(): void;
 }
 
 export interface PresentationStageNavigationTarget {
@@ -197,15 +199,15 @@ export function consumePresentationStageNavigation(
   if (!isStageLockedSlide(slide)) return false;
 
   const available = deck.availableFragments();
-  if (direction === "next" && available.next) {
-    deck.nextFragment();
+  if (direction === "next") {
+    if (available.next) deck.nextFragment();
+    else deck.next();
     return true;
   }
-  if (direction === "prev" && available.prev) {
-    deck.prevFragment();
-    return true;
-  }
-  return false;
+
+  if (available.prev) deck.prevFragment();
+  else deck.prev();
+  return true;
 }
 
 export function mountPresentationStageNavigation(
