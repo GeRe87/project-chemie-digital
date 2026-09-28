@@ -1,38 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 188,
-  "expectedDeliverable": "Review seventh #188 browser follow-up on PR #185 after owner-local npm run test:pitch and fresh browser smoke. Verify terminal staged navigation in scroll view releases the stage lock then jumps the Reveal viewport directly to the adjacent .scroll-page boundary, so the sticky outgoing slide disappears and the next Intro slide becomes visible. Confirm internal stages, six-slide deck, marker styling and deck-view fallback remain correct. Then continue remaining renderer/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed seventh #188 browser follow-up after Reveal 5.2 scroll-view source review. Scroll-mode staged terminal navigation now bypasses sticky fragment padding by releasing the stage lock and setting Reveal viewport scrollTop directly to the adjacent .scroll-page boundary; deck mode retains direct slide(h,v,f).",
-  "lastUpdated": "2026-09-28T16:56:00+02:00",
+  "activeIssue": 189,
+  "expectedDeliverable": "Implement #189 generic semantic progressive disclosure: project bar-chart annotations, derive block disclosure from LearningResource evidence relations, expose disclosure in DOM/runtime, and stage table/conclusion without topic identity checks.",
+  "lastCompletedTurn": "manager: authorized integrated #189 semantic evidence/disclosure implementation on PR #185; system worker claimed only its bounded ontology/content or compiler/renderer responsibilities.",
+  "lastUpdated": "2026-09-28T17:22:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
+    "claimedAt": "2026-09-28T17:22:00+02:00",
+    "expiresAt": "2026-09-28T19:22:00+02:00"
   },
-  "blockedBy": [
-    "Issue #188 seventh browser follow-up requires owner-local npm run test:pitch",
-    "Issue #188 requires fresh browser smoke: stage 0→1→2→3→adjacent scroll page visible; no loop/stall/sticky outgoing slide; backward terminal navigation; all six Introduction slides reachable",
-    "Issue #188 requires owner-local renderer-reveal tests",
-    "Issue #188 requires owner-local renderer-d3 tests",
-    "Issue #188 requires owner-local Chemometrics Introduction tests",
-    "PR #185 requires full repository npm test before coordinated #184/#186/#187/#188 manager acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 265,
+  "blockedBy": [],
+  "stateRevision": 266,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T14:48:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-stage-lock-accents-20260928T143500+0200",
-      "reason": "Completed generic #188 staged-slide scroll/movement lock, background freeze, larger lecture analysis area, four-colour accent rhythm and reusable marker-highlight utilities; returned to manager for focused tests, browser smoke, full-suite verification and coordinated acceptance."
-    },
     {
       "at": "2026-09-28T14:58:00+02:00",
       "from": "blocked/manager",
@@ -200,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue188-scroll-page-terminal-20260928T164800+0200",
       "reason": "Completed scroll-page terminal navigation fix: scroll view now releases stage lock and jumps directly to adjacent sticky-page boundary; deck fallback unchanged."
+    },
+    {
+      "at": "2026-09-28T17:22:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
+      "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
     }
   ]
 }
