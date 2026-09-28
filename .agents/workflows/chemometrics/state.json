@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 180,
-  "expectedDeliverable": "On one fresh branch, author a source-reconciliation document for pinned Signal Processing only. Record exact source pin/blob, heading-to-scope map, canonical REUSE audit, REUSE/CREATE/PATH/RENDERER classification, scientific corrections/ambiguities, final bounded LearningUnit recommendation and placement order, plus renderer follow-up candidates. Documentation/workflow/handoff only; no RDF, LearningUnit, UnitPlacement, LearningPath, Scene, renderer or generated artifact changes.",
-  "lastCompletedTurn": "worker: claimed documentation-only Issue #180 on fresh branch agent/180-signal-processing-reconciliation for pinned Signal Processing source reconciliation; no RDF/path/scene/renderer implementation.",
-  "lastUpdated": "2026-09-28T09:22:00+02:00",
+  "expectedDeliverable": "Independently review Issue #180 / PR #181 as a planning-only source reconciliation. Verify exact source pin/blob, complete heading coverage, current canonical reuse audit, explicit scientific correction log, four-unit boundary/order, renderer boundary and absence of RDF/path/scene/System implementation. If clean, claim final acceptance and require fresh exact-head validator before Ready/squash merge.",
+  "lastCompletedTurn": "worker: completed documentation-only #180 reconciliation with source map, four-unit recommendation, current-main reuse audit, correction log, renderer follow-up candidates, Draft PR #181 and structured handoff; returned to manager.",
+  "lastUpdated": "2026-09-28T09:24:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
-    "claimedAt": "2026-09-28T09:22:00+02:00",
-    "expiresAt": "2026-09-28T11:22:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 92,
+  "blockedBy": [
+    "Draft PR #181 requires independent manager review and final acceptance claim",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 93,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T12:36:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-variance-path-plan-20260926T123600+0200",
-      "reason": "Claimed one bounded Chemometrics manager planning turn to define the next course increment after Mean Values: a path-only Variance and Dispersion lecture LearningPath over already reviewed canonical resources."
-    },
     {
       "at": "2026-09-26T12:40:00+02:00",
       "from": "busy/manager",
@@ -191,6 +188,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
       "reason": "Claimed documentation-only #180 branch for exact source mapping, canonical reuse audit, scientific correction log, bounded unit split and renderer-boundary planning only."
+    },
+    {
+      "at": "2026-09-28T09:24:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
+      "reason": "Completed documentation-only #180 source reconciliation, Draft PR #181 and structured handoff; returned to manager for independent review and exact-head acceptance gates."
     }
   ]
 }
