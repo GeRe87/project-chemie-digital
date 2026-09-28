@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 182,
   "expectedDeliverable": "On one fresh branch, implement resource-only Issue #182 exactly: new canonical Signal Processing Foundations/Preprocessing resources, pinned source/provenance, explicit corrections, and focused tests. Reuse existing arithmetic-mean/standard-deviation; no LearningUnit, UnitPlacement, OfferingSection membership, LearningPath, Scene, renderer or generated artifact.",
-  "lastCompletedTurn": "manager: completed #182 implementation design and authorized one bounded Semantic Web and Ontology Engineer worker turn for canonical resources plus focused tests only.",
-  "lastUpdated": "2026-09-28T09:55:00+02:00",
+  "lastCompletedTurn": "worker: claimed bounded resource-only Issue #182 on fresh branch agent/182-signal-preprocessing-resources for Foundations/Preprocessing scientific resources and focused semantic tests only.",
+  "lastUpdated": "2026-09-28T09:56:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
+    "claimedAt": "2026-09-28T09:56:00+02:00",
+    "expiresAt": "2026-09-28T11:56:00+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 100,
+  "stateRevision": 101,
   "transitionHistory": [
-    {
-      "at": "2026-09-26T19:45:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue160-introduction-20260926T194500+0200",
-      "reason": "Claimed bounded Chemometrics Issue #160 on fresh branch agent/160-chemometrics-introduction for the complete Introduction LearningUnit/content/path/five-scene vertical slice using existing generic semantic primitives."
-    },
     {
       "at": "2026-09-26T19:55:00+02:00",
       "from": "busy/worker",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-issue182-preprocessing-resources-20260928T095400+0200",
       "reason": "Authorized one bounded Semantic Web and Ontology Engineer turn for #182 resource-only canonical authoring and focused tests; all course integration and renderer work remains out of scope."
+    },
+    {
+      "at": "2026-09-28T09:56:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
+      "reason": "Claimed bounded resource-only #182 branch for canonical Foundations/Preprocessing resources, pinned provenance and focused regressions only."
     }
   ]
 }
