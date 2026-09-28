@@ -343,3 +343,31 @@ Regression coverage asserts:
 - the next action invokes exactly `slide(1, 0, -1)`;
 - backwards terminal navigation targets the previous slide's final fragment index;
 - keyboard and Reveal-control paths use the same direct terminal navigation.
+
+
+## Browser follow-up 6: unlock on Reveal beforeslidechange
+
+Browser smoke showed that direct `slide(h,v,f)` removed the fragment loop but still could not leave the staged slide.
+
+Reveal 5.2 dispatches `beforeslidechange` synchronously before scroll-view `scrollToSlide(...)`. The outgoing stage lock was still active until `slidechanged`, so fragment/scroll restoration could pull the viewport back before the programmatic transition completed.
+
+The stage lock now subscribes to Reveal's own `beforeslidechange` lifecycle and calls `unlock()` there.
+
+Resulting terminal lifecycle:
+
+1. staged navigation exhausts internal fragments;
+2. direct target slide coordinates are resolved;
+3. `deck.slide(h,v,f)` is invoked;
+4. Reveal emits `beforeslidechange`;
+5. stage lock is synchronously released;
+6. Reveal scroll view can move to the target slide without old-position restoration;
+7. after arrival, `slidechanged` runs and any newly staged target slide is relocked only after the existing two-frame settle period.
+
+The earlier custom DOM exit signal was removed; Reveal's lifecycle event is now the single canonical unlock boundary.
+
+Regression coverage requires:
+- `beforeslidechange` listener registration;
+- synchronous lock removal before the slide transition proceeds;
+- listener teardown;
+- direct `slide(...)` terminal navigation remains;
+- no relative `next()/prev()` or custom exit event remains.
