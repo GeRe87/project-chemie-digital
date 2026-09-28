@@ -6,6 +6,7 @@
   ex:scene-chemometrics-introduction-title a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-title ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-title-heading,
+      ex:scene-item-chemometrics-introduction-title-attribution,
       ex:scene-item-chemometrics-introduction-title-pillars,
       ex:scene-item-chemometrics-introduction-title-takeaway ;
     cd:authoredResource true .
@@ -18,8 +19,16 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-title-pillars a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-title-attribution a cd:SceneItem ;
     cd:position 2 ;
+    cd:selectsResource ex:chemometrics-title-attribution ;
+    cd:communicativeRole cd:AttributionRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-title-pillars a cd:SceneItem ;
+    cd:position 3 ;
     cd:selectsResource ex:chemometrics-title-pillars ;
     cd:communicativeRole cd:KeyPointRole ;
     cd:selectionPath "cd:hasKeyPoint" ;
@@ -27,7 +36,7 @@
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-title-takeaway a cd:SceneItem ;
-    cd:position 3 ;
+    cd:position 4 ;
     cd:selectsResource ex:chemometrics-title-takeaway ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
@@ -116,13 +125,12 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 4 — foundation-card-grid ------------------------------------------
+  # Slide 4 — process-diagram -----------------------------------------------
   ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-format ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,
       ex:scene-item-chemometrics-introduction-format-banner,
-      ex:scene-item-chemometrics-introduction-format-foundation,
-      ex:scene-item-chemometrics-introduction-format-list,
+      ex:scene-item-chemometrics-introduction-format-diagram,
       ex:scene-item-chemometrics-introduction-format-takeaway ;
     cd:authoredResource true .
 
@@ -142,24 +150,16 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-format-foundation a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-format-diagram a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:chemometrics-course-format-foundation ;
-    cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:diagram-chemometrics-course-format ;
+    cd:communicativeRole cd:DiagramRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-format-list a cd:SceneItem ;
-    cd:position 4 ;
-    cd:selectsResource ex:chemometrics-course-format-list ;
-    cd:communicativeRole cd:DefinitionListRole ;
-    cd:selectionPath "cd:hasDefinitionListEntry" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
   ex:scene-item-chemometrics-introduction-format-takeaway a cd:SceneItem ;
-    cd:position 5 ;
+    cd:position 4 ;
     cd:selectsResource ex:chemometrics-course-format-takeaway ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
