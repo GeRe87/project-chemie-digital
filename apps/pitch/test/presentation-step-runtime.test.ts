@@ -247,6 +247,8 @@ test("staged navigation consumes internal fragments before Reveal slide movement
   } as unknown as HTMLElement;
 
   let step = 0;
+  let nextSlideCalls = 0;
+  let prevSlideCalls = 0;
   const deck = {
     on() {},
     off() {},
@@ -264,6 +266,8 @@ test("staged navigation consumes internal fragments before Reveal slide movement
       step -= 1;
       return true;
     },
+    next() { nextSlideCalls += 1; },
+    prev() { prevSlideCalls += 1; },
   };
 
   assert.equal(consumePresentationStageNavigation(deck, "next"), true);
@@ -273,12 +277,15 @@ test("staged navigation consumes internal fragments before Reveal slide movement
   assert.equal(consumePresentationStageNavigation(deck, "next"), true);
   assert.equal(step, 3);
 
-  // At the final internal stage, the event must fall through to Reveal.
-  assert.equal(consumePresentationStageNavigation(deck, "next"), false);
+  // At the final internal stage, staged navigation owns the event and
+  // explicitly advances the slide so Reveal's scroll path cannot reset fragments.
+  assert.equal(consumePresentationStageNavigation(deck, "next"), true);
   assert.equal(step, 3);
+  assert.equal(nextSlideCalls, 1);
 
   assert.equal(consumePresentationStageNavigation(deck, "prev"), true);
   assert.equal(step, 2);
+  assert.equal(prevSlideCalls, 0);
 });
 
 test("stage navigation captures forward keys only while an internal stage is available", () => {
@@ -289,6 +296,8 @@ test("stage navigation captures forward keys only while an internal stage is ava
   } as unknown as HTMLElement;
 
   let step = 0;
+  let nextSlideCalls = 0;
+  let prevSlideCalls = 0;
   const deck = {
     on() {},
     off() {},
@@ -306,6 +315,8 @@ test("stage navigation captures forward keys only while an internal stage is ava
       step -= 1;
       return true;
     },
+    next() { nextSlideCalls += 1; },
+    prev() { prevSlideCalls += 1; },
   };
 
   const listeners = new Map<string, Set<EventListener>>();
@@ -342,7 +353,8 @@ test("stage navigation captures forward keys only while an internal stage is ava
   assert.equal(prevented, true);
   assert.equal(stopped, true);
 
-  // No next fragment remains: do not consume the key, so Reveal can change slide.
+  // No next fragment remains: staged navigation still owns the key and
+  // explicitly advances the slide, preventing Reveal scroll-view fragment reset.
   prevented = false;
   stopped = false;
   const final = {
@@ -357,8 +369,10 @@ test("stage navigation captures forward keys only while an internal stage is ava
   } as unknown as Event;
   for (const listener of listeners.get("keydown") ?? []) listener(final);
   assert.equal(step, 1);
-  assert.equal(prevented, false);
-  assert.equal(stopped, false);
+  assert.equal(nextSlideCalls, 1);
+  assert.equal(prevSlideCalls, 0);
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
 
   destroy();
   assert.equal(listeners.get("keydown")?.size ?? 0, 0);
@@ -372,6 +386,7 @@ test("stage navigation also consumes Reveal next-control clicks while fragments 
   } as unknown as HTMLElement;
 
   let step = 0;
+  let nextSlideCalls = 0;
   const deck = {
     on() {},
     off() {},
@@ -381,6 +396,8 @@ test("stage navigation also consumes Reveal next-control clicks while fragments 
     },
     nextFragment() { step += 1; return true; },
     prevFragment() { step -= 1; return true; },
+    next() { nextSlideCalls += 1; },
+    prev() {},
   };
 
   const keyboardListeners = new Map<string, Set<EventListener>>();
@@ -416,6 +433,15 @@ test("stage navigation also consumes Reveal next-control clicks while fragments 
   for (const listener of controlListeners.get("click") ?? []) listener(click);
 
   assert.equal(step, 1);
+  assert.equal(nextSlideCalls, 0);
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
+
+  prevented = false;
+  stopped = false;
+  for (const listener of controlListeners.get("click") ?? []) listener(click);
+  assert.equal(step, 1);
+  assert.equal(nextSlideCalls, 1);
   assert.equal(prevented, true);
   assert.equal(stopped, true);
   destroy();
