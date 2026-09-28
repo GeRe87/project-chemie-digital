@@ -156,3 +156,43 @@ Check on a slide with chart stages:
 - lecture accents/marker strokes are visible but do not compromise readability.
 
 Then run full `npm test`.
+
+
+## Browser follow-up: delayed lock activation
+
+A browser smoke revealed that the first #188 lock activated too early: the staged slide was frozen before Reveal had finished positioning it in scroll view. This caused the entered slide to be partially visible and could disrupt subsequent navigation.
+
+The follow-up changes the lifecycle to:
+
+1. slide change immediately unlocks;
+2. Reveal is allowed to position the newly entered slide normally;
+3. two animation frames are awaited;
+4. the final window + Reveal viewport scroll positions are captured;
+5. only then is `pcd-stage-lock-active` enabled;
+6. fragment changes restore that settled position;
+7. leaving the slide unlocks immediately before the next slide is positioned.
+
+The global `overflow:hidden` rule on body/Reveal viewport was removed. Only the staged slide itself remains overflow-clipped, and wheel/touch user scrolling is blocked after the lock becomes active.
+
+Background progress now freezes only when `pcd-stage-lock-active` is actually active, so the background can move to the correct new-slide position before stage locking begins.
+
+## Browser follow-up: layered marker strokes
+
+The initial marker accent was rejected as too dark and blob-like.
+
+The replacement uses:
+- three independent horizontal gradient strokes for inline marker utilities;
+- varying opacity along each stroke;
+- slightly different angles and vertical offsets;
+- no oval/border-radius blob;
+- two irregular polygon-clipped layers for automatic KeyPoint highlights;
+- deliberately lighter colour mixes to preserve text contrast.
+
+Focused regressions now require:
+- staged entry remains unlocked until two animation frames have settled;
+- scroll is captured only after settling;
+- slide exit unlocks immediately;
+- global body/viewport overflow is not suppressed;
+- marker utilities contain at least three gradient layers;
+- automatic KeyPoint marker uses two polygon-clipped layers;
+- no course/topic identity checks.
