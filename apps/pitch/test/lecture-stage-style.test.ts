@@ -120,6 +120,19 @@ test("inactive-slide hiding is deck-only so Reveal scroll view retains the full 
   );
 });
 
+test("semantic progressive disclosure preserves layout geometry", () => {
+  const hiddenDisclosure = stageStyles.slice(
+    stageStyles.indexOf('[data-presentation-disclosure-mode="progressive"]'),
+  );
+  assert.match(hiddenDisclosure, /visibility:\s*hidden/);
+  assert.match(hiddenDisclosure, /opacity:\s*0/);
+  assert.match(hiddenDisclosure, /pointer-events:\s*none/);
+  assert.doesNotMatch(
+    hiddenDisclosure.slice(0, hiddenDisclosure.indexOf('@media') >= 0 ? hiddenDisclosure.indexOf('@media') : undefined),
+    /display:\s*none/,
+  );
+});
+
 test("new lecture stage and accent renderer rules contain no course identity checks", () => {
   const implementation = [lectureStyles, stageStyles, stageRuntime].join("\n");
   assert.doesNotMatch(
