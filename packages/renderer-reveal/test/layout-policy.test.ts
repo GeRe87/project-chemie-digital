@@ -760,11 +760,10 @@ test("infers paired-info-cards from two labeled entries without identity", () =>
   ]);
 });
 
-test("infers generic process-diagram for two-step and longer flows plus sequence diagrams", () => {
-  assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:two-step", "flow", 2)), "process-diagram");
+test("infers generic process-diagram for longer flows and sequence diagrams", () => {
   assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow", 4)), "process-diagram");
   assert.equal(inferRevealLayoutFamily(processDiagramScene("opaque:service", "sequence")), "process-diagram");
-  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow", 2))?.slots, ["heading", "intro", "diagram", "takeaway"]);
+  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow", 4))?.slots, ["heading", "intro", "diagram", "takeaway"]);
 });
 
 test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {

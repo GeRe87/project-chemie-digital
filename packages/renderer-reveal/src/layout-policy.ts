@@ -381,7 +381,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     const processDiagram = diagram?.kind === "diagram"
       && (
         diagram.diagramType === "sequence"
-        || (diagram.diagramType === "flow" && isLinearFlow(diagram, 2))
+        || (diagram.diagramType === "flow" && isLinearFlow(diagram, 4))
       );
     if (
       heading?.kind === "prose"

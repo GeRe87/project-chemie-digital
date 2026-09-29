@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 199,
-  "expectedDeliverable": "Owner-local focused tests and browser review of Slide 4. Verify the paired cards are balanced, Tuesday/Wednesday logistics are immediately legible, and programming reads as one tutorial tool rather than the course focus.",
-  "lastCompletedTurn": "worker: completed #199 Tuesday/Wednesday course-organization migration to generic paired information cards.",
-  "lastUpdated": "2026-09-29T17:51:00+02:00",
+  "expectedDeliverable": "Owner-local focused tests and browser review of the paired Tuesday/Wednesday course-organization slide.",
+  "lastCompletedTurn": "worker: completed #199 paired session cards and removed the superseded unused #196 two-node process generalization.",
+  "lastUpdated": "2026-09-29T17:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -24,29 +24,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 310,
+  "stateRevision": 313,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T12:41:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue193-version-fixture",
-      "reason": "Completed the test fixture correction: the synthetic DefinitionList preview document now explicitly uses SceneDocument 1.4."
-    },
-    {
-      "at": "2026-09-29T16:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue194-point-connectors",
-      "reason": "Owner visual review accepted adaptive point spacing and requested generic relation arrows between short authored points in narrow facet cards. Authorized presentation-only connector styling with no content or identity-specific logic."
-    },
-    {
-      "at": "2026-09-29T16:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue194-point-connectors",
-      "reason": "Claimed #194 generic labeled-card inter-point connector styling and focused regression."
-    },
     {
       "at": "2026-09-29T16:23:00+02:00",
       "from": "busy/worker",
@@ -200,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
       "reason": "Completed #199: Slide 4 now authors Tuesday and Wednesday as a two-entry DefinitionList with placeholder time/room, interactive lecture+seminar versus hands-on tutorial, and no course-organization FlowDiagram."
+    },
+    {
+      "at": "2026-09-29T17:52:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-supersede-issue196",
+      "reason": "The final Slide 4 design no longer uses a two-node process diagram. Authorized removal of the now-unused #196 process-diagram generalization so the renderer keeps its narrower established process contract."
+    },
+    {
+      "at": "2026-09-29T17:53:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-supersede-issue196",
+      "reason": "Claimed cleanup of the unused two-node process-diagram rule and regression only."
+    },
+    {
+      "at": "2026-09-29T17:55:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-supersede-issue196",
+      "reason": "Removed the unused #196 two-node process generalization; paired-info-cards now owns the two-session presentation need while process-diagram retains its previous 4+ node flow contract."
     }
   ]
 }
