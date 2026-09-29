@@ -5,47 +5,25 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Presentation System Worker",
-  "activeIssue": 194,
-  "expectedDeliverable": "Re-run owner-local Pitch tests and browser-check Slide 3. Confirm the dashed connector visually joins adjacent point blocks and the centered triangle remains legible.",
-  "lastCompletedTurn": "worker: refined #194 generic connector to a dashed vertical relation line with a centered filled triangle; semantics and content unchanged.",
-  "lastUpdated": "2026-09-29T17:08:00+02:00",
+  "activeIssue": 196,
+  "expectedDeliverable": "Review #196 generic two-step process support, then authorize #197 course-organization content migration. Owner-local renderer tests remain required.",
+  "lastCompletedTurn": "worker: completed #196 generic two-step process-diagram inference with hierarchy-flow precedence preserved.",
+  "lastUpdated": "2026-09-29T17:23:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #194 requires owner-local npm run test:pitch",
-    "Issue #194/#195 require fresh browser smoke of Slide 3 via npm run pitch:intro",
-    "Issue #195 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #196 requires owner-local npm run test:renderer-reveal",
+    "Issue #197 content migration must use the accepted generic two-step process primitive",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 298,
+  "stateRevision": 301,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T11:43:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue192-labeled-facets-20260929T113600+0200",
-      "reason": "Completed #192 implementation: three-entry DefinitionList scenes infer labeled-card-grid without identity checks; publication projection now mounts only through a generic profile capability; CogniFlow retains the capability and Chemometrics does not."
-    },
-    {
-      "at": "2026-09-29T11:44:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue191-lecturer-profile-20260929T114400+0200",
-      "reason": "Reviewed #192 as a bounded generic primitive and authorized #191 Content-track migration only: replace lecturer keypoint blobs with three labeled DefinitionList facets and update the scene/test contract; System-track files are out of scope."
-    },
-    {
-      "at": "2026-09-29T11:45:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue191-lecturer-profile-20260929T114500+0200",
-      "reason": "Claimed #191 bounded Chemometrics content migration using the accepted generic DefinitionList/DefinitionListEntry model and existing SceneItem semantics."
-    },
     {
       "at": "2026-09-29T11:50:00+02:00",
       "from": "busy/worker",
@@ -199,6 +177,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue194-dashed-connector",
       "reason": "Completed #194 dashed relation connector: adaptive spacers now draw a centered dashed vertical line with the existing filled triangle overlaid at mid-gap."
+    },
+    {
+      "at": "2026-09-29T17:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue196-two-step-process",
+      "reason": "Owner accepted Slide 3 connector/browser realization and moved to course organization. Authorized generic System-track support for two-step linear process diagrams while preserving three-node hierarchy precedence."
+    },
+    {
+      "at": "2026-09-29T17:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue196-two-step-process",
+      "reason": "Claimed #196 structural layout generalization and opaque regression only."
+    },
+    {
+      "at": "2026-09-29T17:23:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue196-two-step-process",
+      "reason": "Completed #196: generic process-diagram inference now accepts linear flows with two or more nodes; hierarchy-flow remains earlier and therefore retains three-node precedence."
     }
   ]
 }
