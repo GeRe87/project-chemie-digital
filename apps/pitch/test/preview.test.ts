@@ -225,6 +225,7 @@ test("chart stage host publishes chart and annotation resources for semantic dis
   };
   const renderedDocument = {
     ...document,
+    version: "1.2" as const,
     id: "document:semantic-chart-host",
     scenes: [scene],
   };
