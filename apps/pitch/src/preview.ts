@@ -198,9 +198,36 @@ function appendBlock(
       if (entry.description) {
         const description = dom.createElement("dd");
         description.className = "definition-list-description";
-        description.textContent = entry.description;
         description.setAttribute("data-definition-entry-id", entry.id);
         sourceAttributes(description, entry.source);
+
+        const authoredPoints = entry.description
+          .split(/\\r?\\n/u)
+          .map((point) => point.trim())
+          .filter((point) => point.length > 0);
+
+        if (authoredPoints.length > 1) {
+          description.setAttribute("data-adaptive-point-spacing", "true");
+          const points = dom.createElement("div");
+          points.className = "definition-list-points";
+          for (const [pointIndex, pointText] of authoredPoints.entries()) {
+            if (pointIndex > 0) {
+              const spacer = dom.createElement("span");
+              spacer.className = "definition-list-point-spacer";
+              spacer.setAttribute("aria-hidden", "true");
+              points.appendChild(spacer);
+            }
+            const point = dom.createElement("span");
+            point.className = "definition-list-point";
+            point.setAttribute("data-definition-point-index", String(pointIndex));
+            point.textContent = pointText;
+            points.appendChild(point);
+          }
+          description.appendChild(points);
+        } else {
+          description.textContent = entry.description;
+        }
+
         entryShell.appendChild(description);
       }
       list.appendChild(entryShell);

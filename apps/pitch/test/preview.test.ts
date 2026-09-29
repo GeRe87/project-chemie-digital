@@ -185,6 +185,121 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   destroy();
 });
 
+test("definition-list renderer separates authored points and caps adaptive spacing", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const cards = {
+    id: "block:generic-labeled-cards",
+    kind: "definition-list" as const,
+    entries: [
+      {
+        id: "entry:multi",
+        term: "MULTI",
+        description: "First logical point\nSecond point wraps naturally in the browser\nThird logical point",
+        source: [{ resourceId: "resource:entry:multi" }],
+      },
+      {
+        id: "entry:single",
+        term: "SINGLE",
+        description: "One continuous description",
+        source: [{ resourceId: "resource:entry:single" }],
+      },
+      {
+        id: "entry:blank-lines",
+        term: "BLANKS",
+        description: "Alpha\n\n   \nBeta",
+        source: [{ resourceId: "resource:entry:blank-lines" }],
+      },
+    ],
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-labeled-cards" }],
+  };
+  const takeaway = {
+    id: "block:generic-labeled-takeaway",
+    kind: "prose" as const,
+    text: "Generic takeaway",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-labeled-takeaway" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:generic-labeled-cards",
+    blocks: [heading, cards, takeaway],
+    readingOrder: [heading.id, cards.id, takeaway.id],
+  };
+  const renderedDocument = {
+    ...document,
+    id: "document:generic-labeled-cards",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "labeled-card-grid");
+
+  const definitionList = section.children[1]!;
+  const multiDescription = definitionList.children[0]!.children[1]!;
+  assert.equal(multiDescription.attributes.get("data-adaptive-point-spacing"), "true");
+  const multiPoints = multiDescription.children[0]!;
+  assert.equal(multiPoints.className, "definition-list-points");
+  assert.deepEqual(
+    multiPoints.children.map((child) => [child.className, child.textContent]),
+    [
+      ["definition-list-point", "First logical point"],
+      ["definition-list-point-spacer", null],
+      ["definition-list-point", "Second point wraps naturally in the browser"],
+      ["definition-list-point-spacer", null],
+      ["definition-list-point", "Third logical point"],
+    ],
+  );
+  assert.deepEqual(
+    multiPoints.children
+      .filter((child) => child.className === "definition-list-point")
+      .map((child) => child.attributes.get("data-definition-point-index")),
+    ["0", "1", "2"],
+  );
+  assert.ok(
+    multiPoints.children
+      .filter((child) => child.className === "definition-list-point-spacer")
+      .every((child) => child.attributes.get("aria-hidden") === "true"),
+  );
+
+  const singleDescription = definitionList.children[1]!.children[1]!;
+  assert.equal(singleDescription.attributes.get("data-adaptive-point-spacing"), undefined);
+  assert.equal(singleDescription.textContent, "One continuous description");
+  assert.equal(singleDescription.children.length, 0);
+
+  const blankDescription = definitionList.children[2]!.children[1]!;
+  const blankPoints = blankDescription.children[0]!;
+  assert.deepEqual(
+    blankPoints.children
+      .filter((child) => child.className === "definition-list-point")
+      .map((child) => child.textContent),
+    ["Alpha", "Beta"],
+  );
+
+  const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+  const cardStyles = readFileSync(new URL("../src/labeled-card-grid-layout.css", import.meta.url), "utf8");
+  assert.match(sharedStyles, /\.definition-list-point-spacer/);
+  assert.match(sharedStyles, /--pcd-point-gap-min:\s*\.6lh/);
+  assert.match(sharedStyles, /--pcd-point-gap-max:\s*2\.5lh/);
+  assert.match(sharedStyles, /max-height:\s*var\(--pcd-point-gap-max\)/);
+  assert.match(cardStyles, /definition-list-description\[data-adaptive-point-spacing="true"\]/);
+  assert.match(cardStyles, /flex:\s*1 1 auto/);
+
+  destroy();
+});
+
 test("chart stage host publishes chart and annotation resources for semantic disclosure", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);

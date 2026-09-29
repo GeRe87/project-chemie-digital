@@ -97,6 +97,12 @@
   hyphens: auto;
 }
 
+.reveal .slides section[data-layout="labeled-card-grid"]
+  > [data-layout-slot="cards"] .definition-list-description[data-adaptive-point-spacing="true"] {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .reveal .slides section[data-layout="labeled-card-grid"] > [data-layout-slot="takeaway"] {
   grid-row: 3;
   box-sizing: border-box;

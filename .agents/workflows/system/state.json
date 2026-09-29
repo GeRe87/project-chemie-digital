@@ -4,50 +4,29 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 191,
-  "expectedDeliverable": "Review #191/#192 together after owner-local focused tests and browser smoke. Verify the lecturer slide renders Background/Teaching/Research without overflow or projection toggle and that the nitrate case study remains unchanged and semantically staged.",
-  "lastCompletedTurn": "worker: completed #191 lecturer profile migration to a labeled DefinitionList with compact Background, Teaching and Research content selected from project-cv.",
-  "lastUpdated": "2026-09-29T11:50:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 193,
+  "expectedDeliverable": "Review #193 after owner-local pitch tests and browser smoke. Confirm only authored point boundaries gain spacing, wrapped lines stay together, separators cap at 2.5 line heights, and Slide 3 remains identity-free/generic.",
+  "lastCompletedTurn": "worker: completed #193 generic adaptive inter-point spacing for multiline DefinitionList descriptions, with a 2.5lh cap and unchanged single-line rendering.",
+  "lastUpdated": "2026-09-29T12:27:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
+    "Issue #193 requires owner-local npm run test:pitch",
+    "Issue #193 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
     "Issue #191/#192 require owner-local npm run test:renderer-reveal",
-    "Issue #191/#192 require owner-local npm run test:pitch",
     "Issue #191 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #191 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
     "Browser smoke must also confirm the nitrate case-study stages remain unchanged",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 277,
+  "stateRevision": 280,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:57:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
-      "reason": "Completed bounded #188 staged-navigation follow-up: capture-phase keyboard/control navigation now advances internal Reveal fragments without scroll movement and falls through to normal slide navigation when stages are exhausted."
-    },
-    {
-      "at": "2026-09-28T16:08:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-terminal-navigation-20260928T160800+0200",
-      "reason": "Authorized bounded #188 terminal navigation fix: staged slides must own final/initial navigation and call deck.next()/deck.prev() explicitly instead of falling through to Reveal scroll navigation."
-    },
-    {
-      "at": "2026-09-28T16:09:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-terminal-navigation-20260928T160900+0200",
-      "reason": "Claimed terminal staged-navigation fix; scope limited to explicit next/prev slide transition after stage exhaustion."
-    },
     {
       "at": "2026-09-28T16:14:00+02:00",
       "from": "busy/worker",
@@ -201,6 +180,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue191-lecturer-profile-20260929T114500+0200",
       "reason": "Completed #191 content migration: lecturer slide now authors separate Background, Teaching and Research labels/bodies from course-relevant project-cv facts; scene compiles through DefinitionListRole with no renderer identity coupling."
+    },
+    {
+      "at": "2026-09-29T12:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue193-adaptive-point-spacing-20260929T121800+0200",
+      "reason": "Owner browser review accepted the labeled-card model but identified unused vertical space; authorized a generic System-track rule that expands only authored inter-point separators, capped at 2.5 line heights, with no content or identity-specific changes."
+    },
+    {
+      "at": "2026-09-29T12:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue193-adaptive-point-spacing-20260929T121900+0200",
+      "reason": "Claimed #193 generic DefinitionList point segmentation and adaptive separator spacing; scope excludes Chemometrics content and scene-specific styling."
+    },
+    {
+      "at": "2026-09-29T12:27:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue193-adaptive-point-spacing-20260929T121900+0200",
+      "reason": "Completed #193: multiline DefinitionList descriptions render as logical point blocks with flexible neutral separators; separators consume spare card height only between points and are capped at 2.5lh; single-line descriptions remain unchanged."
     }
   ]
 }
