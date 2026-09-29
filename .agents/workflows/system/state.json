@@ -1,29 +1,29 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 190,
-  "expectedDeliverable": "Refocus the Chemometrics lecturer slide on course-relevant teaching context only, using factual context selected from GeRe87/project-cv. Keep the existing generic three-card concept-specification structure; include course teaching since 2020, analytical-chemistry application context, and teaching approach; exclude publications, awards, grants/projects, editorial activity, supervision metrics and career-showcase content. Update focused regressions only.",
-  "lastCompletedTurn": "manager: created #190 after owner accepted #189 browser behavior; selected only teaching-relevant facts from project-cv and authorized a bounded Chemometrics content turn for the lecturer slide.",
-  "lastUpdated": "2026-09-29T11:17:00+02:00",
+  "expectedDeliverable": "Review #190 lecturer-slide refocus on PR #185 after owner-local Chemometrics Introduction test and browser smoke. Verify the slide remains a three-card concept-specification, includes only course-relevant facts selected from project-cv, reads at lecture distance, and avoids CV-showcase content. Then continue the accumulated PR full-suite/final-validator gates.",
+  "lastCompletedTurn": "worker: completed #190 lecturer-slide refocus using only course-relevant facts from project-cv: course teaching since 2020, analytical-chemistry measurement context, and assumptions/reproducibility/interpretation teaching approach. Existing three-card layout preserved; CV-showcase content explicitly excluded and regression-tested.",
+  "lastUpdated": "2026-09-29T11:24:00+02:00",
   "lease": {
-    "owner": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
-    "claimedAt": "2026-09-29T11:17:00+02:00",
-    "expiresAt": "2026-09-29T13:17:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 270,
+  "blockedBy": [
+    "Issue #190 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #190 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance",
+    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189/#190",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 271,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-browser-followup2-20260928T151900+0200",
-      "reason": "Claimed only scroll-view navigation and marker-strength fixes; settled-entry stage lock remains unchanged."
-    },
     {
       "at": "2026-09-28T15:26:00+02:00",
       "from": "busy/worker",
@@ -191,6 +191,13 @@
       "to": "busy/worker",
       "actor": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
       "reason": "Claimed #190 to refocus lecturer slide on teaching perspective using only course-relevant facts from project-cv; no CV-showcase content or renderer changes."
+    },
+    {
+      "at": "2026-09-29T11:24:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
+      "reason": "Completed #190 lecturer-slide content refocus from project-cv teaching context; returned to manager for focused test and browser review."
     }
   ]
 }
