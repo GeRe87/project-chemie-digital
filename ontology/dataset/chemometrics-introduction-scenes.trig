@@ -71,7 +71,7 @@
   ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-lecturer-context ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-lecturer-heading,
-      ex:scene-item-chemometrics-introduction-lecturer-pillars,
+      ex:scene-item-chemometrics-introduction-lecturer-profile,
       ex:scene-item-chemometrics-introduction-lecturer-takeaway ;
     cd:authoredResource true .
 
@@ -83,11 +83,11 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-lecturer-pillars a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-lecturer-profile a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chemometrics-lecturer-pillars ;
-    cd:communicativeRole cd:KeyPointRole ;
-    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:selectsResource ex:chemometrics-lecturer-profile ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 

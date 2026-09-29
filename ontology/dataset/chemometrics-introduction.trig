@@ -152,40 +152,43 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     cd:authoredResource true .
 
   ex:def-chemometrics-lecturer-context a cd:Definition ;
-    cd:body "Only the teaching perspective relevant to this course is introduced here: experience with chemometrics teaching, analytical measurement data and reproducible interpretation."@en ;
+    cd:body "A compact lecturer profile gives only the background, teaching experience and research context that help students place this course."@en ;
     cd:authoredResource true .
 
   ex:attribution-chemometrics-gerrit-renner a cd:Attribution ;
     cd:body "Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-pillars a cd:Interpretation ;
-    cd:body "Three things about the lecturer matter for how this course is taught."@en ;
-    cd:hasKeyPoint ex:chemometrics-lecturer-course-experience,
-      ex:chemometrics-lecturer-analytical-context,
-      ex:chemometrics-lecturer-teaching-approach ;
+  ex:chemometrics-lecturer-profile a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-lecturer-background,
+      ex:chemometrics-lecturer-teaching,
+      ex:chemometrics-lecturer-research ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-course-experience a cd:KeyPoint ;
+  ex:chemometrics-lecturer-background a cd:DefinitionListEntry ;
     cd:position 1 ;
-    cd:body """CHEMOMETRICS IN THE CLASSROOM
-Teaching this Master's course at UDE since 2020."""@en ;
+    skos:prefLabel "BACKGROUND"@en ;
+    cd:body """B.Sc. Chemistry & Biotechnology
+M.Sc. Applied Chemistry · Instrumental Analytics
+Dr. rer. nat. · Instrumental Analytical Chemistry"""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-analytical-context a cd:KeyPoint ;
+  ex:chemometrics-lecturer-teaching a cd:DefinitionListEntry ;
     cd:position 2 ;
-    cd:body """ANALYTICAL CHEMISTRY AS CONTEXT
-Instrumental measurements and complex analytical data keep the methods tied to real measurement problems."""@en ;
+    skos:prefLabel "TEACHING"@en ;
+    cd:body """Chemometrics & Applied Statistics at UDE since 2020
+Analytical chemistry teaching across B.Sc. and M.Sc. courses"""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-teaching-approach a cd:KeyPoint ;
+  ex:chemometrics-lecturer-research a cd:DefinitionListEntry ;
     cd:position 3 ;
-    cd:body """HOW I TEACH IT
-Understand the assumptions, make calculations reproducible, and interpret what the result actually means."""@en ;
+    skos:prefLabel "RESEARCH"@en ;
+    cd:body """Analytical Data Science · Instrumental Analytical Chemistry
+Chemometrics · data workflows · machine learning"""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-lecturer-takeaway a cd:Interpretation ;
-    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · INSTRUMENTAL ANALYTICAL CHEMISTRY · UDE"@en ;
+    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · UDE"@en ;
     cd:authoredResource true .
 
   # Slide 4 — course format --------------------------------------------------

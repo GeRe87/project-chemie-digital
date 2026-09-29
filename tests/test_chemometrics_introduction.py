@@ -63,7 +63,7 @@ EXPECTED_SCENES = [
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "group", "table", "chart", "list"],
-    ["prose", "list", "prose"],
+    ["prose", "definition-list", "prose"],
     ["prose", "prose", "diagram", "prose"],
     ["prose", "diagram"],
     ["prose", "prose", "prose", "definition-list", "prose"],
@@ -234,30 +234,33 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertNotIn("<rect width=\"720\" height=\"520\"", svg)
 
     def test_lecturer_slide_is_course_relevant_not_a_cv_showcase(self) -> None:
-        owner = EX["chemometrics-lecturer-pillars"]
-        points = sorted(
-            self.content_graph.objects(owner, CD.hasKeyPoint),
-            key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
+        owner = EX["chemometrics-lecturer-profile"]
+        entries = sorted(
+            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
+            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
         )
-        self.assertEqual(3, len(points))
-        bodies = [str(next(self.content_graph.objects(point, CD.body))) for point in points]
+        self.assertEqual(3, len(entries))
+        self.assertEqual(
+            ["BACKGROUND", "TEACHING", "RESEARCH"],
+            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
+        )
 
-        self.assertTrue(bodies[0].startswith("CHEMOMETRICS IN THE CLASSROOM\n"))
-        self.assertIn("since 2020", bodies[0])
+        bodies = [str(next(self.content_graph.objects(entry, CD.body))) for entry in entries]
+        self.assertIn("B.Sc. Chemistry & Biotechnology", bodies[0])
+        self.assertIn("M.Sc. Applied Chemistry", bodies[0])
+        self.assertIn("Dr. rer. nat.", bodies[0])
+        self.assertIn("Instrumental Analytical Chemistry", bodies[0])
 
-        self.assertTrue(bodies[1].startswith("ANALYTICAL CHEMISTRY AS CONTEXT\n"))
-        self.assertIn("real measurement problems", bodies[1])
+        self.assertIn("Chemometrics & Applied Statistics at UDE since 2020", bodies[1])
+        self.assertIn("B.Sc. and M.Sc.", bodies[1])
 
-        self.assertTrue(bodies[2].startswith("HOW I TEACH IT\n"))
-        self.assertIn("assumptions", bodies[2])
-        self.assertIn("reproducible", bodies[2])
-        self.assertIn("interpret", bodies[2])
+        self.assertIn("Analytical Data Science", bodies[2])
+        self.assertIn("Chemometrics", bodies[2])
+        self.assertIn("data workflows", bodies[2])
+        self.assertIn("machine learning", bodies[2])
 
         takeaway = str(next(self.content_graph.objects(EX["chemometrics-lecturer-takeaway"], CD.body)))
-        self.assertIn("GERRIT RENNER", takeaway)
-        self.assertIn("ANALYTICAL DATA SCIENCE", takeaway)
-        self.assertIn("INSTRUMENTAL ANALYTICAL CHEMISTRY", takeaway)
-        self.assertIn("UDE", takeaway)
+        self.assertEqual("GERRIT RENNER · ANALYTICAL DATA SCIENCE · UDE", takeaway)
 
         slide_text = "\n".join([*bodies, takeaway]).lower()
         for forbidden in (
@@ -268,7 +271,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             "editor",
             "reviewer",
             "supervision",
-            "ph.d",
+            "how i teach",
         ):
             with self.subTest(forbidden=forbidden):
                 self.assertNotIn(forbidden, slide_text)
@@ -428,8 +431,13 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
 
         lecturer_cards = self.document["scenes"][2]["blocks"][1]
-        self.assertEqual("unordered", lecturer_cards["listStyle"])
-        self.assertEqual(3, len(lecturer_cards["items"]))
+        self.assertEqual("definition-list", lecturer_cards["kind"])
+        self.assertEqual(3, len(lecturer_cards["entries"]))
+        self.assertEqual(
+            ["BACKGROUND", "TEACHING", "RESEARCH"],
+            [entry["term"] for entry in lecturer_cards["entries"]],
+        )
+        self.assertTrue(all(entry.get("description") for entry in lecturer_cards["entries"]))
 
         format_diagram = self.document["scenes"][3]["blocks"][2]
         self.assertEqual("flow", format_diagram["diagramType"])

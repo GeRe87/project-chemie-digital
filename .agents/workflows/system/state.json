@@ -4,48 +4,29 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 192,
-  "expectedDeliverable": "Review #192 generic labeled-card-grid and profile-gated publication projection. Require owner-local renderer/pitch tests before acceptance, then authorize the bounded Chemometrics content migration in #191.",
-  "lastCompletedTurn": "worker: completed #192 generic labeled-facet layout and profile-gated publication projection without scientific-content or identity-specific renderer changes.",
-  "lastUpdated": "2026-09-29T11:43:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 191,
+  "expectedDeliverable": "Review #191/#192 together after owner-local focused tests and browser smoke. Verify the lecturer slide renders Background/Teaching/Research without overflow or projection toggle and that the nitrate case study remains unchanged and semantically staged.",
+  "lastCompletedTurn": "worker: completed #191 lecturer profile migration to a labeled DefinitionList with compact Background, Teaching and Research content selected from project-cv.",
+  "lastUpdated": "2026-09-29T11:50:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #192 requires owner-local npm run test:renderer-reveal",
-    "Issue #192 requires owner-local npm run test:pitch",
-    "Issue #191 content migration must use the accepted generic labeled-card-grid primitive",
+    "Issue #191/#192 require owner-local npm run test:renderer-reveal",
+    "Issue #191/#192 require owner-local npm run test:pitch",
+    "Issue #191 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #191 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
+    "Browser smoke must also confirm the nitrate case-study stages remain unchanged",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 274,
+  "stateRevision": 277,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:39:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
-      "reason": "Completed test-only marker-span follow-up: semantic list preview and neutral marker-span regression now match the renderer DOM contract; no runtime/style/content changes."
-    },
-    {
-      "at": "2026-09-28T15:48:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-stage-navigation-20260928T154800+0200",
-      "reason": "Authorized bounded #188 follow-up: in scroll view, staged slides must use fragment navigation without scroll movement, then continue to adjacent slides only after stages are exhausted."
-    },
-    {
-      "at": "2026-09-28T15:49:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-stage-navigation-20260928T154900+0200",
-      "reason": "Claimed staged-navigation follow-up; scope limited to generic keyboard fragment navigation on structurally staged slides."
-    },
     {
       "at": "2026-09-28T15:57:00+02:00",
       "from": "busy/worker",
@@ -199,6 +180,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue192-labeled-facets-20260929T113600+0200",
       "reason": "Completed #192 implementation: three-entry DefinitionList scenes infer labeled-card-grid without identity checks; publication projection now mounts only through a generic profile capability; CogniFlow retains the capability and Chemometrics does not."
+    },
+    {
+      "at": "2026-09-29T11:44:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue191-lecturer-profile-20260929T114400+0200",
+      "reason": "Reviewed #192 as a bounded generic primitive and authorized #191 Content-track migration only: replace lecturer keypoint blobs with three labeled DefinitionList facets and update the scene/test contract; System-track files are out of scope."
+    },
+    {
+      "at": "2026-09-29T11:45:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue191-lecturer-profile-20260929T114500+0200",
+      "reason": "Claimed #191 bounded Chemometrics content migration using the accepted generic DefinitionList/DefinitionListEntry model and existing SceneItem semantics."
+    },
+    {
+      "at": "2026-09-29T11:50:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue191-lecturer-profile-20260929T114500+0200",
+      "reason": "Completed #191 content migration: lecturer slide now authors separate Background, Teaching and Research labels/bodies from course-relevant project-cv facts; scene compiles through DefinitionListRole with no renderer identity coupling."
     }
   ]
 }
