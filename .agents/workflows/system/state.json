@@ -6,16 +6,16 @@
   "nextTurn": "manager",
   "activeRole": "Presentation System Worker",
   "activeIssue": 193,
-  "expectedDeliverable": "Review #193 after owner-local pitch tests and browser smoke. Confirm only authored point boundaries gain spacing, wrapped lines stay together, separators cap at 2.5 line heights, and Slide 3 remains identity-free/generic.",
-  "lastCompletedTurn": "worker: completed #193 generic adaptive inter-point spacing plus bounded syntax correction; multiline descriptions use explicit newline segmentation, flexible separators cap at 2.5lh, and single-line rendering remains unchanged.",
-  "lastUpdated": "2026-09-29T12:31:00+02:00",
+  "expectedDeliverable": "Re-run owner-local pitch tests after the SceneDocument 1.4 fixture correction, then browser-check adaptive inter-point spacing on Slide 3.",
+  "lastCompletedTurn": "worker: completed #193 test-only SceneDocument 1.4 fixture correction; production adaptive-spacing behavior is unchanged.",
+  "lastUpdated": "2026-09-29T12:41:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #193 requires owner-local npm run test:pitch",
+    "Issue #193 requires owner-local npm run test:pitch rerun",
     "Issue #193 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
     "Issue #191/#192 require owner-local npm run test:renderer-reveal",
     "Issue #191 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
@@ -25,29 +25,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 283,
+  "stateRevision": 286,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T16:24:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
-      "reason": "Completed direct staged terminal navigation: adjacent slide resolved from linear Reveal slide list and entered via slide(h,v,f), eliminating relative next()/prev() fragment-loop behavior."
-    },
-    {
-      "at": "2026-09-28T16:31:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-unlock-before-slide-20260928T163100+0200",
-      "reason": "Authorized bounded #188 lifecycle fix: terminal staged navigation must synchronously release the active lock before direct slide(h,v,f), preventing fragmenthidden scroll restoration from blocking the programmatic slide transition."
-    },
-    {
-      "at": "2026-09-28T16:32:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
-      "reason": "Claimed bounded lifecycle fix: synchronous staged-exit unlock must precede direct slide navigation."
-    },
     {
       "at": "2026-09-28T16:38:00+02:00",
       "from": "busy/worker",
@@ -201,6 +180,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue193-syntax-correction-20260929T122900+0200",
       "reason": "Completed #193 syntax correction; adaptive point semantics and CSS spacing contract are unchanged."
+    },
+    {
+      "at": "2026-09-29T12:39:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue193-version-fixture",
+      "reason": "Owner-local pitch test exposed that the new synthetic DefinitionList preview fixture inherited an older SceneDocument version. Authorized a test-only correction to the minimum supported DefinitionList version 1.4."
+    },
+    {
+      "at": "2026-09-29T12:40:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue193-version-fixture",
+      "reason": "Claimed the test-only SceneDocument version correction; production renderer, styling and authored content remain unchanged."
+    },
+    {
+      "at": "2026-09-29T12:41:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue193-version-fixture",
+      "reason": "Completed the test fixture correction: the synthetic DefinitionList preview document now explicitly uses SceneDocument 1.4."
     }
   ]
 }

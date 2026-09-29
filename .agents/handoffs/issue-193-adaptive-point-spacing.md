@@ -56,3 +56,7 @@ Browser acceptance:
 ## Bounded syntax correction
 
 A connector-side source review after the initial commit caught two representation mistakes before owner verification: the newline regex had been over-escaped and multiline TypeScript fixtures had been emitted as quoted strings. The follow-up restores `/\r?\n/u` and uses template literals in the test fixture. No spacing behavior or architecture changed.
+
+## Owner-local regression follow-up
+
+The first owner-local `npm run test:pitch` run failed only because the new synthetic DefinitionList preview fixture inherited a pre-1.4 SceneDocument version. The fixture now sets `version: "1.4"`, matching the minimum DefinitionList contract. Production code, CSS and authored content are unchanged by this correction.
