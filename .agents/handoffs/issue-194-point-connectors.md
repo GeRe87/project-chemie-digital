@@ -23,3 +23,7 @@ npm run pitch:intro
 ```
 
 Browser acceptance should confirm that short authored points read as connected chains while wrapped lines within each point remain grouped.
+
+## Visual refinement after owner browser review
+
+The original connector used the font glyph `↓`, which rendered too thin at lecture distance. The generic spacer pseudo-element now draws a filled downward CSS triangle using transparent side borders and a `.74rem` colored top border. This keeps the connector independent of font rendering and makes it more legible without changing the point-order or adaptive-spacing semantics.

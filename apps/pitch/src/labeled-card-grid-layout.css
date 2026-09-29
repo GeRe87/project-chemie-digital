@@ -112,10 +112,14 @@
 
 .reveal .slides section[data-layout="labeled-card-grid"]
   > [data-layout-slot="cards"] .definition-list-point-spacer::before {
-  content: "↓";
-  color: color-mix(in srgb, var(--pcd-facet-stroke) 72%, var(--pcd-muted));
-  font: 900 .78em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  opacity: .78;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: .46rem solid transparent;
+  border-right: .46rem solid transparent;
+  border-top: .74rem solid color-mix(in srgb, var(--pcd-facet-stroke) 82%, var(--pcd-muted));
+  opacity: .95;
 }
 
 .reveal .slides section[data-layout="labeled-card-grid"] > [data-layout-slot="takeaway"] {

@@ -4,48 +4,27 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 195,
-  "expectedDeliverable": "Review #194/#195 together after owner-local focused tests and browser smoke. Verify degree years, full research-group hierarchy, connector readability and absence of unexplained ADS/IAC abbreviations.",
-  "lastCompletedTurn": "worker: completed #195 compact lecturer content with dated degrees and explicit full-name research-group hierarchy.",
-  "lastUpdated": "2026-09-29T16:29:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 194,
+  "expectedDeliverable": "Re-run owner-local Pitch tests and browser-check Slide 3. Confirm the filled triangle connector is clearly visible without overpowering the three-column content.",
+  "lastCompletedTurn": "worker: refined #194 generic point connector from a font arrow to a larger filled CSS triangle; no content or semantic changes.",
+  "lastUpdated": "2026-09-29T16:51:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #194/#195 require owner-local npm run test:pitch",
-    "Issue #195 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #194 requires owner-local npm run test:pitch",
     "Issue #194/#195 require fresh browser smoke of Slide 3 via npm run pitch:intro",
+    "Issue #195 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 292,
+  "stateRevision": 295,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T10:33:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
-      "reason": "Claimed bounded #189 pitch-regression fix: explicit semantic-disclosure data attribute write plus SceneDocument 1.2 annotated-chart fixture; no semantic/content redesign."
-    },
-    {
-      "at": "2026-09-29T10:37:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
-      "reason": "Completed bounded #189 pitch-regression correction: explicit disclosure data attribute write and SceneDocument 1.2 annotated-chart fixture; no semantic/content redesign."
-    },
-    {
-      "at": "2026-09-29T11:17:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
-      "reason": "Claimed #190 to refocus lecturer slide on teaching perspective using only course-relevant facts from project-cv; no CV-showcase content or renderer changes."
-    },
     {
       "at": "2026-09-29T11:24:00+02:00",
       "from": "busy/worker",
@@ -199,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue195-lecturer-content",
       "reason": "Completed #195: Background now shows 2012/2015/2020, Teaching uses short points, and Research explicitly orders Instrumental Analytical Chemistry -> Junior Research Group “Analytical Data Science” -> research topics without unexplained ADS/IAC abbreviations."
+    },
+    {
+      "at": "2026-09-29T16:47:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue194-triangle-connector",
+      "reason": "Owner browser review found the generic relation glyph too thin. Authorized a bounded #194 visual refinement replacing the font arrow with a larger renderer-owned filled CSS triangle; spacing semantics and Chemometrics content stay unchanged."
+    },
+    {
+      "at": "2026-09-29T16:48:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue194-triangle-connector",
+      "reason": "Claimed bounded #194 connector visual refinement only."
+    },
+    {
+      "at": "2026-09-29T16:51:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue194-triangle-connector",
+      "reason": "Completed #194 connector refinement: adaptive point spacers now render a larger filled CSS triangle instead of a font arrow; generic spacing, point grouping and identity boundaries are unchanged."
     }
   ]
 }
