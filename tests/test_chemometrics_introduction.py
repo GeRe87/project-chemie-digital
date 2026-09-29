@@ -233,7 +233,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertIn(">C</text>", svg)
         self.assertNotIn("<rect width=\"720\" height=\"520\"", svg)
 
-    def test_lecturer_slide_has_three_keypoint_cards_and_affiliation_takeaway(self) -> None:
+    def test_lecturer_slide_is_course_relevant_not_a_cv_showcase(self) -> None:
         owner = EX["chemometrics-lecturer-pillars"]
         points = sorted(
             self.content_graph.objects(owner, CD.hasKeyPoint),
@@ -241,12 +241,37 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
         self.assertEqual(3, len(points))
         bodies = [str(next(self.content_graph.objects(point, CD.body))) for point in points]
-        self.assertTrue(bodies[0].startswith("ANALYTICAL DATA SCIENCE\n"))
-        self.assertTrue(bodies[1].startswith("INSTRUMENTAL ANALYTICAL CHEMISTRY\n"))
-        self.assertTrue(bodies[2].startswith("RESEARCH + TEACHING\n"))
+
+        self.assertTrue(bodies[0].startswith("CHEMOMETRICS IN THE CLASSROOM\n"))
+        self.assertIn("since 2020", bodies[0])
+
+        self.assertTrue(bodies[1].startswith("ANALYTICAL CHEMISTRY AS CONTEXT\n"))
+        self.assertIn("real measurement problems", bodies[1])
+
+        self.assertTrue(bodies[2].startswith("HOW I TEACH IT\n"))
+        self.assertIn("assumptions", bodies[2])
+        self.assertIn("reproducible", bodies[2])
+        self.assertIn("interpret", bodies[2])
+
         takeaway = str(next(self.content_graph.objects(EX["chemometrics-lecturer-takeaway"], CD.body)))
-        self.assertIn("IAC", takeaway)
-        self.assertIn("UNIVERSITY OF DUISBURG-ESSEN", takeaway)
+        self.assertIn("GERRIT RENNER", takeaway)
+        self.assertIn("ANALYTICAL DATA SCIENCE", takeaway)
+        self.assertIn("INSTRUMENTAL ANALYTICAL CHEMISTRY", takeaway)
+        self.assertIn("UDE", takeaway)
+
+        slide_text = "\n".join([*bodies, takeaway]).lower()
+        for forbidden in (
+            "publication",
+            "award",
+            "grant",
+            "funding",
+            "editor",
+            "reviewer",
+            "supervision",
+            "ph.d",
+        ):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, slide_text)
 
     def test_course_format_is_exact_four_node_linear_flow(self) -> None:
         diagram = EX["diagram-chemometrics-course-format"]
