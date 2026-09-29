@@ -4,11 +4,11 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 196,
-  "expectedDeliverable": "Review #196 generic two-step process support, then authorize #197 course-organization content migration. Owner-local renderer tests remain required.",
-  "lastCompletedTurn": "worker: completed #196 generic two-step process-diagram inference with hierarchy-flow precedence preserved.",
-  "lastUpdated": "2026-09-29T17:23:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 197,
+  "expectedDeliverable": "Owner-local focused tests plus browser review of the new course-organization slide. Verify the two teaching days/modes are immediately clear and the tutorial is not perceived as a programming-only session.",
+  "lastCompletedTurn": "worker: completed #197 two-mode course-organization slide using the generic two-step process diagram.",
+  "lastUpdated": "2026-09-29T17:32:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -16,35 +16,16 @@
   },
   "blockedBy": [
     "Issue #196 requires owner-local npm run test:renderer-reveal",
-    "Issue #197 content migration must use the accepted generic two-step process primitive",
+    "Issue #197 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #197 requires owner-local npm run test:pitch",
+    "Issue #197 requires fresh browser smoke via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 301,
+  "stateRevision": 304,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T11:50:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue191-lecturer-profile-20260929T114500+0200",
-      "reason": "Completed #191 content migration: lecturer slide now authors separate Background, Teaching and Research labels/bodies from course-relevant project-cv facts; scene compiles through DefinitionListRole with no renderer identity coupling."
-    },
-    {
-      "at": "2026-09-29T12:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue193-adaptive-point-spacing-20260929T121800+0200",
-      "reason": "Owner browser review accepted the labeled-card model but identified unused vertical space; authorized a generic System-track rule that expands only authored inter-point separators, capped at 2.5 line heights, with no content or identity-specific changes."
-    },
-    {
-      "at": "2026-09-29T12:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue193-adaptive-point-spacing-20260929T121900+0200",
-      "reason": "Claimed #193 generic DefinitionList point segmentation and adaptive separator spacing; scope excludes Chemometrics content and scene-specific styling."
-    },
     {
       "at": "2026-09-29T12:27:00+02:00",
       "from": "busy/worker",
@@ -198,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue196-two-step-process",
       "reason": "Completed #196: generic process-diagram inference now accepts linear flows with two or more nodes; hierarchy-flow remains earlier and therefore retains three-node precedence."
+    },
+    {
+      "at": "2026-09-29T17:24:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue197-course-organization",
+      "reason": "Reviewed #196 as the generic two-step process primitive and authorized #197 Chemometrics Content-track migration only."
+    },
+    {
+      "at": "2026-09-29T17:25:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue197-course-organization",
+      "reason": "Claimed #197 bounded course-organization content migration: one interactive lecture+seminar day, one hands-on tutorial day, with programming framed as a tool."
+    },
+    {
+      "at": "2026-09-29T17:32:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue197-course-organization",
+      "reason": "Completed #197: slide now uses a two-node semantic flow from interactive lecture+seminar to hands-on tutorial, removes obsolete four-format card resources, and states that programming supports rather than defines the tutorial."
     }
   ]
 }

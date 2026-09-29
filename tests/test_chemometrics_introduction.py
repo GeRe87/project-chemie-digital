@@ -293,7 +293,25 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertNotIn("ADS", slide_text)
         self.assertNotIn("IAC", slide_text)
 
-    def test_course_format_is_exact_four_node_linear_flow(self) -> None:
+    def test_course_organization_is_two_meetings_with_distinct_teaching_modes(self) -> None:
+        self.assertEqual(
+            "How is the course organized?",
+            str(next(self.content_graph.objects(EX["chemometrics-course-format"], SKOS.prefLabel))),
+        )
+
+        definition = str(next(self.content_graph.objects(EX["def-chemometrics-course-format"], CD.body)))
+        self.assertIn("interactive lecture-and-seminar session", definition)
+        self.assertIn("tutorial on another day", definition)
+
+        banner = str(next(self.content_graph.objects(EX["chemometrics-course-format-banner"], CD.body)))
+        self.assertEqual(
+            [
+                "TWO MEETINGS — ONE LEARNING CYCLE",
+                "Lecture and seminar are mixed into one interactive session.",
+            ],
+            banner.splitlines(),
+        )
+
         diagram = EX["diagram-chemometrics-course-format"]
         self.assertEqual({CD.FlowDiagram}, set(self.content_graph.objects(diagram, RDF.type)))
         nodes = sorted(
@@ -305,16 +323,39 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             key=lambda edge: int(next(self.content_graph.objects(edge, CD.position))),
         )
         self.assertEqual(
-            ["LECTURE", "TUTORIAL", "REPRODUCE", "DISCUSS"],
+            ["INTERACTIVE LECTURE + SEMINAR", "HANDS-ON TUTORIAL"],
             [str(next(self.content_graph.objects(node, SKOS.prefLabel))) for node in nodes],
         )
-        self.assertEqual(4, len(nodes))
-        self.assertEqual(3, len(edges))
-        for index, edge in enumerate(edges):
-            self.assertEqual({nodes[index]}, set(self.content_graph.objects(edge, CD.sourceNode)))
-            self.assertEqual({nodes[index + 1]}, set(self.content_graph.objects(edge, CD.targetNode)))
-        banner = str(next(self.content_graph.objects(EX["chemometrics-course-format-banner"], CD.body)))
-        self.assertIn("LEARN → PRACTICE → REPRODUCE → DISCUSS", banner)
+        self.assertEqual(2, len(nodes))
+        self.assertEqual(1, len(edges))
+        self.assertEqual({nodes[0]}, set(self.content_graph.objects(edges[0], CD.sourceNode)))
+        self.assertEqual({nodes[1]}, set(self.content_graph.objects(edges[0], CD.targetNode)))
+        self.assertEqual("deepen & apply", str(next(self.content_graph.objects(edges[0], SKOS.prefLabel))))
+
+        interactive_body = str(next(self.content_graph.objects(nodes[0], CD.body)))
+        for phrase in ("One day", "theory inputs", "group discussion", "worked examples", "questions"):
+            with self.subTest(interactive_phrase=phrase):
+                self.assertIn(phrase, interactive_body)
+
+        tutorial_body = str(next(self.content_graph.objects(nodes[1], CD.body)))
+        for phrase in ("Another day", "principles", "problem solving", "calculations", "programming"):
+            with self.subTest(tutorial_phrase=phrase):
+                self.assertIn(phrase, tutorial_body)
+
+        takeaway = str(next(self.content_graph.objects(EX["chemometrics-course-format-takeaway"], CD.body)))
+        self.assertEqual(
+            "PROGRAMMING IS A TOOL — THE FOCUS IS STATISTICAL AND CHEMOMETRIC REASONING",
+            takeaway,
+        )
+
+        # Obsolete four-format cards are intentionally removed from the canonical content graph.
+        for obsolete in (
+            "chemometrics-course-format-list",
+            "chemometrics-course-format-lecture",
+            "chemometrics-course-format-reproducible-computation",
+            "chemometrics-course-format-questions",
+        ):
+            self.assertFalse(any(self.content_graph.triples((EX[obsolete], None, None))))
 
     def test_course_roadmap_is_exact_six_node_linear_flow(self) -> None:
         diagram = EX["diagram-chemometrics-course-roadmap"]
@@ -456,10 +497,17 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
         self.assertTrue(all(entry.get("description") for entry in lecturer_cards["entries"]))
 
-        format_diagram = self.document["scenes"][3]["blocks"][2]
+        format_scene = self.document["scenes"][3]
+        self.assertEqual("How is the course organized?", format_scene["blocks"][0]["text"])
+        format_diagram = format_scene["blocks"][2]
         self.assertEqual("flow", format_diagram["diagramType"])
-        self.assertEqual(4, len(format_diagram["nodes"]))
-        self.assertEqual(3, len(format_diagram["edges"]))
+        self.assertEqual(2, len(format_diagram["nodes"]))
+        self.assertEqual(1, len(format_diagram["edges"]))
+        self.assertEqual(
+            ["INTERACTIVE LECTURE + SEMINAR", "HANDS-ON TUTORIAL"],
+            [node["label"] for node in format_diagram["nodes"]],
+        )
+        self.assertEqual("deepen & apply", format_diagram["edges"][0]["label"])
 
         roadmap = self.document["scenes"][4]["blocks"][1]
         self.assertEqual("flow", roadmap["diagramType"])

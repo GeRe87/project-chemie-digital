@@ -193,116 +193,50 @@ Chemometrics · data workflows · machine learning"""@en ;
     cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · UDE"@en ;
     cd:authoredResource true .
 
-  # Slide 4 — course format --------------------------------------------------
+  # Slide 4 — course organization --------------------------------------------
   ex:chemometrics-course-format a cd:Concept ;
-    skos:prefLabel "Lecture and Tutorial"@en ;
+    skos:prefLabel "How is the course organized?"@en ;
     cd:hasDefinition ex:def-chemometrics-course-format ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-format a cd:Definition ;
-    cd:body "The course format describes how lecture, tutorial, reproducible computation, questions and discussion work together."@en ;
+    cd:body "The course combines one interactive lecture-and-seminar session with a hands-on tutorial on another day."@en ;
     cd:authoredResource true .
 
   ex:chemometrics-course-format-banner a cd:Interpretation ;
-    cd:body """LEARN → PRACTICE → REPRODUCE → DISCUSS
-Each format has a distinct role in building statistical reasoning."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-foundation a cd:Interpretation ;
-    cd:body """ONE METHOD — FOUR PERSPECTIVES
-Concepts are taught together with assumptions, calculation, application and interpretation."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-list a cd:DefinitionList ;
-    cd:hasDefinitionListEntry ex:chemometrics-course-format-lecture,
-      ex:chemometrics-course-format-tutorial,
-      ex:chemometrics-course-format-reproducible-computation,
-      ex:chemometrics-course-format-questions ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-lecture a cd:DefinitionListEntry ;
-    cd:position 1 ;
-    skos:prefLabel "Lecture"@en ;
-    cd:body "Concepts · assumptions · derivations · interpretation"@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-tutorial a cd:DefinitionListEntry ;
-    cd:position 2 ;
-    skos:prefLabel "Tutorial"@en ;
-    cd:body "Exercises · calculations · discussion · transfer"@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-reproducible-computation a cd:DefinitionListEntry ;
-    cd:position 3 ;
-    skos:prefLabel "Reproducible computation"@en ;
-    cd:body "Transparent code-based examples where computation helps understanding."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-questions a cd:DefinitionListEntry ;
-    cd:position 4 ;
-    skos:prefLabel "Questions and discussion"@en ;
-    cd:body "Compare reasoning · challenge assumptions · resolve open questions"@en ;
+    cd:body """TWO MEETINGS — ONE LEARNING CYCLE
+Lecture and seminar are mixed into one interactive session."""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-course-format-takeaway a cd:Interpretation ;
-    cd:body "THE GOAL IS NOT FORMULA RECALL — IT IS REASONED DATA ANALYSIS"@en ;
+    cd:body "PROGRAMMING IS A TOOL — THE FOCUS IS STATISTICAL AND CHEMOMETRIC REASONING"@en ;
     cd:authoredResource true .
 
   ex:diagram-chemometrics-course-format a cd:FlowDiagram ;
-    skos:prefLabel "Course learning cycle"@en ;
-    cd:body "Lecture introduces a method, tutorial turns it into practice, reproducible computation makes the calculation inspectable, and discussion tests the reasoning."@en ;
-    cd:hasDiagramNode ex:node-chemometrics-format-lecture,
-      ex:node-chemometrics-format-tutorial,
-      ex:node-chemometrics-format-reproduce,
-      ex:node-chemometrics-format-discuss ;
-    cd:hasDiagramEdge ex:edge-chemometrics-format-1-2,
-      ex:edge-chemometrics-format-2-3,
-      ex:edge-chemometrics-format-3-4 ;
+    skos:prefLabel "Course organization"@en ;
+    cd:body "One day mixes theory input and seminar-style interaction; another day uses a hands-on tutorial to deepen principles and solve problems."@en ;
+    cd:hasDiagramNode ex:node-chemometrics-format-interactive,
+      ex:node-chemometrics-format-tutorial ;
+    cd:hasDiagramEdge ex:edge-chemometrics-format-interactive-tutorial ;
     cd:authoredResource true .
 
-  ex:node-chemometrics-format-lecture a cd:DiagramNode ;
+  ex:node-chemometrics-format-interactive a cd:DiagramNode ;
     cd:position 1 ;
-    skos:prefLabel "LECTURE"@en ;
-    cd:body "Concepts · assumptions · interpretation"@en ;
+    skos:prefLabel "INTERACTIVE LECTURE + SEMINAR"@en ;
+    cd:body "One day · theory inputs · group discussion · worked examples · questions"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-format-tutorial a cd:DiagramNode ;
     cd:position 2 ;
-    skos:prefLabel "TUTORIAL"@en ;
-    cd:body "Exercises · calculations · transfer"@en ;
+    skos:prefLabel "HANDS-ON TUTORIAL"@en ;
+    cd:body "Another day · principles · problem solving · calculations · programming"@en ;
     cd:authoredResource true .
 
-  ex:node-chemometrics-format-reproduce a cd:DiagramNode ;
-    cd:position 3 ;
-    skos:prefLabel "REPRODUCE"@en ;
-    cd:body "Transparent code · inspectable calculation"@en ;
-    cd:authoredResource true .
-
-  ex:node-chemometrics-format-discuss a cd:DiagramNode ;
-    cd:position 4 ;
-    skos:prefLabel "DISCUSS"@en ;
-    cd:body "Compare reasoning · challenge assumptions"@en ;
-    cd:authoredResource true .
-
-  ex:edge-chemometrics-format-1-2 a cd:DiagramEdge ;
+  ex:edge-chemometrics-format-interactive-tutorial a cd:DiagramEdge ;
     cd:position 1 ;
-    skos:prefLabel "practice"@en ;
-    cd:sourceNode ex:node-chemometrics-format-lecture ;
+    skos:prefLabel "deepen & apply"@en ;
+    cd:sourceNode ex:node-chemometrics-format-interactive ;
     cd:targetNode ex:node-chemometrics-format-tutorial ;
-    cd:authoredResource true .
-
-  ex:edge-chemometrics-format-2-3 a cd:DiagramEdge ;
-    cd:position 2 ;
-    skos:prefLabel "make reproducible"@en ;
-    cd:sourceNode ex:node-chemometrics-format-tutorial ;
-    cd:targetNode ex:node-chemometrics-format-reproduce ;
-    cd:authoredResource true .
-
-  ex:edge-chemometrics-format-3-4 a cd:DiagramEdge ;
-    cd:position 3 ;
-    skos:prefLabel "reflect"@en ;
-    cd:sourceNode ex:node-chemometrics-format-reproduce ;
-    cd:targetNode ex:node-chemometrics-format-discuss ;
     cd:authoredResource true .
 
   # Slide 5 — course roadmap -------------------------------------------------
