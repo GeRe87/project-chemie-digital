@@ -201,7 +201,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
       {
         id: "entry:multi",
         term: "MULTI",
-        description: "First logical point\nSecond point wraps naturally in the browser\nThird logical point",
+        description: `First logical point\nSecond point wraps naturally in the browser\nThird logical point`,
         source: [{ resourceId: "resource:entry:multi" }],
       },
       {
@@ -213,7 +213,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
       {
         id: "entry:blank-lines",
         term: "BLANKS",
-        description: "Alpha\n\n   \nBeta",
+        description: `Alpha\n\n   \nBeta`,
         source: [{ resourceId: "resource:entry:blank-lines" }],
       },
     ],

@@ -202,7 +202,7 @@ function appendBlock(
         sourceAttributes(description, entry.source);
 
         const authoredPoints = entry.description
-          .split(/\\r?\\n/u)
+          .split(/\r?\n/u)
           .map((point) => point.trim())
           .filter((point) => point.length > 0);
 

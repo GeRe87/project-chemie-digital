@@ -7,8 +7,8 @@
   "activeRole": "Presentation System Worker",
   "activeIssue": 193,
   "expectedDeliverable": "Review #193 after owner-local pitch tests and browser smoke. Confirm only authored point boundaries gain spacing, wrapped lines stay together, separators cap at 2.5 line heights, and Slide 3 remains identity-free/generic.",
-  "lastCompletedTurn": "worker: completed #193 generic adaptive inter-point spacing for multiline DefinitionList descriptions, with a 2.5lh cap and unchanged single-line rendering.",
-  "lastUpdated": "2026-09-29T12:27:00+02:00",
+  "lastCompletedTurn": "worker: completed #193 generic adaptive inter-point spacing plus bounded syntax correction; multiline descriptions use explicit newline segmentation, flexible separators cap at 2.5lh, and single-line rendering remains unchanged.",
+  "lastUpdated": "2026-09-29T12:31:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -25,29 +25,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 280,
+  "stateRevision": 283,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T16:14:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-terminal-navigation-20260928T160900+0200",
-      "reason": "Completed terminal staged-navigation fix: staged slides now own final/initial navigation and explicitly leave via deck.next()/deck.prev(), preventing fragment reset loops."
-    },
-    {
-      "at": "2026-09-28T16:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-direct-slide-20260928T161800+0200",
-      "reason": "Authorized bounded #188 terminal fix using Reveal direct slide(h,v,f) navigation to adjacent DOM slides instead of relative next()/prev(), which still re-enters fragments in scroll view."
-    },
-    {
-      "at": "2026-09-28T16:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-direct-slide-20260928T161900+0200",
-      "reason": "Claimed direct target-slide terminal navigation fix using getSlides/getIndices/slide; relative next()/prev() will be removed from staged terminal navigation."
-    },
     {
       "at": "2026-09-28T16:24:00+02:00",
       "from": "busy/worker",
@@ -201,6 +180,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue193-adaptive-point-spacing-20260929T121900+0200",
       "reason": "Completed #193: multiline DefinitionList descriptions render as logical point blocks with flexible neutral separators; separators consume spare card height only between points and are capped at 2.5lh; single-line descriptions remain unchanged."
+    },
+    {
+      "at": "2026-09-29T12:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue193-syntax-correction-20260929T122800+0200",
+      "reason": "Connector-side source inspection found over-escaped newline matching and invalid multiline quoted test fixtures in the first #193 commit; authorized a bounded syntax-only correction with no behavior or design change."
+    },
+    {
+      "at": "2026-09-29T12:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue193-syntax-correction-20260929T122900+0200",
+      "reason": "Claimed bounded #193 syntax correction: restore the intended CRLF/LF regex and encode multiline test fixtures as template literals."
+    },
+    {
+      "at": "2026-09-29T12:31:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue193-syntax-correction-20260929T122900+0200",
+      "reason": "Completed #193 syntax correction; adaptive point semantics and CSS spacing contract are unchanged."
     }
   ]
 }

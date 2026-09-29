@@ -52,3 +52,7 @@ Browser acceptance:
 - gaps stop growing before they become visually excessive;
 - no projection toggle returns;
 - nitrate staged case study remains unchanged.
+
+## Bounded syntax correction
+
+A connector-side source review after the initial commit caught two representation mistakes before owner verification: the newline regex had been over-escaped and multiline TypeScript fixtures had been emitted as quoted strings. The follow-up restores `/\r?\n/u` and uses template literals in the test fixture. No spacing behavior or architecture changed.
