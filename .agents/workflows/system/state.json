@@ -1,29 +1,30 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 189,
-  "expectedDeliverable": "Fix the two owner-local #189 pitch regressions only: write semantic disclosure visibility through the explicit data-presentation-disclosure-visible DOM attribute, and make the synthetic annotated-chart preview fixture a SceneDocument 1.2 document. Preserve semantic disclosure behavior, RDF, D3 and authored content.",
-  "lastCompletedTurn": "manager: owner-local #189 verification found two focused pitch failures: Fake DOM does not mirror dataset writes into data attributes, and an annotated chart test fixture remains on a pre-chart SceneDocument version. Authorized a bounded runtime-contract/test-fixture correction.",
-  "lastUpdated": "2026-09-29T10:33:00+02:00",
+  "expectedDeliverable": "Review the bounded #189 pitch-regression correction on PR #185 after owner-local npm run test:pitch. Verify semantic disclosure visibility now writes the explicit data-presentation-disclosure-visible attribute and the annotated chart preview fixture uses SceneDocument 1.2. Then continue the remaining #189 browser/full-suite/final-validator gates.",
+  "lastCompletedTurn": "worker: fixed the two owner-local #189 pitch regressions only: semantic disclosure now writes the explicit data-presentation-disclosure-visible attribute, and the synthetic annotated-chart preview fixture is SceneDocument 1.2. No RDF/compiler/D3/content changes.",
+  "lastUpdated": "2026-09-29T10:37:00+02:00",
   "lease": {
-    "owner": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
-    "claimedAt": "2026-09-29T10:33:00+02:00",
-    "expiresAt": "2026-09-29T12:33:00+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 268,
+  "blockedBy": [
+    "Issue #189 regression fix requires owner-local npm run test:pitch",
+    "Issue #189 requires remaining focused SHACL/core/D3/Introduction verification if not already completed",
+    "Issue #189 requires fresh browser smoke of semantic progressive disclosure via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance",
+    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 269,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:07:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-browser-followup-20260928T145900+0200",
-      "reason": "Completed bounded #188 browser follow-up: delayed settle/capture/lock lifecycle, navigation-safe unlock, no global overflow suppression, active-only background freeze and layered irregular marker strokes; returned to manager for focused tests and fresh browser verification."
-    },
     {
       "at": "2026-09-28T15:18:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +192,13 @@
       "to": "busy/worker",
       "actor": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
       "reason": "Claimed bounded #189 pitch-regression fix: explicit semantic-disclosure data attribute write plus SceneDocument 1.2 annotated-chart fixture; no semantic/content redesign."
+    },
+    {
+      "at": "2026-09-29T10:37:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
+      "reason": "Completed bounded #189 pitch-regression correction: explicit disclosure data attribute write and SceneDocument 1.2 annotated-chart fixture; no semantic/content redesign."
     }
   ]
 }
