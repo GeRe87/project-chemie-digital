@@ -2,6 +2,7 @@ import type { DiagramBlock, Scene, SceneBlock } from "../../core/src/scene-docum
 
 export type RevealLayoutFamily =
   | "concept-specification"
+  | "labeled-card-grid"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -210,6 +211,20 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
 
   if (blocks.length === 3) {
     const [heading, body, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && body?.kind === "definition-list"
+      && body.entries.length === 3
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "labeled-card-grid",
+        slots: ["heading", "cards", "takeaway"],
+      };
+    }
+
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"

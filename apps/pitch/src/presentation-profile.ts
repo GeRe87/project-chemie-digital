@@ -14,6 +14,10 @@ export interface PresenterCapabilities {
   readonly laserPointer?: boolean;
 }
 
+export interface PresentationProjectionCapabilities {
+  readonly publication?: boolean;
+}
+
 export type PresentationViewportPolicy = "fixed-canvas" | "native-portrait";
 export type PresentationReadabilityMode = "standard" | "lecture";
 
@@ -24,6 +28,7 @@ export interface PresentationProfile {
   readonly defaultTheme: PresentationThemeMode;
   readonly defaultBackgroundFamilyId?: string;
   readonly presenterCapabilities?: PresenterCapabilities;
+  readonly projectionCapabilities?: PresentationProjectionCapabilities;
   readonly viewportPolicy?: PresentationViewportPolicy;
   readonly defaultReadability?: PresentationReadabilityMode;
 }
@@ -101,6 +106,9 @@ export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
   presenterCapabilities: Object.freeze({
     clock: true,
     laserPointer: true,
+  }),
+  projectionCapabilities: Object.freeze({
+    publication: true,
   }),
   viewportPolicy: "native-portrait",
   defaultReadability: "standard",

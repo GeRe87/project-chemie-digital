@@ -4,47 +4,27 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 190,
-  "expectedDeliverable": "Review #190 lecturer-slide refocus on PR #185 after owner-local Chemometrics Introduction test and browser smoke. Verify the slide remains a three-card concept-specification, includes only course-relevant facts selected from project-cv, reads at lecture distance, and avoids CV-showcase content. Then continue the accumulated PR full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: completed #190 lecturer-slide refocus using only course-relevant facts from project-cv: course teaching since 2020, analytical-chemistry measurement context, and assumptions/reproducibility/interpretation teaching approach. Existing three-card layout preserved; CV-showcase content explicitly excluded and regression-tested.",
-  "lastUpdated": "2026-09-29T11:24:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 192,
+  "expectedDeliverable": "Review #192 generic labeled-card-grid and profile-gated publication projection. Require owner-local renderer/pitch tests before acceptance, then authorize the bounded Chemometrics content migration in #191.",
+  "lastCompletedTurn": "worker: completed #192 generic labeled-facet layout and profile-gated publication projection without scientific-content or identity-specific renderer changes.",
+  "lastUpdated": "2026-09-29T11:43:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #190 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #190 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
+    "Issue #192 requires owner-local npm run test:renderer-reveal",
+    "Issue #192 requires owner-local npm run test:pitch",
+    "Issue #191 content migration must use the accepted generic labeled-card-grid primitive",
     "PR #185 requires full repository npm test after focused/browser acceptance",
-    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189/#190",
+    "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 271,
+  "stateRevision": 274,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:26:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-browser-followup2-20260928T151900+0200",
-      "reason": "Completed bounded #188 second browser follow-up: deck-only inactive-slide hiding restores Reveal scroll-view deck, presentation view is explicit, and three-layer marker backgrounds now render directly behind list text; returned to manager for focused tests and visual verification."
-    },
-    {
-      "at": "2026-09-28T15:34:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-test-followup-20260928T153400+0200",
-      "reason": "Authorized test-only #188 follow-up for the new list text span DOM contract; no runtime, style or scientific-content mutation."
-    },
-    {
-      "at": "2026-09-28T15:35:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-test-followup-20260928T153500+0200",
-      "reason": "Claimed test-only marker-span follow-up; runtime, CSS and authored scientific content remain unchanged."
-    },
     {
       "at": "2026-09-28T15:39:00+02:00",
       "from": "busy/worker",
@@ -198,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
       "reason": "Completed #190 lecturer-slide content refocus from project-cv teaching context; returned to manager for focused test and browser review."
+    },
+    {
+      "at": "2026-09-29T11:35:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue192-labeled-facets-20260929T113500+0200",
+      "reason": "Owner browser review rejected the generic concept-specification realization for the lecturer slide; authorized System-track work limited to a reusable labeled-facet layout and profile-gated alternate projection, with no scientific-content mutation."
+    },
+    {
+      "at": "2026-09-29T11:36:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue192-labeled-facets-20260929T113600+0200",
+      "reason": "Claimed #192 System-track scope: structural labeled-card-grid inference, generic CSS, projection capability wiring, and focused regressions only."
+    },
+    {
+      "at": "2026-09-29T11:43:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue192-labeled-facets-20260929T113600+0200",
+      "reason": "Completed #192 implementation: three-entry DefinitionList scenes infer labeled-card-grid without identity checks; publication projection now mounts only through a generic profile capability; CogniFlow retains the capability and Chemometrics does not."
     }
   ]
 }

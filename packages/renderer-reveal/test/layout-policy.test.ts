@@ -38,6 +38,30 @@ function threeCardScene(id: string, itemCount = 3): Scene {
   };
 }
 
+function labeledCardScene(id: string, entryCount = 3): Scene {
+  return {
+    id,
+    source: [{ resourceId: `${id}:source` }],
+    blocks: [
+      prose(`${id}:heading`, "introduce"),
+      {
+        id: `${id}:cards`,
+        kind: "definition-list",
+        entries: Array.from({ length: entryCount }, (_, index) => ({
+          id: `entry:${index + 1}`,
+          term: `Facet ${index + 1}`,
+          description: `Description ${index + 1}`,
+          source: [{ resourceId: `resource:entry:${index + 1}` }],
+        })),
+        intent: { kind: "explain" },
+        source: [{ resourceId: "resource:cards" }],
+      },
+      prose(`${id}:takeaway`, "explain"),
+    ],
+    readingOrder: [`${id}:heading`, `${id}:cards`, `${id}:takeaway`],
+  };
+}
+
 function hierarchyScene(id: string): Scene {
   return {
     id,
@@ -395,6 +419,13 @@ test("infers concentric-network from focused grouped topology without scene iden
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("scene:alpha")), "concentric-network");
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("opaque:scene")), "concentric-network");
   assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
+});
+
+test("infers labeled-card-grid from three labeled facets without scene identity", () => {
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:alpha")), "labeled-card-grid");
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("opaque:anything")), "labeled-card-grid");
+  assert.deepEqual(inferRevealLayoutDecision(labeledCardScene("scene:slots"))?.slots, ["heading", "cards", "takeaway"]);
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:four-facets", 4)), undefined);
 });
 
 test("infers concept-specification from structure without scene identity", () => {

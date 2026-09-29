@@ -21,6 +21,7 @@ import "./foundation-card-grid-layout.css";
 import "./reference-code-layout.css";
 import "./hierarchy-flow-layout.css";
 import "./concept-specification-layout.css";
+import "./labeled-card-grid-layout.css";
 import "./presentation-projection.css";
 import "./hero-title-panel.css";
 import "./knowledge-network-runtime.css";
@@ -122,11 +123,12 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   documents,
   canonicalDatasetSnapshot,
 );
-preparePresentationStepFragments(root);
-const unmountPresentationProjection = mountPresentationProjections(root);
-
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
+preparePresentationStepFragments(root);
+const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
+  ? mountPresentationProjections(root)
+  : () => undefined;
 const unmountPresentationClock = appearance.profile.presenterCapabilities?.clock
   ? mountPresentationClock(document.body)
   : () => undefined;

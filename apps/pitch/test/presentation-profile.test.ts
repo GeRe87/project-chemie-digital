@@ -27,6 +27,7 @@ test("Chemometrics defaults to dark scroll view with the paired city family", ()
   assert.equal(resolved.backgroundPackId, "chemometrics-city-dark");
   assert.equal(resolved.diagramThemeId, "eco-city");
   assert.equal(resolved.readability, "lecture");
+  assert.equal(resolved.profile.projectionCapabilities, undefined);
   assert.deepEqual(resolved.diagnostics, []);
 });
 
@@ -57,9 +58,11 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   assert.equal(resolved.backgroundPackId, "chemometrics-city-light");
   assert.equal(resolved.diagramThemeId, "eco-city");
   assert.deepEqual(resolved.profile.presenterCapabilities, { clock: true, laserPointer: true });
+  assert.deepEqual(resolved.profile.projectionCapabilities, { publication: true });
   assert.equal(resolved.profile.viewportPolicy, "native-portrait");
   assert.equal(resolved.readability, "standard");
   assert.equal(chemometricsPresentationProfile.presenterCapabilities, undefined);
+  assert.equal(chemometricsPresentationProfile.projectionCapabilities, undefined);
   assert.equal(chemometricsPresentationProfile.viewportPolicy, undefined);
   assert.equal(chemometricsCityFamily.label, "Eco City");
   assert.equal(chemometricsCityFamily.variants.light.label, "Eco City — Light");
