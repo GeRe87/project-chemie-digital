@@ -160,7 +160,7 @@ export function applySemanticDisclosure(host: HTMLElement, step: number): void {
     const required = Number(element.getAttribute("data-presentation-disclosure-step"));
     if (!Number.isInteger(required) || required < 1) continue;
     const visible = step >= required;
-    element.dataset.presentationDisclosureVisible = String(visible);
+    element.setAttribute("data-presentation-disclosure-visible", String(visible));
     element.setAttribute("aria-hidden", String(!visible));
   }
 }
