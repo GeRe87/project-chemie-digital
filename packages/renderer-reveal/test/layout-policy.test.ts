@@ -649,6 +649,31 @@ function foundationCardGridScene(id: string): Scene {
   };
 }
 
+function pairedInfoCardsScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:paired-info-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:intro", "explain"),
+      {
+        id: "block:cards",
+        kind: "definition-list",
+        entries: [0, 1].map((index) => ({
+          id: `entry:${index + 1}`,
+          term: `Option ${index + 1}`,
+          description: `Metadata ${index + 1}\nMode ${index + 1}\nDetails ${index + 1}`,
+          source: [{ resourceId: `resource:entry:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:cards" }],
+        intent: { kind: "explain" },
+      },
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: ["block:heading", "block:intro", "block:cards", "block:takeaway"],
+  };
+}
+
 function processDiagramScene(id: string, diagramType: "flow" | "sequence", nodeCount = 4): Scene {
   const diagram = diagramType === "flow"
     ? {
@@ -724,6 +749,14 @@ test("infers foundation-card-grid from structured definition entries without ide
   assert.equal(inferRevealLayoutFamily(foundationCardGridScene("opaque:scene")), "foundation-card-grid");
   assert.deepEqual(inferRevealLayoutDecision(foundationCardGridScene("scene:slots"))?.slots, [
     "heading", "banner", "foundation", "cards", "takeaway",
+  ]);
+});
+
+test("infers paired-info-cards from two labeled entries without identity", () => {
+  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("scene:alpha")), "paired-info-cards");
+  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("opaque:pair")), "paired-info-cards");
+  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:slots"))?.slots, [
+    "heading", "intro", "cards", "takeaway",
   ]);
 });
 

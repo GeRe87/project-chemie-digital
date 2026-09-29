@@ -58,6 +58,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
     source("../src/concept-specification-layout.css"),
     source("../src/labeled-card-grid-layout.css"),
+    source("../src/paired-info-cards-layout.css"),
     source("../src/hierarchy-flow-layout.css"),
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),

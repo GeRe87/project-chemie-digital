@@ -4,49 +4,27 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 197,
-  "expectedDeliverable": "Owner-local focused tests plus browser review of the new course-organization slide. Verify the two teaching days/modes are immediately clear and the tutorial is not perceived as a programming-only session.",
-  "lastCompletedTurn": "worker: completed #197 two-mode course-organization slide using the generic two-step process diagram.",
-  "lastUpdated": "2026-09-29T17:32:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 198,
+  "expectedDeliverable": "Review #198 paired info-card primitive and then authorize #199 Chemometrics course-organization migration. Owner-local renderer/pitch tests remain required.",
+  "lastCompletedTurn": "worker: completed #198 generic paired-info-cards structural layout and visual realization without identity coupling.",
+  "lastUpdated": "2026-09-29T17:42:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #196 requires owner-local npm run test:renderer-reveal",
-    "Issue #197 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #197 requires owner-local npm run test:pitch",
-    "Issue #197 requires fresh browser smoke via npm run pitch:intro",
+    "Issue #198 requires owner-local npm run test:renderer-reveal",
+    "Issue #198 requires owner-local npm run test:pitch",
+    "Issue #199 content migration must use the generic paired-info-cards primitive",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 304,
+  "stateRevision": 307,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T12:27:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue193-adaptive-point-spacing-20260929T121900+0200",
-      "reason": "Completed #193: multiline DefinitionList descriptions render as logical point blocks with flexible neutral separators; separators consume spare card height only between points and are capped at 2.5lh; single-line descriptions remain unchanged."
-    },
-    {
-      "at": "2026-09-29T12:28:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue193-syntax-correction-20260929T122800+0200",
-      "reason": "Connector-side source inspection found over-escaped newline matching and invalid multiline quoted test fixtures in the first #193 commit; authorized a bounded syntax-only correction with no behavior or design change."
-    },
-    {
-      "at": "2026-09-29T12:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue193-syntax-correction-20260929T122900+0200",
-      "reason": "Claimed bounded #193 syntax correction: restore the intended CRLF/LF regex and encode multiline test fixtures as template literals."
-    },
     {
       "at": "2026-09-29T12:31:00+02:00",
       "from": "busy/worker",
@@ -200,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue197-course-organization",
       "reason": "Completed #197: slide now uses a two-node semantic flow from interactive lecture+seminar to hands-on tutorial, removes obsolete four-format card resources, and states that programming supports rather than defines the tutorial."
+    },
+    {
+      "at": "2026-09-29T17:34:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue198-paired-info-cards",
+      "reason": "Owner browser review rejected the process-diagram visual for course organization while approving the card visual language. Authorized a generic paired information-card layout inferred solely from heading + intro + two-entry DefinitionList + takeaway."
+    },
+    {
+      "at": "2026-09-29T17:35:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue198-paired-info-cards",
+      "reason": "Claimed #198 generic paired-info-cards layout, CSS import and identity-free regression only."
+    },
+    {
+      "at": "2026-09-29T17:42:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue198-paired-info-cards",
+      "reason": "Completed #198: opaque two-entry DefinitionList scenes now render as two large information cards with metadata/mode/detail hierarchy and no process-diagram chrome."
     }
   ]
 }

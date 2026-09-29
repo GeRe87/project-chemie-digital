@@ -3,6 +3,7 @@ import type { DiagramBlock, Scene, SceneBlock } from "../../core/src/scene-docum
 export type RevealLayoutFamily =
   | "concept-specification"
   | "labeled-card-grid"
+  | "paired-info-cards"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -251,6 +252,25 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "data-explanation",
         slots: ["heading", "principles", "table"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, intro, cards, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && cards?.kind === "definition-list"
+      && cards.entries.length === 2
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "paired-info-cards",
+        slots: ["heading", "intro", "cards", "takeaway"],
       };
     }
   }

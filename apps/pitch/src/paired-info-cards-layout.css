@@ -1,0 +1,187 @@
+/* Generic paired information cards.
+   Structural trigger: heading + explanatory prose + two-entry definition list + takeaway.
+   The layout is identity-free and is intended for parallel sessions, modes, options or comparisons. */
+
+.reveal .slides section[data-layout="paired-info-cards"] {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  row-gap: .72rem;
+  align-content: stretch;
+  padding: 1.25rem 1.8rem 1.2rem !important;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="heading"] {
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="intro"] {
+  box-sizing: border-box;
+  width: min(1120px, 96%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .56rem 1rem .5rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 9%, var(--pcd-surface-strong));
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-accent) 17%, transparent);
+  color: var(--pcd-foreground);
+  font: 850 .86em/1.12 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="intro"]::first-line {
+  color: var(--pcd-accent);
+  font-size: 1.2em;
+  font-weight: 950;
+  letter-spacing: .045em;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="cards"] {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.35rem;
+  width: min(1120px, 96%);
+  min-width: 0;
+  min-height: 0;
+  margin: 0 auto;
+  padding: .15rem 0;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] > .definition-list-entry {
+  --pcd-pair-hue: var(--definition-entry-hue, 205deg);
+  --pcd-pair-stroke: hsl(var(--pcd-pair-hue) 62% 38%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 1.05rem 1.15rem 1rem;
+  border: 4px solid var(--pcd-pair-stroke);
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--pcd-pair-stroke) 12%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 62%
+    );
+  box-shadow:
+    7px 7px 0 color-mix(in srgb, var(--pcd-pair-stroke) 18%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, white 28%, transparent);
+  color: var(--pcd-foreground);
+  text-align: left;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-term {
+  margin: 0 0 .72rem;
+  padding: 0 0 .58rem;
+  border-bottom: 3px solid color-mix(in srgb, var(--pcd-pair-stroke) 64%, transparent);
+  color: color-mix(in srgb, var(--pcd-pair-stroke) 86%, var(--pcd-foreground));
+  font: 950 1.2em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-description {
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--pcd-foreground);
+  font: 760 .88em/1.32 Arial, Helvetica, sans-serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-description[data-adaptive-point-spacing="true"] {
+  display: flex;
+  min-height: 0;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-points {
+  justify-content: flex-start;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-point-spacer {
+  flex: 0 0 .72rem;
+  min-height: .72rem;
+  max-height: .72rem;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-point[data-definition-point-index="0"] {
+  align-self: flex-start;
+  padding: .42rem .62rem .38rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-pair-stroke) 55%, transparent);
+  background: color-mix(in srgb, var(--pcd-pair-stroke) 8%, var(--pcd-surface-strong));
+  color: color-mix(in srgb, var(--pcd-pair-stroke) 88%, var(--pcd-foreground));
+  font: 900 .86em/1.1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .025em;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-point[data-definition-point-index="1"] {
+  color: var(--pcd-foreground);
+  font: 950 1.08em/1.12 Arial, Helvetica, sans-serif;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  > [data-layout-slot="cards"] .definition-list-point[data-definition-point-index="2"] {
+  color: var(--pcd-foreground);
+  font: 720 .9em/1.35 Arial, Helvetica, sans-serif;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="takeaway"] {
+  box-sizing: border-box;
+  align-self: center;
+  width: min(1120px, 96%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .55rem .9rem .5rem;
+  border-top: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 87%, var(--pcd-accent) 13%);
+  color: var(--pcd-accent);
+  font: 900 .84em/1.1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .025em;
+  text-align: center;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-layout="paired-info-cards"] > [data-layout-slot="cards"] > .definition-list-entry {
+  --pcd-pair-stroke: hsl(var(--pcd-pair-hue) 72% 66%);
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--pcd-pair-stroke) 11%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 65%
+    );
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--pcd-pair-stroke) 9%, transparent),
+    6px 6px 0 rgb(0 0 0 / .28);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="paired-info-cards"] {
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="intro"],
+  .reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="cards"],
+  .reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="takeaway"] {
+    width: 100%;
+  }
+
+  .reveal .slides section[data-layout="paired-info-cards"] > [data-layout-slot="cards"] {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+  }
+}
