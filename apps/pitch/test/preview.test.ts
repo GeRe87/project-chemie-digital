@@ -235,6 +235,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   };
   const renderedDocument = {
     ...document,
+    version: "1.4" as const,
     id: "document:generic-labeled-cards",
     scenes: [scene],
   };
