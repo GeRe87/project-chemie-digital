@@ -297,6 +297,9 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(sharedStyles, /max-height:\s*var\(--pcd-point-gap-max\)/);
   assert.match(cardStyles, /definition-list-description\[data-adaptive-point-spacing="true"\]/);
   assert.match(cardStyles, /flex:\s*1 1 auto/);
+  assert.match(cardStyles, /\.definition-list-point-spacer::before/);
+  assert.match(cardStyles, /content:\s*"↓"/);
+  assert.doesNotMatch(cardStyles.toLowerCase(), /chemometrics|lecturer|research/);
 
   destroy();
 });

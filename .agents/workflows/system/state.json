@@ -5,49 +5,26 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Presentation System Worker",
-  "activeIssue": 193,
-  "expectedDeliverable": "Re-run owner-local pitch tests after the SceneDocument 1.4 fixture correction, then browser-check adaptive inter-point spacing on Slide 3.",
-  "lastCompletedTurn": "worker: completed #193 test-only SceneDocument 1.4 fixture correction; production adaptive-spacing behavior is unchanged.",
-  "lastUpdated": "2026-09-29T12:41:00+02:00",
+  "activeIssue": 194,
+  "expectedDeliverable": "Review #194 generic point connectors together with the bounded #195 lecturer content refinement; owner-local pitch tests and browser smoke remain required.",
+  "lastCompletedTurn": "worker: completed #194 generic relation connectors between authored points in labeled-card-grid; no identity-specific selectors or authored arrow characters.",
+  "lastUpdated": "2026-09-29T16:23:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #193 requires owner-local npm run test:pitch rerun",
-    "Issue #193 requires fresh browser smoke of Slide 3 via npm run pitch:intro",
-    "Issue #191/#192 require owner-local npm run test:renderer-reveal",
-    "Issue #191 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Browser smoke must also confirm the nitrate case-study stages remain unchanged",
+    "Issue #194/#195 require owner-local npm run test:pitch",
+    "Issue #195 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #194/#195 require fresh browser smoke of Slide 3 via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 286,
+  "stateRevision": 289,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T16:38:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-unlock-before-slide-20260928T163200+0200",
-      "reason": "Completed pre-slide lifecycle fix: stage lock now unlocks synchronously on Reveal beforeslidechange before scroll-view transition; direct slide navigation and destination relock remain intact."
-    },
-    {
-      "at": "2026-09-28T16:47:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-scroll-page-terminal-20260928T164700+0200",
-      "reason": "Authorized bounded #188 scroll-page terminal fix: stage controller must release lock and directly position Reveal viewport at adjacent .scroll-page boundary in scroll view; deck view keeps direct slide navigation."
-    },
-    {
-      "at": "2026-09-28T16:48:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue188-scroll-page-terminal-20260928T164800+0200",
-      "reason": "Claimed scroll-page terminal navigation fix; scope limited to explicit lock release plus adjacent scroll-page viewport positioning in scroll mode."
-    },
     {
       "at": "2026-09-28T16:56:00+02:00",
       "from": "busy/worker",
@@ -201,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue193-version-fixture",
       "reason": "Completed the test fixture correction: the synthetic DefinitionList preview document now explicitly uses SceneDocument 1.4."
+    },
+    {
+      "at": "2026-09-29T16:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue194-point-connectors",
+      "reason": "Owner visual review accepted adaptive point spacing and requested generic relation arrows between short authored points in narrow facet cards. Authorized presentation-only connector styling with no content or identity-specific logic."
+    },
+    {
+      "at": "2026-09-29T16:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue194-point-connectors",
+      "reason": "Claimed #194 generic labeled-card inter-point connector styling and focused regression."
+    },
+    {
+      "at": "2026-09-29T16:23:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue194-point-connectors",
+      "reason": "Completed #194: labeled-card adaptive spacers now render a centered neutral downward connector without altering point order, wrapping or the existing 2.5lh spacing cap."
     }
   ]
 }

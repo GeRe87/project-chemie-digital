@@ -103,6 +103,21 @@
   min-height: 0;
 }
 
+.reveal .slides section[data-layout="labeled-card-grid"]
+  > [data-layout-slot="cards"] .definition-list-point-spacer {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.reveal .slides section[data-layout="labeled-card-grid"]
+  > [data-layout-slot="cards"] .definition-list-point-spacer::before {
+  content: "↓";
+  color: color-mix(in srgb, var(--pcd-facet-stroke) 72%, var(--pcd-muted));
+  font: 900 .78em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  opacity: .78;
+}
+
 .reveal .slides section[data-layout="labeled-card-grid"] > [data-layout-slot="takeaway"] {
   grid-row: 3;
   box-sizing: border-box;
