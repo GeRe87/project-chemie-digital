@@ -4,11 +4,11 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 198,
-  "expectedDeliverable": "Review #198 paired info-card primitive and then authorize #199 Chemometrics course-organization migration. Owner-local renderer/pitch tests remain required.",
-  "lastCompletedTurn": "worker: completed #198 generic paired-info-cards structural layout and visual realization without identity coupling.",
-  "lastUpdated": "2026-09-29T17:42:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 199,
+  "expectedDeliverable": "Owner-local focused tests and browser review of Slide 4. Verify the paired cards are balanced, Tuesday/Wednesday logistics are immediately legible, and programming reads as one tutorial tool rather than the course focus.",
+  "lastCompletedTurn": "worker: completed #199 Tuesday/Wednesday course-organization migration to generic paired information cards.",
+  "lastUpdated": "2026-09-29T17:51:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -16,36 +16,16 @@
   },
   "blockedBy": [
     "Issue #198 requires owner-local npm run test:renderer-reveal",
-    "Issue #198 requires owner-local npm run test:pitch",
-    "Issue #199 content migration must use the generic paired-info-cards primitive",
+    "Issue #198/#199 require owner-local npm run test:pitch",
+    "Issue #199 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #199 requires fresh browser smoke via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 307,
+  "stateRevision": 310,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T12:31:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue193-syntax-correction-20260929T122900+0200",
-      "reason": "Completed #193 syntax correction; adaptive point semantics and CSS spacing contract are unchanged."
-    },
-    {
-      "at": "2026-09-29T12:39:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue193-version-fixture",
-      "reason": "Owner-local pitch test exposed that the new synthetic DefinitionList preview fixture inherited an older SceneDocument version. Authorized a test-only correction to the minimum supported DefinitionList version 1.4."
-    },
-    {
-      "at": "2026-09-29T12:40:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue193-version-fixture",
-      "reason": "Claimed the test-only SceneDocument version correction; production renderer, styling and authored content remain unchanged."
-    },
     {
       "at": "2026-09-29T12:41:00+02:00",
       "from": "busy/worker",
@@ -199,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue198-paired-info-cards",
       "reason": "Completed #198: opaque two-entry DefinitionList scenes now render as two large information cards with metadata/mode/detail hierarchy and no process-diagram chrome."
+    },
+    {
+      "at": "2026-09-29T17:43:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue199-course-schedule-cards",
+      "reason": "Reviewed #198 as the generic paired-card primitive and authorized #199 bounded Chemometrics content migration: explicit Tuesday/Wednesday sessions with placeholder time/room and no flow diagram."
+    },
+    {
+      "at": "2026-09-29T17:44:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
+      "reason": "Claimed #199 course-organization content, scene selection, path resource binding and focused regressions only."
+    },
+    {
+      "at": "2026-09-29T17:51:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
+      "reason": "Completed #199: Slide 4 now authors Tuesday and Wednesday as a two-entry DefinitionList with placeholder time/room, interactive lecture+seminar versus hands-on tutorial, and no course-organization FlowDiagram."
     }
   ]
 }

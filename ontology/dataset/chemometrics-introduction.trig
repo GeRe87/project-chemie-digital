@@ -200,43 +200,37 @@ Chemometrics · data workflows · machine learning"""@en ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-format a cd:Definition ;
-    cd:body "The course combines one interactive lecture-and-seminar session with a hands-on tutorial on another day."@en ;
+    cd:body "The course has two weekly meetings: an interactive lecture-and-seminar session on Tuesday and a hands-on tutorial on Wednesday."@en ;
     cd:authoredResource true .
 
   ex:chemometrics-course-format-banner a cd:Interpretation ;
-    cd:body """TWO MEETINGS — ONE LEARNING CYCLE
-Lecture and seminar are mixed into one interactive session."""@en ;
+    cd:body """TWO MEETINGS EACH WEEK
+Tuesday combines lecture and seminar. Wednesday is the hands-on tutorial."""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-sessions a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-course-format-tuesday,
+      ex:chemometrics-course-format-wednesday ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-tuesday a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "TUESDAY"@en ;
+    cd:body """8.00 - 10.00 · S05 V02 E28
+Interactive lecture + seminar
+Theory inputs · group discussion · worked examples · questions"""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-wednesday a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "WEDNESDAY"@en ;
+    cd:body """8.00 - 10.00 · S05 V02 E28
+Hands-on tutorial
+Principles · problem solving · calculations · programming"""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-course-format-takeaway a cd:Interpretation ;
     cd:body "PROGRAMMING IS A TOOL — THE FOCUS IS STATISTICAL AND CHEMOMETRIC REASONING"@en ;
-    cd:authoredResource true .
-
-  ex:diagram-chemometrics-course-format a cd:FlowDiagram ;
-    skos:prefLabel "Course organization"@en ;
-    cd:body "One day mixes theory input and seminar-style interaction; another day uses a hands-on tutorial to deepen principles and solve problems."@en ;
-    cd:hasDiagramNode ex:node-chemometrics-format-interactive,
-      ex:node-chemometrics-format-tutorial ;
-    cd:hasDiagramEdge ex:edge-chemometrics-format-interactive-tutorial ;
-    cd:authoredResource true .
-
-  ex:node-chemometrics-format-interactive a cd:DiagramNode ;
-    cd:position 1 ;
-    skos:prefLabel "INTERACTIVE LECTURE + SEMINAR"@en ;
-    cd:body "One day · theory inputs · group discussion · worked examples · questions"@en ;
-    cd:authoredResource true .
-
-  ex:node-chemometrics-format-tutorial a cd:DiagramNode ;
-    cd:position 2 ;
-    skos:prefLabel "HANDS-ON TUTORIAL"@en ;
-    cd:body "Another day · principles · problem solving · calculations · programming"@en ;
-    cd:authoredResource true .
-
-  ex:edge-chemometrics-format-interactive-tutorial a cd:DiagramEdge ;
-    cd:position 1 ;
-    skos:prefLabel "deepen & apply"@en ;
-    cd:sourceNode ex:node-chemometrics-format-interactive ;
-    cd:targetNode ex:node-chemometrics-format-tutorial ;
     cd:authoredResource true .
 
   # Slide 5 — course roadmap -------------------------------------------------

@@ -99,12 +99,12 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 4 — process-diagram -----------------------------------------------
+  # Slide 4 — paired-info-cards --------------------------------------------
   ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-format ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,
       ex:scene-item-chemometrics-introduction-format-banner,
-      ex:scene-item-chemometrics-introduction-format-diagram,
+      ex:scene-item-chemometrics-introduction-format-sessions,
       ex:scene-item-chemometrics-introduction-format-takeaway ;
     cd:authoredResource true .
 
@@ -124,11 +124,11 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-format-diagram a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-format-sessions a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:diagram-chemometrics-course-format ;
-    cd:communicativeRole cd:DiagramRole ;
-    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:chemometrics-course-format-sessions ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 

@@ -64,7 +64,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "group", "table", "chart", "list"],
     ["prose", "definition-list", "prose"],
-    ["prose", "prose", "diagram", "prose"],
+    ["prose", "prose", "definition-list", "prose"],
     ["prose", "diagram"],
     ["prose", "prose", "prose", "definition-list", "prose"],
 ]
@@ -293,54 +293,51 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertNotIn("ADS", slide_text)
         self.assertNotIn("IAC", slide_text)
 
-    def test_course_organization_is_two_meetings_with_distinct_teaching_modes(self) -> None:
+    def test_course_organization_is_tuesday_wednesday_paired_sessions(self) -> None:
         self.assertEqual(
             "How is the course organized?",
             str(next(self.content_graph.objects(EX["chemometrics-course-format"], SKOS.prefLabel))),
         )
 
         definition = str(next(self.content_graph.objects(EX["def-chemometrics-course-format"], CD.body)))
-        self.assertIn("interactive lecture-and-seminar session", definition)
-        self.assertIn("tutorial on another day", definition)
+        self.assertIn("on Tuesday", definition)
+        self.assertIn("on Wednesday", definition)
 
         banner = str(next(self.content_graph.objects(EX["chemometrics-course-format-banner"], CD.body)))
         self.assertEqual(
             [
-                "TWO MEETINGS — ONE LEARNING CYCLE",
-                "Lecture and seminar are mixed into one interactive session.",
+                "TWO MEETINGS EACH WEEK",
+                "Tuesday combines lecture and seminar. Wednesday is the hands-on tutorial.",
             ],
             banner.splitlines(),
         )
 
-        diagram = EX["diagram-chemometrics-course-format"]
-        self.assertEqual({CD.FlowDiagram}, set(self.content_graph.objects(diagram, RDF.type)))
-        nodes = sorted(
-            self.content_graph.objects(diagram, CD.hasDiagramNode),
-            key=lambda node: int(next(self.content_graph.objects(node, CD.position))),
+        owner = EX["chemometrics-course-format-sessions"]
+        entries = sorted(
+            self.content_graph.objects(owner, CD.hasDefinitionListEntry),
+            key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
         )
-        edges = sorted(
-            self.content_graph.objects(diagram, CD.hasDiagramEdge),
-            key=lambda edge: int(next(self.content_graph.objects(edge, CD.position))),
-        )
+        self.assertEqual(2, len(entries))
         self.assertEqual(
-            ["INTERACTIVE LECTURE + SEMINAR", "HANDS-ON TUTORIAL"],
-            [str(next(self.content_graph.objects(node, SKOS.prefLabel))) for node in nodes],
+            ["TUESDAY", "WEDNESDAY"],
+            [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
         )
-        self.assertEqual(2, len(nodes))
-        self.assertEqual(1, len(edges))
-        self.assertEqual({nodes[0]}, set(self.content_graph.objects(edges[0], CD.sourceNode)))
-        self.assertEqual({nodes[1]}, set(self.content_graph.objects(edges[0], CD.targetNode)))
-        self.assertEqual("deepen & apply", str(next(self.content_graph.objects(edges[0], SKOS.prefLabel))))
 
-        interactive_body = str(next(self.content_graph.objects(nodes[0], CD.body)))
-        for phrase in ("One day", "theory inputs", "group discussion", "worked examples", "questions"):
-            with self.subTest(interactive_phrase=phrase):
-                self.assertIn(phrase, interactive_body)
+        tuesday = str(next(self.content_graph.objects(entries[0], CD.body))).splitlines()
+        self.assertEqual("8.00 - 10.00 · S05 V02 E28", tuesday[0])
+        self.assertEqual("Interactive lecture + seminar", tuesday[1])
+        self.assertEqual(
+            "Theory inputs · group discussion · worked examples · questions",
+            tuesday[2],
+        )
 
-        tutorial_body = str(next(self.content_graph.objects(nodes[1], CD.body)))
-        for phrase in ("Another day", "principles", "problem solving", "calculations", "programming"):
-            with self.subTest(tutorial_phrase=phrase):
-                self.assertIn(phrase, tutorial_body)
+        wednesday = str(next(self.content_graph.objects(entries[1], CD.body))).splitlines()
+        self.assertEqual("8.00 - 10.00 · S05 V02 E28", wednesday[0])
+        self.assertEqual("Hands-on tutorial", wednesday[1])
+        self.assertEqual(
+            "Principles · problem solving · calculations · programming",
+            wednesday[2],
+        )
 
         takeaway = str(next(self.content_graph.objects(EX["chemometrics-course-format-takeaway"], CD.body)))
         self.assertEqual(
@@ -348,14 +345,8 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             takeaway,
         )
 
-        # Obsolete four-format cards are intentionally removed from the canonical content graph.
-        for obsolete in (
-            "chemometrics-course-format-list",
-            "chemometrics-course-format-lecture",
-            "chemometrics-course-format-reproducible-computation",
-            "chemometrics-course-format-questions",
-        ):
-            self.assertFalse(any(self.content_graph.triples((EX[obsolete], None, None))))
+        # The organization is no longer modeled as a process diagram.
+        self.assertFalse(any(self.content_graph.triples((EX["diagram-chemometrics-course-format"], None, None))))
 
     def test_course_roadmap_is_exact_six_node_linear_flow(self) -> None:
         diagram = EX["diagram-chemometrics-course-roadmap"]
@@ -499,15 +490,14 @@ class ChemometricsIntroductionTests(unittest.TestCase):
 
         format_scene = self.document["scenes"][3]
         self.assertEqual("How is the course organized?", format_scene["blocks"][0]["text"])
-        format_diagram = format_scene["blocks"][2]
-        self.assertEqual("flow", format_diagram["diagramType"])
-        self.assertEqual(2, len(format_diagram["nodes"]))
-        self.assertEqual(1, len(format_diagram["edges"]))
+        format_cards = format_scene["blocks"][2]
+        self.assertEqual("definition-list", format_cards["kind"])
         self.assertEqual(
-            ["INTERACTIVE LECTURE + SEMINAR", "HANDS-ON TUTORIAL"],
-            [node["label"] for node in format_diagram["nodes"]],
+            ["TUESDAY", "WEDNESDAY"],
+            [entry["term"] for entry in format_cards["entries"]],
         )
-        self.assertEqual("deepen & apply", format_diagram["edges"][0]["label"])
+        self.assertEqual(2, len(format_cards["entries"]))
+        self.assertTrue(all(entry.get("description") for entry in format_cards["entries"]))
 
         roadmap = self.document["scenes"][4]["blocks"][1]
         self.assertEqual("flow", roadmap["diagramType"])
