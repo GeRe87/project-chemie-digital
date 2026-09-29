@@ -1,37 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 189,
-  "expectedDeliverable": "Review the bounded #189 pitch-regression correction on PR #185 after owner-local npm run test:pitch. Verify semantic disclosure visibility now writes the explicit data-presentation-disclosure-visible attribute and the annotated chart preview fixture uses SceneDocument 1.2. Then continue the remaining #189 browser/full-suite/final-validator gates.",
-  "lastCompletedTurn": "worker: fixed the two owner-local #189 pitch regressions only: semantic disclosure now writes the explicit data-presentation-disclosure-visible attribute, and the synthetic annotated-chart preview fixture is SceneDocument 1.2. No RDF/compiler/D3/content changes.",
-  "lastUpdated": "2026-09-29T10:37:00+02:00",
+  "status": "busy",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 190,
+  "expectedDeliverable": "Refocus the Chemometrics lecturer slide on course-relevant teaching context only, using factual context selected from GeRe87/project-cv. Keep the existing generic three-card concept-specification structure; include course teaching since 2020, analytical-chemistry application context, and teaching approach; exclude publications, awards, grants/projects, editorial activity, supervision metrics and career-showcase content. Update focused regressions only.",
+  "lastCompletedTurn": "manager: created #190 after owner accepted #189 browser behavior; selected only teaching-relevant facts from project-cv and authorized a bounded Chemometrics content turn for the lecturer slide.",
+  "lastUpdated": "2026-09-29T11:17:00+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
+    "claimedAt": "2026-09-29T11:17:00+02:00",
+    "expiresAt": "2026-09-29T13:17:00+02:00"
   },
-  "blockedBy": [
-    "Issue #189 regression fix requires owner-local npm run test:pitch",
-    "Issue #189 requires remaining focused SHACL/core/D3/Introduction verification if not already completed",
-    "Issue #189 requires fresh browser smoke of semantic progressive disclosure via npm run pitch:intro",
-    "PR #185 requires full repository npm test after focused/browser acceptance",
-    "PR #185 requires coordinated independent manager review for #184/#186/#187/#188/#189",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
-  ],
-  "stateRevision": 269,
+  "blockedBy": [],
+  "stateRevision": 270,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T15:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue188-browser-followup2-20260928T151800+0200",
-      "reason": "Authorized bounded #188 follow-up: scope inactive-slide hiding to deck mode so six-slide scroll navigation survives, and move stronger layered highlighter strokes directly behind list-item text."
-    },
     {
       "at": "2026-09-28T15:19:00+02:00",
       "from": "ready/worker",
@@ -199,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue189-pitch-regressions-20260929T103300+0200",
       "reason": "Completed bounded #189 pitch-regression correction: explicit disclosure data attribute write and SceneDocument 1.2 annotated-chart fixture; no semantic/content redesign."
+    },
+    {
+      "at": "2026-09-29T11:17:00+02:00",
+      "from": "blocked/manager",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue190-lecturer-slide-20260929T111700+0200",
+      "reason": "Claimed #190 to refocus lecturer slide on teaching perspective using only course-relevant facts from project-cv; no CV-showcase content or renderer changes."
     }
   ]
 }
