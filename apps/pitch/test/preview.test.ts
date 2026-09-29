@@ -298,7 +298,11 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(cardStyles, /definition-list-description\[data-adaptive-point-spacing="true"\]/);
   assert.match(cardStyles, /flex:\s*1 1 auto/);
   assert.match(cardStyles, /\.definition-list-point-spacer::before/);
-  assert.match(cardStyles, /content:\s*""/);
+  assert.match(cardStyles, /repeating-linear-gradient\(/);
+  assert.match(cardStyles, /width:\s*2px/);
+  assert.match(cardStyles, /top:\s*\.18rem/);
+  assert.match(cardStyles, /bottom:\s*\.18rem/);
+  assert.match(cardStyles, /\.definition-list-point-spacer::after/);
   assert.match(cardStyles, /border-left:\s*\.46rem solid transparent/);
   assert.match(cardStyles, /border-right:\s*\.46rem solid transparent/);
   assert.match(cardStyles, /border-top:\s*\.74rem solid color-mix/);

@@ -106,16 +106,37 @@
 .reveal .slides section[data-layout="labeled-card-grid"]
   > [data-layout-slot="cards"] .definition-list-point-spacer {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: block;
 }
 
 .reveal .slides section[data-layout="labeled-card-grid"]
   > [data-layout-slot="cards"] .definition-list-point-spacer::before {
   content: "";
-  display: block;
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: .18rem;
+  bottom: .18rem;
+  width: 2px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--pcd-facet-stroke) 72%, var(--pcd-muted)) 0 7px,
+    transparent 7px 12px
+  );
+  opacity: .9;
+}
+
+.reveal .slides section[data-layout="labeled-card-grid"]
+  > [data-layout-slot="cards"] .definition-list-point-spacer::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
   width: 0;
   height: 0;
+  transform: translate(-50%, -50%);
   border-left: .46rem solid transparent;
   border-right: .46rem solid transparent;
   border-top: .74rem solid color-mix(in srgb, var(--pcd-facet-stroke) 82%, var(--pcd-muted));

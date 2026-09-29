@@ -27,3 +27,7 @@ Browser acceptance should confirm that short authored points read as connected c
 ## Visual refinement after owner browser review
 
 The original connector used the font glyph `↓`, which rendered too thin at lecture distance. The generic spacer pseudo-element now draws a filled downward CSS triangle using transparent side borders and a `.74rem` colored top border. This keeps the connector independent of font rendering and makes it more legible without changing the point-order or adaptive-spacing semantics.
+
+## Dashed-line refinement after owner browser review
+
+The filled triangle was clearer than the font glyph but still read as a floating marker. The generic labeled-card spacer now draws a centered dashed vertical relation line across the available gap and overlays the filled triangle at the midpoint. The spacer still owns the adaptive min/max height, so the line stretches with available space while wrapped lines inside a logical point remain untouched.
