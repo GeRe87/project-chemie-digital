@@ -147,12 +147,12 @@ Three water samples are measured four times for nitrate. Which sample is clearly
 
   # Slide 3 — lecturer -------------------------------------------------------
   ex:chemometrics-lecturer-context a cd:Concept ;
-    skos:prefLabel "About the Lecturer"@en ;
+    skos:prefLabel "Who is teaching this course?"@en ;
     cd:hasDefinition ex:def-chemometrics-lecturer-context ;
     cd:authoredResource true .
 
   ex:def-chemometrics-lecturer-context a cd:Definition ;
-    cd:body "The lecturer context introduces the teaching perspective and disciplinary background from which the course is presented."@en ;
+    cd:body "Only the teaching perspective relevant to this course is introduced here: experience with chemometrics teaching, analytical measurement data and reproducible interpretation."@en ;
     cd:authoredResource true .
 
   ex:attribution-chemometrics-gerrit-renner a cd:Attribution ;
@@ -160,32 +160,32 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     cd:authoredResource true .
 
   ex:chemometrics-lecturer-pillars a cd:Interpretation ;
-    cd:body "The course is taught from three connected perspectives."@en ;
-    cd:hasKeyPoint ex:chemometrics-lecturer-pillar-data-science,
-      ex:chemometrics-lecturer-pillar-instrumental,
-      ex:chemometrics-lecturer-pillar-research-teaching ;
+    cd:body "Three things about the lecturer matter for how this course is taught."@en ;
+    cd:hasKeyPoint ex:chemometrics-lecturer-course-experience,
+      ex:chemometrics-lecturer-analytical-context,
+      ex:chemometrics-lecturer-teaching-approach ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-pillar-data-science a cd:KeyPoint ;
+  ex:chemometrics-lecturer-course-experience a cd:KeyPoint ;
     cd:position 1 ;
-    cd:body """ANALYTICAL DATA SCIENCE
-Algorithms, statistics and data workflows for analytical chemistry."""@en ;
+    cd:body """CHEMOMETRICS IN THE CLASSROOM
+Teaching this Master's course at UDE since 2020."""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-pillar-instrumental a cd:KeyPoint ;
+  ex:chemometrics-lecturer-analytical-context a cd:KeyPoint ;
     cd:position 2 ;
-    cd:body """INSTRUMENTAL ANALYTICAL CHEMISTRY
-Complex signals, measurement systems and quantitative analytical data."""@en ;
+    cd:body """ANALYTICAL CHEMISTRY AS CONTEXT
+Instrumental measurements and complex analytical data keep the methods tied to real measurement problems."""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-pillar-research-teaching a cd:KeyPoint ;
+  ex:chemometrics-lecturer-teaching-approach a cd:KeyPoint ;
     cd:position 3 ;
-    cd:body """RESEARCH + TEACHING
-Methods should be explainable, reproducible and connected to real analytical problems."""@en ;
+    cd:body """HOW I TEACH IT
+Understand the assumptions, make calculations reproducible, and interpret what the result actually means."""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-lecturer-takeaway a cd:Interpretation ;
-    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · IAC · UNIVERSITY OF DUISBURG-ESSEN"@en ;
+    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · INSTRUMENTAL ANALYTICAL CHEMISTRY · UDE"@en ;
     cd:authoredResource true .
 
   # Slide 4 — course format --------------------------------------------------
