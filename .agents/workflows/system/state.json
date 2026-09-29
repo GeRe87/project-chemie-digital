@@ -4,11 +4,11 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 194,
-  "expectedDeliverable": "Review #194 generic point connectors together with the bounded #195 lecturer content refinement; owner-local pitch tests and browser smoke remain required.",
-  "lastCompletedTurn": "worker: completed #194 generic relation connectors between authored points in labeled-card-grid; no identity-specific selectors or authored arrow characters.",
-  "lastUpdated": "2026-09-29T16:23:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 195,
+  "expectedDeliverable": "Review #194/#195 together after owner-local focused tests and browser smoke. Verify degree years, full research-group hierarchy, connector readability and absence of unexplained ADS/IAC abbreviations.",
+  "lastCompletedTurn": "worker: completed #195 compact lecturer content with dated degrees and explicit full-name research-group hierarchy.",
+  "lastUpdated": "2026-09-29T16:29:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -23,29 +23,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 289,
+  "stateRevision": 292,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T16:56:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue188-scroll-page-terminal-20260928T164800+0200",
-      "reason": "Completed scroll-page terminal navigation fix: scroll view now releases stage lock and jumps directly to adjacent sticky-page boundary; deck fallback unchanged."
-    },
-    {
-      "at": "2026-09-28T17:22:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
-      "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
-    },
-    {
-      "at": "2026-09-28T17:51:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue189-semantic-disclosure-20260928T172200+0200",
-      "reason": "Completed #189 semantic evidence-driven disclosure implementation and focused regressions; returned to manager for owner-local verification, browser smoke, full suite and final acceptance gates."
-    },
     {
       "at": "2026-09-29T10:33:00+02:00",
       "from": "blocked/manager",
@@ -199,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue194-point-connectors",
       "reason": "Completed #194: labeled-card adaptive spacers now render a centered neutral downward connector without altering point order, wrapping or the existing 2.5lh spacing cap."
+    },
+    {
+      "at": "2026-09-29T16:24:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue195-lecturer-content",
+      "reason": "Accepted #194 as the generic connector primitive and authorized #195 Content-track refinement only: add degree years, shorten narrow-column copy and make the Junior Research Group hierarchy explicit with full names."
+    },
+    {
+      "at": "2026-09-29T16:25:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue195-lecturer-content",
+      "reason": "Claimed #195 bounded lecturer-card content update; renderer/system files are out of scope."
+    },
+    {
+      "at": "2026-09-29T16:29:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue195-lecturer-content",
+      "reason": "Completed #195: Background now shows 2012/2015/2020, Teaching uses short points, and Research explicitly orders Instrumental Analytical Chemistry -> Junior Research Group “Analytical Data Science” -> research topics without unexplained ADS/IAC abbreviations."
     }
   ]
 }

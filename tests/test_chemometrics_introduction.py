@@ -246,23 +246,36 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
 
         bodies = [str(next(self.content_graph.objects(entry, CD.body))) for entry in entries]
-        self.assertIn("B.Sc. Chemistry & Biotechnology", bodies[0])
-        self.assertIn("M.Sc. Applied Chemistry", bodies[0])
-        self.assertIn("Dr. rer. nat.", bodies[0])
-        self.assertIn("Instrumental Analytical Chemistry", bodies[0])
-
-        self.assertIn("Chemometrics & Applied Statistics at UDE since 2020", bodies[1])
-        self.assertIn("B.Sc. and M.Sc.", bodies[1])
-
-        self.assertIn("Analytical Data Science", bodies[2])
-        self.assertIn("Chemometrics", bodies[2])
-        self.assertIn("data workflows", bodies[2])
-        self.assertIn("machine learning", bodies[2])
+        self.assertEqual(
+            [
+                "B.Sc. Chemistry & Biotechnology · 2012",
+                "M.Sc. Applied Chemistry · Instrumental Analytics · 2015",
+                "Dr. rer. nat. · Instrumental Analytical Chemistry · 2020",
+            ],
+            bodies[0].splitlines(),
+        )
+        self.assertEqual(
+            [
+                "Chemometrics & Applied Statistics",
+                "UDE · since 2020",
+                "B.Sc. + M.Sc. teaching",
+            ],
+            bodies[1].splitlines(),
+        )
+        self.assertEqual(
+            [
+                "Instrumental Analytical Chemistry",
+                "Junior Research Group “Analytical Data Science”",
+                "Chemometrics · data workflows · machine learning",
+            ],
+            bodies[2].splitlines(),
+        )
 
         takeaway = str(next(self.content_graph.objects(EX["chemometrics-lecturer-takeaway"], CD.body)))
         self.assertEqual("GERRIT RENNER · ANALYTICAL DATA SCIENCE · UDE", takeaway)
 
-        slide_text = "\n".join([*bodies, takeaway]).lower()
+        slide_text = "\n".join([*bodies, takeaway])
+        lowered = slide_text.lower()
         for forbidden in (
             "publication",
             "award",
@@ -274,7 +287,11 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             "how i teach",
         ):
             with self.subTest(forbidden=forbidden):
-                self.assertNotIn(forbidden, slide_text)
+                self.assertNotIn(forbidden, lowered)
+
+        # Course-introduction copy must not introduce unexplained research-group abbreviations.
+        self.assertNotIn("ADS", slide_text)
+        self.assertNotIn("IAC", slide_text)
 
     def test_course_format_is_exact_four_node_linear_flow(self) -> None:
         diagram = EX["diagram-chemometrics-course-format"]

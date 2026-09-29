@@ -168,22 +168,24 @@ Three water samples are measured four times for nitrate. Which sample is clearly
   ex:chemometrics-lecturer-background a cd:DefinitionListEntry ;
     cd:position 1 ;
     skos:prefLabel "BACKGROUND"@en ;
-    cd:body """B.Sc. Chemistry & Biotechnology
-M.Sc. Applied Chemistry · Instrumental Analytics
-Dr. rer. nat. · Instrumental Analytical Chemistry"""@en ;
+    cd:body """B.Sc. Chemistry & Biotechnology · 2012
+M.Sc. Applied Chemistry · Instrumental Analytics · 2015
+Dr. rer. nat. · Instrumental Analytical Chemistry · 2020"""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-lecturer-teaching a cd:DefinitionListEntry ;
     cd:position 2 ;
     skos:prefLabel "TEACHING"@en ;
-    cd:body """Chemometrics & Applied Statistics at UDE since 2020
-Analytical chemistry teaching across B.Sc. and M.Sc. courses"""@en ;
+    cd:body """Chemometrics & Applied Statistics
+UDE · since 2020
+B.Sc. + M.Sc. teaching"""@en ;
     cd:authoredResource true .
 
   ex:chemometrics-lecturer-research a cd:DefinitionListEntry ;
     cd:position 3 ;
     skos:prefLabel "RESEARCH"@en ;
-    cd:body """Analytical Data Science · Instrumental Analytical Chemistry
+    cd:body """Instrumental Analytical Chemistry
+Junior Research Group “Analytical Data Science”
 Chemometrics · data workflows · machine learning"""@en ;
     cd:authoredResource true .
 
