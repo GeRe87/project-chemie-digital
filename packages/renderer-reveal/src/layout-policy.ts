@@ -256,8 +256,10 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     }
   }
 
-  if (blocks.length === 4) {
+  if (blocks.length === 3 || blocks.length === 4) {
     const [heading, intro, cards, takeaway] = blocks;
+    const hasValidTakeaway = takeaway === undefined
+      || (takeaway.kind === "prose" && takeaway.intent?.kind === "explain");
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
@@ -265,12 +267,13 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && intro.intent?.kind === "explain"
       && cards?.kind === "definition-list"
       && cards.entries.length === 2
-      && takeaway?.kind === "prose"
-      && takeaway.intent?.kind === "explain"
+      && hasValidTakeaway
     ) {
       return {
         family: "paired-info-cards",
-        slots: ["heading", "intro", "cards", "takeaway"],
+        slots: takeaway === undefined
+          ? ["heading", "intro", "cards"]
+          : ["heading", "intro", "cards", "takeaway"],
       };
     }
   }

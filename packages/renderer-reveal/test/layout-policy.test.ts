@@ -649,7 +649,7 @@ function foundationCardGridScene(id: string): Scene {
   };
 }
 
-function pairedInfoCardsScene(id: string): Scene {
+function pairedInfoCardsScene(id: string, includeTakeaway = true): Scene {
   return {
     id,
     source: [{ resourceId: "resource:paired-info-scene" }],
@@ -668,9 +668,14 @@ function pairedInfoCardsScene(id: string): Scene {
         source: [{ resourceId: "resource:cards" }],
         intent: { kind: "explain" },
       },
-      prose("block:takeaway", "explain"),
+      ...(includeTakeaway ? [prose("block:takeaway", "explain")] : []),
     ],
-    readingOrder: ["block:heading", "block:intro", "block:cards", "block:takeaway"],
+    readingOrder: [
+      "block:heading",
+      "block:intro",
+      "block:cards",
+      ...(includeTakeaway ? ["block:takeaway"] : []),
+    ],
   };
 }
 
@@ -752,11 +757,14 @@ test("infers foundation-card-grid from structured definition entries without ide
   ]);
 });
 
-test("infers paired-info-cards from two labeled entries without identity", () => {
+test("infers paired-info-cards from two labeled entries with optional takeaway", () => {
   assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("scene:alpha")), "paired-info-cards");
-  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("opaque:pair")), "paired-info-cards");
+  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("opaque:pair", false)), "paired-info-cards");
   assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:slots"))?.slots, [
     "heading", "intro", "cards", "takeaway",
+  ]);
+  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:no-takeaway", false))?.slots, [
+    "heading", "intro", "cards",
   ]);
 });
 

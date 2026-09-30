@@ -229,10 +229,6 @@ Hands-on tutorial
 Principles · problem solving · calculations · programming"""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-format-takeaway a cd:Interpretation ;
-    cd:body "PROGRAMMING IS A TOOL — THE FOCUS IS STATISTICAL AND CHEMOMETRIC REASONING"@en ;
-    cd:authoredResource true .
-
   # Slide 5 — course roadmap -------------------------------------------------
   ex:chemometrics-course-roadmap a cd:Concept ;
     skos:prefLabel "Course Roadmap"@en ;

@@ -104,8 +104,7 @@
     cd:focusConcept ex:chemometrics-course-format ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,
       ex:scene-item-chemometrics-introduction-format-banner,
-      ex:scene-item-chemometrics-introduction-format-sessions,
-      ex:scene-item-chemometrics-introduction-format-takeaway ;
+      ex:scene-item-chemometrics-introduction-format-sessions ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-format-heading a cd:SceneItem ;
@@ -129,14 +128,6 @@
     cd:selectsResource ex:chemometrics-course-format-sessions ;
     cd:communicativeRole cd:DefinitionListRole ;
     cd:selectionPath "cd:hasDefinitionListEntry" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-format-takeaway a cd:SceneItem ;
-    cd:position 4 ;
-    cd:selectsResource ex:chemometrics-course-format-takeaway ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 

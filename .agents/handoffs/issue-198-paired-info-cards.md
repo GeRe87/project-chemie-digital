@@ -32,3 +32,7 @@ No scene, resource, course or lecturer identity is inspected.
 npm run test:renderer-reveal
 npm run test:pitch
 ```
+
+## Optional takeaway refinement
+
+Owner review established that a paired information-card scene does not inherently need a takeaway. The generic structural contract now accepts both `heading + intro + cards` and `heading + intro + cards + takeaway`. CSS no longer reserves an empty fourth track when the takeaway is absent.

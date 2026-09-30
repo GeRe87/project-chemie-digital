@@ -64,7 +64,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "group", "table", "chart", "list"],
     ["prose", "definition-list", "prose"],
-    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "definition-list"],
     ["prose", "diagram"],
     ["prose", "prose", "prose", "definition-list", "prose"],
 ]
@@ -339,11 +339,8 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             wednesday[2],
         )
 
-        takeaway = str(next(self.content_graph.objects(EX["chemometrics-course-format-takeaway"], CD.body)))
-        self.assertEqual(
-            "PROGRAMMING IS A TOOL — THE FOCUS IS STATISTICAL AND CHEMOMETRIC REASONING",
-            takeaway,
-        )
+        # Course organization ends with the two session cards; no unrelated didactic footer is authored.
+        self.assertFalse(any(self.content_graph.triples((EX["chemometrics-course-format-takeaway"], None, None))))
 
         # The organization is no longer modeled as a process diagram.
         self.assertFalse(any(self.content_graph.triples((EX["diagram-chemometrics-course-format"], None, None))))

@@ -45,8 +45,7 @@
   ex:path-step-chemometrics-introduction-format a cd:PathStep ;
     cd:position 4 ;
     cd:usesResource ex:chemometrics-course-format-banner,
-      ex:chemometrics-course-format-sessions,
-      ex:chemometrics-course-format-takeaway ;
+      ex:chemometrics-course-format-sessions ;
     cd:usesScene ex:scene-chemometrics-introduction-format ;
     cd:authoredResource true .
 

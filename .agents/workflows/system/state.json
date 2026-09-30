@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 199,
-  "expectedDeliverable": "Owner-local focused tests and browser review of the paired Tuesday/Wednesday course-organization slide.",
-  "lastCompletedTurn": "worker: completed #199 paired session cards and removed the superseded unused #196 two-node process generalization.",
-  "lastUpdated": "2026-09-29T17:55:00+02:00",
+  "expectedDeliverable": "Owner-local focused tests and browser review of Slide 4 without the footer. Confirm the two session cards now occupy the visual hierarchy cleanly.",
+  "lastCompletedTurn": "worker: removed the unrelated course-organization footer and generalized paired-info-cards to an optional takeaway.",
+  "lastUpdated": "2026-09-30T08:20:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -24,29 +24,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 313,
+  "stateRevision": 316,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T16:23:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue194-point-connectors",
-      "reason": "Completed #194: labeled-card adaptive spacers now render a centered neutral downward connector without altering point order, wrapping or the existing 2.5lh spacing cap."
-    },
-    {
-      "at": "2026-09-29T16:24:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue195-lecturer-content",
-      "reason": "Accepted #194 as the generic connector primitive and authorized #195 Content-track refinement only: add degree years, shorten narrow-column copy and make the Junior Research Group hierarchy explicit with full names."
-    },
-    {
-      "at": "2026-09-29T16:25:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue195-lecturer-content",
-      "reason": "Claimed #195 bounded lecturer-card content update; renderer/system files are out of scope."
-    },
     {
       "at": "2026-09-29T16:29:00+02:00",
       "from": "busy/worker",
@@ -200,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-supersede-issue196",
       "reason": "Removed the unused #196 two-node process generalization; paired-info-cards now owns the two-session presentation need while process-diagram retains its previous 4+ node flow contract."
+    },
+    {
+      "at": "2026-09-30T08:14:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue198-199-optional-takeaway",
+      "reason": "Owner review identified the course-organization footer as semantically unrelated to the format. Authorized making paired-info-cards takeaway optional and removing the Chemometrics footer resource/scene item/path binding."
+    },
+    {
+      "at": "2026-09-30T08:15:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
+      "reason": "Claimed bounded generic optional-takeaway support plus Chemometrics content cleanup."
+    },
+    {
+      "at": "2026-09-30T08:20:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
+      "reason": "Completed cleanup: paired-info-cards supports three blocks without takeaway; Slide 4 now ends with Tuesday/Wednesday cards and the unrelated programming footer is removed from content, scene and path."
     }
   ]
 }

@@ -40,3 +40,7 @@ npm run test:pitch
 python -m unittest tests.test_chemometrics_introduction -v
 npm run pitch:intro
 ```
+
+## Footer removal after owner review
+
+The footer `PROGRAMMING IS A TOOL — ...` was removed because it describes a didactic emphasis rather than course organization. Slide 4 now ends with the Tuesday/Wednesday session cards. The removed resource is also gone from the scene definition and learning-path resource bindings.

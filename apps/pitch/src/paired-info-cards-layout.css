@@ -1,10 +1,10 @@
 /* Generic paired information cards.
-   Structural trigger: heading + explanatory prose + two-entry definition list + takeaway.
+   Structural trigger: heading + explanatory prose + two-entry definition list (+ optional takeaway).
    The layout is identity-free and is intended for parallel sessions, modes, options or comparisons. */
 
 .reveal .slides section[data-layout="paired-info-cards"] {
   display: grid !important;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr);
   row-gap: .72rem;
   align-content: stretch;
   padding: 1.25rem 1.8rem 1.2rem !important;
@@ -170,7 +170,7 @@ body[data-presentation-theme="dark"] .reveal .slides
 
 @media (max-width: 900px) {
   .reveal .slides section[data-layout="paired-info-cards"] {
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto;
     padding: 1rem !important;
   }
 
