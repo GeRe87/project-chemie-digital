@@ -4,11 +4,11 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 200,
-  "expectedDeliverable": "Owner-local renderer-d3/pitch tests and browser review of the Chemometrics roadmap with Hilbert routing and stage-fit scaling.",
-  "lastCompletedTurn": "worker: completed #200 including explicit diagram-stage scaling for tall space-filling viewBoxes.",
-  "lastUpdated": "2026-09-30T08:48:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 201,
+  "expectedDeliverable": "Owner-local tests and browser screenshot of Slide 5. Verify the existing roadmap automatically renders as colorful information cards along the space-filling route with readable labels and no overflow.",
+  "lastCompletedTurn": "worker: completed #201 adoption audit; no Chemometrics RDF change was needed because the existing roadmap already matches the generic long-linear-flow contract.",
+  "lastUpdated": "2026-09-30T08:52:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -16,37 +16,16 @@
   },
   "blockedBy": [
     "Issue #200 requires owner-local npm run test:renderer-d3",
-    "Issue #200 requires owner-local npm run test:pitch",
-    "Issue #201 requires browser verification that the existing six-node Chemometrics roadmap automatically selects space-filling-flow",
+    "Issue #200/#201 require owner-local npm run test:pitch",
     "Issue #201 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #201 requires fresh browser smoke of Slide 5 via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 322,
+  "stateRevision": 325,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T17:08:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue194-dashed-connector",
-      "reason": "Completed #194 dashed relation connector: adaptive spacers now draw a centered dashed vertical line with the existing filled triangle overlaid at mid-gap."
-    },
-    {
-      "at": "2026-09-29T17:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue196-two-step-process",
-      "reason": "Owner accepted Slide 3 connector/browser realization and moved to course organization. Authorized generic System-track support for two-step linear process diagrams while preserving three-node hierarchy precedence."
-    },
-    {
-      "at": "2026-09-29T17:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue196-two-step-process",
-      "reason": "Claimed #196 structural layout generalization and opaque regression only."
-    },
     {
       "at": "2026-09-29T17:23:00+02:00",
       "from": "busy/worker",
@@ -200,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue200-stage-scaling",
       "reason": "Completed #200 stage-fit refinement: space-filling flow SVGs now use the full available diagram-stage height with viewBox scaling and no fixed minimum-height inflation."
+    },
+    {
+      "at": "2026-09-30T08:49:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue201-roadmap-adoption",
+      "reason": "Reviewed #200 source-level implementation and authorized #201 content-track adoption audit. Existing Chemometrics roadmap RDF is already a strict six-node chain, so content mutation is only allowed if required by the generic trigger."
+    },
+    {
+      "at": "2026-09-30T08:50:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
+      "reason": "Claimed #201 bounded adoption audit against the existing six-node/five-edge course roadmap."
+    },
+    {
+      "at": "2026-09-30T08:52:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
+      "reason": "Completed #201 adoption audit with no scientific RDF changes: the existing six-node/five-edge strict chain already satisfies the generic space-filling-flow trigger; browser verification remains the acceptance gate."
     }
   ]
 }
