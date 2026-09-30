@@ -9,6 +9,7 @@ import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./analysis-result-layout.css";
+import "./case-study-layout.css";
 import "./diagram-stage-layout.css";
 import "./data-explanation-layout.css";
 import "./process-context-layout.css";
@@ -20,6 +21,8 @@ import "./foundation-card-grid-layout.css";
 import "./reference-code-layout.css";
 import "./hierarchy-flow-layout.css";
 import "./concept-specification-layout.css";
+import "./labeled-card-grid-layout.css";
+import "./paired-info-cards-layout.css";
 import "./presentation-projection.css";
 import "./hero-title-panel.css";
 import "./knowledge-network-runtime.css";
@@ -28,6 +31,7 @@ import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
 import "./full-media-layout.css";
 import "./closing-layout.css";
+import "./lecture-readability.css";
 import "./presentation-mobile.css";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
@@ -46,6 +50,8 @@ import { mountPresentationProjections } from "./presentation-projection.ts";
 import { mountPresentationClock } from "./presentation-clock.ts";
 import { mountPresentationLaserPointer } from "./presentation-laser-pointer.ts";
 import {
+  mountPresentationStageLock,
+  mountPresentationStageNavigation,
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
@@ -118,11 +124,12 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   documents,
   canonicalDatasetSnapshot,
 );
-preparePresentationStepFragments(root);
-const unmountPresentationProjection = mountPresentationProjections(root);
-
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
+preparePresentationStepFragments(root);
+const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
+  ? mountPresentationProjections(root)
+  : () => undefined;
 const unmountPresentationClock = appearance.profile.presenterCapabilities?.clock
   ? mountPresentationClock(document.body)
   : () => undefined;
@@ -151,6 +158,19 @@ function applyDiagramThemeMarker(): void {
 
 applyThemeMarker(currentTheme);
 applyDiagramThemeMarker();
+document.body.dataset.presentationReadability = appearance.readability;
+document.body.dataset.presentationView = appearance.view;
+
+if (appearance.readability === "lecture") {
+  for (const section of Array.from(root.querySelectorAll<HTMLElement>('section[data-lecture-budget="over-budget"]'))) {
+    const score = section.dataset.lectureBudgetScore ?? "unknown";
+    const regions = section.dataset.lecturePrimaryRegions ?? "unknown";
+    console.warn(
+      `[lecture-budget] Slide '${section.id || "unknown"}' exceeds the lecture content budget `
+      + `(score=${score}, primaryRegions=${regions}). Split or simplify the slide instead of shrinking typography.`,
+    );
+  }
+}
 
 const runtimeBackgroundPacks = backgroundPackRegistry.map((pack) => ({
   ...pack,
@@ -220,6 +240,13 @@ const deck = new Reveal({
 });
 await deck.initialize();
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
+const unmountPresentationStageNavigation = mountPresentationStageNavigation(
+  deck,
+  window,
+  presentation,
+  { view: appearance.view, root },
+);
+const unmountPresentationStageLock = mountPresentationStageLock(root, deck, window);
 
 const presentationVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
@@ -309,7 +336,8 @@ const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
   const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
     || currentSlide?.dataset.layout === "full-media";
-  if (appearance.view === "scroll" && freezeForLayout) return;
+  const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
+  if (appearance.view === "scroll" && (freezeForLayout || freezeForActiveStage)) return;
   backgroundRuntime.setProgress(offset);
 });
 
@@ -350,6 +378,8 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
+  unmountPresentationStageLock();
+  unmountPresentationStageNavigation();
   unmountPresentationSteps();
   unmountPresentationProjection();
   unmountPresentationLaserPointer();

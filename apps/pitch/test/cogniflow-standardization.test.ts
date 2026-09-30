@@ -53,10 +53,20 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-provenance-pipeline--scene",
 ] as const;
 
+test("diagram-stage scales space-filling flow viewBoxes into the available stage", () => {
+  const css = source("../src/diagram-stage-layout.css");
+  assert.match(css, /d3-flow-svg\[data-layout-strategy="space-filling-flow"\]/);
+  assert.match(css, /height:\s*100%/);
+  assert.match(css, /max-height:\s*100%/);
+  assert.equal(css.toLowerCase().includes("chemometrics"), false);
+});
+
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   const genericSources = [
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
     source("../src/concept-specification-layout.css"),
+    source("../src/labeled-card-grid-layout.css"),
+    source("../src/paired-info-cards-layout.css"),
     source("../src/hierarchy-flow-layout.css"),
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),
@@ -84,6 +94,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 
   for (const genericSource of genericSources) {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
+    assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
     for (const sceneId of migratedSceneIds) assert.equal(genericSource.includes(sceneId), false);
   }
 });
@@ -107,6 +118,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-semantic-hierarchy.css"'), false);
   assert.equal(main.includes('import "./cogniflow-core-grammar.css"'), false);
   assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
+  assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), true);
   assert.equal(main.includes('import "./reference-code-layout.css"'), true);
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
@@ -262,12 +274,18 @@ test("extension system uses structured module entries and generic foundation-car
 });
 
 
-test("alternate publication projection is generic and reuses compiled scene content", () => {
+test("alternate publication projection is generic and profile-gated", () => {
   const runtime = source("../src/presentation-projection.ts");
   const css = source("../src/presentation-projection.css");
+  const main = source("../src/main.ts");
+  const profile = source("../src/presentation-profile.ts");
 
   assert.equal(runtime.toLowerCase().includes("cogniflow"), false);
   assert.equal(css.toLowerCase().includes("cogniflow"), false);
+  assert.equal(main.includes("appearance.profile.projectionCapabilities?.publication"), true);
+  assert.equal(main.includes("profile.id"), false);
+  assert.equal(profile.includes("readonly projectionCapabilities?: PresentationProjectionCapabilities"), true);
+  assert.equal(profile.includes("publication: true"), true);
   assert.equal(runtime.includes('section[data-layout="concept-specification"]'), true);
   assert.equal(runtime.includes('[data-layout-slot="cards"]'), true);
   assert.equal(runtime.includes('[data-layout-slot="takeaway"]'), true);

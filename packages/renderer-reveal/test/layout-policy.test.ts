@@ -38,6 +38,30 @@ function threeCardScene(id: string, itemCount = 3): Scene {
   };
 }
 
+function labeledCardScene(id: string, entryCount = 3): Scene {
+  return {
+    id,
+    source: [{ resourceId: `${id}:source` }],
+    blocks: [
+      prose(`${id}:heading`, "introduce"),
+      {
+        id: `${id}:cards`,
+        kind: "definition-list",
+        entries: Array.from({ length: entryCount }, (_, index) => ({
+          id: `entry:${index + 1}`,
+          term: `Facet ${index + 1}`,
+          description: `Description ${index + 1}`,
+          source: [{ resourceId: `resource:entry:${index + 1}` }],
+        })),
+        intent: { kind: "explain" },
+        source: [{ resourceId: "resource:cards" }],
+      },
+      prose(`${id}:takeaway`, "explain"),
+    ],
+    readingOrder: [`${id}:heading`, `${id}:cards`, `${id}:takeaway`],
+  };
+}
+
 function hierarchyScene(id: string): Scene {
   return {
     id,
@@ -211,6 +235,91 @@ function analysisResultScene(id: string): Scene {
   };
 }
 
+function caseStudyScene(id: string): Scene {
+  const problemText = prose("block:problem-text", "explain");
+  const problem = {
+    id: "block:problem",
+    kind: "group" as const,
+    children: [
+      problemText,
+      {
+        id: "block:problem-media",
+        kind: "media-reference" as const,
+        uri: "/assets/sample.svg",
+        mediaType: "image/svg+xml",
+        alternativeText: "Illustrative samples",
+        source: [{ resourceId: "resource:sample-media" }],
+      },
+    ],
+    readingOrder: ["block:problem-text", "block:problem-media"],
+    source: [{ resourceId: "resource:problem" }],
+  };
+  const data = {
+    id: "block:data",
+    kind: "table" as const,
+    caption: "Illustrative data",
+    columns: [
+      { id: "column:sample", label: "Sample", source: [{ resourceId: "resource:column:sample" }] },
+      { id: "column:value", label: "Value", source: [{ resourceId: "resource:column:value" }] },
+    ],
+    rows: [{
+      id: "row:1",
+      source: [{ resourceId: "resource:row:1" }],
+      cells: [
+        { id: "cell:sample", text: "A", source: [{ resourceId: "resource:cell:sample" }] },
+        { id: "cell:value", text: "1.0", source: [{ resourceId: "resource:cell:value" }] },
+      ],
+    }],
+    source: [{ resourceId: "resource:data" }],
+  };
+  const analysis = {
+    id: "block:analysis",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Illustrative analysis",
+    description: "Three means",
+    xAxis: { label: "Sample" },
+    yAxis: { label: "Mean" },
+    data: [
+      { id: "datum:a", category: "A", value: 1, source: [{ resourceId: "resource:datum:a" }] },
+      { id: "datum:b", category: "B", value: 2, source: [{ resourceId: "resource:datum:b" }] },
+      { id: "datum:c", category: "C", value: 3, source: [{ resourceId: "resource:datum:c" }] },
+    ],
+    source: [{ resourceId: "resource:analysis" }],
+  };
+  const discussion = {
+    id: "block:discussion",
+    kind: "list" as const,
+    listStyle: "unordered" as const,
+    items: Array.from({ length: 3 }, (_, index) => ({
+      id: `discussion:${index + 1}`,
+      text: `Observation ${index + 1}`,
+      source: [{ resourceId: `resource:discussion:${index + 1}` }],
+    })),
+    source: [{ resourceId: "resource:discussion" }],
+  };
+  return {
+    id,
+    source: [{ resourceId: "resource:case-study" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      problem,
+      data,
+      analysis,
+      discussion,
+      prose("block:takeaway", "explain"),
+    ],
+    readingOrder: [
+      "block:heading",
+      "block:problem",
+      "block:data",
+      "block:analysis",
+      "block:discussion",
+      "block:takeaway",
+    ],
+  };
+}
+
 function cardSequenceScene(id: string): Scene {
   return {
     id,
@@ -310,6 +419,13 @@ test("infers concentric-network from focused grouped topology without scene iden
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("scene:alpha")), "concentric-network");
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("opaque:scene")), "concentric-network");
   assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
+});
+
+test("infers labeled-card-grid from three labeled facets without scene identity", () => {
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:alpha")), "labeled-card-grid");
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("opaque:anything")), "labeled-card-grid");
+  assert.deepEqual(inferRevealLayoutDecision(labeledCardScene("scene:slots"))?.slots, ["heading", "cards", "takeaway"]);
+  assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:four-facets", 4)), undefined);
 });
 
 test("infers concept-specification from structure without scene identity", () => {
@@ -533,7 +649,37 @@ function foundationCardGridScene(id: string): Scene {
   };
 }
 
-function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scene {
+function pairedInfoCardsScene(id: string, includeTakeaway = true): Scene {
+  return {
+    id,
+    source: [{ resourceId: "resource:paired-info-scene" }],
+    blocks: [
+      prose("block:heading", "introduce"),
+      prose("block:intro", "explain"),
+      {
+        id: "block:cards",
+        kind: "definition-list",
+        entries: [0, 1].map((index) => ({
+          id: `entry:${index + 1}`,
+          term: `Option ${index + 1}`,
+          description: `Metadata ${index + 1}\nMode ${index + 1}\nDetails ${index + 1}`,
+          source: [{ resourceId: `resource:entry:${index + 1}` }],
+        })),
+        source: [{ resourceId: "resource:cards" }],
+        intent: { kind: "explain" },
+      },
+      ...(includeTakeaway ? [prose("block:takeaway", "explain")] : []),
+    ],
+    readingOrder: [
+      "block:heading",
+      "block:intro",
+      "block:cards",
+      ...(includeTakeaway ? ["block:takeaway"] : []),
+    ],
+  };
+}
+
+function processDiagramScene(id: string, diagramType: "flow" | "sequence", nodeCount = 4): Scene {
   const diagram = diagramType === "flow"
     ? {
         id: "block:diagram",
@@ -541,8 +687,8 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence"): Scen
         diagramType: "flow" as const,
         label: "Opaque process",
         description: "Opaque process",
-        nodes: ["A", "B", "C", "D"].map((label, index) => ({ id: `node:${index}`, label, source: [{ resourceId: `resource:node:${index}` }] })),
-        edges: [0, 1, 2].map((index) => ({ id: `edge:${index}`, sourceNodeId: `node:${index}`, targetNodeId: `node:${index + 1}`, label: "next", source: [{ resourceId: `resource:edge:${index}` }] })),
+        nodes: Array.from({ length: nodeCount }, (_, index) => ({ id: `node:${index}`, label: `Step ${index + 1}`, source: [{ resourceId: `resource:node:${index}` }] })),
+        edges: Array.from({ length: Math.max(0, nodeCount - 1) }, (_, index) => ({ id: `edge:${index}`, sourceNodeId: `node:${index}`, targetNodeId: `node:${index + 1}`, label: "next", source: [{ resourceId: `resource:edge:${index}` }] })),
         source: [{ resourceId: "resource:diagram" }],
       }
     : {
@@ -611,10 +757,21 @@ test("infers foundation-card-grid from structured definition entries without ide
   ]);
 });
 
+test("infers paired-info-cards from two labeled entries with optional takeaway", () => {
+  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("scene:alpha")), "paired-info-cards");
+  assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("opaque:pair", false)), "paired-info-cards");
+  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:slots"))?.slots, [
+    "heading", "intro", "cards", "takeaway",
+  ]);
+  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:no-takeaway", false))?.slots, [
+    "heading", "intro", "cards",
+  ]);
+});
+
 test("infers generic process-diagram for longer flows and sequence diagrams", () => {
-  assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow")), "process-diagram");
+  assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow", 4)), "process-diagram");
   assert.equal(inferRevealLayoutFamily(processDiagramScene("opaque:service", "sequence")), "process-diagram");
-  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow"))?.slots, ["heading", "intro", "diagram", "takeaway"]);
+  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow", 4))?.slots, ["heading", "intro", "diagram", "takeaway"]);
 });
 
 test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {
@@ -655,6 +812,27 @@ test("infers data-explanation from list and table structure without identity", (
   ]);
 });
 
+
+test("infers lecture-scale case-study without a separate takeaway micro-region", () => {
+  const original = caseStudyScene("scene:lecture-case");
+  const blocks = original.blocks.slice(0, 5);
+  const scene = {
+    ...original,
+    blocks,
+    readingOrder: blocks.map((block) => block.id),
+  };
+  const decision = inferRevealLayoutDecision(scene);
+  assert.equal(decision?.family, "case-study");
+  assert.deepEqual(decision?.slots, ["heading", "problem", "data", "analysis", "discussion"]);
+});
+
+test("infers generic case-study from image problem, table, chart and discussion without identity", () => {
+  assert.equal(inferRevealLayoutFamily(caseStudyScene("scene:case-study")), "case-study");
+  assert.equal(inferRevealLayoutFamily(caseStudyScene("opaque:anything")), "case-study");
+  assert.deepEqual(inferRevealLayoutDecision(caseStudyScene("scene:slots"))?.slots, [
+    "heading", "problem", "data", "analysis", "discussion", "takeaway",
+  ]);
+});
 
 test("infers analysis-result from chart table and flow without identity", () => {
   assert.equal(inferRevealLayoutFamily(analysisResultScene("scene:alpha")), "analysis-result");

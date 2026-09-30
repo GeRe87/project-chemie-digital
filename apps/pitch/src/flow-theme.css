@@ -210,6 +210,90 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity var(--pcd-diagram-transition-normal), filter var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
 
+/* Long strict linear flows use renderer-owned information cards on a space-filling route.
+   Selection is topology/readability based in renderer-d3; presentation CSS never inspects scene identity. */
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-shape {
+  fill: hsl(var(--d3-flow-card-hue, 205) 74% 91% / .98);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 60% 38%);
+  stroke-width: 4;
+  filter:
+    drop-shadow(0 -2px 0 rgb(255 255 255 / .55))
+    drop-shadow(7px 7px 0 hsl(var(--d3-flow-card-hue, 205) 48% 30% / .18));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-inner-frame,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-rail,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-status,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-divider {
+  display: none;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index {
+  fill: hsl(var(--d3-flow-card-hue, 205) 58% 34%);
+  font: 900 17px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .05em;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title {
+  fill: hsl(var(--d3-flow-card-hue, 205) 66% 30%);
+  font-size: 22px;
+  font-weight: 900;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 72% 96% / .96);
+  stroke-width: 4px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title-divider {
+  stroke: hsl(var(--d3-flow-card-hue, 205) 55% 48% / .66);
+  stroke-width: 3;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-body {
+  fill: #18242c;
+  font-size: 16px;
+  font-weight: 720;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 70% 96% / .96);
+  stroke-width: 3px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge {
+  stroke: var(--pcd-accent);
+  stroke-width: 3.5;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge-label-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-accent) 8%);
+  stroke: color-mix(in srgb, var(--pcd-accent) 72%, var(--pcd-surface-strong));
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge-label {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-shape {
+  fill: hsl(var(--d3-flow-card-hue, 205) 32% 20% / .98);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 72% 68%);
+  filter:
+    drop-shadow(0 0 7px hsl(var(--d3-flow-card-hue, 205) 78% 62% / .14))
+    drop-shadow(6px 6px 0 rgb(0 0 0 / .30));
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index,
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title {
+  fill: hsl(var(--d3-flow-card-hue, 205) 82% 78%);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 28% 16% / .96);
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-body {
+  fill: #f2fbff;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 28% 16% / .96);
+}
+
 /* Sequence diagrams use the same semantic panel grammar without participant-specific selectors. */
 .reveal .d3-sequence-host .d3-sequence-runtime,
 .reveal .d3-sequence-host .d3-sequence-figure { margin: 0; padding: 0; border: 0; background: transparent; }

@@ -36,6 +36,13 @@
   min-height: 24rem;
 }
 
+.reveal .slides section[data-layout="diagram-stage"]
+  > [data-layout-slot="diagram"] .d3-flow-svg[data-layout-strategy="space-filling-flow"] {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+
 .reveal .slides section[data-layout="diagram-stage"] > [data-layout-slot="diagram"] .d3-flow-caption {
   position: absolute;
   width: 1px;

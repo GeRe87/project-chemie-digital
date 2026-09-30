@@ -2,10 +2,28 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 
 <https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-introduction> {
+  # Slide 1 — hero title ------------------------------------------------------
+  ex:scene-chemometrics-introduction-title a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-course-title ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-title-heading ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-title-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-course-title ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  # Slide 2 — analytical case study -----------------------------------------
   ex:scene-chemometrics-introduction-overview a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-overview ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-overview-heading,
-      ex:scene-item-chemometrics-introduction-overview-note ;
+      ex:scene-item-chemometrics-introduction-overview-problem,
+      ex:scene-item-chemometrics-introduction-overview-table,
+      ex:scene-item-chemometrics-introduction-overview-chart,
+      ex:scene-item-chemometrics-introduction-overview-discussion ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-overview-heading a cd:SceneItem ;
@@ -16,19 +34,45 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-overview-note a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-overview-problem a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chemometrics-course-overview-note ;
+    cd:selectsResource ex:chemometrics-nitrate-case-problem ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
+  ex:scene-item-chemometrics-introduction-overview-table a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:table-chemometrics-nitrate-replicates ;
+    cd:communicativeRole cd:TableRole ;
+    cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-overview-chart a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:chart-chemometrics-nitrate-means ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-overview-discussion a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:chemometrics-nitrate-case-discussion ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+
+  # Slide 3 — concept-specification ------------------------------------------
   ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-lecturer-context ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-lecturer-heading,
-      ex:scene-item-chemometrics-introduction-lecturer-attribution,
-      ex:scene-item-chemometrics-introduction-lecturer-note ;
+      ex:scene-item-chemometrics-introduction-lecturer-profile,
+      ex:scene-item-chemometrics-introduction-lecturer-takeaway ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-lecturer-heading a cd:SceneItem ;
@@ -39,26 +83,28 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-lecturer-attribution a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-lecturer-profile a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:attribution-chemometrics-gerrit-renner ;
-    cd:communicativeRole cd:AttributionRole ;
-    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:chemometrics-lecturer-profile ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-lecturer-note a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-lecturer-takeaway a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:chemometrics-lecturer-context-note ;
+    cd:selectsResource ex:chemometrics-lecturer-takeaway ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
+  # Slide 4 — paired-info-cards --------------------------------------------
   ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-format ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,
-      ex:scene-item-chemometrics-introduction-format-list ;
+      ex:scene-item-chemometrics-introduction-format-banner,
+      ex:scene-item-chemometrics-introduction-format-sessions ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-format-heading a cd:SceneItem ;
@@ -69,18 +115,27 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-format-list a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-format-banner a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chemometrics-course-format-list ;
+    cd:selectsResource ex:chemometrics-course-format-banner ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-format-sessions a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:chemometrics-course-format-sessions ;
     cd:communicativeRole cd:DefinitionListRole ;
     cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ;
     cd:authoredResource true .
 
+  # Slide 5 — diagram-stage --------------------------------------------------
   ex:scene-chemometrics-introduction-roadmap a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-roadmap ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-roadmap-heading,
-      ex:scene-item-chemometrics-introduction-roadmap-list ;
+      ex:scene-item-chemometrics-introduction-roadmap-diagram ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-roadmap-heading a cd:SceneItem ;
@@ -91,18 +146,22 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-roadmap-list a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-roadmap-diagram a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:chemometrics-course-roadmap-list ;
-    cd:communicativeRole cd:DefinitionListRole ;
-    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:diagram-chemometrics-course-roadmap ;
+    cd:communicativeRole cd:DiagramRole ;
+    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 
+  # Slide 6 — foundation-card-grid ------------------------------------------
   ex:scene-chemometrics-introduction-round a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-introduction-round ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-round-heading,
-      ex:scene-item-chemometrics-introduction-round-exercise ;
+      ex:scene-item-chemometrics-introduction-round-banner,
+      ex:scene-item-chemometrics-introduction-round-foundation,
+      ex:scene-item-chemometrics-introduction-round-prompts,
+      ex:scene-item-chemometrics-introduction-round-takeaway ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-round-heading a cd:SceneItem ;
@@ -113,10 +172,34 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-round-exercise a cd:SceneItem ;
+  ex:scene-item-chemometrics-introduction-round-banner a cd:SceneItem ;
     cd:position 2 ;
-    cd:selectsResource ex:exercise-chemometrics-introduction-round ;
-    cd:communicativeRole cd:ExerciseRole ;
+    cd:selectsResource ex:chemometrics-introduction-round-banner ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-round-foundation a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:chemometrics-introduction-round-foundation ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-round-prompts a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:chemometrics-introduction-round-prompts ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-round-takeaway a cd:SceneItem ;
+    cd:position 5 ;
+    cd:selectsResource ex:chemometrics-introduction-round-takeaway ;
+    cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .

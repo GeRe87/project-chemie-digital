@@ -1,196 +1,205 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
+  "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: formally accepted Issue #168 / PR #178 after fresh exact-head agent-validator/project-chemie-digital success on 15b0a7641d7b5922f89a7f5025df8afcdd0fbab4. Marked PR Ready and squash-merged it as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412; Issue #168 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
-  "lastUpdated": "2026-09-27T16:44:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 200,
+  "expectedDeliverable": "Owner-local renderer-d3/Pitch tests and browser review of Slide 5. Confirm larger cards/type, compact 3×2 Hilbert occupancy, and no repeated ‘builds on’ label panels.",
+  "lastCompletedTurn": "worker: refined #200 roadmap readability with compact Hilbert occupancy, larger card typography and generic repeated-edge-label suppression.",
+  "lastUpdated": "2026-09-30T09:28:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 235,
+  "blockedBy": [
+    "Issue #200 requires owner-local npm run test:renderer-d3",
+    "Issue #200/#201 require owner-local npm run test:pitch",
+    "Issue #201 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #201 requires fresh browser smoke of Slide 5 via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance",
+    "PR #185 requires coordinated independent manager review for accumulated issues",
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
+    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+  ],
+  "stateRevision": 328,
   "transitionHistory": [
     {
-      "at": "2026-09-27T11:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-      "reason": "Claimed only the #162 test-side DefinitionList fallback repair authorized after current-main reconciliation."
-    },
-    {
-      "at": "2026-09-27T11:34:00+02:00",
+      "at": "2026-09-29T17:32:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-      "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
+      "actor": "interactive-chemometrics-worker-issue197-course-organization",
+      "reason": "Completed #197: slide now uses a two-node semantic flow from interactive lecture+seminar to hands-on tutorial, removes obsolete four-format card resources, and states that programming supports rather than defines the tutorial."
     },
     {
-      "at": "2026-09-27T12:28:00+02:00",
+      "at": "2026-09-29T17:34:00+02:00",
       "from": "blocked/manager",
       "to": "ready/worker",
-      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
-      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
+      "actor": "interactive-system-manager-issue198-paired-info-cards",
+      "reason": "Owner browser review rejected the process-diagram visual for course organization while approving the card visual language. Authorized a generic paired information-card layout inferred solely from heading + intro + two-entry DefinitionList + takeaway."
     },
     {
-      "at": "2026-09-27T12:29:00+02:00",
+      "at": "2026-09-29T17:35:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
+      "actor": "interactive-system-worker-issue198-paired-info-cards",
+      "reason": "Claimed #198 generic paired-info-cards layout, CSS import and identity-free regression only."
     },
     {
-      "at": "2026-09-27T12:35:00+02:00",
+      "at": "2026-09-29T17:42:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
+      "actor": "interactive-system-worker-issue198-paired-info-cards",
+      "reason": "Completed #198: opaque two-entry DefinitionList scenes now render as two large information cards with metadata/mode/detail hierarchy and no process-diagram chrome."
     },
     {
-      "at": "2026-09-27T12:36:00+02:00",
+      "at": "2026-09-29T17:43:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-      "reason": "Claimed final Issue #162 acceptance after local Self-Study/root tests, browser smoke, current-main reconciliation and generated fallback refresh. The resulting exact claim head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-27T12:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-      "reason": "Exact-head validator success, local tests, browser smoke, integration freshness and Ready lifecycle all passed for PR #163. Squash-merged Issue #162 as 9369e976017f70afac17f6d80de3e7bf26d1d7ef, verified Issue #162 closed completed and single-parent squash, and returned System to idle manager state."
-    },
-    {
-      "at": "2026-09-27T12:55:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-      "reason": "Claimed Issue #165 to define OfferingSection as a renderer-neutral offering-specific curriculum grouping overlay and settle its versioned runtime compatibility boundary."
-    },
-    {
-      "at": "2026-09-27T12:57:00+02:00",
-      "from": "busy/manager",
       "to": "ready/worker",
-      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-      "reason": "Authorized one Software Architect worker turn to record the OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility rule only."
+      "actor": "interactive-system-manager-issue199-course-schedule-cards",
+      "reason": "Reviewed #198 as the generic paired-card primitive and authorized #199 bounded Chemometrics content migration: explicit Tuesday/Wednesday sessions with placeholder time/room and no flow diagram."
     },
     {
-      "at": "2026-09-27T13:00:00+02:00",
+      "at": "2026-09-29T17:44:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
-      "reason": "Claimed Issue #165 to author the renderer-neutral OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility decision only."
+      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
+      "reason": "Claimed #199 course-organization content, scene selection, path resource binding and focused regressions only."
     },
     {
-      "at": "2026-09-27T13:08:00+02:00",
+      "at": "2026-09-29T17:51:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
-      "reason": "Completed ADR-0015 and the Issue #165 handoff within architecture-only scope; returned to manager for exact-head validation and independent review."
+      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
+      "reason": "Completed #199: Slide 4 now authors Tuesday and Wednesday as a two-entry DefinitionList with placeholder time/room, interactive lecture+seminar versus hands-on tutorial, and no course-organization FlowDiagram."
     },
     {
-      "at": "2026-09-27T13:14:00+02:00",
+      "at": "2026-09-29T17:52:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue165-final-acceptance-20260927T131400+0200",
-      "reason": "Independent architecture review of ADR-0015 is clean; claimed final Issue #165 acceptance. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-27T13:41:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue165-final-acceptance-20260927T131400+0200",
-      "reason": "Exact-head validation, integration freshness and Ready lifecycle all passed for PR #175. Squash-merged Issue #165 as ffb3682f542e596efe4bb5afc20fb5efe5d03a00, verified Issue #165 closed completed and single-parent squash, and returned System to idle manager state."
-    },
-    {
-      "at": "2026-09-27T13:48:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue166-offering-section-implementation-20260927T134800+0200",
-      "reason": "Claimed Issue #166 to implement the accepted generic OfferingSection vocabulary, SHACL and TeachingOfferingRuntimeDocument 1.1 projection/validation contract."
-    },
-    {
-      "at": "2026-09-27T13:50:00+02:00",
-      "from": "busy/manager",
       "to": "ready/worker",
-      "actor": "interactive-system-manager-issue166-offering-section-implementation-20260927T134800+0200",
-      "reason": "Authorized one generic #166 implementation worker turn with explicit 1.0/1.1 compatibility and no course-specific/UI expansion."
+      "actor": "interactive-system-manager-supersede-issue196",
+      "reason": "The final Slide 4 design no longer uses a two-node process diagram. Authorized removal of the now-unused #196 process-diagram generalization so the renderer keeps its narrower established process contract."
     },
     {
-      "at": "2026-09-27T13:53:00+02:00",
+      "at": "2026-09-29T17:53:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-system-worker-issue166-offering-section-runtime-20260927T135300+0200",
-      "reason": "Claimed generic OfferingSection vocabulary/SHACL/runtime 1.1 implementation only; no Chemometrics instances, Self-Study region UI or learner-state progress."
+      "actor": "interactive-system-worker-supersede-issue196",
+      "reason": "Claimed cleanup of the unused two-node process-diagram rule and regression only."
     },
     {
-      "at": "2026-09-27T14:12:00+02:00",
+      "at": "2026-09-29T17:55:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue166-offering-section-runtime-20260927T135300+0200",
-      "reason": "Completed generic #166 OfferingSection semantic/runtime implementation and structured handoff; returned to manager for local execution, artifact review and later exact-head acceptance gates."
+      "actor": "interactive-system-worker-supersede-issue196",
+      "reason": "Removed the unused #196 two-node process generalization; paired-info-cards now owns the two-session presentation need while process-diagram retains its previous 4+ node flow contract."
     },
     {
-      "at": "2026-09-27T14:15:00+02:00",
+      "at": "2026-09-30T08:14:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
-      "reason": "Claimed final Issue #166 acceptance after independent static review, owner-local focused/Core and full repository tests, generated-artifact scope review and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-27T14:38:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue166-final-acceptance-20260927T141500+0200",
-      "reason": "Exact-head validator success, local tests, independent review, integration freshness and Ready lifecycle all passed for PR #176. Squash-merged Issue #166 as 904f4af423bdfa674991e0398f8d78ecbcfb39e4, verified Issue #166 closed completed and single-parent squash, and returned System to idle manager state."
-    },
-    {
-      "at": "2026-09-27T15:42:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue168-section-regions-20260927T154200+0200",
-      "reason": "Claimed bounded System Issue #168 after verifying #162, #166 and #167 are completed; scope is generic section-aware Self-Study regions, static-first parity and accessibility only, with no RDF/progress/scientific-content mutation."
-    },
-    {
-      "at": "2026-09-27T15:45:00+02:00",
-      "from": "busy/manager",
       "to": "ready/worker",
-      "actor": "interactive-system-manager-issue168-section-regions-20260927T154200+0200",
-      "reason": "Authorized one bounded Frontend and Reveal Renderer Engineer turn for generic section-aware Self-Study regions using the existing shared course-world view-model/render path, preserving flat fallback and excluding RDF/progress/content changes."
+      "actor": "interactive-system-manager-issue198-199-optional-takeaway",
+      "reason": "Owner review identified the course-organization footer as semantically unrelated to the format. Authorized making paired-info-cards takeaway optional and removing the Chemometrics footer resource/scene item/path binding."
     },
     {
-      "at": "2026-09-27T15:47:00+02:00",
+      "at": "2026-09-30T08:15:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
-      "reason": "Claimed bounded System Issue #168 on fresh branch agent/168-self-study-section-regions for generic section-aware Self-Study regions, static/browser parity, accessibility and legacy flat fallback only."
+      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
+      "reason": "Claimed bounded generic optional-takeaway support plus Chemometrics content cleanup."
     },
     {
-      "at": "2026-09-27T15:50:00+02:00",
+      "at": "2026-09-30T08:20:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue168-section-regions-20260927T154700+0200",
-      "reason": "Completed bounded Issue #168 source implementation, focused regressions, Draft PR #178 and structured handoff; returned to manager for local Self-Study generation/tests, generated fallback review, visual smoke and later exact-head acceptance gates."
+      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
+      "reason": "Completed cleanup: paired-info-cards supports three blocks without takeaway; Slide 4 now ends with Tuesday/Wednesday cards and the unrelated programming footer is removed from content, scene and path."
     },
     {
-      "at": "2026-09-27T16:27:00+02:00",
+      "at": "2026-09-30T08:28:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue168-final-acceptance-20260927T162700+0200",
-      "reason": "Claimed final Issue #168 acceptance after clean static/artifact review, owner-local Self-Study 29/29, full repository test success, desktop/narrow browser smoke, no review threads and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue200-space-filling-flow",
+      "reason": "Owner accepted Slide 4 and requested a generic rule for long linear flow diagrams: readable colorful info-card nodes plus Hilbert-style space-filling routing instead of shrinking a long strip."
     },
     {
-      "at": "2026-09-27T16:44:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue168-final-acceptance-20260927T162700+0200",
-      "reason": "Exact-head validator success, focused/full local tests, desktop/narrow browser smoke, generated fallback review, integration freshness and Ready lifecycle all passed for PR #178. Squash-merged Issue #168 as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412, verified Issue #168 closed completed and single-parent squash, and returned System to idle manager state."
+      "at": "2026-09-30T08:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue200-space-filling-flow",
+      "reason": "Claimed #200 renderer-d3 topology/readability trigger, Hilbert geometry/routes, generic SVG card chrome, theme CSS and focused regressions only."
+    },
+    {
+      "at": "2026-09-30T08:44:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue200-space-filling-flow",
+      "reason": "Completed #200: wide long strict chains select space-filling-flow, sample the full Hilbert domain, route edges orthogonally through Hilbert subpaths, preserve readable card width, and use deterministic colorful information-card styling."
+    },
+    {
+      "at": "2026-09-30T08:45:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue200-stage-scaling",
+      "reason": "Connector-side review identified that the new tall Hilbert viewBox also needs an explicit stage-fit rule so the SVG scales into available diagram-stage height rather than overflowing."
+    },
+    {
+      "at": "2026-09-30T08:46:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue200-stage-scaling",
+      "reason": "Claimed bounded diagram-stage scaling CSS and regression only."
+    },
+    {
+      "at": "2026-09-30T08:48:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue200-stage-scaling",
+      "reason": "Completed #200 stage-fit refinement: space-filling flow SVGs now use the full available diagram-stage height with viewBox scaling and no fixed minimum-height inflation."
+    },
+    {
+      "at": "2026-09-30T08:49:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue201-roadmap-adoption",
+      "reason": "Reviewed #200 source-level implementation and authorized #201 content-track adoption audit. Existing Chemometrics roadmap RDF is already a strict six-node chain, so content mutation is only allowed if required by the generic trigger."
+    },
+    {
+      "at": "2026-09-30T08:50:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
+      "reason": "Claimed #201 bounded adoption audit against the existing six-node/five-edge course roadmap."
+    },
+    {
+      "at": "2026-09-30T08:52:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
+      "reason": "Completed #201 adoption audit with no scientific RDF changes: the existing six-node/five-edge strict chain already satisfies the generic space-filling-flow trigger; browser verification remains the acceptance gate."
+    },
+    {
+      "at": "2026-09-30T09:17:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue200-roadmap-readability",
+      "reason": "Owner browser review accepted the space-filling direction but found cards/type too small and identical edge labels repetitive. Authorized a generic #200 readability refinement."
+    },
+    {
+      "at": "2026-09-30T09:18:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue200-roadmap-readability",
+      "reason": "Claimed compact contiguous Hilbert occupancy, larger information-card geometry/type, repeated-label suppression and focused renderer regressions."
+    },
+    {
+      "at": "2026-09-30T09:28:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue200-roadmap-readability",
+      "reason": "Completed #200 refinement: long strict flows choose a compact contiguous Hilbert window, six-stage flows use 3×2 occupancy with larger cards/type, and identical repeated edge labels are visually hidden while semantic labels remain intact."
     }
   ]
 }

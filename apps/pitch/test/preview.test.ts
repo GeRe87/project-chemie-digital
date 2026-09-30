@@ -9,6 +9,7 @@ import {
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -81,6 +82,292 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   assert.match(first.children[1]?.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
   assert.equal(first.children[1]?.attributes.get("data-relation-path"), "cd:hasDefinition");
   destroy(); assert.equal(root.children.length, 0); destroy();
+});
+
+test("mounts generic layout variant and density markers for an inferred scene", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading, "expected a graph-backed heading in the canonical fixture");
+
+  const inferredScene = {
+    ...sourceScene,
+    id: "scene:generic-layout-marker",
+    blocks: [heading],
+    readingOrder: [heading.id],
+  };
+  const decision = inferRevealLayoutDecision(inferredScene);
+  assert.equal(decision?.family, "closing");
+
+  const inferredDocument = {
+    ...document,
+    id: "document:generic-layout-marker",
+    scenes: [inferredScene],
+  };
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [inferredDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "closing");
+  assert.equal(section.attributes.get("data-layout-variant"), "default");
+  assert.equal(section.attributes.get("data-layout-density"), "comfortable");
+  assert.ok(["within-budget", "over-budget"].includes(section.attributes.get("data-lecture-budget") ?? ""));
+  assert.match(section.attributes.get("data-lecture-budget-score") ?? "", /^\d+\.\d$/);
+  assert.match(section.attributes.get("data-lecture-primary-regions") ?? "", /^\d+$/);
+  destroy();
+});
+
+test("wraps rendered list text in a neutral marker span without changing semantic text", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading, "expected a graph-backed heading in the canonical fixture");
+
+  const listBlock = {
+    kind: "list" as const,
+    id: "block:generic-marker-list",
+    listStyle: "unordered" as const,
+    source: [{ resourceId: "resource:generic-marker-list" }],
+    items: [
+      {
+        id: "item:generic-marker-one",
+        text: "Generic highlighted statement",
+        source: [{ resourceId: "resource:generic-marker-one" }],
+      },
+    ],
+    disclosure: {
+      order: 1,
+      mode: "progressive" as const,
+      step: 2,
+      triggerResourceId: "resource:generic-trigger",
+    },
+  };
+  const listScene = {
+    ...sourceScene,
+    id: "scene:generic-marker-list",
+    blocks: [heading, listBlock],
+    readingOrder: [heading.id, listBlock.id],
+  };
+  const listDocument = {
+    ...document,
+    id: "document:generic-marker-list",
+    scenes: [listScene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [listDocument],
+  );
+  const list = root.children[0]!.children[1]!;
+  assert.equal(list.className, "keypoint-list");
+  assert.equal(list.attributes.get("data-presentation-disclosure-mode"), "progressive");
+  assert.equal(list.attributes.get("data-presentation-disclosure-step"), "2");
+  assert.equal(
+    list.attributes.get("data-presentation-disclosure-trigger-resource-id"),
+    "resource:generic-trigger",
+  );
+  assert.equal(list.attributes.get("data-presentation-disclosure-visible"), "false");
+  assert.equal(list.attributes.get("aria-hidden"), "true");
+  const item = list.children[0]!;
+  assert.equal(item.attributes.get("data-list-item-id"), "item:generic-marker-one");
+  const textSpan = item.children[0]!;
+  assert.equal(textSpan.className, "pcd-list-item-text");
+  assert.equal(textSpan.textContent, "Generic highlighted statement");
+  destroy();
+});
+
+test("definition-list renderer separates authored points and caps adaptive spacing", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const cards = {
+    id: "block:generic-labeled-cards",
+    kind: "definition-list" as const,
+    entries: [
+      {
+        id: "entry:multi",
+        term: "MULTI",
+        description: `First logical point\nSecond point wraps naturally in the browser\nThird logical point`,
+        source: [{ resourceId: "resource:entry:multi" }],
+      },
+      {
+        id: "entry:single",
+        term: "SINGLE",
+        description: "One continuous description",
+        source: [{ resourceId: "resource:entry:single" }],
+      },
+      {
+        id: "entry:blank-lines",
+        term: "BLANKS",
+        description: `Alpha\n\n   \nBeta`,
+        source: [{ resourceId: "resource:entry:blank-lines" }],
+      },
+    ],
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-labeled-cards" }],
+  };
+  const takeaway = {
+    id: "block:generic-labeled-takeaway",
+    kind: "prose" as const,
+    text: "Generic takeaway",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-labeled-takeaway" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:generic-labeled-cards",
+    blocks: [heading, cards, takeaway],
+    readingOrder: [heading.id, cards.id, takeaway.id],
+  };
+  const renderedDocument = {
+    ...document,
+    version: "1.4" as const,
+    id: "document:generic-labeled-cards",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "labeled-card-grid");
+
+  const definitionList = section.children[1]!;
+  const multiDescription = definitionList.children[0]!.children[1]!;
+  assert.equal(multiDescription.attributes.get("data-adaptive-point-spacing"), "true");
+  const multiPoints = multiDescription.children[0]!;
+  assert.equal(multiPoints.className, "definition-list-points");
+  assert.deepEqual(
+    multiPoints.children.map((child) => [child.className, child.textContent]),
+    [
+      ["definition-list-point", "First logical point"],
+      ["definition-list-point-spacer", null],
+      ["definition-list-point", "Second point wraps naturally in the browser"],
+      ["definition-list-point-spacer", null],
+      ["definition-list-point", "Third logical point"],
+    ],
+  );
+  assert.deepEqual(
+    multiPoints.children
+      .filter((child) => child.className === "definition-list-point")
+      .map((child) => child.attributes.get("data-definition-point-index")),
+    ["0", "1", "2"],
+  );
+  assert.ok(
+    multiPoints.children
+      .filter((child) => child.className === "definition-list-point-spacer")
+      .every((child) => child.attributes.get("aria-hidden") === "true"),
+  );
+
+  const singleDescription = definitionList.children[1]!.children[1]!;
+  assert.equal(singleDescription.attributes.get("data-adaptive-point-spacing"), undefined);
+  assert.equal(singleDescription.textContent, "One continuous description");
+  assert.equal(singleDescription.children.length, 0);
+
+  const blankDescription = definitionList.children[2]!.children[1]!;
+  const blankPoints = blankDescription.children[0]!;
+  assert.deepEqual(
+    blankPoints.children
+      .filter((child) => child.className === "definition-list-point")
+      .map((child) => child.textContent),
+    ["Alpha", "Beta"],
+  );
+
+  const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+  const cardStyles = readFileSync(new URL("../src/labeled-card-grid-layout.css", import.meta.url), "utf8");
+  assert.match(sharedStyles, /\.definition-list-point-spacer/);
+  assert.match(sharedStyles, /--pcd-point-gap-min:\s*\.6lh/);
+  assert.match(sharedStyles, /--pcd-point-gap-max:\s*2\.5lh/);
+  assert.match(sharedStyles, /max-height:\s*var\(--pcd-point-gap-max\)/);
+  assert.match(cardStyles, /definition-list-description\[data-adaptive-point-spacing="true"\]/);
+  assert.match(cardStyles, /flex:\s*1 1 auto/);
+  assert.match(cardStyles, /\.definition-list-point-spacer::before/);
+  assert.match(cardStyles, /repeating-linear-gradient\(/);
+  assert.match(cardStyles, /width:\s*2px/);
+  assert.match(cardStyles, /top:\s*\.18rem/);
+  assert.match(cardStyles, /bottom:\s*\.18rem/);
+  assert.match(cardStyles, /\.definition-list-point-spacer::after/);
+  assert.match(cardStyles, /border-left:\s*\.46rem solid transparent/);
+  assert.match(cardStyles, /border-right:\s*\.46rem solid transparent/);
+  assert.match(cardStyles, /border-top:\s*\.74rem solid color-mix/);
+  assert.doesNotMatch(cardStyles, /content:\s*"↓"/);
+  assert.doesNotMatch(cardStyles.toLowerCase(), /chemometrics|lecturer|research/);
+
+  destroy();
+});
+
+test("chart stage host publishes chart and annotation resources for semantic disclosure", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const chart = {
+    id: "block:semantic-chart",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Generic chart",
+    description: "Generic evidence",
+    xAxis: { label: "Category" },
+    yAxis: { label: "Value" },
+    data: [{
+      id: "datum:a",
+      category: "A",
+      value: 1,
+      source: [{ resourceId: "resource:datum-a" }],
+    }],
+    annotations: [{
+      id: "annotation:a",
+      kind: "point" as const,
+      datumId: "datum:a",
+      label: "Generic focus",
+      source: [{ resourceId: "resource:annotation-a" }],
+    }],
+    source: [{ resourceId: "resource:chart-a" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:semantic-chart-host",
+    blocks: [heading, chart],
+    readingOrder: [heading.id, chart.id],
+  };
+  const renderedDocument = {
+    ...document,
+    version: "1.2" as const,
+    id: "document:semantic-chart-host",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const chartHost = root.children[0]!.children[1]!;
+  assert.equal(
+    chartHost.attributes.get("data-presentation-step-resource-id"),
+    "resource:chart-a resource:annotation-a",
+  );
+  destroy();
 });
 
 test("renders the canonical formula locally as KaTeX math", () => {

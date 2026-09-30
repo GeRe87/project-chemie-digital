@@ -2,6 +2,8 @@ import type { DiagramBlock, Scene, SceneBlock } from "../../core/src/scene-docum
 
 export type RevealLayoutFamily =
   | "concept-specification"
+  | "labeled-card-grid"
+  | "paired-info-cards"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -17,7 +19,8 @@ export type RevealLayoutFamily =
   | "hero-title-panel"
   | "semantic-source"
   | "semantic-multi-view"
-  | "diagram-stage";
+  | "diagram-stage"
+  | "case-study";
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
@@ -59,6 +62,16 @@ function isAttributionMediaGroup(block: SceneBlock): boolean {
     (child) => child.kind === "prose" && child.intent?.kind === "emphasize",
   );
   const media = block.children.filter((child) => child.kind === "media-reference");
+  return prose.length === 1 && media.length === 1;
+}
+
+function isProseImageGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const prose = block.children.filter((child) => child.kind === "prose");
+  const media = block.children.filter(
+    (child) => child.kind === "media-reference"
+      && (child.mediaType === undefined || child.mediaType.startsWith("image/")),
+  );
   return prose.length === 1 && media.length === 1;
 }
 
@@ -202,6 +215,20 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
     if (
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
+      && body?.kind === "definition-list"
+      && body.entries.length === 3
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "labeled-card-grid",
+        slots: ["heading", "cards", "takeaway"],
+      };
+    }
+
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
       && body?.kind === "list"
       && body.listStyle === "unordered"
       && body.items.length === 3
@@ -225,6 +252,28 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "data-explanation",
         slots: ["heading", "principles", "table"],
+      };
+    }
+  }
+
+  if (blocks.length === 3 || blocks.length === 4) {
+    const [heading, intro, cards, takeaway] = blocks;
+    const hasValidTakeaway = takeaway === undefined
+      || (takeaway.kind === "prose" && takeaway.intent?.kind === "explain");
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && cards?.kind === "definition-list"
+      && cards.entries.length === 2
+      && hasValidTakeaway
+    ) {
+      return {
+        family: "paired-info-cards",
+        slots: takeaway === undefined
+          ? ["heading", "intro", "cards"]
+          : ["heading", "intro", "cards", "takeaway"],
       };
     }
   }
@@ -374,6 +423,32 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "process-context",
         slots: ["heading", "diagram", "example-heading", "example-definitions", "example-note", "context-heading", "context-definitions"],
+      };
+    }
+  }
+
+  if (blocks.length === 5 || blocks.length === 6) {
+    const [heading, problem, data, analysis, discussion, takeaway] = blocks;
+    const hasValidTakeaway = takeaway === undefined
+      || (takeaway.kind === "prose" && takeaway.intent?.kind === "explain");
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && problem !== undefined
+      && isProseImageGroup(problem)
+      && data?.kind === "table"
+      && analysis?.kind === "chart"
+      && discussion?.kind === "list"
+      && discussion.listStyle === "unordered"
+      && discussion.items.length >= 2
+      && discussion.items.length <= 3
+      && hasValidTakeaway
+    ) {
+      return {
+        family: "case-study",
+        slots: takeaway === undefined
+          ? ["heading", "problem", "data", "analysis", "discussion"]
+          : ["heading", "problem", "data", "analysis", "discussion", "takeaway"],
       };
     }
   }

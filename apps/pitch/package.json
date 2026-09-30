@@ -10,7 +10,9 @@
     "dev:cogniflow": "npm run generate:cogniflow && vite --force --host 127.0.0.1 --port 5173 --strictPort",
     "build:cogniflow": "npm run generate:cogniflow && vite build --base=./",
     "dev:standard-deviation": "python ../../scripts/generate_canonical_runtime.py && vite --host 127.0.0.1 --port 5173 --strictPort",
-    "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && node --experimental-strip-types --test test/*.test.ts"
+    "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && node --experimental-strip-types --test test/*.test.ts",
+    "generate:introduction": "python ../../scripts/generate_canonical_runtime_media.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-introduction --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-introduction --path-id https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction",
+    "dev:introduction": "npm run generate:introduction && vite --force --host 127.0.0.1 --port 5173 --strictPort"
   },
   "dependencies": {
     "katex": "0.16.22",

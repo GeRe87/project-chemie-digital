@@ -39,6 +39,8 @@ export interface DidacticIntent {
 export interface Disclosure {
   readonly order: number;
   readonly mode: "initial" | "progressive" | "optional";
+  readonly step?: number;
+  readonly triggerResourceId?: string;
 }
 
 interface SceneBlockBase {
@@ -253,6 +255,14 @@ export interface LineChartSeries {
   readonly source: readonly SourceReference[];
 }
 
+export interface BarChartPointAnnotation {
+  readonly id: string;
+  readonly kind: "point";
+  readonly datumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
 export interface LineChartPointAnnotation {
   readonly id: string;
   readonly kind: "point";
@@ -282,6 +292,7 @@ export interface BarChartBlock extends SceneBlockBase {
   readonly xAxis: ChartAxis;
   readonly yAxis: ChartAxis;
   readonly data: readonly BarChartDatum[];
+  readonly annotations?: readonly BarChartPointAnnotation[];
 }
 
 export interface LineChartBlock extends SceneBlockBase {
@@ -557,6 +568,18 @@ function validateChart(block: ChartBlock, label: string): void {
       if (!Number.isFinite(datum.value)) throw new SceneContractError(`${label} bar datum ${datum.id} value must be finite`);
       validateSource(datum.source, `${label} bar datum ${datum.id} source`);
     }
+    const annotationIds = new Set<string>();
+    for (const annotation of block.annotations ?? []) {
+      requireNonEmpty(annotation.id, `${label} annotation id`);
+      if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} contains duplicate annotation ids`);
+      annotationIds.add(annotation.id);
+      requireNonEmpty(annotation.label, `${label} annotation ${annotation.id} label`);
+      validateSource(annotation.source, `${label} annotation ${annotation.id} source`);
+      if (annotation.kind !== "point") throw new SceneContractError(`${label} bar annotation ${annotation.id} must be a point annotation`);
+      if (!ids.has(annotation.datumId)) {
+        throw new SceneContractError(`${label} point annotation ${annotation.id} references an unknown datum`);
+      }
+    }
     return;
   }
 
@@ -629,6 +652,20 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     validateSource(block.source, `${label} block ${block.id} source`);
     if (block.disclosure && (!Number.isInteger(block.disclosure.order) || block.disclosure.order < 0)) {
       throw new SceneContractError(`${label} block ${block.id} disclosure order must be a non-negative integer`);
+    }
+    if (block.disclosure?.step !== undefined) {
+      if (!Number.isInteger(block.disclosure.step) || block.disclosure.step < 1) {
+        throw new SceneContractError(`${label} block ${block.id} disclosure step must be a positive integer`);
+      }
+      if (block.disclosure.mode !== "progressive") {
+        throw new SceneContractError(`${label} block ${block.id} disclosure step requires progressive mode`);
+      }
+      if (block.disclosure.triggerResourceId === undefined) {
+        throw new SceneContractError(`${label} block ${block.id} progressive disclosure step requires triggerResourceId`);
+      }
+    }
+    if (block.disclosure?.triggerResourceId !== undefined) {
+      requireNonEmpty(block.disclosure.triggerResourceId, `${label} block ${block.id} disclosure triggerResourceId`);
     }
     if (block.kind === "group") {
       validateBlocks(block.children, `${label} group ${block.id}`, version);

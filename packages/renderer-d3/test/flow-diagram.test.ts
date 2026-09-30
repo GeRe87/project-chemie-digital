@@ -3,6 +3,7 @@ import test from "node:test";
 import type { DiagramBlock } from "../../core/src/index.ts";
 import {
   createD3FlowRenderModel,
+  d3FlowEdgePath,
   mountD3FlowDiagram,
   type D3FlowRuntimePort,
 } from "../src/flow-diagram.ts";
@@ -47,6 +48,32 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);
   assert.match(first.model.staticFallback, /Raw data/);
   assert.match(first.model.staticFallback, /Metadata — enables → Reusable result/);
+});
+
+test("space-filling edge paths preserve every renderer-owned orthogonal route point", () => {
+  const path = d3FlowEdgePath(
+    {
+      id: "edge:routed",
+      sourceNodeId: "a",
+      targetNodeId: "b",
+      x1: 10,
+      y1: 20,
+      x2: 90,
+      y2: 80,
+      labelX: 50,
+      labelY: 40,
+      labelLines: ["next"],
+      routePoints: [
+        { x: 10, y: 20 },
+        { x: 10, y: 60 },
+        { x: 90, y: 60 },
+        { x: 90, y: 80 },
+      ],
+    },
+    "horizontal",
+    "space-filling-flow",
+  );
+  assert.equal(path, "M 10 20 L 10 60 L 90 60 L 90 80");
 });
 
 test("optional focus is valid and does not invent a focus node", () => {

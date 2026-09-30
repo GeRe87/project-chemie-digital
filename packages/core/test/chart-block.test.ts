@@ -59,3 +59,51 @@ test("SceneDocument 1.2 accepts a source-linked line chart with point and range 
 
   assert.doesNotThrow(() => validateSceneDocument(document));
 });
+
+
+test("SceneDocument accepts bar point annotations and semantic progressive disclosure", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  assert.equal(chart.kind, "chart");
+  assert.equal(chart.chartType, "bar");
+  (chart as Extract<typeof chart, { kind: "chart"; chartType: "bar" }>).annotations = [
+    {
+      id: "annotation-a",
+      kind: "point",
+      datumId: "a",
+      label: "Authored focus",
+      source: [{ resourceId: "annotation-a" }],
+    },
+  ];
+  (chart as { disclosure?: unknown }).disclosure = {
+    order: 0,
+    mode: "progressive",
+    step: 2,
+    triggerResourceId: "annotation-a",
+  };
+  assert.doesNotThrow(() => validateSceneDocument(document));
+});
+
+test("bar point annotation fails closed on unknown datum", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  assert.equal(chart.kind, "chart");
+  assert.equal(chart.chartType, "bar");
+  (chart as Extract<typeof chart, { kind: "chart"; chartType: "bar" }>).annotations = [
+    {
+      id: "annotation-missing",
+      kind: "point",
+      datumId: "missing",
+      label: "Unknown focus",
+      source: [{ resourceId: "annotation-missing" }],
+    },
+  ];
+  assert.throws(() => validateSceneDocument(document), /references an unknown datum/);
+});
+
+test("progressive disclosure step requires a semantic trigger", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  (chart as { disclosure?: unknown }).disclosure = { order: 0, mode: "progressive", step: 1 };
+  assert.throws(() => validateSceneDocument(document), /requires triggerResourceId/);
+});

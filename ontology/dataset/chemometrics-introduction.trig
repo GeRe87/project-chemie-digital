@@ -1,132 +1,333 @@
 @prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-introduction> {
+  # Slide 1 — title -----------------------------------------------------------
+  ex:chemometrics-course-title a cd:Concept ;
+    skos:prefLabel "Chemometrics & Applied Statistics"@en ;
+    cd:hasDefinition ex:def-chemometrics-course-title ;
+    cd:authoredResource true .
+
+  ex:def-chemometrics-course-title a cd:Definition ;
+    cd:body "The opening scene frames Chemometrics and Applied Statistics as the connection between analytical measurements, quantitative reasoning and defensible interpretation."@en ;
+    cd:authoredResource true .
+
+  # Slide 2 — nitrate mini case study ----------------------------------------
   ex:chemometrics-course-overview a cd:Concept ;
-    skos:prefLabel "Course Overview"@en ;
+    skos:prefLabel "What is this course about?"@en ;
     cd:hasDefinition ex:def-chemometrics-course-overview ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-overview a cd:Definition ;
-    cd:body "The course overview describes the purpose, scope and learning orientation of Chemometrics and Applied Statistics."@en ;
+    cd:body "A simple nitrate example introduces the central Chemometrics workflow: formulate an analytical question, inspect repeated measurements, summarize variation and interpret the result."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-overview-note a cd:Interpretation ;
-    cd:body "Chemometrics and Applied Statistics connects statistical reasoning, quantitative data analysis and modeling with problems from analytical chemistry. The course emphasizes understanding what a method measures, the assumptions behind it, how results are interpreted, and how calculations can be reproduced."@en ;
+  ex:chemometrics-nitrate-case-problem a cd:Interpretation ;
+    cd:body """AN ANALYTICAL QUESTION
+Three water samples are measured four times for nitrate. Which sample is clearly more contaminated, and how confident are we in that conclusion?"""@en ;
+    cd:hasMedia ex:media-chemometrics-nitrate-water-samples ;
     cd:authoredResource true .
 
+  ex:media-chemometrics-nitrate-water-samples a cd:MediaAsset ;
+    cd:uri "/chemometrics/nitrate-water-samples.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Three transparent water-sample vials labelled A upstream, B tap water and C runoff."@en ;
+    cd:authoredResource true .
+
+  ex:table-chemometrics-nitrate-replicates a cd:TableDefinition ;
+    skos:prefLabel "Nitrate measurements"@en ;
+    cd:body "Illustrative nitrate concentrations in mg/L for three water samples measured in four replicates."@en ;
+    cd:hasTableColumn ex:table-column-nitrate-sample,
+      ex:table-column-nitrate-rep-1,
+      ex:table-column-nitrate-rep-2,
+      ex:table-column-nitrate-rep-3,
+      ex:table-column-nitrate-rep-4 ;
+    cd:hasTableRow ex:table-row-nitrate-a,
+      ex:table-row-nitrate-b,
+      ex:table-row-nitrate-c ;
+    cd:authoredResource true .
+
+  ex:table-column-nitrate-sample a cd:TableColumn ;
+    skos:prefLabel "Sample"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-1 a cd:TableColumn ;
+    skos:prefLabel "Rep 1"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-2 a cd:TableColumn ;
+    skos:prefLabel "Rep 2"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-3 a cd:TableColumn ;
+    skos:prefLabel "Rep 3"@en ; cd:position 4 ; cd:authoredResource true .
+  ex:table-column-nitrate-rep-4 a cd:TableColumn ;
+    skos:prefLabel "Rep 4"@en ; cd:position 5 ; cd:authoredResource true .
+
+  ex:table-row-nitrate-a a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-nitrate-a-sample, ex:table-cell-nitrate-a-1,
+      ex:table-cell-nitrate-a-2, ex:table-cell-nitrate-a-3, ex:table-cell-nitrate-a-4 ;
+    cd:authoredResource true .
+  ex:table-cell-nitrate-a-sample a cd:TableCell ; cd:position 1 ; cd:body "A · upstream"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-1 a cd:TableCell ; cd:position 2 ; cd:body "2.1"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-2 a cd:TableCell ; cd:position 3 ; cd:body "2.4"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-3 a cd:TableCell ; cd:position 4 ; cd:body "2.0"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-a-4 a cd:TableCell ; cd:position 5 ; cd:body "2.3"@en ; cd:authoredResource true .
+
+  ex:table-row-nitrate-b a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-nitrate-b-sample, ex:table-cell-nitrate-b-1,
+      ex:table-cell-nitrate-b-2, ex:table-cell-nitrate-b-3, ex:table-cell-nitrate-b-4 ;
+    cd:authoredResource true .
+  ex:table-cell-nitrate-b-sample a cd:TableCell ; cd:position 1 ; cd:body "B · tap water"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-1 a cd:TableCell ; cd:position 2 ; cd:body "4.8"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-2 a cd:TableCell ; cd:position 3 ; cd:body "5.1"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-3 a cd:TableCell ; cd:position 4 ; cd:body "4.9"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-b-4 a cd:TableCell ; cd:position 5 ; cd:body "5.0"@en ; cd:authoredResource true .
+
+  ex:table-row-nitrate-c a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-nitrate-c-sample, ex:table-cell-nitrate-c-1,
+      ex:table-cell-nitrate-c-2, ex:table-cell-nitrate-c-3, ex:table-cell-nitrate-c-4 ;
+    cd:authoredResource true .
+  ex:table-cell-nitrate-c-sample a cd:TableCell ; cd:position 1 ; cd:body "C · runoff"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-1 a cd:TableCell ; cd:position 2 ; cd:body "18.5"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-2 a cd:TableCell ; cd:position 3 ; cd:body "19.2"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-3 a cd:TableCell ; cd:position 4 ; cd:body "18.9"@en ; cd:authoredResource true .
+  ex:table-cell-nitrate-c-4 a cd:TableCell ; cd:position 5 ; cd:body "19.1"@en ; cd:authoredResource true .
+
+  ex:chart-chemometrics-nitrate-means a cd:ChartDefinition ;
+    skos:prefLabel "Mean nitrate concentration"@en ;
+    cd:body "Bars: mean nitrate concentration. Sample SD (mg/L): A 0.18 · B 0.13 · C 0.31."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Water sample"@en ;
+    cd:yAxisLabel "Mean nitrate concentration"@en ;
+    cd:yAxisUnit "mg/L" ;
+    cd:usesDataset ex:dataset-chemometrics-nitrate-means ;
+    cd:derivedFromResource ex:table-chemometrics-nitrate-replicates ;
+    cd:hasChartAnnotation ex:annotation-chemometrics-nitrate-runoff-high ;
+    cd:authoredResource true .
+
+  ex:dataset-chemometrics-nitrate-means a cd:Dataset ;
+    skos:prefLabel "Illustrative nitrate means"@en ;
+    cd:hasObservation ex:observation-nitrate-mean-a,
+      ex:observation-nitrate-mean-b,
+      ex:observation-nitrate-mean-c ;
+    cd:authoredResource true .
+
+  ex:observation-nitrate-mean-a a cd:Observation ;
+    skos:prefLabel "A · upstream"@en ;
+    cd:position 1 ; cd:numericValue 2.20 ; cd:authoredResource true .
+  ex:observation-nitrate-mean-b a cd:Observation ;
+    skos:prefLabel "B · tap water"@en ;
+    cd:position 2 ; cd:numericValue 4.95 ; cd:authoredResource true .
+  ex:observation-nitrate-mean-c a cd:Observation ;
+    skos:prefLabel "C · runoff"@en ;
+    cd:position 3 ; cd:numericValue 18.925 ; cd:authoredResource true .
+
+  ex:annotation-chemometrics-nitrate-runoff-high a cd:ChartPointAnnotation ;
+    cd:position 1 ;
+    cd:body "Sample C has the highest mean nitrate concentration."@en ;
+    cd:targetObservation ex:observation-nitrate-mean-c ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-case-discussion a cd:Interpretation ;
+    cd:body "The result is useful only when level and variation are interpreted together."@en ;
+    cd:interpretsResource ex:annotation-chemometrics-nitrate-runoff-high ;
+    cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest,
+      ex:chemometrics-nitrate-discussion-variation ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-discussion-c-highest a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "Sample C is much higher than A and B in this illustrative dataset."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-nitrate-discussion-variation a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Replicates reveal spread: a defensible conclusion needs both concentration level and variation."@en ;
+    cd:authoredResource true .
+
+  # Slide 3 — lecturer -------------------------------------------------------
   ex:chemometrics-lecturer-context a cd:Concept ;
-    skos:prefLabel "About the Lecturer"@en ;
+    skos:prefLabel "Who is teaching this course?"@en ;
     cd:hasDefinition ex:def-chemometrics-lecturer-context ;
     cd:authoredResource true .
 
   ex:def-chemometrics-lecturer-context a cd:Definition ;
-    cd:body "The lecturer context introduces the teaching perspective and disciplinary background from which the course is presented."@en ;
+    cd:body "A compact lecturer profile gives only the background, teaching experience and research context that help students place this course."@en ;
     cd:authoredResource true .
 
   ex:attribution-chemometrics-gerrit-renner a cd:Attribution ;
     cd:body "Gerrit Renner — Analytical Data Science, Instrumental Analytical Chemistry, University of Duisburg-Essen"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-lecturer-context-note a cd:Interpretation ;
-    cd:body "Teaching and research connect chemometrics, analytical data science and instrumental analytical chemistry, with a focus on processing and interpreting complex analytical data."@en ;
+  ex:chemometrics-lecturer-profile a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-lecturer-background,
+      ex:chemometrics-lecturer-teaching,
+      ex:chemometrics-lecturer-research ;
     cd:authoredResource true .
 
+  ex:chemometrics-lecturer-background a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "BACKGROUND"@en ;
+    cd:body """B.Sc. Chemistry & Biotechnology · 2012
+M.Sc. Applied Chemistry · Instrumental Analytics · 2015
+Dr. rer. nat. · Instrumental Analytical Chemistry · 2020"""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-lecturer-teaching a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "TEACHING"@en ;
+    cd:body """Chemometrics & Applied Statistics
+UDE · since 2020
+B.Sc. + M.Sc. teaching"""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-lecturer-research a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "RESEARCH"@en ;
+    cd:body """Instrumental Analytical Chemistry
+Junior Research Group “Analytical Data Science”
+Chemometrics · data workflows · machine learning"""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-lecturer-takeaway a cd:Interpretation ;
+    cd:body "GERRIT RENNER · ANALYTICAL DATA SCIENCE · UDE"@en ;
+    cd:authoredResource true .
+
+  # Slide 4 — course organization --------------------------------------------
   ex:chemometrics-course-format a cd:Concept ;
-    skos:prefLabel "Lecture and Tutorial"@en ;
+    skos:prefLabel "How is the course organized?"@en ;
     cd:hasDefinition ex:def-chemometrics-course-format ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-format a cd:Definition ;
-    cd:body "The course format describes how lecture, tutorial, reproducible computation, questions and discussion work together."@en ;
+    cd:body "The course has two weekly meetings: an interactive lecture-and-seminar session on Tuesday and a hands-on tutorial on Wednesday."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-format-list a cd:DefinitionList ;
-    cd:hasDefinitionListEntry ex:chemometrics-course-format-lecture,
-      ex:chemometrics-course-format-tutorial,
-      ex:chemometrics-course-format-reproducible-computation,
-      ex:chemometrics-course-format-questions ;
+  ex:chemometrics-course-format-banner a cd:Interpretation ;
+    cd:body """TWO MEETINGS EACH WEEK
+Tuesday combines lecture and seminar. Wednesday is the hands-on tutorial."""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-format-lecture a cd:DefinitionListEntry ;
+  ex:chemometrics-course-format-sessions a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-course-format-tuesday,
+      ex:chemometrics-course-format-wednesday ;
+    cd:authoredResource true .
+
+  ex:chemometrics-course-format-tuesday a cd:DefinitionListEntry ;
     cd:position 1 ;
-    skos:prefLabel "Lecture"@en ;
-    cd:body "Concepts, assumptions, derivations, worked examples and interpretation."@en ;
+    skos:prefLabel "TUESDAY"@en ;
+    cd:body """8.00 - 10.00 · S05 V02 E28
+Interactive lecture + seminar
+Theory inputs · group discussion · worked examples · questions"""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-format-tutorial a cd:DefinitionListEntry ;
+  ex:chemometrics-course-format-wednesday a cd:DefinitionListEntry ;
     cd:position 2 ;
-    skos:prefLabel "Tutorial"@en ;
-    cd:body "Guided exercises, calculations, discussion of solutions and transfer to analytical-data problems."@en ;
+    skos:prefLabel "WEDNESDAY"@en ;
+    cd:body """8.00 - 10.00 · S05 V02 E28
+Hands-on tutorial
+Principles · problem solving · calculations · programming"""@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-format-reproducible-computation a cd:DefinitionListEntry ;
-    cd:position 3 ;
-    skos:prefLabel "Reproducible computation"@en ;
-    cd:body "Selected exercises use code examples where this helps make calculations transparent and reproducible."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-course-format-questions a cd:DefinitionListEntry ;
-    cd:position 4 ;
-    skos:prefLabel "Questions and discussion"@en ;
-    cd:body "Use the tutorial to test reasoning, compare approaches and resolve open questions from the lecture."@en ;
-    cd:authoredResource true .
-
+  # Slide 5 — course roadmap -------------------------------------------------
   ex:chemometrics-course-roadmap a cd:Concept ;
     skos:prefLabel "Course Roadmap"@en ;
     cd:hasDefinition ex:def-chemometrics-course-roadmap ;
+    cd:hasDiagram ex:diagram-chemometrics-course-roadmap ;
     cd:authoredResource true .
 
   ex:def-chemometrics-course-roadmap a cd:Definition ;
     cd:body "The course roadmap groups the main lecture topics into a progression from statistical foundations to multivariate analysis and machine learning."@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-list a cd:DefinitionList ;
-    cd:hasDefinitionListEntry ex:chemometrics-course-roadmap-foundations,
-      ex:chemometrics-course-roadmap-inference,
-      ex:chemometrics-course-roadmap-regression,
-      ex:chemometrics-course-roadmap-doe,
-      ex:chemometrics-course-roadmap-multivariate,
-      ex:chemometrics-course-roadmap-machine-learning ;
+  ex:diagram-chemometrics-course-roadmap a cd:FlowDiagram ;
+    skos:prefLabel "Chemometrics course roadmap"@en ;
+    cd:body "The course progresses from statistical foundations through inference, modeling and experimental design to multivariate analysis and machine learning."@en ;
+    cd:hasDiagramNode ex:node-chemometrics-roadmap-foundations,
+      ex:node-chemometrics-roadmap-inference,
+      ex:node-chemometrics-roadmap-regression,
+      ex:node-chemometrics-roadmap-doe,
+      ex:node-chemometrics-roadmap-multivariate,
+      ex:node-chemometrics-roadmap-machine-learning ;
+    cd:hasDiagramEdge ex:edge-chemometrics-roadmap-1-2,
+      ex:edge-chemometrics-roadmap-2-3,
+      ex:edge-chemometrics-roadmap-3-4,
+      ex:edge-chemometrics-roadmap-4-5,
+      ex:edge-chemometrics-roadmap-5-6 ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-foundations a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-foundations a cd:DiagramNode ;
     cd:position 1 ;
-    skos:prefLabel "Statistical foundations"@en ;
-    cd:body "Random variables, mean values, variance and dispersion, quantiles, distributions and moments."@en ;
+    skos:prefLabel "STATISTICAL FOUNDATIONS"@en ;
+    cd:body "Random variables · mean values · dispersion · distributions"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-inference a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-inference a cd:DiagramNode ;
     cd:position 2 ;
-    skos:prefLabel "Statistical inference"@en ;
-    cd:body "Hypothesis testing, t-tests and analysis of variance."@en ;
+    skos:prefLabel "INFERENCE"@en ;
+    cd:body "Hypothesis testing · t-tests · ANOVA"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-regression a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-regression a cd:DiagramNode ;
     cd:position 3 ;
-    skos:prefLabel "Regression and uncertainty"@en ;
-    cd:body "Linear regression, model assessment, measurement uncertainty, confidence/prediction and validation."@en ;
+    skos:prefLabel "REGRESSION + UNCERTAINTY"@en ;
+    cd:body "Models · diagnostics · confidence · validation"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-doe a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-doe a cd:DiagramNode ;
     cd:position 4 ;
-    skos:prefLabel "Design of experiments"@en ;
-    cd:body "Full-factorial and advanced experimental designs, effects, interactions and optimization."@en ;
+    skos:prefLabel "DESIGN OF EXPERIMENTS"@en ;
+    cd:body "Effects · interactions · optimization"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-multivariate a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-multivariate a cd:DiagramNode ;
     cd:position 5 ;
-    skos:prefLabel "Multivariate analysis"@en ;
-    cd:body "Distance and similarity, clustering, principal-component analysis and dimensionality reduction."@en ;
+    skos:prefLabel "MULTIVARIATE ANALYSIS"@en ;
+    cd:body "Similarity · clustering · PCA"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-course-roadmap-machine-learning a cd:DefinitionListEntry ;
+  ex:node-chemometrics-roadmap-machine-learning a cd:DiagramNode ;
     cd:position 6 ;
-    skos:prefLabel "Machine learning"@en ;
-    cd:body "Prediction and classification, trees/random forests, validation and model interpretation."@en ;
+    skos:prefLabel "MACHINE LEARNING"@en ;
+    cd:body "Prediction · classification · validation"@en ;
     cd:authoredResource true .
 
+  ex:edge-chemometrics-roadmap-1-2 a cd:DiagramEdge ;
+    cd:position 1 ;
+    skos:prefLabel "builds on"@en ;
+    cd:sourceNode ex:node-chemometrics-roadmap-foundations ;
+    cd:targetNode ex:node-chemometrics-roadmap-inference ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-roadmap-2-3 a cd:DiagramEdge ;
+    cd:position 2 ;
+    skos:prefLabel "builds on"@en ;
+    cd:sourceNode ex:node-chemometrics-roadmap-inference ;
+    cd:targetNode ex:node-chemometrics-roadmap-regression ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-roadmap-3-4 a cd:DiagramEdge ;
+    cd:position 3 ;
+    skos:prefLabel "builds on"@en ;
+    cd:sourceNode ex:node-chemometrics-roadmap-regression ;
+    cd:targetNode ex:node-chemometrics-roadmap-doe ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-roadmap-4-5 a cd:DiagramEdge ;
+    cd:position 4 ;
+    skos:prefLabel "builds on"@en ;
+    cd:sourceNode ex:node-chemometrics-roadmap-doe ;
+    cd:targetNode ex:node-chemometrics-roadmap-multivariate ;
+    cd:authoredResource true .
+
+  ex:edge-chemometrics-roadmap-5-6 a cd:DiagramEdge ;
+    cd:position 5 ;
+    skos:prefLabel "builds on"@en ;
+    cd:sourceNode ex:node-chemometrics-roadmap-multivariate ;
+    cd:targetNode ex:node-chemometrics-roadmap-machine-learning ;
+    cd:authoredResource true .
+
+  # Slide 6 — introduction round --------------------------------------------
   ex:chemometrics-introduction-round a cd:Concept ;
     skos:prefLabel "Introduction Round"@en ;
     cd:hasDefinition ex:def-chemometrics-introduction-round ;
@@ -136,6 +337,52 @@
     cd:body "The introduction round is a short opening activity for sharing background, prior experience and learning expectations."@en ;
     cd:authoredResource true .
 
+  ex:chemometrics-introduction-round-banner a cd:Interpretation ;
+    cd:body """YOUR TURN
+Give the room a compact picture of where you are starting from."""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-foundation a cd:Interpretation ;
+    cd:body """FOUR SHORT PROMPTS
+Keep it brief — the goal is context, not a complete biography."""@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-prompts a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:chemometrics-introduction-round-background,
+      ex:chemometrics-introduction-round-statistics,
+      ex:chemometrics-introduction-round-tools,
+      ex:chemometrics-introduction-round-goal ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-background a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "Your background"@en ;
+    cd:body "Study programme, discipline or scientific background."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-statistics a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "Statistics & chemometrics"@en ;
+    cd:body "What have you used before — if anything?"@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-tools a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "Data-analysis tools"@en ;
+    cd:body "R, Python, spreadsheets or other tools you already know."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-goal a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "Your goal"@en ;
+    cd:body "One thing you would like to take away from this course."@en ;
+    cd:authoredResource true .
+
+  ex:chemometrics-introduction-round-takeaway a cd:Interpretation ;
+    cd:body "YOUR STARTING POINT HELPS US CONNECT THE COURSE TO THE ROOM"@en ;
+    cd:authoredResource true .
+
+  # Retained long-form exercise for self-study/accessibility reuse -----------
   ex:exercise-chemometrics-introduction-round a cd:Exercise ;
     cd:body "Briefly introduce yourself: your study programme or scientific background, your previous experience with statistics or chemometrics, your experience with R or other data-analysis tools, and one thing you would like to take away from this course."@en ;
     cd:authoredResource true .
