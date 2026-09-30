@@ -953,7 +953,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
           nextEdgeLayer.append(path);
-           if (!activeAnnotatedEdgeIds.has(edge.id)) addEdgeLabel(nextEdgeLayer, edge, layout.orientation, layout.strategy);
+           if (!activeAnnotatedEdgeIds.has(edge.id) && edge.labelLines.length > 0) {
+             addEdgeLabel(nextEdgeLayer, edge, layout.orientation, layout.strategy);
+           }
          }
         for (const annotation of activeState?.sharedEdgeAnnotations ?? []) {
           const geometry = resolveD3FlowSharedAnnotationGeometry(layout, annotation);
@@ -1051,11 +1053,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             const contentX = (contentLeft + contentRight) / 2;
             if (layoutNode.bodyLines.length > 0) {
               group.setAttribute("data-structured-node", "true");
-              const titleLineHeight = 22;
-              const bodyLineHeight = 18;
+              const titleLineHeight = informationCard ? 26 : 22;
+              const bodyLineHeight = informationCard ? 21 : 18;
               const titleHeight = Math.max(layoutNode.labelLines.length, 1) * titleLineHeight;
               const bodyHeight = Math.max(layoutNode.bodyLines.length, 1) * bodyLineHeight;
-              const dividerGap = 18;
+              const dividerGap = informationCard ? 22 : 18;
               const totalHeight = titleHeight + dividerGap + bodyHeight;
               const top = -totalHeight / 2;
               const titleY = top + titleHeight / 2;

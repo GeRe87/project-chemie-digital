@@ -230,13 +230,13 @@ body[data-presentation-theme="dark"] .reveal {
 
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index {
   fill: hsl(var(--d3-flow-card-hue, 205) 58% 34%);
-  font: 900 15px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font: 900 17px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .05em;
 }
 
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title {
   fill: hsl(var(--d3-flow-card-hue, 205) 66% 30%);
-  font-size: 19px;
+  font-size: 22px;
   font-weight: 900;
   stroke: hsl(var(--d3-flow-card-hue, 205) 72% 96% / .96);
   stroke-width: 4px;
@@ -249,7 +249,7 @@ body[data-presentation-theme="dark"] .reveal {
 
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-body {
   fill: #18242c;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 720;
   stroke: hsl(var(--d3-flow-card-hue, 205) 70% 96% / .96);
   stroke-width: 3px;

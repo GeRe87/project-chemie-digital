@@ -126,11 +126,11 @@ const NETWORK_MARGIN = 32;
 const NETWORK_NODE_MAX_WIDTH = 210;
 const NETWORK_CLUSTER_GAP = 42;
 const SPACE_FILLING_MIN_NODES = 5;
-const SPACE_FILLING_CARD_MIN_WIDTH = 220;
-const SPACE_FILLING_CARD_MAX_WIDTH = 276;
-const SPACE_FILLING_COLUMN_GAP = 36;
-const SPACE_FILLING_ROW_GAP = 28;
-const SPACE_FILLING_MARGIN_X = 28;
+const SPACE_FILLING_CARD_MIN_WIDTH = 272;
+const SPACE_FILLING_CARD_MAX_WIDTH = 352;
+const SPACE_FILLING_COLUMN_GAP = 42;
+const SPACE_FILLING_ROW_GAP = 68;
+const SPACE_FILLING_MARGIN_X = 24;
 const SPACE_FILLING_MARGIN_Y = 24;
 const SPACE_FILLING_WIDTH_TOLERANCE = 1.08;
 
@@ -385,6 +385,7 @@ function resolveEdgeLabelCollisions(
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
   return edges.map((edge) => {
+    if (edge.labelLines.length === 0) return edge;
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) return edge;
@@ -523,19 +524,65 @@ function hilbertSideForNodeCount(nodeCount: number): number {
   return side;
 }
 
-function sampledHilbertIndices(nodeCount: number, side: number): readonly number[] {
-  const maximum = side * side - 1;
-  if (nodeCount <= 1) return [0];
-  const indices: number[] = [];
-  let previous = -1;
-  for (let index = 0; index < nodeCount; index += 1) {
-    const remaining = nodeCount - 1 - index;
-    const raw = Math.round((index * maximum) / (nodeCount - 1));
-    const value = Math.max(previous + 1, Math.min(maximum - remaining, raw));
-    indices.push(value);
-    previous = value;
+interface CompactHilbertWindow {
+  readonly indices: readonly number[];
+  readonly minX: number;
+  readonly minY: number;
+  readonly columns: number;
+  readonly rows: number;
+}
+
+function compactHilbertWindow(nodeCount: number, side: number): CompactHilbertWindow {
+  const maximumStart = side * side - nodeCount;
+  const targetAspect = 1.55;
+  let best: {
+    readonly start: number;
+    readonly minX: number;
+    readonly minY: number;
+    readonly columns: number;
+    readonly rows: number;
+    readonly area: number;
+    readonly aspectDistance: number;
+  } | undefined;
+
+  for (let start = 0; start <= maximumStart; start += 1) {
+    const points = Array.from({ length: nodeCount }, (_, offset) => hilbertPoint(side, start + offset));
+    const xs = points.map(([x]) => x);
+    const ys = points.map(([, y]) => y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const columns = maxX - minX + 1;
+    const rows = maxY - minY + 1;
+    const area = columns * rows;
+    const aspectDistance = Math.abs(Math.log((columns / rows) / targetAspect));
+
+    if (
+      !best
+      || area < best.area
+      || (area === best.area && aspectDistance < best.aspectDistance)
+      || (area === best.area && aspectDistance === best.aspectDistance && start < best.start)
+    ) {
+      best = { start, minX, minY, columns, rows, area, aspectDistance };
+    }
   }
-  return indices;
+
+  if (!best) return { indices: [0], minX: 0, minY: 0, columns: 1, rows: 1 };
+
+  return {
+    indices: Array.from({ length: nodeCount }, (_, offset) => best.start + offset),
+    minX: best.minX,
+    minY: best.minY,
+    columns: best.columns,
+    rows: best.rows,
+  };
+}
+
+function repeatedLinearEdgeLabel(input: D3FlowLayoutInput, linearOrder: readonly string[] | undefined): boolean {
+  if (!linearOrder || input.edges.length < 2) return false;
+  const labels = input.edges.map((edge) => edge.label.trim().replace(/\s+/gu, " ").toLocaleLowerCase());
+  return labels[0]!.length > 0 && labels.every((label) => label === labels[0]);
 }
 
 function simplifyOrthogonalRoute(points: readonly D3FlowLayoutPoint[]): readonly D3FlowLayoutPoint[] {
@@ -622,17 +669,18 @@ function spaceFillingLinearFlowLayout(
   hostWidth: number,
 ): SpaceFillingFlowGeometry {
   const side = hilbertSideForNodeCount(linearOrder.length);
+  const window = compactHilbertWindow(linearOrder.length, side);
   const width = Math.max(
     hostWidth,
     SPACE_FILLING_MARGIN_X * 2
-      + side * SPACE_FILLING_CARD_MIN_WIDTH
-      + Math.max(0, side - 1) * SPACE_FILLING_COLUMN_GAP,
+      + window.columns * SPACE_FILLING_CARD_MIN_WIDTH
+      + Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP,
   );
   const availableCardWidth = (
     width
     - SPACE_FILLING_MARGIN_X * 2
-    - Math.max(0, side - 1) * SPACE_FILLING_COLUMN_GAP
-  ) / side;
+    - Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP
+  ) / window.columns;
   const cardWidth = Math.max(
     SPACE_FILLING_CARD_MIN_WIDTH,
     Math.min(SPACE_FILLING_CARD_MAX_WIDTH, availableCardWidth),
@@ -640,30 +688,33 @@ function spaceFillingLinearFlowLayout(
   const preparedById = new Map(prepared.map((node) => [node.id, node]));
   const cardNodes = linearOrder.map((id) => {
     const original = preparedById.get(id)!;
-    const contentWidth = Math.max(150, cardWidth - 40);
+    const contentWidth = Math.max(180, cardWidth - 48);
     const { labelLines, bodyLines } = structuredNodeText(
       original.label,
       original.description,
       contentWidth,
     );
+    const titleHeight = Math.max(labelLines.length, 1) * 26;
+    const bodyHeight = Math.max(bodyLines.length, 1) * 21;
     return {
       ...original,
       labelLines,
       bodyLines,
       width: cardWidth,
-      height: nodeHeight(labelLines, bodyLines),
+      height: Math.max(190, 70 + titleHeight + 22 + bodyHeight),
     };
   });
   const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
   const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
   const columnPitch = cardWidth + SPACE_FILLING_COLUMN_GAP;
   const height = SPACE_FILLING_MARGIN_Y * 2
-    + side * maxCardHeight
-    + Math.max(0, side - 1) * SPACE_FILLING_ROW_GAP;
-  const sampledIndices = sampledHilbertIndices(linearOrder.length, side);
+    + window.rows * maxCardHeight
+    + Math.max(0, window.rows - 1) * SPACE_FILLING_ROW_GAP;
 
   const pointForCurveIndex = (curveIndex: number): D3FlowLayoutPoint => {
-    const [gridX, gridY] = hilbertPoint(side, curveIndex);
+    const [rawX, rawY] = hilbertPoint(side, curveIndex);
+    const gridX = rawX - window.minX;
+    const gridY = rawY - window.minY;
     return {
       x: SPACE_FILLING_MARGIN_X + cardWidth / 2 + gridX * columnPitch,
       y: SPACE_FILLING_MARGIN_Y + maxCardHeight / 2 + gridY * rowPitch,
@@ -673,7 +724,7 @@ function spaceFillingLinearFlowLayout(
   const nodeById = new Map<string, D3FlowLayoutNode>();
   linearOrder.forEach((id, orderIndex) => {
     const node = cardNodes[orderIndex]!;
-    const point = pointForCurveIndex(sampledIndices[orderIndex]!);
+    const point = pointForCurveIndex(window.indices[orderIndex]!);
     nodeById.set(id, {
       id,
       x: point.x,
@@ -693,8 +744,8 @@ function spaceFillingLinearFlowLayout(
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (sourceOrder === undefined || targetOrder === undefined || !source || !target) continue;
-    const start = sampledIndices[sourceOrder]!;
-    const end = sampledIndices[targetOrder]!;
+    const start = window.indices[sourceOrder]!;
+    const end = window.indices[targetOrder]!;
     const direction = end >= start ? 1 : -1;
     const centers: D3FlowLayoutPoint[] = [];
     for (let curveIndex = start; ; curveIndex += direction) {
@@ -1395,6 +1446,9 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const spaceFilling = shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
     ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
     : undefined;
+  const suppressRepeatedSpaceFillingLabels = Boolean(
+    spaceFilling && repeatedLinearEdgeLabel(input, linearOrder),
+  );
   const concentric = !spaceFilling && isConcentricNetwork(input)
     ? concentricNetworkLayout(input, prepared, hostWidth)
     : undefined;
@@ -1438,7 +1492,9 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         y2: last.y,
         labelX: center.x - (center.dy / segmentLength) * labelOffset,
         labelY: center.y + (center.dx / segmentLength) * labelOffset,
-        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        labelLines: suppressRepeatedSpaceFillingLabels
+          ? []
+          : wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
         routePoints,
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };

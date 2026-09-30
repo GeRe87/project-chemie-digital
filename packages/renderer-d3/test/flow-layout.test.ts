@@ -74,10 +74,11 @@ test("long strict linear flows use a readable Hilbert-style space-filling route"
   assert.equal(wide.strategy, "space-filling-flow");
   assert.equal(wide.orientation, "horizontal");
   assert.deepEqual(wide.nodes.map((node) => node.id), longLinear.nodes.map((node) => node.id));
-  assert.ok(wide.nodes.every((node) => node.width >= 220), "space-filling cards keep the readable minimum width");
-  assert.ok(new Set(wide.nodes.map((node) => Math.round(node.x))).size >= 3, "space-filling route occupies multiple columns");
-  assert.ok(new Set(wide.nodes.map((node) => Math.round(node.y))).size >= 3, "space-filling route occupies multiple rows");
-  assert.ok(wide.edges.some((edge) => (edge.routePoints?.length ?? 0) > 2), "long relationships preserve Hilbert bends");
+  assert.ok(wide.nodes.every((node) => node.width >= 300), "space-filling cards maximize readable width");
+  assert.ok(wide.nodes.every((node) => node.height >= 190), "space-filling cards reserve readable vertical space");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.x))).size, 3, "six stages use a compact three-column Hilbert window");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.y))).size, 2, "six stages use a compact two-row Hilbert window");
+  assert.ok(wide.edges.every((edge) => edge.labelLines.length === 0), "identical repeated linear relation labels are visually suppressed");
   for (const edge of wide.edges) {
     assert.ok((edge.routePoints?.length ?? 0) >= 2);
     for (let index = 1; index < edge.routePoints!.length; index += 1) {
@@ -86,6 +87,18 @@ test("long strict linear flows use a readable Hilbert-style space-filling route"
       assert.ok(previous.x === point.x || previous.y === point.y, "Hilbert route remains orthogonal");
     }
   }
+
+  const variedLabels = createD3FlowLayout({
+    ...longLinear,
+    edges: longLinear.edges.map((edge, index) => ({
+      ...edge,
+      label: index === 2 ? "then applies" : edge.label,
+    })),
+  }, 1180);
+  assert.ok(
+    variedLabels.edges.some((edge) => edge.labelLines.length > 0),
+    "non-repetitive edge labels remain visible",
+  );
 
   const shortLinear = {
     ...longLinear,

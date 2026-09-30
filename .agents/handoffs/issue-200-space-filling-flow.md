@@ -47,3 +47,11 @@ The existing Chemometrics roadmap is already a strict six-node chain, so #201 sh
 ## Stage-fit refinement
 
 The space-filling SVG now explicitly uses `height: 100%`, `max-height: 100%` and removes the generic `24rem` minimum inside `diagram-stage`. Combined with the SVG `viewBox` and `preserveAspectRatio=xMidYMid meet`, the Hilbert canvas scales into the available slide stage instead of overflowing vertically.
+
+## Browser readability refinement
+
+The first browser realization spread six nodes across too much of the Hilbert domain. The generic strategy now chooses the most compact contiguous Hilbert window for the node count, preferring a landscape aspect when equal-area windows exist. Six nodes therefore occupy a 3×2 Hilbert segment rather than sparse cells across a 4×4 domain.
+
+Space-filling cards now target 272–352 px width, reserve at least 190 px height, and use larger index/title/body typography.
+
+When every edge in a strict space-filling chain carries the same non-empty normalized label, the renderer suppresses those repeated visual label panels. The authored edge labels remain in the canonical model and static accessibility fallback. Non-repetitive labels remain visible.
