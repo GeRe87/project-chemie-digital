@@ -513,6 +513,19 @@ function orthogonalEdgePath(edge: D3FlowLayoutEdge, orientation: D3FlowLayout["o
   return `M ${edge.x1} ${edge.y1} V ${elbowY} H ${edge.x2} V ${edge.y2}`;
 }
 
+export function d3FlowEdgePath(
+  edge: D3FlowLayoutEdge,
+  orientation: D3FlowLayout["orientation"],
+  strategy: D3FlowLayout["strategy"],
+): string {
+  if (strategy === "space-filling-flow" && edge.routePoints && edge.routePoints.length >= 2) {
+    const [first, ...rest] = edge.routePoints;
+    return `M ${first!.x} ${first!.y} ${rest.map((point) => `L ${point.x} ${point.y}`).join(" ")}`;
+  }
+  if (strategy === "layered-flow") return orthogonalEdgePath(edge, orientation);
+  return `M ${edge.x1} ${edge.y1} L ${edge.x2} ${edge.y2}`;
+}
+
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.max(minimum, Math.min(maximum, value));
 }
@@ -612,8 +625,12 @@ function addEdgeLabel(
   panel.setAttribute("rx", "4");
   panel.setAttribute("aria-hidden", "true");
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
-  const edgeMidX = edge.x1 + (edge.x2 - edge.x1) / 2;
-  const edgeMidY = edge.y1 + (edge.y2 - edge.y1) / 2;
+  const route = edge.routePoints && edge.routePoints.length >= 2 ? edge.routePoints : undefined;
+  const routeMid = route
+    ? route[Math.floor((route.length - 1) / 2)]!
+    : { x: edge.x1 + (edge.x2 - edge.x1) / 2, y: edge.y1 + (edge.y2 - edge.y1) / 2 };
+  const edgeMidX = routeMid.x;
+  const edgeMidY = routeMid.y;
   const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
   if (strategy === "layered-flow" || displaced) {
     const stem = document.createElementNS(namespace, "line");
@@ -715,6 +732,24 @@ function addNodeChrome(
   index.setAttribute("x", String(-width / 2 + 18 + indexSegmentWidth / 2));
   index.setAttribute("y", "6");
   index.setAttribute("text-anchor", "middle");
+  index.setAttribute("dominant-baseline", "middle");
+  index.setAttribute("aria-hidden", "true");
+  index.textContent = String(readingIndex + 1).padStart(2, "0");
+  group.append(index);
+}
+
+function addInformationCardNodeChrome(
+  group: SVGGElement,
+  width: number,
+  height: number,
+  readingIndex: number,
+): void {
+  const namespace = "http://www.w3.org/2000/svg";
+  const index = document.createElementNS(namespace, "text");
+  index.setAttribute("class", "d3-flow-node-index");
+  index.setAttribute("x", String(width / 2 - 20));
+  index.setAttribute("y", String(-height / 2 + 27));
+  index.setAttribute("text-anchor", "end");
   index.setAttribute("dominant-baseline", "middle");
   index.setAttribute("aria-hidden", "true");
   index.textContent = String(readingIndex + 1).padStart(2, "0");
@@ -913,9 +948,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (resolvedState.focusNodeIds.has(edge.sourceNodeId) && resolvedState.focusNodeIds.has(edge.targetNodeId)) path.setAttribute("data-diagram-state-focus", "true");
            if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
            if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
-          path.setAttribute("d", layout.strategy === "layered-flow"
-            ? orthogonalEdgePath(edge, layout.orientation)
-            : `M ${edge.x1} ${edge.y1} L ${edge.x2} ${edge.y2}`);
+          path.setAttribute("d", d3FlowEdgePath(edge, layout.orientation, layout.strategy));
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
@@ -962,6 +995,12 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               group.style.setProperty("--d3-ring-hue", hue.toFixed(1));
             }
           }
+          if (layout.strategy === "space-filling-flow") {
+            group.setAttribute("data-node-index", String(modelNode.readingIndex));
+            const progress = model.nodes.length <= 1 ? 0.5 : modelNode.readingIndex / (model.nodes.length - 1);
+            const hue = (205 + progress * 275) % 360;
+            group.style.setProperty("--d3-flow-card-hue", hue.toFixed(1));
+          }
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
@@ -984,7 +1023,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             shape.setAttribute("y", String(-layoutNode.height / 2));
             shape.setAttribute("width", String(layoutNode.width));
             shape.setAttribute("height", String(layoutNode.height));
-            shape.setAttribute("rx", layout.strategy === "radial-network" || layout.strategy === "triadic-network" ? "6" : "8");
+            shape.setAttribute("rx", layout.strategy === "space-filling-flow"
+              ? "3"
+              : layout.strategy === "radial-network" || layout.strategy === "triadic-network" ? "6" : "8");
           }
           shape.setAttribute("fill", "none");
           shape.setAttribute("stroke", "currentColor");
@@ -997,10 +1038,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (layout.strategy === "concentric-network" || layout.strategy === "radial-network" || layout.strategy === "triadic-network") {
             addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           } else {
-            addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+            const informationCard = layout.strategy === "space-filling-flow";
+            if (informationCard) addInformationCardNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+            else addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
             const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
-            const contentLeft = -layoutNode.width / 2 + 18 + indexSegmentWidth + 18;
-            const contentRight = layoutNode.width / 2 - 18;
+            const contentLeft = informationCard
+              ? -layoutNode.width / 2 + 22
+              : -layoutNode.width / 2 + 18 + indexSegmentWidth + 18;
+            const contentRight = informationCard
+              ? layoutNode.width / 2 - 22
+              : layoutNode.width / 2 - 18;
             const contentX = (contentLeft + contentRight) / 2;
             if (layoutNode.bodyLines.length > 0) {
               group.setAttribute("data-structured-node", "true");

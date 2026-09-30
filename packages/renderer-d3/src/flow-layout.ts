@@ -1,5 +1,5 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
@@ -35,6 +35,11 @@ export interface D3FlowLayoutNode {
   readonly bodyLines: readonly string[];
 }
 
+export interface D3FlowLayoutPoint {
+  readonly x: number;
+  readonly y: number;
+}
+
 export interface D3FlowLayoutEdge {
   readonly id: string;
   readonly sourceNodeId: string;
@@ -46,6 +51,7 @@ export interface D3FlowLayoutEdge {
   readonly labelX: number;
   readonly labelY: number;
   readonly labelLines: readonly string[];
+  readonly routePoints?: readonly D3FlowLayoutPoint[];
   readonly visualRole?: string;
 }
 
@@ -119,6 +125,14 @@ const NETWORK_COMPACT_BREAKPOINT = 720;
 const NETWORK_MARGIN = 32;
 const NETWORK_NODE_MAX_WIDTH = 210;
 const NETWORK_CLUSTER_GAP = 42;
+const SPACE_FILLING_MIN_NODES = 5;
+const SPACE_FILLING_CARD_MIN_WIDTH = 220;
+const SPACE_FILLING_CARD_MAX_WIDTH = 276;
+const SPACE_FILLING_COLUMN_GAP = 36;
+const SPACE_FILLING_ROW_GAP = 28;
+const SPACE_FILLING_MARGIN_X = 28;
+const SPACE_FILLING_MARGIN_Y = 24;
+const SPACE_FILLING_WIDTH_TOLERANCE = 1.08;
 
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
@@ -427,6 +441,275 @@ function topologicalLayers(input: D3FlowLayoutInput): readonly (readonly string[
     }
   }
   return layers;
+}
+
+function strictLinearFlowOrder(input: D3FlowLayoutInput): readonly string[] | undefined {
+  if (input.diagramType === "network" || input.nodes.length < 2 || input.edges.length !== input.nodes.length - 1) return undefined;
+  const ids = new Set(input.nodes.map((node) => node.id));
+  const indegree = new Map(input.nodes.map((node) => [node.id, 0]));
+  const outgoing = new Map<string, string[]>();
+  for (const edge of input.edges) {
+    if (!ids.has(edge.sourceNodeId) || !ids.has(edge.targetNodeId)) return undefined;
+    indegree.set(edge.targetNodeId, (indegree.get(edge.targetNodeId) ?? 0) + 1);
+    const targets = outgoing.get(edge.sourceNodeId) ?? [];
+    targets.push(edge.targetNodeId);
+    outgoing.set(edge.sourceNodeId, targets);
+  }
+  const sources = input.nodes.filter((node) => (indegree.get(node.id) ?? 0) === 0);
+  if (sources.length !== 1) return undefined;
+  const order: string[] = [];
+  const visited = new Set<string>();
+  let current: string | undefined = sources[0]!.id;
+  while (current !== undefined) {
+    if (visited.has(current)) return undefined;
+    visited.add(current);
+    order.push(current);
+    const targets = outgoing.get(current) ?? [];
+    if (targets.length > 1) return undefined;
+    current = targets[0];
+  }
+  return order.length === input.nodes.length ? order : undefined;
+}
+
+function shouldUseSpaceFillingFlow(
+  prepared: readonly PreparedNode[],
+  linearOrder: readonly string[] | undefined,
+  hostWidth: number,
+  orientation: D3FlowOrientation,
+): boolean {
+  if (orientation !== "horizontal" || !linearOrder || linearOrder.length < SPACE_FILLING_MIN_NODES) return false;
+  const byId = new Map(prepared.map((node) => [node.id, node]));
+  const intrinsicWidth = SPACE_FILLING_MARGIN_X * 2
+    + linearOrder.reduce((sum, id) => sum + (byId.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH), 0)
+    + Math.max(0, linearOrder.length - 1) * 56;
+  return intrinsicWidth > hostWidth * SPACE_FILLING_WIDTH_TOLERANCE;
+}
+
+function hilbertRotate(
+  scale: number,
+  x: number,
+  y: number,
+  rx: number,
+  ry: number,
+): readonly [number, number] {
+  if (ry !== 0) return [x, y];
+  let nextX = x;
+  let nextY = y;
+  if (rx === 1) {
+    nextX = scale - 1 - nextX;
+    nextY = scale - 1 - nextY;
+  }
+  return [nextY, nextX];
+}
+
+function hilbertPoint(side: number, index: number): readonly [number, number] {
+  let x = 0;
+  let y = 0;
+  let value = index;
+  for (let scale = 1; scale < side; scale *= 2) {
+    const rx = 1 & Math.floor(value / 2);
+    const ry = 1 & (value ^ rx);
+    [x, y] = hilbertRotate(scale, x, y, rx, ry);
+    x += scale * rx;
+    y += scale * ry;
+    value = Math.floor(value / 4);
+  }
+  return [x, y];
+}
+
+function hilbertSideForNodeCount(nodeCount: number): number {
+  let side = 2;
+  while (side * side < nodeCount) side *= 2;
+  return side;
+}
+
+function sampledHilbertIndices(nodeCount: number, side: number): readonly number[] {
+  const maximum = side * side - 1;
+  if (nodeCount <= 1) return [0];
+  const indices: number[] = [];
+  let previous = -1;
+  for (let index = 0; index < nodeCount; index += 1) {
+    const remaining = nodeCount - 1 - index;
+    const raw = Math.round((index * maximum) / (nodeCount - 1));
+    const value = Math.max(previous + 1, Math.min(maximum - remaining, raw));
+    indices.push(value);
+    previous = value;
+  }
+  return indices;
+}
+
+function simplifyOrthogonalRoute(points: readonly D3FlowLayoutPoint[]): readonly D3FlowLayoutPoint[] {
+  const deduplicated = points.filter((point, index) =>
+    index === 0 || point.x !== points[index - 1]!.x || point.y !== points[index - 1]!.y);
+  if (deduplicated.length <= 2) return deduplicated;
+  const simplified: D3FlowLayoutPoint[] = [deduplicated[0]!];
+  for (let index = 1; index < deduplicated.length - 1; index += 1) {
+    const previous = simplified[simplified.length - 1]!;
+    const current = deduplicated[index]!;
+    const next = deduplicated[index + 1]!;
+    const collinear = (previous.x === current.x && current.x === next.x)
+      || (previous.y === current.y && current.y === next.y);
+    if (!collinear) simplified.push(current);
+  }
+  simplified.push(deduplicated[deduplicated.length - 1]!);
+  return simplified;
+}
+
+function nodeBoundaryToward(
+  node: D3FlowLayoutNode,
+  target: D3FlowLayoutPoint,
+): D3FlowLayoutPoint {
+  const dx = target.x - node.x;
+  const dy = target.y - node.y;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return { x: node.x + Math.sign(dx || 1) * node.width / 2, y: node.y };
+  }
+  return { x: node.x, y: node.y + Math.sign(dy || 1) * node.height / 2 };
+}
+
+function clippedOrthogonalRoute(
+  centerPoints: readonly D3FlowLayoutPoint[],
+  source: D3FlowLayoutNode,
+  target: D3FlowLayoutNode,
+): readonly D3FlowLayoutPoint[] {
+  if (centerPoints.length < 2) return [];
+  const points = [...centerPoints];
+  points[0] = nodeBoundaryToward(source, points[1]!);
+  points[points.length - 1] = nodeBoundaryToward(target, points[points.length - 2]!);
+  return simplifyOrthogonalRoute(points);
+}
+
+function polylineMidpoint(
+  points: readonly D3FlowLayoutPoint[],
+): { readonly x: number; readonly y: number; readonly dx: number; readonly dy: number } {
+  const segments = points.slice(1).map((point, index) => {
+    const previous = points[index]!;
+    return {
+      start: previous,
+      end: point,
+      length: Math.hypot(point.x - previous.x, point.y - previous.y),
+    };
+  });
+  const total = segments.reduce((sum, segment) => sum + segment.length, 0);
+  let remaining = total / 2;
+  for (const segment of segments) {
+    if (remaining <= segment.length || segment === segments[segments.length - 1]) {
+      const ratio = segment.length > 0 ? Math.min(1, remaining / segment.length) : 0;
+      return {
+        x: segment.start.x + (segment.end.x - segment.start.x) * ratio,
+        y: segment.start.y + (segment.end.y - segment.start.y) * ratio,
+        dx: segment.end.x - segment.start.x,
+        dy: segment.end.y - segment.start.y,
+      };
+    }
+    remaining -= segment.length;
+  }
+  const fallback = points[0] ?? { x: 0, y: 0 };
+  return { x: fallback.x, y: fallback.y, dx: 1, dy: 0 };
+}
+
+interface SpaceFillingFlowGeometry {
+  readonly width: number;
+  readonly height: number;
+  readonly nodes: readonly D3FlowLayoutNode[];
+  readonly edgeRoutes: ReadonlyMap<string, readonly D3FlowLayoutPoint[]>;
+}
+
+function spaceFillingLinearFlowLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  linearOrder: readonly string[],
+  hostWidth: number,
+): SpaceFillingFlowGeometry {
+  const side = hilbertSideForNodeCount(linearOrder.length);
+  const width = Math.max(
+    hostWidth,
+    SPACE_FILLING_MARGIN_X * 2
+      + side * SPACE_FILLING_CARD_MIN_WIDTH
+      + Math.max(0, side - 1) * SPACE_FILLING_COLUMN_GAP,
+  );
+  const availableCardWidth = (
+    width
+    - SPACE_FILLING_MARGIN_X * 2
+    - Math.max(0, side - 1) * SPACE_FILLING_COLUMN_GAP
+  ) / side;
+  const cardWidth = Math.max(
+    SPACE_FILLING_CARD_MIN_WIDTH,
+    Math.min(SPACE_FILLING_CARD_MAX_WIDTH, availableCardWidth),
+  );
+  const preparedById = new Map(prepared.map((node) => [node.id, node]));
+  const cardNodes = linearOrder.map((id) => {
+    const original = preparedById.get(id)!;
+    const contentWidth = Math.max(150, cardWidth - 40);
+    const { labelLines, bodyLines } = structuredNodeText(
+      original.label,
+      original.description,
+      contentWidth,
+    );
+    return {
+      ...original,
+      labelLines,
+      bodyLines,
+      width: cardWidth,
+      height: nodeHeight(labelLines, bodyLines),
+    };
+  });
+  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
+  const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
+  const columnPitch = cardWidth + SPACE_FILLING_COLUMN_GAP;
+  const height = SPACE_FILLING_MARGIN_Y * 2
+    + side * maxCardHeight
+    + Math.max(0, side - 1) * SPACE_FILLING_ROW_GAP;
+  const sampledIndices = sampledHilbertIndices(linearOrder.length, side);
+
+  const pointForCurveIndex = (curveIndex: number): D3FlowLayoutPoint => {
+    const [gridX, gridY] = hilbertPoint(side, curveIndex);
+    return {
+      x: SPACE_FILLING_MARGIN_X + cardWidth / 2 + gridX * columnPitch,
+      y: SPACE_FILLING_MARGIN_Y + maxCardHeight / 2 + gridY * rowPitch,
+    };
+  };
+
+  const nodeById = new Map<string, D3FlowLayoutNode>();
+  linearOrder.forEach((id, orderIndex) => {
+    const node = cardNodes[orderIndex]!;
+    const point = pointForCurveIndex(sampledIndices[orderIndex]!);
+    nodeById.set(id, {
+      id,
+      x: point.x,
+      y: point.y,
+      width: node.width,
+      height: node.height,
+      labelLines: node.labelLines,
+      bodyLines: node.bodyLines,
+    });
+  });
+
+  const orderIndexById = new Map(linearOrder.map((id, index) => [id, index]));
+  const edgeRoutes = new Map<string, readonly D3FlowLayoutPoint[]>();
+  for (const edge of input.edges) {
+    const sourceOrder = orderIndexById.get(edge.sourceNodeId);
+    const targetOrder = orderIndexById.get(edge.targetNodeId);
+    const source = nodeById.get(edge.sourceNodeId);
+    const target = nodeById.get(edge.targetNodeId);
+    if (sourceOrder === undefined || targetOrder === undefined || !source || !target) continue;
+    const start = sampledIndices[sourceOrder]!;
+    const end = sampledIndices[targetOrder]!;
+    const direction = end >= start ? 1 : -1;
+    const centers: D3FlowLayoutPoint[] = [];
+    for (let curveIndex = start; ; curveIndex += direction) {
+      centers.push(pointForCurveIndex(curveIndex));
+      if (curveIndex === end) break;
+    }
+    edgeRoutes.set(edge.id, clippedOrthogonalRoute(centers, source, target));
+  }
+
+  return {
+    width,
+    height,
+    nodes: prepared.map((node) => nodeById.get(node.id)!),
+    edgeRoutes,
+  };
 }
 
 function horizontalLayeredLayout(
@@ -1108,16 +1391,21 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const concentric = isConcentricNetwork(input)
+  const linearOrder = strictLinearFlowOrder(input);
+  const spaceFilling = shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
+    ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
+    : undefined;
+  const concentric = !spaceFilling && isConcentricNetwork(input)
     ? concentricNetworkLayout(input, prepared, hostWidth)
     : undefined;
-  const triadic = !concentric && isTriadicNetwork(input)
+  const triadic = !spaceFilling && !concentric && isTriadicNetwork(input)
     ? triadicNetworkLayout(prepared, hostWidth)
     : undefined;
-  const radial = !concentric && !triadic && isCompactRadialNetwork(input)
+  const radial = !spaceFilling && !concentric && !triadic && isCompactRadialNetwork(input)
     ? compactRadialNetworkLayout(prepared, hostWidth)
     : undefined;
-  const geometry = concentric
+  const geometry = spaceFilling
+    ?? concentric
     ?? triadic
     ?? radial
     ?? (input.diagramType === "network"
@@ -1131,6 +1419,30 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+
+    if (spaceFilling) {
+      const routePoints = spaceFilling.edgeRoutes.get(edge.id);
+      if (!routePoints || routePoints.length < 2) throw new Error(`Space-filling flow edge ${edge.id} requires a routed path`);
+      const first = routePoints[0]!;
+      const last = routePoints[routePoints.length - 1]!;
+      const center = polylineMidpoint(routePoints);
+      const segmentLength = Math.hypot(center.dx, center.dy) || 1;
+      const labelOffset = 24;
+      return {
+        id: edge.id,
+        sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1: first.x,
+        y1: first.y,
+        x2: last.x,
+        y2: last.y,
+        labelX: center.x - (center.dy / segmentLength) * labelOffset,
+        labelY: center.y + (center.dx / segmentLength) * labelOffset,
+        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        routePoints,
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
 
     if (input.diagramType !== "network" && orientation === "horizontal") {
       const forward = target.x >= source.x;
@@ -1184,15 +1496,17 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
-  const strategy: D3FlowLayoutStrategy = concentric
-    ? "concentric-network"
-    : triadic
-      ? "triadic-network"
-      : radial
-        ? "radial-network"
-        : input.diagramType === "network"
-          ? "grouped-network"
-          : "layered-flow";
+  const strategy: D3FlowLayoutStrategy = spaceFilling
+    ? "space-filling-flow"
+    : concentric
+      ? "concentric-network"
+      : triadic
+        ? "triadic-network"
+        : radial
+          ? "radial-network"
+          : input.diagramType === "network"
+            ? "grouped-network"
+            : "layered-flow";
   const edges = resolveEdgeLabelCollisions(
     rawEdges,
     geometry.nodes,

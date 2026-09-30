@@ -4,49 +4,28 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 199,
-  "expectedDeliverable": "Owner-local focused tests and browser review of Slide 4 without the footer. Confirm the two session cards now occupy the visual hierarchy cleanly.",
-  "lastCompletedTurn": "worker: removed the unrelated course-organization footer and generalized paired-info-cards to an optional takeaway.",
-  "lastUpdated": "2026-09-30T08:20:00+02:00",
+  "activeRole": "Presentation System Worker",
+  "activeIssue": 200,
+  "expectedDeliverable": "Owner-local renderer-d3/pitch tests and browser review of the six-node Chemometrics roadmap. Confirm readability, full-stage utilization, card styling and clear route direction.",
+  "lastCompletedTurn": "worker: completed #200 generic Hilbert-style space-filling layout and colorful information-card visual grammar for long strict linear flows.",
+  "lastUpdated": "2026-09-30T08:44:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #198 requires owner-local npm run test:renderer-reveal",
-    "Issue #198/#199 require owner-local npm run test:pitch",
-    "Issue #199 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #199 requires fresh browser smoke via npm run pitch:intro",
+    "Issue #200 requires owner-local npm run test:renderer-d3",
+    "Issue #200 requires owner-local npm run test:pitch",
+    "Issue #201 requires browser verification that the existing six-node Chemometrics roadmap automatically selects space-filling-flow",
+    "Issue #201 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
     "PR #185 requires full repository npm test after focused/browser acceptance",
     "PR #185 requires coordinated independent manager review for accumulated issues",
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 316,
+  "stateRevision": 319,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T16:29:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue195-lecturer-content",
-      "reason": "Completed #195: Background now shows 2012/2015/2020, Teaching uses short points, and Research explicitly orders Instrumental Analytical Chemistry -> Junior Research Group “Analytical Data Science” -> research topics without unexplained ADS/IAC abbreviations."
-    },
-    {
-      "at": "2026-09-29T16:47:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue194-triangle-connector",
-      "reason": "Owner browser review found the generic relation glyph too thin. Authorized a bounded #194 visual refinement replacing the font arrow with a larger renderer-owned filled CSS triangle; spacing semantics and Chemometrics content stay unchanged."
-    },
-    {
-      "at": "2026-09-29T16:48:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue194-triangle-connector",
-      "reason": "Claimed bounded #194 connector visual refinement only."
-    },
     {
       "at": "2026-09-29T16:51:00+02:00",
       "from": "busy/worker",
@@ -200,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue198-199-optional-takeaway",
       "reason": "Completed cleanup: paired-info-cards supports three blocks without takeaway; Slide 4 now ends with Tuesday/Wednesday cards and the unrelated programming footer is removed from content, scene and path."
+    },
+    {
+      "at": "2026-09-30T08:28:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue200-space-filling-flow",
+      "reason": "Owner accepted Slide 4 and requested a generic rule for long linear flow diagrams: readable colorful info-card nodes plus Hilbert-style space-filling routing instead of shrinking a long strip."
+    },
+    {
+      "at": "2026-09-30T08:29:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue200-space-filling-flow",
+      "reason": "Claimed #200 renderer-d3 topology/readability trigger, Hilbert geometry/routes, generic SVG card chrome, theme CSS and focused regressions only."
+    },
+    {
+      "at": "2026-09-30T08:44:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue200-space-filling-flow",
+      "reason": "Completed #200: wide long strict chains select space-filling-flow, sample the full Hilbert domain, route edges orthogonally through Hilbert subpaths, preserve readable card width, and use deterministic colorful information-card styling."
     }
   ]
 }

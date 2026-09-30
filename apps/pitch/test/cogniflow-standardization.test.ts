@@ -86,6 +86,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 
   for (const genericSource of genericSources) {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
+    assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
     for (const sceneId of migratedSceneIds) assert.equal(genericSource.includes(sceneId), false);
   }
 });
