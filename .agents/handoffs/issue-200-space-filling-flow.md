@@ -43,3 +43,7 @@ npm run test:pitch
 ```
 
 The existing Chemometrics roadmap is already a strict six-node chain, so #201 should require no scientific RDF mutation if browser verification confirms the generic trigger behaves as intended.
+
+## Stage-fit refinement
+
+The space-filling SVG now explicitly uses `height: 100%`, `max-height: 100%` and removes the generic `24rem` minimum inside `diagram-stage`. Combined with the SVG `viewBox` and `preserveAspectRatio=xMidYMid meet`, the Hilbert canvas scales into the available slide stage instead of overflowing vertically.

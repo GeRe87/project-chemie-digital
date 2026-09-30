@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Presentation System Worker",
   "activeIssue": 200,
-  "expectedDeliverable": "Owner-local renderer-d3/pitch tests and browser review of the six-node Chemometrics roadmap. Confirm readability, full-stage utilization, card styling and clear route direction.",
-  "lastCompletedTurn": "worker: completed #200 generic Hilbert-style space-filling layout and colorful information-card visual grammar for long strict linear flows.",
-  "lastUpdated": "2026-09-30T08:44:00+02:00",
+  "expectedDeliverable": "Owner-local renderer-d3/pitch tests and browser review of the Chemometrics roadmap with Hilbert routing and stage-fit scaling.",
+  "lastCompletedTurn": "worker: completed #200 including explicit diagram-stage scaling for tall space-filling viewBoxes.",
+  "lastUpdated": "2026-09-30T08:48:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -24,29 +24,8 @@
     "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
     "Draft PR requires Ready-for-review lifecycle completion before squash merge"
   ],
-  "stateRevision": 319,
+  "stateRevision": 322,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T16:51:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue194-triangle-connector",
-      "reason": "Completed #194 connector refinement: adaptive point spacers now render a larger filled CSS triangle instead of a font arrow; generic spacing, point grouping and identity boundaries are unchanged."
-    },
-    {
-      "at": "2026-09-29T17:03:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue194-dashed-connector",
-      "reason": "Owner browser review found the filled triangle clearer but still visually isolated. Authorized a bounded #194 refinement that adds a generic dashed vertical connector through the adaptive spacer with the triangle centered on the line."
-    },
-    {
-      "at": "2026-09-29T17:04:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue194-dashed-connector",
-      "reason": "Claimed bounded dashed-line plus triangle connector refinement; spacing semantics, authored content and identity boundary remain unchanged."
-    },
     {
       "at": "2026-09-29T17:08:00+02:00",
       "from": "busy/worker",
@@ -200,6 +179,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue200-space-filling-flow",
       "reason": "Completed #200: wide long strict chains select space-filling-flow, sample the full Hilbert domain, route edges orthogonally through Hilbert subpaths, preserve readable card width, and use deterministic colorful information-card styling."
+    },
+    {
+      "at": "2026-09-30T08:45:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue200-stage-scaling",
+      "reason": "Connector-side review identified that the new tall Hilbert viewBox also needs an explicit stage-fit rule so the SVG scales into available diagram-stage height rather than overflowing."
+    },
+    {
+      "at": "2026-09-30T08:46:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue200-stage-scaling",
+      "reason": "Claimed bounded diagram-stage scaling CSS and regression only."
+    },
+    {
+      "at": "2026-09-30T08:48:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue200-stage-scaling",
+      "reason": "Completed #200 stage-fit refinement: space-filling flow SVGs now use the full available diagram-stage height with viewBox scaling and no fixed minimum-height inflation."
     }
   ]
 }

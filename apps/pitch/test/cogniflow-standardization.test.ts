@@ -53,6 +53,14 @@ const migratedSceneIds = [
   "ex:scene-cogniflow-provenance-pipeline--scene",
 ] as const;
 
+test("diagram-stage scales space-filling flow viewBoxes into the available stage", () => {
+  const css = source("../src/diagram-stage-layout.css");
+  assert.match(css, /d3-flow-svg\[data-layout-strategy="space-filling-flow"\]/);
+  assert.match(css, /height:\s*100%/);
+  assert.match(css, /max-height:\s*100%/);
+  assert.equal(css.toLowerCase().includes("chemometrics"), false);
+});
+
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   const genericSources = [
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
