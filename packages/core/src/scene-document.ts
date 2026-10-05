@@ -112,7 +112,7 @@ export interface DefinitionListEntry {
   readonly term: string;
   readonly description?: string;
   readonly visualMotif?: VisualMotifKey;
-  readonly visualRole?: "supporting" | "highlight";
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -169,6 +169,7 @@ export interface DiagramNode {
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
   readonly visualMotif?: VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
 }
 
@@ -413,8 +414,8 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     ids.add(entry.id);
     requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
-    if (entry.visualRole !== undefined && entry.visualRole !== "supporting" && entry.visualRole !== "highlight") {
-      throw new SceneContractError(`${label} entry ${entry.id} visualRole must be supporting or highlight`);
+    if (entry.visualMotifRole !== undefined && entry.visualMotifRole !== "supporting" && entry.visualMotifRole !== "highlight") {
+      throw new SceneContractError(`${label} entry ${entry.id} visualMotifRole must be supporting or highlight`);
     }
     validateVisualMotif(entry.visualMotif, `${label} entry ${entry.id}`);
     validateSource(entry.source, `${label} entry ${entry.id} source`);
@@ -476,6 +477,9 @@ function validateDiagram(block: DiagramBlock, label: string): void {
       throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
     }
     validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);
+    if (node.visualMotifRole !== undefined && node.visualMotifRole !== "supporting" && node.visualMotifRole !== "highlight") {
+      throw new SceneContractError(`${label} diagram node ${node.id} visualMotifRole must be supporting or highlight`);
+    }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }
 

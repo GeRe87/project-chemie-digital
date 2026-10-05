@@ -187,7 +187,7 @@ function appendBlock(
       entryShell.setAttribute("data-definition-entry-id", entry.id);
       entryShell.setAttribute("data-definition-entry-index", String(index));
       entryShell.setAttribute("style", `--definition-entry-hue: ${(205 + index * 58) % 360}deg`);
-      if (entry.visualRole) entryShell.setAttribute("data-visual-role", entry.visualRole);
+      if (entry.visualMotifRole) entryShell.setAttribute("data-visual-motif-role", entry.visualMotifRole);
       if (entry.visualMotif) entryShell.setAttribute("data-visual-motif", entry.visualMotif);
       sourceAttributes(entryShell, entry.source);
 
@@ -201,7 +201,7 @@ function appendBlock(
         const motif = dom.createElement("span");
         motif.className = "definition-list-visual-motif";
         motif.setAttribute("data-visual-motif", entry.visualMotif);
-        motif.setAttribute("data-visual-role", entry.visualRole ?? "supporting");
+        motif.setAttribute("data-visual-motif-role", entry.visualMotifRole ?? "supporting");
         motif.setAttribute("aria-hidden", "true");
         entryShell.appendChild(motif);
       }

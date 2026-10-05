@@ -125,8 +125,8 @@ SELECT $this WHERE {
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:body ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
-    sh:property [ sh:path cd:visualRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "supporting" "highlight" ) ] ;
     sh:property [ sh:path cd:visualMotif ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "discussion" "hands-on" "statistics" "inference" "regression" "design-of-experiments" "multivariate" "machine-learning" ) ] ;
+    sh:property [ sh:path cd:visualMotifRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "supporting" "highlight" ) ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
     sh:property [
       sh:path [ sh:inversePath cd:hasDefinitionListEntry ] ;
@@ -590,6 +590,7 @@ SELECT $this WHERE { $this cd:hasSequenceState ?state . { ?state cd:activeIntera
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:visualRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[a-z][a-z0-9-]*$" ] ;
     sh:property [ sh:path cd:visualMotif ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "discussion" "hands-on" "statistics" "inference" "regression" "design-of-experiments" "multivariate" "machine-learning" ) ] ;
+    sh:property [ sh:path cd:visualMotifRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "supporting" "highlight" ) ] ;
     sh:property [ sh:path cd:memberOfDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
 

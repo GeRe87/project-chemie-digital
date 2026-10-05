@@ -88,14 +88,14 @@
 }
 
 .reveal .slides section[data-layout="paired-info-cards"]
-  .definition-list-visual-motif[data-visual-role="highlight"] {
+  .definition-list-visual-motif[data-visual-motif-role="highlight"] {
   width: clamp(4.8rem, 12vw, 7.2rem);
   height: clamp(4.8rem, 12vw, 7.2rem);
   margin: .15rem auto .55rem;
 }
 
 .reveal .slides section[data-layout="paired-info-cards"]
-  .definition-list-visual-motif[data-visual-role="supporting"] {
+  .definition-list-visual-motif[data-visual-motif-role="supporting"] {
   position: absolute;
   top: 1rem;
   right: 1rem;

@@ -317,9 +317,13 @@ test("visual motifs are controlled and portable across definition cards and diag
   const block = value.scenes[0]!.blocks[0]!;
   if (block.kind !== "diagram") throw new Error("expected diagram");
   block.nodes[0]!.visualMotif = "statistics";
+  block.nodes[0]!.visualMotifRole = "highlight";
   assert.doesNotThrow(() => validateSceneDocument(value));
   (block.nodes[0] as { visualMotif?: string }).visualMotif = "unknown-motif";
   assert.throws(() => validateSceneDocument(value), /visualMotif is not supported/);
+  block.nodes[0]!.visualMotif = "statistics";
+  (block.nodes[0] as { visualMotifRole?: string }).visualMotifRole = "dominant";
+  assert.throws(() => validateSceneDocument(value), /visualMotifRole must be supporting or highlight/);
 });
 
 test("diagram edge visual roles use the same portable token contract as node roles", () => {

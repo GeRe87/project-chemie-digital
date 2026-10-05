@@ -203,7 +203,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
         term: "MULTI",
         description: `First logical point\nSecond point wraps naturally in the browser\nThird logical point`,
         visualMotif: "discussion" as const,
-        visualRole: "highlight" as const,
+        visualMotifRole: "highlight" as const,
         source: [{ resourceId: "resource:entry:multi" }],
       },
       {
@@ -253,11 +253,11 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   const definitionList = section.children[1]!;
   const multiEntry = definitionList.children[0]!;
   assert.equal(multiEntry.attributes.get("data-visual-motif"), "discussion");
-  assert.equal(multiEntry.attributes.get("data-visual-role"), "highlight");
+  assert.equal(multiEntry.attributes.get("data-visual-motif-role"), "highlight");
   const motif = multiEntry.children[1]!;
   assert.equal(motif.className, "definition-list-visual-motif");
   assert.equal(motif.attributes.get("data-visual-motif"), "discussion");
-  assert.equal(motif.attributes.get("data-visual-role"), "highlight");
+  assert.equal(motif.attributes.get("data-visual-motif-role"), "highlight");
   const multiDescription = multiEntry.children[2]!;
   assert.equal(multiDescription.attributes.get("data-adaptive-point-spacing"), "true");
   const multiPoints = multiDescription.children[0]!;

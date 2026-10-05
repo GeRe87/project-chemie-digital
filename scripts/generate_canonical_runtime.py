@@ -242,10 +242,10 @@ def definition_list_sequence(
         term = selected_literal(dataset, entry, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
         description = literal(dataset, entry, iri(CD, "body"), language)
         visual_motif = literal(dataset, entry, iri(CD, "visualMotif"))
-        visual_role = literal(dataset, entry, iri(CD, "visualRole"))
-        records.append((entry, position, term, f"skos:prefLabel@{language}", description, visual_motif, visual_role))
+        visual_motif_role = literal(dataset, entry, iri(CD, "visualMotifRole"))
+        records.append((entry, position, term, f"skos:prefLabel@{language}", description, visual_motif, visual_motif_role))
     records.sort(key=lambda record: (record[1], str(record[0])))
-    positions = [position for _entry, position, _term, _term_path, _description, _visual_motif, _visual_role in records]
+    positions = [position for _entry, position, _term, _term_path, _description, _visual_motif, _visual_motif_role in records]
     if positions != list(range(1, len(records) + 1)):
         raise ValueError(f"DefinitionList entry positions must be contiguous for {compact(owner)}")
     return records
@@ -431,6 +431,10 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         if visual_motif is not None:
             node_value["visualMotif"] = visual_motif
             node_sources.append(source_reference(dataset, node, "cd:visualMotif"))
+        visual_motif_role = literal(dataset, node, iri(CD, "visualMotifRole"))
+        if visual_motif_role is not None:
+            node_value["visualMotifRole"] = visual_motif_role
+            node_sources.append(source_reference(dataset, node, "cd:visualMotifRole"))
         group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
         if group_ids:
             node_value["groupIds"] = sorted(group_ids)
@@ -969,15 +973,15 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                             "term": term,
                             **({"description": description} if description is not None else {}),
                             **({"visualMotif": visual_motif} if visual_motif is not None else {}),
-                            **({"visualRole": visual_role} if visual_role is not None else {}),
+                            **({"visualMotifRole": visual_motif_role} if visual_motif_role is not None else {}),
                             "source": [
                                 source_reference(dataset, entry, term_path),
                                 *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
                                 *([source_reference(dataset, entry, "cd:visualMotif")] if visual_motif is not None else []),
-                                *([source_reference(dataset, entry, "cd:visualRole")] if visual_role is not None else []),
+                                *([source_reference(dataset, entry, "cd:visualMotifRole")] if visual_motif_role is not None else []),
                             ],
                         }
-                        for entry, _entry_position, term, term_path, description, visual_motif, visual_role in entries
+                        for entry, _entry_position, term, term_path, description, visual_motif, visual_motif_role in entries
                     ],
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary",
