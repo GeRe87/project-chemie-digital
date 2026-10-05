@@ -3,6 +3,7 @@ import type { DiagramBlock, Scene, SceneBlock } from "../../core/src/scene-docum
 export type RevealLayoutFamily =
   | "concept-specification"
   | "labeled-card-grid"
+  | "prompt-card-grid"
   | "paired-info-cards"
   | "definition-card"
   | "hierarchy-flow"
@@ -210,6 +211,21 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "concentric-network",
         slots: ["heading", "network"],
+      };
+    }
+  }
+
+  if (blocks.length === 2) {
+    const [heading, cards] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && cards?.kind === "definition-list"
+      && cards.entries.length === 3
+    ) {
+      return {
+        family: "prompt-card-grid",
+        slots: ["heading", "cards"],
       };
     }
   }

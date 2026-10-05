@@ -1,0 +1,115 @@
+/* Generic compact prompt-card grid.
+   Structural trigger: one heading followed by exactly three definition-list entries.
+   Intended for sparse audience prompts or three concise decision anchors. */
+
+.reveal .slides section[data-layout="prompt-card-grid"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: 1rem;
+  align-content: stretch;
+  padding: 1.4rem 2rem 1.7rem !important;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"] > [data-layout-slot="heading"] {
+  margin: 0;
+  max-width: none;
+  font-size: 2.5em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"] > [data-layout-slot="cards"] {
+  counter-reset: pcd-prompt-card;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  width: min(1120px, 96%);
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"]
+  > [data-layout-slot="cards"] > .definition-list-entry {
+  --pcd-prompt-hue: var(--definition-entry-hue, 205deg);
+  --pcd-prompt-stroke: hsl(var(--pcd-prompt-hue) 62% 38%);
+  counter-increment: pcd-prompt-card;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 17rem;
+  margin: 0;
+  padding: 1.35rem 1.25rem 1.4rem;
+  border: 4px solid var(--pcd-prompt-stroke);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--pcd-prompt-stroke) 11%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 66%
+    );
+  box-shadow:
+    7px 7px 0 color-mix(in srgb, var(--pcd-prompt-stroke) 17%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, white 30%, transparent);
+  color: var(--pcd-foreground);
+  text-align: left;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"]
+  > [data-layout-slot="cards"] > .definition-list-entry::before {
+  content: "0" counter(pcd-prompt-card);
+  position: absolute;
+  top: .7rem;
+  right: .78rem;
+  color: color-mix(in srgb, var(--pcd-prompt-stroke) 70%, var(--pcd-foreground));
+  font: 900 .7em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .04em;
+  opacity: .68;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"] .definition-list-term {
+  margin: 0 0 1.35rem;
+  padding: 0 2.2rem .7rem 0;
+  border-bottom: 3px solid color-mix(in srgb, var(--pcd-prompt-stroke) 62%, transparent);
+  color: color-mix(in srgb, var(--pcd-prompt-stroke) 86%, var(--pcd-foreground));
+  font: 950 1.05em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.reveal .slides section[data-layout="prompt-card-grid"] .definition-list-description {
+  margin: 0;
+  color: var(--pcd-foreground);
+  font: 720 .9em/1.55 Arial, Helvetica, sans-serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-layout="prompt-card-grid"] > [data-layout-slot="cards"] > .definition-list-entry {
+  --pcd-prompt-stroke: hsl(var(--pcd-prompt-hue) 72% 66%);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--pcd-prompt-stroke) 8%, transparent),
+    6px 6px 0 rgb(0 0 0 / .26);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="prompt-card-grid"] {
+    grid-template-rows: auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-layout="prompt-card-grid"] > [data-layout-slot="cards"] {
+    grid-template-columns: 1fr;
+    align-self: start;
+    gap: .8rem;
+    width: 100%;
+  }
+
+  .reveal .slides section[data-layout="prompt-card-grid"]
+    > [data-layout-slot="cards"] > .definition-list-entry {
+    min-height: 0;
+    padding: 1rem;
+  }
+}

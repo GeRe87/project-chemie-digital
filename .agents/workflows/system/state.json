@@ -5,67 +5,25 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 205,
-  "expectedDeliverable": "Owner-local semantics/renderer/Pitch/Chemometrics tests and browser review of the new Slide 2 definition card. Verify central card readability and visible IUPAC citation.",
-  "lastCompletedTurn": "worker: added generic definition-card layout and sourced Chemometrics definition scene at path position 2.",
-  "lastUpdated": "2026-10-05T12:28:00+02:00",
+  "activeIssue": 206,
+  "expectedDeliverable": "Owner-local renderer/Pitch/Chemometrics tests and browser review of Slide 7. Verify only three compact cards are visible and the slide remains visually sparse.",
+  "lastCompletedTurn": "worker: simplified the introduction round to three compact prompt cards using the generic prompt-card-grid layout.",
+  "lastUpdated": "2026-10-05T15:02:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #204 requires owner-local npm run test:renderer-reveal",
-    "Issue #204/#205 require owner-local npm run test:pitch",
-    "Issue #205 requires owner-local npm run check:semantics",
-    "Issue #205 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #205 requires browser smoke via npm run pitch:intro",
+    "Issue #206 requires owner-local npm run test:renderer-reveal",
+    "Issue #206 requires owner-local npm run test:pitch",
+    "Issue #206 requires owner-local npm run check:semantics",
+    "Issue #206 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #206 requires browser smoke of Slide 7 via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 346,
+  "stateRevision": 351,
   "transitionHistory": [
-    {
-      "at": "2026-09-30T08:44:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue200-space-filling-flow",
-      "reason": "Completed #200: wide long strict chains select space-filling-flow, sample the full Hilbert domain, route edges orthogonally through Hilbert subpaths, preserve readable card width, and use deterministic colorful information-card styling."
-    },
-    {
-      "at": "2026-09-30T08:45:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue200-stage-scaling",
-      "reason": "Connector-side review identified that the new tall Hilbert viewBox also needs an explicit stage-fit rule so the SVG scales into available diagram-stage height rather than overflowing."
-    },
-    {
-      "at": "2026-09-30T08:46:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue200-stage-scaling",
-      "reason": "Claimed bounded diagram-stage scaling CSS and regression only."
-    },
-    {
-      "at": "2026-09-30T08:48:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue200-stage-scaling",
-      "reason": "Completed #200 stage-fit refinement: space-filling flow SVGs now use the full available diagram-stage height with viewBox scaling and no fixed minimum-height inflation."
-    },
-    {
-      "at": "2026-09-30T08:49:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue201-roadmap-adoption",
-      "reason": "Reviewed #200 source-level implementation and authorized #201 content-track adoption audit. Existing Chemometrics roadmap RDF is already a strict six-node chain, so content mutation is only allowed if required by the generic trigger."
-    },
-    {
-      "at": "2026-09-30T08:50:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
-      "reason": "Claimed #201 bounded adoption audit against the existing six-node/five-edge course roadmap."
-    },
     {
       "at": "2026-09-30T08:52:00+02:00",
       "from": "busy/worker",
@@ -219,6 +177,41 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue205-chemometrics-definition",
       "reason": "Completed #205: seven-step introduction path now places the sourced Chemometrics definition second, preserving all later scene order."
+    },
+    {
+      "at": "2026-10-05T14:44:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue206-introduction-round",
+      "reason": "Owner requested a much sparser introduction-round slide with only three key cards. Authorized a generic heading+three-definition-entry prompt-card layout and bounded content cleanup."
+    },
+    {
+      "at": "2026-10-05T14:45:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue206-prompt-card-grid",
+      "reason": "Claimed identity-free prompt-card-grid renderer policy/CSS and focused layout regression."
+    },
+    {
+      "at": "2026-10-05T14:54:00+02:00",
+      "from": "busy/worker",
+      "to": "ready/worker",
+      "actor": "interactive-system-worker-issue206-prompt-card-grid",
+      "reason": "Completed generic prompt-card-grid: heading plus exactly three definition entries render as compact centered cards without scene-specific selectors."
+    },
+    {
+      "at": "2026-10-05T14:55:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue206-introduction-round",
+      "reason": "Claimed content cleanup to Background, Chemometrics Experience and Programming anchors only."
+    },
+    {
+      "at": "2026-10-05T15:02:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue206-introduction-round",
+      "reason": "Completed #206: removed banner/foundation/goal/takeaway from the presentation scene, reduced the round to three concise cards, and aligned the retained long-form exercise."
     }
   ]
 }

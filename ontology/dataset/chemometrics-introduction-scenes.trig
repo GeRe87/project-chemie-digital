@@ -186,14 +186,11 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 6 — foundation-card-grid ------------------------------------------
+  # Slide 7 — prompt-card-grid ----------------------------------------------
   ex:scene-chemometrics-introduction-round a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-introduction-round ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-round-heading,
-      ex:scene-item-chemometrics-introduction-round-banner,
-      ex:scene-item-chemometrics-introduction-round-foundation,
-      ex:scene-item-chemometrics-introduction-round-prompts,
-      ex:scene-item-chemometrics-introduction-round-takeaway ;
+      ex:scene-item-chemometrics-introduction-round-prompts ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-round-heading a cd:SceneItem ;
@@ -204,35 +201,11 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-round-banner a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:chemometrics-introduction-round-banner ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-round-foundation a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:chemometrics-introduction-round-foundation ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
   ex:scene-item-chemometrics-introduction-round-prompts a cd:SceneItem ;
-    cd:position 4 ;
+    cd:position 2 ;
     cd:selectsResource ex:chemometrics-introduction-round-prompts ;
     cd:communicativeRole cd:DefinitionListRole ;
     cd:selectionPath "cd:hasDefinitionListEntry" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-introduction-round-takeaway a cd:SceneItem ;
-    cd:position 5 ;
-    cd:selectsResource ex:chemometrics-introduction-round-takeaway ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
     cd:language "en" ;
     cd:authoredResource true .
 }

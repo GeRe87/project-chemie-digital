@@ -370,56 +370,35 @@ Principles · problem solving · calculations · programming"""@en ;
     cd:authoredResource true .
 
   ex:def-chemometrics-introduction-round a cd:Definition ;
-    cd:body "The introduction round is a short opening activity for sharing background, prior experience and learning expectations."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-introduction-round-banner a cd:Interpretation ;
-    cd:body """YOUR TURN
-Give the room a compact picture of where you are starting from."""@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-introduction-round-foundation a cd:Interpretation ;
-    cd:body """FOUR SHORT PROMPTS
-Keep it brief — the goal is context, not a complete biography."""@en ;
+    cd:body "The introduction round gives three short anchors for sharing disciplinary background, prior chemometrics experience and programming experience."@en ;
     cd:authoredResource true .
 
   ex:chemometrics-introduction-round-prompts a cd:DefinitionList ;
     cd:hasDefinitionListEntry ex:chemometrics-introduction-round-background,
-      ex:chemometrics-introduction-round-statistics,
-      ex:chemometrics-introduction-round-tools,
-      ex:chemometrics-introduction-round-goal ;
+      ex:chemometrics-introduction-round-chemometrics,
+      ex:chemometrics-introduction-round-programming ;
     cd:authoredResource true .
 
   ex:chemometrics-introduction-round-background a cd:DefinitionListEntry ;
     cd:position 1 ;
-    skos:prefLabel "Your background"@en ;
-    cd:body "Study programme, discipline or scientific background."@en ;
+    skos:prefLabel "BACKGROUND"@en ;
+    cd:body "Chemistry · Water Science · Environmental Toxicology · other"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-introduction-round-statistics a cd:DefinitionListEntry ;
+  ex:chemometrics-introduction-round-chemometrics a cd:DefinitionListEntry ;
     cd:position 2 ;
-    skos:prefLabel "Statistics & chemometrics"@en ;
-    cd:body "What have you used before — if anything?"@en ;
+    skos:prefLabel "CHEMOMETRICS EXPERIENCE"@en ;
+    cd:body "Linear regression · error propagation · multivariate methods · machine learning / AI · none yet"@en ;
     cd:authoredResource true .
 
-  ex:chemometrics-introduction-round-tools a cd:DefinitionListEntry ;
+  ex:chemometrics-introduction-round-programming a cd:DefinitionListEntry ;
     cd:position 3 ;
-    skos:prefLabel "Data-analysis tools"@en ;
-    cd:body "R, Python, spreadsheets or other tools you already know."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-introduction-round-goal a cd:DefinitionListEntry ;
-    cd:position 4 ;
-    skos:prefLabel "Your goal"@en ;
-    cd:body "One thing you would like to take away from this course."@en ;
-    cd:authoredResource true .
-
-  ex:chemometrics-introduction-round-takeaway a cd:Interpretation ;
-    cd:body "YOUR STARTING POINT HELPS US CONNECT THE COURSE TO THE ROOM"@en ;
+    skos:prefLabel "PROGRAMMING"@en ;
+    cd:body "Python · R · MATLAB · another language · no programming experience"@en ;
     cd:authoredResource true .
 
   # Retained long-form exercise for self-study/accessibility reuse -----------
   ex:exercise-chemometrics-introduction-round a cd:Exercise ;
-    cd:body "Briefly introduce yourself: your study programme or scientific background, your previous experience with statistics or chemometrics, your experience with R or other data-analysis tools, and one thing you would like to take away from this course."@en ;
+    cd:body "Briefly introduce yourself: your scientific or study background, any previous experience with chemometrics or data-analysis methods, and your programming experience. It is completely fine if one or more of these areas are new to you."@en ;
     cd:authoredResource true .
 }

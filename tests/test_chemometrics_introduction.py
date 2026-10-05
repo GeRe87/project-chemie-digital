@@ -69,7 +69,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list"],
     ["prose", "diagram"],
-    ["prose", "prose", "prose", "definition-list", "prose"],
+    ["prose", "definition-list"],
 ]
 
 
@@ -424,19 +424,34 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                 set(self.content_graph.objects(edge, CD.targetNode)),
             )
 
-    def test_introduction_round_is_four_prompt_cards(self) -> None:
+    def test_introduction_round_is_three_compact_prompt_cards(self) -> None:
         owner = EX["chemometrics-introduction-round-prompts"]
         entries = sorted(
             self.content_graph.objects(owner, CD.hasDefinitionListEntry),
             key=lambda entry: int(next(self.content_graph.objects(entry, CD.position))),
         )
         self.assertEqual(
-            ["Your background", "Statistics & chemometrics", "Data-analysis tools", "Your goal"],
+            ["BACKGROUND", "CHEMOMETRICS EXPERIENCE", "PROGRAMMING"],
             [str(next(self.content_graph.objects(entry, SKOS.prefLabel))) for entry in entries],
         )
-        self.assertEqual([1, 2, 3, 4], [
+        self.assertEqual([1, 2, 3], [
             int(next(self.content_graph.objects(entry, CD.position))) for entry in entries
         ])
+        bodies = [str(next(self.content_graph.objects(entry, CD.body))) for entry in entries]
+        self.assertIn("Water Science", bodies[0])
+        self.assertIn("Environmental Toxicology", bodies[0])
+        self.assertIn("Linear regression", bodies[1])
+        self.assertIn("multivariate methods", bodies[1])
+        self.assertIn("machine learning / AI", bodies[1])
+        self.assertIn("no programming experience", bodies[2])
+
+        for removed in (
+            "chemometrics-introduction-round-banner",
+            "chemometrics-introduction-round-foundation",
+            "chemometrics-introduction-round-goal",
+            "chemometrics-introduction-round-takeaway",
+        ):
+            self.assertFalse(any(self.content_graph.triples((EX[removed], None, None))))
 
     def test_path_is_exact_seven_step_sequence(self) -> None:
         steps = sorted(
@@ -549,8 +564,14 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual(6, len(roadmap["nodes"]))
         self.assertEqual(5, len(roadmap["edges"]))
 
-        round_cards = self.document["scenes"][6]["blocks"][3]
-        self.assertEqual(4, len(round_cards["entries"]))
+        round_scene = self.document["scenes"][6]
+        self.assertEqual(["prose", "definition-list"], [block["kind"] for block in round_scene["blocks"]])
+        round_cards = round_scene["blocks"][1]
+        self.assertEqual(3, len(round_cards["entries"]))
+        self.assertEqual(
+            ["BACKGROUND", "CHEMOMETRICS EXPERIENCE", "PROGRAMMING"],
+            [entry["term"] for entry in round_cards["entries"]],
+        )
 
     def test_course_path_selection_resolves_introduction_exactly(self) -> None:
         selection = select_course_unit_path(self.dataset, request())

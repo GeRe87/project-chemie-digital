@@ -65,10 +65,7 @@
 
   ex:path-step-chemometrics-introduction-round a cd:PathStep ;
     cd:position 7 ;
-    cd:usesResource ex:chemometrics-introduction-round-banner,
-      ex:chemometrics-introduction-round-foundation,
-      ex:chemometrics-introduction-round-prompts,
-      ex:chemometrics-introduction-round-takeaway ;
+    cd:usesResource ex:chemometrics-introduction-round-prompts ;
     cd:usesScene ex:scene-chemometrics-introduction-round ;
     cd:authoredResource true .
 }

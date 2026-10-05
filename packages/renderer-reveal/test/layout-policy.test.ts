@@ -51,6 +51,29 @@ function threeCardScene(id: string, itemCount = 3): Scene {
   };
 }
 
+function promptCardScene(id: string, entryCount = 3): Scene {
+  return {
+    id,
+    source: [{ resourceId: `${id}:source` }],
+    blocks: [
+      prose(`${id}:heading`, "introduce"),
+      {
+        id: `${id}:cards`,
+        kind: "definition-list",
+        entries: Array.from({ length: entryCount }, (_, index) => ({
+          id: `prompt:${index + 1}`,
+          term: `Prompt ${index + 1}`,
+          description: `Short anchor ${index + 1}`,
+          source: [{ resourceId: `resource:prompt:${index + 1}` }],
+        })),
+        intent: { kind: "explain" },
+        source: [{ resourceId: "resource:prompt-cards" }],
+      },
+    ],
+    readingOrder: [`${id}:heading`, `${id}:cards`],
+  };
+}
+
 function labeledCardScene(id: string, entryCount = 3): Scene {
   return {
     id,
@@ -432,6 +455,13 @@ test("infers concentric-network from focused grouped topology without scene iden
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("scene:alpha")), "concentric-network");
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("opaque:scene")), "concentric-network");
   assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
+});
+
+test("infers prompt-card-grid from heading plus three concise definition entries without identity", () => {
+  assert.equal(inferRevealLayoutFamily(promptCardScene("scene:prompt")), "prompt-card-grid");
+  assert.equal(inferRevealLayoutFamily(promptCardScene("opaque:prompt")), "prompt-card-grid");
+  assert.deepEqual(inferRevealLayoutDecision(promptCardScene("scene:prompt-slots"))?.slots, ["heading", "cards"]);
+  assert.equal(inferRevealLayoutFamily(promptCardScene("scene:prompt-four", 4)), undefined);
 });
 
 test("infers labeled-card-grid from three labeled facets without scene identity", () => {
