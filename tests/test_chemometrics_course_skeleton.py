@@ -250,6 +250,8 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
     def test_learning_units_use_expected_focus_concepts(self) -> None:
         expected = {
             EX["learning-unit-chemometrics-introduction"]: {
+                EX["chemometrics-course-title"],
+                EX["chemometrics-definition"],
                 EX["chemometrics-course-overview"],
                 EX["chemometrics-lecturer-context"],
                 EX["chemometrics-course-format"],
