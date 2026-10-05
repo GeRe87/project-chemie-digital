@@ -100,6 +100,8 @@ export interface RevealDefinitionListEntryPlan {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
+  readonly visualRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -155,6 +157,7 @@ export interface RevealDiagramNodePlan {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
   readonly groupIds?: readonly string[];
 }
 
@@ -375,6 +378,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           id: entry.id,
           term: entry.term,
           ...(entry.description ? { description: entry.description } : {}),
+          ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
+          ...(entry.visualRole ? { visualRole: entry.visualRole } : {}),
           source: sourceCopy(entry.source),
         })),
       };
@@ -442,6 +447,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+          ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
           ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
         })),
         edges: block.edges.map((edge) => ({

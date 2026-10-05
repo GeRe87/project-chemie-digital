@@ -75,6 +75,58 @@
     inset 0 0 0 1px color-mix(in srgb, white 28%, transparent);
   color: var(--pcd-foreground);
   text-align: left;
+  position: relative;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"] .definition-list-visual-motif {
+  display: block;
+  flex: 0 0 auto;
+  background: var(--pcd-pair-stroke);
+  opacity: .9;
+  -webkit-mask: var(--pcd-motif-mask) center / contain no-repeat;
+  mask: var(--pcd-motif-mask) center / contain no-repeat;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  .definition-list-visual-motif[data-visual-role="highlight"] {
+  width: clamp(4.8rem, 12vw, 7.2rem);
+  height: clamp(4.8rem, 12vw, 7.2rem);
+  margin: .15rem auto .55rem;
+}
+
+.reveal .slides section[data-layout="paired-info-cards"]
+  .definition-list-visual-motif[data-visual-role="supporting"] {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  opacity: .72;
+}
+
+.definition-list-visual-motif[data-visual-motif="discussion"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 12h32v24H22L12 45v-9H8z'/%3E%3Cpath d='M30 30h26v18H46l-8 7v-7h-8'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="hands-on"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 50l22-22'/%3E%3Cpath d='M38 10a12 12 0 0 0 15 15L31 47l-14 3 3-14 22-22a12 12 0 0 0-4-4z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="statistics"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 54h48M12 50V38h8v12M26 50V28h8v22M40 50V18h8v32'/%3E%3Cpath d='M10 34c10 0 12-18 22-18s12 18 22 18'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="inference"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 22h18M36 22h18M19 14v16M45 14v16M12 43h40'/%3E%3Cpath d='M24 36l8 7-8 7M40 36l-8 7 8 7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="regression"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M10 54V10M10 54h44M16 47L50 17'/%3E%3Cpath d='M18 39h1M26 34h1M35 30h1M43 21h1M49 28h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="design-of-experiments"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linejoin='round'%3E%3Cpath d='M10 10h44v44H10zM32 10v44M10 32h44'/%3E%3Cpath d='M18 18h1M45 18h1M18 45h1M45 45h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="multivariate"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M10 52h44M14 54L48 14'/%3E%3Cpath d='M18 42h1M24 35h1M31 39h1M38 27h1M45 23h1M48 34h1M28 25h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="machine-learning"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 12v12M32 24L16 36M32 24l16 12M16 36v12M48 36v12'/%3E%3Cpath d='M28 8h8v8h-8zM12 32h8v8h-8zM44 32h8v8h-8zM12 46h8v8h-8zM44 46h8v8h-8z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .reveal .slides section[data-layout="paired-info-cards"]

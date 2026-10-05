@@ -17,7 +17,7 @@ const block: DiagramBlock = {
   source: [{ resourceId: "scene:flow", relationPath: "cd:body", provenanceIds: ["prov:scene"] }],
   nodes: [
     { id: "node:raw", label: "Raw data", source: [{ resourceId: "ex:raw", relationPath: "skos:prefLabel@en" }] },
-    { id: "node:metadata", label: "Metadata", description: "Semantic description", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary" },
+    { id: "node:metadata", label: "Metadata", description: "Semantic description", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary", visualMotif: "regression", visualRole: "supporting" },
     { id: "node:reuse", label: "Reusable result", source: [{ resourceId: "ex:reuse", relationPath: "schema:name" }] },
   ],
   edges: [
@@ -43,6 +43,8 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.deepEqual(first.model.nodeReadingOrder, ["node:raw", "node:metadata", "node:reuse"]);
   assert.deepEqual(first.model.edgeReadingOrder, ["edge:describe", "edge:reuse"]);
   assert.equal(first.model.nodes[1]!.emphasis, "primary");
+  assert.equal(first.model.nodes[1]!.visualMotif, "regression");
+  assert.equal(first.model.nodes[1]!.visualRole, "supporting");
   assert.equal(first.model.nodes[1]!.description, "Semantic description");
   assert.equal(first.model.nodes[1]!.source[0]!.relationPath, "dct:title");
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);

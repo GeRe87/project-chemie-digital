@@ -213,12 +213,12 @@ def definition_list_sequence(
     dataset: Dataset,
     owner: URIRef,
     language: str | None,
-) -> list[tuple[URIRef, int, str, str, str | None]]:
+) -> list[tuple[URIRef, int, str, str, str | None, str | None, str | None]]:
     predicate = iri(CD, "hasDefinitionListEntry")
     linked = [value for value in objects(dataset, owner, predicate) if isinstance(value, URIRef)]
     if not linked:
         raise ValueError(f"DefinitionListRole requires linked entries for {compact(owner)}")
-    records: list[tuple[URIRef, int, str, str, str | None]] = []
+    records: list[tuple[URIRef, int, str, str, str | None, str | None, str | None]] = []
     seen_positions: set[int] = set()
     for entry in linked:
         if not is_resource_type(dataset, entry, "DefinitionListEntry"):
@@ -241,9 +241,11 @@ def definition_list_sequence(
             raise ValueError(f"DefinitionListRole requires explicit cd:language for {compact(owner)}")
         term = selected_literal(dataset, entry, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
         description = literal(dataset, entry, iri(CD, "body"), language)
-        records.append((entry, position, term, f"skos:prefLabel@{language}", description))
+        visual_motif = literal(dataset, entry, iri(CD, "visualMotif"))
+        visual_role = literal(dataset, entry, iri(CD, "visualRole"))
+        records.append((entry, position, term, f"skos:prefLabel@{language}", description, visual_motif, visual_role))
     records.sort(key=lambda record: (record[1], str(record[0])))
-    positions = [position for _entry, position, _term, _term_path, _description in records]
+    positions = [position for _entry, position, _term, _term_path, _description, _visual_motif, _visual_role in records]
     if positions != list(range(1, len(records) + 1)):
         raise ValueError(f"DefinitionList entry positions must be contiguous for {compact(owner)}")
     return records
@@ -424,6 +426,11 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         visual_role = one(dataset, node, iri(CD, "visualRole"), required=False)
         if visual_role is not None:
             node_value["visualRole"] = str(visual_role)
+            node_sources.append(source_reference(dataset, node, "cd:visualRole"))
+        visual_motif = literal(dataset, node, iri(CD, "visualMotif"))
+        if visual_motif is not None:
+            node_value["visualMotif"] = visual_motif
+            node_sources.append(source_reference(dataset, node, "cd:visualMotif"))
         group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
         if group_ids:
             node_value["groupIds"] = sorted(group_ids)
@@ -961,12 +968,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                             "id": f"{compact(entry)}--definition-entry",
                             "term": term,
                             **({"description": description} if description is not None else {}),
+                            **({"visualMotif": visual_motif} if visual_motif is not None else {}),
+                            **({"visualRole": visual_role} if visual_role is not None else {}),
                             "source": [
                                 source_reference(dataset, entry, term_path),
                                 *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
+                                *([source_reference(dataset, entry, "cd:visualMotif")] if visual_motif is not None else []),
+                                *([source_reference(dataset, entry, "cd:visualRole")] if visual_role is not None else []),
                             ],
                         }
-                        for entry, _entry_position, term, term_path, description in entries
+                        for entry, _entry_position, term, term_path, description, visual_motif, visual_role in entries
                     ],
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary",

@@ -228,6 +228,16 @@ body[data-presentation-theme="dark"] .reveal {
   display: none;
 }
 
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif {
+  color: hsl(var(--d3-flow-card-hue, 205) 58% 38%);
+  opacity: .72;
+  pointer-events: none;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif[data-visual-role="highlight"] {
+  opacity: .88;
+}
+
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index {
   fill: hsl(var(--d3-flow-card-hue, 205) 58% 34%);
   font: 900 17px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;

@@ -13,6 +13,19 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION
   | typeof SCENE_DOCUMENT_TABLE_VERSION;
 
+export const VISUAL_MOTIF_KEYS = [
+  "discussion",
+  "hands-on",
+  "statistics",
+  "inference",
+  "regression",
+  "design-of-experiments",
+  "multivariate",
+  "machine-learning",
+] as const;
+
+export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];
+
 export interface SourceReference {
   readonly resourceId: string;
   readonly provenanceIds?: readonly string[];
@@ -98,6 +111,8 @@ export interface DefinitionListEntry {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly visualMotif?: VisualMotifKey;
+  readonly visualRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -153,6 +168,7 @@ export interface DiagramNode {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: VisualMotifKey;
   readonly groupIds?: readonly string[];
 }
 
@@ -382,6 +398,12 @@ function validateListItems(items: readonly ListItem[], label: string): void {
   }
 }
 
+function validateVisualMotif(value: VisualMotifKey | undefined, label: string): void {
+  if (value !== undefined && !(VISUAL_MOTIF_KEYS as readonly string[]).includes(value)) {
+    throw new SceneContractError(`${label} visualMotif is not supported`);
+  }
+}
+
 function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], label: string): void {
   if (entries.length === 0) throw new SceneContractError(`${label} must contain at least one entry`);
   const ids = new Set<string>();
@@ -391,6 +413,10 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     ids.add(entry.id);
     requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
+    if (entry.visualRole !== undefined && entry.visualRole !== "supporting" && entry.visualRole !== "highlight") {
+      throw new SceneContractError(`${label} entry ${entry.id} visualRole must be supporting or highlight`);
+    }
+    validateVisualMotif(entry.visualMotif, `${label} entry ${entry.id}`);
     validateSource(entry.source, `${label} entry ${entry.id} source`);
   }
 }
@@ -449,6 +475,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
       throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
     }
+    validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }
 

@@ -312,6 +312,16 @@ test("diagram groups and visual roles remain semantic while membership is valida
   assert.throws(() => validateSceneDocument(value), /references an unknown group/);
 });
 
+test("visual motifs are controlled and portable across definition cards and diagram nodes", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.nodes[0]!.visualMotif = "statistics";
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  (block.nodes[0] as { visualMotif?: string }).visualMotif = "unknown-motif";
+  assert.throws(() => validateSceneDocument(value), /visualMotif is not supported/);
+});
+
 test("diagram edge visual roles use the same portable token contract as node roles", () => {
   const value = structuredClone(flowDocument());
   const block = value.scenes[0]!.blocks[0]!;

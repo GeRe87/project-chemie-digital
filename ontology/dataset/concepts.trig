@@ -35,7 +35,7 @@ graph:concepts {
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
       cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
       cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit,
-       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole ;
+       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole, cd:visualMotif ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
@@ -167,6 +167,7 @@ graph:concepts {
   cd:focusDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:DiagramGroup .
   cd:contextDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:DiagramGroup .
    cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:visualMotif a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 

@@ -5,48 +5,26 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Presentation System Worker",
-  "activeIssue": 200,
-  "expectedDeliverable": "Owner-local renderer-d3/Pitch tests and browser review of Slide 5. Confirm larger cards/type, compact 3×2 Hilbert occupancy, and no repeated ‘builds on’ label panels.",
-  "lastCompletedTurn": "worker: refined #200 roadmap readability with compact Hilbert occupancy, larger card typography and generic repeated-edge-label suppression.",
-  "lastUpdated": "2026-09-30T09:28:00+02:00",
+  "activeIssue": 202,
+  "expectedDeliverable": "Review #202 semantic vector motif capability, then authorize #203 Chemometrics motif assignments. Owner-local core/renderer/Pitch/semantics tests remain required.",
+  "lastCompletedTurn": "worker: completed #202 semantic visual motifs and generic vector rendering for structured definition cards and D3 information cards.",
+  "lastUpdated": "2026-10-05T10:58:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #200 requires owner-local npm run test:renderer-d3",
-    "Issue #200/#201 require owner-local npm run test:pitch",
-    "Issue #201 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #201 requires fresh browser smoke of Slide 5 via npm run pitch:intro",
+    "Issue #202 requires owner-local npm run test:core",
+    "Issue #202 requires owner-local npm run test:renderer-d3",
+    "Issue #202 requires owner-local npm run test:pitch",
+    "Issue #202 requires owner-local npm run check:semantics",
+    "Issue #203 content assignment must use the accepted generic motif primitive",
     "PR #185 requires full repository npm test after focused/browser acceptance",
-    "PR #185 requires coordinated independent manager review for accumulated issues",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success",
-    "Draft PR requires Ready-for-review lifecycle completion before squash merge"
+    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success"
   ],
-  "stateRevision": 328,
+  "stateRevision": 331,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T17:32:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue197-course-organization",
-      "reason": "Completed #197: slide now uses a two-node semantic flow from interactive lecture+seminar to hands-on tutorial, removes obsolete four-format card resources, and states that programming supports rather than defines the tutorial."
-    },
-    {
-      "at": "2026-09-29T17:34:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue198-paired-info-cards",
-      "reason": "Owner browser review rejected the process-diagram visual for course organization while approving the card visual language. Authorized a generic paired information-card layout inferred solely from heading + intro + two-entry DefinitionList + takeaway."
-    },
-    {
-      "at": "2026-09-29T17:35:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue198-paired-info-cards",
-      "reason": "Claimed #198 generic paired-info-cards layout, CSS import and identity-free regression only."
-    },
     {
       "at": "2026-09-29T17:42:00+02:00",
       "from": "busy/worker",
@@ -200,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue200-roadmap-readability",
       "reason": "Completed #200 refinement: long strict flows choose a compact contiguous Hilbert window, six-stage flows use 3×2 occupancy with larger cards/type, and identical repeated edge labels are visually hidden while semantic labels remain intact."
+    },
+    {
+      "at": "2026-10-05T10:42:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue202-visual-motifs",
+      "reason": "Owner requested optional vector motifs for structured cards with supporting and highlight placements. Authorized #202 semantic contract, compiler propagation and generic HTML/D3 rendering only."
+    },
+    {
+      "at": "2026-10-05T10:43:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue202-visual-motifs",
+      "reason": "Claimed #202 visualMotif ontology/SHACL, SceneDocument propagation, renderer-neutral adapter preservation, paired-card CSS masks and D3 native SVG motif rendering."
+    },
+    {
+      "at": "2026-10-05T10:58:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue202-visual-motifs",
+      "reason": "Completed #202 generic visual motif capability with eight controlled motif keys, highlight/supporting card roles, vector-only HTML/D3 renderers and focused contract regressions."
     }
   ]
 }

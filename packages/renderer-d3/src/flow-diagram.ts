@@ -1,4 +1,4 @@
-import type { DiagramBlock, SourceReference } from "../../core/src/index.ts";
+import type { DiagramBlock, SourceReference, VisualMotifKey } from "../../core/src/index.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 import {
   createD3FlowLayout,
@@ -27,6 +27,7 @@ export interface D3FlowRenderNode {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: VisualMotifKey;
   readonly groupIds?: readonly string[];
   readonly readingIndex: number;
 }
@@ -390,6 +391,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
        ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+       ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
        ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
       readingIndex,
     }));
@@ -678,6 +680,48 @@ function addSharedEdgeAnnotation(parent: SVGElement, geometry: D3FlowSharedAnnot
   group.append(panel);
   addTextLines(group, wrapFlowText(geometry.label, 130), geometry.x, geometry.y, "d3-flow-shared-edge-annotation-label");
   parent.append(group);
+}
+
+
+const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
+  discussion: ["M8 12h32v24H22L12 45v-9H8z", "M30 30h26v18H46l-8 7v-7h-8"],
+  "hands-on": ["M14 50l22-22", "M38 10a12 12 0 0 0 15 15L31 47l-14 3 3-14 22-22a12 12 0 0 0-4-4z"],
+  statistics: ["M8 54h48M12 50V38h8v12M26 50V28h8v22M40 50V18h8v32", "M10 34c10 0 12-18 22-18s12 18 22 18"],
+  inference: ["M10 22h18M36 22h18M19 14v16M45 14v16M12 43h40", "M24 36l8 7-8 7M40 36l-8 7 8 7"],
+  regression: ["M10 54V10M10 54h44M16 47L50 17", "M18 39h1M26 34h1M35 30h1M43 21h1M49 28h1"],
+  "design-of-experiments": ["M10 10h44v44H10zM32 10v44M10 32h44", "M18 18h1M45 18h1M18 45h1M45 45h1"],
+  multivariate: ["M10 52h44M14 54L48 14", "M18 42h1M24 35h1M31 39h1M38 27h1M45 23h1M48 34h1M28 25h1"],
+  "machine-learning": ["M32 12v12M32 24L16 36M32 24l16 12M16 36v12M48 36v12", "M28 8h8v8h-8zM12 32h8v8h-8zM44 32h8v8h-8zM12 46h8v8h-8zM44 46h8v8h-8z"],
+};
+
+function addFlowVisualMotif(
+  group: SVGGElement,
+  motif: VisualMotifKey,
+  width: number,
+  height: number,
+  role?: string,
+): void {
+  const namespace = "http://www.w3.org/2000/svg";
+  const motifGroup = document.createElementNS(namespace, "g");
+  motifGroup.setAttribute("class", "d3-flow-node-motif");
+  motifGroup.setAttribute("data-visual-motif", motif);
+  motifGroup.setAttribute("data-visual-role", role ?? "supporting");
+  motifGroup.setAttribute("aria-hidden", "true");
+  const size = role === "highlight" ? 64 : 38;
+  const x = role === "highlight" ? 0 : width / 2 - 46;
+  const y = role === "highlight" ? -8 : -height / 2 + 58;
+  motifGroup.setAttribute("transform", `translate(${x} ${y}) scale(${size / 64}) translate(-32 -32)`);
+  for (const [index, pathData] of FLOW_MOTIF_PATHS[motif].entries()) {
+    const path = document.createElementNS(namespace, "path");
+    path.setAttribute("d", pathData);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "currentColor");
+    path.setAttribute("stroke-width", index === 1 && ["regression", "design-of-experiments", "multivariate"].includes(motif) ? "7" : "4");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    motifGroup.append(path);
+  }
+  group.append(motifGroup);
 }
 
 function addNodeChrome(
@@ -1002,6 +1046,10 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             const progress = model.nodes.length <= 1 ? 0.5 : modelNode.readingIndex / (model.nodes.length - 1);
             const hue = (205 + progress * 275) % 360;
             group.style.setProperty("--d3-flow-card-hue", hue.toFixed(1));
+          }
+          if (layout.strategy === "space-filling-flow" && modelNode.visualMotif) {
+            group.setAttribute("data-visual-motif", modelNode.visualMotif);
+            addFlowVisualMotif(group, modelNode.visualMotif, layoutNode.width, layoutNode.height, modelNode.visualRole);
           }
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
