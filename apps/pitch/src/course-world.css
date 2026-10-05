@@ -1,0 +1,243 @@
+.pitch-course-world-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  overflow: auto;
+  padding: 1.3rem clamp(1rem, 4vw, 4rem) 4rem;
+  background:
+    linear-gradient(180deg, rgba(238, 250, 255, .86), rgba(244, 249, 245, .88)),
+    repeating-linear-gradient(90deg, transparent 0 4.8rem, rgba(17, 93, 120, .035) 4.8rem 4.9rem);
+  color: #17212b;
+  backdrop-filter: blur(9px);
+}
+
+.pitch-course-world {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.pitch-world-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem 1.15rem;
+  border: 3px solid #0a617e;
+  background: rgba(250, 253, 254, .95);
+  box-shadow: 7px 7px 0 rgba(10, 97, 126, .16);
+}
+
+.pitch-world-kicker,
+.pitch-world-level,
+.pitch-world-region-header > p {
+  margin: 0;
+  color: #0a617e;
+  font: 900 .78rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.pitch-world-header h1 {
+  margin: .3rem 0 .2rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.pitch-world-header > p:last-child {
+  margin: .45rem 0 0;
+  font-weight: 700;
+}
+
+.pitch-world-regions,
+.pitch-world-route {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pitch-world-regions {
+  display: grid;
+  gap: 1rem;
+}
+
+.pitch-world-region {
+  --region-accent: #3f7187;
+  overflow: hidden;
+  border: 3px solid var(--region-accent);
+  background: rgba(252, 254, 254, .92);
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--region-accent) 15%, transparent);
+}
+
+.pitch-world-region-item:nth-child(6n + 2) .pitch-world-region { --region-accent: #6a4a91; }
+.pitch-world-region-item:nth-child(6n + 3) .pitch-world-region { --region-accent: #9a6640; }
+.pitch-world-region-item:nth-child(6n + 4) .pitch-world-region { --region-accent: #3e7b70; }
+.pitch-world-region-item:nth-child(6n + 5) .pitch-world-region { --region-accent: #8a496d; }
+.pitch-world-region-item:nth-child(6n) .pitch-world-region { --region-accent: #657b2c; }
+
+.pitch-world-region-header {
+  display: grid;
+  gap: .25rem;
+  padding: .85rem 1rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--region-accent) 35%, transparent);
+}
+
+.pitch-world-region-header > p { color: var(--region-accent); }
+.pitch-world-region-header h2 {
+  margin: 0;
+  color: var(--region-accent);
+  font-size: 1.45rem;
+  line-height: 1.05;
+}
+.pitch-world-region-header span {
+  max-width: 70rem;
+  font-size: .88rem;
+  font-weight: 650;
+}
+
+.pitch-world-region-empty {
+  margin: 0;
+  padding: 1rem;
+  color: #69727a;
+  font-weight: 800;
+}
+
+.pitch-world-route {
+  position: relative;
+  display: grid;
+  gap: .75rem;
+  padding: .85rem 1rem 1rem 4.8rem;
+}
+
+.pitch-world-route::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 2.3rem;
+  width: .7rem;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(180deg, rgba(255,255,255,.8) 0 .55rem, transparent .55rem 1.1rem),
+    #866842;
+}
+
+.pitch-world-node {
+  position: relative;
+  min-height: 6rem;
+}
+
+.pitch-world-marker {
+  position: absolute;
+  left: -4rem;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  border: .22rem solid #6f5a2f;
+  border-radius: 50%;
+  background: #f3c75f;
+  box-shadow: 0 .35rem 0 #9c7938;
+  font: 950 1.15rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.pitch-world-node[data-unit-status="in-preparation"] .pitch-world-marker {
+  border-color: #7e8790;
+  background: #d7dce1;
+  box-shadow: 0 .3rem 0 #a8afb7;
+}
+
+.pitch-world-card {
+  display: grid;
+  grid-template-columns: minmax(11rem, .55fr) minmax(0, 1fr);
+  gap: .3rem 1rem;
+  align-items: center;
+  padding: .85rem 1rem;
+  border: 2px solid color-mix(in srgb, var(--region-accent) 45%, transparent);
+  background: rgba(255,255,255,.9);
+}
+
+.pitch-world-card h3 {
+  grid-column: 1;
+  margin: .2rem 0 0;
+  font-size: 1.25rem;
+  line-height: 1.05;
+}
+.pitch-world-level { color: var(--region-accent); }
+.pitch-world-paths {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  gap: .45rem;
+}
+.pitch-world-path {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .75rem;
+}
+.pitch-world-path-label {
+  flex: 1 1 auto;
+  text-align: right;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.pitch-world-state {
+  color: #6b7280;
+  font-size: .82rem;
+  font-weight: 800;
+}
+.pitch-world-start {
+  min-height: 2.5rem;
+  padding: .45rem .8rem;
+  border: 2px solid var(--region-accent);
+  background: color-mix(in srgb, var(--region-accent) 9%, white);
+  color: #17212b;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--region-accent) 28%, transparent);
+}
+.pitch-world-start:hover { transform: translateY(-1px); }
+.pitch-world-start:focus-visible,
+#pitch-course-world-title:focus-visible {
+  outline: 4px solid #17212b;
+  outline-offset: 4px;
+}
+
+.pcd-course-world-active .reveal { visibility: hidden; }
+
+.reveal .slides section[data-layout="course-level-buffer"] {
+  display: grid !important;
+  place-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+.reveal .pcd-level-buffer-kicker {
+  margin: 0;
+  color: var(--pcd-accent);
+  font: 950 1.05em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .08em;
+}
+.reveal .slides section[data-layout="course-level-buffer"] h2 {
+  margin: 0;
+  font-size: 3.1em;
+  line-height: 1;
+}
+.reveal .pcd-level-buffer-next {
+  margin: .6rem 0 0;
+  font: 800 .9em/1.3 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+.reveal .slides section[data-course-return-sentinel="true"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 800px) {
+  .pitch-course-world-shell { padding: .7rem .6rem 2rem; }
+  .pitch-world-card { grid-template-columns: 1fr; }
+  .pitch-world-paths { grid-column: 1; grid-row: auto; }
+  .pitch-world-path { align-items: flex-start; flex-direction: column; }
+  .pitch-world-path-label { text-align: left; }
+}

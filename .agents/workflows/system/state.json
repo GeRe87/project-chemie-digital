@@ -4,61 +4,25 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 206,
-  "expectedDeliverable": "Owner-local renderer/Pitch/Chemometrics tests and browser review of Slide 7. Verify only three compact cards are visible and the slide remains visually sparse.",
-  "lastCompletedTurn": "worker: simplified the introduction round to three compact prompt cards using the generic prompt-card-grid layout.",
-  "lastUpdated": "2026-10-05T15:02:00+02:00",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 207,
+  "expectedDeliverable": "Wire the validated course-world model into the live Reveal application and then implement #208 level-complete buffer/return lifecycle. Owner-local tests remain required.",
+  "lastCompletedTurn": "worker: completed the #207 course bundle, runtime boundary and zero-based course-world projection/rendering.",
+  "lastUpdated": "2026-10-05T15:28:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #206 requires owner-local npm run test:renderer-reveal",
-    "Issue #206 requires owner-local npm run test:pitch",
-    "Issue #206 requires owner-local npm run check:semantics",
-    "Issue #206 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #206 requires browser smoke of Slide 7 via npm run pitch:intro",
+    "Issue #207 live Pitch mounting/navigation remains to be completed with #208 lifecycle",
+    "Issue #207 requires owner-local npm run test:pitch",
+    "Issue #207 requires owner-local npm run pitch:intro browser smoke",
+    "Issue #208 level-complete buffer and map return are not yet mounted",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 351,
+  "stateRevision": 354,
   "transitionHistory": [
-    {
-      "at": "2026-09-30T08:52:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue201-roadmap-adoption",
-      "reason": "Completed #201 adoption audit with no scientific RDF changes: the existing six-node/five-edge strict chain already satisfies the generic space-filling-flow trigger; browser verification remains the acceptance gate."
-    },
-    {
-      "at": "2026-09-30T09:17:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue200-roadmap-readability",
-      "reason": "Owner browser review accepted the space-filling direction but found cards/type too small and identical edge labels repetitive. Authorized a generic #200 readability refinement."
-    },
-    {
-      "at": "2026-09-30T09:18:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue200-roadmap-readability",
-      "reason": "Claimed compact contiguous Hilbert occupancy, larger information-card geometry/type, repeated-label suppression and focused renderer regressions."
-    },
-    {
-      "at": "2026-09-30T09:28:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue200-roadmap-readability",
-      "reason": "Completed #200 refinement: long strict flows choose a compact contiguous Hilbert window, six-stage flows use 3×2 occupancy with larger cards/type, and identical repeated edge labels are visually hidden while semantic labels remain intact."
-    },
-    {
-      "at": "2026-10-05T10:42:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue202-visual-motifs",
-      "reason": "Owner requested optional vector motifs for structured cards with supporting and highlight placements. Authorized #202 semantic contract, compiler propagation and generic HTML/D3 rendering only."
-    },
     {
       "at": "2026-10-05T10:43:00+02:00",
       "from": "ready/worker",
@@ -212,6 +176,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue206-introduction-round",
       "reason": "Completed #206: removed banner/foundation/goal/takeaway from the presentation scene, reduced the round to three concise cards, and aligned the retained long-form exercise."
+    },
+    {
+      "at": "2026-10-05T15:10:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue207-pitch-course-overworld",
+      "reason": "Owner requested the course-level overworld with Introduction selectable as Level 0. Authorized Pitch application navigation over the existing TeachingOffering runtime and exact scene bindings."
+    },
+    {
+      "at": "2026-10-05T15:11:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue207-pitch-course-overworld",
+      "reason": "Claimed course-bundle generation, Pitch course runtime validation, zero-based overworld projection/rendering and generic regressions."
+    },
+    {
+      "at": "2026-10-05T15:28:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue207-pitch-course-overworld",
+      "reason": "Completed #207 foundation: pitch:intro now generates the whole Chemometrics offering bundle; generic Pitch course-world model derives regions, zero-based levels and exact availability from runtime bindings."
     }
   ]
 }
