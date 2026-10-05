@@ -216,6 +216,8 @@ Tuesday combines lecture and seminar. Wednesday is the hands-on tutorial."""@en 
   ex:chemometrics-course-format-tuesday a cd:DefinitionListEntry ;
     cd:position 1 ;
     skos:prefLabel "TUESDAY"@en ;
+    cd:visualMotif "discussion" ;
+    cd:visualRole "highlight" ;
     cd:body """8.00 - 10.00 · S05 V02 E28
 Interactive lecture + seminar
 Theory inputs · group discussion · worked examples · questions"""@en ;
@@ -224,6 +226,8 @@ Theory inputs · group discussion · worked examples · questions"""@en ;
   ex:chemometrics-course-format-wednesday a cd:DefinitionListEntry ;
     cd:position 2 ;
     skos:prefLabel "WEDNESDAY"@en ;
+    cd:visualMotif "hands-on" ;
+    cd:visualRole "highlight" ;
     cd:body """8.00 - 10.00 · S05 V02 E28
 Hands-on tutorial
 Principles · problem solving · calculations · programming"""@en ;
@@ -259,36 +263,42 @@ Principles · problem solving · calculations · programming"""@en ;
   ex:node-chemometrics-roadmap-foundations a cd:DiagramNode ;
     cd:position 1 ;
     skos:prefLabel "STATISTICAL FOUNDATIONS"@en ;
+    cd:visualMotif "statistics" ;
     cd:body "Random variables · mean values · dispersion · distributions"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-roadmap-inference a cd:DiagramNode ;
     cd:position 2 ;
     skos:prefLabel "INFERENCE"@en ;
+    cd:visualMotif "inference" ;
     cd:body "Hypothesis testing · t-tests · ANOVA"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-roadmap-regression a cd:DiagramNode ;
     cd:position 3 ;
     skos:prefLabel "REGRESSION + UNCERTAINTY"@en ;
+    cd:visualMotif "regression" ;
     cd:body "Models · diagnostics · confidence · validation"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-roadmap-doe a cd:DiagramNode ;
     cd:position 4 ;
     skos:prefLabel "DESIGN OF EXPERIMENTS"@en ;
+    cd:visualMotif "design-of-experiments" ;
     cd:body "Effects · interactions · optimization"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-roadmap-multivariate a cd:DiagramNode ;
     cd:position 5 ;
     skos:prefLabel "MULTIVARIATE ANALYSIS"@en ;
+    cd:visualMotif "multivariate" ;
     cd:body "Similarity · clustering · PCA"@en ;
     cd:authoredResource true .
 
   ex:node-chemometrics-roadmap-machine-learning a cd:DiagramNode ;
     cd:position 6 ;
     skos:prefLabel "MACHINE LEARNING"@en ;
+    cd:visualMotif "machine-learning" ;
     cd:body "Prediction · classification · validation"@en ;
     cd:authoredResource true .
 

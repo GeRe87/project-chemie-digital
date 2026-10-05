@@ -4,48 +4,27 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Presentation System Worker",
-  "activeIssue": 202,
-  "expectedDeliverable": "Review #202 semantic vector motif capability, then authorize #203 Chemometrics motif assignments. Owner-local core/renderer/Pitch/semantics tests remain required.",
-  "lastCompletedTurn": "worker: completed #202 semantic visual motifs and generic vector rendering for structured definition cards and D3 information cards.",
-  "lastUpdated": "2026-10-05T10:58:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 203,
+  "expectedDeliverable": "Owner-local semantic/core/D3/Pitch/Chemometrics tests and browser review of Slides 4–5. Verify large centered motifs on weekly session cards and compact upper-right motifs on roadmap cards.",
+  "lastCompletedTurn": "worker: completed #203 motif assignments for course organization and roadmap without renderer identity coupling.",
+  "lastUpdated": "2026-10-05T11:05:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
+    "Issue #202/#203 require owner-local npm run check:semantics",
     "Issue #202 requires owner-local npm run test:core",
     "Issue #202 requires owner-local npm run test:renderer-d3",
-    "Issue #202 requires owner-local npm run test:pitch",
-    "Issue #202 requires owner-local npm run check:semantics",
-    "Issue #203 content assignment must use the accepted generic motif primitive",
-    "PR #185 requires full repository npm test after focused/browser acceptance",
-    "Final manager-claim head requires fresh exact-head agent-validator/project-chemie-digital success"
+    "Issue #202/#203 require owner-local npm run test:pitch",
+    "Issue #203 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #203 requires browser smoke of Slides 4–5 via npm run pitch:intro",
+    "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 331,
+  "stateRevision": 334,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T17:42:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue198-paired-info-cards",
-      "reason": "Completed #198: opaque two-entry DefinitionList scenes now render as two large information cards with metadata/mode/detail hierarchy and no process-diagram chrome."
-    },
-    {
-      "at": "2026-09-29T17:43:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue199-course-schedule-cards",
-      "reason": "Reviewed #198 as the generic paired-card primitive and authorized #199 bounded Chemometrics content migration: explicit Tuesday/Wednesday sessions with placeholder time/room and no flow diagram."
-    },
-    {
-      "at": "2026-09-29T17:44:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
-      "reason": "Claimed #199 course-organization content, scene selection, path resource binding and focused regressions only."
-    },
     {
       "at": "2026-09-29T17:51:00+02:00",
       "from": "busy/worker",
@@ -199,6 +178,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue202-visual-motifs",
       "reason": "Completed #202 generic visual motif capability with eight controlled motif keys, highlight/supporting card roles, vector-only HTML/D3 renderers and focused contract regressions."
+    },
+    {
+      "at": "2026-10-05T10:59:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue203-chemometrics-motifs",
+      "reason": "Reviewed #202 generic motif primitive and authorized #203 bounded Chemometrics motif assignments only."
+    },
+    {
+      "at": "2026-10-05T11:00:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue203-chemometrics-motifs",
+      "reason": "Claimed #203 TriG motif assignments and Chemometrics regression updates; no renderer-specific identity logic."
+    },
+    {
+      "at": "2026-10-05T11:05:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue203-chemometrics-motifs",
+      "reason": "Completed #203: Tuesday/Wednesday use highlight discussion/hands-on motifs; six roadmap nodes use supporting-by-default statistical/chemometric vector motifs."
     }
   ]
 }
