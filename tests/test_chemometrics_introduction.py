@@ -44,6 +44,7 @@ PATH = EX["path-chemometrics-introduction"]
 
 EXPECTED_TOPICS = {
     EX["chemometrics-course-title"],
+    EX["chemometrics-definition"],
     EX["chemometrics-course-overview"],
     EX["chemometrics-lecturer-context"],
     EX["chemometrics-course-format"],
@@ -53,6 +54,7 @@ EXPECTED_TOPICS = {
 
 EXPECTED_SCENES = [
     EX["scene-chemometrics-introduction-title"],
+    EX["scene-chemometrics-introduction-definition"],
     EX["scene-chemometrics-introduction-overview"],
     EX["scene-chemometrics-introduction-lecturer"],
     EX["scene-chemometrics-introduction-format"],
@@ -62,6 +64,7 @@ EXPECTED_SCENES = [
 
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
+    ["prose", "prose", "prose"],
     ["prose", "group", "table", "chart", "list"],
     ["prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list"],
@@ -92,7 +95,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         cls.artifact = RUNTIME.build_artifact(request())
         cls.document = cls.artifact["sceneDocuments"][0]
 
-    def test_course_order_is_unchanged_and_introduction_has_six_focus_concepts(self) -> None:
+    def test_course_order_is_unchanged_and_introduction_has_seven_focus_concepts(self) -> None:
         placements = []
         for placement in self.course_graph.objects(OFFERING, CD.hasUnitPlacement):
             position = int(next(self.course_graph.objects(placement, CD.position)))
@@ -131,6 +134,32 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         heading = scene["blocks"][0]
         self.assertEqual("Chemometrics & Applied Statistics", heading["text"])
         self.assertEqual({"kind": "introduce"}, heading["intent"])
+
+    def test_definition_slide_is_sourced_iupac_definition(self) -> None:
+        concept = EX["chemometrics-definition"]
+        definition = EX["def-chemometrics-definition"]
+        source = EX["source-iupac-goldbook-chemometrics"]
+
+        self.assertEqual(
+            "What is chemometrics?",
+            str(next(self.content_graph.objects(concept, SKOS.prefLabel))),
+        )
+        self.assertEqual({definition}, set(self.content_graph.objects(concept, CD.hasDefinition)))
+        prose = str(next(self.content_graph.objects(definition, CD.body)))
+        self.assertIn("statistical methods", prose)
+        self.assertIn("chemical data", prose)
+        self.assertEqual({source}, set(self.content_graph.objects(definition, CD.hasSource)))
+
+        scene = self.document["scenes"][1]
+        self.assertEqual(
+            ["introduce", "explain", "emphasize"],
+            [block["intent"]["kind"] for block in scene["blocks"]],
+        )
+        self.assertEqual(prose, scene["blocks"][1]["text"])
+        self.assertEqual(
+            "IUPAC Gold Book · chemometrics · DOI 10.1351/goldbook.CT06948",
+            scene["blocks"][2]["text"],
+        )
 
     def test_course_overview_is_a_single_nitrate_case_study(self) -> None:
         problem = str(next(self.content_graph.objects(EX["chemometrics-nitrate-case-problem"], CD.body)))
@@ -409,18 +438,19 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             int(next(self.content_graph.objects(entry, CD.position))) for entry in entries
         ])
 
-    def test_path_is_exact_six_step_sequence(self) -> None:
+    def test_path_is_exact_seven_step_sequence(self) -> None:
         steps = sorted(
             self.path_graph.objects(PATH, CD.hasStep),
             key=lambda step: int(next(self.path_graph.objects(step, CD.position))),
         )
-        self.assertEqual(6, len(steps))
-        self.assertEqual([1, 2, 3, 4, 5, 6], [
+        self.assertEqual(7, len(steps))
+        self.assertEqual([1, 2, 3, 4, 5, 6, 7], [
             int(next(self.path_graph.objects(step, CD.position))) for step in steps
         ])
         self.assertEqual(
             [
                 EX["scene-chemometrics-introduction-title"],
+                EX["scene-chemometrics-introduction-definition"],
                 EX["scene-chemometrics-introduction-overview"],
                 EX["scene-chemometrics-introduction-lecturer"],
                 EX["scene-chemometrics-introduction-format"],
@@ -441,7 +471,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-        overview = self.document["scenes"][1]
+        overview = self.document["scenes"][2]
         problem_group = overview["blocks"][1]
         self.assertEqual("group", problem_group["kind"])
         self.assertEqual(["prose", "media-reference"], [child["kind"] for child in problem_group["children"]])
@@ -492,7 +522,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             discussion["disclosure"],
         )
 
-        lecturer_cards = self.document["scenes"][2]["blocks"][1]
+        lecturer_cards = self.document["scenes"][3]["blocks"][1]
         self.assertEqual("definition-list", lecturer_cards["kind"])
         self.assertEqual(3, len(lecturer_cards["entries"]))
         self.assertEqual(
@@ -501,7 +531,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
         self.assertTrue(all(entry.get("description") for entry in lecturer_cards["entries"]))
 
-        format_scene = self.document["scenes"][3]
+        format_scene = self.document["scenes"][4]
         self.assertEqual("How is the course organized?", format_scene["blocks"][0]["text"])
         format_cards = format_scene["blocks"][2]
         self.assertEqual("definition-list", format_cards["kind"])
@@ -514,12 +544,12 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertTrue(all(entry["visualMotifRole"] == "highlight" for entry in format_cards["entries"]))
         self.assertTrue(all(entry.get("description") for entry in format_cards["entries"]))
 
-        roadmap = self.document["scenes"][4]["blocks"][1]
+        roadmap = self.document["scenes"][5]["blocks"][1]
         self.assertEqual("flow", roadmap["diagramType"])
         self.assertEqual(6, len(roadmap["nodes"]))
         self.assertEqual(5, len(roadmap["edges"]))
 
-        round_cards = self.document["scenes"][5]["blocks"][3]
+        round_cards = self.document["scenes"][6]["blocks"][3]
         self.assertEqual(4, len(round_cards["entries"]))
 
     def test_course_path_selection_resolves_introduction_exactly(self) -> None:

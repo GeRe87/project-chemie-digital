@@ -16,7 +16,39 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 2 — analytical case study -----------------------------------------
+  # Slide 2 — centered definition with citation -----------------------------
+  ex:scene-chemometrics-introduction-definition a cd:SceneDefinition ;
+    cd:focusConcept ex:chemometrics-definition ;
+    cd:presentationPattern cd:DefinitionWithCitation ;
+    cd:hasSceneItem ex:scene-item-chemometrics-introduction-definition-heading,
+      ex:scene-item-chemometrics-introduction-definition-body,
+      ex:scene-item-chemometrics-introduction-definition-citation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-definition-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:chemometrics-definition ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-definition-body a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:def-chemometrics-definition ;
+    cd:communicativeRole cd:QuotationRole ;
+    cd:selectionPath "cd:hasDefinition" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-introduction-definition-citation a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:source-iupac-goldbook-chemometrics ;
+    cd:communicativeRole cd:CitationRole ;
+    cd:selectionPath "cd:hasDefinition/cd:hasSource" ;
+    cd:authoredResource true .
+
+  # Slide 3 — analytical case study -----------------------------------------
   ex:scene-chemometrics-introduction-overview a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-overview ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-overview-heading,
@@ -67,7 +99,7 @@
     cd:authoredResource true .
 
 
-  # Slide 3 — concept-specification ------------------------------------------
+  # Slide 4 — concept-specification ------------------------------------------
   ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-lecturer-context ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-lecturer-heading,
@@ -99,7 +131,7 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  # Slide 4 — paired-info-cards --------------------------------------------
+  # Slide 5 — paired-info-cards --------------------------------------------
   ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-course-format ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-format-heading,

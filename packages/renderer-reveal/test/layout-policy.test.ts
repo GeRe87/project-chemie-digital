@@ -4,13 +4,26 @@ import test from "node:test";
 import type { Scene } from "../../core/src/scene-document.ts";
 import { inferRevealLayoutDecision, inferRevealLayoutFamily } from "../src/layout-policy.ts";
 
-function prose(id: string, intent: "introduce" | "explain") {
+function prose(id: string, intent: "introduce" | "explain" | "emphasize") {
   return {
     id,
     kind: "prose" as const,
     text: id,
     intent: { kind: intent } as const,
     source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+function definitionCardScene(id: string): Scene {
+  return {
+    id,
+    source: [{ resourceId: `${id}:source` }],
+    blocks: [
+      prose(`${id}:heading`, "introduce"),
+      prose(`${id}:definition`, "explain"),
+      prose(`${id}:citation`, "emphasize"),
+    ],
+    readingOrder: [`${id}:heading`, `${id}:definition`, `${id}:citation`],
   };
 }
 
@@ -730,6 +743,14 @@ test("infers hero-title-panel, semantic runtimes and diagram-stage without ident
   assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:source")), "semantic-source");
   assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:multi", true)), "semantic-multi-view");
   assert.equal(inferRevealLayoutFamily(diagramStageScene("opaque:diagram")), "diagram-stage");
+});
+
+test("infers centered definition-card from heading, definition prose and citation without identity", () => {
+  assert.equal(inferRevealLayoutFamily(definitionCardScene("scene:definition")), "definition-card");
+  assert.equal(inferRevealLayoutFamily(definitionCardScene("opaque:definition")), "definition-card");
+  assert.deepEqual(inferRevealLayoutDecision(definitionCardScene("scene:definition-slots"))?.slots, [
+    "heading", "definition", "citation",
+  ]);
 });
 
 test("infers generic closing from a single authored heading", () => {

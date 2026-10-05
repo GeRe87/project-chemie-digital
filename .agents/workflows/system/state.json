@@ -5,68 +5,25 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 203,
-  "expectedDeliverable": "Owner-local semantic/core/D3/Pitch/Chemometrics tests and browser review of Slides 4–5. Verify roadmap cards render title → large centered motif → body and connectors retain neutral styling.",
-  "lastCompletedTurn": "worker: separated motif placement from visualRole and assigned highlight motifs to all roadmap cards.",
-  "lastUpdated": "2026-10-05T11:39:00+02:00",
+  "activeIssue": 205,
+  "expectedDeliverable": "Owner-local semantics/renderer/Pitch/Chemometrics tests and browser review of the new Slide 2 definition card. Verify central card readability and visible IUPAC citation.",
+  "lastCompletedTurn": "worker: added generic definition-card layout and sourced Chemometrics definition scene at path position 2.",
+  "lastUpdated": "2026-10-05T12:28:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #202/#203 require owner-local npm run check:semantics",
-    "Issue #202 requires owner-local npm run test:core",
-    "Issue #202 requires owner-local npm run test:renderer-d3",
-    "Issue #202/#203 require owner-local npm run test:pitch",
-    "Issue #203 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
-    "Issue #203 requires browser smoke of Slides 4–5 via npm run pitch:intro",
+    "Issue #204 requires owner-local npm run test:renderer-reveal",
+    "Issue #204/#205 require owner-local npm run test:pitch",
+    "Issue #205 requires owner-local npm run check:semantics",
+    "Issue #205 requires owner-local python -m unittest tests.test_chemometrics_introduction -v",
+    "Issue #205 requires browser smoke via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 340,
+  "stateRevision": 346,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T17:55:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-supersede-issue196",
-      "reason": "Removed the unused #196 two-node process generalization; paired-info-cards now owns the two-session presentation need while process-diagram retains its previous 4+ node flow contract."
-    },
-    {
-      "at": "2026-09-30T08:14:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue198-199-optional-takeaway",
-      "reason": "Owner review identified the course-organization footer as semantically unrelated to the format. Authorized making paired-info-cards takeaway optional and removing the Chemometrics footer resource/scene item/path binding."
-    },
-    {
-      "at": "2026-09-30T08:15:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
-      "reason": "Claimed bounded generic optional-takeaway support plus Chemometrics content cleanup."
-    },
-    {
-      "at": "2026-09-30T08:20:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue198-199-optional-takeaway",
-      "reason": "Completed cleanup: paired-info-cards supports three blocks without takeaway; Slide 4 now ends with Tuesday/Wednesday cards and the unrelated programming footer is removed from content, scene and path."
-    },
-    {
-      "at": "2026-09-30T08:28:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue200-space-filling-flow",
-      "reason": "Owner accepted Slide 4 and requested a generic rule for long linear flow diagrams: readable colorful info-card nodes plus Hilbert-style space-filling routing instead of shrinking a long strip."
-    },
-    {
-      "at": "2026-09-30T08:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue200-space-filling-flow",
-      "reason": "Claimed #200 renderer-d3 topology/readability trigger, Hilbert geometry/routes, generic SVG card chrome, theme CSS and focused regressions only."
-    },
     {
       "at": "2026-09-30T08:44:00+02:00",
       "from": "busy/worker",
@@ -220,6 +177,48 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue203-roadmap-highlight",
       "reason": "Completed #203: weekly session cards and all six roadmap cards use highlight visualMotifRole without changing diagram edge visualRole semantics."
+    },
+    {
+      "at": "2026-10-05T12:09:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue204-definition-card",
+      "reason": "Owner requested a central sourced definition slide after the title. Existing DefinitionWithCitation semantics are sufficient; authorized a generic structure-driven definition-card layout instead of a new content class."
+    },
+    {
+      "at": "2026-10-05T12:10:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue204-definition-card",
+      "reason": "Claimed #204 layout-family inference, reusable CSS and identity-free renderer regression only."
+    },
+    {
+      "at": "2026-10-05T12:18:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue204-definition-card",
+      "reason": "Completed #204: heading + explain prose + emphasize citation now infers a centered definition-card with attached source attribution."
+    },
+    {
+      "at": "2026-10-05T12:19:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue205-chemometrics-definition",
+      "reason": "Authorized #205 sourced Chemometrics definition using the existing DefinitionWithCitation semantic pattern and IUPAC Gold Book source."
+    },
+    {
+      "at": "2026-10-05T12:20:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue205-chemometrics-definition",
+      "reason": "Claimed bounded content/scene/path/course-focus/test changes inserting the sourced definition immediately after the title."
+    },
+    {
+      "at": "2026-10-05T12:28:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue205-chemometrics-definition",
+      "reason": "Completed #205: seven-step introduction path now places the sourced Chemometrics definition second, preserving all later scene order."
     }
   ]
 }

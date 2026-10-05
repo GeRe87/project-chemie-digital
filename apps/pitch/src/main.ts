@@ -23,6 +23,7 @@ import "./hierarchy-flow-layout.css";
 import "./concept-specification-layout.css";
 import "./labeled-card-grid-layout.css";
 import "./paired-info-cards-layout.css";
+import "./definition-card-layout.css";
 import "./presentation-projection.css";
 import "./hero-title-panel.css";
 import "./knowledge-network-runtime.css";

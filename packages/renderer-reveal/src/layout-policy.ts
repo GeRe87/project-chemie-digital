@@ -4,6 +4,7 @@ export type RevealLayoutFamily =
   | "concept-specification"
   | "labeled-card-grid"
   | "paired-info-cards"
+  | "definition-card"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -114,6 +115,23 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       return {
         family: "closing",
         slots: ["heading"],
+      };
+    }
+  }
+
+  if (blocks.length === 3) {
+    const [heading, definition, citation] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && definition?.kind === "prose"
+      && definition.intent?.kind === "explain"
+      && citation?.kind === "prose"
+      && citation.intent?.kind === "emphasize"
+    ) {
+      return {
+        family: "definition-card",
+        slots: ["heading", "definition", "citation"],
       };
     }
   }
