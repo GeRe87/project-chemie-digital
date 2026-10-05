@@ -21,3 +21,7 @@ npm run test:pitch
 python -m unittest tests.test_chemometrics_introduction -v
 npm run pitch:intro
 ```
+
+## Roadmap highlight refinement
+
+All six course-roadmap DiagramNodes now declare `cd:visualMotifRole "highlight"`. The generic space-filling card renderer therefore uses the same large-central-motif hierarchy as the weekly session cards, while ordinary `visualRole` remains untouched and cannot leak decorative highlighting onto roadmap edges.

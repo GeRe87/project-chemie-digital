@@ -328,7 +328,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
         self.assertEqual(
             ["highlight", "highlight"],
-            [str(next(self.content_graph.objects(entry, CD.visualRole))) for entry in entries],
+            [str(next(self.content_graph.objects(entry, CD.visualMotifRole))) for entry in entries],
         )
 
         tuesday = str(next(self.content_graph.objects(entries[0], CD.body))).splitlines()
@@ -368,6 +368,10 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertEqual(
             ["statistics", "inference", "regression", "design-of-experiments", "multivariate", "machine-learning"],
             [str(next(self.content_graph.objects(node, CD.visualMotif))) for node in nodes],
+        )
+        self.assertEqual(
+            ["highlight"] * 6,
+            [str(next(self.content_graph.objects(node, CD.visualMotifRole))) for node in nodes],
         )
         self.assertEqual(5, len(edges))
         self.assertEqual(
@@ -507,7 +511,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
         self.assertEqual(2, len(format_cards["entries"]))
         self.assertEqual(["discussion", "hands-on"], [entry["visualMotif"] for entry in format_cards["entries"]])
-        self.assertTrue(all(entry["visualRole"] == "highlight" for entry in format_cards["entries"]))
+        self.assertTrue(all(entry["visualMotifRole"] == "highlight" for entry in format_cards["entries"]))
         self.assertTrue(all(entry.get("description") for entry in format_cards["entries"]))
 
         roadmap = self.document["scenes"][4]["blocks"][1]

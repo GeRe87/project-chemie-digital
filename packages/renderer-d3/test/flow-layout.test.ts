@@ -70,12 +70,20 @@ test("long strict linear flows use a readable Hilbert-style space-filling route"
     })),
   };
 
-  const wide = createD3FlowLayout(longLinear, 1180);
+  const highlightLinear = {
+    ...longLinear,
+    nodes: longLinear.nodes.map((node, index) => ({
+      ...node,
+      ...(index === 0 ? { visualMotifRole: "highlight" as const } : {}),
+    })),
+  };
+  const wide = createD3FlowLayout(highlightLinear, 1180);
   assert.equal(wide.strategy, "space-filling-flow");
   assert.equal(wide.orientation, "horizontal");
   assert.deepEqual(wide.nodes.map((node) => node.id), longLinear.nodes.map((node) => node.id));
   assert.ok(wide.nodes.every((node) => node.width >= 300), "space-filling cards maximize readable width");
   assert.ok(wide.nodes.every((node) => node.height >= 190), "space-filling cards reserve readable vertical space");
+  assert.ok(wide.nodes[0]!.height >= 276, "highlight motifs reserve central vertical space inside the card");
   assert.equal(new Set(wide.nodes.map((node) => Math.round(node.x))).size, 3, "six stages use a compact three-column Hilbert window");
   assert.equal(new Set(wide.nodes.map((node) => Math.round(node.y))).size, 2, "six stages use a compact two-row Hilbert window");
   assert.ok(wide.edges.every((edge) => edge.labelLines.length === 0), "identical repeated linear relation labels are visually suppressed");

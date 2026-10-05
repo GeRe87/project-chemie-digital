@@ -234,7 +234,7 @@ body[data-presentation-theme="dark"] .reveal {
   pointer-events: none;
 }
 
-.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif[data-visual-role="highlight"] {
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif[data-visual-motif-role="highlight"] {
   opacity: .88;
 }
 

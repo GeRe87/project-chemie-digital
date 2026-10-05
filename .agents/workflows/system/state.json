@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 203,
-  "expectedDeliverable": "Owner-local semantic/core/D3/Pitch/Chemometrics tests and browser review of Slides 4–5. Verify large centered motifs on weekly session cards and compact upper-right motifs on roadmap cards.",
-  "lastCompletedTurn": "worker: completed #203 motif assignments for course organization and roadmap without renderer identity coupling.",
-  "lastUpdated": "2026-10-05T11:05:00+02:00",
+  "expectedDeliverable": "Owner-local semantic/core/D3/Pitch/Chemometrics tests and browser review of Slides 4–5. Verify roadmap cards render title → large centered motif → body and connectors retain neutral styling.",
+  "lastCompletedTurn": "worker: separated motif placement from visualRole and assigned highlight motifs to all roadmap cards.",
+  "lastUpdated": "2026-10-05T11:39:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -23,29 +23,8 @@
     "Issue #203 requires browser smoke of Slides 4–5 via npm run pitch:intro",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 334,
+  "stateRevision": 340,
   "transitionHistory": [
-    {
-      "at": "2026-09-29T17:51:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue199-course-schedule-cards",
-      "reason": "Completed #199: Slide 4 now authors Tuesday and Wednesday as a two-entry DefinitionList with placeholder time/room, interactive lecture+seminar versus hands-on tutorial, and no course-organization FlowDiagram."
-    },
-    {
-      "at": "2026-09-29T17:52:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-supersede-issue196",
-      "reason": "The final Slide 4 design no longer uses a two-node process diagram. Authorized removal of the now-unused #196 process-diagram generalization so the renderer keeps its narrower established process contract."
-    },
-    {
-      "at": "2026-09-29T17:53:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-supersede-issue196",
-      "reason": "Claimed cleanup of the unused two-node process-diagram rule and regression only."
-    },
     {
       "at": "2026-09-29T17:55:00+02:00",
       "from": "busy/worker",
@@ -199,6 +178,48 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue203-chemometrics-motifs",
       "reason": "Completed #203: Tuesday/Wednesday use highlight discussion/hands-on motifs; six roadmap nodes use supporting-by-default statistical/chemometric vector motifs."
+    },
+    {
+      "at": "2026-10-05T11:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue202-motif-role-separation",
+      "reason": "Owner requested large centered roadmap motifs. Because generic node visualRole can propagate to edges, authorized a dedicated visualMotifRole and highlight-aware D3 card geometry."
+    },
+    {
+      "at": "2026-10-05T11:19:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue202-motif-role-separation",
+      "reason": "Claimed renderer-side visualMotifRole propagation, highlight card spacing and focused regressions."
+    },
+    {
+      "at": "2026-10-05T11:34:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue202-motif-role-separation",
+      "reason": "Completed #202 refinement: motif placement is independent from generic visualRole; D3 highlight cards reserve central icon space and render title → motif → body."
+    },
+    {
+      "at": "2026-10-05T11:35:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue203-roadmap-highlight",
+      "reason": "Authorized #203 assignment of visualMotifRole=highlight to all six roadmap nodes."
+    },
+    {
+      "at": "2026-10-05T11:36:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue203-roadmap-highlight",
+      "reason": "Claimed bounded roadmap motif-role content update and Chemometrics regressions."
+    },
+    {
+      "at": "2026-10-05T11:39:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue203-roadmap-highlight",
+      "reason": "Completed #203: weekly session cards and all six roadmap cards use highlight visualMotifRole without changing diagram edge visualRole semantics."
     }
   ]
 }

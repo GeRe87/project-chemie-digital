@@ -6,6 +6,7 @@ export interface D3FlowLayoutNodeInput {
   readonly label: string;
   readonly description?: string;
   readonly groupIds?: readonly string[];
+  readonly visualMotifRole?: "supporting" | "highlight";
 }
 
 export interface D3FlowLayoutEdgeInput {
@@ -696,12 +697,16 @@ function spaceFillingLinearFlowLayout(
     );
     const titleHeight = Math.max(labelLines.length, 1) * 26;
     const bodyHeight = Math.max(bodyLines.length, 1) * 21;
+    const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
     return {
       ...original,
       labelLines,
       bodyLines,
       width: cardWidth,
-      height: Math.max(190, 70 + titleHeight + 22 + bodyHeight),
+      height: Math.max(
+        original.visualMotifRole === "highlight" ? 276 : 190,
+        70 + titleHeight + 22 + highlightMotifHeight + bodyHeight,
+      ),
     };
   });
   const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));

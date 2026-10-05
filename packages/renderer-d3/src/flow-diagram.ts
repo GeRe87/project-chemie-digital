@@ -28,6 +28,7 @@ export interface D3FlowRenderNode {
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
   readonly visualMotif?: VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
   readonly readingIndex: number;
 }
@@ -392,6 +393,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
        ...(node.visualRole ? { visualRole: node.visualRole } : {}),
        ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
+       ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
        ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
       readingIndex,
     }));
@@ -697,19 +699,17 @@ const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
 function addFlowVisualMotif(
   group: SVGGElement,
   motif: VisualMotifKey,
-  width: number,
-  height: number,
-  role?: string,
+  x: number,
+  y: number,
+  size: number,
+  role: "supporting" | "highlight" = "supporting",
 ): void {
   const namespace = "http://www.w3.org/2000/svg";
   const motifGroup = document.createElementNS(namespace, "g");
   motifGroup.setAttribute("class", "d3-flow-node-motif");
   motifGroup.setAttribute("data-visual-motif", motif);
-  motifGroup.setAttribute("data-visual-role", role ?? "supporting");
+  motifGroup.setAttribute("data-visual-motif-role", role);
   motifGroup.setAttribute("aria-hidden", "true");
-  const size = role === "highlight" ? 64 : 38;
-  const x = role === "highlight" ? 0 : width / 2 - 46;
-  const y = role === "highlight" ? -8 : -height / 2 + 58;
   motifGroup.setAttribute("transform", `translate(${x} ${y}) scale(${size / 64}) translate(-32 -32)`);
   for (const [index, pathData] of FLOW_MOTIF_PATHS[motif].entries()) {
     const path = document.createElementNS(namespace, "path");
@@ -1049,7 +1049,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           }
           if (layout.strategy === "space-filling-flow" && modelNode.visualMotif) {
             group.setAttribute("data-visual-motif", modelNode.visualMotif);
-            addFlowVisualMotif(group, modelNode.visualMotif, layoutNode.width, layoutNode.height, modelNode.visualRole);
+            group.setAttribute("data-visual-motif-role", modelNode.visualMotifRole ?? "supporting");
           }
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
@@ -1106,11 +1106,32 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               const titleHeight = Math.max(layoutNode.labelLines.length, 1) * titleLineHeight;
               const bodyHeight = Math.max(layoutNode.bodyLines.length, 1) * bodyLineHeight;
               const dividerGap = informationCard ? 22 : 18;
-              const totalHeight = titleHeight + dividerGap + bodyHeight;
-              const top = -totalHeight / 2;
-              const titleY = top + titleHeight / 2;
-              const dividerY = top + titleHeight + dividerGap / 2;
-              const bodyY = top + titleHeight + dividerGap + bodyHeight / 2;
+              const highlightMotif = informationCard
+                && modelNode.visualMotif
+                && modelNode.visualMotifRole === "highlight";
+
+              let titleY: number;
+              let dividerY: number;
+              let bodyY: number;
+
+              if (highlightMotif) {
+                const top = -layoutNode.height / 2 + 42;
+                titleY = top + titleHeight / 2;
+                dividerY = top + titleHeight + dividerGap / 2;
+                const motifSize = Math.min(88, Math.max(72, layoutNode.width * .24));
+                const motifY = dividerY + 20 + motifSize / 2;
+                bodyY = motifY + motifSize / 2 + 20 + bodyHeight / 2;
+                addFlowVisualMotif(group, modelNode.visualMotif!, contentX, motifY, motifSize, "highlight");
+              } else {
+                const totalHeight = titleHeight + dividerGap + bodyHeight;
+                const top = -totalHeight / 2;
+                titleY = top + titleHeight / 2;
+                dividerY = top + titleHeight + dividerGap / 2;
+                bodyY = top + titleHeight + dividerGap + bodyHeight / 2;
+                if (informationCard && modelNode.visualMotif) {
+                  addFlowVisualMotif(group, modelNode.visualMotif, layoutNode.width / 2 - 48, -layoutNode.height / 2 + 62, 40, "supporting");
+                }
+              }
 
               addTextLines(group, layoutNode.labelLines, contentX, titleY, "d3-flow-node-title", titleLineHeight);
 
@@ -1126,6 +1147,16 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               addTextLines(group, layoutNode.bodyLines, contentX, bodyY, "d3-flow-node-body", bodyLineHeight);
             } else {
               addTextLines(group, layoutNode.labelLines, contentX, 0, "d3-flow-node-label");
+              if (informationCard && modelNode.visualMotif) {
+                addFlowVisualMotif(
+                  group,
+                  modelNode.visualMotif,
+                  modelNode.visualMotifRole === "highlight" ? contentX : layoutNode.width / 2 - 48,
+                  modelNode.visualMotifRole === "highlight" ? 36 : -layoutNode.height / 2 + 62,
+                  modelNode.visualMotifRole === "highlight" ? 80 : 40,
+                  modelNode.visualMotifRole ?? "supporting",
+                );
+              }
             }
           }
           if (modelNode.id === activeNodeId) group.classList.add("d3-flow-node-active");

@@ -19,3 +19,7 @@ npm run test:renderer-d3
 npm run test:pitch
 ```
 Then #203 may author motif keys in Chemometrics TriG.
+
+## Motif-role separation refinement
+
+`visualRole` already carries graph-level visual semantics and may propagate from equal endpoint roles to edges. Icon placement is therefore now represented separately as `cd:visualMotifRole = supporting|highlight`. D3 highlight motifs reserve actual card height and render in the generic order **title → divider → large centered motif → body**. Supporting motifs remain compact in the upper-right.
