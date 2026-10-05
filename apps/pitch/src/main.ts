@@ -25,6 +25,7 @@ import "./labeled-card-grid-layout.css";
 import "./prompt-card-grid-layout.css";
 import "./paired-info-cards-layout.css";
 import "./definition-card-layout.css";
+import "./course-world.css";
 import "./presentation-projection.css";
 import "./hero-title-panel.css";
 import "./knowledge-network-runtime.css";
@@ -38,7 +39,17 @@ import "./presentation-mobile.css";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
-import { canonicalDatasetSnapshot, compilePitchSceneDocuments } from "./graph-scene-data.ts";
+import {
+  canonicalDatasetSnapshot,
+  compilePitchCourseRuntime,
+  compilePitchSceneDocuments,
+} from "./graph-scene-data.ts";
+import {
+  appendPitchCourseLevelBoundarySlides,
+  createPitchCourseWorldFromRuntime,
+  mountPitchCourseWorldNavigation,
+  type PitchCourseWorldNavigation,
+} from "./course-world-navigation.ts";
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
@@ -84,7 +95,9 @@ presentation.before(shellRoot);
 
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
 const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window);
-const documents = compilePitchSceneDocuments();
+const courseRuntime = compilePitchCourseRuntime();
+const documents = courseRuntime?.sceneDocuments ?? compilePitchSceneDocuments();
+const courseWorldModel = courseRuntime ? createPitchCourseWorldFromRuntime(courseRuntime) : undefined;
 let unmountScenes: () => void;
 try {
   unmountScenes = mountSceneDocuments({ root, createElement: (tag) => document.createElement(tag) }, documents);
@@ -94,6 +107,8 @@ try {
   removeNetworkGuard();
   throw error;
 }
+
+if (courseWorldModel) appendPitchCourseLevelBoundarySlides(root, courseWorldModel);
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const unmountDiagrams = mountPitchDiagrams(
@@ -241,6 +256,15 @@ const deck = new Reveal({
     : { scrollActivationWidth: 0 }),
 });
 await deck.initialize();
+let courseWorldNavigation: PitchCourseWorldNavigation | undefined;
+if (courseWorldModel) {
+  courseWorldNavigation = mountPitchCourseWorldNavigation({
+    model: courseWorldModel,
+    presentation,
+    slidesRoot: root,
+    deck,
+  });
+}
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
 const unmountPresentationStageNavigation = mountPresentationStageNavigation(
   deck,
@@ -380,6 +404,8 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
+  courseWorldNavigation?.destroy();
+  courseWorldNavigation = undefined;
   unmountPresentationStageLock();
   unmountPresentationStageNavigation();
   unmountPresentationSteps();
