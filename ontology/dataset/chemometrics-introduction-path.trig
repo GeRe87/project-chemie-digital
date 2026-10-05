@@ -30,8 +30,7 @@
 
   ex:path-step-chemometrics-introduction-definition a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:def-chemometrics-definition,
-      ex:source-iupac-goldbook-chemometrics ;
+    cd:usesResource ex:def-chemometrics-definition ;
     cd:usesScene ex:scene-chemometrics-introduction-definition ;
     cd:authoredResource true .
 
