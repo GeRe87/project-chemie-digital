@@ -158,6 +158,9 @@ export interface PromptBlock extends SceneBlockBase {
   readonly prompt: string;
   readonly responseMode: "reflection" | "single-choice" | "multiple-choice" | "free-text";
   readonly options?: readonly string[];
+  readonly optionIds?: readonly string[];
+  readonly correctOptionId?: string;
+  readonly expectedResult?: string;
   readonly fallback: string;
 }
 
@@ -746,7 +749,31 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
     }
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
-    if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+    if (block.kind === "prompt") {
+      requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+      if (block.options !== undefined) {
+        if (block.options.length < 2) throw new SceneContractError(`${label} prompt ${block.id} requires at least two options`);
+        for (const option of block.options) requireNonEmpty(option, `${label} prompt ${block.id} option`);
+      }
+      if (block.optionIds !== undefined) {
+        if (block.options === undefined || block.optionIds.length !== block.options.length) {
+          throw new SceneContractError(`${label} prompt ${block.id} optionIds must match options`);
+        }
+        if (new Set(block.optionIds).size !== block.optionIds.length) {
+          throw new SceneContractError(`${label} prompt ${block.id} optionIds must be unique`);
+        }
+        for (const optionId of block.optionIds) requireNonEmpty(optionId, `${label} prompt ${block.id} option id`);
+      }
+      if (block.correctOptionId !== undefined) {
+        requireNonEmpty(block.correctOptionId, `${label} prompt ${block.id} correctOptionId`);
+        if (block.responseMode !== "single-choice" || block.optionIds === undefined || !block.optionIds.includes(block.correctOptionId)) {
+          throw new SceneContractError(`${label} prompt ${block.id} correctOptionId must identify an authored single-choice option`);
+        }
+      }
+      if (block.expectedResult !== undefined) {
+        requireNonEmpty(block.expectedResult, `${label} prompt ${block.id} expectedResult`);
+      }
+    }
     if (block.kind === "diagram") {
        if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);

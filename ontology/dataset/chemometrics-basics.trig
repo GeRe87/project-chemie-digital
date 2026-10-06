@@ -261,7 +261,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:measured-variable-example-intro a cd:Interpretation ;
-    cd:body "Consider repeated absorbance measurements of the same solution. Absorbance is the variable: each observation records one value of that variable. The changing values below are an illustrative simulation, not experimental data."@en ;
+    cd:body "Repeated measurements of the same solution produce different absorbance values. Absorbance is the variable; each row is one observation. The values below are simulated and update continuously."@en ;
     cd:authoredResource true .
 
   ex:table-live-absorbance-observations a cd:TableDefinition ;
@@ -324,7 +324,7 @@ data.frame(
   ex:live-absorbance-6 a cd:Observation ; cd:position 6 ; cd:xValue 6.0 ; cd:numericValue 0.508 ; cd:authoredResource true .
 
   ex:functional-dependence-intro a cd:Interpretation ;
-    cd:body "In a model, a response variable y can depend on an explanatory variable x: values of x are used to explain or predict values of y. This mathematical dependency does not by itself prove causality."@en ;
+    cd:body "A response variable y can depend on an explanatory variable x. In a model, values of x are used to explain or predict values of y."@en ;
     cd:authoredResource true .
 
   ex:functional-dependence-formula a cd:MathExpression ;
@@ -347,7 +347,7 @@ data.frame(
     cd:body "f(x) = x² + 3x + 4"@en ; cd:authoredResource true .
 
   ex:functional-dependence-caveat a cd:Interpretation ;
-    cd:body "Independent and dependent are roles in the stated model or experiment. The word independent here is not the same as statistical independence."@en ;
+    cd:body "Dependency in a model does not by itself prove causality. Independent and dependent are roles in the stated model or experiment; independent here is not the same as statistical independence."@en ;
     cd:authoredResource true .
 
   ex:variable-observation-random-model a cd:Concept ;
@@ -356,7 +356,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:variable-observation-random-intro a cd:Interpretation ;
-    cd:body "A variable specifies what may take different values. A concrete measurement or observation gives one value of that variable. A set of observations forms a statistical sample."@en ;
+    cd:body "A variable specifies what can take different values. A concrete measurement gives one observed value x_i. Several observations together form a statistical sample."@en ;
     cd:authoredResource true .
 
   ex:observation-values-formula a cd:MathExpression ;
@@ -388,7 +388,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:random-variable-distribution-note a cd:Interpretation ;
-    cd:body "Only when a stochastic model treats the quantity as a random variable X do we introduce a probability distribution for its possible realizations. A value range or domain is not a probability distribution. Distributions are discussed in detail later."@en ;
+    cd:body "Probability distributions belong to random-variable models, not to variables in general. A value range or domain is not a probability distribution. We return to distributions later."@en ;
     cd:authoredResource true .
 
   ex:random-draw-r-demo a cd:Concept ;
@@ -404,7 +404,7 @@ data.frame(
     skos:prefLabel "draw one simulated measurement in R"@en ;
     cd:code "rnorm(1, mean = 3.0, sd = 0.2)" ;
     cd:programmingLanguage "r" ;
-    cd:editable false ;
+    cd:editable true ;
     cd:executable true ;
     cd:showsResource ex:random-variable ;
     cd:authoredResource true .
@@ -415,7 +415,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:uvvis-calibration-intro a cd:Interpretation ;
-    cd:body "In this calibration, concentration is deliberately assigned and varied; wavelength is held fixed at 540 nm; absorbance is the measured response. Concentration is therefore a variable without being a random variable merely because we choose several concentration levels."@en ;
+    cd:body "We choose the concentration levels, keep the wavelength fixed at 540 nm, and measure absorbance. The assigned concentration is a variable, not automatically a random variable."@en ;
     cd:authoredResource true .
 
   ex:table-uvvis-calibration-roles a cd:TableDefinition ;
@@ -499,6 +499,7 @@ data.frame(
     cd:body "The calibration concentrations 0, 1, 2, 5 and 10 mg/L are deliberately chosen by us. What is their most specific role here?"@en ;
     cd:hasPollOption ex:poll-option-01-assigned-variable,
       ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:correctPollOption ex:poll-option-01-assigned-variable ;
     cd:hasExpectedResult ex:expected-quiz-concentration-role ;
     cd:authoredResource true .
   ex:expected-quiz-concentration-role a cd:ExpectedResult ;
@@ -510,6 +511,7 @@ data.frame(
     cd:body "Every absorbance measurement is made at 540 nm. What is the wavelength's role in this experiment?"@en ;
     cd:hasPollOption ex:poll-option-01-assigned-variable,
       ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:correctPollOption ex:poll-option-03-constant ;
     cd:hasExpectedResult ex:expected-quiz-wavelength-role ;
     cd:authoredResource true .
   ex:expected-quiz-wavelength-role a cd:ExpectedResult ;
@@ -521,6 +523,7 @@ data.frame(
     cd:body "Repeated absorbance measurements vary and are modeled as outcomes of random measurement variation. Which option is the most specific description?"@en ;
     cd:hasPollOption ex:poll-option-01-assigned-variable,
       ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:correctPollOption ex:poll-option-02-random-variable ;
     cd:hasExpectedResult ex:expected-quiz-absorbance-role ;
     cd:authoredResource true .
   ex:expected-quiz-absorbance-role a cd:ExpectedResult ;

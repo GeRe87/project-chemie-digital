@@ -1164,15 +1164,31 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if len(option_resources) < 2:
                     raise ValueError(f"Audience poll {compact(selected)} requires at least two options")
                 options = [resource_text(dataset, option, language or "de") for option in option_resources]
+                option_ids = [compact(option) for option in option_resources]
+                correct_option = one(dataset, selected, iri(CD, "correctPollOption"), required=False)
+                if correct_option is not None and (
+                    not isinstance(correct_option, URIRef) or correct_option not in option_resources
+                ):
+                    raise ValueError(f"Audience poll {compact(selected)} has an invalid correct option")
+                expected_result = one(dataset, selected, iri(CD, "hasExpectedResult"), required=False)
+                if expected_result is not None and not isinstance(expected_result, URIRef):
+                    raise ValueError(f"Audience poll {compact(selected)} has an invalid expected result")
                 sources = [source_reference(dataset, selected, relation_path)] + [
                     source_reference(dataset, option, "cd:hasPollOption") for option in option_resources
                 ]
+                if isinstance(expected_result, URIRef):
+                    sources.append(source_reference(dataset, expected_result, "cd:hasExpectedResult"))
                 block = {
                     "id": block_id, "kind": "prompt",
                     "source": sources,
                     "prompt": prompt,
                     "responseMode": "single-choice",
                     "options": options,
+                    "optionIds": option_ids,
+                    **({"correctOptionId": compact(correct_option)} if isinstance(correct_option, URIRef) else {}),
+                    **({
+                        "expectedResult": resource_text(dataset, expected_result, language or "de")
+                    } if isinstance(expected_result, URIRef) else {}),
                     "fallback": f'{prompt} {" / ".join(options)}',
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "practice"},
