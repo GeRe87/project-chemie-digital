@@ -310,10 +310,35 @@ SELECT $this WHERE {
       sh:message "Live chart update metadata must define interval, jitter amplitude and decimal places together." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
 SELECT $this WHERE {
-  BIND(EXISTS { $this cd:liveUpdateIntervalMs ?interval } AS ?hasInterval)
-  BIND(EXISTS { $this cd:liveJitterAmplitude ?amplitude } AS ?hasAmplitude)
-  BIND(EXISTS { $this cd:liveDecimalPlaces ?places } AS ?hasPlaces)
-  FILTER ((?hasInterval || ?hasAmplitude || ?hasPlaces) && !(?hasInterval && ?hasAmplitude && ?hasPlaces))
+  {
+    $this cd:liveUpdateIntervalMs ?value .
+    FILTER NOT EXISTS { $this cd:liveJitterAmplitude ?amplitude . }
+  }
+  UNION
+  {
+    $this cd:liveUpdateIntervalMs ?value .
+    FILTER NOT EXISTS { $this cd:liveDecimalPlaces ?places . }
+  }
+  UNION
+  {
+    $this cd:liveJitterAmplitude ?value .
+    FILTER NOT EXISTS { $this cd:liveUpdateIntervalMs ?interval . }
+  }
+  UNION
+  {
+    $this cd:liveJitterAmplitude ?value .
+    FILTER NOT EXISTS { $this cd:liveDecimalPlaces ?places . }
+  }
+  UNION
+  {
+    $this cd:liveDecimalPlaces ?value .
+    FILTER NOT EXISTS { $this cd:liveUpdateIntervalMs ?interval . }
+  }
+  UNION
+  {
+    $this cd:liveDecimalPlaces ?value .
+    FILTER NOT EXISTS { $this cd:liveJitterAmplitude ?amplitude . }
+  }
 }"""
     ] ;
     sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;

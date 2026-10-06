@@ -46,3 +46,8 @@ npm run pitch:intro
 ```
 
 For webR use the interactive query parameter supported by Pitch.
+
+
+## Contract hardening before verification
+
+The live-chart completeness SHACL query was rewritten using portable `UNION` / `FILTER NOT EXISTS` clauses rather than relying on SPARQL `BIND(EXISTS ...)` support. Core SceneDocument tests now explicitly accept valid live update metadata and reject too-fast intervals, non-positive jitter amplitudes and unsupported decimal precision.

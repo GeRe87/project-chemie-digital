@@ -7,8 +7,8 @@
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 216,
   "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests and browser review of the new 9-scene Variables and Constants story, including live measurement updates and minimal webR in ?interactive=1.",
-  "lastCompletedTurn": "worker: rewrote Level 1 to the nine-scene narrative and resolved variable versus random-variable semantics.",
-  "lastUpdated": "2026-10-06T15:34:00+02:00",
+  "lastCompletedTurn": "manager: hardened the generic live-chart SHACL and SceneDocument contract for #216 before owner-local verification.",
+  "lastUpdated": "2026-10-06T15:42:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -21,29 +21,8 @@
     "Browser review must verify live slide 3 table/chart updates, slide 6 webR under ?interactive=1, and the final three-question quiz",
     "Issue #214 multi-level navigation should be rechecked during the same browser pass"
   ],
-  "stateRevision": 131,
+  "stateRevision": 132,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T11:14:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
-      "reason": "Claimed bounded #184 branch for exactly six semantically authored Introduction scenes using existing generic renderer structures only."
-    },
-    {
-      "at": "2026-09-28T11:18:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue184-intro-redesign-20260928T111400+0200",
-      "reason": "Completed #184 six-slide semantic Intro redesign and Draft PR #185 using existing generic renderer structures only; returned to manager for focused tests, visual smoke, full tests and exact-head gates."
-    },
-    {
-      "at": "2026-09-28T11:32:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue184-visual-followup-20260928T113200+0200",
-      "reason": "User visual smoke found the first redesign too similar; authorized only a title-attribution structural refinement and a real four-step course-format FlowDiagram, leaving renderer work to a separate System issue."
-    },
     {
       "at": "2026-09-28T11:41:00+02:00",
       "from": "ready/worker",
@@ -197,6 +176,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue216-story-rewrite",
       "reason": "Completed #216 implementation: generic Variable no longer implies a probability distribution; observation/sample/random-variable terminology is explicit; Level 1 now follows the requested nine-scene narrative with live measurement example, minimal webR and UV/Vis role quiz."
+    },
+    {
+      "at": "2026-10-06T15:42:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue216-contract-hardening",
+      "reason": "Hardened the new generic live-chart contract before owner verification: replaced EXISTS/BIND SHACL completeness logic with portable UNION/NOT EXISTS constraints and added core SceneDocument acceptance/fail-closed tests for interval, amplitude and precision."
     }
   ]
 }
