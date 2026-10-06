@@ -7,8 +7,8 @@
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 215,
   "expectedDeliverable": "Owner-local semantic/renderer/Pitch tests and browser review of all 14 Variables and Constants scenes. Tune only generic layout rules or semantic resources based on screenshots.",
-  "lastCompletedTurn": "worker: completed the semantic visual redesign and four generic layout families for Variables and Constants.",
-  "lastUpdated": "2026-10-06T14:05:00+02:00",
+  "lastCompletedTurn": "manager: repaired three invalid multiline TriG literals introduced by the #215 visual example network.",
+  "lastUpdated": "2026-10-06T13:58:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -21,29 +21,8 @@
     "Issue #215 requires browser review via npm run pitch:intro for all 14 scenes",
     "Issue #214 multi-level navigation should be rechecked during the same browser pass"
   ],
-  "stateRevision": 127,
+  "stateRevision": 128,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T10:33:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue182-final-acceptance-20260928T103300+0200",
-      "reason": "Claimed final Issue #182 acceptance after clean independent review, owner-local focused 9/9 and full repository 29/29 test evidence, clean-tree restoration, no review threads and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-28T10:55:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue182-final-acceptance-20260928T103300+0200",
-      "reason": "Exact-head validator success, focused/full local tests, independent review, integration freshness and Ready lifecycle all passed for PR #183. Squash-merged Issue #182 as 45fe74f715667c1747c63d7b1b8830555fd2fa73, verified Issue #182 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
-    {
-      "at": "2026-09-28T11:12:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
-      "reason": "Claimed bounded Issue #184 to redesign the six-slide Introduction using generic semantic cards, key-point lists and a flow diagram only; no renderer-specific Intro logic."
-    },
     {
       "at": "2026-09-28T11:13:00+02:00",
       "from": "busy/manager",
@@ -197,6 +176,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue215-visual-level1",
       "reason": "Completed #215 visual implementation: all fourteen scenes now use purposeful diagram/card/code/table/chart/formula/poll structures; renderer additions are identity-free."
+    },
+    {
+      "at": "2026-10-06T13:58:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue215-trig-syntax-repair",
+      "reason": "Owner-local focused tests failed before setup with rdflib BadSyntax. Three analytical-example DiagramNode bodies used short Turtle strings across physical newlines. Converted exactly those bodies to valid triple-quoted language-tagged literals and verified no remaining multiline short cd:body literals in chemometrics-basics.trig."
     }
   ]
 }

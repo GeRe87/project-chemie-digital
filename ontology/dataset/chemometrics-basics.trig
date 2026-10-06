@@ -375,9 +375,9 @@ What the analysis tries to explain or predict"""@en ;
 
   ex:node-example-uvvis a cd:DiagramNode ;
     skos:prefLabel "UV/VIS CALIBRATION"@en ;
-    cd:body "Independent: concentration
+    cd:body """Independent: concentration
 Dependent: absorbance
-Constant: wavelength = 540 nm"@en ;
+Constant: wavelength = 540 nm"""@en ;
     cd:position 1 ;
     cd:visualMotif "regression" ;
     cd:visualMotifRole "highlight" ;
@@ -385,9 +385,9 @@ Constant: wavelength = 540 nm"@en ;
 
   ex:node-example-chromatography a cd:DiagramNode ;
     skos:prefLabel "CHROMATOGRAPHY"@en ;
-    cd:body "Independent: standard concentration
+    cd:body """Independent: standard concentration
 Dependent: peak area
-Constant: injection volume"@en ;
+Constant: injection volume"""@en ;
     cd:position 2 ;
     cd:visualMotif "statistics" ;
     cd:visualMotifRole "highlight" ;
@@ -395,9 +395,9 @@ Constant: injection volume"@en ;
 
   ex:node-example-environment a cd:DiagramNode ;
     skos:prefLabel "ENVIRONMENTAL SAMPLES"@en ;
-    cd:body "Explanatory: sampling site
+    cd:body """Explanatory: sampling site
 Response: nitrate concentration
-Constant: aliquot volume"@en ;
+Constant: aliquot volume"""@en ;
     cd:position 3 ;
     cd:visualMotif "multivariate" ;
     cd:visualMotifRole "highlight" ;

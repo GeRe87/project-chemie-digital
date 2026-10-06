@@ -37,3 +37,8 @@ npm run test:renderer-reveal
 npm run test:pitch
 npm run pitch:intro
 ```
+
+
+## Owner-local syntax repair
+
+Focused path/scene tests initially failed in dataset assembly with `rdflib.plugins.parsers.notation3.BadSyntax`. The visual analytical-example nodes contained three multi-line `cd:body` values written with ordinary short Turtle quotes. They are now valid triple-quoted language-tagged strings. A source scan confirms there are no remaining multi-line short `cd:body` literals in `chemometrics-basics.trig`.
