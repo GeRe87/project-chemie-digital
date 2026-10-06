@@ -258,6 +258,11 @@ data.frame(
   ex:measured-variable-example a cd:Concept ;
     skos:prefLabel "A variable in measurements"@en ;
     skos:broader ex:variable ;
+    cd:hasDefinition ex:def-measured-variable-example ;
+    cd:authoredResource true .
+
+  ex:def-measured-variable-example a cd:Definition ;
+    cd:body "Repeated measurements provide concrete observations of a measured variable."@en ;
     cd:authoredResource true .
 
   ex:measured-variable-example-intro a cd:Interpretation ;
@@ -353,6 +358,11 @@ data.frame(
   ex:variable-observation-random-model a cd:Concept ;
     skos:prefLabel "Variables, observations, and random variables"@en ;
     skos:related ex:variable, ex:sample, ex:random-variable, ex:distribution ;
+    cd:hasDefinition ex:def-variable-observation-random-model ;
+    cd:authoredResource true .
+
+  ex:def-variable-observation-random-model a cd:Definition ;
+    cd:body "A variable describes what may vary, observations provide concrete values, and a random-variable model adds a stochastic mechanism for possible realizations."@en ;
     cd:authoredResource true .
 
   ex:variable-observation-random-intro a cd:Interpretation ;
@@ -394,6 +404,11 @@ data.frame(
   ex:random-draw-r-demo a cd:Concept ;
     skos:prefLabel "One random draw in R"@en ;
     skos:related ex:random-variable ;
+    cd:hasDefinition ex:def-random-draw-r-demo ;
+    cd:authoredResource true .
+
+  ex:def-random-draw-r-demo a cd:Definition ;
+    cd:body "One program execution can generate one simulated realization from a stated random-variable model."@en ;
     cd:authoredResource true .
 
   ex:random-draw-r-intro a cd:Interpretation ;
@@ -412,6 +427,11 @@ data.frame(
   ex:uvvis-calibration-roles a cd:Concept ;
     skos:prefLabel "Variables and constants in a UV/Vis experiment"@en ;
     skos:related ex:variable, ex:independent-variable, ex:dependent-variable, ex:constant ;
+    cd:hasDefinition ex:def-uvvis-calibration-roles ;
+    cd:authoredResource true .
+
+  ex:def-uvvis-calibration-roles a cd:Definition ;
+    cd:body "A designed experiment can combine assigned variables, measured response variables, and constants within one stated scope."@en ;
     cd:authoredResource true .
 
   ex:uvvis-calibration-intro a cd:Interpretation ;
@@ -485,6 +505,11 @@ data.frame(
   ex:variables-constants-quick-check a cd:Concept ;
     skos:prefLabel "Quick check"@en ;
     skos:related ex:variable, ex:random-variable, ex:constant ;
+    cd:hasDefinition ex:def-variables-constants-quick-check ;
+    cd:authoredResource true .
+
+  ex:def-variables-constants-quick-check a cd:Definition ;
+    cd:body "A short classification check distinguishes assigned variables, random variables, and constants by their role in the stated experiment or model."@en ;
     cd:authoredResource true .
 
   ex:poll-option-01-assigned-variable a cd:PollOption ;

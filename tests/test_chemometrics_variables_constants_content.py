@@ -285,6 +285,17 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
                 )
                 self.assertEqual({expected}, set(self.graph.objects(poll, CD.hasExpectedResult)))
 
+    def test_quick_check_polls_author_correct_options_and_feedback(self) -> None:
+        expected = {
+            EX["poll-quiz-concentration-role"]: EX["poll-option-01-assigned-variable"],
+            EX["poll-quiz-wavelength-role"]: EX["poll-option-03-constant"],
+            EX["poll-quiz-absorbance-role"]: EX["poll-option-02-random-variable"],
+        }
+        for poll, correct in expected.items():
+            with self.subTest(poll=poll):
+                self.assertEqual({correct}, set(self.graph.objects(poll, CD.correctPollOption)))
+                self.assertEqual(1, len(set(self.graph.objects(poll, CD.hasExpectedResult))))
+
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)

@@ -119,11 +119,11 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
         self.assertIn("not a probability distribution", note)
         self.assertIn("later", note)
 
-    def test_minimal_webr_demo_is_one_read_only_random_draw(self) -> None:
+    def test_minimal_webr_demo_is_one_editable_random_draw(self) -> None:
         scene = self.document["scenes"][5]
         code = scene["blocks"][2]
         self.assertEqual("r", code["language"])
-        self.assertFalse(code["editable"])
+        self.assertTrue(code["editable"])
         self.assertTrue(code["executable"])
         self.assertEqual("rnorm(1, mean = 3.0, sd = 0.2)", code["code"])
 
@@ -133,20 +133,33 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
         self.assertIn("treated as fixed", constant["blocks"][1]["text"])
 
         uvvis = self.document["scenes"][7]
-        self.assertIn("without being a random variable", uvvis["blocks"][1]["text"])
+        self.assertIn("not automatically a random variable", uvvis["blocks"][1]["text"])
         self.assertEqual(5, len(uvvis["blocks"][2]["rows"]))
         self.assertEqual("line", uvvis["blocks"][3]["chartType"])
         self.assertEqual(3, len(uvvis["blocks"][4]["items"]))
 
-    def test_final_quiz_has_three_role_questions_and_three_ordered_options(self) -> None:
+    def test_final_quiz_has_three_role_questions_with_graph_backed_feedback(self) -> None:
         scene = self.document["scenes"][8]
         prompts = scene["blocks"][1:]
         self.assertEqual(3, len(prompts))
         expected_options = ["Assigned variable", "Random variable", "Constant"]
-        for prompt in prompts:
+        expected_correct = [
+            "ex:poll-option-01-assigned-variable",
+            "ex:poll-option-03-constant",
+            "ex:poll-option-02-random-variable",
+        ]
+        expected_option_ids = [
+            "ex:poll-option-01-assigned-variable",
+            "ex:poll-option-02-random-variable",
+            "ex:poll-option-03-constant",
+        ]
+        for prompt, correct in zip(prompts, expected_correct, strict=True):
             with self.subTest(prompt=prompt["id"]):
                 self.assertEqual("single-choice", prompt["responseMode"])
                 self.assertEqual(expected_options, prompt["options"])
+                self.assertEqual(expected_option_ids, prompt["optionIds"])
+                self.assertEqual(correct, prompt["correctOptionId"])
+                self.assertTrue(prompt["expectedResult"])
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()

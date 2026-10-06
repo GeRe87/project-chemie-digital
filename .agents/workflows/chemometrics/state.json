@@ -5,31 +5,25 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 216,
-  "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests and browser review of the new 9-scene Variables and Constants story, including live measurement updates and minimal webR in ?interactive=1.",
-  "lastCompletedTurn": "manager: hardened the generic live-chart SHACL and SceneDocument contract for #216 before owner-local verification.",
-  "lastUpdated": "2026-10-06T15:42:00+02:00",
+  "activeIssue": 217,
+  "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests followed by browser review of the six screenshot-targeted slides. Verify standard npm run pitch:intro now shows editable CodeMirror + Run/Reset/output without adding ?interactive=1.",
+  "lastCompletedTurn": "worker: completed screenshot-driven layout polish and local code/quiz interaction for Level 1.",
+  "lastUpdated": "2026-10-06T16:48:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #216 requires owner-local npm run check:semantics",
-    "Issue #216 requires owner-local focused Variables and Constants tests",
-    "Issue #216 requires npm run test:core, npm run test:renderer-reveal and npm run test:pitch",
-    "Browser review must verify live slide 3 table/chart updates, slide 6 webR under ?interactive=1, and the final three-question quiz",
-    "Issue #214 multi-level navigation should be rechecked during the same browser pass"
+    "Issue #217 requires owner-local npm run check:semantics and focused Variables and Constants tests",
+    "Issue #217 requires npm run test:core, npm run test:renderer-reveal and npm run test:pitch",
+    "Browser review must verify measurement and UV/Vis charts stay inside their columns",
+    "Browser review must verify observation bridge has no overlap",
+    "Browser review must verify standard pitch:intro shows editable CodeMirror with Run, Reset and webR output",
+    "Browser review must verify Quick check uses clickable options and graph-backed immediate feedback"
   ],
-  "stateRevision": 132,
+  "stateRevision": 135,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T11:41:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
-      "reason": "Claimed only the authorized visual follow-up: full-screen hero title plus four-node Course Format FlowDiagram, preserving all other six-scene Intro scope."
-    },
     {
       "at": "2026-09-28T11:42:00+02:00",
       "from": "busy/worker",
@@ -183,6 +177,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-manager-issue216-contract-hardening",
       "reason": "Hardened the new generic live-chart contract before owner verification: replaced EXISTS/BIND SHACL completeness logic with portable UNION/NOT EXISTS constraints and added core SceneDocument acceptance/fail-closed tests for interval, amplitude and precision."
+    },
+    {
+      "at": "2026-10-06T16:16:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue217-browser-polish",
+      "reason": "Owner supplied browser screenshots showing nested chart overflow, observation-bridge overlap, static webR fallback, and non-interactive quiz options."
+    },
+    {
+      "at": "2026-10-06T16:17:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue217-browser-polish",
+      "reason": "Claimed generic nested-chart constraints, compact narrative layouts, standard local CodeMirror/webR enhancement, graph-backed local quiz feedback, and focused regressions."
+    },
+    {
+      "at": "2026-10-06T16:48:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue217-browser-polish",
+      "reason": "Completed #217 implementation: charts are constrained to layout slots, observation bridge is compacted, R code is editable with Run/Reset/Output in standard course mode, and quiz choices are local buttons with authored correct-answer feedback."
     }
   ]
 }

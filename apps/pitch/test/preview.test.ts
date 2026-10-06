@@ -8,7 +8,7 @@ import {
   compilePitchSceneDocumentsFromArtifact,
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
-import { installNoNetworkGuard, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
 import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
 class FakeElement implements MinimalElement {
@@ -516,8 +516,20 @@ test("rejects missing compiled input before partial mounting", () => {
   assert.equal(root.children.length, 0);
 });
 
-test("prohibits runtime network calls and restores the host", () => {
-  const original = () => Promise.resolve(new Response());
-  const target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown } = { fetch: original as typeof fetch };
-  const restore = installNoNetworkGuard(target); assert.throws(() => target.fetch?.("https://example.invalid"), /prohibited/); restore(); assert.equal(target.fetch, original);
+test("prohibits external runtime network calls while allowing pinned same-origin vendor assets", async () => {
+  const requested: string[] = [];
+  const original: typeof fetch = async (input) => {
+    requested.push(String(input));
+    return new Response("ok");
+  };
+  const target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown } = { fetch: original };
+  const base = "http://127.0.0.1:5173/pitch";
+  assert.equal(isAllowedLocalRuntimeRequest("/vendor/webr/v0.6.0/R.wasm", base), true);
+  assert.equal(isAllowedLocalRuntimeRequest("https://example.invalid/runtime.js", base), false);
+  const restore = installNoNetworkGuard(target, base);
+  assert.throws(() => target.fetch?.("https://example.invalid/runtime.js"), /prohibited/);
+  await target.fetch?.("/vendor/webr/v0.6.0/R.wasm");
+  assert.deepEqual(requested, ["/vendor/webr/v0.6.0/R.wasm"]);
+  restore();
+  assert.equal(target.fetch, original);
 });

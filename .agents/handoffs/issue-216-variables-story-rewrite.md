@@ -51,3 +51,8 @@ For webR use the interactive query parameter supported by Pitch.
 ## Contract hardening before verification
 
 The live-chart completeness SHACL query was rewritten using portable `UNION` / `FILTER NOT EXISTS` clauses rather than relying on SPARQL `BIND(EXISTS ...)` support. Core SceneDocument tests now explicitly accept valid live update metadata and reject too-fast intervals, non-positive jitter amplitudes and unsupported decimal precision.
+
+
+## Follow-up
+
+Browser screenshot findings moved to #217. #216 remains the accepted nine-scene narrative/terminology rewrite; #217 owns presentation polish and local interaction behavior.
