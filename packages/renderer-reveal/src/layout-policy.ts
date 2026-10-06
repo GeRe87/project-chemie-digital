@@ -6,6 +6,10 @@ export type RevealLayoutFamily =
   | "prompt-card-grid"
   | "paired-info-cards"
   | "definition-card"
+  | "code-lab"
+  | "concept-chart"
+  | "math-diagram"
+  | "large-poll"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -227,6 +231,63 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
         family: "prompt-card-grid",
         slots: ["heading", "cards"],
       };
+    }
+  }
+
+  if (blocks.length === 3) {
+    const [heading, prompt, code] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && prompt?.kind === "prompt"
+      && code?.kind === "code"
+    ) {
+      return { family: "code-lab", slots: ["heading", "prompt", "code"] };
+    }
+  }
+
+  if (blocks.length === 3 || blocks.length === 4) {
+    const [heading, definition, chart, example] = blocks;
+    const validExample = example === undefined
+      || (example.kind === "prose" && example.intent?.kind === "explain");
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && definition?.kind === "prose"
+      && definition.intent?.kind === "explain"
+      && chart?.kind === "chart"
+      && validExample
+    ) {
+      return {
+        family: "concept-chart",
+        slots: example === undefined
+          ? ["heading", "definition", "chart"]
+          : ["heading", "definition", "chart", "example"],
+      };
+    }
+  }
+
+  if (blocks.length === 3) {
+    const [heading, formula, diagram] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && formula?.kind === "math"
+      && diagram?.kind === "diagram"
+    ) {
+      return { family: "math-diagram", slots: ["heading", "formula", "diagram"] };
+    }
+  }
+
+  if (blocks.length === 2) {
+    const [heading, prompt] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && prompt?.kind === "prompt"
+      && prompt.responseMode === "single-choice"
+    ) {
+      return { family: "large-poll", slots: ["heading", "prompt"] };
     }
   }
 

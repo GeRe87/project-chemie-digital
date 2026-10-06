@@ -457,6 +457,67 @@ test("infers concentric-network from focused grouped topology without scene iden
   assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
 });
 
+test("infers code-lab from heading plus practice prompt plus code", () => {
+  const scene = {
+    id: "opaque:code-lab", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("h", "introduce"),
+      { id: "p", kind: "prompt", prompt: "Try it", responseMode: "free-text", fallback: "Try it", source: [{ resourceId: "resource:p" }] },
+      { id: "c", kind: "code", language: "r", code: "1+1", editable: true, executable: true, fallback: "1+1", source: [{ resourceId: "resource:c" }] },
+    ],
+    readingOrder: ["h", "p", "c"],
+  } as Scene;
+  assert.deepEqual(inferRevealLayoutDecision(scene), { family: "code-lab", slots: ["heading", "prompt", "code"] });
+});
+
+test("infers concept-chart from heading, explanation, chart and optional example", () => {
+  const chart = {
+    id: "chart", kind: "chart", chartType: "bar", label: "Chart", description: "Chart",
+    xAxis: { label: "x" }, yAxis: { label: "y" },
+    data: [{ id: "d", category: "A", value: 1, source: [{ resourceId: "resource:d" }] }],
+    source: [{ resourceId: "resource:chart" }],
+  } as const;
+  const scene = {
+    id: "opaque:concept-chart", source: [{ resourceId: "resource:scene" }],
+    blocks: [prose("h", "introduce"), prose("d", "explain"), chart, prose("e", "explain")],
+    readingOrder: ["h", "d", "chart", "e"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "concept-chart");
+});
+
+test("infers math-diagram from heading plus formula plus diagram", () => {
+  const scene = {
+    id: "opaque:math-diagram", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("h", "introduce"),
+      { id: "m", kind: "math", expression: "X", spokenText: "X", source: [{ resourceId: "resource:m" }] },
+      {
+        id: "g", kind: "diagram", diagramType: "flow", label: "Flow", description: "Flow",
+        nodes: [
+          { id: "a", label: "A", source: [{ resourceId: "resource:a" }] },
+          { id: "b", label: "B", source: [{ resourceId: "resource:b" }] },
+        ],
+        edges: [{ id: "ab", sourceNodeId: "a", targetNodeId: "b", label: "to", source: [{ resourceId: "resource:ab" }] }],
+        source: [{ resourceId: "resource:g" }],
+      },
+    ],
+    readingOrder: ["h", "m", "g"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "math-diagram");
+});
+
+test("infers large-poll only for heading plus single-choice prompt", () => {
+  const scene = {
+    id: "opaque:poll", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("h", "introduce"),
+      { id: "p", kind: "prompt", prompt: "Choose", responseMode: "single-choice", options: ["A", "B"], fallback: "Choose", source: [{ resourceId: "resource:p" }] },
+    ],
+    readingOrder: ["h", "p"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "large-poll");
+});
+
 test("infers prompt-card-grid from heading plus three concise definition entries without identity", () => {
   assert.equal(inferRevealLayoutFamily(promptCardScene("scene:prompt")), "prompt-card-grid");
   assert.equal(inferRevealLayoutFamily(promptCardScene("opaque:prompt")), "prompt-card-grid");

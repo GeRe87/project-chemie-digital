@@ -5,31 +5,24 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 212,
-  "expectedDeliverable": "Owner-local semantic/runtime tests and browser review of Region 2 Level 1 Variables and Constants. Check scene density/layout before renderer-specific polishing.",
-  "lastCompletedTurn": "manager: repaired the #212 variable/constant comparison wording exposed by owner-local tests.",
-  "lastUpdated": "2026-10-06T12:18:00+02:00",
+  "activeIssue": 215,
+  "expectedDeliverable": "Owner-local semantic/renderer/Pitch tests and browser review of all 14 Variables and Constants scenes. Tune only generic layout rules or semantic resources based on screenshots.",
+  "lastCompletedTurn": "worker: completed the semantic visual redesign and four generic layout families for Variables and Constants.",
+  "lastUpdated": "2026-10-06T14:05:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #212 requires owner-local npm run check:semantics",
-    "Issue #212 requires owner-local focused Variables and Constants tests",
-    "Issue #212 requires owner-local course bundle/Pitch tests",
-    "Issue #212 requires browser review via npm run pitch:intro: Overworld → Level 1 Variables and Constants",
-    "Dynamic R execution and live polls require connected interactive browser mode (?interactive=1); normal mode retains semantic static fallbacks"
+    "Issue #215 requires owner-local npm run check:semantics",
+    "Issue #215 requires owner-local focused Variables and Constants path/scene tests",
+    "Issue #215 requires owner-local npm run test:renderer-reveal and npm run test:pitch",
+    "Issue #215 requires browser review via npm run pitch:intro for all 14 scenes",
+    "Issue #214 multi-level navigation should be rechecked during the same browser pass"
   ],
-  "stateRevision": 124,
+  "stateRevision": 127,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T10:00:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
-      "reason": "Completed bounded resource-only Issue #182 with canonical Foundations/Preprocessing resources, strict provenance separation, focused regressions, Draft PR #183 and handoff; returned to manager for local tests, independent review and exact-head acceptance gates."
-    },
     {
       "at": "2026-09-28T10:33:00+02:00",
       "from": "blocked/manager",
@@ -183,6 +176,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-manager-issue212-test-repair",
       "reason": "Owner-local focused tests found one exact wording regression: the comparison used capitalized plural 'Variables', while the semantic content contract asserts the explicit singular term 'variable'. Reworded the authored comparison to singular variable/constant without changing meaning or graph structure."
+    },
+    {
+      "at": "2026-10-06T13:30:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue215-visual-level1",
+      "reason": "Owner requested full visual/interactivity pass for Variables and Constants using varied semantic layouts comparable to Introduction."
+    },
+    {
+      "at": "2026-10-06T13:31:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue215-visual-level1",
+      "reason": "Claimed semantic diagrams/charts/table/formula/keypoints plus generic code-lab, concept-chart, math-diagram and large-poll renderer layouts."
+    },
+    {
+      "at": "2026-10-06T14:05:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue215-visual-level1",
+      "reason": "Completed #215 visual implementation: all fourteen scenes now use purposeful diagram/card/code/table/chart/formula/poll structures; renderer additions are identity-free."
     }
   ]
 }

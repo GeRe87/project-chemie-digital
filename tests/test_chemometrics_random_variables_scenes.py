@@ -50,17 +50,17 @@ EXPECTED_SCENES = [
 ]
 
 EXPECTED_BLOCK_KINDS = [
-    ["prose", "prose", "prose"],
-    ["prose", "prose"],
-    ["prose", "prose", "prose"],
-    ["prose", "prose", "prose", "prose"],
-    ["prose", "prose", "prose", "prose"],
+    ["prose", "diagram"],
+    ["prose", "list", "prose"],
+    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "diagram"],
     ["prose", "prompt", "code"],
-    ["prose", "prose"],
-    ["prose", "prose"],
-    ["prose", "prose", "prose"],
-    ["prose", "prose", "prose"],
-    ["prose", "prose", "prose"],
+    ["prose", "list", "table"],
+    ["prose", "prose", "chart"],
+    ["prose", "math", "diagram"],
+    ["prose", "prose", "chart", "prose"],
+    ["prose", "prose", "chart", "prose"],
     ["prose", "prompt"],
     ["prose", "prompt"],
     ["prose", "prompt"],
@@ -98,11 +98,13 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-    def test_chapter_opens_with_variables_and_constants_scope(self) -> None:
+    def test_chapter_opens_with_visual_variable_constant_contrast(self) -> None:
         first = self.document["scenes"][0]
         self.assertEqual("Variables and Constants", first["blocks"][0]["text"])
-        self.assertIn("experimental or data-analytic scope", first["blocks"][1]["text"])
-        self.assertIn("depends on the scope", first["blocks"][2]["text"])
+        diagram = first["blocks"][1]
+        self.assertEqual("diagram", diagram["kind"])
+        self.assertEqual(["VARIABLE", "CONSTANT"], [node["label"] for node in diagram["nodes"]])
+        self.assertEqual(2, len(diagram["edges"]))
 
     def test_dynamic_calibration_scene_is_prompt_plus_executable_r(self) -> None:
         scene = self.document["scenes"][5]
@@ -120,11 +122,25 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
         self.assertIn("wavelength_nm <- 540", code["code"])
         self.assertIn("absorbance", code["code"])
 
-    def test_sample_distribution_and_random_variable_bridge_are_present(self) -> None:
-        self.assertIn("sample contains observations", self.document["scenes"][6]["blocks"][1]["text"])
-        self.assertIn("Detailed distribution theory is introduced later", self.document["scenes"][7]["blocks"][1]["text"])
-        self.assertIn("measurable function", self.document["scenes"][8]["blocks"][1]["text"])
-        self.assertIn("realization", self.document["scenes"][8]["blocks"][2]["text"])
+    def test_sample_distribution_and_random_variable_bridge_are_visual(self) -> None:
+        sample_scene = self.document["scenes"][6]
+        self.assertEqual(4, len(sample_scene["blocks"][1]["items"]))
+        self.assertEqual("table", sample_scene["blocks"][2]["kind"])
+        self.assertEqual(3, len(sample_scene["blocks"][2]["rows"]))
+
+        distribution_scene = self.document["scenes"][7]
+        self.assertIn("Detailed distribution theory is introduced later", distribution_scene["blocks"][1]["text"])
+        self.assertEqual("bar", distribution_scene["blocks"][2]["chartType"])
+
+        random_scene = self.document["scenes"][8]
+        self.assertEqual("math", random_scene["blocks"][1]["kind"])
+        self.assertIn("\\Omega", random_scene["blocks"][1]["expression"])
+        self.assertEqual("diagram", random_scene["blocks"][2]["kind"])
+        self.assertEqual(3, len(random_scene["blocks"][2]["nodes"]))
+
+    def test_discrete_and_continuous_scenes_use_distinct_chart_encodings(self) -> None:
+        self.assertEqual("bar", self.document["scenes"][9]["blocks"][2]["chartType"])
+        self.assertEqual("line", self.document["scenes"][10]["blocks"][2]["chartType"])
 
     def test_three_final_classification_scenes_are_single_choice_variable_constant(self) -> None:
         for scene, poll_id in zip(self.document["scenes"][11:14], POLL_IDS, strict=True):

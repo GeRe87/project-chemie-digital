@@ -45,47 +45,21 @@ EXPECTED_TOPICS = {
 }
 
 EXPECTED_STEPS = [
-    ("variables-constants-opener", {
-        EX["def-variables-and-constants"],
-        EX["variable-constant-scope-interpretation"],
-    }),
-    ("variable-definition", {EX["def-variable"]}),
-    ("constant-distinction", {
-        EX["def-constant"],
-        EX["variable-constant-comparison"],
-        EX["variable-constant-scope-interpretation"],
-    }),
-    ("variable-roles", {
-        EX["def-independent-dependent-variable-roles"],
-        EX["def-independent-variable"],
-        EX["def-dependent-variable"],
-        EX["independent-dependent-variable-comparison"],
-        EX["independent-dependent-variable-role-interpretation"],
-    }),
-    ("variable-examples", {
-        EX["worked-example-calibration-variable-constant"],
-        EX["worked-example-injection-variable-constant"],
-        EX["worked-example-water-samples-variable-constant"],
-    }),
+    ("variables-constants-opener", {EX["diagram-variable-constant-contrast"]}),
+    ("variable-definition", {EX["variable-keypoints"], EX["variable-scope-takeaway"]}),
+    ("constant-distinction", {EX["def-constant"], EX["variable-constant-cards"], EX["variable-constant-scope-interpretation"]}),
+    ("variable-roles", {EX["def-independent-dependent-variable-roles"], EX["independent-dependent-cards"], EX["independent-dependent-variable-role-interpretation"]}),
+    ("variable-examples", {EX["diagram-variable-examples"]}),
     ("variable-code-experiment", {
         EX["exercise-variable-constant-code-experiment"],
         EX["code-variable-constant-r"],
         EX["expected-variable-constant-code-experiment"],
     }),
-    ("sample-variable", {EX["sample-variable-interpretation"]}),
-    ("distribution-anchor", {EX["def-distribution"]}),
-    ("random-variable", {
-        EX["def-random-variable"],
-        EX["random-variable-realization-interpretation"],
-    }),
-    ("discrete-random-variable", {
-        EX["def-discrete-random-variable"],
-        EX["worked-example-discrete-colony-count"],
-    }),
-    ("continuous-random-variable", {
-        EX["def-continuous-random-variable"],
-        EX["worked-example-continuous-concentration"],
-    }),
+    ("sample-variable", {EX["sample-variable-principles"], EX["table-sample-variable-observations"]}),
+    ("distribution-anchor", {EX["def-distribution"], EX["chart-distribution-preview"]}),
+    ("random-variable", {EX["random-variable-mapping-formula"], EX["diagram-random-variable-realization"]}),
+    ("discrete-random-variable", {EX["def-discrete-random-variable"], EX["chart-discrete-random-variable"], EX["worked-example-discrete-colony-count"]}),
+    ("continuous-random-variable", {EX["def-continuous-random-variable"], EX["chart-continuous-random-variable"], EX["worked-example-continuous-concentration"]}),
     ("classify-concentration", {
         EX["exercise-classify-calibration-concentration"],
         EX["poll-classify-calibration-concentration"],
