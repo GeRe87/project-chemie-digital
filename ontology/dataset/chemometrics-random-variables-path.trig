@@ -29,76 +29,101 @@
 
   ex:path-step-chemometrics-variables-constants-opener a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:def-variables-and-constants, ex:variable-constant-scope-interpretation ;
+    cd:usesResource ex:diagram-variable-constant-contrast ;
     cd:usesScene ex:scene-chemometrics-variables-constants-opener ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-definition a cd:PathStep ;
-    cd:position 2 ; cd:usesResource ex:def-variable ;
-    cd:usesScene ex:scene-chemometrics-variable-definition ; cd:authoredResource true .
+    cd:position 2 ;
+    cd:usesResource ex:variable-keypoints, ex:variable-scope-takeaway ;
+    cd:usesScene ex:scene-chemometrics-variable-definition ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-constant-distinction a cd:PathStep ;
     cd:position 3 ;
-    cd:usesResource ex:def-constant, ex:variable-constant-comparison, ex:variable-constant-scope-interpretation ;
-    cd:usesScene ex:scene-chemometrics-constant-distinction ; cd:authoredResource true .
+    cd:usesResource ex:def-constant, ex:variable-constant-cards,
+      ex:variable-constant-scope-interpretation ;
+    cd:usesScene ex:scene-chemometrics-constant-distinction ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-roles a cd:PathStep ;
     cd:position 4 ;
-    cd:usesResource ex:def-independent-dependent-variable-roles, ex:def-independent-variable,
-      ex:def-dependent-variable, ex:independent-dependent-variable-comparison,
+    cd:usesResource ex:def-independent-dependent-variable-roles,
+      ex:independent-dependent-cards,
       ex:independent-dependent-variable-role-interpretation ;
-    cd:usesScene ex:scene-chemometrics-variable-roles ; cd:authoredResource true .
+    cd:usesScene ex:scene-chemometrics-variable-roles ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-examples a cd:PathStep ;
     cd:position 5 ;
-    cd:usesResource ex:worked-example-calibration-variable-constant,
-      ex:worked-example-injection-variable-constant, ex:worked-example-water-samples-variable-constant ;
-    cd:usesScene ex:scene-chemometrics-variable-examples ; cd:authoredResource true .
+    cd:usesResource ex:diagram-variable-examples ;
+    cd:usesScene ex:scene-chemometrics-variable-examples ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-code-experiment a cd:PathStep ;
     cd:position 6 ;
     cd:usesResource ex:exercise-variable-constant-code-experiment,
       ex:code-variable-constant-r, ex:expected-variable-constant-code-experiment ;
-    cd:usesScene ex:scene-chemometrics-variable-code-experiment ; cd:authoredResource true .
+    cd:usesScene ex:scene-chemometrics-variable-code-experiment ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-sample-variable a cd:PathStep ;
-    cd:position 7 ; cd:usesResource ex:sample-variable-interpretation ;
-    cd:usesScene ex:scene-chemometrics-sample-variable ; cd:authoredResource true .
+    cd:position 7 ;
+    cd:usesResource ex:sample-variable-principles,
+      ex:table-sample-variable-observations ;
+    cd:usesScene ex:scene-chemometrics-sample-variable ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-distribution-anchor a cd:PathStep ;
-    cd:position 8 ; cd:usesResource ex:def-distribution ;
-    cd:usesScene ex:scene-chemometrics-distribution-anchor ; cd:authoredResource true .
+    cd:position 8 ;
+    cd:usesResource ex:def-distribution, ex:chart-distribution-preview ;
+    cd:usesScene ex:scene-chemometrics-distribution-anchor ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-random-variable a cd:PathStep ;
     cd:position 9 ;
-    cd:usesResource ex:def-random-variable, ex:random-variable-realization-interpretation ;
-    cd:usesScene ex:scene-chemometrics-random-variable ; cd:authoredResource true .
+    cd:usesResource ex:random-variable-mapping-formula,
+      ex:diagram-random-variable-realization ;
+    cd:usesScene ex:scene-chemometrics-random-variable ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-discrete-random-variable a cd:PathStep ;
     cd:position 10 ;
-    cd:usesResource ex:def-discrete-random-variable, ex:worked-example-discrete-colony-count ;
-    cd:usesScene ex:scene-chemometrics-discrete-random-variable ; cd:authoredResource true .
+    cd:usesResource ex:def-discrete-random-variable,
+      ex:chart-discrete-random-variable,
+      ex:worked-example-discrete-colony-count ;
+    cd:usesScene ex:scene-chemometrics-discrete-random-variable ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-continuous-random-variable a cd:PathStep ;
     cd:position 11 ;
-    cd:usesResource ex:def-continuous-random-variable, ex:worked-example-continuous-concentration ;
-    cd:usesScene ex:scene-chemometrics-continuous-random-variable ; cd:authoredResource true .
+    cd:usesResource ex:def-continuous-random-variable,
+      ex:chart-continuous-random-variable,
+      ex:worked-example-continuous-concentration ;
+    cd:usesScene ex:scene-chemometrics-continuous-random-variable ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-classify-concentration a cd:PathStep ;
     cd:position 12 ;
     cd:usesResource ex:exercise-classify-calibration-concentration,
-      ex:poll-classify-calibration-concentration, ex:expected-classify-calibration-concentration ;
-    cd:usesScene ex:scene-chemometrics-classify-concentration ; cd:authoredResource true .
+      ex:poll-classify-calibration-concentration,
+      ex:expected-classify-calibration-concentration ;
+    cd:usesScene ex:scene-chemometrics-classify-concentration ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-classify-wavelength a cd:PathStep ;
     cd:position 13 ;
     cd:usesResource ex:exercise-classify-fixed-wavelength,
-      ex:poll-classify-fixed-wavelength, ex:expected-classify-fixed-wavelength ;
-    cd:usesScene ex:scene-chemometrics-classify-wavelength ; cd:authoredResource true .
+      ex:poll-classify-fixed-wavelength,
+      ex:expected-classify-fixed-wavelength ;
+    cd:usesScene ex:scene-chemometrics-classify-wavelength ;
+    cd:authoredResource true .
 
   ex:path-step-chemometrics-classify-temperature a cd:PathStep ;
     cd:position 14 ;
     cd:usesResource ex:exercise-classify-recorded-temperature,
-      ex:poll-classify-recorded-temperature, ex:expected-classify-recorded-temperature ;
-    cd:usesScene ex:scene-chemometrics-classify-temperature ; cd:authoredResource true .
+      ex:poll-classify-recorded-temperature,
+      ex:expected-classify-recorded-temperature ;
+    cd:usesScene ex:scene-chemometrics-classify-temperature ;
+    cd:authoredResource true .
 }

@@ -244,6 +244,359 @@ data.frame(
     cd:hasExpectedResult ex:expected-classify-recorded-temperature ;
     cd:authoredResource true .
 
+  # Visual learning resources for Variables and Constants -------------------
+
+  ex:variable-keypoints a cd:Interpretation ;
+    cd:body "A variable is useful only when its role and scope are explicit."@en ;
+    cd:hasKeyPoint ex:variable-keypoint-change,
+      ex:variable-keypoint-role,
+      ex:variable-keypoint-scope ;
+    cd:authoredResource true .
+
+  ex:variable-keypoint-change a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body """CAN CHANGE
+Values may differ across observations, samples or experimental conditions."""@en ;
+    cd:authoredResource true .
+
+  ex:variable-keypoint-role a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body """HAS A ROLE
+A variable can be measured, deliberately controlled or used in a model."""@en ;
+    cd:authoredResource true .
+
+  ex:variable-keypoint-scope a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body """NEEDS A SCOPE
+The same physical quantity can be variable in one study and constant in another."""@en ;
+    cd:authoredResource true .
+
+  ex:variable-scope-takeaway a cd:Interpretation ;
+    cd:body "Always ask: allowed to change where, across which observations, and for what analytical purpose?"@en ;
+    cd:authoredResource true .
+
+  ex:variable-constant-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:variable-card-entry, ex:constant-card-entry ;
+    cd:authoredResource true .
+
+  ex:variable-card-entry a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "VARIABLE"@en ;
+    cd:body """Allowed to take different values
+Measured · controlled · modeled
+Scope-dependent"""@en ;
+    cd:visualMotif "statistics" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:constant-card-entry a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "CONSTANT"@en ;
+    cd:body """Treated as fixed
+Same setting within the stated scope
+Can become a variable in another design"""@en ;
+    cd:visualMotif "design-of-experiments" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:independent-dependent-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:independent-variable-card-entry,
+      ex:dependent-variable-card-entry ;
+    cd:authoredResource true .
+
+  ex:independent-variable-card-entry a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "INDEPENDENT VARIABLE"@en ;
+    cd:body """Explanatory / predictor input
+Assigned, selected or observed
+May be manipulated — but does not have to be"""@en ;
+    cd:visualMotif "regression" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:dependent-variable-card-entry a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "DEPENDENT VARIABLE"@en ;
+    cd:body """Response / outcome
+Observed or modeled in relation to predictors
+What the analysis tries to explain or predict"""@en ;
+    cd:visualMotif "inference" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:diagram-variable-constant-contrast a cd:FlowDiagram ;
+    skos:prefLabel "Variable and constant are contextual roles"@en ;
+    cd:body "The same quantity can move between the two roles when the experimental scope changes."@en ;
+    cd:hasDiagramNode ex:node-variable-role, ex:node-constant-role ;
+    cd:hasDiagramEdge ex:edge-variable-to-constant, ex:edge-constant-to-variable ;
+    cd:authoredResource true .
+
+  ex:node-variable-role a cd:DiagramNode ;
+    skos:prefLabel "VARIABLE"@en ;
+    cd:body "Allowed to differ across observations or conditions."@en ;
+    cd:position 1 ;
+    cd:visualRole "variable" ;
+    cd:visualMotif "statistics" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-constant-role a cd:DiagramNode ;
+    skos:prefLabel "CONSTANT"@en ;
+    cd:body "Treated as fixed within the current analytical scope."@en ;
+    cd:position 2 ;
+    cd:visualRole "constant" ;
+    cd:visualMotif "design-of-experiments" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:edge-variable-to-constant a cd:DiagramEdge ;
+    skos:prefLabel "fix the value"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-variable-role ;
+    cd:targetNode ex:node-constant-role ;
+    cd:visualRole "comparison" ;
+    cd:authoredResource true .
+
+  ex:edge-constant-to-variable a cd:DiagramEdge ;
+    skos:prefLabel "vary the value"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-constant-role ;
+    cd:targetNode ex:node-variable-role ;
+    cd:visualRole "comparison" ;
+    cd:authoredResource true .
+
+  ex:diagram-variable-examples a cd:FlowDiagram, cd:NetworkDiagram ;
+    skos:prefLabel "Three analytical examples of experimental roles"@en ;
+    cd:body "The same role vocabulary applies across calibration, chromatography and environmental analysis."@en ;
+    cd:hasDiagramNode ex:node-example-uvvis,
+      ex:node-example-chromatography,
+      ex:node-example-environment ;
+    cd:authoredResource true .
+
+  ex:node-example-uvvis a cd:DiagramNode ;
+    skos:prefLabel "UV/VIS CALIBRATION"@en ;
+    cd:body "Independent: concentration
+Dependent: absorbance
+Constant: wavelength = 540 nm"@en ;
+    cd:position 1 ;
+    cd:visualMotif "regression" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-example-chromatography a cd:DiagramNode ;
+    skos:prefLabel "CHROMATOGRAPHY"@en ;
+    cd:body "Independent: standard concentration
+Dependent: peak area
+Constant: injection volume"@en ;
+    cd:position 2 ;
+    cd:visualMotif "statistics" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-example-environment a cd:DiagramNode ;
+    skos:prefLabel "ENVIRONMENTAL SAMPLES"@en ;
+    cd:body "Explanatory: sampling site
+Response: nitrate concentration
+Constant: aliquot volume"@en ;
+    cd:position 3 ;
+    cd:visualMotif "multivariate" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:sample-variable-principles a cd:Interpretation ;
+    cd:body "A rectangular data table makes the Sample–Variable relationship concrete."@en ;
+    cd:hasKeyPoint ex:sample-variable-keypoint-observation,
+      ex:sample-variable-keypoint-row,
+      ex:sample-variable-keypoint-column,
+      ex:sample-variable-keypoint-distribution ;
+    cd:authoredResource true .
+
+  ex:sample-variable-keypoint-observation a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "1  SAMPLE = SET OF OBSERVATIONS"@en ;
+    cd:authoredResource true .
+  ex:sample-variable-keypoint-row a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "2  ROW = ONE OBSERVATION"@en ;
+    cd:authoredResource true .
+  ex:sample-variable-keypoint-column a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "3  COLUMN = ONE VARIABLE"@en ;
+    cd:authoredResource true .
+  ex:sample-variable-keypoint-distribution a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body "4  COLUMN VALUES → EMPIRICAL DISTRIBUTION"@en ;
+    cd:authoredResource true .
+
+  ex:table-sample-variable-observations a cd:TableDefinition ;
+    skos:prefLabel "Example sample × variable matrix"@en ;
+    cd:body "Three environmental observations with two measured variables."@en ;
+    cd:hasTableColumn ex:table-column-sample-id,
+      ex:table-column-temperature,
+      ex:table-column-nitrate ;
+    cd:hasTableRow ex:table-row-sample-1,
+      ex:table-row-sample-2,
+      ex:table-row-sample-3 ;
+    cd:authoredResource true .
+
+  ex:table-column-sample-id a cd:TableColumn ;
+    skos:prefLabel "Sample"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-temperature a cd:TableColumn ;
+    skos:prefLabel "Temperature (°C)"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-nitrate a cd:TableColumn ;
+    skos:prefLabel "Nitrate (mg/L)"@en ; cd:position 3 ; cd:authoredResource true .
+
+  ex:table-row-sample-1 a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-sample-1-id,
+      ex:table-cell-sample-1-temperature,
+      ex:table-cell-sample-1-nitrate ;
+    cd:authoredResource true .
+  ex:table-cell-sample-1-id a cd:TableCell ; cd:position 1 ; cd:body "S1"@en ; cd:authoredResource true .
+  ex:table-cell-sample-1-temperature a cd:TableCell ; cd:position 2 ; cd:body "12.4"@en ; cd:authoredResource true .
+  ex:table-cell-sample-1-nitrate a cd:TableCell ; cd:position 3 ; cd:body "3.2"@en ; cd:authoredResource true .
+
+  ex:table-row-sample-2 a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-sample-2-id,
+      ex:table-cell-sample-2-temperature,
+      ex:table-cell-sample-2-nitrate ;
+    cd:authoredResource true .
+  ex:table-cell-sample-2-id a cd:TableCell ; cd:position 1 ; cd:body "S2"@en ; cd:authoredResource true .
+  ex:table-cell-sample-2-temperature a cd:TableCell ; cd:position 2 ; cd:body "14.1"@en ; cd:authoredResource true .
+  ex:table-cell-sample-2-nitrate a cd:TableCell ; cd:position 3 ; cd:body "7.8"@en ; cd:authoredResource true .
+
+  ex:table-row-sample-3 a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-sample-3-id,
+      ex:table-cell-sample-3-temperature,
+      ex:table-cell-sample-3-nitrate ;
+    cd:authoredResource true .
+  ex:table-cell-sample-3-id a cd:TableCell ; cd:position 1 ; cd:body "S3"@en ; cd:authoredResource true .
+  ex:table-cell-sample-3-temperature a cd:TableCell ; cd:position 2 ; cd:body "10.8"@en ; cd:authoredResource true .
+  ex:table-cell-sample-3-nitrate a cd:TableCell ; cd:position 3 ; cd:body "1.5"@en ; cd:authoredResource true .
+
+  ex:chart-distribution-preview a cd:ChartDefinition ;
+    skos:prefLabel "Observed values form an empirical distribution"@en ;
+    cd:body "Illustrative frequency profile showing how observed values accumulate across value ranges."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Value range"@en ;
+    cd:yAxisLabel "Frequency"@en ;
+    cd:usesDataset ex:dataset-distribution-preview ;
+    cd:authoredResource true .
+
+  ex:dataset-distribution-preview a cd:Dataset ;
+    skos:prefLabel "Illustrative empirical distribution"@en ;
+    cd:hasObservation ex:distribution-bin-1, ex:distribution-bin-2,
+      ex:distribution-bin-3, ex:distribution-bin-4,
+      ex:distribution-bin-5, ex:distribution-bin-6,
+      ex:distribution-bin-7 ;
+    cd:authoredResource true .
+
+  ex:distribution-bin-1 a cd:Observation ; skos:prefLabel "< 2"@en ; cd:position 1 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:distribution-bin-2 a cd:Observation ; skos:prefLabel "2–4"@en ; cd:position 2 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:distribution-bin-3 a cd:Observation ; skos:prefLabel "4–6"@en ; cd:position 3 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:distribution-bin-4 a cd:Observation ; skos:prefLabel "6–8"@en ; cd:position 4 ; cd:numericValue 8.0 ; cd:authoredResource true .
+  ex:distribution-bin-5 a cd:Observation ; skos:prefLabel "8–10"@en ; cd:position 5 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:distribution-bin-6 a cd:Observation ; skos:prefLabel "10–12"@en ; cd:position 6 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:distribution-bin-7 a cd:Observation ; skos:prefLabel "> 12"@en ; cd:position 7 ; cd:numericValue 1.0 ; cd:authoredResource true .
+
+  ex:random-variable-mapping-formula a cd:MathExpression ;
+    cd:latex "X:\\Omega \\rightarrow \\mathbb{R}, \\qquad \\omega \\mapsto X(\\omega)=x" ;
+    cd:authoredResource true .
+
+  ex:diagram-random-variable-realization a cd:FlowDiagram ;
+    skos:prefLabel "From random process to observed realization"@en ;
+    cd:body "A random variable maps an outcome to a numerical value; an observed value is one realization, not the random variable itself."@en ;
+    cd:hasDiagramNode ex:node-random-process,
+      ex:node-random-variable-map,
+      ex:node-random-realization ;
+    cd:hasDiagramEdge ex:edge-random-process-map,
+      ex:edge-random-map-realization ;
+    cd:focusNode ex:node-random-variable-map ;
+    cd:authoredResource true .
+
+  ex:node-random-process a cd:DiagramNode ;
+    skos:prefLabel "RANDOM PROCESS"@en ;
+    cd:body "One outcome ω occurs from the sample space Ω."@en ;
+    cd:position 1 ;
+    cd:visualMotif "statistics" ;
+    cd:visualMotifRole "supporting" ;
+    cd:authoredResource true .
+  ex:node-random-variable-map a cd:DiagramNode ;
+    skos:prefLabel "RANDOM VARIABLE X"@en ;
+    cd:body "A measurable mapping from outcomes to numbers."@en ;
+    cd:position 2 ;
+    cd:visualMotif "inference" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+  ex:node-random-realization a cd:DiagramNode ;
+    skos:prefLabel "REALIZATION x"@en ;
+    cd:body "One observed numerical value."@en ;
+    cd:position 3 ;
+    cd:visualMotif "regression" ;
+    cd:visualMotifRole "supporting" ;
+    cd:authoredResource true .
+  ex:edge-random-process-map a cd:DiagramEdge ;
+    skos:prefLabel "mapped by X"@en ;
+    cd:position 1 ;
+    cd:sourceNode ex:node-random-process ;
+    cd:targetNode ex:node-random-variable-map ;
+    cd:authoredResource true .
+  ex:edge-random-map-realization a cd:DiagramEdge ;
+    skos:prefLabel "realization"@en ;
+    cd:position 2 ;
+    cd:sourceNode ex:node-random-variable-map ;
+    cd:targetNode ex:node-random-realization ;
+    cd:authoredResource true .
+
+  ex:chart-discrete-random-variable a cd:ChartDefinition ;
+    skos:prefLabel "Discrete probability mass"@en ;
+    cd:body "Illustrative probability mass function over countable values."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Count x"@en ;
+    cd:yAxisLabel "P(X = x)"@en ;
+    cd:usesDataset ex:dataset-discrete-random-variable ;
+    cd:authoredResource true .
+
+  ex:dataset-discrete-random-variable a cd:Dataset ;
+    skos:prefLabel "Illustrative discrete probability mass"@en ;
+    cd:hasObservation ex:discrete-probability-0, ex:discrete-probability-1,
+      ex:discrete-probability-2, ex:discrete-probability-3,
+      ex:discrete-probability-4, ex:discrete-probability-5 ;
+    cd:authoredResource true .
+  ex:discrete-probability-0 a cd:Observation ; skos:prefLabel "0"@en ; cd:position 1 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:discrete-probability-1 a cd:Observation ; skos:prefLabel "1"@en ; cd:position 2 ; cd:numericValue 0.15 ; cd:authoredResource true .
+  ex:discrete-probability-2 a cd:Observation ; skos:prefLabel "2"@en ; cd:position 3 ; cd:numericValue 0.28 ; cd:authoredResource true .
+  ex:discrete-probability-3 a cd:Observation ; skos:prefLabel "3"@en ; cd:position 4 ; cd:numericValue 0.27 ; cd:authoredResource true .
+  ex:discrete-probability-4 a cd:Observation ; skos:prefLabel "4"@en ; cd:position 5 ; cd:numericValue 0.17 ; cd:authoredResource true .
+  ex:discrete-probability-5 a cd:Observation ; skos:prefLabel "5"@en ; cd:position 6 ; cd:numericValue 0.08 ; cd:authoredResource true .
+
+  ex:chart-continuous-random-variable a cd:ChartDefinition ;
+    skos:prefLabel "Continuous density-like curve"@en ;
+    cd:body "Illustrative smooth probability-density shape for a continuously valued measurement."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Concentration"@en ;
+    cd:yAxisLabel "Density"@en ;
+    cd:xAxisUnit "mg/L" ;
+    cd:usesDataset ex:dataset-continuous-random-variable ;
+    cd:authoredResource true .
+
+  ex:dataset-continuous-random-variable a cd:Dataset ;
+    skos:prefLabel "Illustrative continuous density"@en ;
+    cd:hasObservation ex:continuous-density-0, ex:continuous-density-1,
+      ex:continuous-density-2, ex:continuous-density-3,
+      ex:continuous-density-4, ex:continuous-density-5,
+      ex:continuous-density-6 ;
+    cd:authoredResource true .
+  ex:continuous-density-0 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.01 ; cd:authoredResource true .
+  ex:continuous-density-1 a cd:Observation ; cd:position 2 ; cd:xValue 1.0 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:continuous-density-2 a cd:Observation ; cd:position 3 ; cd:xValue 2.0 ; cd:numericValue 0.24 ; cd:authoredResource true .
+  ex:continuous-density-3 a cd:Observation ; cd:position 4 ; cd:xValue 3.0 ; cd:numericValue 0.38 ; cd:authoredResource true .
+  ex:continuous-density-4 a cd:Observation ; cd:position 5 ; cd:xValue 4.0 ; cd:numericValue 0.24 ; cd:authoredResource true .
+  ex:continuous-density-5 a cd:Observation ; cd:position 6 ; cd:xValue 5.0 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:continuous-density-6 a cd:Observation ; cd:position 7 ; cd:xValue 6.0 ; cd:numericValue 0.01 ; cd:authoredResource true .
+
   # Random variables ---------------------------------------------------------
   ex:random-variable a cd:Concept ;
     skos:prefLabel "random variable"@en, "Zufallsvariable"@de ;
