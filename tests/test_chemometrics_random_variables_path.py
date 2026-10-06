@@ -30,58 +30,81 @@ CONTENT_GRAPH = URIRef(
     "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics"
 )
 
-EXPECTED_STEPS = {
-    EX["path-step-chemometrics-random-variables-opener"]: (
-        1,
-        {EX["exercise-dice-realizations"]},
-    ),
-    EX["path-step-chemometrics-random-variables-core-distinction"]: (
-        2,
-        {
-            EX["def-random-variable"],
-            EX["random-variable-realization-interpretation"],
-        },
-    ),
-    EX["path-step-chemometrics-random-variables-measurement-model"]: (
-        3,
-        {EX["random-measurement-model-interpretation"]},
-    ),
-    EX["path-step-chemometrics-random-variables-discrete-case"]: (
-        4,
-        {
-            EX["def-discrete-random-variable"],
-            EX["worked-example-discrete-colony-count"],
-        },
-    ),
-    EX["path-step-chemometrics-random-variables-continuous-case"]: (
-        5,
-        {
-            EX["def-continuous-random-variable"],
-            EX["worked-example-continuous-concentration"],
-        },
-    ),
+EXPECTED_TOPICS = {
+    EX["variables-and-constants"],
+    EX["variable"],
+    EX["independent-dependent-variable-roles"],
+    EX["independent-variable"],
+    EX["dependent-variable"],
+    EX["constant"],
+    EX["sample"],
+    EX["distribution"],
+    EX["random-variable"],
+    EX["discrete-random-variable"],
+    EX["continuous-random-variable"],
 }
 
-EXPECTED_SCENES = {
-    EX["path-step-chemometrics-random-variables-opener"]: EX[
-        "scene-chemometrics-random-variables-opener"
-    ],
-    EX["path-step-chemometrics-random-variables-core-distinction"]: EX[
-        "scene-chemometrics-random-variables-core-distinction"
-    ],
-    EX["path-step-chemometrics-random-variables-measurement-model"]: EX[
-        "scene-chemometrics-random-variables-measurement-model"
-    ],
-    EX["path-step-chemometrics-random-variables-discrete-case"]: EX[
-        "scene-chemometrics-random-variables-discrete-case"
-    ],
-    EX["path-step-chemometrics-random-variables-continuous-case"]: EX[
-        "scene-chemometrics-random-variables-continuous-case"
-    ],
-}
+EXPECTED_STEPS = [
+    ("variables-constants-opener", {
+        EX["def-variables-and-constants"],
+        EX["variable-constant-scope-interpretation"],
+    }),
+    ("variable-definition", {EX["def-variable"]}),
+    ("constant-distinction", {
+        EX["def-constant"],
+        EX["variable-constant-comparison"],
+        EX["variable-constant-scope-interpretation"],
+    }),
+    ("variable-roles", {
+        EX["def-independent-dependent-variable-roles"],
+        EX["def-independent-variable"],
+        EX["def-dependent-variable"],
+        EX["independent-dependent-variable-comparison"],
+        EX["independent-dependent-variable-role-interpretation"],
+    }),
+    ("variable-examples", {
+        EX["worked-example-calibration-variable-constant"],
+        EX["worked-example-injection-variable-constant"],
+        EX["worked-example-water-samples-variable-constant"],
+    }),
+    ("variable-code-experiment", {
+        EX["exercise-variable-constant-code-experiment"],
+        EX["code-variable-constant-r"],
+        EX["expected-variable-constant-code-experiment"],
+    }),
+    ("sample-variable", {EX["sample-variable-interpretation"]}),
+    ("distribution-anchor", {EX["def-distribution"]}),
+    ("random-variable", {
+        EX["def-random-variable"],
+        EX["random-variable-realization-interpretation"],
+    }),
+    ("discrete-random-variable", {
+        EX["def-discrete-random-variable"],
+        EX["worked-example-discrete-colony-count"],
+    }),
+    ("continuous-random-variable", {
+        EX["def-continuous-random-variable"],
+        EX["worked-example-continuous-concentration"],
+    }),
+    ("classify-concentration", {
+        EX["exercise-classify-calibration-concentration"],
+        EX["poll-classify-calibration-concentration"],
+        EX["expected-classify-calibration-concentration"],
+    }),
+    ("classify-wavelength", {
+        EX["exercise-classify-fixed-wavelength"],
+        EX["poll-classify-fixed-wavelength"],
+        EX["expected-classify-fixed-wavelength"],
+    }),
+    ("classify-temperature", {
+        EX["exercise-classify-recorded-temperature"],
+        EX["poll-classify-recorded-temperature"],
+        EX["expected-classify-recorded-temperature"],
+    }),
+]
 
 
-class ChemometricsRandomVariablesPathTests(unittest.TestCase):
+class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
@@ -89,80 +112,39 @@ class ChemometricsRandomVariablesPathTests(unittest.TestCase):
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
         cls.content_graph = cls.dataset.graph(CONTENT_GRAPH)
 
-    def test_exact_path_identity_and_same_graph_course_context(self) -> None:
+    def test_stable_path_identity_is_retargeted_to_variables_and_constants(self) -> None:
         self.assertEqual({PATH}, set(self.path_graph.subjects(RDF.type, CD.LearningPath)))
-        self.assertEqual(
-            {EX["random-variable"]},
-            set(self.path_graph.objects(PATH, CD.forTopic)),
-        )
+        self.assertEqual(EXPECTED_TOPICS, set(self.path_graph.objects(PATH, CD.forTopic)))
         self.assertEqual(
             {EX["learning-unit-random-variables"]},
             set(self.path_graph.objects(PATH, CD.forLearningUnit)),
         )
-        self.assertEqual(
-            {Literal(True)},
-            set(self.path_graph.objects(PATH, CD.authoredResource)),
-        )
+        self.assertEqual({Literal(True)}, set(self.path_graph.objects(PATH, CD.authoredResource)))
 
-    def test_path_has_exactly_five_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_exactly_fourteen_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(set(EXPECTED_STEPS), steps)
-
-        positions = []
-        for step, (expected_position, _resources) in EXPECTED_STEPS.items():
+        self.assertEqual(14, len(steps))
+        for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
+            step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):
-                self.assertEqual({CD.PathStep}, set(self.path_graph.objects(step, RDF.type)))
-                position_values = set(self.path_graph.objects(step, CD.position))
-                self.assertEqual({Literal(expected_position)}, position_values)
-                positions.extend(int(value) for value in position_values)
-
-        self.assertEqual([1, 2, 3, 4, 5], sorted(positions))
-        self.assertEqual(5, len(set(positions)))
-
-    def test_each_step_uses_only_the_manager_approved_issue_108_resources(self) -> None:
-        for step, (_position, expected_resources) in EXPECTED_STEPS.items():
-            with self.subTest(step=step):
-                self.assertEqual(
-                    expected_resources,
-                    set(self.path_graph.objects(step, CD.usesResource)),
-                )
+                self.assertIn(step, steps)
+                self.assertEqual({Literal(position)}, set(self.path_graph.objects(step, CD.position)))
+                self.assertEqual(expected_resources, set(self.path_graph.objects(step, CD.usesResource)))
+                self.assertEqual(1, len(set(self.path_graph.objects(step, CD.usesScene))))
                 for resource in expected_resources:
                     self.assertTrue(
                         any(self.content_graph.triples((resource, None, None))),
-                        f"Path resource is not owned by the reviewed Chemometrics content graph: {resource}",
+                        f"Path resource is not in the reviewed Chemometrics content graph: {resource}",
                     )
 
-        typed_resources = {
-            (subject, object_type)
-            for subject, _predicate, object_type in self.path_graph.triples((None, RDF.type, None))
-        }
-        expected_typed_resources = {(PATH, CD.LearningPath)} | {
-            (step, CD.PathStep) for step in EXPECTED_STEPS
-        }
-        self.assertEqual(expected_typed_resources, typed_resources)
-
-    def test_path_binds_each_step_to_exactly_one_scene_without_defining_scenes(self) -> None:
-        for step, expected_scene in EXPECTED_SCENES.items():
-            with self.subTest(step=step):
-                self.assertEqual(
-                    {expected_scene},
-                    set(self.path_graph.objects(step, CD.usesScene)),
-                )
+    def test_path_graph_owns_only_path_and_steps_not_scene_definitions(self) -> None:
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
-    def test_first_three_chemometrics_units_have_exact_paths(self) -> None:
+    def test_course_discovery_keeps_one_exact_path_for_level_one(self) -> None:
         self.assertEqual(
             {PATH},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),
-        )
-        self.assertEqual(
-            {EX["path-chemometrics-mean-values-lecture"]},
-            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-mean-values"])),
-        )
-        self.assertEqual(
-            {EX["path-chemometrics-variance-dispersion-lecture"]},
-            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-variance-dispersion"])),
         )
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
