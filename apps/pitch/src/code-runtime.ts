@@ -3,7 +3,8 @@ const WEBR_MODULE_PATH = "/vendor/webr/v0.6.0/webr.js";
 const WEBR_BASE_PATH = "/vendor/webr/v0.6.0/";
 
 interface EditorHandle {
-  readonly state: { readonly doc: { toString(): string } };
+  readonly state: { readonly doc: { readonly length: number; toString(): string } };
+  dispatch(spec: { readonly changes: { readonly from: number; readonly to: number; readonly insert: string } }): void;
   destroy(): void;
   requestMeasure(): void;
 }
@@ -110,32 +111,44 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       const run = document.createElement("button");
       run.type = "button";
       run.className = "code-run-button";
-      run.textContent = "Ausführen";
+      run.textContent = "Run";
+      const reset = document.createElement("button");
+      reset.type = "button";
+      reset.className = "code-reset-button";
+      reset.textContent = "Reset";
       const runtimeLabel = document.createElement("span");
       runtimeLabel.className = "code-runtime-label";
-      runtimeLabel.textContent = "R im Browser (webR)";
-      controls.append(run, runtimeLabel);
+      runtimeLabel.textContent = "R · webR";
+      controls.append(run, reset, runtimeLabel);
 
       const output = document.createElement("pre");
       output.className = "code-output";
       output.setAttribute("aria-live", "polite");
-      output.setAttribute("aria-label", "R-Ausgabe");
-      output.textContent = "Noch nicht ausgeführt.";
+      output.setAttribute("aria-label", "R output");
+      output.textContent = "Output will appear here.";
 
       fallback?.setAttribute("hidden", "");
       shell.append(editorHost, controls, output);
 
       let editor: EditorHandle | undefined;
       let disposed = false;
+      const resetEditor = (): void => {
+        if (disposed || !editor) return;
+        editor.dispatch({
+          changes: { from: 0, to: editor.state.doc.length, insert: initialCode },
+        });
+        output.textContent = "Output will appear here.";
+        editor.requestMeasure();
+      };
       const execute = async (): Promise<void> => {
         if (disposed || !editor) return;
         run.disabled = true;
-        output.textContent = "R-Laufzeit wird geladen …";
+        output.textContent = "Loading R runtime …";
         try {
           const result = await executor.execute(editor.state.doc.toString());
-          if (!disposed) output.textContent = result.length > 0 ? result : "(keine Ausgabe)";
+          if (!disposed) output.textContent = result.length > 0 ? result : "(no output)";
         } catch (error) {
-          if (!disposed) output.textContent = `Fehler: ${error instanceof Error ? error.message : String(error)}`;
+          if (!disposed) output.textContent = `Error: ${error instanceof Error ? error.message : String(error)}`;
         } finally {
           if (!disposed) run.disabled = false;
         }
@@ -145,6 +158,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
         disposed = true;
         shell.removeEventListener("keydown", stopDeckKeyboard);
         run.removeEventListener("click", execute);
+        reset.removeEventListener("click", resetEditor);
         editor?.destroy();
         editorHost.remove();
         controls.remove();
@@ -159,6 +173,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       });
       editors.push(editor);
       run.addEventListener("click", execute);
+      reset.addEventListener("click", resetEditor);
     }
   } catch (error) {
     for (const remove of cleanup.reverse()) remove();

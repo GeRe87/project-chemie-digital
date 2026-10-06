@@ -54,6 +54,7 @@ import {
 import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
+import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-poll-runtime.ts";
 import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
@@ -372,22 +373,33 @@ const stopBackgroundProgress = progressSource.start((offset) => {
 
 let codeRuntime: CodeRuntimeController | undefined;
 let pollRuntime: PollRuntimeController | undefined;
+let localPollRuntime: LocalPollRuntimeController | undefined;
+
+try {
+  codeRuntime = await mountExecutableCodeBlocks(root);
+} catch (error) {
+  console.warn("Local interactive code runtime unavailable; static code fallback remains active.", error);
+}
+
+try {
+  localPollRuntime = mountLocalChoicePolls(root);
+} catch (error) {
+  console.warn("Local quiz runtime unavailable; authored static choices remain active.", error);
+}
+
 if (connectedInteractive) {
-  try {
-    codeRuntime = await mountExecutableCodeBlocks(root);
-  } catch (error) {
-    console.warn("Connected interactive code runtime unavailable; static code fallback remains active.", error);
-  }
   try {
     pollRuntime = mountLivePolls(root, window.location.search);
   } catch (error) {
     console.warn("Connected live poll runtime unavailable; static poll fallback remains active.", error);
   }
-  deck.on("slidechanged", () => {
-    codeRuntime?.refresh();
-    void pollRuntime?.refresh();
-  });
 }
+
+const refreshInteractiveRuntime = (): void => {
+  codeRuntime?.refresh();
+  void pollRuntime?.refresh();
+};
+deck.on("slidechanged", refreshInteractiveRuntime);
 
 const unmountShell = mountGraphSummaryShell({
   root: shellRoot,
@@ -398,7 +410,9 @@ const unmountShell = mountGraphSummaryShell({
 });
 
 window.addEventListener("pagehide", () => {
+  deck.off("slidechanged", refreshInteractiveRuntime);
   pollRuntime?.destroy();
+  localPollRuntime?.destroy();
   codeRuntime?.destroy();
   deck.off("slidechanged", syncPresentationVideos);
   deck.off("slidechanged", syncFullMediaMode);

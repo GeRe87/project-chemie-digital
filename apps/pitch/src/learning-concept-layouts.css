@@ -283,3 +283,242 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Browser-polish pass for nested charts and compact interactive teaching. */
+.reveal .slides section[data-layout="measurement-example"] {
+  grid-template-columns: minmax(17rem, .72fr) minmax(0, 1.28fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: .55rem 1rem;
+  padding: 1rem 1.35rem 1.15rem !important;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="intro"] {
+  padding: .42rem .72rem;
+  font-size: .72em;
+  line-height: 1.2;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="table"],
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"],
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="table"],
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"].retro-neon-chart-window,
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"].retro-neon-chart-window {
+  width: 100% !important;
+  max-width: 100%;
+  margin: 0;
+  padding: .45rem .55rem .35rem;
+  border-width: 3px;
+  box-shadow: 5px 5px 0 var(--pcd-chart-shadow);
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .retro-neon-chart-header,
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .retro-neon-chart-header {
+  position: static;
+  min-height: 0;
+  margin: -.45rem -.55rem .25rem;
+  padding: .3rem .55rem;
+  border-bottom-width: 2px;
+  font-size: .58em;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .retro-neon-chart-subtitle,
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .retro-neon-chart-subtitle {
+  display: none;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .d3-chart-svg,
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
+  width: 100%;
+  min-height: 0;
+  max-height: 22rem;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-layout="functional-dependence"] {
+  grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
+  grid-template-rows: auto auto auto auto;
+  gap: .5rem 1rem;
+  padding: 1rem 1.35rem 1.1rem !important;
+}
+.reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="intro"] {
+  padding: .85rem;
+  font-size: .86em;
+  line-height: 1.24;
+}
+.reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="formula"] {
+  padding: .25rem .7rem;
+  font-size: 1.42em;
+}
+.reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="examples"] {
+  gap: .5rem;
+  min-width: 0;
+}
+.reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="examples"] > .definition-list-entry {
+  min-width: 0;
+  padding: .62rem;
+}
+.reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="caveat"] {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: .42rem .7rem;
+  font-size: .68em;
+  line-height: 1.16;
+}
+
+.reveal .slides section[data-layout="observation-bridge"] {
+  grid-template-rows: auto auto auto 13.5rem auto;
+  gap: .38rem;
+  padding: .9rem 1.5rem 1rem !important;
+}
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="intro"],
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="takeaway"] {
+  width: min(1080px, 94%);
+  padding: .38rem .7rem;
+  font-size: .67em;
+  line-height: 1.15;
+}
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="values"] {
+  padding: .2rem .6rem;
+  font-size: 1.04em;
+}
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] {
+  align-self: stretch;
+  min-height: 0;
+  max-height: 13.5rem;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] .d3-flow-svg {
+  min-height: 13.5rem !important;
+  max-height: 13.5rem;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-layout="minimal-code-demo"] {
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: .55rem;
+  padding: 1rem 1.6rem 1.2rem !important;
+}
+.reveal .slides section[data-layout="minimal-code-demo"] > [data-layout-slot="intro"] {
+  width: min(940px, 88%);
+  padding: .48rem .75rem;
+  font-size: .76em;
+  line-height: 1.18;
+}
+.reveal .slides section[data-layout="minimal-code-demo"] > [data-layout-slot="code"] {
+  align-self: center;
+  width: min(980px, 88%);
+  max-width: none;
+  margin: 0 auto;
+  padding: .75rem;
+  border: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 94%, transparent);
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+}
+.reveal .slides section[data-layout="minimal-code-demo"] .code-editor-host .cm-editor,
+.reveal .slides section[data-layout="minimal-code-demo"] .code-editor-host .cm-scroller {
+  min-height: 4.3rem;
+}
+.reveal .slides section[data-layout="minimal-code-demo"] .code-runtime-controls {
+  justify-content: center;
+  margin: .55rem 0;
+}
+.reveal .slides section[data-layout="minimal-code-demo"] .code-output {
+  min-height: 3rem;
+  padding: .65rem .8rem;
+  font-size: 1.05em;
+  text-align: center;
+}
+
+.reveal .slides section[data-layout="experiment-example"] {
+  grid-template-columns: minmax(20rem, .82fr) minmax(0, 1.18fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: .45rem .9rem;
+  padding: .9rem 1.3rem 1rem !important;
+}
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="intro"] {
+  padding: .36rem .62rem;
+  font-size: .66em;
+  line-height: 1.14;
+}
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
+  max-height: 19rem;
+}
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] {
+  gap: .5rem;
+}
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] > li {
+  padding: .45rem .55rem;
+  font-size: .63em;
+  line-height: 1.14;
+}
+
+.reveal .slides section[data-layout="quiz-grid"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: .75rem;
+  padding: 1rem 1.4rem 1.15rem !important;
+}
+.reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot="heading"] {
+  grid-column: 1 / -1;
+}
+.reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot^="question-"] {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: .75rem;
+}
+.reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot="question-1"] { grid-column: 1; }
+.reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot="question-2"] { grid-column: 2; }
+.reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot="question-3"] { grid-column: 3; }
+.reveal .slides section[data-layout="quiz-grid"] .poll-prompt {
+  margin: 0 0 .6rem;
+  font-size: .68em;
+  line-height: 1.18;
+}
+.reveal .slides section[data-layout="quiz-grid"] .poll-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .42rem;
+}
+.reveal .slides section[data-layout="quiz-grid"] .poll-options > li {
+  padding: 0;
+  border: 0;
+}
+.reveal .slides section[data-layout="quiz-grid"] .poll-option-button {
+  min-height: 2.65rem;
+  padding: .42rem .5rem;
+  border-radius: 0;
+  font: 850 .62em/1.12 "Cascadia Mono", Consolas, monospace;
+}
+.reveal .slides section[data-layout="quiz-grid"] .poll-local-feedback {
+  margin-top: auto;
+  padding: .48rem .55rem;
+  font-size: .58em;
+  line-height: 1.16;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-layout="quiz-grid"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+  .reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot^="question-"] {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .reveal .slides section[data-layout="observation-bridge"] {
+    grid-template-rows: auto auto auto auto auto;
+  }
+  .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"],
+  .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] .d3-flow-svg {
+    max-height: none;
+    min-height: 16rem !important;
+  }
+}

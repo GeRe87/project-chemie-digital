@@ -325,23 +325,55 @@ function appendBlock(
     shell.className = "live-poll";
     blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
-    const optionIds = block.source.slice(1).map((source) => source.resourceId);
+    const optionIds = block.optionIds ?? [];
     if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
+    if (block.correctOptionId) shell.setAttribute("data-correct-option-id", block.correctOptionId);
     sourceAttributes(shell, block.source);
+
     const prompt = dom.createElement("p");
     prompt.className = "poll-prompt";
     prompt.textContent = block.prompt;
     shell.appendChild(prompt);
+
     if (block.options?.length) {
       const list = dom.createElement("ul");
       list.className = "poll-options";
-      for (const option of block.options) {
+      for (const [index, option] of block.options.entries()) {
         const item = dom.createElement("li");
-        item.textContent = option;
+        const optionId = optionIds[index];
+        if (optionId) item.setAttribute("data-poll-option-id", optionId);
+        if (block.correctOptionId && optionId) {
+          const button = dom.createElement("button");
+          button.className = "poll-option-button";
+          button.setAttribute("type", "button");
+          button.setAttribute("data-poll-option-id", optionId);
+          button.setAttribute("aria-pressed", "false");
+          button.textContent = option;
+          item.appendChild(button);
+        } else {
+          item.textContent = option;
+        }
         list.appendChild(item);
       }
       shell.appendChild(list);
     }
+
+    if (block.expectedResult && block.correctOptionId) {
+      const feedback = dom.createElement("div");
+      feedback.className = "poll-local-feedback";
+      feedback.setAttribute("data-poll-local-feedback", "true");
+      feedback.setAttribute("aria-live", "polite");
+      feedback.setAttribute("hidden", "");
+      const status = dom.createElement("strong");
+      status.className = "poll-local-feedback-status";
+      const explanation = dom.createElement("span");
+      explanation.className = "poll-local-feedback-explanation";
+      explanation.textContent = block.expectedResult;
+      feedback.appendChild(status);
+      feedback.appendChild(explanation);
+      shell.appendChild(feedback);
+    }
+
     parent.appendChild(shell);
     return;
   }
@@ -461,9 +493,46 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
   return () => { if (!destroyed) { destroyed = true; dom.root.innerHTML = ""; } };
 }
 
-export function installNoNetworkGuard(target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown }): () => void {
-  const originalFetch = target.fetch; const originalXhr = target.XMLHttpRequest; const originalSocket = target.WebSocket;
-  const deny = () => { throw new Error("Runtime network requests are prohibited in the pitch preview"); };
-  target.fetch = deny as typeof fetch; target.XMLHttpRequest = deny; target.WebSocket = deny;
-  return () => { target.fetch = originalFetch; target.XMLHttpRequest = originalXhr; target.WebSocket = originalSocket; };
+export function isAllowedLocalRuntimeRequest(input: unknown, baseHref: string): boolean {
+  try {
+    const raw = typeof input === "string"
+      ? input
+      : input instanceof URL
+        ? input.href
+        : typeof Request !== "undefined" && input instanceof Request
+          ? input.url
+          : "";
+    if (!raw) return false;
+    const base = new URL(baseHref);
+    const resolved = new URL(raw, base);
+    return resolved.origin === base.origin && resolved.pathname.startsWith("/vendor/");
+  } catch {
+    return false;
+  }
+}
+
+export function installNoNetworkGuard(
+  target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown },
+  baseHref = typeof window !== "undefined" ? window.location.href : "",
+): () => void {
+  const originalFetch = target.fetch;
+  const originalXhr = target.XMLHttpRequest;
+  const originalSocket = target.WebSocket;
+  const deny = () => { throw new Error("External runtime network requests are prohibited in the pitch preview"); };
+
+  target.fetch = ((input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
+    if (originalFetch && baseHref && isAllowedLocalRuntimeRequest(input, baseHref)) {
+      return originalFetch(input, init);
+    }
+    return deny();
+  }) as typeof fetch;
+  // XMLHttpRequest and WebSocket remain fully blocked. The pinned CodeMirror/webR
+  // runtime uses same-origin module/worker/fetch assets under /vendor/.
+  target.XMLHttpRequest = deny;
+  target.WebSocket = deny;
+  return () => {
+    target.fetch = originalFetch;
+    target.XMLHttpRequest = originalXhr;
+    target.WebSocket = originalSocket;
+  };
 }
