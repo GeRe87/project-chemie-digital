@@ -190,5 +190,8 @@ graph:concepts {
   cd:yAxisLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range rdf:langString .
   cd:xAxisUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
   cd:yAxisUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:liveUpdateIntervalMs a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:integer .
+  cd:liveJitterAmplitude a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:liveDecimalPlaces a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:integer .
   cd:xValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range xsd:decimal .
 }

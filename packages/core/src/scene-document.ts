@@ -301,6 +301,12 @@ export interface LineChartRangeAnnotation {
 
 export type LineChartAnnotation = LineChartPointAnnotation | LineChartRangeAnnotation;
 
+export interface LiveChartUpdate {
+  readonly intervalMs: number;
+  readonly jitterAmplitude: number;
+  readonly decimalPlaces: number;
+}
+
 export interface BarChartBlock extends SceneBlockBase {
   readonly kind: "chart";
   readonly chartType: "bar";
@@ -310,6 +316,7 @@ export interface BarChartBlock extends SceneBlockBase {
   readonly yAxis: ChartAxis;
   readonly data: readonly BarChartDatum[];
   readonly annotations?: readonly BarChartPointAnnotation[];
+  readonly liveUpdate?: LiveChartUpdate;
 }
 
 export interface LineChartBlock extends SceneBlockBase {
@@ -321,6 +328,7 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly yAxis: ChartAxis;
   readonly series: readonly LineChartSeries[];
   readonly annotations?: readonly LineChartAnnotation[];
+  readonly liveUpdate?: LiveChartUpdate;
 }
 
 export type ChartBlock = BarChartBlock | LineChartBlock;
@@ -587,6 +595,17 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if (block.liveUpdate !== undefined) {
+    if (!Number.isInteger(block.liveUpdate.intervalMs) || block.liveUpdate.intervalMs < 250) {
+      throw new SceneContractError(`${label} live chart interval must be an integer >= 250 ms`);
+    }
+    if (!Number.isFinite(block.liveUpdate.jitterAmplitude) || block.liveUpdate.jitterAmplitude <= 0) {
+      throw new SceneContractError(`${label} live chart jitter amplitude must be finite and positive`);
+    }
+    if (!Number.isInteger(block.liveUpdate.decimalPlaces) || block.liveUpdate.decimalPlaces < 0 || block.liveUpdate.decimalPlaces > 6) {
+      throw new SceneContractError(`${label} live chart decimal places must be an integer from 0 to 6`);
+    }
+  }
 
   if (block.chartType === "bar") {
     if (block.data.length === 0) throw new SceneContractError(`${label} bar chart must contain at least one datum`);

@@ -796,13 +796,49 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
     return payload, label_relation_path
 
 
+def live_chart_update_payload(dataset: Dataset, chart: URIRef) -> dict[str, Any] | None:
+    interval_predicate = iri(CD, "liveUpdateIntervalMs")
+    amplitude_predicate = iri(CD, "liveJitterAmplitude")
+    decimals_predicate = iri(CD, "liveDecimalPlaces")
+    interval_value = one(dataset, chart, interval_predicate, required=False)
+    amplitude_value = one(dataset, chart, amplitude_predicate, required=False)
+    decimals_value = one(dataset, chart, decimals_predicate, required=False)
+    values = (interval_value, amplitude_value, decimals_value)
+    if all(value is None for value in values):
+        return None
+    if any(value is None for value in values):
+        raise ValueError(f"Live chart metadata is incomplete for {compact(chart)}")
+    try:
+        interval_ms = int(str(interval_value))
+        decimal_places = int(str(decimals_value))
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"Invalid live chart integer metadata for {compact(chart)}") from error
+    jitter_amplitude = decimal_number(dataset, chart, amplitude_predicate)
+    if interval_ms < 250:
+        raise ValueError(f"Live chart update interval must be >= 250 ms for {compact(chart)}")
+    if jitter_amplitude <= 0:
+        raise ValueError(f"Live chart jitter amplitude must be positive for {compact(chart)}")
+    if decimal_places < 0 or decimal_places > 6:
+        raise ValueError(f"Live chart decimal places must be between 0 and 6 for {compact(chart)}")
+    return {
+        "intervalMs": interval_ms,
+        "jitterAmplitude": jitter_amplitude,
+        "decimalPlaces": decimal_places,
+    }
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
     if chart_type == iri(CD, "BarChart"):
-        return bar_chart_payload(dataset, chart, language)
-    if chart_type == iri(CD, "LineChart"):
-        return line_chart_payload(dataset, chart, language)
-    raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+        payload, relation_path = bar_chart_payload(dataset, chart, language)
+    elif chart_type == iri(CD, "LineChart"):
+        payload, relation_path = line_chart_payload(dataset, chart, language)
+    else:
+        raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+    live_update = live_chart_update_payload(dataset, chart)
+    if live_update is not None:
+        payload["liveUpdate"] = live_update
+    return payload, relation_path
 
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
@@ -1121,7 +1157,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if role != "PollRole":
                     raise ValueError(f"Audience poll {compact(selected)} requires PollRole")
                 prompt = resource_text(dataset, selected, language or "de")
-                option_resources = [value for value in objects(dataset, selected, iri(CD, "hasPollOption")) if isinstance(value, URIRef)]
+                option_resources = sorted(
+                    [value for value in objects(dataset, selected, iri(CD, "hasPollOption")) if isinstance(value, URIRef)],
+                    key=str,
+                )
                 if len(option_resources) < 2:
                     raise ValueError(f"Audience poll {compact(selected)} requires at least two options")
                 options = [resource_text(dataset, option, language or "de") for option in option_resources]

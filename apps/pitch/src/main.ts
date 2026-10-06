@@ -56,6 +56,7 @@ import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntime
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
 import { mountSemanticMultiViews } from "./semantic-multi-view-runtime.ts";
@@ -122,6 +123,7 @@ const unmountCharts = mountPitchCharts(
   documents,
   { reducedMotion },
 );
+const unmountLiveCharts = mountLiveChartUpdates(root, documents, { reducedMotion });
 const unmountSemanticMultiViews = mountSemanticMultiViews(
   root,
   documents,
@@ -417,6 +419,7 @@ window.addEventListener("pagehide", () => {
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
+  unmountLiveCharts();
   unmountCharts();
   unmountDiagrams();
   stopBackgroundProgress();

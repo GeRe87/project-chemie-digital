@@ -302,7 +302,20 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart ) ] ;
     sh:property [ sh:path cd:xAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:yAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:liveUpdateIntervalMs ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 250 ] ;
+    sh:property [ sh:path cd:liveJitterAmplitude ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:liveDecimalPlaces ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 6 ] ;
     sh:property [ sh:path cd:hasChartAnnotation ; sh:class cd:ChartAnnotation ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "Live chart update metadata must define interval, jitter amplitude and decimal places together." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  BIND(EXISTS { $this cd:liveUpdateIntervalMs ?interval } AS ?hasInterval)
+  BIND(EXISTS { $this cd:liveJitterAmplitude ?amplitude } AS ?hasAmplitude)
+  BIND(EXISTS { $this cd:liveDecimalPlaces ?places } AS ?hasPlaces)
+  FILTER ((?hasInterval || ?hasAmplitude || ?hasPlaces) && !(?hasInterval && ?hasAmplitude && ?hasPlaces))
+}"""
+    ] ;
     sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:yAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;

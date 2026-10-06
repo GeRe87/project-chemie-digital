@@ -10,6 +10,12 @@ export type RevealLayoutFamily =
   | "concept-chart"
   | "math-diagram"
   | "large-poll"
+  | "measurement-example"
+  | "functional-dependence"
+  | "observation-bridge"
+  | "minimal-code-demo"
+  | "experiment-example"
+  | "quiz-grid"
   | "hierarchy-flow"
   | "reference-code"
   | "process-context"
@@ -231,6 +237,103 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
         family: "prompt-card-grid",
         slots: ["heading", "cards"],
       };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, intro, table, chart] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && table?.kind === "table"
+      && chart?.kind === "chart"
+    ) {
+      return { family: "measurement-example", slots: ["heading", "intro", "table", "chart"] };
+    }
+  }
+
+  if (blocks.length === 5) {
+    const [heading, intro, formula, examples, caveat] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && formula?.kind === "math"
+      && examples?.kind === "definition-list"
+      && examples.entries.length === 3
+      && caveat?.kind === "prose"
+      && caveat.intent?.kind === "explain"
+    ) {
+      return {
+        family: "functional-dependence",
+        slots: ["heading", "intro", "formula", "examples", "caveat"],
+      };
+    }
+  }
+
+  if (blocks.length === 5) {
+    const [heading, intro, values, diagram, takeaway] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && values?.kind === "math"
+      && diagram?.kind === "diagram"
+      && takeaway?.kind === "prose"
+      && takeaway.intent?.kind === "explain"
+    ) {
+      return {
+        family: "observation-bridge",
+        slots: ["heading", "intro", "values", "diagram", "takeaway"],
+      };
+    }
+  }
+
+  if (blocks.length === 3) {
+    const [heading, intro, code] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && code?.kind === "code"
+    ) {
+      return { family: "minimal-code-demo", slots: ["heading", "intro", "code"] };
+    }
+  }
+
+  if (blocks.length === 5) {
+    const [heading, intro, table, chart, roles] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && intro?.kind === "prose"
+      && intro.intent?.kind === "explain"
+      && table?.kind === "table"
+      && chart?.kind === "chart"
+      && roles?.kind === "list"
+      && roles.items.length === 3
+    ) {
+      return {
+        family: "experiment-example",
+        slots: ["heading", "intro", "table", "chart", "roles"],
+      };
+    }
+  }
+
+  if (blocks.length === 4) {
+    const [heading, ...questions] = blocks;
+    if (
+      heading?.kind === "prose"
+      && heading.intent?.kind === "introduce"
+      && questions.length === 3
+      && questions.every((block) => block?.kind === "prompt" && block.responseMode === "single-choice")
+    ) {
+      return { family: "quiz-grid", slots: ["heading", "question-1", "question-2", "question-3"] };
     }
   }
 

@@ -374,6 +374,7 @@ function appendBlock(
     blockPresentationAttributes(shell, block, layoutSlot, layoutDensity);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
+    if (block.liveUpdate) shell.setAttribute("data-live-chart", "true");
     const stageResourceIds = [
       ...block.source.map((source) => source.resourceId),
       ...(block.annotations ?? []).flatMap((annotation) =>

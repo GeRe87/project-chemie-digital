@@ -57,6 +57,7 @@ export function mountPitchCharts(
     for (const host of hosts) {
       const blockId = host.getAttribute("data-chart-block-id");
       if (!blockId) continue;
+      if (host.getAttribute("data-live-chart") === "true") continue;
 
       const block = blocks.get(blockId);
       if (!block) {
