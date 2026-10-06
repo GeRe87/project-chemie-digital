@@ -185,6 +185,29 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   destroy();
 });
 
+test("prompt-card grid preserves each definition entry as one visual card", () => {
+  const foundationCss = readFileSync(
+    new URL("../src/foundation-card-grid-layout.css", import.meta.url),
+    "utf8",
+  );
+  const promptCss = readFileSync(
+    new URL("../src/prompt-card-grid-layout.css", import.meta.url),
+    "utf8",
+  );
+
+  // The shared definition-list baseline deliberately flattens entries for
+  // table-like layouts. Card layouts therefore must explicitly restore their
+  // entry wrapper as a box or dt/dd children become independent grid items.
+  assert.match(
+    foundationCss,
+    /\.reveal \.definition-list > \.definition-list-entry\s*\{\s*display:\s*contents;/u,
+  );
+  assert.match(
+    promptCss,
+    /section\[data-layout="prompt-card-grid"\][\s\S]*?> \[data-layout-slot="cards"\] > \.definition-list-entry\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/u,
+  );
+});
+
 test("definition-list renderer separates authored points and caps adaptive spacing", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);
