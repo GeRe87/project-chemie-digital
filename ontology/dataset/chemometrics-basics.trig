@@ -5,6 +5,20 @@
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
   # Variables, constants, samples and distributions -------------------------
+  ex:variables-and-constants a cd:Concept ;
+    skos:prefLabel "Variables and Constants"@en ;
+    skos:narrower ex:variable, ex:constant ;
+    cd:hasDefinition ex:def-variables-and-constants ;
+    cd:hasInterpretation ex:variable-constant-scope-interpretation ;
+    cd:authoredResource true .
+
+  ex:independent-dependent-variable-roles a cd:Concept ;
+    skos:prefLabel "Independent and Dependent Variables"@en ;
+    skos:narrower ex:independent-variable, ex:dependent-variable ;
+    cd:hasDefinition ex:def-independent-dependent-variable-roles ;
+    cd:hasInterpretation ex:independent-dependent-variable-role-interpretation ;
+    cd:authoredResource true .
+
   ex:variable a cd:Concept ;
     skos:prefLabel "variable"@en ;
     cd:hasDefinition ex:def-variable ;
@@ -17,6 +31,9 @@
       ex:exercise-classify-calibration-concentration,
       ex:exercise-classify-fixed-wavelength,
       ex:exercise-classify-recorded-temperature ;
+    cd:hasAudiencePoll ex:poll-classify-calibration-concentration,
+      ex:poll-classify-fixed-wavelength,
+      ex:poll-classify-recorded-temperature ;
     cd:contrastsWith ex:constant ;
     skos:related ex:sample, ex:distribution ;
     cd:authoredResource true .
@@ -67,6 +84,14 @@
     cd:hasDefinition ex:def-distribution ;
     cd:prerequisite ex:variable ;
     skos:related ex:sample, ex:variable, ex:random-variable ;
+    cd:authoredResource true .
+
+  ex:def-variables-and-constants a cd:Definition ;
+    cd:body "Variables and constants classify quantities within a stated experimental or data-analytic scope: variables are allowed to take different values, whereas constants are treated as fixed within that scope."@en ;
+    cd:authoredResource true .
+
+  ex:def-independent-dependent-variable-roles a cd:Definition ;
+    cd:body "Independent and dependent variables distinguish explanatory or predictor inputs from response or outcome variables within a stated study, experiment or model."@en ;
     cd:authoredResource true .
 
   ex:def-variable a cd:Definition ;
@@ -188,6 +213,35 @@ data.frame(
 
   ex:expected-classify-recorded-temperature a cd:ExpectedResult ;
     cd:body "Variable. Temperature is measured separately for each sample and is allowed to take different observed values in the dataset. Whether it should be called independent or dependent additionally depends on the stated analysis or model."@en ;
+    cd:authoredResource true .
+
+  ex:poll-option-01-variable a cd:PollOption ;
+    skos:prefLabel "Variable"@en ;
+    cd:authoredResource true .
+
+  ex:poll-option-02-constant a cd:PollOption ;
+    skos:prefLabel "Constant"@en ;
+    cd:authoredResource true .
+
+  ex:poll-classify-calibration-concentration a cd:AudiencePoll ;
+    skos:prefLabel "classify calibration concentration as variable or constant"@en ;
+    cd:body "A calibration uses standards at 0, 1, 2, 5 and 10 mg/L. Within this calibration experiment, is analyte concentration a variable or a constant?"@en ;
+    cd:hasPollOption ex:poll-option-01-variable, ex:poll-option-02-constant ;
+    cd:hasExpectedResult ex:expected-classify-calibration-concentration ;
+    cd:authoredResource true .
+
+  ex:poll-classify-fixed-wavelength a cd:AudiencePoll ;
+    skos:prefLabel "classify fixed wavelength as variable or constant"@en ;
+    cd:body "Every absorbance measurement in one experiment is recorded at 540 nm. Within this experiment, is wavelength a variable or a constant?"@en ;
+    cd:hasPollOption ex:poll-option-01-variable, ex:poll-option-02-constant ;
+    cd:hasExpectedResult ex:expected-classify-fixed-wavelength ;
+    cd:authoredResource true .
+
+  ex:poll-classify-recorded-temperature a cd:AudiencePoll ;
+    skos:prefLabel "classify recorded temperature as variable or constant"@en ;
+    cd:body "For each environmental sample, temperature is recorded but not controlled and the recorded values differ between samples. Within this dataset, is temperature a variable or a constant?"@en ;
+    cd:hasPollOption ex:poll-option-01-variable, ex:poll-option-02-constant ;
+    cd:hasExpectedResult ex:expected-classify-recorded-temperature ;
     cd:authoredResource true .
 
   # Random variables ---------------------------------------------------------
