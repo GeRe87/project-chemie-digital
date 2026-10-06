@@ -7,7 +7,10 @@ import {
   pitchCourseLevelBoundaries,
   renderPitchCourseWorldHtml,
 } from "../src/course-world.ts";
-import { resolveCourseSlideTarget } from "../src/course-world-navigation.ts";
+import {
+  isAuthoredCourseSlide,
+  resolveCourseSlideTarget,
+} from "../src/course-world-navigation.ts";
 
 const fingerprint = "sha256:" + "a".repeat(64);
 const offering: TeachingOfferingRuntimeDocument = {
@@ -97,6 +100,20 @@ test("Pitch course world HTML exposes Level 0 and exact bound Start action", () 
   assert.match(html, /Next Topic/);
   assert.match(html, /In preparation/);
   assert.match(html, /data-course-navigation-status/);
+});
+
+test("Pitch course slide identity excludes synthetic buffer and return sentinel", () => {
+  const authored = { dataset: { sceneDocumentId: "document:intro" } } as unknown as HTMLElement;
+  const buffer = {
+    dataset: { sceneDocumentId: "document:intro", courseLevelBuffer: "true" },
+  } as unknown as HTMLElement;
+  const sentinel = {
+    dataset: { sceneDocumentId: "document:intro", courseReturnSentinel: "true" },
+  } as unknown as HTMLElement;
+  assert.equal(isAuthoredCourseSlide(authored, "document:intro"), true);
+  assert.equal(isAuthoredCourseSlide(buffer, "document:intro"), false);
+  assert.equal(isAuthoredCourseSlide(sentinel, "document:intro"), false);
+  assert.equal(isAuthoredCourseSlide(authored, "document:other"), false);
 });
 
 test("Pitch course navigation resolves Reveal-owned slide indices instead of DOM positions", () => {

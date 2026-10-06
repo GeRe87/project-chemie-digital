@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 210,
-  "expectedDeliverable": "Owner-local npm run test:pitch and browser retest: overworld Start Level 0 must open Introduction; then verify final authored slide → completion buffer → next → overworld.",
-  "lastCompletedTurn": "worker: repaired Pitch overworld Start navigation to use Reveal-owned slide indices with visible error diagnostics.",
-  "lastUpdated": "2026-10-06T10:21:00+02:00",
+  "expectedDeliverable": "Owner browser retest after pulling the Reveal slide-registry fix. Level 0 Start must open Introduction; if not, the visible error now reports all mounted document ids.",
+  "lastCompletedTurn": "worker: changed live course-level lookup from DOM hierarchy to Reveal's registered slide collection.",
+  "lastUpdated": "2026-10-06T10:34:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -20,29 +20,8 @@
     "Browser retest must verify Level 0 starts and completion-buffer return remains intact",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 360,
+  "stateRevision": 363,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T11:19:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue202-motif-role-separation",
-      "reason": "Claimed renderer-side visualMotifRole propagation, highlight card spacing and focused regressions."
-    },
-    {
-      "at": "2026-10-05T11:34:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue202-motif-role-separation",
-      "reason": "Completed #202 refinement: motif placement is independent from generic visualRole; D3 highlight cards reserve central icon space and render title → motif → body."
-    },
-    {
-      "at": "2026-10-05T11:35:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue203-roadmap-highlight",
-      "reason": "Authorized #203 assignment of visualMotifRole=highlight to all six roadmap nodes."
-    },
     {
       "at": "2026-10-05T11:36:00+02:00",
       "from": "ready/worker",
@@ -196,6 +175,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue210-overworld-start-fix",
       "reason": "Completed #210: Start navigation now resolves the exact authored slide through Reveal.getIndices, navigates before hiding the map, uses delegated controls and shows any remaining failure directly in the overworld."
+    },
+    {
+      "at": "2026-10-06T10:27:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue210-reveal-slide-registry",
+      "reason": "Owner retest exposed the exact failure: after Reveal initialization the controller could not find the bound document through raw root descendants. Authorized switching runtime lookup to Reveal's own registered slide collection."
+    },
+    {
+      "at": "2026-10-06T10:28:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue210-reveal-slide-registry",
+      "reason": "Claimed Reveal.getSlides-based authored document lookup, synthetic-boundary filtering and richer mounted-id diagnostics."
+    },
+    {
+      "at": "2026-10-06T10:34:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue210-reveal-slide-registry",
+      "reason": "Completed #210 second repair: live Start navigation now finds authored scenes through Reveal.getSlides rather than assuming the pre-initialization DOM hierarchy remains unchanged."
     }
   ]
 }

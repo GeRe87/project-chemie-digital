@@ -27,3 +27,16 @@ npm run pitch:intro
 
 Browser:
 `Overworld → Start Level 0 → Introduction → final authored slide → Level complete → Next → Overworld`.
+
+
+## Second browser repair
+
+The first diagnostic repair made the remaining failure visible: after Reveal initialization, raw lookup below the original `.slides` root no longer found the bound Introduction document even though it existed before initialization.
+
+Live navigation now treats Reveal as the authoritative runtime registry:
+- `deck.getSlides()` locates the mounted slides;
+- `data-scene-document-id` selects the exact bound document;
+- synthetic level buffer and return sentinel are excluded;
+- `deck.getIndices(slide)` resolves navigation coordinates.
+
+The pre-initialization DOM lookup is retained only for inserting synthetic boundary slides before Reveal initializes.

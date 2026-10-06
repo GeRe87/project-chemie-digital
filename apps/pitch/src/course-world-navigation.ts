@@ -8,6 +8,7 @@ import {
 
 export interface CourseWorldRevealDeck {
   slide(h: number, v?: number, f?: number): void;
+  getSlides(): readonly HTMLElement[];
   getIndices(slide?: HTMLElement): { readonly h: number; readonly v?: number; readonly f?: number };
   layout(): void;
   configure(options: { readonly keyboard?: boolean }): void;
@@ -24,12 +25,23 @@ function directSlides(root: HTMLElement): HTMLElement[] {
   return Array.from(root.children).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement);
 }
 
-function authoredSlidesForDocument(root: HTMLElement, documentId: string): HTMLElement[] {
-  return directSlides(root).filter((slide) =>
-    slide.dataset.sceneDocumentId === documentId
+export function isAuthoredCourseSlide(slide: HTMLElement, documentId: string): boolean {
+  return slide.dataset.sceneDocumentId === documentId
     && slide.dataset.courseLevelBuffer !== "true"
-    && slide.dataset.courseReturnSentinel !== "true"
-  );
+    && slide.dataset.courseReturnSentinel !== "true";
+}
+
+function authoredSlidesForDocument(root: HTMLElement, documentId: string): HTMLElement[] {
+  return Array.from(
+    root.querySelectorAll<HTMLElement>("[data-scene-document-id]"),
+  ).filter((slide) => isAuthoredCourseSlide(slide, documentId));
+}
+
+function authoredRevealSlidesForDocument(
+  deck: Pick<CourseWorldRevealDeck, "getSlides">,
+  documentId: string,
+): HTMLElement[] {
+  return [...deck.getSlides()].filter((slide) => isAuthoredCourseSlide(slide, documentId));
 }
 
 export function resolveCourseSlideTarget(
@@ -139,8 +151,15 @@ export function mountPitchCourseWorldNavigation(options: {
 
   const openDocument = (documentId: string, trigger: HTMLElement): void => {
     if (destroyed) return;
-    const first = authoredSlidesForDocument(slidesRoot, documentId)[0];
-    if (!first) throw new Error(`No authored Pitch slide found for course level document ${documentId}`);
+    const first = authoredRevealSlidesForDocument(deck, documentId)[0];
+    if (!first) {
+      const mounted = Array.from(
+        slidesRoot.querySelectorAll<HTMLElement>("[data-scene-document-id]"),
+      ).map((slide) => slide.dataset.sceneDocumentId).filter(Boolean);
+      throw new Error(
+        `No authored Reveal slide found for course level document ${documentId}; mounted document ids: ${[...new Set(mounted)].join(", ") || "none"}`,
+      );
+    }
     const target = resolveCourseSlideTarget(deck, first);
 
     returnFocus = trigger;
