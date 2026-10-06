@@ -33,43 +33,27 @@ SCENE_GRAPH = URIRef(
 )
 
 EXPECTED_SCENES = [
-    "scene-chemometrics-variables-constants-opener",
+    "scene-chemometrics-variables-constants-title",
     "scene-chemometrics-variable-definition",
-    "scene-chemometrics-constant-distinction",
-    "scene-chemometrics-variable-roles",
-    "scene-chemometrics-variable-examples",
-    "scene-chemometrics-variable-code-experiment",
-    "scene-chemometrics-sample-variable",
-    "scene-chemometrics-distribution-anchor",
-    "scene-chemometrics-random-variable",
-    "scene-chemometrics-discrete-random-variable",
-    "scene-chemometrics-continuous-random-variable",
-    "scene-chemometrics-classify-concentration",
-    "scene-chemometrics-classify-wavelength",
-    "scene-chemometrics-classify-temperature",
+    "scene-chemometrics-measured-variable-example",
+    "scene-chemometrics-functional-dependence",
+    "scene-chemometrics-observation-random-bridge",
+    "scene-chemometrics-random-draw-r",
+    "scene-chemometrics-constant-definition",
+    "scene-chemometrics-uvvis-example",
+    "scene-chemometrics-role-quiz",
 ]
 
 EXPECTED_BLOCK_KINDS = [
-    ["prose", "diagram"],
-    ["prose", "list", "prose"],
-    ["prose", "prose", "definition-list", "prose"],
-    ["prose", "prose", "definition-list", "prose"],
-    ["prose", "diagram"],
-    ["prose", "prompt", "code"],
-    ["prose", "list", "table"],
-    ["prose", "prose", "chart"],
-    ["prose", "math", "diagram"],
-    ["prose", "prose", "chart", "prose"],
-    ["prose", "prose", "chart", "prose"],
-    ["prose", "prompt"],
-    ["prose", "prompt"],
-    ["prose", "prompt"],
-]
-
-POLL_IDS = [
-    "ex:poll-classify-calibration-concentration",
-    "ex:poll-classify-fixed-wavelength",
-    "ex:poll-classify-recorded-temperature",
+    ["prose"],
+    ["prose", "prose", "prose"],
+    ["prose", "prose", "table", "chart"],
+    ["prose", "prose", "math", "definition-list", "prose"],
+    ["prose", "prose", "math", "diagram", "prose"],
+    ["prose", "prose", "code"],
+    ["prose", "prose", "prose"],
+    ["prose", "prose", "table", "chart", "list"],
+    ["prose", "prompt", "prompt", "prompt"],
 ]
 
 
@@ -83,7 +67,7 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
 
-    def test_scene_graph_has_exactly_fourteen_authored_scenes(self) -> None:
+    def test_scene_graph_has_exactly_nine_authored_scenes(self) -> None:
         scenes = set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))
         self.assertEqual({EX[name] for name in EXPECTED_SCENES}, scenes)
 
@@ -98,62 +82,71 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-    def test_chapter_opens_with_visual_variable_constant_contrast(self) -> None:
-        first = self.document["scenes"][0]
-        self.assertEqual("Variables and Constants", first["blocks"][0]["text"])
-        diagram = first["blocks"][1]
-        self.assertEqual("diagram", diagram["kind"])
-        self.assertEqual(["VARIABLE", "CONSTANT"], [node["label"] for node in diagram["nodes"]])
-        self.assertEqual(2, len(diagram["edges"]))
+    def test_title_and_definition_cards_open_the_story(self) -> None:
+        self.assertEqual(["Variables and Constants"], [b["text"] for b in self.document["scenes"][0]["blocks"]])
+        variable = self.document["scenes"][1]
+        self.assertEqual("Variable", variable["blocks"][0]["text"])
+        self.assertIn("can take different values", variable["blocks"][1]["text"])
+        self.assertIn("Introductory Statistics", variable["blocks"][2]["text"])
 
-    def test_dynamic_calibration_scene_is_prompt_plus_executable_r(self) -> None:
+    def test_live_measurement_example_has_table_chart_and_authored_update_contract(self) -> None:
+        scene = self.document["scenes"][2]
+        table = scene["blocks"][2]
+        chart = scene["blocks"][3]
+        self.assertEqual(6, len(table["rows"]))
+        self.assertEqual("line", chart["chartType"])
+        self.assertEqual(
+            {"intervalMs": 900, "jitterAmplitude": 0.012, "decimalPlaces": 3},
+            chart["liveUpdate"],
+        )
+        self.assertIn("not experimental data", chart["description"])
+
+    def test_dependency_slide_uses_simple_function_notation_without_causal_claim(self) -> None:
+        scene = self.document["scenes"][3]
+        self.assertIn("explain or predict", scene["blocks"][1]["text"])
+        self.assertIn("does not by itself prove causality", scene["blocks"][1]["text"])
+        self.assertEqual("y=f(x)", scene["blocks"][2]["expression"])
+        descriptions = [entry["description"] for entry in scene["blocks"][3]["entries"]]
+        self.assertEqual(["f(x) = 2x", "f(x) = e^(x + 3)", "f(x) = x² + 3x + 4"], descriptions)
+
+    def test_observation_bridge_does_not_equate_variable_with_probability_distribution(self) -> None:
+        scene = self.document["scenes"][4]
+        self.assertIn("statistical sample", scene["blocks"][1]["text"])
+        self.assertIn("x_1=2.55", scene["blocks"][2]["expression"])
+        self.assertEqual(3, len(scene["blocks"][3]["nodes"]))
+        note = scene["blocks"][4]["text"]
+        self.assertIn("Only when a stochastic model", note)
+        self.assertIn("not a probability distribution", note)
+        self.assertIn("later", note)
+
+    def test_minimal_webr_demo_is_one_read_only_random_draw(self) -> None:
         scene = self.document["scenes"][5]
-        prompt = scene["blocks"][1]
         code = scene["blocks"][2]
-        self.assertEqual("prompt", prompt["kind"])
-        self.assertEqual("free-text", prompt["responseMode"])
-        self.assertIn("independent variable", prompt["prompt"])
-        self.assertIn("dependent response", prompt["prompt"])
-        self.assertEqual("code", code["kind"])
         self.assertEqual("r", code["language"])
-        self.assertTrue(code["editable"])
+        self.assertFalse(code["editable"])
         self.assertTrue(code["executable"])
-        self.assertIn("concentration_mg_L", code["code"])
-        self.assertIn("wavelength_nm <- 540", code["code"])
-        self.assertIn("absorbance", code["code"])
+        self.assertEqual("rnorm(1, mean = 3.0, sd = 0.2)", code["code"])
 
-    def test_sample_distribution_and_random_variable_bridge_are_visual(self) -> None:
-        sample_scene = self.document["scenes"][6]
-        self.assertEqual(4, len(sample_scene["blocks"][1]["items"]))
-        self.assertEqual("table", sample_scene["blocks"][2]["kind"])
-        self.assertEqual(3, len(sample_scene["blocks"][2]["rows"]))
+    def test_constant_definition_and_uvvis_example_resolve_assigned_vs_random_conflict(self) -> None:
+        constant = self.document["scenes"][6]
+        self.assertEqual("Constant", constant["blocks"][0]["text"])
+        self.assertIn("treated as fixed", constant["blocks"][1]["text"])
 
-        distribution_scene = self.document["scenes"][7]
-        self.assertIn("Detailed distribution theory is introduced later", distribution_scene["blocks"][1]["text"])
-        self.assertEqual("bar", distribution_scene["blocks"][2]["chartType"])
+        uvvis = self.document["scenes"][7]
+        self.assertIn("without being a random variable", uvvis["blocks"][1]["text"])
+        self.assertEqual(5, len(uvvis["blocks"][2]["rows"]))
+        self.assertEqual("line", uvvis["blocks"][3]["chartType"])
+        self.assertEqual(3, len(uvvis["blocks"][4]["items"]))
 
-        random_scene = self.document["scenes"][8]
-        self.assertEqual("math", random_scene["blocks"][1]["kind"])
-        self.assertIn("\\Omega", random_scene["blocks"][1]["expression"])
-        self.assertEqual("diagram", random_scene["blocks"][2]["kind"])
-        self.assertEqual(3, len(random_scene["blocks"][2]["nodes"]))
-
-    def test_discrete_and_continuous_scenes_use_distinct_chart_encodings(self) -> None:
-        self.assertEqual("bar", self.document["scenes"][9]["blocks"][2]["chartType"])
-        self.assertEqual("line", self.document["scenes"][10]["blocks"][2]["chartType"])
-
-    def test_three_final_classification_scenes_are_single_choice_variable_constant(self) -> None:
-        for scene, poll_id in zip(self.document["scenes"][11:14], POLL_IDS, strict=True):
-            with self.subTest(scene=scene["id"]):
-                prompt = scene["blocks"][1]
-                self.assertEqual("prompt", prompt["kind"])
+    def test_final_quiz_has_three_role_questions_and_three_ordered_options(self) -> None:
+        scene = self.document["scenes"][8]
+        prompts = scene["blocks"][1:]
+        self.assertEqual(3, len(prompts))
+        expected_options = ["Assigned variable", "Random variable", "Constant"]
+        for prompt in prompts:
+            with self.subTest(prompt=prompt["id"]):
                 self.assertEqual("single-choice", prompt["responseMode"])
-                self.assertEqual(["Variable", "Constant"], prompt["options"])
-                self.assertEqual(poll_id, prompt["source"][0]["resourceId"])
-                self.assertEqual(
-                    {"ex:poll-option-01-variable", "ex:poll-option-02-constant"},
-                    {source["resourceId"] for source in prompt["source"][1:]},
-                )
+                self.assertEqual(expected_options, prompt["options"])
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()

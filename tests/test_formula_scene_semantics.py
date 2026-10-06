@@ -229,7 +229,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
         )
         self.assertEqual("1.0", document["version"])
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", document["sourcePathId"])
-        self.assertEqual(14, len(document["scenes"]))
+        self.assertEqual(9, len(document["scenes"]))
 
 
 if __name__ == "__main__":

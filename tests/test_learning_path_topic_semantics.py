@@ -33,8 +33,6 @@ VARIABLES_CONSTANTS_TOPICS = {
     EX["sample"],
     EX["distribution"],
     EX["random-variable"],
-    EX["discrete-random-variable"],
-    EX["continuous-random-variable"],
 }
 RANDOM_VARIABLE_TOPIC = EX["random-variable"]
 SYNTHETIC_PATH = EX["path-test-multi-topic"]

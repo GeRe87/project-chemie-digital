@@ -124,10 +124,13 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         self.assertIn("not intrinsic", role_interpretation)
         self.assertIn("does not mean statistically independent", role_interpretation)
         self.assertIn("does not by itself establish causality", role_interpretation)
-        self.assertEqual(
-            {EX["variable"]},
-            set(self.graph.objects(EX["distribution"], CD.prerequisite)),
+        self.assertEqual(set(), set(self.graph.objects(EX["distribution"], CD.prerequisite)))
+        distribution_note = str(
+            next(self.graph.objects(EX["distribution-model-distinction"], CD.body))
         )
+        self.assertIn("does not automatically have a probability distribution", distribution_note)
+        self.assertIn("assigned experimental settings", distribution_note)
+        self.assertIn("random variable", distribution_note)
 
     def test_exact_three_shared_worked_examples_cover_both_roles(self) -> None:
         self.assertEqual(EXAMPLES, set(self.graph.objects(EX["variable"], CD.hasExample)))
@@ -215,9 +218,9 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         body = str(
             next(self.graph.objects(EX["sample-variable-interpretation"], CD.body))
         )
-        self.assertIn("sample contains observations", body)
-        self.assertIn("variable", body)
-        self.assertIn("empirical distribution", body)
+        self.assertIn("statistical sample", body)
+        self.assertIn("observation or realization", body)
+        self.assertIn("not the sample itself", body)
 
         distribution = str(next(self.graph.objects(EX["def-distribution"], CD.body)))
         self.assertIn("random variable", distribution)
@@ -238,8 +241,6 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
                 EX["dependent-variable"],
                 EX["constant"],
                 EX["random-variable"],
-                EX["discrete-random-variable"],
-                EX["continuous-random-variable"],
                 EX["sample"],
                 EX["distribution"],
             },
@@ -248,7 +249,7 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
 
     def test_variables_and_constants_path_uses_the_accepted_resource_graph(self) -> None:
         path = EX["path-chemometrics-random-variables-lecture"]
-        self.assertEqual(14, len(set(self.path_graph.objects(path, CD.hasStep))))
+        self.assertEqual(9, len(set(self.path_graph.objects(path, CD.hasStep))))
         self.assertEqual(
             {
                 EX["variables-and-constants"],
@@ -260,13 +261,11 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
                 EX["sample"],
                 EX["distribution"],
                 EX["random-variable"],
-                EX["discrete-random-variable"],
-                EX["continuous-random-variable"],
             },
             set(self.path_graph.objects(path, CD.forTopic)),
         )
         self.assertEqual(
-            14,
+            9,
             len(set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))),
         )
 

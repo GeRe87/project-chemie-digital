@@ -457,6 +457,86 @@ test("infers concentric-network from focused grouped topology without scene iden
   assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
 });
 
+test("infers measurement-example from heading, explanation, table and chart", () => {
+  const source = analysisResultScene("opaque:measurement-source");
+  const heading = prose("m:h", "introduce");
+  const intro = prose("m:i", "explain");
+  const table = source.blocks[2]!;
+  const chart = source.blocks[1]!;
+  const scene = {
+    id: "opaque:measurement", source: [{ resourceId: "resource:scene" }],
+    blocks: [heading, intro, table, chart],
+    readingOrder: [heading.id, intro.id, table.id, chart.id],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "measurement-example");
+});
+
+test("infers functional-dependence from prose, math, three example cards and caveat", () => {
+  const scene = {
+    id: "opaque:functions", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("f:h", "introduce"),
+      prose("f:i", "explain"),
+      { id: "f:m", kind: "math", expression: "y=f(x)", spokenText: "y equals f of x", source: [{ resourceId: "resource:math" }] },
+      {
+        id: "f:d", kind: "definition-list",
+        entries: Array.from({ length: 3 }, (_, index) => ({
+          id: `f:e:${index}`, term: `E${index}`, description: `f${index}(x)`,
+          source: [{ resourceId: `resource:e:${index}` }],
+        })),
+        source: [{ resourceId: "resource:examples" }],
+      },
+      prose("f:c", "explain"),
+    ],
+    readingOrder: ["f:h", "f:i", "f:m", "f:d", "f:c"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "functional-dependence");
+});
+
+test("infers observation-bridge from prose, math, diagram and takeaway", () => {
+  const hierarchy = hierarchyScene("opaque:bridge-source");
+  const diagram = hierarchy.blocks[2]!;
+  const scene = {
+    id: "opaque:bridge", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("o:h", "introduce"),
+      prose("o:i", "explain"),
+      { id: "o:m", kind: "math", expression: "x_1", spokenText: "x one", source: [{ resourceId: "resource:math" }] },
+      diagram,
+      prose("o:t", "explain"),
+    ],
+    readingOrder: ["o:h", "o:i", "o:m", diagram.id, "o:t"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "observation-bridge");
+});
+
+test("infers minimal-code-demo from heading, explanation and code", () => {
+  const scene = {
+    id: "opaque:minimal-code", source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("c:h", "introduce"),
+      prose("c:i", "explain"),
+      { id: "c:code", kind: "code", language: "r", code: "rnorm(1)", editable: false, executable: true, fallback: "rnorm(1)", source: [{ resourceId: "resource:code" }] },
+    ],
+    readingOrder: ["c:h", "c:i", "c:code"],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "minimal-code-demo");
+});
+
+test("infers quiz-grid from heading plus three single-choice prompts", () => {
+  const prompts = Array.from({ length: 3 }, (_, index) => ({
+    id: `q:${index}`, kind: "prompt" as const, prompt: `Q${index}`,
+    responseMode: "single-choice" as const, options: ["A", "B", "C"], fallback: "A / B / C",
+    source: [{ resourceId: `resource:q:${index}` }],
+  }));
+  const scene = {
+    id: "opaque:quiz", source: [{ resourceId: "resource:scene" }],
+    blocks: [prose("q:h", "introduce"), ...prompts],
+    readingOrder: ["q:h", ...prompts.map((prompt) => prompt.id)],
+  } as Scene;
+  assert.equal(inferRevealLayoutFamily(scene), "quiz-grid");
+});
+
 test("infers code-lab from heading plus practice prompt plus code", () => {
   const scene = {
     id: "opaque:code-lab", source: [{ resourceId: "resource:scene" }],

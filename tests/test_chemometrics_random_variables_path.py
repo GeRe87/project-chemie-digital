@@ -26,9 +26,6 @@ PATH = EX["path-chemometrics-random-variables-lecture"]
 PATH_GRAPH = URIRef(
     "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture"
 )
-CONTENT_GRAPH = URIRef(
-    "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics"
-)
 
 EXPECTED_TOPICS = {
     EX["variables-and-constants"],
@@ -36,44 +33,47 @@ EXPECTED_TOPICS = {
     EX["independent-dependent-variable-roles"],
     EX["independent-variable"],
     EX["dependent-variable"],
+    EX["random-variable"],
     EX["constant"],
     EX["sample"],
     EX["distribution"],
-    EX["random-variable"],
-    EX["discrete-random-variable"],
-    EX["continuous-random-variable"],
 }
 
 EXPECTED_STEPS = [
-    ("variables-constants-opener", {EX["diagram-variable-constant-contrast"]}),
-    ("variable-definition", {EX["variable-keypoints"], EX["variable-scope-takeaway"]}),
-    ("constant-distinction", {EX["def-constant"], EX["variable-constant-cards"], EX["variable-constant-scope-interpretation"]}),
-    ("variable-roles", {EX["def-independent-dependent-variable-roles"], EX["independent-dependent-cards"], EX["independent-dependent-variable-role-interpretation"]}),
-    ("variable-examples", {EX["diagram-variable-examples"]}),
-    ("variable-code-experiment", {
-        EX["exercise-variable-constant-code-experiment"],
-        EX["code-variable-constant-r"],
-        EX["expected-variable-constant-code-experiment"],
+    ("variables-constants-title", {EX["variables-and-constants"]}),
+    ("variable-definition", {EX["def-variable"], EX["source-openstax-statistics"]}),
+    ("measured-variable-example", {
+        EX["measured-variable-example-intro"],
+        EX["table-live-absorbance-observations"],
+        EX["chart-live-absorbance-observations"],
     }),
-    ("sample-variable", {EX["sample-variable-principles"], EX["table-sample-variable-observations"]}),
-    ("distribution-anchor", {EX["def-distribution"], EX["chart-distribution-preview"]}),
-    ("random-variable", {EX["random-variable-mapping-formula"], EX["diagram-random-variable-realization"]}),
-    ("discrete-random-variable", {EX["def-discrete-random-variable"], EX["chart-discrete-random-variable"], EX["worked-example-discrete-colony-count"]}),
-    ("continuous-random-variable", {EX["def-continuous-random-variable"], EX["chart-continuous-random-variable"], EX["worked-example-continuous-concentration"]}),
-    ("classify-concentration", {
-        EX["exercise-classify-calibration-concentration"],
-        EX["poll-classify-calibration-concentration"],
-        EX["expected-classify-calibration-concentration"],
+    ("functional-dependence", {
+        EX["functional-dependence-intro"],
+        EX["functional-dependence-formula"],
+        EX["function-example-cards"],
+        EX["functional-dependence-caveat"],
     }),
-    ("classify-wavelength", {
-        EX["exercise-classify-fixed-wavelength"],
-        EX["poll-classify-fixed-wavelength"],
-        EX["expected-classify-fixed-wavelength"],
+    ("observation-random-bridge", {
+        EX["variable-observation-random-intro"],
+        EX["observation-values-formula"],
+        EX["diagram-variable-observation-sample"],
+        EX["random-variable-distribution-note"],
     }),
-    ("classify-temperature", {
-        EX["exercise-classify-recorded-temperature"],
-        EX["poll-classify-recorded-temperature"],
-        EX["expected-classify-recorded-temperature"],
+    ("random-draw-r", {EX["random-draw-r-intro"], EX["code-random-draw-r"]}),
+    ("constant-definition", {EX["def-constant"], EX["source-openstax-statistics"]}),
+    ("uvvis-example", {
+        EX["uvvis-calibration-intro"],
+        EX["table-uvvis-calibration-roles"],
+        EX["chart-uvvis-calibration-response"],
+        EX["uvvis-role-keypoints"],
+    }),
+    ("role-quiz", {
+        EX["poll-quiz-concentration-role"],
+        EX["poll-quiz-wavelength-role"],
+        EX["poll-quiz-absorbance-role"],
+        EX["expected-quiz-concentration-role"],
+        EX["expected-quiz-wavelength-role"],
+        EX["expected-quiz-absorbance-role"],
     }),
 ]
 
@@ -84,9 +84,8 @@ class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
-        cls.content_graph = cls.dataset.graph(CONTENT_GRAPH)
 
-    def test_stable_path_identity_is_retargeted_to_variables_and_constants(self) -> None:
+    def test_stable_path_identity_has_new_nine_scene_story(self) -> None:
         self.assertEqual({PATH}, set(self.path_graph.subjects(RDF.type, CD.LearningPath)))
         self.assertEqual(EXPECTED_TOPICS, set(self.path_graph.objects(PATH, CD.forTopic)))
         self.assertEqual(
@@ -95,9 +94,9 @@ class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
         )
         self.assertEqual({Literal(True)}, set(self.path_graph.objects(PATH, CD.authoredResource)))
 
-    def test_path_has_exactly_fourteen_contiguous_scene_bound_steps(self) -> None:
+    def test_path_has_exactly_nine_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(14, len(steps))
+        self.assertEqual(9, len(steps))
         for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
             step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):
@@ -107,8 +106,8 @@ class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
                 self.assertEqual(1, len(set(self.path_graph.objects(step, CD.usesScene))))
                 for resource in expected_resources:
                     self.assertTrue(
-                        any(self.content_graph.triples((resource, None, None))),
-                        f"Path resource is not in the reviewed Chemometrics content graph: {resource}",
+                        any(self.graph.triples((resource, None, None))),
+                        f"Path resource is not present in the canonical dataset: {resource}",
                     )
 
     def test_path_graph_owns_only_path_and_steps_not_scene_definitions(self) -> None:

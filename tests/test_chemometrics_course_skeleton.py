@@ -277,8 +277,6 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["dependent-variable"],
                 EX["constant"],
                 EX["random-variable"],
-                EX["discrete-random-variable"],
-                EX["continuous-random-variable"],
                 EX["sample"],
                 EX["distribution"],
             },
