@@ -7,8 +7,8 @@
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 217,
   "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests followed by browser review of the six screenshot-targeted slides. Verify standard npm run pitch:intro now shows editable CodeMirror + Run/Reset/output without adding ?interactive=1.",
-  "lastCompletedTurn": "worker: completed screenshot-driven layout polish and local code/quiz interaction for Level 1.",
-  "lastUpdated": "2026-10-06T16:48:00+02:00",
+  "lastCompletedTurn": "manager: aligned #217 focused scene assertions with the polished authored prose before owner verification.",
+  "lastUpdated": "2026-10-06T16:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -22,29 +22,8 @@
     "Browser review must verify standard pitch:intro shows editable CodeMirror with Run, Reset and webR output",
     "Browser review must verify Quick check uses clickable options and graph-backed immediate feedback"
   ],
-  "stateRevision": 135,
+  "stateRevision": 136,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T11:42:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue184-visual-followup-20260928T114100+0200",
-      "reason": "Completed the second visual-feedback pass with full-screen hero opener and real Course Format FlowDiagram, removed stale first-pass title resources, and returned #184 to manager for fresh local test/browser verification."
-    },
-    {
-      "at": "2026-09-28T12:06:00+02:00",
-      "from": "blocked/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-manager-issue184-nitrate-case-study-20260928T120600+0200",
-      "reason": "Expanded #184 in response to user visual feedback: replaced abstract Slide 2 with one coherent illustrative nitrate case study and added the minimal generic structure-only case-study renderer support plus deterministic media-aware intro preview. Returned to manager verification gates."
-    },
-    {
-      "at": "2026-09-28T17:22:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
-      "reason": "Claimed #189 to model raw evidence -> visualization -> chart annotation -> interpretation and derive progressive lecture disclosure without scene/topic-specific renderer logic."
-    },
     {
       "at": "2026-09-28T17:51:00+02:00",
       "from": "busy/worker",
@@ -198,6 +177,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue217-browser-polish",
       "reason": "Completed #217 implementation: charts are constrained to layout slots, observation bridge is compacted, R code is editable with Run/Reset/Output in standard course mode, and quiz choices are local buttons with authored correct-answer feedback."
+    },
+    {
+      "at": "2026-10-06T16:55:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue217-test-alignment",
+      "reason": "Aligned focused scene assertions with the shortened #217 authored prose: causality/statistical-independence now belongs to the caveat block, and the distribution takeaway uses the explicit random-variable-model wording."
     }
   ]
 }

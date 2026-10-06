@@ -39,3 +39,8 @@ npm run pitch:intro
 ```
 
 No `?interactive=1` is required for the local CodeMirror/webR exercise or local self-check quiz. That query parameter remains only for connected live-poll service behavior.
+
+
+## Test alignment
+
+Before owner verification, the focused scene test was aligned with the polished authored prose: the causality/statistical-independence statement is asserted in the caveat block, and the observation bridge asserts the explicit “probability distributions belong to random-variable models” wording.

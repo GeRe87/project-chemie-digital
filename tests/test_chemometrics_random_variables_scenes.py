@@ -104,7 +104,9 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
     def test_dependency_slide_uses_simple_function_notation_without_causal_claim(self) -> None:
         scene = self.document["scenes"][3]
         self.assertIn("explain or predict", scene["blocks"][1]["text"])
-        self.assertIn("does not by itself prove causality", scene["blocks"][1]["text"])
+        caveat = scene["blocks"][4]["text"]
+        self.assertIn("does not by itself prove causality", caveat)
+        self.assertIn("statistical independence", caveat)
         self.assertEqual("y=f(x)", scene["blocks"][2]["expression"])
         descriptions = [entry["description"] for entry in scene["blocks"][3]["entries"]]
         self.assertEqual(["f(x) = 2x", "f(x) = e^(x + 3)", "f(x) = x² + 3x + 4"], descriptions)
@@ -115,7 +117,7 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
         self.assertIn("x_1=2.55", scene["blocks"][2]["expression"])
         self.assertEqual(3, len(scene["blocks"][3]["nodes"]))
         note = scene["blocks"][4]["text"]
-        self.assertIn("Only when a stochastic model", note)
+        self.assertIn("Probability distributions belong to random-variable models", note)
         self.assertIn("not a probability distribution", note)
         self.assertIn("later", note)
 
