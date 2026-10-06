@@ -1,3 +1,7 @@
+.pitch-course-world-shell[hidden] {
+  display: none !important;
+}
+
 .pitch-course-world-shell {
   position: fixed;
   inset: 0;
@@ -43,9 +47,22 @@
   line-height: 1;
 }
 
-.pitch-world-header > p:last-child {
+.pitch-world-header > p:last-of-type {
   margin: .45rem 0 0;
   font-weight: 700;
+}
+
+.pitch-world-navigation-status {
+  margin: .75rem 0 0 !important;
+  padding: .6rem .75rem;
+  border: 2px solid #9b2c2c;
+  background: #fff1f1;
+  color: #7a1f1f;
+  font: 800 .78rem/1.3 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.pitch-world-navigation-status[hidden] {
+  display: none !important;
 }
 
 .pitch-world-regions,

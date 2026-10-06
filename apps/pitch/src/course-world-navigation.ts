@@ -8,6 +8,7 @@ import {
 
 export interface CourseWorldRevealDeck {
   slide(h: number, v?: number, f?: number): void;
+  getIndices(slide?: HTMLElement): { readonly h: number; readonly v?: number; readonly f?: number };
   layout(): void;
   configure(options: { readonly keyboard?: boolean }): void;
   on(eventName: "slidechanged", listener: (event?: { readonly currentSlide?: HTMLElement }) => void): void;
@@ -29,6 +30,22 @@ function authoredSlidesForDocument(root: HTMLElement, documentId: string): HTMLE
     && slide.dataset.courseLevelBuffer !== "true"
     && slide.dataset.courseReturnSentinel !== "true"
   );
+}
+
+export function resolveCourseSlideTarget(
+  deck: Pick<CourseWorldRevealDeck, "getIndices">,
+  slide: HTMLElement,
+): { readonly h: number; readonly v: number; readonly f: number } {
+  const indices = deck.getIndices(slide);
+  if (!Number.isInteger(indices.h) || indices.h < 0) {
+    throw new Error("Reveal did not resolve a valid horizontal index for the requested course slide");
+  }
+  const v = indices.v ?? 0;
+  const f = indices.f ?? 0;
+  if (!Number.isInteger(v) || v < 0 || !Number.isInteger(f) || f < 0) {
+    throw new Error("Reveal returned invalid vertical or fragment indices for the requested course slide");
+  }
+  return { h: indices.h, v, f };
 }
 
 export function appendPitchCourseLevelBoundarySlides(
@@ -87,15 +104,34 @@ export function mountPitchCourseWorldNavigation(options: {
   presentation.before(worldShell);
 
   const worldTitle = worldShell.querySelector<HTMLElement>("#pitch-course-world-title");
+  const navigationStatus = worldShell.querySelector<HTMLElement>("[data-course-navigation-status]");
   const disposers: Array<() => void> = [];
   let returnFocus: HTMLElement | undefined;
   let destroyed = false;
+
+  const clearNavigationStatus = (): void => {
+    worldShell.dataset.navigationState = "idle";
+    if (!navigationStatus) return;
+    navigationStatus.hidden = true;
+    navigationStatus.textContent = "";
+  };
+
+  const reportNavigationError = (error: unknown): void => {
+    const message = error instanceof Error ? error.message : String(error);
+    worldShell.dataset.navigationState = "error";
+    if (navigationStatus) {
+      navigationStatus.hidden = false;
+      navigationStatus.textContent = `Could not open level: ${message}`;
+    }
+    console.error(error);
+  };
 
   const showWorld = (): void => {
     if (destroyed) return;
     presentation.hidden = true;
     presentation.setAttribute("aria-hidden", "true");
     worldShell.hidden = false;
+    worldShell.removeAttribute("aria-hidden");
     ownerDocument.body.classList.add("pcd-course-world-active");
     deck.configure({ keyboard: false });
     (returnFocus ?? worldTitle)?.focus();
@@ -105,27 +141,47 @@ export function mountPitchCourseWorldNavigation(options: {
     if (destroyed) return;
     const first = authoredSlidesForDocument(slidesRoot, documentId)[0];
     if (!first) throw new Error(`No authored Pitch slide found for course level document ${documentId}`);
-    const index = directSlides(slidesRoot).indexOf(first);
-    if (index < 0) throw new Error(`Course level first slide is outside the Reveal root: ${documentId}`);
+    const target = resolveCourseSlideTarget(deck, first);
+
     returnFocus = trigger;
-    worldShell.hidden = true;
+    clearNavigationStatus();
+
+    // Reveal owns the slide index. Make the deck measurable first, navigate to
+    // the exact authored slide, and only then remove the overworld.
     presentation.hidden = false;
     presentation.removeAttribute("aria-hidden");
     ownerDocument.body.classList.remove("pcd-course-world-active");
     deck.configure({ keyboard: true });
-    deck.slide(index, 0, 0);
+    deck.slide(target.h, target.v, target.f);
     deck.layout();
+
+    worldShell.hidden = true;
+    worldShell.setAttribute("aria-hidden", "true");
     first.tabIndex = -1;
     first.focus({ preventScroll: true });
   };
 
-  for (const button of worldShell.querySelectorAll<HTMLButtonElement>("button[data-scene-document-id]")) {
+  const onWorldClick = (event: MouseEvent): void => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>("button[data-scene-document-id]");
+    if (!button || !worldShell.contains(button)) return;
+    event.preventDefault();
+    event.stopPropagation();
     const documentId = button.dataset.sceneDocumentId;
-    if (!documentId) throw new Error("Course-world Start control is missing its SceneDocument identity");
-    const onClick = (): void => openDocument(documentId, button);
-    button.addEventListener("click", onClick);
-    disposers.push(() => button.removeEventListener("click", onClick));
-  }
+    if (!documentId) {
+      reportNavigationError(new Error("Course-world Start control is missing its SceneDocument identity"));
+      return;
+    }
+    try {
+      openDocument(documentId, button);
+    } catch (error) {
+      showWorld();
+      reportNavigationError(error);
+    }
+  };
+  worldShell.addEventListener("click", onWorldClick);
+  disposers.push(() => worldShell.removeEventListener("click", onWorldClick));
 
   const onSlideChanged = (event?: { readonly currentSlide?: HTMLElement }): void => {
     const current = event?.currentSlide ?? deck.getCurrentSlide() ?? undefined;

@@ -7,6 +7,7 @@ import {
   pitchCourseLevelBoundaries,
   renderPitchCourseWorldHtml,
 } from "../src/course-world.ts";
+import { resolveCourseSlideTarget } from "../src/course-world-navigation.ts";
 
 const fingerprint = "sha256:" + "a".repeat(64);
 const offering: TeachingOfferingRuntimeDocument = {
@@ -95,6 +96,30 @@ test("Pitch course world HTML exposes Level 0 and exact bound Start action", () 
   assert.match(html, /data-scene-document-id="document:intro"/);
   assert.match(html, /Next Topic/);
   assert.match(html, /In preparation/);
+  assert.match(html, /data-course-navigation-status/);
+});
+
+test("Pitch course navigation resolves Reveal-owned slide indices instead of DOM positions", () => {
+  const slide = {} as HTMLElement;
+  const calls: HTMLElement[] = [];
+  const target = resolveCourseSlideTarget({
+    getIndices(candidate?: HTMLElement) {
+      if (candidate) calls.push(candidate);
+      return { h: 7, v: 2, f: 1 };
+    },
+  }, slide);
+  assert.deepEqual(target, { h: 7, v: 2, f: 1 });
+  assert.deepEqual(calls, [slide]);
+});
+
+test("Pitch course navigation rejects an unresolved Reveal target", () => {
+  assert.throws(
+    () => resolveCourseSlideTarget(
+      { getIndices: () => ({ h: -1 }) },
+      {} as HTMLElement,
+    ),
+    /valid horizontal index/,
+  );
 });
 
 test("Pitch course world rejects bindings outside the selected offering", () => {

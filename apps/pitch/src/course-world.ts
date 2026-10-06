@@ -222,6 +222,7 @@ export function renderPitchCourseWorldHtml(model: PitchCourseWorldModel): string
       <p class="pitch-world-kicker">COURSE OVERWORLD</p>
       <h1 id="pitch-course-world-title" tabindex="-1">${escapeHtml(model.title)}</h1>
       <p>Select a level. Finished levels return here after their closing buffer.</p>
+      <p class="pitch-world-navigation-status" data-course-navigation-status role="status" aria-live="polite" hidden></p>
     </header>
     <ol class="pitch-world-regions">${regions}</ol>
   </section>`;

@@ -5,44 +5,23 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 208,
-  "expectedDeliverable": "Owner-local Pitch tests and browser smoke of the full course lifecycle: overworld → Level 0 Introduction → final authored slide → Level 0 complete buffer → next → overworld.",
-  "lastCompletedTurn": "worker: completed live Pitch course overworld and generic level-complete buffer/return lifecycle.",
-  "lastUpdated": "2026-10-05T15:46:00+02:00",
+  "activeIssue": 210,
+  "expectedDeliverable": "Owner-local npm run test:pitch and browser retest: overworld Start Level 0 must open Introduction; then verify final authored slide → completion buffer → next → overworld.",
+  "lastCompletedTurn": "worker: repaired Pitch overworld Start navigation to use Reveal-owned slide indices with visible error diagnostics.",
+  "lastUpdated": "2026-10-06T10:21:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issues #207/#208 require owner-local npm run test:pitch",
-    "Issues #207/#208 require owner-local npm run pitch:intro browser smoke",
-    "Browser smoke must verify Level 0 Introduction and final-buffer next-to-overworld behavior in the active Reveal view",
+    "Issue #210 requires owner-local npm run test:pitch",
+    "Issue #210 requires owner-local npm run pitch:intro browser retest",
+    "Browser retest must verify Level 0 starts and completion-buffer return remains intact",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 357,
+  "stateRevision": 360,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T11:00:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue203-chemometrics-motifs",
-      "reason": "Claimed #203 TriG motif assignments and Chemometrics regression updates; no renderer-specific identity logic."
-    },
-    {
-      "at": "2026-10-05T11:05:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue203-chemometrics-motifs",
-      "reason": "Completed #203: Tuesday/Wednesday use highlight discussion/hands-on motifs; six roadmap nodes use supporting-by-default statistical/chemometric vector motifs."
-    },
-    {
-      "at": "2026-10-05T11:18:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue202-motif-role-separation",
-      "reason": "Owner requested large centered roadmap motifs. Because generic node visualRole can propagate to edges, authorized a dedicated visualMotifRole and highlight-aware D3 card geometry."
-    },
     {
       "at": "2026-10-05T11:19:00+02:00",
       "from": "ready/worker",
@@ -196,6 +175,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue207-208-course-lifecycle",
       "reason": "Completed #207/#208 live lifecycle: course bundles open on the overworld, Start jumps to the exact bound document, each document ends in a Level complete buffer, and the next Reveal navigation reaches an invisible sentinel that restores the overworld and originating focus."
+    },
+    {
+      "at": "2026-10-06T10:10:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue210-overworld-start-fix",
+      "reason": "Owner browser test confirmed the overworld renders but Start level buttons do not open presentations. Authorized #210 navigation-contract repair and visible diagnostics."
+    },
+    {
+      "at": "2026-10-06T10:11:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue210-overworld-start-fix",
+      "reason": "Claimed Reveal-owned target indexing, delegated Start handling, deterministic visibility state and navigation error feedback."
+    },
+    {
+      "at": "2026-10-06T10:21:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue210-overworld-start-fix",
+      "reason": "Completed #210: Start navigation now resolves the exact authored slide through Reveal.getIndices, navigates before hiding the map, uses delegated controls and shows any remaining failure directly in the overworld."
     }
   ]
 }
