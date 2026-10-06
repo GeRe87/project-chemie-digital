@@ -115,7 +115,7 @@
     cd:authoredResource true .
 
   ex:variable-constant-comparison a cd:Comparison ;
-    cd:body "Variables are allowed to change within the stated scope; constants are treated as fixed within that scope. The distinction is contextual rather than an intrinsic property of a physical quantity: a wavelength can be constant in one experiment and deliberately varied in another."@en ;
+    cd:body "A variable is allowed to change within the stated scope; a constant is treated as fixed within that scope. The distinction is contextual rather than an intrinsic property of a physical quantity: a wavelength can be constant in one experiment and deliberately varied in another."@en ;
     cd:compares ex:variable, ex:constant ;
     cd:authoredResource true .
 

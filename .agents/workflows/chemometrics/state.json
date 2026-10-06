@@ -7,8 +7,8 @@
   "activeRole": "Chemometrics Content Worker",
   "activeIssue": 212,
   "expectedDeliverable": "Owner-local semantic/runtime tests and browser review of Region 2 Level 1 Variables and Constants. Check scene density/layout before renderer-specific polishing.",
-  "lastCompletedTurn": "worker: implemented the fourteen-scene Variables and Constants Level 1 presentation on the stable course path identity.",
-  "lastUpdated": "2026-10-06T12:10:00+02:00",
+  "lastCompletedTurn": "manager: repaired the #212 variable/constant comparison wording exposed by owner-local tests.",
+  "lastUpdated": "2026-10-06T12:18:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -21,29 +21,8 @@
     "Issue #212 requires browser review via npm run pitch:intro: Overworld → Level 1 Variables and Constants",
     "Dynamic R execution and live polls require connected interactive browser mode (?interactive=1); normal mode retains semantic static fallbacks"
   ],
-  "stateRevision": 123,
+  "stateRevision": 124,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T09:54:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue182-preprocessing-resources-20260928T095400+0200",
-      "reason": "Claimed bounded resource-only Issue #182 after accepted #180 reconciliation; scope is reusable Foundations/Preprocessing scientific resources, provenance and focused tests only, with course integration explicitly deferred."
-    },
-    {
-      "at": "2026-09-28T09:55:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue182-preprocessing-resources-20260928T095400+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer turn for #182 resource-only canonical authoring and focused tests; all course integration and renderer work remains out of scope."
-    },
-    {
-      "at": "2026-09-28T09:56:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
-      "reason": "Claimed bounded resource-only #182 branch for canonical Foundations/Preprocessing resources, pinned provenance and focused regressions only."
-    },
     {
       "at": "2026-09-28T10:00:00+02:00",
       "from": "busy/worker",
@@ -197,6 +176,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue212-variables-constants-presentation",
       "reason": "Completed #212: Level 1 now compiles a fourteen-scene Variables and Constants presentation, ending with three single-choice classification exercises."
+    },
+    {
+      "at": "2026-10-06T12:18:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue212-test-repair",
+      "reason": "Owner-local focused tests found one exact wording regression: the comparison used capitalized plural 'Variables', while the semantic content contract asserts the explicit singular term 'variable'. Reworded the authored comparison to singular variable/constant without changing meaning or graph structure."
     }
   ]
 }

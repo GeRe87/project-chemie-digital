@@ -36,3 +36,8 @@ npm run pitch:intro
 ```
 
 Browser target: Overworld → Level 1 Variables and Constants → 14 authored scenes → Level 1 Complete → Overworld.
+
+
+## Focused test repair
+
+Owner-local tests exposed a wording-only regression in `ex:variable-constant-comparison`: the text started with capitalized plural “Variables”, while the content contract intentionally checks that the explicit singular semantic terms `variable` and `constant` occur in the comparison prose. The sentence now reads “A variable …; a constant …”. No graph topology or presentation structure changed.
