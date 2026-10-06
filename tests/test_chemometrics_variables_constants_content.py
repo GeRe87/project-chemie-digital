@@ -231,7 +231,9 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         )
         self.assertEqual(
             {
+                EX["variables-and-constants"],
                 EX["variable"],
+                EX["independent-dependent-variable-roles"],
                 EX["independent-variable"],
                 EX["dependent-variable"],
                 EX["constant"],
@@ -244,17 +246,45 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
             set(self.graph.objects(unit, CD.hasFocusConcept)),
         )
 
-    def test_existing_random_variable_path_and_scenes_are_not_redesigned_here(self) -> None:
+    def test_variables_and_constants_path_uses_the_accepted_resource_graph(self) -> None:
         path = EX["path-chemometrics-random-variables-lecture"]
-        self.assertEqual(5, len(set(self.path_graph.objects(path, CD.hasStep))))
+        self.assertEqual(14, len(set(self.path_graph.objects(path, CD.hasStep))))
         self.assertEqual(
-            {EX["random-variable"]},
+            {
+                EX["variables-and-constants"],
+                EX["variable"],
+                EX["independent-dependent-variable-roles"],
+                EX["independent-variable"],
+                EX["dependent-variable"],
+                EX["constant"],
+                EX["sample"],
+                EX["distribution"],
+                EX["random-variable"],
+                EX["discrete-random-variable"],
+                EX["continuous-random-variable"],
+            },
             set(self.path_graph.objects(path, CD.forTopic)),
         )
         self.assertEqual(
-            5,
+            14,
             len(set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))),
         )
+
+    def test_classification_exercises_have_graph_backed_single_choice_polls(self) -> None:
+        polls = {
+            EX["poll-classify-calibration-concentration"]: EX["expected-classify-calibration-concentration"],
+            EX["poll-classify-fixed-wavelength"]: EX["expected-classify-fixed-wavelength"],
+            EX["poll-classify-recorded-temperature"]: EX["expected-classify-recorded-temperature"],
+        }
+        self.assertEqual(set(polls), set(self.graph.objects(EX["variable"], CD.hasAudiencePoll)))
+        for poll, expected in polls.items():
+            with self.subTest(poll=poll):
+                self.assertEqual({CD.AudiencePoll}, set(self.graph.objects(poll, RDF.type)))
+                self.assertEqual(
+                    {EX["poll-option-01-variable"], EX["poll-option-02-constant"]},
+                    set(self.graph.objects(poll, CD.hasPollOption)),
+                )
+                self.assertEqual({expected}, set(self.graph.objects(poll, CD.hasExpectedResult)))
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()

@@ -4,46 +4,25 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 209,
-  "expectedDeliverable": "Owner/local semantic verification of expanded #209 Variables and Constants resource, including independent/dependent variable roles. Then plan the separate LearningPath/scene redesign.",
-  "lastCompletedTurn": "worker: extended #209 with independent/dependent variable semantics and integrated those roles into examples and the dynamic calibration experiment.",
-  "lastUpdated": "2026-10-06T09:22:00+02:00",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 212,
+  "expectedDeliverable": "Owner-local semantic/runtime tests and browser review of Region 2 Level 1 Variables and Constants. Check scene density/layout before renderer-specific polishing.",
+  "lastCompletedTurn": "worker: implemented the fourteen-scene Variables and Constants Level 1 presentation on the stable course path identity.",
+  "lastUpdated": "2026-10-06T12:10:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #209 requires owner-local python -m unittest tests.test_chemometrics_variables_constants_content -v",
-    "Issue #209 requires owner-local python -m unittest tests.test_chemometrics_basics_content tests.test_chemometrics_course_skeleton -v",
-    "Issue #209 requires owner-local npm run check:semantics",
-    "Existing Random Variables path/scenes intentionally remain legacy until a separate redesign issue",
-    "PR #185 still has pending Introduction/overworld browser verification from earlier issues"
+    "Issue #212 requires owner-local npm run check:semantics",
+    "Issue #212 requires owner-local focused Variables and Constants tests",
+    "Issue #212 requires owner-local course bundle/Pitch tests",
+    "Issue #212 requires browser review via npm run pitch:intro: Overworld → Level 1 Variables and Constants",
+    "Dynamic R execution and live polls require connected interactive browser mode (?interactive=1); normal mode retains semantic static fallbacks"
   ],
-  "stateRevision": 120,
+  "stateRevision": 123,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T09:29:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
-      "reason": "Completed the count-only documentation repair and returned #180 to manager; no source mapping, scientific correction, unit-boundary or implementation scope changed."
-    },
-    {
-      "at": "2026-09-28T09:31:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
-      "reason": "Claimed final documentation-only #180 acceptance after clean independent review and count repair; exact-head external validation is the remaining technical gate before Ready/merge."
-    },
-    {
-      "at": "2026-09-28T09:51:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
-      "reason": "Exact-head validator success, independent review, count repair, integration freshness and Ready lifecycle all passed for PR #181. Squash-merged Issue #180 as b0d4ef680887f0e760054931b6d407362d0aece7, verified Issue #180 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
     {
       "at": "2026-09-28T09:54:00+02:00",
       "from": "ready/manager",
@@ -197,6 +176,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
       "reason": "Completed #209 extension: independent and dependent variables are narrower Variable concepts with explicit non-causal/model-role caveats; all three examples and the R experiment now expose independent/dependent/constant roles."
+    },
+    {
+      "at": "2026-10-06T11:45:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue212-variables-constants-presentation",
+      "reason": "Owner requested implementation of Region 2 Level 1 from the accepted Variables and Constants knowledge resource."
+    },
+    {
+      "at": "2026-10-06T11:46:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue212-variables-constants-presentation",
+      "reason": "Claimed stable-path migration to fourteen scenes, umbrella topic concepts, graph-backed classification polls, dynamic R experiment placement and compatibility regressions."
+    },
+    {
+      "at": "2026-10-06T12:10:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue212-variables-constants-presentation",
+      "reason": "Completed #212: Level 1 now compiles a fourteen-scene Variables and Constants presentation, ending with three single-choice classification exercises."
     }
   ]
 }

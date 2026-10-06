@@ -270,7 +270,9 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["chemometrics-introduction-round"],
             },
             EX["learning-unit-random-variables"]: {
+                EX["variables-and-constants"],
                 EX["variable"],
+                EX["independent-dependent-variable-roles"],
                 EX["independent-variable"],
                 EX["dependent-variable"],
                 EX["constant"],

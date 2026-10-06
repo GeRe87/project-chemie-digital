@@ -196,7 +196,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         random_path = EX["path-chemometrics-random-variables-lecture"]
         random_graph = URIRef("https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture")
         random_document = RUNTIME.compile_scene_document(self.dataset, RUNTIME.CoursePathReference(str(random_path), str(random_graph)))
-        self.assertEqual(5, len(random_document["scenes"]))
+        self.assertEqual(14, len(random_document["scenes"]))
         self.assertIn(CD.FormulaRole, set(self.graph.objects(EX["scene4-i2"], CD.communicativeRole)))
         self.assertEqual({Literal("cd:latex")}, set(self.graph.objects(EX["scene4-i2"], CD.selectionPath)))
 
