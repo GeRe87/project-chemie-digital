@@ -86,7 +86,6 @@
     cd:hasFocusConcept ex:variables-and-constants, ex:variable,
       ex:independent-dependent-variable-roles, ex:independent-variable,
       ex:dependent-variable, ex:constant, ex:random-variable,
-      ex:discrete-random-variable, ex:continuous-random-variable,
       ex:sample, ex:distribution .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;

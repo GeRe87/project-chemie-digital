@@ -20,7 +20,7 @@
     cd:authoredResource true .
 
   ex:variable a cd:Concept ;
-    skos:prefLabel "variable"@en ;
+    skos:prefLabel "Variable"@en ;
     cd:hasDefinition ex:def-variable ;
     cd:hasInterpretation ex:variable-constant-scope-interpretation,
       ex:sample-variable-interpretation ;
@@ -65,7 +65,7 @@
     cd:authoredResource true .
 
   ex:constant a cd:Concept ;
-    skos:prefLabel "constant"@en ;
+    skos:prefLabel "Constant"@en ;
     cd:hasDefinition ex:def-constant ;
     cd:hasInterpretation ex:variable-constant-scope-interpretation ;
     cd:hasExample ex:worked-example-calibration-variable-constant,
@@ -82,7 +82,7 @@
   ex:distribution a cd:Concept ;
     skos:prefLabel "distribution"@en ;
     cd:hasDefinition ex:def-distribution ;
-    cd:prerequisite ex:variable ;
+    cd:hasInterpretation ex:distribution-model-distinction ;
     skos:related ex:sample, ex:variable, ex:random-variable ;
     cd:authoredResource true .
 
@@ -95,7 +95,8 @@
     cd:authoredResource true .
 
   ex:def-variable a cd:Definition ;
-    cd:body "Within a stated dataset or experiment, a variable is a recorded, controlled or modeled characteristic that is allowed to take different values across observations, samples or experimental conditions."@en ;
+    cd:body "In statistics, a variable is a characteristic or quantity that can take different values within a stated dataset, study, model or experiment. Its values may be observed, measured, assigned or controlled."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
     cd:authoredResource true .
 
   ex:def-independent-variable a cd:Definition ;
@@ -107,11 +108,16 @@
     cd:authoredResource true .
 
   ex:def-constant a cd:Definition ;
-    cd:body "Within a stated dataset or experiment, a constant is a quantity or setting that is treated as having the same value for all observations or experimental conditions in that scope."@en ;
+    cd:body "In a stated dataset, study, model or experiment, a constant is a quantity or setting that is treated as fixed and therefore has the same value throughout the chosen scope."@en ;
+    cd:hasSource ex:source-openstax-statistics ;
     cd:authoredResource true .
 
   ex:def-distribution a cd:Definition ;
-    cd:body "A distribution describes how the values of a variable are arranged across possible values or ranges. For a random variable, a probability distribution specifies probabilities for values or sets of values. Detailed distribution theory is introduced later in the course."@en ;
+    cd:body "An empirical distribution summarizes observed values in data. A probability distribution, by contrast, belongs to a probabilistic model and describes the probabilities associated with the possible values of a random variable. Detailed distribution theory is introduced later in the course."@en ;
+    cd:authoredResource true .
+
+  ex:distribution-model-distinction a cd:Interpretation ;
+    cd:body "A variable does not automatically have a probability distribution. Deliberately assigned experimental settings such as calibration concentrations are variables without being random variables merely because their values differ. A probability distribution enters only when a stochastic model treats a quantity as a random variable."@en ;
     cd:authoredResource true .
 
   ex:variable-constant-comparison a cd:Comparison ;
@@ -133,7 +139,7 @@
     cd:authoredResource true .
 
   ex:sample-variable-interpretation a cd:Interpretation ;
-    cd:body "A statistical sample contains observations. A variable specifies a characteristic recorded or defined for each observation, so a sample of n observations can provide up to n observed values of that variable. The observed values can then be summarized by an empirical distribution."@en ;
+    cd:body "A statistical sample is a collection of observations or observational units. A concrete recorded value such as x_i is an observation or realization of a variable, not the sample itself. In analytical chemistry the word sample can also mean a physical specimen, so the statistical and chemical meanings must be distinguished from context."@en ;
     cd:authoredResource true .
 
   ex:sample
@@ -242,6 +248,283 @@ data.frame(
     cd:body "For each environmental sample, temperature is recorded but not controlled and the recorded values differ between samples. Within this dataset, is temperature a variable or a constant?"@en ;
     cd:hasPollOption ex:poll-option-01-variable, ex:poll-option-02-constant ;
     cd:hasExpectedResult ex:expected-classify-recorded-temperature ;
+    cd:authoredResource true .
+
+  # Tight nine-scene narrative resources ------------------------------------
+
+  ex:source-openstax-statistics
+    cd:supportsResource ex:def-variable, ex:def-constant .
+
+  ex:measured-variable-example a cd:Concept ;
+    skos:prefLabel "A variable in measurements"@en ;
+    skos:broader ex:variable ;
+    cd:authoredResource true .
+
+  ex:measured-variable-example-intro a cd:Interpretation ;
+    cd:body "Consider repeated absorbance measurements of the same solution. Absorbance is the variable: each observation records one value of that variable. The changing values below are an illustrative simulation, not experimental data."@en ;
+    cd:authoredResource true .
+
+  ex:table-live-absorbance-observations a cd:TableDefinition ;
+    skos:prefLabel "Repeated absorbance observations"@en ;
+    cd:body "Illustrative simulated observations of one measured variable."@en ;
+    cd:hasTableColumn ex:table-column-live-observation,
+      ex:table-column-live-absorbance ;
+    cd:hasTableRow ex:table-row-live-1, ex:table-row-live-2,
+      ex:table-row-live-3, ex:table-row-live-4,
+      ex:table-row-live-5, ex:table-row-live-6 ;
+    cd:authoredResource true .
+
+  ex:table-column-live-observation a cd:TableColumn ;
+    skos:prefLabel "Observation"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-live-absorbance a cd:TableColumn ;
+    skos:prefLabel "Absorbance"@en ; cd:position 2 ; cd:authoredResource true .
+
+  ex:table-row-live-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:table-cell-live-1-id, ex:table-cell-live-1-value ; cd:authoredResource true .
+  ex:table-cell-live-1-id a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:table-cell-live-1-value a cd:TableCell ; cd:position 2 ; cd:body "0.497"@en ; cd:authoredResource true .
+  ex:table-row-live-2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:table-cell-live-2-id, ex:table-cell-live-2-value ; cd:authoredResource true .
+  ex:table-cell-live-2-id a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:table-cell-live-2-value a cd:TableCell ; cd:position 2 ; cd:body "0.506"@en ; cd:authoredResource true .
+  ex:table-row-live-3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:table-cell-live-3-id, ex:table-cell-live-3-value ; cd:authoredResource true .
+  ex:table-cell-live-3-id a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:table-cell-live-3-value a cd:TableCell ; cd:position 2 ; cd:body "0.491"@en ; cd:authoredResource true .
+  ex:table-row-live-4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:table-cell-live-4-id, ex:table-cell-live-4-value ; cd:authoredResource true .
+  ex:table-cell-live-4-id a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:table-cell-live-4-value a cd:TableCell ; cd:position 2 ; cd:body "0.503"@en ; cd:authoredResource true .
+  ex:table-row-live-5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:table-cell-live-5-id, ex:table-cell-live-5-value ; cd:authoredResource true .
+  ex:table-cell-live-5-id a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:table-cell-live-5-value a cd:TableCell ; cd:position 2 ; cd:body "0.499"@en ; cd:authoredResource true .
+  ex:table-row-live-6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:table-cell-live-6-id, ex:table-cell-live-6-value ; cd:authoredResource true .
+  ex:table-cell-live-6-id a cd:TableCell ; cd:position 1 ; cd:body "6"@en ; cd:authoredResource true .
+  ex:table-cell-live-6-value a cd:TableCell ; cd:position 2 ; cd:body "0.508"@en ; cd:authoredResource true .
+
+  ex:chart-live-absorbance-observations a cd:ChartDefinition ;
+    skos:prefLabel "Repeated measurements keep changing"@en ;
+    cd:body "Illustrative simulated absorbance observations. Values are periodically perturbed for teaching purposes and are not experimental data."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Observation"@en ;
+    cd:yAxisLabel "Absorbance"@en ;
+    cd:usesDataset ex:dataset-live-absorbance-observations ;
+    cd:liveUpdateIntervalMs 900 ;
+    cd:liveJitterAmplitude 0.012 ;
+    cd:liveDecimalPlaces 3 ;
+    cd:authoredResource true .
+
+  ex:dataset-live-absorbance-observations a cd:Dataset ;
+    skos:prefLabel "Illustrative repeated absorbance measurements"@en ;
+    cd:hasObservation ex:live-absorbance-1, ex:live-absorbance-2,
+      ex:live-absorbance-3, ex:live-absorbance-4,
+      ex:live-absorbance-5, ex:live-absorbance-6 ;
+    cd:authoredResource true .
+  ex:live-absorbance-1 a cd:Observation ; cd:position 1 ; cd:xValue 1.0 ; cd:numericValue 0.497 ; cd:authoredResource true .
+  ex:live-absorbance-2 a cd:Observation ; cd:position 2 ; cd:xValue 2.0 ; cd:numericValue 0.506 ; cd:authoredResource true .
+  ex:live-absorbance-3 a cd:Observation ; cd:position 3 ; cd:xValue 3.0 ; cd:numericValue 0.491 ; cd:authoredResource true .
+  ex:live-absorbance-4 a cd:Observation ; cd:position 4 ; cd:xValue 4.0 ; cd:numericValue 0.503 ; cd:authoredResource true .
+  ex:live-absorbance-5 a cd:Observation ; cd:position 5 ; cd:xValue 5.0 ; cd:numericValue 0.499 ; cd:authoredResource true .
+  ex:live-absorbance-6 a cd:Observation ; cd:position 6 ; cd:xValue 6.0 ; cd:numericValue 0.508 ; cd:authoredResource true .
+
+  ex:functional-dependence-intro a cd:Interpretation ;
+    cd:body "In a model, a response variable y can depend on an explanatory variable x: values of x are used to explain or predict values of y. This mathematical dependency does not by itself prove causality."@en ;
+    cd:authoredResource true .
+
+  ex:functional-dependence-formula a cd:MathExpression ;
+    cd:latex "y=f(x)" ;
+    cd:authoredResource true .
+
+  ex:function-example-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:function-example-linear,
+      ex:function-example-exponential,
+      ex:function-example-quadratic ;
+    cd:authoredResource true .
+  ex:function-example-linear a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "DOUBLE"@en ;
+    cd:body "f(x) = 2x"@en ; cd:authoredResource true .
+  ex:function-example-exponential a cd:DefinitionListEntry ;
+    cd:position 2 ; skos:prefLabel "EXPONENTIAL"@en ;
+    cd:body "f(x) = e^(x + 3)"@en ; cd:authoredResource true .
+  ex:function-example-quadratic a cd:DefinitionListEntry ;
+    cd:position 3 ; skos:prefLabel "QUADRATIC"@en ;
+    cd:body "f(x) = x² + 3x + 4"@en ; cd:authoredResource true .
+
+  ex:functional-dependence-caveat a cd:Interpretation ;
+    cd:body "Independent and dependent are roles in the stated model or experiment. The word independent here is not the same as statistical independence."@en ;
+    cd:authoredResource true .
+
+  ex:variable-observation-random-model a cd:Concept ;
+    skos:prefLabel "Variables, observations, and random variables"@en ;
+    skos:related ex:variable, ex:sample, ex:random-variable, ex:distribution ;
+    cd:authoredResource true .
+
+  ex:variable-observation-random-intro a cd:Interpretation ;
+    cd:body "A variable specifies what may take different values. A concrete measurement or observation gives one value of that variable. A set of observations forms a statistical sample."@en ;
+    cd:authoredResource true .
+
+  ex:observation-values-formula a cd:MathExpression ;
+    cd:latex "x_1=2.55,\\qquad x_2=3.14,\\qquad \\ldots,\\qquad x_n" ;
+    cd:authoredResource true .
+
+  ex:diagram-variable-observation-sample a cd:FlowDiagram ;
+    skos:prefLabel "From variable to observed data"@en ;
+    cd:body "The variable defines the characteristic; each observation supplies one value; the observations together form a statistical sample."@en ;
+    cd:hasDiagramNode ex:node-variable-x, ex:node-observation-xi, ex:node-statistical-sample ;
+    cd:hasDiagramEdge ex:edge-variable-observation, ex:edge-observation-sample ;
+    cd:authoredResource true .
+  ex:node-variable-x a cd:DiagramNode ;
+    skos:prefLabel "VARIABLE x"@en ; cd:body "What can take different values."@en ;
+    cd:position 1 ; cd:authoredResource true .
+  ex:node-observation-xi a cd:DiagramNode ;
+    skos:prefLabel "OBSERVATION xᵢ"@en ; cd:body "One concrete recorded value."@en ;
+    cd:position 2 ; cd:authoredResource true .
+  ex:node-statistical-sample a cd:DiagramNode ;
+    skos:prefLabel "SAMPLE {x₁,…,xₙ}"@en ; cd:body "A collection of observations."@en ;
+    cd:position 3 ; cd:authoredResource true .
+  ex:edge-variable-observation a cd:DiagramEdge ;
+    skos:prefLabel "observe"@en ; cd:position 1 ;
+    cd:sourceNode ex:node-variable-x ; cd:targetNode ex:node-observation-xi ;
+    cd:authoredResource true .
+  ex:edge-observation-sample a cd:DiagramEdge ;
+    skos:prefLabel "collect"@en ; cd:position 2 ;
+    cd:sourceNode ex:node-observation-xi ; cd:targetNode ex:node-statistical-sample ;
+    cd:authoredResource true .
+
+  ex:random-variable-distribution-note a cd:Interpretation ;
+    cd:body "Only when a stochastic model treats the quantity as a random variable X do we introduce a probability distribution for its possible realizations. A value range or domain is not a probability distribution. Distributions are discussed in detail later."@en ;
+    cd:authoredResource true .
+
+  ex:random-draw-r-demo a cd:Concept ;
+    skos:prefLabel "One random draw in R"@en ;
+    skos:related ex:random-variable ;
+    cd:authoredResource true .
+
+  ex:random-draw-r-intro a cd:Interpretation ;
+    cd:body "No R knowledge is required here. Press Run: each execution returns one new simulated value from a simple random-variable model."@en ;
+    cd:authoredResource true .
+
+  ex:code-random-draw-r a cd:CodeExample ;
+    skos:prefLabel "draw one simulated measurement in R"@en ;
+    cd:code "rnorm(1, mean = 3.0, sd = 0.2)" ;
+    cd:programmingLanguage "r" ;
+    cd:editable false ;
+    cd:executable true ;
+    cd:showsResource ex:random-variable ;
+    cd:authoredResource true .
+
+  ex:uvvis-calibration-roles a cd:Concept ;
+    skos:prefLabel "Variables and constants in a UV/Vis experiment"@en ;
+    skos:related ex:variable, ex:independent-variable, ex:dependent-variable, ex:constant ;
+    cd:authoredResource true .
+
+  ex:uvvis-calibration-intro a cd:Interpretation ;
+    cd:body "In this calibration, concentration is deliberately assigned and varied; wavelength is held fixed at 540 nm; absorbance is the measured response. Concentration is therefore a variable without being a random variable merely because we choose several concentration levels."@en ;
+    cd:authoredResource true .
+
+  ex:table-uvvis-calibration-roles a cd:TableDefinition ;
+    skos:prefLabel "UV/Vis calibration"@en ;
+    cd:body "Illustrative assigned concentrations, fixed wavelength and measured absorbance response."@en ;
+    cd:hasTableColumn ex:table-column-uvvis-concentration,
+      ex:table-column-uvvis-wavelength, ex:table-column-uvvis-absorbance ;
+    cd:hasTableRow ex:table-row-uvvis-1, ex:table-row-uvvis-2,
+      ex:table-row-uvvis-3, ex:table-row-uvvis-4, ex:table-row-uvvis-5 ;
+    cd:authoredResource true .
+  ex:table-column-uvvis-concentration a cd:TableColumn ; skos:prefLabel "Concentration (mg/L)"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-uvvis-wavelength a cd:TableColumn ; skos:prefLabel "Wavelength (nm)"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-uvvis-absorbance a cd:TableColumn ; skos:prefLabel "Absorbance"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-row-uvvis-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:table-cell-uvvis-1-c, ex:table-cell-uvvis-1-w, ex:table-cell-uvvis-1-a ; cd:authoredResource true .
+  ex:table-cell-uvvis-1-c a cd:TableCell ; cd:position 1 ; cd:body "0"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-1-w a cd:TableCell ; cd:position 2 ; cd:body "540"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-1-a a cd:TableCell ; cd:position 3 ; cd:body "0.031"@en ; cd:authoredResource true .
+  ex:table-row-uvvis-2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:table-cell-uvvis-2-c, ex:table-cell-uvvis-2-w, ex:table-cell-uvvis-2-a ; cd:authoredResource true .
+  ex:table-cell-uvvis-2-c a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-2-w a cd:TableCell ; cd:position 2 ; cd:body "540"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-2-a a cd:TableCell ; cd:position 3 ; cd:body "0.105"@en ; cd:authoredResource true .
+  ex:table-row-uvvis-3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:table-cell-uvvis-3-c, ex:table-cell-uvvis-3-w, ex:table-cell-uvvis-3-a ; cd:authoredResource true .
+  ex:table-cell-uvvis-3-c a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-3-w a cd:TableCell ; cd:position 2 ; cd:body "540"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-3-a a cd:TableCell ; cd:position 3 ; cd:body "0.182"@en ; cd:authoredResource true .
+  ex:table-row-uvvis-4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:table-cell-uvvis-4-c, ex:table-cell-uvvis-4-w, ex:table-cell-uvvis-4-a ; cd:authoredResource true .
+  ex:table-cell-uvvis-4-c a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-4-w a cd:TableCell ; cd:position 2 ; cd:body "540"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-4-a a cd:TableCell ; cd:position 3 ; cd:body "0.406"@en ; cd:authoredResource true .
+  ex:table-row-uvvis-5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:table-cell-uvvis-5-c, ex:table-cell-uvvis-5-w, ex:table-cell-uvvis-5-a ; cd:authoredResource true .
+  ex:table-cell-uvvis-5-c a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-5-w a cd:TableCell ; cd:position 2 ; cd:body "540"@en ; cd:authoredResource true .
+  ex:table-cell-uvvis-5-a a cd:TableCell ; cd:position 3 ; cd:body "0.779"@en ; cd:authoredResource true .
+
+  ex:chart-uvvis-calibration-response a cd:ChartDefinition ;
+    skos:prefLabel "Absorbance response across assigned concentration levels"@en ;
+    cd:body "Illustrative UV/Vis calibration response."@en ;
+    cd:chartType cd:LineChart ;
+    cd:xAxisLabel "Assigned concentration"@en ;
+    cd:yAxisLabel "Absorbance"@en ;
+    cd:xAxisUnit "mg/L" ;
+    cd:usesDataset ex:dataset-uvvis-calibration-response ;
+    cd:authoredResource true .
+  ex:dataset-uvvis-calibration-response a cd:Dataset ;
+    skos:prefLabel "Illustrative UV/Vis calibration response"@en ;
+    cd:hasObservation ex:uvvis-point-1, ex:uvvis-point-2,
+      ex:uvvis-point-3, ex:uvvis-point-4, ex:uvvis-point-5 ;
+    cd:authoredResource true .
+  ex:uvvis-point-1 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.031 ; cd:authoredResource true .
+  ex:uvvis-point-2 a cd:Observation ; cd:position 2 ; cd:xValue 1.0 ; cd:numericValue 0.105 ; cd:authoredResource true .
+  ex:uvvis-point-3 a cd:Observation ; cd:position 3 ; cd:xValue 2.0 ; cd:numericValue 0.182 ; cd:authoredResource true .
+  ex:uvvis-point-4 a cd:Observation ; cd:position 4 ; cd:xValue 5.0 ; cd:numericValue 0.406 ; cd:authoredResource true .
+  ex:uvvis-point-5 a cd:Observation ; cd:position 5 ; cd:xValue 10.0 ; cd:numericValue 0.779 ; cd:authoredResource true .
+
+  ex:uvvis-role-keypoints a cd:Interpretation ;
+    cd:body "Three roles in one experiment."@en ;
+    cd:hasKeyPoint ex:uvvis-role-keypoint-concentration,
+      ex:uvvis-role-keypoint-wavelength, ex:uvvis-role-keypoint-absorbance ;
+    cd:authoredResource true .
+  ex:uvvis-role-keypoint-concentration a cd:KeyPoint ; cd:position 1 ;
+    cd:body "Concentration → assigned independent variable"@en ; cd:authoredResource true .
+  ex:uvvis-role-keypoint-wavelength a cd:KeyPoint ; cd:position 2 ;
+    cd:body "Wavelength → constant at 540 nm"@en ; cd:authoredResource true .
+  ex:uvvis-role-keypoint-absorbance a cd:KeyPoint ; cd:position 3 ;
+    cd:body "Absorbance → measured dependent response"@en ; cd:authoredResource true .
+
+  ex:variables-constants-quick-check a cd:Concept ;
+    skos:prefLabel "Quick check"@en ;
+    skos:related ex:variable, ex:random-variable, ex:constant ;
+    cd:authoredResource true .
+
+  ex:poll-option-01-assigned-variable a cd:PollOption ;
+    skos:prefLabel "Assigned variable"@en ; cd:authoredResource true .
+  ex:poll-option-02-random-variable a cd:PollOption ;
+    skos:prefLabel "Random variable"@en ; cd:authoredResource true .
+  ex:poll-option-03-constant a cd:PollOption ;
+    skos:prefLabel "Constant"@en ; cd:authoredResource true .
+
+  ex:poll-quiz-concentration-role a cd:AudiencePoll ;
+    skos:prefLabel "quiz assigned concentration role"@en ;
+    cd:body "The calibration concentrations 0, 1, 2, 5 and 10 mg/L are deliberately chosen by us. What is their most specific role here?"@en ;
+    cd:hasPollOption ex:poll-option-01-assigned-variable,
+      ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:hasExpectedResult ex:expected-quiz-concentration-role ;
+    cd:authoredResource true .
+  ex:expected-quiz-concentration-role a cd:ExpectedResult ;
+    cd:body "Assigned variable. The concentration levels differ because the experimenter deliberately sets them; varying them does not by itself make concentration a random variable."@en ;
+    cd:authoredResource true .
+
+  ex:poll-quiz-wavelength-role a cd:AudiencePoll ;
+    skos:prefLabel "quiz fixed wavelength role"@en ;
+    cd:body "Every absorbance measurement is made at 540 nm. What is the wavelength's role in this experiment?"@en ;
+    cd:hasPollOption ex:poll-option-01-assigned-variable,
+      ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:hasExpectedResult ex:expected-quiz-wavelength-role ;
+    cd:authoredResource true .
+  ex:expected-quiz-wavelength-role a cd:ExpectedResult ;
+    cd:body "Constant. The wavelength is treated as fixed at 540 nm throughout the stated experiment."@en ;
+    cd:authoredResource true .
+
+  ex:poll-quiz-absorbance-role a cd:AudiencePoll ;
+    skos:prefLabel "quiz repeated absorbance role"@en ;
+    cd:body "Repeated absorbance measurements vary and are modeled as outcomes of random measurement variation. Which option is the most specific description?"@en ;
+    cd:hasPollOption ex:poll-option-01-assigned-variable,
+      ex:poll-option-02-random-variable, ex:poll-option-03-constant ;
+    cd:hasExpectedResult ex:expected-quiz-absorbance-role ;
+    cd:authoredResource true .
+  ex:expected-quiz-absorbance-role a cd:ExpectedResult ;
+    cd:body "Random variable under the stated stochastic measurement model. Each recorded absorbance is one realization; absorbance is also the dependent response in the calibration."@en ;
     cd:authoredResource true .
 
   # Visual learning resources for Variables and Constants -------------------
