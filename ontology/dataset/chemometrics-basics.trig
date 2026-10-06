@@ -4,9 +4,152 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
+  # Variables, constants, samples and distributions -------------------------
+  ex:variable a cd:Concept ;
+    skos:prefLabel "variable"@en ;
+    cd:hasDefinition ex:def-variable ;
+    cd:hasInterpretation ex:variable-constant-scope-interpretation,
+      ex:sample-variable-interpretation ;
+    cd:hasExample ex:worked-example-calibration-variable-constant,
+      ex:worked-example-injection-variable-constant,
+      ex:worked-example-water-samples-variable-constant ;
+    cd:hasExercise ex:exercise-variable-constant-code-experiment,
+      ex:exercise-classify-calibration-concentration,
+      ex:exercise-classify-fixed-wavelength,
+      ex:exercise-classify-recorded-temperature ;
+    cd:contrastsWith ex:constant ;
+    skos:related ex:sample, ex:distribution ;
+    cd:authoredResource true .
+
+  ex:constant a cd:Concept ;
+    skos:prefLabel "constant"@en ;
+    cd:hasDefinition ex:def-constant ;
+    cd:hasInterpretation ex:variable-constant-scope-interpretation ;
+    cd:hasExample ex:worked-example-calibration-variable-constant,
+      ex:worked-example-injection-variable-constant,
+      ex:worked-example-water-samples-variable-constant ;
+    cd:hasExercise ex:exercise-variable-constant-code-experiment,
+      ex:exercise-classify-calibration-concentration,
+      ex:exercise-classify-fixed-wavelength,
+      ex:exercise-classify-recorded-temperature ;
+    cd:contrastsWith ex:variable ;
+    skos:related ex:sample ;
+    cd:authoredResource true .
+
+  ex:distribution a cd:Concept ;
+    skos:prefLabel "distribution"@en ;
+    cd:hasDefinition ex:def-distribution ;
+    cd:prerequisite ex:variable ;
+    skos:related ex:sample, ex:variable, ex:random-variable ;
+    cd:authoredResource true .
+
+  ex:def-variable a cd:Definition ;
+    cd:body "Within a stated dataset or experiment, a variable is a recorded, controlled or modeled characteristic that is allowed to take different values across observations, samples or experimental conditions."@en ;
+    cd:authoredResource true .
+
+  ex:def-constant a cd:Definition ;
+    cd:body "Within a stated dataset or experiment, a constant is a quantity or setting that is treated as having the same value for all observations or experimental conditions in that scope."@en ;
+    cd:authoredResource true .
+
+  ex:def-distribution a cd:Definition ;
+    cd:body "A distribution describes how the values of a variable are arranged across possible values or ranges. For a random variable, a probability distribution specifies probabilities for values or sets of values. Detailed distribution theory is introduced later in the course."@en ;
+    cd:authoredResource true .
+
+  ex:variable-constant-comparison a cd:Comparison ;
+    cd:body "Variables are allowed to change within the stated scope; constants are treated as fixed within that scope. The distinction is contextual rather than an intrinsic property of a physical quantity: a wavelength can be constant in one experiment and deliberately varied in another."@en ;
+    cd:compares ex:variable, ex:constant ;
+    cd:authoredResource true .
+
+  ex:variable-constant-scope-interpretation a cd:Interpretation ;
+    cd:body "Whether a quantity is a variable or a constant depends on the scope and design of the experiment or dataset. Calling a quantity constant means it is treated as fixed for the current analysis, not that it can never change in another context."@en ;
+    cd:authoredResource true .
+
+  ex:sample-variable-interpretation a cd:Interpretation ;
+    cd:body "A statistical sample contains observations. A variable specifies a characteristic recorded or defined for each observation, so a sample of n observations can provide up to n observed values of that variable. The observed values can then be summarized by an empirical distribution."@en ;
+    cd:authoredResource true .
+
+  ex:sample
+    skos:related ex:variable, ex:distribution ;
+    cd:hasInterpretation ex:sample-variable-interpretation .
+
+  ex:worked-example-calibration-variable-constant a cd:WorkedExample ;
+    skos:prefLabel "calibration concentration versus fixed wavelength"@en ;
+    cd:body "In a UV/Vis calibration series, the analyte concentration is deliberately changed between standards while the measurement wavelength is held at 540 nm for every standard. Concentration is a variable; wavelength is a constant within this experiment."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-injection-variable-constant a cd:WorkedExample ;
+    skos:prefLabel "chromatographic response versus fixed injection setting"@en ;
+    cd:body "Across repeated chromatographic injections, the observed peak area can differ from injection to injection while the nominal injection-volume setting is kept at 5 µL. Peak area is a variable; the nominal injection-volume setting is a constant within this run."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-water-samples-variable-constant a cd:WorkedExample ;
+    skos:prefLabel "nitrate across water samples versus fixed aliquot"@en ;
+    cd:body "Across a set of environmental water samples, measured nitrate concentration can differ from sample to sample while the analytical protocol uses the same nominal 10.0 mL aliquot for every determination. Nitrate concentration is a variable; the nominal aliquot volume is a constant within the protocol."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-variable-constant-code-experiment a cd:Exercise ;
+    skos:prefLabel "rerun a variable and constant experiment in R"@en ;
+    cd:body "Run the code repeatedly. Within each run, wavelength is fixed at 540 nm while twelve absorbance observations are generated anew. Identify the constant, the variable and the sample. Here, variable and constant describe experimental/statistical roles; they do not mean that an R object can or cannot be reassigned."@en ;
+    cd:hasCodeExample ex:code-variable-constant-r ;
+    cd:hasExpectedResult ex:expected-variable-constant-code-experiment ;
+    cd:authoredResource true .
+
+  ex:code-variable-constant-r a cd:CodeExample ;
+    skos:prefLabel "simulate fixed wavelength and variable absorbance in R"@en ;
+    cd:code """n_observations <- 12
+wavelength_nm <- 540
+absorbance <- rnorm(n_observations, mean = 0.80, sd = 0.05)
+
+data.frame(
+  observation = seq_len(n_observations),
+  wavelength_nm = rep(wavelength_nm, n_observations),
+  absorbance = round(absorbance, 3)
+)""" ;
+    cd:programmingLanguage "r" ;
+    cd:editable true ;
+    cd:executable true ;
+    cd:showsResource ex:variable, ex:constant, ex:sample, ex:distribution ;
+    cd:authoredResource true .
+
+  ex:expected-variable-constant-code-experiment a cd:ExpectedResult ;
+    cd:body "Within one run, wavelength is constant because every row uses 540 nm. Absorbance is the variable because its observed value differs across rows and changes when the experiment is rerun. The twelve rows form a sample of observed absorbance values; their pattern is an empirical glimpse of the variable's distribution."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-classify-calibration-concentration a cd:Exercise ;
+    skos:prefLabel "classify calibration concentration"@en ;
+    cd:body "A calibration uses standards at 0, 1, 2, 5 and 10 mg/L. Within this calibration experiment, is analyte concentration a variable or a constant?"@en ;
+    cd:hasExpectedResult ex:expected-classify-calibration-concentration ;
+    cd:authoredResource true .
+
+  ex:expected-classify-calibration-concentration a cd:ExpectedResult ;
+    cd:body "Variable. The concentration is deliberately assigned different values across the calibration standards."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-classify-fixed-wavelength a cd:Exercise ;
+    skos:prefLabel "classify a fixed wavelength"@en ;
+    cd:body "Every absorbance measurement in one experiment is recorded at 540 nm. Within this experiment, is wavelength a variable or a constant?"@en ;
+    cd:hasExpectedResult ex:expected-classify-fixed-wavelength ;
+    cd:authoredResource true .
+
+  ex:expected-classify-fixed-wavelength a cd:ExpectedResult ;
+    cd:body "Constant. The wavelength is treated as the same fixed measurement setting for every observation in the stated experiment."@en ;
+    cd:authoredResource true .
+
+  ex:exercise-classify-recorded-temperature a cd:Exercise ;
+    skos:prefLabel "classify recorded sample temperature"@en ;
+    cd:body "For each environmental sample, temperature is recorded but not controlled and the recorded values differ between samples. Within this dataset, is temperature a variable or a constant?"@en ;
+    cd:hasExpectedResult ex:expected-classify-recorded-temperature ;
+    cd:authoredResource true .
+
+  ex:expected-classify-recorded-temperature a cd:ExpectedResult ;
+    cd:body "Variable. Temperature is measured separately for each sample and is allowed to take different observed values in the dataset."@en ;
+    cd:authoredResource true .
+
   # Random variables ---------------------------------------------------------
   ex:random-variable a cd:Concept ;
     skos:prefLabel "random variable"@en, "Zufallsvariable"@de ;
+    skos:broader ex:variable ;
+    skos:related ex:distribution ;
     cd:hasDefinition ex:def-random-variable ;
     cd:hasInterpretation ex:random-variable-realization-interpretation,
       ex:random-measurement-model-interpretation ;

@@ -82,8 +82,10 @@
       ex:chemometrics-introduction-round .
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
-    skos:prefLabel "Random Variables"@en ;
-    cd:hasFocusConcept ex:random-variable, ex:discrete-random-variable, ex:continuous-random-variable .
+    skos:prefLabel "Variables and Constants"@en ;
+    cd:hasFocusConcept ex:variable, ex:constant, ex:random-variable,
+      ex:discrete-random-variable, ex:continuous-random-variable,
+      ex:sample, ex:distribution .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;
     skos:prefLabel "Mean Values"@en ;
