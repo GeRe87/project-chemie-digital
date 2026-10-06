@@ -9,6 +9,7 @@ import {
 } from "../src/course-world.ts";
 import {
   isAuthoredCourseSlide,
+  isPendingCourseDestination,
   resolveCourseSlideTarget,
   shouldReturnToCourseWorld,
 } from "../src/course-world-navigation.ts";
@@ -115,6 +116,35 @@ test("Pitch course slide identity excludes synthetic buffer and return sentinel"
   assert.equal(isAuthoredCourseSlide(buffer, "document:intro"), false);
   assert.equal(isAuthoredCourseSlide(sentinel, "document:intro"), false);
   assert.equal(isAuthoredCourseSlide(authored, "document:other"), false);
+});
+
+test("pending course open completes only on the exact requested authored slide", () => {
+  const intro = {
+    dataset: { sceneDocumentId: "document:intro" },
+  } as unknown as HTMLElement;
+  const levelOne = {
+    dataset: { sceneDocumentId: "document:level-one" },
+  } as unknown as HTMLElement;
+  const levelOneBuffer = {
+    dataset: { sceneDocumentId: "document:level-one", courseLevelBuffer: "true" },
+  } as unknown as HTMLElement;
+
+  assert.equal(
+    isPendingCourseDestination(levelOne, "document:level-one", levelOne),
+    true,
+  );
+  assert.equal(
+    isPendingCourseDestination(intro, "document:level-one", levelOne),
+    false,
+  );
+  assert.equal(
+    isPendingCourseDestination(levelOneBuffer, "document:level-one", levelOneBuffer),
+    false,
+  );
+  assert.equal(
+    isPendingCourseDestination(levelOne, undefined, levelOne),
+    false,
+  );
 });
 
 test("course-world return sentinel is scoped to the active document", () => {

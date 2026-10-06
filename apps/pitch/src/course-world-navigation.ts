@@ -53,6 +53,18 @@ export function shouldReturnToCourseWorld(
     && slide.dataset.sceneDocumentId === activeDocumentId;
 }
 
+export function isPendingCourseDestination(
+  slide: HTMLElement | undefined,
+  pendingDocumentId: string | undefined,
+  pendingSlide: HTMLElement | undefined,
+): boolean {
+  return pendingDocumentId !== undefined
+    && pendingSlide !== undefined
+    && slide === pendingSlide
+    && slide.dataset.sceneDocumentId === pendingDocumentId
+    && isAuthoredCourseSlide(slide, pendingDocumentId);
+}
+
 export function resolveCourseSlideTarget(
   deck: Pick<CourseWorldRevealDeck, "getIndices">,
   slide: HTMLElement,
@@ -129,6 +141,9 @@ export function mountPitchCourseWorldNavigation(options: {
   const disposers: Array<() => void> = [];
   let returnFocus: HTMLElement | undefined;
   let activeDocumentId: string | undefined;
+  let pendingDocumentId: string | undefined;
+  let pendingFirstSlide: HTMLElement | undefined;
+  let pendingTrigger: HTMLElement | undefined;
   let destroyed = false;
 
   const clearNavigationStatus = (): void => {
@@ -151,6 +166,9 @@ export function mountPitchCourseWorldNavigation(options: {
   const showWorld = (): void => {
     if (destroyed) return;
     activeDocumentId = undefined;
+    pendingDocumentId = undefined;
+    pendingFirstSlide = undefined;
+    pendingTrigger = undefined;
     presentation.hidden = true;
     presentation.setAttribute("aria-hidden", "true");
     worldShell.hidden = false;
@@ -158,6 +176,26 @@ export function mountPitchCourseWorldNavigation(options: {
     ownerDocument.body.classList.add("pcd-course-world-active");
     deck.configure({ keyboard: false });
     (returnFocus ?? worldTitle)?.focus();
+  };
+
+  const finalizePendingOpen = (current: HTMLElement | undefined): boolean => {
+    if (!isPendingCourseDestination(current, pendingDocumentId, pendingFirstSlide)) return false;
+
+    const documentId = pendingDocumentId!;
+    const first = pendingFirstSlide!;
+    returnFocus = pendingTrigger ?? returnFocus;
+    activeDocumentId = documentId;
+    pendingDocumentId = undefined;
+    pendingFirstSlide = undefined;
+    pendingTrigger = undefined;
+
+    worldShell.hidden = true;
+    worldShell.setAttribute("aria-hidden", "true");
+    ownerDocument.body.classList.remove("pcd-course-world-active");
+    deck.configure({ keyboard: true });
+    first.tabIndex = -1;
+    first.focus({ preventScroll: true });
+    return true;
   };
 
   const openDocument = (documentId: string, trigger: HTMLElement): void => {
@@ -174,31 +212,24 @@ export function mountPitchCourseWorldNavigation(options: {
     const target = resolveCourseSlideTarget(deck, first);
 
     returnFocus = trigger;
-    activeDocumentId = documentId;
+    activeDocumentId = undefined;
+    pendingDocumentId = documentId;
+    pendingFirstSlide = first;
+    pendingTrigger = trigger;
     clearNavigationStatus();
 
-    // Keep the Reveal deck visually hidden behind the overworld while jumping.
-    // Cross-level jumps can emit intermediate slidechanged events from the
-    // previously active document; sentinel handling is therefore scoped to
-    // activeDocumentId below.
+    // Reveal scroll-mode navigation may settle asynchronously. Keep the deck
+    // measurable but visually hidden behind the overworld until the exact
+    // requested authored slide is confirmed by Reveal.
     presentation.hidden = false;
     presentation.removeAttribute("aria-hidden");
-    deck.configure({ keyboard: true });
+    deck.configure({ keyboard: false });
     deck.slide(target.h, target.v, target.f);
     deck.layout();
 
-    const selected = deck.getCurrentSlide();
-    if (selected !== first) {
-      throw new Error(
-        `Reveal did not select the requested first slide for course level document ${documentId}`,
-      );
-    }
-
-    worldShell.hidden = true;
-    worldShell.setAttribute("aria-hidden", "true");
-    ownerDocument.body.classList.remove("pcd-course-world-active");
-    first.tabIndex = -1;
-    first.focus({ preventScroll: true });
+    // Conventional Reveal mode may update synchronously. Scroll mode normally
+    // completes through the slidechanged handler below.
+    finalizePendingOpen(deck.getCurrentSlide() ?? undefined);
   };
 
   const onWorldClick = (event: MouseEvent): void => {
@@ -225,6 +256,15 @@ export function mountPitchCourseWorldNavigation(options: {
 
   const onSlideChanged = (event?: { readonly currentSlide?: HTMLElement }): void => {
     const current = event?.currentSlide ?? deck.getCurrentSlide() ?? undefined;
+
+    if (pendingDocumentId !== undefined) {
+      // Cross-level navigation can emit intermediate states from the previous
+      // level. Do not interpret any sentinel while a requested level is still
+      // settling; only the exact requested first slide completes the open.
+      finalizePendingOpen(current);
+      return;
+    }
+
     if (shouldReturnToCourseWorld(current, activeDocumentId)) showWorld();
   };
   deck.on("slidechanged", onSlideChanged);
@@ -239,6 +279,10 @@ export function mountPitchCourseWorldNavigation(options: {
       if (destroyed) return;
       destroyed = true;
       for (const dispose of disposers.splice(0)) dispose();
+      activeDocumentId = undefined;
+      pendingDocumentId = undefined;
+      pendingFirstSlide = undefined;
+      pendingTrigger = undefined;
       ownerDocument.body.classList.remove("pcd-course-world-active");
       presentation.hidden = false;
       presentation.removeAttribute("aria-hidden");
