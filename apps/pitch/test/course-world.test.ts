@@ -10,6 +10,7 @@ import {
 import {
   isAuthoredCourseSlide,
   resolveCourseSlideTarget,
+  shouldReturnToCourseWorld,
 } from "../src/course-world-navigation.ts";
 
 const fingerprint = "sha256:" + "a".repeat(64);
@@ -114,6 +115,23 @@ test("Pitch course slide identity excludes synthetic buffer and return sentinel"
   assert.equal(isAuthoredCourseSlide(buffer, "document:intro"), false);
   assert.equal(isAuthoredCourseSlide(sentinel, "document:intro"), false);
   assert.equal(isAuthoredCourseSlide(authored, "document:other"), false);
+});
+
+test("course-world return sentinel is scoped to the active document", () => {
+  const introSentinel = {
+    dataset: { sceneDocumentId: "document:intro", courseReturnSentinel: "true" },
+  } as unknown as HTMLElement;
+  const levelOneSentinel = {
+    dataset: { sceneDocumentId: "document:level-one", courseReturnSentinel: "true" },
+  } as unknown as HTMLElement;
+  const authoredLevelOne = {
+    dataset: { sceneDocumentId: "document:level-one" },
+  } as unknown as HTMLElement;
+
+  assert.equal(shouldReturnToCourseWorld(introSentinel, "document:level-one"), false);
+  assert.equal(shouldReturnToCourseWorld(levelOneSentinel, "document:level-one"), true);
+  assert.equal(shouldReturnToCourseWorld(authoredLevelOne, "document:level-one"), false);
+  assert.equal(shouldReturnToCourseWorld(levelOneSentinel, undefined), false);
 });
 
 test("Pitch course navigation resolves Reveal-owned slide indices instead of DOM positions", () => {

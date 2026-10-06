@@ -44,6 +44,15 @@ function authoredRevealSlidesForDocument(
   return [...deck.getSlides()].filter((slide) => isAuthoredCourseSlide(slide, documentId));
 }
 
+export function shouldReturnToCourseWorld(
+  slide: HTMLElement | undefined,
+  activeDocumentId: string | undefined,
+): boolean {
+  return activeDocumentId !== undefined
+    && slide?.dataset.courseReturnSentinel === "true"
+    && slide.dataset.sceneDocumentId === activeDocumentId;
+}
+
 export function resolveCourseSlideTarget(
   deck: Pick<CourseWorldRevealDeck, "getIndices">,
   slide: HTMLElement,
@@ -119,6 +128,7 @@ export function mountPitchCourseWorldNavigation(options: {
   const navigationStatus = worldShell.querySelector<HTMLElement>("[data-course-navigation-status]");
   const disposers: Array<() => void> = [];
   let returnFocus: HTMLElement | undefined;
+  let activeDocumentId: string | undefined;
   let destroyed = false;
 
   const clearNavigationStatus = (): void => {
@@ -140,6 +150,7 @@ export function mountPitchCourseWorldNavigation(options: {
 
   const showWorld = (): void => {
     if (destroyed) return;
+    activeDocumentId = undefined;
     presentation.hidden = true;
     presentation.setAttribute("aria-hidden", "true");
     worldShell.hidden = false;
@@ -163,19 +174,29 @@ export function mountPitchCourseWorldNavigation(options: {
     const target = resolveCourseSlideTarget(deck, first);
 
     returnFocus = trigger;
+    activeDocumentId = documentId;
     clearNavigationStatus();
 
-    // Reveal owns the slide index. Make the deck measurable first, navigate to
-    // the exact authored slide, and only then remove the overworld.
+    // Keep the Reveal deck visually hidden behind the overworld while jumping.
+    // Cross-level jumps can emit intermediate slidechanged events from the
+    // previously active document; sentinel handling is therefore scoped to
+    // activeDocumentId below.
     presentation.hidden = false;
     presentation.removeAttribute("aria-hidden");
-    ownerDocument.body.classList.remove("pcd-course-world-active");
     deck.configure({ keyboard: true });
     deck.slide(target.h, target.v, target.f);
     deck.layout();
 
+    const selected = deck.getCurrentSlide();
+    if (selected !== first) {
+      throw new Error(
+        `Reveal did not select the requested first slide for course level document ${documentId}`,
+      );
+    }
+
     worldShell.hidden = true;
     worldShell.setAttribute("aria-hidden", "true");
+    ownerDocument.body.classList.remove("pcd-course-world-active");
     first.tabIndex = -1;
     first.focus({ preventScroll: true });
   };
@@ -204,7 +225,7 @@ export function mountPitchCourseWorldNavigation(options: {
 
   const onSlideChanged = (event?: { readonly currentSlide?: HTMLElement }): void => {
     const current = event?.currentSlide ?? deck.getCurrentSlide() ?? undefined;
-    if (current?.dataset.courseReturnSentinel === "true") showWorld();
+    if (shouldReturnToCourseWorld(current, activeDocumentId)) showWorld();
   };
   deck.on("slidechanged", onSlideChanged);
   disposers.push(() => deck.off("slidechanged", onSlideChanged));

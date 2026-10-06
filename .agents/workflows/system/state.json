@@ -5,44 +5,23 @@
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 211,
-  "expectedDeliverable": "Owner browser retest of Introduction Round after pulling #211. Verify exactly three intact cards with heading/body grouped, plus existing Level 0 completion/return flow.",
-  "lastCompletedTurn": "worker: fixed prompt-card wrapper collapse caused by the shared display:contents definition-list baseline.",
-  "lastUpdated": "2026-10-06T10:47:00+02:00",
+  "activeIssue": 213,
+  "expectedDeliverable": "Owner browser retest: Overworld → Region 2 Level 1 must open Variables and Constants directly without Introduction flash; Level 1 completion sentinel must still return to overworld.",
+  "lastCompletedTurn": "worker: scoped return sentinels to the active SceneDocument and made cross-level jumps atomic behind the overworld.",
+  "lastUpdated": "2026-10-06T13:00:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #211 requires owner-local npm run test:pitch",
-    "Issue #211 requires owner-local npm run pitch:intro browser retest of Introduction Round",
-    "Issue #210 still requires browser verification of final completion-buffer return",
+    "Issue #213 requires owner-local npm run test:pitch",
+    "Issue #213 requires owner-local npm run pitch:intro browser retest",
+    "Browser retest must verify Level 1 starts directly and its own completion sentinel returns to overworld",
     "PR #185 requires full repository npm test after focused/browser acceptance"
   ],
-  "stateRevision": 366,
+  "stateRevision": 369,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T12:10:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue204-definition-card",
-      "reason": "Claimed #204 layout-family inference, reusable CSS and identity-free renderer regression only."
-    },
-    {
-      "at": "2026-10-05T12:18:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue204-definition-card",
-      "reason": "Completed #204: heading + explain prose + emphasize citation now infers a centered definition-card with attached source attribution."
-    },
-    {
-      "at": "2026-10-05T12:19:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue205-chemometrics-definition",
-      "reason": "Authorized #205 sourced Chemometrics definition using the existing DefinitionWithCitation semantic pattern and IUPAC Gold Book source."
-    },
     {
       "at": "2026-10-05T12:20:00+02:00",
       "from": "ready/worker",
@@ -196,6 +175,27 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue211-prompt-card-wrapper",
       "reason": "Completed #211: prompt-card-grid explicitly restores definition-list entries to flex-column boxes, preventing dt/dd from becoming independent grid items; focused CSS regression added."
+    },
+    {
+      "at": "2026-10-06T12:50:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue213-cross-level-navigation",
+      "reason": "Owner browser test showed Level 1 briefly exposing the previous Introduction state and immediately returning to the overworld. Authorized active-document sentinel scoping and atomic hidden cross-level navigation."
+    },
+    {
+      "at": "2026-10-06T12:51:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-issue213-cross-level-navigation",
+      "reason": "Claimed active SceneDocument lifecycle state, sentinel ownership guard, hidden Reveal jump and post-jump target verification."
+    },
+    {
+      "at": "2026-10-06T13:00:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-issue213-cross-level-navigation",
+      "reason": "Completed #213: stale sentinels from a previous level can no longer close a newly selected level, and cross-level jumps remain visually hidden until Reveal confirms the requested first slide."
     }
   ]
 }
