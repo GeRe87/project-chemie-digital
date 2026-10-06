@@ -28,6 +28,8 @@ CHEMOMETRICS_GRAPH = URIRef(
 
 NEW_CONCEPTS = {
     EX["variable"],
+    EX["independent-variable"],
+    EX["dependent-variable"],
     EX["constant"],
     EX["distribution"],
     EX["discrete-random-variable"],

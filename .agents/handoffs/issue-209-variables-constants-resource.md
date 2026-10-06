@@ -10,6 +10,8 @@ The existing stable LearningUnit IRI `ex:learning-unit-random-variables` is reta
 
 Its focus set is now exactly:
 - variable
+- independent variable
+- dependent variable
 - constant
 - random variable
 - discrete random variable
@@ -20,8 +22,12 @@ Its focus set is now exactly:
 ## New concepts and relations
 
 - `ex:variable` — generic within-scope data/experiment variable
+- `ex:independent-variable` — explanatory/predictor role; manipulated in designed experiments or observed/selected in observational studies
+- `ex:dependent-variable` — response/outcome role
 - `ex:constant` — within-scope fixed quantity/setting
 - `ex:distribution` — intentionally minimal future anchor
+
+Independent and dependent variables are both `skos:broader ex:variable`, reciprocally `cd:contrastsWith`, and joined by an explicit Comparison. Their shared interpretation states that these are study/model roles: “independent” does not mean statistical independence and does not by itself establish causality.
 
 Variable and constant are reciprocal `cd:contrastsWith` concepts and are joined by `ex:variable-constant-comparison`. A separate interpretation records the crucial scope dependency: the same physical quantity can be constant in one experiment and variable in another.
 
@@ -29,12 +35,12 @@ The existing `ex:random-variable` is now `skos:broader ex:variable` and related 
 
 ## Examples and exercises
 
-Exactly three shared WorkedExamples identify both variable and constant roles:
-1. UV/Vis calibration concentration vs fixed 540 nm wavelength
-2. chromatographic peak area vs fixed nominal injection-volume setting
-3. environmental nitrate concentration vs fixed nominal aliquot volume
+Exactly three shared WorkedExamples now identify independent, dependent and constant roles:
+1. UV/Vis calibration: concentration → independent; absorbance → dependent; 540 nm → constant
+2. chromatographic calibration: standard concentration → independent; peak area → dependent; nominal injection volume → constant
+3. environmental comparison: sampling site → independent/explanatory grouping role; nitrate concentration → dependent response; nominal aliquot → constant, with an explicit observational/non-causal caveat
 
-One executable R exercise simulates 12 absorbance observations at fixed 540 nm. The prose explicitly distinguishes statistical/experimental variable/constant roles from mutable programming objects. Its CodeExample semantically `cd:showsResource` variable, constant, sample and distribution.
+The executable R exercise is now a small calibration experiment: concentration is the independent variable, wavelength is constant at 540 nm, and absorbance is the dependent response with random measurement variation. Its CodeExample semantically `cd:showsResource` variable, independent variable, dependent variable, constant, sample and distribution.
 
 Exactly three separate classification Exercises ask Variable vs Constant and each has one ExpectedResult.
 

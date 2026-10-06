@@ -6,9 +6,9 @@
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 209,
-  "expectedDeliverable": "Owner/local semantic verification of #209 knowledge resources. Then plan the separate Variables and Constants LearningPath/scene redesign using these accepted resources.",
-  "lastCompletedTurn": "worker: completed #209 knowledge-resource-first Variables and Constants content while leaving the existing five-step Random Variables path/scenes structurally unchanged.",
-  "lastUpdated": "2026-10-06T09:06:00+02:00",
+  "expectedDeliverable": "Owner/local semantic verification of expanded #209 Variables and Constants resource, including independent/dependent variable roles. Then plan the separate LearningPath/scene redesign.",
+  "lastCompletedTurn": "worker: extended #209 with independent/dependent variable semantics and integrated those roles into examples and the dynamic calibration experiment.",
+  "lastUpdated": "2026-10-06T09:22:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -21,29 +21,8 @@
     "Existing Random Variables path/scenes intentionally remain legacy until a separate redesign issue",
     "PR #185 still has pending Introduction/overworld browser verification from earlier issues"
   ],
-  "stateRevision": 117,
+  "stateRevision": 120,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T09:24:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
-      "reason": "Completed documentation-only #180 source reconciliation, Draft PR #181 and structured handoff; returned to manager for independent review and exact-head acceptance gates."
-    },
-    {
-      "at": "2026-09-28T09:27:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
-      "reason": "Independent #180 review found one count-only documentation mismatch; authorized a bounded worker repair changing 33 substantive-after-title to 33 total / 32 substantive while preserving all mapped ranges and decisions."
-    },
-    {
-      "at": "2026-09-28T09:28:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
-      "reason": "Claimed only the count wording repair authorized by the independent manager review."
-    },
     {
       "at": "2026-09-28T09:29:00+02:00",
       "from": "busy/worker",
@@ -197,6 +176,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-issue209-variables-constants-resource",
       "reason": "Completed #209 knowledge-resource layer: Variables and Constants chapter identity, three core concepts, scope-aware comparison, three worked examples, one executable R experiment, three classification exercises, Sample↔Variable interpretation and deferred Distribution anchor. Existing five-step Random Variables path/scenes remain unchanged."
+    },
+    {
+      "at": "2026-10-06T09:12:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue209-independent-dependent-extension",
+      "reason": "Owner requested independent and dependent variables as part of the same knowledge resource. Authorized a bounded #209 extension of concepts, examples, dynamic experiment, focus set and focused tests; path/scenes remain frozen."
+    },
+    {
+      "at": "2026-10-06T09:13:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
+      "reason": "Claimed independent/dependent variable definitions, role caveats, reciprocal contrast/comparison, example enrichment, calibration code experiment enrichment and exact focus/test migration."
+    },
+    {
+      "at": "2026-10-06T09:22:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
+      "reason": "Completed #209 extension: independent and dependent variables are narrower Variable concepts with explicit non-causal/model-role caveats; all three examples and the R experiment now expose independent/dependent/constant roles."
     }
   ]
 }

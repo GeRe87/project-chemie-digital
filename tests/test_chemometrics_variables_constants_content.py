@@ -53,8 +53,14 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
 
-    def test_variable_constant_and_distribution_have_exact_core_semantics(self) -> None:
-        for concept in (EX["variable"], EX["constant"], EX["distribution"]):
+    def test_variable_roles_constant_and_distribution_have_exact_core_semantics(self) -> None:
+        for concept in (
+            EX["variable"],
+            EX["independent-variable"],
+            EX["dependent-variable"],
+            EX["constant"],
+            EX["distribution"],
+        ):
             with self.subTest(concept=concept):
                 self.assertEqual(
                     1,
@@ -81,10 +87,43 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         self.assertIn("constant", comparison)
         self.assertIn("variable", comparison)
 
-        self.assertIn(
-            EX["variable"],
-            set(self.graph.objects(EX["random-variable"], SKOS.broader)),
+        for specialized in (
+            EX["independent-variable"],
+            EX["dependent-variable"],
+            EX["random-variable"],
+        ):
+            with self.subTest(specialized=specialized):
+                self.assertIn(
+                    EX["variable"],
+                    set(self.graph.objects(specialized, SKOS.broader)),
+                )
+
+        self.assertEqual(
+            {EX["dependent-variable"]},
+            set(self.graph.objects(EX["independent-variable"], CD.contrastsWith)),
         )
+        self.assertEqual(
+            {EX["independent-variable"]},
+            set(self.graph.objects(EX["dependent-variable"], CD.contrastsWith)),
+        )
+        self.assertEqual(
+            {EX["independent-variable"], EX["dependent-variable"]},
+            set(
+                self.graph.objects(
+                    EX["independent-dependent-variable-comparison"], CD.compares
+                )
+            ),
+        )
+        role_interpretation = str(
+            next(
+                self.graph.objects(
+                    EX["independent-dependent-variable-role-interpretation"], CD.body
+                )
+            )
+        )
+        self.assertIn("not intrinsic", role_interpretation)
+        self.assertIn("does not mean statistically independent", role_interpretation)
+        self.assertIn("does not by itself establish causality", role_interpretation)
         self.assertEqual(
             {EX["variable"]},
             set(self.graph.objects(EX["distribution"], CD.prerequisite)),
@@ -93,11 +132,14 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
     def test_exact_three_shared_worked_examples_cover_both_roles(self) -> None:
         self.assertEqual(EXAMPLES, set(self.graph.objects(EX["variable"], CD.hasExample)))
         self.assertEqual(EXAMPLES, set(self.graph.objects(EX["constant"], CD.hasExample)))
+        self.assertEqual(EXAMPLES, set(self.graph.objects(EX["independent-variable"], CD.hasExample)))
+        self.assertEqual(EXAMPLES, set(self.graph.objects(EX["dependent-variable"], CD.hasExample)))
         for example in EXAMPLES:
             with self.subTest(example=example):
                 self.assertEqual({CD.WorkedExample}, set(self.graph.objects(example, RDF.type)))
                 body = str(next(self.graph.objects(example, CD.body))).lower()
-                self.assertIn("variable", body)
+                self.assertIn("independent", body)
+                self.assertIn("dependent", body)
                 self.assertIn("constant", body)
 
     def test_dynamic_code_experiment_has_prose_semantics_and_executable_r(self) -> None:
@@ -107,7 +149,9 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
 
         self.assertEqual({CD.Exercise}, set(self.graph.objects(exercise, RDF.type)))
         body = str(next(self.graph.objects(exercise, CD.body)))
-        self.assertIn("Within each run", body)
+        self.assertIn("calibration code", body)
+        self.assertIn("independent variable", body)
+        self.assertIn("dependent response", body)
         self.assertIn("experimental/statistical roles", body)
         self.assertEqual({code}, set(self.graph.objects(exercise, CD.hasCodeExample)))
         self.assertEqual({expected}, set(self.graph.objects(exercise, CD.hasExpectedResult)))
@@ -118,17 +162,26 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         self.assertEqual({Literal(True)}, set(self.graph.objects(code, CD.executable)))
         code_text = str(next(self.graph.objects(code, CD.code)))
         self.assertIn("rnorm", code_text)
+        self.assertIn("concentration_mg_L", code_text)
         self.assertIn("wavelength_nm <- 540", code_text)
         self.assertIn("absorbance", code_text)
         self.assertEqual(
-            {EX["variable"], EX["constant"], EX["sample"], EX["distribution"]},
+            {
+                EX["variable"],
+                EX["independent-variable"],
+                EX["dependent-variable"],
+                EX["constant"],
+                EX["sample"],
+                EX["distribution"],
+            },
             set(self.graph.objects(code, CD.showsResource)),
         )
 
         expected_body = str(next(self.graph.objects(expected, CD.body)))
+        self.assertIn("independent variable", expected_body)
+        self.assertIn("dependent response", expected_body)
         self.assertIn("sample", expected_body)
-        self.assertIn("empirical", expected_body)
-        self.assertIn("distribution", expected_body)
+        self.assertIn("empirical variation", expected_body)
 
     def test_exact_three_classification_exercises_have_expected_results(self) -> None:
         variable_exercises = set(self.graph.objects(EX["variable"], CD.hasExercise))
@@ -179,6 +232,8 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         self.assertEqual(
             {
                 EX["variable"],
+                EX["independent-variable"],
+                EX["dependent-variable"],
                 EX["constant"],
                 EX["random-variable"],
                 EX["discrete-random-variable"],

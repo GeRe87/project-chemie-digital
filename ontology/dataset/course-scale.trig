@@ -83,9 +83,9 @@
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
     skos:prefLabel "Variables and Constants"@en ;
-    cd:hasFocusConcept ex:variable, ex:constant, ex:random-variable,
-      ex:discrete-random-variable, ex:continuous-random-variable,
-      ex:sample, ex:distribution .
+    cd:hasFocusConcept ex:variable, ex:independent-variable, ex:dependent-variable,
+      ex:constant, ex:random-variable, ex:discrete-random-variable,
+      ex:continuous-random-variable, ex:sample, ex:distribution .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;
     skos:prefLabel "Mean Values"@en ;

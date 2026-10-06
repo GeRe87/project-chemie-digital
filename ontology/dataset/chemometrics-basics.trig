@@ -21,6 +21,32 @@
     skos:related ex:sample, ex:distribution ;
     cd:authoredResource true .
 
+  ex:independent-variable a cd:Concept ;
+    skos:prefLabel "independent variable"@en ;
+    skos:altLabel "predictor variable"@en, "explanatory variable"@en ;
+    skos:broader ex:variable ;
+    cd:hasDefinition ex:def-independent-variable ;
+    cd:hasInterpretation ex:independent-dependent-variable-role-interpretation ;
+    cd:hasExample ex:worked-example-calibration-variable-constant,
+      ex:worked-example-injection-variable-constant,
+      ex:worked-example-water-samples-variable-constant ;
+    cd:hasExercise ex:exercise-variable-constant-code-experiment ;
+    cd:contrastsWith ex:dependent-variable ;
+    cd:authoredResource true .
+
+  ex:dependent-variable a cd:Concept ;
+    skos:prefLabel "dependent variable"@en ;
+    skos:altLabel "response variable"@en, "outcome variable"@en ;
+    skos:broader ex:variable ;
+    cd:hasDefinition ex:def-dependent-variable ;
+    cd:hasInterpretation ex:independent-dependent-variable-role-interpretation ;
+    cd:hasExample ex:worked-example-calibration-variable-constant,
+      ex:worked-example-injection-variable-constant,
+      ex:worked-example-water-samples-variable-constant ;
+    cd:hasExercise ex:exercise-variable-constant-code-experiment ;
+    cd:contrastsWith ex:independent-variable ;
+    cd:authoredResource true .
+
   ex:constant a cd:Concept ;
     skos:prefLabel "constant"@en ;
     cd:hasDefinition ex:def-constant ;
@@ -47,6 +73,14 @@
     cd:body "Within a stated dataset or experiment, a variable is a recorded, controlled or modeled characteristic that is allowed to take different values across observations, samples or experimental conditions."@en ;
     cd:authoredResource true .
 
+  ex:def-independent-variable a cd:Definition ;
+    cd:body "Within a stated study, experiment or model, an independent variable is an explanatory or predictor variable whose values are assigned, selected or observed in order to explain or predict a response. In a designed experiment it may be deliberately manipulated; in an observational study it need not be."@en ;
+    cd:authoredResource true .
+
+  ex:def-dependent-variable a cd:Definition ;
+    cd:body "Within a stated study, experiment or model, a dependent variable is the response or outcome that is observed or modeled in relation to one or more explanatory variables."@en ;
+    cd:authoredResource true .
+
   ex:def-constant a cd:Definition ;
     cd:body "Within a stated dataset or experiment, a constant is a quantity or setting that is treated as having the same value for all observations or experimental conditions in that scope."@en ;
     cd:authoredResource true .
@@ -64,6 +98,15 @@
     cd:body "Whether a quantity is a variable or a constant depends on the scope and design of the experiment or dataset. Calling a quantity constant means it is treated as fixed for the current analysis, not that it can never change in another context."@en ;
     cd:authoredResource true .
 
+  ex:independent-dependent-variable-comparison a cd:Comparison ;
+    cd:body "Independent and dependent variables describe roles inside a stated experiment, study or model. The independent variable is used as an explanatory or predictor input; the dependent variable is the response or outcome. The same physical quantity can take different roles in different studies."@en ;
+    cd:compares ex:independent-variable, ex:dependent-variable ;
+    cd:authoredResource true .
+
+  ex:independent-dependent-variable-role-interpretation a cd:Interpretation ;
+    cd:body "Independent and dependent are study- or model-specific roles, not intrinsic properties of a quantity. In observational data an independent variable can simply be an explanatory or grouping variable rather than something experimentally manipulated. The word independent in this role does not mean statistically independent, and assigning the role does not by itself establish causality."@en ;
+    cd:authoredResource true .
+
   ex:sample-variable-interpretation a cd:Interpretation ;
     cd:body "A statistical sample contains observations. A variable specifies a characteristic recorded or defined for each observation, so a sample of n observations can provide up to n observed values of that variable. The observed values can then be summarized by an empirical distribution."@en ;
     cd:authoredResource true .
@@ -73,46 +116,48 @@
     cd:hasInterpretation ex:sample-variable-interpretation .
 
   ex:worked-example-calibration-variable-constant a cd:WorkedExample ;
-    skos:prefLabel "calibration concentration versus fixed wavelength"@en ;
-    cd:body "In a UV/Vis calibration series, the analyte concentration is deliberately changed between standards while the measurement wavelength is held at 540 nm for every standard. Concentration is a variable; wavelength is a constant within this experiment."@en ;
+    skos:prefLabel "UV/Vis calibration roles"@en ;
+    cd:body "In a UV/Vis calibration series, analyte concentration is deliberately changed between standards and therefore acts as the independent variable. Absorbance is the measured dependent response. The measurement wavelength is held at 540 nm and is therefore a constant within this experiment."@en ;
     cd:authoredResource true .
 
   ex:worked-example-injection-variable-constant a cd:WorkedExample ;
-    skos:prefLabel "chromatographic response versus fixed injection setting"@en ;
-    cd:body "Across repeated chromatographic injections, the observed peak area can differ from injection to injection while the nominal injection-volume setting is kept at 5 µL. Peak area is a variable; the nominal injection-volume setting is a constant within this run."@en ;
+    skos:prefLabel "chromatographic calibration roles"@en ;
+    cd:body "In a chromatographic calibration, standard concentration is deliberately varied and acts as the independent variable, while peak area is the dependent response. The nominal injection-volume setting is kept at 5 µL and is a constant within this calibration."@en ;
     cd:authoredResource true .
 
   ex:worked-example-water-samples-variable-constant a cd:WorkedExample ;
-    skos:prefLabel "nitrate across water samples versus fixed aliquot"@en ;
-    cd:body "Across a set of environmental water samples, measured nitrate concentration can differ from sample to sample while the analytical protocol uses the same nominal 10.0 mL aliquot for every determination. Nitrate concentration is a variable; the nominal aliquot volume is a constant within the protocol."@en ;
+    skos:prefLabel "environmental sampling roles"@en ;
+    cd:body "When nitrate concentrations are compared between sampling sites, sampling site can act as an independent explanatory or grouping variable and nitrate concentration as the dependent response, while the analytical protocol keeps the nominal aliquot volume at 10.0 mL as a constant. Because site is observed rather than experimentally manipulated, this role assignment alone does not establish a causal effect of site."@en ;
     cd:authoredResource true .
 
   ex:exercise-variable-constant-code-experiment a cd:Exercise ;
-    skos:prefLabel "rerun a variable and constant experiment in R"@en ;
-    cd:body "Run the code repeatedly. Within each run, wavelength is fixed at 540 nm while twelve absorbance observations are generated anew. Identify the constant, the variable and the sample. Here, variable and constant describe experimental/statistical roles; they do not mean that an R object can or cannot be reassigned."@en ;
+    skos:prefLabel "rerun a calibration-role experiment in R"@en ;
+    cd:body "Run the calibration code repeatedly. Concentration is varied according to the calibration design and acts as the independent variable; wavelength is fixed at 540 nm and is a constant; absorbance is generated as the dependent response with random measurement variation. Identify these roles, the sample of observations and the emerging response distribution. Here, variable, independent, dependent and constant describe experimental/statistical roles; they do not describe whether an R object can be reassigned."@en ;
     cd:hasCodeExample ex:code-variable-constant-r ;
     cd:hasExpectedResult ex:expected-variable-constant-code-experiment ;
     cd:authoredResource true .
 
   ex:code-variable-constant-r a cd:CodeExample ;
-    skos:prefLabel "simulate fixed wavelength and variable absorbance in R"@en ;
-    cd:code """n_observations <- 12
+    skos:prefLabel "simulate a calibration with independent, dependent and constant quantities in R"@en ;
+    cd:code """concentration_mg_L <- rep(c(0, 1, 2, 5, 10), each = 2)
 wavelength_nm <- 540
-absorbance <- rnorm(n_observations, mean = 0.80, sd = 0.05)
+absorbance <- 0.03 + 0.075 * concentration_mg_L +
+  rnorm(length(concentration_mg_L), mean = 0, sd = 0.015)
 
 data.frame(
-  observation = seq_len(n_observations),
-  wavelength_nm = rep(wavelength_nm, n_observations),
+  concentration_mg_L = concentration_mg_L,
+  wavelength_nm = rep(wavelength_nm, length(concentration_mg_L)),
   absorbance = round(absorbance, 3)
 )""" ;
     cd:programmingLanguage "r" ;
     cd:editable true ;
     cd:executable true ;
-    cd:showsResource ex:variable, ex:constant, ex:sample, ex:distribution ;
+    cd:showsResource ex:variable, ex:independent-variable, ex:dependent-variable,
+      ex:constant, ex:sample, ex:distribution ;
     cd:authoredResource true .
 
   ex:expected-variable-constant-code-experiment a cd:ExpectedResult ;
-    cd:body "Within one run, wavelength is constant because every row uses 540 nm. Absorbance is the variable because its observed value differs across rows and changes when the experiment is rerun. The twelve rows form a sample of observed absorbance values; their pattern is an empirical glimpse of the variable's distribution."@en ;
+    cd:body "Concentration is the independent variable because its values are set by the calibration design. Absorbance is the dependent response because it is generated in relation to concentration and varies because of random measurement variation. Wavelength is constant because every row uses 540 nm. The rows form a sample of calibration observations; repeated responses reveal empirical variation around the concentration-response relation."@en ;
     cd:authoredResource true .
 
   ex:exercise-classify-calibration-concentration a cd:Exercise ;
@@ -122,7 +167,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:expected-classify-calibration-concentration a cd:ExpectedResult ;
-    cd:body "Variable. The concentration is deliberately assigned different values across the calibration standards."@en ;
+    cd:body "Variable. The concentration is deliberately assigned different values across the calibration standards; when it is used to explain or predict the analytical response, it is more specifically the independent variable."@en ;
     cd:authoredResource true .
 
   ex:exercise-classify-fixed-wavelength a cd:Exercise ;
@@ -142,7 +187,7 @@ data.frame(
     cd:authoredResource true .
 
   ex:expected-classify-recorded-temperature a cd:ExpectedResult ;
-    cd:body "Variable. Temperature is measured separately for each sample and is allowed to take different observed values in the dataset."@en ;
+    cd:body "Variable. Temperature is measured separately for each sample and is allowed to take different observed values in the dataset. Whether it should be called independent or dependent additionally depends on the stated analysis or model."@en ;
     cd:authoredResource true .
 
   # Random variables ---------------------------------------------------------
