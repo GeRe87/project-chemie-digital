@@ -533,3 +533,42 @@ test("prohibits external runtime network calls while allowing pinned same-origin
   restore();
   assert.equal(target.fetch, original);
 });
+
+
+test("generic flow-card styling and structured space balancing remain identity-free", () => {
+  const flowCss = readFileSync(new URL("../src/flow-theme.css", import.meta.url), "utf8");
+  const layoutCss = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
+  const flowRenderer = readFileSync(
+    new URL("../../../packages/renderer-d3/src/flow-diagram.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(flowRenderer, /data-diagram-type/);
+  assert.match(flowRenderer, /data-node-presentation/);
+  assert.match(flowRenderer, /information-card/);
+  assert.match(
+    flowCss,
+    /data-diagram-type="flow"[\s\S]*?data-node-presentation="information-card"/u,
+  );
+  assert.match(
+    flowCss,
+    /d3-flow-node-inner-frame[\s\S]*?d3-flow-node-rail[\s\S]*?display:\s*none/u,
+  );
+
+  assert.match(
+    layoutCss,
+    /section\[data-layout="observation-bridge"\][\s\S]*?minmax\(15rem, 1fr\)/u,
+  );
+  assert.match(
+    layoutCss,
+    /section\[data-layout="quiz-grid"\][\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
+  );
+  assert.match(
+    layoutCss,
+    /data-layout-slot="chart"[\s\S]*?\.d3-chart-svg[\s\S]*?height:\s*100%[\s\S]*?max-height:\s*none/u,
+  );
+
+  const genericRuntimeAndStyles = `${flowRenderer}\n${flowCss}\n${layoutCss}`.toLowerCase();
+  assert.equal(genericRuntimeAndStyles.includes("scene:chemometrics"), false);
+  assert.equal(genericRuntimeAndStyles.includes("uv/vis calibration"), false);
+});
