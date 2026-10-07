@@ -210,6 +210,67 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity var(--pcd-diagram-transition-normal), filter var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
 
+/* Generic flow diagrams share the same lightweight visual grammar as information cards.
+   The trigger is semantic/structural (diagramType=flow), never a scene or resource identity.
+   Network diagrams retain their own established node chrome. */
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
+  stroke: color-mix(in srgb, var(--pcd-accent) 82%, var(--pcd-foreground));
+  stroke-width: 2.25;
+  filter: drop-shadow(4px 4px 0 color-mix(in srgb, var(--pcd-accent) 13%, transparent));
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"]
+  :is(.d3-flow-node-inner-frame, .d3-flow-node-rail, .d3-flow-node-status, .d3-flow-node-divider) {
+  display: none;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  fill: color-mix(in srgb, var(--pcd-accent) 86%, var(--pcd-foreground));
+  font-size: 18px;
+  font-weight: 900;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font-size: 14px;
+  font-weight: 700;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-label {
+  fill: var(--pcd-foreground);
+  font-weight: 850;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 42%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"] .d3-flow-edge {
+  stroke-width: 2;
+  opacity: .78;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"] .d3-flow-edge-label-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 94%, var(--pcd-accent) 6%);
+  stroke: color-mix(in srgb, var(--pcd-accent) 55%, transparent);
+  stroke-width: 1.5;
+  filter: none;
+}
+
 /* Long strict linear flows use renderer-owned information cards on a space-filling route.
    Selection is topology/readability based in renderer-d3; presentation CSS never inspects scene identity. */
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-shape {
