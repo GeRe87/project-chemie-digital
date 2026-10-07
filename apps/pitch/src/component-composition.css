@@ -1,0 +1,174 @@
+/* Generic presentation component + composition layer.
+   This file intentionally avoids scene, resource, course and legacy layout-family identities.
+   Components are derived from SceneBlock kind/intent; compositions are derived from ordered structure. */
+
+.reveal .slides section[data-composition="main-aside-note"] {
+  display: grid !important;
+  grid-template-columns: minmax(21rem, .9fr) minmax(0, 1.1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: .8rem 1.2rem;
+  align-content: stretch;
+  padding: 1rem 1.4rem 1.05rem !important;
+}
+
+.reveal .slides section[data-composition="main-aside-note"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="aside"] {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="main"] {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .85rem;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  min-width: 0;
+}
+
+/* Shared information-surface primitive. */
+.reveal [data-component-kind="info-surface"][data-composition-region="aside"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.05rem;
+  border: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 8%, var(--pcd-surface-strong));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 15%, transparent);
+  color: var(--pcd-foreground);
+  font: 780 .9em/1.28 Arial, Helvetica, sans-serif;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+/* Shared formula primitive. */
+.reveal [data-component-kind="formula"][data-composition-region="main"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: .35rem .8rem;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+/* Shared adaptive card-collection primitive.
+   The renderer does not prescribe a fixed column count. Cards wrap only when their
+   intrinsic minimum width can no longer be respected. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: .6rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  > .definition-list-entry {
+  --pcd-card-hue: var(--definition-entry-hue, 205deg);
+  --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: .72rem .76rem;
+  border: 2px solid var(--pcd-card-stroke);
+  background: color-mix(in srgb, var(--pcd-card-stroke) 6%, var(--pcd-surface-strong));
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pcd-card-stroke) 12%, transparent);
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-term {
+  margin: 0 0 .35rem;
+  padding: 0 0 .3rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcd-card-stroke) 42%, transparent);
+  color: color-mix(in srgb, var(--pcd-card-stroke) 88%, var(--pcd-foreground));
+  font: 900 .68em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-description {
+  margin: 0;
+  color: var(--pcd-foreground);
+  font: 860 clamp(.72em, 1.2vw, .88em)/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: pretty;
+}
+
+/* Shared visual primitive inside a main composition region. */
+.reveal [data-component-kind="visual"][data-composition-region="main"] {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 14rem;
+  margin: 0;
+}
+
+/* Shared supporting-note primitive. */
+.reveal [data-component-kind="info-surface"][data-composition-region="footer"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: .45rem .75rem;
+  border-top: 2px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 4%, transparent);
+  color: var(--pcd-foreground);
+  font: 720 .68em/1.18 Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+body[data-presentation-theme="dark"]
+  .reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  > .definition-list-entry {
+  --pcd-card-stroke: hsl(var(--pcd-card-hue) 72% 66%);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="main-aside-note"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="aside"],
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="main"],
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="footer"] {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+}
