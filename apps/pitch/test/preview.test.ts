@@ -588,3 +588,94 @@ test("table-chart teaching layouts use generic data-card table styling", () => {
   assert.equal(lower.includes("uv/vis"), false);
   assert.equal(lower.includes("scene-chemometrics"), false);
 });
+
+
+test("renders generic main-aside-note composition regions from block semantics", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const context = {
+    id: "block:generic-context",
+    kind: "prose" as const,
+    text: "Generic explanatory context",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-context" }],
+  };
+  const formula = {
+    id: "block:generic-formula",
+    kind: "math" as const,
+    expression: "y=f(x)",
+    spokenText: "y equals f of x",
+    source: [{ resourceId: "resource:generic-formula" }],
+  };
+  const cards = {
+    id: "block:generic-card-collection",
+    kind: "definition-list" as const,
+    entries: Array.from({ length: 3 }, (_, index) => ({
+      id: `entry:generic:${index}`,
+      term: `Term ${index}`,
+      description: `Expression ${index}`,
+      source: [{ resourceId: `resource:generic-entry:${index}` }],
+    })),
+    source: [{ resourceId: "resource:generic-card-collection" }],
+  };
+  const note = {
+    id: "block:generic-note",
+    kind: "prose" as const,
+    text: "Generic supporting note",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:generic-note" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:generic-composition",
+    blocks: [heading, context, formula, cards, note],
+    readingOrder: [heading.id, context.id, formula.id, cards.id, note.id],
+  };
+  const renderedDocument = {
+    ...document,
+    version: "1.4" as const,
+    id: "document:generic-composition",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-composition"), "main-aside-note");
+  assert.equal(section.attributes.get("data-composition-main-count"), "2");
+
+  const headingNode = section.children[0]!;
+  assert.equal(headingNode.attributes.get("data-component-kind"), "heading");
+  assert.equal(headingNode.attributes.get("data-composition-region"), "heading");
+
+  const asideRegion = section.children[1]!;
+  const mainRegion = section.children[2]!;
+  const footerRegion = section.children[3]!;
+  assert.equal(asideRegion.attributes.get("data-composition-region-container"), "aside");
+  assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
+  assert.equal(footerRegion.attributes.get("data-composition-region-container"), "footer");
+  assert.equal(asideRegion.children[0]!.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(mainRegion.children[0]!.attributes.get("data-component-kind"), "formula");
+  assert.equal(mainRegion.children[1]!.attributes.get("data-component-kind"), "card-collection");
+  assert.equal(mainRegion.children[1]!.attributes.get("data-component-item-count"), "3");
+  assert.equal(footerRegion.children[0]!.attributes.get("data-component-kind"), "info-surface");
+
+  const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
+  assert.match(css, /data-composition="main-aside-note"/u);
+  assert.match(css, /grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(min\(100%, 14rem\), 1fr\)\)/u);
+  const lower = css.toLowerCase();
+  assert.equal(lower.includes("functional-dependence"), false);
+  assert.equal(lower.includes("chemometrics"), false);
+  assert.equal(lower.includes("scene:"), false);
+
+  destroy();
+});
