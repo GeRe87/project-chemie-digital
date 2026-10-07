@@ -327,30 +327,49 @@
 .reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .retro-neon-chart-subtitle {
   display: none;
 }
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"],
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] :is(.d3-chart-runtime, .d3-chart-figure),
+.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] :is(.d3-chart-runtime, .d3-chart-figure) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
 .reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .d3-chart-svg,
 .reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
+  flex: 1 1 auto;
   width: 100%;
+  height: 100%;
   min-height: 0;
-  max-height: 22rem;
+  max-height: none;
   overflow: hidden;
 }
 
 .reveal .slides section[data-layout="functional-dependence"] {
   grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
-  grid-template-rows: auto auto auto auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   gap: .5rem 1rem;
+  align-content: stretch;
   padding: 1rem 1.35rem 1.1rem !important;
 }
 .reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="intro"] {
+  align-self: center;
   padding: .85rem;
   font-size: .86em;
   line-height: 1.24;
 }
 .reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="formula"] {
+  align-self: end;
   padding: .25rem .7rem;
   font-size: 1.42em;
 }
 .reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="examples"] {
+  align-self: start;
   gap: .5rem;
   min-width: 0;
 }
@@ -368,8 +387,9 @@
 }
 
 .reveal .slides section[data-layout="observation-bridge"] {
-  grid-template-rows: auto auto auto 13.5rem auto;
+  grid-template-rows: auto auto auto minmax(15rem, 1fr) auto;
   gap: .38rem;
+  align-content: stretch;
   padding: .9rem 1.5rem 1rem !important;
 }
 .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="intro"],
@@ -385,15 +405,22 @@
 }
 .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] {
   align-self: stretch;
-  min-height: 0;
-  max-height: 13.5rem;
+  width: min(1120px, 96%);
+  min-height: 15rem;
+  height: 100%;
   margin: 0 auto;
   padding: 0;
   overflow: hidden;
 }
+.reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] :is(.d3-flow-runtime, .d3-flow-figure) {
+  height: 100%;
+  min-height: 0;
+}
 .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="diagram"] .d3-flow-svg {
-  min-height: 13.5rem !important;
-  max-height: 13.5rem;
+  width: 100%;
+  height: 100% !important;
+  min-height: 15rem !important;
+  max-height: none;
   overflow: hidden;
 }
 
@@ -445,7 +472,8 @@
   line-height: 1.14;
 }
 .reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
-  max-height: 19rem;
+  height: 100%;
+  max-height: none;
 }
 .reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] {
   gap: .5rem;
@@ -467,6 +495,7 @@
 }
 .reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot^="question-"] {
   grid-row: 2;
+  align-self: center;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -498,7 +527,7 @@
   font: 850 .62em/1.12 "Cascadia Mono", Consolas, monospace;
 }
 .reveal .slides section[data-layout="quiz-grid"] .poll-local-feedback {
-  margin-top: auto;
+  margin-top: .65rem;
   padding: .48rem .55rem;
   font-size: .58em;
   line-height: 1.16;
