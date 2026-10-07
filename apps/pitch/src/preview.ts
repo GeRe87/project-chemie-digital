@@ -212,7 +212,7 @@ function appendBlock(
       const intrinsicCh = Math.max(8, Math.min(34, intrinsicTextWidth));
       entryShell.setAttribute(
         "style",
-        `--definition-entry-hue: ${(205 + index * 58) % 360}deg; --pcd-card-content-ch: ${intrinsicCh}`,
+        `--definition-entry-hue: ${(205 + index * 58) % 360}deg; --pcd-card-content-width: ${intrinsicCh}ch`,
       );
       if (entry.visualMotifRole) entryShell.setAttribute("data-visual-motif-role", entry.visualMotifRole);
       if (entry.visualMotif) entryShell.setAttribute("data-visual-motif", entry.visualMotif);
