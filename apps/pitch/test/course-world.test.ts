@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import type { TeachingOfferingRuntimeDocument } from "../../../packages/core/src/canonical-runtime.ts";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import {
@@ -200,4 +201,16 @@ test("Pitch course world rejects bindings outside the selected offering", () => 
     ),
     /outside the selected offering/,
   );
+});
+
+
+test("course-world navigation has a bounded generic settle path for Reveal scroll mode", () => {
+  const source = readFileSync(new URL("../src/course-world-navigation.ts", import.meta.url), "utf8");
+  assert.match(source, /let remainingFrames = 30/);
+  assert.match(source, /requestAnimationFrame\(check\)/);
+  assert.match(source, /finalizePendingOpen\(deck\.getCurrentSlide\(\) \?\? undefined\)/);
+  assert.match(source, /cancelPendingSettle\(\)/);
+  const lower = source.toLowerCase();
+  assert.equal(lower.includes("document:intro"), false);
+  assert.equal(lower.includes("variables and constants"), false);
 });
