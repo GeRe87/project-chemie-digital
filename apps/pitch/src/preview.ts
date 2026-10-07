@@ -490,17 +490,34 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     }
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
+
+    const compositionRegions = new Map<string, MinimalElement>();
+    const compositionParent = (placement: RevealCompositionPlacement | undefined): MinimalElement => {
+      if (!placement || placement.region === "heading" || composition.kind !== "main-aside-note") {
+        return section;
+      }
+      const existing = compositionRegions.get(placement.region);
+      if (existing) return existing;
+      const region = dom.createElement("div");
+      region.className = "pcd-composition-region";
+      region.setAttribute("data-composition-region-container", placement.region);
+      compositionRegions.set(placement.region, region);
+      section.appendChild(region);
+      return region;
+    };
+
     for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
+      const compositionPlacement = compositionByBlockId.get(block.id);
       appendBlock(
-        section,
+        compositionParent(compositionPlacement),
         dom,
         block,
         headingId,
         inferredLayout?.slots[blockIndex],
         inferredFit?.density,
-        compositionByBlockId.get(block.id),
+        compositionPlacement,
       );
     }
     if (semanticGraphCompanion) {
