@@ -36,20 +36,25 @@ const branchedInput = {
   ],
 } as const;
 
-test("selects horizontal and vertical layouts from host width without reordering semantics", () => {
+test("short strict linear flows use compact horizontal structure before the generic width breakpoint", () => {
   assert.equal(flowOrientationForWidth(1200), "horizontal");
   assert.equal(flowOrientationForWidth(640), "vertical");
 
   const wide = createD3FlowLayout(input, 1200);
-  const narrow = createD3FlowLayout(input, 640);
+  const compact = createD3FlowLayout(input, 640);
+  const narrow = createD3FlowLayout(input, 520);
   assert.equal(wide.orientation, "horizontal");
+  assert.equal(compact.orientation, "horizontal");
   assert.equal(narrow.orientation, "vertical");
   assert.deepEqual(wide.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
+  assert.deepEqual(compact.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
   assert.deepEqual(narrow.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
-  assert.deepEqual(wide.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.deepEqual(narrow.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.ok(wide.nodes[1]!.x > wide.nodes[0]!.x);
-  assert.equal(wide.nodes[1]!.y, wide.nodes[0]!.y);
+  assert.deepEqual(compact.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
+  assert.ok(compact.nodes[1]!.x > compact.nodes[0]!.x);
+  assert.equal(compact.nodes[1]!.y, compact.nodes[0]!.y);
+  assert.ok(compact.nodes.every((node) => node.width >= 150));
+  const compactRight = Math.max(...compact.nodes.map((node) => node.x + node.width / 2));
+  assert.ok(compactRight <= compact.width + 0.001);
   assert.ok(narrow.nodes[1]!.y > narrow.nodes[0]!.y);
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
 });
