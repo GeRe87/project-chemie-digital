@@ -572,3 +572,19 @@ test("generic flow-card styling and structured space balancing remain identity-f
   assert.equal(genericRuntimeAndStyles.includes("scene:chemometrics"), false);
   assert.equal(genericRuntimeAndStyles.includes("uv/vis calibration"), false);
 });
+
+
+test("table-chart teaching layouts use generic data-card table styling", () => {
+  const css = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
+  assert.match(
+    css,
+    /section:is\(\[data-layout="measurement-example"\], \[data-layout="experiment-example"\]\)[\s\S]*?> \[data-layout-slot="table"\]\.data-table/u,
+  );
+  assert.match(css, /font-variant-numeric:\s*tabular-nums/u);
+  assert.match(css, /tbody tr:nth-child\(even\) td/u);
+  assert.match(css, /caption-side:\s*top/u);
+  const lower = css.toLowerCase();
+  assert.equal(lower.includes("absorbance"), false);
+  assert.equal(lower.includes("uv/vis"), false);
+  assert.equal(lower.includes("scene-chemometrics"), false);
+});
