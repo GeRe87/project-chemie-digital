@@ -2,7 +2,10 @@ import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
 import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } from "../../core/src/scene-document.ts";
 
-export interface D3LineChartOptions { readonly reducedMotion: boolean; }
+export interface D3LineChartOptions {
+  readonly reducedMotion: boolean;
+  readonly yDomain?: readonly [number, number];
+}
 export interface D3LineChartRenderModel {
   readonly version: "1.0";
   readonly sourceBlockId: string;
@@ -172,7 +175,11 @@ export function mountD3LineChart(
     const maxX = Math.max(...allData.map((datum) => datum.x));
     const maxY = Math.max(0, ...allData.map((datum) => datum.y));
     const x = scaleLinear().domain([minX, maxX]).range([margin.left, margin.left + plotWidth]);
-    const y = scaleLinear().domain([0, maxY * 1.14 || 1]).nice(5).range([margin.top + plotHeight, margin.top]);
+    const authoredYDomain = options.yDomain;
+    const yDomain = authoredYDomain && Number.isFinite(authoredYDomain[0]) && Number.isFinite(authoredYDomain[1]) && authoredYDomain[1] > authoredYDomain[0]
+      ? [authoredYDomain[0], authoredYDomain[1]] as const
+      : [0, maxY * 1.14 || 1] as const;
+    const y = scaleLinear().domain(yDomain).nice(5).range([margin.top + plotHeight, margin.top]);
 
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");
@@ -217,9 +224,11 @@ export function mountD3LineChart(
         node.setAttribute("fill", "none");
         node.setAttribute("pathLength", "1");
         node.setAttribute("stroke-dasharray", "1");
-        node.style.strokeDashoffset = "1";
-        node.style.opacity = "0";
-        node.style.transition = options.reducedMotion ? "none" : "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease";
+        node.style.strokeDashoffset = presentation.traceInitiallyVisible ? "0" : "1";
+        node.style.opacity = presentation.traceInitiallyVisible ? "1" : "0";
+        node.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
+          ? "none"
+          : "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease";
         lines.append(node);
       }
       for (const datum of series.data) {
@@ -229,8 +238,10 @@ export function mountD3LineChart(
         point.setAttribute("cy", String(y(datum.y)));
         point.setAttribute("r", "4");
         point.setAttribute("data-datum-id", datum.id);
-        point.style.opacity = "0";
-        point.style.transition = options.reducedMotion ? "none" : "opacity 300ms ease 360ms";
+        point.style.opacity = presentation.traceInitiallyVisible ? "0.48" : "0";
+        point.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
+          ? "none"
+          : "opacity 300ms ease 360ms";
         lines.append(point);
       }
     });
