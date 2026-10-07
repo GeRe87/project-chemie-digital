@@ -165,9 +165,9 @@
   --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
   box-sizing: border-box;
   display: flex;
-  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-ch, 16) * .72ch + 5.2rem), 22rem);
+  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem);
   flex-direction: column;
-  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-ch, 16) * .72ch + 5.2rem), 22rem));
+  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem));
   min-height: 0;
   margin: 0;
   padding: .72rem .76rem;
