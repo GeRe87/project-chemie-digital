@@ -150,7 +150,7 @@ export function mountD3LineChart(
       path.style.opacity = traceVisible ? "1" : "0";
     }
     for (const point of chartSvg.querySelectorAll<SVGCircleElement>(".d3-chart-line-point")) {
-      point.style.opacity = traceVisible ? "0.48" : "0";
+      point.style.opacity = traceVisible ? "0.9" : "0";
     }
     for (const group of chartSvg.querySelectorAll<SVGGElement>("[data-annotation-step]")) {
       const requiredStep = Number(group.dataset.annotationStep ?? "999");
@@ -236,9 +236,9 @@ export function mountD3LineChart(
         point.classList.add("d3-chart-line-point");
         point.setAttribute("cx", String(x(datum.x)));
         point.setAttribute("cy", String(y(datum.y)));
-        point.setAttribute("r", "4");
+        point.setAttribute("r", "7");
         point.setAttribute("data-datum-id", datum.id);
-        point.style.opacity = presentation.traceInitiallyVisible ? "0.48" : "0";
+        point.style.opacity = presentation.traceInitiallyVisible ? "0.9" : "0";
         point.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
           ? "none"
           : "opacity 300ms ease 360ms";
