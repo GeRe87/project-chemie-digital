@@ -37,10 +37,16 @@ export interface RevealCompositionPlacement {
   readonly index: number;
 }
 
+export type RevealCompositionMainProfile =
+  | "formula-cards"
+  | "formula-visual"
+  | "mixed";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
   readonly mainCount: number;
+  readonly mainProfile?: RevealCompositionMainProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -61,6 +67,17 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function mainProfileFor(blocks: readonly SceneBlock[]): RevealCompositionMainProfile {
+  const kinds = blocks.map((block) => revealComponentDescriptor(block).kind);
+  if (kinds.length === 2 && kinds[0] === "formula" && kinds[1] === "card-collection") {
+    return "formula-cards";
+  }
+  if (kinds.length === 2 && kinds[0] === "formula" && kinds[1] === "visual") {
+    return "formula-visual";
+  }
+  return "mixed";
+}
+
 
 export function revealComponentDescriptor(block: SceneBlock): RevealComponentDescriptor {
   switch (block.kind) {
@@ -142,6 +159,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "main-aside-note",
       placements,
       mainCount: middle.length,
+      mainProfile: mainProfileFor(middle),
     };
   }
 
