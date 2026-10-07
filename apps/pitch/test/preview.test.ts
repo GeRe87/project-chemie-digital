@@ -670,7 +670,7 @@ test("renders generic main-aside-note composition regions from block semantics",
   assert.equal(mainRegion.children[1]!.attributes.get("data-component-item-count"), "3");
   assert.match(
     mainRegion.children[1]!.children[0]!.attributes.get("style") ?? "",
-    /--pcd-card-content-ch:\s*\d+/u,
+    /--pcd-card-content-width:\s*\d+/u,
   );
   assert.equal(footerRegion.children[0]!.attributes.get("data-component-kind"), "info-surface");
 
@@ -679,7 +679,7 @@ test("renders generic main-aside-note composition regions from block semantics",
   assert.match(css, /data-composition-main-profile="formula-cards"/u);
   assert.match(css, /data-composition-main-profile="formula-visual"/u);
   assert.match(css, /flex-wrap:\s*wrap/u);
-  assert.match(css, /--pcd-card-content-ch/u);
+  assert.match(css, /--pcd-card-content-width/u);
   assert.match(css, /flex:\s*1 1 clamp\(14rem/u);
   const lower = css.toLowerCase();
   assert.equal(lower.includes("functional-dependence"), false);
