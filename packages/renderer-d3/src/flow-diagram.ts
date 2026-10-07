@@ -852,6 +852,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         svg.setAttribute("height", String(layout.height));
         svg.setAttribute("data-orientation", layout.orientation);
         svg.setAttribute("data-layout-strategy", layout.strategy);
+        svg.setAttribute("data-diagram-type", model.diagramType);
         svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
 
         const desc = descriptionElement ?? document.createElementNS(namespace, "desc");
@@ -1088,9 +1089,15 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (layout.strategy === "concentric-network" || layout.strategy === "radial-network" || layout.strategy === "triadic-network") {
             addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           } else {
-            const informationCard = layout.strategy === "space-filling-flow";
-            if (informationCard) addInformationCardNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
-            else addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+            const informationCard = model.diagramType === "flow";
+            if (informationCard) {
+              group.setAttribute("data-node-presentation", "information-card");
+              if (layout.strategy === "space-filling-flow") {
+                addInformationCardNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+              }
+            } else {
+              addNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
+            }
             const indexSegmentWidth = Math.min(58, Math.max(32, layoutNode.width * .2));
             const contentLeft = informationCard
               ? -layoutNode.width / 2 + 22
