@@ -160,5 +160,16 @@ test("main profile distinguishes formula plus visual from formula plus cards", (
     ],
     readingOrder: ["heading", "context", "formula", "visual", "note"],
   };
-  assert.equal(inferRevealCompositionPlan(scene).mainProfile, "formula-visual");
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.mainProfile, "formula-visual");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["context", "aside"],
+      ["formula", "lead"],
+      ["visual", "main"],
+      ["note", "footer"],
+    ],
+  );
 });
