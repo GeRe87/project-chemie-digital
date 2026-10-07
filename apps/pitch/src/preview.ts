@@ -480,6 +480,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     );
     section.setAttribute("data-composition", composition.kind);
     section.setAttribute("data-composition-main-count", String(composition.mainCount));
+    if (composition.mainProfile) section.setAttribute("data-composition-main-profile", composition.mainProfile);
     section.setAttribute("style", `--pcd-composition-main-count: ${composition.mainCount}`);
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
