@@ -151,8 +151,8 @@
    The renderer does not prescribe a fixed column count. Cards wrap only when their
    intrinsic minimum width can no longer be respected. */
 .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: .6rem;
   width: 100%;
   min-width: 0;
@@ -165,8 +165,9 @@
   --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
   box-sizing: border-box;
   display: flex;
+  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-ch, 16) * .72ch + 5.2rem), 22rem);
   flex-direction: column;
-  min-width: 0;
+  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-ch, 16) * .72ch + 5.2rem), 22rem));
   min-height: 0;
   margin: 0;
   padding: .72rem .76rem;
@@ -264,7 +265,4 @@ body[data-presentation-theme="dark"]
     grid-row: auto;
   }
 
-  .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-  }
 }
