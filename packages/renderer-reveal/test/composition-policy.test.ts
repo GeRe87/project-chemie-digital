@@ -83,6 +83,7 @@ test("main-aside-note composition is inferred from generic ordered structure", (
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "main-aside-note",
     mainCount: 2,
+    mainProfile: "formula-cards",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "context", region: "aside", index: 0 },
@@ -128,4 +129,36 @@ test("ordinary content remains a generic stack when no richer composition applie
     readingOrder: ["heading", "body"],
   };
   assert.equal(inferRevealCompositionPlan(scene).kind, "single");
+});
+
+
+test("main profile distinguishes formula plus visual from formula plus cards", () => {
+  const visual: SceneBlock = {
+    id: "visual",
+    kind: "diagram",
+    diagramType: "flow",
+    label: "Generic flow",
+    description: "Generic visual",
+    nodes: [
+      { id: "a", label: "A", source: [{ resourceId: "resource:a" }] },
+      { id: "b", label: "B", source: [{ resourceId: "resource:b" }] },
+    ],
+    edges: [
+      { id: "ab", sourceNodeId: "a", targetNodeId: "b", label: "to", source: [{ resourceId: "resource:ab" }] },
+    ],
+    source: [{ resourceId: "resource:visual" }],
+  };
+  const scene: Scene = {
+    id: "opaque:visual-composition",
+    source: [{ resourceId: "resource:scene" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("context", "explain"),
+      math("formula"),
+      visual,
+      prose("note", "explain"),
+    ],
+    readingOrder: ["heading", "context", "formula", "visual", "note"],
+  };
+  assert.equal(inferRevealCompositionPlan(scene).mainProfile, "formula-visual");
 });
