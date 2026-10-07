@@ -27,6 +27,7 @@ export type RevealCompositionKind =
 
 export type RevealCompositionRegion =
   | "heading"
+  | "lead"
   | "aside"
   | "main"
   | "footer";
@@ -150,16 +151,22 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && middle.length >= 2
     && middlePrimary.length === middle.length
   ) {
+    const profile = mainProfileFor(middle);
     const placements: RevealCompositionPlacement[] = [];
     if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
     placements.push({ blockId: leading.id, region: "aside", index: 0 });
-    middle.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+    if (profile === "formula-visual") {
+      placements.push({ blockId: middle[0]!.id, region: "lead", index: 0 });
+      placements.push({ blockId: middle[1]!.id, region: "main", index: 0 });
+    } else {
+      middle.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+    }
     placements.push({ blockId: trailing.id, region: "footer", index: 0 });
     return {
       kind: "main-aside-note",
       placements,
       mainCount: middle.length,
-      mainProfile: mainProfileFor(middle),
+      mainProfile: profile,
     };
   }
 
