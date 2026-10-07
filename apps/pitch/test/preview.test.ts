@@ -668,13 +668,19 @@ test("renders generic main-aside-note composition regions from block semantics",
   assert.equal(mainRegion.children[0]!.attributes.get("data-component-kind"), "formula");
   assert.equal(mainRegion.children[1]!.attributes.get("data-component-kind"), "card-collection");
   assert.equal(mainRegion.children[1]!.attributes.get("data-component-item-count"), "3");
+  assert.match(
+    mainRegion.children[1]!.children[0]!.attributes.get("style") ?? "",
+    /--pcd-card-content-ch:\s*\d+/u,
+  );
   assert.equal(footerRegion.children[0]!.attributes.get("data-component-kind"), "info-surface");
 
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
   assert.match(css, /data-composition="main-aside-note"/u);
   assert.match(css, /data-composition-main-profile="formula-cards"/u);
   assert.match(css, /data-composition-main-profile="formula-visual"/u);
-  assert.match(css, /grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(min\(100%, 14rem\), 1fr\)\)/u);
+  assert.match(css, /flex-wrap:\s*wrap/u);
+  assert.match(css, /--pcd-card-content-ch/u);
+  assert.match(css, /flex:\s*1 1 clamp\(14rem/u);
   const lower = css.toLowerCase();
   assert.equal(lower.includes("functional-dependence"), false);
   assert.equal(lower.includes("chemometrics"), false);
