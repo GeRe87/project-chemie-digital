@@ -106,6 +106,8 @@ interface PreparedNode extends D3FlowLayoutNodeInput {
 // Renderer-local geometry constraints keep authored graph content readable across hosts.
 const FLOW_MIN_WIDTH = 320;
 const FLOW_HORIZONTAL_BREAKPOINT = 900;
+const COMPACT_LINEAR_HORIZONTAL_BREAKPOINT = 560;
+const COMPACT_LINEAR_MAX_NODES = 4;
 const FLOW_NODE_MIN_HEIGHT = 112;
 const HORIZONTAL_LABEL_WIDTH = 178;
 const HORIZONTAL_NODE_MIN_WIDTH = 268;
@@ -203,6 +205,23 @@ export function wrapFlowText(
 export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
   if (!Number.isFinite(hostWidth) || hostWidth <= 0) throw new Error("Flow host width must be positive");
   return hostWidth < FLOW_HORIZONTAL_BREAKPOINT ? "vertical" : "horizontal";
+}
+
+function flowOrientationForStructure(
+  input: D3FlowLayoutInput,
+  hostWidth: number,
+  linearOrder: readonly string[] | undefined,
+): D3FlowOrientation {
+  if (
+    input.diagramType !== "network"
+    && linearOrder
+    && linearOrder.length >= 2
+    && linearOrder.length <= COMPACT_LINEAR_MAX_NODES
+    && hostWidth >= COMPACT_LINEAR_HORIZONTAL_BREAKPOINT
+  ) {
+    return "horizontal";
+  }
+  return flowOrientationForWidth(hostWidth);
 }
 
 function structuredTitleTextMeasure(value: string): number {
@@ -775,10 +794,38 @@ function horizontalLayeredLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const margin = 24;
-  const layerGap = 56;
+  const compactLinear = input.diagramType !== "network"
+    && layers.length >= 2
+    && layers.length <= COMPACT_LINEAR_MAX_NODES
+    && layers.every((layer) => layer.length === 1)
+    && hostWidth >= COMPACT_LINEAR_HORIZONTAL_BREAKPOINT
+    && hostWidth < FLOW_HORIZONTAL_BREAKPOINT;
+  const layerGap = compactLinear ? 28 : 56;
   const siblingGap = 54;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
-  const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => nodeById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
+  const compactNodeWidth = compactLinear
+    ? Math.max(
+        150,
+        (Math.max(FLOW_MIN_WIDTH, hostWidth) - margin * 2 - Math.max(0, layers.length - 1) * layerGap) / layers.length,
+      )
+    : undefined;
+
+  const fittedNode = (id: string): PreparedNode => {
+    const original = nodeById.get(id)!;
+    if (!compactNodeWidth) return original;
+    const contentWidth = Math.max(108, compactNodeWidth - 42);
+    const { labelLines, bodyLines } = structuredNodeText(original.label, original.description, contentWidth);
+    return {
+      ...original,
+      labelLines,
+      bodyLines,
+      width: compactNodeWidth,
+      height: nodeHeight(labelLines, bodyLines),
+    };
+  };
+
+  const fittedById = new Map(prepared.map((node) => [node.id, fittedNode(node.id)]));
+  const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => fittedById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
   const layerGapFor = (layer: readonly string[]): number => {
     if (layer.length < 2) return siblingGap;
     const ids = new Set(layer);
@@ -791,15 +838,14 @@ function horizontalLayeredLayout(
           wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH).length * EDGE_LABEL_LINE_HEIGHT + EDGE_LABEL_VERTICAL_PADDING,
         )),
     );
-    // Labels move half as far apart as their sibling nodes, so double their clearance.
     return Math.max(siblingGap, 2 * (tallestLabelPanel + PARALLEL_LABEL_BREATHING_ROOM));
   };
   const layerHeights = layers.map((layer) =>
-    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
+    layer.reduce((sum, id) => sum + (fittedById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
   );
   const contentHeight = Math.max(112, ...layerHeights);
   const intrinsicWidth = margin * 2 + layerWidths.reduce((sum, width) => sum + width, 0) + Math.max(0, layers.length - 1) * layerGap;
-  const width = Math.max(hostWidth, intrinsicWidth);
+  const width = compactLinear ? Math.max(FLOW_MIN_WIDTH, hostWidth) : Math.max(hostWidth, intrinsicWidth);
   const height = margin * 2 + HORIZONTAL_EDGE_LABEL_CLEARANCE + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
@@ -812,7 +858,7 @@ function horizontalLayeredLayout(
     let cursorY = margin + HORIZONTAL_EDGE_LABEL_CLEARANCE + 17 + (contentHeight - layerHeight) / 2;
     const x = layerLeft + layerWidth / 2;
     for (const id of layer) {
-      const node = nodeById.get(id)!;
+      const node = fittedById.get(id)!;
       byId.set(id, {
         id,
         x,
@@ -1428,7 +1474,8 @@ function concentricNetworkLayout(
 
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
-  const orientation = flowOrientationForWidth(hostWidth);
+  const linearOrder = strictLinearFlowOrder(input);
+  const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
     const { labelLines, bodyLines } = structuredNodeText(
@@ -1447,7 +1494,6 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const linearOrder = strictLinearFlowOrder(input);
   const spaceFilling = shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
     ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
     : undefined;
