@@ -26,6 +26,7 @@ import "./prompt-card-grid-layout.css";
 import "./paired-info-cards-layout.css";
 import "./definition-card-layout.css";
 import "./learning-concept-layouts.css";
+import "./component-composition.css";
 import "./course-world.css";
 import "./presentation-projection.css";
 import "./hero-title-panel.css";
