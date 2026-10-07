@@ -652,6 +652,7 @@ test("renders generic main-aside-note composition regions from block semantics",
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-composition"), "main-aside-note");
   assert.equal(section.attributes.get("data-composition-main-count"), "2");
+  assert.equal(section.attributes.get("data-composition-main-profile"), "formula-cards");
 
   const headingNode = section.children[0]!;
   assert.equal(headingNode.attributes.get("data-component-kind"), "heading");
@@ -671,6 +672,8 @@ test("renders generic main-aside-note composition regions from block semantics",
 
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
   assert.match(css, /data-composition="main-aside-note"/u);
+  assert.match(css, /data-composition-main-profile="formula-cards"/u);
+  assert.match(css, /data-composition-main-profile="formula-visual"/u);
   assert.match(css, /grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(min\(100%, 14rem\), 1fr\)\)/u);
   const lower = css.toLowerCase();
   assert.equal(lower.includes("functional-dependence"), false);
