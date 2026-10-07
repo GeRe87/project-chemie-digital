@@ -31,6 +31,14 @@
   min-height: 0;
 }
 
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="lead"] {
+  grid-column: 1 / -1;
+  min-width: 0;
+  min-height: 0;
+}
+
 .reveal .slides section[data-composition="main-aside-note"]
   > [data-composition-region-container="main"] {
   grid-column: 2;
@@ -60,9 +68,36 @@
   flex: 0 1 auto;
 }
 
+.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"] {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+  > [data-composition-region-container="lead"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+  > [data-composition-region-container="aside"] {
+  grid-column: 1;
+  grid-row: 3;
+}
+
 .reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
   > [data-composition-region-container="main"] {
+  grid-column: 2;
+  grid-row: 3;
   justify-content: stretch;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
 }
 
 .reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
@@ -100,13 +135,16 @@
 }
 
 /* Shared formula primitive. */
-.reveal [data-component-kind="formula"][data-composition-region="main"] {
+.reveal [data-component-kind="formula"][data-composition-region="main"],
+.reveal [data-component-kind="formula"][data-composition-region="lead"] {
   box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: .35rem .8rem;
   font-size: 1.5em;
   text-align: center;
+  overflow: visible;
 }
 
 /* Shared adaptive card-collection primitive.
@@ -192,6 +230,7 @@
 .reveal [data-component-kind="info-surface"][data-composition-region="footer"] {
   box-sizing: border-box;
   width: 100%;
+  max-width: none;
   margin: 0;
   padding: .45rem .75rem;
   border-top: 2px solid var(--pcd-accent);
@@ -213,6 +252,8 @@ body[data-presentation-theme="dark"]
     grid-template-rows: auto auto auto auto;
   }
 
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="lead"],
   .reveal .slides section[data-composition="main-aside-note"]
     > [data-composition-region-container="aside"],
   .reveal .slides section[data-composition="main-aside-note"]
