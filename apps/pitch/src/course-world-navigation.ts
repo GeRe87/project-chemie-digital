@@ -144,7 +144,14 @@ export function mountPitchCourseWorldNavigation(options: {
   let pendingDocumentId: string | undefined;
   let pendingFirstSlide: HTMLElement | undefined;
   let pendingTrigger: HTMLElement | undefined;
+  let pendingSettleFrame: number | undefined;
   let destroyed = false;
+
+  const cancelPendingSettle = (): void => {
+    const view = ownerDocument.defaultView;
+    if (pendingSettleFrame !== undefined && view) view.cancelAnimationFrame(pendingSettleFrame);
+    pendingSettleFrame = undefined;
+  };
 
   const clearNavigationStatus = (): void => {
     worldShell.dataset.navigationState = "idle";
@@ -165,6 +172,7 @@ export function mountPitchCourseWorldNavigation(options: {
 
   const showWorld = (): void => {
     if (destroyed) return;
+    cancelPendingSettle();
     activeDocumentId = undefined;
     pendingDocumentId = undefined;
     pendingFirstSlide = undefined;
@@ -188,6 +196,7 @@ export function mountPitchCourseWorldNavigation(options: {
     pendingDocumentId = undefined;
     pendingFirstSlide = undefined;
     pendingTrigger = undefined;
+    cancelPendingSettle();
 
     worldShell.hidden = true;
     worldShell.setAttribute("aria-hidden", "true");
@@ -196,6 +205,25 @@ export function mountPitchCourseWorldNavigation(options: {
     first.tabIndex = -1;
     first.focus({ preventScroll: true });
     return true;
+  };
+
+  const settlePendingOpen = (): void => {
+    const view = ownerDocument.defaultView;
+    if (!view || destroyed || pendingDocumentId === undefined) return;
+
+    cancelPendingSettle();
+    let remainingFrames = 30;
+
+    const check = (): void => {
+      pendingSettleFrame = undefined;
+      if (destroyed || pendingDocumentId === undefined) return;
+      if (finalizePendingOpen(deck.getCurrentSlide() ?? undefined)) return;
+      remainingFrames -= 1;
+      if (remainingFrames <= 0) return;
+      pendingSettleFrame = view.requestAnimationFrame(check);
+    };
+
+    pendingSettleFrame = view.requestAnimationFrame(check);
   };
 
   const openDocument = (documentId: string, trigger: HTMLElement): void => {
@@ -227,9 +255,10 @@ export function mountPitchCourseWorldNavigation(options: {
     deck.slide(target.h, target.v, target.f);
     deck.layout();
 
-    // Conventional Reveal mode may update synchronously. Scroll mode normally
-    // completes through the slidechanged handler below.
-    finalizePendingOpen(deck.getCurrentSlide() ?? undefined);
+    // Conventional Reveal mode may update synchronously. Scroll mode may settle
+    // without a usable slidechanged callback, so keep a short bounded check alive
+    // until the exact requested authored slide becomes current.
+    if (!finalizePendingOpen(deck.getCurrentSlide() ?? undefined)) settlePendingOpen();
   };
 
   const onWorldClick = (event: MouseEvent): void => {
@@ -279,6 +308,7 @@ export function mountPitchCourseWorldNavigation(options: {
       if (destroyed) return;
       destroyed = true;
       for (const dispose of disposers.splice(0)) dispose();
+      cancelPendingSettle();
       activeDocumentId = undefined;
       pendingDocumentId = undefined;
       pendingFirstSlide = undefined;
