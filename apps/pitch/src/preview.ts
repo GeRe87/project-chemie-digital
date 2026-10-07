@@ -203,7 +203,17 @@ function appendBlock(
       entryShell.className = "definition-list-entry";
       entryShell.setAttribute("data-definition-entry-id", entry.id);
       entryShell.setAttribute("data-definition-entry-index", String(index));
-      entryShell.setAttribute("style", `--definition-entry-hue: ${(205 + index * 58) % 360}deg`);
+      const intrinsicTextWidth = Math.max(
+        entry.term.trim().length,
+        ...(entry.description ?? "")
+          .split(/\r?\n/u)
+          .map((line) => line.trim().length),
+      );
+      const intrinsicCh = Math.max(8, Math.min(34, intrinsicTextWidth));
+      entryShell.setAttribute(
+        "style",
+        `--definition-entry-hue: ${(205 + index * 58) % 360}deg; --pcd-card-content-ch: ${intrinsicCh}`,
+      );
       if (entry.visualMotifRole) entryShell.setAttribute("data-visual-motif-role", entry.visualMotifRole);
       if (entry.visualMotif) entryShell.setAttribute("data-visual-motif", entry.visualMotif);
       sourceAttributes(entryShell, entry.source);
