@@ -213,7 +213,7 @@ function flowOrientationForStructure(
   linearOrder: readonly string[] | undefined,
 ): D3FlowOrientation {
   if (
-    input.diagramType !== "network"
+    input.diagramType === "flow"
     && linearOrder
     && linearOrder.length >= 2
     && linearOrder.length <= COMPACT_LINEAR_MAX_NODES
@@ -794,7 +794,7 @@ function horizontalLayeredLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const margin = 24;
-  const compactLinear = input.diagramType !== "network"
+  const compactLinear = input.diagramType === "flow"
     && layers.length >= 2
     && layers.length <= COMPACT_LINEAR_MAX_NODES
     && layers.every((layer) => layer.length === 1)
