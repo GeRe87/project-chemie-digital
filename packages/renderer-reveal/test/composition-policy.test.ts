@@ -341,3 +341,106 @@ test("evidence-split does not absorb unrelated third primary evidence", () => {
   };
   assert.notEqual(inferRevealCompositionPlan(scene).kind, "evidence-split");
 });
+
+
+function flowDiagram(id: string): SceneBlock {
+  return {
+    id,
+    kind: "diagram",
+    diagramType: "flow",
+    label: "Generic process",
+    description: "Generic flow",
+    nodes: [
+      { id: `${id}:a`, label: "A", source: [{ resourceId: `resource:${id}:a` }] },
+      { id: `${id}:b`, label: "B", source: [{ resourceId: `resource:${id}:b` }] },
+    ],
+    edges: [{
+      id: `${id}:ab`,
+      sourceNodeId: `${id}:a`,
+      targetNodeId: `${id}:b`,
+      label: "to",
+      source: [{ resourceId: `resource:${id}:ab` }],
+    }],
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+function proseImageGroup(id: string): SceneBlock {
+  const proseBlock: SceneBlock = {
+    id: `${id}:prose`,
+    kind: "prose",
+    text: "Generic context",
+    intent: { kind: "explain" },
+    source: [{ resourceId: `resource:${id}:prose` }],
+  };
+  const mediaBlock: SceneBlock = {
+    id: `${id}:media`,
+    kind: "media-reference",
+    uri: "/generic.svg",
+    alternativeText: "Generic illustration",
+    source: [{ resourceId: `resource:${id}:media` }],
+  };
+  return {
+    id,
+    kind: "group",
+    children: [proseBlock, mediaBlock],
+    readingOrder: [proseBlock.id, mediaBlock.id],
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+test("evidence-story composes visual, data and process evidence generically", () => {
+  const scene: Scene = {
+    id: "opaque:evidence-story",
+    source: [{ resourceId: "resource:evidence-story" }],
+    blocks: [
+      prose("heading", "introduce"),
+      barChart("signal"),
+      dataTable("results"),
+      flowDiagram("process"),
+    ],
+    readingOrder: ["heading", "signal", "results", "process"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "evidence-story",
+    mainCount: 3,
+    evidenceProfile: "visual-data-flow",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "signal", region: "primary", index: 0 },
+      { blockId: "results", region: "secondary", index: 0 },
+      { blockId: "process", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("worked-evidence composes context, data, visual, support and optional note", () => {
+  const scene: Scene = {
+    id: "opaque:worked-evidence",
+    source: [{ resourceId: "resource:worked-evidence" }],
+    blocks: [
+      prose("heading", "introduce"),
+      proseImageGroup("context"),
+      dataTable("data"),
+      barChart("analysis"),
+      unorderedList("discussion", 3),
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "context", "data", "analysis", "discussion", "takeaway"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "worked-evidence",
+    mainCount: 4,
+    evidenceProfile: "context-data-visual",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "context", region: "context", index: 0 },
+      { blockId: "data", region: "primary", index: 0 },
+      { blockId: "analysis", region: "secondary", index: 0 },
+      { blockId: "discussion", region: "support", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});
