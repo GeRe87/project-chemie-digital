@@ -18,7 +18,7 @@ import "./support-workbench-primitives.css";
 import "./progression-primitives.css";
 import "./course-world.css";
 import "./presentation-projection.css";
-import "./hero-title-panel.css";
+import "./hero-stage-primitives.css";
 import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
