@@ -26,7 +26,6 @@ export type RevealCompositionKind =
   | "main-aside-note"
   | "card-deck"
   | "evidence-stage"
-  | "support-workbench"
   | "progression-stage"
   | "learning-stage"
   | "visual-stage"
@@ -63,10 +62,6 @@ export type RevealEvidenceProfile =
   | "visual-data-flow"
   | "context-data-visual";
 
-export type RevealWorkbenchProfile =
-  | "visual-dual-reference"
-  | "list-code-reference";
-
 export type RevealProgressionProfile =
   | "compact-linear"
   | "wide-process"
@@ -80,7 +75,9 @@ export type RevealLearningProfile =
   | "info-visual"
   | "formula-visual"
   | "single-prompt"
-  | "prompt-grid";
+  | "prompt-grid"
+  | "visual-dual-reference"
+  | "list-code-reference";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -97,7 +94,6 @@ export type RevealSemanticStageProfile =
 export type RevealCompositionProfile =
   | RevealCompositionMainProfile
   | RevealEvidenceProfile
-  | RevealWorkbenchProfile
   | RevealProgressionProfile
   | RevealLearningProfile
   | RevealVisualStageProfile
@@ -558,7 +554,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[4]!, "secondary", 0));
     placements.push(placement(body[5]!, "secondary", 1));
     return {
-      kind: "support-workbench",
+      kind: "learning-stage",
       placements,
       mainCount: 3,
       profile: "visual-dual-reference",
@@ -582,7 +578,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[3]!, "secondary", 1));
     placements.push(placement(body[4]!, "secondary", 2));
     return {
-      kind: "support-workbench",
+      kind: "learning-stage",
       placements,
       mainCount: 2,
       profile: "list-code-reference",
