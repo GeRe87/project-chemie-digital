@@ -244,7 +244,7 @@ export function inferRevealCompositionFit(
 
   if (
     composition.kind === "worked-evidence"
-    && composition.evidenceProfile === "context-data-visual"
+    && composition.profile === "context-data-visual"
   ) {
     return {
       composition: composition.kind,
