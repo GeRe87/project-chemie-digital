@@ -493,7 +493,6 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
           "progression-stage",
           "learning-stage",
           "visual-stage",
-          "statement-card",
           "media-stage",
         ].includes(composition.kind)
       ) {
