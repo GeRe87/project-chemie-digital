@@ -280,9 +280,9 @@ function syncNavigationMode(): void {
   const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
   const sameConceptSequence =
     current?.dataset.composition === "progression-strip"
-    && current?.dataset.compositionProgressionProfile === "cards-with-footer"
+    && current?.dataset.compositionProfile === "cards-with-footer"
     && next?.dataset.composition === current.dataset.composition
-    && next?.dataset.compositionProgressionProfile === current.dataset.compositionProgressionProfile;
+    && next?.dataset.compositionProfile === current.dataset.compositionProfile;
   const sameFullMediaSequence = isMediaStageScene(current) && isMediaStageScene(next);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
@@ -359,7 +359,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
   const freezeForLayout =
     (
       currentSlide?.dataset.composition === "progression-strip"
-      && currentSlide?.dataset.compositionProgressionProfile === "cards-with-footer"
+      && currentSlide?.dataset.compositionProfile === "cards-with-footer"
     )
     || currentSlide?.dataset.composition === "media-stage";
   const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
