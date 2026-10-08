@@ -215,7 +215,7 @@ test("pitch preview exposes generic list-code support workbench", () => {
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [referenceCodeDocument]);
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), undefined);
-  assert.equal(section.attributes.get("data-composition"), "support-workbench");
+  assert.equal(section.attributes.get("data-composition"), "learning-stage");
   assert.equal(section.attributes.get("data-composition-profile"), "list-code-reference");
   assert.deepEqual(
     section.children.map((child) =>
