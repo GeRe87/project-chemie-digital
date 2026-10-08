@@ -534,7 +534,8 @@ test("prohibits external runtime network calls while allowing pinned same-origin
 
 test("generic flow-card styling and structured space balancing remain identity-free", () => {
   const flowCss = readFileSync(new URL("../src/flow-theme.css", import.meta.url), "utf8");
-  const layoutCss = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
+  const learningCss = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
+  const compositionCss = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
   const flowRenderer = readFileSync(
     new URL("../../../packages/renderer-d3/src/flow-diagram.ts", import.meta.url),
     "utf8",
@@ -553,12 +554,12 @@ test("generic flow-card styling and structured space balancing remain identity-f
   );
 
   assert.match(
-    layoutCss,
-    /section\[data-layout="observation-bridge"\][\s\S]*?minmax\(15rem, 1fr\)/u,
+    compositionCss,
+    /data-composition-main-profile="formula-visual"[\s\S]*?data-component-kind="visual"/u,
   );
   assert.match(
-    layoutCss,
-    /section\[data-layout="quiz-grid"\][\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
+    learningCss,
+    /data-composition-learning-profile="prompt-grid"[\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
   );
   const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
   assert.match(
@@ -566,7 +567,7 @@ test("generic flow-card styling and structured space balancing remain identity-f
     /data-component-kind="visual"[\s\S]*?\.d3-chart-svg[\s\S]*?height:\s*100%[\s\S]*?max-height:\s*none/u,
   );
 
-  const genericRuntimeAndStyles = `${flowRenderer}\n${flowCss}\n${layoutCss}\n${evidenceCss}`.toLowerCase();
+  const genericRuntimeAndStyles = `${flowRenderer}\n${flowCss}\n${learningCss}\n${compositionCss}\n${evidenceCss}`.toLowerCase();
   assert.equal(genericRuntimeAndStyles.includes("scene:chemometrics"), false);
   assert.equal(genericRuntimeAndStyles.includes("uv/vis calibration"), false);
 });
@@ -789,16 +790,19 @@ test("renders generic evidence-split regions from table and chart semantics", ()
 });
 
 
-test("legacy teaching evidence families no longer own CSS presentation", () => {
-  const legacyCss = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
+test("legacy learning and teaching evidence families no longer own CSS presentation", () => {
+  const learningCss = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
   const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.equal(legacyCss.includes('data-layout="measurement-example"'), false);
-  assert.equal(legacyCss.includes('data-layout="experiment-example"'), false);
+  assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
+  assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
+  assert.doesNotMatch(learningCss, /data-layout=/u);
   assert.doesNotMatch(evidenceCss, /data-layout=/u);
+  assert.equal(learningCss.includes("functional-dependence"), false);
+  assert.equal(learningCss.includes("observation-bridge"), false);
 });
 
 
