@@ -113,6 +113,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./concept-specification-layout.css"'), false);
   assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./card-primitives.css"'), true);
+  assert.equal(main.includes('import "./definition-card-layout.css"'), false);
   assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
   assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
