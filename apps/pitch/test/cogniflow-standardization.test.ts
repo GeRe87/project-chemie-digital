@@ -70,8 +70,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/evidence-primitives.css"),
     source("../src/process-primitives.css"),
     source("../src/support-workbench-primitives.css"),
-    source("../src/card-sequence-layout.css"),
-    source("../src/text-network-progression-layout.css"),
+    source("../src/progression-primitives.css"),
     source("../src/concentric-network-layout.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
@@ -125,8 +124,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
   assert.equal(main.includes('import "./case-study-layout.css"'), false);
-  assert.equal(main.includes('import "./card-sequence-layout.css"'), true);
-  assert.equal(main.includes('import "./text-network-progression-layout.css"'), true);
+  assert.equal(main.includes('import "./card-sequence-layout.css"'), false);
+  assert.equal(main.includes('import "./progression-primitives.css"'), true);
+  assert.equal(main.includes('import "./text-network-progression-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantics-first.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-core.css"'), false);
