@@ -35,7 +35,8 @@ export type RevealCompositionKind =
   | "visual-stage"
   | "statement-card"
   | "media-stage"
-  | "hero-stage";
+  | "hero-stage"
+  | "semantic-stage";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -91,6 +92,10 @@ export type RevealVisualStageProfile =
   | "diagram"
   | "concentric-network";
 
+export type RevealSemanticStageProfile =
+  | "source"
+  | "multi-view";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
@@ -102,6 +107,7 @@ export interface RevealCompositionPlan {
   readonly progressionProfile?: RevealProgressionProfile;
   readonly learningProfile?: RevealLearningProfile;
   readonly visualStageProfile?: RevealVisualStageProfile;
+  readonly semanticStageProfile?: RevealSemanticStageProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -122,6 +128,10 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function isTrigCode(block: SceneBlock | undefined): boolean {
+  return block?.kind === "code" && block.language.toLowerCase() === "trig";
+}
+
 function isAttributionMediaGroup(block: SceneBlock): boolean {
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter(
@@ -261,6 +271,38 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 2
+    && isTrigCode(body[0])
+    && body[1]?.kind === "chart"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    placements.push({ blockId: body[1].id, region: "secondary", index: 0 });
+    return {
+      kind: "semantic-stage",
+      placements,
+      mainCount: 2,
+      semanticStageProfile: "multi-view",
+    };
+  }
+
+  if (
+    body.length === 1
+    && isTrigCode(body[0])
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    return {
+      kind: "semantic-stage",
+      placements,
+      mainCount: 1,
+      semanticStageProfile: "source",
+    };
+  }
 
   if (
     body.length === 3
