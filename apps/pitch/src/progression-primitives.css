@@ -186,17 +186,26 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-composition="p
   --pcd-progression-text: #f2eaff;
 }
 
-/* Pure three-card progression. */
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"] {
+/* Pure card progressions, with or without an authored footer note. */
+.reveal .slides section[data-composition="progression-strip"]:is(
+    [data-composition-progression-profile="cards-only"],
+    [data-composition-progression-profile="cards-with-footer"]
+  ) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"]
+.reveal .slides section[data-composition="progression-strip"]:is(
+    [data-composition-progression-profile="cards-only"],
+    [data-composition-progression-profile="cards-with-footer"]
+  )
   > [data-composition-region-container="main"] {
   grid-column: 1 / -1;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"]
+.reveal .slides section[data-composition="progression-strip"]:is(
+    [data-composition-progression-profile="cards-only"],
+    [data-composition-progression-profile="cards-with-footer"]
+  )
   [data-component-kind="list-collection"] {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
