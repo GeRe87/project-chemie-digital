@@ -69,11 +69,11 @@
 }
 
 /* Focused grouped networks use the same stage with denser edge-to-edge geometry. */
-.reveal .slides section[data-composition="visual-stage"][data-composition-visual-stage-profile="concentric-network"] {
+.reveal .slides section[data-composition="visual-stage"][data-composition-profile="concentric-network"] {
   padding: 1.35rem 1.6rem 1rem !important;
 }
 
-.reveal .slides section[data-composition="visual-stage"][data-composition-visual-stage-profile="concentric-network"]
+.reveal .slides section[data-composition="visual-stage"][data-composition-profile="concentric-network"]
   > [data-composition-region="heading"] {
   max-width: none;
   margin: 0 0 .15rem;
@@ -82,7 +82,7 @@
   letter-spacing: normal;
 }
 
-.reveal .slides section[data-composition="visual-stage"][data-composition-visual-stage-profile="concentric-network"]
+.reveal .slides section[data-composition="visual-stage"][data-composition-profile="concentric-network"]
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] {
   width: 100%;
@@ -259,11 +259,11 @@ body[data-diagram-theme="eco-city"] .reveal
     min-height: 30rem;
   }
 
-  .reveal .slides section[data-composition="visual-stage"][data-composition-visual-stage-profile="concentric-network"] {
+  .reveal .slides section[data-composition="visual-stage"][data-composition-profile="concentric-network"] {
     padding: .9rem .65rem !important;
   }
 
-  .reveal .slides section[data-composition="visual-stage"][data-composition-visual-stage-profile="concentric-network"]
+  .reveal .slides section[data-composition="visual-stage"][data-composition-profile="concentric-network"]
     [data-component-kind="visual"] {
     padding-top: 0;
   }
