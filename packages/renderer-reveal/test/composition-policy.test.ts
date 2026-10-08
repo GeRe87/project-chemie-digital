@@ -670,3 +670,119 @@ test("progression-strip infers textual cards leading into a visual", () => {
     ],
   });
 });
+
+
+test("learning-stage infers prompt plus code", () => {
+  const prompt: SceneBlock = {
+    id: "prompt",
+    kind: "prompt",
+    prompt: "Choose",
+    responseMode: "single-choice",
+    options: ["A", "B"],
+    source: [{ resourceId: "resource:prompt" }],
+  };
+  const code: SceneBlock = {
+    id: "code",
+    kind: "code",
+    language: "text",
+    code: "opaque",
+    fallback: "opaque",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: "resource:code" }],
+  };
+  const scene: Scene = {
+    id: "opaque:prompt-code",
+    source: [{ resourceId: "resource:prompt-code" }],
+    blocks: [prose("heading", "introduce"), prompt, code],
+    readingOrder: ["heading", "prompt", "code"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "learning-stage");
+  assert.equal(plan.learningProfile, "prompt-code");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["prompt", "primary"],
+    ["code", "secondary"],
+  ]);
+});
+
+test("learning-stage infers info plus visual with an optional note", () => {
+  const scene: Scene = {
+    id: "opaque:info-visual",
+    source: [{ resourceId: "resource:info-visual" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("definition", "explain"),
+      barChart("visual"),
+      prose("note", "explain"),
+    ],
+    readingOrder: ["heading", "definition", "visual", "note"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "learning-stage");
+  assert.equal(plan.learningProfile, "info-visual");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["definition", "primary"],
+    ["visual", "secondary"],
+    ["note", "footer"],
+  ]);
+});
+
+test("learning-stage infers prompt grids from repeated prompt components", () => {
+  const prompts: SceneBlock[] = ["a", "b", "c"].map((suffix) => ({
+    id: `prompt:${suffix}`,
+    kind: "prompt",
+    prompt: `Prompt ${suffix}`,
+    responseMode: "single-choice",
+    options: ["A", "B"],
+    source: [{ resourceId: `resource:prompt:${suffix}` }],
+  }));
+  const scene: Scene = {
+    id: "opaque:prompt-grid",
+    source: [{ resourceId: "resource:prompt-grid" }],
+    blocks: [prose("heading", "introduce"), ...prompts],
+    readingOrder: ["heading", ...prompts.map((prompt) => prompt.id)],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "learning-stage");
+  assert.equal(plan.learningProfile, "prompt-grid");
+  assert.equal(plan.mainCount, 3);
+  assert.deepEqual(plan.placements.slice(1).map((placement) => placement.region), ["main", "main", "main"]);
+});
+
+test("legacy functional and observation structures resolve through main-aside-note", () => {
+  const functional: Scene = {
+    id: "opaque:functional",
+    source: [{ resourceId: "resource:functional" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro", "explain"),
+      math("formula"),
+      definitions("examples"),
+      prose("caveat", "explain"),
+    ],
+    readingOrder: ["heading", "intro", "formula", "examples", "caveat"],
+  };
+  assert.equal(inferRevealCompositionPlan(functional).kind, "main-aside-note");
+
+  const observation: Scene = {
+    id: "opaque:observation",
+    source: [{ resourceId: "resource:observation" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro", "explain"),
+      math("values"),
+      flowDiagram("diagram"),
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "intro", "values", "diagram", "takeaway"],
+  };
+  const plan = inferRevealCompositionPlan(observation);
+  assert.equal(plan.kind, "main-aside-note");
+  assert.equal(plan.mainProfile, "formula-visual");
+});
