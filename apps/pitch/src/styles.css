@@ -350,6 +350,11 @@ body {
   stroke-width: 3.2;
 }
 
+/* Neutral definition-list baseline: layout-specific card primitives explicitly restore entry boxes. */
+.reveal .definition-list > .definition-list-entry {
+  display: contents;
+}
+
 .definition-list-description[data-adaptive-point-spacing="true"] {
   display: flex;
   flex-direction: column;
