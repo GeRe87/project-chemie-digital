@@ -55,6 +55,61 @@ function definitions(id: string): SceneBlock {
   };
 }
 
+
+function dataTable(id: string): SceneBlock {
+  return {
+    id,
+    kind: "table",
+    caption: "Generic data",
+    columns: [
+      { id: `${id}:c1`, label: "A", source: [{ resourceId: `resource:${id}:c1` }] },
+      { id: `${id}:c2`, label: "B", source: [{ resourceId: `resource:${id}:c2` }] },
+    ],
+    rows: [{
+      id: `${id}:r1`,
+      cells: [
+        { id: `${id}:r1c1`, text: "1", source: [{ resourceId: `resource:${id}:r1c1` }] },
+        { id: `${id}:r1c2`, text: "2", source: [{ resourceId: `resource:${id}:r1c2` }] },
+      ],
+      source: [{ resourceId: `resource:${id}:r1` }],
+    }],
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+function barChart(id: string): SceneBlock {
+  return {
+    id,
+    kind: "chart",
+    chartType: "bar",
+    label: "Generic chart",
+    description: "Generic evidence",
+    xAxis: { label: "Category" },
+    yAxis: { label: "Value" },
+    data: [{
+      id: `${id}:d1`,
+      category: "A",
+      value: 1,
+      source: [{ resourceId: `resource:${id}:d1` }],
+    }],
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
+function unorderedList(id: string, count = 3): SceneBlock {
+  return {
+    id,
+    kind: "list",
+    listStyle: "unordered",
+    items: Array.from({ length: count }, (_, index) => ({
+      id: `${id}:item:${index}`,
+      text: `Point ${index + 1}`,
+      source: [{ resourceId: `resource:${id}:item:${index}` }],
+    })),
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
 test("component descriptors depend on semantic block kind and intent", () => {
   assert.equal(revealComponentDescriptor(prose("h", "introduce")).kind, "heading");
   assert.equal(revealComponentDescriptor(prose("i", "explain")).kind, "info-surface");
@@ -216,4 +271,73 @@ test("card-deck inference rejects mixed primary content", () => {
     readingOrder: ["heading", "prelude", "formula", "cards"],
   };
   assert.notEqual(inferRevealCompositionPlan(scene).kind, "card-deck");
+});
+
+
+test("evidence-split infers data plus visual with explanatory prelude and list support", () => {
+  const scene: Scene = {
+    id: "opaque:evidence",
+    source: [{ resourceId: "resource:evidence" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro", "explain"),
+      dataTable("table"),
+      barChart("chart"),
+      unorderedList("roles"),
+    ],
+    readingOrder: ["heading", "intro", "table", "chart", "roles"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "evidence-split",
+    mainCount: 2,
+    evidenceProfile: "data-visual",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "intro", region: "prelude", index: 0 },
+      { blockId: "table", region: "primary", index: 0 },
+      { blockId: "chart", region: "secondary", index: 0 },
+      { blockId: "roles", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("evidence-split infers explanatory list plus structured data", () => {
+  const scene: Scene = {
+    id: "opaque:list-data",
+    source: [{ resourceId: "resource:list-data" }],
+    blocks: [
+      prose("heading", "introduce"),
+      unorderedList("principles", 4),
+      dataTable("table"),
+    ],
+    readingOrder: ["heading", "principles", "table"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "evidence-split");
+  assert.equal(plan.evidenceProfile, "list-data");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["principles", "primary"],
+      ["table", "secondary"],
+    ],
+  );
+});
+
+test("evidence-split does not absorb unrelated third primary evidence", () => {
+  const scene: Scene = {
+    id: "opaque:three-evidence",
+    source: [{ resourceId: "resource:three-evidence" }],
+    blocks: [
+      prose("heading", "introduce"),
+      dataTable("table"),
+      barChart("chart"),
+      math("formula"),
+    ],
+    readingOrder: ["heading", "table", "chart", "formula"],
+  };
+  assert.notEqual(inferRevealCompositionPlan(scene).kind, "evidence-split");
 });
