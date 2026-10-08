@@ -1097,3 +1097,22 @@ test("hero title presentation is owned by generic hero-stage composition", () =>
   assert.equal(main.includes('import "./hero-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./hero-title-panel.css"'), false);
 });
+
+
+test("semantic runtime styling is keyed to semantic-stage composition profiles", () => {
+  const sourceCss = readFileSync(new URL("../src/semantic-source-runtime.css", import.meta.url), "utf8");
+  const multiCss = readFileSync(new URL("../src/semantic-multi-view-runtime.css", import.meta.url), "utf8");
+  const graphCss = readFileSync(new URL("../src/knowledge-network-runtime.css", import.meta.url), "utf8");
+  const preview = readFileSync(new URL("../src/preview.ts", import.meta.url), "utf8");
+
+  for (const css of [sourceCss, multiCss, graphCss]) {
+    assert.match(css, /data-composition="semantic-stage"/u);
+    assert.doesNotMatch(css, /data-layout="semantic-(?:source|multi-view)"/u);
+    assert.doesNotMatch(css, /data-layout-slot=/u);
+  }
+  assert.match(sourceCss, /data-composition-semantic-stage-profile="source"/u);
+  assert.match(multiCss, /data-composition-semantic-stage-profile="multi-view"/u);
+  assert.match(graphCss, /data-composition-semantic-stage-profile="source"/u);
+  assert.match(preview, /composition\.semanticStageProfile === "source"/u);
+  assert.doesNotMatch(preview, /inferredLayout\?\.family === "semantic-source"/u);
+});
