@@ -32,7 +32,6 @@ export type RevealCompositionKind =
   | "visual-stage"
   | "statement-card"
   | "media-stage"
-  | "hero-stage"
   | "semantic-stage";
 
 export type RevealCompositionRegion =
@@ -87,6 +86,10 @@ export type RevealVisualStageProfile =
   | "diagram"
   | "concentric-network";
 
+export type RevealMediaProfile =
+  | "full-viewport"
+  | "hero-attributions";
+
 export type RevealSemanticStageProfile =
   | "source"
   | "multi-view";
@@ -98,6 +101,7 @@ export type RevealCompositionProfile =
   | RevealProgressionProfile
   | RevealLearningProfile
   | RevealVisualStageProfile
+  | RevealMediaProfile
   | RevealSemanticStageProfile;
 
 export interface RevealCompositionPlan {
@@ -138,7 +142,7 @@ function isAttributionMediaGroup(block: SceneBlock): boolean {
   return prose.length === 1 && media.length === 1;
 }
 
-function isMediaStageGroup(block: SceneBlock): boolean {
+function isFullViewportMediaGroup(block: SceneBlock): boolean {
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter((child) => child.kind === "prose");
   const media = block.children.filter((child) => child.kind === "media-reference");
@@ -329,15 +333,16 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[1]!, "secondary", 0));
     placements.push(placement(body[2]!, "support", 0));
     return {
-      kind: "hero-stage",
+      kind: "media-stage",
       placements,
       mainCount: 3,
+      profile: "hero-attributions",
     };
   }
 
   if (
     body.length === 1
-    && isMediaStageGroup(body[0]!)
+    && isFullViewportMediaGroup(body[0]!)
   ) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body[0]!, "main", 0));
@@ -345,6 +350,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "media-stage",
       placements,
       mainCount: 1,
+      profile: "full-viewport",
     };
   }
 
