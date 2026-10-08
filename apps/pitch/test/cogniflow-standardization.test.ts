@@ -86,6 +86,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   for (const genericSource of genericSources) {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
     assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
+    assert.equal(genericSource.includes('data-composition="hero-stage"'), false);
     assert.equal(genericSource.includes('data-composition="process-story"'), false);
     assert.equal(genericSource.includes('data-composition="progression-strip"'), false);
     for (const sceneId of migratedSceneIds) assert.equal(genericSource.includes(sceneId), false);
@@ -443,7 +444,8 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
   const css = source("../src/media-stage-primitives.css");
 
   assert.equal(compositionPolicy.includes('"media-stage"'), true);
-  assert.equal(compositionPolicy.includes("isMediaStageGroup"), true);
+  assert.equal(compositionPolicy.includes('"full-viewport"'), true);
+  assert.equal(compositionPolicy.includes("isFullViewportMediaGroup"), true);
   assert.equal(css.toLowerCase().includes("cogniflow"), false);
   assert.equal(css.includes("section[id="), false);
   assert.equal(css.includes('data-layout="full-media"'), false);
@@ -452,6 +454,7 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
   assert.equal(main.includes("frozenBackgroundSceneIds"), false);
   assert.equal(main.includes('dataset.layout === "full-media"'), false);
   assert.equal(main.includes('dataset.composition === "media-stage"'), true);
+  assert.equal(main.includes('dataset.compositionProfile === "full-viewport"'), true);
   assert.equal(main.includes("pcd-full-media-active"), true);
 });
 
@@ -488,7 +491,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const semanticMultiCss = source("../src/semantic-multi-view-runtime.css");
   const knowledgeCss = source("../src/knowledge-network-runtime.css");
 
-  assert.equal(compositionPolicy.includes('"hero-stage"'), true);
+  assert.equal(compositionPolicy.includes('"hero-attributions"'), true);
   assert.equal(compositionPolicy.includes('"semantic-stage"'), true);
   assert.equal(compositionPolicy.includes('"visual-stage"'), true);
   assert.equal(compositionPolicy.includes("isAttributionMediaGroup"), true);
@@ -501,7 +504,9 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(titleCss.includes("data-resource-id~="), false);
   assert.equal(titleCss.includes('data-layout="hero-title-panel"'), false);
-  assert.equal(titleCss.includes('data-composition="hero-stage"'), true);
+  assert.equal(titleCss.includes('data-composition="media-stage"'), true);
+  assert.equal(titleCss.includes('data-composition-profile="hero-attributions"'), true);
+  assert.equal(titleCss.includes('data-composition="hero-stage"'), false);
   assert.equal(diagramCss.includes("section[id="), false);
   assert.equal(diagramCss.includes("data-layout="), false);
   assert.equal(semanticSourceCss.includes('data-layout="semantic-source"'), false);
