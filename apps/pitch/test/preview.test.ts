@@ -175,7 +175,7 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   );
   const listSection = root.children[0]!;
   assert.equal(listSection.attributes.get("data-layout"), undefined);
-  assert.equal(listSection.attributes.get("data-composition"), "stack");
+  assert.equal(listSection.attributes.get("data-composition"), "single");
   const list = listSection.children[1]!;
   assert.equal(list.className, "keypoint-list");
   assert.equal(list.attributes.get("data-presentation-disclosure-mode"), "progressive");
