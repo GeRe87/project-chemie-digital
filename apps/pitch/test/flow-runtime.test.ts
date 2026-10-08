@@ -257,7 +257,7 @@ test("pitch preview creates a canonical renderer host and complete static fallba
   const section = root.children[0]!;
   assert.equal(section.children[0]!.textContent, "Flow scene");
   assert.equal(section.attributes.get("data-composition"), "visual-stage");
-  assert.equal(section.attributes.get("data-composition-visual-stage-profile"), "diagram");
+  assert.equal(section.attributes.get("data-composition-profile"), "diagram");
   const mainRegion = section.children[1]!;
   assert.equal(mainRegion.className, "pcd-composition-region");
   assert.equal(mainRegion.getAttribute("data-composition-region-container"), "main");
