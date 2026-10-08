@@ -185,7 +185,7 @@ test("keyboard lifecycle prefers canonical focus and preserves it across respons
   assert.equal(mounted.activeNodeId, "node:reuse");
   assert.equal(mounted.handleKey("PageDown"), false);
 
-  resizeCallback?.(640);
+  resizeCallback?.(520);
   assert.equal(mounted.layout.orientation, "vertical");
   assert.deepEqual(updates.at(-1), { orientation: "vertical", active: "node:reuse" });
 
@@ -198,7 +198,7 @@ test("keyboard lifecycle prefers canonical focus and preserves it across respons
 test("static mode creates no keyboard focus traversal", () => {
   const focused: string[] = [];
   const runtime: D3FlowRuntimePort = {
-    measureHost() { return 640; },
+    measureHost() { return 520; },
     mount() {
       return {
         update() {},
