@@ -276,7 +276,8 @@ test("pitch preview renders definition-list semantic markup without lexical pars
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [definitionListDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-composition"), "card-deck");
+  assert.equal(section.attributes.get("data-composition"), "learning-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "definition-deck");
   const mainRegion = section.children[1]!;
   assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
   const list = mainRegion.children[0]!;
