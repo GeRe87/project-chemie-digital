@@ -216,6 +216,31 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
 
+  if (
+    body.length === 3
+    && isContextProse(body[0])
+    && body[1]?.kind === "diagram"
+    && (body[1].diagramType === "flow" || body[1].diagramType === "sequence")
+    && isContextProse(body[2])
+  ) {
+    const visual = body[1];
+    const processProfile: RevealProcessProfile =
+      isStrictLinearFlow(visual) && visual.nodes.length <= 3
+        ? "compact-linear"
+        : "wide-process";
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: visual.id, region: "main", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    return {
+      kind: "process-story",
+      placements,
+      mainCount: 1,
+      processProfile,
+    };
+  }
+
 
 
   if (
@@ -404,31 +429,6 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       placements,
       mainCount: 2,
       workbenchProfile: "list-code-reference",
-    };
-  }
-
-  if (
-    body.length === 3
-    && isContextProse(body[0])
-    && body[1]?.kind === "diagram"
-    && (body[1].diagramType === "flow" || body[1].diagramType === "sequence")
-    && isContextProse(body[2])
-  ) {
-    const visual = body[1];
-    const processProfile: RevealProcessProfile =
-      isStrictLinearFlow(visual) && visual.nodes.length <= 3
-        ? "compact-linear"
-        : "wide-process";
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: visual.id, region: "main", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
-    return {
-      kind: "process-story",
-      placements,
-      mainCount: 1,
-      processProfile,
     };
   }
 
