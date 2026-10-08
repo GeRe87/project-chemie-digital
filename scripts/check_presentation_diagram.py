@@ -3,7 +3,7 @@
 Start the target pitch dev server first. The check uses real Reveal scroll/deck
 navigation and never fabricates fragment classes or host events.
 
-By default the first scene using the generic diagram-stage layout is checked.
+By default the first scene using the generic diagram visual-stage composition is checked.
 Pass --scene-id to select any other rendered flow-diagram scene explicitly.
 Optional node/dot expectations are content-regression assertions supplied by the
 caller; the script itself contains no presentation-specific resource identity.
@@ -26,7 +26,7 @@ def resolve_scene_id(page, requested_scene_id):
         return requested_scene_id
 
     scene_id = page.evaluate("""() => {
-      const preferred = document.querySelector('section[data-layout="diagram-stage"] .d3-flow-svg');
+      const preferred = document.querySelector('section[data-composition="visual-stage"][data-composition-visual-stage-profile="diagram"] .d3-flow-svg');
       const fallback = document.querySelector('section .d3-flow-svg');
       const scene = (preferred ?? fallback)?.closest('section[id]');
       return scene?.id ?? null;
