@@ -457,6 +457,9 @@
   > [data-composition-region-container="support"] {
   grid-column: 2 / -1;
   grid-row: 3;
+  justify-self: stretch;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
@@ -522,6 +525,9 @@
   > [data-composition-region-container="support"]
   [data-component-kind="list-collection"] {
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  justify-self: stretch;
+  width: 100% !important;
+  max-width: none !important;
   gap: .48rem;
 }
 
