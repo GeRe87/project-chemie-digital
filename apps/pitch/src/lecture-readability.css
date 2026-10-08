@@ -23,7 +23,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section {
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section:not([data-composition="single"][data-composition-main-count="0"])
+  section:not([data-composition="stack"][data-composition-main-count="0"])
   > [data-composition-region="heading"],
 body[data-presentation-readability="lecture"] .reveal .slides
   section:not([data-composition]) > h2 {
