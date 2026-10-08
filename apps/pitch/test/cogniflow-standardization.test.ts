@@ -158,6 +158,20 @@ test("composition inference centralizes matching and placement construction", ()
 });
 
 
+
+
+test("Pitch preview delegates region-container topology to composition policy", () => {
+  const preview = source("../src/preview.ts");
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
+
+  assert.equal(compositionPolicy.includes("export function shouldWrapRevealCompositionPlacement("), true);
+  assert.equal(preview.includes("shouldWrapRevealCompositionPlacement(composition, placement)"), true);
+  assert.equal(preview.includes("].includes(composition.kind)"), false);
+  assert.equal(preview.includes('composition.profile === "hero-attributions"'), false);
+  assert.equal(preview.includes('composition.profile === "context-data-visual"'), false);
+});
+
+
 test("composition variants use one generic profile channel", () => {
   const preview = source("../src/preview.ts");
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
