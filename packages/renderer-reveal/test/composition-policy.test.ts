@@ -961,3 +961,50 @@ test("hero-stage infers ordered attribution and media groups structurally", () =
     ],
   });
 });
+
+
+test("semantic-stage infers source and multi-view profiles from TriG structure", () => {
+  const trigCode = (id: string): SceneBlock => ({
+    id,
+    kind: "code",
+    language: "trig",
+    code: "ex:a a ex:Thing .",
+    fallback: "ex:a a ex:Thing .",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: `resource:${id}` }],
+  });
+
+  const sourceScene: Scene = {
+    id: "opaque:semantic-source",
+    source: [{ resourceId: "resource:semantic-source" }],
+    blocks: [prose("heading", "introduce"), trigCode("source")],
+    readingOrder: ["heading", "source"],
+  };
+  assert.deepEqual(inferRevealCompositionPlan(sourceScene), {
+    kind: "semantic-stage",
+    mainCount: 1,
+    semanticStageProfile: "source",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "source", region: "main", index: 0 },
+    ],
+  });
+
+  const multiViewScene: Scene = {
+    id: "opaque:semantic-multi-view",
+    source: [{ resourceId: "resource:semantic-multi-view" }],
+    blocks: [prose("heading", "introduce"), trigCode("source"), barChart("chart")],
+    readingOrder: ["heading", "source", "chart"],
+  };
+  assert.deepEqual(inferRevealCompositionPlan(multiViewScene), {
+    kind: "semantic-stage",
+    mainCount: 2,
+    semanticStageProfile: "multi-view",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "source", region: "main", index: 0 },
+      { blockId: "chart", region: "secondary", index: 0 },
+    ],
+  });
+});
