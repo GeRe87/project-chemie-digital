@@ -185,27 +185,21 @@ test("wraps rendered list text in a neutral marker span without changing semanti
   destroy();
 });
 
-test("prompt-card grid preserves each definition entry as one visual card", () => {
-  const foundationCss = readFileSync(
-    new URL("../src/foundation-card-grid-layout.css", import.meta.url),
-    "utf8",
-  );
-  const promptCss = readFileSync(
-    new URL("../src/prompt-card-grid-layout.css", import.meta.url),
-    "utf8",
-  );
+test("generic card primitive restores definition entries as visual cards", () => {
+  const sharedCss = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+  const cardCss = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
 
-  // The shared definition-list baseline deliberately flattens entries for
-  // table-like layouts. Card layouts therefore must explicitly restore their
-  // entry wrapper as a box or dt/dd children become independent grid items.
+  // The neutral baseline stays compatible with table-like definition lists.
+  // The reusable card component restores the wrapper only when projected as a card collection.
   assert.match(
-    foundationCss,
+    sharedCss,
     /\.reveal \.definition-list > \.definition-list-entry\s*\{\s*display:\s*contents;/u,
   );
   assert.match(
-    promptCss,
-    /section\[data-layout="prompt-card-grid"\][\s\S]*?> \[data-layout-slot="cards"\] > \.definition-list-entry\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/u,
+    cardCss,
+    /data-component-kind="card-collection"[\s\S]*?> \.definition-list-entry\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/u,
   );
+  assert.doesNotMatch(cardCss, /data-layout=/u);
 });
 
 test("definition-list renderer separates authored points and caps adaptive spacing", () => {
@@ -273,7 +267,10 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), "labeled-card-grid");
 
-  const definitionList = section.children[1]!;
+  assert.equal(section.attributes.get("data-composition"), "card-deck");
+  const cardRegion = section.children[1]!;
+  assert.equal(cardRegion.attributes.get("data-composition-region-container"), "main");
+  const definitionList = cardRegion.children[0]!;
   const multiEntry = definitionList.children[0]!;
   assert.equal(multiEntry.attributes.get("data-visual-motif"), "discussion");
   assert.equal(multiEntry.attributes.get("data-visual-motif-role"), "highlight");
@@ -322,7 +319,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   );
 
   const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
-  const cardStyles = readFileSync(new URL("../src/labeled-card-grid-layout.css", import.meta.url), "utf8");
+  const cardStyles = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
   assert.match(sharedStyles, /\.definition-list-point-spacer/);
   assert.match(sharedStyles, /--pcd-point-gap-min:\s*\.6lh/);
   assert.match(sharedStyles, /--pcd-point-gap-max:\s*2\.5lh/);
