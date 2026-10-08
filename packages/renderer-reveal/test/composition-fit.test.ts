@@ -138,7 +138,7 @@ test("selects evidence-right dense for a moderate mixed-evidence case study", ()
   const composition = inferRevealCompositionPlan(scene);
   const fit = inferRevealCompositionFit(scene, composition);
   assert.equal(composition.kind, "worked-evidence");
-  assert.equal(composition.evidenceProfile, "context-data-visual");
+  assert.equal(composition.profile, "context-data-visual");
   assert.equal(fit?.variant, "evidence-right");
   assert.equal(fit?.density, "dense");
   assert.ok((fit?.totalScore ?? 0) >= 27);
