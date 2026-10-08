@@ -87,11 +87,20 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
     assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
     assert.equal(genericSource.includes('data-composition="hero-stage"'), false);
+    assert.equal(genericSource.includes('data-composition="support-workbench"'), false);
     assert.equal(genericSource.includes('data-composition="process-story"'), false);
     assert.equal(genericSource.includes('data-composition="progression-strip"'), false);
     for (const sceneId of migratedSceneIds) assert.equal(genericSource.includes(sceneId), false);
   }
 });
+
+test("retired composition kinds stay out of the renderer policy", () => {
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
+  for (const retired of ["hero-stage", "support-workbench", "process-story", "progression-strip"]) {
+    assert.equal(compositionPolicy.includes(`"${retired}"`), false);
+  }
+});
+
 
 test("migrated scenes are not selected by id in shared app styling or navigation", () => {
   const preview = source("../src/preview.ts");
