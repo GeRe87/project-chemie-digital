@@ -192,12 +192,32 @@ function isStrictLinearFlow(block: SceneBlock): boolean {
 }
 
 
+function placement(
+  block: SceneBlock,
+  region: RevealCompositionRegion,
+  index = 0,
+): RevealCompositionPlacement {
+  return { blockId: block.id, region, index };
+}
+
+function placementsWithHeading(heading: SceneBlock | undefined): RevealCompositionPlacement[] {
+  return heading ? [placement(heading, "heading")] : [];
+}
+
+function matchesComponentKinds(
+  actual: readonly RevealComponentKind[],
+  ...expected: RevealComponentKind[]
+): boolean {
+  return actual.length === expected.length
+    && expected.every((kind, index) => actual[index] === kind);
+}
+
 function mainProfileFor(blocks: readonly SceneBlock[]): RevealCompositionMainProfile {
   const kinds = blocks.map((block) => revealComponentDescriptor(block).kind);
-  if (kinds.length === 2 && kinds[0] === "formula" && kinds[1] === "card-collection") {
+  if (matchesComponentKinds(kinds, "formula", "card-collection")) {
     return "formula-cards";
   }
-  if (kinds.length === 2 && kinds[0] === "formula" && kinds[1] === "visual") {
+  if (matchesComponentKinds(kinds, "formula", "visual")) {
     return "formula-visual";
   }
   return "mixed";
@@ -258,7 +278,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   if (body.length === 0) {
     return {
       kind: "single",
-      placements: heading ? [{ blockId: heading.id, region: "heading", index: 0 }] : [],
+      placements: placementsWithHeading(heading),
       mainCount: 0,
     };
   }
@@ -275,15 +295,20 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
 
+  // Matcher order is part of the renderer contract. Specific semantic/topology
+  // signatures must win before broader component-kind signatures and generic
+  // fallbacks. In particular, process-story precedes learning-stage info-visual:
+  // explain + diagram + explain has the same component-kind shape as the broader
+  // info + visual + optional note learning pattern.
+
   if (
     body.length === 2
     && isTrigCode(body[0])
     && body[1]?.kind === "chart"
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
-    placements.push({ blockId: body[1].id, region: "secondary", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "main", 0));
+    placements.push(placement(body[1], "secondary", 0));
     return {
       kind: "semantic-stage",
       placements,
@@ -296,9 +321,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     body.length === 1
     && isTrigCode(body[0])
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "main", 0));
     return {
       kind: "semantic-stage",
       placements,
@@ -311,11 +335,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     body.length === 3
     && body.every((block) => isAttributionMediaGroup(block))
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "support", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "primary", 0));
+    placements.push(placement(body[1]!, "secondary", 0));
+    placements.push(placement(body[2]!, "support", 0));
     return {
       kind: "hero-stage",
       placements,
@@ -327,9 +350,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     body.length === 1
     && isMediaStageGroup(body[0]!)
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "main", 0));
     return {
       kind: "media-stage",
       placements,
@@ -344,10 +366,9 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && body[1]?.kind === "prose"
     && body[1].intent?.kind === "emphasize"
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0].id, region: "main", index: 0 });
-    placements.push({ blockId: body[1].id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0], "main", 0));
+    placements.push(placement(body[1], "footer", 0));
     return {
       kind: "statement-card",
       placements,
@@ -360,9 +381,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && body[0]?.kind === "diagram"
   ) {
     const visual = body[0];
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: visual.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(visual, "main", 0));
     return {
       kind: "visual-stage",
       placements,
@@ -383,11 +403,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       isStrictLinearFlow(visual) && visual.nodes.length <= 3
         ? "compact-linear"
         : "wide-process";
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: visual.id, region: "main", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "prelude", 0));
+    placements.push(placement(visual, "main", 0));
+    placements.push(placement(body[2]!, "footer", 0));
     return {
       kind: "process-story",
       placements,
@@ -399,14 +418,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   if (
-    body.length === 2
-    && bodyKinds[0] === "prompt"
-    && bodyKinds[1] === "code"
+    matchesComponentKinds(bodyKinds, "prompt", "code")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "primary", 0));
+    placements.push(placement(body[1]!, "secondary", 0));
     return {
       kind: "learning-stage",
       placements,
@@ -416,14 +432,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 2
-    && bodyKinds[0] === "info-surface"
-    && bodyKinds[1] === "code"
+    matchesComponentKinds(bodyKinds, "info-surface", "code")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "prelude", 0));
+    placements.push(placement(body[1]!, "main", 0));
     return {
       kind: "learning-stage",
       placements,
@@ -438,11 +451,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && bodyKinds[1] === "visual"
     && (body.length === 2 || bodyKinds[2] === "info-surface")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
-    if (body[2]) placements.push({ blockId: body[2].id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "primary", 0));
+    placements.push(placement(body[1]!, "secondary", 0));
+    if (body[2]) placements.push(placement(body[2], "footer", 0));
     return {
       kind: "learning-stage",
       placements,
@@ -452,14 +464,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 2
-    && bodyKinds[0] === "formula"
-    && bodyKinds[1] === "visual"
+    matchesComponentKinds(bodyKinds, "formula", "visual")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "prelude", 0));
+    placements.push(placement(body[1]!, "main", 0));
     return {
       kind: "learning-stage",
       placements,
@@ -472,9 +481,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     body.length === 1
     && bodyKinds[0] === "prompt"
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "main", 0));
     return {
       kind: "learning-stage",
       placements,
@@ -488,9 +496,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && body.length <= 4
     && bodyKinds.every((kind) => kind === "prompt")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    body.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+    const placements = placementsWithHeading(heading);
+    body.forEach((block, index) => placements.push(placement(block, "main", index)));
     return {
       kind: "learning-stage",
       placements,
@@ -500,14 +507,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 2
-    && bodyKinds[0] === "list-collection"
-    && bodyKinds[1] === "info-surface"
+    matchesComponentKinds(bodyKinds, "list-collection", "info-surface")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "main", 0));
+    placements.push(placement(body[1]!, "footer", 0));
     return {
       kind: "progression-strip",
       placements,
@@ -517,16 +521,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 3
-    && bodyKinds[0] === "info-surface"
-    && bodyKinds[1] === "list-collection"
-    && bodyKinds[2] === "info-surface"
+    matchesComponentKinds(bodyKinds, "info-surface", "list-collection", "info-surface")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "prelude", 0));
+    placements.push(placement(body[1]!, "main", 0));
+    placements.push(placement(body[2]!, "footer", 0));
     return {
       kind: "progression-strip",
       placements,
@@ -536,18 +536,13 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 4
-    && bodyKinds[0] === "info-surface"
-    && bodyKinds[1] === "list-collection"
-    && bodyKinds[2] === "visual"
-    && bodyKinds[3] === "info-surface"
+    matchesComponentKinds(bodyKinds, "info-surface", "list-collection", "visual", "info-surface")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[3]!.id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "prelude", 0));
+    placements.push(placement(body[1]!, "main", 0));
+    placements.push(placement(body[2]!, "secondary", 0));
+    placements.push(placement(body[3]!, "footer", 0));
     return {
       kind: "progression-strip",
       placements,
@@ -557,22 +552,23 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 6
-    && bodyKinds[0] === "visual"
-    && bodyKinds[1] === "info-surface"
-    && bodyKinds[2] === "card-collection"
-    && bodyKinds[3] === "info-surface"
-    && bodyKinds[4] === "info-surface"
-    && bodyKinds[5] === "card-collection"
+    matchesComponentKinds(
+      bodyKinds,
+      "visual",
+      "info-surface",
+      "card-collection",
+      "info-surface",
+      "info-surface",
+      "card-collection",
+    )
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "lead", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "primary", index: 1 });
-    placements.push({ blockId: body[3]!.id, region: "primary", index: 2 });
-    placements.push({ blockId: body[4]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[5]!.id, region: "secondary", index: 1 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "lead", 0));
+    placements.push(placement(body[1]!, "primary", 0));
+    placements.push(placement(body[2]!, "primary", 1));
+    placements.push(placement(body[3]!, "primary", 2));
+    placements.push(placement(body[4]!, "secondary", 0));
+    placements.push(placement(body[5]!, "secondary", 1));
     return {
       kind: "support-workbench",
       placements,
@@ -582,20 +578,21 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 5
-    && bodyKinds[0] === "info-surface"
-    && bodyKinds[1] === "list-collection"
-    && bodyKinds[2] === "info-surface"
-    && bodyKinds[3] === "code"
-    && bodyKinds[4] === "info-surface"
+    matchesComponentKinds(
+      bodyKinds,
+      "info-surface",
+      "list-collection",
+      "info-surface",
+      "code",
+      "info-surface",
+    )
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "lead", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[3]!.id, region: "secondary", index: 1 });
-    placements.push({ blockId: body[4]!.id, region: "secondary", index: 2 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "lead", 0));
+    placements.push(placement(body[1]!, "primary", 0));
+    placements.push(placement(body[2]!, "secondary", 0));
+    placements.push(placement(body[3]!, "secondary", 1));
+    placements.push(placement(body[4]!, "secondary", 2));
     return {
       kind: "support-workbench",
       placements,
@@ -605,16 +602,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    body.length === 3
-    && bodyKinds[0] === "visual"
-    && bodyKinds[1] === "data-surface"
-    && bodyKinds[2] === "visual"
+    matchesComponentKinds(bodyKinds, "visual", "data-surface", "visual")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "primary", 0));
+    placements.push(placement(body[1]!, "secondary", 0));
+    placements.push(placement(body[2]!, "footer", 0));
     return {
       kind: "evidence-story",
       placements,
@@ -631,13 +624,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && bodyKinds[3] === "list-collection"
     && (body.length === 4 || bodyKinds[4] === "info-surface")
   ) {
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: body[0]!.id, region: "context", index: 0 });
-    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
-    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
-    placements.push({ blockId: body[3]!.id, region: "support", index: 0 });
-    if (body[4]) placements.push({ blockId: body[4].id, region: "footer", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "context", 0));
+    placements.push(placement(body[1]!, "primary", 0));
+    placements.push(placement(body[2]!, "secondary", 0));
+    placements.push(placement(body[3]!, "support", 0));
+    if (body[4]) placements.push(placement(body[4], "footer", 0));
     return {
       kind: "worked-evidence",
       placements,
@@ -663,12 +655,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       const profile: RevealEvidenceProfile = firstKind === "data-surface" && secondKind === "visual"
         ? "data-visual"
         : "list-data";
-      const placements: RevealCompositionPlacement[] = [];
-      if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-      before.forEach((item, index) => placements.push({ blockId: item.id, region: "prelude", index }));
-      placements.push({ blockId: first.id, region: "primary", index: 0 });
-      placements.push({ blockId: second.id, region: "secondary", index: 0 });
-      after.forEach((item, index) => placements.push({ blockId: item.id, region: "footer", index }));
+      const placements = placementsWithHeading(heading);
+      before.forEach((item, index) => placements.push(placement(item, "prelude", index)));
+      placements.push(placement(first, "primary", 0));
+      placements.push(placement(second, "secondary", 0));
+      after.forEach((item, index) => placements.push(placement(item, "footer", index)));
       return {
         kind: "evidence-split",
         placements,
@@ -688,11 +679,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     const cardsIndex = body.indexOf(cards);
     const before = body.slice(0, cardsIndex);
     const after = body.slice(cardsIndex + 1);
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    before.forEach((block, index) => placements.push({ blockId: block.id, region: "prelude", index }));
-    placements.push({ blockId: cards.id, region: "main", index: 0 });
-    after.forEach((block, index) => placements.push({ blockId: block.id, region: "footer", index }));
+    const placements = placementsWithHeading(heading);
+    before.forEach((block, index) => placements.push(placement(block, "prelude", index)));
+    placements.push(placement(cards, "main", 0));
+    after.forEach((block, index) => placements.push(placement(block, "footer", index)));
     return {
       kind: "card-deck",
       placements,
@@ -708,16 +698,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && middlePrimary.length === middle.length
   ) {
     const profile = mainProfileFor(middle);
-    const placements: RevealCompositionPlacement[] = [];
-    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-    placements.push({ blockId: leading.id, region: "aside", index: 0 });
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(leading, "aside", 0));
     if (profile === "formula-visual") {
-      placements.push({ blockId: middle[0]!.id, region: "lead", index: 0 });
-      placements.push({ blockId: middle[1]!.id, region: "main", index: 0 });
+      placements.push(placement(middle[0]!, "lead", 0));
+      placements.push(placement(middle[1]!, "main", 0));
     } else {
-      middle.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+      middle.forEach((block, index) => placements.push(placement(block, "main", index)));
     }
-    placements.push({ blockId: trailing.id, region: "footer", index: 0 });
+    placements.push(placement(trailing, "footer", 0));
     return {
       kind: "main-aside-note",
       placements,
@@ -726,9 +715,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  const placements: RevealCompositionPlacement[] = [];
-  if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
-  body.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+  const placements = placementsWithHeading(heading);
+  body.forEach((block, index) => placements.push(placement(block, "main", index)));
   return {
     kind: body.length === 1 ? "single" : "stack",
     placements,
