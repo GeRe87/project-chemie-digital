@@ -947,3 +947,19 @@ test("process story styling is generic and specialized diagram layout files stay
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
   assert.equal(main.includes('import "./process-diagram-layout.css"'), false);
 });
+
+
+test("support workbench styling replaces process-context and reference-code family CSS", () => {
+  const css = readFileSync(new URL("../src/support-workbench-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="support-workbench"/u);
+  assert.match(css, /data-composition-workbench-profile="visual-dual-reference"/u);
+  assert.match(css, /data-composition-workbench-profile="list-code-reference"/u);
+  assert.match(css, /data-component-kind="code"/u);
+  assert.match(css, /data-component-kind="card-collection"/u);
+  assert.doesNotMatch(css, /data-layout=/u);
+  assert.equal(main.includes('import "./support-workbench-primitives.css"'), true);
+  assert.equal(main.includes('import "./process-context-layout.css"'), false);
+  assert.equal(main.includes('import "./reference-code-layout.css"'), false);
+});
