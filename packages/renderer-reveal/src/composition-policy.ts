@@ -27,7 +27,8 @@ export type RevealCompositionKind =
   | "card-deck"
   | "evidence-split"
   | "evidence-story"
-  | "worked-evidence";
+  | "worked-evidence"
+  | "process-story";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -58,12 +59,17 @@ export type RevealEvidenceProfile =
   | "visual-data-flow"
   | "context-data-visual";
 
+export type RevealProcessProfile =
+  | "compact-linear"
+  | "wide-process";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
   readonly mainCount: number;
   readonly mainProfile?: RevealCompositionMainProfile;
   readonly evidenceProfile?: RevealEvidenceProfile;
+  readonly processProfile?: RevealProcessProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -84,6 +90,27 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function isStrictLinearFlow(block: SceneBlock): boolean {
+  if (block.kind !== "diagram" || block.diagramType !== "flow") return false;
+  if (block.nodes.length < 2 || block.edges.length !== block.nodes.length - 1) return false;
+  const ids = new Set(block.nodes.map((node) => node.id));
+  const inDegree = new Map(block.nodes.map((node) => [node.id, 0]));
+  const outDegree = new Map(block.nodes.map((node) => [node.id, 0]));
+  for (const edge of block.edges) {
+    if (!ids.has(edge.sourceNodeId) || !ids.has(edge.targetNodeId)) return false;
+    outDegree.set(edge.sourceNodeId, (outDegree.get(edge.sourceNodeId) ?? 0) + 1);
+    inDegree.set(edge.targetNodeId, (inDegree.get(edge.targetNodeId) ?? 0) + 1);
+  }
+  const starts = block.nodes.filter((node) => (inDegree.get(node.id) ?? 0) === 0);
+  const ends = block.nodes.filter((node) => (outDegree.get(node.id) ?? 0) === 0);
+  return starts.length === 1
+    && ends.length === 1
+    && block.nodes.every((node) =>
+      (inDegree.get(node.id) ?? 0) <= 1 && (outDegree.get(node.id) ?? 0) <= 1
+    );
+}
+
+
 function mainProfileFor(blocks: readonly SceneBlock[]): RevealCompositionMainProfile {
   const kinds = blocks.map((block) => revealComponentDescriptor(block).kind);
   if (kinds.length === 2 && kinds[0] === "formula" && kinds[1] === "card-collection") {
@@ -162,6 +189,32 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
 
+
+
+  if (
+    body.length === 3
+    && isContextProse(body[0])
+    && body[1]?.kind === "diagram"
+    && (body[1].diagramType === "flow" || body[1].diagramType === "sequence")
+    && isContextProse(body[2])
+  ) {
+    const visual = body[1];
+    const processProfile: RevealProcessProfile =
+      isStrictLinearFlow(visual) && visual.nodes.length <= 3
+        ? "compact-linear"
+        : "wide-process";
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: visual.id, region: "main", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    return {
+      kind: "process-story",
+      placements,
+      mainCount: 1,
+      processProfile,
+    };
+  }
 
   const bodyComponentKinds = body.map((block) => revealComponentDescriptor(block).kind);
 
