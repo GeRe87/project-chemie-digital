@@ -119,14 +119,16 @@ function mountProjectionForScene(scene: HTMLElement): () => void {
 }
 
 /**
- * Adds an alternate publication realization to every scene whose generic layout
- * identifies it as concept-specification. The projection reuses the already
- * compiled heading/card/takeaway content; no audience-authored content is
- * synthesized or selected by scene/resource identity.
+ * Adds an alternate publication realization to structurally compatible card
+ * progressions. The projection reuses the already compiled heading/card/takeaway
+ * content; no audience-authored content is synthesized or selected by
+ * scene/resource identity.
  */
 export function mountPresentationProjections(root: HTMLElement): () => void {
   const destroyers = Array.from(
-    root.querySelectorAll<HTMLElement>('section[data-layout="concept-specification"]'),
+    root.querySelectorAll<HTMLElement>(
+      'section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"]',
+    ),
   ).map(mountProjectionForScene);
 
   return () => {
