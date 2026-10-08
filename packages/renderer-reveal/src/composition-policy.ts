@@ -29,7 +29,8 @@ export type RevealCompositionKind =
   | "evidence-story"
   | "worked-evidence"
   | "process-story"
-  | "support-workbench";
+  | "support-workbench"
+  | "progression-strip";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -68,6 +69,10 @@ export type RevealWorkbenchProfile =
   | "visual-dual-reference"
   | "list-code-reference";
 
+export type RevealProgressionProfile =
+  | "cards-only"
+  | "cards-to-visual";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
@@ -76,6 +81,7 @@ export interface RevealCompositionPlan {
   readonly evidenceProfile?: RevealEvidenceProfile;
   readonly processProfile?: RevealProcessProfile;
   readonly workbenchProfile?: RevealWorkbenchProfile;
+  readonly progressionProfile?: RevealProgressionProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -199,6 +205,47 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+
+  if (
+    body.length === 3
+    && bodyKinds[0] === "info-surface"
+    && bodyKinds[1] === "list-collection"
+    && bodyKinds[2] === "info-surface"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    return {
+      kind: "progression-strip",
+      placements,
+      mainCount: 1,
+      progressionProfile: "cards-only",
+    };
+  }
+
+  if (
+    body.length === 4
+    && bodyKinds[0] === "info-surface"
+    && bodyKinds[1] === "list-collection"
+    && bodyKinds[2] === "visual"
+    && bodyKinds[3] === "info-surface"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[3]!.id, region: "footer", index: 0 });
+    return {
+      kind: "progression-strip",
+      placements,
+      mainCount: 2,
+      progressionProfile: "cards-to-visual",
+    };
+  }
 
   if (
     body.length === 6
