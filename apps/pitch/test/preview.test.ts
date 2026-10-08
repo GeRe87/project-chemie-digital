@@ -205,6 +205,9 @@ test("generic card primitive restores definition entries as visual cards", () =>
     cardCss,
     /data-component-kind="card-collection"[\s\S]*?> \.definition-list-entry\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/u,
   );
+  assert.match(cardCss, /data-composition="learning-stage"/u);
+  assert.match(cardCss, /data-composition-profile="definition-deck"/u);
+  assert.doesNotMatch(cardCss, /data-composition="card-deck"/u);
   assert.doesNotMatch(cardCss, /data-layout=/u);
 });
 
@@ -273,7 +276,8 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), undefined);
 
-  assert.equal(section.attributes.get("data-composition"), "card-deck");
+  assert.equal(section.attributes.get("data-composition"), "learning-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "definition-deck");
   const cardRegion = section.children[1]!;
   assert.equal(cardRegion.attributes.get("data-composition-region-container"), "main");
   const definitionList = cardRegion.children[0]!;
