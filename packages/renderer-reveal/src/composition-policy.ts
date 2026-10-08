@@ -27,7 +27,6 @@ export type RevealCompositionKind =
   | "progression-stage"
   | "learning-stage"
   | "visual-stage"
-  | "statement-card"
   | "media-stage"
   | "semantic-stage";
 
@@ -76,7 +75,8 @@ export type RevealLearningProfile =
   | "prompt-grid"
   | "visual-dual-reference"
   | "list-code-reference"
-  | "definition-deck";
+  | "definition-deck"
+  | "statement-support";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -360,9 +360,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[0], "main", 0));
     placements.push(placement(body[1], "footer", 0));
     return {
-      kind: "statement-card",
+      kind: "learning-stage",
       placements,
       mainCount: 1,
+      profile: "statement-support",
     };
   }
 
