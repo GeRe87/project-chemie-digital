@@ -53,26 +53,26 @@
 }
 
 /* Structural main profiles tune intrinsic sizing without introducing slide identities. */
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-cards"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
   > [data-composition-region-container="main"] {
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-cards"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
   [data-component-kind="formula"] {
   flex: 0 0 auto;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-cards"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
   [data-component-kind="card-collection"] {
   flex: 0 1 auto;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"] {
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"] {
   grid-template-rows: auto auto minmax(0, 1fr) auto;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   > [data-composition-region-container="lead"] {
   grid-column: 1 / -1;
   grid-row: 2;
@@ -81,31 +81,31 @@
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   > [data-composition-region-container="aside"] {
   grid-column: 1;
   grid-row: 3;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   > [data-composition-region-container="main"] {
   grid-column: 2;
   grid-row: 3;
   justify-content: stretch;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   > [data-composition-region-container="footer"] {
   grid-column: 1 / -1;
   grid-row: 4;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   [data-component-kind="formula"] {
   flex: 0 0 auto;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   [data-component-kind="visual"] {
   flex: 1 1 0;
   min-height: 0;
@@ -158,9 +158,9 @@
 
 /* Standalone diagrams may require generous minimum geometry. Inside a constrained
    formula+visual composition the composition owns height and the visual must fit it. */
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   [data-component-kind="visual"].d3-flow-host,
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure) {
   height: 100%;
   min-height: 0;
@@ -168,7 +168,7 @@
   padding-top: 0;
 }
 
-.reveal .slides section[data-composition="main-aside-note"][data-composition-main-profile="formula-visual"]
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
   [data-component-kind="visual"] .d3-flow-svg {
   width: 100%;
   height: 100% !important;
