@@ -375,6 +375,9 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const preview = source("../src/preview.ts");
   const titleCss = source("../src/hero-stage-primitives.css");
   const diagramCss = source("../src/visual-stage-primitives.css");
+  const semanticSourceCss = source("../src/semantic-source-runtime.css");
+  const semanticMultiCss = source("../src/semantic-multi-view-runtime.css");
+  const knowledgeCss = source("../src/knowledge-network-runtime.css");
 
   assert.equal(policy.includes('"hero-title-panel"'), true);
   assert.equal(policy.includes('"title-attributions"'), false);
@@ -383,6 +386,8 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(policy.includes('"diagram-stage"'), true);
   assert.equal(preview.includes('semanticMultiView ? "semantic-multi-view"'), false);
   assert.equal(preview.includes('semanticCode ? "semantic-source"'), false);
+  assert.equal(preview.includes('data-composition-semantic-stage-profile'), true);
+  assert.equal(preview.includes('inferredLayout?.family === "semantic-source"'), false);
   assert.equal(titleCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(titleCss.includes("data-resource-id~="), false);
@@ -390,6 +395,11 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(titleCss.includes('data-composition="hero-stage"'), true);
   assert.equal(diagramCss.includes("section[id="), false);
   assert.equal(diagramCss.includes("data-layout="), false);
+  assert.equal(semanticSourceCss.includes('data-layout="semantic-source"'), false);
+  assert.equal(semanticMultiCss.includes('data-layout="semantic-multi-view"'), false);
+  assert.equal(knowledgeCss.includes('data-layout="semantic-source"'), false);
+  assert.equal(semanticSourceCss.includes('data-composition-semantic-stage-profile="source"'), true);
+  assert.equal(semanticMultiCss.includes('data-composition-semantic-stage-profile="multi-view"'), true);
   assert.equal(main.includes("scene-cogniflow-title"), false);
 });
 
