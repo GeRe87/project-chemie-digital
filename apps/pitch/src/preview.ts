@@ -489,7 +489,6 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
           && composition.profile === "hero-attributions")
         || ![
           "main-aside-note",
-          "card-deck",
           "evidence-stage",
           "progression-stage",
           "learning-stage",
