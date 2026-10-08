@@ -5,6 +5,7 @@ import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src
 import {
   inferRevealCompositionPlan,
   revealComponentDescriptor,
+  shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
 } from "../../../packages/renderer-reveal/src/composition-policy.ts";
 import { evaluateLectureContentBudget } from "../../../packages/renderer-reveal/src/lecture-readability.ts";
@@ -479,23 +480,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
 
     const compositionRegions = new Map<string, MinimalElement>();
     const compositionParent = (placement: RevealCompositionPlacement | undefined): MinimalElement => {
-      if (
-        !placement
-        || placement.region === "heading"
-        || (composition.kind === "evidence-stage"
-          && composition.profile === "context-data-visual"
-          && placement.region === "support")
-        || (composition.kind === "media-stage"
-          && composition.profile === "hero-attributions")
-        || ![
-          "main-aside-note",
-          "evidence-stage",
-          "progression-stage",
-          "learning-stage",
-          "visual-stage",
-          "media-stage",
-        ].includes(composition.kind)
-      ) {
+      if (!placement || !shouldWrapRevealCompositionPlacement(composition, placement)) {
         return section;
       }
       const existing = compositionRegions.get(placement.region);
