@@ -673,7 +673,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
         kind: "evidence-split",
         placements,
         mainCount: 2,
-        profile: evidenceProfile,
+        profile,
       };
     }
   }
