@@ -10,14 +10,6 @@ import {
 } from "../../../packages/renderer-reveal/src/composition-policy.ts";
 import { evaluateLectureContentBudget } from "../../../packages/renderer-reveal/src/lecture-readability.ts";
 
-export type PitchLayout = "opening" | "statement" | "process" | "split-proof" | "semantic-source" | "semantic-multi-view" | "concept-specification" | "hierarchy-flow" | "reference-code" | "process-context" | "data-explanation" | "analysis-result" | "card-sequence" | "text-network-progression" | "concentric-network" | "process-diagram" | "foundation-card-grid" | "full-media" | "closing" | "hero-title-panel" | "diagram-stage";
-const layoutByScene: Readonly<Record<string, PitchLayout>> = Object.freeze({
-  "ex:scene-sd-definition--scene": "opening",
-  "ex:scene-sd-process--scene": "process",
-  "ex:scene-formula-symbols--scene": "split-proof",
-  "ex:scene-chemistry-example--scene": "split-proof",
-});
-
 export interface MinimalElement {
   innerHTML: string;
   appendChild(node: MinimalElement): void;
@@ -486,10 +478,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("id", scene.id);
     section.setAttribute("data-scene-document-id", document.id);
     section.setAttribute("data-source-path-id", document.sourcePathId);
-    section.setAttribute(
-      "data-layout",
-      inferredLayout?.family ?? (layoutByScene[scene.id] ?? "statement"),
-    );
+    if (inferredLayout) section.setAttribute("data-layout", inferredLayout.family);
     section.setAttribute("data-composition", composition.kind);
     section.setAttribute("data-composition-main-count", String(composition.mainCount));
     if (composition.mainProfile) section.setAttribute("data-composition-main-profile", composition.mainProfile);
