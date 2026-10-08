@@ -401,7 +401,7 @@ test("alternate publication projection is generic and profile-gated", () => {
   assert.equal(profile.includes("publication: true"), true);
   assert.equal(
     runtime.includes(
-      'section[data-composition="progression-strip"][data-composition-profile="cards-with-footer"]',
+      'section[data-composition="progression-stage"][data-composition-profile="cards-with-footer"]',
     ),
     true,
   );
