@@ -561,11 +561,11 @@ test("generic flow-card styling and structured space balancing remain identity-f
 
   assert.match(
     compositionCss,
-    /data-composition-main-profile="formula-visual"[\s\S]*?data-component-kind="visual"/u,
+    /data-composition-profile="formula-visual"[\s\S]*?data-component-kind="visual"/u,
   );
   assert.match(
     learningCss,
-    /data-composition-learning-profile="prompt-grid"[\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
+    /data-composition-profile="prompt-grid"[\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
   );
   const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
   assert.match(
@@ -657,7 +657,7 @@ test("renders generic main-aside-note composition regions from block semantics",
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-composition"), "main-aside-note");
   assert.equal(section.attributes.get("data-composition-main-count"), "2");
-  assert.equal(section.attributes.get("data-composition-main-profile"), "formula-cards");
+  assert.equal(section.attributes.get("data-composition-profile"), "formula-cards");
 
   const headingNode = section.children[0]!;
   assert.equal(headingNode.attributes.get("data-component-kind"), "heading");
@@ -682,8 +682,8 @@ test("renders generic main-aside-note composition regions from block semantics",
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
   const cardCss = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
   assert.match(css, /data-composition="main-aside-note"/u);
-  assert.match(css, /data-composition-main-profile="formula-cards"/u);
-  assert.match(css, /data-composition-main-profile="formula-visual"/u);
+  assert.match(css, /data-composition-profile="formula-cards"/u);
+  assert.match(css, /data-composition-profile="formula-visual"/u);
   assert.match(cardCss, /flex-wrap:\s*wrap/u);
   assert.match(cardCss, /--pcd-card-content-width/u);
   assert.match(cardCss, /flex:\s*1 1 clamp\(14rem/u);
@@ -776,7 +776,7 @@ test("renders generic evidence-split regions from table and chart semantics", ()
   );
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-composition"), "evidence-split");
-  assert.equal(section.attributes.get("data-composition-evidence-profile"), "data-visual");
+  assert.equal(section.attributes.get("data-composition-profile"), "data-visual");
 
   const headingNode = section.children[0]!;
   const prelude = section.children[1]!;
@@ -818,7 +818,7 @@ test("generic visual evidence compositions own analysis and worked-case presenta
 
   assert.match(css, /data-composition="evidence-story"/u);
   assert.match(css, /data-composition="worked-evidence"/u);
-  assert.match(css, /data-composition-evidence-profile/u);
+  assert.match(css, /data-composition-profile/u);
   assert.doesNotMatch(css, /data-layout="analysis-result"/u);
   assert.doesNotMatch(css, /data-layout="case-study"/u);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
@@ -927,7 +927,7 @@ test("renders worked-evidence regions from generic block structure", () => {
   );
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-composition"), "worked-evidence");
-  assert.equal(section.attributes.get("data-composition-evidence-profile"), "context-data-visual");
+  assert.equal(section.attributes.get("data-composition-profile"), "context-data-visual");
 
   const regions = section.children.slice(1).map((node) =>
     node.attributes.get("data-composition-region-container")
@@ -950,7 +950,7 @@ test("process story styling is generic and specialized diagram layout files stay
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="process-story"/u);
-  assert.match(css, /data-composition-process-profile="compact-linear"/u);
+  assert.match(css, /data-composition-profile="compact-linear"/u);
   assert.match(css, /data-component-kind="visual"/u);
   assert.doesNotMatch(css, /data-layout=/u);
   assert.equal(main.includes('import "./process-primitives.css"'), true);
@@ -964,8 +964,8 @@ test("support workbench styling replaces process-context and reference-code fami
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="support-workbench"/u);
-  assert.match(css, /data-composition-workbench-profile="visual-dual-reference"/u);
-  assert.match(css, /data-composition-workbench-profile="list-code-reference"/u);
+  assert.match(css, /data-composition-profile="visual-dual-reference"/u);
+  assert.match(css, /data-composition-profile="list-code-reference"/u);
   assert.match(css, /data-component-kind="code"/u);
   assert.match(css, /data-component-kind="card-collection"/u);
   assert.doesNotMatch(css, /data-layout=/u);
@@ -980,9 +980,9 @@ test("progression strip styling replaces card-sequence and text-network family C
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="progression-strip"/u);
-  assert.match(css, /data-composition-progression-profile="cards-only"/u);
-  assert.match(css, /data-composition-progression-profile="cards-with-footer"/u);
-  assert.match(css, /data-composition-progression-profile="cards-to-visual"/u);
+  assert.match(css, /data-composition-profile="cards-only"/u);
+  assert.match(css, /data-composition-profile="cards-with-footer"/u);
+  assert.match(css, /data-composition-profile="cards-to-visual"/u);
   assert.match(css, /data-component-kind="list-collection"/u);
   assert.match(css, /data-component-kind="visual"/u);
   assert.doesNotMatch(css, /data-layout=/u);
@@ -1004,7 +1004,7 @@ test("learning-stage primitives replace legacy learning concept family CSS", () 
     "single-prompt",
     "prompt-grid",
   ]) {
-    assert.match(css, new RegExp(`data-composition-learning-profile="${profile}"`));
+    assert.match(css, new RegExp(`data-composition-profile="${profile}"`));
   }
   assert.match(css, /data-component-kind="prompt"/u);
   assert.match(css, /data-component-kind="code"/u);
@@ -1020,7 +1020,7 @@ test("visual-stage primitives replace standalone and concentric diagram family C
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="visual-stage"/u);
-  assert.match(css, /data-composition-visual-stage-profile="concentric-network"/u);
+  assert.match(css, /data-composition-profile="concentric-network"/u);
   assert.match(css, /data-layout-strategy="concentric-network"/u);
   assert.match(css, /data-layout-strategy="space-filling-flow"/u);
   assert.doesNotMatch(css, /data-layout="/u);
@@ -1036,9 +1036,9 @@ test("concept specification presentation is owned by progression composition", (
   const runtime = readFileSync(new URL("../src/presentation-projection.ts", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(progression, /data-composition-progression-profile="cards-with-footer"/u);
-  assert.match(projection, /data-composition-progression-profile="cards-with-footer"/u);
-  assert.match(runtime, /data-composition-progression-profile="cards-with-footer"/u);
+  assert.match(progression, /data-composition-profile="cards-with-footer"/u);
+  assert.match(projection, /data-composition-profile="cards-with-footer"/u);
+  assert.match(runtime, /data-composition-profile="cards-with-footer"/u);
   assert.doesNotMatch(projection, /data-layout="concept-specification"/u);
   assert.doesNotMatch(runtime, /data-layout="concept-specification"/u);
   assert.equal(main.includes('import "./concept-specification-layout.css"'), false);
@@ -1110,9 +1110,9 @@ test("semantic runtime styling is keyed to semantic-stage composition profiles",
     assert.doesNotMatch(css, /data-layout="semantic-(?:source|multi-view)"/u);
     assert.doesNotMatch(css, /data-layout-slot=/u);
   }
-  assert.match(sourceCss, /data-composition-semantic-stage-profile="source"/u);
-  assert.match(multiCss, /data-composition-semantic-stage-profile="multi-view"/u);
-  assert.match(graphCss, /data-composition-semantic-stage-profile="source"/u);
+  assert.match(sourceCss, /data-composition-profile="source"/u);
+  assert.match(multiCss, /data-composition-profile="multi-view"/u);
+  assert.match(graphCss, /data-composition-profile="source"/u);
   assert.match(preview, /composition\.semanticStageProfile === "source"/u);
   assert.doesNotMatch(preview, /inferredLayout\?\.family === "semantic-source"/u);
 });
