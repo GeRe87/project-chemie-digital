@@ -173,7 +173,10 @@ test("wraps rendered list text in a neutral marker span without changing semanti
     { root, createElement: () => new FakeElement() },
     [listDocument],
   );
-  const list = root.children[0]!.children[1]!;
+  const listSection = root.children[0]!;
+  assert.equal(listSection.attributes.get("data-layout"), undefined);
+  assert.equal(listSection.attributes.get("data-composition"), "stack");
+  const list = listSection.children[1]!;
   assert.equal(list.className, "keypoint-list");
   assert.equal(list.attributes.get("data-presentation-disclosure-mode"), "progressive");
   assert.equal(list.attributes.get("data-presentation-disclosure-step"), "2");
