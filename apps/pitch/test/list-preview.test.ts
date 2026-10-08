@@ -112,7 +112,7 @@ test("pitch preview projects concept cards through generic cards-with-footer pro
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [conceptSpecificationDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "concept-specification");
+  assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "progression-strip");
   assert.equal(section.attributes.get("data-composition-progression-profile"), "cards-with-footer");
   assert.deepEqual(
@@ -165,7 +165,7 @@ test("pitch preview exposes generic compact process-story regions", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [hierarchyFlowDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "hierarchy-flow");
+  assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "process-story");
   assert.equal(section.attributes.get("data-composition-process-profile"), "compact-linear");
   assert.deepEqual(
@@ -214,7 +214,7 @@ test("pitch preview exposes generic list-code support workbench", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [referenceCodeDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "reference-code");
+  assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "support-workbench");
   assert.equal(section.attributes.get("data-composition-workbench-profile"), "list-code-reference");
   assert.deepEqual(
