@@ -444,3 +444,72 @@ test("worked-evidence composes context, data, visual, support and optional note"
     ],
   });
 });
+
+
+test("process-story infers compact profile for a short strict linear flow", () => {
+  const scene: Scene = {
+    id: "opaque:process-story-compact",
+    source: [{ resourceId: "resource:process-story-compact" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro", "explain"),
+      flowDiagram("process"),
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "intro", "process", "takeaway"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "process-story",
+    mainCount: 1,
+    processProfile: "compact-linear",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "intro", region: "prelude", index: 0 },
+      { blockId: "process", region: "main", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("process-story uses the wide profile for a longer linear process", () => {
+  const process: SceneBlock = {
+    id: "long-process",
+    kind: "diagram",
+    diagramType: "flow",
+    label: "Generic process",
+    description: "Longer process",
+    nodes: ["a", "b", "c", "d"].map((suffix) => ({
+      id: `long-process:${suffix}`,
+      label: suffix.toUpperCase(),
+      source: [{ resourceId: `resource:long-process:${suffix}` }],
+    })),
+    edges: [
+      ["a", "b"],
+      ["b", "c"],
+      ["c", "d"],
+    ].map(([from, to]) => ({
+      id: `long-process:${from}:${to}`,
+      sourceNodeId: `long-process:${from}`,
+      targetNodeId: `long-process:${to}`,
+      label: "to",
+      source: [{ resourceId: `resource:long-process:${from}:${to}` }],
+    })),
+    source: [{ resourceId: "resource:long-process" }],
+  };
+  const scene: Scene = {
+    id: "opaque:process-story-wide",
+    source: [{ resourceId: "resource:process-story-wide" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro", "explain"),
+      process,
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "intro", "long-process", "takeaway"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "process-story");
+  assert.equal(plan.processProfile, "wide-process");
+});
