@@ -212,8 +212,8 @@
 }
 
 
-/* Generic statement card: authored explanatory statement plus supporting emphasized text. */
-.reveal .slides section[data-composition="statement-card"] {
+/* Generic statement-support learning-stage profile: explanatory statement plus emphasized support. */
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"] {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr);
   grid-template-columns: minmax(0, 1fr);
@@ -221,7 +221,7 @@
   padding: 1.45rem 2rem 1.55rem !important;
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   > [data-composition-region="heading"] {
   grid-row: 1;
   margin: 0;
@@ -231,7 +231,7 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   > [data-composition-region-container="main"] {
   grid-row: 2;
   grid-column: 1;
@@ -244,7 +244,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   > [data-composition-region-container="footer"] {
   grid-row: 2;
   grid-column: 1;
@@ -256,7 +256,7 @@
   min-width: 0;
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   [data-component-kind="info-surface"][data-composition-region="main"] {
   box-sizing: border-box;
   width: min(1040px, 86%);
@@ -279,7 +279,7 @@
   text-wrap: pretty;
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   [data-component-kind="info-surface"][data-composition-region="main"]::before {
   content: "";
   display: block;
@@ -290,7 +290,7 @@
   box-shadow: 1.4rem 0 0 color-mix(in srgb, var(--pcd-accent) 42%, transparent);
 }
 
-.reveal .slides section[data-composition="statement-card"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   [data-component-kind="text"][data-composition-region="footer"] {
   box-sizing: border-box;
   width: min(930px, 76%);
@@ -305,7 +305,7 @@
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="statement-card"]
+  section[data-composition="learning-stage"][data-composition-profile="statement-support"]
   [data-component-kind="info-surface"][data-composition-region="main"] {
   box-shadow:
     0 0 20px color-mix(in srgb, var(--pcd-accent) 9%, transparent),
@@ -313,11 +313,11 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-composition="statement-card"] {
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"] {
     padding: 1rem !important;
   }
 
-  .reveal .slides section[data-composition="statement-card"]
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
     [data-component-kind="info-surface"][data-composition-region="main"] {
     width: 96%;
     min-height: 0;
@@ -325,7 +325,7 @@ body[data-presentation-theme="dark"] .reveal .slides
     font-size: clamp(1.05rem, 4vw, 1.45rem);
   }
 
-  .reveal .slides section[data-composition="statement-card"]
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
     [data-component-kind="text"][data-composition-region="footer"] {
     width: 86%;
     margin-bottom: 1.8rem;
