@@ -274,7 +274,7 @@ test("card-deck inference rejects mixed primary content", () => {
 });
 
 
-test("evidence-split infers data plus visual with explanatory prelude and list support", () => {
+test("evidence-stage infers data plus visual with explanatory prelude and list support", () => {
   const scene: Scene = {
     id: "opaque:evidence",
     source: [{ resourceId: "resource:evidence" }],
@@ -289,7 +289,7 @@ test("evidence-split infers data plus visual with explanatory prelude and list s
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "evidence-split",
+    kind: "evidence-stage",
     mainCount: 2,
     profile: "data-visual",
     placements: [
@@ -302,7 +302,7 @@ test("evidence-split infers data plus visual with explanatory prelude and list s
   });
 });
 
-test("evidence-split infers explanatory list plus structured data", () => {
+test("evidence-stage infers explanatory list plus structured data", () => {
   const scene: Scene = {
     id: "opaque:list-data",
     source: [{ resourceId: "resource:list-data" }],
@@ -315,7 +315,7 @@ test("evidence-split infers explanatory list plus structured data", () => {
   };
 
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.kind, "evidence-split");
+  assert.equal(plan.kind, "evidence-stage");
   assert.equal(plan.profile, "list-data");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region]),
@@ -327,7 +327,7 @@ test("evidence-split infers explanatory list plus structured data", () => {
   );
 });
 
-test("evidence-split does not absorb unrelated third primary evidence", () => {
+test("evidence-stage does not absorb unrelated third primary evidence", () => {
   const scene: Scene = {
     id: "opaque:three-evidence",
     source: [{ resourceId: "resource:three-evidence" }],
@@ -339,7 +339,7 @@ test("evidence-split does not absorb unrelated third primary evidence", () => {
     ],
     readingOrder: ["heading", "table", "chart", "formula"],
   };
-  assert.notEqual(inferRevealCompositionPlan(scene).kind, "evidence-split");
+  assert.notEqual(inferRevealCompositionPlan(scene).kind, "evidence-stage");
 });
 
 
@@ -389,10 +389,10 @@ function proseImageGroup(id: string): SceneBlock {
   };
 }
 
-test("evidence-story composes visual, data and process evidence generically", () => {
+test("evidence-stage-visual-flow composes visual, data and process evidence generically", () => {
   const scene: Scene = {
-    id: "opaque:evidence-story",
-    source: [{ resourceId: "resource:evidence-story" }],
+    id: "opaque:evidence-stage-visual-flow",
+    source: [{ resourceId: "resource:evidence-stage-visual-flow" }],
     blocks: [
       prose("heading", "introduce"),
       barChart("signal"),
@@ -403,7 +403,7 @@ test("evidence-story composes visual, data and process evidence generically", ()
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "evidence-story",
+    kind: "evidence-stage",
     mainCount: 3,
     profile: "visual-data-flow",
     placements: [
@@ -415,10 +415,10 @@ test("evidence-story composes visual, data and process evidence generically", ()
   });
 });
 
-test("worked-evidence composes context, data, visual, support and optional note", () => {
+test("evidence-stage-context-data-visual composes context, data, visual, support and optional note", () => {
   const scene: Scene = {
-    id: "opaque:worked-evidence",
-    source: [{ resourceId: "resource:worked-evidence" }],
+    id: "opaque:evidence-stage-context-data-visual",
+    source: [{ resourceId: "resource:evidence-stage-context-data-visual" }],
     blocks: [
       prose("heading", "introduce"),
       proseImageGroup("context"),
@@ -431,7 +431,7 @@ test("worked-evidence composes context, data, visual, support and optional note"
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "worked-evidence",
+    kind: "evidence-stage",
     mainCount: 4,
     profile: "context-data-visual",
     placements: [
