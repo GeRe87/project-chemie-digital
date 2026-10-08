@@ -1,5 +1,5 @@
 /*
- * Generic hero stage with ordered attribution/media groups.
+ * Generic hero-attributions media-stage profile with ordered attribution/media groups.
  *
  * Semantic input:
  *   heading
@@ -10,7 +10,7 @@
  * The renderer owns only visual hierarchy and placement. Names, organizations,
  * funding labels and media all remain authored SceneDocument content.
  */
-.reveal .slides section[data-composition="hero-stage"] {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] {
   position: relative;
   isolation: isolate;
   display: grid !important;
@@ -24,7 +24,7 @@
 }
 
 /* Partner rail: its outer edge shares the slide panel's right-hand geometry. */
-.reveal .slides section[data-composition="hero-stage"]::after {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]::after {
   content: "";
   position: absolute;
   z-index: 0;
@@ -47,7 +47,7 @@
   pointer-events: none;
 }
 
-.reveal .slides section[data-composition="hero-stage"] > [data-composition-region="heading"] {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] > [data-composition-region="heading"] {
   position: relative;
   z-index: 2;
   grid-column: 1;
@@ -64,7 +64,7 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-composition="hero-stage"] > [data-composition-region="heading"]::after {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] > [data-composition-region="heading"]::after {
   content: "";
   position: absolute;
   left: 0;
@@ -77,12 +77,12 @@
     0 0 16px color-mix(in srgb, var(--pcd-accent) 25%, transparent);
 }
 
-.reveal .slides section[data-composition="hero-stage"] > [data-component-kind="group"] {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] > [data-component-kind="group"] {
   position: relative;
   z-index: 2;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"]:is(
     [data-composition-region="primary"],
     [data-composition-region="secondary"]
@@ -91,9 +91,9 @@
 }
 
 /* The two authored speaker affiliations form one compact visual block. */
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="primary"] > cite,
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="secondary"] > cite {
   position: relative;
   z-index: 2;
@@ -112,13 +112,13 @@
   text-align: left;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="primary"] > cite {
   grid-row: 2;
   margin-top: .42rem;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="secondary"] > cite {
   grid-row: 3;
   margin-top: -.04rem;
@@ -126,7 +126,7 @@
 }
 
 /* All partner/funder media stay crisp and fully opaque inside the right rail. */
-.reveal .slides section[data-composition="hero-stage"] .media-reference {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] .media-reference {
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -143,7 +143,7 @@
   mix-blend-mode: normal !important;
 }
 
-.reveal .slides section[data-composition="hero-stage"] .media-reference img {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] .media-reference img {
   display: block;
   width: 100%;
   height: auto;
@@ -154,11 +154,11 @@
   filter: contrast(1.15) saturate(1.08);
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="primary"] > .media-reference,
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="secondary"] > .media-reference,
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="support"] {
   position: absolute;
   right: 3.15%;
@@ -167,18 +167,18 @@
   margin: 0;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="primary"] > .media-reference {
   top: 10.5%;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="secondary"] > .media-reference {
   top: 38.5%;
 }
 
 /* The supporting attribution stays intact as a semantic group. */
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="support"] {
   bottom: 8.4%;
   display: grid;
@@ -187,7 +187,7 @@
   border-top: 1px solid color-mix(in srgb, var(--pcd-border) 78%, transparent);
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="support"] > cite {
   margin: 0;
   color: var(--pcd-muted);
@@ -200,24 +200,24 @@
   text-transform: uppercase;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="support"] > .media-reference {
   width: 100%;
   padding: .72rem .8rem;
 }
 
-.reveal .slides section[data-composition="hero-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
   > [data-component-kind="group"][data-composition-region="support"] > .media-reference img {
   max-height: 4.5rem;
 }
 
 /* The base world panel remains the only large surface; avoid a second giant inner card. */
-body.reveal-scroll .reveal .slides section[data-composition="hero-stage"] {
+body.reveal-scroll .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] {
   backdrop-filter: none;
 }
 
 body[data-presentation-theme="dark"] .reveal
-  .slides section[data-composition="hero-stage"]::after {
+  .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]::after {
   border-color: color-mix(in srgb, var(--pcd-accent) 30%, var(--pcd-border));
   background:
     linear-gradient(
@@ -232,7 +232,7 @@ body[data-presentation-theme="dark"] .reveal
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-composition="hero-stage"] {
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto auto auto;
     align-content: start;
@@ -240,7 +240,7 @@ body[data-presentation-theme="dark"] .reveal
     padding: 1.2rem 1.1rem 1.1rem !important;
   }
 
-  .reveal .slides section[data-composition="hero-stage"]::after {
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]::after {
     top: auto;
     right: .6rem;
     bottom: .55rem;
@@ -250,7 +250,7 @@ body[data-presentation-theme="dark"] .reveal
     border-radius: 12px;
   }
 
-  .reveal .slides section[data-composition="hero-stage"] > [data-composition-region="heading"] {
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] > [data-composition-region="heading"] {
     grid-column: 1;
     grid-row: 1;
     align-self: start;
@@ -259,19 +259,19 @@ body[data-presentation-theme="dark"] .reveal
     font-size: clamp(2.45rem, 9.1vw, 3.65rem);
   }
 
-  .reveal .slides section[data-composition="hero-stage"]
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
     > [data-component-kind="group"][data-composition-region="primary"] > cite {
     grid-column: 1;
     grid-row: 2;
   }
 
-  .reveal .slides section[data-composition="hero-stage"]
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
     > [data-component-kind="group"][data-composition-region="secondary"] > cite {
     grid-column: 1;
     grid-row: 3;
   }
 
-  .reveal .slides section[data-composition="hero-stage"]
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
     > [data-component-kind="group"][data-composition-region="primary"] > .media-reference {
     position: relative;
     top: auto;
@@ -283,7 +283,7 @@ body[data-presentation-theme="dark"] .reveal
     margin: .65rem 0 0;
   }
 
-  .reveal .slides section[data-composition="hero-stage"]
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
     > [data-component-kind="group"][data-composition-region="secondary"] > .media-reference {
     position: relative;
     top: auto;
@@ -294,7 +294,7 @@ body[data-presentation-theme="dark"] .reveal
     width: min(10rem, 50vw);
   }
 
-  .reveal .slides section[data-composition="hero-stage"]
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"]
     > [data-component-kind="group"][data-composition-region="support"] {
     position: relative;
     right: auto;
@@ -308,8 +308,8 @@ body[data-presentation-theme="dark"] .reveal
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal .slides section[data-composition="hero-stage"] .media-reference,
-  .reveal .slides section[data-composition="hero-stage"] .scene-group {
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] .media-reference,
+  .reveal .slides section[data-composition="media-stage"][data-composition-profile="hero-attributions"] .scene-group {
     transition: none !important;
     animation: none !important;
   }
