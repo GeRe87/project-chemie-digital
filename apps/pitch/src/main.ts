@@ -271,8 +271,9 @@ const presentationVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
 );
 
-function isMediaStageScene(scene: HTMLElement | undefined): boolean {
-  return scene?.dataset.composition === "media-stage";
+function isFullViewportMediaStageScene(scene: HTMLElement | undefined): boolean {
+  return scene?.dataset.composition === "media-stage"
+    && scene.dataset.compositionProfile === "full-viewport";
 }
 
 function syncNavigationMode(): void {
@@ -283,7 +284,7 @@ function syncNavigationMode(): void {
     && current?.dataset.compositionProfile === "cards-with-footer"
     && next?.dataset.composition === current.dataset.composition
     && next?.dataset.compositionProfile === current.dataset.compositionProfile;
-  const sameFullMediaSequence = isMediaStageScene(current) && isMediaStageScene(next);
+  const sameFullMediaSequence = isFullViewportMediaStageScene(current) && isFullViewportMediaStageScene(next);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
     appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
@@ -292,7 +293,7 @@ function syncNavigationMode(): void {
 
 function syncFullMediaMode(): void {
   const current = deck.getCurrentSlide() as HTMLElement | undefined;
-  document.body.classList.toggle("pcd-full-media-active", isMediaStageScene(current));
+  document.body.classList.toggle("pcd-full-media-active", isFullViewportMediaStageScene(current));
 }
 
 function syncPresentationVideos(): void {
@@ -361,7 +362,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
       currentSlide?.dataset.composition === "progression-stage"
       && currentSlide?.dataset.compositionProfile === "cards-with-footer"
     )
-    || currentSlide?.dataset.composition === "media-stage";
+    || isFullViewportMediaStageScene(currentSlide);
   const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
   if (appearance.view === "scroll" && (freezeForLayout || freezeForActiveStage)) return;
   backgroundRuntime.setProgress(offset);
