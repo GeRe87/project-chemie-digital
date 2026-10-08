@@ -96,18 +96,21 @@ export type RevealSemanticStageProfile =
   | "source"
   | "multi-view";
 
+export type RevealCompositionProfile =
+  | RevealCompositionMainProfile
+  | RevealEvidenceProfile
+  | RevealProcessProfile
+  | RevealWorkbenchProfile
+  | RevealProgressionProfile
+  | RevealLearningProfile
+  | RevealVisualStageProfile
+  | RevealSemanticStageProfile;
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
   readonly mainCount: number;
-  readonly mainProfile?: RevealCompositionMainProfile;
-  readonly evidenceProfile?: RevealEvidenceProfile;
-  readonly processProfile?: RevealProcessProfile;
-  readonly workbenchProfile?: RevealWorkbenchProfile;
-  readonly progressionProfile?: RevealProgressionProfile;
-  readonly learningProfile?: RevealLearningProfile;
-  readonly visualStageProfile?: RevealVisualStageProfile;
-  readonly semanticStageProfile?: RevealSemanticStageProfile;
+  readonly profile?: RevealCompositionProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -285,7 +288,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "semantic-stage",
       placements,
       mainCount: 2,
-      semanticStageProfile: "multi-view",
+      profile: "multi-view",
     };
   }
 
@@ -300,7 +303,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "semantic-stage",
       placements,
       mainCount: 1,
-      semanticStageProfile: "source",
+      profile: "source",
     };
   }
 
@@ -364,7 +367,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "visual-stage",
       placements,
       mainCount: 1,
-      visualStageProfile: isConcentricNetwork(visual) ? "concentric-network" : "diagram",
+      profile: isConcentricNetwork(visual) ? "concentric-network" : "diagram",
     };
   }
 
@@ -389,7 +392,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "process-story",
       placements,
       mainCount: 1,
-      processProfile,
+      profile: processProfile,
     };
   }
 
@@ -408,7 +411,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: 2,
-      learningProfile: "prompt-code",
+      profile: "prompt-code",
     };
   }
 
@@ -425,7 +428,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: 1,
-      learningProfile: "info-code",
+      profile: "info-code",
     };
   }
 
@@ -444,7 +447,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: 2,
-      learningProfile: "info-visual",
+      profile: "info-visual",
     };
   }
 
@@ -461,7 +464,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: 1,
-      learningProfile: "formula-visual",
+      profile: "formula-visual",
     };
   }
 
@@ -476,7 +479,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: 1,
-      learningProfile: "single-prompt",
+      profile: "single-prompt",
     };
   }
 
@@ -492,7 +495,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "learning-stage",
       placements,
       mainCount: body.length,
-      learningProfile: "prompt-grid",
+      profile: "prompt-grid",
     };
   }
 
@@ -509,7 +512,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "progression-strip",
       placements,
       mainCount: 1,
-      progressionProfile: "cards-with-footer",
+      profile: "cards-with-footer",
     };
   }
 
@@ -528,7 +531,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "progression-strip",
       placements,
       mainCount: 1,
-      progressionProfile: "cards-only",
+      profile: "cards-only",
     };
   }
 
@@ -549,7 +552,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "progression-strip",
       placements,
       mainCount: 2,
-      progressionProfile: "cards-to-visual",
+      profile: "cards-to-visual",
     };
   }
 
@@ -574,7 +577,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "support-workbench",
       placements,
       mainCount: 3,
-      workbenchProfile: "visual-dual-reference",
+      profile: "visual-dual-reference",
     };
   }
 
@@ -597,17 +600,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "support-workbench",
       placements,
       mainCount: 2,
-      workbenchProfile: "list-code-reference",
+      profile: "list-code-reference",
     };
   }
 
-  const bodyComponentKinds = body.map((block) => revealComponentDescriptor(block).kind);
-
   if (
     body.length === 3
-    && bodyComponentKinds[0] === "visual"
-    && bodyComponentKinds[1] === "data-surface"
-    && bodyComponentKinds[2] === "visual"
+    && bodyKinds[0] === "visual"
+    && bodyKinds[1] === "data-surface"
+    && bodyKinds[2] === "visual"
   ) {
     const placements: RevealCompositionPlacement[] = [];
     if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
@@ -618,17 +619,17 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "evidence-story",
       placements,
       mainCount: 3,
-      evidenceProfile: "visual-data-flow",
+      profile: "visual-data-flow",
     };
   }
 
   if (
     (body.length === 4 || body.length === 5)
-    && bodyComponentKinds[0] === "group"
-    && bodyComponentKinds[1] === "data-surface"
-    && bodyComponentKinds[2] === "visual"
-    && bodyComponentKinds[3] === "list-collection"
-    && (body.length === 4 || bodyComponentKinds[4] === "info-surface")
+    && bodyKinds[0] === "group"
+    && bodyKinds[1] === "data-surface"
+    && bodyKinds[2] === "visual"
+    && bodyKinds[3] === "list-collection"
+    && (body.length === 4 || bodyKinds[4] === "info-surface")
   ) {
     const placements: RevealCompositionPlacement[] = [];
     if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
@@ -641,13 +642,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "worked-evidence",
       placements,
       mainCount: 4,
-      evidenceProfile: "context-data-visual",
+      profile: "context-data-visual",
     };
   }
-
-  const componentKinds = body.map((block) => revealComponentDescriptor(block).kind);
-  const evidencePairIndex = componentKinds.findIndex((kind, index) => {
-    const next = componentKinds[index + 1];
+  const evidencePairIndex = bodyKinds.findIndex((kind, index) => {
+    const next = bodyKinds[index + 1];
     return (kind === "data-surface" && next === "visual")
       || (kind === "list-collection" && next === "data-surface");
   });
@@ -661,7 +660,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     if (validSupport) {
       const firstKind = revealComponentDescriptor(first).kind;
       const secondKind = revealComponentDescriptor(second).kind;
-      const evidenceProfile: RevealEvidenceProfile = firstKind === "data-surface" && secondKind === "visual"
+      const profile: RevealEvidenceProfile = firstKind === "data-surface" && secondKind === "visual"
         ? "data-visual"
         : "list-data";
       const placements: RevealCompositionPlacement[] = [];
@@ -674,7 +673,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
         kind: "evidence-split",
         placements,
         mainCount: 2,
-        evidenceProfile,
+        profile: evidenceProfile,
       };
     }
   }
@@ -723,7 +722,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       kind: "main-aside-note",
       placements,
       mainCount: middle.length,
-      mainProfile: profile,
+      profile,
     };
   }
 
