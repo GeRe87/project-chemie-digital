@@ -933,3 +933,17 @@ test("renders worked-evidence regions from generic block structure", () => {
 
   destroy();
 });
+
+
+test("process story styling is generic and specialized diagram layout files stay removed", () => {
+  const css = readFileSync(new URL("../src/process-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="process-story"/u);
+  assert.match(css, /data-composition-process-profile="compact-linear"/u);
+  assert.match(css, /data-component-kind="visual"/u);
+  assert.doesNotMatch(css, /data-layout=/u);
+  assert.equal(main.includes('import "./process-primitives.css"'), true);
+  assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
+  assert.equal(main.includes('import "./process-diagram-layout.css"'), false);
+});
