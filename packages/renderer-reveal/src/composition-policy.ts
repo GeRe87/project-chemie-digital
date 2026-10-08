@@ -34,7 +34,8 @@ export type RevealCompositionKind =
   | "learning-stage"
   | "visual-stage"
   | "statement-card"
-  | "media-stage";
+  | "media-stage"
+  | "hero-stage";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -121,6 +122,15 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function isAttributionMediaGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const prose = block.children.filter(
+    (child) => child.kind === "prose" && child.intent?.kind === "emphasize",
+  );
+  const media = block.children.filter((child) => child.kind === "media-reference");
+  return prose.length === 1 && media.length === 1;
+}
+
 function isMediaStageGroup(block: SceneBlock): boolean {
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter((child) => child.kind === "prose");
@@ -251,6 +261,22 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 3
+    && body.every((block) => isAttributionMediaGroup(block))
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "support", index: 0 });
+    return {
+      kind: "hero-stage",
+      placements,
+      mainCount: 3,
+    };
+  }
 
   if (
     body.length === 1
