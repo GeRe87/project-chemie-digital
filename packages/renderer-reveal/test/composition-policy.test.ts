@@ -513,3 +513,86 @@ test("process-story uses the wide profile for a longer linear process", () => {
   assert.equal(plan.kind, "process-story");
   assert.equal(plan.processProfile, "wide-process");
 });
+
+
+test("support-workbench infers visual dual-reference structure", () => {
+  const scene: Scene = {
+    id: "opaque:visual-dual-reference",
+    source: [{ resourceId: "resource:visual-dual-reference" }],
+    blocks: [
+      prose("heading", "introduce"),
+      flowDiagram("visual"),
+      prose("primary-heading", "explain"),
+      definitions("primary-definitions"),
+      prose("primary-note", "explain"),
+      prose("secondary-heading", "explain"),
+      definitions("secondary-definitions"),
+    ],
+    readingOrder: [
+      "heading",
+      "visual",
+      "primary-heading",
+      "primary-definitions",
+      "primary-note",
+      "secondary-heading",
+      "secondary-definitions",
+    ],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "support-workbench");
+  assert.equal(plan.workbenchProfile, "visual-dual-reference");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
+    [
+      ["heading", "heading", 0],
+      ["visual", "lead", 0],
+      ["primary-heading", "primary", 0],
+      ["primary-definitions", "primary", 1],
+      ["primary-note", "primary", 2],
+      ["secondary-heading", "secondary", 0],
+      ["secondary-definitions", "secondary", 1],
+    ],
+  );
+});
+
+test("support-workbench infers list plus code reference structure", () => {
+  const code: SceneBlock = {
+    id: "code",
+    kind: "code",
+    language: "text",
+    code: "opaque",
+    fallback: "opaque",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: "resource:code" }],
+  };
+  const scene: Scene = {
+    id: "opaque:list-code-reference",
+    source: [{ resourceId: "resource:list-code-reference" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("banner", "explain"),
+      unorderedList("terms", 6),
+      prose("code-label", "explain"),
+      code,
+      prose("reading", "explain"),
+    ],
+    readingOrder: ["heading", "banner", "terms", "code-label", "code", "reading"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "support-workbench");
+  assert.equal(plan.workbenchProfile, "list-code-reference");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
+    [
+      ["heading", "heading", 0],
+      ["banner", "lead", 0],
+      ["terms", "primary", 0],
+      ["code-label", "secondary", 0],
+      ["code", "secondary", 1],
+      ["reading", "secondary", 2],
+    ],
+  );
+});
