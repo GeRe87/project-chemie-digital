@@ -76,7 +76,8 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   assert.equal(root.children.length, 9);
   const first = root.children[0]!;
   assert.equal(first.attributes.get("data-source-path-id"), STANDARD_DEVIATION_PATH_ID);
-  assert.equal(first.attributes.get("data-composition"), "statement-card");
+  assert.equal(first.attributes.get("data-composition"), "learning-stage");
+  assert.equal(first.attributes.get("data-composition-profile"), "statement-support");
   assert.equal(first.children[0]?.textContent, "Standardabweichung");
   const mainRegion = first.children[1]!;
   assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
@@ -1051,11 +1052,13 @@ test("concept specification presentation is owned by progression composition", (
 });
 
 
-test("statement-card styling lives in the shared component composition layer", () => {
+test("statement-support learning profile styling lives in the shared component composition layer", () => {
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="statement-card"/u);
+  assert.match(css, /data-composition="learning-stage"/u);
+  assert.match(css, /data-composition-profile="statement-support"/u);
+  assert.doesNotMatch(css, /data-composition="statement-card"/u);
   assert.match(css, /data-component-kind="info-surface"/u);
   assert.match(css, /data-component-kind="text"/u);
   assert.doesNotMatch(css, /data-layout="definition-card"/u);
