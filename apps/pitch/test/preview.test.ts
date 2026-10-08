@@ -329,12 +329,12 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(cardStyles, /\.definition-list-point-spacer::before/);
   assert.match(cardStyles, /repeating-linear-gradient\(/);
   assert.match(cardStyles, /width:\s*2px/);
-  assert.match(cardStyles, /top:\s*\.18rem/);
-  assert.match(cardStyles, /bottom:\s*\.18rem/);
+  assert.match(cardStyles, /top:\s*\.12rem/);
+  assert.match(cardStyles, /bottom:\s*\.12rem/);
   assert.match(cardStyles, /\.definition-list-point-spacer::after/);
-  assert.match(cardStyles, /border-left:\s*\.46rem solid transparent/);
-  assert.match(cardStyles, /border-right:\s*\.46rem solid transparent/);
-  assert.match(cardStyles, /border-top:\s*\.74rem solid color-mix/);
+  assert.match(cardStyles, /border-left:\s*\.35rem solid transparent/);
+  assert.match(cardStyles, /border-right:\s*\.35rem solid transparent/);
+  assert.match(cardStyles, /border-top:\s*\.55rem solid color-mix/);
   assert.doesNotMatch(cardStyles, /content:\s*"↓"/);
   assert.doesNotMatch(cardStyles.toLowerCase(), /chemometrics|lecturer|research/);
 
