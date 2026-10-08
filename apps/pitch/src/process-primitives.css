@@ -1,7 +1,7 @@
-/* Generic process-story composition.
+/* Generic process progression profile family.
    Selected from ordered prose + process visual + prose semantics. */
 
-.reveal .slides section[data-composition="process-story"] {
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"]) {
   display: grid !important;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   row-gap: .68rem;
@@ -9,7 +9,7 @@
   padding: 1.3rem 1.75rem 1.25rem !important;
 }
 
-.reveal .slides section[data-composition="process-story"] > [data-composition-region="heading"] {
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"]) > [data-composition-region="heading"] {
   margin: 0;
   max-width: none;
   font-size: 2.48em;
@@ -17,19 +17,19 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="prelude"],
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="footer"] {
   display: flex;
   justify-content: center;
   min-width: 0;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="prelude"]
   [data-component-kind="info-surface"],
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="footer"]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
@@ -46,7 +46,7 @@
   white-space: pre-line;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="footer"]
   [data-component-kind="info-surface"] {
   color: var(--pcd-accent);
@@ -54,7 +54,7 @@
   letter-spacing: .025em;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="main"] {
   align-self: stretch;
   justify-self: stretch;
@@ -62,7 +62,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] {
   width: min(1240px, 100%);
@@ -73,7 +73,7 @@
   overflow: visible;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure, .d3-sequence-runtime, .d3-sequence-figure) {
   width: 100%;
@@ -81,7 +81,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="process-story"]
+.reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] :is(.d3-flow-svg, .d3-sequence-svg) {
   width: 100%;
@@ -91,12 +91,12 @@
 }
 
 /* Short strict-linear process stories use a deliberately narrower visual field. */
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"] {
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"] {
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   padding-inline: 2.2rem !important;
 }
 
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   > [data-composition-region-container="prelude"]
   [data-component-kind="info-surface"] {
   width: min(1040px, 92%);
@@ -107,85 +107,85 @@
   font-size: 1.02em;
 }
 
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] {
   width: min(780px, 78%);
 }
 
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   > [data-composition-region-container="main"]
   .d3-flow-caption {
   display: none;
 }
 
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   > [data-composition-region-container="main"]
   .d3-flow-svg {
   min-height: 28rem;
 }
 
 /* Ordered level tones remain topology-driven and identity-free. */
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(1) .d3-flow-node-shape {
   fill: #ffd28f;
   stroke: #c96a12;
 }
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(2) .d3-flow-node-shape {
   fill: #bfe9e7;
   stroke: #168e9c;
 }
-.reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(3) .d3-flow-node-shape {
   fill: #d5c5f4;
   stroke: #7046ad;
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="process-story"][data-composition-profile="compact-linear"]
+  section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(1) .d3-flow-node-shape {
   fill: #3a2811;
   stroke: #f0a343;
 }
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="process-story"][data-composition-profile="compact-linear"]
+  section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(2) .d3-flow-node-shape {
   fill: #0e302f;
   stroke: #4bd8d1;
 }
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="process-story"][data-composition-profile="compact-linear"]
+  section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
   .d3-flow-node-layer > .d3-flow-node:nth-child(3) .d3-flow-node-shape {
   fill: #281d3d;
   stroke: #b18cff;
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-composition="process-story"] {
+  .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"]) {
     grid-template-rows: auto auto minmax(24rem, auto) auto;
     padding: 1rem !important;
   }
 
-  .reveal .slides section[data-composition="process-story"]
+  .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
     > [data-composition-region-container="prelude"]
     [data-component-kind="info-surface"],
-  .reveal .slides section[data-composition="process-story"]
+  .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
     > [data-composition-region-container="footer"]
     [data-component-kind="info-surface"],
-  .reveal .slides section[data-composition="process-story"]
+  .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
     > [data-composition-region-container="main"]
     [data-component-kind="visual"] {
     width: 100%;
   }
 
-  .reveal .slides section[data-composition="process-story"]
+  .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"])
     > [data-composition-region-container="main"]
     .d3-sequence-svg {
     min-height: 31rem;
   }
 
-  .reveal .slides section[data-composition="process-story"][data-composition-profile="compact-linear"]
+  .reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
     > [data-composition-region-container="main"]
     .d3-flow-svg {
     min-height: 24rem;
