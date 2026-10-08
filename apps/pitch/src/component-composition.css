@@ -334,8 +334,8 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 
-/* Generic single-heading stage: one authored heading and no body content. */
-.reveal .slides section[data-composition="single"][data-composition-main-count="0"] {
+/* Generic heading-only stack stage: one authored heading and no body content. */
+.reveal .slides section[data-composition="stack"][data-composition-main-count="0"] {
   display: grid !important;
   place-items: center;
   min-height: 100%;
@@ -343,7 +343,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   text-align: center;
 }
 
-.reveal .slides section[data-composition="single"][data-composition-main-count="0"]
+.reveal .slides section[data-composition="stack"][data-composition-main-count="0"]
   > [data-composition-region="heading"] {
   margin: 0;
   max-width: 1100px;
@@ -353,7 +353,7 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 @media (max-width: 700px) and (orientation: portrait) {
-  .reveal .slides section[data-composition="single"][data-composition-main-count="0"]
+  .reveal .slides section[data-composition="stack"][data-composition-main-count="0"]
     > [data-composition-region="heading"] {
     max-width: 100%;
     padding: 0 1rem;
