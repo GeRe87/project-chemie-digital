@@ -28,7 +28,8 @@ export type RevealCompositionKind =
   | "evidence-split"
   | "evidence-story"
   | "worked-evidence"
-  | "process-story";
+  | "process-story"
+  | "support-workbench";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -63,6 +64,10 @@ export type RevealProcessProfile =
   | "compact-linear"
   | "wide-process";
 
+export type RevealWorkbenchProfile =
+  | "visual-dual-reference"
+  | "list-code-reference";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
@@ -70,6 +75,7 @@ export interface RevealCompositionPlan {
   readonly mainProfile?: RevealCompositionMainProfile;
   readonly evidenceProfile?: RevealEvidenceProfile;
   readonly processProfile?: RevealProcessProfile;
+  readonly workbenchProfile?: RevealWorkbenchProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -190,6 +196,57 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
 
+
+
+  const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 6
+    && bodyKinds[0] === "visual"
+    && bodyKinds[1] === "info-surface"
+    && bodyKinds[2] === "card-collection"
+    && bodyKinds[3] === "info-surface"
+    && bodyKinds[4] === "info-surface"
+    && bodyKinds[5] === "card-collection"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "lead", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "primary", index: 1 });
+    placements.push({ blockId: body[3]!.id, region: "primary", index: 2 });
+    placements.push({ blockId: body[4]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[5]!.id, region: "secondary", index: 1 });
+    return {
+      kind: "support-workbench",
+      placements,
+      mainCount: 3,
+      workbenchProfile: "visual-dual-reference",
+    };
+  }
+
+  if (
+    body.length === 5
+    && bodyKinds[0] === "info-surface"
+    && bodyKinds[1] === "list-collection"
+    && bodyKinds[2] === "info-surface"
+    && bodyKinds[3] === "code"
+    && bodyKinds[4] === "info-surface"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "lead", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[3]!.id, region: "secondary", index: 1 });
+    placements.push({ blockId: body[4]!.id, region: "secondary", index: 2 });
+    return {
+      kind: "support-workbench",
+      placements,
+      mainCount: 2,
+      workbenchProfile: "list-code-reference",
+    };
+  }
 
   if (
     body.length === 3
