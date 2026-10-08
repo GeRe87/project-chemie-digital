@@ -1066,3 +1066,18 @@ test("single-heading closing stage is owned by generic composition styling", () 
   assert.doesNotMatch(css, /data-layout="closing"/u);
   assert.equal(main.includes('import "./closing-layout.css"'), false);
 });
+
+
+test("full-viewport media presentation is owned by generic media-stage composition", () => {
+  const css = readFileSync(new URL("../src/media-stage-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="media-stage"/u);
+  assert.match(css, /data-component-kind="group"/u);
+  assert.match(css, /\.media-reference/u);
+  assert.doesNotMatch(css, /data-layout="full-media"/u);
+  assert.equal(main.includes('import "./media-stage-primitives.css"'), true);
+  assert.equal(main.includes('import "./full-media-layout.css"'), false);
+  assert.equal(main.includes('dataset.layout === "full-media"'), false);
+  assert.equal(main.includes('dataset.composition === "media-stage"'), true);
+});
