@@ -245,11 +245,11 @@ test("main profile distinguishes formula plus visual from formula plus cards", (
 });
 
 
-test("card-deck composition groups explanatory prose around one definition collection", () => {
+test("learning-stage definition-deck profile groups explanatory prose around one definition collection", () => {
   const cards = definitions("cards");
   const scene: Scene = {
-    id: "opaque:card-deck",
-    source: [{ resourceId: "resource:card-deck" }],
+    id: "opaque:definition-deck",
+    source: [{ resourceId: "resource:definition-deck" }],
     blocks: [
       prose("heading", "introduce"),
       prose("prelude-a", "explain"),
@@ -261,8 +261,9 @@ test("card-deck composition groups explanatory prose around one definition colle
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "card-deck",
+    kind: "learning-stage",
     mainCount: 1,
+    profile: "definition-deck",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "prelude-a", region: "prelude", index: 0 },
@@ -273,10 +274,10 @@ test("card-deck composition groups explanatory prose around one definition colle
   });
 });
 
-test("card-deck inference rejects mixed primary content", () => {
+test("definition-deck inference rejects mixed primary content", () => {
   const scene: Scene = {
-    id: "opaque:not-card-deck",
-    source: [{ resourceId: "resource:not-card-deck" }],
+    id: "opaque:not-definition-deck",
+    source: [{ resourceId: "resource:not-definition-deck" }],
     blocks: [
       prose("heading", "introduce"),
       prose("prelude", "explain"),
@@ -285,7 +286,7 @@ test("card-deck inference rejects mixed primary content", () => {
     ],
     readingOrder: ["heading", "prelude", "formula", "cards"],
   };
-  assert.notEqual(inferRevealCompositionPlan(scene).kind, "card-deck");
+  assert.notEqual(inferRevealCompositionPlan(scene).profile, "definition-deck");
 });
 
 
