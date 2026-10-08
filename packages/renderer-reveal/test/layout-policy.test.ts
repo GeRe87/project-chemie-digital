@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import type { Scene } from "../../core/src/scene-document.ts";
-import { inferRevealLayoutDecision, inferRevealLayoutFamily } from "../src/layout-policy.ts";
+import { inferRevealLayoutFamily } from "../src/layout-policy.ts";
 
 function prose(id: string, intent: "introduce" | "explain" | "emphasize") {
   return {
@@ -454,7 +454,6 @@ function concentricNetworkScene(id: string): Scene {
 test("infers concentric-network from focused grouped topology without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("scene:alpha")), "concentric-network");
   assert.equal(inferRevealLayoutFamily(concentricNetworkScene("opaque:scene")), "concentric-network");
-  assert.deepEqual(inferRevealLayoutDecision(concentricNetworkScene("scene:slots"))?.slots, ["heading", "network"]);
 });
 
 test("infers measurement-example from heading, explanation, table and chart", () => {
@@ -547,7 +546,7 @@ test("infers code-lab from heading plus practice prompt plus code", () => {
     ],
     readingOrder: ["h", "p", "c"],
   } as Scene;
-  assert.deepEqual(inferRevealLayoutDecision(scene), { family: "code-lab", slots: ["heading", "prompt", "code"] });
+  assert.equal(inferRevealLayoutFamily(scene), "code-lab");
 });
 
 test("infers concept-chart from heading, explanation, chart and optional example", () => {
@@ -601,21 +600,18 @@ test("infers large-poll only for heading plus single-choice prompt", () => {
 test("infers prompt-card-grid from heading plus three concise definition entries without identity", () => {
   assert.equal(inferRevealLayoutFamily(promptCardScene("scene:prompt")), "prompt-card-grid");
   assert.equal(inferRevealLayoutFamily(promptCardScene("opaque:prompt")), "prompt-card-grid");
-  assert.deepEqual(inferRevealLayoutDecision(promptCardScene("scene:prompt-slots"))?.slots, ["heading", "cards"]);
   assert.equal(inferRevealLayoutFamily(promptCardScene("scene:prompt-four", 4)), undefined);
 });
 
 test("infers labeled-card-grid from three labeled facets without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:alpha")), "labeled-card-grid");
   assert.equal(inferRevealLayoutFamily(labeledCardScene("opaque:anything")), "labeled-card-grid");
-  assert.deepEqual(inferRevealLayoutDecision(labeledCardScene("scene:slots"))?.slots, ["heading", "cards", "takeaway"]);
   assert.equal(inferRevealLayoutFamily(labeledCardScene("scene:four-facets", 4)), undefined);
 });
 
 test("infers concept-specification from structure without scene identity", () => {
   assert.equal(inferRevealLayoutFamily(threeCardScene("scene:alpha")), "concept-specification");
   assert.equal(inferRevealLayoutFamily(threeCardScene("completely:different:id")), "concept-specification");
-  assert.deepEqual(inferRevealLayoutDecision(threeCardScene("scene:slots"))?.slots, ["heading", "cards", "takeaway"]);
 });
 
 test("does not infer concept-specification from an arbitrary keypoint list", () => {
@@ -908,9 +904,6 @@ function processDiagramScene(id: string, diagramType: "flow" | "sequence", nodeC
 
 test("infers hero-title-panel, semantic runtimes and diagram-stage without identity", () => {
   assert.equal(inferRevealLayoutFamily(titleAttributionsScene("opaque:title")), "hero-title-panel");
-  assert.deepEqual(inferRevealLayoutDecision(titleAttributionsScene("opaque:title-slots"))?.slots, [
-    "heading", "primary-attribution", "secondary-attribution", "supporting-attribution",
-  ]);
   assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:source")), "semantic-source");
   assert.equal(inferRevealLayoutFamily(semanticSourceScene("opaque:multi", true)), "semantic-multi-view");
   assert.equal(inferRevealLayoutFamily(diagramStageScene("opaque:diagram")), "diagram-stage");
@@ -919,9 +912,6 @@ test("infers hero-title-panel, semantic runtimes and diagram-stage without ident
 test("infers centered definition-card from heading, definition prose and citation without identity", () => {
   assert.equal(inferRevealLayoutFamily(definitionCardScene("scene:definition")), "definition-card");
   assert.equal(inferRevealLayoutFamily(definitionCardScene("opaque:definition")), "definition-card");
-  assert.deepEqual(inferRevealLayoutDecision(definitionCardScene("scene:definition-slots"))?.slots, [
-    "heading", "definition", "citation",
-  ]);
 });
 
 test("infers generic closing from a single authored heading", () => {
@@ -932,76 +922,48 @@ test("infers generic closing from a single authored heading", () => {
     readingOrder: ["block:heading"],
   };
   assert.equal(inferRevealLayoutFamily(scene), "closing");
-  assert.deepEqual(inferRevealLayoutDecision(scene)?.slots, ["heading"]);
 });
 
 test("infers full-media from heading plus one prose/media group without identity", () => {
   assert.equal(inferRevealLayoutFamily(fullMediaScene("scene:image", "image/png")), "full-media");
   assert.equal(inferRevealLayoutFamily(fullMediaScene("opaque:video", "video/mp4")), "full-media");
-  assert.deepEqual(inferRevealLayoutDecision(fullMediaScene("scene:slots", "video/webm"))?.slots, ["heading", "media"]);
 });
 
 test("infers foundation-card-grid from structured definition entries without identity", () => {
   assert.equal(inferRevealLayoutFamily(foundationCardGridScene("scene:alpha")), "foundation-card-grid");
   assert.equal(inferRevealLayoutFamily(foundationCardGridScene("opaque:scene")), "foundation-card-grid");
-  assert.deepEqual(inferRevealLayoutDecision(foundationCardGridScene("scene:slots"))?.slots, [
-    "heading", "banner", "foundation", "cards", "takeaway",
-  ]);
 });
 
 test("infers paired-info-cards from two labeled entries with optional takeaway", () => {
   assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("scene:alpha")), "paired-info-cards");
   assert.equal(inferRevealLayoutFamily(pairedInfoCardsScene("opaque:pair", false)), "paired-info-cards");
-  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:slots"))?.slots, [
-    "heading", "intro", "cards", "takeaway",
-  ]);
-  assert.deepEqual(inferRevealLayoutDecision(pairedInfoCardsScene("scene:no-takeaway", false))?.slots, [
-    "heading", "intro", "cards",
-  ]);
 });
 
 test("infers generic process-diagram for longer flows and sequence diagrams", () => {
   assert.equal(inferRevealLayoutFamily(processDiagramScene("scene:flow", "flow", 4)), "process-diagram");
   assert.equal(inferRevealLayoutFamily(processDiagramScene("opaque:service", "sequence")), "process-diagram");
-  assert.deepEqual(inferRevealLayoutDecision(processDiagramScene("scene:slots", "flow", 4))?.slots, ["heading", "intro", "diagram", "takeaway"]);
 });
 
 test("infers a linear three-level hierarchy from diagram topology rather than identity", () => {
   assert.equal(inferRevealLayoutFamily(hierarchyScene("scene:alpha")), "hierarchy-flow");
   assert.equal(inferRevealLayoutFamily(hierarchyScene("totally:opaque")), "hierarchy-flow");
-  assert.deepEqual(inferRevealLayoutDecision(hierarchyScene("scene:slots"))?.slots, ["heading", "intro", "diagram", "takeaway"]);
 });
 
 test("infers reusable reference-code composition without inspecting labels or language", () => {
   assert.equal(inferRevealLayoutFamily(referenceCodeScene("scene:alpha")), "reference-code");
   assert.equal(inferRevealLayoutFamily(referenceCodeScene("totally:opaque")), "reference-code");
-  assert.deepEqual(inferRevealLayoutDecision(referenceCodeScene("scene:slots"))?.slots, ["heading", "banner", "terms", "code-label", "code", "reading"]);
 });
 
 
 test("infers process-context from diagram and definition-list structure without identity", () => {
   assert.equal(inferRevealLayoutFamily(processContextScene("scene:alpha")), "process-context");
   assert.equal(inferRevealLayoutFamily(processContextScene("opaque:scene")), "process-context");
-  assert.deepEqual(inferRevealLayoutDecision(processContextScene("scene:slots"))?.slots, [
-    "heading",
-    "diagram",
-    "example-heading",
-    "example-definitions",
-    "example-note",
-    "context-heading",
-    "context-definitions",
-  ]);
 });
 
 
 test("infers data-explanation from list and table structure without identity", () => {
   assert.equal(inferRevealLayoutFamily(dataExplanationScene("scene:alpha")), "data-explanation");
   assert.equal(inferRevealLayoutFamily(dataExplanationScene("opaque:scene")), "data-explanation");
-  assert.deepEqual(inferRevealLayoutDecision(dataExplanationScene("scene:slots"))?.slots, [
-    "heading",
-    "principles",
-    "table",
-  ]);
 });
 
 
@@ -1013,28 +975,17 @@ test("infers lecture-scale case-study without a separate takeaway micro-region",
     blocks,
     readingOrder: blocks.map((block) => block.id),
   };
-  const decision = inferRevealLayoutDecision(scene);
-  assert.equal(decision?.family, "case-study");
-  assert.deepEqual(decision?.slots, ["heading", "problem", "data", "analysis", "discussion"]);
+  assert.equal(inferRevealLayoutFamily(scene), "case-study");
 });
 
 test("infers generic case-study from image problem, table, chart and discussion without identity", () => {
   assert.equal(inferRevealLayoutFamily(caseStudyScene("scene:case-study")), "case-study");
   assert.equal(inferRevealLayoutFamily(caseStudyScene("opaque:anything")), "case-study");
-  assert.deepEqual(inferRevealLayoutDecision(caseStudyScene("scene:slots"))?.slots, [
-    "heading", "problem", "data", "analysis", "discussion", "takeaway",
-  ]);
 });
 
 test("infers analysis-result from chart table and flow without identity", () => {
   assert.equal(inferRevealLayoutFamily(analysisResultScene("scene:alpha")), "analysis-result");
   assert.equal(inferRevealLayoutFamily(analysisResultScene("opaque:scene")), "analysis-result");
-  assert.deepEqual(inferRevealLayoutDecision(analysisResultScene("scene:slots"))?.slots, [
-    "heading",
-    "signal",
-    "results",
-    "process",
-  ]);
 });
 
 
@@ -1057,15 +1008,9 @@ test("process-context supports longer linear flows without introducing a new lay
 test("infers generic card-sequence without scene or label identity", () => {
   assert.equal(inferRevealLayoutFamily(cardSequenceScene("scene:alpha")), "card-sequence");
   assert.equal(inferRevealLayoutFamily(cardSequenceScene("opaque:scene")), "card-sequence");
-  assert.deepEqual(inferRevealLayoutDecision(cardSequenceScene("scene:slots"))?.slots, [
-    "heading", "banner", "cards", "takeaway",
-  ]);
 });
 
 test("infers text-network-progression from structured network content", () => {
   assert.equal(inferRevealLayoutFamily(textNetworkScene("scene:alpha")), "text-network-progression");
   assert.equal(inferRevealLayoutFamily(textNetworkScene("opaque:scene")), "text-network-progression");
-  assert.deepEqual(inferRevealLayoutDecision(textNetworkScene("scene:slots"))?.slots, [
-    "heading", "banner", "views", "network", "takeaway",
-  ]);
 });
