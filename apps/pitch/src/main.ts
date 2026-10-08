@@ -8,7 +8,6 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
-import "./concept-specification-layout.css";
 import "./definition-card-layout.css";
 import "./learning-stage-primitives.css";
 import "./visual-stage-primitives.css";
@@ -281,8 +280,11 @@ function isFullMediaScene(scene: HTMLElement | undefined): boolean {
 function syncNavigationMode(): void {
   const current = deck.getCurrentSlide() as HTMLElement | undefined;
   const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
-  const sameConceptSequence = current?.dataset.layout === "concept-specification"
-    && next?.dataset.layout === current.dataset.layout;
+  const sameConceptSequence =
+    current?.dataset.composition === "progression-strip"
+    && current?.dataset.compositionProgressionProfile === "cards-with-footer"
+    && next?.dataset.composition === current.dataset.composition
+    && next?.dataset.compositionProgressionProfile === current.dataset.compositionProgressionProfile;
   const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
@@ -356,7 +358,11 @@ function createProgressSource(): BackgroundProgressSource {
 const progressSource = createProgressSource();
 const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
-  const freezeForLayout = currentSlide?.dataset.layout === "concept-specification"
+  const freezeForLayout =
+    (
+      currentSlide?.dataset.composition === "progression-strip"
+      && currentSlide?.dataset.compositionProgressionProfile === "cards-with-footer"
+    )
     || currentSlide?.dataset.layout === "full-media";
   const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
   if (appearance.view === "scroll" && (freezeForLayout || freezeForActiveStage)) return;
