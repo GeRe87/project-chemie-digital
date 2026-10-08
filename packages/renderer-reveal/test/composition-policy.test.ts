@@ -911,3 +911,53 @@ test("media-stage infers a full-viewport prose/media group structurally", () => 
     ],
   });
 });
+
+
+test("hero-stage infers ordered attribution and media groups structurally", () => {
+  const attributionGroup = (id: string): SceneBlock => {
+    const proseBlock: SceneBlock = {
+      id: `${id}:text`,
+      kind: "prose",
+      text: "Generic attribution",
+      intent: { kind: "emphasize" },
+      source: [{ resourceId: `resource:${id}:text` }],
+    };
+    const mediaBlock: SceneBlock = {
+      id: `${id}:media`,
+      kind: "media-reference",
+      uri: "/generic.svg",
+      alternativeText: "Generic mark",
+      source: [{ resourceId: `resource:${id}:media` }],
+    };
+    return {
+      id,
+      kind: "group",
+      children: [proseBlock, mediaBlock],
+      readingOrder: [proseBlock.id, mediaBlock.id],
+      source: [{ resourceId: `resource:${id}` }],
+    };
+  };
+
+  const scene: Scene = {
+    id: "opaque:hero-stage",
+    source: [{ resourceId: "resource:hero-stage" }],
+    blocks: [
+      prose("heading", "introduce"),
+      attributionGroup("primary"),
+      attributionGroup("secondary"),
+      attributionGroup("support"),
+    ],
+    readingOrder: ["heading", "primary", "secondary", "support"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "hero-stage",
+    mainCount: 3,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "primary", region: "primary", index: 0 },
+      { blockId: "secondary", region: "secondary", index: 0 },
+      { blockId: "support", region: "support", index: 0 },
+    ],
+  });
+});
