@@ -2,7 +2,7 @@ import katex from "katex";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
-import { inferRevealLayoutFit } from "../../../packages/renderer-reveal/src/layout-fit.ts";
+import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
   revealComponentDescriptor,
@@ -38,20 +38,20 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
 function layoutSlotAttribute(
   node: MinimalElement,
   layoutSlot?: string,
-  layoutDensity?: "comfortable" | "dense" | "compact",
+  compositionDensity?: "comfortable" | "dense" | "compact",
 ): void {
   if (layoutSlot) node.setAttribute("data-layout-slot", layoutSlot);
-  if (layoutDensity) node.setAttribute("data-layout-density", layoutDensity);
+  if (compositionDensity) node.setAttribute("data-composition-density", compositionDensity);
 }
 
 function blockPresentationAttributes(
   node: MinimalElement,
   block: SceneBlock,
   layoutSlot?: string,
-  layoutDensity?: "comfortable" | "dense" | "compact",
+  compositionDensity?: "comfortable" | "dense" | "compact",
   compositionPlacement?: RevealCompositionPlacement,
 ): void {
-  layoutSlotAttribute(node, layoutSlot, layoutDensity);
+  layoutSlotAttribute(node, layoutSlot, compositionDensity);
   const component = revealComponentDescriptor(block);
   node.setAttribute("data-component-kind", component.kind);
   if (component.itemCount !== undefined) {
@@ -121,13 +121,13 @@ function appendBlock(
   block: SceneBlock,
   headingId: string,
   layoutSlot?: string,
-  layoutDensity?: "comfortable" | "dense" | "compact",
+  compositionDensity?: "comfortable" | "dense" | "compact",
   compositionPlacement?: RevealCompositionPlacement,
 ): void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
     node.className = "math-display";
-    blockPresentationAttributes(node, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(node, block, layoutSlot, compositionDensity, compositionPlacement);
     node.setAttribute("role", "math");
     node.setAttribute("aria-label", block.spokenText);
     node.innerHTML = katex.renderToString(block.expression, {
@@ -144,7 +144,7 @@ function appendBlock(
   if (block.kind === "code") {
     const shell = dom.createElement("div");
     shell.className = "code-block";
-    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
     shell.setAttribute("data-code-block-id", block.id);
     shell.setAttribute("data-language", block.language);
     shell.setAttribute("data-editable", String(block.editable));
@@ -162,7 +162,7 @@ function appendBlock(
   if (block.kind === "media-reference") {
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
-    blockPresentationAttributes(figure, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(figure, block, layoutSlot, compositionDensity, compositionPlacement);
     figure.setAttribute("data-media-block-id", block.id);
     figure.setAttribute("data-media-uri", block.uri);
     if (block.mediaType) figure.setAttribute("data-media-type", block.mediaType);
@@ -196,7 +196,7 @@ function appendBlock(
   if (block.kind === "definition-list") {
     const list = dom.createElement("dl");
     list.className = "definition-list";
-    blockPresentationAttributes(list, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(list, block, layoutSlot, compositionDensity, compositionPlacement);
     sourceAttributes(list, block.source);
     block.entries.forEach((entry, index) => {
       const entryShell = dom.createElement("div");
@@ -275,7 +275,7 @@ function appendBlock(
   if (block.kind === "table") {
     const table = dom.createElement("table");
     table.className = "data-table";
-    blockPresentationAttributes(table, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(table, block, layoutSlot, compositionDensity, compositionPlacement);
     table.setAttribute("data-table-block-id", block.id);
     if (block.description) table.setAttribute("aria-description", block.description);
     sourceAttributes(table, block.source);
@@ -318,13 +318,13 @@ function appendBlock(
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
-    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
     shell.setAttribute("data-group-block-id", block.id);
     sourceAttributes(shell, block.source);
     for (const childId of block.readingOrder) {
       const child = block.children.find((candidate) => candidate.id === childId);
       if (!child) throw new Error(`Group ${block.id} reading order references unknown block ${childId}`);
-      appendBlock(shell, dom, child, headingId, undefined, layoutDensity, undefined);
+      appendBlock(shell, dom, child, headingId, undefined, compositionDensity, undefined);
     }
     parent.appendChild(shell);
     return;
@@ -332,7 +332,7 @@ function appendBlock(
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
-    blockPresentationAttributes(list, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(list, block, layoutSlot, compositionDensity, compositionPlacement);
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
@@ -350,7 +350,7 @@ function appendBlock(
   if (block.kind === "prompt") {
     const shell = dom.createElement("div");
     shell.className = "live-poll";
-    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
     shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
     const optionIds = block.optionIds ?? [];
     if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
@@ -407,7 +407,7 @@ function appendBlock(
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
-    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
@@ -430,7 +430,7 @@ function appendBlock(
   if (block.kind === "chart") {
     const shell = dom.createElement("div");
     shell.className = "d3-chart-host retro-neon-chart-window";
-    blockPresentationAttributes(shell, block, layoutSlot, layoutDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
     if (block.liveUpdate) shell.setAttribute("data-live-chart", "true");
@@ -456,7 +456,7 @@ function appendBlock(
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
-  blockPresentationAttributes(node, block, layoutSlot, layoutDensity, compositionPlacement);
+  blockPresentationAttributes(node, block, layoutSlot, compositionDensity, compositionPlacement);
   if (tag === "h2") node.setAttribute("id", headingId);
   node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
@@ -472,8 +472,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
     const inferredLayout = inferRevealLayoutDecision(scene);
-    const inferredFit = inferRevealLayoutFit(scene, inferredLayout);
     const composition = inferRevealCompositionPlan(scene);
+    const compositionFit = inferRevealCompositionFit(scene, composition);
     const compositionByBlockId = new Map(
       composition.placements.map((placement) => [placement.blockId, placement]),
     );
@@ -504,10 +504,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
     section.setAttribute("data-lecture-primary-regions", String(lectureBudget.primaryRegions));
-    if (inferredFit) {
-      section.setAttribute("data-layout-variant", inferredFit.variant);
-      section.setAttribute("data-layout-density", inferredFit.density);
-    }
+    section.setAttribute("data-composition-variant", compositionFit.variant);
+    section.setAttribute("data-composition-density", compositionFit.density);
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
 
@@ -554,7 +552,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         block,
         headingId,
         inferredLayout?.slots[blockIndex],
-        inferredFit?.density,
+        compositionFit.density,
         compositionPlacement,
       );
     }
