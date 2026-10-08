@@ -1006,3 +1006,18 @@ test("learning-stage primitives replace legacy learning concept family CSS", () 
   assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
 });
+
+
+test("visual-stage primitives replace standalone and concentric diagram family CSS", () => {
+  const css = readFileSync(new URL("../src/visual-stage-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="visual-stage"/u);
+  assert.match(css, /data-composition-visual-stage-profile="concentric-network"/u);
+  assert.match(css, /data-layout-strategy="concentric-network"/u);
+  assert.match(css, /data-layout-strategy="space-filling-flow"/u);
+  assert.doesNotMatch(css, /data-layout="/u);
+  assert.equal(main.includes('import "./visual-stage-primitives.css"'), true);
+  assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
+  assert.equal(main.includes('import "./concentric-network-layout.css"'), false);
+});
