@@ -78,7 +78,6 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-laser-pointer.ts"),
     source("../src/presentation-laser-pointer.css"),
     source("../src/full-media-layout.css"),
-    source("../src/closing-layout.css"),
     source("../src/presentation-mobile.css"),
     source("../src/hero-title-panel.css"),
     source("../src/semantic-source-runtime.css"),
@@ -150,7 +149,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-closing.css"'), false);
   assert.equal(main.includes('import "./cogniflow-mobile.css"'), false);
   assert.equal(main.includes('import "./cogniflow-dark-cards.css"'), false);
-  assert.equal(main.includes('import "./closing-layout.css"'), true);
+  assert.equal(main.includes('import "./closing-layout.css"'), false);
   assert.equal(main.includes('import "./presentation-mobile.css"'), true);
   assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
@@ -347,7 +346,7 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
 test("take-home, closing and portrait viewport no longer depend on CogniFlow identity", () => {
   const main = source("../src/main.ts");
   const profile = source("../src/presentation-profile.ts");
-  const closing = source("../src/closing-layout.css");
+  const composition = source("../src/component-composition.css");
   const mobile = source("../src/presentation-mobile.css");
   const takeHome = source("../../../ontology/dataset/cogniflow-take-home.trig");
 
@@ -355,9 +354,13 @@ test("take-home, closing and portrait viewport no longer depend on CogniFlow ide
   assert.equal(main.includes('appearance.profile.id === "cogniflow-standardized-data-processing"'), false);
   assert.equal(main.includes('appearance.profile.viewportPolicy === "native-portrait"'), true);
   assert.equal(profile.includes('readonly viewportPolicy?: PresentationViewportPolicy'), true);
-  assert.equal(closing.toLowerCase().includes("cogniflow"), false);
+  assert.equal(composition.toLowerCase().includes("cogniflow"), false);
   assert.equal(mobile.toLowerCase().includes("cogniflow"), false);
-  assert.equal(closing.includes('data-layout="closing"'), true);
+  assert.equal(
+    composition.includes('section[data-composition="single"][data-composition-main-count="0"]'),
+    true,
+  );
+  assert.equal(composition.includes('data-layout="closing"'), false);
   assert.equal(main.includes("available anywhere via pip"), false);
 });
 
