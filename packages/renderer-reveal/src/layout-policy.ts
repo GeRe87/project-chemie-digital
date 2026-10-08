@@ -34,10 +34,6 @@ export type RevealLayoutFamily =
   | "diagram-stage"
   | "case-study";
 
-export interface RevealLayoutDecision {
-  readonly family: RevealLayoutFamily;
-}
-
 function orderedBlocks(scene: Scene): readonly SceneBlock[] | undefined {
   const byId = new Map(scene.blocks.map((block) => [block.id, block]));
   const ordered = scene.readingOrder.map((id) => byId.get(id));
@@ -112,7 +108,7 @@ function isConcentricNetwork(block: SceneBlock): block is DiagramBlock {
  * The decision deliberately ignores scene ids, path ids, resource ids and authored
  * labels. Only validated renderer-neutral block structure participates.
  */
-export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | undefined {
+export function inferRevealLayoutFamily(scene: Scene): RevealLayoutFamily | undefined {
   const blocks = orderedBlocks(scene);
   if (!blocks) return undefined;
 
@@ -122,7 +118,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
     ) {
-      return { family: "closing" };
+      return "closing";
     }
   }
 
@@ -136,7 +132,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && citation?.kind === "prose"
       && citation.intent?.kind === "emphasize"
     ) {
-      return { family: "definition-card" };
+      return "definition-card";
     }
   }
 
@@ -152,7 +148,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && isAttributionMediaGroup(secondaryAttribution)
       && isAttributionMediaGroup(supportingAttribution)
     ) {
-      return { family: "hero-title-panel" };
+      return "hero-title-panel";
     }
   }
 
@@ -164,7 +160,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && isTrigCode(source)
       && chart?.kind === "chart"
     ) {
-      return { family: "semantic-multi-view" };
+      return "semantic-multi-view";
     }
   }
 
@@ -175,7 +171,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && heading.intent?.kind === "introduce"
       && isTrigCode(source)
     ) {
-      return { family: "semantic-source" };
+      return "semantic-source";
     }
   }
 
@@ -187,7 +183,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && mediaGroup !== undefined
       && isFullMediaGroup(mediaGroup)
     ) {
-      return { family: "full-media" };
+      return "full-media";
     }
   }
 
@@ -199,7 +195,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && network !== undefined
       && isConcentricNetwork(network)
     ) {
-      return { family: "concentric-network" };
+      return "concentric-network";
     }
   }
 
@@ -211,7 +207,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && cards?.kind === "definition-list"
       && cards.entries.length === 3
     ) {
-      return { family: "prompt-card-grid" };
+      return "prompt-card-grid";
     }
   }
 
@@ -225,7 +221,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && table?.kind === "table"
       && chart?.kind === "chart"
     ) {
-      return { family: "measurement-example" };
+      return "measurement-example";
     }
   }
 
@@ -242,7 +238,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && caveat?.kind === "prose"
       && caveat.intent?.kind === "explain"
     ) {
-      return { family: "functional-dependence" };
+      return "functional-dependence";
     }
   }
 
@@ -258,7 +254,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "observation-bridge" };
+      return "observation-bridge";
     }
   }
 
@@ -271,7 +267,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && intro.intent?.kind === "explain"
       && code?.kind === "code"
     ) {
-      return { family: "minimal-code-demo" };
+      return "minimal-code-demo";
     }
   }
 
@@ -287,7 +283,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && roles?.kind === "list"
       && roles.items.length === 3
     ) {
-      return { family: "experiment-example" };
+      return "experiment-example";
     }
   }
 
@@ -299,7 +295,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && questions.length === 3
       && questions.every((block) => block?.kind === "prompt" && block.responseMode === "single-choice")
     ) {
-      return { family: "quiz-grid" };
+      return "quiz-grid";
     }
   }
 
@@ -311,7 +307,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && prompt?.kind === "prompt"
       && code?.kind === "code"
     ) {
-      return { family: "code-lab" };
+      return "code-lab";
     }
   }
 
@@ -327,7 +323,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && chart?.kind === "chart"
       && validExample
     ) {
-      return { family: "concept-chart" };
+      return "concept-chart";
     }
   }
 
@@ -339,7 +335,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && formula?.kind === "math"
       && diagram?.kind === "diagram"
     ) {
-      return { family: "math-diagram" };
+      return "math-diagram";
     }
   }
 
@@ -351,7 +347,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && prompt?.kind === "prompt"
       && prompt.responseMode === "single-choice"
     ) {
-      return { family: "large-poll" };
+      return "large-poll";
     }
   }
 
@@ -362,7 +358,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && heading.intent?.kind === "introduce"
       && diagram?.kind === "diagram"
     ) {
-      return { family: "diagram-stage" };
+      return "diagram-stage";
     }
   }
 
@@ -376,7 +372,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "labeled-card-grid" };
+      return "labeled-card-grid";
     }
 
     if (
@@ -388,7 +384,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "concept-specification" };
+      return "concept-specification";
     }
 
     if (
@@ -399,7 +395,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && body.items.length === 4
       && takeaway?.kind === "table"
     ) {
-      return { family: "data-explanation" };
+      return "data-explanation";
     }
   }
 
@@ -416,7 +412,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && cards.entries.length === 2
       && hasValidTakeaway
     ) {
-      return { family: "paired-info-cards" };
+      return "paired-info-cards";
     }
   }
 
@@ -433,7 +429,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "card-sequence" };
+      return "card-sequence";
     }
   }
 
@@ -452,7 +448,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "foundation-card-grid" };
+      return "foundation-card-grid";
     }
   }
 
@@ -472,7 +468,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "text-network-progression" };
+      return "text-network-progression";
     }
   }
 
@@ -486,7 +482,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && process?.kind === "diagram"
       && process.diagramType === "flow"
     ) {
-      return { family: "analysis-result" };
+      return "analysis-result";
     }
   }
 
@@ -502,7 +498,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "hierarchy-flow" };
+      return "hierarchy-flow";
     }
   }
 
@@ -522,7 +518,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return { family: "process-diagram" };
+      return "process-diagram";
     }
   }
 
@@ -544,7 +540,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && contextDefinitions?.kind === "definition-list"
       && contextDefinitions.entries.length >= 4
     ) {
-      return { family: "process-context" };
+      return "process-context";
     }
   }
 
@@ -565,7 +561,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && discussion.items.length <= 3
       && hasValidTakeaway
     ) {
-      return { family: "case-study" };
+      return "case-study";
     }
   }
 
@@ -585,13 +581,10 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && reading?.kind === "prose"
       && reading.intent?.kind === "explain"
     ) {
-      return { family: "reference-code" };
+      return "reference-code";
     }
   }
 
   return undefined;
 }
 
-export function inferRevealLayoutFamily(scene: Scene): RevealLayoutFamily | undefined {
-  return inferRevealLayoutDecision(scene)?.family;
-}
