@@ -33,7 +33,8 @@ export type RevealCompositionKind =
   | "progression-strip"
   | "learning-stage"
   | "visual-stage"
-  | "statement-card";
+  | "statement-card"
+  | "media-stage";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -120,6 +121,15 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function isMediaStageGroup(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length !== 2) return false;
+  const prose = block.children.filter((child) => child.kind === "prose");
+  const media = block.children.filter((child) => child.kind === "media-reference");
+  if (prose.length !== 1 || media.length !== 1) return false;
+  const mediaType = media[0]?.kind === "media-reference" ? media[0].mediaType : undefined;
+  return mediaType === undefined || mediaType.startsWith("image/") || mediaType.startsWith("video/");
+}
+
 function isConcentricNetwork(block: SceneBlock): boolean {
   if (
     block.kind !== "diagram"
@@ -241,6 +251,20 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 1
+    && isMediaStageGroup(body[0]!)
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    return {
+      kind: "media-stage",
+      placements,
+      mainCount: 1,
+    };
+  }
 
   if (
     body.length === 2
