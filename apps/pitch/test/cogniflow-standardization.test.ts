@@ -66,6 +66,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
     source("../src/concept-specification-layout.css"),
     source("../src/component-composition.css"),
+    source("../src/learning-stage-primitives.css"),
     source("../src/card-primitives.css"),
     source("../src/evidence-primitives.css"),
     source("../src/process-primitives.css"),
@@ -115,6 +116,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
   assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./card-primitives.css"'), true);
+  assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
+  assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
   assert.equal(main.includes('import "./process-primitives.css"'), true);
   assert.equal(main.includes('import "./reference-code-layout.css"'), false);
