@@ -959,13 +959,14 @@ test("process progression styling is generic and specialized diagram layout file
 });
 
 
-test("support workbench styling replaces process-context and reference-code family CSS", () => {
+test("learning-stage reference profiles replace process-context and reference-code family CSS", () => {
   const css = readFileSync(new URL("../src/support-workbench-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="support-workbench"/u);
+  assert.match(css, /data-composition="learning-stage"/u);
   assert.match(css, /data-composition-profile="visual-dual-reference"/u);
   assert.match(css, /data-composition-profile="list-code-reference"/u);
+  assert.doesNotMatch(css, /data-composition="support-workbench"/u);
   assert.match(css, /data-component-kind="code"/u);
   assert.match(css, /data-component-kind="card-collection"/u);
   assert.doesNotMatch(css, /data-layout=/u);
