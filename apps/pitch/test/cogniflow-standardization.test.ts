@@ -65,8 +65,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   const genericSources = [
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
     source("../src/concept-specification-layout.css"),
-    source("../src/labeled-card-grid-layout.css"),
-    source("../src/paired-info-cards-layout.css"),
+    source("../src/component-composition.css"),
+    source("../src/card-primitives.css"),
     source("../src/hierarchy-flow-layout.css"),
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),
@@ -76,7 +76,6 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
     source("../src/process-diagram-layout.css"),
-    source("../src/foundation-card-grid-layout.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
     source("../src/presentation-clock.ts"),
@@ -118,7 +117,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-semantic-hierarchy.css"'), false);
   assert.equal(main.includes('import "./cogniflow-core-grammar.css"'), false);
   assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
-  assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), true);
+  assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), false);
+  assert.equal(main.includes('import "./card-primitives.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), true);
   assert.equal(main.includes('import "./reference-code-layout.css"'), true);
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
@@ -139,7 +139,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./title-attributions-layout.css"'), false);
   assert.equal(main.includes('import "./hero-title-panel.css"'), true);
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), true);
-  assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), true);
+  assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
   assert.equal(main.includes('import "./full-media-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-showcase.css"'), false);
