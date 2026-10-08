@@ -975,6 +975,7 @@ test("progression strip styling replaces card-sequence and text-network family C
 
   assert.match(css, /data-composition="progression-strip"/u);
   assert.match(css, /data-composition-progression-profile="cards-only"/u);
+  assert.match(css, /data-composition-progression-profile="cards-with-footer"/u);
   assert.match(css, /data-composition-progression-profile="cards-to-visual"/u);
   assert.match(css, /data-component-kind="list-collection"/u);
   assert.match(css, /data-component-kind="visual"/u);
@@ -1020,4 +1021,19 @@ test("visual-stage primitives replace standalone and concentric diagram family C
   assert.equal(main.includes('import "./visual-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
   assert.equal(main.includes('import "./concentric-network-layout.css"'), false);
+});
+
+
+test("concept specification presentation is owned by progression composition", () => {
+  const progression = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
+  const projection = readFileSync(new URL("../src/presentation-projection.css", import.meta.url), "utf8");
+  const runtime = readFileSync(new URL("../src/presentation-projection.ts", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(progression, /data-composition-progression-profile="cards-with-footer"/u);
+  assert.match(projection, /data-composition-progression-profile="cards-with-footer"/u);
+  assert.match(runtime, /data-composition-progression-profile="cards-with-footer"/u);
+  assert.doesNotMatch(projection, /data-layout="concept-specification"/u);
+  assert.doesNotMatch(runtime, /data-layout="concept-specification"/u);
+  assert.equal(main.includes('import "./concept-specification-layout.css"'), false);
 });
