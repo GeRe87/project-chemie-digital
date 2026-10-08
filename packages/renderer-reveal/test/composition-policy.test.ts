@@ -173,3 +173,47 @@ test("main profile distinguishes formula plus visual from formula plus cards", (
     ],
   );
 });
+
+
+test("card-deck composition groups explanatory prose around one definition collection", () => {
+  const cards = definitions("cards");
+  const scene: Scene = {
+    id: "opaque:card-deck",
+    source: [{ resourceId: "resource:card-deck" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("prelude-a", "explain"),
+      prose("prelude-b", "explain"),
+      cards,
+      prose("footer", "explain"),
+    ],
+    readingOrder: ["heading", "prelude-a", "prelude-b", "cards", "footer"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "card-deck",
+    mainCount: 1,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "prelude-a", region: "prelude", index: 0 },
+      { blockId: "prelude-b", region: "prelude", index: 1 },
+      { blockId: "cards", region: "main", index: 0 },
+      { blockId: "footer", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("card-deck inference rejects mixed primary content", () => {
+  const scene: Scene = {
+    id: "opaque:not-card-deck",
+    source: [{ resourceId: "resource:not-card-deck" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("prelude", "explain"),
+      math("formula"),
+      definitions("cards"),
+    ],
+    readingOrder: ["heading", "prelude", "formula", "cards"],
+  };
+  assert.notEqual(inferRevealCompositionPlan(scene).kind, "card-deck");
+});
