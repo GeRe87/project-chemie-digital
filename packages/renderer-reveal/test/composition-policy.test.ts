@@ -5,6 +5,9 @@ import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
 import {
   inferRevealCompositionPlan,
   revealComponentDescriptor,
+  shouldWrapRevealCompositionPlacement,
+  type RevealCompositionPlacement,
+  type RevealCompositionPlan,
 } from "../src/composition-policy.ts";
 
 function prose(id: string, intent: "introduce" | "explain" | "emphasize" = "explain"): SceneBlock {
@@ -1031,4 +1034,51 @@ test("semantic-stage infers source and multi-view profiles from TriG structure",
       { blockId: "chart", region: "secondary", index: 0 },
     ],
   });
+});
+
+
+test("composition policy owns region-container projection topology", () => {
+  const placement = (
+    blockId: string,
+    region: RevealCompositionPlacement["region"],
+  ): RevealCompositionPlacement => ({ blockId, region, index: 0 });
+  const plan = (
+    kind: RevealCompositionPlan["kind"],
+    profile?: RevealCompositionPlan["profile"],
+  ): RevealCompositionPlan => profile
+    ? { kind, profile, mainCount: 1, placements: [] }
+    : { kind, mainCount: 1, placements: [] };
+
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("learning-stage", "statement-support"), placement("heading", "heading")),
+    false,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("stack"), placement("body", "main")),
+    false,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("semantic-stage", "source"), placement("source", "main")),
+    false,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("media-stage", "hero-attributions"), placement("primary", "primary")),
+    false,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("evidence-stage", "context-data-visual"), placement("support", "support")),
+    false,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("evidence-stage", "context-data-visual"), placement("data", "main")),
+    true,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("progression-stage", "compact-linear"), placement("process", "main")),
+    true,
+  );
+  assert.equal(
+    shouldWrapRevealCompositionPlacement(plan("visual-stage", "diagram"), placement("diagram", "main")),
+    true,
+  );
 });
