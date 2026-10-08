@@ -983,3 +983,26 @@ test("progression strip styling replaces card-sequence and text-network family C
   assert.equal(main.includes('import "./card-sequence-layout.css"'), false);
   assert.equal(main.includes('import "./text-network-progression-layout.css"'), false);
 });
+
+
+test("learning-stage primitives replace legacy learning concept family CSS", () => {
+  const css = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  for (const profile of [
+    "prompt-code",
+    "info-code",
+    "info-visual",
+    "formula-visual",
+    "single-prompt",
+    "prompt-grid",
+  ]) {
+    assert.match(css, new RegExp(`data-composition-learning-profile="${profile}"`));
+  }
+  assert.match(css, /data-component-kind="prompt"/u);
+  assert.match(css, /data-component-kind="code"/u);
+  assert.match(css, /data-component-kind="visual"/u);
+  assert.doesNotMatch(css, /data-layout=/u);
+  assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
+  assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
+});
