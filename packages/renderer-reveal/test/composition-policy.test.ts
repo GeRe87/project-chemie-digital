@@ -888,10 +888,10 @@ test("visual-stage infers concentric profile from grouped focused network topolo
 });
 
 
-test("statement-card composes an explanatory statement with supporting emphasized text", () => {
+test("learning-stage statement-support profile composes explanatory and emphasized text", () => {
   const scene: Scene = {
-    id: "opaque:statement-card",
-    source: [{ resourceId: "resource:statement-card" }],
+    id: "opaque:statement-support",
+    source: [{ resourceId: "resource:statement-support" }],
     blocks: [
       prose("heading", "introduce"),
       prose("statement", "explain"),
@@ -901,8 +901,9 @@ test("statement-card composes an explanatory statement with supporting emphasize
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "statement-card",
+    kind: "learning-stage",
     mainCount: 1,
+    profile: "statement-support",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "statement", region: "main", index: 0 },
