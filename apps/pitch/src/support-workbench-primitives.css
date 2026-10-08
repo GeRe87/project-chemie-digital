@@ -23,26 +23,26 @@
 }
 
 /* Visual + paired reference groups --------------------------------------- */
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"] {
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"] {
   grid-template-columns: minmax(0, 1fr) minmax(19rem, .42fr);
   grid-template-rows: auto 18.5rem minmax(0, 1fr);
   gap: .6rem 1.35rem;
   padding: 1.35rem 1.8rem 1.35rem !important;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region="heading"] {
   grid-column: 1 / -1;
   grid-row: 1;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="lead"] {
   grid-column: 1 / -1;
   grid-row: 2;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="primary"] {
   grid-column: 1;
   grid-row: 3;
@@ -51,7 +51,7 @@
   align-content: stretch;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="secondary"] {
   grid-column: 2;
   grid-row: 3;
@@ -60,7 +60,7 @@
   align-content: stretch;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="lead"]
   [data-component-kind="visual"] {
   width: 100%;
@@ -70,7 +70,7 @@
   margin: 0;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="lead"]
   [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure, .d3-flow-svg) {
   width: 100%;
@@ -80,29 +80,29 @@
   margin: 0;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   .d3-flow-node-label {
   font-size: 25px;
   font-weight: 900;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   .d3-flow-node[data-visual-role="highlight"] .d3-flow-node-label {
   font-size: 29px;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   .d3-flow-node[data-visual-role="highlight"] {
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--pcd-flow-role-highlight-stroke) 55%, transparent));
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   .d3-flow-edge-label {
   font-size: 15px;
   font-weight: 800;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   [data-component-kind="info-surface"][data-composition-index="0"] {
   box-sizing: border-box;
   display: flex;
@@ -122,7 +122,7 @@
   text-transform: uppercase;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="info-surface"][data-composition-index="0"] {
   border-color: var(--pcd-flow-role-highlight-stroke);
@@ -131,7 +131,7 @@
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--pcd-flow-role-highlight-stroke) 22%, transparent);
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   [data-component-kind="card-collection"] {
   box-sizing: border-box;
   display: grid;
@@ -147,13 +147,13 @@
   color: var(--pcd-foreground);
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="primary"]
   [data-component-kind="card-collection"] {
   border-block: 0;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="card-collection"] {
   border-color: var(--pcd-flow-role-highlight-stroke);
@@ -163,7 +163,7 @@
   color: var(--pcd-flow-role-highlight-text);
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   [data-component-kind="card-collection"] :is(dt, dd) {
   box-sizing: border-box;
   margin: 0;
@@ -172,19 +172,19 @@
   font: 850 .94em/1.16 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   [data-component-kind="card-collection"] dt {
   color: hsl(var(--definition-entry-hue, 205deg) 58% 42%);
   font-weight: 950;
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+  section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   [data-component-kind="card-collection"] dt {
   color: hsl(var(--definition-entry-hue, 205deg) 74% 70%);
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
   > [data-composition-region-container="primary"]
   [data-component-kind="info-surface"][data-composition-index="2"] {
   box-sizing: border-box;
@@ -201,33 +201,33 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 /* Reference list + code support ------------------------------------------ */
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"] {
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"] {
   grid-template-columns: minmax(0, 1.55fr) minmax(22rem, .85fr);
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: .58rem 1.45rem;
   padding: 1.3rem 1.75rem 1.35rem !important;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region="heading"] {
   grid-column: 1 / -1;
   grid-row: 1;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="lead"] {
   grid-column: 1 / -1;
   grid-row: 2;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="primary"] {
   grid-column: 1;
   grid-row: 3;
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"] {
   grid-column: 2;
   grid-row: 3;
@@ -237,7 +237,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="lead"]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
@@ -254,7 +254,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   text-align: center;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="primary"]
   [data-component-kind="list-collection"] {
   display: grid;
@@ -270,7 +270,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   list-style: none;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   [data-component-kind="list-collection"] > li {
   --pcd-reference-hue: calc(200 + var(--pcd-composition-index, 0) * 36);
   position: relative;
@@ -287,15 +287,15 @@ body[data-presentation-theme="dark"] .reveal .slides
   white-space: pre-line;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   [data-component-kind="list-collection"] > li:first-child,
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   [data-component-kind="list-collection"] > li:last-child {
   grid-column: 1 / -1;
   text-align: center;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="info-surface"][data-composition-index="0"] {
   box-sizing: border-box;
@@ -313,7 +313,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   text-shadow: 2px 2px 0 #20105f;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="code"] {
   align-self: stretch;
@@ -328,7 +328,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 22%, transparent);
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="code"] .code-static-fallback {
   box-sizing: border-box;
@@ -340,7 +340,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   line-height: 1.5;
 }
 
-.reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+.reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="info-surface"][data-composition-index="2"] {
   box-sizing: border-box;
@@ -358,7 +358,7 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+  section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="info-surface"][data-composition-index="2"] {
   border-color: #f0a343;
@@ -379,12 +379,12 @@ body[data-presentation-theme="dark"] .reveal .slides
     grid-row: auto !important;
   }
 
-  .reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="visual-dual-reference"]
+  .reveal .slides section[data-composition="support-workbench"][data-composition-profile="visual-dual-reference"]
     > [data-composition-region-container="lead"] {
     min-height: 17rem;
   }
 
-  .reveal .slides section[data-composition="support-workbench"][data-composition-workbench-profile="list-code-reference"]
+  .reveal .slides section[data-composition="support-workbench"][data-composition-profile="list-code-reference"]
     > [data-composition-region-container="primary"]
     [data-component-kind="list-collection"] {
     grid-template-columns: 1fr;
