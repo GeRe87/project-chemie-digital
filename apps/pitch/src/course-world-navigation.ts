@@ -94,7 +94,6 @@ export function appendPitchCourseLevelBoundarySlides(
     const buffer = ownerDocument.createElement("section");
     buffer.dataset.courseLevelBuffer = "true";
     buffer.dataset.sceneDocumentId = boundary.sceneDocumentId;
-    buffer.dataset.layout = "course-level-buffer";
     buffer.id = `course-level-buffer-${encodeURIComponent(boundary.sceneDocumentId)}`;
     const kicker = ownerDocument.createElement("p");
     kicker.className = "pcd-level-buffer-kicker";
