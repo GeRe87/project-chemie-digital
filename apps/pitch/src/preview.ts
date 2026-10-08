@@ -504,7 +504,11 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
 
     const compositionRegions = new Map<string, MinimalElement>();
     const compositionParent = (placement: RevealCompositionPlacement | undefined): MinimalElement => {
-      if (!placement || placement.region === "heading" || composition.kind !== "main-aside-note") {
+      if (
+        !placement
+        || placement.region === "heading"
+        || !["main-aside-note", "card-deck"].includes(composition.kind)
+      ) {
         return section;
       }
       const existing = compositionRegions.get(placement.region);
