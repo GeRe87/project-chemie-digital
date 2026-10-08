@@ -454,13 +454,7 @@
 }
 
 .reveal .slides section[data-composition="worked-evidence"]
-  > [data-composition-region-container="support"] {
-  display: contents;
-}
-
-.reveal .slides section[data-composition="worked-evidence"]
-  > [data-composition-region-container="support"]
-  > [data-component-kind="list-collection"] {
+  > [data-composition-region="support"][data-component-kind="list-collection"] {
   grid-column: 2 / -1;
   grid-row: 3;
   justify-self: stretch;
@@ -528,16 +522,14 @@
 }
 
 .reveal .slides section[data-composition="worked-evidence"]
-  > [data-composition-region-container="support"]
-  [data-component-kind="list-collection"] {
+  > [data-composition-region="support"][data-component-kind="list-collection"] {
   display: flex;
   flex-wrap: nowrap;
   gap: .48rem;
 }
 
 .reveal .slides section[data-composition="worked-evidence"]
-  > [data-composition-region-container="support"]
-  [data-component-kind="list-collection"] > li {
+  > [data-composition-region="support"][data-component-kind="list-collection"] > li {
   flex: 1 1 0;
   min-width: 0;
   min-height: 3.7rem;
@@ -586,8 +578,7 @@
 }
 
 .reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
-  > [data-composition-region-container="support"]
-  > [data-component-kind="list-collection"] {
+  > [data-composition-region="support"][data-component-kind="list-collection"] {
   grid-column: 1 / -1;
   grid-row: 4;
 }
@@ -648,8 +639,7 @@
   }
 
   .reveal .slides section[data-composition="worked-evidence"]
-    > [data-composition-region-container="support"]
-    [data-component-kind="list-collection"] {
+    > [data-composition-region="support"][data-component-kind="list-collection"] {
     grid-column: 1 !important;
     grid-row: auto !important;
     flex-direction: column;
