@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import type { SceneBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
 
 class FakeElement implements MinimalElement {
@@ -14,6 +14,34 @@ class FakeElement implements MinimalElement {
   set innerHTML(value: string) { this.html = value; if (value === "") this.children = []; }
   appendChild(node: MinimalElement): void { this.children.push(node as FakeElement); }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
+}
+
+function attributionGroup(id: string): SceneBlock {
+  const textId = `block:${id}-text`;
+  const mediaId = `block:${id}-media`;
+  return {
+    kind: "group",
+    id: `block:${id}`,
+    source: [{ resourceId: `ex:${id}` }],
+    children: [
+      {
+        kind: "prose",
+        id: textId,
+        source: [{ resourceId: `ex:${id}`, relationPath: "cd:body" }],
+        text: "Attribution",
+        intent: { kind: "emphasize" },
+      },
+      {
+        kind: "media-reference",
+        id: mediaId,
+        source: [{ resourceId: `ex:${id}-media`, relationPath: "cd:uri" }],
+        uri: "https://example.invalid/mark.svg",
+        mediaType: "image/svg+xml",
+        alternativeText: "Generic mark",
+      },
+    ],
+    readingOrder: [textId, mediaId],
+  };
 }
 
 const document: SceneDocument = {
@@ -93,5 +121,49 @@ test("pitch preview renders group and accessible image from media-reference bloc
   assert.equal(image.attributes.get("alt"), "Funding organization logo");
   assert.equal(image.attributes.get("decoding"), "async");
   assert.equal(image.attributes.get("loading"), "eager");
+  destroy();
+});
+
+
+const heroDocument: SceneDocument = {
+  version: "1.0",
+  id: "scene-document:media-hero-preview",
+  sourcePathId: "ex:path-media-hero-preview",
+  scenes: [{
+    id: "scene:media-hero-preview",
+    source: [{ resourceId: "ex:media-hero-scene" }],
+    blocks: [
+      {
+        kind: "prose",
+        id: "block:hero-heading",
+        source: [{ resourceId: "ex:media-hero-focus" }],
+        text: "Hero",
+        intent: { kind: "introduce" },
+      },
+      attributionGroup("primary"),
+      attributionGroup("secondary"),
+      attributionGroup("support"),
+    ],
+    readingOrder: ["block:hero-heading", "block:primary", "block:secondary", "block:support"],
+  }],
+};
+
+test("media-stage hero-attributions keeps ordered groups as direct section children", () => {
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [heroDocument]);
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-composition"), "media-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "hero-attributions");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "primary", "secondary", "support"],
+  );
+  assert.equal(section.children.some((child) => child.className === "pcd-composition-region"), false);
+  for (const group of section.children.slice(1)) {
+    assert.equal(group.attributes.get("data-component-kind"), "group");
+  }
   destroy();
 });
