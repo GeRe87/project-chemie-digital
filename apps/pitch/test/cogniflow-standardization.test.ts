@@ -118,11 +118,16 @@ test("migrated scenes are not selected by id in shared app styling or navigation
 test("legacy Reveal layout policy is retired from production rendering", () => {
   const preview = source("../src/preview.ts");
   const rendererIndex = source("../../../packages/renderer-reveal/src/index.ts");
+  const courseNavigation = source("../src/course-world-navigation.ts");
+  const courseCss = source("../src/course-world.css");
 
   assert.equal(preview.includes("layout-policy.ts"), false);
   assert.equal(preview.includes("inferRevealLayoutFamily"), false);
   assert.equal(preview.includes('setAttribute("data-layout"'), false);
   assert.equal(rendererIndex.includes('export * from "./layout-policy.ts"'), false);
+  assert.equal(courseNavigation.includes("dataset.layout"), false);
+  assert.equal(courseCss.includes('data-layout="course-level-buffer"'), false);
+  assert.equal(courseCss.includes('data-course-level-buffer="true"'), true);
 });
 
 
