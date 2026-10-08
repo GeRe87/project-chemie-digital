@@ -8,7 +8,6 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
-import "./definition-card-layout.css";
 import "./learning-stage-primitives.css";
 import "./visual-stage-primitives.css";
 import "./component-composition.css";
