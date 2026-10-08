@@ -121,33 +121,11 @@
 
 
 /* Generic narrative layouts for variable/observation teaching. */
-.reveal .slides section[data-layout="measurement-example"] {
-  display: grid !important;
-  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
-  grid-template-rows: auto auto minmax(0, 1fr);
-  gap: .7rem 1.25rem;
-  padding: 1.2rem 1.7rem !important;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="heading"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="heading"],
 .reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="heading"],
 .reveal .slides section[data-layout="observation-bridge"] > [data-layout-slot="heading"],
 .reveal .slides section[data-layout="minimal-code-demo"] > [data-layout-slot="heading"],
 .reveal .slides section[data-layout="quiz-grid"] > [data-layout-slot="heading"] {
   margin: 0; max-width: none; font-size: 2.42em; line-height: 1; text-wrap: balance;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="heading"] { grid-column: 1 / -1; }
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="intro"] {
-  grid-column: 1 / -1; margin: 0; padding: .6rem .9rem;
-  border-left: 5px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-accent) 8%, var(--pcd-surface-strong));
-  font: 760 .82em/1.3 Arial, Helvetica, sans-serif; text-align: left;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="table"] {
-  grid-column: 1; align-self: stretch; width: 100%; margin: 0;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] {
-  grid-column: 2; align-self: stretch; min-height: 23rem;
 }
 
 .reveal .slides section[data-layout="functional-dependence"] {
@@ -222,28 +200,6 @@
   font-size: 1.35em; line-height: 1.45; text-align: center;
 }
 
-.reveal .slides section[data-layout="experiment-example"] {
-  display: grid !important;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  gap: .65rem 1.15rem; padding: 1.1rem 1.55rem !important;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="heading"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="intro"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] { grid-column: 1 / -1; }
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="intro"] {
-  margin: 0; padding: .5rem .75rem; border-left: 4px solid var(--pcd-accent);
-  font: 760 .75em/1.22 Arial, Helvetica, sans-serif;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="table"] { grid-column: 1; width: 100%; margin: 0; }
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] { grid-column: 2; min-height: 20rem; }
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: 0; padding: 0; list-style: none;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] > li {
-  margin: 0; padding: .55rem .65rem; border: 3px solid var(--pcd-accent);
-  background: var(--pcd-surface-strong); font: 850 .7em/1.2 "Cascadia Mono", Consolas, monospace; text-align: center;
-}
 
 .reveal .slides section[data-layout="quiz-grid"] {
   display: grid !important; grid-template-rows: auto repeat(3, minmax(0, 1fr));
@@ -266,19 +222,14 @@
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-layout="measurement-example"],
-  .reveal .slides section[data-layout="experiment-example"],
   .reveal .slides section[data-layout="functional-dependence"] {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto auto;
   }
-  .reveal .slides section[data-layout="measurement-example"] > *,
-  .reveal .slides section[data-layout="experiment-example"] > *,
   .reveal .slides section[data-layout="functional-dependence"] > * {
     grid-column: 1 !important; grid-row: auto !important;
   }
   .reveal .slides section[data-layout="functional-dependence"] > [data-layout-slot="examples"],
-  .reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"],
   .reveal .slides section[data-layout="quiz-grid"] .poll-options {
     grid-template-columns: 1fr;
   }
@@ -286,70 +237,6 @@
 
 
 /* Browser-polish pass for nested charts and compact interactive teaching. */
-.reveal .slides section[data-layout="measurement-example"] {
-  grid-template-columns: minmax(17rem, .72fr) minmax(0, 1.28fr);
-  grid-template-rows: auto auto minmax(0, 1fr);
-  gap: .55rem 1rem;
-  padding: 1rem 1.35rem 1.15rem !important;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="intro"] {
-  padding: .42rem .72rem;
-  font-size: .72em;
-  line-height: 1.2;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="table"],
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="table"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] {
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"].retro-neon-chart-window,
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"].retro-neon-chart-window {
-  width: 100% !important;
-  max-width: 100%;
-  margin: 0;
-  padding: .45rem .55rem .35rem;
-  border-width: 3px;
-  box-shadow: 5px 5px 0 var(--pcd-chart-shadow);
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .retro-neon-chart-header,
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .retro-neon-chart-header {
-  position: static;
-  min-height: 0;
-  margin: -.45rem -.55rem .25rem;
-  padding: .3rem .55rem;
-  border-bottom-width: 2px;
-  font-size: .58em;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .retro-neon-chart-subtitle,
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .retro-neon-chart-subtitle {
-  display: none;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"],
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] :is(.d3-chart-runtime, .d3-chart-figure),
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] :is(.d3-chart-runtime, .d3-chart-figure) {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  min-height: 0;
-}
-.reveal .slides section[data-layout="measurement-example"] > [data-layout-slot="chart"] .d3-chart-svg,
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
-  flex: 1 1 auto;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  max-height: none;
-  overflow: hidden;
-}
-
 .reveal .slides section[data-layout="functional-dependence"] {
   grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
   grid-template-rows: auto minmax(0, 1fr) auto auto;
@@ -458,30 +345,6 @@
   padding: .65rem .8rem;
   font-size: 1.05em;
   text-align: center;
-}
-
-.reveal .slides section[data-layout="experiment-example"] {
-  grid-template-columns: minmax(20rem, .82fr) minmax(0, 1.18fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  gap: .45rem .9rem;
-  padding: .9rem 1.3rem 1rem !important;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="intro"] {
-  padding: .36rem .62rem;
-  font-size: .66em;
-  line-height: 1.14;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="chart"] .d3-chart-svg {
-  height: 100%;
-  max-height: none;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] {
-  gap: .5rem;
-}
-.reveal .slides section[data-layout="experiment-example"] > [data-layout-slot="roles"] > li {
-  padding: .45rem .55rem;
-  font-size: .63em;
-  line-height: 1.14;
 }
 
 .reveal .slides section[data-layout="quiz-grid"] {
