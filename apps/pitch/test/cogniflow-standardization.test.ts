@@ -216,7 +216,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes("mountPresentationProjections"), true);
   assert.equal(main.includes("mountCogniflowPresentationProjection"), false);
   assert.equal(main.includes('dataset.layout === "concept-specification"'), false);
-  assert.equal(main.includes('compositionProgressionProfile === "cards-with-footer"'), true);
+  assert.equal(main.includes('compositionProfile === "cards-with-footer"'), true);
   assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
@@ -350,7 +350,7 @@ test("alternate publication projection is generic and profile-gated", () => {
   assert.equal(profile.includes("publication: true"), true);
   assert.equal(
     runtime.includes(
-      'section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"]',
+      'section[data-composition="progression-strip"][data-composition-profile="cards-with-footer"]',
     ),
     true,
   );
@@ -442,7 +442,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(compositionPolicy.includes("isTrigCode"), true);
   assert.equal(preview.includes('semanticMultiView ? "semantic-multi-view"'), false);
   assert.equal(preview.includes('semanticCode ? "semantic-source"'), false);
-  assert.equal(preview.includes('data-composition-semantic-stage-profile'), true);
+  assert.equal(preview.includes('data-composition-profile'), true);
   assert.equal(preview.includes('inferredLayout?.family === "semantic-source"'), false);
   assert.equal(titleCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
@@ -454,8 +454,8 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(semanticSourceCss.includes('data-layout="semantic-source"'), false);
   assert.equal(semanticMultiCss.includes('data-layout="semantic-multi-view"'), false);
   assert.equal(knowledgeCss.includes('data-layout="semantic-source"'), false);
-  assert.equal(semanticSourceCss.includes('data-composition-semantic-stage-profile="source"'), true);
-  assert.equal(semanticMultiCss.includes('data-composition-semantic-stage-profile="multi-view"'), true);
+  assert.equal(semanticSourceCss.includes('data-composition-profile="source"'), true);
+  assert.equal(semanticMultiCss.includes('data-composition-profile="multi-view"'), true);
   assert.equal(main.includes("scene-cogniflow-title"), false);
   assert.equal(preview.includes("inferRevealLayoutFit"), false);
   assert.equal(preview.includes("inferRevealCompositionFit"), true);
@@ -477,7 +477,7 @@ test("production generator and browser regression contain no CogniFlow identity 
   assert.equal(diagramCheck.includes("--scene-id"), true);
   assert.equal(diagramCheck.includes("--expected-nodes"), true);
   assert.equal(
-    diagramCheck.includes('data-composition="visual-stage"][data-composition-visual-stage-profile="diagram"'),
+    diagramCheck.includes('data-composition="visual-stage"][data-composition-profile="diagram"'),
     true,
   );
   assert.equal(diagramCheck.includes('data-layout="diagram-stage"'), false);
