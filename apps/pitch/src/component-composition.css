@@ -147,56 +147,6 @@
   overflow: visible;
 }
 
-/* Shared adaptive card-collection primitive.
-   The renderer does not prescribe a fixed column count. Cards wrap only when their
-   intrinsic minimum width can no longer be respected. */
-.reveal [data-component-kind="card-collection"][data-composition-region="main"] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .6rem;
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-}
-
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]
-  > .definition-list-entry {
-  --pcd-card-hue: var(--definition-entry-hue, 205deg);
-  --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
-  box-sizing: border-box;
-  display: flex;
-  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem);
-  flex-direction: column;
-  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem));
-  min-height: 0;
-  margin: 0;
-  padding: .72rem .76rem;
-  border: 2px solid var(--pcd-card-stroke);
-  background: color-mix(in srgb, var(--pcd-card-stroke) 6%, var(--pcd-surface-strong));
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pcd-card-stroke) 12%, transparent);
-}
-
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]
-  .definition-list-term {
-  margin: 0 0 .35rem;
-  padding: 0 0 .3rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcd-card-stroke) 42%, transparent);
-  color: color-mix(in srgb, var(--pcd-card-stroke) 88%, var(--pcd-foreground));
-  font: 900 .68em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .035em;
-  text-transform: uppercase;
-}
-
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]
-  .definition-list-description {
-  margin: 0;
-  color: var(--pcd-foreground);
-  font: 860 clamp(.72em, 1.2vw, .88em)/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  overflow-wrap: normal;
-  word-break: normal;
-  text-wrap: pretty;
-}
-
 /* Shared visual primitive inside a main composition region. */
 .reveal [data-component-kind="visual"][data-composition-region="main"] {
   flex: 1 1 auto;
@@ -239,12 +189,6 @@
   color: var(--pcd-foreground);
   font: 720 .68em/1.18 Arial, Helvetica, sans-serif;
   text-align: left;
-}
-
-body[data-presentation-theme="dark"]
-  .reveal [data-component-kind="card-collection"][data-composition-region="main"]
-  > .definition-list-entry {
-  --pcd-card-stroke: hsl(var(--pcd-card-hue) 72% 66%);
 }
 
 @media (max-width: 900px) {
