@@ -1,0 +1,385 @@
+/* Generic ordered progression strip.
+   Profiles are inferred from component order, never semantic identity. */
+
+.reveal .slides section[data-composition="progression-strip"] {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: .8rem;
+  align-content: stretch;
+  padding: 1.4rem 2.05rem 1.4rem !important;
+}
+
+.reveal .slides section[data-composition="progression-strip"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0 0 .08rem;
+  max-width: none;
+  font-size: 2.48em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="prelude"],
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="prelude"] {
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="footer"] {
+  grid-row: 4;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="prelude"]
+  [data-component-kind="info-surface"],
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="info-surface"] {
+  box-sizing: border-box;
+  justify-self: center;
+  width: min(960px, 92%);
+  max-width: none;
+  margin: 0;
+  padding: .58rem 1rem .52rem;
+  border: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 12%, var(--pcd-surface-strong));
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent);
+  color: var(--pcd-accent);
+  font: 950 1.02em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .07em;
+  text-align: center;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="prelude"]
+  [data-component-kind="info-surface"] {
+  width: min(900px, 86%);
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="main"],
+.reveal .slides section[data-composition="progression-strip"]
+  > [data-composition-region-container="secondary"] {
+  grid-row: 3;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Shared ordered cards. */
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] {
+  display: grid;
+  gap: 4rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  margin: 0;
+  padding: .4rem 0 .25rem;
+  list-style: none;
+  counter-reset: pcd-progression;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li {
+  --pcd-progression-fill: #ffd982;
+  --pcd-progression-stroke: #c96a12;
+  --pcd-progression-text: #4a2500;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 19.7rem;
+  margin: 0;
+  padding: 1.55rem 1.45rem 1.35rem;
+  border: 5px solid var(--pcd-progression-stroke);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pcd-progression-fill) 96%, var(--pcd-surface-strong)) 0 24%,
+      color-mix(in srgb, var(--pcd-progression-fill) 76%, var(--pcd-surface-strong)) 24% 100%
+    );
+  box-shadow: 9px 9px 0 color-mix(in srgb, var(--pcd-progression-stroke) 28%, transparent);
+  color: var(--pcd-progression-text);
+  font: 875 1.12em/1.46 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  white-space: pre-line;
+  counter-increment: pcd-progression;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li::before {
+  content: counter(pcd-progression, decimal-leading-zero);
+  position: absolute;
+  right: .82rem;
+  bottom: .62rem;
+  color: color-mix(in srgb, var(--pcd-progression-stroke) 82%, transparent);
+  font: 950 2rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li::first-line {
+  font-size: 1.18em;
+  font-weight: 950;
+  letter-spacing: .025em;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(1) {
+  --pcd-progression-fill: #ffd982;
+  --pcd-progression-stroke: #c96a12;
+  --pcd-progression-text: #4a2500;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(2) {
+  --pcd-progression-fill: #8de7e2;
+  --pcd-progression-stroke: #168e9c;
+  --pcd-progression-text: #063d47;
+  transform: translateY(-.35rem);
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(3) {
+  --pcd-progression-fill: #d9b6ff;
+  --pcd-progression-stroke: #7046ad;
+  --pcd-progression-text: #351b56;
+}
+
+.reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:not(:last-child)::after {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  right: -3rem;
+  z-index: 3;
+  transform: translateY(-50%);
+  color: var(--pcd-accent);
+  font: 950 2rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(1) {
+  --pcd-progression-fill: #3a2811;
+  --pcd-progression-stroke: #f0a343;
+  --pcd-progression-text: #fff1d8;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(2) {
+  --pcd-progression-fill: #0e302f;
+  --pcd-progression-stroke: #4bd8d1;
+  --pcd-progression-text: #e5fffc;
+}
+body[data-presentation-theme="dark"] .reveal .slides section[data-composition="progression-strip"]
+  [data-component-kind="list-collection"] > li:nth-child(3) {
+  --pcd-progression-fill: #281d3d;
+  --pcd-progression-stroke: #b18cff;
+  --pcd-progression-text: #f2eaff;
+}
+
+/* Pure three-card progression. */
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"]
+  > [data-composition-region-container="main"] {
+  grid-column: 1 / -1;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-only"]
+  [data-component-kind="list-collection"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Two textual representations followed by a visual representation. */
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"] {
+  grid-template-columns: .84fr 1.06fr 1.20fr;
+  column-gap: 2.6rem;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="main"] {
+  grid-column: 1 / 3;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="secondary"] {
+  grid-column: 3;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  [data-component-kind="list-collection"] {
+  grid-template-columns: .84fr 1.06fr;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  [data-component-kind="list-collection"] > li:last-child::after {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  right: -3rem;
+  z-index: 3;
+  transform: translateY(-50%);
+  color: var(--pcd-accent);
+  font: 950 2rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="visual"] {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 19.7rem;
+  margin: .4rem 0 .25rem;
+  padding: .6rem;
+  border: 5px solid #7046ad;
+  background: color-mix(in srgb, #d9b6ff 76%, var(--pcd-surface-strong));
+  box-shadow: 9px 9px 0 color-mix(in srgb, #7046ad 28%, transparent);
+  overflow: hidden;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="visual"] {
+  border-color: #b18cff;
+  background: #281d3d;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure, .d3-flow-svg) {
+  width: 100%;
+  height: 100%;
+  min-height: 18rem;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  > [data-composition-region-container="secondary"]
+  .d3-flow-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Compact relational networks keep a lighter visual grammar than process flows. */
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node {
+  filter: drop-shadow(0 4px 0 color-mix(in srgb, #063d47 28%, transparent));
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
+  fill: #55d4da;
+  stroke: #073f49;
+  stroke-width: 5;
+  filter:
+    drop-shadow(0 -2px 0 #e8ffff)
+    drop-shadow(4px 5px 0 color-mix(in srgb, #073f49 38%, transparent));
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-label {
+  fill: #063d47;
+  stroke: #e8ffff;
+  stroke-width: 3px;
+  font: 950 15px/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge {
+  stroke-width: 3;
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge-label-panel {
+  fill: #cceff1;
+  stroke: #167d87;
+  stroke-width: 2.5;
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, #073f49 24%, transparent));
+}
+
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge-label {
+  fill: #064b55;
+  stroke: none;
+  font-size: 12.5px;
+  font-weight: 950;
+  letter-spacing: -.025em;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
+  fill: #0b6f7b;
+  stroke: #b8f9fd;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-label {
+  fill: #edffff;
+  stroke: #0b2533;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="progression-strip"] {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto auto auto !important;
+    gap: .7rem;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-composition="progression-strip"]
+    > [data-composition-region-container] {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .reveal .slides section[data-composition="progression-strip"]
+    [data-component-kind="list-collection"] {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+    height: auto;
+  }
+
+  .reveal .slides section[data-composition="progression-strip"]
+    [data-component-kind="list-collection"] > li {
+    min-height: 8.5rem;
+    transform: none;
+  }
+
+  .reveal .slides section[data-composition="progression-strip"]
+    [data-component-kind="list-collection"] > li::after,
+  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+    [data-component-kind="list-collection"] > li:last-child::after {
+    content: "▼";
+    top: auto;
+    right: 50%;
+    bottom: -1.25rem;
+    transform: translateX(50%);
+    font-size: 1.3rem;
+  }
+
+  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+    > [data-composition-region-container="secondary"]
+    [data-component-kind="visual"] {
+    min-height: 20rem;
+    margin-top: 0;
+  }
+}
