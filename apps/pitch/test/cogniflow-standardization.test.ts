@@ -131,6 +131,43 @@ test("legacy Reveal layout policy is retired from production rendering", () => {
 });
 
 
+test("composition variants use one generic profile channel", () => {
+  const preview = source("../src/preview.ts");
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
+  const productionSources = [
+    preview,
+    source("../src/main.ts"),
+    source("../src/component-composition.css"),
+    source("../src/evidence-primitives.css"),
+    source("../src/process-primitives.css"),
+    source("../src/support-workbench-primitives.css"),
+    source("../src/progression-primitives.css"),
+    source("../src/learning-stage-primitives.css"),
+    source("../src/visual-stage-primitives.css"),
+    source("../src/semantic-source-runtime.css"),
+    source("../src/semantic-multi-view-runtime.css"),
+    source("../src/knowledge-network-runtime.css"),
+    source("../src/presentation-projection.ts"),
+    source("../src/presentation-projection.css"),
+  ].join("\n");
+
+  assert.equal(compositionPolicy.includes("readonly profile?: RevealCompositionProfile"), true);
+  assert.equal(preview.includes('setAttribute("data-composition-profile"'), true);
+  for (const legacy of [
+    "data-composition-main-profile",
+    "data-composition-evidence-profile",
+    "data-composition-process-profile",
+    "data-composition-workbench-profile",
+    "data-composition-progression-profile",
+    "data-composition-learning-profile",
+    "data-composition-visual-stage-profile",
+    "data-composition-semantic-stage-profile",
+  ]) {
+    assert.equal(productionSources.includes(legacy), false, `legacy profile channel remains: ${legacy}`);
+  }
+});
+
+
 test("production Pitch rendering no longer emits or consumes legacy layout slots", () => {
   const preview = source("../src/preview.ts");
   const productionCss = [
