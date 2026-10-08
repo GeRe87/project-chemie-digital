@@ -243,7 +243,7 @@ export function inferRevealCompositionFit(
   const density = densityForScore(totalScore);
 
   if (
-    composition.kind === "worked-evidence"
+    composition.kind === "evidence-stage"
     && composition.profile === "context-data-visual"
   ) {
     return {
