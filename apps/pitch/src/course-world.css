@@ -225,7 +225,7 @@
 
 .pcd-course-world-active .reveal { visibility: hidden; }
 
-.reveal .slides section[data-layout="course-level-buffer"] {
+.reveal .slides section[data-course-level-buffer="true"] {
   display: grid !important;
   place-content: center;
   gap: 1rem;
@@ -237,7 +237,7 @@
   font: 950 1.05em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .08em;
 }
-.reveal .slides section[data-layout="course-level-buffer"] h2 {
+.reveal .slides section[data-course-level-buffer="true"] h2 {
   margin: 0;
   font-size: 3.1em;
   line-height: 1;
