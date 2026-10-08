@@ -921,12 +921,14 @@ test("renders worked-evidence regions from generic block structure", () => {
 
   const regions = section.children.slice(1).map((node) =>
     node.attributes.get("data-composition-region-container")
+      ?? node.attributes.get("data-composition-region")
   );
   assert.deepEqual(regions, ["context", "primary", "secondary", "support", "footer"]);
   assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "group");
   assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "data-surface");
   assert.equal(section.children[3]!.children[0]!.attributes.get("data-component-kind"), "visual");
-  assert.equal(section.children[4]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.equal(section.children[4]!.attributes.get("data-component-kind"), "list-collection");
+  assert.equal(section.children[4]!.attributes.get("data-composition-region"), "support");
   assert.equal(section.children[5]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
 
   destroy();
