@@ -524,7 +524,8 @@
 .reveal .slides section[data-composition="worked-evidence"]
   > [data-composition-region-container="support"]
   [data-component-kind="list-collection"] {
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   justify-self: stretch;
   width: 100% !important;
   max-width: none !important;
@@ -534,6 +535,8 @@
 .reveal .slides section[data-composition="worked-evidence"]
   > [data-composition-region-container="support"]
   [data-component-kind="list-collection"] > li {
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 3.7rem;
   font-size: var(--pcd-worked-list-font);
   border-top-width: 4px;
@@ -643,6 +646,6 @@
   .reveal .slides section[data-composition="worked-evidence"]
     > [data-composition-region-container="support"]
     [data-component-kind="list-collection"] {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
