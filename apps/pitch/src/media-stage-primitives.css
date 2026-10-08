@@ -1,7 +1,7 @@
 /* Generic full-viewport media stage.
    Structural trigger: heading + one prose/media group. */
 
-.reveal .slides section[data-composition="media-stage"] {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
   position: relative;
   display: block !important;
   padding: 0 !important;
@@ -13,23 +13,23 @@
   backdrop-filter: none !important;
 }
 
-.reveal .slides section[data-composition="media-stage"]:has(.media-reference[data-media-type^="image/"]) {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]:has(.media-reference[data-media-type^="image/"]) {
   background: #f6faf9 !important;
 }
 
-body.pcd-background-active .reveal .slides section[data-composition="media-stage"] {
+body.pcd-background-active .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
   border: 0 !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
 }
 
-.reveal .slides section[data-composition="media-stage"]::before,
-.reveal .slides section[data-composition="media-stage"]::after {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]::before,
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]::after {
   content: none !important;
 }
 
-.reveal .slides section[data-composition="media-stage"] > [data-composition-region="heading"],
-.reveal .slides section[data-composition="media-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] > [data-composition-region="heading"],
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]
   > [data-composition-region-container="main"]
   [data-component-kind="group"] > .lead {
   position: absolute !important;
@@ -43,7 +43,7 @@ body.pcd-background-active .reveal .slides section[data-composition="media-stage
   border: 0 !important;
 }
 
-.reveal .slides section[data-composition="media-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]
   > [data-composition-region-container="main"] {
   position: absolute;
   inset: 0;
@@ -51,7 +51,7 @@ body.pcd-background-active .reveal .slides section[data-composition="media-stage
   padding: 0;
 }
 
-.reveal .slides section[data-composition="media-stage"]
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"]
   [data-component-kind="group"][data-composition-region="main"] {
   position: absolute;
   inset: 0;
@@ -59,7 +59,7 @@ body.pcd-background-active .reveal .slides section[data-composition="media-stage
   padding: 0;
 }
 
-.reveal .slides section[data-composition="media-stage"] .media-reference {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference {
   position: absolute;
   inset: 0;
   display: block;
@@ -71,12 +71,12 @@ body.pcd-background-active .reveal .slides section[data-composition="media-stage
   background: #000;
 }
 
-.reveal .slides section[data-composition="media-stage"] .media-reference[data-media-type^="image/"] {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference[data-media-type^="image/"] {
   background: #f6faf9;
 }
 
-.reveal .slides section[data-composition="media-stage"] .media-reference img,
-.reveal .slides section[data-composition="media-stage"] .media-reference video {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference img,
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference video {
   display: block;
   width: 100%;
   max-width: none;
@@ -88,15 +88,15 @@ body.pcd-background-active .reveal .slides section[data-composition="media-stage
   object-position: center center;
 }
 
-.reveal .slides section[data-composition="media-stage"] .media-reference img {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference img {
   background: #f6faf9;
 }
 
-.reveal .slides section[data-composition="media-stage"] .media-reference video {
+.reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference video {
   background: #000;
 }
 
-body.reveal-scroll .reveal .slides section[data-composition="media-stage"] {
+body.reveal-scroll .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
   width: 100% !important;
   height: 100svh !important;
   min-height: 100svh !important;
@@ -107,7 +107,7 @@ body.reveal-scroll .reveal .slides section[data-composition="media-stage"] {
   scroll-snap-stop: always;
 }
 
-body.reveal-scroll .reveal .slides section[data-composition="media-stage"] .media-reference {
+body.reveal-scroll .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference {
   inset: 0 !important;
   height: 100% !important;
 }
@@ -134,7 +134,7 @@ body.pcd-full-media-active .reveal .slides {
   background: #000 !important;
 }
 
-body.pcd-full-media-active .reveal .slides section[data-composition="media-stage"] {
+body.pcd-full-media-active .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
   box-sizing: border-box !important;
   width: 100vw !important;
   min-width: 100vw !important;
@@ -151,15 +151,15 @@ body.pcd-full-media-active .reveal .slides section[data-composition="media-stage
 }
 
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"] > [data-composition-region-container="main"],
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] > [data-composition-region-container="main"],
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"] [data-component-kind="group"][data-composition-region="main"],
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] [data-component-kind="group"][data-composition-region="main"],
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"] .media-reference,
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference,
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"] .media-reference img,
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference img,
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"] .media-reference video {
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference video {
   width: 100vw !important;
   height: 100svh !important;
   max-width: none !important;
@@ -172,7 +172,7 @@ body.pcd-full-media-active.reveal-scroll .reveal .slides {
 }
 
 @media (max-width: 900px) {
-  body.reveal-scroll .reveal .slides section[data-composition="media-stage"] {
+  body.reveal-scroll .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
     width: 100vw !important;
     height: 100svh !important;
     min-height: 100svh !important;
