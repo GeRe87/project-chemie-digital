@@ -787,3 +787,16 @@ test("renders generic evidence-split regions from table and chart semantics", ()
 
   destroy();
 });
+
+
+test("legacy teaching evidence families no longer own CSS presentation", () => {
+  const legacyCss = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
+  const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.equal(legacyCss.includes('data-layout="measurement-example"'), false);
+  assert.equal(legacyCss.includes('data-layout="experiment-example"'), false);
+  assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
+  assert.equal(main.includes('import "./evidence-primitives.css"'), true);
+  assert.doesNotMatch(evidenceCss, /data-layout=/u);
+});
