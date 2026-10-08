@@ -520,7 +520,7 @@ test("process progression uses the wide profile for a longer linear process", ()
 });
 
 
-test("support-workbench infers visual dual-reference structure", () => {
+test("learning-stage infers visual dual-reference structure", () => {
   const scene: Scene = {
     id: "opaque:visual-dual-reference",
     source: [{ resourceId: "resource:visual-dual-reference" }],
@@ -545,7 +545,7 @@ test("support-workbench infers visual dual-reference structure", () => {
   };
 
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.kind, "support-workbench");
+  assert.equal(plan.kind, "learning-stage");
   assert.equal(plan.profile, "visual-dual-reference");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
@@ -561,7 +561,7 @@ test("support-workbench infers visual dual-reference structure", () => {
   );
 });
 
-test("support-workbench infers list plus code reference structure", () => {
+test("learning-stage infers list plus code reference structure", () => {
   const code: SceneBlock = {
     id: "code",
     kind: "code",
@@ -587,7 +587,7 @@ test("support-workbench infers list plus code reference structure", () => {
   };
 
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.kind, "support-workbench");
+  assert.equal(plan.kind, "learning-stage");
   assert.equal(plan.profile, "list-code-reference");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
