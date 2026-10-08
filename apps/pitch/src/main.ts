@@ -279,7 +279,7 @@ function syncNavigationMode(): void {
   const current = deck.getCurrentSlide() as HTMLElement | undefined;
   const next = current?.nextElementSibling instanceof HTMLElement ? current.nextElementSibling : undefined;
   const sameConceptSequence =
-    current?.dataset.composition === "progression-strip"
+    current?.dataset.composition === "progression-stage"
     && current?.dataset.compositionProfile === "cards-with-footer"
     && next?.dataset.composition === current.dataset.composition
     && next?.dataset.compositionProfile === current.dataset.compositionProfile;
@@ -358,7 +358,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
   const currentSlide = deck.getCurrentSlide() as HTMLElement | undefined;
   const freezeForLayout =
     (
-      currentSlide?.dataset.composition === "progression-strip"
+      currentSlide?.dataset.composition === "progression-stage"
       && currentSlide?.dataset.compositionProfile === "cards-with-footer"
     )
     || currentSlide?.dataset.composition === "media-stage";
