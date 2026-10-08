@@ -8,8 +8,6 @@ import "./presentation-background.css";
 import "./chart-theme.css";
 import "./diagram-tokens.css";
 import "./flow-theme.css";
-import "./analysis-result-layout.css";
-import "./case-study-layout.css";
 import "./diagram-stage-layout.css";
 import "./process-context-layout.css";
 import "./card-sequence-layout.css";
