@@ -108,10 +108,22 @@ const conceptSpecificationDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview selects concept-specification from generic scene structure", () => {
+test("pitch preview projects concept cards through generic cards-with-footer progression", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [conceptSpecificationDocument]);
-  assert.equal(root.children[0]?.attributes.get("data-layout"), "concept-specification");
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), "concept-specification");
+  assert.equal(section.attributes.get("data-composition"), "progression-strip");
+  assert.equal(section.attributes.get("data-composition-progression-profile"), "cards-with-footer");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "main", "footer"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
   destroy();
 });
 
