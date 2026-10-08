@@ -23,7 +23,7 @@ import "./knowledge-network-runtime.css";
 import "./semantic-source-runtime.css";
 import "./semantic-multi-view-runtime.css";
 import "./analytical-proof-runtime.css";
-import "./full-media-layout.css";
+import "./media-stage-primitives.css";
 import "./lecture-readability.css";
 import "./presentation-mobile.css";
 import "./presentation-clock.css";
@@ -272,7 +272,7 @@ const presentationVideos = Array.from(
 );
 
 function isFullMediaScene(scene: HTMLElement | undefined): boolean {
-  return scene?.dataset.layout === "full-media";
+  return scene?.dataset.composition === "media-stage";
 }
 
 function syncNavigationMode(): void {
@@ -361,7 +361,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
       currentSlide?.dataset.composition === "progression-strip"
       && currentSlide?.dataset.compositionProgressionProfile === "cards-with-footer"
     )
-    || currentSlide?.dataset.layout === "full-media";
+    || currentSlide?.dataset.composition === "media-stage";
   const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
   if (appearance.view === "scroll" && (freezeForLayout || freezeForActiveStage)) return;
   backgroundRuntime.setProgress(offset);
