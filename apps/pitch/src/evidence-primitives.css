@@ -81,7 +81,7 @@
 }
 
 /* Prelude/support prose shares one evidence-context surface. */
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
   width: 100%;
@@ -99,7 +99,7 @@
 /* Shared structured data surface. */
 /* Tables keep their intrinsic row height. Forcing a table to the evidence-row height
    stretches every row and can push the caption/table box beyond the slide boundary. */
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] {
   box-sizing: border-box;
   align-self: flex-start;
@@ -119,7 +119,7 @@
   overflow: hidden;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] caption {
   caption-side: top;
   box-sizing: border-box;
@@ -133,7 +133,7 @@
   text-align: left;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] thead th {
   padding: .56rem .65rem;
   border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 54%, transparent);
@@ -144,12 +144,12 @@
   vertical-align: middle;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] :is(th, td) + :is(th, td) {
   border-left: 1px solid color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] tbody td {
   padding: .56rem .65rem;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
@@ -161,18 +161,18 @@
   overflow-wrap: break-word;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="data-surface"] tbody tr:last-child td {
   border-bottom: 0;
 }
 
 /* Shared chart/visual evidence surface. */
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"] {
   display: flex;
   flex: 1 1 auto;
@@ -185,14 +185,14 @@
   overflow: hidden;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"].retro-neon-chart-window {
   padding: .45rem .55rem .35rem;
   border-width: 3px;
   box-shadow: 5px 5px 0 var(--pcd-chart-shadow);
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"] .retro-neon-chart-header {
   position: static;
   min-height: 0;
@@ -202,12 +202,12 @@
   font-size: .58em;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"] .retro-neon-chart-subtitle {
   display: none;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"] :is(.d3-chart-runtime, .d3-chart-figure) {
   display: flex;
   flex: 1 1 auto;
@@ -216,7 +216,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="visual"] .d3-chart-svg {
   flex: 1 1 auto;
   width: 100%;
@@ -227,7 +227,7 @@
 }
 
 /* Generic explanatory lists can act as evidence or support without a special layout family. */
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="list-collection"] {
   box-sizing: border-box;
   display: grid;
@@ -240,20 +240,20 @@
   list-style: none;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   > [data-composition-region-container="primary"]
   [data-component-kind="list-collection"] {
   grid-template-columns: 1fr;
   align-content: stretch;
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   > [data-composition-region-container="footer"]
   [data-component-kind="list-collection"] {
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
-.reveal .slides section[data-composition="evidence-split"]
+.reveal .slides section[data-composition-evidence-profile]
   [data-component-kind="list-collection"] > li {
   box-sizing: border-box;
   display: flex;
@@ -297,6 +297,345 @@
 
   .reveal .slides section[data-composition="evidence-split"]
     > [data-composition-region-container="footer"]
+    [data-component-kind="list-collection"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Visual evidence story: two primary evidence surfaces followed by a visual process/support row. */
+.reveal .slides section[data-composition="evidence-story"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(18rem, .62fr) minmax(10rem, .38fr);
+  gap: .7rem 1rem;
+  align-content: stretch;
+  padding: 1rem 1.35rem 1.05rem !important;
+}
+
+.reveal .slides section[data-composition="evidence-story"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="primary"] {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="secondary"] {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  align-self: stretch;
+  justify-self: center;
+  width: min(84%, 64rem);
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="visual"],
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="data-surface"] {
+  height: 100%;
+  max-height: 100%;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="visual"] {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: visible;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure) {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-story"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="visual"] .d3-flow-svg {
+  width: 100%;
+  height: 100% !important;
+  min-height: 9rem !important;
+  max-height: 100%;
+  overflow: visible;
+}
+
+/* Worked evidence: contextual source/problem plus paired structured evidence and discussion. */
+.reveal .slides section[data-composition="worked-evidence"] {
+  --pcd-worked-gap: .7rem;
+  --pcd-worked-pad: .95rem 1.1rem .9rem;
+  --pcd-worked-context-font: .78em;
+  --pcd-worked-list-font: .66em;
+  box-sizing: border-box;
+  display: grid !important;
+  grid-template-columns: minmax(13rem, .76fr) minmax(0, 1fr) minmax(0, 1.12fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: var(--pcd-worked-gap);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding: var(--pcd-worked-pad) !important;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-density="dense"] {
+  --pcd-worked-gap: .58rem;
+  --pcd-worked-pad: .82rem .95rem .76rem;
+  --pcd-worked-context-font: .72em;
+  --pcd-worked-list-font: .61em;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-density="compact"] {
+  --pcd-worked-gap: .46rem;
+  --pcd-worked-pad: .68rem .78rem .62rem;
+  --pcd-worked-context-font: .67em;
+  --pcd-worked-list-font: .57em;
+}
+
+.reveal .slides section[data-composition="worked-evidence"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.05em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"] {
+  grid-column: 1;
+  grid-row: 2 / 4;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"] {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="secondary"] {
+  grid-column: 3;
+  grid-row: 2;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="support"] {
+  grid-column: 2 / -1;
+  grid-row: 3;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: .62rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 62%, transparent);
+  background: color-mix(in srgb, var(--pcd-accent) 6%, var(--pcd-surface-strong));
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 10%, transparent);
+  overflow: hidden;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] > .lead {
+  margin: 0;
+  font-size: var(--pcd-worked-context-font);
+  line-height: 1.2;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] > .media-reference {
+  display: grid;
+  place-items: end center;
+  min-width: 0;
+  min-height: 0;
+  margin: .15rem 0 0;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] > .media-reference img {
+  display: block;
+  width: min(100%, 22rem);
+  height: 100%;
+  max-width: 100%;
+  max-height: 22rem;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="support"]
+  [data-component-kind="list-collection"] {
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: .48rem;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="support"]
+  [data-component-kind="list-collection"] > li {
+  min-height: 3.7rem;
+  font-size: var(--pcd-worked-list-font);
+  border-top-width: 4px;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="info-surface"] {
+  width: min(60rem, 88%);
+  margin: 0 auto;
+  padding: .42rem .68rem;
+  border: 2px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-accent) 8%);
+  color: var(--pcd-accent);
+  font: 850 .72em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: center;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="evidence-right"] {
+  grid-template-columns: minmax(12rem, .66fr) minmax(0, 1.03fr) minmax(0, 1.31fr);
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"] {
+  grid-template-columns: minmax(13rem, .78fr) minmax(0, 1.22fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="context"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="primary"] {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="secondary"] {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="support"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 5;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] {
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, .8fr);
+  grid-template-rows: auto;
+}
+
+.reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] > .media-reference img {
+  max-height: 11rem;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="evidence-story"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-composition="evidence-story"]
+    > [data-composition-region-container] {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    width: 100%;
+  }
+
+  .reveal .slides section[data-composition="worked-evidence"] {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto auto auto auto !important;
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+    padding: .8rem !important;
+  }
+
+  .reveal .slides section[data-composition="worked-evidence"]
+    > [data-composition-region-container] {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .reveal .slides section[data-composition="worked-evidence"]
+    > [data-composition-region-container="context"]
+    [data-component-kind="group"] {
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, .72fr);
+    grid-template-rows: auto;
+  }
+
+  .reveal .slides section[data-composition="worked-evidence"]
+    > [data-composition-region-container="support"]
     [data-component-kind="list-collection"] {
     grid-template-columns: 1fr;
   }
