@@ -77,10 +77,16 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   assert.equal(root.children.length, 9);
   const first = root.children[0]!;
   assert.equal(first.attributes.get("data-source-path-id"), STANDARD_DEVIATION_PATH_ID);
+  assert.equal(first.attributes.get("data-composition"), "statement-card");
   assert.equal(first.children[0]?.textContent, "Standardabweichung");
-  assert.equal(first.children[1]?.attributes.get("data-resource-id"), "ex:sd-definition-basic-de");
-  assert.match(first.children[1]?.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
-  assert.equal(first.children[1]?.attributes.get("data-relation-path"), "cd:hasDefinition");
+  const mainRegion = first.children[1]!;
+  assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
+  const definition = mainRegion.children[0]!;
+  assert.equal(definition.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(definition.attributes.get("data-composition-region"), "main");
+  assert.equal(definition.attributes.get("data-resource-id"), "ex:sd-definition-basic-de");
+  assert.match(definition.attributes.get("data-provenance-ids") ?? "", /graph\/specifications\/standard-deviation/);
+  assert.equal(definition.attributes.get("data-relation-path"), "cd:hasDefinition");
   destroy(); assert.equal(root.children.length, 0); destroy();
 });
 
