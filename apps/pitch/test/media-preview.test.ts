@@ -67,8 +67,16 @@ test("pitch preview renders group and accessible image from media-reference bloc
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [document]);
   const section = root.children[0]!;
-  const group = section.children[1]!;
+  assert.equal(section.attributes.get("data-composition"), "media-stage");
+
+  const mainRegion = section.children[1]!;
+  assert.equal(mainRegion.className, "pcd-composition-region");
+  assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
+
+  const group = mainRegion.children[0]!;
   assert.equal(group.className, "scene-group");
+  assert.equal(group.attributes.get("data-component-kind"), "group");
+  assert.equal(group.attributes.get("data-composition-region"), "main");
   assert.equal(group.attributes.get("data-group-block-id"), "block:attribution-group");
   assert.equal(group.children[0]?.textContent, "Funding");
 
