@@ -26,7 +26,7 @@ def resolve_scene_id(page, requested_scene_id):
         return requested_scene_id
 
     scene_id = page.evaluate("""() => {
-      const preferred = document.querySelector('section[data-composition="visual-stage"][data-composition-visual-stage-profile="diagram"] .d3-flow-svg');
+      const preferred = document.querySelector('section[data-composition="visual-stage"][data-composition-profile="diagram"] .d3-flow-svg');
       const fallback = document.querySelector('section .d3-flow-svg');
       const scene = (preferred ?? fallback)?.closest('section[id]');
       return scene?.id ?? null;
