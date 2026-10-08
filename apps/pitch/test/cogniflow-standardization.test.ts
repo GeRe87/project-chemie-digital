@@ -492,6 +492,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const knowledgeCss = source("../src/knowledge-network-runtime.css");
 
   assert.equal(compositionPolicy.includes('"hero-attributions"'), true);
+  assert.equal(compositionPolicy.includes('"hero-stage"'), false);
   assert.equal(compositionPolicy.includes('"semantic-stage"'), true);
   assert.equal(compositionPolicy.includes('"visual-stage"'), true);
   assert.equal(compositionPolicy.includes("isAttributionMediaGroup"), true);
