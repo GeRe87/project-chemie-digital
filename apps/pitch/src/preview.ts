@@ -496,6 +496,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     if (composition.workbenchProfile) section.setAttribute("data-composition-workbench-profile", composition.workbenchProfile);
     if (composition.progressionProfile) section.setAttribute("data-composition-progression-profile", composition.progressionProfile);
     if (composition.learningProfile) section.setAttribute("data-composition-learning-profile", composition.learningProfile);
+    if (composition.visualStageProfile) section.setAttribute("data-composition-visual-stage-profile", composition.visualStageProfile);
     section.setAttribute("style", `--pcd-composition-main-count: ${composition.mainCount}`);
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
@@ -523,6 +524,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
           "support-workbench",
           "progression-strip",
           "learning-stage",
+          "visual-stage",
         ].includes(composition.kind)
       ) {
         return section;
