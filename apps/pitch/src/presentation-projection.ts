@@ -131,7 +131,7 @@ function mountProjectionForScene(scene: HTMLElement): () => void {
 export function mountPresentationProjections(root: HTMLElement): () => void {
   const destroyers = Array.from(
     root.querySelectorAll<HTMLElement>(
-      'section[data-composition="progression-strip"][data-composition-profile="cards-with-footer"]',
+      'section[data-composition="progression-stage"][data-composition-profile="cards-with-footer"]',
     ),
   ).map(mountProjectionForScene);
 
