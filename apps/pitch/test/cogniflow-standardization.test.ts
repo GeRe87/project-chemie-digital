@@ -77,7 +77,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-clock.css"),
     source("../src/presentation-laser-pointer.ts"),
     source("../src/presentation-laser-pointer.css"),
-    source("../src/full-media-layout.css"),
+    source("../src/media-stage-primitives.css"),
     source("../src/presentation-mobile.css"),
     source("../src/hero-title-panel.css"),
     source("../src/semantic-source-runtime.css"),
@@ -143,7 +143,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
-  assert.equal(main.includes('import "./full-media-layout.css"'), true);
+  assert.equal(main.includes('import "./full-media-layout.css"'), false);
+  assert.equal(main.includes('import "./media-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./cogniflow-showcase.css"'), false);
   assert.equal(main.includes('import "./cogniflow-take-home.css"'), false);
   assert.equal(main.includes('import "./cogniflow-closing.css"'), false);
@@ -329,16 +330,18 @@ test("presenter clock and laser pointer are generic profile capabilities", () =>
 test("full-media showcase behavior is structural rather than scene-id driven", () => {
   const main = source("../src/main.ts");
   const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
-  const css = source("../src/full-media-layout.css");
+  const css = source("../src/media-stage-primitives.css");
 
   assert.equal(policy.includes('"full-media"'), true);
   assert.equal(policy.includes("isFullMediaGroup"), true);
   assert.equal(css.toLowerCase().includes("cogniflow"), false);
   assert.equal(css.includes("section[id="), false);
+  assert.equal(css.includes('data-layout="full-media"'), false);
   assert.equal(main.includes("showcaseSceneIds"), false);
   assert.equal(main.includes("hardCutSceneIds"), false);
   assert.equal(main.includes("frozenBackgroundSceneIds"), false);
-  assert.equal(main.includes('dataset.layout === "full-media"'), true);
+  assert.equal(main.includes('dataset.layout === "full-media"'), false);
+  assert.equal(main.includes('dataset.composition === "media-stage"'), true);
   assert.equal(main.includes("pcd-full-media-active"), true);
 });
 
