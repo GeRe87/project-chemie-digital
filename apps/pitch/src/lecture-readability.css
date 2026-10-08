@@ -85,91 +85,40 @@ body[data-presentation-readability="lecture"] .reveal .d3-edge-label {
   font-size: var(--pcd-lecture-caption) !important;
 }
 
-/* Dense/compact remains a geometry signal in lecture mode; it must never reduce
-   text below the room-readable floor. */
-body[data-presentation-readability="lecture"] .reveal .slides section[data-layout="case-study"] {
-  --pcd-case-problem-font: .96em;
-  --pcd-case-table-font: .82em;
-  --pcd-case-discussion-font: .86em;
-  --pcd-case-chart-caption-font: .74em;
-  --pcd-case-chart-header-font: .82em;
-  --pcd-case-card-pad: .68rem;
-  --pcd-case-chart-height: clamp(30rem, 60vh, 34rem);
-}
-
-body[data-presentation-readability="lecture"] .reveal .slides section[data-layout="case-study"][data-layout-density="dense"],
-body[data-presentation-readability="lecture"] .reveal .slides section[data-layout="case-study"][data-layout-density="compact"] {
-  --pcd-case-problem-font: .96em;
-  --pcd-case-table-font: .82em;
-  --pcd-case-discussion-font: .86em;
-  --pcd-case-chart-caption-font: .74em;
-  --pcd-case-chart-header-font: .82em;
-  --pcd-case-card-pad: .62rem;
-  --pcd-case-chart-height: clamp(30rem, 60vh, 34rem);
-}
-
-/* Lecture case studies use two primary columns. Problem + raw evidence live on
-   the left; the analysis gets the larger right-hand visual field. */
+/* Worked-evidence lecture readability adjusts components, never composition tracks. */
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"][data-layout-variant="balanced"],
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"][data-layout-variant="evidence-right"] {
-  grid-template-columns: minmax(0, .78fr) minmax(0, 1.42fr);
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  grid-template-areas:
-    "heading heading"
-    "problem analysis"
-    "data analysis"
-    "discussion discussion";
-  column-gap: 1rem;
-  row-gap: .72rem;
-  padding: .9rem 1.1rem .82rem !important;
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] > .lead {
+  font-size: max(var(--pcd-worked-context-font), 24px);
+  line-height: 1.22;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="problem"] {
-  min-height: 0;
-}
-
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="problem"] > figure img {
-  max-height: 12.5rem;
-}
-
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="data"] {
-  align-self: end;
-}
-
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="data"] th,
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="data"] td {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] :is(th, td) {
   padding: .5rem .42rem;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="analysis"] {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="visual"] {
   align-self: stretch;
-  display: grid;
-  align-content: start;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="discussion"] {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  section[data-composition="worked-evidence"]
+  > [data-composition-region="support"][data-component-kind="list-collection"] {
   gap: .8rem;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="discussion"]:has(> li:nth-child(3)) {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-layout="case-study"] > [data-layout-slot="discussion"] > li {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region="support"][data-component-kind="list-collection"] > li {
   min-height: 5.4rem;
-  font-size: max(.86em, 26px);
+  font-size: max(var(--pcd-worked-list-font), 26px);
   line-height: 1.2;
 }
 
