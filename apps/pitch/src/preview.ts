@@ -508,6 +508,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (
         !placement
         || placement.region === "heading"
+        || (composition.kind === "worked-evidence" && placement.region === "support")
         || ![
           "main-aside-note",
           "card-deck",
