@@ -25,9 +25,7 @@ export type RevealCompositionKind =
   | "stack"
   | "main-aside-note"
   | "card-deck"
-  | "evidence-split"
-  | "evidence-story"
-  | "worked-evidence"
+  | "evidence-stage"
   | "process-story"
   | "support-workbench"
   | "progression-strip"
@@ -597,7 +595,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[1]!, "secondary", 0));
     placements.push(placement(body[2]!, "footer", 0));
     return {
-      kind: "evidence-story",
+      kind: "evidence-stage",
       placements,
       mainCount: 3,
       profile: "visual-data-flow",
@@ -622,7 +620,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[3]!, "support", 0));
     if (body[4]) placements.push(placement(body[4], "footer", 0));
     return {
-      kind: "worked-evidence",
+      kind: "evidence-stage",
       placements,
       mainCount: 4,
       profile: "context-data-visual",
@@ -652,7 +650,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       placements.push(placement(second, "secondary", 0));
       after.forEach((item, index) => placements.push(placement(item, "footer", index)));
       return {
-        kind: "evidence-split",
+        kind: "evidence-stage",
         placements,
         mainCount: 2,
         profile,
