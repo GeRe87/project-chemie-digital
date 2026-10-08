@@ -149,12 +149,23 @@ const hierarchyFlowDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview exposes generic hierarchy-flow slots", () => {
+test("pitch preview exposes generic compact process-story regions", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [hierarchyFlowDocument]);
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), "hierarchy-flow");
-  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "intro", "diagram", "takeaway"]);
+  assert.equal(section.attributes.get("data-composition"), "process-story");
+  assert.equal(section.attributes.get("data-composition-process-profile"), "compact-linear");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "prelude", "main", "footer"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "visual");
+  assert.equal(section.children[3]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
   destroy();
 });
 
