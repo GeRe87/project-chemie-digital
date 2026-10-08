@@ -86,6 +86,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   for (const genericSource of genericSources) {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
     assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
+    assert.equal(genericSource.includes('data-composition="single"'), false);
     assert.equal(genericSource.includes('data-composition="hero-stage"'), false);
     assert.equal(genericSource.includes('data-composition="support-workbench"'), false);
     assert.equal(genericSource.includes('data-composition="process-story"'), false);
@@ -96,7 +97,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 
 test("retired composition kinds stay out of the renderer policy", () => {
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
-  for (const retired of ["hero-stage", "support-workbench", "process-story", "progression-strip"]) {
+  for (const retired of ["single", "hero-stage", "support-workbench", "process-story", "progression-strip"]) {
     assert.equal(compositionPolicy.includes(`"${retired}"`), false);
   }
 });
@@ -482,7 +483,7 @@ test("take-home, closing and portrait viewport no longer depend on CogniFlow ide
   assert.equal(composition.toLowerCase().includes("cogniflow"), false);
   assert.equal(mobile.toLowerCase().includes("cogniflow"), false);
   assert.equal(
-    composition.includes('section[data-composition="single"][data-composition-main-count="0"]'),
+    composition.includes('section[data-composition="stack"][data-composition-main-count="0"]'),
     true,
   );
   assert.equal(composition.includes('data-layout="closing"'), false);
