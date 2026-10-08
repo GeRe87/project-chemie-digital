@@ -183,7 +183,22 @@ test("ordinary content remains a generic stack when no richer composition applie
     blocks: [prose("heading", "introduce"), prose("body", "explain")],
     readingOrder: ["heading", "body"],
   };
-  assert.equal(inferRevealCompositionPlan(scene).kind, "single");
+  assert.equal(inferRevealCompositionPlan(scene).kind, "stack");
+});
+
+
+test("heading-only scenes use the generic zero-body stack fallback", () => {
+  const scene: Scene = {
+    id: "heading-only",
+    source: [{ resourceId: "resource:heading-only" }],
+    blocks: [prose("heading", "introduce")],
+    readingOrder: ["heading"],
+  };
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "stack",
+    mainCount: 0,
+    placements: [{ blockId: "heading", region: "heading", index: 0 }],
+  });
 });
 
 
