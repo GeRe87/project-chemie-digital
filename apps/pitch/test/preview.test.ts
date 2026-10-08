@@ -560,26 +560,27 @@ test("generic flow-card styling and structured space balancing remain identity-f
     layoutCss,
     /section\[data-layout="quiz-grid"\][\s\S]*?\.poll-local-feedback\s*\{[\s\S]*?margin-top:\s*\.65rem/u,
   );
+  const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
   assert.match(
-    layoutCss,
-    /data-layout-slot="chart"[\s\S]*?\.d3-chart-svg[\s\S]*?height:\s*100%[\s\S]*?max-height:\s*none/u,
+    evidenceCss,
+    /data-component-kind="visual"[\s\S]*?\.d3-chart-svg[\s\S]*?height:\s*100%[\s\S]*?max-height:\s*none/u,
   );
 
-  const genericRuntimeAndStyles = `${flowRenderer}\n${flowCss}\n${layoutCss}`.toLowerCase();
+  const genericRuntimeAndStyles = `${flowRenderer}\n${flowCss}\n${layoutCss}\n${evidenceCss}`.toLowerCase();
   assert.equal(genericRuntimeAndStyles.includes("scene:chemometrics"), false);
   assert.equal(genericRuntimeAndStyles.includes("uv/vis calibration"), false);
 });
 
 
-test("table-chart teaching layouts use generic data-card table styling", () => {
-  const css = readFileSync(new URL("../src/learning-concept-layouts.css", import.meta.url), "utf8");
-  assert.match(
-    css,
-    /section:is\(\[data-layout="measurement-example"\], \[data-layout="experiment-example"\]\)[\s\S]*?> \[data-layout-slot="table"\]\.data-table/u,
-  );
+test("evidence split uses shared data-surface and visual primitives", () => {
+  const css = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /data-composition="evidence-split"/u);
+  assert.match(css, /data-component-kind="data-surface"/u);
+  assert.match(css, /data-component-kind="visual"/u);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/u);
   assert.match(css, /tbody tr:nth-child\(even\) td/u);
   assert.match(css, /caption-side:\s*top/u);
+  assert.doesNotMatch(css, /data-layout=/u);
   const lower = css.toLowerCase();
   assert.equal(lower.includes("absorbance"), false);
   assert.equal(lower.includes("uv/vis"), false);
@@ -683,6 +684,106 @@ test("renders generic main-aside-note composition regions from block semantics",
   assert.equal(lower.includes("functional-dependence"), false);
   assert.equal(lower.includes("chemometrics"), false);
   assert.equal(lower.includes("scene:"), false);
+
+  destroy();
+});
+
+
+test("renders generic evidence-split regions from table and chart semantics", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const intro = {
+    id: "block:evidence-intro",
+    kind: "prose" as const,
+    text: "Generic evidence context",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:evidence-intro" }],
+  };
+  const table = {
+    id: "block:evidence-table",
+    kind: "table" as const,
+    caption: "Generic data",
+    columns: [
+      { id: "column:a", label: "A", source: [{ resourceId: "resource:column-a" }] },
+      { id: "column:b", label: "B", source: [{ resourceId: "resource:column-b" }] },
+    ],
+    rows: [{
+      id: "row:one",
+      cells: [
+        { id: "cell:a", text: "1", source: [{ resourceId: "resource:cell-a" }] },
+        { id: "cell:b", text: "2", source: [{ resourceId: "resource:cell-b" }] },
+      ],
+      source: [{ resourceId: "resource:row-one" }],
+    }],
+    source: [{ resourceId: "resource:evidence-table" }],
+  };
+  const chart = {
+    id: "block:evidence-chart",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Generic chart",
+    description: "Generic evidence",
+    xAxis: { label: "Category" },
+    yAxis: { label: "Value" },
+    data: [{
+      id: "datum:a",
+      category: "A",
+      value: 1,
+      source: [{ resourceId: "resource:datum-a" }],
+    }],
+    source: [{ resourceId: "resource:evidence-chart" }],
+  };
+  const roles = {
+    id: "block:evidence-support",
+    kind: "list" as const,
+    listStyle: "unordered" as const,
+    items: [
+      { id: "role:one", text: "Support one", source: [{ resourceId: "resource:role-one" }] },
+      { id: "role:two", text: "Support two", source: [{ resourceId: "resource:role-two" }] },
+    ],
+    source: [{ resourceId: "resource:evidence-support" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:generic-evidence",
+    blocks: [heading, intro, table, chart, roles],
+    readingOrder: [heading.id, intro.id, table.id, chart.id, roles.id],
+  };
+  const renderedDocument = {
+    ...document,
+    version: "1.5" as const,
+    id: "document:generic-evidence",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-composition"), "evidence-split");
+  assert.equal(section.attributes.get("data-composition-evidence-profile"), "data-visual");
+
+  const headingNode = section.children[0]!;
+  const prelude = section.children[1]!;
+  const primary = section.children[2]!;
+  const secondary = section.children[3]!;
+  const footer = section.children[4]!;
+  assert.equal(headingNode.attributes.get("data-composition-region"), "heading");
+  assert.equal(prelude.attributes.get("data-composition-region-container"), "prelude");
+  assert.equal(primary.attributes.get("data-composition-region-container"), "primary");
+  assert.equal(secondary.attributes.get("data-composition-region-container"), "secondary");
+  assert.equal(footer.attributes.get("data-composition-region-container"), "footer");
+  assert.equal(primary.children[0]!.attributes.get("data-component-kind"), "data-surface");
+  assert.equal(secondary.children[0]!.attributes.get("data-component-kind"), "visual");
+  assert.equal(footer.children[0]!.attributes.get("data-component-kind"), "list-collection");
 
   destroy();
 });
