@@ -24,13 +24,16 @@ export type RevealCompositionKind =
   | "single"
   | "stack"
   | "main-aside-note"
-  | "card-deck";
+  | "card-deck"
+  | "evidence-split";
 
 export type RevealCompositionRegion =
   | "heading"
   | "lead"
   | "prelude"
   | "aside"
+  | "primary"
+  | "secondary"
   | "main"
   | "footer";
 
@@ -45,11 +48,16 @@ export type RevealCompositionMainProfile =
   | "formula-visual"
   | "mixed";
 
+export type RevealEvidenceProfile =
+  | "data-visual"
+  | "list-data";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
   readonly mainCount: number;
   readonly mainProfile?: RevealCompositionMainProfile;
+  readonly evidenceProfile?: RevealEvidenceProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -146,6 +154,41 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const middle = body.slice(1, -1);
   const middlePrimary = middle.filter(isPrimaryContent);
 
+
+
+  const componentKinds = body.map((block) => revealComponentDescriptor(block).kind);
+  const evidencePairIndex = componentKinds.findIndex((kind, index) => {
+    const next = componentKinds[index + 1];
+    return (kind === "data-surface" && next === "visual")
+      || (kind === "list-collection" && next === "data-surface");
+  });
+  if (evidencePairIndex >= 0) {
+    const first = body[evidencePairIndex]!;
+    const second = body[evidencePairIndex + 1]!;
+    const before = body.slice(0, evidencePairIndex);
+    const after = body.slice(evidencePairIndex + 2);
+    const supportKinds = [...before, ...after].map((item) => revealComponentDescriptor(item).kind);
+    const validSupport = supportKinds.every((kind) => kind === "info-surface" || kind === "list-collection");
+    if (validSupport) {
+      const firstKind = revealComponentDescriptor(first).kind;
+      const secondKind = revealComponentDescriptor(second).kind;
+      const evidenceProfile: RevealEvidenceProfile = firstKind === "data-surface" && secondKind === "visual"
+        ? "data-visual"
+        : "list-data";
+      const placements: RevealCompositionPlacement[] = [];
+      if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+      before.forEach((item, index) => placements.push({ blockId: item.id, region: "prelude", index }));
+      placements.push({ blockId: first.id, region: "primary", index: 0 });
+      placements.push({ blockId: second.id, region: "secondary", index: 0 });
+      after.forEach((item, index) => placements.push({ blockId: item.id, region: "footer", index }));
+      return {
+        kind: "evidence-split",
+        placements,
+        mainCount: 2,
+        evidenceProfile,
+      };
+    }
+  }
 
   const definitionLists = body.filter((block) => block.kind === "definition-list");
   if (
