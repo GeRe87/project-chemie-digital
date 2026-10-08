@@ -92,6 +92,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 });
 
 test("migrated scenes are not selected by id in shared app styling or navigation", () => {
+  const preview = source("../src/preview.ts");
+  const styles = source("../src/styles.css");
   const sharedRuntime = [
     source("../src/main.ts"),
     source("../src/presentation-mobile.css"),
@@ -100,6 +102,18 @@ test("migrated scenes are not selected by id in shared app styling or navigation
   for (const sceneId of migratedSceneIds) {
     assert.equal(sharedRuntime.includes(sceneId), false, `shared runtime still couples to ${sceneId}`);
   }
+
+  assert.equal(preview.includes("layoutByScene"), false);
+  assert.equal(preview.includes("PitchLayout"), false);
+  assert.equal(preview.includes('"ex:scene-sd-definition--scene"'), false);
+  assert.equal(preview.includes('"ex:scene-sd-process--scene"'), false);
+  assert.equal(preview.includes('"ex:scene-formula-symbols--scene"'), false);
+  assert.equal(preview.includes('"ex:scene-chemistry-example--scene"'), false);
+  assert.equal(preview.includes('?? "statement"'), false);
+  assert.equal(styles.includes('data-layout="opening"'), false);
+  assert.equal(styles.includes('data-layout="statement"'), false);
+  assert.equal(styles.includes('data-layout="process"'), false);
+  assert.equal(styles.includes('data-layout="split-proof"'), false);
 });
 
 test("legacy per-scene layout styles are no longer imported", () => {
