@@ -87,6 +87,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     assert.equal(genericSource.toLowerCase().includes("cogniflow"), false);
     assert.equal(genericSource.toLowerCase().includes("chemometrics"), false);
     assert.equal(genericSource.includes('data-composition="single"'), false);
+    assert.equal(genericSource.includes('data-composition="card-deck"'), false);
     assert.equal(genericSource.includes('data-composition="hero-stage"'), false);
     assert.equal(genericSource.includes('data-composition="support-workbench"'), false);
     assert.equal(genericSource.includes('data-composition="process-story"'), false);
@@ -97,7 +98,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
 
 test("retired composition kinds stay out of the renderer policy", () => {
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
-  for (const retired of ["single", "hero-stage", "support-workbench", "process-story", "progression-strip"]) {
+  for (const retired of ["single", "card-deck", "hero-stage", "support-workbench", "process-story", "progression-strip"]) {
     assert.equal(compositionPolicy.includes(`"${retired}"`), false);
   }
 });
