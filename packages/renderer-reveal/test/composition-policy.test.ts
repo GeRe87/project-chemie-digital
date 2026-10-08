@@ -889,3 +889,25 @@ test("statement-card composes an explanatory statement with supporting emphasize
     ],
   });
 });
+
+
+test("media-stage infers a full-viewport prose/media group structurally", () => {
+  const scene: Scene = {
+    id: "opaque:media-stage",
+    source: [{ resourceId: "resource:media-stage" }],
+    blocks: [
+      prose("heading", "introduce"),
+      proseImageGroup("media"),
+    ],
+    readingOrder: ["heading", "media"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "media-stage",
+    mainCount: 1,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "media", region: "main", index: 0 },
+    ],
+  });
+});
