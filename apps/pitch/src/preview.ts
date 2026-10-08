@@ -492,6 +492,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-composition-main-count", String(composition.mainCount));
     if (composition.mainProfile) section.setAttribute("data-composition-main-profile", composition.mainProfile);
     if (composition.evidenceProfile) section.setAttribute("data-composition-evidence-profile", composition.evidenceProfile);
+    if (composition.processProfile) section.setAttribute("data-composition-process-profile", composition.processProfile);
     section.setAttribute("style", `--pcd-composition-main-count: ${composition.mainCount}`);
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
@@ -515,6 +516,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
           "evidence-split",
           "evidence-story",
           "worked-evidence",
+          "process-story",
         ].includes(composition.kind)
       ) {
         return section;
