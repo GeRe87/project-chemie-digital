@@ -1073,6 +1073,7 @@ test("full-viewport media presentation is owned by generic media-stage compositi
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="media-stage"/u);
+  assert.match(css, /data-composition-profile="full-viewport"/u);
   assert.match(css, /data-component-kind="group"/u);
   assert.match(css, /\.media-reference/u);
   assert.doesNotMatch(css, /data-layout="full-media"/u);
@@ -1080,20 +1081,23 @@ test("full-viewport media presentation is owned by generic media-stage compositi
   assert.equal(main.includes('import "./full-media-layout.css"'), false);
   assert.equal(main.includes('dataset.layout === "full-media"'), false);
   assert.equal(main.includes('dataset.composition === "media-stage"'), true);
+  assert.equal(main.includes('dataset.compositionProfile === "full-viewport"'), true);
 });
 
 
-test("hero title presentation is owned by generic hero-stage composition", () => {
+test("hero title presentation is owned by the media-stage hero-attributions profile", () => {
   const css = readFileSync(new URL("../src/hero-stage-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="hero-stage"/u);
+  assert.match(css, /data-composition="media-stage"/u);
+  assert.match(css, /data-composition-profile="hero-attributions"/u);
   assert.match(css, /data-component-kind="group"/u);
   assert.match(css, /data-composition-region="primary"/u);
   assert.match(css, /data-composition-region="secondary"/u);
   assert.match(css, /data-composition-region="support"/u);
   assert.doesNotMatch(css, /data-layout="hero-title-panel"/u);
   assert.doesNotMatch(css, /data-layout-slot=/u);
+  assert.doesNotMatch(css, /data-composition="hero-stage"/u);
   assert.equal(main.includes('import "./hero-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./hero-title-panel.css"'), false);
 });
