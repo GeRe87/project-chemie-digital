@@ -261,25 +261,32 @@ body[data-presentation-readability="lecture"] .reveal .definition-list-entry {
     var(--pcd-surface-strong);
 }
 
-/* Case-study regions use the same palette without any topic-specific selector. */
+/* Worked-evidence regions use the same palette through generic composition metadata. */
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="problem"] {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="context"]
+  [data-component-kind="group"] {
   border-color: var(--pcd-lecture-cyan);
   box-shadow: 0 10px 28px color-mix(in srgb, var(--pcd-lecture-cyan) 18%, transparent);
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] {
   border-top: 5px solid var(--pcd-lecture-yellow);
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="analysis"] {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="secondary"]
+  [data-component-kind="visual"] {
   border-top-color: var(--pcd-lecture-pink) !important;
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="discussion"] > li:nth-child(odd) {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region="support"][data-component-kind="list-collection"] > li:nth-child(odd) {
   --pcd-lecture-item-accent: var(--pcd-lecture-green);
   border-top-color: var(--pcd-lecture-green);
   background:
@@ -288,7 +295,8 @@ body[data-presentation-readability="lecture"] .reveal
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="discussion"] > li:nth-child(even) {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region="support"][data-component-kind="list-collection"] > li:nth-child(even) {
   --pcd-lecture-item-accent: var(--pcd-lecture-pink);
   border-top-color: var(--pcd-lecture-pink);
   background:
@@ -296,27 +304,34 @@ body[data-presentation-readability="lecture"] .reveal
     var(--pcd-surface-strong);
 }
 
-
-/* Evidence tables get the same generic four-colour lecture rhythm. */
+/* Evidence tables keep the same generic four-colour lecture rhythm. */
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n + 1) {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] tbody tr:nth-child(3n + 1) {
   --pcd-lecture-row-accent: var(--pcd-lecture-cyan);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n + 2) {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] tbody tr:nth-child(3n + 2) {
   --pcd-lecture-row-accent: var(--pcd-lecture-green);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr:nth-child(3n) {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] tbody tr:nth-child(3n) {
   --pcd-lecture-row-accent: var(--pcd-lecture-yellow);
 }
-
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] tbody tr {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] tbody tr {
   background: color-mix(in srgb, var(--pcd-lecture-row-accent) 9%, transparent);
 }
-
 body[data-presentation-readability="lecture"] .reveal
-  section[data-layout="case-study"] > [data-layout-slot="data"] tbody td:first-child {
+  section[data-composition="worked-evidence"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="data-surface"] tbody td:first-child {
   border-left: .28rem solid var(--pcd-lecture-row-accent);
 }
