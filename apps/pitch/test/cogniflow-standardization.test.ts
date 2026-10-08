@@ -64,7 +64,6 @@ test("diagram-stage scales space-filling flow viewBoxes into the available stage
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   const genericSources = [
     source("../../../packages/renderer-reveal/src/layout-policy.ts"),
-    source("../src/concept-specification-layout.css"),
     source("../src/component-composition.css"),
     source("../src/learning-stage-primitives.css"),
     source("../src/card-primitives.css"),
@@ -111,7 +110,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-presentation-specifications.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-hierarchy.css"'), false);
   assert.equal(main.includes('import "./cogniflow-core-grammar.css"'), false);
-  assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
+  assert.equal(main.includes('import "./concept-specification-layout.css"'), false);
   assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./card-primitives.css"'), true);
   assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
@@ -158,6 +157,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-presentation-projection.css"'), false);
   assert.equal(main.includes("mountPresentationProjections"), true);
   assert.equal(main.includes("mountCogniflowPresentationProjection"), false);
+  assert.equal(main.includes('dataset.layout === "concept-specification"'), false);
+  assert.equal(main.includes('compositionProgressionProfile === "cards-with-footer"'), true);
   assert.equal(main.includes("cogniflow-semantic-rings-runtime"), false);
   assert.equal(main.includes('import "./cogniflow-fair-intro.css"'), false);
   assert.equal(main.includes('import "./cogniflow-fair-gap.css"'), false);
@@ -289,9 +290,16 @@ test("alternate publication projection is generic and profile-gated", () => {
   assert.equal(main.includes("profile.id"), false);
   assert.equal(profile.includes("readonly projectionCapabilities?: PresentationProjectionCapabilities"), true);
   assert.equal(profile.includes("publication: true"), true);
-  assert.equal(runtime.includes('section[data-layout="concept-specification"]'), true);
-  assert.equal(runtime.includes('[data-layout-slot="cards"]'), true);
-  assert.equal(runtime.includes('[data-layout-slot="takeaway"]'), true);
+  assert.equal(
+    runtime.includes(
+      'section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"]',
+    ),
+    true,
+  );
+  assert.equal(runtime.includes('[data-component-kind="list-collection"][data-composition-region="main"]'), true);
+  assert.equal(runtime.includes('[data-component-kind="info-surface"][data-composition-region="footer"]'), true);
+  assert.equal(runtime.includes('data-layout="concept-specification"'), false);
+  assert.equal(runtime.includes("data-layout-slot"), false);
   assert.equal(runtime.includes("Presentation elements can be described independently"), false);
   assert.equal(runtime.includes("Processing Unit Info Box"), false);
   assert.equal(runtime.includes("Separating Meaning from Presentation"), false);
