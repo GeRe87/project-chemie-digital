@@ -1,0 +1,300 @@
+/* Generic evidence presentation primitives.
+   Structural trigger: composition/component metadata only. No legacy layout-family
+   names, scene ids, resource ids, course labels or scientific vocabulary. */
+
+.reveal .slides section[data-composition="evidence-split"] {
+  display: grid !important;
+  grid-template-columns: minmax(18rem, .82fr) minmax(0, 1.18fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: .58rem 1rem;
+  align-content: stretch;
+  padding: 1rem 1.35rem 1.1rem !important;
+}
+
+.reveal .slides section[data-composition="evidence-split"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="prelude"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="primary"] {
+  grid-column: 1;
+  grid-row: 3;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="secondary"] {
+  grid-column: 2;
+  grid-row: 3;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="prelude"])) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="prelude"]))
+  > [data-composition-region-container="primary"],
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="prelude"]))
+  > [data-composition-region-container="secondary"] {
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="prelude"]))
+  > [data-composition-region-container="footer"] {
+  grid-row: 3;
+}
+
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="footer"])) {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+.reveal .slides section[data-composition="evidence-split"]:not(:has(> [data-composition-region-container="prelude"])):not(:has(> [data-composition-region-container="footer"])) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* Prelude/support prose shares one evidence-context surface. */
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="info-surface"] {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .42rem .72rem;
+  border-left: 4px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 6%, var(--pcd-surface-strong));
+  color: var(--pcd-foreground);
+  font: 740 .72em/1.2 Arial, Helvetica, sans-serif;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+/* Shared structured data surface. */
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] {
+  box-sizing: border-box;
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 68%, transparent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 95%, var(--pcd-accent) 5%);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 12%, transparent);
+  color: var(--pcd-foreground);
+  overflow: hidden;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] caption {
+  caption-side: top;
+  box-sizing: border-box;
+  padding: .46rem .7rem .42rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 68%, transparent);
+  border-bottom: 0;
+  background: color-mix(in srgb, var(--pcd-accent) 11%, var(--pcd-surface-strong));
+  color: color-mix(in srgb, var(--pcd-accent) 88%, var(--pcd-foreground));
+  font: 900 .72em/1.15 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .025em;
+  text-align: left;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] thead th {
+  padding: .56rem .65rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 54%, transparent);
+  background: color-mix(in srgb, var(--pcd-accent) 14%, var(--pcd-surface-strong));
+  color: var(--pcd-foreground);
+  font: 850 .7em/1.15 Arial, Helvetica, sans-serif;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] :is(th, td) + :is(th, td) {
+  border-left: 1px solid color-mix(in srgb, var(--pcd-accent) 20%, transparent);
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] tbody td {
+  padding: .56rem .65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
+  background: color-mix(in srgb, var(--pcd-surface-strong) 97%, var(--pcd-accent) 3%);
+  font: 720 .7em/1.15 Arial, Helvetica, sans-serif;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: break-word;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="data-surface"] tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Shared chart/visual evidence surface. */
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"] {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100% !important;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"].retro-neon-chart-window {
+  padding: .45rem .55rem .35rem;
+  border-width: 3px;
+  box-shadow: 5px 5px 0 var(--pcd-chart-shadow);
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"] .retro-neon-chart-header {
+  position: static;
+  min-height: 0;
+  margin: -.45rem -.55rem .25rem;
+  padding: .3rem .55rem;
+  border-bottom-width: 2px;
+  font-size: .58em;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"] .retro-neon-chart-subtitle {
+  display: none;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"] :is(.d3-chart-runtime, .d3-chart-figure) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="visual"] .d3-chart-svg {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+}
+
+/* Generic explanatory lists can act as evidence or support without a special layout family. */
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="list-collection"] {
+  box-sizing: border-box;
+  display: grid;
+  gap: .5rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="primary"]
+  [data-component-kind="list-collection"] {
+  grid-template-columns: 1fr;
+  align-content: stretch;
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="list-collection"] {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.reveal .slides section[data-composition="evidence-split"]
+  [data-component-kind="list-collection"] > li {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: .5rem .65rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 58%, transparent);
+  background: color-mix(in srgb, var(--pcd-accent) 5%, var(--pcd-surface-strong));
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pcd-accent) 10%, transparent);
+  color: var(--pcd-foreground);
+  font: 760 .68em/1.18 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+}
+
+/* A list-data profile benefits from slightly more table width. */
+.reveal .slides section[data-composition="evidence-split"][data-composition-evidence-profile="list-data"] {
+  grid-template-columns: minmax(15rem, .78fr) minmax(0, 1.22fr);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="evidence-split"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto !important;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-composition="evidence-split"]
+    > [data-composition-region-container] {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .reveal .slides section[data-composition="evidence-split"]
+    [data-component-kind="data-surface"],
+  .reveal .slides section[data-composition="evidence-split"]
+    [data-component-kind="visual"] {
+    min-height: 18rem;
+    height: auto;
+  }
+
+  .reveal .slides section[data-composition="evidence-split"]
+    > [data-composition-region-container="footer"]
+    [data-component-kind="list-collection"] {
+    grid-template-columns: 1fr;
+  }
+}
