@@ -1055,3 +1055,14 @@ test("statement-card styling lives in the shared component composition layer", (
   assert.doesNotMatch(css, /data-layout="definition-card"/u);
   assert.equal(main.includes('import "./definition-card-layout.css"'), false);
 });
+
+
+test("single-heading closing stage is owned by generic composition styling", () => {
+  const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="single"\]\[data-composition-main-count="0"/u);
+  assert.match(css, /data-composition-region="heading"/u);
+  assert.doesNotMatch(css, /data-layout="closing"/u);
+  assert.equal(main.includes('import "./closing-layout.css"'), false);
+});
