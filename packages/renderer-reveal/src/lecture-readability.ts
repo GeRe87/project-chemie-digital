@@ -1,5 +1,5 @@
 import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
-import { estimateRevealBlockFootprint } from "./layout-fit.ts";
+import { estimateRevealBlockFootprint } from "./composition-fit.ts";
 
 export type LectureContentBudgetStatus = "within-budget" | "over-budget";
 
