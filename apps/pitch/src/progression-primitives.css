@@ -188,50 +188,50 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-composition="p
 
 /* Pure card progressions, with or without an authored footer note. */
 .reveal .slides section[data-composition="progression-strip"]:is(
-    [data-composition-progression-profile="cards-only"],
-    [data-composition-progression-profile="cards-with-footer"]
+    [data-composition-profile="cards-only"],
+    [data-composition-profile="cards-with-footer"]
   ) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .reveal .slides section[data-composition="progression-strip"]:is(
-    [data-composition-progression-profile="cards-only"],
-    [data-composition-progression-profile="cards-with-footer"]
+    [data-composition-profile="cards-only"],
+    [data-composition-profile="cards-with-footer"]
   )
   > [data-composition-region-container="main"] {
   grid-column: 1 / -1;
 }
 
 .reveal .slides section[data-composition="progression-strip"]:is(
-    [data-composition-progression-profile="cards-only"],
-    [data-composition-progression-profile="cards-with-footer"]
+    [data-composition-profile="cards-only"],
+    [data-composition-profile="cards-with-footer"]
   )
   [data-component-kind="list-collection"] {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 /* Two textual representations followed by a visual representation. */
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"] {
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"] {
   grid-template-columns: .84fr 1.06fr 1.20fr;
   column-gap: 2.6rem;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="main"] {
   grid-column: 1 / 3;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="secondary"] {
   grid-column: 3;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   [data-component-kind="list-collection"] {
   grid-template-columns: .84fr 1.06fr;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   [data-component-kind="list-collection"] > li:last-child::after {
   content: "▶";
   position: absolute;
@@ -243,7 +243,7 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-composition="p
   font: 950 2rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="visual"] {
   position: relative;
@@ -261,14 +261,14 @@ body[data-presentation-theme="dark"] .reveal .slides section[data-composition="p
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="visual"] {
   border-color: #b18cff;
   background: #281d3d;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure, .d3-flow-svg) {
   width: 100%;
@@ -276,7 +276,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   min-height: 18rem;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   > [data-composition-region-container="secondary"]
   .d3-flow-caption {
   position: absolute;
@@ -287,12 +287,12 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 /* Compact relational networks keep a lighter visual grammar than process flows. */
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node {
   filter: drop-shadow(0 4px 0 color-mix(in srgb, #063d47 28%, transparent));
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
   fill: #55d4da;
   stroke: #073f49;
@@ -302,7 +302,7 @@ body[data-presentation-theme="dark"] .reveal .slides
     drop-shadow(4px 5px 0 color-mix(in srgb, #073f49 38%, transparent));
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-label {
   fill: #063d47;
   stroke: #e8ffff;
@@ -310,12 +310,12 @@ body[data-presentation-theme="dark"] .reveal .slides
   font: 950 15px/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge {
   stroke-width: 3;
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge-label-panel {
   fill: #cceff1;
   stroke: #167d87;
@@ -323,7 +323,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   filter: drop-shadow(2px 2px 0 color-mix(in srgb, #073f49 24%, transparent));
 }
 
-.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-edge-label {
   fill: #064b55;
   stroke: none;
@@ -333,14 +333,14 @@ body[data-presentation-theme="dark"] .reveal .slides
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-shape {
   fill: #0b6f7b;
   stroke: #b8f9fd;
 }
 
 body[data-presentation-theme="dark"] .reveal .slides
-  section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node-label {
   fill: #edffff;
   stroke: #0b2533;
@@ -375,7 +375,7 @@ body[data-presentation-theme="dark"] .reveal .slides
 
   .reveal .slides section[data-composition="progression-strip"]
     [data-component-kind="list-collection"] > li::after,
-  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
     [data-component-kind="list-collection"] > li:last-child::after {
     content: "▼";
     top: auto;
@@ -385,7 +385,7 @@ body[data-presentation-theme="dark"] .reveal .slides
     font-size: 1.3rem;
   }
 
-  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-to-visual"]
+  .reveal .slides section[data-composition="progression-strip"][data-composition-profile="cards-to-visual"]
     > [data-composition-region-container="secondary"]
     [data-component-kind="visual"] {
     min-height: 20rem;
