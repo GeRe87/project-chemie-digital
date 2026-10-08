@@ -198,12 +198,26 @@ const referenceCodeDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview exposes generic reference-code slots", () => {
+test("pitch preview exposes generic list-code support workbench", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [referenceCodeDocument]);
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), "reference-code");
-  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "banner", "terms", "code-label", "code", "reading"]);
+  assert.equal(section.attributes.get("data-composition"), "support-workbench");
+  assert.equal(section.attributes.get("data-composition-workbench-profile"), "list-code-reference");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "lead", "primary", "secondary"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.deepEqual(
+    section.children[3]!.children.map((child) => child.attributes.get("data-component-kind")),
+    ["info-surface", "code", "info-surface"],
+  );
   destroy();
 });
 
