@@ -446,10 +446,10 @@ test("evidence-stage-context-data-visual composes context, data, visual, support
 });
 
 
-test("process-story wins over broader info-visual learning signature and infers compact profile", () => {
+test("process progression wins over broader info-visual learning signature and infers compact profile", () => {
   const scene: Scene = {
-    id: "opaque:process-story-compact",
-    source: [{ resourceId: "resource:process-story-compact" }],
+    id: "opaque:process progression-compact",
+    source: [{ resourceId: "resource:process progression-compact" }],
     blocks: [
       prose("heading", "introduce"),
       prose("intro", "explain"),
@@ -465,7 +465,7 @@ test("process-story wins over broader info-visual learning signature and infers 
   );
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "process-story",
+    kind: "progression-stage",
     mainCount: 1,
     profile: "compact-linear",
     placements: [
@@ -477,7 +477,7 @@ test("process-story wins over broader info-visual learning signature and infers 
   });
 });
 
-test("process-story uses the wide profile for a longer linear process", () => {
+test("process progression uses the wide profile for a longer linear process", () => {
   const process: SceneBlock = {
     id: "long-process",
     kind: "diagram",
@@ -503,8 +503,8 @@ test("process-story uses the wide profile for a longer linear process", () => {
     source: [{ resourceId: "resource:long-process" }],
   };
   const scene: Scene = {
-    id: "opaque:process-story-wide",
-    source: [{ resourceId: "resource:process-story-wide" }],
+    id: "opaque:process progression-wide",
+    source: [{ resourceId: "resource:process progression-wide" }],
     blocks: [
       prose("heading", "introduce"),
       prose("intro", "explain"),
@@ -515,7 +515,7 @@ test("process-story uses the wide profile for a longer linear process", () => {
   };
 
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.kind, "process-story");
+  assert.equal(plan.kind, "progression-stage");
   assert.equal(plan.profile, "wide-process");
 });
 
@@ -603,7 +603,7 @@ test("support-workbench infers list plus code reference structure", () => {
 });
 
 
-test("progression-strip infers cards with an authored footer", () => {
+test("progression stage infers cards with an authored footer", () => {
   const scene: Scene = {
     id: "opaque:cards-with-footer",
     source: [{ resourceId: "resource:cards-with-footer" }],
@@ -616,7 +616,7 @@ test("progression-strip infers cards with an authored footer", () => {
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "progression-strip",
+    kind: "progression-stage",
     mainCount: 1,
     profile: "cards-with-footer",
     placements: [
@@ -627,7 +627,7 @@ test("progression-strip infers cards with an authored footer", () => {
   });
 });
 
-test("progression-strip infers an ordered card progression", () => {
+test("progression stage infers an ordered card progression", () => {
   const scene: Scene = {
     id: "opaque:cards-progression",
     source: [{ resourceId: "resource:cards-progression" }],
@@ -641,7 +641,7 @@ test("progression-strip infers an ordered card progression", () => {
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "progression-strip",
+    kind: "progression-stage",
     mainCount: 1,
     profile: "cards-only",
     placements: [
@@ -653,7 +653,7 @@ test("progression-strip infers an ordered card progression", () => {
   });
 });
 
-test("progression-strip infers textual cards leading into a visual", () => {
+test("progression stage infers textual cards leading into a visual", () => {
   const network: SceneBlock = {
     id: "network",
     kind: "diagram",
@@ -687,7 +687,7 @@ test("progression-strip infers textual cards leading into a visual", () => {
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "progression-strip",
+    kind: "progression-stage",
     mainCount: 2,
     profile: "cards-to-visual",
     placements: [
