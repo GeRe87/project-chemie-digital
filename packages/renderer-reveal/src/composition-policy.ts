@@ -30,7 +30,8 @@ export type RevealCompositionKind =
   | "worked-evidence"
   | "process-story"
   | "support-workbench"
-  | "progression-strip";
+  | "progression-strip"
+  | "learning-stage";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -73,6 +74,14 @@ export type RevealProgressionProfile =
   | "cards-only"
   | "cards-to-visual";
 
+export type RevealLearningProfile =
+  | "prompt-code"
+  | "info-code"
+  | "info-visual"
+  | "formula-visual"
+  | "single-prompt"
+  | "prompt-grid";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
@@ -82,6 +91,7 @@ export interface RevealCompositionPlan {
   readonly processProfile?: RevealProcessProfile;
   readonly workbenchProfile?: RevealWorkbenchProfile;
   readonly progressionProfile?: RevealProgressionProfile;
+  readonly learningProfile?: RevealLearningProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -206,6 +216,108 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
 
+
+
+  if (
+    body.length === 2
+    && bodyKinds[0] === "prompt"
+    && bodyKinds[1] === "code"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 2,
+      learningProfile: "prompt-code",
+    };
+  }
+
+  if (
+    body.length === 2
+    && bodyKinds[0] === "info-surface"
+    && bodyKinds[1] === "code"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 1,
+      learningProfile: "info-code",
+    };
+  }
+
+  if (
+    (body.length === 2 || body.length === 3)
+    && bodyKinds[0] === "info-surface"
+    && bodyKinds[1] === "visual"
+    && (body.length === 2 || bodyKinds[2] === "info-surface")
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
+    if (body[2]) placements.push({ blockId: body[2].id, region: "footer", index: 0 });
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 2,
+      learningProfile: "info-visual",
+    };
+  }
+
+  if (
+    body.length === 2
+    && bodyKinds[0] === "formula"
+    && bodyKinds[1] === "visual"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "prelude", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "main", index: 0 });
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 1,
+      learningProfile: "formula-visual",
+    };
+  }
+
+  if (
+    body.length === 1
+    && bodyKinds[0] === "prompt"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 1,
+      learningProfile: "single-prompt",
+    };
+  }
+
+  if (
+    body.length >= 2
+    && body.length <= 4
+    && bodyKinds.every((kind) => kind === "prompt")
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    body.forEach((block, index) => placements.push({ blockId: block.id, region: "main", index }));
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: body.length,
+      learningProfile: "prompt-grid",
+    };
+  }
 
   if (
     body.length === 3
