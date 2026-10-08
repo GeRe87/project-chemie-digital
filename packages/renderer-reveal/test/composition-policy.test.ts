@@ -138,7 +138,7 @@ test("main-aside-note composition is inferred from generic ordered structure", (
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "main-aside-note",
     mainCount: 2,
-    mainProfile: "formula-cards",
+    profile: "formula-cards",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "context", region: "aside", index: 0 },
@@ -216,7 +216,7 @@ test("main profile distinguishes formula plus visual from formula plus cards", (
     readingOrder: ["heading", "context", "formula", "visual", "note"],
   };
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.mainProfile, "formula-visual");
+  assert.equal(plan.profile, "formula-visual");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region]),
     [
@@ -291,7 +291,7 @@ test("evidence-split infers data plus visual with explanatory prelude and list s
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "evidence-split",
     mainCount: 2,
-    evidenceProfile: "data-visual",
+    profile: "data-visual",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "intro", region: "prelude", index: 0 },
@@ -316,7 +316,7 @@ test("evidence-split infers explanatory list plus structured data", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "evidence-split");
-  assert.equal(plan.evidenceProfile, "list-data");
+  assert.equal(plan.profile, "list-data");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region]),
     [
@@ -405,7 +405,7 @@ test("evidence-story composes visual, data and process evidence generically", ()
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "evidence-story",
     mainCount: 3,
-    evidenceProfile: "visual-data-flow",
+    profile: "visual-data-flow",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "signal", region: "primary", index: 0 },
@@ -433,7 +433,7 @@ test("worked-evidence composes context, data, visual, support and optional note"
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "worked-evidence",
     mainCount: 4,
-    evidenceProfile: "context-data-visual",
+    profile: "context-data-visual",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "context", region: "context", index: 0 },
@@ -462,7 +462,7 @@ test("process-story infers compact profile for a short strict linear flow", () =
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "process-story",
     mainCount: 1,
-    processProfile: "compact-linear",
+    profile: "compact-linear",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "intro", region: "prelude", index: 0 },
@@ -511,7 +511,7 @@ test("process-story uses the wide profile for a longer linear process", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "process-story");
-  assert.equal(plan.processProfile, "wide-process");
+  assert.equal(plan.profile, "wide-process");
 });
 
 
@@ -541,7 +541,7 @@ test("support-workbench infers visual dual-reference structure", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "support-workbench");
-  assert.equal(plan.workbenchProfile, "visual-dual-reference");
+  assert.equal(plan.profile, "visual-dual-reference");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
     [
@@ -583,7 +583,7 @@ test("support-workbench infers list plus code reference structure", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "support-workbench");
-  assert.equal(plan.workbenchProfile, "list-code-reference");
+  assert.equal(plan.profile, "list-code-reference");
   assert.deepEqual(
     plan.placements.map((placement) => [placement.blockId, placement.region, placement.index]),
     [
@@ -613,7 +613,7 @@ test("progression-strip infers cards with an authored footer", () => {
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "progression-strip",
     mainCount: 1,
-    progressionProfile: "cards-with-footer",
+    profile: "cards-with-footer",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "cards", region: "main", index: 0 },
@@ -638,7 +638,7 @@ test("progression-strip infers an ordered card progression", () => {
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "progression-strip",
     mainCount: 1,
-    progressionProfile: "cards-only",
+    profile: "cards-only",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "banner", region: "prelude", index: 0 },
@@ -684,7 +684,7 @@ test("progression-strip infers textual cards leading into a visual", () => {
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "progression-strip",
     mainCount: 2,
-    progressionProfile: "cards-to-visual",
+    profile: "cards-to-visual",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "banner", region: "prelude", index: 0 },
@@ -724,7 +724,7 @@ test("learning-stage infers prompt plus code", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "learning-stage");
-  assert.equal(plan.learningProfile, "prompt-code");
+  assert.equal(plan.profile, "prompt-code");
   assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
     ["heading", "heading"],
     ["prompt", "primary"],
@@ -747,7 +747,7 @@ test("learning-stage infers info plus visual with an optional note", () => {
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "learning-stage");
-  assert.equal(plan.learningProfile, "info-visual");
+  assert.equal(plan.profile, "info-visual");
   assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
     ["heading", "heading"],
     ["definition", "primary"],
@@ -774,7 +774,7 @@ test("learning-stage infers prompt grids from repeated prompt components", () =>
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "learning-stage");
-  assert.equal(plan.learningProfile, "prompt-grid");
+  assert.equal(plan.profile, "prompt-grid");
   assert.equal(plan.mainCount, 3);
   assert.deepEqual(plan.placements.slice(1).map((placement) => placement.region), ["main", "main", "main"]);
 });
@@ -808,7 +808,7 @@ test("legacy functional and observation structures resolve through main-aside-no
   };
   const plan = inferRevealCompositionPlan(observation);
   assert.equal(plan.kind, "main-aside-note");
-  assert.equal(plan.mainProfile, "formula-visual");
+  assert.equal(plan.profile, "formula-visual");
 });
 
 
@@ -826,7 +826,7 @@ test("visual-stage infers a standard standalone diagram", () => {
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "visual-stage",
     mainCount: 1,
-    visualStageProfile: "diagram",
+    profile: "diagram",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "diagram", region: "main", index: 0 },
@@ -863,7 +863,7 @@ test("visual-stage infers concentric profile from grouped focused network topolo
 
   const plan = inferRevealCompositionPlan(scene);
   assert.equal(plan.kind, "visual-stage");
-  assert.equal(plan.visualStageProfile, "concentric-network");
+  assert.equal(plan.profile, "concentric-network");
 });
 
 
@@ -984,7 +984,7 @@ test("semantic-stage infers source and multi-view profiles from TriG structure",
   assert.deepEqual(inferRevealCompositionPlan(sourceScene), {
     kind: "semantic-stage",
     mainCount: 1,
-    semanticStageProfile: "source",
+    profile: "source",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "source", region: "main", index: 0 },
@@ -1000,7 +1000,7 @@ test("semantic-stage infers source and multi-view profiles from TriG structure",
   assert.deepEqual(inferRevealCompositionPlan(multiViewScene), {
     kind: "semantic-stage",
     mainCount: 2,
-    semanticStageProfile: "multi-view",
+    profile: "multi-view",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "source", region: "main", index: 0 },
