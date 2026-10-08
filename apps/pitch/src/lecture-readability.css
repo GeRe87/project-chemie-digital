@@ -87,7 +87,7 @@ body[data-presentation-readability="lecture"] .reveal .d3-edge-label {
 
 /* Worked-evidence lecture readability adjusts components, never composition tracks. */
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="context"]
   [data-component-kind="group"] > .lead {
   font-size: max(var(--pcd-worked-context-font), 24px);
@@ -95,27 +95,27 @@ body[data-presentation-readability="lecture"] .reveal .slides
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] :is(th, td) {
   padding: .5rem .42rem;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="visual"] {
   align-self: stretch;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region="support"][data-component-kind="list-collection"] {
   gap: .8rem;
 }
 
 body[data-presentation-readability="lecture"] .reveal .slides
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region="support"][data-component-kind="list-collection"] > li {
   min-height: 5.4rem;
   font-size: max(var(--pcd-worked-list-font), 26px);
@@ -263,7 +263,7 @@ body[data-presentation-readability="lecture"] .reveal .definition-list-entry {
 
 /* Worked-evidence regions use the same palette through generic composition metadata. */
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="context"]
   [data-component-kind="group"] {
   border-color: var(--pcd-lecture-cyan);
@@ -271,21 +271,21 @@ body[data-presentation-readability="lecture"] .reveal
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] {
   border-top: 5px solid var(--pcd-lecture-yellow);
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="secondary"]
   [data-component-kind="visual"] {
   border-top-color: var(--pcd-lecture-pink) !important;
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region="support"][data-component-kind="list-collection"] > li:nth-child(odd) {
   --pcd-lecture-item-accent: var(--pcd-lecture-green);
   border-top-color: var(--pcd-lecture-green);
@@ -295,7 +295,7 @@ body[data-presentation-readability="lecture"] .reveal
 }
 
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region="support"][data-component-kind="list-collection"] > li:nth-child(even) {
   --pcd-lecture-item-accent: var(--pcd-lecture-pink);
   border-top-color: var(--pcd-lecture-pink);
@@ -306,31 +306,31 @@ body[data-presentation-readability="lecture"] .reveal
 
 /* Evidence tables keep the same generic four-colour lecture rhythm. */
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] tbody tr:nth-child(3n + 1) {
   --pcd-lecture-row-accent: var(--pcd-lecture-cyan);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] tbody tr:nth-child(3n + 2) {
   --pcd-lecture-row-accent: var(--pcd-lecture-green);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] tbody tr:nth-child(3n) {
   --pcd-lecture-row-accent: var(--pcd-lecture-yellow);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] tbody tr {
   background: color-mix(in srgb, var(--pcd-lecture-row-accent) 9%, transparent);
 }
 body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="worked-evidence"]
+  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="primary"]
   [data-component-kind="data-surface"] tbody td:first-child {
   border-left: .28rem solid var(--pcd-lecture-row-accent);
