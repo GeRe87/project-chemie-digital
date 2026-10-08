@@ -131,6 +131,18 @@ test("legacy Reveal layout policy is retired from production rendering", () => {
 });
 
 
+test("composition inference centralizes matching and placement construction", () => {
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
+
+  assert.equal(compositionPolicy.includes("function placement("), true);
+  assert.equal(compositionPolicy.includes("function placementsWithHeading("), true);
+  assert.equal(compositionPolicy.includes("function matchesComponentKinds("), true);
+  assert.equal(compositionPolicy.includes("Matcher order is part of the renderer contract."), true);
+  assert.equal(compositionPolicy.includes("const placements: RevealCompositionPlacement[] = []"), false);
+  assert.equal(compositionPolicy.includes("placements.push({ blockId:"), false);
+});
+
+
 test("composition variants use one generic profile channel", () => {
   const preview = source("../src/preview.ts");
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
