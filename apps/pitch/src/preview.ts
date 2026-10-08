@@ -1,7 +1,7 @@
 import katex from "katex";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
-import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
+import { inferRevealLayoutFamily } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
@@ -452,7 +452,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
   for (const document of documents) for (const scene of document.scenes) {
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
-    const inferredLayout = inferRevealLayoutDecision(scene);
+    const legacyLayoutFamily = inferRevealLayoutFamily(scene);
     const composition = inferRevealCompositionPlan(scene);
     const compositionFit = inferRevealCompositionFit(scene, composition);
     const compositionByBlockId = new Map(
@@ -467,7 +467,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("id", scene.id);
     section.setAttribute("data-scene-document-id", document.id);
     section.setAttribute("data-source-path-id", document.sourcePathId);
-    if (inferredLayout) section.setAttribute("data-layout", inferredLayout.family);
+    if (legacyLayoutFamily) section.setAttribute("data-layout", legacyLayoutFamily);
     section.setAttribute("data-composition", composition.kind);
     section.setAttribute("data-composition-main-count", String(composition.mainCount));
     if (composition.mainProfile) section.setAttribute("data-composition-main-profile", composition.mainProfile);
