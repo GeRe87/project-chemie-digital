@@ -63,7 +63,6 @@ test("diagram-stage scales space-filling flow viewBoxes into the available stage
 
 test("generic migrated layouts contain no CogniFlow identity coupling", () => {
   const genericSources = [
-    source("../../../packages/renderer-reveal/src/layout-policy.ts"),
     source("../src/component-composition.css"),
     source("../src/learning-stage-primitives.css"),
     source("../src/card-primitives.css"),
@@ -116,16 +115,14 @@ test("migrated scenes are not selected by id in shared app styling or navigation
   assert.equal(styles.includes('data-layout="split-proof"'), false);
 });
 
-test("legacy layout policy no longer exposes block slots", () => {
-  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+test("legacy Reveal layout policy is retired from production rendering", () => {
   const preview = source("../src/preview.ts");
+  const rendererIndex = source("../../../packages/renderer-reveal/src/index.ts");
 
-  assert.equal(policy.includes("RevealLayoutDecision"), false);
-  assert.equal(policy.includes("inferRevealLayoutDecision"), false);
-  assert.equal(policy.includes("readonly slots"), false);
-  assert.equal(policy.includes("slots:"), false);
-  assert.equal(preview.includes("inferRevealLayoutDecision"), false);
-  assert.equal(preview.includes("inferRevealLayoutFamily"), true);
+  assert.equal(preview.includes("layout-policy.ts"), false);
+  assert.equal(preview.includes("inferRevealLayoutFamily"), false);
+  assert.equal(preview.includes('setAttribute("data-layout"'), false);
+  assert.equal(rendererIndex.includes('export * from "./layout-policy.ts"'), false);
 });
 
 
@@ -151,6 +148,7 @@ test("production Pitch rendering no longer emits or consumes legacy layout slots
   assert.equal(preview.includes("data-layout-slot"), false);
   assert.equal(preview.includes("layoutSlot"), false);
   assert.equal(preview.includes("inferredLayout?.slots"), false);
+  assert.equal(preview.includes('setAttribute("data-layout"'), false);
   assert.equal(productionCss.includes("data-layout-slot"), false);
 });
 
@@ -383,11 +381,11 @@ test("presenter clock and laser pointer are generic profile capabilities", () =>
 
 test("full-media showcase behavior is structural rather than scene-id driven", () => {
   const main = source("../src/main.ts");
-  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const css = source("../src/media-stage-primitives.css");
 
-  assert.equal(policy.includes('"full-media"'), true);
-  assert.equal(policy.includes("isFullMediaGroup"), true);
+  assert.equal(compositionPolicy.includes('"media-stage"'), true);
+  assert.equal(compositionPolicy.includes("isMediaStageGroup"), true);
   assert.equal(css.toLowerCase().includes("cogniflow"), false);
   assert.equal(css.includes("section[id="), false);
   assert.equal(css.includes('data-layout="full-media"'), false);
@@ -424,7 +422,7 @@ test("take-home, closing and portrait viewport no longer depend on CogniFlow ide
 
 test("final title opening and semantic-core layouts are structurally selected", () => {
   const main = source("../src/main.ts");
-  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+  const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const preview = source("../src/preview.ts");
   const titleCss = source("../src/hero-stage-primitives.css");
   const diagramCss = source("../src/visual-stage-primitives.css");
@@ -432,11 +430,11 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const semanticMultiCss = source("../src/semantic-multi-view-runtime.css");
   const knowledgeCss = source("../src/knowledge-network-runtime.css");
 
-  assert.equal(policy.includes('"hero-title-panel"'), true);
-  assert.equal(policy.includes('"title-attributions"'), false);
-  assert.equal(policy.includes('"semantic-source"'), true);
-  assert.equal(policy.includes('"semantic-multi-view"'), true);
-  assert.equal(policy.includes('"diagram-stage"'), true);
+  assert.equal(compositionPolicy.includes('"hero-stage"'), true);
+  assert.equal(compositionPolicy.includes('"semantic-stage"'), true);
+  assert.equal(compositionPolicy.includes('"visual-stage"'), true);
+  assert.equal(compositionPolicy.includes("isAttributionMediaGroup"), true);
+  assert.equal(compositionPolicy.includes("isTrigCode"), true);
   assert.equal(preview.includes('semanticMultiView ? "semantic-multi-view"'), false);
   assert.equal(preview.includes('semanticCode ? "semantic-source"'), false);
   assert.equal(preview.includes('data-composition-semantic-stage-profile'), true);
@@ -473,7 +471,11 @@ test("production generator and browser regression contain no CogniFlow identity 
   assert.equal(diagramCheck.toLowerCase().includes("cogniflow"), false);
   assert.equal(diagramCheck.includes("--scene-id"), true);
   assert.equal(diagramCheck.includes("--expected-nodes"), true);
-  assert.equal(diagramCheck.includes('data-layout="diagram-stage"'), true);
+  assert.equal(
+    diagramCheck.includes('data-composition="visual-stage"][data-composition-visual-stage-profile="diagram"'),
+    true,
+  );
+  assert.equal(diagramCheck.includes('data-layout="diagram-stage"'), false);
 });
 
 
