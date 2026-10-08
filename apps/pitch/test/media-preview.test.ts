@@ -68,6 +68,7 @@ test("pitch preview renders group and accessible image from media-reference bloc
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [document]);
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-composition"), "media-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "full-viewport");
 
   const mainRegion = section.children[1]!;
   assert.equal(mainRegion.className, "pcd-composition-region");
