@@ -79,7 +79,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-laser-pointer.css"),
     source("../src/media-stage-primitives.css"),
     source("../src/presentation-mobile.css"),
-    source("../src/hero-title-panel.css"),
+    source("../src/hero-stage-primitives.css"),
     source("../src/semantic-source-runtime.css"),
     source("../src/semantic-multi-view-runtime.css"),
   ];
@@ -139,7 +139,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-title-media.css"'), false);
   assert.equal(main.includes('import "./cogniflow-core-sequence.css"'), false);
   assert.equal(main.includes('import "./title-attributions-layout.css"'), false);
-  assert.equal(main.includes('import "./hero-title-panel.css"'), true);
+  assert.equal(main.includes('import "./hero-title-panel.css"'), false);
+  assert.equal(main.includes('import "./hero-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
@@ -372,7 +373,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const main = source("../src/main.ts");
   const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
   const preview = source("../src/preview.ts");
-  const titleCss = source("../src/hero-title-panel.css");
+  const titleCss = source("../src/hero-stage-primitives.css");
   const diagramCss = source("../src/visual-stage-primitives.css");
 
   assert.equal(policy.includes('"hero-title-panel"'), true);
@@ -385,6 +386,8 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(titleCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(titleCss.includes("data-resource-id~="), false);
+  assert.equal(titleCss.includes('data-layout="hero-title-panel"'), false);
+  assert.equal(titleCss.includes('data-composition="hero-stage"'), true);
   assert.equal(diagramCss.includes("section[id="), false);
   assert.equal(diagramCss.includes("data-layout="), false);
   assert.equal(main.includes("scene-cogniflow-title"), false);
