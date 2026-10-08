@@ -116,6 +116,32 @@ test("migrated scenes are not selected by id in shared app styling or navigation
   assert.equal(styles.includes('data-layout="split-proof"'), false);
 });
 
+test("production Pitch rendering no longer emits or consumes legacy layout slots", () => {
+  const preview = source("../src/preview.ts");
+  const productionCss = [
+    source("../src/component-composition.css"),
+    source("../src/card-primitives.css"),
+    source("../src/evidence-primitives.css"),
+    source("../src/process-primitives.css"),
+    source("../src/support-workbench-primitives.css"),
+    source("../src/progression-primitives.css"),
+    source("../src/learning-stage-primitives.css"),
+    source("../src/visual-stage-primitives.css"),
+    source("../src/hero-stage-primitives.css"),
+    source("../src/media-stage-primitives.css"),
+    source("../src/semantic-source-runtime.css"),
+    source("../src/semantic-multi-view-runtime.css"),
+    source("../src/knowledge-network-runtime.css"),
+    source("../src/presentation-projection.css"),
+  ].join("\n");
+
+  assert.equal(preview.includes("data-layout-slot"), false);
+  assert.equal(preview.includes("layoutSlot"), false);
+  assert.equal(preview.includes("inferredLayout?.slots"), false);
+  assert.equal(productionCss.includes("data-layout-slot"), false);
+});
+
+
 test("legacy per-scene layout styles are no longer imported", () => {
   const main = source("../src/main.ts");
   assert.equal(main.includes('import "./cogniflow-domain-specifications.css"'), false);
