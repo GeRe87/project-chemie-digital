@@ -581,7 +581,7 @@ test("generic flow-card styling and structured space balancing remain identity-f
 
 test("evidence split uses shared data-surface and visual primitives", () => {
   const css = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
-  assert.match(css, /data-composition="evidence-split"/u);
+  assert.match(css, /data-composition="evidence-stage"/u);
   assert.match(css, /data-component-kind="data-surface"/u);
   assert.match(css, /data-component-kind="visual"/u);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/u);
@@ -696,7 +696,7 @@ test("renders generic main-aside-note composition regions from block semantics",
 });
 
 
-test("renders generic evidence-split regions from table and chart semantics", () => {
+test("renders generic evidence-stage regions from table and chart semantics", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);
   const sourceScene = document.scenes[0]!;
@@ -775,7 +775,7 @@ test("renders generic evidence-split regions from table and chart semantics", ()
     [renderedDocument],
   );
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-composition"), "evidence-split");
+  assert.equal(section.attributes.get("data-composition"), "evidence-stage");
   assert.equal(section.attributes.get("data-composition-profile"), "data-visual");
 
   const headingNode = section.children[0]!;
@@ -816,16 +816,16 @@ test("generic visual evidence compositions own analysis and worked-case presenta
   const css = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="evidence-story"/u);
-  assert.match(css, /data-composition="worked-evidence"/u);
-  assert.match(css, /data-composition-profile/u);
+  assert.match(css, /data-composition="evidence-stage"/u);
+  assert.match(css, /data-composition-profile="visual-data-flow"/u);
+  assert.match(css, /data-composition-profile="context-data-visual"/u);
   assert.doesNotMatch(css, /data-layout="analysis-result"/u);
   assert.doesNotMatch(css, /data-layout="case-study"/u);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
   assert.equal(main.includes('import "./case-study-layout.css"'), false);
 });
 
-test("renders worked-evidence regions from generic block structure", () => {
+test("renders evidence-stage context-data-visual regions from generic block structure", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);
   const sourceScene = document.scenes[0]!;
@@ -909,14 +909,14 @@ test("renders worked-evidence regions from generic block structure", () => {
   };
   const scene = {
     ...sourceScene,
-    id: "scene:worked-evidence-generic",
+    id: "scene:evidence-stage-context-generic",
     blocks: [heading, group, table, chart, discussion, takeaway],
     readingOrder: [heading.id, group.id, table.id, chart.id, discussion.id, takeaway.id],
   };
   const renderedDocument = {
     ...document,
     version: "1.5" as const,
-    id: "document:worked-evidence-generic",
+    id: "document:evidence-stage-context-generic",
     scenes: [scene],
   };
 
@@ -926,7 +926,7 @@ test("renders worked-evidence regions from generic block structure", () => {
     [renderedDocument],
   );
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-composition"), "worked-evidence");
+  assert.equal(section.attributes.get("data-composition"), "evidence-stage");
   assert.equal(section.attributes.get("data-composition-profile"), "context-data-visual");
 
   const regions = section.children.slice(1).map((node) =>
