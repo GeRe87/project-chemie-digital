@@ -114,8 +114,9 @@ body[data-diagram-theme="eco-city"] .d3-chart-bar { rx: 0; shape-rendering: cris
 .d3-chart-static-fallback { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: pre-wrap !important; border: 0 !important; }
 
 .d3-chart-line {
+  fill: none;
   stroke: var(--pcd-chart-series-1);
-  stroke-width: 5;
+  stroke-width: 7;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: drop-shadow(0 0 5px var(--pcd-chart-shadow));
@@ -129,7 +130,7 @@ body[data-diagram-theme="eco-city"] .d3-chart-line {
 .d3-chart-line-point {
   fill: var(--pcd-chart-surface);
   stroke: var(--pcd-chart-series-1);
-  stroke-width: 3;
+  stroke-width: 4;
 }
 
 .d3-chart-range-highlight {

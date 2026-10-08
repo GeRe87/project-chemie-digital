@@ -25,7 +25,7 @@ graph:concepts {
       cd:hasTableColumn, cd:hasTableRow, cd:hasTableCell, cd:forTopic, cd:hasStep,
       cd:usesResource, cd:focusConcept, cd:hasSceneItem, cd:presentationPattern,
       cd:selectsResource, cd:communicativeRole, cd:prerequisite, cd:dependsOn,
-      cd:derivedFrom, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
+      cd:derivedFrom, cd:derivedFromResource, cd:interpretsResource, cd:quantifiesProperty, cd:hasInterpretation, cd:hasUnitRule,
       cd:contrastsWith, cd:hasMisconception, cd:hasCorrection, cd:usesDenominator,
       cd:hasExpectedResult, cd:hasAssessmentCriterion, cd:compares, cd:usesDataset,
       cd:hasObservation, cd:hasCalculationStep, cd:hasDiagram, cd:hasDiagramNode,
@@ -35,7 +35,7 @@ graph:concepts {
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
       cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
       cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit,
-       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole ;
+       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole, cd:visualMotif, cd:visualMotifRole ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
@@ -129,6 +129,8 @@ graph:concepts {
   cd:prerequisite a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Concept ; rdfs:range cd:Concept .
   cd:dependsOn a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
   cd:derivedFrom a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
+  cd:derivedFromResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range cd:LearningResource .
+  cd:interpretsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Interpretation ; rdfs:range cd:LearningResource .
   cd:quantifiesProperty a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Concept .
   cd:hasInterpretation a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Interpretation .
   cd:hasUnitRule a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:UnitRule .
@@ -165,6 +167,8 @@ graph:concepts {
   cd:focusDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:DiagramGroup .
   cd:contextDiagramGroup a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:DiagramGroup .
    cd:visualRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:visualMotif a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
+  cd:visualMotifRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string .
   cd:supportsResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Source ; rdfs:range cd:LearningResource .
   cd:usesScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:SceneDefinition .
 
@@ -186,5 +190,8 @@ graph:concepts {
   cd:yAxisLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range rdf:langString .
   cd:xAxisUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
   cd:yAxisUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:liveUpdateIntervalMs a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:integer .
+  cd:liveJitterAmplitude a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:liveDecimalPlaces a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:integer .
   cd:xValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range xsd:decimal .
 }

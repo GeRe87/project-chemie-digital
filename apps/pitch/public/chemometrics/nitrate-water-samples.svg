@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">Three water samples labeled A, B and C</title>
+  <desc id="desc">A clean scientific illustration of three transparent sample vials representing upstream water, tap water and agricultural runoff.</desc>
+  <defs>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".9"/>
+      <stop offset=".55" stop-color="#dff3fb" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#b9dbe8" stop-opacity=".32"/>
+    </linearGradient>
+    <linearGradient id="waterA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd3ff"/>
+      <stop offset="1" stop-color="#3b9fd3"/>
+    </linearGradient>
+    <linearGradient id="waterB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#87e0d0"/>
+      <stop offset="1" stop-color="#2fa28e"/>
+    </linearGradient>
+    <linearGradient id="waterC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1c96d"/>
+      <stop offset="1" stop-color="#c99122"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#18384a" flood-opacity=".16"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)" stroke-linejoin="round">
+    <g transform="translate(70 48)">
+      <rect x="50" y="0" width="110" height="42" rx="14" fill="#244d62"/>
+      <path d="M68 40h74v34c0 15 8 26 18 38l18 22c13 16 20 36 20 57v183c0 33-27 60-60 60H72c-33 0-60-27-60-60V191c0-21 7-41 20-57l18-22c10-12 18-23 18-38V40Z" fill="url(#glass)" stroke="#416f84" stroke-width="6"/>
+      <path d="M28 245h154v129c0 25-20 44-44 44H72c-24 0-44-19-44-44V245Z" fill="url(#waterA)" opacity=".9"/>
+      <path d="M29 245c31-12 58 10 88 0s45 8 65 0" fill="none" stroke="#e8f9ff" stroke-width="5" opacity=".75"/>
+      <circle cx="105" cy="185" r="38" fill="#ffffff" stroke="#176da0" stroke-width="5"/>
+      <text x="105" y="197" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#176da0">A</text>
+      <text x="105" y="468" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#244d62">UPSTREAM</text>
+    </g>
+
+    <g transform="translate(255 48)">
+      <rect x="50" y="0" width="110" height="42" rx="14" fill="#244d62"/>
+      <path d="M68 40h74v34c0 15 8 26 18 38l18 22c13 16 20 36 20 57v183c0 33-27 60-60 60H72c-33 0-60-27-60-60V191c0-21 7-41 20-57l18-22c10-12 18-23 18-38V40Z" fill="url(#glass)" stroke="#416f84" stroke-width="6"/>
+      <path d="M28 220h154v154c0 25-20 44-44 44H72c-24 0-44-19-44-44V220Z" fill="url(#waterB)" opacity=".9"/>
+      <path d="M29 220c28-10 55 7 84 0 29-8 46 7 69 0" fill="none" stroke="#effffb" stroke-width="5" opacity=".8"/>
+      <circle cx="105" cy="165" r="38" fill="#ffffff" stroke="#168e9c" stroke-width="5"/>
+      <text x="105" y="177" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#168e9c">B</text>
+      <text x="105" y="468" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#244d62">TAP WATER</text>
+    </g>
+
+    <g transform="translate(440 48)">
+      <rect x="50" y="0" width="110" height="42" rx="14" fill="#244d62"/>
+      <path d="M68 40h74v34c0 15 8 26 18 38l18 22c13 16 20 36 20 57v183c0 33-27 60-60 60H72c-33 0-60-27-60-60V191c0-21 7-41 20-57l18-22c10-12 18-23 18-38V40Z" fill="url(#glass)" stroke="#416f84" stroke-width="6"/>
+      <path d="M28 165h154v209c0 25-20 44-44 44H72c-24 0-44-19-44-44V165Z" fill="url(#waterC)" opacity=".92"/>
+      <path d="M29 165c30-13 58 10 86 0 28-9 46 8 67 0" fill="none" stroke="#fff6d8" stroke-width="5" opacity=".82"/>
+      <circle cx="105" cy="117" r="38" fill="#ffffff" stroke="#c96a12" stroke-width="5"/>
+      <text x="105" y="129" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#c96a12">C</text>
+      <text x="105" y="468" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700" fill="#244d62">RUNOFF</text>
+    </g>
+  </g>
+</svg>

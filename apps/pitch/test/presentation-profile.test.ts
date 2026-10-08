@@ -26,6 +26,8 @@ test("Chemometrics defaults to dark scroll view with the paired city family", ()
   assert.equal(resolved.backgroundFamilyId, "chemometrics-city");
   assert.equal(resolved.backgroundPackId, "chemometrics-city-dark");
   assert.equal(resolved.diagramThemeId, "eco-city");
+  assert.equal(resolved.readability, "lecture");
+  assert.equal(resolved.profile.projectionCapabilities, undefined);
   assert.deepEqual(resolved.diagnostics, []);
 });
 
@@ -56,8 +58,11 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   assert.equal(resolved.backgroundPackId, "chemometrics-city-light");
   assert.equal(resolved.diagramThemeId, "eco-city");
   assert.deepEqual(resolved.profile.presenterCapabilities, { clock: true, laserPointer: true });
+  assert.deepEqual(resolved.profile.projectionCapabilities, { publication: true });
   assert.equal(resolved.profile.viewportPolicy, "native-portrait");
+  assert.equal(resolved.readability, "standard");
   assert.equal(chemometricsPresentationProfile.presenterCapabilities, undefined);
+  assert.equal(chemometricsPresentationProfile.projectionCapabilities, undefined);
   assert.equal(chemometricsPresentationProfile.viewportPolicy, undefined);
   assert.equal(chemometricsCityFamily.label, "Eco City");
   assert.equal(chemometricsCityFamily.variants.light.label, "Eco City — Light");
@@ -68,6 +73,21 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   assert.equal(dark.backgroundFamilyId, "chemometrics-city");
   assert.equal(dark.backgroundPackId, "chemometrics-city-dark");
   assert.equal(dark.diagramThemeId, "eco-city");
+});
+
+test("readability mode is profile-driven and can be overridden explicitly", () => {
+  const lecture = resolvePresentationAppearance("", CHEMOMETRICS_SOURCE_PATH_ID);
+  assert.equal(lecture.readability, "lecture");
+
+  const standardOverride = resolvePresentationAppearance("?readability=standard", CHEMOMETRICS_SOURCE_PATH_ID);
+  assert.equal(standardOverride.readability, "standard");
+
+  const lectureOverride = resolvePresentationAppearance("?readability=lecture", COGNIFLOW_SOURCE_PATH_ID);
+  assert.equal(lectureOverride.readability, "lecture");
+
+  const invalid = resolvePresentationAppearance("?readability=tiny", CHEMOMETRICS_SOURCE_PATH_ID);
+  assert.equal(invalid.readability, "lecture");
+  assert.match(invalid.diagnostics.join("\n"), /Unsupported readability 'tiny'/);
 });
 
 test("diagram theme follows the selected background family and disables with background none", () => {
@@ -158,11 +178,17 @@ test("theme styling is keyed independently from background activation and diagra
   const backgroundStyles = readFileSync(new URL("../src/presentation-background.css", import.meta.url), "utf8");
   const flowStyles = readFileSync(new URL("../src/flow-theme.css", import.meta.url), "utf8");
   const chartStyles = readFileSync(new URL("../src/chart-theme.css", import.meta.url), "utf8");
+  const lectureStyles = readFileSync(new URL("../src/lecture-readability.css", import.meta.url), "utf8");
   assert.match(styles, /data-presentation-theme="dark"/);
   assert.match(styles, /data-presentation-theme="light"/);
   assert.match(backgroundStyles, /body\.pcd-background-active/);
   assert.match(backgroundStyles, /var\(--pcd-foreground\)/);
   assert.match(flowStyles, /data-diagram-theme="eco-city"/);
   assert.match(chartStyles, /data-diagram-theme="eco-city"/);
+  assert.match(lectureStyles, /data-presentation-readability="lecture"/);
+  assert.match(lectureStyles, /font-size:\s*30px/);
+  assert.match(lectureStyles, /--pcd-lecture-secondary:\s*24px/);
+  assert.match(lectureStyles, /--pcd-lecture-chart-tick:\s*22px/);
+  assert.match(lectureStyles, /--pcd-lecture-chart-axis:\s*26px/);
   assert.doesNotMatch(backgroundStyles, /body\.pcd-background-active[^{]*\{[^}]*color:\s*#f6fbff/s);
 });

@@ -256,8 +256,15 @@ test("pitch preview creates a canonical renderer host and complete static fallba
   assert.equal(root.children.length, 1);
   const section = root.children[0]!;
   assert.equal(section.children[0]!.textContent, "Flow scene");
-  const host = section.children[1]!;
+  assert.equal(section.attributes.get("data-composition"), "visual-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "diagram");
+  const mainRegion = section.children[1]!;
+  assert.equal(mainRegion.className, "pcd-composition-region");
+  assert.equal(mainRegion.getAttribute("data-composition-region-container"), "main");
+  const host = mainRegion.children[0]!;
   assert.equal(host.className, "d3-diagram-host d3-flow-host");
+  assert.equal(host.getAttribute("data-component-kind"), "visual");
+  assert.equal(host.getAttribute("data-composition-region"), "main");
   assert.equal(host.getAttribute("data-diagram-block-id"), diagram.id);
   assert.equal(host.getAttribute("data-flow-block-id"), diagram.id);
   assert.equal(host.getAttribute("data-diagram-type"), "flow");

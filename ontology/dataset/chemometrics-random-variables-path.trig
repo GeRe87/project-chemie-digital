@@ -4,46 +4,85 @@
 
 <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture> {
   ex:path-chemometrics-random-variables-lecture a cd:LearningPath ;
-    skos:prefLabel "Chemometrics Random Variables lecture path"@en ;
-    cd:forTopic ex:random-variable ;
+    skos:prefLabel "Chemometrics Variables and Constants lecture path"@en ;
+    cd:forTopic ex:variables-and-constants, ex:variable,
+      ex:independent-dependent-variable-roles, ex:independent-variable,
+      ex:dependent-variable, ex:random-variable, ex:constant,
+      ex:sample, ex:distribution ;
     cd:forLearningUnit ex:learning-unit-random-variables ;
-    cd:hasStep ex:path-step-chemometrics-random-variables-opener,
-      ex:path-step-chemometrics-random-variables-core-distinction,
-      ex:path-step-chemometrics-random-variables-measurement-model,
-      ex:path-step-chemometrics-random-variables-discrete-case,
-      ex:path-step-chemometrics-random-variables-continuous-case ;
+    cd:hasStep ex:path-step-chemometrics-variables-constants-title,
+      ex:path-step-chemometrics-variable-definition,
+      ex:path-step-chemometrics-measured-variable-example,
+      ex:path-step-chemometrics-functional-dependence,
+      ex:path-step-chemometrics-observation-random-bridge,
+      ex:path-step-chemometrics-random-draw-r,
+      ex:path-step-chemometrics-constant-definition,
+      ex:path-step-chemometrics-uvvis-example,
+      ex:path-step-chemometrics-role-quiz ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-opener a cd:PathStep ;
+  ex:path-step-chemometrics-variables-constants-title a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:exercise-dice-realizations ;
-    cd:usesScene ex:scene-chemometrics-random-variables-opener ;
+    cd:usesResource ex:variables-and-constants ;
+    cd:usesScene ex:scene-chemometrics-variables-constants-title ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-core-distinction a cd:PathStep ;
+  ex:path-step-chemometrics-variable-definition a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:def-random-variable,
-      ex:random-variable-realization-interpretation ;
-    cd:usesScene ex:scene-chemometrics-random-variables-core-distinction ;
+    cd:usesResource ex:def-variable, ex:source-openstax-statistics ;
+    cd:usesScene ex:scene-chemometrics-variable-definition ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-measurement-model a cd:PathStep ;
+  ex:path-step-chemometrics-measured-variable-example a cd:PathStep ;
     cd:position 3 ;
-    cd:usesResource ex:random-measurement-model-interpretation ;
-    cd:usesScene ex:scene-chemometrics-random-variables-measurement-model ;
+    cd:usesResource ex:measured-variable-example-intro,
+      ex:table-live-absorbance-observations,
+      ex:chart-live-absorbance-observations ;
+    cd:usesScene ex:scene-chemometrics-measured-variable-example ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-discrete-case a cd:PathStep ;
+  ex:path-step-chemometrics-functional-dependence a cd:PathStep ;
     cd:position 4 ;
-    cd:usesResource ex:def-discrete-random-variable,
-      ex:worked-example-discrete-colony-count ;
-    cd:usesScene ex:scene-chemometrics-random-variables-discrete-case ;
+    cd:usesResource ex:functional-dependence-intro,
+      ex:functional-dependence-formula, ex:function-example-cards,
+      ex:functional-dependence-caveat ;
+    cd:usesScene ex:scene-chemometrics-functional-dependence ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-continuous-case a cd:PathStep ;
+  ex:path-step-chemometrics-observation-random-bridge a cd:PathStep ;
     cd:position 5 ;
-    cd:usesResource ex:def-continuous-random-variable,
-      ex:worked-example-continuous-concentration ;
-    cd:usesScene ex:scene-chemometrics-random-variables-continuous-case ;
+    cd:usesResource ex:variable-observation-random-intro,
+      ex:observation-values-formula, ex:diagram-variable-observation-sample,
+      ex:random-variable-distribution-note ;
+    cd:usesScene ex:scene-chemometrics-observation-random-bridge ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-random-draw-r a cd:PathStep ;
+    cd:position 6 ;
+    cd:usesResource ex:random-draw-r-intro, ex:code-random-draw-r ;
+    cd:usesScene ex:scene-chemometrics-random-draw-r ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-constant-definition a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:def-constant, ex:source-openstax-statistics ;
+    cd:usesScene ex:scene-chemometrics-constant-definition ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-uvvis-example a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:uvvis-calibration-intro,
+      ex:table-uvvis-calibration-roles, ex:chart-uvvis-calibration-response,
+      ex:uvvis-role-keypoints ;
+    cd:usesScene ex:scene-chemometrics-uvvis-example ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-role-quiz a cd:PathStep ;
+    cd:position 9 ;
+    cd:usesResource ex:poll-quiz-concentration-role,
+      ex:poll-quiz-wavelength-role, ex:poll-quiz-absorbance-role,
+      ex:expected-quiz-concentration-role, ex:expected-quiz-wavelength-role,
+      ex:expected-quiz-absorbance-role ;
+    cd:usesScene ex:scene-chemometrics-role-quiz ;
     cd:authoredResource true .
 }

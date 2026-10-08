@@ -13,6 +13,19 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION
   | typeof SCENE_DOCUMENT_TABLE_VERSION;
 
+export const VISUAL_MOTIF_KEYS = [
+  "discussion",
+  "hands-on",
+  "statistics",
+  "inference",
+  "regression",
+  "design-of-experiments",
+  "multivariate",
+  "machine-learning",
+] as const;
+
+export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];
+
 export interface SourceReference {
   readonly resourceId: string;
   readonly provenanceIds?: readonly string[];
@@ -39,6 +52,8 @@ export interface DidacticIntent {
 export interface Disclosure {
   readonly order: number;
   readonly mode: "initial" | "progressive" | "optional";
+  readonly step?: number;
+  readonly triggerResourceId?: string;
 }
 
 interface SceneBlockBase {
@@ -96,6 +111,8 @@ export interface DefinitionListEntry {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly visualMotif?: VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -141,6 +158,9 @@ export interface PromptBlock extends SceneBlockBase {
   readonly prompt: string;
   readonly responseMode: "reflection" | "single-choice" | "multiple-choice" | "free-text";
   readonly options?: readonly string[];
+  readonly optionIds?: readonly string[];
+  readonly correctOptionId?: string;
+  readonly expectedResult?: string;
   readonly fallback: string;
 }
 
@@ -151,6 +171,8 @@ export interface DiagramNode {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
 }
 
@@ -253,6 +275,14 @@ export interface LineChartSeries {
   readonly source: readonly SourceReference[];
 }
 
+export interface BarChartPointAnnotation {
+  readonly id: string;
+  readonly kind: "point";
+  readonly datumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
 export interface LineChartPointAnnotation {
   readonly id: string;
   readonly kind: "point";
@@ -274,6 +304,12 @@ export interface LineChartRangeAnnotation {
 
 export type LineChartAnnotation = LineChartPointAnnotation | LineChartRangeAnnotation;
 
+export interface LiveChartUpdate {
+  readonly intervalMs: number;
+  readonly jitterAmplitude: number;
+  readonly decimalPlaces: number;
+}
+
 export interface BarChartBlock extends SceneBlockBase {
   readonly kind: "chart";
   readonly chartType: "bar";
@@ -282,6 +318,8 @@ export interface BarChartBlock extends SceneBlockBase {
   readonly xAxis: ChartAxis;
   readonly yAxis: ChartAxis;
   readonly data: readonly BarChartDatum[];
+  readonly annotations?: readonly BarChartPointAnnotation[];
+  readonly liveUpdate?: LiveChartUpdate;
 }
 
 export interface LineChartBlock extends SceneBlockBase {
@@ -293,6 +331,7 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly yAxis: ChartAxis;
   readonly series: readonly LineChartSeries[];
   readonly annotations?: readonly LineChartAnnotation[];
+  readonly liveUpdate?: LiveChartUpdate;
 }
 
 export type ChartBlock = BarChartBlock | LineChartBlock;
@@ -371,6 +410,12 @@ function validateListItems(items: readonly ListItem[], label: string): void {
   }
 }
 
+function validateVisualMotif(value: VisualMotifKey | undefined, label: string): void {
+  if (value !== undefined && !(VISUAL_MOTIF_KEYS as readonly string[]).includes(value)) {
+    throw new SceneContractError(`${label} visualMotif is not supported`);
+  }
+}
+
 function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], label: string): void {
   if (entries.length === 0) throw new SceneContractError(`${label} must contain at least one entry`);
   const ids = new Set<string>();
@@ -380,6 +425,10 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     ids.add(entry.id);
     requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
+    if (entry.visualMotifRole !== undefined && entry.visualMotifRole !== "supporting" && entry.visualMotifRole !== "highlight") {
+      throw new SceneContractError(`${label} entry ${entry.id} visualMotifRole must be supporting or highlight`);
+    }
+    validateVisualMotif(entry.visualMotif, `${label} entry ${entry.id}`);
     validateSource(entry.source, `${label} entry ${entry.id} source`);
   }
 }
@@ -437,6 +486,10 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (node.description !== undefined) requireNonEmpty(node.description, `${label} diagram node ${node.id} description`);
     if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
       throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
+    }
+    validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);
+    if (node.visualMotifRole !== undefined && node.visualMotifRole !== "supporting" && node.visualMotifRole !== "highlight") {
+      throw new SceneContractError(`${label} diagram node ${node.id} visualMotifRole must be supporting or highlight`);
     }
     validateSource(node.source, `${label} diagram node ${node.id} source`);
   }
@@ -545,6 +598,17 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if (block.liveUpdate !== undefined) {
+    if (!Number.isInteger(block.liveUpdate.intervalMs) || block.liveUpdate.intervalMs < 250) {
+      throw new SceneContractError(`${label} live chart interval must be an integer >= 250 ms`);
+    }
+    if (!Number.isFinite(block.liveUpdate.jitterAmplitude) || block.liveUpdate.jitterAmplitude <= 0) {
+      throw new SceneContractError(`${label} live chart jitter amplitude must be finite and positive`);
+    }
+    if (!Number.isInteger(block.liveUpdate.decimalPlaces) || block.liveUpdate.decimalPlaces < 0 || block.liveUpdate.decimalPlaces > 6) {
+      throw new SceneContractError(`${label} live chart decimal places must be an integer from 0 to 6`);
+    }
+  }
 
   if (block.chartType === "bar") {
     if (block.data.length === 0) throw new SceneContractError(`${label} bar chart must contain at least one datum`);
@@ -556,6 +620,18 @@ function validateChart(block: ChartBlock, label: string): void {
       requireNonEmpty(datum.category, `${label} bar datum ${datum.id} category`);
       if (!Number.isFinite(datum.value)) throw new SceneContractError(`${label} bar datum ${datum.id} value must be finite`);
       validateSource(datum.source, `${label} bar datum ${datum.id} source`);
+    }
+    const annotationIds = new Set<string>();
+    for (const annotation of block.annotations ?? []) {
+      requireNonEmpty(annotation.id, `${label} annotation id`);
+      if (annotationIds.has(annotation.id)) throw new SceneContractError(`${label} contains duplicate annotation ids`);
+      annotationIds.add(annotation.id);
+      requireNonEmpty(annotation.label, `${label} annotation ${annotation.id} label`);
+      validateSource(annotation.source, `${label} annotation ${annotation.id} source`);
+      if (annotation.kind !== "point") throw new SceneContractError(`${label} bar annotation ${annotation.id} must be a point annotation`);
+      if (!ids.has(annotation.datumId)) {
+        throw new SceneContractError(`${label} point annotation ${annotation.id} references an unknown datum`);
+      }
     }
     return;
   }
@@ -630,6 +706,20 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
     if (block.disclosure && (!Number.isInteger(block.disclosure.order) || block.disclosure.order < 0)) {
       throw new SceneContractError(`${label} block ${block.id} disclosure order must be a non-negative integer`);
     }
+    if (block.disclosure?.step !== undefined) {
+      if (!Number.isInteger(block.disclosure.step) || block.disclosure.step < 1) {
+        throw new SceneContractError(`${label} block ${block.id} disclosure step must be a positive integer`);
+      }
+      if (block.disclosure.mode !== "progressive") {
+        throw new SceneContractError(`${label} block ${block.id} disclosure step requires progressive mode`);
+      }
+      if (block.disclosure.triggerResourceId === undefined) {
+        throw new SceneContractError(`${label} block ${block.id} progressive disclosure step requires triggerResourceId`);
+      }
+    }
+    if (block.disclosure?.triggerResourceId !== undefined) {
+      requireNonEmpty(block.disclosure.triggerResourceId, `${label} block ${block.id} disclosure triggerResourceId`);
+    }
     if (block.kind === "group") {
       validateBlocks(block.children, `${label} group ${block.id}`, version);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
@@ -659,7 +749,31 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
     }
     if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
-    if (block.kind === "prompt") requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+    if (block.kind === "prompt") {
+      requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
+      if (block.options !== undefined) {
+        if (block.options.length < 2) throw new SceneContractError(`${label} prompt ${block.id} requires at least two options`);
+        for (const option of block.options) requireNonEmpty(option, `${label} prompt ${block.id} option`);
+      }
+      if (block.optionIds !== undefined) {
+        if (block.options === undefined || block.optionIds.length !== block.options.length) {
+          throw new SceneContractError(`${label} prompt ${block.id} optionIds must match options`);
+        }
+        if (new Set(block.optionIds).size !== block.optionIds.length) {
+          throw new SceneContractError(`${label} prompt ${block.id} optionIds must be unique`);
+        }
+        for (const optionId of block.optionIds) requireNonEmpty(optionId, `${label} prompt ${block.id} option id`);
+      }
+      if (block.correctOptionId !== undefined) {
+        requireNonEmpty(block.correctOptionId, `${label} prompt ${block.id} correctOptionId`);
+        if (block.responseMode !== "single-choice" || block.optionIds === undefined || !block.optionIds.includes(block.correctOptionId)) {
+          throw new SceneContractError(`${label} prompt ${block.id} correctOptionId must identify an authored single-choice option`);
+        }
+      }
+      if (block.expectedResult !== undefined) {
+        requireNonEmpty(block.expectedResult, `${label} prompt ${block.id} expectedResult`);
+      }
+    }
     if (block.kind === "diagram") {
        if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);

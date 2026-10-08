@@ -3,6 +3,32 @@ import test from "node:test";
 import { SCENE_DOCUMENT_CHART_VERSION, validateSceneDocument, type SceneDocument } from "../src/scene-document.ts";
 function chartDocument(): SceneDocument { return { version: SCENE_DOCUMENT_CHART_VERSION, id: "doc", sourcePathId: "path", scenes: [{ id: "scene", source: [{ resourceId: "scene-source" }], readingOrder: ["chart"], blocks: [{ id: "chart", kind: "chart", chartType: "bar", label: "Service usage by provider type", description: "Illustrative values", xAxis: { label: "Provider type" }, yAxis: { label: "Relative workload" }, data: [{ id: "a", category: "Data ingestion", value: 12, source: [{ resourceId: "a" }] }, { id: "b", category: "Analytics", value: 25, source: [{ resourceId: "b" }] }], source: [{ resourceId: "chart-source" }] }] }] }; }
 test("SceneDocument 1.2 accepts canonical bar ChartBlock", () => assert.doesNotThrow(() => validateSceneDocument(chartDocument())));
+test("SceneDocument 1.2 accepts complete live chart update metadata", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  assert.equal(chart.kind, "chart");
+  (chart as unknown as { liveUpdate: unknown }).liveUpdate = {
+    intervalMs: 900,
+    jitterAmplitude: 0.012,
+    decimalPlaces: 3,
+  };
+  assert.doesNotThrow(() => validateSceneDocument(document));
+});
+
+test("live chart update metadata fails closed on invalid timing, amplitude, or precision", () => {
+  for (const [liveUpdate, pattern] of [
+    [{ intervalMs: 100, jitterAmplitude: 0.01, decimalPlaces: 3 }, /interval/],
+    [{ intervalMs: 900, jitterAmplitude: 0, decimalPlaces: 3 }, /amplitude/],
+    [{ intervalMs: 900, jitterAmplitude: 0.01, decimalPlaces: 7 }, /decimal places/],
+  ] as const) {
+    const document = chartDocument();
+    const chart = document.scenes[0]!.blocks[0]!;
+    assert.equal(chart.kind, "chart");
+    (chart as unknown as { liveUpdate: unknown }).liveUpdate = liveUpdate;
+    assert.throws(() => validateSceneDocument(document), pattern);
+  }
+});
+
 test("bar ChartBlock fails closed on non-finite values", () => { const document = chartDocument(); const chart = document.scenes[0]!.blocks[0]!; assert.equal(chart.kind, "chart"); (chart.data as unknown as Array<{ value: number }>)[0]!.value = Number.NaN; assert.throws(() => validateSceneDocument(document), /must be finite/); });
 
 
@@ -58,4 +84,52 @@ test("SceneDocument 1.2 accepts a source-linked line chart with point and range 
   };
 
   assert.doesNotThrow(() => validateSceneDocument(document));
+});
+
+
+test("SceneDocument accepts bar point annotations and semantic progressive disclosure", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  assert.equal(chart.kind, "chart");
+  assert.equal(chart.chartType, "bar");
+  (chart as Extract<typeof chart, { kind: "chart"; chartType: "bar" }>).annotations = [
+    {
+      id: "annotation-a",
+      kind: "point",
+      datumId: "a",
+      label: "Authored focus",
+      source: [{ resourceId: "annotation-a" }],
+    },
+  ];
+  (chart as { disclosure?: unknown }).disclosure = {
+    order: 0,
+    mode: "progressive",
+    step: 2,
+    triggerResourceId: "annotation-a",
+  };
+  assert.doesNotThrow(() => validateSceneDocument(document));
+});
+
+test("bar point annotation fails closed on unknown datum", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  assert.equal(chart.kind, "chart");
+  assert.equal(chart.chartType, "bar");
+  (chart as Extract<typeof chart, { kind: "chart"; chartType: "bar" }>).annotations = [
+    {
+      id: "annotation-missing",
+      kind: "point",
+      datumId: "missing",
+      label: "Unknown focus",
+      source: [{ resourceId: "annotation-missing" }],
+    },
+  ];
+  assert.throws(() => validateSceneDocument(document), /references an unknown datum/);
+});
+
+test("progressive disclosure step requires a semantic trigger", () => {
+  const document = chartDocument();
+  const chart = document.scenes[0]!.blocks[0]!;
+  (chart as { disclosure?: unknown }).disclosure = { order: 0, mode: "progressive", step: 1 };
+  assert.throws(() => validateSceneDocument(document), /requires triggerResourceId/);
 });

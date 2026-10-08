@@ -247,9 +247,22 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             self._ordered_rows(self.dataset, DIGITAL_CHEMISTRY),
         )
 
+    def test_variables_and_constants_unit_has_updated_label(self) -> None:
+        self.assertEqual(
+            {"Variables and Constants"},
+            {
+                str(value)
+                for value in self.graph.objects(
+                    EX["learning-unit-random-variables"], SKOS.prefLabel
+                )
+            },
+        )
+
     def test_learning_units_use_expected_focus_concepts(self) -> None:
         expected = {
             EX["learning-unit-chemometrics-introduction"]: {
+                EX["chemometrics-course-title"],
+                EX["chemometrics-definition"],
                 EX["chemometrics-course-overview"],
                 EX["chemometrics-lecturer-context"],
                 EX["chemometrics-course-format"],
@@ -257,9 +270,15 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["chemometrics-introduction-round"],
             },
             EX["learning-unit-random-variables"]: {
+                EX["variables-and-constants"],
+                EX["variable"],
+                EX["independent-dependent-variable-roles"],
+                EX["independent-variable"],
+                EX["dependent-variable"],
+                EX["constant"],
                 EX["random-variable"],
-                EX["discrete-random-variable"],
-                EX["continuous-random-variable"],
+                EX["sample"],
+                EX["distribution"],
             },
             EX["learning-unit-mean-values"]: {
                 EX["arithmetic-mean"],

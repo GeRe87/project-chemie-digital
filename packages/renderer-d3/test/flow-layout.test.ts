@@ -36,22 +36,94 @@ const branchedInput = {
   ],
 } as const;
 
-test("selects horizontal and vertical layouts from host width without reordering semantics", () => {
+test("short strict linear flows use compact horizontal structure before the generic width breakpoint", () => {
   assert.equal(flowOrientationForWidth(1200), "horizontal");
   assert.equal(flowOrientationForWidth(640), "vertical");
 
-  const wide = createD3FlowLayout(input, 1200);
-  const narrow = createD3FlowLayout(input, 640);
+  const explicitFlow = { ...input, diagramType: "flow" as const };
+  const wide = createD3FlowLayout(explicitFlow, 1200);
+  const compact = createD3FlowLayout(explicitFlow, 640);
+  const narrow = createD3FlowLayout(explicitFlow, 520);
   assert.equal(wide.orientation, "horizontal");
+  assert.equal(compact.orientation, "horizontal");
   assert.equal(narrow.orientation, "vertical");
   assert.deepEqual(wide.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
+  assert.deepEqual(compact.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
   assert.deepEqual(narrow.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
-  assert.deepEqual(wide.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.deepEqual(narrow.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.ok(wide.nodes[1]!.x > wide.nodes[0]!.x);
-  assert.equal(wide.nodes[1]!.y, wide.nodes[0]!.y);
+  assert.deepEqual(compact.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
+  assert.ok(compact.nodes[1]!.x > compact.nodes[0]!.x);
+  assert.equal(compact.nodes[1]!.y, compact.nodes[0]!.y);
+  assert.ok(compact.nodes.every((node) => node.width >= 150));
+  const compactRight = Math.max(...compact.nodes.map((node) => node.x + node.width / 2));
+  assert.ok(compactRight <= compact.width + 0.001);
   assert.ok(narrow.nodes[1]!.y > narrow.nodes[0]!.y);
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
+});
+
+test("long strict linear flows use a readable Hilbert-style space-filling route", () => {
+  const longLinear = {
+    diagramType: "flow" as const,
+    nodes: Array.from({ length: 6 }, (_, index) => ({
+      id: `step:${index + 1}`,
+      label: `STAGE ${index + 1} WITH READABLE TITLE`,
+      description: `Principle ${index + 1} · worked example · interpretation`,
+    })),
+    edges: Array.from({ length: 5 }, (_, index) => ({
+      id: `edge:${index + 1}`,
+      sourceNodeId: `step:${index + 1}`,
+      targetNodeId: `step:${index + 2}`,
+      label: "builds on",
+    })),
+  };
+
+  const highlightLinear = {
+    ...longLinear,
+    nodes: longLinear.nodes.map((node, index) => ({
+      ...node,
+      ...(index === 0 ? { visualMotifRole: "highlight" as const } : {}),
+    })),
+  };
+  const wide = createD3FlowLayout(highlightLinear, 1180);
+  assert.equal(wide.strategy, "space-filling-flow");
+  assert.equal(wide.orientation, "horizontal");
+  assert.deepEqual(wide.nodes.map((node) => node.id), longLinear.nodes.map((node) => node.id));
+  assert.ok(wide.nodes.every((node) => node.width >= 300), "space-filling cards maximize readable width");
+  assert.ok(wide.nodes.every((node) => node.height >= 190), "space-filling cards reserve readable vertical space");
+  assert.ok(wide.nodes[0]!.height >= 276, "highlight motifs reserve central vertical space inside the card");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.x))).size, 3, "six stages use a compact three-column Hilbert window");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.y))).size, 2, "six stages use a compact two-row Hilbert window");
+  assert.ok(wide.edges.every((edge) => edge.labelLines.length === 0), "identical repeated linear relation labels are visually suppressed");
+  for (const edge of wide.edges) {
+    assert.ok((edge.routePoints?.length ?? 0) >= 2);
+    for (let index = 1; index < edge.routePoints!.length; index += 1) {
+      const previous = edge.routePoints![index - 1]!;
+      const point = edge.routePoints![index]!;
+      assert.ok(previous.x === point.x || previous.y === point.y, "Hilbert route remains orthogonal");
+    }
+  }
+
+  const variedLabels = createD3FlowLayout({
+    ...longLinear,
+    edges: longLinear.edges.map((edge, index) => ({
+      ...edge,
+      label: index === 2 ? "then applies" : edge.label,
+    })),
+  }, 1180);
+  assert.ok(
+    variedLabels.edges.some((edge) => edge.labelLines.length > 0),
+    "non-repetitive edge labels remain visible",
+  );
+
+  const shortLinear = {
+    ...longLinear,
+    nodes: longLinear.nodes.slice(0, 4),
+    edges: longLinear.edges.slice(0, 3),
+  };
+  assert.equal(createD3FlowLayout(shortLinear, 1180).strategy, "layered-flow");
+
+  const narrow = createD3FlowLayout(longLinear, 720);
+  assert.equal(narrow.orientation, "vertical");
+  assert.equal(narrow.strategy, "layered-flow");
 });
 
 test("long horizontal node labels wrap before colliding with card chrome", () => {

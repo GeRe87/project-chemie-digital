@@ -3,6 +3,7 @@ import test from "node:test";
 import type { DiagramBlock } from "../../core/src/index.ts";
 import {
   createD3FlowRenderModel,
+  d3FlowEdgePath,
   mountD3FlowDiagram,
   type D3FlowRuntimePort,
 } from "../src/flow-diagram.ts";
@@ -16,7 +17,7 @@ const block: DiagramBlock = {
   source: [{ resourceId: "scene:flow", relationPath: "cd:body", provenanceIds: ["prov:scene"] }],
   nodes: [
     { id: "node:raw", label: "Raw data", source: [{ resourceId: "ex:raw", relationPath: "skos:prefLabel@en" }] },
-    { id: "node:metadata", label: "Metadata", description: "Semantic description", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary" },
+    { id: "node:metadata", label: "Metadata", description: "Semantic description", source: [{ resourceId: "ex:metadata", relationPath: "dct:title", provenanceIds: ["prov:metadata"] }], emphasis: "primary", visualMotif: "regression", visualMotifRole: "highlight" },
     { id: "node:reuse", label: "Reusable result", source: [{ resourceId: "ex:reuse", relationPath: "schema:name" }] },
   ],
   edges: [
@@ -42,11 +43,39 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.deepEqual(first.model.nodeReadingOrder, ["node:raw", "node:metadata", "node:reuse"]);
   assert.deepEqual(first.model.edgeReadingOrder, ["edge:describe", "edge:reuse"]);
   assert.equal(first.model.nodes[1]!.emphasis, "primary");
+  assert.equal(first.model.nodes[1]!.visualMotif, "regression");
+  assert.equal(first.model.nodes[1]!.visualMotifRole, "highlight");
   assert.equal(first.model.nodes[1]!.description, "Semantic description");
   assert.equal(first.model.nodes[1]!.source[0]!.relationPath, "dct:title");
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);
   assert.match(first.model.staticFallback, /Raw data/);
   assert.match(first.model.staticFallback, /Metadata — enables → Reusable result/);
+});
+
+test("space-filling edge paths preserve every renderer-owned orthogonal route point", () => {
+  const path = d3FlowEdgePath(
+    {
+      id: "edge:routed",
+      sourceNodeId: "a",
+      targetNodeId: "b",
+      x1: 10,
+      y1: 20,
+      x2: 90,
+      y2: 80,
+      labelX: 50,
+      labelY: 40,
+      labelLines: ["next"],
+      routePoints: [
+        { x: 10, y: 20 },
+        { x: 10, y: 60 },
+        { x: 90, y: 60 },
+        { x: 90, y: 80 },
+      ],
+    },
+    "horizontal",
+    "space-filling-flow",
+  );
+  assert.equal(path, "M 10 20 L 10 60 L 90 60 L 90 80");
 });
 
 test("optional focus is valid and does not invent a focus node", () => {
@@ -156,7 +185,7 @@ test("keyboard lifecycle prefers canonical focus and preserves it across respons
   assert.equal(mounted.activeNodeId, "node:reuse");
   assert.equal(mounted.handleKey("PageDown"), false);
 
-  resizeCallback?.(640);
+  resizeCallback?.(520);
   assert.equal(mounted.layout.orientation, "vertical");
   assert.deepEqual(updates.at(-1), { orientation: "vertical", active: "node:reuse" });
 
@@ -169,7 +198,7 @@ test("keyboard lifecycle prefers canonical focus and preserves it across respons
 test("static mode creates no keyboard focus traversal", () => {
   const focused: string[] = [];
   const runtime: D3FlowRuntimePort = {
-    measureHost() { return 640; },
+    measureHost() { return 520; },
     mount() {
       return {
         update() {},

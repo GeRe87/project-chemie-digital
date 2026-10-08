@@ -54,7 +54,14 @@ test("pitch preview renders semantic list markup with item-level source identity
   assert.equal(list.className, "keypoint-list");
   assert.equal(list.attributes.get("data-resource-id"), "ex:keypoint-owner");
   assert.equal(list.attributes.get("data-relation-path"), "cd:hasKeyPoint");
-  assert.deepEqual(list.children.map((item) => item.textContent), ["First authored point", "Second authored point"]);
+  assert.deepEqual(
+    list.children.map((item) => item.children[0]?.textContent),
+    ["First authored point", "Second authored point"],
+  );
+  assert.deepEqual(
+    list.children.map((item) => item.children[0]?.className),
+    ["pcd-list-item-text", "pcd-list-item-text"],
+  );
   assert.equal(list.children[0]?.attributes.get("data-list-item-id"), "item:one");
   assert.equal(list.children[0]?.attributes.get("data-resource-id"), "ex:keypoint-one");
   assert.equal(list.children[0]?.attributes.get("data-relation-path"), "cd:body");
@@ -101,10 +108,22 @@ const conceptSpecificationDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview selects concept-specification from generic scene structure", () => {
+test("pitch preview projects concept cards through generic cards-with-footer progression", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [conceptSpecificationDocument]);
-  assert.equal(root.children[0]?.attributes.get("data-layout"), "concept-specification");
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-layout"), undefined);
+  assert.equal(section.attributes.get("data-composition"), "progression-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "cards-with-footer");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "main", "footer"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
   destroy();
 });
 
@@ -142,12 +161,23 @@ const hierarchyFlowDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview exposes generic hierarchy-flow slots", () => {
+test("pitch preview exposes generic compact process progression regions", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [hierarchyFlowDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "hierarchy-flow");
-  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "intro", "diagram", "takeaway"]);
+  assert.equal(section.attributes.get("data-layout"), undefined);
+  assert.equal(section.attributes.get("data-composition"), "progression-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "compact-linear");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "prelude", "main", "footer"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "visual");
+  assert.equal(section.children[3]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
   destroy();
 });
 
@@ -180,12 +210,26 @@ const referenceCodeDocument: SceneDocument = {
   }],
 };
 
-test("pitch preview exposes generic reference-code slots", () => {
+test("pitch preview exposes generic list-code support workbench", () => {
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [referenceCodeDocument]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "reference-code");
-  assert.deepEqual(section.children.map((child) => child.attributes.get("data-layout-slot")), ["heading", "banner", "terms", "code-label", "code", "reading"]);
+  assert.equal(section.attributes.get("data-layout"), undefined);
+  assert.equal(section.attributes.get("data-composition"), "learning-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "list-code-reference");
+  assert.deepEqual(
+    section.children.map((child) =>
+      child.attributes.get("data-composition-region-container")
+        ?? child.attributes.get("data-composition-region")
+    ),
+    ["heading", "lead", "primary", "secondary"],
+  );
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.deepEqual(
+    section.children[3]!.children.map((child) => child.attributes.get("data-component-kind")),
+    ["info-surface", "code", "info-surface"],
+  );
   destroy();
 });
 
@@ -232,7 +276,11 @@ test("pitch preview renders definition-list semantic markup without lexical pars
   const root = new FakeElement();
   const destroy = mountSceneDocuments({ root, createElement: () => new FakeElement() }, [definitionListDocument]);
   const section = root.children[0]!;
-  const list = section.children[1]!;
+  assert.equal(section.attributes.get("data-composition"), "learning-stage");
+  assert.equal(section.attributes.get("data-composition-profile"), "definition-deck");
+  const mainRegion = section.children[1]!;
+  assert.equal(mainRegion.attributes.get("data-composition-region-container"), "main");
+  const list = mainRegion.children[0]!;
   assert.equal(list.className, "definition-list");
   assert.equal(list.attributes.get("data-relation-path"), "cd:hasDefinitionListEntry");
   assert.equal(list.children[0]?.className, "definition-list-entry");

@@ -1,8 +1,49 @@
 import { scaleBand, scaleLinear } from "d3-scale";
 import type { ChartBlock } from "../../core/src/scene-document.ts";
 
-export interface D3BarChartOptions { readonly reducedMotion: boolean; }
+export interface D3BarChartOptions {
+  readonly reducedMotion: boolean;
+  readonly density?: "comfortable" | "dense" | "compact";
+}
+export interface D3BarChartGeometry {
+  readonly minimumWidth: number;
+  readonly minimumHeight: number;
+  readonly heightRatio: number;
+  readonly margin: { readonly top: number; readonly right: number; readonly bottom: number; readonly left: number };
+}
+
+export function barChartGeometryForDensity(
+  density: D3BarChartOptions["density"] = "comfortable",
+): D3BarChartGeometry {
+  if (density === "compact") {
+    return {
+      minimumWidth: 420,
+      minimumHeight: 310,
+      heightRatio: 0.48,
+      margin: { top: 34, right: 18, bottom: 68, left: 58 },
+    };
+  }
+  if (density === "dense") {
+    return {
+      minimumWidth: 500,
+      minimumHeight: 350,
+      heightRatio: 0.5,
+      margin: { top: 40, right: 22, bottom: 78, left: 66 },
+    };
+  }
+  return {
+    minimumWidth: 640,
+    minimumHeight: 460,
+    heightRatio: 0.52,
+    margin: { top: 58, right: 36, bottom: 112, left: 92 },
+  };
+}
 export interface D3BarDatum { readonly id: string; readonly category: string; readonly value: number; }
+export interface D3BarPointAnnotation {
+  readonly id: string;
+  readonly datumId: string;
+  readonly label: string;
+}
 export interface D3BarChartRenderModel {
   readonly version: "1.0";
   readonly sourceBlockId: string;
@@ -12,6 +53,7 @@ export interface D3BarChartRenderModel {
   readonly yAxisLabel: string;
   readonly yAxisUnit?: string;
   readonly data: readonly D3BarDatum[];
+  readonly annotations: readonly D3BarPointAnnotation[];
   readonly staticFallback: string;
 }
 export interface D3BarChartDiagnostic {
@@ -41,6 +83,7 @@ function fallback(block: Extract<ChartBlock, { chartType: "bar" }>): string {
     block.description,
     `${block.xAxis.label} / ${block.yAxis.label}`,
     ...block.data.map((datum) => `- ${datum.category}: ${datum.value}${unit}`),
+    ...(block.annotations ?? []).map((annotation) => `* ${annotation.label}`),
   ].join("\n");
 }
 
@@ -54,6 +97,14 @@ export function createD3BarChartRenderModel(block: ChartBlock): D3BarChartRender
   if (block.data.some((datum) => !Number.isFinite(datum.value))) {
     return invalid("bar chart values must be finite");
   }
+  const idSet = new Set(ids);
+  const annotationIds = new Set<string>();
+  for (const annotation of block.annotations ?? []) {
+    if (annotation.kind !== "point") return invalid("bar chart annotations must be point annotations");
+    if (annotationIds.has(annotation.id)) return invalid("bar chart annotation ids must be unique");
+    annotationIds.add(annotation.id);
+    if (!idSet.has(annotation.datumId)) return invalid("bar chart annotation must reference a known datum");
+  }
   return {
     model: {
       version: "1.0",
@@ -64,6 +115,7 @@ export function createD3BarChartRenderModel(block: ChartBlock): D3BarChartRender
       yAxisLabel: block.yAxis.label,
       ...(block.yAxis.unit ? { yAxisUnit: block.yAxis.unit } : {}),
       data: block.data.map(({ id, category, value }) => ({ id, category, value })),
+      annotations: (block.annotations ?? []).map(({ id, datumId, label }) => ({ id, datumId, label })),
       staticFallback: fallback(block),
     },
     diagnostics: [],
@@ -89,6 +141,14 @@ function wrapLabel(text: string, maxCharacters = 16): string[] {
   }
   if (line) lines.push(line);
   return lines.length ? lines : [text];
+}
+
+export function barChartEmphasisDatumIds(model: D3BarChartRenderModel): ReadonlySet<string> {
+  if (model.annotations.length) {
+    return new Set(model.annotations.map((annotation) => annotation.datumId));
+  }
+  const maximum = Math.max(...model.data.map((datum) => datum.value));
+  return new Set(model.data.filter((datum) => datum.value === maximum).map((datum) => datum.id));
 }
 
 function clampStep(step: number, count: number): number {
@@ -133,20 +193,20 @@ export function mountD3BarChart(
   host.append(figure);
 
   const applyStep = (): void => {
-    const maximum = Math.max(...model.data.map((datum) => datum.value));
+    const emphasizedDatumIds = barChartEmphasisDatumIds(model);
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
-      const value = Number(rect.dataset.value ?? 0);
+      const datumId = rect.dataset.datumId ?? "";
       const visible = currentStep >= 1;
       const focused = currentStep >= 3;
-      const emphasized = focused && value === maximum;
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       rect.style.transform = visible ? "scaleY(1)" : "scaleY(0)";
       rect.style.opacity = focused ? (emphasized ? "1" : "0.28") : (visible ? "1" : "0");
       rect.classList.toggle("d3-chart-emphasis", emphasized);
     }
     for (const label of chartSvg.querySelectorAll<SVGTextElement>(".d3-chart-value-label")) {
-      const value = Number(label.dataset.value ?? 0);
+      const datumId = label.dataset.datumId ?? "";
       const focused = currentStep >= 3;
-      const emphasized = focused && value === maximum;
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       label.style.opacity = currentStep >= 2 ? (focused ? (emphasized ? "1" : "0.22") : "1") : "0";
       label.classList.toggle("d3-chart-emphasis", emphasized);
     }
@@ -155,9 +215,10 @@ export function mountD3BarChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const width = Math.max(640, Math.round(host.getBoundingClientRect().width || 960));
-    const height = Math.max(460, Math.round(width * 0.52));
-    const margin = { top: 58, right: 36, bottom: 112, left: 92 };
+    const geometry = barChartGeometryForDensity(options.density);
+    const { minimumWidth, minimumHeight, heightRatio, margin } = geometry;
+    const width = Math.max(minimumWidth, Math.round(host.getBoundingClientRect().width || 960));
+    const height = Math.max(minimumHeight, Math.round(width * heightRatio));
     const plotWidth = Math.max(100, width - margin.left - margin.right);
     const plotHeight = Math.max(100, height - margin.top - margin.bottom);
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -227,6 +288,7 @@ export function mountD3BarChart(
 
       const valueText = svg("text");
       valueText.classList.add("d3-chart-value-label");
+      valueText.dataset.datumId = datum.id;
       valueText.dataset.value = String(datum.value);
       valueText.setAttribute("x", String(bx + bw / 2));
       valueText.setAttribute("y", String(by - 14));

@@ -213,12 +213,12 @@ def definition_list_sequence(
     dataset: Dataset,
     owner: URIRef,
     language: str | None,
-) -> list[tuple[URIRef, int, str, str, str | None]]:
+) -> list[tuple[URIRef, int, str, str, str | None, str | None, str | None]]:
     predicate = iri(CD, "hasDefinitionListEntry")
     linked = [value for value in objects(dataset, owner, predicate) if isinstance(value, URIRef)]
     if not linked:
         raise ValueError(f"DefinitionListRole requires linked entries for {compact(owner)}")
-    records: list[tuple[URIRef, int, str, str, str | None]] = []
+    records: list[tuple[URIRef, int, str, str, str | None, str | None, str | None]] = []
     seen_positions: set[int] = set()
     for entry in linked:
         if not is_resource_type(dataset, entry, "DefinitionListEntry"):
@@ -241,9 +241,11 @@ def definition_list_sequence(
             raise ValueError(f"DefinitionListRole requires explicit cd:language for {compact(owner)}")
         term = selected_literal(dataset, entry, SKOS.prefLabel, f"skos:prefLabel@{language}", language)
         description = literal(dataset, entry, iri(CD, "body"), language)
-        records.append((entry, position, term, f"skos:prefLabel@{language}", description))
+        visual_motif = literal(dataset, entry, iri(CD, "visualMotif"))
+        visual_motif_role = literal(dataset, entry, iri(CD, "visualMotifRole"))
+        records.append((entry, position, term, f"skos:prefLabel@{language}", description, visual_motif, visual_motif_role))
     records.sort(key=lambda record: (record[1], str(record[0])))
-    positions = [position for _entry, position, _term, _term_path, _description in records]
+    positions = [position for _entry, position, _term, _term_path, _description, _visual_motif, _visual_motif_role in records]
     if positions != list(range(1, len(records) + 1)):
         raise ValueError(f"DefinitionList entry positions must be contiguous for {compact(owner)}")
     return records
@@ -424,6 +426,15 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         visual_role = one(dataset, node, iri(CD, "visualRole"), required=False)
         if visual_role is not None:
             node_value["visualRole"] = str(visual_role)
+            node_sources.append(source_reference(dataset, node, "cd:visualRole"))
+        visual_motif = literal(dataset, node, iri(CD, "visualMotif"))
+        if visual_motif is not None:
+            node_value["visualMotif"] = visual_motif
+            node_sources.append(source_reference(dataset, node, "cd:visualMotif"))
+        visual_motif_role = literal(dataset, node, iri(CD, "visualMotifRole"))
+        if visual_motif_role is not None:
+            node_value["visualMotifRole"] = visual_motif_role
+            node_sources.append(source_reference(dataset, node, "cd:visualMotifRole"))
         group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
         if group_ids:
             node_value["groupIds"] = sorted(group_ids)
@@ -631,6 +642,7 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
         raise ValueError(f"Chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
 
     data: list[dict[str, Any]] = []
+    observation_ids = {observation for observation, _position in observations}
     for observation, _position in observations:
         category, relation_path = selected_label_reference(dataset, observation, language)
         data.append({
@@ -641,6 +653,31 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
                 source_reference(dataset, observation, relation_path),
                 source_reference(dataset, observation, "cd:numericValue"),
             ],
+        })
+
+    annotation_records = [
+        (annotation, integer(dataset, annotation, iri(CD, "position")))
+        for annotation in objects(dataset, chart, iri(CD, "hasChartAnnotation"))
+        if isinstance(annotation, URIRef)
+    ]
+    annotation_records.sort(key=lambda record: (record[1], str(record[0])))
+    annotations: list[dict[str, Any]] = []
+    for annotation, _position in annotation_records:
+        if not is_resource_type(dataset, annotation, "ChartPointAnnotation"):
+            raise ValueError(
+                f"Bar chart {compact(chart)} supports ChartPointAnnotation only; got {compact(annotation)}"
+            )
+        target = one(dataset, annotation, iri(CD, "targetObservation"))
+        if target not in observation_ids:
+            raise ValueError(
+                f"Point annotation {compact(annotation)} targets an observation outside the chart dataset"
+            )
+        annotations.append({
+            "id": compact(annotation),
+            "kind": "point",
+            "datumId": compact(target),
+            "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+            "source": [source_reference(dataset, annotation, "cd:body")],
         })
 
     label, label_relation_path = selected_label_reference(dataset, chart, language)
@@ -655,6 +692,7 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
         "xAxis": {"label": x_axis_label, **({"unit": literal(dataset, chart, iri(CD, "xAxisUnit"))} if literal(dataset, chart, iri(CD, "xAxisUnit")) else {})},
         "yAxis": {"label": y_axis_label, **({"unit": literal(dataset, chart, iri(CD, "yAxisUnit")) or unit} if (literal(dataset, chart, iri(CD, "yAxisUnit")) or unit) else {})},
         "data": data,
+        **({"annotations": annotations} if annotations else {}),
     }
     return payload, label_relation_path
 
@@ -758,13 +796,49 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
     return payload, label_relation_path
 
 
+def live_chart_update_payload(dataset: Dataset, chart: URIRef) -> dict[str, Any] | None:
+    interval_predicate = iri(CD, "liveUpdateIntervalMs")
+    amplitude_predicate = iri(CD, "liveJitterAmplitude")
+    decimals_predicate = iri(CD, "liveDecimalPlaces")
+    interval_value = one(dataset, chart, interval_predicate, required=False)
+    amplitude_value = one(dataset, chart, amplitude_predicate, required=False)
+    decimals_value = one(dataset, chart, decimals_predicate, required=False)
+    values = (interval_value, amplitude_value, decimals_value)
+    if all(value is None for value in values):
+        return None
+    if any(value is None for value in values):
+        raise ValueError(f"Live chart metadata is incomplete for {compact(chart)}")
+    try:
+        interval_ms = int(str(interval_value))
+        decimal_places = int(str(decimals_value))
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"Invalid live chart integer metadata for {compact(chart)}") from error
+    jitter_amplitude = decimal_number(dataset, chart, amplitude_predicate)
+    if interval_ms < 250:
+        raise ValueError(f"Live chart update interval must be >= 250 ms for {compact(chart)}")
+    if jitter_amplitude <= 0:
+        raise ValueError(f"Live chart jitter amplitude must be positive for {compact(chart)}")
+    if decimal_places < 0 or decimal_places > 6:
+        raise ValueError(f"Live chart decimal places must be between 0 and 6 for {compact(chart)}")
+    return {
+        "intervalMs": interval_ms,
+        "jitterAmplitude": jitter_amplitude,
+        "decimalPlaces": decimal_places,
+    }
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
     if chart_type == iri(CD, "BarChart"):
-        return bar_chart_payload(dataset, chart, language)
-    if chart_type == iri(CD, "LineChart"):
-        return line_chart_payload(dataset, chart, language)
-    raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+        payload, relation_path = bar_chart_payload(dataset, chart, language)
+    elif chart_type == iri(CD, "LineChart"):
+        payload, relation_path = line_chart_payload(dataset, chart, language)
+    else:
+        raise ValueError(f"Unsupported chart type for {compact(chart)}: {compact(chart_type)}")
+    live_update = live_chart_update_payload(dataset, chart)
+    if live_update is not None:
+        payload["liveUpdate"] = live_update
+    return payload, relation_path
 
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
@@ -835,6 +909,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
         focus = one(dataset, scene_id, iri(CD, "focusConcept"))
         items = sorted(objects(dataset, scene_id, iri(CD, "hasSceneItem")), key=lambda item: (integer(dataset, item, iri(CD, "position")), str(item)))
         blocks: list[dict[str, Any]] = []
+        selected_blocks: list[tuple[URIRef, dict[str, Any]]] = []
         for item in items:
             position = integer(dataset, item, iri(CD, "position"))
             selected = one(dataset, item, iri(CD, "selectsResource"))
@@ -933,12 +1008,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                             "id": f"{compact(entry)}--definition-entry",
                             "term": term,
                             **({"description": description} if description is not None else {}),
+                            **({"visualMotif": visual_motif} if visual_motif is not None else {}),
+                            **({"visualMotifRole": visual_motif_role} if visual_motif_role is not None else {}),
                             "source": [
                                 source_reference(dataset, entry, term_path),
                                 *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
+                                *([source_reference(dataset, entry, "cd:visualMotif")] if visual_motif is not None else []),
+                                *([source_reference(dataset, entry, "cd:visualMotifRole")] if visual_motif_role is not None else []),
                             ],
                         }
-                        for entry, _entry_position, term, term_path, description in entries
+                        for entry, _entry_position, term, term_path, description, visual_motif, visual_motif_role in entries
                     ],
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary",
@@ -1078,19 +1157,38 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if role != "PollRole":
                     raise ValueError(f"Audience poll {compact(selected)} requires PollRole")
                 prompt = resource_text(dataset, selected, language or "de")
-                option_resources = [value for value in objects(dataset, selected, iri(CD, "hasPollOption")) if isinstance(value, URIRef)]
+                option_resources = sorted(
+                    [value for value in objects(dataset, selected, iri(CD, "hasPollOption")) if isinstance(value, URIRef)],
+                    key=str,
+                )
                 if len(option_resources) < 2:
                     raise ValueError(f"Audience poll {compact(selected)} requires at least two options")
                 options = [resource_text(dataset, option, language or "de") for option in option_resources]
+                option_ids = [compact(option) for option in option_resources]
+                correct_option = one(dataset, selected, iri(CD, "correctPollOption"), required=False)
+                if correct_option is not None and (
+                    not isinstance(correct_option, URIRef) or correct_option not in option_resources
+                ):
+                    raise ValueError(f"Audience poll {compact(selected)} has an invalid correct option")
+                expected_result = one(dataset, selected, iri(CD, "hasExpectedResult"), required=False)
+                if expected_result is not None and not isinstance(expected_result, URIRef):
+                    raise ValueError(f"Audience poll {compact(selected)} has an invalid expected result")
                 sources = [source_reference(dataset, selected, relation_path)] + [
                     source_reference(dataset, option, "cd:hasPollOption") for option in option_resources
                 ]
+                if isinstance(expected_result, URIRef):
+                    sources.append(source_reference(dataset, expected_result, "cd:hasExpectedResult"))
                 block = {
                     "id": block_id, "kind": "prompt",
                     "source": sources,
                     "prompt": prompt,
                     "responseMode": "single-choice",
                     "options": options,
+                    "optionIds": option_ids,
+                    **({"correctOptionId": compact(correct_option)} if isinstance(correct_option, URIRef) else {}),
+                    **({
+                        "expectedResult": resource_text(dataset, expected_result, language or "de")
+                    } if isinstance(expected_result, URIRef) else {}),
                     "fallback": f'{prompt} {" / ".join(options)}',
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "practice"},
@@ -1116,6 +1214,59 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
             blocks.append(block)
+            if isinstance(selected, URIRef):
+                selected_blocks.append((selected, block))
+
+        blocks_by_resource: dict[URIRef, list[dict[str, Any]]] = {}
+        for resource, block in selected_blocks:
+            blocks_by_resource.setdefault(resource, []).append(block)
+
+        for resource, chart_block in selected_blocks:
+            if not is_resource_type(dataset, resource, "ChartDefinition"):
+                continue
+            if one(dataset, resource, iri(CD, "chartType")) != iri(CD, "BarChart"):
+                continue
+
+            derived_resources = [
+                target
+                for target in objects(dataset, resource, iri(CD, "derivedFromResource"))
+                if isinstance(target, URIRef)
+            ]
+            for derived_resource in derived_resources:
+                for evidence_block in blocks_by_resource.get(derived_resource, []):
+                    evidence_block["disclosure"] = {
+                        "order": evidence_block["disclosure"]["order"],
+                        "mode": "progressive",
+                        "step": 1,
+                        "triggerResourceId": compact(resource),
+                    }
+
+            chart_annotations = {
+                annotation
+                for annotation in objects(dataset, resource, iri(CD, "hasChartAnnotation"))
+                if isinstance(annotation, URIRef)
+            }
+            if not chart_annotations:
+                continue
+
+            for interpretation_resource, interpretation_block in selected_blocks:
+                if not is_resource_type(dataset, interpretation_resource, "Interpretation"):
+                    continue
+                interpreted_resources = {
+                    target
+                    for target in objects(dataset, interpretation_resource, iri(CD, "interpretsResource"))
+                    if isinstance(target, URIRef)
+                }
+                matching_annotations = sorted(chart_annotations & interpreted_resources, key=str)
+                if not matching_annotations:
+                    continue
+                interpretation_block["disclosure"] = {
+                    "order": interpretation_block["disclosure"]["order"],
+                    "mode": "progressive",
+                    "step": 3,
+                    "triggerResourceId": compact(matching_annotations[0]),
+                }
+
         scene_compact = compact(scene_id)
         first_block = blocks[0]
         accessibility_label = (
@@ -1397,7 +1548,15 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                         f'</li>'
                         for datum in block["data"]
                     )
-                    body = f'<ol class="chart-data">{value_items}</ol>'
+                    annotation_items = "".join(
+                        f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
+                        f'{html.escape(annotation["label"])}</li>'
+                        for annotation in block.get("annotations", [])
+                    )
+                    body = (
+                        f'<ol class="chart-data">{value_items}</ol>'
+                        f'<ul class="chart-annotations">{annotation_items}</ul>'
+                    )
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'

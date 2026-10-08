@@ -100,6 +100,8 @@ export interface RevealDefinitionListEntryPlan {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -155,6 +157,8 @@ export interface RevealDiagramNodePlan {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
 }
 
@@ -375,6 +379,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           id: entry.id,
           term: entry.term,
           ...(entry.description ? { description: entry.description } : {}),
+          ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
+          ...(entry.visualMotifRole ? { visualMotifRole: entry.visualMotifRole } : {}),
           source: sourceCopy(entry.source),
         })),
       };
@@ -442,6 +448,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+          ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
+          ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
           ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
         })),
         edges: block.edges.map((edge) => ({
@@ -530,6 +538,7 @@ export function canonicalSerializeRevealRenderPlan(plan: RevealRenderPlan): stri
   return JSON.stringify(plan);
 }
 
-export * from "./layout-policy.ts";
+export * from "./composition-fit.ts";
+export * from "./lecture-readability.ts";
 export * from "./pitch-theme.ts";
 export * from "./presenter-mode.ts";

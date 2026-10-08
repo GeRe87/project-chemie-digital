@@ -125,6 +125,8 @@ SELECT $this WHERE {
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:body ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:visualMotif ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "discussion" "hands-on" "statistics" "inference" "regression" "design-of-experiments" "multivariate" "machine-learning" ) ] ;
+    sh:property [ sh:path cd:visualMotifRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "supporting" "highlight" ) ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
     sh:property [
       sh:path [ sh:inversePath cd:hasDefinitionListEntry ] ;
@@ -270,6 +272,28 @@ SELECT $this WHERE {
       sh:message "A TableCell must have exactly one owning TableRow."
     ] .
 
+  cd:DerivedFromResourceShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:derivedFromResource ;
+    sh:class cd:LearningResource ;
+    sh:property [
+      sh:path cd:derivedFromResource ;
+      sh:minCount 1 ;
+      sh:class cd:LearningResource ;
+      sh:nodeKind sh:IRI ;
+      sh:message "cd:derivedFromResource must connect authored LearningResources."
+    ] .
+
+  cd:InterpretsResourceShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:interpretsResource ;
+    sh:class cd:Interpretation ;
+    sh:property [
+      sh:path cd:interpretsResource ;
+      sh:minCount 1 ;
+      sh:class cd:LearningResource ;
+      sh:nodeKind sh:IRI ;
+      sh:message "cd:interpretsResource must point from an Interpretation to a LearningResource."
+    ] .
+
   cd:ChartDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:ChartDefinition ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
@@ -278,7 +302,45 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart ) ] ;
     sh:property [ sh:path cd:xAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:yAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:liveUpdateIntervalMs ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 250 ] ;
+    sh:property [ sh:path cd:liveJitterAmplitude ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:liveDecimalPlaces ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 6 ] ;
     sh:property [ sh:path cd:hasChartAnnotation ; sh:class cd:ChartAnnotation ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [
+      sh:message "Live chart update metadata must define interval, jitter amplitude and decimal places together." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  {
+    $this cd:liveUpdateIntervalMs ?value .
+    FILTER NOT EXISTS { $this cd:liveJitterAmplitude ?amplitude . }
+  }
+  UNION
+  {
+    $this cd:liveUpdateIntervalMs ?value .
+    FILTER NOT EXISTS { $this cd:liveDecimalPlaces ?places . }
+  }
+  UNION
+  {
+    $this cd:liveJitterAmplitude ?value .
+    FILTER NOT EXISTS { $this cd:liveUpdateIntervalMs ?interval . }
+  }
+  UNION
+  {
+    $this cd:liveJitterAmplitude ?value .
+    FILTER NOT EXISTS { $this cd:liveDecimalPlaces ?places . }
+  }
+  UNION
+  {
+    $this cd:liveDecimalPlaces ?value .
+    FILTER NOT EXISTS { $this cd:liveUpdateIntervalMs ?interval . }
+  }
+  UNION
+  {
+    $this cd:liveDecimalPlaces ?value .
+    FILTER NOT EXISTS { $this cd:liveJitterAmplitude ?amplitude . }
+  }
+}"""
+    ] ;
     sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:yAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
@@ -565,6 +627,8 @@ SELECT $this WHERE { $this cd:hasSequenceState ?state . { ?state cd:activeIntera
     sh:property [ sh:path cd:body ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:visualRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[a-z][a-z0-9-]*$" ] ;
+    sh:property [ sh:path cd:visualMotif ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "discussion" "hands-on" "statistics" "inference" "regression" "design-of-experiments" "multivariate" "machine-learning" ) ] ;
+    sh:property [ sh:path cd:visualMotifRole ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "supporting" "highlight" ) ] ;
     sh:property [ sh:path cd:memberOfDiagramGroup ; sh:class cd:DiagramGroup ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
 

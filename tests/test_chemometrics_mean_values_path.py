@@ -228,7 +228,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         random_steps = set(
             self.graph.objects(EX["path-chemometrics-random-variables-lecture"], CD.hasStep)
         )
-        self.assertEqual(5, len(random_steps))
+        self.assertEqual(9, len(random_steps))
         for step in random_steps:
             self.assertEqual(1, len(set(self.graph.objects(step, CD.usesScene))))
 

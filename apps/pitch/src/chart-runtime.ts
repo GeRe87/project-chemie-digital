@@ -57,13 +57,21 @@ export function mountPitchCharts(
     for (const host of hosts) {
       const blockId = host.getAttribute("data-chart-block-id");
       if (!blockId) continue;
+      if (host.getAttribute("data-live-chart") === "true") continue;
 
       const block = blocks.get(blockId);
       if (!block) {
         throw new Error(`Pitch chart host references unknown block ${blockId}`);
       }
 
-      const result = mount(host, block, options);
+      const density = host.getAttribute("data-composition-density");
+      const result = mount(
+        host,
+        block,
+        density === "comfortable" || density === "dense" || density === "compact"
+          ? { ...options, density }
+          : options,
+      );
       if ("diagnostics" in result) {
         const message = result.diagnostics
           .map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`)

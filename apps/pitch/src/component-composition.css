@@ -1,0 +1,362 @@
+/* Generic presentation component + composition layer.
+   This file intentionally avoids scene, resource, course and legacy layout-family identities.
+   Components are derived from SceneBlock kind/intent; compositions are derived from ordered structure. */
+
+.reveal .slides section[data-composition="main-aside-note"] {
+  display: grid !important;
+  grid-template-columns: minmax(21rem, .9fr) minmax(0, 1.1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: .8rem 1.2rem;
+  align-content: stretch;
+  padding: 1rem 1.4rem 1.05rem !important;
+}
+
+.reveal .slides section[data-composition="main-aside-note"] > [data-composition-region="heading"] {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="aside"] {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="lead"] {
+  grid-column: 1 / -1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="main"] {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .85rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Structural main profiles tune intrinsic sizing without introducing slide identities. */
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
+  > [data-composition-region-container="main"] {
+  justify-content: center;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
+  [data-component-kind="formula"] {
+  flex: 0 0 auto;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-cards"]
+  [data-component-kind="card-collection"] {
+  flex: 0 1 auto;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"] {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  > [data-composition-region-container="lead"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  > [data-composition-region-container="aside"] {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  > [data-composition-region-container="main"] {
+  grid-column: 2;
+  grid-row: 3;
+  justify-content: stretch;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  [data-component-kind="formula"] {
+  flex: 0 0 auto;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  [data-component-kind="visual"] {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.reveal .slides section[data-composition="main-aside-note"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  min-width: 0;
+}
+
+/* Shared information-surface primitive. */
+.reveal [data-component-kind="info-surface"][data-composition-region="aside"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.05rem;
+  border: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 8%, var(--pcd-surface-strong));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pcd-accent) 15%, transparent);
+  color: var(--pcd-foreground);
+  font: 780 .9em/1.28 Arial, Helvetica, sans-serif;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+/* Shared formula primitive. */
+.reveal [data-component-kind="formula"][data-composition-region="main"],
+.reveal [data-component-kind="formula"][data-composition-region="lead"] {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: .35rem .8rem;
+  font-size: 1.5em;
+  text-align: center;
+  overflow: visible;
+}
+
+/* Shared visual primitive inside a main composition region. */
+.reveal [data-component-kind="visual"][data-composition-region="main"] {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 14rem;
+  margin: 0;
+}
+
+/* Standalone diagrams may require generous minimum geometry. Inside a constrained
+   formula+visual composition the composition owns height and the visual must fit it. */
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  [data-component-kind="visual"].d3-flow-host,
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  [data-component-kind="visual"] :is(.d3-flow-runtime, .d3-flow-figure) {
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding-top: 0;
+}
+
+.reveal .slides section[data-composition="main-aside-note"][data-composition-profile="formula-visual"]
+  [data-component-kind="visual"] .d3-flow-svg {
+  width: 100%;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* Shared supporting-note primitive. */
+.reveal [data-component-kind="info-surface"][data-composition-region="footer"] {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .45rem .75rem;
+  border-top: 2px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 4%, transparent);
+  color: var(--pcd-foreground);
+  font: 720 .68em/1.18 Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="main-aside-note"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="lead"],
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="aside"],
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="main"],
+  .reveal .slides section[data-composition="main-aside-note"]
+    > [data-composition-region-container="footer"] {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+}
+
+
+/* Generic statement-support learning-stage profile: explanatory statement plus emphasized support. */
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  align-content: stretch;
+  padding: 1.45rem 2rem 1.55rem !important;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  > [data-composition-region="heading"] {
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.5em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  > [data-composition-region-container="main"] {
+  grid-row: 2;
+  grid-column: 1;
+  place-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  > [data-composition-region-container="footer"] {
+  grid-row: 2;
+  grid-column: 1;
+  place-self: end center;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  [data-component-kind="info-surface"][data-composition-region="main"] {
+  box-sizing: border-box;
+  width: min(1040px, 86%);
+  min-height: 20rem;
+  margin: 0;
+  padding: 2.6rem 3.2rem 5.2rem;
+  border: 4px solid var(--pcd-accent);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--pcd-accent) 10%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 64%
+    );
+  box-shadow:
+    9px 9px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, white 30%, transparent);
+  color: var(--pcd-foreground);
+  font: 700 clamp(1.35rem, 2.4vw, 2.05rem)/1.42 Arial, Helvetica, sans-serif;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  [data-component-kind="info-surface"][data-composition-region="main"]::before {
+  content: "";
+  display: block;
+  width: 5.4rem;
+  height: .42rem;
+  margin: 0 0 1.6rem;
+  background: var(--pcd-accent);
+  box-shadow: 1.4rem 0 0 color-mix(in srgb, var(--pcd-accent) 42%, transparent);
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  [data-component-kind="text"][data-composition-region="footer"] {
+  box-sizing: border-box;
+  width: min(930px, 76%);
+  margin: 0 0 2.3rem;
+  padding: .8rem 1.1rem 0;
+  border-top: 2px solid color-mix(in srgb, var(--pcd-accent) 48%, var(--pcd-muted));
+  color: color-mix(in srgb, var(--pcd-accent) 76%, var(--pcd-foreground));
+  font: 800 .68em/1.25 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  text-align: left;
+  font-style: normal;
+  letter-spacing: .015em;
+}
+
+body[data-presentation-theme="dark"] .reveal .slides
+  section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+  [data-component-kind="info-surface"][data-composition-region="main"] {
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--pcd-accent) 9%, transparent),
+    8px 8px 0 rgb(0 0 0 / .28);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"] {
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+    [data-component-kind="info-surface"][data-composition-region="main"] {
+    width: 96%;
+    min-height: 0;
+    padding: 1.8rem 1.6rem 4.8rem;
+    font-size: clamp(1.05rem, 4vw, 1.45rem);
+  }
+
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"]
+    [data-component-kind="text"][data-composition-region="footer"] {
+    width: 86%;
+    margin-bottom: 1.8rem;
+    font-size: .58em;
+  }
+}
+
+
+/* Generic heading-only stack stage: one authored heading and no body content. */
+.reveal .slides section[data-composition="stack"][data-composition-main-count="0"] {
+  display: grid !important;
+  place-items: center;
+  min-height: 100%;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.reveal .slides section[data-composition="stack"][data-composition-main-count="0"]
+  > [data-composition-region="heading"] {
+  margin: 0;
+  max-width: 1100px;
+  font-size: clamp(3.6rem, 6.3vw, 6.6rem) !important;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .reveal .slides section[data-composition="stack"][data-composition-main-count="0"]
+    > [data-composition-region="heading"] {
+    max-width: 100%;
+    padding: 0 1rem;
+    font-size: clamp(2.25rem, 10vw, 3rem) !important;
+  }
+}

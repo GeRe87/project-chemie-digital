@@ -76,13 +76,17 @@
 
   ex:learning-unit-chemometrics-introduction a cd:LearningUnit ;
     skos:prefLabel "Introduction"@en ;
-    cd:hasFocusConcept ex:chemometrics-course-overview, ex:chemometrics-lecturer-context,
+    cd:hasFocusConcept ex:chemometrics-course-title, ex:chemometrics-definition,
+      ex:chemometrics-course-overview, ex:chemometrics-lecturer-context,
       ex:chemometrics-course-format, ex:chemometrics-course-roadmap,
       ex:chemometrics-introduction-round .
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
-    skos:prefLabel "Random Variables"@en ;
-    cd:hasFocusConcept ex:random-variable, ex:discrete-random-variable, ex:continuous-random-variable .
+    skos:prefLabel "Variables and Constants"@en ;
+    cd:hasFocusConcept ex:variables-and-constants, ex:variable,
+      ex:independent-dependent-variable-roles, ex:independent-variable,
+      ex:dependent-variable, ex:constant, ex:random-variable,
+      ex:sample, ex:distribution .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;
     skos:prefLabel "Mean Values"@en ;

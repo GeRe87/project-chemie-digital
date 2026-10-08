@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { createD3LineChartRenderModel, lineChartPresentationPlan } from "../src/line-chart.ts";
@@ -82,4 +83,18 @@ test("annotation-free line charts render their scientific trace initially", () =
     result.model.series[0]!.data.map((datum) => [datum.x, datum.y]),
     [[4.0, 5], [4.4, 12], [4.8, 100], [5.2, 25]],
   );
+});
+
+
+test("generic line chart styling keeps traces unfilled and emphasizes points", () => {
+  const source = readFileSync(new URL("../src/line-chart.ts", import.meta.url), "utf8");
+  const css = readFileSync(
+    new URL("../../../apps/pitch/src/chart-theme.css", import.meta.url),
+    "utf8",
+  );
+  assert.match(css, /\.d3-chart-line\s*\{[\s\S]*?fill:\s*none;[\s\S]*?stroke-width:\s*7;/u);
+  assert.match(css, /\.d3-chart-line-point\s*\{[\s\S]*?stroke-width:\s*4;/u);
+  assert.match(source, /point\.setAttribute\("r", "7"\)/);
+  assert.match(source, /traceVisible \? "0\.9" : "0"/);
+  assert.match(css, /\.d3-chart-range-highlight\s*\{[\s\S]*?fill:/u);
 });
