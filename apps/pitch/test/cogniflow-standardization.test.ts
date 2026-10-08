@@ -67,10 +67,9 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/concept-specification-layout.css"),
     source("../src/component-composition.css"),
     source("../src/card-primitives.css"),
-    source("../src/reference-code-layout.css"),
-    source("../src/process-context-layout.css"),
     source("../src/evidence-primitives.css"),
     source("../src/process-primitives.css"),
+    source("../src/support-workbench-primitives.css"),
     source("../src/card-sequence-layout.css"),
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
@@ -119,8 +118,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./card-primitives.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
   assert.equal(main.includes('import "./process-primitives.css"'), true);
-  assert.equal(main.includes('import "./reference-code-layout.css"'), true);
-  assert.equal(main.includes('import "./process-context-layout.css"'), true);
+  assert.equal(main.includes('import "./reference-code-layout.css"'), false);
+  assert.equal(main.includes('import "./support-workbench-primitives.css"'), true);
+  assert.equal(main.includes('import "./process-context-layout.css"'), false);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
   assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
