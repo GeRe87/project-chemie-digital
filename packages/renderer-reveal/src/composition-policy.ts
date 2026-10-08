@@ -288,11 +288,6 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const middle = body.slice(1, -1);
   const middlePrimary = middle.filter(isPrimaryContent);
 
-
-
-
-
-
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
 
   // Matcher order is part of the renderer contract. Specific semantic/topology
@@ -415,8 +410,6 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-
-
   if (
     matchesComponentKinds(bodyKinds, "prompt", "code")
   ) {
@@ -446,10 +439,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    (body.length === 2 || body.length === 3)
-    && bodyKinds[0] === "info-surface"
-    && bodyKinds[1] === "visual"
-    && (body.length === 2 || bodyKinds[2] === "info-surface")
+    matchesComponentKinds(bodyKinds, "info-surface", "visual")
+    || matchesComponentKinds(bodyKinds, "info-surface", "visual", "info-surface")
   ) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body[0]!, "primary", 0));
@@ -477,10 +468,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  if (
-    body.length === 1
-    && bodyKinds[0] === "prompt"
-  ) {
+  if (matchesComponentKinds(bodyKinds, "prompt")) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body[0]!, "main", 0));
     return {
@@ -617,12 +605,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   if (
-    (body.length === 4 || body.length === 5)
-    && bodyKinds[0] === "group"
-    && bodyKinds[1] === "data-surface"
-    && bodyKinds[2] === "visual"
-    && bodyKinds[3] === "list-collection"
-    && (body.length === 4 || bodyKinds[4] === "info-surface")
+    matchesComponentKinds(bodyKinds, "group", "data-surface", "visual", "list-collection")
+    || matchesComponentKinds(
+      bodyKinds,
+      "group",
+      "data-surface",
+      "visual",
+      "list-collection",
+      "info-surface",
+    )
   ) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body[0]!, "context", 0));
