@@ -963,3 +963,19 @@ test("support workbench styling replaces process-context and reference-code fami
   assert.equal(main.includes('import "./process-context-layout.css"'), false);
   assert.equal(main.includes('import "./reference-code-layout.css"'), false);
 });
+
+
+test("progression strip styling replaces card-sequence and text-network family CSS", () => {
+  const css = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="progression-strip"/u);
+  assert.match(css, /data-composition-progression-profile="cards-only"/u);
+  assert.match(css, /data-composition-progression-profile="cards-to-visual"/u);
+  assert.match(css, /data-component-kind="list-collection"/u);
+  assert.match(css, /data-component-kind="visual"/u);
+  assert.doesNotMatch(css, /data-layout=/u);
+  assert.equal(main.includes('import "./progression-primitives.css"'), true);
+  assert.equal(main.includes('import "./card-sequence-layout.css"'), false);
+  assert.equal(main.includes('import "./text-network-progression-layout.css"'), false);
+});
