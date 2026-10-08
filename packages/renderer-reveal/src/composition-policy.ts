@@ -32,7 +32,8 @@ export type RevealCompositionKind =
   | "support-workbench"
   | "progression-strip"
   | "learning-stage"
-  | "visual-stage";
+  | "visual-stage"
+  | "statement-card";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -240,6 +241,24 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 2
+    && body[0]?.kind === "prose"
+    && body[0].intent?.kind === "explain"
+    && body[1]?.kind === "prose"
+    && body[1].intent?.kind === "emphasize"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0].id, region: "main", index: 0 });
+    placements.push({ blockId: body[1].id, region: "footer", index: 0 });
+    return {
+      kind: "statement-card",
+      placements,
+      mainCount: 1,
+    };
+  }
 
   if (
     body.length === 1
