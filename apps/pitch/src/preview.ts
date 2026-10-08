@@ -520,7 +520,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       return region;
     };
 
-    for (const [blockIndex, blockId] of scene.readingOrder.entries()) {
+    for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       const compositionPlacement = compositionByBlockId.get(block.id);
