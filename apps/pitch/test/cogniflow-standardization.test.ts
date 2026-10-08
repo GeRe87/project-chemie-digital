@@ -256,10 +256,10 @@ test("processing pipeline nodes author title and body separately", () => {
 });
 
 
-test("extension system uses structured module entries and generic foundation-card-grid", () => {
+test("extension system uses structured module entries and generic card primitives", () => {
   const trig = source("../../../ontology/dataset/cogniflow-extension-system.trig");
   const main = source("../src/main.ts");
-  const css = source("../src/foundation-card-grid-layout.css");
+  const css = source("../src/card-primitives.css");
   const preview = source("../src/preview.ts");
 
   assert.equal(trig.includes("ex:cogniflow-extension-modules a cd:DefinitionList"), true);
