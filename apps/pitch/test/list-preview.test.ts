@@ -114,7 +114,7 @@ test("pitch preview projects concept cards through generic cards-with-footer pro
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "progression-strip");
-  assert.equal(section.attributes.get("data-composition-progression-profile"), "cards-with-footer");
+  assert.equal(section.attributes.get("data-composition-profile"), "cards-with-footer");
   assert.deepEqual(
     section.children.map((child) =>
       child.attributes.get("data-composition-region-container")
@@ -167,7 +167,7 @@ test("pitch preview exposes generic compact process-story regions", () => {
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "process-story");
-  assert.equal(section.attributes.get("data-composition-process-profile"), "compact-linear");
+  assert.equal(section.attributes.get("data-composition-profile"), "compact-linear");
   assert.deepEqual(
     section.children.map((child) =>
       child.attributes.get("data-composition-region-container")
@@ -216,7 +216,7 @@ test("pitch preview exposes generic list-code support workbench", () => {
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition"), "support-workbench");
-  assert.equal(section.attributes.get("data-composition-workbench-profile"), "list-code-reference");
+  assert.equal(section.attributes.get("data-composition-profile"), "list-code-reference");
   assert.deepEqual(
     section.children.map((child) =>
       child.attributes.get("data-composition-region-container")
