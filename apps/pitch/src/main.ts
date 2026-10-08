@@ -12,7 +12,7 @@ import "./diagram-stage-layout.css";
 import "./concentric-network-layout.css";
 import "./concept-specification-layout.css";
 import "./definition-card-layout.css";
-import "./learning-concept-layouts.css";
+import "./learning-stage-primitives.css";
 import "./component-composition.css";
 import "./card-primitives.css";
 import "./evidence-primitives.css";
