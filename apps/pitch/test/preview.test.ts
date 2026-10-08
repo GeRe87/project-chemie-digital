@@ -945,11 +945,11 @@ test("renders evidence-stage context-data-visual regions from generic block stru
 });
 
 
-test("process story styling is generic and specialized diagram layout files stay removed", () => {
+test("process progression styling is generic and specialized diagram layout files stay removed", () => {
   const css = readFileSync(new URL("../src/process-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="process-story"/u);
+  assert.match(css, /data-composition="progression-stage"/u);
   assert.match(css, /data-composition-profile="compact-linear"/u);
   assert.match(css, /data-component-kind="visual"/u);
   assert.doesNotMatch(css, /data-layout=/u);
@@ -975,11 +975,11 @@ test("support workbench styling replaces process-context and reference-code fami
 });
 
 
-test("progression strip styling replaces card-sequence and text-network family CSS", () => {
+test("card progression styling uses the generic progression stage", () => {
   const css = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
-  assert.match(css, /data-composition="progression-strip"/u);
+  assert.match(css, /data-composition="progression-stage"/u);
   assert.match(css, /data-composition-profile="cards-only"/u);
   assert.match(css, /data-composition-profile="cards-with-footer"/u);
   assert.match(css, /data-composition-profile="cards-to-visual"/u);
