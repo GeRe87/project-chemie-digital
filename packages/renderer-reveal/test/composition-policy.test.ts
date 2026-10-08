@@ -865,3 +865,27 @@ test("visual-stage infers concentric profile from grouped focused network topolo
   assert.equal(plan.kind, "visual-stage");
   assert.equal(plan.visualStageProfile, "concentric-network");
 });
+
+
+test("statement-card composes an explanatory statement with supporting emphasized text", () => {
+  const scene: Scene = {
+    id: "opaque:statement-card",
+    source: [{ resourceId: "resource:statement-card" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("statement", "explain"),
+      prose("source", "emphasize"),
+    ],
+    readingOrder: ["heading", "statement", "source"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "statement-card",
+    mainCount: 1,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "statement", region: "main", index: 0 },
+      { blockId: "source", region: "footer", index: 0 },
+    ],
+  });
+});
