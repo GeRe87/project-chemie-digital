@@ -26,9 +26,8 @@ export type RevealCompositionKind =
   | "main-aside-note"
   | "card-deck"
   | "evidence-stage"
-  | "process-story"
   | "support-workbench"
-  | "progression-strip"
+  | "progression-stage"
   | "learning-stage"
   | "visual-stage"
   | "statement-card"
@@ -65,15 +64,13 @@ export type RevealEvidenceProfile =
   | "visual-data-flow"
   | "context-data-visual";
 
-export type RevealProcessProfile =
-  | "compact-linear"
-  | "wide-process";
-
 export type RevealWorkbenchProfile =
   | "visual-dual-reference"
   | "list-code-reference";
 
 export type RevealProgressionProfile =
+  | "compact-linear"
+  | "wide-process"
   | "cards-only"
   | "cards-with-footer"
   | "cards-to-visual";
@@ -97,7 +94,6 @@ export type RevealSemanticStageProfile =
 export type RevealCompositionProfile =
   | RevealCompositionMainProfile
   | RevealEvidenceProfile
-  | RevealProcessProfile
   | RevealWorkbenchProfile
   | RevealProgressionProfile
   | RevealLearningProfile
@@ -290,7 +286,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   // Matcher order is part of the renderer contract. Specific semantic/topology
   // signatures must win before broader component-kind signatures and generic
-  // fallbacks. In particular, process-story precedes learning-stage info-visual:
+  // fallbacks. In particular, the process progression signature precedes learning-stage info-visual:
   // explain + diagram + explain has the same component-kind shape as the broader
   // info + visual + optional note learning pattern.
 
@@ -392,7 +388,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && isContextProse(body[2])
   ) {
     const visual = body[1];
-    const processProfile: RevealProcessProfile =
+    const processProfile: RevealProgressionProfile =
       isStrictLinearFlow(visual) && visual.nodes.length <= 3
         ? "compact-linear"
         : "wide-process";
@@ -401,7 +397,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(visual, "main", 0));
     placements.push(placement(body[2]!, "footer", 0));
     return {
-      kind: "process-story",
+      kind: "progression-stage",
       placements,
       mainCount: 1,
       profile: processProfile,
@@ -499,7 +495,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[0]!, "main", 0));
     placements.push(placement(body[1]!, "footer", 0));
     return {
-      kind: "progression-strip",
+      kind: "progression-stage",
       placements,
       mainCount: 1,
       profile: "cards-with-footer",
@@ -514,7 +510,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[1]!, "main", 0));
     placements.push(placement(body[2]!, "footer", 0));
     return {
-      kind: "progression-strip",
+      kind: "progression-stage",
       placements,
       mainCount: 1,
       profile: "cards-only",
@@ -530,7 +526,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[2]!, "secondary", 0));
     placements.push(placement(body[3]!, "footer", 0));
     return {
-      kind: "progression-strip",
+      kind: "progression-stage",
       placements,
       mainCount: 2,
       profile: "cards-to-visual",
