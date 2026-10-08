@@ -23,7 +23,6 @@ export interface RevealComponentDescriptor {
 export type RevealCompositionKind =
   | "stack"
   | "main-aside-note"
-  | "card-deck"
   | "evidence-stage"
   | "progression-stage"
   | "learning-stage"
@@ -76,7 +75,8 @@ export type RevealLearningProfile =
   | "single-prompt"
   | "prompt-grid"
   | "visual-dual-reference"
-  | "list-code-reference";
+  | "list-code-reference"
+  | "definition-deck";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -670,9 +670,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(cards, "main", 0));
     after.forEach((block, index) => placements.push(placement(block, "footer", index)));
     return {
-      kind: "card-deck",
+      kind: "learning-stage",
       placements,
       mainCount: 1,
+      profile: "definition-deck",
     };
   }
 
