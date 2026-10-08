@@ -81,7 +81,7 @@
 }
 
 /* Prelude/support prose shares one evidence-context surface. */
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
   width: 100%;
@@ -99,7 +99,7 @@
 /* Shared structured data surface. */
 /* Tables keep their intrinsic row height. Forcing a table to the evidence-row height
    stretches every row and can push the caption/table box beyond the slide boundary. */
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] {
   box-sizing: border-box;
   align-self: flex-start;
@@ -119,7 +119,7 @@
   overflow: hidden;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] caption {
   caption-side: top;
   box-sizing: border-box;
@@ -133,7 +133,7 @@
   text-align: left;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] thead th {
   padding: .56rem .65rem;
   border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 54%, transparent);
@@ -144,12 +144,12 @@
   vertical-align: middle;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] :is(th, td) + :is(th, td) {
   border-left: 1px solid color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] tbody td {
   padding: .56rem .65rem;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
@@ -161,18 +161,18 @@
   overflow-wrap: break-word;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="data-surface"] tbody tr:last-child td {
   border-bottom: 0;
 }
 
 /* Shared chart/visual evidence surface. */
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"] {
   display: flex;
   flex: 1 1 auto;
@@ -185,14 +185,14 @@
   overflow: hidden;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"].retro-neon-chart-window {
   padding: .45rem .55rem .35rem;
   border-width: 3px;
   box-shadow: 5px 5px 0 var(--pcd-chart-shadow);
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"] .retro-neon-chart-header {
   position: static;
   min-height: 0;
@@ -202,12 +202,12 @@
   font-size: .58em;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"] .retro-neon-chart-subtitle {
   display: none;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"] :is(.d3-chart-runtime, .d3-chart-figure) {
   display: flex;
   flex: 1 1 auto;
@@ -216,7 +216,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="visual"] .d3-chart-svg {
   flex: 1 1 auto;
   width: 100%;
@@ -227,7 +227,7 @@
 }
 
 /* Generic explanatory lists can act as evidence or support without a special layout family. */
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="list-collection"] {
   box-sizing: border-box;
   display: grid;
@@ -240,20 +240,20 @@
   list-style: none;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   > [data-composition-region-container="primary"]
   [data-component-kind="list-collection"] {
   grid-template-columns: 1fr;
   align-content: stretch;
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   > [data-composition-region-container="footer"]
   [data-component-kind="list-collection"] {
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
-.reveal .slides section[data-composition-evidence-profile]
+.reveal .slides section:is([data-composition="evidence-split"], [data-composition="evidence-story"], [data-composition="worked-evidence"])
   [data-component-kind="list-collection"] > li {
   box-sizing: border-box;
   display: flex;
@@ -270,7 +270,7 @@
 }
 
 /* A list-data profile benefits from slightly more table width. */
-.reveal .slides section[data-composition="evidence-split"][data-composition-evidence-profile="list-data"] {
+.reveal .slides section[data-composition="evidence-split"][data-composition-profile="list-data"] {
   grid-template-columns: minmax(15rem, .78fr) minmax(0, 1.22fr);
 }
 
