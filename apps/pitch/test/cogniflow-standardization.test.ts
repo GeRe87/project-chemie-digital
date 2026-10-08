@@ -401,6 +401,12 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(semanticSourceCss.includes('data-composition-semantic-stage-profile="source"'), true);
   assert.equal(semanticMultiCss.includes('data-composition-semantic-stage-profile="multi-view"'), true);
   assert.equal(main.includes("scene-cogniflow-title"), false);
+  assert.equal(preview.includes("inferRevealLayoutFit"), false);
+  assert.equal(preview.includes("inferRevealCompositionFit"), true);
+  assert.equal(preview.includes("data-layout-density"), false);
+  assert.equal(preview.includes("data-layout-variant"), false);
+  assert.equal(preview.includes("data-composition-density"), true);
+  assert.equal(preview.includes("data-composition-variant"), true);
 });
 
 
