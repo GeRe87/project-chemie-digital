@@ -23,11 +23,13 @@ export interface RevealComponentDescriptor {
 export type RevealCompositionKind =
   | "single"
   | "stack"
-  | "main-aside-note";
+  | "main-aside-note"
+  | "card-deck";
 
 export type RevealCompositionRegion =
   | "heading"
   | "lead"
+  | "prelude"
   | "aside"
   | "main"
   | "footer";
@@ -143,6 +145,29 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const trailing = body.at(-1);
   const middle = body.slice(1, -1);
   const middlePrimary = middle.filter(isPrimaryContent);
+
+
+  const definitionLists = body.filter((block) => block.kind === "definition-list");
+  if (
+    definitionLists.length === 1
+    && definitionLists[0]!.entries.length >= 2
+    && body.every((block) => block.kind === "definition-list" || isContextProse(block))
+  ) {
+    const cards = definitionLists[0]!;
+    const cardsIndex = body.indexOf(cards);
+    const before = body.slice(0, cardsIndex);
+    const after = body.slice(cardsIndex + 1);
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    before.forEach((block, index) => placements.push({ blockId: block.id, region: "prelude", index }));
+    placements.push({ blockId: cards.id, region: "main", index: 0 });
+    after.forEach((block, index) => placements.push({ blockId: block.id, region: "footer", index }));
+    return {
+      kind: "card-deck",
+      placements,
+      mainCount: 1,
+    };
+  }
 
   if (
     body.length >= 4
