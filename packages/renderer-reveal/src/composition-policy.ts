@@ -31,7 +31,8 @@ export type RevealCompositionKind =
   | "process-story"
   | "support-workbench"
   | "progression-strip"
-  | "learning-stage";
+  | "learning-stage"
+  | "visual-stage";
 
 export type RevealCompositionRegion =
   | "heading"
@@ -82,6 +83,10 @@ export type RevealLearningProfile =
   | "single-prompt"
   | "prompt-grid";
 
+export type RevealVisualStageProfile =
+  | "diagram"
+  | "concentric-network";
+
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
   readonly placements: readonly RevealCompositionPlacement[];
@@ -92,6 +97,7 @@ export interface RevealCompositionPlan {
   readonly workbenchProfile?: RevealWorkbenchProfile;
   readonly progressionProfile?: RevealProgressionProfile;
   readonly learningProfile?: RevealLearningProfile;
+  readonly visualStageProfile?: RevealVisualStageProfile;
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
@@ -112,6 +118,24 @@ function isContextProse(block: SceneBlock | undefined): boolean {
 function isPrimaryContent(block: SceneBlock): boolean {
   return block.kind !== "prose";
 }
+function isConcentricNetwork(block: SceneBlock): boolean {
+  if (
+    block.kind !== "diagram"
+    || block.diagramType !== "network"
+    || !block.focusNodeId
+    || block.edges.length !== 0
+    || (block.groups?.length ?? 0) < 2
+  ) return false;
+  const groups = block.groups ?? [];
+  const groupIds = new Set(groups.map((group) => group.id));
+  const members = block.nodes.filter((node) => node.id !== block.focusNodeId);
+  return members.length > 0
+    && groups.every((group) => members.some((node) => node.groupIds?.includes(group.id)))
+    && members.every((node) =>
+      (node.groupIds ?? []).filter((groupId) => groupIds.has(groupId)).length === 1
+    );
+}
+
 function isStrictLinearFlow(block: SceneBlock): boolean {
   if (block.kind !== "diagram" || block.diagramType !== "flow") return false;
   if (block.nodes.length < 2 || block.edges.length !== block.nodes.length - 1) return false;
@@ -215,6 +239,22 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 1
+    && body[0]?.kind === "diagram"
+  ) {
+    const visual = body[0];
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: visual.id, region: "main", index: 0 });
+    return {
+      kind: "visual-stage",
+      placements,
+      mainCount: 1,
+      visualStageProfile: isConcentricNetwork(visual) ? "concentric-network" : "diagram",
+    };
+  }
 
   if (
     body.length === 3
