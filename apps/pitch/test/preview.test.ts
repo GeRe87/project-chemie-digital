@@ -1037,3 +1037,15 @@ test("concept specification presentation is owned by progression composition", (
   assert.doesNotMatch(runtime, /data-layout="concept-specification"/u);
   assert.equal(main.includes('import "./concept-specification-layout.css"'), false);
 });
+
+
+test("statement-card styling lives in the shared component composition layer", () => {
+  const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="statement-card"/u);
+  assert.match(css, /data-component-kind="info-surface"/u);
+  assert.match(css, /data-component-kind="text"/u);
+  assert.doesNotMatch(css, /data-layout="definition-card"/u);
+  assert.equal(main.includes('import "./definition-card-layout.css"'), false);
+});
