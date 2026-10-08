@@ -596,3 +596,77 @@ test("support-workbench infers list plus code reference structure", () => {
     ],
   );
 });
+
+
+test("progression-strip infers an ordered card progression", () => {
+  const scene: Scene = {
+    id: "opaque:cards-progression",
+    source: [{ resourceId: "resource:cards-progression" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("banner", "explain"),
+      unorderedList("cards", 3),
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "banner", "cards", "takeaway"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "progression-strip",
+    mainCount: 1,
+    progressionProfile: "cards-only",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "banner", region: "prelude", index: 0 },
+      { blockId: "cards", region: "main", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("progression-strip infers textual cards leading into a visual", () => {
+  const network: SceneBlock = {
+    id: "network",
+    kind: "diagram",
+    diagramType: "network",
+    label: "Generic network",
+    description: "Generic relation view",
+    nodes: [
+      { id: "network:a", label: "A", source: [{ resourceId: "resource:network:a" }] },
+      { id: "network:b", label: "B", source: [{ resourceId: "resource:network:b" }] },
+    ],
+    edges: [{
+      id: "network:ab",
+      sourceNodeId: "network:a",
+      targetNodeId: "network:b",
+      label: "relates",
+      source: [{ resourceId: "resource:network:ab" }],
+    }],
+    source: [{ resourceId: "resource:network" }],
+  };
+  const scene: Scene = {
+    id: "opaque:cards-to-visual",
+    source: [{ resourceId: "resource:cards-to-visual" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("banner", "explain"),
+      unorderedList("views", 2),
+      network,
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "banner", "views", "network", "takeaway"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "progression-strip",
+    mainCount: 2,
+    progressionProfile: "cards-to-visual",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "banner", region: "prelude", index: 0 },
+      { blockId: "views", region: "main", index: 0 },
+      { blockId: "network", region: "secondary", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});
