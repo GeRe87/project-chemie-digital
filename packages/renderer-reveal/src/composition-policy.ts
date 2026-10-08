@@ -21,7 +21,6 @@ export interface RevealComponentDescriptor {
 }
 
 export type RevealCompositionKind =
-  | "single"
   | "stack"
   | "main-aside-note"
   | "card-deck"
@@ -271,7 +270,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   if (body.length === 0) {
     return {
-      kind: "single",
+      kind: "stack",
       placements: placementsWithHeading(heading),
       mainCount: 0,
     };
@@ -705,7 +704,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const placements = placementsWithHeading(heading);
   body.forEach((block, index) => placements.push(placement(block, "main", index)));
   return {
-    kind: body.length === 1 ? "single" : "stack",
+    kind: "stack",
     placements,
     mainCount: body.length,
   };
