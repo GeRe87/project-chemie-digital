@@ -482,13 +482,13 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (
         !placement
         || placement.region === "heading"
-        || (composition.kind === "worked-evidence" && placement.region === "support")
+        || (composition.kind === "evidence-stage"
+          && composition.profile === "context-data-visual"
+          && placement.region === "support")
         || ![
           "main-aside-note",
           "card-deck",
-          "evidence-split",
-          "evidence-story",
-          "worked-evidence",
+          "evidence-stage",
           "process-story",
           "support-workbench",
           "progression-strip",
