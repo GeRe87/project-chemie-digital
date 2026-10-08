@@ -25,15 +25,19 @@ export type RevealCompositionKind =
   | "stack"
   | "main-aside-note"
   | "card-deck"
-  | "evidence-split";
+  | "evidence-split"
+  | "evidence-story"
+  | "worked-evidence";
 
 export type RevealCompositionRegion =
   | "heading"
   | "lead"
   | "prelude"
   | "aside"
+  | "context"
   | "primary"
   | "secondary"
+  | "support"
   | "main"
   | "footer";
 
@@ -50,7 +54,9 @@ export type RevealCompositionMainProfile =
 
 export type RevealEvidenceProfile =
   | "data-visual"
-  | "list-data";
+  | "list-data"
+  | "visual-data-flow"
+  | "context-data-visual";
 
 export interface RevealCompositionPlan {
   readonly kind: RevealCompositionKind;
@@ -155,6 +161,51 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const middlePrimary = middle.filter(isPrimaryContent);
 
 
+
+
+  const bodyComponentKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (
+    body.length === 3
+    && bodyComponentKinds[0] === "visual"
+    && bodyComponentKinds[1] === "data-surface"
+    && bodyComponentKinds[2] === "visual"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "footer", index: 0 });
+    return {
+      kind: "evidence-story",
+      placements,
+      mainCount: 3,
+      evidenceProfile: "visual-data-flow",
+    };
+  }
+
+  if (
+    (body.length === 4 || body.length === 5)
+    && bodyComponentKinds[0] === "group"
+    && bodyComponentKinds[1] === "data-surface"
+    && bodyComponentKinds[2] === "visual"
+    && bodyComponentKinds[3] === "list-collection"
+    && (body.length === 4 || bodyComponentKinds[4] === "info-surface")
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "context", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "primary", index: 0 });
+    placements.push({ blockId: body[2]!.id, region: "secondary", index: 0 });
+    placements.push({ blockId: body[3]!.id, region: "support", index: 0 });
+    if (body[4]) placements.push({ blockId: body[4].id, region: "footer", index: 0 });
+    return {
+      kind: "worked-evidence",
+      placements,
+      mainCount: 4,
+      evidenceProfile: "context-data-visual",
+    };
+  }
 
   const componentKinds = body.map((block) => revealComponentDescriptor(block).kind);
   const evidencePairIndex = componentKinds.findIndex((kind, index) => {
