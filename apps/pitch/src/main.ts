@@ -271,7 +271,7 @@ const presentationVideos = Array.from(
   root.querySelectorAll<HTMLVideoElement>("[data-presentation-video='true']"),
 );
 
-function isFullMediaScene(scene: HTMLElement | undefined): boolean {
+function isMediaStageScene(scene: HTMLElement | undefined): boolean {
   return scene?.dataset.composition === "media-stage";
 }
 
@@ -283,7 +283,7 @@ function syncNavigationMode(): void {
     && current?.dataset.compositionProgressionProfile === "cards-with-footer"
     && next?.dataset.composition === current.dataset.composition
     && next?.dataset.compositionProgressionProfile === current.dataset.compositionProgressionProfile;
-  const sameFullMediaSequence = isFullMediaScene(current) && isFullMediaScene(next);
+  const sameFullMediaSequence = isMediaStageScene(current) && isMediaStageScene(next);
   document.body.classList.toggle(
     "pcd-no-scroll-transition",
     appearance.view === "scroll" && (sameConceptSequence || sameFullMediaSequence),
@@ -292,7 +292,7 @@ function syncNavigationMode(): void {
 
 function syncFullMediaMode(): void {
   const current = deck.getCurrentSlide() as HTMLElement | undefined;
-  document.body.classList.toggle("pcd-full-media-active", isFullMediaScene(current));
+  document.body.classList.toggle("pcd-full-media-active", isMediaStageScene(current));
 }
 
 function syncPresentationVideos(): void {
