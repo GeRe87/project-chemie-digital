@@ -30,13 +30,13 @@ const document = {
   }],
 } as unknown as SceneDocument;
 
-test("forwards layout density from chart host to generic D3 options", () => {
+test("forwards composition density from chart host to generic D3 options", () => {
   let receivedDensity: string | undefined;
   let destroyed = false;
   const host = {
     getAttribute(name: string): string | null {
       if (name === "data-chart-block-id") return block.id;
-      if (name === "data-layout-density") return "dense";
+      if (name === "data-composition-density") return "dense";
       return null;
     },
   };
