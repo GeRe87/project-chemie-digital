@@ -67,14 +67,13 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/concept-specification-layout.css"),
     source("../src/component-composition.css"),
     source("../src/card-primitives.css"),
-    source("../src/hierarchy-flow-layout.css"),
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),
     source("../src/evidence-primitives.css"),
+    source("../src/process-primitives.css"),
     source("../src/card-sequence-layout.css"),
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
-    source("../src/process-diagram-layout.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
     source("../src/presentation-clock.ts"),
@@ -118,7 +117,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./concept-specification-layout.css"'), true);
   assert.equal(main.includes('import "./labeled-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./card-primitives.css"'), true);
-  assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), true);
+  assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
+  assert.equal(main.includes('import "./process-primitives.css"'), true);
   assert.equal(main.includes('import "./reference-code-layout.css"'), true);
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
@@ -131,7 +131,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-core.css"'), false);
   assert.equal(main.includes('import "./concentric-network-layout.css"'), true);
-  assert.equal(main.includes('import "./process-diagram-layout.css"'), true);
+  assert.equal(main.includes('import "./process-diagram-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
   assert.equal(main.includes('import "./cogniflow-opening-sequence.css"'), false);
