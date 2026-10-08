@@ -60,15 +60,17 @@ test("lecture mode exposes strong layered marker strokes behind list text", () =
   assert.doesNotMatch(automaticMarker, /::before|::after|border-radius|clip-path/);
 });
 
-test("lecture case-study analysis uses a larger projection-scale chart area", () => {
+test("lecture worked-evidence readability preserves generic composition ownership", () => {
   assert.match(
     lectureStyles,
-    /--pcd-case-chart-height:\s*clamp\(30rem,\s*60vh,\s*34rem\)/,
+    /section\[data-composition="worked-evidence"\][\s\S]*?\[data-component-kind="visual"\]/,
   );
   assert.match(
     lectureStyles,
-    /section\[data-layout="case-study"\][\s\S]*?\[data-layout-slot="analysis"\]/,
+    /data-composition-region="support"\]\[data-component-kind="list-collection"\]/,
   );
+  assert.doesNotMatch(lectureStyles, /--pcd-case-chart-height/);
+  assert.doesNotMatch(lectureStyles, /data-layout="case-study"/);
 });
 
 test("staged slides freeze scroll containers and background progress structurally", () => {
