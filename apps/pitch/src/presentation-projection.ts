@@ -45,8 +45,12 @@ function createPublicationProjection(
   documentRef: Document,
   scene: HTMLElement,
 ): HTMLElement | undefined {
-  const cards = scene.querySelector<HTMLElement>('[data-layout-slot="cards"]');
-  const takeaway = scene.querySelector<HTMLElement>('[data-layout-slot="takeaway"]');
+  const cards = scene.querySelector<HTMLElement>(
+    '[data-component-kind="list-collection"][data-composition-region="main"]',
+  );
+  const takeaway = scene.querySelector<HTMLElement>(
+    '[data-component-kind="info-surface"][data-composition-region="footer"]',
+  );
   if (!cards || !takeaway) return undefined;
 
   const authoredParagraphs = Array.from(cards.querySelectorAll(":scope > li"))
