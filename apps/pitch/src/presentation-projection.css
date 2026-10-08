@@ -1,7 +1,7 @@
 /* Generic alternate projection for concept-specification scenes.
    The publication realization reuses the exact compiled scene content. */
 
-.reveal .slides section[data-layout="concept-specification"] {
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"] {
   position: relative;
 }
 
@@ -83,20 +83,20 @@ section[data-projection-mode="publication"] .presentation-projection-thumb {
   display: none;
 }
 
-.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"] {
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"] {
   grid-template-rows: auto minmax(0, 1fr) !important;
   row-gap: .8rem;
 }
 
-.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
-  > [data-layout-slot="cards"],
-.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
-  > [data-layout-slot="takeaway"] {
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
+  > [data-composition-region-container="main"],
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
+  > [data-composition-region-container="footer"] {
   display: none !important;
 }
 
-.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
-  > [data-layout-slot="heading"] {
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
+  > [data-composition-region="heading"] {
   grid-row: 1;
   width: min(1160px, 96%);
   margin: .15rem auto 0;
@@ -108,7 +108,7 @@ section[data-projection-mode="publication"] .presentation-projection-thumb {
   text-align: left;
 }
 
-.reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+.reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
   .presentation-publication-projection {
   grid-row: 2;
   align-self: stretch;
@@ -187,19 +187,19 @@ section[data-projection-mode="publication"] .presentation-projection-thumb {
     display: none;
   }
 
-  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"] {
+  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"] {
     display: flex !important;
     flex-direction: column;
     gap: .7rem;
   }
 
-  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
-    > [data-layout-slot="heading"] {
+  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
+    > [data-composition-region="heading"] {
     width: 100%;
     font-size: 1.65rem;
   }
 
-  .reveal .slides section[data-layout="concept-specification"][data-projection-mode="publication"]
+  .reveal .slides section[data-composition="progression-strip"][data-composition-progression-profile="cards-with-footer"][data-projection-mode="publication"]
     .presentation-publication-projection {
     width: 100%;
     padding: 1.05rem 1rem 1rem;
