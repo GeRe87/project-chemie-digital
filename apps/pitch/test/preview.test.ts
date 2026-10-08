@@ -90,7 +90,7 @@ test("renders the complete nine-scene Standardabweichung path with RDF provenanc
   destroy(); assert.equal(root.children.length, 0); destroy();
 });
 
-test("mounts generic layout variant and density markers for an inferred scene", () => {
+test("mounts generic composition fit markers for an inferred scene", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);
   const sourceScene = document.scenes[0]!;
@@ -120,8 +120,8 @@ test("mounts generic layout variant and density markers for an inferred scene", 
   );
   const section = root.children[0]!;
   assert.equal(section.attributes.get("data-layout"), "closing");
-  assert.equal(section.attributes.get("data-layout-variant"), "default");
-  assert.equal(section.attributes.get("data-layout-density"), "comfortable");
+  assert.equal(section.attributes.get("data-composition-variant"), "default");
+  assert.equal(section.attributes.get("data-composition-density"), "comfortable");
   assert.ok(["within-budget", "over-budget"].includes(section.attributes.get("data-lecture-budget") ?? ""));
   assert.match(section.attributes.get("data-lecture-budget-score") ?? "", /^\d+\.\d$/);
   assert.match(section.attributes.get("data-lecture-primary-regions") ?? "", /^\d+$/);
