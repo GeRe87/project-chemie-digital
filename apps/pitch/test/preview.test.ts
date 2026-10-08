@@ -9,7 +9,7 @@ import {
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
-import { inferRevealLayoutDecision } from "../../../packages/renderer-reveal/src/layout-policy.ts";
+import { inferRevealLayoutFamily } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -105,8 +105,7 @@ test("mounts generic composition fit markers for an inferred scene", () => {
     blocks: [heading],
     readingOrder: [heading.id],
   };
-  const decision = inferRevealLayoutDecision(inferredScene);
-  assert.equal(decision?.family, "closing");
+  assert.equal(inferRevealLayoutFamily(inferredScene), "closing");
 
   const inferredDocument = {
     ...document,
