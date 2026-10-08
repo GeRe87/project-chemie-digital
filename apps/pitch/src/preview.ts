@@ -459,7 +459,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const lectureBudget = evaluateLectureContentBudget(scene);
     const semanticGraphCompanion =
       composition.kind === "semantic-stage"
-      && composition.semanticStageProfile === "source";
+      && composition.profile === "source";
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
@@ -467,14 +467,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("data-source-path-id", document.sourcePathId);
     section.setAttribute("data-composition", composition.kind);
     section.setAttribute("data-composition-main-count", String(composition.mainCount));
-    if (composition.mainProfile) section.setAttribute("data-composition-main-profile", composition.mainProfile);
-    if (composition.evidenceProfile) section.setAttribute("data-composition-evidence-profile", composition.evidenceProfile);
-    if (composition.processProfile) section.setAttribute("data-composition-process-profile", composition.processProfile);
-    if (composition.workbenchProfile) section.setAttribute("data-composition-workbench-profile", composition.workbenchProfile);
-    if (composition.progressionProfile) section.setAttribute("data-composition-progression-profile", composition.progressionProfile);
-    if (composition.learningProfile) section.setAttribute("data-composition-learning-profile", composition.learningProfile);
-    if (composition.visualStageProfile) section.setAttribute("data-composition-visual-stage-profile", composition.visualStageProfile);
-    if (composition.semanticStageProfile) section.setAttribute("data-composition-semantic-stage-profile", composition.semanticStageProfile);
+    if (composition.profile) section.setAttribute("data-composition-profile", composition.profile);
     section.setAttribute("style", `--pcd-composition-main-count: ${composition.mainCount}`);
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
