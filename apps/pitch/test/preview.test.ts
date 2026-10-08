@@ -800,3 +800,134 @@ test("legacy teaching evidence families no longer own CSS presentation", () => {
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
   assert.doesNotMatch(evidenceCss, /data-layout=/u);
 });
+
+
+test("generic visual evidence compositions own analysis and worked-case presentation", () => {
+  const css = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
+  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+
+  assert.match(css, /data-composition="evidence-story"/u);
+  assert.match(css, /data-composition="worked-evidence"/u);
+  assert.match(css, /data-composition-evidence-profile/u);
+  assert.doesNotMatch(css, /data-layout="analysis-result"/u);
+  assert.doesNotMatch(css, /data-layout="case-study"/u);
+  assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
+  assert.equal(main.includes('import "./case-study-layout.css"'), false);
+});
+
+test("renders worked-evidence regions from generic block structure", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const sourceScene = document.scenes[0]!;
+  const heading = sourceScene.blocks.find(
+    (block) => block.kind === "prose" && block.intent?.kind === "introduce",
+  );
+  assert.ok(heading);
+
+  const group = {
+    id: "block:worked-context",
+    kind: "group" as const,
+    children: [
+      {
+        id: "block:worked-context-prose",
+        kind: "prose" as const,
+        text: "Generic context",
+        intent: { kind: "explain" as const },
+        source: [{ resourceId: "resource:worked-context-prose" }],
+      },
+      {
+        id: "block:worked-context-media",
+        kind: "media-reference" as const,
+        uri: "/generic.svg",
+        alternativeText: "Generic illustration",
+        source: [{ resourceId: "resource:worked-context-media" }],
+      },
+    ],
+    readingOrder: ["block:worked-context-prose", "block:worked-context-media"],
+    source: [{ resourceId: "resource:worked-context" }],
+  };
+  const table = {
+    id: "block:worked-table",
+    kind: "table" as const,
+    caption: "Generic data",
+    columns: [
+      { id: "column:a", label: "A", source: [{ resourceId: "resource:worked-column-a" }] },
+      { id: "column:b", label: "B", source: [{ resourceId: "resource:worked-column-b" }] },
+    ],
+    rows: [{
+      id: "row:one",
+      cells: [
+        { id: "cell:a", text: "1", source: [{ resourceId: "resource:worked-cell-a" }] },
+        { id: "cell:b", text: "2", source: [{ resourceId: "resource:worked-cell-b" }] },
+      ],
+      source: [{ resourceId: "resource:worked-row-one" }],
+    }],
+    source: [{ resourceId: "resource:worked-table" }],
+  };
+  const chart = {
+    id: "block:worked-chart",
+    kind: "chart" as const,
+    chartType: "bar" as const,
+    label: "Generic chart",
+    description: "Generic evidence",
+    xAxis: { label: "Category" },
+    yAxis: { label: "Value" },
+    data: [{
+      id: "datum:a",
+      category: "A",
+      value: 1,
+      source: [{ resourceId: "resource:worked-datum-a" }],
+    }],
+    source: [{ resourceId: "resource:worked-chart" }],
+  };
+  const discussion = {
+    id: "block:worked-discussion",
+    kind: "list" as const,
+    listStyle: "unordered" as const,
+    items: [
+      { id: "point:one", text: "Point one", source: [{ resourceId: "resource:worked-point-one" }] },
+      { id: "point:two", text: "Point two", source: [{ resourceId: "resource:worked-point-two" }] },
+    ],
+    source: [{ resourceId: "resource:worked-discussion" }],
+  };
+  const takeaway = {
+    id: "block:worked-takeaway",
+    kind: "prose" as const,
+    text: "Generic takeaway",
+    intent: { kind: "explain" as const },
+    source: [{ resourceId: "resource:worked-takeaway" }],
+  };
+  const scene = {
+    ...sourceScene,
+    id: "scene:worked-evidence-generic",
+    blocks: [heading, group, table, chart, discussion, takeaway],
+    readingOrder: [heading.id, group.id, table.id, chart.id, discussion.id, takeaway.id],
+  };
+  const renderedDocument = {
+    ...document,
+    version: "1.5" as const,
+    id: "document:worked-evidence-generic",
+    scenes: [scene],
+  };
+
+  const root = new FakeElement();
+  const destroy = mountSceneDocuments(
+    { root, createElement: () => new FakeElement() },
+    [renderedDocument],
+  );
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-composition"), "worked-evidence");
+  assert.equal(section.attributes.get("data-composition-evidence-profile"), "context-data-visual");
+
+  const regions = section.children.slice(1).map((node) =>
+    node.attributes.get("data-composition-region-container")
+  );
+  assert.deepEqual(regions, ["context", "primary", "secondary", "support", "footer"]);
+  assert.equal(section.children[1]!.children[0]!.attributes.get("data-component-kind"), "group");
+  assert.equal(section.children[2]!.children[0]!.attributes.get("data-component-kind"), "data-surface");
+  assert.equal(section.children[3]!.children[0]!.attributes.get("data-component-kind"), "visual");
+  assert.equal(section.children[4]!.children[0]!.attributes.get("data-component-kind"), "list-collection");
+  assert.equal(section.children[5]!.children[0]!.attributes.get("data-component-kind"), "info-surface");
+
+  destroy();
+});
