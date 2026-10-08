@@ -508,7 +508,13 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       if (
         !placement
         || placement.region === "heading"
-        || !["main-aside-note", "card-deck", "evidence-split"].includes(composition.kind)
+        || ![
+          "main-aside-note",
+          "card-deck",
+          "evidence-split",
+          "evidence-story",
+          "worked-evidence",
+        ].includes(composition.kind)
       ) {
         return section;
       }
