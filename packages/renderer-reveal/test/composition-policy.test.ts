@@ -786,3 +786,58 @@ test("legacy functional and observation structures resolve through main-aside-no
   assert.equal(plan.kind, "main-aside-note");
   assert.equal(plan.mainProfile, "formula-visual");
 });
+
+
+test("visual-stage infers a standard standalone diagram", () => {
+  const scene: Scene = {
+    id: "opaque:visual-stage",
+    source: [{ resourceId: "resource:visual-stage" }],
+    blocks: [
+      prose("heading", "introduce"),
+      flowDiagram("diagram"),
+    ],
+    readingOrder: ["heading", "diagram"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "visual-stage",
+    mainCount: 1,
+    visualStageProfile: "diagram",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "diagram", region: "main", index: 0 },
+    ],
+  });
+});
+
+test("visual-stage infers concentric profile from grouped focused network topology", () => {
+  const network: SceneBlock = {
+    id: "network",
+    kind: "diagram",
+    diagramType: "network",
+    label: "Generic grouped network",
+    description: "Generic grouped network",
+    focusNodeId: "network:focus",
+    nodes: [
+      { id: "network:focus", label: "Focus", source: [{ resourceId: "resource:focus" }] },
+      { id: "network:a", label: "A", groupIds: ["group:a"], source: [{ resourceId: "resource:a" }] },
+      { id: "network:b", label: "B", groupIds: ["group:b"], source: [{ resourceId: "resource:b" }] },
+    ],
+    edges: [],
+    groups: [
+      { id: "group:a", label: "A", source: [{ resourceId: "resource:group-a" }] },
+      { id: "group:b", label: "B", source: [{ resourceId: "resource:group-b" }] },
+    ],
+    source: [{ resourceId: "resource:network" }],
+  };
+  const scene: Scene = {
+    id: "opaque:concentric",
+    source: [{ resourceId: "resource:scene" }],
+    blocks: [prose("heading", "introduce"), network],
+    readingOrder: ["heading", "network"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "visual-stage");
+  assert.equal(plan.visualStageProfile, "concentric-network");
+});
