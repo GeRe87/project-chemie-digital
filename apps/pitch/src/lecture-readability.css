@@ -22,9 +22,11 @@ body[data-presentation-readability="lecture"] .reveal .slides section {
   line-height: 1.22;
 }
 
-body[data-presentation-readability="lecture"] .reveal .slides section:not([data-layout="closing"])
-  > [data-layout-slot="heading"],
-body[data-presentation-readability="lecture"] .reveal .slides section:not([data-layout="closing"]) > h2 {
+body[data-presentation-readability="lecture"] .reveal .slides
+  section:not([data-composition="single"][data-composition-main-count="0"])
+  > [data-composition-region="heading"],
+body[data-presentation-readability="lecture"] .reveal .slides
+  section:not([data-composition]) > h2 {
   font-size: var(--pcd-lecture-heading) !important;
   line-height: 1.02 !important;
 }
@@ -85,7 +87,7 @@ body[data-presentation-readability="lecture"] .reveal .d3-edge-label {
   font-size: var(--pcd-lecture-caption) !important;
 }
 
-/* Worked-evidence lecture readability adjusts components, never composition tracks. */
+/* Context-data-visual evidence readability adjusts components, never composition tracks. */
 body[data-presentation-readability="lecture"] .reveal .slides
   section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="context"]
@@ -261,7 +263,7 @@ body[data-presentation-readability="lecture"] .reveal .definition-list-entry {
     var(--pcd-surface-strong);
 }
 
-/* Worked-evidence regions use the same palette through generic composition metadata. */
+/* Context-data-visual evidence regions use the same palette through generic composition metadata. */
 body[data-presentation-readability="lecture"] .reveal
   section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
   > [data-composition-region-container="context"]
