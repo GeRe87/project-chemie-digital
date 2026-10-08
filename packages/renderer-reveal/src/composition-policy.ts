@@ -73,6 +73,7 @@ export type RevealWorkbenchProfile =
 
 export type RevealProgressionProfile =
   | "cards-only"
+  | "cards-with-footer"
   | "cards-to-visual";
 
 export type RevealLearningProfile =
@@ -381,6 +382,23 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       placements,
       mainCount: body.length,
       learningProfile: "prompt-grid",
+    };
+  }
+
+  if (
+    body.length === 2
+    && bodyKinds[0] === "list-collection"
+    && bodyKinds[1] === "info-surface"
+  ) {
+    const placements: RevealCompositionPlacement[] = [];
+    if (heading) placements.push({ blockId: heading.id, region: "heading", index: 0 });
+    placements.push({ blockId: body[0]!.id, region: "main", index: 0 });
+    placements.push({ blockId: body[1]!.id, region: "footer", index: 0 });
+    return {
+      kind: "progression-strip",
+      placements,
+      mainCount: 1,
+      progressionProfile: "cards-with-footer",
     };
   }
 
