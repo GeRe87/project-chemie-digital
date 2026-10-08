@@ -1,7 +1,7 @@
-/* Shared card primitives and generic card-deck composition.
+/* Shared card primitives and generic definition-deck learning-stage profile.
    Styling depends only on component/composition metadata emitted by the renderer. */
 
-.reveal .slides section[data-composition="card-deck"] {
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
   display: grid !important;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   row-gap: .72rem;
@@ -9,7 +9,7 @@
   padding: 1.2rem 1.65rem 1.15rem !important;
 }
 
-.reveal .slides section[data-composition="card-deck"] > [data-composition-region="heading"] {
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] > [data-composition-region="heading"] {
   grid-row: 1;
   margin: 0;
   max-width: none;
@@ -18,7 +18,7 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-composition="card-deck"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   > [data-composition-region-container="prelude"] {
   grid-row: 2;
   display: flex;
@@ -29,7 +29,7 @@
   margin: 0 auto;
 }
 
-.reveal .slides section[data-composition="card-deck"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   > [data-composition-region-container="main"] {
   grid-row: 3;
   display: flex;
@@ -38,7 +38,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="card-deck"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   > [data-composition-region-container="footer"] {
   grid-row: 4;
   display: flex;
@@ -49,26 +49,26 @@
   margin: 0 auto;
 }
 
-.reveal .slides section[data-composition="card-deck"]:not(:has(> [data-composition-region-container="prelude"])) {
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"])) {
   grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
-.reveal .slides section[data-composition="card-deck"]:not(:has(> [data-composition-region-container="prelude"]))
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"]))
   > [data-composition-region-container="main"] {
   grid-row: 2;
 }
 
-.reveal .slides section[data-composition="card-deck"]:not(:has(> [data-composition-region-container="prelude"]))
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"]))
   > [data-composition-region-container="footer"] {
   grid-row: 3;
 }
 
-.reveal .slides section[data-composition="card-deck"]:not(:has(> [data-composition-region-container="prelude"])):not(:has(> [data-composition-region-container="footer"])) {
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"])):not(:has(> [data-composition-region-container="footer"])) {
   grid-template-rows: auto minmax(0, 1fr);
 }
 
 
-.reveal .slides section[data-composition="card-deck"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
   width: 100%;
@@ -84,7 +84,7 @@
   text-wrap: pretty;
 }
 
-.reveal .slides section[data-composition="card-deck"]
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   > [data-composition-region-container="footer"]
   [data-component-kind="info-surface"] {
   border-width: 0;
@@ -283,14 +283,14 @@ body[data-presentation-theme="dark"] .reveal
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-composition="card-deck"] {
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
     grid-template-rows: auto auto auto auto;
     padding: 1rem !important;
   }
 
-  .reveal .slides section[data-composition="card-deck"]
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
     > [data-composition-region-container="prelude"],
-  .reveal .slides section[data-composition="card-deck"]
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
     > [data-composition-region-container="footer"] {
     width: 100%;
   }
