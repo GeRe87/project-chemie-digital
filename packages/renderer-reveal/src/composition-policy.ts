@@ -106,6 +106,29 @@ export interface RevealCompositionPlan {
   readonly profile?: RevealCompositionProfile;
 }
 
+
+/**
+ * Projection topology owned by the composition policy.
+ *
+ * Pitch should not need its own composition-kind allowlist to decide whether
+ * placements share a region wrapper. This decision is part of the generic
+ * composition contract and remains independent of scene/resource identity.
+ */
+export function shouldWrapRevealCompositionPlacement(
+  composition: RevealCompositionPlan,
+  placement: RevealCompositionPlacement,
+): boolean {
+  if (placement.region === "heading") return false;
+  if (composition.kind === "stack" || composition.kind === "semantic-stage") return false;
+  if (composition.kind === "media-stage" && composition.profile === "hero-attributions") return false;
+  if (
+    composition.kind === "evidence-stage"
+    && composition.profile === "context-data-visual"
+    && placement.region === "support"
+  ) return false;
+  return true;
+}
+
 function orderedBlocks(scene: Scene): readonly SceneBlock[] {
   const byId = new Map(scene.blocks.map((block) => [block.id, block]));
   return scene.readingOrder
