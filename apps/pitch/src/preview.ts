@@ -485,6 +485,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         || (composition.kind === "evidence-stage"
           && composition.profile === "context-data-visual"
           && placement.region === "support")
+        || (composition.kind === "media-stage"
+          && composition.profile === "hero-attributions")
         || ![
           "main-aside-note",
           "card-deck",
