@@ -1,14 +1,14 @@
-/* Generic interactive learning-stage composition.
+/* Generic interactive learning-stage profile family.
    Profiles are inferred from ordered component kinds only. */
 
-.reveal .slides section[data-composition="learning-stage"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"]) {
   display: grid !important;
   min-width: 0;
   min-height: 0;
   align-content: stretch;
 }
 
-.reveal .slides section[data-composition="learning-stage"] > [data-composition-region="heading"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"]) > [data-composition-region="heading"] {
   margin: 0;
   max-width: none;
   font-size: 2.45em;
@@ -16,38 +16,38 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-composition="learning-stage"] > [data-composition-region-container] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"]) > [data-composition-region-container] {
   min-width: 0;
   min-height: 0;
 }
 
 /* Prompt + executable code ------------------------------------------------ */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"] {
   grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
   grid-template-rows: auto minmax(0, 1fr);
   gap: 1rem 1.4rem;
   padding: 1.35rem 1.8rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   > [data-composition-region="heading"] {
   grid-column: 1 / -1;
   grid-row: 1;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   > [data-composition-region-container="primary"] {
   grid-column: 1;
   grid-row: 2;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   > [data-composition-region-container="secondary"] {
   grid-column: 2;
   grid-row: 2;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   [data-component-kind="prompt"] {
   box-sizing: border-box;
   height: 100%;
@@ -57,21 +57,21 @@
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   [data-component-kind="prompt"] .poll-prompt {
   margin: 0;
   font: 760 .9em/1.42 Arial, Helvetica, sans-serif;
   text-align: left;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   [data-component-kind="code"] {
   height: 100%;
   min-height: 0;
   margin: 0;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   [data-component-kind="code"] .code-static-fallback {
   box-sizing: border-box;
   height: 100%;
@@ -80,20 +80,20 @@
 }
 
 /* Explanatory prose + compact code demo ---------------------------------- */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"] {
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: .55rem;
   padding: 1rem 1.6rem 1.2rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   > [data-composition-region-container="prelude"] {
   grid-row: 2;
   display: flex;
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   > [data-composition-region-container="main"] {
   grid-row: 3;
   display: flex;
@@ -101,7 +101,7 @@
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
   width: min(940px, 88%);
@@ -112,7 +112,7 @@
   font: 800 .76em/1.18 Arial, Helvetica, sans-serif;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   [data-component-kind="code"] {
   box-sizing: border-box;
   width: min(980px, 88%);
@@ -124,27 +124,27 @@
   box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   [data-component-kind="code"] .code-static-fallback {
   font-size: 1.35em;
   line-height: 1.45;
   text-align: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   .code-editor-host .cm-editor,
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   .code-editor-host .cm-scroller {
   min-height: 4.3rem;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   .code-runtime-controls {
   justify-content: center;
   margin: .55rem 0;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-code"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   .code-output {
   min-height: 3rem;
   padding: .65rem .8rem;
@@ -153,20 +153,20 @@
 }
 
 /* Concept explanation + visual evidence ---------------------------------- */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"] {
   grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: .85rem 1.35rem;
   padding: 1.3rem 1.8rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   > [data-composition-region="heading"] {
   grid-column: 1 / -1;
   grid-row: 1;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   > [data-composition-region-container="primary"] {
   grid-column: 1;
   grid-row: 2;
@@ -174,20 +174,20 @@
   align-items: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   > [data-composition-region-container="secondary"] {
   grid-column: 2;
   grid-row: 2;
   min-height: 25rem;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   > [data-composition-region-container="footer"] {
   grid-column: 1 / -1;
   grid-row: 3;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   [data-component-kind="info-surface"][data-composition-region="primary"] {
   box-sizing: border-box;
   width: 100%;
@@ -200,14 +200,14 @@
   text-align: left;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   [data-component-kind="visual"] {
   width: 100%;
   height: 100%;
   min-height: 25rem;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
   [data-component-kind="info-surface"][data-composition-region="footer"] {
   box-sizing: border-box;
   width: min(1120px, 96%);
@@ -221,26 +221,26 @@
 }
 
 /* Formula + diagram ------------------------------------------------------- */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"] {
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: .7rem;
   padding: 1.25rem 1.8rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
   > [data-composition-region-container="prelude"] {
   grid-row: 2;
   display: flex;
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
   > [data-composition-region-container="main"] {
   grid-row: 3;
   min-height: 24rem;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
   [data-component-kind="formula"] {
   box-sizing: border-box;
   width: min(1000px, 92%);
@@ -252,7 +252,7 @@
   font-size: 1.35em;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
   [data-component-kind="visual"] {
   width: 100%;
   height: 100%;
@@ -260,20 +260,20 @@
 }
 
 /* Single large audience prompt ------------------------------------------- */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"] {
   grid-template-rows: auto minmax(0, 1fr);
   gap: 1rem;
   padding: 1.4rem 2rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
   > [data-composition-region-container="main"] {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
   [data-component-kind="prompt"] {
   box-sizing: border-box;
   width: min(1100px, 94%);
@@ -284,14 +284,14 @@
   box-shadow: 9px 9px 0 color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
   .poll-prompt {
   margin: 0 0 1.5rem;
   font: 850 1.2em/1.35 Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
   .poll-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -301,7 +301,7 @@
   list-style: none;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
   .poll-options > li {
   box-sizing: border-box;
   margin: 0;
@@ -314,13 +314,13 @@
 }
 
 /* Multiple prompts -------------------------------------------------------- */
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"] {
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"] {
   grid-template-rows: auto minmax(0, 1fr);
   gap: .75rem;
   padding: 1rem 1.4rem 1.15rem !important;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   > [data-composition-region-container="main"] {
   display: grid;
   grid-template-columns: repeat(var(--pcd-composition-main-count), minmax(0, 1fr));
@@ -328,7 +328,7 @@
   min-height: 0;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   [data-component-kind="prompt"] {
   box-sizing: border-box;
   display: flex;
@@ -342,14 +342,14 @@
   box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 14%, transparent);
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   .poll-prompt {
   margin: 0 0 .6rem;
   font: 780 .68em/1.18 Arial, Helvetica, sans-serif;
   text-align: left;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   .poll-options {
   display: grid;
   grid-template-columns: 1fr;
@@ -359,14 +359,14 @@
   list-style: none;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   .poll-options > li {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   .poll-option-button {
   min-height: 2.65rem;
   padding: .42rem .5rem;
@@ -374,7 +374,7 @@
   font: 850 .62em/1.12 "Cascadia Mono", Consolas, monospace;
 }
 
-.reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   .poll-local-feedback {
   margin-top: .65rem;
   padding: .48rem .55rem;
@@ -383,31 +383,31 @@
 }
 
 @media (max-width: 900px) {
-  .reveal .slides section[data-composition="learning-stage"] {
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"]) {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto auto !important;
     padding: 1rem !important;
   }
 
-  .reveal .slides section[data-composition="learning-stage"]
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])
     > [data-composition-region-container] {
     grid-column: 1 !important;
     grid-row: auto !important;
   }
 
-  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="prompt-grid"]
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
     > [data-composition-region-container="main"] {
     grid-template-columns: 1fr;
   }
 
-  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="single-prompt"]
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="single-prompt"]
     .poll-options {
     grid-template-columns: 1fr;
   }
 
-  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
     > [data-composition-region-container="secondary"],
-  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"]
+  .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
     > [data-composition-region-container="main"] {
     min-height: 16rem;
   }
