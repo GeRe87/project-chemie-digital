@@ -40,9 +40,10 @@ test("short strict linear flows use compact horizontal structure before the gene
   assert.equal(flowOrientationForWidth(1200), "horizontal");
   assert.equal(flowOrientationForWidth(640), "vertical");
 
-  const wide = createD3FlowLayout(input, 1200);
-  const compact = createD3FlowLayout(input, 640);
-  const narrow = createD3FlowLayout(input, 520);
+  const explicitFlow = { ...input, diagramType: "flow" as const };
+  const wide = createD3FlowLayout(explicitFlow, 1200);
+  const compact = createD3FlowLayout(explicitFlow, 640);
+  const narrow = createD3FlowLayout(explicitFlow, 520);
   assert.equal(wide.orientation, "horizontal");
   assert.equal(compact.orientation, "horizontal");
   assert.equal(narrow.orientation, "vertical");
