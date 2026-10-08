@@ -27,23 +27,13 @@ function sourceAttributes(node: MinimalElement, sources: readonly SourceReferenc
   if (relationPaths.length) node.setAttribute("data-relation-path", [...new Set(relationPaths)].sort().join(" "));
 }
 
-function layoutSlotAttribute(
-  node: MinimalElement,
-  layoutSlot?: string,
-  compositionDensity?: "comfortable" | "dense" | "compact",
-): void {
-  if (layoutSlot) node.setAttribute("data-layout-slot", layoutSlot);
-  if (compositionDensity) node.setAttribute("data-composition-density", compositionDensity);
-}
-
 function blockPresentationAttributes(
   node: MinimalElement,
   block: SceneBlock,
-  layoutSlot?: string,
   compositionDensity?: "comfortable" | "dense" | "compact",
   compositionPlacement?: RevealCompositionPlacement,
 ): void {
-  layoutSlotAttribute(node, layoutSlot, compositionDensity);
+  if (compositionDensity) node.setAttribute("data-composition-density", compositionDensity);
   const component = revealComponentDescriptor(block);
   node.setAttribute("data-component-kind", component.kind);
   if (component.itemCount !== undefined) {
@@ -112,14 +102,13 @@ function appendBlock(
   dom: PitchDomPort,
   block: SceneBlock,
   headingId: string,
-  layoutSlot?: string,
   compositionDensity?: "comfortable" | "dense" | "compact",
   compositionPlacement?: RevealCompositionPlacement,
 ): void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
     node.className = "math-display";
-    blockPresentationAttributes(node, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
     node.setAttribute("role", "math");
     node.setAttribute("aria-label", block.spokenText);
     node.innerHTML = katex.renderToString(block.expression, {
@@ -136,7 +125,7 @@ function appendBlock(
   if (block.kind === "code") {
     const shell = dom.createElement("div");
     shell.className = "code-block";
-    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-code-block-id", block.id);
     shell.setAttribute("data-language", block.language);
     shell.setAttribute("data-editable", String(block.editable));
@@ -154,7 +143,7 @@ function appendBlock(
   if (block.kind === "media-reference") {
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
-    blockPresentationAttributes(figure, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(figure, block, compositionDensity, compositionPlacement);
     figure.setAttribute("data-media-block-id", block.id);
     figure.setAttribute("data-media-uri", block.uri);
     if (block.mediaType) figure.setAttribute("data-media-type", block.mediaType);
@@ -188,7 +177,7 @@ function appendBlock(
   if (block.kind === "definition-list") {
     const list = dom.createElement("dl");
     list.className = "definition-list";
-    blockPresentationAttributes(list, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
     sourceAttributes(list, block.source);
     block.entries.forEach((entry, index) => {
       const entryShell = dom.createElement("div");
@@ -267,7 +256,7 @@ function appendBlock(
   if (block.kind === "table") {
     const table = dom.createElement("table");
     table.className = "data-table";
-    blockPresentationAttributes(table, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(table, block, compositionDensity, compositionPlacement);
     table.setAttribute("data-table-block-id", block.id);
     if (block.description) table.setAttribute("aria-description", block.description);
     sourceAttributes(table, block.source);
@@ -310,13 +299,13 @@ function appendBlock(
   if (block.kind === "group") {
     const shell = dom.createElement("div");
     shell.className = "scene-group";
-    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-group-block-id", block.id);
     sourceAttributes(shell, block.source);
     for (const childId of block.readingOrder) {
       const child = block.children.find((candidate) => candidate.id === childId);
       if (!child) throw new Error(`Group ${block.id} reading order references unknown block ${childId}`);
-      appendBlock(shell, dom, child, headingId, undefined, compositionDensity, undefined);
+      appendBlock(shell, dom, child, headingId, compositionDensity, undefined);
     }
     parent.appendChild(shell);
     return;
@@ -324,7 +313,7 @@ function appendBlock(
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
-    blockPresentationAttributes(list, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
@@ -342,7 +331,7 @@ function appendBlock(
   if (block.kind === "prompt") {
     const shell = dom.createElement("div");
     shell.className = "live-poll";
-    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-poll-key", block.source[0]?.resourceId ?? block.id);
     const optionIds = block.optionIds ?? [];
     if (optionIds.length) shell.setAttribute("data-poll-option-ids", optionIds.join(" "));
@@ -399,7 +388,7 @@ function appendBlock(
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
-    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
@@ -422,7 +411,7 @@ function appendBlock(
   if (block.kind === "chart") {
     const shell = dom.createElement("div");
     shell.className = "d3-chart-host retro-neon-chart-window";
-    blockPresentationAttributes(shell, block, layoutSlot, compositionDensity, compositionPlacement);
+    blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
     if (block.liveUpdate) shell.setAttribute("data-live-chart", "true");
@@ -448,7 +437,7 @@ function appendBlock(
   if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
-  blockPresentationAttributes(node, block, layoutSlot, compositionDensity, compositionPlacement);
+  blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
   if (tag === "h2") node.setAttribute("id", headingId);
   node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
@@ -540,7 +529,6 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         dom,
         block,
         headingId,
-        inferredLayout?.slots[blockIndex],
         compositionFit.density,
         compositionPlacement,
       );
