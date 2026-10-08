@@ -446,7 +446,7 @@ test("worked-evidence composes context, data, visual, support and optional note"
 });
 
 
-test("process-story infers compact profile for a short strict linear flow", () => {
+test("process-story wins over broader info-visual learning signature and infers compact profile", () => {
   const scene: Scene = {
     id: "opaque:process-story-compact",
     source: [{ resourceId: "resource:process-story-compact" }],
@@ -458,6 +458,11 @@ test("process-story infers compact profile for a short strict linear flow", () =
     ],
     readingOrder: ["heading", "intro", "process", "takeaway"],
   };
+
+  assert.deepEqual(
+    scene.blocks.slice(1).map((block) => revealComponentDescriptor(block).kind),
+    ["info-surface", "visual", "info-surface"],
+  );
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "process-story",
