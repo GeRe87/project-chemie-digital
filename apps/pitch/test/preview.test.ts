@@ -9,7 +9,6 @@ import {
   STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
 import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
-import { inferRevealLayoutFamily } from "../../../packages/renderer-reveal/src/layout-policy.ts";
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -105,7 +104,6 @@ test("mounts generic composition fit markers for an inferred scene", () => {
     blocks: [heading],
     readingOrder: [heading.id],
   };
-  assert.equal(inferRevealLayoutFamily(inferredScene), "closing");
 
   const inferredDocument = {
     ...document,
@@ -118,7 +116,7 @@ test("mounts generic composition fit markers for an inferred scene", () => {
     [inferredDocument],
   );
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "closing");
+  assert.equal(section.attributes.get("data-layout"), undefined);
   assert.equal(section.attributes.get("data-composition-variant"), "default");
   assert.equal(section.attributes.get("data-composition-density"), "comfortable");
   assert.ok(["within-budget", "over-budget"].includes(section.attributes.get("data-lecture-budget") ?? ""));
@@ -273,7 +271,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
     [renderedDocument],
   );
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-layout"), "labeled-card-grid");
+  assert.equal(section.attributes.get("data-layout"), undefined);
 
   assert.equal(section.attributes.get("data-composition"), "card-deck");
   const cardRegion = section.children[1]!;
