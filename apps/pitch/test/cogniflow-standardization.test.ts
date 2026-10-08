@@ -116,6 +116,17 @@ test("migrated scenes are not selected by id in shared app styling or navigation
   assert.equal(styles.includes('data-layout="split-proof"'), false);
 });
 
+test("legacy layout policy no longer exposes block slots", () => {
+  const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
+  const preview = source("../src/preview.ts");
+
+  assert.equal(policy.includes("readonly slots"), false);
+  assert.equal(policy.includes("slots:"), false);
+  assert.equal(preview.includes("inferRevealLayoutDecision"), false);
+  assert.equal(preview.includes("inferRevealLayoutFamily"), true);
+});
+
+
 test("production Pitch rendering no longer emits or consumes legacy layout slots", () => {
   const preview = source("../src/preview.ts");
   const productionCss = [
