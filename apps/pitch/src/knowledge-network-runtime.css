@@ -1,4 +1,4 @@
-.reveal section[data-layout="semantic-source"] {
+.reveal section[data-composition="semantic-stage"][data-composition-semantic-stage-profile="source"] {
   display: grid !important;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   grid-template-rows: auto minmax(0, 1fr);
@@ -7,12 +7,12 @@
   align-items: stretch;
 }
 
-.reveal section[data-layout="semantic-source"] > h2 {
+.reveal section[data-composition="semantic-stage"][data-composition-semantic-stage-profile="source"] > [data-composition-region="heading"] {
   grid-column: 1 / -1;
   margin-bottom: 0.15rem;
 }
 
-.reveal section[data-layout="semantic-source"] > .code-block[data-language="trig"] {
+.reveal section[data-composition="semantic-stage"][data-composition-semantic-stage-profile="source"] > .code-block[data-language="trig"][data-composition-region="main"] {
   grid-column: 1;
   grid-row: 2;
   width: 100%;
@@ -124,12 +124,12 @@
 }
 
 @media (max-width: 1000px) {
-  .reveal section[data-layout="semantic-source"] {
+  .reveal section[data-composition="semantic-stage"][data-composition-semantic-stage-profile="source"] {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
   }
 
-  .reveal section[data-layout="semantic-source"] > .code-block[data-language="trig"],
+  .reveal section[data-composition="semantic-stage"][data-composition-semantic-stage-profile="source"] > .code-block[data-language="trig"][data-composition-region="main"],
   .reveal .d3-scene-knowledge-host {
     grid-column: 1;
     grid-row: auto;
