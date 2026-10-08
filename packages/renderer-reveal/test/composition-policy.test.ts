@@ -598,6 +598,30 @@ test("support-workbench infers list plus code reference structure", () => {
 });
 
 
+test("progression-strip infers cards with an authored footer", () => {
+  const scene: Scene = {
+    id: "opaque:cards-with-footer",
+    source: [{ resourceId: "resource:cards-with-footer" }],
+    blocks: [
+      prose("heading", "introduce"),
+      unorderedList("cards", 3),
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "cards", "takeaway"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "progression-strip",
+    mainCount: 1,
+    progressionProfile: "cards-with-footer",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "cards", region: "main", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});
+
 test("progression-strip infers an ordered card progression", () => {
   const scene: Scene = {
     id: "opaque:cards-progression",
