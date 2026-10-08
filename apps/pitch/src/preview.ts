@@ -478,7 +478,9 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       composition.placements.map((placement) => [placement.blockId, placement]),
     );
     const lectureBudget = evaluateLectureContentBudget(scene);
-    const semanticGraphCompanion = inferredLayout?.family === "semantic-source";
+    const semanticGraphCompanion =
+      composition.kind === "semantic-stage"
+      && composition.semanticStageProfile === "source";
     const section = dom.createElement("section");
     const headingId = `${scene.id}-title`;
     section.setAttribute("id", scene.id);
@@ -497,6 +499,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     if (composition.progressionProfile) section.setAttribute("data-composition-progression-profile", composition.progressionProfile);
     if (composition.learningProfile) section.setAttribute("data-composition-learning-profile", composition.learningProfile);
     if (composition.visualStageProfile) section.setAttribute("data-composition-visual-stage-profile", composition.visualStageProfile);
+    if (composition.semanticStageProfile) section.setAttribute("data-composition-semantic-stage-profile", composition.semanticStageProfile);
     section.setAttribute("style", `--pcd-composition-main-count: ${composition.mainCount}`);
     section.setAttribute("data-lecture-budget", lectureBudget.status);
     section.setAttribute("data-lecture-budget-score", lectureBudget.score.toFixed(1));
