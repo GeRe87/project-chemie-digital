@@ -54,7 +54,7 @@ const migratedSceneIds = [
 ] as const;
 
 test("diagram-stage scales space-filling flow viewBoxes into the available stage", () => {
-  const css = source("../src/diagram-stage-layout.css");
+  const css = source("../src/visual-stage-primitives.css");
   assert.match(css, /d3-flow-svg\[data-layout-strategy="space-filling-flow"\]/);
   assert.match(css, /height:\s*100%/);
   assert.match(css, /max-height:\s*100%/);
@@ -72,7 +72,6 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/process-primitives.css"),
     source("../src/support-workbench-primitives.css"),
     source("../src/progression-primitives.css"),
-    source("../src/concentric-network-layout.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
     source("../src/presentation-clock.ts"),
@@ -83,7 +82,6 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/closing-layout.css"),
     source("../src/presentation-mobile.css"),
     source("../src/hero-title-panel.css"),
-    source("../src/diagram-stage-layout.css"),
     source("../src/semantic-source-runtime.css"),
     source("../src/semantic-multi-view-runtime.css"),
   ];
@@ -133,7 +131,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-semantics-first.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-triples.css"'), false);
   assert.equal(main.includes('import "./cogniflow-semantic-core.css"'), false);
-  assert.equal(main.includes('import "./concentric-network-layout.css"'), true);
+  assert.equal(main.includes('import "./concentric-network-layout.css"'), false);
+  assert.equal(main.includes('import "./visual-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./process-diagram-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-processing-pipeline.css"'), false);
   assert.equal(main.includes('import "./cogniflow-service-system.css"'), false);
@@ -142,7 +141,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-core-sequence.css"'), false);
   assert.equal(main.includes('import "./title-attributions-layout.css"'), false);
   assert.equal(main.includes('import "./hero-title-panel.css"'), true);
-  assert.equal(main.includes('import "./diagram-stage-layout.css"'), true);
+  assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
   assert.equal(main.includes('import "./full-media-layout.css"'), true);
@@ -212,7 +211,7 @@ test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
 
 test("generic concentric renderer uses true SVG circles instead of themed card rectangles", () => {
   const renderer = source("../../../packages/renderer-d3/src/flow-diagram.ts");
-  const css = source("../src/concentric-network-layout.css");
+  const css = source("../src/visual-stage-primitives.css");
 
   assert.equal(renderer.includes('layout.strategy === "concentric-network"\n            ? document.createElementNS(namespace, "circle")'), true);
   assert.equal(css.includes('circle.d3-flow-node-shape'), true);
@@ -359,7 +358,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const policy = source("../../../packages/renderer-reveal/src/layout-policy.ts");
   const preview = source("../src/preview.ts");
   const titleCss = source("../src/hero-title-panel.css");
-  const diagramCss = source("../src/diagram-stage-layout.css");
+  const diagramCss = source("../src/visual-stage-primitives.css");
 
   assert.equal(policy.includes('"hero-title-panel"'), true);
   assert.equal(policy.includes('"title-attributions"'), false);
@@ -372,6 +371,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   assert.equal(diagramCss.toLowerCase().includes("cogniflow"), false);
   assert.equal(titleCss.includes("data-resource-id~="), false);
   assert.equal(diagramCss.includes("section[id="), false);
+  assert.equal(diagramCss.includes("data-layout="), false);
   assert.equal(main.includes("scene-cogniflow-title"), false);
 });
 
