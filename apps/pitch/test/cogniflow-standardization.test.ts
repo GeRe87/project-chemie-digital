@@ -161,6 +161,7 @@ test("composition variants use one generic profile channel", () => {
     source("../src/knowledge-network-runtime.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
+    source("../src/lecture-readability.css"),
   ].join("\n");
 
   assert.equal(compositionPolicy.includes("readonly profile?: RevealCompositionProfile"), true);
@@ -204,6 +205,7 @@ test("production Pitch rendering no longer emits or consumes legacy layout slots
   assert.equal(preview.includes("inferredLayout?.slots"), false);
   assert.equal(preview.includes('setAttribute("data-layout"'), false);
   assert.equal(productionCss.includes("data-layout-slot"), false);
+  assert.equal(productionCss.includes("data-layout="), false);
 });
 
 
