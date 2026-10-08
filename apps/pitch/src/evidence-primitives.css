@@ -455,11 +455,17 @@
 
 .reveal .slides section[data-composition="worked-evidence"]
   > [data-composition-region-container="support"] {
+  display: contents;
+}
+
+.reveal .slides section[data-composition="worked-evidence"]
+  > [data-composition-region-container="support"]
+  > [data-component-kind="list-collection"] {
   grid-column: 2 / -1;
   grid-row: 3;
   justify-self: stretch;
-  width: 100%;
-  max-width: none;
+  width: 100% !important;
+  max-width: none !important;
   min-width: 0;
 }
 
@@ -526,9 +532,6 @@
   [data-component-kind="list-collection"] {
   display: flex;
   flex-wrap: nowrap;
-  justify-self: stretch;
-  width: 100% !important;
-  max-width: none !important;
   gap: .48rem;
 }
 
@@ -583,7 +586,8 @@
 }
 
 .reveal .slides section[data-composition="worked-evidence"][data-layout-variant="stacked"]
-  > [data-composition-region-container="support"] {
+  > [data-composition-region-container="support"]
+  > [data-component-kind="list-collection"] {
   grid-column: 1 / -1;
   grid-row: 4;
 }
@@ -646,6 +650,8 @@
   .reveal .slides section[data-composition="worked-evidence"]
     > [data-composition-region-container="support"]
     [data-component-kind="list-collection"] {
+    grid-column: 1 !important;
+    grid-row: auto !important;
     flex-direction: column;
   }
 }
