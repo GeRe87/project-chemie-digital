@@ -71,7 +71,6 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/reference-code-layout.css"),
     source("../src/process-context-layout.css"),
     source("../src/evidence-primitives.css"),
-    source("../src/analysis-result-layout.css"),
     source("../src/card-sequence-layout.css"),
     source("../src/text-network-progression-layout.css"),
     source("../src/concentric-network-layout.css"),
@@ -124,7 +123,8 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./process-context-layout.css"'), true);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
-  assert.equal(main.includes('import "./analysis-result-layout.css"'), true);
+  assert.equal(main.includes('import "./analysis-result-layout.css"'), false);
+  assert.equal(main.includes('import "./case-study-layout.css"'), false);
   assert.equal(main.includes('import "./card-sequence-layout.css"'), true);
   assert.equal(main.includes('import "./text-network-progression-layout.css"'), true);
   assert.equal(main.includes('import "./cogniflow-semantics-first.css"'), false);
