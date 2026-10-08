@@ -1113,6 +1113,6 @@ test("semantic runtime styling is keyed to semantic-stage composition profiles",
   assert.match(sourceCss, /data-composition-profile="source"/u);
   assert.match(multiCss, /data-composition-profile="multi-view"/u);
   assert.match(graphCss, /data-composition-profile="source"/u);
-  assert.match(preview, /composition\.semanticStageProfile === "source"/u);
+  assert.match(preview, /composition\.profile === "source"/u);
   assert.doesNotMatch(preview, /inferredLayout\?\.family === "semantic-source"/u);
 });
