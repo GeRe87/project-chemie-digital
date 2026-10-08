@@ -910,6 +910,7 @@ test("media-stage infers a full-viewport prose/media group structurally", () => 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
     kind: "media-stage",
     mainCount: 1,
+    profile: "full-viewport",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "media", region: "main", index: 0 },
@@ -918,7 +919,7 @@ test("media-stage infers a full-viewport prose/media group structurally", () => 
 });
 
 
-test("hero-stage infers ordered attribution and media groups structurally", () => {
+test("media-stage hero-attributions profile infers ordered attribution and media groups structurally", () => {
   const attributionGroup = (id: string): SceneBlock => {
     const proseBlock: SceneBlock = {
       id: `${id}:text`,
@@ -944,8 +945,8 @@ test("hero-stage infers ordered attribution and media groups structurally", () =
   };
 
   const scene: Scene = {
-    id: "opaque:hero-stage",
-    source: [{ resourceId: "resource:hero-stage" }],
+    id: "opaque:media-stage-hero",
+    source: [{ resourceId: "resource:media-stage-hero" }],
     blocks: [
       prose("heading", "introduce"),
       attributionGroup("primary"),
@@ -956,8 +957,9 @@ test("hero-stage infers ordered attribution and media groups structurally", () =
   };
 
   assert.deepEqual(inferRevealCompositionPlan(scene), {
-    kind: "hero-stage",
+    kind: "media-stage",
     mainCount: 3,
+    profile: "hero-attributions",
     placements: [
       { blockId: "heading", region: "heading", index: 0 },
       { blockId: "primary", region: "primary", index: 0 },
