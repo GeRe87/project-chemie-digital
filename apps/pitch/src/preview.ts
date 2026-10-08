@@ -491,7 +491,6 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
           "main-aside-note",
           "card-deck",
           "evidence-stage",
-          "support-workbench",
           "progression-stage",
           "learning-stage",
           "visual-stage",
