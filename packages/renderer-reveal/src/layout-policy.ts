@@ -36,7 +36,6 @@ export type RevealLayoutFamily =
 
 export interface RevealLayoutDecision {
   readonly family: RevealLayoutFamily;
-  readonly slots: readonly string[];
 }
 
 function orderedBlocks(scene: Scene): readonly SceneBlock[] | undefined {
@@ -123,10 +122,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       heading?.kind === "prose"
       && heading.intent?.kind === "introduce"
     ) {
-      return {
-        family: "closing",
-        slots: ["heading"],
-      };
+      return { family: "closing" };
     }
   }
 
@@ -140,10 +136,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && citation?.kind === "prose"
       && citation.intent?.kind === "emphasize"
     ) {
-      return {
-        family: "definition-card",
-        slots: ["heading", "definition", "citation"],
-      };
+      return { family: "definition-card" };
     }
   }
 
@@ -159,10 +152,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && isAttributionMediaGroup(secondaryAttribution)
       && isAttributionMediaGroup(supportingAttribution)
     ) {
-      return {
-        family: "hero-title-panel",
-        slots: ["heading", "primary-attribution", "secondary-attribution", "supporting-attribution"],
-      };
+      return { family: "hero-title-panel" };
     }
   }
 
@@ -174,10 +164,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && isTrigCode(source)
       && chart?.kind === "chart"
     ) {
-      return {
-        family: "semantic-multi-view",
-        slots: ["heading", "source", "chart"],
-      };
+      return { family: "semantic-multi-view" };
     }
   }
 
@@ -188,10 +175,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && heading.intent?.kind === "introduce"
       && isTrigCode(source)
     ) {
-      return {
-        family: "semantic-source",
-        slots: ["heading", "source"],
-      };
+      return { family: "semantic-source" };
     }
   }
 
@@ -203,10 +187,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && mediaGroup !== undefined
       && isFullMediaGroup(mediaGroup)
     ) {
-      return {
-        family: "full-media",
-        slots: ["heading", "media"],
-      };
+      return { family: "full-media" };
     }
   }
 
@@ -218,10 +199,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && network !== undefined
       && isConcentricNetwork(network)
     ) {
-      return {
-        family: "concentric-network",
-        slots: ["heading", "network"],
-      };
+      return { family: "concentric-network" };
     }
   }
 
@@ -233,10 +211,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && cards?.kind === "definition-list"
       && cards.entries.length === 3
     ) {
-      return {
-        family: "prompt-card-grid",
-        slots: ["heading", "cards"],
-      };
+      return { family: "prompt-card-grid" };
     }
   }
 
@@ -250,7 +225,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && table?.kind === "table"
       && chart?.kind === "chart"
     ) {
-      return { family: "measurement-example", slots: ["heading", "intro", "table", "chart"] };
+      return { family: "measurement-example" };
     }
   }
 
@@ -267,10 +242,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && caveat?.kind === "prose"
       && caveat.intent?.kind === "explain"
     ) {
-      return {
-        family: "functional-dependence",
-        slots: ["heading", "intro", "formula", "examples", "caveat"],
-      };
+      return { family: "functional-dependence" };
     }
   }
 
@@ -286,10 +258,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "observation-bridge",
-        slots: ["heading", "intro", "values", "diagram", "takeaway"],
-      };
+      return { family: "observation-bridge" };
     }
   }
 
@@ -302,7 +271,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && intro.intent?.kind === "explain"
       && code?.kind === "code"
     ) {
-      return { family: "minimal-code-demo", slots: ["heading", "intro", "code"] };
+      return { family: "minimal-code-demo" };
     }
   }
 
@@ -318,10 +287,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && roles?.kind === "list"
       && roles.items.length === 3
     ) {
-      return {
-        family: "experiment-example",
-        slots: ["heading", "intro", "table", "chart", "roles"],
-      };
+      return { family: "experiment-example" };
     }
   }
 
@@ -333,7 +299,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && questions.length === 3
       && questions.every((block) => block?.kind === "prompt" && block.responseMode === "single-choice")
     ) {
-      return { family: "quiz-grid", slots: ["heading", "question-1", "question-2", "question-3"] };
+      return { family: "quiz-grid" };
     }
   }
 
@@ -345,7 +311,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && prompt?.kind === "prompt"
       && code?.kind === "code"
     ) {
-      return { family: "code-lab", slots: ["heading", "prompt", "code"] };
+      return { family: "code-lab" };
     }
   }
 
@@ -361,12 +327,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && chart?.kind === "chart"
       && validExample
     ) {
-      return {
-        family: "concept-chart",
-        slots: example === undefined
-          ? ["heading", "definition", "chart"]
-          : ["heading", "definition", "chart", "example"],
-      };
+      return { family: "concept-chart" };
     }
   }
 
@@ -378,7 +339,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && formula?.kind === "math"
       && diagram?.kind === "diagram"
     ) {
-      return { family: "math-diagram", slots: ["heading", "formula", "diagram"] };
+      return { family: "math-diagram" };
     }
   }
 
@@ -390,7 +351,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && prompt?.kind === "prompt"
       && prompt.responseMode === "single-choice"
     ) {
-      return { family: "large-poll", slots: ["heading", "prompt"] };
+      return { family: "large-poll" };
     }
   }
 
@@ -401,10 +362,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && heading.intent?.kind === "introduce"
       && diagram?.kind === "diagram"
     ) {
-      return {
-        family: "diagram-stage",
-        slots: ["heading", "diagram"],
-      };
+      return { family: "diagram-stage" };
     }
   }
 
@@ -418,10 +376,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "labeled-card-grid",
-        slots: ["heading", "cards", "takeaway"],
-      };
+      return { family: "labeled-card-grid" };
     }
 
     if (
@@ -433,10 +388,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "concept-specification",
-        slots: ["heading", "cards", "takeaway"],
-      };
+      return { family: "concept-specification" };
     }
 
     if (
@@ -447,10 +399,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && body.items.length === 4
       && takeaway?.kind === "table"
     ) {
-      return {
-        family: "data-explanation",
-        slots: ["heading", "principles", "table"],
-      };
+      return { family: "data-explanation" };
     }
   }
 
@@ -467,12 +416,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && cards.entries.length === 2
       && hasValidTakeaway
     ) {
-      return {
-        family: "paired-info-cards",
-        slots: takeaway === undefined
-          ? ["heading", "intro", "cards"]
-          : ["heading", "intro", "cards", "takeaway"],
-      };
+      return { family: "paired-info-cards" };
     }
   }
 
@@ -489,10 +433,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "card-sequence",
-        slots: ["heading", "banner", "cards", "takeaway"],
-      };
+      return { family: "card-sequence" };
     }
   }
 
@@ -511,10 +452,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "foundation-card-grid",
-        slots: ["heading", "banner", "foundation", "cards", "takeaway"],
-      };
+      return { family: "foundation-card-grid" };
     }
   }
 
@@ -534,10 +472,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "text-network-progression",
-        slots: ["heading", "banner", "views", "network", "takeaway"],
-      };
+      return { family: "text-network-progression" };
     }
   }
 
@@ -551,10 +486,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && process?.kind === "diagram"
       && process.diagramType === "flow"
     ) {
-      return {
-        family: "analysis-result",
-        slots: ["heading", "signal", "results", "process"],
-      };
+      return { family: "analysis-result" };
     }
   }
 
@@ -570,10 +502,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "hierarchy-flow",
-        slots: ["heading", "intro", "diagram", "takeaway"],
-      };
+      return { family: "hierarchy-flow" };
     }
   }
 
@@ -593,10 +522,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && takeaway?.kind === "prose"
       && takeaway.intent?.kind === "explain"
     ) {
-      return {
-        family: "process-diagram",
-        slots: ["heading", "intro", "diagram", "takeaway"],
-      };
+      return { family: "process-diagram" };
     }
   }
 
@@ -618,10 +544,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && contextDefinitions?.kind === "definition-list"
       && contextDefinitions.entries.length >= 4
     ) {
-      return {
-        family: "process-context",
-        slots: ["heading", "diagram", "example-heading", "example-definitions", "example-note", "context-heading", "context-definitions"],
-      };
+      return { family: "process-context" };
     }
   }
 
@@ -642,12 +565,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && discussion.items.length <= 3
       && hasValidTakeaway
     ) {
-      return {
-        family: "case-study",
-        slots: takeaway === undefined
-          ? ["heading", "problem", "data", "analysis", "discussion"]
-          : ["heading", "problem", "data", "analysis", "discussion", "takeaway"],
-      };
+      return { family: "case-study" };
     }
   }
 
@@ -667,10 +585,7 @@ export function inferRevealLayoutDecision(scene: Scene): RevealLayoutDecision | 
       && reading?.kind === "prose"
       && reading.intent?.kind === "explain"
     ) {
-      return {
-        family: "reference-code",
-        slots: ["heading", "banner", "terms", "code-label", "code", "reading"],
-      };
+      return { family: "reference-code" };
     }
   }
 
