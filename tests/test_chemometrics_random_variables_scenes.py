@@ -192,13 +192,20 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_process_sources_slide_precedes_equation(self) -> None:
         scene = self.document["scenes"][5]
         self.assertEqual("Observed variation has multiple sources", scene["blocks"][0]["text"])
-        media = scene["blocks"][1]
-        self.assertEqual("media-reference", media["kind"])
-        self.assertEqual("/chemometrics/uvvis-variation-sources.svg", media["uri"])
-        self.assertIn("Designed input", media["alternativeText"])
-        self.assertIn("Preparation, Conditions and Measurement", media["alternativeText"])
-        self.assertIn("epsilon_i", media["alternativeText"])
-        self.assertTrue((ROOT / "apps/pitch/public/chemometrics/uvvis-variation-sources.svg").exists())
+        diagram = scene["blocks"][1]
+        self.assertEqual("diagram", diagram["kind"])
+        self.assertEqual("flow", diagram["diagramType"])
+        self.assertEqual(
+            ["input", "process", "output", "influences", "residual"],
+            [node["visualRole"] for node in diagram["nodes"]],
+        )
+        self.assertEqual(4, len(diagram["edges"]))
+        parts = diagram["nodes"][3]["parts"]
+        self.assertEqual(
+            ["PREPARATION", "CONDITIONS", "MEASUREMENT"],
+            [part["label"] for part in parts],
+        )
+        self.assertTrue(all(part["source"] for part in parts))
 
     def test_response_equation_and_three_term_legend_are_separate(self) -> None:
         scene = self.document["scenes"][6]

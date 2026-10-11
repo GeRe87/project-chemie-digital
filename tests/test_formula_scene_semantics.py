@@ -233,7 +233,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
         # promotes the SceneDocument contract to the table-capable version.
         self.assertEqual("1.5", document["version"])
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", document["sourcePathId"])
-        self.assertEqual(10, len(document["scenes"]))
+        self.assertEqual(12, len(document["scenes"]))
 
 
 if __name__ == "__main__":
