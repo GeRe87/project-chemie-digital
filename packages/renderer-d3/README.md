@@ -24,6 +24,10 @@ The `./flow` subpath consumes the canonical SceneDocument 1.1 `DiagramBlock` dir
 
 The `./flow-layout` subpath exposes deterministic renderer-only layout helpers. Hosts at 900 CSS pixels or wider use horizontal flow; narrower hosts use vertical flow. Text wrapping never truncates characters and long unspaced identifiers split only at Unicode grapheme boundaries.
 
+`hierarchy-fanout` is selected only for one `hierarchy-root` and 3–6 outgoing branches with `hierarchy-option` or `hierarchy-other` roles. It uses canonical node order, fits columns to available width, routes later-row connectors through gutters, and grows cards to retain wrapped titles and descriptions. Roles indicate illustrative alternatives, not a disjoint taxonomy. Native SVG thumbnails are generic primitives selected by semantic `visualMotif` keys; no lecture identity or title selects a layout or motif. Pitch styles the `hierarchy-other` role neutrally in both themes.
+
+Text measurement is a deterministic grapheme estimate, not browser font measurement. Standard structured titles account for bold 23px glyph advances and tracking; hierarchy titles scale that estimate for 24px. SVG `tspan` wrapping preserves authored whitespace and newline delimiters: reconstruct source text with `join("")`, never insert spaces between visual lines. Synthetic notation fixtures test the renderer contract, not the content of any particular lecture card. Pitch uses lighter branch-title and motif accents on dark surfaces while keeping the other-branch role neutral.
+
 ## Accessibility
 
 Knowledge networks follow their authoritative node/edge reading orders and static fallback. Flow diagrams retain canonical array order as reading order and expose a complete textual fallback containing every node and directed relation. Keyboard mode supports Arrow keys plus Home/End; static mode creates no focusable flow nodes. Reduced-motion flow rendering has no animation dependency.

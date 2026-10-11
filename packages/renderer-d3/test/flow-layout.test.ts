@@ -164,10 +164,13 @@ test("structured flow nodes separate title and body geometry without changing pl
   }, 1200);
 
   const baseline = structured.nodes[0]!;
-  assert.deepEqual(baseline.labelLines, ["BASELINE CORRECTION"]);
+  // The enlarged title no longer fits the 178px wrapping budget. Wrapping
+  // must retain every authored character and grow the card vertically.
+  assert.deepEqual(baseline.labelLines, ["BASELINE ", "CORRECTION"]);
+  assert.equal(baseline.labelLines.join(""), "BASELINE CORRECTION");
   assert.equal(baseline.bodyLines[0], "ProcessingStep\n");
   assert.ok(baseline.bodyLines.some((line) => line.includes("PARAM")));
-  assert.ok(baseline.height >= 154);
+  assert.ok(baseline.height >= 62 + baseline.labelLines.length * 28 + baseline.bodyLines.length * 23 + 18);
   assert.ok(baseline.width <= 298);
 
   const plain = createD3FlowLayout(input, 1200);
@@ -559,7 +562,7 @@ test("semantic one-to-many model hierarchy places a root above five visual cards
   const edges = nodes.slice(1).map((node, index) => ({
     id: `edge-${index}`, sourceNodeId: "root", targetNodeId: node.id, label: "illustrates",
   }));
-  const result = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1190);
+  const result = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1600);
   assert.equal(result.strategy, "hierarchy-fanout");
   assert.equal(result.nodes.length, 6);
   assert.equal(result.edges.length, 5);
@@ -575,4 +578,55 @@ test("semantic one-to-many model hierarchy places a root above five visual cards
     diagramType: "flow", nodes: nodes.map((node) => ({ ...node, visualRole: undefined })), edges,
   }, 1190);
   assert.notEqual(withoutRole.strategy, "hierarchy-fanout");
+});
+
+test("hierarchies reflow unrelated content by available width and grow for long authored text", () => {
+  const nodes = [
+    { id: "storage", label: "Storage options", visualRole: "hierarchy-root" },
+    ...Array.from({ length: 5 }, (_, index) => ({
+      id: `choice-${index}`, label: "WIDE STORAGE CHOICES",
+      description: "  Retain  repeated spaces\nand explain the strategy in enough detail to require many lines. ".repeat(index === 4 ? 5 : 1),
+      visualRole: index === 4 ? "hierarchy-other" : "hierarchy-option",
+      visualMotifRole: "highlight" as const,
+    })),
+  ];
+  const edges = nodes.slice(1).map((node, index) => ({
+    id: `relation-${index}`, sourceNodeId: "storage", targetNodeId: node.id, label: "example",
+  }));
+  for (const width of [320, 640, 1190, 1600]) {
+    const layout = createD3FlowLayout({ diagramType: "flow", nodes, edges }, width);
+    assert.equal(layout.strategy, "hierarchy-fanout");
+    assert.equal(layout.width, width);
+    assert.equal(layout.nodes.length, 6);
+    for (const node of layout.nodes) {
+      const authored = nodes.find((item) => item.id === node.id)!;
+      assert.equal(node.labelLines.join(""), authored.label);
+      assert.equal(node.bodyLines.join(""), authored.description ?? "");
+      assert.ok(node.x - node.width / 2 >= 0 && node.x + node.width / 2 <= width);
+      assert.ok(node.y - node.height / 2 >= 0 && node.y + node.height / 2 <= layout.height);
+      if (authored.description) {
+        assert.ok(node.labelLines.length >= 2, "bold uppercase titles must wrap before reaching the card edge");
+        const motifSize = Math.min(88, Math.max(72, node.width * .24));
+        assert.ok(node.height >= 42 + node.labelLines.length * 28 + 11 + 20 + motifSize + 20 + node.bodyLines.length * 23 + 24);
+      }
+    }
+    // Orthogonal connectors must not run through unrelated cards in earlier rows.
+    for (const edge of layout.edges) {
+      const points = edge.routePoints!;
+      for (let index = 1; index < points.length; index += 1) {
+        const a = points[index - 1]!;
+        const b = points[index]!;
+        for (const node of layout.nodes.filter((item) => item.id !== edge.sourceNodeId && item.id !== edge.targetNodeId)) {
+          const intersects = a.x === b.x
+            ? a.x > node.x - node.width / 2 && a.x < node.x + node.width / 2
+              && Math.max(a.y, b.y) > node.y - node.height / 2 && Math.min(a.y, b.y) < node.y + node.height / 2
+            : a.y > node.y - node.height / 2 && a.y < node.y + node.height / 2
+              && Math.max(a.x, b.x) > node.x - node.width / 2 && Math.min(a.x, b.x) < node.x + node.width / 2;
+          assert.equal(intersects, false, `${edge.id} intersects ${node.id} at width ${width}`);
+        }
+      }
+    }
+  }
+  const invalidTopology = { diagramType: "flow" as const, nodes, edges: edges.map((edge, index) => index === 4 ? { ...edge, sourceNodeId: "choice-0" } : edge) };
+  assert.notEqual(createD3FlowLayout(invalidTopology, 1600).strategy, "hierarchy-fanout");
 });

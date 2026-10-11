@@ -228,8 +228,18 @@ function flowOrientationForStructure(
 }
 
 function structuredTitleTextMeasure(value: string): number {
-  // Keep line breaks in sync with the larger 23px flow-card title typography.
-  return deterministicFlowTextMeasure(value) * 0.96;
+  // Conservative glyph advances for bold 23px card titles, including up to
+  // .05em tracking. The plain-label 11px estimate undercounts capitals in
+  // this typography; count graphemes without changing authored whitespace.
+  return segmentGraphemes(value).reduce((width, grapheme) => {
+    const advance = /\s/u.test(grapheme) ? 0.35
+      : /^[Ilij1.,:;|'`]$/u.test(grapheme) ? 0.35
+      : /^[MWmw]$/u.test(grapheme) ? 0.95
+      : /^\p{Lu}$/u.test(grapheme) ? 0.72
+      : /^[\p{Ll}\p{N}]$/u.test(grapheme) ? 0.65
+      : 1.2;
+    return width + 23 * (advance + 0.05);
+  }, 0);
 }
 
 function bodyTextMeasure(value: string): number {
@@ -264,11 +274,12 @@ function structuredNodeText(
   label: string,
   description: string | undefined,
   maxWidth: number,
+  titleMeasure: (value: string) => number = description ? structuredTitleTextMeasure : deterministicFlowTextMeasure,
 ): { readonly labelLines: readonly string[]; readonly bodyLines: readonly string[] } {
   const labelLines = wrapFlowText(
     label,
     maxWidth,
-    description ? structuredTitleTextMeasure : deterministicFlowTextMeasure,
+    titleMeasure,
   );
   const bodyLines = description
     ? wrapFlowText(description, maxWidth, bodyTextMeasure)
@@ -1540,27 +1551,45 @@ function hierarchyFanoutSelection(input: D3FlowLayoutInput): { readonly rootId: 
 function hierarchyFanoutLayout(
   prepared: readonly PreparedNode[],
   selection: { readonly rootId: string; readonly childIds: readonly string[] },
+  hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
-  const cardWidth = 280;
+  const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
   const gap = 24;
-  const margin = 44;
-  const width = margin * 2 + selection.childIds.length * cardWidth + (selection.childIds.length - 1) * gap;
+  const margin = 24;
+  const columns = Math.max(1, Math.min(selection.childIds.length, Math.floor((width - margin * 2 + gap) / (280 + gap))));
+  const cardWidth = Math.min(280, width - margin * 2);
+  const gridWidth = columns * cardWidth + (columns - 1) * gap;
+  const gridLeft = (width - gridWidth) / 2;
   const rootX = width / 2;
-  const rootY = 96;
-  const cardY = 430;
   const children = new Map(selection.childIds.map((id, index) => [id, index]));
+  const fitted = prepared.map((node) => {
+    const root = node.id === selection.rootId;
+    const w = root ? Math.min(380, width - margin * 2) : cardWidth;
+    // Hierarchy titles use 24px rather than the standard 23px card type.
+    const titleMeasure = (value: string): number => structuredTitleTextMeasure(value) * (24 / 23);
+    const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
+    const motifSize = node.visualMotifRole === "highlight" ? Math.min(88, Math.max(72, w * .24)) : 0;
+    const height = Math.max(root ? 154 : 324,
+      nodeHeight(labelLines, bodyLines, node.notation),
+      motifSize ? 42 + labelLines.length * 28 + 11 + 20 + motifSize + 20 + bodyLines.length * 23 + 24 : 0);
+    return { ...node, width: w, height, labelLines, bodyLines };
+  });
+  const rootHeight = fitted.find((node) => node.id === selection.rootId)!.height;
+  const cardHeight = Math.max(...fitted.filter((node) => node.id !== selection.rootId).map((node) => node.height));
+  const rootY = margin + rootHeight / 2;
+  const gridTop = margin + rootHeight + 96;
+  const rows = Math.ceil(selection.childIds.length / columns);
   return {
     width,
-    height: 616,
-    nodes: prepared.map((node) => {
+    height: gridTop + rows * cardHeight + (rows - 1) * 48 + margin,
+    nodes: fitted.map((node) => {
       const root = node.id === selection.rootId;
       const order = children.get(node.id);
       if (!root && order === undefined) throw new Error("Hierarchy layout received an unknown child node");
-      const w = root ? 380 : cardWidth;
-      const h = root ? 154 : 324;
-      const x = root ? rootX : margin + cardWidth / 2 + order! * (cardWidth + gap);
-      const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56);
-      return { id: node.id, x, y: root ? rootY : cardY, width: w, height: h, labelLines, bodyLines };
+      const h = root ? rootHeight : cardHeight;
+      const x = root ? rootX : gridLeft + cardWidth / 2 + (order! % columns) * (cardWidth + gap);
+      const y = root ? rootY : gridTop + Math.floor(order! / columns) * (cardHeight + 48) + cardHeight / 2;
+      return { id: node.id, x, y, width: node.width, height: h, labelLines: node.labelLines, bodyLines: node.bodyLines };
     }),
   };
 }
@@ -1590,7 +1619,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const systemSelection = processSystemNodes(input);
   const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
   const hierarchySelection = hierarchyFanoutSelection(input);
-  const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection) : undefined;
+  const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection, hostWidth) : undefined;
   const spaceFilling = !system && !hierarchy && shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
     ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
     : undefined;
@@ -1629,15 +1658,22 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       const y1 = source.y + source.height / 2;
       const x2 = target.x;
       const y2 = target.y - target.height / 2;
-      const branchY = (y1 + y2) / 2;
+      const firstRowTop = Math.min(...geometry.nodes.filter((node) => node.id !== hierarchySelection!.rootId).map((node) => node.y - node.height / 2));
+      const branchY = (y1 + firstRowTop) / 2;
+      // Later rows travel through the column gutters, not through earlier cards.
+      const gutterX = target.x - target.width / 2 - 12;
       return {
         id: edge.id, sourceNodeId: edge.sourceNodeId,
         targetNodeId: edge.targetNodeId,
         x1, y1, x2, y2, labelX: midpoint(x1, x2),
         labelY: branchY, labelLines: [],
-        routePoints: [
+        routePoints: y2 === firstRowTop ? [
           { x: x1, y: y1 }, { x: x1, y: branchY },
           { x: x2, y: branchY }, { x: x2, y: y2 },
+        ] : [
+          { x: x1, y: y1 }, { x: x1, y: branchY },
+          { x: gutterX, y: branchY }, { x: gutterX, y: y2 - 24 },
+          { x: x2, y: y2 - 24 }, { x: x2, y: y2 },
         ],
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
