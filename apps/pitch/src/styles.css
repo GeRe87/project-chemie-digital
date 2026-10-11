@@ -339,8 +339,8 @@ body {
 }
 
 .definition-list-point-spacer {
-  --pcd-point-gap-min: .6lh;
-  --pcd-point-gap-max: 2.5lh;
+  --pcd-point-gap-min: 2.4rem;
+  --pcd-point-gap-max: 3.2rem;
   display: block;
   flex: 1 1 var(--pcd-point-gap-min);
   min-height: var(--pcd-point-gap-min);

@@ -391,8 +391,11 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
   const cardStyles = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
   assert.match(sharedStyles, /\.definition-list-point-spacer/);
-  assert.match(sharedStyles, /--pcd-point-gap-min:\s*\.6lh/);
-  assert.match(sharedStyles, /--pcd-point-gap-max:\s*2\.5lh/);
+  assert.match(sharedStyles, /--pcd-point-gap-min:\s*2\.4rem/);
+  assert.match(sharedStyles, /--pcd-point-gap-max:\s*3\.2rem/);
+  const spacerRule = cardStyles.match(/\.definition-list-point-spacer\s*\{([^}]+)\}/u)?.[1] ?? "";
+  assert.match(spacerRule, /min-height:\s*var\(--pcd-point-gap-min\)/u);
+  assert.match(spacerRule, /max-height:\s*var\(--pcd-point-gap-max\)/u);
   assert.match(sharedStyles, /max-height:\s*var\(--pcd-point-gap-max\)/);
   assert.match(cardStyles, /definition-list-description\[data-adaptive-point-spacing="true"\]/);
   assert.match(cardStyles, /flex:\s*1 1 auto/);
@@ -401,6 +404,10 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(cardStyles, /width:\s*2px/);
   assert.match(cardStyles, /top:\s*\.12rem/);
   assert.match(cardStyles, /bottom:\s*\.12rem/);
+  assert.match(cardStyles, /bottom:\s*\.67rem/);
+  const arrowRule = cardStyles.match(/\.definition-list-point-spacer::after\s*\{([^}]+)\}/u)?.[1] ?? "";
+  assert.match(arrowRule, /bottom:\s*\.12rem/u);
+  assert.doesNotMatch(arrowRule, /top:\s*50%/u);
   assert.match(cardStyles, /\.definition-list-point-spacer::after/);
   assert.match(cardStyles, /border-left:\s*\.35rem solid transparent/);
   assert.match(cardStyles, /border-right:\s*\.35rem solid transparent/);

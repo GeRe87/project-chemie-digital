@@ -194,9 +194,9 @@
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
   .definition-list-point-spacer {
   position: relative;
-  flex-basis: .72rem;
-  min-height: .72rem;
-  max-height: 1.2rem;
+  flex-basis: var(--pcd-point-gap-min);
+  min-height: var(--pcd-point-gap-min);
+  max-height: var(--pcd-point-gap-max);
 }
 
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
@@ -205,7 +205,7 @@
   position: absolute;
   left: 50%;
   top: .12rem;
-  bottom: .12rem;
+  bottom: .67rem;
   width: 2px;
   transform: translateX(-50%);
   background: repeating-linear-gradient(
@@ -220,10 +220,10 @@
   content: "";
   position: absolute;
   left: 50%;
-  top: 50%;
+  bottom: .12rem;
   width: 0;
   height: 0;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   border-left: .35rem solid transparent;
   border-right: .35rem solid transparent;
   border-top: .55rem solid color-mix(in srgb, var(--pcd-card-stroke) 78%, var(--pcd-muted));
@@ -231,6 +231,12 @@
 
 /* A leading "|> " denotes a subordinate supporting example. Preserve the
    adaptive gap but do not draw the connector/arrow for that one transition. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"] {
+  --pcd-point-gap-min: .72rem;
+  --pcd-point-gap-max: 1.2rem;
+}
+
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
   .definition-list-point-spacer[data-followed-by-indented-point="true"]::before,
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
