@@ -87,7 +87,8 @@
       ex:variables-values-observations, ex:lake-sampling-replicates,
       ex:variability-randomness-uncertainty, ex:uvvis-variation-sources,
       ex:uvvis-additive-response-model, ex:general-additive-response-model,
-      ex:model-function-families, ex:variable-value-shapes, ex:controlled-calibration-model,
+      ex:model-function-families, ex:variable-value-shapes, ex:variable-value-types,
+      ex:controlled-calibration-model,
       ex:concentration-context-roles,
       ex:variable-classification, ex:empirical-probability-distribution-distinction,
       ex:random-variable, ex:distribution .

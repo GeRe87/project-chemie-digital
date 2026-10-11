@@ -10,7 +10,8 @@
       ex:variables-values-observations, ex:lake-sampling-replicates,
       ex:variability-randomness-uncertainty,
       ex:uvvis-variation-sources, ex:uvvis-additive-response-model,
-      ex:general-additive-response-model, ex:model-function-families, ex:variable-value-shapes,
+      ex:general-additive-response-model, ex:model-function-families,
+      ex:variable-value-shapes, ex:variable-value-types,
       ex:controlled-calibration-model, ex:concentration-context-roles,
       ex:variable-classification, ex:empirical-probability-distribution-distinction,
       ex:random-variable, ex:distribution ;
@@ -25,6 +26,7 @@
       ex:path-step-chemometrics-general-additive-model,
       ex:path-step-chemometrics-model-function-families,
       ex:path-step-chemometrics-variable-value-shapes,
+      ex:path-step-chemometrics-variable-value-types,
       ex:path-step-chemometrics-controlled-calibration,
       ex:path-step-chemometrics-context-roles,
       ex:path-step-chemometrics-variable-classification,
@@ -107,8 +109,17 @@
     cd:usesScene ex:scene-chemometrics-variable-value-shapes ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-controlled-calibration a cd:PathStep ;
+  ex:path-step-chemometrics-variable-value-types a cd:PathStep ;
     cd:position 11 ;
+    cd:usesResource ex:worked-example-variable-value-types, ex:variable-value-types-intro,
+      ex:value-type-numbers-cards, ex:value-type-numbers-formula,
+      ex:value-type-categories-cards, ex:value-type-categories-formula,
+      ex:value-type-boolean-cards, ex:value-type-boolean-formula ;
+    cd:usesScene ex:scene-chemometrics-variable-value-types ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-controlled-calibration a cd:PathStep ;
+    cd:position 12 ;
     cd:usesResource ex:controlled-calibration-intro,
       ex:controlled-calibration-formula,
       ex:chart-uvvis-calibration-response,
@@ -117,7 +128,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-context-roles a cd:PathStep ;
-    cd:position 12 ;
+    cd:position 13 ;
     cd:usesResource ex:concentration-context-intro,
       ex:concentration-context-cards,
       ex:concentration-context-takeaway ;
@@ -125,7 +136,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-classification a cd:PathStep ;
-    cd:position 13 ;
+    cd:position 14 ;
     cd:usesResource ex:variable-classification-intro,
       ex:variable-classification-cards,
       ex:variable-classification-takeaway ;
@@ -133,7 +144,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-empirical-probability a cd:PathStep ;
-    cd:position 14 ;
+    cd:position 15 ;
     cd:usesResource ex:empirical-probability-intro,
       ex:distribution-comparison-cards,
       ex:chart-assigned-concentration-frequency,
@@ -142,7 +153,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variables-checkpoint a cd:PathStep ;
-    cd:position 15 ;
+    cd:position 16 ;
     cd:usesResource ex:poll-variable-randomness-check,
       ex:poll-variability-check,
       ex:poll-distribution-check,

@@ -34,6 +34,7 @@ VARIABLES_TOPICS = {
     EX["general-additive-response-model"],
     EX["model-function-families"],
     EX["variable-value-shapes"],
+    EX["variable-value-types"],
     EX["controlled-calibration-model"],
     EX["concentration-context-roles"],
     EX["variable-classification"],

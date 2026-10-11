@@ -1348,6 +1348,65 @@ Constant: aliquot volume"""@en ;
     cd:body "Matrix X has three rows for samples A, B, C and two columns for nitrate and phosphate. Its rows are 2.55 and 0.80; 3.14 and 1.10; 4.20 and 1.60 milligrams per litre. Its first column is the displayed nitrate vector."@en ;
     cd:authoredResource true .
 
+  # Value domains are independent of scalar, vector and matrix shape.
+  ex:variable-value-types a cd:Concept ;
+    skos:prefLabel "Types of variable values"@en ;
+    skos:related ex:variable, ex:variable-value-shapes, ex:variable-classification ;
+    cd:hasDefinition ex:def-variable-value-types ;
+    cd:hasExample ex:worked-example-variable-value-types ;
+    cd:hasMathExpression ex:value-type-numbers-formula,
+      ex:value-type-categories-formula, ex:value-type-boolean-formula ;
+    cd:authoredResource true .
+
+  ex:def-variable-value-types a cd:Definition ;
+    cd:body "A value domain describes the allowed values, independently of the shape of a collection. Numeric examples include real numbers, integers and complex numbers, with integers contained in the reals and reals contained in the complex numbers. The imaginary unit i satisfies i squared equals minus one. Category labels identify classes rather than numerical magnitudes; storing a category as an integer code does not make it quantitative. A Boolean value is a logical truth value, true or false. Booleans can also be treated as a special two-category domain, but their logical meaning is distinct. Numeric, categorical and Boolean entries can be collected in vectors or rectangular arrays; the preceding real-valued matrix was only one example. These are illustrative value domains, not an exhaustive or disjoint taxonomy."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-variable-value-types a cd:WorkedExample ;
+    cd:body "Illustrative analytical data: a concentration of 2.55 mg/L, a replicate count of 3, an impedance of 2 + 3i ohms, a sample class of lake and a passed quality check."@en ;
+    dct:hasPart ex:variable-value-types-intro,
+      ex:value-type-numbers-cards, ex:value-type-numbers-formula,
+      ex:value-type-categories-cards, ex:value-type-categories-formula,
+      ex:value-type-boolean-cards, ex:value-type-boolean-formula ;
+    cd:authoredResource true .
+
+  ex:variable-value-types-intro a cd:Interpretation ;
+    cd:body "The value type describes the entries, not the shape of their collection."@en ;
+    cd:authoredResource true .
+
+  ex:value-type-numbers-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:value-type-numbers-card ; cd:authoredResource true .
+  ex:value-type-numbers-card a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "NUMBERS"@en ;
+    cd:body "Real: concentration in mg/L\nInteger: replicate count\nComplex: impedance in ohms"@en ;
+    cd:authoredResource true .
+  ex:value-type-numbers-formula a cd:MathExpression ;
+    cd:latex "\\begin{aligned}2.55 &\\in \\mathbb{R}\\\\3 &\\in \\mathbb{Z}\\\\2+3i &\\in \\mathbb{C}\\end{aligned}" ;
+    cd:body "2.55 is a real number, illustrated by a concentration in milligrams per litre. 3 is an integer, illustrated by a replicate count. 2 plus 3 times the imaginary unit i is a complex number, illustrated by an impedance in ohms."@en ;
+    cd:authoredResource true .
+
+  ex:value-type-categories-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:value-type-categories-card ; cd:authoredResource true .
+  ex:value-type-categories-card a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "CATEGORIES"@en ;
+    cd:body "Sample classes: tap, lake, runoff\nLabels identify groups, not amounts."@en ;
+    cd:authoredResource true .
+  ex:value-type-categories-formula a cd:MathExpression ;
+    cd:latex "c=\\text{lake}" ;
+    cd:body "Category c is lake, one of the allowed sample-class labels tap, lake and runoff. The label is not a numerical amount."@en ;
+    cd:authoredResource true .
+
+  ex:value-type-boolean-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:value-type-boolean-card ; cd:authoredResource true .
+  ex:value-type-boolean-card a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "BOOLEAN"@en ;
+    cd:body "Quality check: passed or failed\nA condition is true or false."@en ;
+    cd:authoredResource true .
+  ex:value-type-boolean-formula a cd:MathExpression ;
+    cd:latex "\\begin{aligned}b&=\\mathrm{true}\\\\b&\\in\\{\\mathrm{true},\\mathrm{false}\\}\\end{aligned}" ;
+    cd:body "Boolean b is true because the illustrated quality check passed. Its allowed truth values are true and false."@en ;
+    cd:authoredResource true .
+
   # Illustrative, non-exclusive families: examples of what f(x) can represent.
   ex:model-function-families a cd:Concept ;
     skos:prefLabel "What can f(xᵢ) be?"@en ;

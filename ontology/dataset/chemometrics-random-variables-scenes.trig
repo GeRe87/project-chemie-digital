@@ -227,7 +227,48 @@
     cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 11 — controlled design points, random response --------------------------
+  # 11: numeric, categorical and logical values
+  ex:scene-chemometrics-variable-value-types a cd:SceneDefinition ;
+    cd:focusConcept ex:variable-value-types ;
+    cd:hasSceneItem ex:scene-item-value-types-heading, ex:scene-item-value-types-intro,
+      ex:scene-item-value-types-numbers, ex:scene-item-value-types-numbers-formula,
+      ex:scene-item-value-types-categories, ex:scene-item-value-types-categories-formula,
+      ex:scene-item-value-types-boolean, ex:scene-item-value-types-boolean-formula ;
+    cd:authoredResource true .
+  ex:scene-item-value-types-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable-value-types ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:variable-value-types-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-numbers a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:value-type-numbers-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-numbers-formula a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:value-type-numbers-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-categories a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:value-type-categories-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-categories-formula a cd:SceneItem ;
+    cd:position 6 ; cd:selectsResource ex:value-type-categories-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-boolean a cd:SceneItem ;
+    cd:position 7 ; cd:selectsResource ex:value-type-boolean-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-boolean-formula a cd:SceneItem ;
+    cd:position 8 ; cd:selectsResource ex:value-type-boolean-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 12: controlled design points, random response
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
@@ -257,7 +298,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 12 — same physical quantity, different role -----------------------------
+  # 13: same physical quantity, different role
   ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
     cd:focusConcept ex:concentration-context-roles ;
     cd:hasSceneItem ex:scene-item-context-roles-heading,
@@ -282,7 +323,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 13 — orthogonal variable classifications -------------------------------
+  # 14: orthogonal variable classifications
   ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
     cd:focusConcept ex:variable-classification ;
     cd:hasSceneItem ex:scene-item-variable-classification-heading,
@@ -307,7 +348,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 14 — empirical frequencies versus probability model ---------------------
+  # 15: empirical frequencies versus probability model
   ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
     cd:focusConcept ex:empirical-probability-distribution-distinction ;
     cd:hasSceneItem ex:scene-item-empirical-probability-heading,
@@ -337,7 +378,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 15 — checkpoint and bridge ----------------------------------------------
+  # 16: checkpoint and bridge
   ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
     cd:focusConcept ex:variables-level-check ;
     cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,

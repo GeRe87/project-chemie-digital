@@ -38,6 +38,7 @@ EXPECTED_TOPICS = {
     EX["general-additive-response-model"],
     EX["model-function-families"],
     EX["variable-value-shapes"],
+    EX["variable-value-types"],
     EX["controlled-calibration-model"],
     EX["concentration-context-roles"],
     EX["variable-classification"],
@@ -83,6 +84,12 @@ EXPECTED_STEPS = [
         EX["value-shape-scalar-cards"], EX["value-shape-scalar-formula"],
         EX["value-shape-vector-cards"], EX["value-shape-vector-formula"],
         EX["value-shape-matrix-cards"], EX["value-shape-matrix-formula"],
+    }),
+    ("variable-value-types", {
+        EX["worked-example-variable-value-types"], EX["variable-value-types-intro"],
+        EX["value-type-numbers-cards"], EX["value-type-numbers-formula"],
+        EX["value-type-categories-cards"], EX["value-type-categories-formula"],
+        EX["value-type-boolean-cards"], EX["value-type-boolean-formula"],
     }),
     ("controlled-calibration", {
         EX["controlled-calibration-intro"],
@@ -133,9 +140,9 @@ class ChemometricsVariablesPathTests(unittest.TestCase):
         )
         self.assertEqual({Literal(True)}, set(self.path_graph.objects(PATH, CD.authoredResource)))
 
-    def test_path_has_exactly_fifteen_contiguous_scene_bound_steps(self) -> None:
+    def test_path_has_exactly_sixteen_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(15, len(steps))
+        self.assertEqual(16, len(steps))
         for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
             step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):
