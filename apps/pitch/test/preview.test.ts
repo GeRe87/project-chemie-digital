@@ -6,8 +6,9 @@ import {
   canonicalDatasetSnapshot,
   compilePitchSceneDocuments,
   compilePitchSceneDocumentsFromArtifact,
-  STANDARD_DEVIATION_PATH_ID,
 } from "../src/graph-scene-data.ts";
+
+const STANDARD_DEVIATION_PATH_ID = "ex:path-standard-deviation";
 import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
 
 class FakeElement implements MinimalElement {

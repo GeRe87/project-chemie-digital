@@ -28,7 +28,6 @@ if (artifact.artifactVersion !== "1.0") {
   throw new Error(`Unsupported canonical runtime artifact: ${String(artifact.artifactVersion)}`);
 }
 
-export const STANDARD_DEVIATION_PATH_ID = "ex:path-standard-deviation";
 export const canonicalDatasetSnapshot = artifact.datasetSnapshot;
 export const canonicalDatasetFingerprint = artifact.datasetFingerprint;
 
