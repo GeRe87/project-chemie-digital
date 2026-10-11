@@ -75,7 +75,6 @@ EXPECTED_STEPS = [
     }),
     ("model-function-families", {
         EX["diagram-model-function-families"],
-        EX["model-function-families-takeaway"],
     }),
     ("controlled-calibration", {
         EX["controlled-calibration-intro"],

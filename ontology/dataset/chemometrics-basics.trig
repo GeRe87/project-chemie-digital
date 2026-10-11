@@ -1378,9 +1378,6 @@ Constant: aliquot volume"""@en ;
     cd:sourceNode ex:node-function-root ;
     cd:targetNode ex:node-function-others ; cd:authoredResource true .
 
-  ex:model-function-families-takeaway a cd:Interpretation ;
-    cd:body "The additive model stays the same — only the form of f changes. These examples overlap and are not exhaustive."@en ;
-    cd:authoredResource true .
 
   ex:controlled-calibration-model a cd:Concept ;
     skos:prefLabel "Controlled concentrations, random responses"@en ;

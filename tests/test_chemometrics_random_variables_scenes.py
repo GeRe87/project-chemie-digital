@@ -58,7 +58,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "diagram"],
     ["prose", "math", "definition-list"],
     ["prose", "math", "definition-list"],
-    ["prose", "diagram", "prose"],
+    ["prose", "diagram"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -270,7 +270,12 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         )
         self.assertEqual(["highlight"] * 5, [node["visualMotifRole"] for node in children])
         self.assertEqual("hierarchy-other", children[4]["visualRole"])
-        self.assertIn("not exhaustive", scene["blocks"][2]["text"])
+        self.assertEqual(2, len(scene["blocks"]), "Only the heading and diagram belong on this slide")
+        content_graph = self.dataset.graph(URIRef(
+            "https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics"
+        ))
+        definition = str(content_graph.value(EX["def-model-function-families"], CD.body))
+        self.assertIn("overlapping", definition)
 
     def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
         scene = self.document["scenes"][9]

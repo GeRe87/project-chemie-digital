@@ -93,8 +93,7 @@
 
   ex:path-step-chemometrics-model-function-families a cd:PathStep ;
     cd:position 9 ;
-    cd:usesResource ex:diagram-model-function-families,
-      ex:model-function-families-takeaway ;
+    cd:usesResource ex:diagram-model-function-families ;
     cd:usesScene ex:scene-chemometrics-model-function-families ;
     cd:authoredResource true .
 
