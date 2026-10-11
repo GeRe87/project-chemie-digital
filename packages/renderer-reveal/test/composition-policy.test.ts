@@ -190,6 +190,22 @@ test("composition inference is independent of scene and resource identities", ()
   assert.deepEqual(a.placements.map((item) => [item.region, item.index]), b.placements.map((item) => [item.region, item.index]));
 });
 
+test("repeated explanation/math pairs form identity-independent cards in reading order", () => {
+  for (const count of [2, 3, 4]) for (const context of [false, true]) {
+    const blocks = [prose("heading", "introduce"), ...(context ? [prose("context")] : []),
+      ...Array.from({ length: count }, (_, i) => [prose(`unrelated-${i}`), math(`expression-${i}`)]).flat()];
+    const scene: Scene = { id: "unrelated-lecture", source: [{ resourceId: "ex:other" }], blocks, readingOrder: blocks.map(block => block.id) };
+    const plan = inferRevealCompositionPlan(scene);
+    assert.equal(plan.profile, "formula-deck");
+    assert.equal(plan.mainCount, count);
+    assert.deepEqual(plan.placements.filter(item => item.region === "main").map(item => item.index),
+      Array.from({ length: count }, (_, i) => [i, i]).flat());
+    assert.equal(plan.placements.some(item => item.region === "footer"), false);
+    const broken = { ...scene, blocks: blocks.map(block => block.id === "expression-0" ? prose(block.id) : block) };
+    assert.notEqual(inferRevealCompositionPlan(broken).profile, "formula-deck");
+  }
+});
+
 test("ordinary content remains a generic stack when no richer composition applies", () => {
   const scene: Scene = {
     id: "stack",

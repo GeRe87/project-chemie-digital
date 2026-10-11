@@ -19,6 +19,31 @@ class FakeElement implements MinimalElement {
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
 }
 
+test("generic formula cards preserve paired source-linked text and independent KaTeX expressions", () => {
+  const [document] = compilePitchSceneDocuments();
+  assert.ok(document);
+  const blocks = [
+    { id: "heading", kind: "prose" as const, text: "Unrelated mathematical examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:heading" }] },
+    ...["u=7", "v=11", "w=13"].flatMap((expression, index) => [
+      { id: `description-${index}`, kind: "prose" as const, text: `CASE ${index}\nAuthored  spacing`, intent: { kind: "explain" as const }, source: [{ resourceId: `ex:description-${index}` }] },
+      { id: `math-${index}`, kind: "math" as const, expression, spokenText: expression, source: [{ resourceId: `ex:math-${index}` }] },
+    ]),
+  ];
+  const scene = { id: "other-scene", source: [{ resourceId: "ex:scene" }], blocks, readingOrder: blocks.map(block => block.id) };
+  const root = new FakeElement();
+  mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{ ...document, scenes: [scene] }]);
+  const section = root.children[0]!;
+  assert.equal(section.attributes.get("data-composition-profile"), "formula-deck");
+  const main = section.children.find(child => child.attributes.get("data-composition-region-container") === "main")!;
+  assert.equal(main.children.length, 3);
+  main.children.forEach((card, index) => {
+    assert.equal(card.attributes.get("data-composition-card-index"), String(index));
+    assert.equal(card.children[0]!.textContent, `CASE ${index}\nAuthored  spacing`);
+    assert.equal(card.children[1]!.attributes.get("data-resource-id"), `ex:math-${index}`);
+    assert.match(card.children[1]!.innerHTML, /<math/u);
+  });
+});
+
 test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {
   assert.match(canonicalDatasetFingerprint, /^sha256:[0-9a-f]{64}$/);
   assert.equal(canonicalDatasetSnapshot.identity, canonicalDatasetFingerprint);

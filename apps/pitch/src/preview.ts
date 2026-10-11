@@ -488,17 +488,30 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     sourceAttributes(section, scene.source);
 
     const compositionRegions = new Map<string, MinimalElement>();
+    const compositionCards = new Map<number, MinimalElement>();
     const compositionParent = (placement: RevealCompositionPlacement | undefined): MinimalElement => {
       if (!placement || !shouldWrapRevealCompositionPlacement(composition, placement)) {
         return section;
       }
-      const existing = compositionRegions.get(placement.region);
-      if (existing) return existing;
-      const region = dom.createElement("div");
-      region.className = "pcd-composition-region";
-      region.setAttribute("data-composition-region-container", placement.region);
-      compositionRegions.set(placement.region, region);
-      section.appendChild(region);
+      let region = compositionRegions.get(placement.region);
+      if (!region) {
+        region = dom.createElement("div");
+        region.className = "pcd-composition-region";
+        region.setAttribute("data-composition-region-container", placement.region);
+        compositionRegions.set(placement.region, region);
+        section.appendChild(region);
+      }
+      if (composition.profile === "formula-deck" && placement.region === "main") {
+        let card = compositionCards.get(placement.index);
+        if (!card) {
+          card = dom.createElement("div");
+          card.className = "pcd-formula-card";
+          card.setAttribute("data-composition-card-index", String(placement.index));
+          compositionCards.set(placement.index, card);
+          region.appendChild(card);
+        }
+        return card;
+      }
       return region;
     };
 

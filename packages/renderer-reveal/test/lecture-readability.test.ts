@@ -17,6 +17,20 @@ function prose(id: string, text: string, intent: "introduce" | "explain" = "expl
   };
 }
 
+test("formula-deck budget counts actual cards while retaining all block footprint", () => {
+  const blocks: SceneBlock[] = [prose("heading", "Examples", "introduce"), prose("context", "Shared context"),
+    ...Array.from({ length: 3 }, (_, index): SceneBlock[] => [
+      prose(`card-${index}`, "A concise explanation"),
+      { id: `formula-${index}`, kind: "math", expression: "u=7", spokenText: "u equals seven", source: [{ resourceId: `ex:formula-${index}` }] },
+    ]).flat()];
+  const scene: Scene = { id: "other", source: [{ resourceId: "ex:other" }], blocks, readingOrder: blocks.map(block => block.id) };
+  const budget = evaluateLectureContentBudget(scene);
+  assert.equal(budget.primaryRegions, 4);
+  assert.equal(budget.status, "within-budget");
+  const verbose = { ...scene, blocks: blocks.map(block => block.kind === "prose" && block.intent?.kind === "explain" ? { ...block, text: "Long explanation ".repeat(100) } : block) };
+  assert.equal(evaluateLectureContentBudget(verbose).status, "over-budget");
+});
+
 function list(id: string, count: number): SceneBlock {
   return {
     id,

@@ -1,3 +1,4 @@
+import katex from "katex";
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
@@ -776,7 +777,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
     case "prose":
       return `<div class="self-study-prose">${escapeHtml(node.text)}</div>`;
     case "math":
-      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}"><code>${escapeHtml(node.expression)}</code><span class="visually-hidden">${escapeHtml(node.spokenText)}</span></div>`;
+      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}">${katex.renderToString(node.expression, { displayMode: true, output: "mathml", throwOnError: false, trust: false })}<span class="visually-hidden"><code>${escapeHtml(node.expression)}</code>${escapeHtml(node.spokenText)}</span></div>`;
     case "code":
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
@@ -819,8 +820,22 @@ function renderNode(node: SelfStudyNodePlan, interactive: boolean): string {
   return `<details class="self-study-block self-study-disclosure"${attributes} data-disclosure-order="${order}"><summary>${summary}</summary>${body}</details>`;
 }
 
+function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: boolean): string {
+  const heading = nodes[0]?.kind === "prose" && nodes[0].intent?.kind === "introduce" ? nodes[0] : undefined;
+  const body = heading ? nodes.slice(1) : nodes;
+  const context = body.length % 2 === 1 && body[0]?.kind === "prose" && body[0].intent?.kind === "explain" ? body[0] : undefined;
+  const pairs = context ? body.slice(1) : body;
+  if (pairs.length >= 4 && pairs.length <= 8 && pairs.every((node, index) =>
+    index % 2 === 0 ? node.kind === "prose" && node.intent?.kind === "explain" : node.kind === "math")) {
+    const cards = pairs.filter((_, index) => index % 2 === 0).map((node, index) =>
+      `<div class="self-study-formula-card">${renderNode(node, interactive)}${renderNode(pairs[index * 2 + 1]!, interactive)}</div>`).join("");
+    return `${heading ? renderNode(heading, interactive) : ""}${context ? renderNode(context, interactive) : ""}<div class="self-study-formula-deck">${cards}</div>`;
+  }
+  return nodes.map(node => renderNode(node, interactive)).join("");
+}
+
 export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean }): string {
   const navigation = `<nav class="self-study-navigation" aria-label="Lernabschnitte"><ol>${plan.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${escapeHtml(section.semanticLabel)}</a></li>`).join("")}</ol></nav>`;
-  const sections = plan.sections.map((section, index) => `<section id="${escapeHtml(section.id)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${section.nodes.map((node) => renderNode(node, options.interactive)).join("")}</section>`).join("");
+  const sections = plan.sections.map((section, index) => `<section id="${escapeHtml(section.id)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${renderSectionNodes(section.nodes, options.interactive)}</section>`).join("");
   return `${navigation}${sections}`;
 }

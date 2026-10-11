@@ -1289,6 +1289,56 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
 
+  # Scalars and structured collections of observed values ------------------
+  ex:variable-value-shapes a cd:Concept ;
+    skos:prefLabel "One symbol — one value or a collection"@en ;
+    skos:related ex:variable, ex:variables-values-observations ;
+    cd:hasDefinition ex:def-variable-value-shapes ;
+    cd:hasExample ex:worked-example-concentration-value-shapes ;
+    cd:hasMathExpression ex:value-shape-scalar-formula,
+      ex:value-shape-vector-formula, ex:value-shape-matrix-formula ;
+    cd:authoredResource true .
+
+  ex:def-variable-value-shapes a cd:Definition ;
+    cd:body "A mathematical symbol can denote a scalar, a vector or a matrix. A scalar is one number; a vector is an ordered collection; a matrix is a rectangular array with a declared row and column meaning. Repeated observations of one scalar measurement variable can be collected into a vector. A data matrix can collect several measurement variables in columns and observations in rows. This does not turn one scalar measurement variable into several different quantities. Here an arrow marks the vector and a bold capital marks the matrix; a bar denotes a mean."@en ;
+    cd:authoredResource true .
+
+  ex:worked-example-concentration-value-shapes a cd:WorkedExample ;
+    cd:body "Illustrative concentrations in mg/L: samples A, B and C; nitrate and phosphate."@en ;
+    dct:hasPart ex:concentration-value-shapes-intro,
+      ex:value-shape-scalar-card, ex:value-shape-vector-card,
+      ex:value-shape-matrix-card, ex:value-shape-scalar-formula,
+      ex:value-shape-vector-formula, ex:value-shape-matrix-formula ;
+    cd:authoredResource true .
+
+  ex:concentration-value-shapes-intro a cd:Interpretation ;
+    cd:body "Illustrative concentrations in mg/L: samples A, B and C; nitrate and phosphate."@en ;
+    cd:authoredResource true .
+
+  ex:value-shape-scalar-card a cd:Interpretation ;
+    cd:body "SCALAR\nOne number: nitrate in sample A."@en ;
+    cd:authoredResource true .
+  ex:value-shape-scalar-formula a cd:MathExpression ;
+    cd:latex "\\begin{aligned}x &= 2.55\\\\ x &\\in \\mathbb{R}\\end{aligned}" ;
+    cd:body "Scalar x equals 2.55 milligrams per litre: the nitrate concentration in sample A. x is a real number."@en ;
+    cd:authoredResource true .
+
+  ex:value-shape-vector-card a cd:Interpretation ;
+    cd:body "VECTOR\nOne quantity across three samples: nitrate in A, B and C."@en ;
+    cd:authoredResource true .
+  ex:value-shape-vector-formula a cd:MathExpression ;
+    cd:latex "\\begin{aligned}\\vec{x} &= \\begin{pmatrix}2.55\\\\3.14\\\\4.20\\end{pmatrix}\\\\ \\vec{x} &\\in \\mathbb{R}^{3}\\end{aligned}" ;
+    cd:body "Vector x contains the nitrate concentrations 2.55, 3.14 and 4.20 milligrams per litre, in sample order A, B, C. It has three real components."@en ;
+    cd:authoredResource true .
+
+  ex:value-shape-matrix-card a cd:Interpretation ;
+    cd:body "MATRIX\nRows: samples A, B, C.\nColumns: nitrate, phosphate."@en ;
+    cd:authoredResource true .
+  ex:value-shape-matrix-formula a cd:MathExpression ;
+    cd:latex "\\begin{aligned}\\mathbf{X} &= \\begin{pmatrix}2.55 & 0.80\\\\3.14 & 1.10\\\\4.20 & 1.60\\end{pmatrix}\\\\ \\mathbf{X} &\\in \\mathbb{R}^{3\\times2}\\end{aligned}" ;
+    cd:body "Matrix X has three rows for samples A, B, C and two columns for nitrate and phosphate. Its rows are 2.55 and 0.80; 3.14 and 1.10; 4.20 and 1.60 milligrams per litre. Its first column is the displayed nitrate vector."@en ;
+    cd:authoredResource true .
+
   # Illustrative, non-exclusive families: examples of what f(x) can represent.
   ex:model-function-families a cd:Concept ;
     skos:prefLabel "What can f(xᵢ) be?"@en ;

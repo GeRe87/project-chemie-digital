@@ -983,11 +983,13 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if expression is None:
                     raise ValueError(f"Missing cd:latex for {compact(selected)}")
                 focus_label = resource_text(dataset, focus, language or "de")
+                authored_spoken_text = literal(dataset, selected, iri(CD, "body"), language)
                 block = {
                     "id": block_id, "kind": "math",
-                    "source": [source_reference(dataset, selected, relation_path)],
+                    "source": [source_reference(dataset, selected, relation_path),
+                               *([source_reference(dataset, selected, "cd:body")] if authored_spoken_text else [])],
                     "expression": expression,
-                    "spokenText": f"Mathematische Formel für {focus_label}",
+                    "spokenText": authored_spoken_text or f"Mathematische Formel für {focus_label}",
                     "disclosure": {"order": position - 1, "mode": "initial"},
                     "emphasis": "primary", "intent": {"kind": "explain"},
                 }

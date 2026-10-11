@@ -7,6 +7,9 @@
     "apps/*",
     "packages/*"
   ],
+  "dependencies": {
+    "katex": "0.16.22"
+  },
   "scripts": {
     "check:json": "node scripts/check-json.mjs",
     "test:json-discovery": "node --test scripts/json-candidates.test.mjs",

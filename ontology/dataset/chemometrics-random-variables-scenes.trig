@@ -186,7 +186,48 @@
     cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 10 — controlled design points, random response --------------------------
+  # 10 — one value, an ordered collection, or a rectangular array ------------
+  ex:scene-chemometrics-variable-value-shapes a cd:SceneDefinition ;
+    cd:focusConcept ex:variable-value-shapes ;
+    cd:hasSceneItem ex:scene-item-value-shapes-heading, ex:scene-item-value-shapes-example,
+      ex:scene-item-value-shapes-scalar, ex:scene-item-value-shapes-scalar-formula,
+      ex:scene-item-value-shapes-vector, ex:scene-item-value-shapes-vector-formula,
+      ex:scene-item-value-shapes-matrix, ex:scene-item-value-shapes-matrix-formula ;
+    cd:authoredResource true .
+  ex:scene-item-value-shapes-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable-value-shapes ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-example a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:concentration-value-shapes-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-scalar a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:value-shape-scalar-card ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-scalar-formula a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:value-shape-scalar-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-vector a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:value-shape-vector-card ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-vector-formula a cd:SceneItem ;
+    cd:position 6 ; cd:selectsResource ex:value-shape-vector-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-matrix a cd:SceneItem ;
+    cd:position 7 ; cd:selectsResource ex:value-shape-matrix-card ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-matrix-formula a cd:SceneItem ;
+    cd:position 8 ; cd:selectsResource ex:value-shape-matrix-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 11 — controlled design points, random response --------------------------
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
@@ -216,7 +257,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 11 — same physical quantity, different role -----------------------------
+  # 12 — same physical quantity, different role -----------------------------
   ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
     cd:focusConcept ex:concentration-context-roles ;
     cd:hasSceneItem ex:scene-item-context-roles-heading,
@@ -241,7 +282,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 12 — orthogonal variable classifications -------------------------------
+  # 13 — orthogonal variable classifications -------------------------------
   ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
     cd:focusConcept ex:variable-classification ;
     cd:hasSceneItem ex:scene-item-variable-classification-heading,
@@ -266,7 +307,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 13 — empirical frequencies versus probability model ---------------------
+  # 14 — empirical frequencies versus probability model ---------------------
   ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
     cd:focusConcept ex:empirical-probability-distribution-distinction ;
     cd:hasSceneItem ex:scene-item-empirical-probability-heading,
@@ -296,7 +337,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 14 — checkpoint and bridge ----------------------------------------------
+  # 15 — checkpoint and bridge ----------------------------------------------
   ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
     cd:focusConcept ex:variables-level-check ;
     cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,

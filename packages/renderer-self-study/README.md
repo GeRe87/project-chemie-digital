@@ -15,4 +15,6 @@ The browser mount uses native disclosure controls and ephemeral DOM state only. 
 
 ## Content boundary
 
+Mathematical expressions render offline as native MathML using the pinned KaTeX dependency, with the complete source expression retained as an accessible fallback. Repeated explanation/math pairs (2–4, optionally preceded by shared context) render as responsive information cards. This adapter infers that structure independently from block kinds, intent and reading order; it does not import Reveal or inspect lecture identities. Authored mathematical spoken descriptions and their provenance are projected from TriG `cd:body` when present.
+
 The renderer does not invent learning objectives, correctness feedback, assessment criteria or scientific explanations. Prose, mathematics, code, media descriptions, prompts and flow-diagram labels/relations are rendered from `SceneDocument`; renderer-owned text is limited to generic navigation/disclosure chrome and static structural labels.

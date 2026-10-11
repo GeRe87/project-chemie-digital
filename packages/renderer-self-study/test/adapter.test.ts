@@ -83,6 +83,28 @@ test("same SceneDocument produces byte-identical self-study render plans", async
   assert.equal(canonicalSerializeSelfStudyRenderPlan(first.plan), canonicalSerializeSelfStudyRenderPlan(second.plan));
 });
 
+test("unrelated explanation/math pairs render responsive cards with native MathML and complete source fallbacks", async () => {
+  const document = await fixture();
+  const blocks = [
+    { id: "deck-heading", kind: "prose" as const, text: "Other examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:deck-heading" }] },
+    ...["u=7", "v=11", "w=13"].flatMap((expression, index) => [
+      { id: `deck-text-${index}`, kind: "prose" as const, text: `CASE ${index}\nKeep  spacing`, intent: { kind: "explain" as const }, source: [{ resourceId: `ex:deck-text-${index}` }] },
+      { id: `deck-math-${index}`, kind: "math" as const, expression, spokenText: `Expression ${index}`, source: [{ resourceId: `ex:deck-math-${index}` }] },
+    ]),
+  ];
+  const scene = { id: "unrelated-deck", source: [{ resourceId: "ex:unrelated-deck" }], blocks, readingOrder: blocks.map(block => block.id) };
+  const result = createSelfStudyRenderPlan({ ...document, scenes: [scene] });
+  assert.ok(result.plan);
+  for (const interactive of [false, true]) {
+    const html = renderSelfStudyHtml(result.plan, { interactive });
+    assert.equal((html.match(/class="self-study-formula-card"/gu) ?? []).length, 3);
+    assert.equal((html.match(/<math /gu) ?? []).length, 3);
+    assert.ok(html.includes("CASE 0\nKeep  spacing"));
+    for (const expression of ["u=7", "v=11", "w=13"]) assert.ok(html.includes(`<code>${expression}</code>`));
+    assert.ok(html.includes('data-resource-id="ex:deck-math-2"'));
+  }
+});
+
 test("canonical scene and source identities plus reading order are preserved", async () => {
   const document = await fixture();
   const plan = createSelfStudyRenderPlan(document).plan!;

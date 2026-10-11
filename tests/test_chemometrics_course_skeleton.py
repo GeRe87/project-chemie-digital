@@ -279,6 +279,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["uvvis-additive-response-model"],
                 EX["general-additive-response-model"],
                 EX["model-function-families"],
+                EX["variable-value-shapes"],
                 EX["controlled-calibration-model"],
                 EX["concentration-context-roles"],
                 EX["variable-classification"],

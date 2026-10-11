@@ -1,5 +1,6 @@
 import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
 import { estimateRevealBlockFootprint } from "./composition-fit.ts";
+import { inferRevealCompositionPlan } from "./composition-policy.ts";
 
 export type LectureContentBudgetStatus = "within-budget" | "over-budget";
 
@@ -34,7 +35,10 @@ export function evaluateLectureContentBudget(scene: Scene): LectureContentBudget
     (total, block) => total + estimateRevealBlockFootprint(block).score,
     0,
   );
-  const primaryRegions = contentBlocks.filter(isPrimaryRegion).length;
+  const composition = inferRevealCompositionPlan(scene);
+  const primaryRegions = composition.profile === "formula-deck"
+    ? composition.mainCount + (composition.placements.some(item => item.region === "prelude") ? 1 : 0)
+    : contentBlocks.filter(isPrimaryRegion).length;
   const reasons: string[] = [];
 
   if (score > LECTURE_MAX_SCORE) {

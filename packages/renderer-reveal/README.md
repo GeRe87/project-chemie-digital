@@ -43,4 +43,6 @@ The runtime port owns keyboard listeners, timers, focus operations and transitio
 
 ## Boundaries
 
+The generic `formula-deck` composition pairs 2–4 ordered explanation/math blocks, optionally preceded by shared explanatory context. Pitch renders each pair as one information card and stacks cards on narrow screens. Selection depends only on block kinds, intent and reading order, never lecture titles or identities. Formula notation and numerical examples remain independent source-linked semantic resources. The offline Self-Study renderer applies the same structural pattern independently and renders native MathML with a retained source-expression fallback.
+
 The package does not modify semantic pitch claims, narrative order, or renderer-neutral `SceneDocument` content. It accepts validated `SceneDocument 1.0` and `1.1`, normalizes to `RevealRenderPlan 1.1`, and emits `PitchComponentDocument 1.1` for the pitch-component projection. Presenter mode is a local renderer capability, not semantic state. Deployment, public release, OER publication, accounts, analytics and Phase 2 review execution remain outside this package.

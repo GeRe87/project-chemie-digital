@@ -473,6 +473,27 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; }
 }
 .self-study-disclosure summary { cursor: pointer; font-weight: 700; padding: .35rem 0; }
 .self-study-prose { white-space: pre-wrap; }
+.self-study-formula-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+.self-study-formula-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 2px solid var(--accent, #237c87);
+  border-radius: .5rem;
+}
+.self-study-formula-card .self-study-prose {
+  white-space: pre-line;
+}
+.self-study-math {
+  overflow-x: auto;
+  padding: .5rem 0;
+}
+.self-study-math math {
+  font-size: 1.2em;
+}
 .self-study-math code {
   display: block;
   overflow-x: auto;
