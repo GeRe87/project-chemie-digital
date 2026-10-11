@@ -91,36 +91,6 @@ EXPECTED_STEPS = [
         EX["value-type-categories-cards"], EX["value-type-categories-formula"],
         EX["value-type-boolean-cards"], EX["value-type-boolean-formula"],
     }),
-    ("controlled-calibration", {
-        EX["controlled-calibration-intro"],
-        EX["controlled-calibration-formula"],
-        EX["chart-uvvis-calibration-response"],
-        EX["controlled-calibration-assumption"],
-    }),
-    ("context-roles", {
-        EX["concentration-context-intro"],
-        EX["concentration-context-cards"],
-        EX["concentration-context-takeaway"],
-    }),
-    ("variable-classification", {
-        EX["variable-classification-intro"],
-        EX["variable-classification-cards"],
-        EX["variable-classification-takeaway"],
-    }),
-    ("empirical-probability", {
-        EX["empirical-probability-intro"],
-        EX["distribution-comparison-cards"],
-        EX["chart-assigned-concentration-frequency"],
-        EX["assigned-frequency-takeaway"],
-    }),
-    ("variables-checkpoint", {
-        EX["poll-variable-randomness-check"],
-        EX["poll-variability-check"],
-        EX["poll-distribution-check"],
-        EX["expected-variable-randomness-check"],
-        EX["expected-variability-check"],
-        EX["expected-distribution-check"],
-    }),
 ]
 
 
@@ -140,9 +110,9 @@ class ChemometricsVariablesPathTests(unittest.TestCase):
         )
         self.assertEqual({Literal(True)}, set(self.path_graph.objects(PATH, CD.authoredResource)))
 
-    def test_path_has_exactly_sixteen_contiguous_scene_bound_steps(self) -> None:
+    def test_path_has_exactly_eleven_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(16, len(steps))
+        self.assertEqual(11, len(steps))
         for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
             step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):

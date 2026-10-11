@@ -24,6 +24,8 @@ The technical proof of concept uses **standard deviation**:
 
 The Chemometrics Variables path includes consecutive scenes for scalar/vector/matrix shapes and numeric/categorical/Boolean value domains. Both reuse the shared infocard primitive with independently authored mathematical expressions. Content and examples live in `ontology/dataset/chemometrics-basics.trig`; their order and selection live in the corresponding Variables path and scene graphs. Value domains are distinct from collection shapes, and the examples are illustrative rather than an exhaustive taxonomy.
 
+The active Variables presentation currently ends with “Types of variable values” (11 scenes). Later scene definitions and their semantic resources remain authored for reuse but are not selected by this path. The broader learning-unit focus concepts are unchanged.
+
 ## Local validation
 
 The repository is validated without GitHub Actions. The sole authorised automated provider is the local exact-head validator at `GeRe87/agent-workflow-validator`.

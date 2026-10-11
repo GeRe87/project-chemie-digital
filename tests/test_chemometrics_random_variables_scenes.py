@@ -5,7 +5,7 @@ import sys
 import unittest
 from pathlib import Path
 
-from rdflib import Namespace, RDF, URIRef
+from rdflib import Literal, Namespace, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
@@ -80,6 +80,24 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             cls.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
+        # Exercise retained scene resources separately without reactivating them
+        # in the authored presentation path or weakening their content checks.
+        retained_dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
+        path_graph = retained_dataset.graph(PATH_GRAPH)
+        path_graph.remove((PATH, CD.hasStep, None))
+        retained_scene_graph = retained_dataset.graph(SCENE_GRAPH)
+        for position, name in enumerate(EXPECTED_SCENES[11:], start=1):
+            step, scene = EX[f"test-retained-step-{position}"], EX[name]
+            path_graph.add((PATH, CD.hasStep, step))
+            path_graph.add((step, RDF.type, CD.PathStep))
+            path_graph.add((step, CD.position, Literal(position)))
+            path_graph.add((step, CD.usesScene, scene))
+            for item in retained_scene_graph.objects(scene, CD.hasSceneItem):
+                for resource in retained_scene_graph.objects(item, CD.selectsResource):
+                    path_graph.add((step, CD.usesResource, resource))
+        cls.retained_scenes = RUNTIME.compile_scene_document(
+            retained_dataset, RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
+        )["scenes"]
 
     def test_scene_graph_has_exactly_sixteen_authored_scenes(self) -> None:
         scenes = set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))
@@ -88,11 +106,11 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_compiled_scene_document_preserves_exact_narrative_order(self) -> None:
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", self.document["sourcePathId"])
         self.assertEqual(
-            [f"ex:{name}--scene" for name in EXPECTED_SCENES],
+            [f"ex:{name}--scene" for name in EXPECTED_SCENES[:11]],
             [scene["id"] for scene in self.document["scenes"]],
         )
         self.assertEqual(
-            EXPECTED_BLOCK_KINDS,
+            EXPECTED_BLOCK_KINDS[:11],
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
@@ -352,7 +370,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("integer code does not make it quantitative", definition)
 
     def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
-        scene = self.document["scenes"][11]
+        scene = self.retained_scenes[0]
         self.assertIn("choose the concentration levels", scene["blocks"][1]["text"])
         expression = scene["blocks"][2]["expression"]
         self.assertIn("A_i", expression)
@@ -363,7 +381,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("does not imply", assumption)
 
     def test_same_concentration_is_shown_in_four_context_dependent_roles(self) -> None:
-        scene = self.document["scenes"][12]
+        scene = self.retained_scenes[1]
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(
             ["CALIBRATION STANDARD", "ANALYTICAL RESULT", "ENVIRONMENTAL SAMPLING", "DESIGN OF EXPERIMENTS"],
@@ -376,7 +394,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("experimental factor", descriptions)
 
     def test_variable_classifications_are_presented_as_independent_questions(self) -> None:
-        scene = self.document["scenes"][13]
+        scene = self.retained_scenes[2]
         self.assertIn("several independent questions", scene["blocks"][1]["text"])
         terms = [entry["term"] for entry in scene["blocks"][2]["entries"]]
         self.assertEqual(
@@ -386,7 +404,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("do not tell us whether", scene["blocks"][3]["text"])
 
     def test_empirical_frequency_is_not_promoted_to_probability_distribution(self) -> None:
-        scene = self.document["scenes"][14]
+        scene = self.retained_scenes[3]
         self.assertIn("deliberately assigned", scene["blocks"][1]["text"])
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(["EMPIRICAL FREQUENCY", "SAMPLING MECHANISM", "PROBABILITY MODEL"], [entry["term"] for entry in entries])
@@ -397,7 +415,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("stochastic model", scene["blocks"][4]["text"])
 
     def test_checkpoint_tests_role_generation_and_distribution_distinctions(self) -> None:
-        prompts = self.document["scenes"][15]["blocks"][1:]
+        prompts = self.retained_scenes[4]["blocks"][1:]
         self.assertEqual(3, len(prompts))
         for prompt in prompts:
             self.assertEqual("single-choice", prompt["responseMode"])
