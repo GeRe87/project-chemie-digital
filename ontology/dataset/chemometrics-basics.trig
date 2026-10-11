@@ -1250,6 +1250,44 @@ Constant: aliquot volume"""@en ;
     cd:body "Combined effects not explained by the chosen model"@en ;
     cd:authoredResource true .
 
+
+  # General additive model abstracts from the UV/Vis-specific response.
+  ex:general-additive-response-model a cd:Concept ;
+    skos:prefLabel "From the example to a general model"@en ;
+    skos:related ex:uvvis-additive-response-model, ex:variable, ex:random-variable ;
+    cd:hasDefinition ex:def-general-additive-response-model ;
+    cd:hasMathExpression ex:general-additive-response-equation ;
+    cd:authoredResource true .
+
+  ex:def-general-additive-response-model a cd:Definition ;
+    cd:body "An observed response y_i can be expressed as a modelled function f(x_i) of an explanatory input x_i plus a residual epsilon_i. The response function need not be linear; x_i can represent several explanatory variables. The residual is defined relative to the chosen model and is not necessarily normally distributed or mean-zero without further assumptions."@en ;
+    cd:authoredResource true .
+
+  ex:general-additive-response-equation a cd:MathExpression ;
+    cd:latex "y_i = f(x_i) + \\varepsilon_i" ;
+    cd:authoredResource true .
+
+  ex:general-additive-response-legend a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:general-response-legend-output,
+      ex:general-response-legend-model,
+      ex:general-response-legend-residual ;
+    cd:authoredResource true .
+
+  ex:general-response-legend-output a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "yᵢ"@en ;
+    cd:body "Observed response of observation i"@en ;
+    cd:authoredResource true .
+
+  ex:general-response-legend-model a cd:DefinitionListEntry ;
+    cd:position 2 ; skos:prefLabel "f(xᵢ)"@en ;
+    cd:body "Modelled response for the explanatory input xᵢ"@en ;
+    cd:authoredResource true .
+
+  ex:general-response-legend-residual a cd:DefinitionListEntry ;
+    cd:position 3 ; skos:prefLabel "εᵢ"@en ;
+    cd:body "Difference between the observed and modelled response; may combine several unmodelled influences"@en ;
+    cd:authoredResource true .
+
   ex:controlled-calibration-model a cd:Concept ;
     skos:prefLabel "Controlled concentrations, random responses"@en ;
     skos:related ex:independent-variable, ex:dependent-variable, ex:random-variable ;

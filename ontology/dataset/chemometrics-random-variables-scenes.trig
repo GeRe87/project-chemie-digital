@@ -129,7 +129,7 @@
     cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 11 — additive equation and its legend ----------------------------------
+  # 07 — additive equation and its legend ----------------------------------
   ex:scene-chemometrics-additive-response-model a cd:SceneDefinition ;
     cd:focusConcept ex:uvvis-additive-response-model ;
     cd:hasSceneItem ex:scene-item-response-model-heading,
@@ -149,7 +149,28 @@
     cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 12 — controlled design points, random response --------------------------
+
+  # 08 — general additive model and symbol legend --------------------------
+  ex:scene-chemometrics-general-additive-model a cd:SceneDefinition ;
+    cd:focusConcept ex:general-additive-response-model ;
+    cd:hasSceneItem ex:scene-item-general-model-heading,
+      ex:scene-item-general-model-equation,
+      ex:scene-item-general-model-legend ;
+    cd:authoredResource true .
+  ex:scene-item-general-model-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:general-additive-response-model ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-general-model-equation a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:general-additive-response-equation ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-general-model-legend a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:general-additive-response-legend ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 09 — controlled design points, random response --------------------------
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
@@ -179,7 +200,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 07 — same physical quantity, different role -----------------------------
+  # 10 — same physical quantity, different role -----------------------------
   ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
     cd:focusConcept ex:concentration-context-roles ;
     cd:hasSceneItem ex:scene-item-context-roles-heading,
@@ -204,7 +225,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 08 — orthogonal variable classifications -------------------------------
+  # 11 — orthogonal variable classifications -------------------------------
   ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
     cd:focusConcept ex:variable-classification ;
     cd:hasSceneItem ex:scene-item-variable-classification-heading,
@@ -229,7 +250,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 09 — empirical frequencies versus probability model ---------------------
+  # 12 — empirical frequencies versus probability model ---------------------
   ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
     cd:focusConcept ex:empirical-probability-distribution-distinction ;
     cd:hasSceneItem ex:scene-item-empirical-probability-heading,
@@ -259,7 +280,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 10 — checkpoint and bridge ----------------------------------------------
+  # 13 — checkpoint and bridge ----------------------------------------------
   ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
     cd:focusConcept ex:variables-level-check ;
     cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,

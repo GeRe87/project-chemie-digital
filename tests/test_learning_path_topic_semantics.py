@@ -31,6 +31,7 @@ VARIABLES_TOPICS = {
     EX["variability-randomness-uncertainty"],
     EX["uvvis-variation-sources"],
     EX["uvvis-additive-response-model"],
+    EX["general-additive-response-model"],
     EX["controlled-calibration-model"],
     EX["concentration-context-roles"],
     EX["variable-classification"],

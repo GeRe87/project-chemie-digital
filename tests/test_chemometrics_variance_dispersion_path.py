@@ -200,7 +200,7 @@ class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
             (
                 EX["learning-unit-random-variables"],
                 EX["path-chemometrics-random-variables-lecture"],
-                12,
+                13,
             ),
             (
                 EX["learning-unit-mean-values"],
