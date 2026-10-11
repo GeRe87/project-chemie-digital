@@ -1,5 +1,5 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
@@ -1517,6 +1517,54 @@ function processSystemLayout(
   };
 }
 
+
+/**
+ * Reusable visual hierarchy: one explicitly marked root with 3–6 outgoing
+ * example/category edges. Ordering follows canonical node order, never labels
+ * or presentation IDs. Branch cards provide their own SVG visual motifs.
+ */
+function hierarchyFanoutSelection(input: D3FlowLayoutInput): { readonly rootId: string; readonly childIds: readonly string[] } | undefined {
+  if (input.diagramType !== "flow" || input.nodes.length < 4 || input.nodes.length > 7
+      || input.edges.length !== input.nodes.length - 1) return undefined;
+  const roots = input.nodes.filter((node) => node.visualRole === "hierarchy-root");
+  if (roots.length !== 1) return undefined;
+  const rootId = roots[0]!.id;
+  const children = input.nodes.filter((node) => node.id !== rootId);
+  if (children.some((node) => node.visualRole !== "hierarchy-option" && node.visualRole !== "hierarchy-other")) return undefined;
+  const childIds = new Set(children.map((node) => node.id));
+  if (new Set(input.edges.map((edge) => edge.targetNodeId)).size !== children.length) return undefined;
+  if (input.edges.some((edge) => edge.sourceNodeId !== rootId || !childIds.has(edge.targetNodeId))) return undefined;
+  return { rootId, childIds: children.map((node) => node.id) };
+}
+
+function hierarchyFanoutLayout(
+  prepared: readonly PreparedNode[],
+  selection: { readonly rootId: string; readonly childIds: readonly string[] },
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const cardWidth = 280;
+  const gap = 24;
+  const margin = 44;
+  const width = margin * 2 + selection.childIds.length * cardWidth + (selection.childIds.length - 1) * gap;
+  const rootX = width / 2;
+  const rootY = 96;
+  const cardY = 430;
+  const children = new Map(selection.childIds.map((id, index) => [id, index]));
+  return {
+    width,
+    height: 616,
+    nodes: prepared.map((node) => {
+      const root = node.id === selection.rootId;
+      const order = children.get(node.id);
+      if (!root && order === undefined) throw new Error("Hierarchy layout received an unknown child node");
+      const w = root ? 380 : cardWidth;
+      const h = root ? 154 : 324;
+      const x = root ? rootX : margin + cardWidth / 2 + order! * (cardWidth + gap);
+      const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56);
+      return { id: node.id, x, y: root ? rootY : cardY, width: w, height: h, labelLines, bodyLines };
+    }),
+  };
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const linearOrder = strictLinearFlowOrder(input);
@@ -1541,7 +1589,9 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const layers = topologicalLayers(input);
   const systemSelection = processSystemNodes(input);
   const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
-  const spaceFilling = !system && shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
+  const hierarchySelection = hierarchyFanoutSelection(input);
+  const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection) : undefined;
+  const spaceFilling = !system && !hierarchy && shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
     ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
     : undefined;
   const suppressRepeatedSpaceFillingLabels = Boolean(
@@ -1556,7 +1606,8 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const radial = !spaceFilling && !concentric && !triadic && isCompactRadialNetwork(input)
     ? compactRadialNetworkLayout(prepared, hostWidth)
     : undefined;
-  const geometry = system
+  const geometry = hierarchy
+    ?? system
     ?? spaceFilling
     ?? concentric
     ?? triadic
@@ -1572,6 +1623,25 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+
+    if (hierarchy) {
+      const x1 = source.x;
+      const y1 = source.y + source.height / 2;
+      const x2 = target.x;
+      const y2 = target.y - target.height / 2;
+      const branchY = (y1 + y2) / 2;
+      return {
+        id: edge.id, sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1, y1, x2, y2, labelX: midpoint(x1, x2),
+        labelY: branchY, labelLines: [],
+        routePoints: [
+          { x: x1, y: y1 }, { x: x1, y: branchY },
+          { x: x2, y: branchY }, { x: x2, y: y2 },
+        ],
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
 
     if (system) {
       const vertical = Math.abs(source.x - target.x) < 1;
@@ -1669,8 +1739,10 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
-  const strategy: D3FlowLayoutStrategy = system
-    ? "process-system"
+  const strategy: D3FlowLayoutStrategy = hierarchy
+    ? "hierarchy-fanout"
+    : system
+      ? "process-system"
     : spaceFilling
       ? "space-filling-flow"
     : concentric

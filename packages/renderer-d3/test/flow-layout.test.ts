@@ -546,3 +546,33 @@ test("flow geometry reserves vertical space for enlarged notation without clippi
   assert.ok(factor.bodyLines.length > 0);
   assert.ok(factor.width >= 252);
 });
+
+test("semantic one-to-many model hierarchy places a root above five visual cards", () => {
+  const nodes = [
+    { id: "root", label: "Function", notation: "f(xᵢ)", visualRole: "hierarchy-root" },
+    ...["a", "b", "c", "d"].map((id) => ({
+      id, label: `Family ${id}`, description: `Example ${id}`,
+      visualRole: "hierarchy-option", visualMotifRole: "highlight" as const,
+    })),
+    { id: "other", label: "Others", description: "More models", visualRole: "hierarchy-other" },
+  ];
+  const edges = nodes.slice(1).map((node, index) => ({
+    id: `edge-${index}`, sourceNodeId: "root", targetNodeId: node.id, label: "illustrates",
+  }));
+  const result = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1190);
+  assert.equal(result.strategy, "hierarchy-fanout");
+  assert.equal(result.nodes.length, 6);
+  assert.equal(result.edges.length, 5);
+  const root = result.nodes.find((node) => node.id === "root")!;
+  const children = result.nodes.filter((node) => node.id !== "root");
+  assert.ok(children.every((node) => node.y > root.y + root.height / 2));
+  assert.deepEqual(children.map((node) => node.x), [...children.map((node) => node.x)].sort((a,b) => a-b));
+  assert.ok(children.every((node) => node.width === children[0]?.width));
+  assert.ok(children.every((node) => node.height === children[0]?.height));
+  assert.ok(result.edges.every((edge) => edge.labelLines.length === 0 && edge.routePoints?.length === 4));
+  assert.ok(result.edges.every((edge) => edge.y2 === children.find((node) => node.id === edge.targetNodeId)!.y - children[0]!.height / 2));
+  const withoutRole = createD3FlowLayout({
+    diagramType: "flow", nodes: nodes.map((node) => ({ ...node, visualRole: undefined })), edges,
+  }, 1190);
+  assert.notEqual(withoutRole.strategy, "hierarchy-fanout");
+});

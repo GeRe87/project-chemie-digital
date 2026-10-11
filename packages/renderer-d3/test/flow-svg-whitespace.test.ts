@@ -327,3 +327,42 @@ test("semantic process model displays f(cᵢ) + εᵢ prominently without replac
     restoreDom();
   }
 });
+
+test("hierarchy thumbnails are rendered as native SVG paths for all five authored motifs", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const motifs = ["regression", "nonlinear-curve", "multiple-inputs", "neural-network", "other-models"] as const;
+    const nodes: DiagramBlock["nodes"] = [
+      { id: "root", label: "MODEL FUNCTION", notation: "f(xᵢ)", visualRole: "hierarchy-root",
+        source: [{ resourceId: "ex:root" }] },
+      ...motifs.map((motif, i) => ({
+        id: `family-${i}`, label: `Family ${i}`, description: `Example ${i}`,
+        visualRole: i === 4 ? "hierarchy-other" : "hierarchy-option",
+        visualMotif: motif, visualMotifRole: "highlight" as const,
+        source: [{ resourceId: `ex:family-${i}` }],
+      })),
+    ];
+    const edges: DiagramBlock["edges"] = nodes.slice(1).map((node, i) => ({
+      id: `edge-${i}`, sourceNodeId: "root", targetNodeId: node.id,
+      label: "example", source: [{ resourceId: `ex:edge-${i}` }],
+    }));
+    const rendered = createD3FlowRenderModel({ ...block, nodes, edges }, {
+      reducedMotion: true, interactionPolicy: "static",
+    });
+    assert.ok(rendered.model);
+    const layout = createD3FlowLayout(rendered.model!, 1190);
+    assert.equal(layout.strategy, "hierarchy-fanout");
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, rendered.model!, layout);
+    assert.equal(host.findByClass("d3-flow-node-motif").length, 5);
+    const motifsSeen = host.findByClass("d3-flow-node-motif").map((element) => element.getAttribute("data-visual-motif"));
+    assert.deepEqual(motifsSeen, [...motifs]);
+    assert.ok(host.findByClass("d3-flow-node-motif").every((element) => element.findByTag("path").length > 0));
+    assert.equal(host.findByClass("d3-flow-node-notation").length, 1);
+    assert.equal(host.findByClass("d3-flow-edge").length, 5);
+    assert.ok(host.findByClass("d3-flow-edge").every((element) => (element.getAttribute("d") ?? "").includes(" L ")));
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});

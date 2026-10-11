@@ -273,3 +273,42 @@ body[data-diagram-theme="eco-city"] .reveal
     min-height: 0 !important;
   }
 }
+
+/* Reusable diagram with an emphasized takeaway, selected from scene structure. */
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: .15rem;
+  padding: 1rem 1.6rem .75rem !important;
+}
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"])
+  > [data-composition-region="heading"] {
+  max-width: none;
+  margin: 0;
+}
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"])
+  > [data-composition-region-container="main"] [data-component-kind="visual"] {
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  margin: 0;
+}
+.reveal .slides section[data-composition="visual-stage"]
+  > [data-composition-region-container="footer"] {
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+}
+.reveal .slides section[data-composition="visual-stage"]
+  > [data-composition-region-container="footer"] [data-component-kind="info-surface"],
+.reveal .slides section[data-composition="visual-stage"]
+  > [data-composition-region-container="footer"] [data-component-kind="text"] {
+  margin: 0;
+  font-size: .72em;
+  line-height: 1.22;
+}
+.reveal .slides section[data-composition="visual-stage"] .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}

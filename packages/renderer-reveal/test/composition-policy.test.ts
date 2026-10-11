@@ -1458,3 +1458,19 @@ test("math followed by an authored definition legend selects the generic formula
     ],
   });
 });
+
+test("diagram with explanatory takeaway keeps reusable visual-stage diagram/footer composition", () => {
+  const scene: Scene = {
+    id: "opaque:hierarchy", source: [{ resourceId: "resource:hierarchy" }],
+    blocks: [prose("heading", "introduce"), flowDiagram("hierarchy"), prose("takeaway", "explain")],
+    readingOrder: ["heading", "hierarchy", "takeaway"],
+  };
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "visual-stage", profile: "diagram", mainCount: 1,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "hierarchy", region: "main", index: 0 },
+      { blockId: "takeaway", region: "footer", index: 0 },
+    ],
+  });
+});

@@ -1288,6 +1288,100 @@ Constant: aliquot volume"""@en ;
     cd:body "Difference between the observed and modelled response; may combine several unmodelled influences"@en ;
     cd:authoredResource true .
 
+
+  # Illustrative, non-exclusive families: examples of what f(x) can represent.
+  ex:model-function-families a cd:Concept ;
+    skos:prefLabel "What can f(xᵢ) be?"@en ;
+    skos:related ex:general-additive-response-model ;
+    cd:hasDefinition ex:def-model-function-families ;
+    cd:authoredResource true .
+
+  ex:def-model-function-families a cd:Definition ;
+    cd:body "The response function f may be specified by linear, nonlinear, multivariable, machine-learning, or other approaches. These are overlapping descriptions rather than a mutually exclusive or exhaustive taxonomy."@en ;
+    cd:authoredResource true .
+
+  ex:diagram-model-function-families a cd:FlowDiagram ;
+    skos:prefLabel "Examples of model functions"@en ;
+    cd:body "A model function f(x_i) branches into five illustrative approaches: linear regression, nonlinear fitting, multivariable regression or PLS, neural networks, and other approaches such as trees, kernel methods and mechanistic models."@en ;
+    cd:hasDiagramNode ex:node-function-root,
+      ex:node-function-linear, ex:node-function-nonlinear,
+      ex:node-function-multivariate, ex:node-function-ml,
+      ex:node-function-others ;
+    cd:hasDiagramEdge ex:edge-function-linear, ex:edge-function-nonlinear,
+      ex:edge-function-multivariate, ex:edge-function-ml,
+      ex:edge-function-others ;
+    cd:authoredResource true .
+
+  ex:node-function-root a cd:DiagramNode ;
+    cd:position 1 ; skos:prefLabel "MODEL FUNCTION"@en ;
+    skos:notation "f(xᵢ)" ;
+    cd:visualRole "hierarchy-root" ; cd:authoredResource true .
+
+  ex:node-function-linear a cd:DiagramNode ;
+    cd:position 2 ; skos:prefLabel "LINEAR MODELS"@en ;
+    cd:body "Linear regression"@en ;
+    cd:visualRole "hierarchy-option" ;
+    cd:visualMotif "regression" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-function-nonlinear a cd:DiagramNode ;
+    cd:position 3 ; skos:prefLabel "NONLINEAR MODELS"@en ;
+    cd:body "Exponential fit"@en ;
+    cd:visualRole "hierarchy-option" ;
+    cd:visualMotif "nonlinear-curve" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-function-multivariate a cd:DiagramNode ;
+    cd:position 4 ; skos:prefLabel "MULTIVARIATE MODELS"@en ;
+    cd:body "Multiple regression / PLS"@en ;
+    cd:visualRole "hierarchy-option" ;
+    cd:visualMotif "multiple-inputs" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-function-ml a cd:DiagramNode ;
+    cd:position 5 ; skos:prefLabel "MACHINE LEARNING"@en ;
+    cd:body "Neural network"@en ;
+    cd:visualRole "hierarchy-option" ;
+    cd:visualMotif "neural-network" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:node-function-others a cd:DiagramNode ;
+    cd:position 6 ; skos:prefLabel "OTHERS"@en ;
+    cd:body "Trees, kernels, mechanistic models, …"@en ;
+    cd:visualRole "hierarchy-other" ;
+    cd:visualMotif "other-models" ;
+    cd:visualMotifRole "highlight" ;
+    cd:authoredResource true .
+
+  ex:edge-function-linear a cd:DiagramEdge ;
+    cd:position 1 ; skos:prefLabel "example"@en ;
+    cd:sourceNode ex:node-function-root ;
+    cd:targetNode ex:node-function-linear ; cd:authoredResource true .
+  ex:edge-function-nonlinear a cd:DiagramEdge ;
+    cd:position 2 ; skos:prefLabel "example"@en ;
+    cd:sourceNode ex:node-function-root ;
+    cd:targetNode ex:node-function-nonlinear ; cd:authoredResource true .
+  ex:edge-function-multivariate a cd:DiagramEdge ;
+    cd:position 3 ; skos:prefLabel "example"@en ;
+    cd:sourceNode ex:node-function-root ;
+    cd:targetNode ex:node-function-multivariate ; cd:authoredResource true .
+  ex:edge-function-ml a cd:DiagramEdge ;
+    cd:position 4 ; skos:prefLabel "example"@en ;
+    cd:sourceNode ex:node-function-root ;
+    cd:targetNode ex:node-function-ml ; cd:authoredResource true .
+  ex:edge-function-others a cd:DiagramEdge ;
+    cd:position 5 ; skos:prefLabel "example"@en ;
+    cd:sourceNode ex:node-function-root ;
+    cd:targetNode ex:node-function-others ; cd:authoredResource true .
+
+  ex:model-function-families-takeaway a cd:Interpretation ;
+    cd:body "The additive model stays the same — only the form of f changes. These examples overlap and are not exhaustive."@en ;
+    cd:authoredResource true .
+
   ex:controlled-calibration-model a cd:Concept ;
     skos:prefLabel "Controlled concentrations, random responses"@en ;
     skos:related ex:independent-variable, ex:dependent-variable, ex:random-variable ;

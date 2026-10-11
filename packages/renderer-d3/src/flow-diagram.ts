@@ -537,7 +537,8 @@ export function d3FlowEdgePath(
   orientation: D3FlowLayout["orientation"],
   strategy: D3FlowLayout["strategy"],
 ): string {
-  if (strategy === "space-filling-flow" && edge.routePoints && edge.routePoints.length >= 2) {
+  if ((strategy === "space-filling-flow" || strategy === "hierarchy-fanout")
+      && edge.routePoints && edge.routePoints.length >= 2) {
     const [first, ...rest] = edge.routePoints;
     return `M ${first!.x} ${first!.y} ${rest.map((point) => `L ${point.x} ${point.y}`).join(" ")}`;
   }
@@ -1057,13 +1058,19 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               group.style.setProperty("--d3-ring-hue", hue.toFixed(1));
             }
           }
+          if (layout.strategy === "hierarchy-fanout") {
+            group.setAttribute("data-node-index", String(modelNode.readingIndex));
+            const branchIndex = Math.max(0, modelNode.readingIndex - 1);
+            const hue = (205 + branchIndex * 51) % 360;
+            group.style.setProperty("--d3-flow-card-hue", hue.toFixed(1));
+          }
           if (layout.strategy === "space-filling-flow") {
             group.setAttribute("data-node-index", String(modelNode.readingIndex));
             const progress = model.nodes.length <= 1 ? 0.5 : modelNode.readingIndex / (model.nodes.length - 1);
             const hue = (205 + progress * 275) % 360;
             group.style.setProperty("--d3-flow-card-hue", hue.toFixed(1));
           }
-          if (layout.strategy === "space-filling-flow" && modelNode.visualMotif) {
+          if ((layout.strategy === "space-filling-flow" || layout.strategy === "hierarchy-fanout") && modelNode.visualMotif) {
             group.setAttribute("data-visual-motif", modelNode.visualMotif);
             group.setAttribute("data-visual-motif-role", modelNode.visualMotifRole ?? "supporting");
           }

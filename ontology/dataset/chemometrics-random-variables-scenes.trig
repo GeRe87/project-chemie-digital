@@ -170,7 +170,28 @@
     cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 09 — controlled design points, random response --------------------------
+
+  # 09 — the model function can take many forms -----------------------------
+  ex:scene-chemometrics-model-function-families a cd:SceneDefinition ;
+    cd:focusConcept ex:model-function-families ;
+    cd:hasSceneItem ex:scene-item-function-families-heading,
+      ex:scene-item-function-families-diagram,
+      ex:scene-item-function-families-takeaway ;
+    cd:authoredResource true .
+  ex:scene-item-function-families-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:model-function-families ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-function-families-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:diagram-model-function-families ;
+    cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-function-families-takeaway a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:model-function-families-takeaway ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 10 — controlled design points, random response --------------------------
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
@@ -200,7 +221,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 10 — same physical quantity, different role -----------------------------
+  # 11 — same physical quantity, different role -----------------------------
   ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
     cd:focusConcept ex:concentration-context-roles ;
     cd:hasSceneItem ex:scene-item-context-roles-heading,
@@ -225,7 +246,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 11 — orthogonal variable classifications -------------------------------
+  # 12 — orthogonal variable classifications -------------------------------
   ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
     cd:focusConcept ex:variable-classification ;
     cd:hasSceneItem ex:scene-item-variable-classification-heading,
@@ -250,7 +271,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 12 — empirical frequencies versus probability model ---------------------
+  # 13 — empirical frequencies versus probability model ---------------------
   ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
     cd:focusConcept ex:empirical-probability-distribution-distinction ;
     cd:hasSceneItem ex:scene-item-empirical-probability-heading,
@@ -280,7 +301,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 13 — checkpoint and bridge ----------------------------------------------
+  # 14 — checkpoint and bridge ----------------------------------------------
   ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
     cd:focusConcept ex:variables-level-check ;
     cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,

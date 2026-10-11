@@ -24,6 +24,10 @@ export const VISUAL_MOTIF_KEYS = [
   "machine-learning",
   "calibration-flasks",
   "sampling-lake",
+  "nonlinear-curve",
+  "multiple-inputs",
+  "neural-network",
+  "other-models",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];

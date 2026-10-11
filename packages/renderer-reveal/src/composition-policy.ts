@@ -682,6 +682,20 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
+  // An authored diagram followed by one emphasized takeaway remains a
+  // reusable visual stage; diagrams own the structure, not slide CSS.
+  if (
+    body.length === 2
+    && body[0]?.kind === "diagram"
+    && body[1]?.kind === "prose"
+    && (body[1].intent?.kind === "emphasize" || body[1].intent?.kind === "explain")
+  ) {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0], "main", 0));
+    placements.push(placement(body[1], "footer", 0));
+    return { kind: "visual-stage", placements, mainCount: 1, profile: "diagram" };
+  }
+
   if (
     body.length === 1
     && body[0]?.kind === "diagram"

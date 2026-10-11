@@ -442,3 +442,14 @@ test("diagram notation is optional and validated independently from description"
   };
   assert.throws(() => validateSceneDocument(invalid), /notation must be non-empty/);
 });
+
+test("extended model-family motifs are accepted but arbitrary motif names remain invalid", () => {
+  for (const visualMotif of ["nonlinear-curve", "multiple-inputs", "neural-network", "other-models"] as const) {
+    const value = structuredClone(flowDocument());
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind !== "diagram") throw new Error("expected diagram");
+    block.nodes[0]!.visualMotif = visualMotif;
+    block.nodes[0]!.visualMotifRole = "highlight";
+    assert.doesNotThrow(() => validateSceneDocument(value));
+  }
+});

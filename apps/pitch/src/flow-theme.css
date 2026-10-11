@@ -895,3 +895,60 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-par
   stroke: var(--pcd-accent);
   stroke-width: 3.5;
 }
+
+/* Generic one-to-many semantic hierarchy. Child node cards contain native
+   SVG thumbnail motifs whose keys are authored in TriG. */
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-shape {
+  stroke-width: 3;
+  filter: drop-shadow(5px 5px 0 hsl(var(--d3-flow-card-hue, 205) 45% 35% / .17));
+}
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue, 205) 73% 59%) 17%, var(--pcd-surface-strong));
+  stroke: hsl(var(--d3-flow-card-hue, 205) 59% 43%);
+  stroke-width: 3;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-root"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, #9871d0 18%, var(--pcd-surface-strong));
+  stroke: #9871d0;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-muted) 10%, var(--pcd-surface-strong));
+  stroke: color-mix(in srgb, var(--pcd-muted) 80%, var(--pcd-foreground));
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue, 205) 57% 40%) 70%, var(--pcd-foreground));
+  font-size: 24px;
+  font-weight: 900;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-root"] .d3-flow-node-title,
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-title {
+  fill: var(--pcd-foreground);
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font-size: 19px;
+  font-weight: 700;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-motif {
+  color: hsl(var(--d3-flow-card-hue, 205) 68% 42%);
+  opacity: .96;
+  pointer-events: none;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-motif {
+  color: var(--pcd-muted);
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-edge {
+  stroke: color-mix(in srgb, var(--pcd-accent) 67%, var(--pcd-foreground));
+  stroke-width: 2.5;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 33%, transparent);
+}
