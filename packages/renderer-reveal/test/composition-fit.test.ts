@@ -190,3 +190,49 @@ test("fit decisions are independent of scene and resource identities", () => {
   assert.equal(fitA?.density, fitB?.density);
   assert.equal(fitA?.totalScore, fitB?.totalScore);
 });
+
+test("density is derived generically for non-evidence compositions", () => {
+  const blocks: SceneBlock[] = [
+    prose("heading", "Generic dense topic", "introduce"),
+    prose("body-a", "A".repeat(1600)),
+    prose("body-b", "B".repeat(1600)),
+  ];
+  const scene: Scene = {
+    id: "scene:generic-dense-stack",
+    source: [{ resourceId: "resource:generic-dense-stack" }],
+    blocks,
+    readingOrder: blocks.map((block) => block.id),
+  };
+  const composition = inferRevealCompositionPlan(scene);
+  const fit = inferRevealCompositionFit(scene, composition);
+  assert.equal(composition.kind, "stack");
+  assert.notEqual(fit.density, "comfortable");
+});
+
+test("context-data-visual fit resolves evidence from composition regions instead of block positions", () => {
+  const withHeading = caseStudyScene({
+    id: "scene:with-heading",
+    problemText: "Three samples are measured repeatedly. Which sample differs most?",
+    rows: 3,
+    columns: 5,
+    chartCount: 3,
+    chartDescription: "A compact quantitative summary of repeated measurements.",
+  });
+  const withoutHeading: Scene = {
+    ...withHeading,
+    id: "scene:without-heading",
+    blocks: withHeading.blocks.slice(1),
+    readingOrder: withHeading.readingOrder.slice(1),
+  };
+
+  const withHeadingComposition = inferRevealCompositionPlan(withHeading);
+  const withoutHeadingComposition = inferRevealCompositionPlan(withoutHeading);
+  assert.equal(withHeadingComposition.profile, "context-data-visual");
+  assert.equal(withoutHeadingComposition.profile, "context-data-visual");
+
+  const withHeadingFit = inferRevealCompositionFit(withHeading, withHeadingComposition);
+  const withoutHeadingFit = inferRevealCompositionFit(withoutHeading, withoutHeadingComposition);
+  assert.equal(withoutHeadingFit.variant, withHeadingFit.variant);
+  assert.equal(withoutHeadingFit.density, withHeadingFit.density);
+});
+

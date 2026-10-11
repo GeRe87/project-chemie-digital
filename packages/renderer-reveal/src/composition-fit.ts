@@ -205,23 +205,37 @@ function densityForScore(totalScore: number): RevealCompositionDensity {
   return "comfortable";
 }
 
-function workedEvidenceVariant(
+function blocksForRegions(
   scene: Scene,
+  composition: RevealCompositionPlan,
+  regions: readonly string[],
+): readonly SceneBlock[] {
+  const byId = new Map(orderedBlocks(scene).map((block) => [block.id, block]));
+  const selected = new Set(regions);
+  return composition.placements
+    .filter((placement) => selected.has(placement.region))
+    .map((placement) => byId.get(placement.blockId))
+    .filter((block): block is SceneBlock => block !== undefined);
+}
+
+function evidenceStageVariant(
+  scene: Scene,
+  composition: RevealCompositionPlan,
   footprints: readonly RevealBlockFootprint[],
   density: RevealCompositionDensity,
 ): RevealCompositionVariant {
-  const blocks = orderedBlocks(scene);
-  const data = blocks[2];
-  const analysis = blocks[3];
-
   if (density === "compact") return "stacked";
 
-  if (data?.kind === "table") {
-    const { rows, columns } = tableDimensions(data);
+  const primaryEvidence = blocksForRegions(scene, composition, ["primary", "secondary"]);
+  const table = primaryEvidence.find(
+    (block): block is Extract<SceneBlock, { kind: "table" }> => block.kind === "table",
+  );
+  if (table) {
+    const { rows, columns } = tableDimensions(table);
     if (rows >= 7 || columns >= 7 || rows * columns >= 36) return "stacked";
   }
 
-  const evidenceIds = new Set([data?.id, analysis?.id].filter((id): id is string => id !== undefined));
+  const evidenceIds = new Set(primaryEvidence.map((block) => block.id));
   const evidenceScore = footprints
     .filter((footprint) => evidenceIds.has(footprint.blockId))
     .reduce((total, footprint) => total + footprint.score, 0);
@@ -242,24 +256,15 @@ export function inferRevealCompositionFit(
   const evidenceScore = footprints.reduce((total, footprint) => total + footprint.evidenceUnits, 0);
   const density = densityForScore(totalScore);
 
-  if (
-    composition.kind === "evidence-stage"
+  const variant = composition.kind === "evidence-stage"
     && composition.profile === "context-data-visual"
-  ) {
-    return {
-      composition: composition.kind,
-      variant: workedEvidenceVariant(scene, footprints, density),
-      density,
-      totalScore,
-      evidenceScore,
-      blocks: footprints,
-    };
-  }
+    ? evidenceStageVariant(scene, composition, footprints, density)
+    : "default";
 
   return {
     composition: composition.kind,
-    variant: "default",
-    density: "comfortable",
+    variant,
+    density,
     totalScore,
     evidenceScore,
     blocks: footprints,
