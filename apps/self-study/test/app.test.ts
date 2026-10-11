@@ -99,7 +99,11 @@ test("generated static-first shell contains all self-study leaf fallback content
   for (const documentValue of artifact.sceneDocuments) {
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
-      assert.ok(index.includes(section.semanticLabel), `missing static section ${section.semanticLabel}`);
+      const semanticLabel = section.semanticLabel
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+      assert.ok(index.includes(semanticLabel), `missing static section ${section.semanticLabel}`);
       for (const node of leaves(section.nodes)) {
         if (node.kind === "definition-list") {
           for (const entry of node.entries) {
