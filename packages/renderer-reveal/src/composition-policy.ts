@@ -240,6 +240,100 @@ function mainProfileFor(blocks: readonly SceneBlock[]): RevealCompositionMainPro
 }
 
 
+function allComponentKinds(
+  blocks: readonly SceneBlock[],
+  allowed: readonly RevealComponentKind[],
+): boolean {
+  const allowedKinds = new Set(allowed);
+  return blocks.every((block) => allowedKinds.has(revealComponentDescriptor(block).kind));
+}
+
+function inferVisualDualReference(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  if (revealComponentDescriptor(body[0]!).kind !== "visual") return undefined;
+
+  const cardIndexes = body
+    .map((block, index) => revealComponentDescriptor(block).kind === "card-collection" ? index : -1)
+    .filter((index) => index >= 0);
+  if (cardIndexes.length !== 2) return undefined;
+
+  const [firstCardIndex, secondCardIndex] = cardIndexes;
+  if (
+    firstCardIndex === undefined
+    || secondCardIndex === undefined
+    || firstCardIndex <= 1
+    || secondCardIndex <= firstCardIndex + 1
+    || secondCardIndex !== body.length - 1
+  ) return undefined;
+
+  const primaryPrelude = body.slice(1, firstCardIndex);
+  const bridge = body.slice(firstCardIndex + 1, secondCardIndex);
+  if (
+    !allComponentKinds(primaryPrelude, ["info-surface"])
+    || !allComponentKinds(bridge, ["info-surface"])
+  ) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  placements.push(placement(body[0]!, "lead", 0));
+  primaryPrelude.forEach((block, index) => placements.push(placement(block, "primary", index)));
+  placements.push(placement(body[firstCardIndex]!, "primary", primaryPrelude.length));
+
+  const secondaryHeading = bridge.at(-1)!;
+  bridge.slice(0, -1).forEach((block, index) =>
+    placements.push(placement(block, "primary", primaryPrelude.length + 1 + index))
+  );
+  placements.push(placement(secondaryHeading, "secondary", 0));
+  placements.push(placement(body[secondCardIndex]!, "secondary", 1));
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 3,
+    profile: "visual-dual-reference",
+  };
+}
+
+function inferListCodeReference(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  const kinds = body.map((block) => revealComponentDescriptor(block).kind);
+  const listIndexes = kinds
+    .map((kind, index) => kind === "list-collection" ? index : -1)
+    .filter((index) => index >= 0);
+  const codeIndexes = kinds
+    .map((kind, index) => kind === "code" ? index : -1)
+    .filter((index) => index >= 0);
+  if (listIndexes.length !== 1 || codeIndexes.length !== 1) return undefined;
+
+  const listIndex = listIndexes[0]!;
+  const codeIndex = codeIndexes[0]!;
+  if (listIndex < 1 || codeIndex <= listIndex) return undefined;
+
+  const remaining = body.filter((_block, index) => index !== listIndex && index !== codeIndex);
+  if (!allComponentKinds(remaining, ["info-surface"])) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  body.slice(0, listIndex).forEach((block, index) => placements.push(placement(block, "lead", index)));
+  placements.push(placement(body[listIndex]!, "primary", 0));
+
+  let secondaryIndex = 0;
+  for (let index = listIndex + 1; index < body.length; index += 1) {
+    placements.push(placement(body[index]!, "secondary", secondaryIndex));
+    secondaryIndex += 1;
+  }
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 2,
+    profile: "list-code-reference",
+  };
+}
+
+
 export function revealComponentDescriptor(block: SceneBlock): RevealComponentDescriptor {
   switch (block.kind) {
     case "prose":
@@ -558,55 +652,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  if (
-    matchesComponentKinds(
-      bodyKinds,
-      "visual",
-      "info-surface",
-      "card-collection",
-      "info-surface",
-      "info-surface",
-      "card-collection",
-    )
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "lead", 0));
-    placements.push(placement(body[1]!, "primary", 0));
-    placements.push(placement(body[2]!, "primary", 1));
-    placements.push(placement(body[3]!, "primary", 2));
-    placements.push(placement(body[4]!, "secondary", 0));
-    placements.push(placement(body[5]!, "secondary", 1));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 3,
-      profile: "visual-dual-reference",
-    };
-  }
+  const visualDualReference = inferVisualDualReference(body, heading);
+  if (visualDualReference) return visualDualReference;
 
-  if (
-    matchesComponentKinds(
-      bodyKinds,
-      "info-surface",
-      "list-collection",
-      "info-surface",
-      "code",
-      "info-surface",
-    )
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "lead", 0));
-    placements.push(placement(body[1]!, "primary", 0));
-    placements.push(placement(body[2]!, "secondary", 0));
-    placements.push(placement(body[3]!, "secondary", 1));
-    placements.push(placement(body[4]!, "secondary", 2));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 2,
-      profile: "list-code-reference",
-    };
-  }
+  const listCodeReference = inferListCodeReference(body, heading);
+  if (listCodeReference) return listCodeReference;
 
   if (
     matchesComponentKinds(bodyKinds, "visual", "data-surface", "visual")

@@ -580,6 +580,94 @@ test("learning-stage infers visual dual-reference structure", () => {
   );
 });
 
+
+test("visual dual-reference tolerates an omitted primary support note", () => {
+  const scene: Scene = {
+    id: "opaque:visual-dual-reference-compact",
+    source: [{ resourceId: "resource:visual-dual-reference-compact" }],
+    blocks: [
+      prose("heading", "introduce"),
+      flowDiagram("visual"),
+      prose("primary-heading", "explain"),
+      definitions("primary-definitions"),
+      prose("secondary-heading", "explain"),
+      definitions("secondary-definitions"),
+    ],
+    readingOrder: [
+      "heading",
+      "visual",
+      "primary-heading",
+      "primary-definitions",
+      "secondary-heading",
+      "secondary-definitions",
+    ],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "visual-dual-reference");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["visual", "lead"],
+      ["primary-heading", "primary"],
+      ["primary-definitions", "primary"],
+      ["secondary-heading", "secondary"],
+      ["secondary-definitions", "secondary"],
+    ],
+  );
+});
+
+test("list-code reference tolerates multiple explanatory lead blocks", () => {
+  const code: SceneBlock = {
+    id: "code-flexible",
+    kind: "code",
+    language: "text",
+    code: "opaque",
+    fallback: "opaque",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: "resource:code-flexible" }],
+  };
+  const scene: Scene = {
+    id: "opaque:list-code-reference-flexible",
+    source: [{ resourceId: "resource:list-code-reference-flexible" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("banner-a", "explain"),
+      prose("banner-b", "explain"),
+      unorderedList("terms-flexible", 4),
+      prose("code-label-flexible", "explain"),
+      code,
+      prose("reading-flexible", "explain"),
+    ],
+    readingOrder: [
+      "heading",
+      "banner-a",
+      "banner-b",
+      "terms-flexible",
+      "code-label-flexible",
+      "code-flexible",
+      "reading-flexible",
+    ],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "list-code-reference");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["banner-a", "lead"],
+      ["banner-b", "lead"],
+      ["terms-flexible", "primary"],
+      ["code-label-flexible", "secondary"],
+      ["code-flexible", "secondary"],
+      ["reading-flexible", "secondary"],
+    ],
+  );
+});
+
 test("learning-stage infers list plus code reference structure", () => {
   const code: SceneBlock = {
     id: "code",
