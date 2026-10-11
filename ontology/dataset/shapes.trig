@@ -294,6 +294,11 @@ SELECT $this WHERE {
       sh:message "cd:interpretsResource must point from an Interpretation to a LearningResource."
     ] .
 
+  cd:GroupedObservationShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:groupLabel ;
+    sh:class cd:Observation ;
+    sh:property [ sh:path cd:groupLabel ; sh:minCount 1 ; sh:maxCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] .
+
   cd:ChartDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:ChartDefinition ;
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
@@ -718,8 +723,8 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:TableRole cd:AttributionRole cd:DiagramRole cd:ChartRole ) ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" "cd:hasTableRow" ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:TableRole cd:AttributionRole cd:DiagramRole cd:ChartRole cd:MediaRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" "cd:hasTableRow" "cd:uri" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
@@ -803,6 +808,30 @@ SELECT $this WHERE {
         $this cd:selectsResource ?source ; cd:communicativeRole ?role .
         ?source a cd:TableDefinition .
         FILTER (?role != cd:TableRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "MediaRole requires exactly the cd:uri selector." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:MediaRole ; cd:selectionPath ?selector .
+        FILTER (?selector != "cd:uri")
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "The cd:uri selector requires MediaRole." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:selectionPath "cd:uri" ; cd:communicativeRole ?role .
+        FILTER (?role != cd:MediaRole)
+      }"""
+    ] ;
+    sh:sparql [
+      sh:message "MediaRole must select a MediaAsset." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+        $this cd:communicativeRole cd:MediaRole ; cd:selectsResource ?source .
+        FILTER NOT EXISTS { ?source a cd:MediaAsset . }
       }"""
     ] ;
     sh:sparql [

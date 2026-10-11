@@ -645,12 +645,15 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
     observation_ids = {observation for observation, _position in observations}
     for observation, _position in observations:
         category, relation_path = selected_label_reference(dataset, observation, language)
+        group_label = literal(dataset, observation, iri(CD, "groupLabel"), language)
         data.append({
             "id": compact(observation),
             "category": category,
+            **({"group": group_label} if group_label is not None else {}),
             "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
             "source": [
                 source_reference(dataset, observation, relation_path),
+                *([source_reference(dataset, observation, "cd:groupLabel")] if group_label is not None else []),
                 source_reference(dataset, observation, "cd:numericValue"),
             ],
         })
@@ -827,6 +830,17 @@ def live_chart_update_payload(dataset: Dataset, chart: URIRef) -> dict[str, Any]
     }
 
 
+
+def media_asset_payload(dataset: Dataset, media: URIRef, language: str | None) -> dict[str, Any]:
+    if not is_resource_type(dataset, media, "MediaAsset"):
+        raise ValueError(f"MediaRole requires MediaAsset for {compact(media)}")
+    uri_value = literal(dataset, media, iri(CD, "uri"))
+    media_type = literal(dataset, media, iri(CD, "mediaType"))
+    alternative = deterministic_authored_literal(dataset, media, iri(CD, "alternativeText"), language)
+    if uri_value is None or media_type is None or alternative is None:
+        raise ValueError(f"Incomplete MediaAsset {compact(media)}")
+    return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
     if chart_type == iri(CD, "BarChart"):
@@ -923,6 +937,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             selected_is_chart_definition = is_resource_type(dataset, selected, "ChartDefinition")
             selected_is_definition_list = is_resource_type(dataset, selected, "DefinitionList")
             selected_is_table_definition = is_resource_type(dataset, selected, "TableDefinition")
+            selected_is_media_asset = is_resource_type(dataset, selected, "MediaAsset")
             if selected_is_definition_list and role != "DefinitionListRole":
                 raise ValueError(f"DefinitionList {compact(selected)} requires DefinitionListRole in {compact(item)}")
             if selected_is_table_definition and role != "TableRole":
@@ -933,6 +948,8 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 raise ValueError(f"Diagram {compact(selected)} requires DiagramRole in {compact(item)}")
             if selected_is_chart_definition and role != "ChartRole":
                 raise ValueError(f"ChartDefinition {compact(selected)} requires ChartRole in {compact(item)}")
+            if selected_is_media_asset and role != "MediaRole":
+                raise ValueError(f"MediaAsset {compact(selected)} requires MediaRole in {compact(item)}")
             if role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
@@ -1045,6 +1062,23 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "intent": {"kind": "explain"},
                 }
                 document_version = promote_document_version(document_version, "1.5")
+            elif role == "MediaRole":
+                if relation_path != "cd:uri":
+                    raise ValueError(f"MediaRole requires direct cd:uri selection in {compact(item)}")
+                if not selected_is_media_asset:
+                    raise ValueError(f"MediaRole requires MediaAsset in {compact(item)}")
+                payload = media_asset_payload(dataset, selected, language)
+                block = {
+                    "id": block_id, "kind": "media-reference",
+                    "source": [
+                        source_reference(dataset, selected, "cd:uri"),
+                        source_reference(dataset, selected, "cd:mediaType"),
+                        source_reference(dataset, selected, "cd:alternativeText"),
+                    ],
+                    **payload,
+                    "disclosure": {"order": position - 1, "mode": "initial"},
+                    "emphasis": "supporting", "intent": {"kind": "explain"},
+                }
             elif role == "AttributionRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"AttributionRole requires direct cd:body selection in {compact(item)}")

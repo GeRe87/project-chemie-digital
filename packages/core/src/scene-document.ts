@@ -257,6 +257,7 @@ export interface ChartAxis {
 export interface BarChartDatum {
   readonly id: string;
   readonly category: string;
+  readonly group?: string;
   readonly value: number;
   readonly source: readonly SourceReference[];
 }
@@ -618,8 +619,13 @@ function validateChart(block: ChartBlock, label: string): void {
       if (ids.has(datum.id)) throw new SceneContractError(`${label} bar chart contains duplicate datum ids`);
       ids.add(datum.id);
       requireNonEmpty(datum.category, `${label} bar datum ${datum.id} category`);
+      if (datum.group !== undefined) requireNonEmpty(datum.group, `${label} bar datum ${datum.id} group`);
       if (!Number.isFinite(datum.value)) throw new SceneContractError(`${label} bar datum ${datum.id} value must be finite`);
       validateSource(datum.source, `${label} bar datum ${datum.id} source`);
+    }
+    const groupedDatumCount = block.data.filter((datum) => datum.group !== undefined).length;
+    if (groupedDatumCount !== 0 && groupedDatumCount !== block.data.length) {
+      throw new SceneContractError(`${label} grouped bar chart must assign a group to every datum`);
     }
     const annotationIds = new Set<string>();
     for (const annotation of block.annotations ?? []) {

@@ -134,6 +134,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 cd("AttributionRole"),
                 cd("DiagramRole"),
                 cd("ChartRole"),
+                cd("MediaRole"),
                 cd("TableRole"),
                 cd("DefinitionListRole"),
             },
@@ -154,6 +155,7 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 Literal("cd:hasKeyPoint"),
                 Literal("cd:hasTableRow"),
                 Literal("cd:hasDefinitionListEntry"),
+                Literal("cd:uri"),
             },
             self.shacl_in_values(cd("selectionPath")),
         )

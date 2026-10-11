@@ -35,11 +35,11 @@ graph:concepts {
     cdm:definesAttribute cd:sourcePath, cd:position, cd:body, cd:latex,
       cd:symbol, cd:viewType, cd:authoredResource, cd:selectionPath, cd:language,
       cd:definitionScope, cd:formulaFamily, cd:numericValue, cd:unit,
-       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:visualRole, cd:visualMotif, cd:visualMotifRole ;
+       cd:chartType, cd:xAxisLabel, cd:yAxisLabel, cd:xAxisUnit, cd:yAxisUnit, cd:xValue, cd:groupLabel, cd:visualRole, cd:visualMotif, cd:visualMotifRole ;
     cdm:definesControlledValue cd:HeadingRole, cd:QuotationRole,
       cd:CitationRole, cd:ConceptRole, cd:ComparisonRole, cd:FormulaRole,
       cd:SymbolRole, cd:StatementRole, cd:ExampleRole, cd:ExerciseRole,
-      cd:KeyPointRole, cd:DefinitionListRole, cd:TableRole, cd:AttributionRole, cd:DiagramRole, cd:ChartRole,
+      cd:KeyPointRole, cd:DefinitionListRole, cd:TableRole, cd:AttributionRole, cd:DiagramRole, cd:ChartRole, cd:MediaRole,
       cd:BarChart, cd:LineChart, cd:DefinitionWithCitation .
 
   cd:Concept a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf skos:Concept .
@@ -103,6 +103,7 @@ graph:concepts {
   cd:AttributionRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:DiagramRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:ChartRole a cd:CommunicativeRole, cdm:ControlledValue .
+  cd:MediaRole a cd:CommunicativeRole, cdm:ControlledValue .
   cd:BarChart a cdm:ControlledValue .
   cd:LineChart a cdm:ControlledValue .
   cd:DefinitionWithCitation a cd:PresentationPattern, cdm:ControlledValue .
@@ -194,4 +195,5 @@ graph:concepts {
   cd:liveJitterAmplitude a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
   cd:liveDecimalPlaces a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:integer .
   cd:xValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range xsd:decimal .
+  cd:groupLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range rdf:langString .
 }
