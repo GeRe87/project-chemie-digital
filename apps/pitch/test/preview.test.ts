@@ -952,21 +952,21 @@ test("renders evidence-stage context-data-visual regions from generic block stru
 
 
 test("process progression styling is generic and specialized diagram layout files stay removed", () => {
-  const css = readFileSync(new URL("../src/process-primitives.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="progression-stage"/u);
   assert.match(css, /data-composition-profile="compact-linear"/u);
   assert.match(css, /data-component-kind="visual"/u);
   assert.doesNotMatch(css, /data-layout=/u);
-  assert.equal(main.includes('import "./process-primitives.css"'), true);
+  assert.equal(main.includes('import "./process-primitives.css"'), false);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
   assert.equal(main.includes('import "./process-diagram-layout.css"'), false);
 });
 
 
 test("learning-stage reference profiles replace process-context and reference-code family CSS", () => {
-  const css = readFileSync(new URL("../src/support-workbench-primitives.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="learning-stage"/u);
@@ -976,7 +976,7 @@ test("learning-stage reference profiles replace process-context and reference-co
   assert.match(css, /data-component-kind="code"/u);
   assert.match(css, /data-component-kind="card-collection"/u);
   assert.doesNotMatch(css, /data-layout=/u);
-  assert.equal(main.includes('import "./support-workbench-primitives.css"'), true);
+  assert.equal(main.includes('import "./support-workbench-primitives.css"'), false);
   assert.equal(main.includes('import "./process-context-layout.css"'), false);
   assert.equal(main.includes('import "./reference-code-layout.css"'), false);
 });
@@ -1095,7 +1095,7 @@ test("full-viewport media presentation is owned by generic media-stage compositi
 
 
 test("hero title presentation is owned by the media-stage hero-attributions profile", () => {
-  const css = readFileSync(new URL("../src/hero-stage-primitives.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/media-stage-primitives.css", import.meta.url), "utf8");
   const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
 
   assert.match(css, /data-composition="media-stage"/u);
@@ -1107,7 +1107,7 @@ test("hero title presentation is owned by the media-stage hero-attributions prof
   assert.doesNotMatch(css, /data-layout="hero-title-panel"/u);
   assert.doesNotMatch(css, /data-layout-slot=/u);
   assert.doesNotMatch(css, /data-composition="hero-stage"/u);
-  assert.equal(main.includes('import "./hero-stage-primitives.css"'), true);
+  assert.equal(main.includes('import "./hero-stage-primitives.css"'), false);
   assert.equal(main.includes('import "./hero-title-panel.css"'), false);
 });
 

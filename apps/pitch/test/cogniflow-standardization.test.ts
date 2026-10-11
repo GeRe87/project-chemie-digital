@@ -67,8 +67,8 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/learning-stage-primitives.css"),
     source("../src/card-primitives.css"),
     source("../src/evidence-primitives.css"),
-    source("../src/process-primitives.css"),
-    source("../src/support-workbench-primitives.css"),
+    source("../src/progression-primitives.css"),
+    source("../src/learning-stage-primitives.css"),
     source("../src/progression-primitives.css"),
     source("../src/presentation-projection.ts"),
     source("../src/presentation-projection.css"),
@@ -78,7 +78,7 @@ test("generic migrated layouts contain no CogniFlow identity coupling", () => {
     source("../src/presentation-laser-pointer.css"),
     source("../src/media-stage-primitives.css"),
     source("../src/presentation-mobile.css"),
-    source("../src/hero-stage-primitives.css"),
+    source("../src/media-stage-primitives.css"),
     source("../src/semantic-source-runtime.css"),
     source("../src/semantic-multi-view-runtime.css"),
   ];
@@ -180,8 +180,8 @@ test("composition variants use one generic profile channel", () => {
     source("../src/main.ts"),
     source("../src/component-composition.css"),
     source("../src/evidence-primitives.css"),
-    source("../src/process-primitives.css"),
-    source("../src/support-workbench-primitives.css"),
+    source("../src/progression-primitives.css"),
+    source("../src/learning-stage-primitives.css"),
     source("../src/progression-primitives.css"),
     source("../src/learning-stage-primitives.css"),
     source("../src/visual-stage-primitives.css"),
@@ -216,12 +216,12 @@ test("production Pitch rendering no longer emits or consumes legacy layout slots
     source("../src/component-composition.css"),
     source("../src/card-primitives.css"),
     source("../src/evidence-primitives.css"),
-    source("../src/process-primitives.css"),
-    source("../src/support-workbench-primitives.css"),
+    source("../src/progression-primitives.css"),
+    source("../src/learning-stage-primitives.css"),
     source("../src/progression-primitives.css"),
     source("../src/learning-stage-primitives.css"),
     source("../src/visual-stage-primitives.css"),
-    source("../src/hero-stage-primitives.css"),
+    source("../src/media-stage-primitives.css"),
     source("../src/media-stage-primitives.css"),
     source("../src/semantic-source-runtime.css"),
     source("../src/semantic-multi-view-runtime.css"),
@@ -252,9 +252,9 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
   assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
   assert.equal(main.includes('import "./hierarchy-flow-layout.css"'), false);
-  assert.equal(main.includes('import "./process-primitives.css"'), true);
+  assert.equal(main.includes('import "./process-primitives.css"'), false);
   assert.equal(main.includes('import "./reference-code-layout.css"'), false);
-  assert.equal(main.includes('import "./support-workbench-primitives.css"'), true);
+  assert.equal(main.includes('import "./support-workbench-primitives.css"'), false);
   assert.equal(main.includes('import "./process-context-layout.css"'), false);
   assert.equal(main.includes('import "./data-explanation-layout.css"'), false);
   assert.equal(main.includes('import "./evidence-primitives.css"'), true);
@@ -276,7 +276,7 @@ test("legacy per-scene layout styles are no longer imported", () => {
   assert.equal(main.includes('import "./cogniflow-core-sequence.css"'), false);
   assert.equal(main.includes('import "./title-attributions-layout.css"'), false);
   assert.equal(main.includes('import "./hero-title-panel.css"'), false);
-  assert.equal(main.includes('import "./hero-stage-primitives.css"'), true);
+  assert.equal(main.includes('import "./hero-stage-primitives.css"'), false);
   assert.equal(main.includes('import "./diagram-stage-layout.css"'), false);
   assert.equal(main.includes('import "./foundation-card-grid-layout.css"'), false);
   assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
@@ -511,7 +511,7 @@ test("final title opening and semantic-core layouts are structurally selected", 
   const main = source("../src/main.ts");
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const preview = source("../src/preview.ts");
-  const titleCss = source("../src/hero-stage-primitives.css");
+  const titleCss = source("../src/media-stage-primitives.css");
   const diagramCss = source("../src/visual-stage-primitives.css");
   const semanticSourceCss = source("../src/semantic-source-runtime.css");
   const semanticMultiCss = source("../src/semantic-multi-view-runtime.css");
