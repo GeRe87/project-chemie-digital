@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-labelledby="t d">
+<title id="t">UV/Vis experiment: designed input, process, observed output and unexplained effects</title>
+<desc id="d">Three cards in a row: Designed input c sub i, Process, Observed output A sub i. A single card below Process is split into Preparation, Conditions and Measurement. A connector leads to Combined unexplained effects, epsilon sub i.</desc>
+<defs>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#24a8ca"/><stop offset="1" stop-color="#9171e3"/></linearGradient>
+ <linearGradient id="res" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#277ec4"/><stop offset=".5" stop-color="#b075d1"/><stop offset="1" stop-color="#dd8c4f"/></linearGradient>
+ <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%"><feDropShadow dx="2" dy="5" stdDeviation="6" flood-color="#334a68" flood-opacity=".11"/></filter>
+ <marker id="arrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 1L9 5 0 9" fill="none" stroke="#718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="Arial,Helvetica,sans-serif">
+ <!-- Top three independent info cards -->
+ <rect x="28" y="36" width="340" height="182" rx="18" fill="#f0f9ff" stroke="#248ac5" stroke-width="3" filter="url(#shadow)"/>
+ <rect x="430" y="36" width="340" height="182" rx="18" fill="#f7f2ff" stroke="#8b6ac8" stroke-width="3" filter="url(#shadow)"/>
+ <rect x="832" y="36" width="340" height="182" rx="18" fill="#edfdf6" stroke="#27a37e" stroke-width="3" filter="url(#shadow)"/>
+ <rect x="48" y="54" width="8" height="31" rx="3" fill="#248ac5"/>
+ <rect x="450" y="54" width="8" height="31" rx="3" fill="#8b6ac8"/>
+ <rect x="852" y="54" width="8" height="31" rx="3" fill="#27a37e"/>
+ <text x="72" y="79" font-size="23" font-weight="800" letter-spacing="1" fill="#195a86">DESIGNED INPUT</text>
+ <text x="474" y="79" font-size="23" font-weight="800" letter-spacing="1" fill="#6b4fa1">PROCESS</text>
+ <text x="876" y="79" font-size="23" font-weight="800" letter-spacing="1" fill="#14795b">OBSERVED OUTPUT</text>
+ <text x="198" y="154" text-anchor="middle" font-size="58" font-style="italic" font-family="Georgia,serif" fill="#15496d">c<tspan baseline-shift="sub" font-size="29">i</tspan></text>
+ <text x="198" y="187" text-anchor="middle" font-size="20" fill="#334d62">We choose concentration</text>
+ <text x="600" y="139" text-anchor="middle" font-size="23" font-weight="700" fill="#483976">Chemical &amp; analytical</text>
+ <text x="600" y="169" text-anchor="middle" font-size="23" font-weight="700" fill="#483976">process</text>
+ <text x="1002" y="154" text-anchor="middle" font-size="58" font-style="italic" font-family="Georgia,serif" fill="#176447">A<tspan baseline-shift="sub" font-size="29">i</tspan></text>
+ <text x="1002" y="187" text-anchor="middle" font-size="20" fill="#38534b">We measure absorbance</text>
+ <path d="M370 127H421" stroke="#718096" stroke-width="3.5" fill="none" marker-end="url(#arrow)"/>
+ <path d="M772 127H823" stroke="#718096" stroke-width="3.5" fill="none" marker-end="url(#arrow)"/>
+ <!-- Sources feed the process; vertical connector makes the pedagogical grouping explicit -->
+ <path d="M600 219V257" stroke="#8b6ac8" stroke-width="3.5" stroke-dasharray="6 6" fill="none"/>
+ <circle cx="600" cy="258" r="5" fill="#8b6ac8"/>
+ <text x="600" y="286" text-anchor="middle" font-size="17" font-weight="800" fill="#5e6374" letter-spacing="1.7">ADDITIONAL INFLUENCES</text>
+ <!-- Single information card split into exactly three columns -->
+ <rect x="203" y="303" width="794" height="149" rx="17" fill="#ffffff" stroke="#a9b9cc" stroke-width="2.5" filter="url(#shadow)"/>
+ <path d="M468 305V450M732 305V450" stroke="#c7cfdf" stroke-width="2"/>
+ <circle cx="337" cy="343" r="14" fill="#dff3fb"/>
+ <path d="M328 344l6 6 13-17" fill="none" stroke="#248ac5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="600" cy="343" r="14" fill="#ede5fb"/>
+ <path d="M600 332v22M589 343h22" stroke="#8b6ac8" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="864" cy="343" r="14" fill="#e2f8ec"/>
+ <path d="M852 343h24m-19-8 7 8-7 8" fill="none" stroke="#27a37e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+ <text x="335" y="391" text-anchor="middle" font-size="26" font-weight="800" fill="#1d577b">PREPARATION</text>
+ <text x="600" y="391" text-anchor="middle" font-size="26" font-weight="800" fill="#604795">CONDITIONS</text>
+ <text x="865" y="391" text-anchor="middle" font-size="26" font-weight="800" fill="#1d795f">MEASUREMENT</text>
+ <text x="335" y="420" text-anchor="middle" font-size="18" fill="#536276">Pipetting, handling</text>
+ <text x="600" y="420" text-anchor="middle" font-size="18" fill="#536276">Temperature, timing</text>
+ <text x="865" y="420" text-anchor="middle" font-size="18" fill="#536276">Noise, instrument drift</text>
+ <!-- One combined residual, deliberately not a separate source box -->
+ <path d="M600 454V493" stroke="#718096" stroke-width="3.5" marker-end="url(#arrow)" fill="none"/>
+ <rect x="321" y="507" width="558" height="75" rx="16" fill="#f6f7fe" stroke="#b2b6d4" stroke-width="2.5" filter="url(#shadow)"/>
+ <rect x="321" y="507" width="558" height="6" rx="3" fill="url(#res)"/>
+ <text x="560" y="537" text-anchor="middle" font-size="20" font-weight="800" fill="#405271" letter-spacing=".5">COMBINED UNEXPLAINED EFFECTS</text>
+ <text x="600" y="569" text-anchor="middle" font-size="37" font-style="italic" font-family="Georgia,serif" fill="#754da5">ε<tspan baseline-shift="sub" font-size="19">i</tspan></text>
+</g></svg>

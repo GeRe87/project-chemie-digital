@@ -113,7 +113,43 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 06 — controlled design points, random response --------------------------
+
+  # 06 — process diagram: inputs and sources of residual variation ----------
+  ex:scene-chemometrics-variation-sources a cd:SceneDefinition ;
+    cd:focusConcept ex:uvvis-variation-sources ;
+    cd:hasSceneItem ex:scene-item-variation-sources-heading,
+      ex:scene-item-variation-sources-diagram ;
+    cd:authoredResource true .
+  ex:scene-item-variation-sources-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:uvvis-variation-sources ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variation-sources-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:media-uvvis-variation-sources ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 11 — additive equation and its legend ----------------------------------
+  ex:scene-chemometrics-additive-response-model a cd:SceneDefinition ;
+    cd:focusConcept ex:uvvis-additive-response-model ;
+    cd:hasSceneItem ex:scene-item-response-model-heading,
+      ex:scene-item-response-model-equation,
+      ex:scene-item-response-model-legend ;
+    cd:authoredResource true .
+  ex:scene-item-response-model-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:uvvis-additive-response-model ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-response-model-equation a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:uvvis-additive-response-equation ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-response-model-legend a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:uvvis-additive-response-legend ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 12 — controlled design points, random response --------------------------
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,

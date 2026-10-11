@@ -38,6 +38,8 @@ EXPECTED_SCENES = [
     "scene-chemometrics-variables-values-observations",
     "scene-chemometrics-lake-sampling-replicates",
     "scene-chemometrics-why-values-differ",
+    "scene-chemometrics-variation-sources",
+    "scene-chemometrics-additive-response-model",
     "scene-chemometrics-controlled-calibration",
     "scene-chemometrics-context-roles",
     "scene-chemometrics-variable-classification",
@@ -51,6 +53,8 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "definition-list", "prose"],
+    ["prose", "media-reference"],
+    ["prose", "math", "definition-list"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -69,7 +73,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
 
-    def test_scene_graph_has_exactly_ten_authored_scenes(self) -> None:
+    def test_scene_graph_has_exactly_twelve_authored_scenes(self) -> None:
         scenes = set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))
         self.assertEqual({EX[name] for name in EXPECTED_SCENES}, scenes)
 
@@ -185,8 +189,29 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         )
         self.assertIn("A variable's role depends", scene["blocks"][2]["text"])
 
-    def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
+    def test_process_sources_slide_precedes_equation(self) -> None:
         scene = self.document["scenes"][5]
+        self.assertEqual("Observed variation has multiple sources", scene["blocks"][0]["text"])
+        media = scene["blocks"][1]
+        self.assertEqual("media-reference", media["kind"])
+        self.assertEqual("/chemometrics/uvvis-variation-sources.svg", media["uri"])
+        self.assertIn("Designed input", media["alternativeText"])
+        self.assertIn("Preparation, Conditions and Measurement", media["alternativeText"])
+        self.assertIn("epsilon_i", media["alternativeText"])
+        self.assertTrue((ROOT / "apps/pitch/public/chemometrics/uvvis-variation-sources.svg").exists())
+
+    def test_response_equation_and_three_term_legend_are_separate(self) -> None:
+        scene = self.document["scenes"][6]
+        self.assertEqual("Describing the observed response", scene["blocks"][0]["text"])
+        self.assertEqual(r"A_i = f(c_i) + \varepsilon_i", scene["blocks"][1]["expression"])
+        entries = scene["blocks"][2]["entries"]
+        self.assertEqual(["Aᵢ", "f(cᵢ)", "εᵢ"], [entry["term"] for entry in entries])
+        self.assertIn("Observed absorbance", entries[0]["description"])
+        self.assertIn("chosen concentration", entries[1]["description"])
+        self.assertIn("not explained", entries[2]["description"])
+
+    def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
+        scene = self.document["scenes"][7]
         self.assertIn("choose the concentration levels", scene["blocks"][1]["text"])
         expression = scene["blocks"][2]["expression"]
         self.assertIn("A_i", expression)
@@ -197,7 +222,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("does not imply", assumption)
 
     def test_same_concentration_is_shown_in_four_context_dependent_roles(self) -> None:
-        scene = self.document["scenes"][6]
+        scene = self.document["scenes"][8]
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(
             ["CALIBRATION STANDARD", "ANALYTICAL RESULT", "ENVIRONMENTAL SAMPLING", "DESIGN OF EXPERIMENTS"],
@@ -210,7 +235,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("experimental factor", descriptions)
 
     def test_variable_classifications_are_presented_as_independent_questions(self) -> None:
-        scene = self.document["scenes"][7]
+        scene = self.document["scenes"][9]
         self.assertIn("several independent questions", scene["blocks"][1]["text"])
         terms = [entry["term"] for entry in scene["blocks"][2]["entries"]]
         self.assertEqual(
@@ -220,7 +245,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("do not tell us whether", scene["blocks"][3]["text"])
 
     def test_empirical_frequency_is_not_promoted_to_probability_distribution(self) -> None:
-        scene = self.document["scenes"][8]
+        scene = self.document["scenes"][10]
         self.assertIn("deliberately assigned", scene["blocks"][1]["text"])
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(["EMPIRICAL FREQUENCY", "SAMPLING MECHANISM", "PROBABILITY MODEL"], [entry["term"] for entry in entries])
@@ -231,7 +256,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("stochastic model", scene["blocks"][4]["text"])
 
     def test_checkpoint_tests_role_generation_and_distribution_distinctions(self) -> None:
-        prompts = self.document["scenes"][9]["blocks"][1:]
+        prompts = self.document["scenes"][11]["blocks"][1:]
         self.assertEqual(3, len(prompts))
         for prompt in prompts:
             self.assertEqual("single-choice", prompt["responseMode"])

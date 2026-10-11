@@ -347,3 +347,120 @@ body[data-presentation-theme="dark"] .reveal
     min-width: 100%;
   }
 }
+
+/* Reusable full-width schematic: an authored heading followed by one media block. */
+.reveal .slides section[data-composition="stack"][data-composition-main-count="1"]:has(> [data-composition-region-container="main"] > .media-reference) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: .5rem;
+  padding: 1.15rem 1.65rem !important;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="1"]:has(> [data-composition-region-container="main"] > .media-reference)
+  > [data-composition-region="heading"] {
+  max-width: none;
+  margin: 0;
+  font-size: 2.4em;
+  line-height: 1.06;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="1"]:has(> [data-composition-region-container="main"] > .media-reference)
+  > [data-composition-region-container="main"] {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="1"]:has(> [data-composition-region-container="main"] > .media-reference)
+  .media-reference {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="1"]:has(> [data-composition-region-container="main"] > .media-reference)
+  .media-reference img {
+  display: block;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Heading + large KaTeX formula + three semantic symbol-definition cards. */
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"]):has(> [data-composition-region-container="main"] > [data-component-kind="card-collection"]) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: .5rem;
+  padding: 1.4rem 2.1rem !important;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  > [data-composition-region="heading"] {
+  margin: 0;
+  max-width: none;
+  font-size: 2.4em;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  > [data-composition-region-container="main"] {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  gap: 1.8rem;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  .math-display[data-component-kind="formula"] {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2.2rem 1rem;
+  font-size: 1.9em;
+  text-align: center;
+  border-bottom: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 7%, transparent);
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  .definition-list[data-component-kind="card-collection"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+  width: 100%;
+  margin: 0;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  .definition-list-entry {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 8rem;
+  gap: .8rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid hsl(var(--definition-entry-hue, 205deg) 60% 42%);
+  border-radius: .55rem;
+  background: var(--pcd-surface-strong);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 12%, transparent);
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  .definition-list-term {
+  margin: 0;
+  color: hsl(var(--definition-entry-hue, 205deg) 65% 43%);
+  font: 850 1.05em/1.1 "Cascadia Mono", Consolas, monospace;
+}
+.reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+  .definition-list-description {
+  margin: 0;
+  color: var(--pcd-foreground);
+  font: 650 .66em/1.4 Arial, Helvetica, sans-serif;
+  white-space: normal;
+}
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+    .definition-list[data-component-kind="card-collection"] {
+    grid-template-columns: 1fr;
+  }
+  .reveal .slides section[data-composition="stack"][data-composition-main-count="2"]:has(> [data-composition-region-container="main"] > [data-component-kind="formula"])
+    .math-display[data-component-kind="formula"] {
+    font-size: 1.35em;
+    padding: 1rem .35rem;
+  }
+}

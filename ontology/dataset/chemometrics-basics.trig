@@ -1130,6 +1130,60 @@ Constant: aliquot volume"""@en ;
     cd:body "Some differences are created by design. Others arise in the sampled system or measurement process. A variable's role depends on the study design."@en ;
     cd:authoredResource true .
 
+
+  # Inputs, processes and residual influences in a UV/Vis experiment.
+  ex:uvvis-variation-sources a cd:Concept ;
+    skos:prefLabel "Observed variation has multiple sources"@en ;
+    skos:related ex:variability-randomness-uncertainty, ex:controlled-calibration-model ;
+    cd:hasDefinition ex:def-uvvis-variation-sources ;
+    cd:authoredResource true .
+
+  ex:def-uvvis-variation-sources a cd:Definition ;
+    cd:body "For UV/Vis calibration, a nominal concentration is chosen, a chemical and measurement process generates a response, and absorbance is observed. Preparation, environmental conditions and measurement can all contribute to residual variation. Such effects need not all be random."@en ;
+    cd:authoredResource true .
+
+  ex:media-uvvis-variation-sources a cd:MediaAsset ;
+    cd:uri "/chemometrics/uvvis-variation-sources.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "UV/Vis experiment: Designed input c_i points to Process and then Observed output A_i. Below the Process, a single card divided into Preparation, Conditions and Measurement connects downward to Combined unexplained effects epsilon_i."@en ;
+    cd:authoredResource true .
+
+  ex:uvvis-additive-response-model a cd:Concept ;
+    skos:prefLabel "Describing the observed response"@en ;
+    skos:related ex:uvvis-variation-sources, ex:controlled-calibration-model ;
+    cd:hasDefinition ex:def-uvvis-additive-response-model ;
+    cd:hasMathExpression ex:uvvis-additive-response-equation ;
+    cd:authoredResource true .
+
+  ex:def-uvvis-additive-response-model a cd:Definition ;
+    cd:body "The observed absorbance can be written as a modelled concentration-dependent response plus a residual. Residual effects are relative to the chosen model and may include systematic as well as random influences. The model equation alone does not assume mean-zero or normally distributed residuals."@en ;
+    cd:authoredResource true .
+
+  ex:uvvis-additive-response-equation a cd:MathExpression ;
+    cd:latex "A_i = f(c_i) + \\varepsilon_i" ;
+    cd:authoredResource true .
+
+  ex:uvvis-additive-response-legend a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:uvvis-response-legend-absorbance,
+      ex:uvvis-response-legend-function,
+      ex:uvvis-response-legend-residual ;
+    cd:authoredResource true .
+
+  ex:uvvis-response-legend-absorbance a cd:DefinitionListEntry ;
+    cd:position 1 ; skos:prefLabel "Aᵢ"@en ;
+    cd:body "Observed absorbance of measurement i"@en ;
+    cd:authoredResource true .
+
+  ex:uvvis-response-legend-function a cd:DefinitionListEntry ;
+    cd:position 2 ; skos:prefLabel "f(cᵢ)"@en ;
+    cd:body "Modelled response for the chosen concentration cᵢ"@en ;
+    cd:authoredResource true .
+
+  ex:uvvis-response-legend-residual a cd:DefinitionListEntry ;
+    cd:position 3 ; skos:prefLabel "εᵢ"@en ;
+    cd:body "Combined effects not explained by the chosen model"@en ;
+    cd:authoredResource true .
+
   ex:controlled-calibration-model a cd:Concept ;
     skos:prefLabel "Controlled concentrations, random responses"@en ;
     skos:related ex:independent-variable, ex:dependent-variable, ex:random-variable ;

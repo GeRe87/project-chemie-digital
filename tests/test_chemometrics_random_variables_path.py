@@ -33,6 +33,8 @@ EXPECTED_TOPICS = {
     EX["variables-values-observations"],
     EX["lake-sampling-replicates"],
     EX["variability-randomness-uncertainty"],
+    EX["uvvis-variation-sources"],
+    EX["uvvis-additive-response-model"],
     EX["controlled-calibration-model"],
     EX["concentration-context-roles"],
     EX["variable-classification"],
@@ -59,6 +61,11 @@ EXPECTED_STEPS = [
     ("why-values-differ", {
         EX["variation-origins-cards"],
         EX["why-values-differ-takeaway"],
+    }),
+    ("variation-sources", {EX["media-uvvis-variation-sources"]}),
+    ("additive-response-model", {
+        EX["uvvis-additive-response-equation"],
+        EX["uvvis-additive-response-legend"],
     }),
     ("controlled-calibration", {
         EX["controlled-calibration-intro"],
@@ -109,9 +116,9 @@ class ChemometricsVariablesPathTests(unittest.TestCase):
         )
         self.assertEqual({Literal(True)}, set(self.path_graph.objects(PATH, CD.authoredResource)))
 
-    def test_path_has_exactly_ten_contiguous_scene_bound_steps(self) -> None:
+    def test_path_has_exactly_twelve_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(10, len(steps))
+        self.assertEqual(12, len(steps))
         for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
             step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):
