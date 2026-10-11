@@ -23,16 +23,17 @@ SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core
 STANDARD_DEVIATION_PATH = EX["path-standard-deviation"]
 RANDOM_VARIABLES_PATH = EX["path-chemometrics-random-variables-lecture"]
 STANDARD_DEVIATION_TOPIC = EX["standard-deviation"]
-VARIABLES_CONSTANTS_TOPICS = {
-    EX["variables-and-constants"],
+VARIABLES_TOPICS = {
+    EX["variables-foundation"],
     EX["variable"],
-    EX["independent-dependent-variable-roles"],
-    EX["independent-variable"],
-    EX["dependent-variable"],
-    EX["constant"],
-    EX["sample"],
-    EX["distribution"],
+    EX["variables-values-observations"],
+    EX["variability-randomness-uncertainty"],
+    EX["controlled-calibration-model"],
+    EX["concentration-context-roles"],
+    EX["variable-classification"],
+    EX["empirical-probability-distribution-distinction"],
     EX["random-variable"],
+    EX["distribution"],
 }
 RANDOM_VARIABLE_TOPIC = EX["random-variable"]
 SYNTHETIC_PATH = EX["path-test-multi-topic"]
@@ -130,7 +131,7 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
             set(self.graph.objects(STANDARD_DEVIATION_PATH, CD.forTopic)),
         )
         self.assertEqual(
-            VARIABLES_CONSTANTS_TOPICS,
+            VARIABLES_TOPICS,
             set(self.graph.objects(RANDOM_VARIABLES_PATH, CD.forTopic)),
         )
         self._assert_conformant(learning_path_fixture())

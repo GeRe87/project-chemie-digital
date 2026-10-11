@@ -226,43 +226,50 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
         self.assertIn("random variable", distribution)
         self.assertIn("Detailed distribution theory is introduced later", distribution)
 
-    def test_learning_unit_is_variables_and_constants_with_exact_focus_set(self) -> None:
+    def test_learning_unit_is_variables_with_exact_focus_set(self) -> None:
         unit = EX["learning-unit-random-variables"]
         self.assertEqual(
-            {"Variables and Constants"},
+            {"Variables"},
             {str(value) for value in self.graph.objects(unit, SKOS.prefLabel)},
         )
         self.assertEqual(
             {
-                EX["variables-and-constants"],
+                EX["variables-foundation"],
                 EX["variable"],
-                EX["independent-dependent-variable-roles"],
-                EX["independent-variable"],
-                EX["dependent-variable"],
-                EX["constant"],
+                EX["variables-values-observations"],
+                EX["variability-randomness-uncertainty"],
+                EX["controlled-calibration-model"],
+                EX["concentration-context-roles"],
+                EX["variable-classification"],
+                EX["empirical-probability-distribution-distinction"],
                 EX["random-variable"],
-                EX["sample"],
                 EX["distribution"],
             },
             set(self.graph.objects(unit, CD.hasFocusConcept)),
         )
 
-    def test_variables_and_constants_path_uses_the_accepted_resource_graph(self) -> None:
+    def test_variables_path_uses_the_revised_level_one_resource_graph(self) -> None:
         path = EX["path-chemometrics-random-variables-lecture"]
         self.assertEqual(9, len(set(self.path_graph.objects(path, CD.hasStep))))
+        expected_topics = {
+            EX["variables-foundation"],
+            EX["variable"],
+            EX["variables-values-observations"],
+            EX["variability-randomness-uncertainty"],
+            EX["controlled-calibration-model"],
+            EX["concentration-context-roles"],
+            EX["variable-classification"],
+            EX["empirical-probability-distribution-distinction"],
+            EX["random-variable"],
+            EX["distribution"],
+        }
         self.assertEqual(
-            {
-                EX["variables-and-constants"],
-                EX["variable"],
-                EX["independent-dependent-variable-roles"],
-                EX["independent-variable"],
-                EX["dependent-variable"],
-                EX["constant"],
-                EX["sample"],
-                EX["distribution"],
-                EX["random-variable"],
-            },
+            expected_topics,
             set(self.path_graph.objects(path, CD.forTopic)),
+        )
+        self.assertEqual(
+            expected_topics,
+            set(self.graph.objects(EX["learning-unit-random-variables"], CD.hasFocusConcept)),
         )
         self.assertEqual(
             9,
