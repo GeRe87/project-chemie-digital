@@ -45,6 +45,7 @@ EXPECTED_STEPS = [
     ("variables-title", {EX["variables-foundation"]}),
     ("variable-definition", {EX["def-variable"], EX["source-openstax-statistics"]}),
     ("variables-values-observations", {
+        EX["media-uvvis-dilution-series"],
         EX["variables-values-observations-intro"],
         EX["table-uvvis-calibration-roles"],
         EX["chart-uvvis-calibration-response"],
@@ -57,7 +58,7 @@ EXPECTED_STEPS = [
     }),
     ("why-values-differ", {
         EX["why-values-differ-intro"],
-        EX["variability-randomness-uncertainty-cards"],
+        EX["variation-origins-cards"],
         EX["why-values-differ-takeaway"],
     }),
     ("controlled-calibration", {

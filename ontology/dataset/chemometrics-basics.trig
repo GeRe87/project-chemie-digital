@@ -952,7 +952,13 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:variables-values-observations-intro a cd:Interpretation ;
-    cd:body "In this UV/Vis calibration dataset, concentration and absorbance are variables. Each row is one observation of a calibration standard and each cell contains one variable value. The plot shows the same concentration–absorbance observations graphically."@en ;
+    cd:body "We prepare five calibration standards with chosen concentrations and measure their absorbance. Concentration and absorbance are variables. Each row is one observation of a calibration standard and each cell contains one variable value. The plot shows the same concentration–absorbance observations graphically."@en ;
+    cd:authoredResource true .
+
+  ex:media-uvvis-dilution-series a cd:MediaAsset ;
+    cd:uri "/chemometrics/uvvis-dilution-series.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Five volumetric flasks with increasingly coloured calibration standards at assigned concentrations of 0, 1, 2, 5 and 10 milligrams per litre."@en ;
     cd:authoredResource true .
 
   ex:lake-sampling-replicates a cd:Concept ;
@@ -1091,39 +1097,37 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:def-variability-randomness-uncertainty a cd:Definition ;
-    cd:body "Variability, randomness and uncertainty answer different questions: values may differ, a stochastic mechanism may be used to model how values arise, and the value of a quantity or parameter may be known only with limited precision."@en ;
+    cd:body "Differences in variable values can be deliberately created by the experimental design or observed in sampled systems and measurement results. Neither case alone determines whether a random-variable model is appropriate."@en ;
     cd:authoredResource true .
 
   ex:why-values-differ-intro a cd:Interpretation ;
-    cd:body "A variable can take different values. But the fact that values differ does not tell us why they differ, whether a random model is appropriate, or how uncertain a quantity is."@en ;
+    cd:body "The same quantity can take different values for different reasons. In our UV/Vis experiment we choose concentrations. In the lake we observe them."@en ;
     cd:authoredResource true .
 
-  ex:variability-randomness-uncertainty-cards a cd:DefinitionList ;
-    cd:hasDefinitionListEntry ex:variability-card,
-      ex:randomness-card,
-      ex:uncertainty-card ;
+  ex:variation-origins-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:designed-variation-card, ex:observed-variation-card ;
     cd:authoredResource true .
 
-  ex:variability-card a cd:DefinitionListEntry ;
+  ex:designed-variation-card a cd:DefinitionListEntry ;
     cd:position 1 ;
-    skos:prefLabel "VARIABILITY"@en ;
-    cd:body "Values differ across observations, units, repetitions or deliberately selected settings. This is a descriptive statement about differences in values."@en ;
+    skos:prefLabel "DESIGNED VARIATION"@en ;
+    cd:body """We deliberately choose different values.
+Calibration standards: concentrations are assigned; absorbance is measured."""@en ;
+    cd:visualMotif "calibration-flasks" ;
+    cd:visualMotifRole "highlight" ;
     cd:authoredResource true .
 
-  ex:randomness-card a cd:DefinitionListEntry ;
+  ex:observed-variation-card a cd:DefinitionListEntry ;
     cd:position 2 ;
-    skos:prefLabel "RANDOMNESS"@en ;
-    cd:body "A stochastic mechanism is part of the chosen model. A variable is not a random variable merely because its values differ."@en ;
-    cd:authoredResource true .
-
-  ex:uncertainty-card a cd:DefinitionListEntry ;
-    cd:position 3 ;
-    skos:prefLabel "UNCERTAINTY"@en ;
-    cd:body "The exact value of a quantity or model parameter is not known with complete precision. Measurement uncertainty is not identical to observed random scatter."@en ;
+    skos:prefLabel "OBSERVED VARIATION"@en ;
+    cd:body """We measure differences rather than assign them.
+Lake samples: concentration may vary with the environment, sampling and measurement."""@en ;
+    cd:visualMotif "sampling-lake" ;
+    cd:visualMotifRole "highlight" ;
     cd:authoredResource true .
 
   ex:why-values-differ-takeaway a cd:Interpretation ;
-    cd:body "First describe the variation you observe; then state the mechanism or model that generated the values; only then make claims about randomness or uncertainty."@en ;
+    cd:body "Some differences are created by design. Others arise in the sampled system or measurement process. A variable's role depends on the study design."@en ;
     cd:authoredResource true .
 
   ex:controlled-calibration-model a cd:Concept ;

@@ -260,6 +260,12 @@
 .definition-list-visual-motif[data-visual-motif="design-of-experiments"] {
   --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linejoin='round'%3E%3Cpath d='M10 10h44v44H10zM32 10v44M10 32h44'/%3E%3Cpath d='M18 18h1M45 18h1M18 45h1M45 45h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
 }
+.definition-list-visual-motif[data-visual-motif="calibration-flasks"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%208h10M14%208v23l-8%2016q-5%2012%2010%2012t10-12l-8-16V8M39%208h10M42%208v23l-8%2016q-5%2012%2010%2012t10-12l-8-16V8%22%2F%3E%3Cpath%20d%3D%22M7%2047h18M35%2043h18%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="sampling-lake"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M12%2016Q19%204%2034%2012T52%2029Q63%2043%2046%2049T17%2053Q2%2045%2010%2031T12%2016Z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%223%22%2F%3E%3Cg%20fill%3D%22black%22%3E%3Ccircle%20cx%3D%2223%22%20cy%3D%2223%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2225%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2235%22%20cy%3D%2239%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2241%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2243%22%20r%3D%224%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 .definition-list-visual-motif[data-visual-motif="multivariate"] {
   --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M10 52h44M14 54L48 14'/%3E%3Cpath d='M18 42h1M24 35h1M31 39h1M38 27h1M45 23h1M48 34h1M28 25h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
 }

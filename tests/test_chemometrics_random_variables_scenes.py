@@ -48,7 +48,7 @@ EXPECTED_SCENES = [
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "prose", "prose"],
-    ["prose", "prose", "table", "chart"],
+    ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "math", "chart", "prose"],
@@ -95,12 +95,19 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
 
     def test_calibration_dataset_is_compact_two_column_evidence(self) -> None:
         scene = self.document["scenes"][2]
-        intro = scene["blocks"][1]["text"]
+        media = scene["blocks"][1]
+        self.assertEqual("media-reference", media["kind"])
+        self.assertEqual("/chemometrics/uvvis-dilution-series.svg", media["uri"])
+        self.assertEqual("image/svg+xml", media["mediaType"])
+        self.assertIn("Five volumetric flasks", media["alternativeText"])
+
+        intro = scene["blocks"][2]["text"]
+        self.assertIn("prepare five calibration standards", intro)
         self.assertIn("Each row is one observation", intro)
         self.assertIn("each cell contains one variable value", intro)
         self.assertIn("plot shows the same", intro)
 
-        table = scene["blocks"][2]
+        table = scene["blocks"][3]
         self.assertEqual(
             ["Concentration (mg/L)", "Absorbance"],
             [column["label"] for column in table["columns"]],
@@ -109,7 +116,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertTrue(all(len(row["cells"]) == 2 for row in table["rows"]))
         self.assertNotIn("Wavelength", " ".join(column["label"] for column in table["columns"]))
 
-        chart = scene["blocks"][3]
+        chart = scene["blocks"][4]
         self.assertEqual("line", chart["chartType"])
         self.assertEqual("Assigned concentration", chart["xAxis"]["label"])
         self.assertEqual("Absorbance", chart["yAxis"]["label"])
@@ -155,13 +162,27 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
                 [datum["category"] for datum in site_data],
             )
 
-    def test_variability_randomness_and_uncertainty_are_not_synonyms(self) -> None:
+    def test_why_values_differ_contrasts_assigned_and_observed_variation(self) -> None:
         scene = self.document["scenes"][4]
+        self.assertEqual("Why do values differ?", scene["blocks"][0]["text"])
+        intro = scene["blocks"][1]["text"]
+        self.assertIn("UV/Vis", intro)
+        self.assertIn("lake", intro)
+
         entries = scene["blocks"][2]["entries"]
-        self.assertEqual(["VARIABILITY", "RANDOMNESS", "UNCERTAINTY"], [entry["term"] for entry in entries])
-        self.assertIn("descriptive statement", entries[0]["description"])
-        self.assertIn("chosen model", entries[1]["description"])
-        self.assertIn("not identical to observed random scatter", entries[2]["description"])
+        self.assertEqual(
+            ["DESIGNED VARIATION", "OBSERVED VARIATION"],
+            [entry["term"] for entry in entries],
+        )
+        self.assertIn("deliberately choose", entries[0]["description"])
+        self.assertIn("absorbance is measured", entries[0]["description"])
+        self.assertIn("Lake samples", entries[1]["description"])
+        self.assertIn("environment, sampling and measurement", entries[1]["description"])
+        self.assertEqual(
+            ["calibration-flasks", "sampling-lake"],
+            [entry["visualMotif"] for entry in entries],
+        )
+        self.assertIn("A variable's role depends", scene["blocks"][3]["text"])
 
     def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
         scene = self.document["scenes"][5]

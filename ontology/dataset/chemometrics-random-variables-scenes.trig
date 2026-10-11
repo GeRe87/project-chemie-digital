@@ -38,6 +38,7 @@
   ex:scene-chemometrics-variables-values-observations a cd:SceneDefinition ;
     cd:focusConcept ex:variables-values-observations ;
     cd:hasSceneItem ex:scene-item-vvo-heading,
+      ex:scene-item-vvo-media,
       ex:scene-item-vvo-intro,
       ex:scene-item-vvo-table,
       ex:scene-item-vvo-chart ;
@@ -46,16 +47,20 @@
     cd:position 1 ; cd:selectsResource ex:variables-values-observations ;
     cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
     cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-vvo-media a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:media-uvvis-dilution-series ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:language "en" ; cd:authoredResource true .
   ex:scene-item-vvo-intro a cd:SceneItem ;
-    cd:position 2 ; cd:selectsResource ex:variables-values-observations-intro ;
+    cd:position 3 ; cd:selectsResource ex:variables-values-observations-intro ;
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-vvo-table a cd:SceneItem ;
-    cd:position 3 ; cd:selectsResource ex:table-uvvis-calibration-roles ;
+    cd:position 4 ; cd:selectsResource ex:table-uvvis-calibration-roles ;
     cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-vvo-chart a cd:SceneItem ;
-    cd:position 4 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
+    cd:position 5 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
     cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
   # 04 — lake sampling locations and replicates ------------------------------
@@ -88,7 +93,7 @@
     cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 05 — variability, randomness and uncertainty ----------------------------
+  # 05 — designed and observed sources of variation ----------------------------
   ex:scene-chemometrics-why-values-differ a cd:SceneDefinition ;
     cd:focusConcept ex:variability-randomness-uncertainty ;
     cd:hasSceneItem ex:scene-item-why-values-heading,
@@ -105,7 +110,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-why-values-cards a cd:SceneItem ;
-    cd:position 3 ; cd:selectsResource ex:variability-randomness-uncertainty-cards ;
+    cd:position 3 ; cd:selectsResource ex:variation-origins-cards ;
     cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-why-values-takeaway a cd:SceneItem ;
