@@ -434,6 +434,46 @@ test("evidence-stage-visual-flow composes visual, data and process evidence gene
   });
 });
 
+test("context-data-visual accepts multiple explanatory footer blocks", () => {
+  const scene: Scene = {
+    id: "opaque:evidence-stage-context-data-visual-flex",
+    source: [{ resourceId: "resource:evidence-stage-context-data-visual-flex" }],
+    blocks: [
+      prose("heading", "introduce"),
+      proseImageGroup("context-flex"),
+      dataTable("data-flex"),
+      barChart("analysis-flex"),
+      unorderedList("discussion-flex", 3),
+      prose("takeaway-a", "explain"),
+      prose("takeaway-b", "explain"),
+    ],
+    readingOrder: [
+      "heading",
+      "context-flex",
+      "data-flex",
+      "analysis-flex",
+      "discussion-flex",
+      "takeaway-a",
+      "takeaway-b",
+    ],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "context-data-visual");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["context-flex", "context"],
+      ["data-flex", "primary"],
+      ["analysis-flex", "secondary"],
+      ["discussion-flex", "support"],
+      ["takeaway-a", "footer"],
+      ["takeaway-b", "footer"],
+    ],
+  );
+});
+
 test("evidence-stage-context-data-visual composes context, data, visual, support and optional note", () => {
   const scene: Scene = {
     id: "opaque:evidence-stage-context-data-visual",
@@ -758,6 +798,65 @@ test("progression stage infers an ordered card progression", () => {
       { blockId: "takeaway", region: "footer", index: 0 },
     ],
   });
+});
+
+test("cards-to-visual accepts multiple semantic prelude and footer blocks", () => {
+  const network: SceneBlock = {
+    id: "network-flex",
+    kind: "diagram",
+    diagramType: "network",
+    label: "Generic network",
+    description: "Generic relation view",
+    nodes: [
+      { id: "network-flex:a", label: "A", source: [{ resourceId: "resource:network-flex:a" }] },
+      { id: "network-flex:b", label: "B", source: [{ resourceId: "resource:network-flex:b" }] },
+    ],
+    edges: [{
+      id: "network-flex:ab",
+      sourceNodeId: "network-flex:a",
+      targetNodeId: "network-flex:b",
+      label: "relates",
+      source: [{ resourceId: "resource:network-flex:ab" }],
+    }],
+    source: [{ resourceId: "resource:network-flex" }],
+  };
+  const scene: Scene = {
+    id: "opaque:cards-to-visual-flex",
+    source: [{ resourceId: "resource:cards-to-visual-flex" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("prelude-a", "explain"),
+      prose("prelude-b", "explain"),
+      unorderedList("views-flex", 2),
+      network,
+      prose("footer-a", "explain"),
+      prose("footer-b", "explain"),
+    ],
+    readingOrder: [
+      "heading",
+      "prelude-a",
+      "prelude-b",
+      "views-flex",
+      "network-flex",
+      "footer-a",
+      "footer-b",
+    ],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "cards-to-visual");
+  assert.deepEqual(
+    plan.placements.map((placement) => [placement.blockId, placement.region]),
+    [
+      ["heading", "heading"],
+      ["prelude-a", "prelude"],
+      ["prelude-b", "prelude"],
+      ["views-flex", "main"],
+      ["network-flex", "secondary"],
+      ["footer-a", "footer"],
+      ["footer-b", "footer"],
+    ],
+  );
 });
 
 test("progression stage infers textual cards leading into a visual", () => {

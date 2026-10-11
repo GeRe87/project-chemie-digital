@@ -334,6 +334,76 @@ function inferListCodeReference(
 }
 
 
+function inferCardsToVisual(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  const kinds = body.map((block) => revealComponentDescriptor(block).kind);
+  const listIndexes = kinds
+    .map((kind, index) => kind === "list-collection" ? index : -1)
+    .filter((index) => index >= 0);
+  const visualIndexes = kinds
+    .map((kind, index) => kind === "visual" ? index : -1)
+    .filter((index) => index >= 0);
+  if (listIndexes.length !== 1 || visualIndexes.length !== 1) return undefined;
+
+  const listIndex = listIndexes[0]!;
+  const visualIndex = visualIndexes[0]!;
+  if (visualIndex !== listIndex + 1) return undefined;
+
+  const before = body.slice(0, listIndex);
+  const after = body.slice(visualIndex + 1);
+  if (
+    !allComponentKinds(before, ["info-surface"])
+    || !allComponentKinds(after, ["info-surface"])
+  ) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  before.forEach((block, index) => placements.push(placement(block, "prelude", index)));
+  placements.push(placement(body[listIndex]!, "main", 0));
+  placements.push(placement(body[visualIndex]!, "secondary", 0));
+  after.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "progression-stage",
+    placements,
+    mainCount: 2,
+    profile: "cards-to-visual",
+  };
+}
+
+function inferContextDataVisual(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  if (body.length < 4) return undefined;
+  const kinds = body.map((block) => revealComponentDescriptor(block).kind);
+  if (
+    kinds[0] !== "group"
+    || kinds[1] !== "data-surface"
+    || kinds[2] !== "visual"
+    || kinds[3] !== "list-collection"
+  ) return undefined;
+
+  const footer = body.slice(4);
+  if (!allComponentKinds(footer, ["info-surface"])) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  placements.push(placement(body[0]!, "context", 0));
+  placements.push(placement(body[1]!, "primary", 0));
+  placements.push(placement(body[2]!, "secondary", 0));
+  placements.push(placement(body[3]!, "support", 0));
+  footer.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "evidence-stage",
+    placements,
+    mainCount: 4,
+    profile: "context-data-visual",
+  };
+}
+
+
 export function revealComponentDescriptor(block: SceneBlock): RevealComponentDescriptor {
   switch (block.kind) {
     case "prose":
@@ -636,21 +706,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  if (
-    matchesComponentKinds(bodyKinds, "info-surface", "list-collection", "visual", "info-surface")
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "prelude", 0));
-    placements.push(placement(body[1]!, "main", 0));
-    placements.push(placement(body[2]!, "secondary", 0));
-    placements.push(placement(body[3]!, "footer", 0));
-    return {
-      kind: "progression-stage",
-      placements,
-      mainCount: 2,
-      profile: "cards-to-visual",
-    };
-  }
+  const cardsToVisual = inferCardsToVisual(body, heading);
+  if (cardsToVisual) return cardsToVisual;
 
   const visualDualReference = inferVisualDualReference(body, heading);
   if (visualDualReference) return visualDualReference;
@@ -673,30 +730,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  if (
-    matchesComponentKinds(bodyKinds, "group", "data-surface", "visual", "list-collection")
-    || matchesComponentKinds(
-      bodyKinds,
-      "group",
-      "data-surface",
-      "visual",
-      "list-collection",
-      "info-surface",
-    )
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "context", 0));
-    placements.push(placement(body[1]!, "primary", 0));
-    placements.push(placement(body[2]!, "secondary", 0));
-    placements.push(placement(body[3]!, "support", 0));
-    if (body[4]) placements.push(placement(body[4], "footer", 0));
-    return {
-      kind: "evidence-stage",
-      placements,
-      mainCount: 4,
-      profile: "context-data-visual",
-    };
-  }
+  const contextDataVisual = inferContextDataVisual(body, heading);
+  if (contextDataVisual) return contextDataVisual;
   const evidencePairIndex = bodyKinds.findIndex((kind, index) => {
     const next = bodyKinds[index + 1];
     return (kind === "data-surface" && next === "visual")
