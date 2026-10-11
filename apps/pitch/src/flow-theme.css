@@ -908,13 +908,13 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-par
   stroke: hsl(var(--d3-flow-card-hue, 205) 59% 43%);
   stroke-width: 3;
 }
-.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
-  .d3-flow-node[data-visual-role="hierarchy-root"] .d3-flow-node-shape {
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"][data-visual-role="hierarchy-root"] .d3-flow-node-shape {
   fill: color-mix(in srgb, #9871d0 18%, var(--pcd-surface-strong));
   stroke: #9871d0;
 }
-.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
-  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-shape {
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"][data-visual-role="hierarchy-other"] .d3-flow-node-shape {
   fill: color-mix(in srgb, var(--pcd-muted) 10%, var(--pcd-surface-strong));
   stroke: color-mix(in srgb, var(--pcd-muted) 80%, var(--pcd-foreground));
 }
