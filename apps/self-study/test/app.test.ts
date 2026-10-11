@@ -25,16 +25,18 @@ function leaves(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
 }
 
 
-function escapeVisibleText(value: string): string {
+function escapeRenderedText(value: string): string {
   return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void {
   const visible = (value: string, message: string): void => {
-    assert.ok(index.includes(escapeVisibleText(value)), message);
+    assert.ok(index.includes(escapeRenderedText(value)), message);
   };
 
   switch (node.kind) {
@@ -214,7 +216,7 @@ test("generated static-first shell contains all self-study leaf fallback content
   for (const documentValue of artifact.sceneDocuments) {
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
-      assert.ok(index.includes(escapeVisibleText(section.semanticLabel)), `missing static section ${section.semanticLabel}`);
+      assert.ok(index.includes(escapeRenderedText(section.semanticLabel)), `missing static section ${section.semanticLabel}`);
       for (const node of leaves(section.nodes)) {
         assert.ok(
           index.includes(`data-source-block-id="${node.sourceBlockId}"`),
@@ -239,10 +241,10 @@ test("generated static-first shell renders DefinitionList terms and descriptions
   for (const node of definitionLists) {
     assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
     for (const entry of node.entries) {
-      const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      const term = escapeRenderedText(entry.term);
       assert.ok(index.includes(`<dt>${term}</dt>`), `missing semantic dt for ${entry.id}`);
       if (entry.description) {
-        const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        const description = escapeRenderedText(entry.description);
         assert.ok(index.includes(`<dd>${description}</dd>`), `missing semantic dd for ${entry.id}`);
       }
     }
