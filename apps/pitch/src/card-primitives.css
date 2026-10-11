@@ -228,8 +228,28 @@
 
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
   .definition-list-point[data-definition-point-level="1"] {
-  padding-inline-start: 1.65em;
-  text-indent: -1.65em;
+  position: relative;
+  padding-inline-start: 1.8em;
+  text-indent: 0;
+}
+
+/* Font Awesome Free 6.7.2 "arrow-right" (Icons: CC BY 4.0).
+   Copyright 2024 Fonticons, Inc. https://fontawesome.com/license/free
+   SVG source: https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/solid/arrow-right.svg
+   A mask takes its colors from the current card without adding a font or CDN dependency. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point[data-definition-point-level="1"]::before {
+  --pcd-example-arrow-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20448%20512%27%3E%3Cpath%20d%3D%27M438.6%20278.6c12.5-12.5%2012.5-32.8%200-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3%200s-12.5%2032.8%200%2045.3L338.8%20224%2032%20224c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032l306.7%200L233.4%20393.4c-12.5%2012.5-12.5%2032.8%200%2045.3s32.8%2012.5%2045.3%200l160-160z%27%2F%3E%3C%2Fsvg%3E");
+  content: "";
+  position: absolute;
+  inset-inline-start: .15em;
+  top: .12em;
+  display: block;
+  width: 1.05em;
+  height: 1.05em;
+  background: linear-gradient(135deg, var(--pcd-card-stroke, var(--pcd-accent)), var(--pcd-chart-series-3, #eda934));
+  -webkit-mask: var(--pcd-example-arrow-mask) center / contain no-repeat;
+  mask: var(--pcd-example-arrow-mask) center / contain no-repeat;
 }
 
 /* Visual motifs are semantic component decoration and therefore live with the card primitive. */

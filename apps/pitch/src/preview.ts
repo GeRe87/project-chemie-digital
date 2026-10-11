@@ -230,7 +230,8 @@ function appendBlock(
           points.className = "definition-list-points";
           for (const [pointIndex, pointText] of authoredPoints.entries()) {
             // A leading "|> " marks a subordinate example, not a peer point.
-            // Keep it in the text so the marker remains accessible and copyable.
+            // Render a decorative Font Awesome arrow in its place while
+            // leaving the marker in the semantic source for portability.
             const isIndentedPoint = pointText.startsWith("|> ");
             if (pointIndex > 0) {
               const spacer = dom.createElement("span");
@@ -243,7 +244,7 @@ function appendBlock(
             point.className = "definition-list-point";
             point.setAttribute("data-definition-point-index", String(pointIndex));
             if (isIndentedPoint) point.setAttribute("data-definition-point-level", "1");
-            point.textContent = pointText;
+            point.textContent = isIndentedPoint ? pointText.slice(3) : pointText;
             points.appendChild(point);
           }
           description.appendChild(points);

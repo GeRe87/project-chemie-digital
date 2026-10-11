@@ -344,11 +344,12 @@ test("definition-list renderer separates authored points and caps adaptive spaci
     [
       ["definition-list-point", "Main statement"],
       ["definition-list-point-spacer", null],
-      ["definition-list-point", "|> A subordinate example wraps below the example text"],
+      ["definition-list-point", "A subordinate example wraps below the example text"],
     ],
   );
   assert.equal(subordinatePoints.children[1]!.attributes.get("data-followed-by-indented-point"), "true");
   assert.equal(subordinatePoints.children[2]!.attributes.get("data-definition-point-level"), "1");
+  assert.equal(subordinatePoints.children[2]!.textContent?.startsWith("|>"), false);
   assert.equal(multiPoints.children[1]!.attributes.get("data-followed-by-indented-point"), undefined);
 
   const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
@@ -372,6 +373,10 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(cardStyles, /data-followed-by-indented-point="true"/u);
   assert.match(cardStyles, /data-definition-point-level="1"/u);
   assert.match(cardStyles, /content:\s*none;/u);
+  assert.match(cardStyles, /Font Awesome Free 6\.7\.2 "arrow-right"/u);
+  assert.match(cardStyles, /\.definition-list-point\[data-definition-point-level="1"\]::before/u);
+  assert.match(cardStyles, /linear-gradient\(135deg, var\(--pcd-card-stroke/u);
+  assert.match(cardStyles, /mask: var\(--pcd-example-arrow-mask\) center \/ contain no-repeat/u);
   assert.doesNotMatch(cardStyles.toLowerCase(), /chemometrics|lecturer|research/);
 
   destroy();
