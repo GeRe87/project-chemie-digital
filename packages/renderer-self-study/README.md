@@ -1,8 +1,8 @@
 # Self-study renderer
 
-`@project-chemie-digital/renderer-self-study` is a sibling renderer adapter for validated `SceneDocument 1.0` and `SceneDocument 1.1` values.
+`@project-chemie-digital/renderer-self-study` is a sibling renderer adapter for validated SceneDocument contract versions supported by core.
 
-It maps a renderer-neutral scene document to deterministic `SelfStudyRenderPlan 1.1`, preserving scene/block identities, source and provenance references, accessibility metadata, authored reading order, didactic intent, emphasis and disclosure semantics. `SceneDocument 1.1` flow diagrams are preserved as structured diagram plan nodes and complete static HTML fallbacks. The package never queries RDF, Fuseki or SPARQL and never persists learner state.
+It maps a renderer-neutral scene document to deterministic `SelfStudyRenderPlan 1.1`, preserving scene/block identities, source and provenance references, accessibility metadata, authored reading order, didactic intent, emphasis and disclosure semantics. Flow diagrams, charts, definition lists and tables are preserved as structured plan nodes with complete static HTML fallbacks. The package never queries RDF, Fuseki or SPARQL and never persists learner state.
 
 ## Disclosure behavior
 

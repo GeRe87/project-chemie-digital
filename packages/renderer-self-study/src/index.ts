@@ -126,6 +126,83 @@ export interface SelfStudyTablePlan extends SelfStudyNodeBase {
   readonly rows: readonly SelfStudyTableRowPlan[];
 }
 
+export interface SelfStudyChartAxisPlan {
+  readonly label: string;
+  readonly unit?: string;
+}
+
+export interface SelfStudyBarChartDatumPlan {
+  readonly id: string;
+  readonly category: string;
+  readonly value: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyLineChartDatumPlan {
+  readonly id: string;
+  readonly x: number;
+  readonly y: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyLineChartSeriesPlan {
+  readonly id: string;
+  readonly label: string;
+  readonly data: readonly SelfStudyLineChartDatumPlan[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyBarChartAnnotationPlan {
+  readonly id: string;
+  readonly kind: "point";
+  readonly datumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export type SelfStudyLineChartAnnotationPlan =
+  | {
+      readonly id: string;
+      readonly kind: "point";
+      readonly seriesId: string;
+      readonly datumId: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+    }
+  | {
+      readonly id: string;
+      readonly kind: "x-range";
+      readonly seriesId: string;
+      readonly startDatumId: string;
+      readonly endDatumId: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+    };
+
+export interface SelfStudyBarChartPlan extends SelfStudyNodeBase {
+  readonly kind: "chart";
+  readonly chartType: "bar";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: SelfStudyChartAxisPlan;
+  readonly yAxis: SelfStudyChartAxisPlan;
+  readonly data: readonly SelfStudyBarChartDatumPlan[];
+  readonly annotations?: readonly SelfStudyBarChartAnnotationPlan[];
+}
+
+export interface SelfStudyLineChartPlan extends SelfStudyNodeBase {
+  readonly kind: "chart";
+  readonly chartType: "line";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: SelfStudyChartAxisPlan;
+  readonly yAxis: SelfStudyChartAxisPlan;
+  readonly series: readonly SelfStudyLineChartSeriesPlan[];
+  readonly annotations?: readonly SelfStudyLineChartAnnotationPlan[];
+}
+
+export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan;
+
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
   readonly children: readonly SelfStudyNodePlan[];
@@ -205,7 +282,8 @@ export type SelfStudyNodePlan =
   | SelfStudyTablePlan
   | SelfStudyGroupPlan
   | SelfStudyPromptPlan
-  | SelfStudyDiagramPlan;
+  | SelfStudyDiagramPlan
+  | SelfStudyChartPlan;
 
 export interface SelfStudySectionPlan {
   readonly id: string;
@@ -321,6 +399,34 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
   ].join("\n");
 }
 
+function chartAxisLabel(axis: { readonly label: string; readonly unit?: string }): string {
+  return axis.unit ? `${axis.label} [${axis.unit}]` : axis.label;
+}
+
+function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  const header = [
+    block.label,
+    block.description,
+    `X: ${chartAxisLabel(block.xAxis)}`,
+    `Y: ${chartAxisLabel(block.yAxis)}`,
+  ];
+  if (block.chartType === "bar") {
+    return [
+      ...header,
+      ...block.data.map((datum) => `${datum.category}: ${datum.value}`),
+      ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+    ].join("\n");
+  }
+  return [
+    ...header,
+    ...block.series.flatMap((series) => [
+      `Series: ${series.label}`,
+      ...series.data.map((datum) => `- ${datum.x}, ${datum.y}`),
+    ]),
+    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+  ].join("\n");
+}
+
 function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
   switch (block.kind) {
     case "prose":
@@ -423,6 +529,73 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         responseMode: block.responseMode,
         ...(block.options ? { options: [...block.options] } : {}),
         fallback: block.fallback,
+      };
+    case "chart":
+      if (block.chartType === "bar") {
+        return {
+          ...baseFor(block, position, chartStaticFallback(block)),
+          kind: "chart",
+          chartType: "bar",
+          label: block.label,
+          description: block.description,
+          xAxis: { ...block.xAxis },
+          yAxis: { ...block.yAxis },
+          data: block.data.map((datum) => ({
+            id: datum.id,
+            category: datum.category,
+            value: datum.value,
+            source: sourceCopy(datum.source),
+          })),
+          ...(block.annotations ? {
+            annotations: block.annotations.map((annotation) => ({
+              id: annotation.id,
+              kind: annotation.kind,
+              datumId: annotation.datumId,
+              label: annotation.label,
+              source: sourceCopy(annotation.source),
+            })),
+          } : {}),
+        };
+      }
+      return {
+        ...baseFor(block, position, chartStaticFallback(block)),
+        kind: "chart",
+        chartType: "line",
+        label: block.label,
+        description: block.description,
+        xAxis: { ...block.xAxis },
+        yAxis: { ...block.yAxis },
+        series: block.series.map((series) => ({
+          id: series.id,
+          label: series.label,
+          source: sourceCopy(series.source),
+          data: series.data.map((datum) => ({
+            id: datum.id,
+            x: datum.x,
+            y: datum.y,
+            source: sourceCopy(datum.source),
+          })),
+        })),
+        ...(block.annotations ? {
+          annotations: block.annotations.map((annotation) => annotation.kind === "point"
+            ? {
+                id: annotation.id,
+                kind: "point" as const,
+                seriesId: annotation.seriesId,
+                datumId: annotation.datumId,
+                label: annotation.label,
+                source: sourceCopy(annotation.source),
+              }
+            : {
+                id: annotation.id,
+                kind: "x-range" as const,
+                seriesId: annotation.seriesId,
+                startDatumId: annotation.startDatumId,
+                endDatumId: annotation.endDatumId,
+                label: annotation.label,
+                source: sourceCopy(annotation.source),
+              }),
+        } : {}),
       };
     case "diagram":
       return {
@@ -563,6 +736,33 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}</figure>`;
 }
 
+function renderChart(node: SelfStudyChartPlan): string {
+  const xAxis = chartAxisLabel(node.xAxis);
+  const yAxis = chartAxisLabel(node.yAxis);
+  const axes = `<p class="self-study-chart-axes">X: ${escapeHtml(xAxis)} · Y: ${escapeHtml(yAxis)}</p>`;
+  const annotations = (node.annotations ?? []).length > 0
+    ? `<ul class="self-study-chart-annotations">${(node.annotations ?? []).map((annotation) =>
+        `<li data-chart-annotation-id="${escapeHtml(annotation.id)}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</li>`
+      ).join("")}</ul>`
+    : "";
+
+  if (node.chartType === "bar") {
+    const rows = node.data.map((datum) =>
+      `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.category)}</th><td>${escapeHtml(String(datum.value))}</td></tr>`
+    ).join("");
+    return `<figure class="self-study-chart" data-chart-type="bar"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}<table><thead><tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr></thead><tbody>${rows}</tbody></table>${annotations}</figure>`;
+  }
+
+  const series = node.series.map((seriesItem) => {
+    const rows = seriesItem.data.map((datum) =>
+      `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><td>${escapeHtml(String(datum.x))}</td><td>${escapeHtml(String(datum.y))}</td></tr>`
+    ).join("");
+    return `<section class="self-study-chart-series" data-chart-series-id="${escapeHtml(seriesItem.id)}"${sourceAttributes(seriesItem.source)}><h3>${escapeHtml(seriesItem.label)}</h3><table><thead><tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }).join("");
+
+  return `<figure class="self-study-chart" data-chart-type="line"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}${series}${annotations}</figure>`;
+}
+
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
   switch (node.kind) {
     case "prose":
@@ -593,6 +793,8 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
     case "prompt":
       return renderPrompt(node, interactive);
+    case "chart":
+      return renderChart(node);
     case "diagram":
       return renderDiagram(node);
   }
