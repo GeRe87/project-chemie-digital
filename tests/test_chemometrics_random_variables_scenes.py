@@ -33,31 +33,31 @@ SCENE_GRAPH = URIRef(
 )
 
 EXPECTED_SCENES = [
-    "scene-chemometrics-variables-constants-title",
+    "scene-chemometrics-variables-title",
     "scene-chemometrics-variable-definition",
-    "scene-chemometrics-measured-variable-example",
-    "scene-chemometrics-functional-dependence",
-    "scene-chemometrics-observation-random-bridge",
-    "scene-chemometrics-random-draw-r",
-    "scene-chemometrics-constant-definition",
-    "scene-chemometrics-uvvis-example",
-    "scene-chemometrics-role-quiz",
+    "scene-chemometrics-variables-values-observations",
+    "scene-chemometrics-why-values-differ",
+    "scene-chemometrics-controlled-calibration",
+    "scene-chemometrics-context-roles",
+    "scene-chemometrics-variable-classification",
+    "scene-chemometrics-empirical-probability",
+    "scene-chemometrics-variables-checkpoint",
 ]
 
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "prose", "prose"],
-    ["prose", "prose", "table", "chart"],
-    ["prose", "prose", "math", "definition-list", "prose"],
-    ["prose", "prose", "math", "diagram", "prose"],
-    ["prose", "prose", "code"],
-    ["prose", "prose", "prose"],
     ["prose", "prose", "table", "chart", "list"],
+    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "math", "chart", "prose"],
+    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "prose", "definition-list", "chart", "prose"],
     ["prose", "prompt", "prompt", "prompt"],
 ]
 
 
-class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
+class ChemometricsVariablesSceneTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
@@ -82,86 +82,91 @@ class ChemometricsVariablesConstantsSceneTests(unittest.TestCase):
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
 
-    def test_title_and_definition_cards_open_the_story(self) -> None:
-        self.assertEqual(["Variables and Constants"], [b["text"] for b in self.document["scenes"][0]["blocks"]])
+    def test_level_opens_with_general_variable_definition_not_randomness(self) -> None:
+        self.assertEqual(["Variables"], [b["text"] for b in self.document["scenes"][0]["blocks"]])
         variable = self.document["scenes"][1]
         self.assertEqual("Variable", variable["blocks"][0]["text"])
-        self.assertIn("can take different values", variable["blocks"][1]["text"])
-        self.assertIn("Introductory Statistics", variable["blocks"][2]["text"])
+        definition = variable["blocks"][1]["text"]
+        self.assertIn("can take different values", definition)
+        self.assertIn("observed, measured, assigned or controlled", definition)
+        self.assertNotIn("probability distribution", definition.lower())
 
-    def test_live_measurement_example_has_table_chart_and_authored_update_contract(self) -> None:
+    def test_calibration_dataset_maps_columns_rows_cells_and_plot_points(self) -> None:
         scene = self.document["scenes"][2]
+        self.assertIn("observational unit", scene["blocks"][1]["text"])
         table = scene["blocks"][2]
         chart = scene["blocks"][3]
-        self.assertEqual(6, len(table["rows"]))
+        mapping = [item["text"] for item in scene["blocks"][4]["items"]]
+        self.assertEqual(5, len(table["rows"]))
         self.assertEqual("line", chart["chartType"])
-        self.assertEqual(
-            {"intervalMs": 900, "jitterAmplitude": 0.012, "decimalPlaces": 3},
-            chart["liveUpdate"],
-        )
-        self.assertIn("not experimental data", chart["description"])
+        self.assertIn("COLUMN", mapping[0])
+        self.assertIn("ROW", mapping[1])
+        self.assertIn("CELL", mapping[2])
+        self.assertIn("PLOT POINT", mapping[3])
 
-    def test_dependency_slide_uses_simple_function_notation_without_causal_claim(self) -> None:
+    def test_variability_randomness_and_uncertainty_are_not_synonyms(self) -> None:
         scene = self.document["scenes"][3]
-        self.assertIn("explain or predict", scene["blocks"][1]["text"])
-        caveat = scene["blocks"][4]["text"]
-        self.assertIn("does not by itself prove causality", caveat)
-        self.assertIn("statistical independence", caveat)
-        self.assertEqual("y=f(x)", scene["blocks"][2]["expression"])
-        descriptions = [entry["description"] for entry in scene["blocks"][3]["entries"]]
-        self.assertEqual(["f(x) = 2x", "f(x) = e^(x + 3)", "f(x) = x² + 3x + 4"], descriptions)
+        entries = scene["blocks"][2]["entries"]
+        self.assertEqual(["VARIABILITY", "RANDOMNESS", "UNCERTAINTY"], [entry["term"] for entry in entries])
+        self.assertIn("descriptive statement", entries[0]["description"])
+        self.assertIn("chosen model", entries[1]["description"])
+        self.assertIn("not identical to observed random scatter", entries[2]["description"])
 
-    def test_observation_bridge_does_not_equate_variable_with_probability_distribution(self) -> None:
+    def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
         scene = self.document["scenes"][4]
-        self.assertIn("statistical sample", scene["blocks"][1]["text"])
-        self.assertIn("x_1=2.55", scene["blocks"][2]["expression"])
-        self.assertEqual(3, len(scene["blocks"][3]["nodes"]))
-        note = scene["blocks"][4]["text"]
-        self.assertIn("Probability distributions belong to random-variable models", note)
-        self.assertIn("not a probability distribution", note)
-        self.assertIn("later", note)
+        self.assertIn("choose the concentration levels", scene["blocks"][1]["text"])
+        expression = scene["blocks"][2]["expression"]
+        self.assertIn("A_i", expression)
+        self.assertIn("beta_0", expression)
+        self.assertIn("mathcal{N}", expression)
+        assumption = scene["blocks"][4]["text"]
+        self.assertIn("simplifying assumption", assumption)
+        self.assertIn("does not imply", assumption)
 
-    def test_minimal_webr_demo_is_one_editable_random_draw(self) -> None:
+    def test_same_concentration_is_shown_in_four_context_dependent_roles(self) -> None:
         scene = self.document["scenes"][5]
-        code = scene["blocks"][2]
-        self.assertEqual("r", code["language"])
-        self.assertTrue(code["editable"])
-        self.assertTrue(code["executable"])
-        self.assertEqual("rnorm(1, mean = 3.0, sd = 0.2)", code["code"])
+        entries = scene["blocks"][2]["entries"]
+        self.assertEqual(
+            ["CALIBRATION STANDARD", "ANALYTICAL RESULT", "ENVIRONMENTAL SAMPLING", "DESIGN OF EXPERIMENTS"],
+            [entry["term"] for entry in entries],
+        )
+        descriptions = " ".join(entry["description"] for entry in entries)
+        self.assertIn("controlled design value", descriptions)
+        self.assertIn("measurement uncertainty", descriptions)
+        self.assertIn("random variable", descriptions)
+        self.assertIn("experimental factor", descriptions)
 
-    def test_constant_definition_and_uvvis_example_resolve_assigned_vs_random_conflict(self) -> None:
-        constant = self.document["scenes"][6]
-        self.assertEqual("Constant", constant["blocks"][0]["text"])
-        self.assertIn("treated as fixed", constant["blocks"][1]["text"])
+    def test_variable_classifications_are_presented_as_independent_questions(self) -> None:
+        scene = self.document["scenes"][6]
+        self.assertIn("several independent questions", scene["blocks"][1]["text"])
+        terms = [entry["term"] for entry in scene["blocks"][2]["entries"]]
+        self.assertEqual(
+            ["QUALITATIVE vs QUANTITATIVE", "NOMINAL vs ORDINAL", "DISCRETE vs CONTINUOUS", "METRIC SCALE"],
+            terms,
+        )
+        self.assertIn("do not tell us whether", scene["blocks"][3]["text"])
 
-        uvvis = self.document["scenes"][7]
-        self.assertIn("not automatically a random variable", uvvis["blocks"][1]["text"])
-        self.assertEqual(5, len(uvvis["blocks"][2]["rows"]))
-        self.assertEqual("line", uvvis["blocks"][3]["chartType"])
-        self.assertEqual(3, len(uvvis["blocks"][4]["items"]))
+    def test_empirical_frequency_is_not_promoted_to_probability_distribution(self) -> None:
+        scene = self.document["scenes"][7]
+        self.assertIn("deliberately assigned", scene["blocks"][1]["text"])
+        entries = scene["blocks"][2]["entries"]
+        self.assertEqual(["EMPIRICAL FREQUENCY", "SAMPLING MECHANISM", "PROBABILITY MODEL"], [entry["term"] for entry in entries])
+        chart = scene["blocks"][3]
+        self.assertEqual("bar", chart["chartType"])
+        self.assertEqual([2.0] * 5, [datum["value"] for datum in chart["data"]])
+        self.assertIn("not a population probability distribution", chart["description"])
+        self.assertIn("stochastic model", scene["blocks"][4]["text"])
 
-    def test_final_quiz_has_three_role_questions_with_graph_backed_feedback(self) -> None:
-        scene = self.document["scenes"][8]
-        prompts = scene["blocks"][1:]
+    def test_checkpoint_tests_role_generation_and_distribution_distinctions(self) -> None:
+        prompts = self.document["scenes"][8]["blocks"][1:]
         self.assertEqual(3, len(prompts))
-        expected_options = ["Assigned variable", "Random variable", "Constant"]
-        expected_correct = [
-            "ex:poll-option-01-assigned-variable",
-            "ex:poll-option-03-constant",
-            "ex:poll-option-02-random-variable",
-        ]
-        expected_option_ids = [
-            "ex:poll-option-01-assigned-variable",
-            "ex:poll-option-02-random-variable",
-            "ex:poll-option-03-constant",
-        ]
-        for prompt, correct in zip(prompts, expected_correct, strict=True):
-            with self.subTest(prompt=prompt["id"]):
-                self.assertEqual("single-choice", prompt["responseMode"])
-                self.assertEqual(expected_options, prompt["options"])
-                self.assertEqual(expected_option_ids, prompt["optionIds"])
-                self.assertEqual(correct, prompt["correctOptionId"])
-                self.assertTrue(prompt["expectedResult"])
+        for prompt in prompts:
+            self.assertEqual("single-choice", prompt["responseMode"])
+            self.assertTrue(prompt["correctOptionId"])
+            self.assertTrue(prompt["expectedResult"])
+        self.assertIn("assigned design points", prompts[0]["expectedResult"])
+        self.assertIn("observed values vary", prompts[1]["expectedResult"])
+        self.assertIn("does not by itself define a probability distribution", prompts[2]["expectedResult"])
 
     def test_complete_canonical_dataset_remains_shacl_conformant(self) -> None:
         conforms, report = VALIDATION.run_validation()

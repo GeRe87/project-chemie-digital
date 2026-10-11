@@ -28,64 +28,73 @@ PATH_GRAPH = URIRef(
 )
 
 EXPECTED_TOPICS = {
-    EX["variables-and-constants"],
+    EX["variables-foundation"],
     EX["variable"],
-    EX["independent-dependent-variable-roles"],
-    EX["independent-variable"],
-    EX["dependent-variable"],
+    EX["variables-values-observations"],
+    EX["variability-randomness-uncertainty"],
+    EX["controlled-calibration-model"],
+    EX["concentration-context-roles"],
+    EX["variable-classification"],
+    EX["empirical-probability-distribution-distinction"],
     EX["random-variable"],
-    EX["constant"],
-    EX["sample"],
     EX["distribution"],
 }
 
 EXPECTED_STEPS = [
-    ("variables-constants-title", {EX["variables-and-constants"]}),
+    ("variables-title", {EX["variables-foundation"]}),
     ("variable-definition", {EX["def-variable"], EX["source-openstax-statistics"]}),
-    ("measured-variable-example", {
-        EX["measured-variable-example-intro"],
-        EX["table-live-absorbance-observations"],
-        EX["chart-live-absorbance-observations"],
-    }),
-    ("functional-dependence", {
-        EX["functional-dependence-intro"],
-        EX["functional-dependence-formula"],
-        EX["function-example-cards"],
-        EX["functional-dependence-caveat"],
-    }),
-    ("observation-random-bridge", {
-        EX["variable-observation-random-intro"],
-        EX["observation-values-formula"],
-        EX["diagram-variable-observation-sample"],
-        EX["random-variable-distribution-note"],
-    }),
-    ("random-draw-r", {EX["random-draw-r-intro"], EX["code-random-draw-r"]}),
-    ("constant-definition", {EX["def-constant"], EX["source-openstax-statistics"]}),
-    ("uvvis-example", {
-        EX["uvvis-calibration-intro"],
+    ("variables-values-observations", {
+        EX["variables-values-observations-intro"],
         EX["table-uvvis-calibration-roles"],
         EX["chart-uvvis-calibration-response"],
-        EX["uvvis-role-keypoints"],
+        EX["calibration-data-map-keypoints"],
     }),
-    ("role-quiz", {
-        EX["poll-quiz-concentration-role"],
-        EX["poll-quiz-wavelength-role"],
-        EX["poll-quiz-absorbance-role"],
-        EX["expected-quiz-concentration-role"],
-        EX["expected-quiz-wavelength-role"],
-        EX["expected-quiz-absorbance-role"],
+    ("why-values-differ", {
+        EX["why-values-differ-intro"],
+        EX["variability-randomness-uncertainty-cards"],
+        EX["why-values-differ-takeaway"],
+    }),
+    ("controlled-calibration", {
+        EX["controlled-calibration-intro"],
+        EX["controlled-calibration-formula"],
+        EX["chart-uvvis-calibration-response"],
+        EX["controlled-calibration-assumption"],
+    }),
+    ("context-roles", {
+        EX["concentration-context-intro"],
+        EX["concentration-context-cards"],
+        EX["concentration-context-takeaway"],
+    }),
+    ("variable-classification", {
+        EX["variable-classification-intro"],
+        EX["variable-classification-cards"],
+        EX["variable-classification-takeaway"],
+    }),
+    ("empirical-probability", {
+        EX["empirical-probability-intro"],
+        EX["distribution-comparison-cards"],
+        EX["chart-assigned-concentration-frequency"],
+        EX["assigned-frequency-takeaway"],
+    }),
+    ("variables-checkpoint", {
+        EX["poll-variable-randomness-check"],
+        EX["poll-variability-check"],
+        EX["poll-distribution-check"],
+        EX["expected-variable-randomness-check"],
+        EX["expected-variability-check"],
+        EX["expected-distribution-check"],
     }),
 ]
 
 
-class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
+class ChemometricsVariablesPathTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_stable_path_identity_has_new_nine_scene_story(self) -> None:
+    def test_stable_legacy_path_identity_now_serves_variables_level(self) -> None:
         self.assertEqual({PATH}, set(self.path_graph.subjects(RDF.type, CD.LearningPath)))
         self.assertEqual(EXPECTED_TOPICS, set(self.path_graph.objects(PATH, CD.forTopic)))
         self.assertEqual(
@@ -110,11 +119,18 @@ class ChemometricsVariablesConstantsPathTests(unittest.TestCase):
                         f"Path resource is not present in the canonical dataset: {resource}",
                     )
 
+    def test_path_topics_match_learning_unit_focus_concepts(self) -> None:
+        unit = EX["learning-unit-random-variables"]
+        self.assertEqual(
+            set(self.path_graph.objects(PATH, CD.forTopic)),
+            set(self.graph.objects(unit, CD.hasFocusConcept)),
+        )
+
     def test_path_graph_owns_only_path_and_steps_not_scene_definitions(self) -> None:
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
-    def test_course_discovery_keeps_one_exact_path_for_level_one(self) -> None:
+    def test_course_discovery_keeps_one_exact_stable_path_for_level_one(self) -> None:
         self.assertEqual(
             {PATH},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-random-variables"])),

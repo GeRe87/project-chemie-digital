@@ -908,6 +908,355 @@ Constant: aliquot volume"""@en ;
   ex:continuous-density-5 a cd:Observation ; cd:position 6 ; cd:xValue 5.0 ; cd:numericValue 0.08 ; cd:authoredResource true .
   ex:continuous-density-6 a cd:Observation ; cd:position 7 ; cd:xValue 6.0 ; cd:numericValue 0.01 ; cd:authoredResource true .
 
+  # Level 1 — Variables: revised teaching sequence ---------------------------
+
+  ex:variables-foundation a cd:Concept ;
+    skos:prefLabel "Variables"@en ;
+    skos:narrower ex:variable, ex:random-variable ;
+    cd:hasDefinition ex:def-variables-foundation ;
+    cd:authoredResource true .
+
+  ex:def-variables-foundation a cd:Definition ;
+    cd:body "Variables are characteristics or quantities whose values may differ within a stated dataset, study, model or experiment. How those values arise and how they are modeled are separate questions."@en ;
+    cd:authoredResource true .
+
+  ex:variables-values-observations a cd:Concept ;
+    skos:prefLabel "Variables, values, and observations"@en ;
+    skos:related ex:variable, ex:sample ;
+    cd:hasDefinition ex:def-variables-values-observations ;
+    cd:authoredResource true .
+
+  ex:def-variables-values-observations a cd:Definition ;
+    cd:body "A variable identifies a characteristic, a variable value is one value assigned to or observed for that characteristic, an observational unit is the entity or experimental unit described by a row, and an observation records values for that unit. A dataset collects such observations."@en ;
+    cd:authoredResource true .
+
+  ex:variables-values-observations-intro a cd:Interpretation ;
+    cd:body "Consider one UV/Vis calibration dataset. Concentration, wavelength and absorbance are variables. Each calibration standard is an observational unit, each row is one observation of that standard, and each cell contains one variable value."@en ;
+    cd:authoredResource true .
+
+  ex:calibration-data-map-keypoints a cd:Interpretation ;
+    cd:body "Read the table and plot as two views of the same observations."@en ;
+    cd:hasKeyPoint ex:calibration-data-map-column,
+      ex:calibration-data-map-row,
+      ex:calibration-data-map-cell,
+      ex:calibration-data-map-point ;
+    cd:authoredResource true .
+
+  ex:calibration-data-map-column a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "COLUMN → one variable"@en ;
+    cd:authoredResource true .
+  ex:calibration-data-map-row a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "ROW → one observation of one calibration standard"@en ;
+    cd:authoredResource true .
+  ex:calibration-data-map-cell a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "CELL → one variable value"@en ;
+    cd:authoredResource true .
+  ex:calibration-data-map-point a cd:KeyPoint ;
+    cd:position 4 ;
+    cd:body "PLOT POINT → the concentration–absorbance values from one row"@en ;
+    cd:authoredResource true .
+
+  ex:variability-randomness-uncertainty a cd:Concept ;
+    skos:prefLabel "Why do values differ?"@en ;
+    skos:related ex:variable, ex:random-variable, ex:measurement-uncertainty ;
+    cd:hasDefinition ex:def-variability-randomness-uncertainty ;
+    cd:authoredResource true .
+
+  ex:def-variability-randomness-uncertainty a cd:Definition ;
+    cd:body "Variability, randomness and uncertainty answer different questions: values may differ, a stochastic mechanism may be used to model how values arise, and the value of a quantity or parameter may be known only with limited precision."@en ;
+    cd:authoredResource true .
+
+  ex:why-values-differ-intro a cd:Interpretation ;
+    cd:body "A variable can take different values. But the fact that values differ does not tell us why they differ, whether a random model is appropriate, or how uncertain a quantity is."@en ;
+    cd:authoredResource true .
+
+  ex:variability-randomness-uncertainty-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:variability-card,
+      ex:randomness-card,
+      ex:uncertainty-card ;
+    cd:authoredResource true .
+
+  ex:variability-card a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "VARIABILITY"@en ;
+    cd:body "Values differ across observations, units, repetitions or deliberately selected settings. This is a descriptive statement about differences in values."@en ;
+    cd:authoredResource true .
+
+  ex:randomness-card a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "RANDOMNESS"@en ;
+    cd:body "A stochastic mechanism is part of the chosen model. A variable is not a random variable merely because its values differ."@en ;
+    cd:authoredResource true .
+
+  ex:uncertainty-card a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "UNCERTAINTY"@en ;
+    cd:body "The exact value of a quantity or model parameter is not known with complete precision. Measurement uncertainty is not identical to observed random scatter."@en ;
+    cd:authoredResource true .
+
+  ex:why-values-differ-takeaway a cd:Interpretation ;
+    cd:body "First describe the variation you observe; then state the mechanism or model that generated the values; only then make claims about randomness or uncertainty."@en ;
+    cd:authoredResource true .
+
+  ex:controlled-calibration-model a cd:Concept ;
+    skos:prefLabel "Controlled concentrations, random responses"@en ;
+    skos:related ex:independent-variable, ex:dependent-variable, ex:random-variable ;
+    cd:hasDefinition ex:def-controlled-calibration-model ;
+    cd:authoredResource true .
+
+  ex:def-controlled-calibration-model a cd:Definition ;
+    cd:body "In a calibration model, concentration levels can be deliberately selected design points while the measured response is modeled conditionally as a random quantity around an expected relationship."@en ;
+    cd:authoredResource true .
+
+  ex:controlled-calibration-intro a cd:Interpretation ;
+    cd:body "We choose the concentration levels cᵢ. At each chosen level we measure an absorbance Aᵢ. The concentrations remain fixed design points in this model, while repeated measured responses can vary."@en ;
+    cd:authoredResource true .
+
+  ex:controlled-calibration-formula a cd:MathExpression ;
+    cd:latex "\begin{aligned} A_i &= \beta_0 + \beta_1 c_i + \varepsilon_i,\\ \varepsilon_i &\sim \mathcal{N}(0,\sigma^2) \end{aligned}" ;
+    cd:authoredResource true .
+
+  ex:controlled-calibration-assumption a cd:Interpretation ;
+    cd:body "Equivalently, Aᵢ | cᵢ is modeled as Normal(β₀ + β₁cᵢ, σ²). Constant-variance normal error is a simplifying assumption for this teaching example, not a universal law of analytical measurements. Treating cᵢ as fixed does not imply that a prepared concentration is physically exact."@en ;
+    cd:authoredResource true .
+
+  ex:concentration-context-roles a cd:Concept ;
+    skos:prefLabel "The role of a variable depends on context"@en ;
+    skos:related ex:variable, ex:random-variable, ex:independent-variable ;
+    cd:hasDefinition ex:def-concentration-context-roles ;
+    cd:authoredResource true .
+
+  ex:def-concentration-context-roles a cd:Definition ;
+    cd:body "The statistical role of a quantity follows from the experimental context and model, not from the physical name of the quantity alone."@en ;
+    cd:authoredResource true .
+
+  ex:concentration-context-intro a cd:Interpretation ;
+    cd:body "Keep the physical quantity the same and change only the scientific context: concentration can play several legitimate statistical roles."@en ;
+    cd:authoredResource true .
+
+  ex:concentration-context-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:concentration-context-calibration,
+      ex:concentration-context-measured,
+      ex:concentration-context-environment,
+      ex:concentration-context-doe ;
+    cd:authoredResource true .
+
+  ex:concentration-context-calibration a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "CALIBRATION STANDARD"@en ;
+    cd:body "Nominal concentration deliberately selected by the experimenter → controlled design value."@en ;
+    cd:authoredResource true .
+  ex:concentration-context-measured a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "ANALYTICAL RESULT"@en ;
+    cd:body "Actual concentration determined from a measurement → measured quantity with measurement uncertainty."@en ;
+    cd:authoredResource true .
+  ex:concentration-context-environment a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "ENVIRONMENTAL SAMPLING"@en ;
+    cd:body "Concentration across randomly sampled specimens → may be represented as a random variable in a population model."@en ;
+    cd:authoredResource true .
+  ex:concentration-context-doe a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "DESIGN OF EXPERIMENTS"@en ;
+    cd:body "Concentration levels deliberately set as part of a design → experimental factor."@en ;
+    cd:authoredResource true .
+
+  ex:concentration-context-takeaway a cd:Interpretation ;
+    cd:body "The same physical quantity can therefore be controlled, measured, random, or a design factor in different analyses. Always state the context and model."@en ;
+    cd:authoredResource true .
+
+  ex:variable-classification a cd:Concept ;
+    skos:prefLabel "How can variables be classified?"@en ;
+    skos:related ex:variable ;
+    cd:hasDefinition ex:def-variable-classification ;
+    cd:authoredResource true .
+
+  ex:def-variable-classification a cd:Definition ;
+    cd:body "Variable classifications describe properties of admissible values and the operations that are meaningful for them. Several classification dimensions can apply to the same variable and none of them implies randomness."@en ;
+    cd:authoredResource true .
+
+  ex:variable-classification-intro a cd:Interpretation ;
+    cd:body "Do not force every variable into one mutually exclusive hierarchy. Instead ask several independent questions about its values and scale."@en ;
+    cd:authoredResource true .
+
+  ex:variable-classification-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:classification-qualitative-quantitative,
+      ex:classification-nominal-ordinal,
+      ex:classification-discrete-continuous,
+      ex:classification-metric-scale ;
+    cd:authoredResource true .
+
+  ex:classification-qualitative-quantitative a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "QUALITATIVE vs QUANTITATIVE"@en ;
+    cd:body "Are the admissible values categories, or numerical quantities on which numerical operations are meaningful?"@en ;
+    cd:authoredResource true .
+  ex:classification-nominal-ordinal a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "NOMINAL vs ORDINAL"@en ;
+    cd:body "For categorical values, is there no inherent order, or is a meaningful order defined?"@en ;
+    cd:authoredResource true .
+  ex:classification-discrete-continuous a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "DISCRETE vs CONTINUOUS"@en ;
+    cd:body "For numerical values, are possible values countable, or modeled on a continuous scale?"@en ;
+    cd:authoredResource true .
+  ex:classification-metric-scale a cd:DefinitionListEntry ;
+    cd:position 4 ;
+    skos:prefLabel "METRIC SCALE"@en ;
+    cd:body "Interval scales support meaningful differences; ratio scales additionally have a meaningful zero so ratios can be interpreted."@en ;
+    cd:authoredResource true .
+
+  ex:variable-classification-takeaway a cd:Interpretation ;
+    cd:body "These classifications describe the values and the mathematics that can be applied to them. They do not tell us whether the variable is modeled as random."@en ;
+    cd:authoredResource true .
+
+  ex:empirical-probability-distribution-distinction a cd:Concept ;
+    skos:prefLabel "Empirical distribution vs probability distribution"@en ;
+    skos:related ex:distribution, ex:random-variable ;
+    cd:hasDefinition ex:def-empirical-probability-distribution-distinction ;
+    cd:authoredResource true .
+
+  ex:def-empirical-probability-distribution-distinction a cd:Definition ;
+    cd:body "An empirical distribution summarizes frequencies in a finite dataset. A probability distribution belongs to a stochastic model for a random variable. The first can be constructed without assuming the second."@en ;
+    cd:authoredResource true .
+
+  ex:empirical-probability-intro a cd:Interpretation ;
+    cd:body "Even deliberately assigned concentration levels have an empirical frequency distribution in the dataset. That frequency pattern does not automatically describe a natural probability law for concentration."@en ;
+    cd:authoredResource true .
+
+  ex:distribution-comparison-cards a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:distribution-card-empirical,
+      ex:distribution-card-sampling,
+      ex:distribution-card-probability ;
+    cd:authoredResource true .
+
+  ex:distribution-card-empirical a cd:DefinitionListEntry ;
+    cd:position 1 ;
+    skos:prefLabel "EMPIRICAL FREQUENCY"@en ;
+    cd:body "Counts or relative frequencies of values actually present in a finite dataset."@en ;
+    cd:authoredResource true .
+  ex:distribution-card-sampling a cd:DefinitionListEntry ;
+    cd:position 2 ;
+    skos:prefLabel "SAMPLING MECHANISM"@en ;
+    cd:body "How observational units or values entered the dataset: deliberately assigned, convenience observed, or randomly sampled."@en ;
+    cd:authoredResource true .
+  ex:distribution-card-probability a cd:DefinitionListEntry ;
+    cd:position 3 ;
+    skos:prefLabel "PROBABILITY MODEL"@en ;
+    cd:body "Probabilities or probability density specified by a stochastic model for a random variable."@en ;
+    cd:authoredResource true .
+
+  ex:chart-assigned-concentration-frequency a cd:ChartDefinition ;
+    skos:prefLabel "Frequency of deliberately assigned calibration levels"@en ;
+    cd:body "Each of five deliberately chosen concentration levels occurs twice. The bars summarize the experimental design, not a population probability distribution."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Assigned concentration"@en ;
+    cd:yAxisLabel "Frequency"@en ;
+    cd:usesDataset ex:dataset-assigned-concentration-frequency ;
+    cd:authoredResource true .
+
+  ex:dataset-assigned-concentration-frequency a cd:Dataset ;
+    skos:prefLabel "Assigned calibration-level frequencies"@en ;
+    cd:hasObservation ex:assigned-frequency-0,
+      ex:assigned-frequency-2,
+      ex:assigned-frequency-4,
+      ex:assigned-frequency-6,
+      ex:assigned-frequency-8 ;
+    cd:authoredResource true .
+
+  ex:assigned-frequency-0 a cd:Observation ; skos:prefLabel "0 mg/L"@en ; cd:position 1 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:assigned-frequency-2 a cd:Observation ; skos:prefLabel "2 mg/L"@en ; cd:position 2 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:assigned-frequency-4 a cd:Observation ; skos:prefLabel "4 mg/L"@en ; cd:position 3 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:assigned-frequency-6 a cd:Observation ; skos:prefLabel "6 mg/L"@en ; cd:position 4 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:assigned-frequency-8 a cd:Observation ; skos:prefLabel "8 mg/L"@en ; cd:position 5 ; cd:numericValue 2.0 ; cd:authoredResource true .
+
+  ex:assigned-frequency-takeaway a cd:Interpretation ;
+    cd:body "A histogram or frequency chart is an empirical summary. A theoretical probability mass or density curve is meaningful only after a stochastic model and its scale have been specified."@en ;
+    cd:authoredResource true .
+
+  ex:variables-level-check a cd:Concept ;
+    skos:prefLabel "Checkpoint: what does a variable tell us?"@en ;
+    skos:related ex:variable, ex:random-variable, ex:distribution ;
+    cd:hasDefinition ex:def-variables-level-check ;
+    cd:authoredResource true .
+
+  ex:def-variables-level-check a cd:Definition ;
+    cd:body "The checkpoint tests whether variable identity, value generation, randomness and empirical distributions are kept conceptually separate."@en ;
+    cd:authoredResource true .
+
+  ex:poll-option-varying-means-random a cd:PollOption ;
+    skos:prefLabel "Yes — every variable with different values is random"@en ;
+    cd:authoredResource true .
+  ex:poll-option-assigned-not-necessarily-random a cd:PollOption ;
+    skos:prefLabel "No — values can be assigned without a stochastic model"@en ;
+    cd:authoredResource true .
+
+  ex:poll-variable-randomness-check a cd:AudiencePoll ;
+    skos:prefLabel "check assigned variable versus random variable"@en ;
+    cd:body "A calibration uses deliberately selected concentrations of 0, 2, 4, 6 and 8 mg/L. Does the fact that concentration takes different values make it a random variable in this experiment?"@en ;
+    cd:hasPollOption ex:poll-option-varying-means-random,
+      ex:poll-option-assigned-not-necessarily-random ;
+    cd:correctPollOption ex:poll-option-assigned-not-necessarily-random ;
+    cd:hasExpectedResult ex:expected-variable-randomness-check ;
+    cd:authoredResource true .
+
+  ex:expected-variable-randomness-check a cd:ExpectedResult ;
+    cd:body "No. Concentration is a variable because it takes different values, but those values are deliberately assigned design points. A probability model is an additional modeling choice."@en ;
+    cd:authoredResource true .
+
+  ex:poll-option-variability-only a cd:PollOption ;
+    skos:prefLabel "Only that the observed values show variability"@en ;
+    cd:authoredResource true .
+  ex:poll-option-normality-proven a cd:PollOption ;
+    skos:prefLabel "That the variable is normally distributed"@en ;
+    cd:authoredResource true .
+  ex:poll-option-uncertainty-equals-spread a cd:PollOption ;
+    skos:prefLabel "That measurement uncertainty equals the observed spread"@en ;
+    cd:authoredResource true .
+
+  ex:poll-variability-check a cd:AudiencePoll ;
+    skos:prefLabel "check variability versus randomness and uncertainty"@en ;
+    cd:body "Several measured absorbance values differ. What can we conclude immediately from the data alone?"@en ;
+    cd:hasPollOption ex:poll-option-variability-only,
+      ex:poll-option-normality-proven,
+      ex:poll-option-uncertainty-equals-spread ;
+    cd:correctPollOption ex:poll-option-variability-only ;
+    cd:hasExpectedResult ex:expected-variability-check ;
+    cd:authoredResource true .
+
+  ex:expected-variability-check a cd:ExpectedResult ;
+    cd:body "We can immediately say that the observed values vary. A probability distribution and an uncertainty statement require additional assumptions, design information or measurement-model information."@en ;
+    cd:authoredResource true .
+
+  ex:poll-option-empirical-design-frequency a cd:PollOption ;
+    skos:prefLabel "An empirical frequency distribution of the chosen design values"@en ;
+    cd:authoredResource true .
+  ex:poll-option-population-probability-law a cd:PollOption ;
+    skos:prefLabel "The population probability distribution of concentration"@en ;
+    cd:authoredResource true .
+  ex:poll-option-probability-density a cd:PollOption ;
+    skos:prefLabel "A probability density function"@en ;
+    cd:authoredResource true .
+
+  ex:poll-distribution-check a cd:AudiencePoll ;
+    skos:prefLabel "check empirical versus probability distribution"@en ;
+    cd:body "You draw a frequency chart of deliberately assigned calibration concentrations. What does the chart represent?"@en ;
+    cd:hasPollOption ex:poll-option-empirical-design-frequency,
+      ex:poll-option-population-probability-law,
+      ex:poll-option-probability-density ;
+    cd:correctPollOption ex:poll-option-empirical-design-frequency ;
+    cd:hasExpectedResult ex:expected-distribution-check ;
+    cd:authoredResource true .
+
+  ex:expected-distribution-check a cd:ExpectedResult ;
+    cd:body "It is an empirical summary of the chosen design values. It does not by itself define a probability distribution. This distinction becomes important when mean values and later probability models are introduced."@en ;
+    cd:authoredResource true .
+
   # Random variables ---------------------------------------------------------
   ex:random-variable a cd:Concept ;
     skos:prefLabel "random variable"@en, "Zufallsvariable"@de ;

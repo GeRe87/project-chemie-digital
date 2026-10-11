@@ -247,9 +247,9 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             self._ordered_rows(self.dataset, DIGITAL_CHEMISTRY),
         )
 
-    def test_variables_and_constants_unit_has_updated_label(self) -> None:
+    def test_variables_unit_has_updated_label(self) -> None:
         self.assertEqual(
-            {"Variables and Constants"},
+            {"Variables"},
             {
                 str(value)
                 for value in self.graph.objects(
@@ -270,14 +270,15 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["chemometrics-introduction-round"],
             },
             EX["learning-unit-random-variables"]: {
-                EX["variables-and-constants"],
+                EX["variables-foundation"],
                 EX["variable"],
-                EX["independent-dependent-variable-roles"],
-                EX["independent-variable"],
-                EX["dependent-variable"],
-                EX["constant"],
+                EX["variables-values-observations"],
+                EX["variability-randomness-uncertainty"],
+                EX["controlled-calibration-model"],
+                EX["concentration-context-roles"],
+                EX["variable-classification"],
+                EX["empirical-probability-distribution-distinction"],
                 EX["random-variable"],
-                EX["sample"],
                 EX["distribution"],
             },
             EX["learning-unit-mean-values"]: {

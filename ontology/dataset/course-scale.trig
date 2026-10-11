@@ -82,11 +82,12 @@
       ex:chemometrics-introduction-round .
 
   ex:learning-unit-random-variables a cd:LearningUnit ;
-    skos:prefLabel "Variables and Constants"@en ;
-    cd:hasFocusConcept ex:variables-and-constants, ex:variable,
-      ex:independent-dependent-variable-roles, ex:independent-variable,
-      ex:dependent-variable, ex:constant, ex:random-variable,
-      ex:sample, ex:distribution .
+    skos:prefLabel "Variables"@en ;
+    cd:hasFocusConcept ex:variables-foundation, ex:variable,
+      ex:variables-values-observations, ex:variability-randomness-uncertainty,
+      ex:controlled-calibration-model, ex:concentration-context-roles,
+      ex:variable-classification, ex:empirical-probability-distribution-distinction,
+      ex:random-variable, ex:distribution .
 
   ex:learning-unit-mean-values a cd:LearningUnit ;
     skos:prefLabel "Mean Values"@en ;
