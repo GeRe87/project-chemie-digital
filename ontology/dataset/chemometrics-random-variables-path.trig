@@ -39,8 +39,7 @@
     cd:position 3 ;
     cd:usesResource ex:variables-values-observations-intro,
       ex:table-uvvis-calibration-roles,
-      ex:chart-uvvis-calibration-response,
-      ex:calibration-data-map-keypoints ;
+      ex:chart-uvvis-calibration-response ;
     cd:usesScene ex:scene-chemometrics-variables-values-observations ;
     cd:authoredResource true .
 

@@ -47,7 +47,6 @@ EXPECTED_STEPS = [
         EX["variables-values-observations-intro"],
         EX["table-uvvis-calibration-roles"],
         EX["chart-uvvis-calibration-response"],
-        EX["calibration-data-map-keypoints"],
     }),
     ("why-values-differ", {
         EX["why-values-differ-intro"],

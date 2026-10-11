@@ -47,7 +47,7 @@ EXPECTED_SCENES = [
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "prose", "prose"],
-    ["prose", "prose", "table", "chart", "list"],
+    ["prose", "prose", "table", "chart"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -91,18 +91,26 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("observed, measured, assigned or controlled", definition)
         self.assertNotIn("probability distribution", definition.lower())
 
-    def test_calibration_dataset_maps_columns_rows_cells_and_plot_points(self) -> None:
+    def test_calibration_dataset_is_compact_two_column_evidence(self) -> None:
         scene = self.document["scenes"][2]
-        self.assertIn("observational unit", scene["blocks"][1]["text"])
+        intro = scene["blocks"][1]["text"]
+        self.assertIn("Each row is one observation", intro)
+        self.assertIn("each cell contains one variable value", intro)
+        self.assertIn("plot shows the same", intro)
+
         table = scene["blocks"][2]
-        chart = scene["blocks"][3]
-        mapping = [item["text"] for item in scene["blocks"][4]["items"]]
+        self.assertEqual(
+            ["Concentration (mg/L)", "Absorbance"],
+            [column["label"] for column in table["columns"]],
+        )
         self.assertEqual(5, len(table["rows"]))
+        self.assertTrue(all(len(row["cells"]) == 2 for row in table["rows"]))
+        self.assertNotIn("Wavelength", " ".join(column["label"] for column in table["columns"]))
+
+        chart = scene["blocks"][3]
         self.assertEqual("line", chart["chartType"])
-        self.assertIn("COLUMN", mapping[0])
-        self.assertIn("ROW", mapping[1])
-        self.assertIn("CELL", mapping[2])
-        self.assertIn("PLOT POINT", mapping[3])
+        self.assertEqual("Assigned concentration", chart["xAxis"]["label"])
+        self.assertEqual("Absorbance", chart["yAxis"]["label"])
 
     def test_variability_randomness_and_uncertainty_are_not_synonyms(self) -> None:
         scene = self.document["scenes"][3]

@@ -40,8 +40,7 @@
     cd:hasSceneItem ex:scene-item-vvo-heading,
       ex:scene-item-vvo-intro,
       ex:scene-item-vvo-table,
-      ex:scene-item-vvo-chart,
-      ex:scene-item-vvo-keypoints ;
+      ex:scene-item-vvo-chart ;
     cd:authoredResource true .
   ex:scene-item-vvo-heading a cd:SceneItem ;
     cd:position 1 ; cd:selectsResource ex:variables-values-observations ;
@@ -59,11 +58,6 @@
     cd:position 4 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
     cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
-  ex:scene-item-vvo-keypoints a cd:SceneItem ;
-    cd:position 5 ; cd:selectsResource ex:calibration-data-map-keypoints ;
-    cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ;
-    cd:language "en" ; cd:authoredResource true .
-
   # 04 — variability, randomness and uncertainty ----------------------------
   ex:scene-chemometrics-why-values-differ a cd:SceneDefinition ;
     cd:focusConcept ex:variability-randomness-uncertainty ;
