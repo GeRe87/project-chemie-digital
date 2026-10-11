@@ -227,7 +227,9 @@ class FormulaSceneSemanticTests(unittest.TestCase):
             dataset,
             RUNTIME.CoursePathReference(str(RANDOM_VARIABLES_PATH), RANDOM_VARIABLES_PATH_GRAPH),
         )
-        self.assertEqual("1.0", document["version"])
+        # The path now contains canonical table blocks, so the compiler correctly
+        # promotes the SceneDocument contract to the table-capable version.
+        self.assertEqual("1.5", document["version"])
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", document["sourcePathId"])
         self.assertEqual(9, len(document["scenes"]))
 
