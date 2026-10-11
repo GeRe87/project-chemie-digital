@@ -172,6 +172,23 @@ export function barChartEmphasisDatumIds(model: D3BarChartRenderModel): Readonly
   return new Set(model.data.filter((datum) => datum.value === maximum).map((datum) => datum.id));
 }
 
+export interface D3BarChartPresentation {
+  readonly stepCount: number;
+  readonly showBarsImmediately: boolean;
+  readonly showValueLabels: boolean;
+}
+
+export function barChartPresentation(model: D3BarChartRenderModel): D3BarChartPresentation {
+  // Unannotated grouped data is intended to be compared as a whole, not
+  // gradually disclosed or cluttered with repeated numeric value labels.
+  const staticGrouped = barChartGrouping(model) !== undefined && model.annotations.length === 0;
+  return {
+    stepCount: staticGrouped ? 0 : barChartEmphasisDatumIds(model).size > 0 ? 3 : 2,
+    showBarsImmediately: staticGrouped,
+    showValueLabels: !staticGrouped,
+  };
+}
+
 function clampStep(step: number, count: number): number {
   return Math.max(0, Math.min(count, Math.trunc(Number.isFinite(step) ? step : 0)));
 }
@@ -190,7 +207,8 @@ export function mountD3BarChart(
   }
 
   const model = result.model;
-  const stepCount = barChartEmphasisDatumIds(model).size > 0 ? 3 : 2;
+  const presentation = barChartPresentation(model);
+  const stepCount = presentation.stepCount;
   let currentStep = 0;
   let destroyed = false;
 
@@ -217,7 +235,7 @@ export function mountD3BarChart(
     const emphasizedDatumIds = barChartEmphasisDatumIds(model);
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
       const datumId = rect.dataset.datumId ?? "";
-      const visible = currentStep >= 1;
+      const visible = presentation.showBarsImmediately || currentStep >= 1;
       const focused = currentStep >= 3;
       const emphasized = focused && emphasizedDatumIds.has(datumId);
       rect.style.transform = visible ? "scaleY(1)" : "scaleY(0)";
@@ -321,19 +339,21 @@ export function mountD3BarChart(
       rect.setAttribute("height", String(bh));
       rect.style.transformBox = "fill-box";
       rect.style.transformOrigin = "center bottom";
-      rect.style.transition = options.reducedMotion ? "none" : "transform 520ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, filter 320ms ease";
+      rect.style.transition = (options.reducedMotion || presentation.showBarsImmediately) ? "none" : "transform 520ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, filter 320ms ease";
       bars.append(rect);
 
-      const valueText = svg("text");
-      valueText.classList.add("d3-chart-value-label");
-      valueText.dataset.datumId = datum.id;
-      valueText.dataset.value = String(datum.value);
-      valueText.setAttribute("x", String(bx + bw / 2));
-      valueText.setAttribute("y", String(by - 14));
-      valueText.setAttribute("text-anchor", "middle");
-      valueText.textContent = String(datum.value);
-      valueText.style.transition = options.reducedMotion ? "none" : "opacity 320ms ease, filter 320ms ease";
-      labels.append(valueText);
+      if (presentation.showValueLabels) {
+        const valueText = svg("text");
+        valueText.classList.add("d3-chart-value-label");
+        valueText.dataset.datumId = datum.id;
+        valueText.dataset.value = String(datum.value);
+        valueText.setAttribute("x", String(bx + bw / 2));
+        valueText.setAttribute("y", String(by - 14));
+        valueText.setAttribute("text-anchor", "middle");
+        valueText.textContent = String(datum.value);
+        valueText.style.transition = options.reducedMotion ? "none" : "opacity 320ms ease, filter 320ms ease";
+        labels.append(valueText);
+      }
 
       if (!grouping) {
         const category = svg("text");
