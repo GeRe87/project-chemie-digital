@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_TABLE_VERSION,
+  VISUAL_MOTIF_KEYS,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   type SceneDocument,
@@ -369,4 +370,24 @@ test("table shape fails closed on malformed rows and identities", () => {
     const block = value.scenes[0]!.blocks[0]!;
     if (block.kind === "table") block.rows = [block.rows[0]!, { ...block.rows[0]!, id: "row:second", cells: block.rows[0]!.cells.map((cell) => ({ ...cell })) }];
   }, /duplicate cell ids/);
+});
+
+test("designed and observed variation motifs are registered without relaxing motif validation", () => {
+  assert.ok(VISUAL_MOTIF_KEYS.includes("calibration-flasks"));
+  assert.ok(VISUAL_MOTIF_KEYS.includes("sampling-lake"));
+
+  for (const visualMotif of ["calibration-flasks", "sampling-lake"] as const) {
+    const value = structuredClone(flowDocument());
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind !== "diagram") throw new Error("expected diagram");
+    block.nodes[0]!.visualMotif = visualMotif;
+    block.nodes[0]!.visualMotifRole = "highlight";
+    assert.doesNotThrow(() => validateSceneDocument(value));
+  }
+
+  const invalid = structuredClone(flowDocument());
+  const block = invalid.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  (block.nodes[0] as { visualMotif?: string }).visualMotif = "unregistered-motif";
+  assert.throws(() => validateSceneDocument(invalid), /visualMotif is not supported/);
 });

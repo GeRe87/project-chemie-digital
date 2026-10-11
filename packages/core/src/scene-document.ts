@@ -22,6 +22,8 @@ export const VISUAL_MOTIF_KEYS = [
   "design-of-experiments",
   "multivariate",
   "machine-learning",
+  "calibration-flasks",
+  "sampling-lake",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];
