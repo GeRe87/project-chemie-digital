@@ -99,6 +99,17 @@ function barChart(id: string): SceneBlock {
   };
 }
 
+function mediaReference(id: string): SceneBlock {
+  return {
+    id,
+    kind: "media-reference",
+    uri: "/generic.svg",
+    mediaType: "image/svg+xml",
+    alternativeText: "Generic contextual illustration",
+    source: [{ resourceId: `resource:${id}` }],
+  };
+}
+
 function unorderedList(id: string, count = 3): SceneBlock {
   return {
     id,
@@ -317,6 +328,34 @@ test("evidence-stage infers data plus visual with explanatory prelude and list s
       { blockId: "table", region: "primary", index: 0 },
       { blockId: "chart", region: "secondary", index: 0 },
       { blockId: "roles", region: "footer", index: 0 },
+    ],
+  });
+});
+
+test("evidence-stage accepts contextual media above prose before data plus visual", () => {
+  const scene: Scene = {
+    id: "opaque:media-evidence",
+    source: [{ resourceId: "resource:media-evidence" }],
+    blocks: [
+      prose("heading", "introduce"),
+      mediaReference("context-media"),
+      prose("intro", "explain"),
+      dataTable("table"),
+      barChart("chart"),
+    ],
+    readingOrder: ["heading", "context-media", "intro", "table", "chart"],
+  };
+
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "evidence-stage",
+    mainCount: 2,
+    profile: "data-visual",
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "context-media", region: "prelude", index: 0 },
+      { blockId: "intro", region: "prelude", index: 1 },
+      { blockId: "table", region: "primary", index: 0 },
+      { blockId: "chart", region: "secondary", index: 0 },
     ],
   });
 });

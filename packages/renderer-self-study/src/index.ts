@@ -134,6 +134,7 @@ export interface SelfStudyChartAxisPlan {
 export interface SelfStudyBarChartDatumPlan {
   readonly id: string;
   readonly category: string;
+  readonly group?: string;
   readonly value: number;
   readonly source: readonly SourceReference[];
 }
@@ -413,7 +414,7 @@ function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): str
   if (block.chartType === "bar") {
     return [
       ...header,
-      ...block.data.map((datum) => `${datum.category}: ${datum.value}`),
+      ...block.data.map((datum) => `${datum.group ? `${datum.group} / ` : ""}${datum.category}: ${datum.value}`),
       ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
     ].join("\n");
   }
@@ -543,6 +544,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           data: block.data.map((datum) => ({
             id: datum.id,
             category: datum.category,
+            ...(datum.group ? { group: datum.group } : {}),
             value: datum.value,
             source: sourceCopy(datum.source),
           })),
@@ -747,10 +749,16 @@ function renderChart(node: SelfStudyChartPlan): string {
     : "";
 
   if (node.chartType === "bar") {
+    const grouped = node.data.length > 0 && node.data.every((datum) => datum.group !== undefined);
     const rows = node.data.map((datum) =>
-      `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.category)}</th><td>${escapeHtml(String(datum.value))}</td></tr>`
+      grouped
+        ? `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.group ?? "")}</th><td>${escapeHtml(datum.category)}</td><td>${escapeHtml(String(datum.value))}</td></tr>`
+        : `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.category)}</th><td>${escapeHtml(String(datum.value))}</td></tr>`
     ).join("");
-    return `<figure class="self-study-chart" data-chart-type="bar"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}<table><thead><tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr></thead><tbody>${rows}</tbody></table>${annotations}</figure>`;
+    const head = grouped
+      ? `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">Replicate</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`
+      : `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`;
+    return `<figure class="self-study-chart" data-chart-type="bar"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}<table><thead>${head}</thead><tbody>${rows}</tbody></table>${annotations}</figure>`;
   }
 
   const series = node.series.map((seriesItem) => {

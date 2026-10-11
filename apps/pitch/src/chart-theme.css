@@ -101,6 +101,10 @@ body[data-diagram-theme="eco-city"] .d3-chart-category-label,
 body[data-diagram-theme="eco-city"] .d3-chart-axis-title,
 body[data-diagram-theme="eco-city"] .d3-chart-value-label { font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 .d3-chart-tick-label,.d3-chart-category-label { font-size: 16px; }
+.d3-chart-legend-label { fill: var(--pcd-chart-text); font: 800 15px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace; }
+.d3-chart-legend-swatch { stroke: var(--pcd-chart-window-border); stroke-width: 2; }
+.d3-chart-svg[data-grouped-bar-chart="true"] .d3-chart-value-label { font-size: 15px; }
+.d3-chart-svg[data-grouped-bar-chart="true"] .d3-chart-group-label { font-size: 17px; font-weight: 850; }
 .d3-chart-axis-title { font-size: 19px; font-weight: 700; }
 .d3-chart-value-label { font-size: 20px; font-weight: 900; }
 .d3-chart-bar { stroke: var(--pcd-chart-window-border); stroke-width: 3; rx: 4; filter: drop-shadow(4px 5px 0 var(--pcd-chart-shadow)); }

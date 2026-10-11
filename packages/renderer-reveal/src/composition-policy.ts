@@ -824,7 +824,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     const before = body.slice(0, evidencePairIndex);
     const after = body.slice(evidencePairIndex + 2);
     const supportKinds = [...before, ...after].map((item) => revealComponentDescriptor(item).kind);
-    const validSupport = supportKinds.every((kind) => kind === "info-surface" || kind === "list-collection");
+    const validSupport = supportKinds.every((kind) => kind === "info-surface" || kind === "list-collection" || kind === "media");
     if (validSupport) {
       const firstKind = revealComponentDescriptor(first).kind;
       const secondKind = revealComponentDescriptor(second).kind;
