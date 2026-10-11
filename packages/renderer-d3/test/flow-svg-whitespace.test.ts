@@ -286,3 +286,44 @@ test("SVG renders source-linked mathematical notation separately from descriptio
     restoreDom();
   }
 });
+
+test("semantic process model displays f(cᵢ) + εᵢ prominently without replacing the authored prose", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const nodes: DiagramBlock["nodes"] = [
+      { id: "input", label: "INPUT", notation: "cᵢ", visualRole: "input", source: [{ resourceId: "ex:input" }] },
+      { id: "process", label: "PROCESS", notation: "f(cᵢ) + εᵢ", description: "Chemical and analytical process",
+        visualRole: "process", source: [{ resourceId: "ex:process" }] },
+      { id: "output", label: "OUTPUT", notation: "Aᵢ", visualRole: "output", source: [{ resourceId: "ex:output" }] },
+      { id: "influences", label: "ADDITIONAL INFLUENCES", visualRole: "influences", source: [{ resourceId: "ex:influences" }],
+        parts: [{ id: "prep", label: "Preparation", source: [{ resourceId: "ex:prep" }] },
+                { id: "readout", label: "Measurement", source: [{ resourceId: "ex:readout" }] }] },
+      { id: "residual", label: "UNEXPLAINED EFFECTS", notation: "εᵢ", visualRole: "residual", source: [{ resourceId: "ex:residual" }] },
+    ];
+    const edges: DiagramBlock["edges"] = [
+      { id: "a", sourceNodeId: "input", targetNodeId: "process", label: "input", source: [{ resourceId: "ex:a" }] },
+      { id: "b", sourceNodeId: "process", targetNodeId: "output", label: "produces", source: [{ resourceId: "ex:b" }] },
+      { id: "c", sourceNodeId: "process", targetNodeId: "influences", label: "affected by", source: [{ resourceId: "ex:c" }] },
+      { id: "d", sourceNodeId: "influences", targetNodeId: "residual", label: "aggregates", source: [{ resourceId: "ex:d" }] },
+    ];
+    const result = createD3FlowRenderModel({
+      ...block, nodes, edges, label: "Experiment with unexplained influences",
+    }, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(result.model);
+    const layout = createD3FlowLayout(result.model!, 1200);
+    assert.equal(layout.strategy, "process-system");
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, result.model!, layout);
+    const node = host.findByClass("d3-flow-node").find((item) => item.getAttribute("data-node-id") === "process");
+    assert.ok(node);
+    const formula = node.findByClass("d3-flow-node-notation");
+    assert.equal(formula.length, 1);
+    assert.equal(formula[0]!.children.map((item) => item.textContent ?? "").join(""), "f(cᵢ) + εᵢ");
+    const prose = node.findByClass("d3-flow-node-body");
+    assert.ok(prose.length > 0);
+    assert.match(prose.flatMap((item) => item.children.map((child) => child.textContent ?? "")).join(" "), /Chemical and analytical process/u);
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});

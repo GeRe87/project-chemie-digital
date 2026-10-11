@@ -1160,6 +1160,7 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
   ex:node-uvvis-process a cd:DiagramNode ;
     skos:prefLabel "PROCESS"@en ;
+    skos:notation "f(cᵢ) + εᵢ" ;
     cd:body "Chemical and analytical process"@en ;
     cd:position 2 ; cd:visualRole "process" ;
     cd:authoredResource true .

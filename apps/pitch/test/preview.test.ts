@@ -1158,3 +1158,17 @@ test("semantic runtime styling is keyed to semantic-stage composition profiles",
   assert.match(preview, /composition\.profile === "source"/u);
   assert.doesNotMatch(preview, /inferredLayout\?\.family === "semantic-source"/u);
 });
+
+test("process-system flow cards tint their surfaces with the same role hue as their outlines", () => {
+  const css = readFileSync(new URL("../src/flow-theme.css", import.meta.url), "utf8");
+  const processTheme = css.slice(css.indexOf("/* Generic process-system topology"));
+  assert.ok(processTheme.length > 0, "the generic process-system theme exists");
+  for (const role of ["input", "process", "output", "influences", "residual"]) {
+    assert.ok(processTheme.includes(`[data-visual-role="${role}"]`), `missing reusable ${role} color role`);
+  }
+  assert.match(processTheme, /--pcd-flow-role-color:/u);
+  assert.match(processTheme, /fill: color-mix\(in srgb, var\(--pcd-flow-role-color/u);
+  assert.match(processTheme, /stroke: var\(--pcd-flow-role-color/u);
+  assert.match(processTheme, /\[data-diagram-type="flow"\]\[data-layout-strategy="process-system"\]/u);
+  assert.doesNotMatch(processTheme, /node-uvvis-|scene-chemometrics-/u);
+});

@@ -201,7 +201,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         )
         self.assertEqual(4, len(diagram["edges"]))
         self.assertEqual(
-            ["cᵢ", None, "Aᵢ", None, "εᵢ"],
+            ["cᵢ", "f(cᵢ) + εᵢ", "Aᵢ", None, "εᵢ"],
             [node.get("notation") for node in diagram["nodes"]],
         )
         self.assertEqual(
@@ -211,9 +211,10 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertTrue(
             all(
                 any(ref.get("relationPath") == "skos:notation" for ref in node["source"])
-                for node in (diagram["nodes"][0], diagram["nodes"][2], diagram["nodes"][4])
+                for node in (diagram["nodes"][0], diagram["nodes"][1], diagram["nodes"][2], diagram["nodes"][4])
             )
         )
+        self.assertEqual("Chemical and analytical process", diagram["nodes"][1]["description"])
         parts = diagram["nodes"][3]["parts"]
         self.assertEqual(
             ["PREPARATION", "CONDITIONS", "MEASUREMENT"],

@@ -824,30 +824,52 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-partic
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="3"] { stroke: #7046ad; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="3"] .d3-sequence-message-line { stroke: #7046ad; color: #7046ad; }
 
-/* Generic top-row process-system layout, triggered by the renderer's graph
-   topology (input -> process -> output, process -> influences -> residual).
-   The three influence columns are authored DiagramNodePart resources. */
+/* Generic process-system topology (input → process → output, with influences
+   → residual): color is inferred from semantic visualRole, not scene IDs.
+   Each surface tint is derived from the exact same hue as its outline, so
+   light and dark themes retain a readable, consistent information hierarchy.
+   The three influence columns remain authored DiagramNodePart resources. */
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] {
   min-height: 0;
   height: 100%;
   max-height: 100%;
 }
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-shape {
-  fill: var(--pcd-surface-strong);
+/* Five reusable color roles. Cards with the same semantic role share a hue. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="input"] {
+  --pcd-flow-role-color: #288ec4;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="process"] {
+  --pcd-flow-role-color: #986bd6;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="output"] {
+  --pcd-flow-role-color: #28a57b;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="influences"] {
+  --pcd-flow-role-color: #d09235;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="residual"] {
+  --pcd-flow-role-color: #c075a3;
+}
+
+/* Match background to its outline, overriding the general flow-card surface.
+   Only the process-system strategy is affected; other diagrams keep their theme. */
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 16%, var(--pcd-surface-strong));
+  stroke: var(--pcd-flow-role-color, var(--pcd-accent));
   stroke-width: 2.7;
+  filter: drop-shadow(4px 4px 0 color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 20%, transparent));
 }
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="input"] .d3-flow-node-shape {
-  stroke: #288ec4;
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title,
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-notation {
+  fill: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 60%, var(--pcd-foreground));
 }
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="process"] .d3-flow-node-shape {
-  stroke: #986bd6;
-}
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="output"] .d3-flow-node-shape {
-  stroke: #28a57b;
-}
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="influences"] .d3-flow-node-shape,
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="residual"] .d3-flow-node-shape {
-  stroke: #9b86be;
+/* Partition lines stay visible over the tinted influence-card surface. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-divider {
+  stroke: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 65%, var(--pcd-foreground));
+  stroke-width: 2;
 }
 .reveal .d3-flow-svg[data-layout-strategy="process-system"]
   .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
@@ -868,10 +890,6 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-par
   fill: var(--pcd-foreground);
   font-size: 18px;
   font-weight: 600;
-}
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-divider {
-  stroke: #b9afce;
-  stroke-width: 2;
 }
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-edge {
   stroke: var(--pcd-accent);
