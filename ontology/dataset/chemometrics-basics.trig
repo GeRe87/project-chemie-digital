@@ -1142,10 +1142,74 @@ Constant: aliquot volume"""@en ;
     cd:body "For UV/Vis calibration, a nominal concentration is chosen, a chemical and measurement process generates a response, and absorbance is observed. Preparation, environmental conditions and measurement can all contribute to residual variation. Such effects need not all be random."@en ;
     cd:authoredResource true .
 
-  ex:media-uvvis-variation-sources a cd:MediaAsset ;
-    cd:uri "/chemometrics/uvvis-variation-sources.svg"^^xsd:anyURI ;
-    cd:mediaType "image/svg+xml" ;
-    cd:alternativeText "UV/Vis experiment: Designed input c_i points to Process and then Observed output A_i. Below the Process, a single card divided into Preparation, Conditions and Measurement connects downward to Combined unexplained effects epsilon_i."@en ;
+  ex:diagram-uvvis-variation-sources a cd:FlowDiagram ;
+    skos:prefLabel "Input, process, response and residual influences"@en ;
+    cd:body "The assigned concentration enters the process and produces observed absorbance. Preparation, experimental conditions and measurement may contribute to residual effects."@en ;
+    cd:hasDiagramNode ex:node-uvvis-designed-input, ex:node-uvvis-process,
+      ex:node-uvvis-observed-output, ex:node-uvvis-influences,
+      ex:node-uvvis-unexplained-effects ;
+    cd:hasDiagramEdge ex:edge-uvvis-input-process, ex:edge-uvvis-process-output,
+      ex:edge-uvvis-process-influences, ex:edge-uvvis-influences-residual ;
+    cd:authoredResource true .
+
+  ex:node-uvvis-designed-input a cd:DiagramNode ;
+    skos:prefLabel "DESIGNED INPUT"@en ;
+    cd:body "cᵢ — We choose the nominal concentration."@en ;
+    cd:position 1 ; cd:visualRole "input" ;
+    cd:authoredResource true .
+  ex:node-uvvis-process a cd:DiagramNode ;
+    skos:prefLabel "PROCESS"@en ;
+    cd:body "Chemical and analytical process"@en ;
+    cd:position 2 ; cd:visualRole "process" ;
+    cd:authoredResource true .
+  ex:node-uvvis-observed-output a cd:DiagramNode ;
+    skos:prefLabel "OBSERVED OUTPUT"@en ;
+    cd:body "Aᵢ — We measure the absorbance."@en ;
+    cd:position 3 ; cd:visualRole "output" ;
+    cd:authoredResource true .
+  ex:node-uvvis-influences a cd:DiagramNode ;
+    skos:prefLabel "ADDITIONAL INFLUENCES"@en ;
+    cd:position 4 ; cd:visualRole "influences" ;
+    cd:hasDiagramNodePart ex:uvvis-part-preparation, ex:uvvis-part-conditions,
+      ex:uvvis-part-measurement ;
+    cd:authoredResource true .
+  ex:uvvis-part-preparation a cd:DiagramNodePart ;
+    cd:position 1 ; skos:prefLabel "PREPARATION"@en ;
+    cd:body "Pipetting, handling"@en ;
+    cd:authoredResource true .
+  ex:uvvis-part-conditions a cd:DiagramNodePart ;
+    cd:position 2 ; skos:prefLabel "CONDITIONS"@en ;
+    cd:body "Temperature, timing"@en ;
+    cd:authoredResource true .
+  ex:uvvis-part-measurement a cd:DiagramNodePart ;
+    cd:position 3 ; skos:prefLabel "MEASUREMENT"@en ;
+    cd:body "Noise, instrument drift"@en ;
+    cd:authoredResource true .
+  ex:node-uvvis-unexplained-effects a cd:DiagramNode ;
+    skos:prefLabel "COMBINED UNEXPLAINED EFFECTS"@en ;
+    cd:body "εᵢ"@en ;
+    cd:position 5 ; cd:visualRole "residual" ;
+    cd:authoredResource true .
+
+  ex:edge-uvvis-input-process a cd:DiagramEdge ;
+    skos:prefLabel "input"@en ; cd:position 1 ;
+    cd:sourceNode ex:node-uvvis-designed-input ;
+    cd:targetNode ex:node-uvvis-process ;
+    cd:authoredResource true .
+  ex:edge-uvvis-process-output a cd:DiagramEdge ;
+    skos:prefLabel "produces"@en ; cd:position 2 ;
+    cd:sourceNode ex:node-uvvis-process ;
+    cd:targetNode ex:node-uvvis-observed-output ;
+    cd:authoredResource true .
+  ex:edge-uvvis-process-influences a cd:DiagramEdge ;
+    skos:prefLabel "affected by"@en ; cd:position 3 ;
+    cd:sourceNode ex:node-uvvis-process ;
+    cd:targetNode ex:node-uvvis-influences ;
+    cd:authoredResource true .
+  ex:edge-uvvis-influences-residual a cd:DiagramEdge ;
+    skos:prefLabel "combined residual"@en ; cd:position 4 ;
+    cd:sourceNode ex:node-uvvis-influences ;
+    cd:targetNode ex:node-uvvis-unexplained-effects ;
     cd:authoredResource true .
 
   ex:uvvis-additive-response-model a cd:Concept ;

@@ -435,6 +435,26 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         if visual_motif_role is not None:
             node_value["visualMotifRole"] = visual_motif_role
             node_sources.append(source_reference(dataset, node, "cd:visualMotifRole"))
+        part_resources = [
+            (part, integer(dataset, part, iri(CD, "position")))
+            for part in objects(dataset, node, iri(CD, "hasDiagramNodePart"))
+            if isinstance(part, URIRef)
+        ]
+        if part_resources:
+            part_resources.sort(key=lambda record: (record[1], str(record[0])))
+            positions = [position for _part, position in part_resources]
+            if len(part_resources) < 2 or positions != list(range(1, len(part_resources) + 1)):
+                raise ValueError(f"DiagramNode parts must have at least two entries with contiguous positions in {compact(node)}")
+            node_parts = []
+            for part, _position in part_resources:
+                part_label, part_path = selected_label_reference(dataset, part, language)
+                part_description = literal(dataset, part, iri(CD, "body"), language)
+                node_parts.append({
+                    "id": compact(part), "label": part_label,
+                    **({"description": part_description} if part_description is not None else {}),
+                    "source": [source_reference(dataset, part, part_path)],
+                })
+            node_value["parts"] = node_parts
         group_ids = [compact(group) for group in objects(dataset, node, iri(CD, "memberOfDiagramGroup")) if isinstance(group, URIRef)]
         if group_ids:
             node_value["groupIds"] = sorted(group_ids)

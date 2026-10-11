@@ -166,6 +166,13 @@ export interface PromptBlock extends SceneBlockBase {
   readonly fallback: string;
 }
 
+export interface DiagramNodePart {
+  readonly id: string;
+  readonly label: string;
+  readonly description?: string;
+  readonly source: readonly SourceReference[];
+}
+
 export interface DiagramNode {
   readonly id: string;
   readonly label: string;
@@ -176,6 +183,7 @@ export interface DiagramNode {
   readonly visualMotif?: VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
+  readonly parts?: readonly DiagramNodePart[];
 }
 
 export interface DiagramGroup {
@@ -489,6 +497,20 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (node.description !== undefined) requireNonEmpty(node.description, `${label} diagram node ${node.id} description`);
     if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
       throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);
+    }
+    if (node.parts !== undefined) {
+      if (!Array.isArray(node.parts) || node.parts.length < 2) {
+        throw new SceneContractError(`${label} diagram node ${node.id} parts requires at least two entries`);
+      }
+      const partIds = new Set<string>();
+      for (const part of node.parts) {
+        requireNonEmpty(part.id, `${label} diagram node ${node.id} part id`);
+        if (partIds.has(part.id)) throw new SceneContractError(`${label} diagram node ${node.id} has duplicate part ids`);
+        partIds.add(part.id);
+        requireNonEmpty(part.label, `${label} diagram node ${node.id} part ${part.id} label`);
+        if (part.description !== undefined) requireNonEmpty(part.description, `${label} diagram node ${node.id} part ${part.id} description`);
+        validateSource(part.source, `${label} diagram node ${node.id} part ${part.id} source`);
+      }
     }
     validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);
     if (node.visualMotifRole !== undefined && node.visualMotifRole !== "supporting" && node.visualMotifRole !== "highlight") {

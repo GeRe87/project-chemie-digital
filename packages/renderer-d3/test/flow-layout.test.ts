@@ -500,3 +500,34 @@ test("layout fails closed when an edge references an unknown node", () => {
     /unknown layout node/,
   );
 });
+
+test("generic input-process-output with an influence branch yields a reusable process-system layout", () => {
+  const nodes = [
+    { id: "design", label: "Chosen factor", visualRole: "input" },
+    { id: "transform", label: "Process", visualRole: "process" },
+    { id: "result", label: "Measured response", visualRole: "output" },
+    { id: "effects", label: "Contributing influences", visualRole: "influences",
+      parts: [{ id: "a", label: "Preparation" }, { id: "b", label: "Conditions" }, { id: "c", label: "Readout" }] },
+    { id: "noise", label: "Combined effects", visualRole: "residual" },
+  ];
+  const edges = [
+    { id: "in", sourceNodeId: "design", targetNodeId: "transform", label: "input" },
+    { id: "out", sourceNodeId: "transform", targetNodeId: "result", label: "output" },
+    { id: "sources", sourceNodeId: "transform", targetNodeId: "effects", label: "influences" },
+    { id: "residual", sourceNodeId: "effects", targetNodeId: "noise", label: "combined" },
+  ];
+  const layout = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1180);
+  assert.equal(layout.strategy, "process-system");
+  assert.equal(layout.nodes.length, 5);
+  const positions = new Map(layout.nodes.map((node) => [node.id, node]));
+  assert.equal(positions.get("design")!.y, positions.get("transform")!.y);
+  assert.equal(positions.get("transform")!.y, positions.get("result")!.y);
+  assert.ok(positions.get("design")!.x < positions.get("transform")!.x);
+  assert.ok(positions.get("transform")!.x < positions.get("result")!.x);
+  assert.equal(positions.get("effects")!.x, positions.get("transform")!.x);
+  assert.ok(positions.get("effects")!.y > positions.get("transform")!.y);
+  assert.ok(positions.get("noise")!.y > positions.get("effects")!.y);
+  assert.ok(positions.get("effects")!.width > positions.get("transform")!.width);
+  const generic = createD3FlowLayout({ diagramType: "flow", nodes: nodes.map((n) => ({...n, visualRole: undefined})), edges }, 1180);
+  assert.notEqual(generic.strategy, "process-system");
+});

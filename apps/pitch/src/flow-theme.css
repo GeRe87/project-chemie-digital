@@ -811,3 +811,55 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-p
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="3"] { fill: #3b2164; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="3"] { stroke: #7046ad; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="3"] .d3-sequence-message-line { stroke: #7046ad; color: #7046ad; }
+
+/* Generic top-row process-system layout, triggered by the renderer's graph
+   topology (input -> process -> output, process -> influences -> residual).
+   The three influence columns are authored DiagramNodePart resources. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] {
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-shape {
+  fill: var(--pcd-surface-strong);
+  stroke-width: 2.7;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="input"] .d3-flow-node-shape {
+  stroke: #288ec4;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="process"] .d3-flow-node-shape {
+  stroke: #986bd6;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="output"] .d3-flow-node-shape {
+  stroke: #28a57b;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="influences"] .d3-flow-node-shape,
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="residual"] .d3-flow-node-shape {
+  stroke: #9b86be;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-title {
+  font-size: 21px;
+  letter-spacing: .03em;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-body {
+  font-size: 16px;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-title {
+  fill: var(--pcd-foreground);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-body {
+  fill: var(--pcd-foreground);
+  font-size: 15px;
+  font-weight: 600;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-divider {
+  stroke: #b9afce;
+  stroke-width: 2;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-edge {
+  stroke: var(--pcd-accent);
+  stroke-width: 3.5;
+}

@@ -30,6 +30,7 @@ export interface D3FlowRenderNode {
   readonly visualMotif?: VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
+  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string; readonly source: readonly SourceReference[] }[];
   readonly readingIndex: number;
 }
 
@@ -190,6 +191,13 @@ function validateFlowBlock(block: DiagramBlock): void {
     requireNonEmpty(node.label, `Flow node ${node.id} label`);
     if (node.description !== undefined) requireNonEmpty(node.description, `Flow node ${node.id} description`);
     validateVisualRole(node.visualRole, `Flow node ${node.id}`);
+    if (node.parts !== undefined) {
+      if (node.parts.length < 2) throw new Error(`Flow node ${node.id} parts require at least two entries`);
+      for (const part of node.parts) {
+        requireNonEmpty(part.id, `Flow node ${node.id} part id`);
+        requireNonEmpty(part.label, `Flow node ${node.id} part label`);
+      }
+    }
   }
   const groupIds = (block.groups ?? []).map((group) => group.id);
   if (new Set(groupIds).size !== groupIds.length) throw new Error("Flow diagram group ids must be unique");
@@ -252,7 +260,10 @@ function flowStaticFallback(block: DiagramBlock): string {
     block.label,
     block.description,
     "Nodes:",
-    ...block.nodes.map((node) => `- ${node.label}${node.description ? ` — ${node.description}` : ""}`),
+    ...block.nodes.flatMap((node) => [
+      `- ${node.label}${node.description ? ` — ${node.description}` : ""}`,
+      ...(node.parts ?? []).map((part) => `  • ${part.label}${part.description ? ` — ${part.description}` : ""}`),
+    ]),
     ...((block.groups?.length ?? 0) > 0 ? [
       "Groups:",
       ...(block.groups ?? []).map((group) => `- ${group.label}: ${(groupMembership.get(group.id) ?? []).join(", ")}`),
@@ -395,6 +406,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
        ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
        ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
        ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
+       ...(node.parts ? { parts: node.parts.map((part) => ({ ...part, source: cloneSources(part.source) })) } : {}),
       readingIndex,
     }));
       const nodeVisualRoles = new Map(block.nodes.map((node) => [node.id, node.visualRole]));
@@ -1055,7 +1067,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
-          group.setAttribute("aria-label", modelNode.description ? `${modelNode.label}: ${modelNode.description}` : modelNode.label);
+          group.setAttribute("aria-label", [
+            modelNode.label,
+            modelNode.description,
+            ...(modelNode.parts ?? []).map((part) => `${part.label}${part.description ? `: ${part.description}` : ""}`),
+          ].filter(Boolean).join("; "));
           group.setAttribute("transform", `translate(${layoutNode.x} ${layoutNode.y})`);
           if (model.interactionPolicy === "keyboard") {
             group.setAttribute("tabindex", "0");
@@ -1106,7 +1122,47 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               ? layoutNode.width / 2 - 22
               : layoutNode.width / 2 - 18;
             const contentX = (contentLeft + contentRight) / 2;
-            if (layoutNode.bodyLines.length > 0) {
+            if (modelNode.parts?.length && layout.strategy === "process-system") {
+              group.setAttribute("data-structured-node", "true");
+              group.setAttribute("data-composite-node", "columns");
+              const headerY = -layoutNode.height / 2 + 30;
+              const dividerY = -layoutNode.height / 2 + 56;
+              addTextLines(group, layoutNode.labelLines, contentX, headerY, "d3-flow-node-title", 24);
+              const headerDivider = document.createElementNS(namespace, "line");
+              headerDivider.setAttribute("class", "d3-flow-node-title-divider");
+              headerDivider.setAttribute("x1", String(contentLeft));
+              headerDivider.setAttribute("x2", String(contentRight));
+              headerDivider.setAttribute("y1", String(dividerY));
+              headerDivider.setAttribute("y2", String(dividerY));
+              group.append(headerDivider);
+              const count = modelNode.parts.length;
+              const partitionWidth = layoutNode.width / count;
+              for (const [partIndex, part] of modelNode.parts.entries()) {
+                const centerX = -layoutNode.width / 2 + partitionWidth * (partIndex + .5);
+                if (partIndex > 0) {
+                  const border = document.createElementNS(namespace, "line");
+                  border.setAttribute("class", "d3-flow-node-part-divider");
+                  const x = -layoutNode.width / 2 + partitionWidth * partIndex;
+                  border.setAttribute("x1", String(x));
+                  border.setAttribute("x2", String(x));
+                  border.setAttribute("y1", String(dividerY + 12));
+                  border.setAttribute("y2", String(layoutNode.height / 2 - 14));
+                  border.setAttribute("aria-hidden", "true");
+                  group.append(border);
+                }
+                const partGroup = document.createElementNS(namespace, "g");
+                partGroup.setAttribute("class", "d3-flow-node-part");
+                partGroup.setAttribute("data-part-id", part.id);
+                partGroup.setAttribute("aria-label", part.description ? `${part.label}: ${part.description}` : part.label);
+                const partLines = wrapFlowText(part.label, partitionWidth - 36);
+                addTextLines(partGroup, partLines, centerX, dividerY + 37, "d3-flow-node-part-title", 19);
+                if (part.description) {
+                  const descriptionLines = wrapFlowText(part.description, partitionWidth - 36);
+                  addTextLines(partGroup, descriptionLines, centerX, dividerY + 75, "d3-flow-node-part-body", 16);
+                }
+                group.append(partGroup);
+              }
+            } else if (layoutNode.bodyLines.length > 0) {
               group.setAttribute("data-structured-node", "true");
               const titleLineHeight = informationCard ? 26 : 22;
               const bodyLineHeight = informationCard ? 21 : 18;

@@ -53,7 +53,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "definition-list", "prose"],
-    ["prose", "media-reference"],
+    ["prose", "diagram"],
     ["prose", "math", "definition-list"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],

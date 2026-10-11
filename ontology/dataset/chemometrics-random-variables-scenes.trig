@@ -125,8 +125,8 @@
     cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-variation-sources-diagram a cd:SceneItem ;
-    cd:position 2 ; cd:selectsResource ex:media-uvvis-variation-sources ;
-    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:position 2 ; cd:selectsResource ex:diagram-uvvis-variation-sources ;
+    cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
   # 11 — additive equation and its legend ----------------------------------

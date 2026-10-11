@@ -391,3 +391,24 @@ test("designed and observed variation motifs are registered without relaxing mot
   (block.nodes[0] as { visualMotif?: string }).visualMotif = "unregistered-motif";
   assert.throws(() => validateSceneDocument(invalid), /visualMotif is not supported/);
 });
+
+test("diagram nodes may contain authored, source-linked columns but reject malformed parts", () => {
+  const valid = structuredClone(flowDocument());
+  const diagram = valid.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  diagram.nodes[1]!.parts = [
+    { id: "part:prep", label: "Preparation", source: [{ resourceId: "ex:prep" }] },
+    { id: "part:measurement", label: "Measurement", description: "Instrument noise", source: [{ resourceId: "ex:measurement" }] },
+  ];
+  assert.doesNotThrow(() => validateSceneDocument(valid));
+  const duplicate = structuredClone(valid);
+  const bad = duplicate.scenes[0]!.blocks[0]!;
+  if (bad.kind !== "diagram") throw new Error("expected diagram");
+  bad.nodes[1]!.parts![1]!.id = bad.nodes[1]!.parts![0]!.id;
+  assert.throws(() => validateSceneDocument(duplicate), /duplicate part ids/);
+  const emptySources = structuredClone(valid);
+  const missing = emptySources.scenes[0]!.blocks[0]!;
+  if (missing.kind !== "diagram") throw new Error("expected diagram");
+  missing.nodes[1]!.parts![0]!.source = [];
+  assert.throws(() => validateSceneDocument(emptySources), /must retain at least one source resource/);
+});

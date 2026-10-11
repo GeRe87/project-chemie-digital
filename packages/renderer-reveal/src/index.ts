@@ -154,6 +154,7 @@ export interface RevealPromptPlan extends RevealNodeBase {
 export interface RevealDiagramNodePlan {
   readonly id: string;
   readonly label: string;
+  readonly parts?: readonly import("../../core/src/scene-document.ts").DiagramNodePart[];
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
@@ -303,7 +304,10 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.label,
     block.description,
     "Nodes:",
-    ...block.nodes.map((node) => `- ${node.label}`),
+    ...block.nodes.flatMap((node) => [
+      `- ${node.label}`,
+      ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
+    ]),
     "Relations:",
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
@@ -451,6 +455,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
           ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
           ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
+          ...(node.parts ? { parts: node.parts.map((part) => ({ ...part, source: sourceCopy(part.source) })) } : {}),
         })),
         edges: block.edges.map((edge) => ({
           id: edge.id,

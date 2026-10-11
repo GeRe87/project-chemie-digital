@@ -62,7 +62,7 @@ EXPECTED_STEPS = [
         EX["variation-origins-cards"],
         EX["why-values-differ-takeaway"],
     }),
-    ("variation-sources", {EX["media-uvvis-variation-sources"]}),
+    ("variation-sources", {EX["diagram-uvvis-variation-sources"]}),
     ("additive-response-model", {
         EX["uvvis-additive-response-equation"],
         EX["uvvis-additive-response-legend"],

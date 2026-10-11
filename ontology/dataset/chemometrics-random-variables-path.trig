@@ -68,7 +68,7 @@
 
   ex:path-step-chemometrics-variation-sources a cd:PathStep ;
     cd:position 6 ;
-    cd:usesResource ex:media-uvvis-variation-sources ;
+    cd:usesResource ex:diagram-uvvis-variation-sources ;
     cd:usesScene ex:scene-chemometrics-variation-sources ;
     cd:authoredResource true .
 

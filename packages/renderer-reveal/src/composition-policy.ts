@@ -76,6 +76,7 @@ export type RevealLearningProfile =
   | "visual-dual-reference"
   | "list-code-reference"
   | "definition-deck"
+  | "formula-legend"
   | "statement-support";
 
 export type RevealVisualStageProfile =
@@ -843,6 +844,20 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
         profile,
       };
     }
+  }
+
+  // Generic formula with independently authored symbol legend, applicable to
+  // any subject. Layout is inferred from ordered block kinds, not resource ids.
+  if (body.length === 2 && body[0]?.kind === "math" && body[1]?.kind === "definition-list") {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0], "prelude", 0));
+    placements.push(placement(body[1], "main", 0));
+    return {
+      kind: "learning-stage",
+      placements,
+      mainCount: 1,
+      profile: "formula-legend",
+    };
   }
 
   const definitionLists = body.filter((block) => block.kind === "definition-list");

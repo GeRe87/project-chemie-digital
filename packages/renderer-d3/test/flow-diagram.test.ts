@@ -227,3 +227,21 @@ test("mapping performs no network requests", () => {
     globalThis.fetch = originalFetch;
   }
 });
+
+test("projects structured diagram node parts and retains their provenance in the fallback", () => {
+  const enriched: DiagramBlock = {
+    ...block,
+    nodes: block.nodes.map((node) => node.id !== "node:metadata" ? node : {
+      ...node,
+      parts: [
+        { id: "part:one", label: "Preparation", description: "Pipetting", source: [{ resourceId: "ex:prep" }] },
+        { id: "part:two", label: "Measurement", description: "Instrument", source: [{ resourceId: "ex:instrument" }] },
+      ],
+    }),
+  };
+  const result = createD3FlowRenderModel(enriched, keyboardOptions);
+  assert.ok(result.model);
+  assert.deepEqual(result.model.nodes[1]!.parts?.map((part) => part.label), ["Preparation", "Measurement"]);
+  assert.deepEqual(result.model.nodes[1]!.parts?.[0]?.source, [{ resourceId: "ex:prep" }]);
+  assert.match(result.model.staticFallback, /Preparation — Pipetting/);
+});

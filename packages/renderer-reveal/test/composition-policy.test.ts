@@ -1439,3 +1439,22 @@ test("composition policy owns region-container projection topology", () => {
     true,
   );
 });
+
+test("math followed by an authored definition legend selects the generic formula-legend profile", () => {
+  const scene: Scene = {
+    id: "opaque:math-and-symbols",
+    source: [{ resourceId: "resource:math-and-symbols" }],
+    blocks: [prose("heading", "introduce"), math("formula"), definitions("symbols")],
+    readingOrder: ["heading", "formula", "symbols"],
+  };
+  assert.deepEqual(inferRevealCompositionPlan(scene), {
+    kind: "learning-stage",
+    profile: "formula-legend",
+    mainCount: 1,
+    placements: [
+      { blockId: "heading", region: "heading", index: 0 },
+      { blockId: "formula", region: "prelude", index: 0 },
+      { blockId: "symbols", region: "main", index: 0 },
+    ],
+  });
+});

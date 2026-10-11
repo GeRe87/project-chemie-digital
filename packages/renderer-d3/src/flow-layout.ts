@@ -1,9 +1,11 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
+  readonly visualRole?: string;
+  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
   readonly description?: string;
   readonly groupIds?: readonly string[];
   readonly visualMotifRole?: "supporting" | "highlight";
@@ -1472,6 +1474,50 @@ function concentricNetworkLayout(
   };
 }
 
+
+/**
+ * Generic five-node system model, detected solely from authored node roles and
+ * the input -> process -> output / process -> influences -> residual topology.
+ * No scene, course or resource identifiers participate in selection or geometry.
+ */
+function processSystemNodes(input: D3FlowLayoutInput): Readonly<Record<"input" | "process" | "output" | "influences" | "residual", string>> | undefined {
+  if (input.diagramType !== "flow" || input.nodes.length !== 5 || input.edges.length !== 4) return undefined;
+  const roles = ["input", "process", "output", "influences", "residual"] as const;
+  const nodes = new Map(input.nodes.map((node) => [node.visualRole, node.id]));
+  if (roles.some((role) => !nodes.has(role)) || nodes.size !== 5) return undefined;
+  const selected = Object.fromEntries(roles.map((role) => [role, nodes.get(role)!])) as Record<typeof roles[number], string>;
+  const edges = new Set(input.edges.map((edge) => `${edge.sourceNodeId}->${edge.targetNodeId}`));
+  for (const [from, to] of [["input", "process"], ["process", "output"], ["process", "influences"], ["influences", "residual"]] as const) {
+    if (!edges.has(`${selected[from]}->${selected[to]}`)) return undefined;
+  }
+  return selected;
+}
+
+function processSystemLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  selection: Readonly<Record<"input" | "process" | "output" | "influences" | "residual", string>>,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const width = 1200;
+  const middle = width / 2;
+  const specs = new Map<string, { x: number; y: number; width: number; height: number }>([
+    [selection.input, { x: 195, y: 145, width: 328, height: 170 }],
+    [selection.process, { x: middle, y: 145, width: 328, height: 170 }],
+    [selection.output, { x: width - 195, y: 145, width: 328, height: 170 }],
+    [selection.influences, { x: middle, y: 395, width: 790, height: 166 }],
+    [selection.residual, { x: middle, y: 615, width: 490, height: 112 }],
+  ]);
+  return {
+    width,
+    height: 700,
+    nodes: prepared.map((node) => {
+      const spec = specs.get(node.id)!;
+      const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, spec.width - 56);
+      return { id: node.id, ...spec, labelLines, bodyLines };
+    }),
+  };
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const linearOrder = strictLinearFlowOrder(input);
@@ -1494,7 +1540,9 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const spaceFilling = shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
+  const systemSelection = processSystemNodes(input);
+  const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
+  const spaceFilling = !system && shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
     ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
     : undefined;
   const suppressRepeatedSpaceFillingLabels = Boolean(
@@ -1509,7 +1557,8 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const radial = !spaceFilling && !concentric && !triadic && isCompactRadialNetwork(input)
     ? compactRadialNetworkLayout(prepared, hostWidth)
     : undefined;
-  const geometry = spaceFilling
+  const geometry = system
+    ?? spaceFilling
     ?? concentric
     ?? triadic
     ?? radial
@@ -1524,6 +1573,24 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+
+    if (system) {
+      const vertical = Math.abs(source.x - target.x) < 1;
+      const x1 = vertical ? source.x : source.x + (target.x > source.x ? source.width / 2 : -source.width / 2);
+      const x2 = vertical ? target.x : target.x + (target.x > source.x ? -target.width / 2 : target.width / 2);
+      const y1 = vertical ? source.y + source.height / 2 : source.y;
+      const y2 = vertical ? target.y - target.height / 2 : target.y;
+      return {
+        id: edge.id,
+        sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1, y1, x2, y2,
+        labelX: (x1 + x2) / 2,
+        labelY: (y1 + y2) / 2,
+        labelLines: [],
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
 
     if (spaceFilling) {
       const routePoints = spaceFilling.edgeRoutes.get(edge.id);
@@ -1603,8 +1670,10 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
-  const strategy: D3FlowLayoutStrategy = spaceFilling
-    ? "space-filling-flow"
+  const strategy: D3FlowLayoutStrategy = system
+    ? "process-system"
+    : spaceFilling
+      ? "space-filling-flow"
     : concentric
       ? "concentric-network"
       : triadic
