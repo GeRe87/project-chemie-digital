@@ -24,6 +24,64 @@ function leaves(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
   return nodes.flatMap((node) => node.kind === "group" ? leaves(node.children) : [node]);
 }
 
+
+function escapeVisibleText(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function assertStructuredLeafVisible(index: string, node: SelfStudyNodePlan): boolean {
+  if (node.kind === "definition-list") {
+    for (const entry of node.entries) {
+      assert.ok(index.includes(escapeVisibleText(entry.term)), `missing static definition term ${entry.id}`);
+      if (entry.description) {
+        assert.ok(index.includes(escapeVisibleText(entry.description)), `missing static definition description ${entry.id}`);
+      }
+    }
+    return true;
+  }
+
+  if (node.kind === "table") {
+    assert.ok(index.includes(escapeVisibleText(node.caption)), `missing static table caption ${node.sourceBlockId}`);
+    for (const column of node.columns) {
+      assert.ok(index.includes(escapeVisibleText(column.label)), `missing static table column ${column.id}`);
+    }
+    for (const row of node.rows) {
+      for (const cell of row.cells) {
+        assert.ok(index.includes(escapeVisibleText(cell.text)), `missing static table cell ${cell.id}`);
+      }
+    }
+    return true;
+  }
+
+  if (node.kind === "chart") {
+    assert.ok(index.includes(escapeVisibleText(node.label)), `missing static chart label ${node.sourceBlockId}`);
+    assert.ok(index.includes(escapeVisibleText(node.description)), `missing static chart description ${node.sourceBlockId}`);
+    if (node.chartType === "bar") {
+      for (const datum of node.data) {
+        assert.ok(index.includes(escapeVisibleText(datum.category)), `missing static chart datum ${datum.id}`);
+        assert.ok(index.includes(escapeVisibleText(String(datum.value))), `missing static chart value ${datum.id}`);
+      }
+    } else {
+      for (const series of node.series) {
+        assert.ok(index.includes(escapeVisibleText(series.label)), `missing static chart series ${series.id}`);
+        for (const datum of series.data) {
+          assert.ok(index.includes(escapeVisibleText(String(datum.x))), `missing static chart x value ${datum.id}`);
+          assert.ok(index.includes(escapeVisibleText(String(datum.y))), `missing static chart y value ${datum.id}`);
+        }
+      }
+    }
+    for (const annotation of node.annotations ?? []) {
+      assert.ok(index.includes(escapeVisibleText(annotation.label)), `missing static chart annotation ${annotation.id}`);
+    }
+    return true;
+  }
+
+  return false;
+}
+
 test("self-study app consumes a validated generated canonical SceneDocument transport", async () => {
   const artifact = await readRuntimeArtifact();
   assert.equal(artifact.artifactVersion, "1.0");
@@ -99,25 +157,16 @@ test("generated static-first shell contains all self-study leaf fallback content
   for (const documentValue of artifact.sceneDocuments) {
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
-      const semanticLabel = section.semanticLabel
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-      assert.ok(index.includes(semanticLabel), `missing static section ${section.semanticLabel}`);
+      assert.ok(index.includes(escapeVisibleText(section.semanticLabel)), `missing static section ${section.semanticLabel}`);
       for (const node of leaves(section.nodes)) {
-        if (node.kind === "definition-list") {
-          for (const entry of node.entries) {
-            const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-            assert.ok(index.includes(term), `missing static definition term ${entry.id}`);
-            if (entry.description) {
-              const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-              assert.ok(index.includes(description), `missing static definition description ${entry.id}`);
-            }
-          }
-          continue;
-        }
+        assert.ok(
+          index.includes(`data-source-block-id="${node.sourceBlockId}"`),
+          `missing static block ${node.sourceBlockId}`,
+        );
+        if (assertStructuredLeafVisible(index, node)) continue;
+
         const probe = node.staticFallback.slice(0, Math.min(24, node.staticFallback.length));
-        const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        const escaped = escapeVisibleText(probe);
         assert.ok(index.includes(escaped) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
       }
     }
