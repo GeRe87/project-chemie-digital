@@ -404,6 +404,133 @@ function inferContextDataVisual(
 }
 
 
+function indexesOfKind(
+  body: readonly SceneBlock[],
+  kind: RevealComponentKind,
+): readonly number[] {
+  return body
+    .map((block, index) => revealComponentDescriptor(block).kind === kind ? index : -1)
+    .filter((index) => index >= 0);
+}
+
+function inferPromptCode(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  const promptIndexes = indexesOfKind(body, "prompt");
+  const codeIndexes = indexesOfKind(body, "code");
+  if (promptIndexes.length !== 1 || codeIndexes.length !== 1) return undefined;
+
+  const promptIndex = promptIndexes[0]!;
+  const codeIndex = codeIndexes[0]!;
+  if (codeIndex !== promptIndex + 1) return undefined;
+
+  const before = body.slice(0, promptIndex);
+  const after = body.slice(codeIndex + 1);
+  if (
+    !allComponentKinds(before, ["info-surface"])
+    || !allComponentKinds(after, ["info-surface"])
+  ) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  before.forEach((block, index) => placements.push(placement(block, "prelude", index)));
+  placements.push(placement(body[promptIndex]!, "primary", 0));
+  placements.push(placement(body[codeIndex]!, "secondary", 0));
+  after.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 2,
+    profile: "prompt-code",
+  };
+}
+
+function inferInfoCode(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  const codeIndexes = indexesOfKind(body, "code");
+  if (codeIndexes.length !== 1) return undefined;
+
+  const codeIndex = codeIndexes[0]!;
+  const before = body.slice(0, codeIndex);
+  const after = body.slice(codeIndex + 1);
+  if (
+    before.length === 0
+    || !allComponentKinds(before, ["info-surface"])
+    || !allComponentKinds(after, ["info-surface"])
+  ) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  before.forEach((block, index) => placements.push(placement(block, "prelude", index)));
+  placements.push(placement(body[codeIndex]!, "main", 0));
+  after.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 1,
+    profile: "info-code",
+  };
+}
+
+function inferInfoVisual(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  const visualIndexes = indexesOfKind(body, "visual");
+  if (visualIndexes.length !== 1) return undefined;
+
+  const visualIndex = visualIndexes[0]!;
+  const before = body.slice(0, visualIndex);
+  const after = body.slice(visualIndex + 1);
+  if (
+    before.length === 0
+    || !allComponentKinds(before, ["info-surface"])
+    || !allComponentKinds(after, ["info-surface"])
+  ) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  before.forEach((block, index) => placements.push(placement(block, "primary", index)));
+  placements.push(placement(body[visualIndex]!, "secondary", 0));
+  after.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 2,
+    profile: "info-visual",
+  };
+}
+
+function inferFormulaVisual(
+  body: readonly SceneBlock[],
+  heading: SceneBlock | undefined,
+): RevealCompositionPlan | undefined {
+  if (
+    body.length < 2
+    || revealComponentDescriptor(body[0]!).kind !== "formula"
+    || revealComponentDescriptor(body[1]!).kind !== "visual"
+  ) return undefined;
+
+  const after = body.slice(2);
+  if (!allComponentKinds(after, ["info-surface"])) return undefined;
+
+  const placements = placementsWithHeading(heading);
+  placements.push(placement(body[0]!, "prelude", 0));
+  placements.push(placement(body[1]!, "main", 0));
+  after.forEach((block, index) => placements.push(placement(block, "footer", index)));
+
+  return {
+    kind: "learning-stage",
+    placements,
+    mainCount: 1,
+    profile: "formula-visual",
+  };
+}
+
+
 export function revealComponentDescriptor(block: SceneBlock): RevealComponentDescriptor {
   switch (block.kind) {
     case "prose":
@@ -593,63 +720,17 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     };
   }
 
-  if (
-    matchesComponentKinds(bodyKinds, "prompt", "code")
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "primary", 0));
-    placements.push(placement(body[1]!, "secondary", 0));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 2,
-      profile: "prompt-code",
-    };
-  }
+  const promptCode = inferPromptCode(body, heading);
+  if (promptCode) return promptCode;
 
-  if (
-    matchesComponentKinds(bodyKinds, "info-surface", "code")
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "prelude", 0));
-    placements.push(placement(body[1]!, "main", 0));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 1,
-      profile: "info-code",
-    };
-  }
+  const infoCode = inferInfoCode(body, heading);
+  if (infoCode) return infoCode;
 
-  if (
-    matchesComponentKinds(bodyKinds, "info-surface", "visual")
-    || matchesComponentKinds(bodyKinds, "info-surface", "visual", "info-surface")
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "primary", 0));
-    placements.push(placement(body[1]!, "secondary", 0));
-    if (body[2]) placements.push(placement(body[2], "footer", 0));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 2,
-      profile: "info-visual",
-    };
-  }
+  const infoVisual = inferInfoVisual(body, heading);
+  if (infoVisual) return infoVisual;
 
-  if (
-    matchesComponentKinds(bodyKinds, "formula", "visual")
-  ) {
-    const placements = placementsWithHeading(heading);
-    placements.push(placement(body[0]!, "prelude", 0));
-    placements.push(placement(body[1]!, "main", 0));
-    return {
-      kind: "learning-stage",
-      placements,
-      mainCount: 1,
-      profile: "formula-visual",
-    };
-  }
+  const formulaVisual = inferFormulaVisual(body, heading);
+  if (formulaVisual) return formulaVisual;
 
   if (matchesComponentKinds(bodyKinds, "prompt")) {
     const placements = placementsWithHeading(heading);

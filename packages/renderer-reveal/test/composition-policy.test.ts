@@ -907,6 +907,137 @@ test("progression stage infers textual cards leading into a visual", () => {
 });
 
 
+test("learning-stage prompt-code is anchored by prompt plus code with semantic context", () => {
+  const prompt: SceneBlock = {
+    id: "prompt-context",
+    kind: "prompt",
+    prompt: "Choose",
+    responseMode: "single-choice",
+    options: ["A", "B"],
+    source: [{ resourceId: "resource:prompt-context" }],
+  };
+  const code: SceneBlock = {
+    id: "code-context",
+    kind: "code",
+    language: "text",
+    code: "opaque",
+    fallback: "opaque",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: "resource:code-context" }],
+  };
+  const scene: Scene = {
+    id: "opaque:prompt-code-context",
+    source: [{ resourceId: "resource:prompt-code-context" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("context", "explain"),
+      prompt,
+      code,
+      prose("takeaway", "explain"),
+    ],
+    readingOrder: ["heading", "context", "prompt-context", "code-context", "takeaway"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "prompt-code");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["context", "prelude"],
+    ["prompt-context", "primary"],
+    ["code-context", "secondary"],
+    ["takeaway", "footer"],
+  ]);
+});
+
+test("learning-stage info-code accepts multiple explanatory blocks around one code anchor", () => {
+  const code: SceneBlock = {
+    id: "code-info-flex",
+    kind: "code",
+    language: "text",
+    code: "opaque",
+    fallback: "opaque",
+    editable: false,
+    executable: false,
+    source: [{ resourceId: "resource:code-info-flex" }],
+  };
+  const scene: Scene = {
+    id: "opaque:info-code-flex",
+    source: [{ resourceId: "resource:info-code-flex" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("intro-a", "explain"),
+      prose("intro-b", "explain"),
+      code,
+      prose("note", "explain"),
+    ],
+    readingOrder: ["heading", "intro-a", "intro-b", "code-info-flex", "note"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "info-code");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["intro-a", "prelude"],
+    ["intro-b", "prelude"],
+    ["code-info-flex", "main"],
+    ["note", "footer"],
+  ]);
+});
+
+test("learning-stage info-visual accepts multiple explanatory blocks around one visual anchor", () => {
+  const scene: Scene = {
+    id: "opaque:info-visual-flex",
+    source: [{ resourceId: "resource:info-visual-flex" }],
+    blocks: [
+      prose("heading", "introduce"),
+      prose("definition-a", "explain"),
+      prose("definition-b", "explain"),
+      barChart("visual-flex"),
+      prose("note-a", "explain"),
+      prose("note-b", "explain"),
+    ],
+    readingOrder: ["heading", "definition-a", "definition-b", "visual-flex", "note-a", "note-b"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "info-visual");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["definition-a", "primary"],
+    ["definition-b", "primary"],
+    ["visual-flex", "secondary"],
+    ["note-a", "footer"],
+    ["note-b", "footer"],
+  ]);
+});
+
+test("learning-stage formula-visual accepts explanatory footer blocks without taking contextual main-aside scenes", () => {
+  const scene: Scene = {
+    id: "opaque:formula-visual-flex",
+    source: [{ resourceId: "resource:formula-visual-flex" }],
+    blocks: [
+      prose("heading", "introduce"),
+      math("formula-flex"),
+      barChart("formula-visual-chart"),
+      prose("note-a", "explain"),
+      prose("note-b", "explain"),
+    ],
+    readingOrder: ["heading", "formula-flex", "formula-visual-chart", "note-a", "note-b"],
+  };
+
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "learning-stage");
+  assert.equal(plan.profile, "formula-visual");
+  assert.deepEqual(plan.placements.map((placement) => [placement.blockId, placement.region]), [
+    ["heading", "heading"],
+    ["formula-flex", "prelude"],
+    ["formula-visual-chart", "main"],
+    ["note-a", "footer"],
+    ["note-b", "footer"],
+  ]);
+});
+
 test("learning-stage infers prompt plus code", () => {
   const prompt: SceneBlock = {
     id: "prompt",

@@ -24,8 +24,8 @@
 /* Prompt + executable code ------------------------------------------------ */
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"] {
   grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 1rem 1.4rem;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: .7rem 1.4rem;
   padding: 1.35rem 1.8rem !important;
 }
 
@@ -36,15 +36,27 @@
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="prelude"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   > [data-composition-region-container="primary"] {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 3;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   > [data-composition-region-container="secondary"] {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 3;
+}
+
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="footer"] {
+  grid-column: 1 / -1;
+  grid-row: 4;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
@@ -81,7 +93,7 @@
 
 /* Explanatory prose + compact code demo ---------------------------------- */
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"] {
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: .55rem;
   padding: 1rem 1.6rem 1.2rem !important;
 }
@@ -98,6 +110,13 @@
   grid-row: 3;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
+  > [data-composition-region-container="footer"] {
+  grid-row: 4;
+  display: flex;
   justify-content: center;
 }
 
@@ -171,7 +190,9 @@
   grid-column: 1;
   grid-row: 2;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: .55rem;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
@@ -185,6 +206,9 @@
   > [data-composition-region-container="footer"] {
   grid-column: 1 / -1;
   grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-visual"]
@@ -222,7 +246,7 @@
 
 /* Formula + diagram ------------------------------------------------------- */
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"] {
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: .7rem;
   padding: 1.25rem 1.8rem !important;
 }
@@ -238,6 +262,11 @@
   > [data-composition-region-container="main"] {
   grid-row: 3;
   min-height: 24rem;
+}
+
+.reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
+  > [data-composition-region-container="footer"] {
+  grid-row: 4;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"]
