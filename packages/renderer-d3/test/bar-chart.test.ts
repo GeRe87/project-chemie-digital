@@ -61,6 +61,7 @@ test("grouped bar render model preserves bundles and repeated categories", () =>
     categories: ["Replicate 1", "Replicate 2", "Replicate 3"],
   });
   assert.match(result.model.staticFallback, /Site 1 \/ Replicate 1: 5\.02/);
+  assert.deepEqual([...barChartEmphasisDatumIds(result.model)], []);
 });
 
 test("bar renderer rejects partially grouped data", () => {

@@ -164,6 +164,10 @@ export function barChartEmphasisDatumIds(model: D3BarChartRenderModel): Readonly
   if (model.annotations.length) {
     return new Set(model.annotations.map((annotation) => annotation.datumId));
   }
+  // A grouped chart usually encodes repeated measures or categorical series.
+  // Without authored annotations, selecting the largest single bar would invent
+  // a comparison that is not part of the semantic content.
+  if (barChartGrouping(model)) return new Set();
   const maximum = Math.max(...model.data.map((datum) => datum.value));
   return new Set(model.data.filter((datum) => datum.value === maximum).map((datum) => datum.id));
 }
@@ -186,7 +190,7 @@ export function mountD3BarChart(
   }
 
   const model = result.model;
-  const stepCount = 3;
+  const stepCount = barChartEmphasisDatumIds(model).size > 0 ? 3 : 2;
   let currentStep = 0;
   let destroyed = false;
 
