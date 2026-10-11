@@ -245,3 +245,17 @@ test("projects structured diagram node parts and retains their provenance in the
   assert.deepEqual(result.model.nodes[1]!.parts?.[0]?.source, [{ resourceId: "ex:prep" }]);
   assert.match(result.model.staticFallback, /Preparation — Pipetting/);
 });
+
+test("projects optional mathematical notation independently of prose", () => {
+  const annotated: DiagramBlock = {
+    ...block,
+    nodes: block.nodes.map((node) => node.id === "node:metadata"
+      ? { ...node, notation: "σ²", description: "Signal variance" }
+      : node),
+  };
+  const result = createD3FlowRenderModel(annotated, keyboardOptions);
+  assert.ok(result.model);
+  assert.equal(result.model.nodes[1]!.notation, "σ²");
+  assert.equal(result.model.nodes[1]!.description, "Signal variance");
+  assert.match(result.model.staticFallback, /Metadata \(σ²\) — Signal variance/);
+});

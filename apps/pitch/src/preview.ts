@@ -92,7 +92,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.description,
     "Nodes:",
     ...block.nodes.flatMap((node) => [
-      `- ${node.label}`,
+      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}`,
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",

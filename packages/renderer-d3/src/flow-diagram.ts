@@ -261,7 +261,7 @@ function flowStaticFallback(block: DiagramBlock): string {
     block.description,
     "Nodes:",
     ...block.nodes.flatMap((node) => [
-      `- ${node.label}${node.description ? ` — ${node.description}` : ""}`,
+      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? ` — ${node.description}` : ""}`,
       ...(node.parts ?? []).map((part) => `  • ${part.label}${part.description ? ` — ${part.description}` : ""}`),
     ]),
     ...((block.groups?.length ?? 0) > 0 ? [

@@ -200,6 +200,20 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             [node["visualRole"] for node in diagram["nodes"]],
         )
         self.assertEqual(4, len(diagram["edges"]))
+        self.assertEqual(
+            ["cᵢ", None, "Aᵢ", None, "εᵢ"],
+            [node.get("notation") for node in diagram["nodes"]],
+        )
+        self.assertEqual(
+            ["We choose the nominal concentration.", "We measure the absorbance."],
+            [diagram["nodes"][0]["description"], diagram["nodes"][2]["description"]],
+        )
+        self.assertTrue(
+            all(
+                any(ref.get("relationPath") == "skos:notation" for ref in node["source"])
+                for node in (diagram["nodes"][0], diagram["nodes"][2], diagram["nodes"][4])
+            )
+        )
         parts = diagram["nodes"][3]["parts"]
         self.assertEqual(
             ["PREPARATION", "CONDITIONS", "MEASUREMENT"],

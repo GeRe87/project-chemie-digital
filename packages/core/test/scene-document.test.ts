@@ -412,3 +412,33 @@ test("diagram nodes may contain authored, source-linked columns but reject malfo
   missing.nodes[1]!.parts![0]!.source = [];
   assert.throws(() => validateSceneDocument(emptySources), /must retain at least one source resource/);
 });
+
+test("diagram notation is optional and validated independently from description", () => {
+  const baseline = flowDocument();
+  const valid: SceneDocument = {
+    ...baseline,
+    scenes: baseline.scenes.map((scene) => ({
+      ...scene,
+      blocks: scene.blocks.map((block) => block.kind === "diagram" ? {
+        ...block,
+        nodes: block.nodes.map((node) => node.id === "node:processing"
+          ? { ...node, notation: "εᵢ" }
+          : node),
+      } : block),
+    })),
+  };
+  assert.doesNotThrow(() => validateSceneDocument(valid));
+  const invalid: SceneDocument = {
+    ...valid,
+    scenes: valid.scenes.map((scene) => ({
+      ...scene,
+      blocks: scene.blocks.map((block) => block.kind === "diagram" ? {
+        ...block,
+        nodes: block.nodes.map((node) => node.id === "node:processing"
+          ? { ...node, notation: " " }
+          : node),
+      } : block),
+    })),
+  };
+  assert.throws(() => validateSceneDocument(invalid), /notation must be non-empty/);
+});

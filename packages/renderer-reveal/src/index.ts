@@ -154,6 +154,8 @@ export interface RevealPromptPlan extends RevealNodeBase {
 export interface RevealDiagramNodePlan {
   readonly id: string;
   readonly label: string;
+  readonly description?: string;
+  readonly notation?: string;
   readonly parts?: readonly import("../../core/src/scene-document.ts").DiagramNodePart[];
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
@@ -305,7 +307,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.description,
     "Nodes:",
     ...block.nodes.flatMap((node) => [
-      `- ${node.label}`,
+      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? ` — ${node.description}` : ""}`,
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
@@ -449,6 +451,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         nodes: block.nodes.map((node) => ({
           id: node.id,
           label: node.label,
+          ...(node.description ? { description: node.description } : {}),
+          ...(node.notation ? { notation: node.notation } : {}),
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),

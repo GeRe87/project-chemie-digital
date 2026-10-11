@@ -305,7 +305,8 @@ body[data-presentation-theme="dark"] .reveal {
   letter-spacing: .05em;
 }
 
-.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title {
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
   fill: hsl(var(--d3-flow-card-hue, 205) 66% 30%);
   font-size: 22px;
   font-weight: 900;
@@ -318,7 +319,8 @@ body[data-presentation-theme="dark"] .reveal {
   stroke-width: 3;
 }
 
-.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-body {
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
   fill: #18242c;
   font-size: 16px;
   font-weight: 720;

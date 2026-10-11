@@ -531,3 +531,18 @@ test("generic input-process-output with an influence branch yields a reusable pr
   const generic = createD3FlowLayout({ diagramType: "flow", nodes: nodes.map((n) => ({...n, visualRole: undefined})), edges }, 1180);
   assert.notEqual(generic.strategy, "process-system");
 });
+
+test("flow geometry reserves vertical space for enlarged notation without clipping", () => {
+  const result = createD3FlowLayout({
+    diagramType: "flow",
+    nodes: [
+      { id: "factor", label: "Chosen input", notation: "cᵢ", description: "Fixed concentration" },
+      { id: "response", label: "Measured response", description: "Analytical signal" },
+    ],
+    edges: [{ id: "measurement", sourceNodeId: "factor", targetNodeId: "response", label: "produces" }],
+  }, 1200);
+  const factor = result.nodes.find((node) => node.id === "factor")!;
+  assert.ok(factor.height >= 186);
+  assert.ok(factor.bodyLines.length > 0);
+  assert.ok(factor.width >= 252);
+});

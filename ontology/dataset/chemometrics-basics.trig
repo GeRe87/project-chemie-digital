@@ -1154,7 +1154,8 @@ Constant: aliquot volume"""@en ;
 
   ex:node-uvvis-designed-input a cd:DiagramNode ;
     skos:prefLabel "DESIGNED INPUT"@en ;
-    cd:body "cᵢ — We choose the nominal concentration."@en ;
+    skos:notation "cᵢ" ;
+    cd:body "We choose the nominal concentration."@en ;
     cd:position 1 ; cd:visualRole "input" ;
     cd:authoredResource true .
   ex:node-uvvis-process a cd:DiagramNode ;
@@ -1164,7 +1165,8 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
   ex:node-uvvis-observed-output a cd:DiagramNode ;
     skos:prefLabel "OBSERVED OUTPUT"@en ;
-    cd:body "Aᵢ — We measure the absorbance."@en ;
+    skos:notation "Aᵢ" ;
+    cd:body "We measure the absorbance."@en ;
     cd:position 3 ; cd:visualRole "output" ;
     cd:authoredResource true .
   ex:node-uvvis-influences a cd:DiagramNode ;
@@ -1187,7 +1189,7 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
   ex:node-uvvis-unexplained-effects a cd:DiagramNode ;
     skos:prefLabel "COMBINED UNEXPLAINED EFFECTS"@en ;
-    cd:body "εᵢ"@en ;
+    skos:notation "εᵢ" ;
     cd:position 5 ; cd:visualRole "residual" ;
     cd:authoredResource true .
 

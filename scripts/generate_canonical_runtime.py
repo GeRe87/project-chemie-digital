@@ -414,13 +414,17 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
     for node, _position in node_records:
         label, relation_path = selected_label_reference(dataset, node, language)
         node_description = literal(dataset, node, iri(CD, "body"), language)
+        node_notation = literal(dataset, node, SKOS.notation)
         node_sources = [source_reference(dataset, node, relation_path)]
         if node_description is not None:
             node_sources.append(source_reference(dataset, node, "cd:body"))
+        if node_notation is not None:
+            node_sources.append(source_reference(dataset, node, "skos:notation"))
         node_value: dict[str, Any] = {
             "id": compact(node),
             "label": label,
             **({"description": node_description} if node_description is not None else {}),
+            **({"notation": node_notation} if node_notation is not None else {}),
             "source": node_sources,
         }
         visual_role = one(dataset, node, iri(CD, "visualRole"), required=False)

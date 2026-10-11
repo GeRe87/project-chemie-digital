@@ -176,6 +176,8 @@ export interface DiagramNodePart {
 export interface DiagramNode {
   readonly id: string;
   readonly label: string;
+  /** Author-defined mathematical or technical notation (skos:notation). */
+  readonly notation?: string;
   readonly description?: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
@@ -494,6 +496,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (nodeIdSet.has(node.id)) throw new SceneContractError(`${label} diagram contains duplicate node ids`);
     nodeIdSet.add(node.id);
     requireNonEmpty(node.label, `${label} diagram node ${node.id} label`);
+    if (node.notation !== undefined) requireNonEmpty(node.notation.trim(), `${label} diagram node ${node.id} notation`);
     if (node.description !== undefined) requireNonEmpty(node.description, `${label} diagram node ${node.id} description`);
     if (node.visualRole !== undefined && !/^[a-z][a-z0-9-]*$/u.test(node.visualRole)) {
       throw new SceneContractError(`${label} diagram node ${node.id} visualRole must be a lowercase token`);

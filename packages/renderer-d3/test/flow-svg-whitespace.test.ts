@@ -257,3 +257,32 @@ test("effective edge visualRole policy: explicit wins, equal endpoint roles prop
     restoreDom();
   }
 });
+
+test("SVG renders source-linked mathematical notation separately from description", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const mathBlock: DiagramBlock = {
+      ...block,
+      nodes: block.nodes.map((node) => node.id === "node:a"
+        ? { ...node, label: "INPUT", notation: "cᵢ", description: "Chosen concentration" }
+        : node),
+    };
+    const result = createD3FlowRenderModel(mathBlock, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(result.model);
+    const model = result.model!;
+    const layout = createD3FlowLayout(model, 1200);
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
+    const notation = host.findByClass("d3-flow-node-notation");
+    assert.equal(notation.length, 1);
+    assert.equal(notation[0]!.children[0]!.textContent, "cᵢ");
+    assert.equal(notation[0]!.getAttribute("xml:space"), "preserve");
+    const descriptions = host.findByClass("d3-flow-node-body");
+    assert.ok(descriptions.some((node) =>
+      node.children.some((part) => (part.textContent ?? "").includes("Chosen concentration"))));
+    assert.ok(host.findByClass("d3-flow-node").some((node) => node.getAttribute("data-node-has-notation") === "true"));
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});

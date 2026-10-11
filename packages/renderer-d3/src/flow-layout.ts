@@ -4,6 +4,7 @@ export type D3FlowLayoutStrategy = "process-system" | "layered-flow" | "space-fi
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
+  readonly notation?: string;
   readonly visualRole?: string;
   readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
   readonly description?: string;
@@ -118,7 +119,7 @@ const HORIZONTAL_NODE_CHROME = 132;
 const STRUCTURED_NODE_MIN_WIDTH = 252;
 const STRUCTURED_NODE_MAX_WIDTH = 298;
 const STRUCTURED_NODE_CHROME = 104;
-const FLOW_BODY_LINE_HEIGHT = 18;
+const FLOW_BODY_LINE_HEIGHT = 23;
 // Keep relationship callouts above the workflow rather than inside card bounds.
 const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
 const EDGE_LABEL_MAX_WIDTH = 130;
@@ -227,22 +228,20 @@ function flowOrientationForStructure(
 }
 
 function structuredTitleTextMeasure(value: string): number {
-  // Structured titles render at 20px, smaller than the plain-node label style.
-  // Keep the conservative deterministic metric, scaled to that authored typography.
-  return deterministicFlowTextMeasure(value) * (5 / 6);
+  // Keep line breaks in sync with the larger 23px flow-card title typography.
+  return deterministicFlowTextMeasure(value) * 0.96;
 }
 
 function bodyTextMeasure(value: string): number {
-  return deterministicFlowTextMeasure(value) * 0.72;
+  return deterministicFlowTextMeasure(value) * 0.94;
 }
 
-function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
-  if (bodyLines.length === 0) {
-    return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + Math.max(labelLines.length, 1) * 24);
-  }
-  const titleHeight = Math.max(labelLines.length, 1) * 22;
-  const bodyHeight = Math.max(bodyLines.length, 1) * FLOW_BODY_LINE_HEIGHT;
-  return Math.max(154, 62 + titleHeight + bodyHeight + 18);
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string): number {
+  const titleHeight = Math.max(labelLines.length, 1) * 28;
+  const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
+  if (notation) return Math.max(186, 42 + titleHeight + 54 + bodyHeight + (bodyHeight ? 12 : 0));
+  if (bodyLines.length === 0) return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + titleHeight);
+  return Math.max(168, 62 + titleHeight + bodyHeight + 18);
 }
 
 function horizontalNodeWidth(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
@@ -716,8 +715,8 @@ function spaceFillingLinearFlowLayout(
       original.description,
       contentWidth,
     );
-    const titleHeight = Math.max(labelLines.length, 1) * 26;
-    const bodyHeight = Math.max(bodyLines.length, 1) * 21;
+    const titleHeight = Math.max(labelLines.length, 1) * 28;
+    const bodyHeight = Math.max(bodyLines.length, 1) * 24;
     const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
     return {
       ...original,
@@ -726,7 +725,7 @@ function spaceFillingLinearFlowLayout(
       width: cardWidth,
       height: Math.max(
         original.visualMotifRole === "highlight" ? 276 : 190,
-        70 + titleHeight + 22 + highlightMotifHeight + bodyHeight,
+        70 + titleHeight + 22 + highlightMotifHeight + (original.notation ? 56 : 0) + bodyHeight,
       ),
     };
   });
@@ -822,7 +821,7 @@ function horizontalLayeredLayout(
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: nodeHeight(labelLines, bodyLines),
+      height: nodeHeight(labelLines, bodyLines, original.notation),
     };
   };
 
@@ -911,7 +910,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines),
+        height: nodeHeight(labelLines, bodyLines, original.notation),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1501,11 +1500,11 @@ function processSystemLayout(
   const width = 1200;
   const middle = width / 2;
   const specs = new Map<string, { x: number; y: number; width: number; height: number }>([
-    [selection.input, { x: 195, y: 145, width: 328, height: 170 }],
-    [selection.process, { x: middle, y: 145, width: 328, height: 170 }],
-    [selection.output, { x: width - 195, y: 145, width: 328, height: 170 }],
-    [selection.influences, { x: middle, y: 395, width: 790, height: 166 }],
-    [selection.residual, { x: middle, y: 615, width: 490, height: 112 }],
+    [selection.input, { x: 195, y: 145, width: 328, height: 188 }],
+    [selection.process, { x: middle, y: 145, width: 328, height: 188 }],
+    [selection.output, { x: width - 195, y: 145, width: 328, height: 188 }],
+    [selection.influences, { x: middle, y: 395, width: 790, height: 174 }],
+    [selection.residual, { x: middle, y: 600, width: 490, height: 146 }],
   ]);
   return {
     width,
@@ -1536,7 +1535,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelLines,
       bodyLines,
       width: horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines),
+      height: nodeHeight(labelLines, bodyLines, node.notation),
     };
   });
   const layers = topologicalLayers(input);
