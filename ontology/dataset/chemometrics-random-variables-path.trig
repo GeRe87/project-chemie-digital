@@ -101,9 +101,9 @@
   ex:path-step-chemometrics-variable-value-shapes a cd:PathStep ;
     cd:position 10 ;
     cd:usesResource ex:worked-example-concentration-value-shapes, ex:concentration-value-shapes-intro,
-      ex:value-shape-scalar-card, ex:value-shape-scalar-formula,
-      ex:value-shape-vector-card, ex:value-shape-vector-formula,
-      ex:value-shape-matrix-card, ex:value-shape-matrix-formula ;
+      ex:value-shape-scalar-cards, ex:value-shape-scalar-formula,
+      ex:value-shape-vector-cards, ex:value-shape-vector-formula,
+      ex:value-shape-matrix-cards, ex:value-shape-matrix-formula ;
     cd:usesScene ex:scene-chemometrics-variable-value-shapes ;
     cd:authoredResource true .
 

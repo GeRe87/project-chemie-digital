@@ -25,23 +25,34 @@ test("generic formula cards preserve paired source-linked text and independent K
   const blocks = [
     { id: "heading", kind: "prose" as const, text: "Unrelated mathematical examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:heading" }] },
     ...["u=7", "v=11", "w=13"].flatMap((expression, index) => [
-      { id: `description-${index}`, kind: "prose" as const, text: `CASE ${index}\nAuthored  spacing`, intent: { kind: "explain" as const }, source: [{ resourceId: `ex:description-${index}` }] },
+      { id: `description-${index}`, kind: "definition-list" as const, entries: [{ id: `entry-${index}`, term: `CASE ${index}`, description: "Authored  spacing", source: [{ resourceId: `ex:description-${index}` }] }], source: [{ resourceId: `ex:description-${index}` }] },
       { id: `math-${index}`, kind: "math" as const, expression, spokenText: expression, source: [{ resourceId: `ex:math-${index}` }] },
     ]),
   ];
   const scene = { id: "other-scene", source: [{ resourceId: "ex:scene" }], blocks, readingOrder: blocks.map(block => block.id) };
   const root = new FakeElement();
-  mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{ ...document, scenes: [scene] }]);
+  mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{ ...document, version: "1.4", scenes: [scene] }]);
   const section = root.children[0]!;
-  assert.equal(section.attributes.get("data-composition-profile"), "formula-deck");
+  assert.equal(section.attributes.get("data-composition-profile"), "definition-deck");
   const main = section.children.find(child => child.attributes.get("data-composition-region-container") === "main")!;
-  assert.equal(main.children.length, 3);
-  main.children.forEach((card, index) => {
-    assert.equal(card.attributes.get("data-composition-card-index"), String(index));
-    assert.equal(card.children[0]!.textContent, `CASE ${index}\nAuthored  spacing`);
-    assert.equal(card.children[1]!.attributes.get("data-resource-id"), `ex:math-${index}`);
-    assert.match(card.children[1]!.innerHTML, /<math/u);
+  assert.equal(main.children.length, 1);
+  assert.equal(main.children[0]!.className, "definition-list");
+  assert.equal(main.children[0]!.attributes.get("data-component-item-count"), "3");
+  main.children[0]!.children.forEach((card, index) => {
+    assert.equal(card.className, "definition-list-entry");
+    assert.equal(card.attributes.get("data-definition-entry-index"), String(index));
+    assert.equal(card.children[0]!.textContent, `CASE ${index}`);
+    const formula = card.children.at(-1)!.children[0]!;
+    assert.equal(formula.attributes.get("data-resource-id"), `ex:math-${index}`);
+    assert.match(formula.innerHTML, /<math/u);
   });
+});
+
+test("formulas reuse shared infocard styling without a separate formula card layout", () => {
+  const learningCss = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
+  const cardCss = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
+  assert.doesNotMatch(learningCss, /formula-deck|pcd-formula-card/u);
+  assert.match(cardCss, /\.definition-list-entry \.math-display/u);
 });
 
 test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {

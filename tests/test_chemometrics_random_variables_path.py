@@ -80,9 +80,9 @@ EXPECTED_STEPS = [
     ("variable-value-shapes", {
         EX["worked-example-concentration-value-shapes"],
         EX["concentration-value-shapes-intro"],
-        EX["value-shape-scalar-card"], EX["value-shape-scalar-formula"],
-        EX["value-shape-vector-card"], EX["value-shape-vector-formula"],
-        EX["value-shape-matrix-card"], EX["value-shape-matrix-formula"],
+        EX["value-shape-scalar-cards"], EX["value-shape-scalar-formula"],
+        EX["value-shape-vector-cards"], EX["value-shape-vector-formula"],
+        EX["value-shape-matrix-cards"], EX["value-shape-matrix-formula"],
     }),
     ("controlled-calibration", {
         EX["controlled-calibration-intro"],

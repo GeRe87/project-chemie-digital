@@ -95,6 +95,18 @@
 }
 
 /* Generic collection layout: intrinsic content width determines wrapping, not a fixed card count. */
+.reveal .definition-list-entry .math-display {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: .6rem 0 0;
+  font-size: 1em;
+  overflow-x: auto;
+}
+.reveal .definition-list-entry .math-display .katex-display {
+  margin: 0;
+}
+
 .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
   counter-reset: pcd-card;
   display: flex;
@@ -325,6 +337,8 @@ body[data-presentation-theme="dark"] .reveal
 
 @media (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
+    max-height: 100%;
+    overflow-y: auto;
     grid-template-rows: auto auto auto auto;
     padding: 1rem !important;
   }

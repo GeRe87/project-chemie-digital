@@ -17,10 +17,10 @@ function prose(id: string, text: string, intent: "introduce" | "explain" = "expl
   };
 }
 
-test("formula-deck budget counts actual cards while retaining all block footprint", () => {
+test("definition cards with formulas count actual cards while retaining all block footprint", () => {
   const blocks: SceneBlock[] = [prose("heading", "Examples", "introduce"), prose("context", "Shared context"),
     ...Array.from({ length: 3 }, (_, index): SceneBlock[] => [
-      prose(`card-${index}`, "A concise explanation"),
+      { id: `card-${index}`, kind: "definition-list", entries: [{ id: `entry-${index}`, term: "Example", description: "A concise explanation", source: [{ resourceId: `ex:entry-${index}` }] }], source: [{ resourceId: `ex:card-${index}` }] },
       { id: `formula-${index}`, kind: "math", expression: "u=7", spokenText: "u equals seven", source: [{ resourceId: `ex:formula-${index}` }] },
     ]).flat()];
   const scene: Scene = { id: "other", source: [{ resourceId: "ex:other" }], blocks, readingOrder: blocks.map(block => block.id) };

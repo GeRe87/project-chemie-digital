@@ -772,7 +772,7 @@ function renderChart(node: SelfStudyChartPlan): string {
   return `<figure class="self-study-chart" data-chart-type="line"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}${series}${annotations}</figure>`;
 }
 
-function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
+function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
   switch (node.kind) {
     case "prose":
       return `<div class="self-study-prose">${escapeHtml(node.text)}</div>`;
@@ -788,7 +788,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<${tag} class="self-study-list">${items}</${tag}>`;
     }
     case "definition-list": {
-      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}</div>`).join("");
+      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "table": {
@@ -809,8 +809,8 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
   }
 }
 
-function renderNode(node: SelfStudyNodePlan, interactive: boolean): string {
-  const body = renderNodeBody(node, interactive);
+function renderNode(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
+  const body = renderNodeBody(node, interactive, entryFormula);
   const attributes = `${sourceAttributes(node.source)} data-source-block-id="${escapeHtml(node.sourceBlockId)}" data-disclosure-mode="${node.disclosureMode}"`;
   if (!interactive || node.disclosureMode === "always") {
     return `<section class="self-study-block"${attributes}>${body}</section>`;
@@ -826,10 +826,10 @@ function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: bo
   const context = body.length % 2 === 1 && body[0]?.kind === "prose" && body[0].intent?.kind === "explain" ? body[0] : undefined;
   const pairs = context ? body.slice(1) : body;
   if (pairs.length >= 4 && pairs.length <= 8 && pairs.every((node, index) =>
-    index % 2 === 0 ? node.kind === "prose" && node.intent?.kind === "explain" : node.kind === "math")) {
+    index % 2 === 0 ? node.kind === "definition-list" && node.entries.length === 1 : node.kind === "math")) {
     const cards = pairs.filter((_, index) => index % 2 === 0).map((node, index) =>
-      `<div class="self-study-formula-card">${renderNode(node, interactive)}${renderNode(pairs[index * 2 + 1]!, interactive)}</div>`).join("");
-    return `${heading ? renderNode(heading, interactive) : ""}${context ? renderNode(context, interactive) : ""}<div class="self-study-formula-deck">${cards}</div>`;
+      renderNode(node, interactive, pairs[index * 2 + 1]!)).join("");
+    return `${heading ? renderNode(heading, interactive) : ""}${context ? renderNode(context, interactive) : ""}<div class="self-study-definition-list">${cards}</div>`;
   }
   return nodes.map(node => renderNode(node, interactive)).join("");
 }

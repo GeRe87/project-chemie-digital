@@ -60,7 +60,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "math", "definition-list"],
     ["prose", "math", "definition-list"],
     ["prose", "diagram"],
-    ["prose", "prose", "prose", "math", "prose", "math", "prose", "math"],
+    ["prose", "prose", "definition-list", "math", "definition-list", "math", "definition-list", "math"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -282,12 +282,12 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_value_shapes_follow_model_families_with_three_numeric_math_cards(self) -> None:
         scene = self.document["scenes"][9]
         self.assertEqual("ex:scene-chemometrics-variable-value-shapes--scene", scene["id"])
-        self.assertEqual("One symbol — one value or a collection", scene["blocks"][0]["text"])
+        self.assertEqual("Scalars, vectors and matrices", scene["blocks"][0]["text"])
         self.assertIn("Illustrative", scene["blocks"][1]["text"])
         self.assertIn("mg/L", scene["blocks"][1]["text"])
         for index, name in enumerate(["scalar", "vector", "matrix"]):
             card, formula = scene["blocks"][2 + index * 2:4 + index * 2]
-            self.assertTrue(card["text"].startswith(name.upper() + "\n"))
+            self.assertEqual(name.upper(), card["entries"][0]["term"])
             self.assertEqual("math", formula["kind"])
             self.assertIn("2.55", formula["expression"])
             self.assertIn("milligrams per litre", formula["spokenText"])
@@ -303,8 +303,8 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         for nitrate in ["2.55", "3.14", "4.20"]:
             self.assertIn(nitrate, vector["expression"])
             self.assertIn(nitrate + " & ", matrix["expression"])
-        self.assertIn("Rows: samples A, B, C", scene["blocks"][6]["text"])
-        self.assertIn("Columns: nitrate, phosphate", scene["blocks"][6]["text"])
+        self.assertIn("Rows: samples A, B, C", scene["blocks"][6]["entries"][0]["description"])
+        self.assertIn("Columns: nitrate, phosphate", scene["blocks"][6]["entries"][0]["description"])
         self.assertEqual(8, len(scene["blocks"]), "No generic footer is selected")
 
     def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:

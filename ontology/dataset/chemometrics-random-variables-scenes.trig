@@ -203,24 +203,24 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-scalar a cd:SceneItem ;
-    cd:position 3 ; cd:selectsResource ex:value-shape-scalar-card ;
-    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:position 3 ; cd:selectsResource ex:value-shape-scalar-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-scalar-formula a cd:SceneItem ;
     cd:position 4 ; cd:selectsResource ex:value-shape-scalar-formula ;
     cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-vector a cd:SceneItem ;
-    cd:position 5 ; cd:selectsResource ex:value-shape-vector-card ;
-    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:position 5 ; cd:selectsResource ex:value-shape-vector-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-vector-formula a cd:SceneItem ;
     cd:position 6 ; cd:selectsResource ex:value-shape-vector-formula ;
     cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-matrix a cd:SceneItem ;
-    cd:position 7 ; cd:selectsResource ex:value-shape-matrix-card ;
-    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:position 7 ; cd:selectsResource ex:value-shape-matrix-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-value-shapes-matrix-formula a cd:SceneItem ;
     cd:position 8 ; cd:selectsResource ex:value-shape-matrix-formula ;

@@ -88,18 +88,19 @@ test("unrelated explanation/math pairs render responsive cards with native MathM
   const blocks = [
     { id: "deck-heading", kind: "prose" as const, text: "Other examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:deck-heading" }] },
     ...["u=7", "v=11", "w=13"].flatMap((expression, index) => [
-      { id: `deck-text-${index}`, kind: "prose" as const, text: `CASE ${index}\nKeep  spacing`, intent: { kind: "explain" as const }, source: [{ resourceId: `ex:deck-text-${index}` }] },
+      { id: `deck-text-${index}`, kind: "definition-list" as const, entries: [{ id: `entry-${index}`, term: `CASE ${index}`, description: "Keep  spacing", source: [{ resourceId: `ex:deck-text-${index}` }] }], source: [{ resourceId: `ex:deck-text-${index}` }] },
       { id: `deck-math-${index}`, kind: "math" as const, expression, spokenText: `Expression ${index}`, source: [{ resourceId: `ex:deck-math-${index}` }] },
     ]),
   ];
   const scene = { id: "unrelated-deck", source: [{ resourceId: "ex:unrelated-deck" }], blocks, readingOrder: blocks.map(block => block.id) };
-  const result = createSelfStudyRenderPlan({ ...document, scenes: [scene] });
+  const result = createSelfStudyRenderPlan({ ...document, version: "1.4", scenes: [scene] });
   assert.ok(result.plan);
   for (const interactive of [false, true]) {
     const html = renderSelfStudyHtml(result.plan, { interactive });
-    assert.equal((html.match(/class="self-study-formula-card"/gu) ?? []).length, 3);
+    assert.equal((html.match(/class="self-study-definition-entry"/gu) ?? []).length, 3);
     assert.equal((html.match(/<math /gu) ?? []).length, 3);
-    assert.ok(html.includes("CASE 0\nKeep  spacing"));
+    assert.ok(html.includes("CASE 0"));
+    assert.ok(html.includes("Keep  spacing"));
     for (const expression of ["u=7", "v=11", "w=13"]) assert.ok(html.includes(`<code>${expression}</code>`));
     assert.ok(html.includes('data-resource-id="ex:deck-math-2"'));
   }

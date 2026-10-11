@@ -77,7 +77,6 @@ export type RevealLearningProfile =
   | "list-code-reference"
   | "definition-deck"
   | "formula-legend"
-  | "formula-deck"
   | "statement-support";
 
 export type RevealVisualStageProfile =
@@ -570,6 +569,26 @@ export function revealComponentDescriptor(block: SceneBlock): RevealComponentDes
   }
 }
 
+/** Adjacent singleton card collections and formulas share the existing infocard primitive. */
+export function resolveDefinitionFormulaPairs(scene: Scene): readonly {
+  readonly card: Extract<SceneBlock, { kind: "definition-list" }>;
+  readonly formula: Extract<SceneBlock, { kind: "math" }>;
+}[] | undefined {
+  const blocks = orderedBlocks(scene);
+  if (blocks.length === 0) return undefined;
+  const body = isHeading(blocks[0]) ? blocks.slice(1) : blocks;
+  const paired = body.length % 2 === 1 && isContextProse(body[0]) ? body.slice(1) : body;
+  if (paired.length < 4 || paired.length > 8) return undefined;
+  const pairs = [];
+  for (let index = 0; index < paired.length; index += 2) {
+    const card = paired[index];
+    const formula = paired[index + 1];
+    if (card?.kind !== "definition-list" || card.entries.length !== 1 || formula?.kind !== "math") return undefined;
+    pairs.push({ card, formula });
+  }
+  return pairs;
+}
+
 /**
  * Generic composition inference.
  *
@@ -584,15 +603,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const heading = isHeading(blocks[0]) ? blocks[0] : undefined;
   const body = heading ? blocks.slice(1) : blocks;
 
-  // Repeated explanation/formula pairs form reusable information cards.
-  // An optional leading explanation supplies shared example context.
-  const formulaDeckBody = body.length % 2 === 1 && isContextProse(body[0]) ? body.slice(1) : body;
-  if (formulaDeckBody.length >= 4 && formulaDeckBody.length <= 8
-      && formulaDeckBody.every((block, index) => index % 2 === 0 ? isContextProse(block) : block.kind === "math")) {
+  const definitionFormulaPairs = resolveDefinitionFormulaPairs(scene);
+  if (definitionFormulaPairs) {
     const placements = placementsWithHeading(heading);
-    if (formulaDeckBody !== body) placements.push(placement(body[0]!, "prelude", 0));
-    formulaDeckBody.forEach((block, index) => placements.push(placement(block, "main", Math.floor(index / 2))));
-    return { kind: "learning-stage", profile: "formula-deck", mainCount: formulaDeckBody.length / 2, placements };
+    if (isContextProse(body[0])) placements.push(placement(body[0]!, "prelude", 0));
+    definitionFormulaPairs.forEach(({ card, formula }, index) => {
+      placements.push(placement(card, "main", index * 2));
+      placements.push(placement(formula, "main", index * 2 + 1));
+    });
+    return { kind: "learning-stage", profile: "definition-deck", mainCount: 1, placements };
   }
 
   if (body.length === 0) {

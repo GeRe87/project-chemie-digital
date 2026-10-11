@@ -4,6 +4,7 @@ import { validateSceneDocument, type SceneDocument, type SceneBlock, type Source
 import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
+  resolveDefinitionFormulaPairs,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
@@ -107,7 +108,10 @@ function appendBlock(
   headingId: string,
   compositionDensity?: "comfortable" | "dense" | "compact",
   compositionPlacement?: RevealCompositionPlacement,
-): void {
+  definitionCollection?: MinimalElement,
+  entryFormula?: Extract<SceneBlock, { kind: "math" }>,
+  entryIndexOffset = 0,
+): MinimalElement | void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
     node.className = "math-display";
@@ -178,15 +182,19 @@ function appendBlock(
     return;
   }
   if (block.kind === "definition-list") {
-    const list = dom.createElement("dl");
-    list.className = "definition-list";
-    blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
-    sourceAttributes(list, block.source);
-    block.entries.forEach((entry, index) => {
+    const list = definitionCollection ?? dom.createElement("dl");
+    if (!definitionCollection) {
+      list.className = "definition-list";
+      blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
+      sourceAttributes(list, block.source);
+    }
+    block.entries.forEach((entry, localIndex) => {
+      const index = localIndex + entryIndexOffset;
       const entryShell = dom.createElement("div");
       entryShell.className = "definition-list-entry";
       entryShell.setAttribute("data-definition-entry-id", entry.id);
       entryShell.setAttribute("data-definition-entry-index", String(index));
+      entryShell.setAttribute("data-source-block-id", block.id);
       const intrinsicTextWidth = Math.max(
         entry.term.trim().length,
         ...(entry.description ?? "")
@@ -257,10 +265,15 @@ function appendBlock(
 
         entryShell.appendChild(description);
       }
+      if (entryFormula) {
+        const definition = dom.createElement("dd");
+        appendBlock(definition, dom, entryFormula, headingId, compositionDensity);
+        entryShell.appendChild(definition);
+      }
       list.appendChild(entryShell);
     });
-    parent.appendChild(list);
-    return;
+    if (!definitionCollection) parent.appendChild(list);
+    return list;
   }
   if (block.kind === "table") {
     const table = dom.createElement("table");
@@ -488,7 +501,10 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     sourceAttributes(section, scene.source);
 
     const compositionRegions = new Map<string, MinimalElement>();
-    const compositionCards = new Map<number, MinimalElement>();
+    const definitionPairs = resolveDefinitionFormulaPairs(scene);
+    const formulaByCard = new Map(definitionPairs?.map(pair => [pair.card.id, pair.formula]));
+    const embeddedFormulaIds = new Set(definitionPairs?.map(pair => pair.formula.id));
+    let definitionCollection: MinimalElement | undefined;
     const compositionParent = (placement: RevealCompositionPlacement | undefined): MinimalElement => {
       if (!placement || !shouldWrapRevealCompositionPlacement(composition, placement)) {
         return section;
@@ -501,32 +517,32 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         compositionRegions.set(placement.region, region);
         section.appendChild(region);
       }
-      if (composition.profile === "formula-deck" && placement.region === "main") {
-        let card = compositionCards.get(placement.index);
-        if (!card) {
-          card = dom.createElement("div");
-          card.className = "pcd-formula-card";
-          card.setAttribute("data-composition-card-index", String(placement.index));
-          compositionCards.set(placement.index, card);
-          region.appendChild(card);
-        }
-        return card;
-      }
       return region;
     };
 
     for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
+      if (embeddedFormulaIds.has(blockId)) continue;
       const compositionPlacement = compositionByBlockId.get(block.id);
-      appendBlock(
+      const formula = formulaByCard.get(blockId);
+      const rendered = appendBlock(
         compositionParent(compositionPlacement),
         dom,
         block,
         headingId,
         compositionFit.density,
         compositionPlacement,
+        formula ? definitionCollection : undefined,
+        formula,
+        formula ? definitionPairs!.findIndex(pair => pair.card.id === blockId) : 0,
       );
+      if (formula && rendered) {
+        definitionCollection = rendered;
+        sourceAttributes(rendered, definitionPairs!.flatMap(pair => pair.card.source));
+        rendered.setAttribute("data-component-item-count", String(definitionPairs!.length));
+        rendered.setAttribute("data-source-block-ids", definitionPairs!.map(pair => pair.card.id).join(" "));
+      }
     }
     if (semanticGraphCompanion) {
       const graphHost = dom.createElement("div");

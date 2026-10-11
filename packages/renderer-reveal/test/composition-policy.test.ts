@@ -4,6 +4,7 @@ import test from "node:test";
 import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
 import {
   inferRevealCompositionPlan,
+  resolveDefinitionFormulaPairs,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
@@ -193,16 +194,16 @@ test("composition inference is independent of scene and resource identities", ()
 test("repeated explanation/math pairs form identity-independent cards in reading order", () => {
   for (const count of [2, 3, 4]) for (const context of [false, true]) {
     const blocks = [prose("heading", "introduce"), ...(context ? [prose("context")] : []),
-      ...Array.from({ length: count }, (_, i) => [prose(`unrelated-${i}`), math(`expression-${i}`)]).flat()];
+      ...Array.from({ length: count }, (_, i): SceneBlock[] => [{ id: `unrelated-${i}`, kind: "definition-list", entries: [{ id: `entry-${i}`, term: "Example", source: [{ resourceId: `ex:entry-${i}` }] }], source: [{ resourceId: `ex:card-${i}` }] }, math(`expression-${i}`)]).flat()];
     const scene: Scene = { id: "unrelated-lecture", source: [{ resourceId: "ex:other" }], blocks, readingOrder: blocks.map(block => block.id) };
     const plan = inferRevealCompositionPlan(scene);
-    assert.equal(plan.profile, "formula-deck");
-    assert.equal(plan.mainCount, count);
+    assert.equal(plan.profile, "definition-deck");
+    assert.equal(plan.mainCount, 1);
     assert.deepEqual(plan.placements.filter(item => item.region === "main").map(item => item.index),
-      Array.from({ length: count }, (_, i) => [i, i]).flat());
+      Array.from({ length: count * 2 }, (_, i) => i));
     assert.equal(plan.placements.some(item => item.region === "footer"), false);
     const broken = { ...scene, blocks: blocks.map(block => block.id === "expression-0" ? prose(block.id) : block) };
-    assert.notEqual(inferRevealCompositionPlan(broken).profile, "formula-deck");
+    assert.equal(resolveDefinitionFormulaPairs(broken), undefined);
   }
 });
 
