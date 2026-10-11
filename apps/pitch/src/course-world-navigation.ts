@@ -176,7 +176,9 @@ export function mountPitchCourseWorldNavigation(options: {
     pendingDocumentId = undefined;
     pendingFirstSlide = undefined;
     pendingTrigger = undefined;
-    presentation.hidden = true;
+    // Keep Reveal in the layout while the overworld is active. Scroll-view
+    // navigation needs stable slide geometry for non-zero level jumps.
+    presentation.hidden = false;
     presentation.setAttribute("aria-hidden", "true");
     worldShell.hidden = false;
     worldShell.removeAttribute("aria-hidden");
@@ -200,6 +202,7 @@ export function mountPitchCourseWorldNavigation(options: {
     worldShell.hidden = true;
     worldShell.setAttribute("aria-hidden", "true");
     ownerDocument.body.classList.remove("pcd-course-world-active");
+    presentation.removeAttribute("aria-hidden");
     deck.configure({ keyboard: true });
     first.tabIndex = -1;
     first.focus({ preventScroll: true });
@@ -218,7 +221,14 @@ export function mountPitchCourseWorldNavigation(options: {
       if (destroyed || pendingDocumentId === undefined) return;
       if (finalizePendingOpen(deck.getCurrentSlide() ?? undefined)) return;
       remainingFrames -= 1;
-      if (remainingFrames <= 0) return;
+      if (remainingFrames <= 0) {
+        const unresolvedDocumentId = pendingDocumentId;
+        showWorld();
+        reportNavigationError(new Error(
+          `Reveal did not settle on requested course level document ${unresolvedDocumentId}`,
+        ));
+        return;
+      }
       pendingSettleFrame = view.requestAnimationFrame(check);
     };
 
@@ -245,14 +255,12 @@ export function mountPitchCourseWorldNavigation(options: {
     pendingTrigger = trigger;
     clearNavigationStatus();
 
-    // Reveal scroll-mode navigation may settle asynchronously. Keep the deck
-    // measurable but visually hidden behind the overworld until the exact
-    // requested authored slide is confirmed by Reveal.
-    presentation.hidden = false;
-    presentation.removeAttribute("aria-hidden");
+    // Reveal remains layout-participating while the overworld is active, so
+    // scroll-mode geometry is already stable before navigating to later levels.
+    // Keep it aria-hidden until the exact authored destination is confirmed.
     deck.configure({ keyboard: false });
-    deck.slide(target.h, target.v, target.f);
     deck.layout();
+    deck.slide(target.h, target.v, target.f);
 
     // Conventional Reveal mode may update synchronously. Scroll mode may settle
     // without a usable slidechanged callback, so keep a short bounded check alive

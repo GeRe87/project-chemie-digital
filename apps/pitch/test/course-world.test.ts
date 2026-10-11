@@ -214,3 +214,18 @@ test("course-world navigation has a bounded generic settle path for Reveal scrol
   assert.equal(lower.includes("document:intro"), false);
   assert.equal(lower.includes("variables and constants"), false);
 });
+
+test("course-world navigation keeps Reveal measurable while the overworld is active", () => {
+  const source = readFileSync(new URL("../src/course-world-navigation.ts", import.meta.url), "utf8");
+  assert.equal(source.includes("presentation.hidden = true"), false);
+  assert.match(
+    source,
+    /const showWorld = \(\): void => \{[\s\S]*?presentation\.hidden = false;[\s\S]*?presentation\.setAttribute\("aria-hidden", "true"\)/,
+  );
+  assert.match(
+    source,
+    /worldShell\.hidden = true;[\s\S]*?ownerDocument\.body\.classList\.remove\("pcd-course-world-active"\);[\s\S]*?presentation\.removeAttribute\("aria-hidden"\)/,
+  );
+  assert.match(source, /deck\.layout\(\);\s*deck\.slide\(target\.h, target\.v, target\.f\);/);
+  assert.match(source, /Reveal did not settle on requested course level document/);
+});
