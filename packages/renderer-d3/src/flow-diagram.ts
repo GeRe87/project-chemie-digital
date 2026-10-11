@@ -23,6 +23,7 @@ export interface D3FlowDiagnostic {
 export interface D3FlowRenderNode {
   readonly id: string;
   readonly label: string;
+  readonly notation?: string;
   readonly description?: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
@@ -189,6 +190,7 @@ function validateFlowBlock(block: DiagramBlock): void {
   for (const node of block.nodes) {
     requireNonEmpty(node.id, "Flow node id");
     requireNonEmpty(node.label, `Flow node ${node.id} label`);
+    if (node.notation !== undefined) requireNonEmpty(node.notation, `Flow node ${node.id} notation`);
     if (node.description !== undefined) requireNonEmpty(node.description, `Flow node ${node.id} description`);
     validateVisualRole(node.visualRole, `Flow node ${node.id}`);
     if (node.parts !== undefined) {
@@ -400,6 +402,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
       id: node.id,
       label: node.label,
       ...(node.description ? { description: node.description } : {}),
+      ...(node.notation ? { notation: node.notation } : {}),
       source: cloneSources(node.source),
       ...(node.emphasis ? { emphasis: node.emphasis } : {}),
        ...(node.visualRole ? { visualRole: node.visualRole } : {}),
@@ -1069,6 +1072,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
           group.setAttribute("aria-label", [
             modelNode.label,
+            modelNode.notation,
             modelNode.description,
             ...(modelNode.parts ?? []).map((part) => `${part.label}${part.description ? `: ${part.description}` : ""}`),
           ].filter(Boolean).join("; "));
@@ -1162,10 +1166,33 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 }
                 group.append(partGroup);
               }
+            } else if (modelNode.notation && informationCard) {
+              group.setAttribute("data-structured-node", "true");
+              group.setAttribute("data-node-has-notation", "true");
+              const titleHeight = Math.max(layoutNode.labelLines.length, 1) * 28;
+              const bodyHeight = layoutNode.bodyLines.length * 23;
+              const totalHeight = titleHeight + 17 + 48 + (bodyHeight ? 13 + bodyHeight : 0);
+              const top = -totalHeight / 2;
+              const titleY = top + titleHeight / 2;
+              const dividerY = top + titleHeight + 8;
+              const notationY = dividerY + 45;
+              addTextLines(group, layoutNode.labelLines, contentX, titleY, "d3-flow-node-title", 28);
+              const divider = document.createElementNS(namespace, "line");
+              divider.setAttribute("class", "d3-flow-node-title-divider");
+              divider.setAttribute("x1", String(contentLeft));
+              divider.setAttribute("x2", String(contentRight));
+              divider.setAttribute("y1", String(dividerY));
+              divider.setAttribute("y2", String(dividerY));
+              divider.setAttribute("aria-hidden", "true");
+              group.append(divider);
+              addTextLines(group, [modelNode.notation], contentX, notationY, "d3-flow-node-notation");
+              if (layoutNode.bodyLines.length > 0) {
+                addTextLines(group, layoutNode.bodyLines, contentX, notationY + 13 + bodyHeight / 2, "d3-flow-node-body", 23);
+              }
             } else if (layoutNode.bodyLines.length > 0) {
               group.setAttribute("data-structured-node", "true");
-              const titleLineHeight = informationCard ? 26 : 22;
-              const bodyLineHeight = informationCard ? 21 : 18;
+              const titleLineHeight = informationCard ? 28 : 25;
+              const bodyLineHeight = informationCard ? 23 : 20;
               const titleHeight = Math.max(layoutNode.labelLines.length, 1) * titleLineHeight;
               const bodyHeight = Math.max(layoutNode.bodyLines.length, 1) * bodyLineHeight;
               const dividerGap = informationCard ? 22 : 18;

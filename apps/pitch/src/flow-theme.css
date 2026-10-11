@@ -161,10 +161,10 @@ body[data-presentation-theme="dark"] .reveal {
   stroke-linejoin: round;
 }
 
-.reveal .d3-flow-node-label { stroke-width: 3px; }
+.reveal .d3-flow-node-label { stroke-width: 3px; font-size: 23px; }
 .reveal .d3-flow-node-title {
   fill: var(--pcd-foreground);
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 900;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
@@ -173,13 +173,23 @@ body[data-presentation-theme="dark"] .reveal {
 }
 .reveal .d3-flow-node-body {
   fill: var(--pcd-foreground);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 650;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
   stroke-width: 2px;
   stroke-linejoin: round;
 }
+/* Source-linked skos:notation remains legible independently of node prose. */
+.reveal .d3-flow-node-notation {
+  fill: var(--pcd-foreground);
+  font-family: "Cambria Math", "STIX Two Math", "Noto Sans Math", Georgia, serif;
+  font-size: 44px;
+  font-weight: 750;
+  stroke: none;
+  paint-order: normal;
+}
+
 .reveal .d3-flow-node-title-divider {
   stroke: color-mix(in srgb, var(--pcd-accent) 46%, var(--pcd-surface-strong));
   stroke-width: 2;
@@ -230,7 +240,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg[data-diagram-type="flow"]
   .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
   fill: color-mix(in srgb, var(--pcd-accent) 86%, var(--pcd-foreground));
-  font-size: 18px;
+  font-size: 23px;
   font-weight: 900;
   stroke: transparent;
   stroke-width: 0;
@@ -239,7 +249,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg[data-diagram-type="flow"]
   .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
   fill: var(--pcd-foreground);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   stroke: transparent;
   stroke-width: 0;
@@ -308,7 +318,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
   .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
   fill: hsl(var(--d3-flow-card-hue, 205) 66% 30%);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 900;
   stroke: hsl(var(--d3-flow-card-hue, 205) 72% 96% / .96);
   stroke-width: 4px;
@@ -322,7 +332,7 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
   .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
   fill: #18242c;
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 720;
   stroke: hsl(var(--d3-flow-card-hue, 205) 70% 96% / .96);
   stroke-width: 3px;
@@ -652,7 +662,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 900;
   letter-spacing: -.05em;
   paint-order: stroke fill;
@@ -665,7 +675,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-title {
   stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 19px;
+  font-size: 23px;
   font-weight: 950;
   letter-spacing: -.04em;
   paint-order: stroke fill;
@@ -678,7 +688,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-body {
   stroke-width: 2px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: -.025em;
   paint-order: stroke fill;
@@ -788,7 +798,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="high
     min-height: 23rem;
   }
 
-  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 14px; }
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 18px; }
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 11px; }
 }
 
@@ -839,22 +849,24 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-par
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="residual"] .d3-flow-node-shape {
   stroke: #9b86be;
 }
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-title {
-  font-size: 21px;
+.reveal .d3-flow-svg[data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  font-size: 26px;
   letter-spacing: .03em;
 }
-.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-body {
-  font-size: 16px;
+.reveal .d3-flow-svg[data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  font-size: 20px;
 }
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-title {
   fill: var(--pcd-foreground);
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 900;
   letter-spacing: .02em;
 }
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-body {
   fill: var(--pcd-foreground);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
 }
 .reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-divider {
