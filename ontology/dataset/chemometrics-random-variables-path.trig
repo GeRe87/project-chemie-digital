@@ -57,8 +57,7 @@
 
   ex:path-step-chemometrics-why-values-differ a cd:PathStep ;
     cd:position 5 ;
-    cd:usesResource ex:why-values-differ-intro,
-      ex:variation-origins-cards,
+    cd:usesResource ex:variation-origins-cards,
       ex:why-values-differ-takeaway ;
     cd:usesScene ex:scene-chemometrics-why-values-differ ;
     cd:authoredResource true .

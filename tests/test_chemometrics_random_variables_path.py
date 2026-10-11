@@ -57,7 +57,6 @@ EXPECTED_STEPS = [
         EX["chart-lake-analyte-a-replicates"],
     }),
     ("why-values-differ", {
-        EX["why-values-differ-intro"],
         EX["variation-origins-cards"],
         EX["why-values-differ-takeaway"],
     }),

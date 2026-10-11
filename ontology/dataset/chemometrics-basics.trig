@@ -1112,7 +1112,7 @@ Constant: aliquot volume"""@en ;
     cd:position 1 ;
     skos:prefLabel "DESIGNED VARIATION"@en ;
     cd:body """We deliberately choose different values.
-Calibration standards: concentrations are assigned; absorbance is measured."""@en ;
+|> Calibration standards: concentrations are assigned; absorbance is measured."""@en ;
     cd:visualMotif "calibration-flasks" ;
     cd:visualMotifRole "highlight" ;
     cd:authoredResource true .
@@ -1121,7 +1121,7 @@ Calibration standards: concentrations are assigned; absorbance is measured."""@e
     cd:position 2 ;
     skos:prefLabel "OBSERVED VARIATION"@en ;
     cd:body """We measure differences rather than assign them.
-Lake samples: concentration may vary with the environment, sampling and measurement."""@en ;
+|> Lake samples: concentration may vary with the environment, sampling and measurement."""@en ;
     cd:visualMotif "sampling-lake" ;
     cd:visualMotifRole "highlight" ;
     cd:authoredResource true .

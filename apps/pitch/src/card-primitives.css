@@ -217,6 +217,21 @@
   border-top: .55rem solid color-mix(in srgb, var(--pcd-card-stroke) 78%, var(--pcd-muted));
 }
 
+/* A leading "|> " denotes a subordinate supporting example. Preserve the
+   adaptive gap but do not draw the connector/arrow for that one transition. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"]::before,
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"]::after {
+  content: none;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point[data-definition-point-level="1"] {
+  padding-inline-start: 1.65em;
+  text-indent: -1.65em;
+}
+
 /* Visual motifs are semantic component decoration and therefore live with the card primitive. */
 .reveal .definition-list-visual-motif {
   display: block;

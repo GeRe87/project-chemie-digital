@@ -229,15 +229,20 @@ function appendBlock(
           const points = dom.createElement("div");
           points.className = "definition-list-points";
           for (const [pointIndex, pointText] of authoredPoints.entries()) {
+            // A leading "|> " marks a subordinate example, not a peer point.
+            // Keep it in the text so the marker remains accessible and copyable.
+            const isIndentedPoint = pointText.startsWith("|> ");
             if (pointIndex > 0) {
               const spacer = dom.createElement("span");
               spacer.className = "definition-list-point-spacer";
               spacer.setAttribute("aria-hidden", "true");
+              if (isIndentedPoint) spacer.setAttribute("data-followed-by-indented-point", "true");
               points.appendChild(spacer);
             }
             const point = dom.createElement("span");
             point.className = "definition-list-point";
             point.setAttribute("data-definition-point-index", String(pointIndex));
+            if (isIndentedPoint) point.setAttribute("data-definition-point-level", "1");
             point.textContent = pointText;
             points.appendChild(point);
           }

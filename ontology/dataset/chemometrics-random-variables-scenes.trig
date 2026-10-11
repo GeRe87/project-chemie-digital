@@ -97,7 +97,6 @@
   ex:scene-chemometrics-why-values-differ a cd:SceneDefinition ;
     cd:focusConcept ex:variability-randomness-uncertainty ;
     cd:hasSceneItem ex:scene-item-why-values-heading,
-      ex:scene-item-why-values-intro,
       ex:scene-item-why-values-cards,
       ex:scene-item-why-values-takeaway ;
     cd:authoredResource true .
@@ -105,16 +104,12 @@
     cd:position 1 ; cd:selectsResource ex:variability-randomness-uncertainty ;
     cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
     cd:language "en" ; cd:authoredResource true .
-  ex:scene-item-why-values-intro a cd:SceneItem ;
-    cd:position 2 ; cd:selectsResource ex:why-values-differ-intro ;
-    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
-    cd:language "en" ; cd:authoredResource true .
   ex:scene-item-why-values-cards a cd:SceneItem ;
-    cd:position 3 ; cd:selectsResource ex:variation-origins-cards ;
+    cd:position 2 ; cd:selectsResource ex:variation-origins-cards ;
     cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
     cd:language "en" ; cd:authoredResource true .
   ex:scene-item-why-values-takeaway a cd:SceneItem ;
-    cd:position 4 ; cd:selectsResource ex:why-values-differ-takeaway ;
+    cd:position 3 ; cd:selectsResource ex:why-values-differ-takeaway ;
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 

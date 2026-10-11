@@ -50,7 +50,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "prose", "prose"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
-    ["prose", "prose", "definition-list", "prose"],
+    ["prose", "definition-list", "prose"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -165,24 +165,25 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_why_values_differ_contrasts_assigned_and_observed_variation(self) -> None:
         scene = self.document["scenes"][4]
         self.assertEqual("Why do values differ?", scene["blocks"][0]["text"])
-        intro = scene["blocks"][1]["text"]
-        self.assertIn("UV/Vis", intro)
-        self.assertIn("lake", intro)
-
-        entries = scene["blocks"][2]["entries"]
+        self.assertEqual(["prose", "definition-list", "prose"], [block["kind"] for block in scene["blocks"]])
+        self.assertFalse(any(
+            "The same quantity can take different values" in str(block) for block in scene["blocks"]
+        ))
+        entries = scene["blocks"][1]["entries"]
         self.assertEqual(
             ["DESIGNED VARIATION", "OBSERVED VARIATION"],
             [entry["term"] for entry in entries],
         )
         self.assertIn("deliberately choose", entries[0]["description"])
+        self.assertIn("\n|> Calibration standards:", entries[0]["description"])
         self.assertIn("absorbance is measured", entries[0]["description"])
-        self.assertIn("Lake samples", entries[1]["description"])
+        self.assertIn("\n|> Lake samples:", entries[1]["description"])
         self.assertIn("environment, sampling and measurement", entries[1]["description"])
         self.assertEqual(
             ["calibration-flasks", "sampling-lake"],
             [entry["visualMotif"] for entry in entries],
         )
-        self.assertIn("A variable's role depends", scene["blocks"][3]["text"])
+        self.assertIn("A variable's role depends", scene["blocks"][2]["text"])
 
     def test_controlled_calibration_keeps_design_points_fixed_in_model(self) -> None:
         scene = self.document["scenes"][5]

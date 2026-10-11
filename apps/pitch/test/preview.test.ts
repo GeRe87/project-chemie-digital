@@ -247,6 +247,12 @@ test("definition-list renderer separates authored points and caps adaptive spaci
         description: `Alpha\n\n   \nBeta`,
         source: [{ resourceId: "resource:entry:blank-lines" }],
       },
+      {
+        id: "entry:subordinate",
+        term: "HIERARCHY",
+        description: `Main statement\n|> A subordinate example wraps below the example text`,
+        source: [{ resourceId: "resource:entry:subordinate" }],
+      },
     ],
     intent: { kind: "explain" as const },
     source: [{ resourceId: "resource:generic-labeled-cards" }],
@@ -331,6 +337,20 @@ test("definition-list renderer separates authored points and caps adaptive spaci
     ["Alpha", "Beta"],
   );
 
+  const subordinateDescription = definitionList.children[3]!.children[1]!;
+  const subordinatePoints = subordinateDescription.children[0]!;
+  assert.deepEqual(
+    subordinatePoints.children.map((child) => [child.className, child.textContent]),
+    [
+      ["definition-list-point", "Main statement"],
+      ["definition-list-point-spacer", null],
+      ["definition-list-point", "|> A subordinate example wraps below the example text"],
+    ],
+  );
+  assert.equal(subordinatePoints.children[1]!.attributes.get("data-followed-by-indented-point"), "true");
+  assert.equal(subordinatePoints.children[2]!.attributes.get("data-definition-point-level"), "1");
+  assert.equal(multiPoints.children[1]!.attributes.get("data-followed-by-indented-point"), undefined);
+
   const sharedStyles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
   const cardStyles = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
   assert.match(sharedStyles, /\.definition-list-point-spacer/);
@@ -349,6 +369,9 @@ test("definition-list renderer separates authored points and caps adaptive spaci
   assert.match(cardStyles, /border-right:\s*\.35rem solid transparent/);
   assert.match(cardStyles, /border-top:\s*\.55rem solid color-mix/);
   assert.doesNotMatch(cardStyles, /content:\s*"↓"/);
+  assert.match(cardStyles, /data-followed-by-indented-point="true"/u);
+  assert.match(cardStyles, /data-definition-point-level="1"/u);
+  assert.match(cardStyles, /content:\s*none;/u);
   assert.doesNotMatch(cardStyles.toLowerCase(), /chemometrics|lecturer|research/);
 
   destroy();
