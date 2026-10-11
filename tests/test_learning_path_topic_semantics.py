@@ -27,6 +27,7 @@ VARIABLES_TOPICS = {
     EX["variables-foundation"],
     EX["variable"],
     EX["variables-values-observations"],
+    EX["lake-sampling-replicates"],
     EX["variability-randomness-uncertainty"],
     EX["controlled-calibration-model"],
     EX["concentration-context-roles"],
