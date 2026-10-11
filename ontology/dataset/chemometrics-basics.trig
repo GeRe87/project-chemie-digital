@@ -2,6 +2,7 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics> {
   # Variables, constants, samples and distributions -------------------------
@@ -250,7 +251,7 @@ data.frame(
     cd:hasExpectedResult ex:expected-classify-recorded-temperature ;
     cd:authoredResource true .
 
-  # Tight nine-scene narrative resources ------------------------------------
+  # Legacy Variables resources retained for compatibility ------------------------------------
 
   ex:source-openstax-statistics
     cd:supportsResource ex:def-variable, ex:def-constant .
@@ -953,6 +954,135 @@ Constant: aliquot volume"""@en ;
   ex:variables-values-observations-intro a cd:Interpretation ;
     cd:body "In this UV/Vis calibration dataset, concentration and absorbance are variables. Each row is one observation of a calibration standard and each cell contains one variable value. The plot shows the same concentration–absorbance observations graphically."@en ;
     cd:authoredResource true .
+
+  ex:lake-sampling-replicates a cd:Concept ;
+    skos:prefLabel "Sampling locations and replicates"@en ;
+    skos:related ex:variable, ex:sample ;
+    cd:hasDefinition ex:def-lake-sampling-replicates ;
+    cd:authoredResource true .
+
+  ex:def-lake-sampling-replicates a cd:Definition ;
+    cd:body "Repeated samples collected at several sampling locations produce multiple observed concentration values that can be grouped by location and replicate. Similar observed values do not imply that the physical concentration is exactly identical throughout the lake."@en ;
+    cd:authoredResource true .
+
+  ex:lake-sampling-replicates-intro a cd:Interpretation ;
+    cd:body "We sample one lake at five locations and take three replicate samples at each site. All 15 samples contain approximately the same concentration of analyte A. Each measurement is one observed concentration value, while the sampling site provides the grouping context."@en ;
+    cd:authoredResource true .
+
+  ex:media-lake-sampling-sites a cd:MediaAsset ;
+    cd:uri "/chemometrics/lake-sampling-sites.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Schematic lake with five labeled sampling locations distributed across the water body."@en ;
+    cd:authoredResource true .
+
+  ex:table-lake-analyte-a-replicates a cd:TableDefinition ;
+    skos:prefLabel "Analyte A concentration by sampling site"@en ;
+    cd:body "Analyte A concentration in mg/L for three replicate samples collected at each of five lake sampling sites."@en ;
+    cd:hasTableColumn ex:table-column-lake-site,
+      ex:table-column-lake-replicate-1,
+      ex:table-column-lake-replicate-2,
+      ex:table-column-lake-replicate-3 ;
+    cd:hasTableRow ex:table-row-lake-site-1,
+      ex:table-row-lake-site-2,
+      ex:table-row-lake-site-3,
+      ex:table-row-lake-site-4,
+      ex:table-row-lake-site-5 ;
+    cd:authoredResource true .
+
+  ex:table-column-lake-site a cd:TableColumn ;
+    skos:prefLabel "Sampling site"@en ; cd:position 1 ; cd:authoredResource true .
+  ex:table-column-lake-replicate-1 a cd:TableColumn ;
+    skos:prefLabel "Replicate 1"@en ; cd:position 2 ; cd:authoredResource true .
+  ex:table-column-lake-replicate-2 a cd:TableColumn ;
+    skos:prefLabel "Replicate 2"@en ; cd:position 3 ; cd:authoredResource true .
+  ex:table-column-lake-replicate-3 a cd:TableColumn ;
+    skos:prefLabel "Replicate 3"@en ; cd:position 4 ; cd:authoredResource true .
+
+  ex:table-row-lake-site-1 a cd:TableRow ;
+    cd:position 1 ;
+    cd:hasTableCell ex:table-cell-lake-site-1-label,
+      ex:table-cell-lake-site-1-r1, ex:table-cell-lake-site-1-r2, ex:table-cell-lake-site-1-r3 ;
+    cd:authoredResource true .
+  ex:table-cell-lake-site-1-label a cd:TableCell ; cd:position 1 ; cd:body "Site 1"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-1-r1 a cd:TableCell ; cd:position 2 ; cd:body "5.02"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-1-r2 a cd:TableCell ; cd:position 3 ; cd:body "4.96"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-1-r3 a cd:TableCell ; cd:position 4 ; cd:body "5.05"@en ; cd:authoredResource true .
+
+  ex:table-row-lake-site-2 a cd:TableRow ;
+    cd:position 2 ;
+    cd:hasTableCell ex:table-cell-lake-site-2-label,
+      ex:table-cell-lake-site-2-r1, ex:table-cell-lake-site-2-r2, ex:table-cell-lake-site-2-r3 ;
+    cd:authoredResource true .
+  ex:table-cell-lake-site-2-label a cd:TableCell ; cd:position 1 ; cd:body "Site 2"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-2-r1 a cd:TableCell ; cd:position 2 ; cd:body "4.98"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-2-r2 a cd:TableCell ; cd:position 3 ; cd:body "5.01"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-2-r3 a cd:TableCell ; cd:position 4 ; cd:body "4.95"@en ; cd:authoredResource true .
+
+  ex:table-row-lake-site-3 a cd:TableRow ;
+    cd:position 3 ;
+    cd:hasTableCell ex:table-cell-lake-site-3-label,
+      ex:table-cell-lake-site-3-r1, ex:table-cell-lake-site-3-r2, ex:table-cell-lake-site-3-r3 ;
+    cd:authoredResource true .
+  ex:table-cell-lake-site-3-label a cd:TableCell ; cd:position 1 ; cd:body "Site 3"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-3-r1 a cd:TableCell ; cd:position 2 ; cd:body "5.04"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-3-r2 a cd:TableCell ; cd:position 3 ; cd:body "5.00"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-3-r3 a cd:TableCell ; cd:position 4 ; cd:body "4.97"@en ; cd:authoredResource true .
+
+  ex:table-row-lake-site-4 a cd:TableRow ;
+    cd:position 4 ;
+    cd:hasTableCell ex:table-cell-lake-site-4-label,
+      ex:table-cell-lake-site-4-r1, ex:table-cell-lake-site-4-r2, ex:table-cell-lake-site-4-r3 ;
+    cd:authoredResource true .
+  ex:table-cell-lake-site-4-label a cd:TableCell ; cd:position 1 ; cd:body "Site 4"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-4-r1 a cd:TableCell ; cd:position 2 ; cd:body "4.99"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-4-r2 a cd:TableCell ; cd:position 3 ; cd:body "5.03"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-4-r3 a cd:TableCell ; cd:position 4 ; cd:body "5.01"@en ; cd:authoredResource true .
+
+  ex:table-row-lake-site-5 a cd:TableRow ;
+    cd:position 5 ;
+    cd:hasTableCell ex:table-cell-lake-site-5-label,
+      ex:table-cell-lake-site-5-r1, ex:table-cell-lake-site-5-r2, ex:table-cell-lake-site-5-r3 ;
+    cd:authoredResource true .
+  ex:table-cell-lake-site-5-label a cd:TableCell ; cd:position 1 ; cd:body "Site 5"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-5-r1 a cd:TableCell ; cd:position 2 ; cd:body "4.96"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-5-r2 a cd:TableCell ; cd:position 3 ; cd:body "5.02"@en ; cd:authoredResource true .
+  ex:table-cell-lake-site-5-r3 a cd:TableCell ; cd:position 4 ; cd:body "4.98"@en ; cd:authoredResource true .
+
+  ex:chart-lake-analyte-a-replicates a cd:ChartDefinition ;
+    skos:prefLabel "Analyte A across five sampling sites"@en ;
+    cd:body "Fifteen replicate concentration measurements grouped by sampling location."@en ;
+    cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Sampling site"@en ;
+    cd:yAxisLabel "Analyte A concentration"@en ;
+    cd:yAxisUnit "mg/L" ;
+    cd:usesDataset ex:dataset-lake-analyte-a-replicates ;
+    cd:authoredResource true .
+
+  ex:dataset-lake-analyte-a-replicates a cd:Dataset ;
+    skos:prefLabel "Lake analyte A replicate concentrations"@en ;
+    cd:hasObservation
+      ex:lake-site-1-r1, ex:lake-site-1-r2, ex:lake-site-1-r3,
+      ex:lake-site-2-r1, ex:lake-site-2-r2, ex:lake-site-2-r3,
+      ex:lake-site-3-r1, ex:lake-site-3-r2, ex:lake-site-3-r3,
+      ex:lake-site-4-r1, ex:lake-site-4-r2, ex:lake-site-4-r3,
+      ex:lake-site-5-r1, ex:lake-site-5-r2, ex:lake-site-5-r3 ;
+    cd:authoredResource true .
+
+  ex:lake-site-1-r1 a cd:Observation ; skos:prefLabel "Replicate 1"@en ; cd:groupLabel "Site 1"@en ; cd:position 1 ; cd:numericValue 5.02 ; cd:authoredResource true .
+  ex:lake-site-1-r2 a cd:Observation ; skos:prefLabel "Replicate 2"@en ; cd:groupLabel "Site 1"@en ; cd:position 2 ; cd:numericValue 4.96 ; cd:authoredResource true .
+  ex:lake-site-1-r3 a cd:Observation ; skos:prefLabel "Replicate 3"@en ; cd:groupLabel "Site 1"@en ; cd:position 3 ; cd:numericValue 5.05 ; cd:authoredResource true .
+  ex:lake-site-2-r1 a cd:Observation ; skos:prefLabel "Replicate 1"@en ; cd:groupLabel "Site 2"@en ; cd:position 4 ; cd:numericValue 4.98 ; cd:authoredResource true .
+  ex:lake-site-2-r2 a cd:Observation ; skos:prefLabel "Replicate 2"@en ; cd:groupLabel "Site 2"@en ; cd:position 5 ; cd:numericValue 5.01 ; cd:authoredResource true .
+  ex:lake-site-2-r3 a cd:Observation ; skos:prefLabel "Replicate 3"@en ; cd:groupLabel "Site 2"@en ; cd:position 6 ; cd:numericValue 4.95 ; cd:authoredResource true .
+  ex:lake-site-3-r1 a cd:Observation ; skos:prefLabel "Replicate 1"@en ; cd:groupLabel "Site 3"@en ; cd:position 7 ; cd:numericValue 5.04 ; cd:authoredResource true .
+  ex:lake-site-3-r2 a cd:Observation ; skos:prefLabel "Replicate 2"@en ; cd:groupLabel "Site 3"@en ; cd:position 8 ; cd:numericValue 5.00 ; cd:authoredResource true .
+  ex:lake-site-3-r3 a cd:Observation ; skos:prefLabel "Replicate 3"@en ; cd:groupLabel "Site 3"@en ; cd:position 9 ; cd:numericValue 4.97 ; cd:authoredResource true .
+  ex:lake-site-4-r1 a cd:Observation ; skos:prefLabel "Replicate 1"@en ; cd:groupLabel "Site 4"@en ; cd:position 10 ; cd:numericValue 4.99 ; cd:authoredResource true .
+  ex:lake-site-4-r2 a cd:Observation ; skos:prefLabel "Replicate 2"@en ; cd:groupLabel "Site 4"@en ; cd:position 11 ; cd:numericValue 5.03 ; cd:authoredResource true .
+  ex:lake-site-4-r3 a cd:Observation ; skos:prefLabel "Replicate 3"@en ; cd:groupLabel "Site 4"@en ; cd:position 12 ; cd:numericValue 5.01 ; cd:authoredResource true .
+  ex:lake-site-5-r1 a cd:Observation ; skos:prefLabel "Replicate 1"@en ; cd:groupLabel "Site 5"@en ; cd:position 13 ; cd:numericValue 4.96 ; cd:authoredResource true .
+  ex:lake-site-5-r2 a cd:Observation ; skos:prefLabel "Replicate 2"@en ; cd:groupLabel "Site 5"@en ; cd:position 14 ; cd:numericValue 5.02 ; cd:authoredResource true .
+  ex:lake-site-5-r3 a cd:Observation ; skos:prefLabel "Replicate 3"@en ; cd:groupLabel "Site 5"@en ; cd:position 15 ; cd:numericValue 4.98 ; cd:authoredResource true .
 
   ex:variability-randomness-uncertainty a cd:Concept ;
     skos:prefLabel "Why do values differ?"@en ;

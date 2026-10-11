@@ -7,7 +7,8 @@
   ex:path-chemometrics-random-variables-lecture a cd:LearningPath ;
     skos:prefLabel "Chemometrics Variables lecture path"@en ;
     cd:forTopic ex:variables-foundation, ex:variable,
-      ex:variables-values-observations, ex:variability-randomness-uncertainty,
+      ex:variables-values-observations, ex:lake-sampling-replicates,
+      ex:variability-randomness-uncertainty,
       ex:controlled-calibration-model, ex:concentration-context-roles,
       ex:variable-classification, ex:empirical-probability-distribution-distinction,
       ex:random-variable, ex:distribution ;
@@ -15,6 +16,7 @@
     cd:hasStep ex:path-step-chemometrics-variables-title,
       ex:path-step-chemometrics-variable-definition,
       ex:path-step-chemometrics-variables-values-observations,
+      ex:path-step-chemometrics-lake-sampling-replicates,
       ex:path-step-chemometrics-why-values-differ,
       ex:path-step-chemometrics-controlled-calibration,
       ex:path-step-chemometrics-context-roles,
@@ -43,8 +45,17 @@
     cd:usesScene ex:scene-chemometrics-variables-values-observations ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-why-values-differ a cd:PathStep ;
+  ex:path-step-chemometrics-lake-sampling-replicates a cd:PathStep ;
     cd:position 4 ;
+    cd:usesResource ex:media-lake-sampling-sites,
+      ex:lake-sampling-replicates-intro,
+      ex:table-lake-analyte-a-replicates,
+      ex:chart-lake-analyte-a-replicates ;
+    cd:usesScene ex:scene-chemometrics-lake-sampling-replicates ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-why-values-differ a cd:PathStep ;
+    cd:position 5 ;
     cd:usesResource ex:why-values-differ-intro,
       ex:variability-randomness-uncertainty-cards,
       ex:why-values-differ-takeaway ;
@@ -52,7 +63,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-controlled-calibration a cd:PathStep ;
-    cd:position 5 ;
+    cd:position 6 ;
     cd:usesResource ex:controlled-calibration-intro,
       ex:controlled-calibration-formula,
       ex:chart-uvvis-calibration-response,
@@ -61,7 +72,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-context-roles a cd:PathStep ;
-    cd:position 6 ;
+    cd:position 7 ;
     cd:usesResource ex:concentration-context-intro,
       ex:concentration-context-cards,
       ex:concentration-context-takeaway ;
@@ -69,7 +80,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-classification a cd:PathStep ;
-    cd:position 7 ;
+    cd:position 8 ;
     cd:usesResource ex:variable-classification-intro,
       ex:variable-classification-cards,
       ex:variable-classification-takeaway ;
@@ -77,7 +88,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-empirical-probability a cd:PathStep ;
-    cd:position 8 ;
+    cd:position 9 ;
     cd:usesResource ex:empirical-probability-intro,
       ex:distribution-comparison-cards,
       ex:chart-assigned-concentration-frequency,
@@ -86,7 +97,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variables-checkpoint a cd:PathStep ;
-    cd:position 9 ;
+    cd:position 10 ;
     cd:usesResource ex:poll-variable-randomness-check,
       ex:poll-variability-check,
       ex:poll-distribution-check,

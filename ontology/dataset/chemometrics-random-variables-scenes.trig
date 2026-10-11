@@ -58,7 +58,37 @@
     cd:position 4 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
     cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
-  # 04 — variability, randomness and uncertainty ----------------------------
+  # 04 — lake sampling locations and replicates ------------------------------
+  ex:scene-chemometrics-lake-sampling-replicates a cd:SceneDefinition ;
+    cd:focusConcept ex:lake-sampling-replicates ;
+    cd:hasSceneItem ex:scene-item-lake-sampling-heading,
+      ex:scene-item-lake-sampling-media,
+      ex:scene-item-lake-sampling-intro,
+      ex:scene-item-lake-sampling-table,
+      ex:scene-item-lake-sampling-chart ;
+    cd:authoredResource true .
+  ex:scene-item-lake-sampling-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:lake-sampling-replicates ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-media a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:media-lake-sampling-sites ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-intro a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:lake-sampling-replicates-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-table a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:table-lake-analyte-a-replicates ;
+    cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-chart a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:chart-lake-analyte-a-replicates ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 05 — variability, randomness and uncertainty ----------------------------
   ex:scene-chemometrics-why-values-differ a cd:SceneDefinition ;
     cd:focusConcept ex:variability-randomness-uncertainty ;
     cd:hasSceneItem ex:scene-item-why-values-heading,
@@ -83,7 +113,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 05 — controlled design points, random response --------------------------
+  # 06 — controlled design points, random response --------------------------
   ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
     cd:focusConcept ex:controlled-calibration-model ;
     cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
@@ -113,7 +143,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 06 — same physical quantity, different role -----------------------------
+  # 07 — same physical quantity, different role -----------------------------
   ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
     cd:focusConcept ex:concentration-context-roles ;
     cd:hasSceneItem ex:scene-item-context-roles-heading,
@@ -138,7 +168,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 07 — orthogonal variable classifications -------------------------------
+  # 08 — orthogonal variable classifications -------------------------------
   ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
     cd:focusConcept ex:variable-classification ;
     cd:hasSceneItem ex:scene-item-variable-classification-heading,
@@ -163,7 +193,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 08 — empirical frequencies versus probability model ---------------------
+  # 09 — empirical frequencies versus probability model ---------------------
   ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
     cd:focusConcept ex:empirical-probability-distribution-distinction ;
     cd:hasSceneItem ex:scene-item-empirical-probability-heading,
@@ -193,7 +223,7 @@
     cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
     cd:language "en" ; cd:authoredResource true .
 
-  # 09 — checkpoint and bridge ----------------------------------------------
+  # 10 — checkpoint and bridge ----------------------------------------------
   ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
     cd:focusConcept ex:variables-level-check ;
     cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,
