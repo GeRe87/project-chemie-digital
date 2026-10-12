@@ -6,28 +6,21 @@
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 257,
-  "expectedDeliverable": "Manager review of revised PR #258 slide-first result: supported title flow restores preview/fallback; geometric paired cards with compact source-linked log expression; unchanged speed exercise followed by one authorised extra solution scene (31 total); sorted turbidity table/chart. 33 focused tests and 7 fallback tests passed, ordinary generation/production build passed. Browser screenshots at 1440x900 and 390x844 document actual desktop improvements and remaining scaling/diffusion/math-height limits. Full npm test rerun pending; no acceptance without compatible integration and exact-head external status.",
-  "lastCompletedTurn": "worker: implemented and browser-reviewed visible slide changes, fixed the active title fallback through supported content selection without shared code edits, preserved original speed prompt/answer and all observations, and built an isolated local preview on port 5176. Returned with explicit fit/deferred-capability limits and pending full-suite evidence.",
-  "lastUpdated": "2026-10-12T12:29:33+02:00",
+  "expectedDeliverable": "Manager review of revised PR #258 slide-first result and measured browser evidence. Active fallback and preview are restored; 31 scenes include the authorised speed solution. Full npm test failed on one stale cross-unit 30-versus-31 step-count assertion in tests/test_chemometrics_variance_dispersion_path.py:208/217 (397/398 Python tests passed). Authorise that exact test maintenance and full rerun without Varianz content changes. Retain measured mobile/diffusion/math-fit limits and deferred capabilities; acceptance requires compatible integration and exact-head external status.",
+  "lastCompletedTurn": "worker: delivered visible slide changes and isolated preview on port 5176; resumed full-test evidence is 397/398 Python tests passed with one cross-unit stale 30-versus-31 step-count expectation. Active media fallback is restored. Later TypeScript phases were not reached; exact-head acceptance and measured visual limits remain pending.",
+  "lastUpdated": "2026-10-12T12:33:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Full npm test rerun is pending; fresh exact-head external success on compatible PR #185 integration basis is still required",
+    "Full npm test failed: tests/test_chemometrics_variance_dispersion_path.py:208/217 expects 30 Mean Values steps instead of authorised 31; manager must authorise precise cross-unit count maintenance and full rerun. TypeScript phases not reached; external exact-head success still required",
     "Measured browser limits remain: small portrait deck scaling, narrow diffusion formula overflow/undersized diagram, near-budget arithmetic and minor paired-math vertical overflow; not full visual acceptance",
     "Word-level markers and exercise/SVG thumbnail grouping remain explicitly deferred shared capabilities, not completed requirements"
   ],
-  "stateRevision": 144,
+  "stateRevision": 145,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T09:13:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
-      "reason": "Claimed independent/dependent variable definitions, role caveats, reciprocal contrast/comparison, example enrichment, calibration code experiment enrichment and exact focus/test migration."
-    },
     {
       "at": "2026-10-06T09:22:00+02:00",
       "from": "busy/worker",
@@ -195,6 +188,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-257-slides-first-20261012",
       "reason": "Slide-first content implementation and representative Edge review completed. Authorised one added speed-solution scene to fix measured height overflow; geometric horizontal clipping fixed with paired cards/compact equivalent math; table and chart preserve original observations. Static fallback and ordinary generation restored without compiler changes. Built preview isolated on localhost 5176. Full test outcome and measured/deferred visual limits remain review gates; no self-acceptance, merge or System-state mutation."
+    },
+    {
+      "at": "2026-10-12T12:33:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-257-slides-first-20261012",
+      "reason": "Resumed background validation evidence: 397/398 Python tests pass; one cross-unit variance preservation test still pins Mean Values to 30 steps rather than authorised 31. Media fallback regression passes. Record exact maintenance need without out-of-scope edits; later TypeScript checks and external acceptance remain unpassed. Built slide preview unaffected."
     }
   ]
 }

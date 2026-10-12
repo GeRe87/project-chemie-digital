@@ -58,7 +58,14 @@ path even though the presentation now uses a table.
   static-fallback tests were rerun successfully on that final content (3.413 s).
   The new visual/fallback tests and full project suite are rerun as final evidence.
 - [x] Semantic validation: both focused SHACL tests passed with pyshacl 0.40.0.
-- [ ] Full `npm test`: revised content run is in progress. The **earlier draft**
+- [ ] Full `npm test`: revised run **failed**, exit 1, 397/398 Python tests
+  passed (403.542 seconds). The only failure is the cross-unit preservation test
+  at `tests/test_chemometrics_variance_dispersion_path.py:208/217`, still expecting
+  30 Mean Values steps instead of the authorised 31. The Level 2 media fallback
+  failure is gone. Later TypeScript phases were not reached. Manager must
+  authorise this precise cross-unit count maintenance and rerun the full suite;
+  no Varianz content or out-of-scope test was changed by this worker.
+  The **earlier draft**
   failed, exit 1. Python semantic suite: 395 tests,
   one error (394 passed), 399.731 seconds. The failing test is
   `test_prompt_static_fallback.PromptStaticFallbackTests.test_mean_values_runtime_static_fallback_handles_free_text_exercises`.
