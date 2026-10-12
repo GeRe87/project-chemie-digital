@@ -170,7 +170,16 @@ Wide/narrow geometry and reduced-motion visual review remain pending.
    follow-up must provide generic accessible group/media composition before
    adding six discussion thumbnails or dice imagery beside the code lab.
 
-Do not resolve either gap with content-ID CSS, a new layout name in RDF, or
+3. Full `npm test` found an additional shared static-fallback gap: the general
+   `generate_canonical_runtime.static_fallback()` falls through to prose for a
+   `media-reference`, then reads the nonexistent `text` property. The selected
+   title SVG triggers `KeyError: 'text'` in the existing Mean Values prompt
+   fallback test. The content compiles and its focused tests pass, but ordinary
+   Mean Values generation/static fallback is blocked until a System fix or an
+   explicitly authorized postponement of media selection. Python: 394/395 tests
+   passed; later TypeScript phases were not reached. No failing test was removed.
+
+Do not resolve these gaps with content-ID CSS, a new layout name in RDF, or
 renderer-owned scientific strings. Manager should split a bounded System
 follow-up, retain this draft result for review, and require actual browser
 evidence before accepting the full visual request.

@@ -52,9 +52,15 @@ path even though the presentation now uses a table.
   passed all 30 tests (`python -m unittest discover -s tests -p
   "test_chemometrics_mean_values*.py" -v`, 64.992 seconds).
 - [x] Semantic validation: both focused SHACL tests passed with pyshacl 0.40.0.
-- [ ] Full `npm test`: running as preliminary local evidence; started before
-  final documentation/subordinate-example polish. Final exact-head validation
-  is still required even if this preliminary run passes.
+- [ ] Full `npm test`: **failed**, exit 1. Python semantic suite: 395 tests,
+  one error (394 passed), 399.731 seconds. The failing test is
+  `test_prompt_static_fallback.PromptStaticFallbackTests.test_mean_values_runtime_static_fallback_handles_free_text_exercises`.
+  `scripts/generate_canonical_runtime.py:1779` accesses `block["text"]` for the
+  new `media-reference` title block and raises `KeyError: 'text'`. This is a
+  reproducible shared static-fallback implementation gap, not an infrastructure
+  error. Later TypeScript/core/renderer/Pitch phases were **not reached**.
+  The preliminary run began before final small example/documentation polish;
+  no passing exact-head/full-suite evidence exists.
 - [ ] Manual browser check: not performed; desktop/narrow geometry, table/card
   fit, title image size and reduced-motion review remain pending.
 - [x] Accessibility authoring check: local SVG title/description/alternative;
@@ -89,10 +95,17 @@ path even though the presentation now uses a table.
    formulas plus cards and diffusion math. See the thirty-scene audit.
 4. PR #185 is unmerged; final integration requires compatible reconciliation and
    fresh exact-head `agent-validator/project-chemie-digital` success. This worker
-   does not accept or merge its own result.
+    does not accept or merge its own result.
+5. The general `static_fallback()` handles neither `media-reference` nor a
+   generic unknown-block error before its terminal prose branch. Selecting the
+   local title SVG therefore breaks the existing Mean Values fallback regression
+   and default Mean Values runtime generation. Do not launch/present this draft
+   as a fully functional replacement yet. Manager must assign a bounded System
+   fix or explicitly authorize postponing the media selection. No compiler edit
+   or suppression of the failing test was performed by this content worker.
 
 ## Recommended manager action
 
 `split follow-up` — review this bounded content increment, assign a generic System
-task for phrase highlights and exercise/media grouping, and arrange browser
+task for media-aware general static fallback, phrase highlights and exercise/media grouping, and arrange browser
 review. Do not mark the complete owner request or #257 done yet.
