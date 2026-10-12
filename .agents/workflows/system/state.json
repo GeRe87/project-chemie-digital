@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 263,
   "expectedDeliverable": "Issue #263: implement owner follow-up on agent/263-level2-flow-prompts-workbench stacked from current PR #262. Generic flow info-card outer/header/body grouping with divider, fixed two-line notation icon band and node labels from third line; author Five dice notations 5×, ∑, ⟳. Typed authored Markdown bullets so tasks use ! and questions use ? without punctuation inference; bold first instruction on dice practice and LLN slides. Generic title capitalization. Merge water/iron active content into one structurally inferred four-cell (2×2 wide) evidence/practice slide, preserve data/answer/code, remove redundant active Fe step and update exact 31-scene regressions. Add source-linked RDF dct:hasPart function DefinitionLists to all five active Level-2 CodeExamples; generic compile/render as bounded scrollable glossary below CodeMirror/Run/Reset/output, with output never displacing/clipping legend. No ontology/SceneDocument contract expansion; use existing notation, Markdown, CodeExample, DefinitionList, dct:hasPart. Keep River/tracer and #214 portrait navigation explicitly out of scope. Exact track/scope/dependencies/contracts in #263. Branch agent/263-level2-flow-prompts-workbench from committed #262 head; actual npm run pitch:intro on 5173 overworld, focused/SHACL/full tests, build, screenshots, stacked draft PR/handoff and only System state. No self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "manager: created and assigned exactly one #263 Frontend and Reveal Renderer Engineer increment. Cross-track #257 overlapping writes explicitly held until #263 handoff; Chemometrics state untouched. PR #262 exact-head external status remains missing, so implementation may proceed stacked but acceptance/integration remains blocked. Fresh portrait navigation and the separately scoped river/tracer task remain open; no feature code, acceptance or merge in this manager turn.",
-  "lastUpdated": "2026-10-12T16:03:54+02:00",
+  "lastCompletedTurn": "worker: delivered #263 in draft stacked PR #265 and .agents/handoffs/issue-263-level2-polish.md. Flow headers/symbols, explicit task/question items, capitalization, 31-scene water/Fe grid and five authored bounded R glossaries implemented. Focused/SHACL/build and actual 5173 browser execution, Reset, keyboard glossary and repeated long-output checks pass. Earlier full suite passed; final feature-head full rerun completion is reported in the PR comment. Return only System control; external exact-head/current-main integration, cross-track reviews, fresh portrait navigation and separate tracer animation retained. No acceptance or merge.",
+  "lastUpdated": "2026-10-12T18:09:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["PR #262 and follow-up #263 are stacked on #260/#258/#185; PR #262 exact-head external status is missing and current-main integration is not established. No acceptance/merge until fresh exact-head success and compatible integration", "Chemometrics #257 overlapping write scope is explicitly serialized until #263 handoff; preserve independent #214/#217/#257 reviews and known fresh-portrait navigation failure", "Typed quantitative river/tracer animation remains a separately assignable requirement from #261; not part of #263"],
-  "stateRevision": 383,
+  "stateRevision": 385,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T15:30:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue207-208-course-lifecycle",
-      "reason": "Claimed generic course-world browser controller, per-document buffer/sentinel insertion, Reveal jump/return behavior and Pitch main wiring."
-    },
-    {
-      "at": "2026-10-05T15:46:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue207-208-course-lifecycle",
-      "reason": "Completed #207/#208 live lifecycle: course bundles open on the overworld, Start jumps to the exact bound document, each document ends in a Level complete buffer, and the next Reveal navigation reaches an invisible sentinel that restores the overworld and originating focus."
-    },
     {
       "at": "2026-10-06T10:21:00+02:00",
       "from": "busy/worker",
@@ -191,6 +177,20 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-mean-values-followup-20261012",
       "reason": "Assign exactly #263 to Frontend and Reveal Renderer Engineer on current #262 stacked basis. Acceptance details explicit in issue. Cross-track write overlap serialized in #257 comment; Chemometrics state untouched. External exact-head/integration gates, portrait navigation and separate tracer animation retained. No implementation, acceptance or merge in manager turn."
+    },
+    {
+      "at": "2026-10-12T16:09:52+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-263-flow-prompts-20261012",
+      "reason": "Claimed exactly #263 on agent/263-level2-flow-prompts-workbench from committed PR #262 basis. Preserve generated owner files, external validation gates and Chemometrics state; implement only assigned generic rendering and authorized Mean Values selection/function-part changes."
+    },
+    {
+      "at": "2026-10-12T18:09:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-263-flow-prompts-20261012",
+      "reason": "Delivered draft PR #265 and structured #263 handoff with focused tests/SHACL/build and actual course browser evidence including repeated long R output containment. Full feature-head rerun completion remains PR-comment evidence; earlier suite passed. Preserve external exact-head/integration gates, independent reviews, fresh portrait navigation and separate tracer animation. Chemometrics state untouched; no self-acceptance or merge."
     }
   ]
 }
