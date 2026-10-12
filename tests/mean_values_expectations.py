@@ -3,7 +3,7 @@
 ORDER = [
     "title", "dice-flow", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
     "dice-expectation", "law-of-large-numbers", "lln-practice", "real-world",
-    "water", "fe-practice", "growth", "geometric-mean", "growth-comparison",
+    "water", "growth", "geometric-mean", "growth-comparison",
     "geometric-practice", "log", "microbial", "ratios", "speed", "speed-solution", "harmonic-mean",
     "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
     "median-practice", "summary", "discussion-additive", "discussion-multiplicative",
@@ -44,8 +44,6 @@ ADDITIONS = {
     "water": ("arithmetic-mean", "mean-water-heading", [
         ("mean-water-summary", "KeyPointRole", "cd:hasKeyPoint"),
         ("mean-water-table", "TableRole", "cd:hasTableRow"),
-    ]),
-    "fe-practice": ("arithmetic-mean", "mean-fe-heading", [
         ("mean-fe-practice", "ExerciseRole", "cd:body"),
         ("mean-fe-r", "CodeRole", "cd:hasCodeExample"),
     ]),

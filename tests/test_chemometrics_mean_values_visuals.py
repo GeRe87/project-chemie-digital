@@ -45,7 +45,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             "geometric-mean": ("learning-stage", "formula-deck"),
             "harmonic-mean": ("learning-stage", "formula-deck"),
             "median": ("learning-stage", "formula-deck"),
-            "water": ("evidence-stage", "list-data"),
+            "water": ("learning-stage", "evidence-practice-grid"),
             "layers": ("learning-stage", "formula-deck"),
             "dice-flow": ("learning-stage", "visual-media"),
             "dice-warmup": ("learning-stage", "prompt-code"),
@@ -57,7 +57,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             with self.subTest(slug=slug):
                 self.assertEqual(kind, self.plans[slug]["kind"])
                 self.assertEqual(profile, self.plans[slug]["profile"])
-        self.assertEqual(32, len(self.scenes))
+        self.assertEqual(31, len(self.scenes))
 
     def test_water_table_preserves_all_measurements_and_equal_weight_means(self):
         scene = self.scenes["water"]
@@ -71,6 +71,16 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         for index, expected_mean in enumerate([8.6, 3.4, 5.0], 1):
             self.assertAlmostEqual(expected_mean, sum(float(row[index]) for row in actual) / len(actual))
         self.assertIn(str(GRAPH), table["source"][0]["provenanceIds"])
+        self.assertEqual(["prose", "list", "table", "prompt", "code", "definition-list"],
+                         [block["kind"] for block in scene["blocks"]])
+        exercise = scene["blocks"][3]
+        self.assertIn("**Calculate the mean of the Fe concentrations", exercise["prompt"])
+        self.assertIn("[!] State the unit", exercise["prompt"])
+        self.assertIn("25.0 divided by 5 equals 5.0 mg/L", exercise["expectedResult"])
+
+    def test_dice_flow_nodes_author_the_three_requested_header_notations(self):
+        diagram = next(block for block in self.scenes["dice-flow"]["blocks"] if block["kind"] == "diagram")
+        self.assertEqual(["5×", "∑", "⟳"], [node["notation"] for node in diagram["nodes"]])
 
     def test_all_active_formulas_have_complete_authored_symbol_parts(self):
         formulas = []
@@ -87,6 +97,49 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                 self.assertEqual(2, len(legend["entries"]))
                 self.assertTrue(all(entry["term"] and entry["description"] for entry in legend["entries"]))
         self.assertEqual(23, len(formulas))
+
+    def test_every_executable_level_two_example_has_source_linked_function_legend(self):
+        code_blocks = [block for scene in self.scenes.values() for block in scene["blocks"]
+                       if block["kind"] == "code" and block["executable"]]
+        self.assertEqual(5, len(code_blocks))
+        expected_functions = {
+            "ex:mean-dice-warmup-r": {"set.seed(seed)", "sample(x, size, replace)", "sum(x)", "list(...)"},
+            "ex:mean-dice-practice-r": {"set.seed(seed)", "replicate(n, expr)", "sample(x, size, replace)", "sum(x)", "mean(x)", "list(...)"},
+            "ex:mean-lln-practice-r": {"set.seed(seed)", "replicate(n, expr)", "sample(x, size, replace)", "sum(x)", "data.frame(...)", "sapply(x, function)", "function(k)", "seq_len(k)", "mean(x)"},
+            "ex:mean-fe-r": {"c(...)" , "mean(x)"},
+            "ex:mean-harmonic-r": {"c(...)" , "rep(x, times)", "sum(x)", "mean(x)", "list(...)"},
+        }
+        for scene in self.scenes.values():
+            blocks = scene["blocks"]
+            for index, block in enumerate(blocks):
+                if block["kind"] != "code" or not block["executable"]:
+                    continue
+                with self.subTest(code=block["source"][0]["resourceId"]):
+                    legend = blocks[index + 1]
+                    self.assertEqual("definition-list", legend["kind"])
+                    self.assertEqual("supporting", legend["emphasis"])
+                    self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
+                    self.assertEqual(block["source"][0]["resourceId"], legend["source"][0]["resourceId"])
+                    terms = {entry["term"] for entry in legend["entries"]}
+                    self.assertEqual(expected_functions[block["source"][0]["resourceId"]], terms)
+
+    def test_water_and_iron_practice_share_one_structural_four_cell_slide(self):
+        scene = self.scenes["water"]
+        self.assertEqual("Arithmetic means in water analysis", scene["blocks"][0]["text"])
+        self.assertEqual(["list", "table", "prompt", "code", "definition-list"],
+                         [block["kind"] for block in scene["blocks"][1:]])
+        self.assertNotIn("fe-practice", self.scenes)
+
+    def test_repeated_experiment_prompts_have_explicit_bold_instructions_and_typed_markers(self):
+        prompts = {b["source"][0]["resourceId"]: b for s in self.scenes.values() for b in s["blocks"] if b["kind"] == "prompt"}
+        dice = prompts["ex:mean-dice-practice"]
+        self.assertIn("**Repeat the five-dice experiment five times.**", dice["prompt"])
+        self.assertEqual(2, dice["prompt"].count("[!]"))
+        lln = prompts["ex:mean-lln-practice"]
+        self.assertIn("**Compare averages from 5, 50 and 50,000 independent five-dice experiments.**", lln["prompt"])
+        self.assertEqual(1, lln["prompt"].count("[!]"))
+        self.assertEqual(1, lln["prompt"].count("[?]"))
+        self.assertNotIn("[!]", lln["expectedResult"])
 
     def test_layer_diagram_preserves_series_model_and_qualifications(self):
         diagram = next(b for b in self.scenes["layers"]["blocks"] if b["kind"] == "diagram")
@@ -121,7 +174,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_general_static_fallback_renders_the_complete_level_two_document(self):
         fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
-        self.assertEqual(32, fallback.count('<article data-pitch-step='))
+        self.assertEqual(31, fallback.count('<article data-pitch-step='))
         self.assertIn("Five outcomes, one sum, repeated sampling", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)

@@ -426,13 +426,14 @@ function inferPromptCode(
 
   const promptIndex = promptIndexes[0]!;
   const codeIndex = codeIndexes[0]!;
+  const codeLegend = isAuthoredCodeFunctionLegend(body[codeIndex], body[codeIndex + 1]) ? body[codeIndex + 1] : undefined;
   const illustration = codeIndex === promptIndex + 2 && body[promptIndex + 1]?.kind === "media-reference"
     ? body[promptIndex + 1]
     : undefined;
   if (codeIndex !== promptIndex + 1 && !illustration) return undefined;
 
   const before = body.slice(0, promptIndex);
-  const after = body.slice(codeIndex + 1);
+  const after = body.slice(codeIndex + 1 + (codeLegend ? 1 : 0));
   if (
     !allComponentKinds(before, ["info-surface"])
     || !allComponentKinds(after, ["info-surface"])
@@ -443,6 +444,7 @@ function inferPromptCode(
   placements.push(placement(body[promptIndex]!, "primary", 0));
   if (illustration) placements.push(placement(illustration, "primary", 1));
   placements.push(placement(body[codeIndex]!, "secondary", 0));
+  if (codeLegend) placements.push(placement(codeLegend, "secondary", 1));
   after.forEach((block, index) => placements.push(placement(block, "footer", index)));
 
   return {
@@ -611,6 +613,41 @@ export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly Scen
   return units;
 }
 
+function isAuthoredCodeFunctionLegend(code: SceneBlock | undefined, legend: SceneBlock | undefined):
+  legend is Extract<SceneBlock, { kind: "definition-list" }> {
+  return code?.kind === "code"
+    && legend?.kind === "definition-list"
+    && legend.emphasis === "supporting"
+    && legend.source.some(source => source.relationPath === "dct:hasPart"
+      && source.resourceId === code.source[0]?.resourceId);
+}
+
+export function resolveCodeFunctionLegendUnits(scene: Scene): readonly {
+  readonly code: Extract<SceneBlock, { kind: "code" }>;
+  readonly legend: Extract<SceneBlock, { kind: "definition-list" }>;
+}[] {
+  const blocks = orderedBlocks(scene);
+  const units: Array<{ code: Extract<SceneBlock, { kind: "code" }>; legend: Extract<SceneBlock, { kind: "definition-list" }> }> = [];
+  for (let index = 0; index < blocks.length - 1; index++) {
+    const code = blocks[index];
+    const legend = blocks[index + 1];
+    if (isAuthoredCodeFunctionLegend(code, legend)) {
+      units.push({ code: code as Extract<SceneBlock, { kind: "code" }>, legend });
+      index++;
+    }
+  }
+  return units;
+}
+
+function inferEvidencePracticeGrid(body: readonly SceneBlock[], heading: SceneBlock | undefined): RevealCompositionPlan | undefined {
+  if (body.length !== 5 || body[0]?.kind !== "list" || body[1]?.kind !== "table"
+      || body[2]?.kind !== "prompt" || body[3]?.kind !== "code"
+      || !isAuthoredCodeFunctionLegend(body[3], body[4])) return undefined;
+  const placements = placementsWithHeading(heading);
+  body.forEach((block, index) => placements.push(placement(block, "main", index)));
+  return { kind: "learning-stage", placements, mainCount: 4, profile: "evidence-practice-grid" };
+}
+
 /**
  * Generic composition inference.
  *
@@ -703,6 +740,9 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       profile: "source",
     };
   }
+
+  const evidencePracticeGrid = inferEvidencePracticeGrid(body, heading);
+  if (evidencePracticeGrid) return evidencePracticeGrid;
 
   if (
     body.length === 3

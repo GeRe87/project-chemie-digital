@@ -4,14 +4,15 @@ import { teachingTextMarkup } from "../src/teaching-text.ts";
 import { safeSvgAttribute } from "../src/teaching-svg-runtime.ts";
 import { installNoNetworkGuard } from "../src/preview.ts";
 
-test("authored Markdown retains strong instruction, paragraphs and two semantic question bullets", () => {
-  const html = teachingTextMarkup("**An instruction.**\n\n- First question\n- Second question", "question");
+test("authored Markdown keeps task, question and neutral marker semantics explicit per item", () => {
+  const html = teachingTextMarkup("**An instruction.**\n\n- [!] First task\n- [?] Second question\n- Ordinary note");
   assert.ok(html.startsWith("<p><strong>An instruction.</strong></p>"));
-  assert.equal((html.match(/<li>/gu) ?? []).length, 2);
+  assert.equal((html.match(/<li /gu) ?? []).length, 3);
   assert.ok(html.includes('data-marker-purpose="question"'));
-  assert.equal((html.match(/aria-hidden="true"/gu) ?? []).length, 2);
-  assert.ok(teachingTextMarkup("- Has punctuation?", "neutral").includes('data-marker-purpose="neutral"'));
-  assert.ok(teachingTextMarkup("- Explicit point", "statement").includes('data-marker-purpose="statement"'));
+  assert.ok(html.includes('data-marker-purpose="task"'));
+  assert.ok(html.includes('data-marker-purpose="neutral"'));
+  assert.equal((html.match(/aria-hidden="true"/gu) ?? []).length, 3);
+  assert.ok(teachingTextMarkup("- A question ending in ?").includes('data-marker-purpose="neutral"'));
 });
 
 test("teaching text escapes HTML instead of enabling arbitrary authored markup", () => {
@@ -42,4 +43,15 @@ test("only explicitly authored same-origin SVG reads supplement pinned runtime r
   }
   assert.throws(() => target.fetch("http://localhost:5173/local-drawing.svg", { method: "POST" }), /prohibited/);
   cleanup();
+});
+
+test("shared code workbench bounds output and scrolls the authored glossary in its own row", async () => {
+  const { readFileSync } = await import("node:fs");
+  const css = readFileSync(new URL("../src/teaching-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /\.code-function-workbench\s*\{[^}]*grid-template-rows:\s*minmax\(0,1\.25fr\)\s+minmax\(5rem,\.75fr\)/u);
+  assert.match(css, /\.code-function-workbench \.code-output\s*\{[^}]*max-height:\s*6rem;[^}]*overflow:\s*auto/u);
+  assert.match(css, /\.code-function-workbench > \.definition-list\s*\{[^}]*min-height:\s*0;[^}]*overflow:\s*auto/u);
+  assert.match(css, /\.reveal \.slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
+  assert.match(css, /data-composition-profile="evidence-practice-grid"[\s\S]*?grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/u);
+  assert.match(css, /slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
 });

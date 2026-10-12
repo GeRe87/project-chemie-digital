@@ -37,6 +37,74 @@
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > * { flex: 1 1 0; min-width: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="info-surface"] { font-size: .7em; margin: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="visual"] { max-height: 18rem; min-height: 0; }
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] {
+  display: grid !important; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr);
+  gap: .7rem; padding: 1.15rem 1.5rem !important;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] > [data-composition-region="heading"] { grid-row: 1; margin: 0; }
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] > [data-composition-region-container="main"] {
+  grid-row: 2; display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+  grid-template-rows: repeat(2,minmax(0,1fr)); gap: .65rem; min-width: 0; min-height: 0; overflow: auto;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .evidence-practice-grid-cell {
+  box-sizing: border-box; min-width: 0; min-height: 0; max-height: 100%; overflow: auto;
+  margin: 0; padding: .55rem .7rem; border: 2px solid var(--pcd-accent); background: var(--pcd-surface-strong);
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .evidence-practice-grid-cell > table {
+  width: 100%; max-width: 100%; margin: 0; border: 0; background: transparent;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .evidence-practice-grid-cell > table caption {
+  padding: .2rem 0 .35rem; color: var(--pcd-accent); font-size: .68em; font-weight: 800;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .evidence-practice-grid-cell > .keypoint-list {
+  height: auto; min-height: 0; margin: 0; padding: .3rem 0; border: 0; background: transparent;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .evidence-practice-grid-cell > .live-poll {
+  border: 0; padding: .3rem 0; background: transparent; box-shadow: none;
+}
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .live-poll { padding: .65rem .8rem; }
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .poll-prompt { line-height: 1.22; }
+.reveal .slides section[data-composition-profile="evidence-practice-grid"] .code-function-workbench {
+  display: grid; grid-template-rows: minmax(0,1.25fr) minmax(0,.75fr); gap: .45rem; padding: 0; border: 0; height: 100%; overflow: hidden;
+}
+.reveal .code-function-workbench {
+  box-sizing: border-box; min-width: 0; min-height: 0; height: 100%;
+  display: grid; grid-template-rows: minmax(0,1.25fr) minmax(5rem,.75fr); gap: .55rem;
+  padding: .55rem; border: 2px solid var(--pcd-accent); background: var(--pcd-surface-strong); overflow: hidden;
+}
+.reveal .code-function-workbench > .code-block {
+  display: grid; grid-template-rows: minmax(4.5rem,1fr) auto minmax(2.5rem,.65fr);
+  width: 100%; max-width: none; height: 100%; min-height: 0; margin: 0; overflow: hidden;
+  border: 0; background: transparent; box-shadow: none;
+}
+.reveal .code-function-workbench .code-editor-host { min-height: 0; overflow: auto; }
+.reveal .code-function-workbench .code-editor-host .cm-editor,
+.reveal .code-function-workbench .code-editor-host .cm-scroller { min-height: 0; }
+.reveal .code-function-workbench .code-runtime-controls { margin: .25rem 0; }
+.reveal .code-function-workbench .code-output { min-height: 0; max-height: 6rem; overflow: auto; }
+.reveal .code-function-workbench > .definition-list {
+  display: block; min-height: 0; overflow: auto; padding: .4rem;
+  border: 1px solid var(--pcd-border); background: var(--pcd-surface);
+}
+.reveal .code-function-workbench > .definition-list > .definition-list-entry {
+  display: block; margin: 0; padding: .2rem .35rem; border: 0;
+  border-bottom: 1px solid var(--pcd-border); background: transparent;
+}
+.reveal .code-function-workbench > .definition-list > .definition-list-entry:last-child { border-bottom: 0; }
+.reveal .code-function-workbench > .definition-list:focus-visible { outline: 3px solid var(--pcd-focus); outline-offset: 2px; }
+.reveal .code-function-workbench .definition-list-term { font: 750 .58em/1.1 "Cascadia Code",monospace; text-transform: none; }
+.reveal .code-function-workbench .definition-list-description { font-size: .55em; line-height: 1.12; }
+.code-function-workbench-fallback { display: grid; gap: .5rem; border: 1px solid var(--pcd-border); padding: .5rem; }
+.code-function-workbench-fallback .code-fallback,
+.code-function-workbench-fallback .definition-list-fallback { min-height: 0; max-height: 18rem; overflow: auto; }
+.reveal .slides section > h2,
+#pitch-slides > article > h2 { text-transform: capitalize; }
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition-profile="evidence-practice-grid"] > [data-composition-region-container="main"] {
+    grid-template-columns: minmax(0,1fr); grid-template-rows: repeat(4,minmax(10rem,auto));
+  }
+  .reveal .slides section[data-composition-profile="evidence-practice-grid"] .code-function-workbench { min-height: 18rem; }
+}
 .reveal .poll-prompt > p { margin: 0 0 .8em; font: inherit; }
 .reveal .poll-prompt > p:last-child { margin-bottom: 0; }
 .reveal .poll-prompt:not(:has(strong)) { font-weight: 600; }
@@ -47,12 +115,13 @@
   width: .55em; height: .55em; background: var(--pcd-marker-neutral);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
-.reveal .teaching-points:is([data-marker-purpose="question"], [data-marker-purpose="statement"]) .teaching-point-marker::before {
+.reveal .teaching-points li[data-marker-purpose="question"] .teaching-point-marker::before,
+.reveal .teaching-points li[data-marker-purpose="task"] .teaching-point-marker::before {
   content: "?"; top: .05em; width: 1.3em; height: 1.3em; clip-path: none;
   border: 2px solid currentColor; border-radius: 50%; background: transparent;
-  color: var(--pcd-marker-question); font-weight: 900; line-height: 1.3; text-align: center;
+  color: var(--pcd-marker-question); font-weight: 900; line-height: 1.15; text-align: center;
 }
-.reveal .teaching-points[data-marker-purpose="statement"] .teaching-point-marker::before { content: "!"; color: var(--pcd-marker-statement); }
+.reveal .teaching-points li[data-marker-purpose="task"] .teaching-point-marker::before { content: "!"; color: var(--pcd-marker-statement); }
 .reveal ul.keypoint-list > li { position: relative; padding-inline-start: 1.6em; }
 
 /* Intrinsic evidence lists are one surface, not a column of stretched cards. */
