@@ -246,10 +246,10 @@ function bodyTextMeasure(value: string): number {
   return deterministicFlowTextMeasure(value) * 0.94;
 }
 
-function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string): number {
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false): number {
   const titleHeight = Math.max(labelLines.length, 1) * 28;
   const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
-  if (notation) return Math.max(186, 42 + titleHeight + 54 + bodyHeight + (bodyHeight ? 12 : 0));
+  if (notation || headerMotif) return Math.max(186, 60 + titleHeight + 28 + bodyHeight + 32);
   if (bodyLines.length === 0) return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + titleHeight);
   return Math.max(168, 62 + titleHeight + bodyHeight + 18);
 }
@@ -736,7 +736,9 @@ function spaceFillingLinearFlowLayout(
       width: cardWidth,
       height: Math.max(
         original.visualMotifRole === "highlight" ? 276 : 190,
-        70 + titleHeight + 22 + highlightMotifHeight + (original.notation ? 56 : 0) + bodyHeight,
+        70 + titleHeight + 22 + highlightMotifHeight
+          + ((original.notation || (original.visualMotif && original.visualMotifRole !== "highlight")) ? 56 : 0)
+          + bodyHeight,
       ),
     };
   });
@@ -832,7 +834,7 @@ function horizontalLayeredLayout(
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: nodeHeight(labelLines, bodyLines, original.notation),
+      height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
     };
   };
 
@@ -921,7 +923,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines, original.notation),
+        height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1570,7 +1572,7 @@ function hierarchyFanoutLayout(
     const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
     const motifSize = node.visualMotifRole === "highlight" ? Math.min(88, Math.max(72, w * .24)) : 0;
     const height = Math.max(root ? 154 : 324,
-      nodeHeight(labelLines, bodyLines, node.notation),
+      nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
       motifSize ? 42 + labelLines.length * 28 + 11 + 20 + motifSize + 20 + bodyLines.length * 23 + 24 : 0);
     return { ...node, width: w, height, labelLines, bodyLines };
   });
@@ -1612,7 +1614,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelLines,
       bodyLines,
       width: horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines, node.notation),
+      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
     };
   });
   const layers = topologicalLayers(input);

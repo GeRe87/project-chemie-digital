@@ -5,6 +5,7 @@ import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
 import {
   inferRevealCompositionPlan,
   resolveDefinitionFormulaPairs,
+  resolveCodeFunctionLegendUnits,
   resolveFormulaLegendUnits,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
@@ -1193,6 +1194,41 @@ test("prompt illustration stays with the prompt before executable code", () => {
   assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
     ["heading", "heading"], ["prompt", "primary"], ["illustration", "primary"], ["code", "secondary"],
   ]);
+});
+
+test("prompt-code groups an authored CodeExample function legend in the code column", () => {
+  const prompt: SceneBlock = { id: "prompt", kind: "prompt", prompt: "Practice", responseMode: "free-text",
+    fallback: "Practice", source: [{ resourceId: "resource:prompt" }] };
+  const code: SceneBlock = { id: "code", kind: "code", language: "r", code: "mean(x)", fallback: "mean(x)",
+    editable: true, executable: true, source: [{ resourceId: "resource:code", relationPath: "cd:hasCodeExample" }] };
+  const legend: SceneBlock = { ...definitions("functions"), emphasis: "supporting",
+    source: [{ resourceId: "resource:code", relationPath: "dct:hasPart" }] };
+  const blocks: SceneBlock[] = [prose("heading", "introduce"), prompt, code, legend];
+  const scene: Scene = { id: "opaque:prompt-code-legend", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "prompt-code");
+  assert.deepEqual(plan.placements.filter(p => p.region === "secondary").map(p => p.blockId), ["code", "functions"]);
+  assert.deepEqual(resolveCodeFunctionLegendUnits(scene).map(u => [u.code.id, u.legend.id]), [["code", "functions"]]);
+});
+
+test("table, result list, prompt, code and its authored functions infer a generic four-cell practice grid", () => {
+  const code: SceneBlock = { id: "code", kind: "code", language: "r", code: "mean(x)", fallback: "mean(x)",
+    editable: true, executable: true, source: [{ resourceId: "resource:code" }] };
+  const legend: SceneBlock = { ...definitions("functions"), emphasis: "supporting",
+    source: [{ resourceId: "resource:code", relationPath: "dct:hasPart" }] };
+  const prompt: SceneBlock = { id: "prompt", kind: "prompt", prompt: "Calculate", responseMode: "free-text",
+    fallback: "Calculate", source: [{ resourceId: "resource:prompt" }] };
+  const blocks: SceneBlock[] = [prose("heading", "introduce"), {
+    id: "results", kind: "list", listStyle: "unordered", items: [
+      { id: "result-a", text: "A: 1", source: [{ resourceId: "resource:result-a" }] },
+      { id: "result-b", text: "B: 2", source: [{ resourceId: "resource:result-b" }] },
+    ], source: [{ resourceId: "resource:results" }],
+  }, dataTable("table"), prompt, code, legend];
+  const scene: Scene = { id: "opaque:practice-grid", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "evidence-practice-grid");
+  assert.deepEqual(plan.placements.filter(p => p.region === "main").map(p => p.blockId),
+    ["results", "table", "prompt", "code", "functions"]);
 });
 
 test("learning-stage infers prompt grids from repeated prompt components", () => {

@@ -7,6 +7,7 @@ import {
   inferRevealCompositionPlan,
   resolveDefinitionFormulaPairs,
   resolveFormulaLegendUnits,
+  resolveCodeFunctionLegendUnits,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
@@ -371,7 +372,7 @@ function appendBlock(
 
     const prompt = dom.createElement("div");
     prompt.className = "poll-prompt";
-    if (/\*\*|\n/u.test(block.prompt)) prompt.innerHTML = teachingTextMarkup(block.prompt, "question");
+    if (/\*\*|\n/u.test(block.prompt)) prompt.innerHTML = teachingTextMarkup(block.prompt);
     else prompt.textContent = block.prompt;
     shell.appendChild(prompt);
 
@@ -471,7 +472,7 @@ function appendBlock(
   const node = dom.createElement(tag);
   blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
   if (tag === "h2") node.setAttribute("id", headingId);
-  if (tag !== "h2" && block.format === "markdown") node.innerHTML = teachingTextMarkup(block.text, block.intent?.kind === "emphasize" ? "statement" : "neutral");
+  if (tag !== "h2" && block.format === "markdown") node.innerHTML = teachingTextMarkup(block.text);
   else node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
   sourceAttributes(node, block.source);
@@ -516,6 +517,9 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     const formulaUnits = resolveFormulaLegendUnits(scene);
     const formulaUnitByStart = new Map(formulaUnits.map(unit => [unit[0]!.id, unit]));
     const formulaUnitChildren = new Set(formulaUnits.flatMap(unit => unit.slice(1).map(block => block.id)));
+    const codeFunctionUnits = resolveCodeFunctionLegendUnits(scene);
+    const codeFunctionByStart = new Map(codeFunctionUnits.map(unit => [unit.code.id, unit]));
+    const codeFunctionLegendIds = new Set(codeFunctionUnits.map(unit => unit.legend.id));
     const formulaByCard = new Map(definitionPairs?.map(pair => [pair.card.id, pair.formula]));
     const embeddedFormulaIds = new Set(definitionPairs?.map(pair => pair.formula.id));
     let definitionCollection: MinimalElement | undefined;
@@ -533,25 +537,55 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       }
       return region;
     };
+    const placementParent = (placement: RevealCompositionPlacement | undefined, block: SceneBlock): MinimalElement => {
+      const region = compositionParent(placement);
+      if (composition.profile !== "evidence-practice-grid" || placement?.region !== "main") return region;
+      const cell = dom.createElement("div");
+      cell.className = "evidence-practice-grid-cell";
+      cell.setAttribute("data-grid-cell-index", String(placement.index));
+      sourceAttributes(cell, block.source);
+      region.appendChild(cell);
+      return cell;
+    };
 
     for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       if (embeddedFormulaIds.has(blockId)) continue;
       if (formulaUnitChildren.has(blockId)) continue;
+      if (codeFunctionLegendIds.has(blockId)) continue;
       const compositionPlacement = compositionByBlockId.get(block.id);
       const formulaUnit = formulaUnitByStart.get(blockId);
       if (formulaUnit) {
         const unit = dom.createElement("div");
         unit.className = "formula-with-legend";
-        compositionParent(compositionPlacement).appendChild(unit);
+        placementParent(compositionPlacement, block).appendChild(unit);
         for (const child of formulaUnit) appendBlock(unit, dom, child, headingId, compositionFit.density,
           compositionByBlockId.get(child.id));
         continue;
       }
+      const codeFunctionUnit = codeFunctionByStart.get(blockId);
+      if (codeFunctionUnit) {
+        const workbench = dom.createElement("div");
+        workbench.className = "code-function-workbench";
+        workbench.setAttribute("data-code-workbench", "true");
+        workbench.setAttribute("role", "group");
+        workbench.setAttribute("aria-label", "R editor, output and function glossary");
+        if (compositionPlacement) {
+          workbench.setAttribute("data-composition-region", compositionPlacement.region);
+          workbench.setAttribute("data-composition-index", String(compositionPlacement.index));
+        }
+        sourceAttributes(workbench, [...codeFunctionUnit.code.source, ...codeFunctionUnit.legend.source]);
+        placementParent(compositionPlacement, codeFunctionUnit.code).appendChild(workbench);
+        appendBlock(workbench, dom, codeFunctionUnit.code, headingId, compositionFit.density);
+        const functionGlossary = appendBlock(workbench, dom, codeFunctionUnit.legend, headingId, compositionFit.density);
+        functionGlossary?.setAttribute("tabindex", "0");
+        functionGlossary?.setAttribute("aria-label", "Scrollable R function glossary");
+        continue;
+      }
       const formula = formulaByCard.get(blockId);
       const rendered = appendBlock(
-        compositionParent(compositionPlacement),
+        placementParent(compositionPlacement, block),
         dom,
         block,
         headingId,

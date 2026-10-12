@@ -287,11 +287,51 @@ test("SVG renders source-linked mathematical notation separately from descriptio
     assert.ok(descriptions.some((node) =>
       node.children.map((part) => part.textContent ?? "").join("") === "Chosen concentration"));
     assert.ok(descriptions.some((node) => node.children.length > 1), "exercise visual wrapping, not just a single tspan");
+    const card = host.findByClass("d3-flow-node").find((node) => node.getAttribute("data-node-id") === "node:a")!;
+    assert.equal(card.findByClass("d3-flow-node-header").length, 1);
+    assert.equal(card.findByClass("d3-flow-node-body-group").length, 1);
+    assert.equal(card.findByClass("d3-flow-node-title-divider").length, 1);
+    const iconY = Number(notation[0]!.getAttribute("y"));
+    const titleY = Number(card.findByClass("d3-flow-node-title")[0]!.getAttribute("y"));
+    const dividerY = Number(card.findByClass("d3-flow-node-title-divider")[0]!.getAttribute("y1"));
+    const bodyY = Number(descriptions.find((node) => node.parent?.className.includes("body-group"))!.getAttribute("y"));
+    assert.ok(titleY - iconY >= 42, "the two-line icon band stays above the title even for a one-line title");
+    assert.ok(dividerY > titleY && bodyY > dividerY, "the outer card is ordered as header, divider, body");
     assert.ok(host.findByClass("d3-flow-node").some((node) => node.getAttribute("data-node-has-notation") === "true"));
     mounted.destroy();
   } finally {
     restoreDom();
   }
+});
+
+test("flow-card notation header remains in bounds for one-line and wrapped titles at wide/narrow widths", () => {
+  const restoreDom = installFakeDom();
+  try {
+    for (const width of [1200, 390]) for (const label of ["ONE SUM", "A deliberately long flow-card heading that wraps over multiple lines"]) {
+      const nodes: DiagramBlock["nodes"] = [
+        { id: "a", label, notation: "∑", description: "One result per experiment.", source: [{ resourceId: "ex:a" }] },
+        { id: "b", label: "RESULT", description: "The collected outcomes.", source: [{ resourceId: "ex:b" }] },
+      ];
+      const model = createD3FlowRenderModel({ ...block, nodes,
+        edges: [{ id: "e", sourceNodeId: "a", targetNodeId: "b", label: "repeat", source: [{ resourceId: "ex:e" }] }] },
+      { reducedMotion: true, interactionPolicy: "static" }).model!;
+      const layout = createD3FlowLayout(model, width);
+      const host = new FakeHTMLElement("div"); host.clientWidth = width;
+      const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
+      for (const card of host.findByClass("d3-flow-node")) {
+        const icon = card.findByClass("d3-flow-node-notation")[0];
+        const title = card.findByClass("d3-flow-node-title")[0]!;
+        const divider = card.findByClass("d3-flow-node-title-divider")[0]!;
+        const body = card.findByClass("d3-flow-node-body")[0]!;
+        if (icon) assert.ok(Number(title.getAttribute("y")) - Number(icon.getAttribute("y")) >= 42);
+        assert.ok(Number(divider.getAttribute("y1")) > Number(title.getAttribute("y")));
+        assert.ok(Number(body.getAttribute("y")) > Number(divider.getAttribute("y1")));
+        assert.equal(card.findByClass("d3-flow-node-header").length, 1);
+        assert.equal(card.findByClass("d3-flow-node-body-group").length, 1);
+      }
+      mounted.destroy();
+    }
+  } finally { restoreDom(); }
 });
 
 // Synthetic renderer fixture, not a content requirement for any lecture card.

@@ -195,6 +195,9 @@ body[data-presentation-theme="dark"] .reveal {
   stroke-width: 2;
   pointer-events: none;
 }
+.reveal .d3-flow-node-header,
+.reveal .d3-flow-node-body-group { pointer-events: none; }
+.reveal .d3-flow-node-notation { font-size: 42px; }
 .reveal .d3-flow-edge-label,
 .reveal .d3-flow-shared-edge-annotation-label { stroke-width: 2px; }
 

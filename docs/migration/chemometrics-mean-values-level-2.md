@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-two scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-one scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -122,9 +122,44 @@ other prompts; an exercise without an answer continues to compile unchanged.
   these explicitly authored parts after the selected math block. No symbols or
   scientific explanations are inferred from LaTeX. Each entry has one owning
   list, stable identity, English label/body and source traceability. Formula
-  values, spoken descriptions, all 32 scenes and their ordering are retained.
+  values, spoken descriptions, all 31 scenes and their ordering are retained.
 - The cell sketch represents populations, not literal cell counts; its labels
   agree with the existing 100 → 200 → 1600 experiment over equal periods.
+
+### Issue #263: remaining shared Level 2 corrections
+
+The active path now has 31 scenes: the standalone Fe scene was merged into the
+water-analysis scene, which retains the five-row table, the three separate mean
+results, the Fe exercise and its executable R block. The renderer infers a
+2×2 wide four-cell practice grid by component order, without scene identifiers.
+
+Flow information cards are one outer SVG box with transparent semantic header
+and body groups and one divider. A notation/motif occupies a fixed two-line
+header band and the label starts below it; this works for one-line and wrapped
+titles. The dice-flow nodes author `5×`, `∑` and `⟳` in `skos:notation`; the
+renderer places those values in the symbol area rather than a fixed corner.
+Authored slides headings use generic CSS capitalization while RDF labels remain
+unchanged.
+
+Exercise Markdown uses explicit list-item tokens: `- [!]` for a task,
+`- [?]` for a question and plain `-` for an ordinary point. The renderer removes
+the token from visible/accessible wording, escapes all inline text, and draws
+decorative marks with theme colors. The five-dice practice instructions and the
+repeat-more-often task/question now use the source-authored
+bold-first-sentence/typed-list structure; no punctuation inference is used.
+
+Each of the five executable R examples links an authored DefinitionList of
+function explanations through `dct:hasPart`. Generic compilation preserves
+entry identity/provenance; the Reveal renderer groups it under the code editor,
+Run/Reset and bounded, scrollable output in a separately scrollable lower
+glossary area. Static fallback retains the authored glossary. This grouping
+keeps arbitrary output from pushing the function reference off the slide.
+
+Focused Mean Values/SHACL, renderer tests and the normal course browser are
+required before completion; fresh portrait-level opening remains the separate
+known #214 navigation failure. The earlier #257 all-scene audit below records
+that increment's state and is superseded for the merged water/Fe scene, typed
+task prompts, flow icon placement and active R function glossaries by #263.
 
 Browser evidence uses the ordinary 5173 course with actual overworld selection.
 Wide dark/light opening and active-slide theme switching were verified. Portrait
@@ -134,7 +169,7 @@ failure and is **not** reported as passing. Whole-deck portrait scaling remains
 small. Quantitative TypeScript river/tracer animation is a separate pending
 assignment, not delivered by these static illustrations.
 
-Run `npm test`. The regression expectations pin all thirty-two scene identities,
+Run `npm test`. The regression expectations pin all thirty-one scene identities,
 positions, focus concepts, selected resources, roles, selectors and block kinds.
 SHACL validates the assembled named-graph dataset. Generic heading tests check
 the additive projection and rejection cases. New content tests check authored
@@ -196,8 +231,8 @@ below); this is not full-deck acceptance.
 | Law of large numbers | Three assumption/convergence/limitation cards | Word-level marker capability |
 | Repetition lab | Existing prompt/code split retained | Browser fit check |
 | Model versus data | Existing two paired infocards retained | Browser fit check |
-| Water analysis | Five-row concentration table beside three short mean results | Browser table fit check |
-| Iron practice | Existing prompt/code split retained | Browser fit check |
+| Water analysis | Five-row concentration table beside three short mean results | Merged with Fe practice by #263 |
+| Iron practice | Existing prompt/code split retained | Merged into water analysis by #263 |
 | Growth | Existing three-node semantic growth diagram retained | Browser diagram fit check |
 | Geometric mean | Two paired formula cards; compact equivalent log expression | Horizontal formula overflow corrected in desktop review |
 | Growth comparison | Two paired infocards retained | Browser fit check |

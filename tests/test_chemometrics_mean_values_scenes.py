@@ -185,7 +185,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_thirty_two_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_one_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))
@@ -227,12 +227,12 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)
 
-    def test_runtime_compiles_exactly_thirty_two_ordered_scenes_with_formula_latex(self) -> None:
+    def test_runtime_compiles_exactly_thirty_one_ordered_scenes_with_formula_latex(self) -> None:
         document = RUNTIME.compile_scene_document(
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(32, len(document["scenes"]))
+        self.assertEqual(31, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],
@@ -241,7 +241,10 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
             ordered_items = sorted(SCENE_MATRIX[scene_resource]["items"].items(), key=lambda entry: entry[1][0])
             direct = [block for block in compiled_scene["blocks"] if block["source"][0]["relationPath"] != "dct:hasPart"]
             self.assertEqual(len(ordered_items), len(direct))
-            self.assertEqual(len(direct) + sum(block["kind"] == "math" for block in direct), len(compiled_scene["blocks"]))
+            self.assertEqual(
+                len(direct) + sum(block["kind"] in {"math", "code"} for block in direct),
+                len(compiled_scene["blocks"]),
+            )
             for (_scene_item, (_position, resource, role, selector)), block in zip(ordered_items, direct, strict=True):
                 self.assertEqual(selector, block["source"][0]["relationPath"])
                 if role == CD.FormulaRole:
