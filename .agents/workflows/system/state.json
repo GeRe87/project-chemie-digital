@@ -6,24 +6,17 @@
   "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 266,
-  "expectedDeliverable": "Issue #266 on agent/266-level2-markers-diagram-fit stacked from committed PR #265 head: author explicit question bullets for both Five dice, one sum warmup questions; remove only standalone LLN theory active scene/step, retain reusable scientific resources and repeated-experiment practice, renumber to 30 active scenes with exact tests; repair shared standard task marker to show one exclamation in its circle without additional glyph; fix structural diagram sizing/containment for Add travel times, then divide and Diffusion through equal layers with measured full viewBox/node/edge/footer bounds. Exact track/write scope/dependencies/contracts in #266. Preserve five R labs/glossaries, code behavior, formulas, data and shared theme/surface standards. Actual npm run pitch:intro on 5173 overworld, dark/light wide and responsive evidence, focused/SHACL/full feature-head tests and production build, stacked draft PR and structured handoff. Only System state writes; no ontology/schema/scene-specific renderer logic, no navigation repair or tracer animation, no self-acceptance or merge.",
+  "expectedDeliverable": "Issue #266 amended before worker claim; branch agent/266-level2-markers-diagram-fit from committed PR #265. Preserve prior five marker/LLN-removal/diagram-containment corrections. Add one compact owner-directed Variables purpose slide after its definition (12 active Level 1 scenes). Add Mean Values purpose slide after title with qualified random-fluctuation stability, not general outlier robustness; add verified illustrative five-dice sums/question slide after warmup; move existing expected-value theory and dice-expectation calculation before arithmetic-mean theory/practice. Exact Level 2 prefix and bounded Level 1/2 TriG scope in #266; 32 active Level 2 scenes (31 minus standalone LLN plus two new). Retain reusable resources, five R labs/glossaries, scientific formulas/answers, sources and topic sets. Author explicit warmup question tokens, standardized single task glyph and generic complete speed/layers diagram containment. Inspect new Level 1 graph overlap; serialize #257 and never write Chemometrics state. Actual pitch:intro on 5173 overworld Levels 1/2, dark/light wide/responsive/static evidence, exact sequence/numerical checks, focused/SHACL/full final feature-head tests and build, draft stacked PR/handoff. Existing semantic primitives only; no renderer subject logic, vocabulary/schema changes, navigation repair, tracer animation, self-acceptance or merge.",
   "lastCompletedTurn": "manager: created and assigned exactly #266 for warmup explicit question markers, standardized single exclamation glyph, owner-authorized standalone LLN theory scene removal to 30 scenes and structural containment of speed-solution/layer diagrams. Worker starts from draft #265 committed basis; #257 overlapping writes serialized. This turn contains no feature implementation, acceptance or merge. Existing exact-head/integration, portrait-navigation, cross-track review and separate tracer-animation gates remain.",
-  "lastUpdated": "2026-10-12T18:55:00+02:00",
+  "lastUpdated": "2026-10-12T19:00:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["Draft #265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Chemometrics #257 overlapping write scope is serialized until #266 handoff; independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain", "Quantitative river/tracer animation is a separate pending requirement, not part of #266"],
-  "stateRevision": 387,
+  "stateRevision": 388,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T10:28:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue210-reveal-slide-registry",
-      "reason": "Claimed Reveal.getSlides-based authored document lookup, synthetic-boundary filtering and richer mounted-id diagnostics."
-    },
     {
       "at": "2026-10-06T10:34:00+02:00",
       "from": "busy/worker",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-level2-markers-fit-20261012",
       "reason": "Assign exactly #266 to Frontend and Reveal Renderer Engineer on #265 basis. Explicit warmup question tokens, single standard task glyph, 30-scene active selection preserving reusable LLN resources and practice, structural speed/layers diagram containment. #257 overlap serialized; Chemometrics state untouched. No implementation, acceptance or merge in manager turn."
+    },
+    {
+      "at": "2026-10-12T19:00:00+02:00",
+      "from": "ready/worker",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-level2-markers-fit-20261012",
+      "reason": "Owner amended unclaimed #266: one compact Variables purpose slide after definition, one Mean Values purpose slide after title, one verified dice-sums/question slide after warmup and expectation-before-empirical ordering. Issue scope explicitly covers exact Level 1/2 graphs/tests; retain prior fixes, qualify robustness wording and update active counts to 12/32. No additional work item, implementation, worker claim or acceptance; cross-track/external gates preserved."
     }
   ]
 }
