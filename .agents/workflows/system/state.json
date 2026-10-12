@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 263,
-  "expectedDeliverable": "Issue #263: implement owner follow-up on agent/263-level2-flow-prompts-workbench stacked from current PR #262. Generic flow info-card outer/header/body grouping with divider, fixed two-line notation icon band and node labels from third line; author Five dice notations 5×, ∑, ⟳. Typed authored Markdown bullets so tasks use ! and questions use ? without punctuation inference; bold first instruction on dice practice and LLN slides. Generic title capitalization. Merge water/iron active content into one structurally inferred four-cell (2×2 wide) evidence/practice slide, preserve data/answer/code, remove redundant active Fe step and update exact 31-scene regressions. Add source-linked RDF dct:hasPart function DefinitionLists to all five active Level-2 CodeExamples; generic compile/render as bounded scrollable glossary below CodeMirror/Run/Reset/output, with output never displacing/clipping legend. No ontology/SceneDocument contract expansion; use existing notation, Markdown, CodeExample, DefinitionList, dct:hasPart. Keep River/tracer and #214 portrait navigation explicitly out of scope. Exact track/scope/dependencies/contracts in #263. Branch agent/263-level2-flow-prompts-workbench from committed #262 head; actual npm run pitch:intro on 5173 overworld, focused/SHACL/full tests, build, screenshots, stacked draft PR/handoff and only System state. No self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "worker: delivered #263 in draft stacked PR #265 and .agents/handoffs/issue-263-level2-polish.md. Flow headers/symbols, explicit task/question items, capitalization, 31-scene water/Fe grid and five authored bounded R glossaries implemented. Focused/SHACL/build and actual 5173 browser execution, Reset, keyboard glossary and repeated long-output checks pass. Earlier full suite passed; final feature-head full rerun completion is reported in the PR comment. Return only System control; external exact-head/current-main integration, cross-track reviews, fresh portrait navigation and separate tracer animation retained. No acceptance or merge.",
-  "lastUpdated": "2026-10-12T18:09:00+02:00",
+  "activeIssue": 266,
+  "expectedDeliverable": "Issue #266 on agent/266-level2-markers-diagram-fit stacked from committed PR #265 head: author explicit question bullets for both Five dice, one sum warmup questions; remove only standalone LLN theory active scene/step, retain reusable scientific resources and repeated-experiment practice, renumber to 30 active scenes with exact tests; repair shared standard task marker to show one exclamation in its circle without additional glyph; fix structural diagram sizing/containment for Add travel times, then divide and Diffusion through equal layers with measured full viewBox/node/edge/footer bounds. Exact track/write scope/dependencies/contracts in #266. Preserve five R labs/glossaries, code behavior, formulas, data and shared theme/surface standards. Actual npm run pitch:intro on 5173 overworld, dark/light wide and responsive evidence, focused/SHACL/full feature-head tests and production build, stacked draft PR and structured handoff. Only System state writes; no ontology/schema/scene-specific renderer logic, no navigation repair or tracer animation, no self-acceptance or merge.",
+  "lastCompletedTurn": "manager: created and assigned exactly #266 for warmup explicit question markers, standardized single exclamation glyph, owner-authorized standalone LLN theory scene removal to 30 scenes and structural containment of speed-solution/layer diagrams. Worker starts from draft #265 committed basis; #257 overlapping writes serialized. This turn contains no feature implementation, acceptance or merge. Existing exact-head/integration, portrait-navigation, cross-track review and separate tracer-animation gates remain.",
+  "lastUpdated": "2026-10-12T18:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": ["PR #262 and follow-up #263 are stacked on #260/#258/#185; PR #262 exact-head external status is missing and current-main integration is not established. No acceptance/merge until fresh exact-head success and compatible integration", "Chemometrics #257 overlapping write scope is explicitly serialized until #263 handoff; preserve independent #214/#217/#257 reviews and known fresh-portrait navigation failure", "Typed quantitative river/tracer animation remains a separately assignable requirement from #261; not part of #263"],
-  "stateRevision": 385,
+  "blockedBy": ["Draft #265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Chemometrics #257 overlapping write scope is serialized until #266 handoff; independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain", "Quantitative river/tracer animation is a separate pending requirement, not part of #266"],
+  "stateRevision": 387,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T10:21:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue210-overworld-start-fix",
-      "reason": "Completed #210: Start navigation now resolves the exact authored slide through Reveal.getIndices, navigates before hiding the map, uses delegated controls and shows any remaining failure directly in the overworld."
-    },
-    {
-      "at": "2026-10-06T10:27:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue210-reveal-slide-registry",
-      "reason": "Owner retest exposed the exact failure: after Reveal initialization the controller could not find the bound document through raw root descendants. Authorized switching runtime lookup to Reveal's own registered slide collection."
-    },
     {
       "at": "2026-10-06T10:28:00+02:00",
       "from": "ready/worker",
@@ -191,6 +177,20 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-263-flow-prompts-20261012",
       "reason": "Delivered draft PR #265 and structured #263 handoff with focused tests/SHACL/build and actual course browser evidence including repeated long R output containment. Full feature-head rerun completion remains PR-comment evidence; earlier suite passed. Preserve external exact-head/integration gates, independent reviews, fresh portrait navigation and separate tracer animation. Chemometrics state untouched; no self-acceptance or merge."
+    },
+    {
+      "at": "2026-10-12T18:52:50+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-level2-markers-fit-20261012",
+      "reason": "Claim planning-only turn for owner follow-up after #265: incorrect warmup question bullets, overlapping task glyph and two clipped flow diagrams. These are internally actionable under one bounded renderer assignment; owner also explicitly authorizes removing standalone LLN theory scene. Preserve all external gates."
+    },
+    {
+      "at": "2026-10-12T18:55:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-level2-markers-fit-20261012",
+      "reason": "Assign exactly #266 to Frontend and Reveal Renderer Engineer on #265 basis. Explicit warmup question tokens, single standard task glyph, 30-scene active selection preserving reusable LLN resources and practice, structural speed/layers diagram containment. #257 overlap serialized; Chemometrics state untouched. No implementation, acceptance or merge in manager turn."
     }
   ]
 }
