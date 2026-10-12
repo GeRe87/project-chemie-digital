@@ -1003,7 +1003,13 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "skos:prefLabel@en": "en",
                 }
                 heading_language = heading_languages.get(relation_path)
-                if selected != focus or heading_language is None:
+                # A narrative heading may select authored prose independently of
+                # the scientific focus. Do not invent Concepts just for titles.
+                narrative_heading = (
+                    is_resource_type(dataset, selected, "Interpretation")
+                    and boolean_literal(dataset, selected, iri(CD, "authoredResource"))
+                )
+                if (selected != focus and not narrative_heading) or heading_language is None:
                     raise ValueError(f"Invalid heading selection in {compact(item)}")
                 if language is not None and language != heading_language:
                     raise ValueError(f"Heading language does not match selector in {compact(item)}")
@@ -1178,6 +1184,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     raise ValueError(f"ExerciseRole requires Exercise in {compact(item)}")
                 text = selected_literal(dataset, selected, iri(CD, "body"), relation_path, language)
                 if role == "ExerciseRole":
+                    expected_result = one(dataset, selected, iri(CD, "hasExpectedResult"), required=False)
                     block = {
                         "id": block_id, "kind": "prompt",
                         "source": [source_reference(dataset, selected, relation_path)],
@@ -1187,6 +1194,11 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         "disclosure": {"order": position - 1, "mode": "initial"},
                         "emphasis": "primary", "intent": {"kind": "practice"},
                     }
+                    if isinstance(expected_result, URIRef):
+                        block["expectedResult"] = selected_literal(
+                            dataset, expected_result, iri(CD, "body"), "cd:body", language,
+                        )
+                        block["source"].append(source_reference(dataset, expected_result, "cd:body"))
                 else:
                     block = {
                         "id": block_id, "kind": "prose",

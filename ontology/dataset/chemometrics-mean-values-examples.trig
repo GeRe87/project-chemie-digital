@@ -1,0 +1,203 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-mean-values-examples> {
+  # Reviewed content from topics/MeanValue.md, not its HTML, CSS or runtime.
+  ex:source-legacy-mean-value
+    dct:identifier "sha256:46fdbea022d65dba3c7d827716b0a13dd00216f2babdf5f0789d838a815f1dbb" .
+  ex:arithmetic-mean cd:hasExample ex:mean-water-example ; cd:hasExercise ex:mean-dice-warmup, ex:mean-dice-practice, ex:mean-fe-practice .
+  ex:expected-value cd:hasExample ex:mean-dice-expectation-example .
+  ex:law-of-large-numbers cd:hasExercise ex:mean-lln-practice .
+  ex:geometric-mean cd:hasExample ex:mean-growth-example, ex:mean-microbial-example, ex:mean-ratios-example .
+  ex:harmonic-mean cd:hasExercise ex:mean-harmonic-practice ; cd:hasExample ex:mean-layers-example .
+  ex:median cd:hasExample ex:mean-order-example, ex:mean-lead-example .
+
+  # Examples own their explanatory parts independently of any scene selection.
+  ex:mean-dice-expectation-example dct:hasPart ex:mean-one-die-cards, ex:mean-five-dice-cards .
+  ex:mean-water-example dct:hasPart ex:mean-oxygen-cards, ex:mean-oxygen-formula,
+    ex:mean-nitrate-cards, ex:mean-nitrate-formula, ex:mean-iron-cards, ex:mean-iron-formula .
+  ex:mean-growth-example dct:hasPart ex:mean-growth-diagram,
+    ex:mean-growth-arithmetic-cards, ex:mean-growth-arithmetic-formula,
+    ex:mean-growth-geometric-cards, ex:mean-growth-geometric-formula .
+  ex:mean-microbial-example dct:hasPart ex:mean-microbial-context,
+    ex:mean-microbial-arithmetic-cards, ex:mean-microbial-arithmetic-formula,
+    ex:mean-microbial-geometric-cards, ex:mean-microbial-geometric-formula .
+  ex:mean-ratios-example dct:hasPart ex:mean-ratios-context,
+    ex:mean-ratios-arithmetic-cards, ex:mean-ratios-arithmetic-formula,
+    ex:mean-ratios-geometric-cards, ex:mean-ratios-geometric-formula .
+  ex:mean-layers-example dct:hasPart ex:mean-layers-assumptions, ex:mean-layers-formula .
+  ex:mean-order-example dct:hasPart ex:mean-odd-cards, ex:mean-odd-formula,
+    ex:mean-even-cards, ex:mean-even-formula, ex:mean-turbidity-chart .
+  ex:mean-lead-example dct:hasPart ex:mean-lead-context,
+    ex:mean-lead-arithmetic-cards, ex:mean-lead-arithmetic-formula,
+    ex:mean-lead-median-cards, ex:mean-lead-median-formula .
+  ex:harmonic-mean cd:hasExercise ex:mean-speed-question .
+  ex:arithmetic-mean cd:hasExercise ex:mean-case-replicates, ex:mean-case-sensors, ex:mean-case-loads .
+  ex:geometric-mean cd:hasExercise ex:mean-case-microplastics, ex:mean-case-sites .
+  ex:harmonic-mean cd:hasExercise ex:mean-case-reactors .
+
+  # Headings are reusable authored prose resources, not layout selectors.
+  ex:mean-title a cd:Interpretation ; skos:prefLabel "Mean Values"@en ; cd:body "Mean Values"@en ; cd:authoredResource true .
+  ex:mean-dice-warmup-heading a cd:Interpretation ; skos:prefLabel "Five dice, one sum"@en ; cd:body "Five dice, one sum"@en ; cd:authoredResource true .
+  ex:mean-dice-practice-heading a cd:Interpretation ; skos:prefLabel "Average five repeated experiments"@en ; cd:body "Average five repeated experiments"@en ; cd:authoredResource true .
+  ex:mean-dice-expectation-heading a cd:Interpretation ; skos:prefLabel "What do we expect from five dice?"@en ; cd:body "What do we expect from five dice?"@en ; cd:authoredResource true .
+  ex:mean-lln-practice-heading a cd:Interpretation ; skos:prefLabel "Repeat the experiment more often"@en ; cd:body "Repeat the experiment more often"@en ; cd:authoredResource true .
+  ex:mean-real-world-heading a cd:Interpretation ; skos:prefLabel "From a known model to measured data"@en ; cd:body "From a known model to measured data"@en ; cd:authoredResource true .
+  ex:mean-water-heading a cd:Interpretation ; skos:prefLabel "Arithmetic means in water analysis"@en ; cd:body "Arithmetic means in water analysis"@en ; cd:authoredResource true .
+  ex:mean-fe-heading a cd:Interpretation ; skos:prefLabel "Average the iron measurements"@en ; cd:body "Average the iron measurements"@en ; cd:authoredResource true .
+  ex:mean-growth-heading a cd:Interpretation ; skos:prefLabel "Growth combines by multiplication"@en ; cd:body "Growth combines by multiplication"@en ; cd:authoredResource true .
+  ex:mean-growth-comparison-heading a cd:Interpretation ; skos:prefLabel "Which factor preserves the final count?"@en ; cd:body "Which factor preserves the final count?"@en ; cd:authoredResource true .
+  ex:mean-log-heading a cd:Interpretation ; skos:prefLabel "Average on a logarithmic scale"@en ; cd:body "Average on a logarithmic scale"@en ; cd:authoredResource true .
+  ex:mean-microbial-heading a cd:Interpretation ; skos:prefLabel "Two summaries of microbial counts"@en ; cd:body "Two summaries of microbial counts"@en ; cd:authoredResource true .
+  ex:mean-ratios-heading a cd:Interpretation ; skos:prefLabel "Summarize proportional changes"@en ; cd:body "Summarize proportional changes"@en ; cd:authoredResource true .
+  ex:mean-speed-heading a cd:Interpretation ; skos:prefLabel "Two equal distances, two speeds"@en ; cd:body "Two equal distances, two speeds"@en ; cd:authoredResource true .
+  ex:mean-harmonic-practice-heading a cd:Interpretation ; skos:prefLabel "Pump three equal volumes"@en ; cd:body "Pump three equal volumes"@en ; cd:authoredResource true .
+  ex:mean-layers-heading a cd:Interpretation ; skos:prefLabel "Diffusion through equal layers"@en ; cd:body "Diffusion through equal layers"@en ; cd:authoredResource true .
+  ex:mean-turbidity-heading a cd:Interpretation ; skos:prefLabel "One large turbidity measurement"@en ; cd:body "One large turbidity measurement"@en ; cd:authoredResource true .
+  ex:mean-order-heading a cd:Interpretation ; skos:prefLabel "Sort first, then find the middle"@en ; cd:body "Sort first, then find the middle"@en ; cd:authoredResource true .
+  ex:mean-lead-heading a cd:Interpretation ; skos:prefLabel "A center does not describe every event"@en ; cd:body "A center does not describe every event"@en ; cd:authoredResource true .
+  ex:mean-summary-heading a cd:Interpretation ; skos:prefLabel "Choose the summary for the question"@en ; cd:body "Choose the summary for the question"@en ; cd:authoredResource true .
+  ex:mean-discussion-additive-heading a cd:Interpretation ; skos:prefLabel "Discuss measurements and total inputs"@en ; cd:body "Discuss measurements and total inputs"@en ; cd:authoredResource true .
+  ex:mean-discussion-multiplicative-heading a cd:Interpretation ; skos:prefLabel "Discuss scale, extremes and models"@en ; cd:body "Discuss scale, extremes and models"@en ; cd:authoredResource true .
+
+  ex:mean-dice-warmup a cd:Exercise ;
+    cd:body "Roll five fair dice and add their outcomes. What average sum would you expect after many repetitions? Can that average be a value that one experiment cannot produce?"@en ;
+    cd:hasCodeExample ex:mean-dice-warmup-r ; cd:hasExpectedResult ex:mean-dice-expected ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-dice-expected a cd:ExpectedResult ; cd:body "The expected sum is 17.5. Each realized sum is an integer, so no individual experiment produces 17.5."@en ; cd:authoredResource true .
+  ex:mean-dice-warmup-r a cd:CodeExample ;
+    cd:code "set.seed(42)\ndice <- sample(1:6, 5, replace = TRUE)\nlist(dice = dice, sum = sum(dice))" ;
+    cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
+  ex:mean-dice-practice a cd:Exercise ;
+    cd:body "Repeat the five-dice experiment five times. List the sums and calculate their arithmetic mean. Explain why a finite sample average need not equal 17.5."@en ;
+    cd:hasCodeExample ex:mean-dice-practice-r ; cd:hasExpectedResult ex:mean-dice-practice-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-dice-practice-result a cd:ExpectedResult ; cd:body "Add the five observed sums and divide by five. The result varies across samples and is not guaranteed to be 17.5."@en ; cd:authoredResource true .
+  ex:mean-dice-practice-r a cd:CodeExample ;
+    cd:code "set.seed(42)\nsums <- replicate(5, sum(sample(1:6, 5, replace = TRUE)))\nlist(sums = sums, mean = mean(sums))" ;
+    cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
+
+  ex:mean-dice-expectation-example a cd:WorkedExample ;
+    cd:body "Each face of a fair die has probability 1/6. One die has expected value 3.5. The sum of five fair dice has expected value 17.5 by linearity of expectation. Independence is used for the repeated-experiment model, not required for linearity itself."@en ;
+    dct:hasPart ex:mean-one-die-card, ex:mean-five-dice-card, ex:mean-one-die-formula, ex:mean-five-dice-formula ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-one-die-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-one-die-card ; cd:authoredResource true .
+  ex:mean-one-die-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ONE FAIR DIE"@en ; cd:body "Six possible outcomes: 1 to 6\nEach has probability 1/6."@en ; cd:authoredResource true .
+  ex:mean-one-die-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\operatorname{E}[D]&=\\frac{1+2+3+4+5+6}{6}\\\\&=3.5\\end{aligned}" ; cd:body "The expected value of one fair die is the sum of its six outcomes divided by six, equal to 3.5."@en ; cd:authoredResource true .
+  ex:mean-five-dice-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-five-dice-card ; cd:authoredResource true .
+  ex:mean-five-dice-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE FAIR DICE"@en ; cd:body "Add the five outcomes.\nExpectations add, too."@en ; cd:authoredResource true .
+  ex:mean-five-dice-formula a cd:MathExpression ; cd:latex "\\begin{aligned}S&=D_1+\\cdots+D_5\\\\\\operatorname{E}[S]&=5\\times3.5=17.5\\end{aligned}" ; cd:body "The sum S of five fair dice has expected value five times 3.5, equal to 17.5."@en ; cd:authoredResource true .
+
+  ex:mean-lln-practice a cd:Exercise ;
+    cd:body "Compare averages from 5, 50 and 50,000 independent five-dice experiments. Change the seed and repeat. Does every larger sample have to be closer to 17.5?"@en ;
+    cd:hasCodeExample ex:mean-lln-practice-r ; cd:hasExpectedResult ex:mean-lln-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-lln-result a cd:ExpectedResult ; cd:body "Under the iid fair-dice model, sample averages converge to 17.5. Finite runs need not equal 17.5 or approach it monotonically. Increasing repetitions does not repair a biased measurement or an inappropriate sampling model."@en ; cd:authoredResource true .
+  ex:mean-lln-practice-r a cd:CodeExample ;
+    cd:code "set.seed(42)\nsums <- replicate(50000, sum(sample(1:6, 5, replace = TRUE)))\nn <- c(5, 50, 50000)\ndata.frame(n, mean = sapply(n, function(k) mean(sums[seq_len(k)])))" ;
+    cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
+
+  ex:mean-model-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-model-card ; cd:authoredResource true .
+  ex:mean-model-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "KNOWN PROBABILITIES"@en ; cd:body "A fair-dice model specifies outcomes and probabilities.\nExpected value belongs to that distribution."@en ; cd:authoredResource true .
+  ex:mean-model-formula a cd:MathExpression ; cd:latex "\\mu=\\operatorname{E}[X]" ; cd:body "Mu denotes the expected value of random variable X under the chosen distribution."@en ; cd:authoredResource true .
+  ex:mean-data-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-data-card ; cd:authoredResource true .
+  ex:mean-data-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "OBSERVED SAMPLE"@en ; cd:body "Water measurements supply observed values.\nUse a sampling model to interpret their average."@en ; cd:authoredResource true .
+  ex:mean-data-formula a cd:MathExpression ; cd:latex "\\widehat{\\mu}=\\bar{x}" ; cd:body "The observed sample mean is an estimate of mu under an appropriate sampling model, not an identity between a sample and a distribution."@en ; cd:authoredResource true .
+
+  ex:mean-water-example a cd:WorkedExample ; cd:body "Illustrative equal-weighted measurements: dissolved oxygen 8.5, 8.7, 8.6, 8.4, 8.8 mg/L; nitrate 3.2, 3.5, 3.3, 3.4, 3.6 mg/L; iron 5.2, 4.8, 5.1, 5.0, 4.9 mg/L. Their arithmetic means are 8.6, 3.4 and 5.0 mg/L."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-oxygen-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-oxygen-card ; cd:authoredResource true .
+  ex:mean-oxygen-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "DISSOLVED OXYGEN"@en ; cd:body "8.5, 8.7, 8.6, 8.4, 8.8 mg/L\nFive equally weighted values"@en ; cd:authoredResource true .
+  ex:mean-oxygen-formula a cd:MathExpression ; cd:latex "\\bar{x}=8.6\\;\\mathrm{mg/L}" ; cd:body "The mean dissolved oxygen concentration is 8.6 milligrams per litre."@en ; cd:authoredResource true .
+  ex:mean-nitrate-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-nitrate-card ; cd:authoredResource true .
+  ex:mean-nitrate-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "NITRATE"@en ; cd:body "3.2, 3.5, 3.3, 3.4, 3.6 mg/L\nFive equally weighted values"@en ; cd:authoredResource true .
+  ex:mean-nitrate-formula a cd:MathExpression ; cd:latex "\\bar{x}=3.4\\;\\mathrm{mg/L}" ; cd:body "The mean nitrate concentration is 3.4 milligrams per litre."@en ; cd:authoredResource true .
+  ex:mean-iron-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-iron-card ; cd:authoredResource true .
+  ex:mean-iron-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "IRON"@en ; cd:body "5.2, 4.8, 5.1, 5.0, 4.9 mg/L\nFive equally weighted values"@en ; cd:authoredResource true .
+  ex:mean-iron-formula a cd:MathExpression ; cd:latex "\\bar{x}=5.0\\;\\mathrm{mg/L}" ; cd:body "The mean iron concentration is 5.0 milligrams per litre."@en ; cd:authoredResource true .
+  ex:mean-fe-practice a cd:Exercise ; cd:body "Calculate the mean of the Fe concentrations 5.2, 4.8, 5.1, 5.0 and 4.9 mg/L. State the unit and the equal-weighting assumption."@en ; cd:hasCodeExample ex:mean-fe-r ; cd:hasExpectedResult ex:mean-fe-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-fe-result a cd:ExpectedResult ; cd:body "25.0 divided by 5 equals 5.0 mg/L. Each measured concentration receives the same weight."@en ; cd:authoredResource true .
+  ex:mean-fe-r a cd:CodeExample ; cd:code "fe <- c(5.2, 4.8, 5.1, 5.0, 4.9)\nmean(fe)" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
+
+  ex:mean-growth-example a cd:WorkedExample ; cd:body "An illustrative culture starts at 100 cells. Two equal successive periods have growth factors 2 and 8, giving counts 100, 200 and 1600. The equivalent constant factor per period is 4, not the arithmetic average factor 5."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-growth-diagram a cd:FlowDiagram ; skos:prefLabel "Counts over two equal growth periods"@en ; cd:body "100 cells grow by factor 2 to 200, then by factor 8 to 1600. The two intervals have equal duration."@en ; cd:hasDiagramNode ex:mean-growth-start, ex:mean-growth-middle, ex:mean-growth-end ; cd:hasDiagramEdge ex:mean-growth-edge-1, ex:mean-growth-edge-2 ; cd:authoredResource true .
+  ex:mean-growth-start a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "100 CELLS"@en ; cd:body "Start"@en ; cd:authoredResource true .
+  ex:mean-growth-middle a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "200 CELLS"@en ; cd:body "After period 1"@en ; cd:authoredResource true .
+  ex:mean-growth-end a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "1600 CELLS"@en ; cd:body "After period 2"@en ; cd:authoredResource true .
+  ex:mean-growth-edge-1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-growth-start ; cd:targetNode ex:mean-growth-middle ; skos:prefLabel "× 2"@en ; cd:authoredResource true .
+  ex:mean-growth-edge-2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:mean-growth-middle ; cd:targetNode ex:mean-growth-end ; skos:prefLabel "× 8"@en ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-growth-arithmetic-card ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC FACTOR"@en ; cd:body "Average of the two factors\nDoes not preserve their product."@en ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=(2+8)/2=5\\\\100\\times5^2&=2500\\end{aligned}" ; cd:body "The arithmetic average factor is 5. Applying it twice to 100 gives 2500, not the observed final count of 1600."@en ; cd:authoredResource true .
+  ex:mean-growth-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-growth-geometric-card ; cd:authoredResource true .
+  ex:mean-growth-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC FACTOR"@en ; cd:body "Equivalent constant factor per period\nPreserves the final count."@en ; cd:authoredResource true .
+  ex:mean-growth-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt{2\\times8}=4\\\\100\\times4^2&=1600\\end{aligned}" ; cd:body "The geometric average factor is 4. Applying it twice to 100 preserves the final count of 1600."@en ; cd:authoredResource true .
+
+  ex:mean-microbial-example a cd:WorkedExample ; cd:body "Illustrative microbial counts of 10, 100 and 10000 per 100 mL have arithmetic mean 3370 and geometric mean approximately 215.44 per 100 mL. They answer different additive and equal-log-weight questions. Neither summary establishes safety or compliance, and an extreme observation must not be ignored."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-microbial-context a cd:Interpretation ; cd:body "Illustrative counts: 10, 100 and 10,000 per 100 mL. Choose the scale and question before averaging."@en ; cd:authoredResource true .
+  ex:mean-microbial-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-microbial-arithmetic-card ; cd:authoredResource true .
+  ex:mean-microbial-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ADDITIVE SCALE"@en ; cd:body "10, 100, 10,000 counts per 100 mL\nAll values contribute to the sum.\nThe largest count contributes strongly."@en ; cd:authoredResource true .
+  ex:mean-microbial-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=\\frac{10+100+10000}{3}\\\\&=3370\\end{aligned}" ; cd:body "The arithmetic mean count is 3370 per 100 millilitres."@en ; cd:authoredResource true .
+  ex:mean-microbial-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-microbial-geometric-card ; cd:authoredResource true .
+  ex:mean-microbial-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "LOGARITHMIC SCALE"@en ; cd:body "Give equal weight to logarithms.\nResult in counts per 100 mL.\nNeither center establishes safety."@en ; cd:authoredResource true .
+  ex:mean-microbial-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt[3]{10\\times100\\times10000}\\\\&\\approx215.44\\end{aligned}" ; cd:body "The geometric mean count is approximately 215.44 per 100 millilitres."@en ; cd:authoredResource true .
+  ex:mean-ratios-example a cd:WorkedExample ; cd:body "Positive concentration ratios 0.5, 2 and 5 have arithmetic mean 2.5 and geometric mean cube root of 5, approximately 1.710. The geometric result describes equal logarithmic weighting, not a universal rule for every ratio or monitoring task."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-ratios-context a cd:Interpretation ; cd:body "Concentration ratios across three comparisons: 0.5, 2 and 5. Ratios are dimensionless."@en ; cd:authoredResource true .
+  ex:mean-ratios-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-ratios-arithmetic-card ; cd:authoredResource true .
+  ex:mean-ratios-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "AVERAGE RATIO"@en ; cd:body "Concentration ratios: 0.5, 2, 5\nAverage on the original ratio scale.\nRatios are dimensionless."@en ; cd:authoredResource true .
+  ex:mean-ratios-arithmetic-formula a cd:MathExpression ; cd:latex "A=(0.5+2+5)/3=2.5" ; cd:body "The arithmetic average of the three ratios is 2.5."@en ; cd:authoredResource true .
+  ex:mean-ratios-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-ratios-geometric-card ; cd:authoredResource true .
+  ex:mean-ratios-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MULTIPLICATIVE CHANGE"@en ; cd:body "Use when equal log weighting matches the question."@en ; cd:authoredResource true .
+  ex:mean-ratios-geometric-formula a cd:MathExpression ; cd:latex "G=\\sqrt[3]{0.5\\times2\\times5}\\approx1.710" ; cd:body "The geometric average ratio is approximately 1.710, corresponding to about a 71 percent increase under equal log weighting."@en ; cd:authoredResource true .
+
+  ex:mean-speed-question a cd:Exercise ; cd:body "A tracer travels 100 m at 10 m/s and another 100 m at 2 m/s. What is total distance divided by total time? Compare with the arithmetic average of the speeds."@en ; cd:hasExpectedResult ex:mean-speed-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-speed-result a cd:ExpectedResult ; cd:body "Times are 10 s and 50 s. Overall speed is 200/60 = 10/3 m/s, approximately 3.33 m/s, not 6 m/s. Equal time intervals would instead give the arithmetic mean of speeds."@en ; cd:authoredResource true .
+  ex:mean-speed-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}t&=100/10+100/2=60\\;\\mathrm{s}\\\\v&=200/60\\approx3.33\\;\\mathrm{m/s}\\end{aligned}" ; cd:body "For two sections of 100 metres, travel times are 10 and 50 seconds. Total distance 200 metres divided by 60 seconds gives approximately 3.33 metres per second."@en ; cd:authoredResource true .
+  ex:mean-harmonic-practice a cd:Exercise ; cd:body "Pump three successive 10 L batches at 10, 2 and 5 L/min. Calculate each pumping time and the overall rate as total volume divided by total time. Explain why equal volumes, not equal times, justify harmonic averaging."@en ; cd:hasCodeExample ex:mean-harmonic-r ; cd:hasExpectedResult ex:mean-harmonic-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-harmonic-result a cd:ExpectedResult ; cd:body "Times are 1, 5 and 2 minutes. Total volume is 30 L and total time is 8 minutes, giving 3.75 L/min. The arithmetic mean 17/3 L/min instead describes equal time weighting."@en ; cd:authoredResource true .
+  ex:mean-harmonic-r a cd:CodeExample ; cd:code "rates <- c(10, 2, 5)\nvolumes <- rep(10, 3)\ntimes <- volumes / rates\nlist(times = times,\n     overall = sum(volumes) / sum(times),\n     harmonic = 1 / mean(1 / rates),\n     arithmetic = mean(rates))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
+  ex:mean-layers-example a cd:WorkedExample ; cd:body "An idealized steady-state diffusion model has two equal-thickness layers in series with equal cross-sectional area and no reaction or partition discontinuity. Their diffusion coefficients are 2e-6 and 1e-8 square metres per second. Resistances add, giving effective coefficient 2/(1/(2e-6)+1/(1e-8)), approximately 1.99005e-8 square metres per second. This is a model-specific effective coefficient, not a general rule for arbitrary soils or reactors."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-layers-assumptions a cd:Interpretation ; cd:body "Idealized steady-state model: equal thickness and area, layers in series, no reaction or partition discontinuity."@en ; cd:authoredResource true .
+  ex:mean-layers-formula a cd:MathExpression ; cd:latex "D_{\\mathrm{eff}}=\\frac{2}{1/(2\\times10^{-6})+1/(10^{-8})}\\approx1.99\\times10^{-8}\\;\\mathrm{m^2/s}" ; cd:body "The effective diffusion coefficient for this equal-layer model is approximately 1.99 times ten to the minus eight square metres per second."@en ; cd:authoredResource true .
+
+  ex:mean-turbidity-context a cd:Interpretation ; cd:body "Illustrative daily turbidity: 2.1, 2.3, 2.0, 2.2 and 45.0 NTU. The final value records a large event, not automatically an invalid measurement."@en ; cd:authoredResource true .
+  ex:mean-turbidity-chart a cd:ChartDefinition ; skos:prefLabel "Five turbidity observations"@en ; cd:body "Turbidity on days 1 to 5, with one much larger final observation."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Day"@en ; cd:yAxisLabel "Turbidity"@en ; cd:yAxisUnit "NTU" ; cd:usesDataset ex:mean-turbidity-dataset ; cd:authoredResource true .
+  ex:mean-turbidity-dataset a cd:Dataset ; cd:hasObservation ex:mean-turbidity-1, ex:mean-turbidity-2, ex:mean-turbidity-3, ex:mean-turbidity-4, ex:mean-turbidity-5 ; cd:authoredResource true .
+  ex:mean-turbidity-1 a cd:Observation ; cd:position 1 ; cd:xValue 1.0 ; cd:numericValue 2.1 ; cd:authoredResource true .
+  ex:mean-turbidity-2 a cd:Observation ; cd:position 2 ; cd:xValue 2.0 ; cd:numericValue 2.3 ; cd:authoredResource true .
+  ex:mean-turbidity-3 a cd:Observation ; cd:position 3 ; cd:xValue 3.0 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:mean-turbidity-4 a cd:Observation ; cd:position 4 ; cd:xValue 4.0 ; cd:numericValue 2.2 ; cd:authoredResource true .
+  ex:mean-turbidity-5 a cd:Observation ; cd:position 5 ; cd:xValue 5.0 ; cd:numericValue 45.0 ; cd:authoredResource true .
+  ex:mean-order-example a cd:WorkedExample ; cd:body "Sort 2.1, 2.3, 2.0, 2.2, 45.0 as 2.0, 2.1, 2.2, 2.3, 45.0. The odd-sample median is 2.2 NTU. For 2.0, 2.1, 2.2, 2.3, average the middle two values to obtain 2.15 NTU."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-odd-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-odd-card ; cd:authoredResource true .
+  ex:mean-odd-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3, 45.0\nTake the third value."@en ; cd:authoredResource true .
+  ex:mean-odd-formula a cd:MathExpression ; cd:latex "\\tilde{x}=x_{(3)}=2.2\\;\\mathrm{NTU}" ; cd:body "For the five sorted observations the median is the third value, 2.2 NTU."@en ; cd:authoredResource true .
+  ex:mean-even-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-even-card ; cd:authoredResource true .
+  ex:mean-even-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FOUR VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3\nAverage the second and third values."@en ; cd:authoredResource true .
+  ex:mean-even-formula a cd:MathExpression ; cd:latex "\\tilde{x}=\\frac{2.1+2.2}{2}=2.15\\;\\mathrm{NTU}" ; cd:body "For the four sorted observations the median is the average of 2.1 and 2.2, equal to 2.15 NTU."@en ; cd:authoredResource true .
+  ex:mean-lead-example a cd:WorkedExample ; cd:body "Illustrative Pb concentrations 0.5, 0.7, 0.6, 0.8 and 15.0 micrograms per litre have arithmetic mean 3.52 and median 0.7 micrograms per litre. A baseline-oriented question and an aggregate-concentration question can call for different summaries. Neither value resolves compliance or removes the need to investigate the large observation."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-lead-context a cd:Interpretation ; cd:body "Pb concentrations: 0.5, 0.7, 0.6, 0.8 and 15.0 µg/L. Keep the large observation visible when reporting the center."@en ; cd:authoredResource true .
+  ex:mean-lead-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lead-arithmetic-card ; cd:authoredResource true .
+  ex:mean-lead-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC MEAN"@en ; cd:body "0.5, 0.7, 0.6, 0.8, 15.0 µg/L\nUses the sum of all concentrations."@en ; cd:authoredResource true .
+  ex:mean-lead-arithmetic-formula a cd:MathExpression ; cd:latex "\\bar{x}=3.52\\;\\mathrm{\\mu g/L}" ; cd:body "The arithmetic mean Pb concentration is 3.52 micrograms per litre."@en ; cd:authoredResource true .
+  ex:mean-lead-median-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lead-median-card ; cd:authoredResource true .
+  ex:mean-lead-median-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MEDIAN"@en ; cd:body "Uses the middle sorted observation.\nInvestigate the large observation.\nNeither center establishes safety."@en ; cd:authoredResource true .
+  ex:mean-lead-median-formula a cd:MathExpression ; cd:latex "\\tilde{x}=0.7\\;\\mathrm{\\mu g/L}" ; cd:body "The median Pb concentration is 0.7 micrograms per litre. It does not establish safety or compliance."@en ; cd:authoredResource true .
+
+  ex:mean-summary-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-summary-arithmetic, ex:mean-summary-geometric, ex:mean-summary-harmonic, ex:mean-summary-median ; cd:authoredResource true .
+  ex:mean-summary-arithmetic a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC"@en ; cd:body "Additive, equally weighted values\nSensitive to extreme observations\nNormality is not required."@en ; cd:authoredResource true .
+  ex:mean-summary-geometric a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "GEOMETRIC"@en ; cd:body "Positive multiplicative factors\nEqual logarithmic weighting\nNot a rule for every rate."@en ; cd:authoredResource true .
+  ex:mean-summary-harmonic a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "HARMONIC"@en ; cd:body "Positive rates over equal quantities\nAdd times or reciprocal contributions\nEqual times imply arithmetic averaging."@en ; cd:authoredResource true .
+  ex:mean-summary-median a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "MEDIAN"@en ; cd:body "Middle of the ordered sample\nLess sensitive to extreme magnitudes\nChoice depends on the question."@en ; cd:authoredResource true .
+
+  # The six legacy SVG cases are reconstructed as accessible questions.
+  ex:mean-case-replicates a cd:Exercise ; cd:body "Equal-weight nitrate replicates are 4.8, 5.0 and 5.2 mg/L. Which center summarizes the additive measurements? State your sampling assumptions."@en ; cd:hasExpectedResult ex:mean-case-replicates-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-replicates-result a cd:ExpectedResult ; cd:body "The arithmetic mean is 5.0 mg/L for equally weighted comparable measurements. Interpretation as an estimate needs an appropriate sampling model."@en ; cd:authoredResource true .
+  ex:mean-case-sensors a cd:Exercise ; cd:body "Comparable, equally weighted sensors report 480, 500 and 520 µS/cm. Calculate an average. What would change if sensor precision or calibration differed?"@en ; cd:hasExpectedResult ex:mean-case-sensors-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-sensors-result a cd:ExpectedResult ; cd:body "The equal-weight arithmetic mean is 500 µS/cm. Different precision or calibration can require a justified weighting or correction model."@en ; cd:authoredResource true .
+  ex:mean-case-loads a cd:Exercise ; cd:body "Three simultaneous phosphorus inputs are 200, 300 and 200 g/s. The question is total input to the lake. Is a mean the quantity you need?"@en ; cd:hasExpectedResult ex:mean-case-loads-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-loads-result a cd:ExpectedResult ; cd:body "The total input is the sum, 700 g/s, not the average of the three inputs. A mean would answer a different question."@en ; cd:authoredResource true .
+  ex:mean-case-microplastics a cd:Exercise ; cd:body "Microplastic counts are 100, 1000 and 10000 particles/kg. Compare an additive average, an equal-log-weight average and a median. Does this dataset alone determine the correct scientific summary?"@en ; cd:hasExpectedResult ex:mean-case-microplastics-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-microplastics-result a cd:ExpectedResult ; cd:body "Arithmetic mean 3700 particles/kg; geometric mean and median 1000 particles/kg. The objective and sampling/scale assumptions are needed to choose a summary."@en ; cd:authoredResource true .
+  ex:mean-case-sites a cd:Exercise ; cd:body "Pesticide concentrations at three sites are 0.01, 0.1 and 1.0 µg/L. Which question would justify arithmetic, geometric or median summaries? Can three numbers establish a log-normal distribution?"@en ; cd:hasExpectedResult ex:mean-case-sites-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-sites-result a cd:ExpectedResult ; cd:body "Arithmetic mean 0.37 µg/L; geometric mean and median 0.1 µg/L. Additive, equal-log-weight and middle-observation questions differ. Three values do not establish a log-normal distribution."@en ; cd:authoredResource true .
+  ex:mean-case-reactors a cd:Exercise ; cd:body "Three reactors in series have rate constants 0.5, 1.0 and 2.0 per hour. Is being in series enough to infer a harmonic mean effective rate? What physical model is missing?"@en ; cd:hasExpectedResult ex:mean-case-reactors-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-case-reactors-result a cd:ExpectedResult ; cd:body "Series arrangement alone is insufficient. Residence times, reactor volumes, kinetics and the target quantity must be specified. Do not infer a harmonic effective reaction constant from the three constants alone."@en ; cd:authoredResource true .
+}

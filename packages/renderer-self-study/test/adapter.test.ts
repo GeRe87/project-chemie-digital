@@ -15,6 +15,33 @@ async function fixture(): Promise<SceneDocument> {
   return JSON.parse(await readFile(fixtureUrl, "utf8")) as SceneDocument;
 }
 
+test("authored prompt answers survive projection and use native optional disclosure", async () => {
+  const document = clone(await fixture()) as any;
+  const scene = document.scenes[0];
+  const block = {
+    id: "block:answered-exercise", kind: "prompt",
+    source: [{ resourceId: "ex:exercise" }, { resourceId: "ex:answer", relationPath: "cd:body" }],
+    prompt: "Calculate a summary.", responseMode: "free-text", fallback: "Calculate a summary.",
+    expectedResult: "The result is <5> & needs context.",
+  };
+  scene.blocks.push(block);
+  scene.readingOrder.push(block.id);
+  const result = createSelfStudyRenderPlan(document);
+  assert.deepEqual(result.diagnostics, []);
+  assert.ok(result.plan);
+  const answerNode = result.plan.sections[0].nodes.find(node => node.sourceBlockId === block.id);
+  assert.ok(answerNode?.kind === "prompt");
+  assert.equal(answerNode.expectedResult, block.expectedResult);
+  assert.deepEqual(answerNode.source, block.source);
+  for (const interactive of [true, false]) {
+    const html = renderSelfStudyHtml(result.plan, { interactive });
+    assert.ok(html.includes("The result is &lt;5&gt; &amp; needs context."));
+    assert.ok(html.includes('data-resource-id="ex:exercise ex:answer"'));
+    if (interactive) assert.ok(html.includes('<details class="self-study-answer"><summary>Musterlösung anzeigen</summary>'));
+    else assert.ok(html.includes('<p class="self-study-answer">'));
+  }
+});
+
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }

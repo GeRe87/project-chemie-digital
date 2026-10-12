@@ -216,6 +216,7 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
   readonly prompt: string;
   readonly responseMode: "reflection" | "single-choice" | "multiple-choice" | "free-text";
   readonly options?: readonly string[];
+  readonly expectedResult?: string;
   readonly fallback: string;
 }
 
@@ -530,6 +531,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         prompt: block.prompt,
         responseMode: block.responseMode,
         ...(block.options ? { options: [...block.options] } : {}),
+        ...(block.expectedResult ? { expectedResult: block.expectedResult } : {}),
         fallback: block.fallback,
       };
     case "chart":
@@ -715,16 +717,21 @@ function sourceAttributes(source: readonly SourceReference[]): string {
 }
 
 function renderPrompt(node: SelfStudyPromptPlan, interactive: boolean): string {
+  const answer = node.expectedResult
+    ? interactive
+      ? `<details class="self-study-answer"><summary>Musterlösung anzeigen</summary><p>${escapeHtml(node.expectedResult)}</p></details>`
+      : `<p class="self-study-answer">${escapeHtml(node.expectedResult)}</p>`
+    : "";
   if (!interactive) {
     const options = node.options?.length ? `<ul>${node.options.map((option) => `<li>${escapeHtml(option)}</li>`).join("")}</ul>` : "";
-    return `<section class="self-study-prompt"><p>${escapeHtml(node.prompt)}</p>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p></section>`;
+    return `<section class="self-study-prompt"><p>${escapeHtml(node.prompt)}</p>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</section>`;
   }
   if (node.responseMode === "free-text" || node.responseMode === "reflection") {
-    return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend><textarea aria-label="${escapeHtml(node.prompt)}"></textarea><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></fieldset>`;
+    return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend><textarea aria-label="${escapeHtml(node.prompt)}"></textarea><p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</fieldset>`;
   }
   const inputType = node.responseMode === "multiple-choice" ? "checkbox" : "radio";
   const options = (node.options ?? []).map((option, index) => `<label><input type="${inputType}" name="${escapeHtml(node.id)}" value="${index}"> ${escapeHtml(option)}</label>`).join("");
-  return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p></fieldset>`;
+  return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</fieldset>`;
 }
 
 function renderDiagram(node: SelfStudyDiagramPlan): string {

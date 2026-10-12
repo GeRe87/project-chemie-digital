@@ -102,6 +102,55 @@ def compile_generic(**kwargs):
 
 
 class GenericSceneRuntimeProjectionTests(unittest.TestCase):
+    def test_authored_narrative_heading_preserves_scientific_focus_and_provenance(self) -> None:
+        dataset = generic_scene_dataset(role="StatementRole", resource_type="Interpretation")
+        graph = dataset.graph(URIRef(GENERIC_RESOURCE_GRAPH))
+        graph.set((GENERIC_HEADING_ITEM, cd("selectsResource"), GENERIC_RESOURCE))
+        graph.set((GENERIC_RESOURCE, SKOS.prefLabel, Literal("An independent narrative heading", lang="en")))
+        document = MODULE.compile_scene_document(dataset, selected_path())
+        heading = document["scenes"][0]["blocks"][0]
+        self.assertEqual("An independent narrative heading", heading["text"])
+        self.assertEqual({"kind": "introduce"}, heading["intent"])
+        self.assertEqual("ex:generic-scene-runtime-resource", heading["source"][0]["resourceId"])
+        self.assertEqual([GENERIC_RESOURCE_GRAPH], heading["source"][0]["provenanceIds"])
+        self.assertEqual({GENERIC_FOCUS}, set(graph.objects(GENERIC_SCENE, cd("focusConcept"))))
+
+    def test_nonfocus_heading_rejects_unapproved_resource_types_and_unauthored_prose(self) -> None:
+        for resource_type, authored in [("Concept", True), ("Definition", True), ("Interpretation", False)]:
+            with self.subTest(resource_type=resource_type, authored=authored):
+                dataset = generic_scene_dataset(role="StatementRole", resource_type=resource_type)
+                graph = dataset.graph(URIRef(GENERIC_RESOURCE_GRAPH))
+                graph.set((GENERIC_HEADING_ITEM, cd("selectsResource"), GENERIC_RESOURCE))
+                graph.set((GENERIC_RESOURCE, cd("authoredResource"), Literal(authored)))
+                with self.assertRaisesRegex(ValueError, "Invalid heading selection"):
+                    MODULE.compile_scene_document(dataset, selected_path())
+
+    def test_narrative_heading_requires_exact_selected_language_label(self) -> None:
+        dataset = generic_scene_dataset(role="StatementRole", resource_type="Interpretation")
+        graph = dataset.graph(URIRef(GENERIC_RESOURCE_GRAPH))
+        graph.set((GENERIC_HEADING_ITEM, cd("selectsResource"), GENERIC_RESOURCE))
+        graph.remove((GENERIC_RESOURCE, SKOS.prefLabel, None))
+        graph.add((GENERIC_RESOURCE, SKOS.prefLabel, Literal("Nur ein deutscher Titel", lang="de")))
+        with self.assertRaisesRegex(ValueError, "Missing selected value skos:prefLabel@en"):
+            MODULE.compile_scene_document(dataset, selected_path())
+
+    def test_exercise_answer_is_optional_but_preserves_exact_text_and_provenance_when_present(self) -> None:
+        dataset = generic_scene_dataset(role="ExerciseRole", resource_type="Exercise")
+        graph = dataset.graph(URIRef(GENERIC_RESOURCE_GRAPH))
+        result = URIRef(str(GENERIC_RESOURCE) + "-answer")
+        graph.add((GENERIC_RESOURCE, cd("hasExpectedResult"), result))
+        graph.add((result, RDF.type, cd("ExpectedResult")))
+        graph.add((result, cd("body"), Literal("  An exact answer\nwith a second line.  ", lang="en")))
+        document = MODULE.compile_scene_document(dataset, selected_path())
+        prompt = document["scenes"][0]["blocks"][1]
+        self.assertEqual("  An exact answer\nwith a second line.  ", prompt["expectedResult"])
+        self.assertEqual("ex:generic-scene-runtime-resource-answer", prompt["source"][1]["resourceId"])
+        self.assertEqual("cd:body", prompt["source"][1]["relationPath"])
+        self.assertEqual([GENERIC_RESOURCE_GRAPH], prompt["source"][1]["provenanceIds"])
+        graph.remove((result, cd("body"), None))
+        with self.assertRaisesRegex(ValueError, "Missing selected value cd:body"):
+            MODULE.compile_scene_document(dataset, selected_path())
+
     def test_english_heading_uses_exact_english_label(self) -> None:
         document = compile_generic(role="StatementRole", resource_type="Definition")
         heading = document["scenes"][0]["blocks"][0]

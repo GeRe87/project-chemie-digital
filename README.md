@@ -24,6 +24,8 @@ The technical proof of concept uses **standard deviation**:
 
 The Chemometrics Variables path includes consecutive scenes for scalar/vector/matrix shapes and numeric/categorical/Boolean value domains. Both reuse the shared infocard primitive with independently authored mathematical expressions. Content and examples live in `ontology/dataset/chemometrics-basics.trig`; their order and selection live in the corresponding Variables path and scene graphs. Value domains are distinct from collection shapes, and the examples are illustrative rather than an exhaustive taxonomy.
 
+Chemometrics Level 2, Mean Values, contains thirty scenes covering five-dice experiments, arithmetic mean and expectation, repeated sampling, water-analysis examples, geometric and harmonic means, median and selection exercises. Its additional examples and relationships live in `ontology/dataset/chemometrics-mean-values-examples.trig`; the existing Mean Values path and scene graphs select them for the generic presentation and self-study renderers. No legacy slide implementation or scene-specific layout is imported. See the [Level 2 content migration and scientific review](docs/migration/chemometrics-mean-values-level-2.md).
+
 The active Variables presentation currently ends with “Types of variable values” (11 scenes). Later scene definitions and their semantic resources remain authored for reuse but are not selected by this path. The broader learning-unit focus concepts are unchanged.
 
 ## Local validation

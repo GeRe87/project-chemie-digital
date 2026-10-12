@@ -205,7 +205,7 @@ class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
             (
                 EX["learning-unit-mean-values"],
                 EX["path-chemometrics-mean-values-lecture"],
-                8,
+                30,
             ),
         ):
             with self.subTest(unit=unit):
