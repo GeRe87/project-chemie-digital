@@ -286,7 +286,7 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
             set(self.graph.objects(EX["learning-unit-random-variables"], CD.hasFocusConcept)),
         )
         self.assertEqual(
-            16,
+            17,
             len(set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))),
         )
 
