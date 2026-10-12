@@ -55,3 +55,18 @@ test("shared code workbench bounds output and scrolls the authored glossary in i
   assert.match(css, /data-composition-profile="evidence-practice-grid"[\s\S]*?grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/u);
   assert.match(css, /slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
 });
+
+test("formula-deck diagrams override intrinsic minimum height throughout the SVG chain", async () => {
+  const { readFileSync } = await import("node:fs");
+  const css = readFileSync(new URL("../src/teaching-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /formula-deck[\s\S]*?\.d3-flow-host :is\(\.d3-flow-runtime, \.d3-flow-figure\)[\s\S]*?height: 100%; min-height: 0/u);
+  assert.match(css, /formula-deck[\s\S]*?\.d3-flow-host \.d3-flow-svg\s*\{[^}]*min-height: 0; max-height: 100%/u);
+});
+
+test("task marker uses one circle and a font-independent stem/dot, never a second font glyph", async () => {
+  const { readFileSync } = await import("node:fs");
+  const css = readFileSync(new URL("../src/teaching-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /data-marker-purpose="task"\] \.teaching-point-marker::before \{ content: ""/u);
+  assert.match(css, /data-marker-purpose="task"\] \.teaching-point-marker::after[\s\S]*?M11 5h2v9h-2z[\s\S]*?cx='12' cy='18'/u);
+  assert.doesNotMatch(css, /content: "!"/u);
+});

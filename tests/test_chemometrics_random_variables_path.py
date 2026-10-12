@@ -50,6 +50,7 @@ EXPECTED_TOPICS = {
 EXPECTED_STEPS = [
     ("variables-title", {EX["variables-foundation"]}),
     ("variable-definition", {EX["def-variable"], EX["source-openstax-statistics"]}),
+    ("variables-purpose", {EX["variables-purpose-heading"], EX["variables-purpose"]}),
     ("variables-values-observations", {
         EX["media-uvvis-dilution-series"],
         EX["variables-values-observations-intro"],
@@ -112,7 +113,7 @@ class ChemometricsVariablesPathTests(unittest.TestCase):
 
     def test_path_has_exactly_eleven_contiguous_scene_bound_steps(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(11, len(steps))
+        self.assertEqual(12, len(steps))
         for position, (slug, expected_resources) in enumerate(EXPECTED_STEPS, start=1):
             step = EX[f"path-step-chemometrics-{slug}"]
             with self.subTest(step=step):

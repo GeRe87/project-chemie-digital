@@ -40,6 +40,20 @@
   ex:harmonic-mean cd:hasExercise ex:mean-case-reactors .
 
   # Headings are reusable authored prose resources, not layout selectors.
+  ex:mean-purpose-heading a cd:Interpretation ; skos:prefLabel "Why do we need mean values?"@en ; cd:body "Why do we need mean values?"@en ; cd:authoredResource true .
+  ex:mean-purpose a cd:Interpretation ; cd:body "Mean values summarize variable values compactly."@en ; cd:hasKeyPoint ex:mean-purpose-summarize, ex:mean-purpose-compact, ex:mean-purpose-random ; cd:authoredResource true .
+  ex:mean-purpose-summarize a cd:KeyPoint ; cd:position 1 ; cd:body "Summarize several values of a variable."@en ; cd:authoredResource true .
+  ex:mean-purpose-compact a cd:KeyPoint ; cd:position 2 ; cd:body "Represent many observations with one compact number."@en ; cd:authoredResource true .
+  ex:mean-purpose-random a cd:KeyPoint ; cd:position 3 ; cd:body "Average comparable observations to reduce uncontrolled random fluctuations."@en ; cd:authoredResource true .
+  ex:mean-purpose-note a cd:Interpretation ; cd:body "For independent random fluctuations around the same target. Averaging does not remove systematic errors or guarantee resistance to outliers."@en ; cd:authoredResource true .
+  ex:mean-dice-sums-heading a cd:Interpretation ; skos:prefLabel "Different experiments, different sums"@en ; cd:body "Different experiments, different sums"@en ; cd:authoredResource true .
+  ex:mean-dice-sums a cd:Interpretation ; cd:body "Illustrative sums from five repetitions (seed 42)."@en ; cd:hasKeyPoint ex:mean-dice-sum-1, ex:mean-dice-sum-2, ex:mean-dice-sum-3, ex:mean-dice-sum-4, ex:mean-dice-sum-5 ; dct:hasPart ex:mean-dice-practice-r ; cd:authoredResource true .
+  ex:mean-dice-sum-1 a cd:KeyPoint ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:mean-dice-sum-2 a cd:KeyPoint ; cd:position 2 ; cd:body "13"@en ; cd:authoredResource true .
+  ex:mean-dice-sum-3 a cd:KeyPoint ; cd:position 3 ; cd:body "18"@en ; cd:authoredResource true .
+  ex:mean-dice-sum-4 a cd:KeyPoint ; cd:position 4 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:mean-dice-sum-5 a cd:KeyPoint ; cd:position 5 ; cd:body "23"@en ; cd:authoredResource true .
+  ex:mean-dice-sums-question a cd:Exercise ; cd:body "- [?] Which value is the right one?"@en ; cd:hasExpectedResult ex:mean-dice-expected ; cd:authoredResource true .
   ex:mean-fe-heading a cd:Interpretation ; skos:prefLabel "Average the iron measurements"@en ; cd:body "Average the iron measurements"@en ; cd:authoredResource true .
   ex:mean-title a cd:Interpretation ; skos:prefLabel "Mean Values"@en ; cd:body "Mean Values"@en ; cd:authoredResource true .
   ex:mean-dice-warmup-heading a cd:Interpretation ; skos:prefLabel "Five dice, one sum"@en ; cd:body "Five dice, one sum"@en ; cd:authoredResource true .
@@ -66,8 +80,8 @@
   ex:mean-dice-warmup a cd:Exercise ;
     cd:body """**Roll five fair dice and add their outcomes.**
 
-- What average sum would you expect after many repetitions?
-- Can that average be a value that one experiment cannot produce?"""@en ;
+- [?] What average sum would you expect after many repetitions?
+- [?] Can that average be a value that one experiment cannot produce?"""@en ;
     cd:hasCodeExample ex:mean-dice-warmup-r ; cd:hasExpectedResult ex:mean-dice-expected ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-dice-expected a cd:ExpectedResult ; cd:body "The expected sum is 17.5. Each realized sum is an integer, so no individual experiment produces 17.5."@en ; cd:authoredResource true .
   ex:mean-dice-warmup-r a cd:CodeExample ;

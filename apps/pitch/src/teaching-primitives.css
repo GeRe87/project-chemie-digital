@@ -37,6 +37,35 @@
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > * { flex: 1 1 0; min-width: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="info-surface"] { font-size: .7em; margin: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="visual"] { max-height: 18rem; min-height: 0; }
+.reveal .slides section[data-composition-profile="formula-deck"] .d3-flow-host {
+  height: 18rem; max-height: 18rem; padding: 0; margin: 0;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .d3-flow-host :is(.d3-flow-runtime, .d3-flow-figure) {
+  height: 100%; min-height: 0; display: flex; flex-direction: column;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .d3-flow-host .d3-flow-svg {
+  flex: 1 1 0; width: 100%; height: 100%; min-height: 0; max-height: 100%;
+}
+.reveal .slides section[data-composition-profile="compact-list"] {
+  display: grid !important; grid-template-rows: auto minmax(0,1fr);
+  gap: 1rem; padding: 1.4rem 1.8rem !important;
+}
+.reveal .slides section[data-composition-profile="compact-list"] > [data-composition-region-container="main"] {
+  display: flex; flex-direction: column; gap: 1rem; align-items: stretch;
+  min-height: 0; overflow: auto; max-width: 62rem; width: 100%; margin: 0 auto;
+}
+.reveal .slides section[data-composition-profile="compact-list"] .keypoint-list {
+  display: block; list-style: none; padding: 1rem 1.2rem; margin: 0;
+  border: 2px solid var(--pcd-accent); background: var(--pcd-surface-strong);
+}
+.reveal .slides section[data-composition-profile="compact-list"] .keypoint-list > li {
+  margin: .5em 0; padding-inline-start: 1.5em; border: 0; background: transparent;
+}
+.reveal .slides section[data-composition-profile="compact-list"] .keypoint-list > li::before { content: none; }
+body[data-presentation-readability="lecture"] .reveal .slides section[data-composition-profile="compact-list"] .pcd-list-item-text {
+  background: none; box-shadow: none; padding-inline: 0;
+}
+.reveal .slides section[data-composition-profile="compact-list"] [data-component-kind="info-surface"] { margin: 0; font-size: .78em; }
 .reveal .slides section[data-composition-profile="evidence-practice-grid"] {
   display: grid !important; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr);
   gap: .7rem; padding: 1.15rem 1.5rem !important;
@@ -121,7 +150,14 @@
   border: 2px solid currentColor; border-radius: 50%; background: transparent;
   color: var(--pcd-marker-question); font-weight: 900; line-height: 1.15; text-align: center;
 }
-.reveal .teaching-points li[data-marker-purpose="task"] .teaching-point-marker::before { content: "!"; color: var(--pcd-marker-statement); }
+.reveal .teaching-points li[data-marker-purpose="task"] .teaching-point-marker::before { content: ""; color: var(--pcd-marker-statement); }
+/* Draw the exclamation stem and dot, not a font-dependent heavy glyph. */
+.reveal .teaching-points li[data-marker-purpose="task"] .teaching-point-marker::after {
+  content: ""; position: absolute; inset-inline-start: .2em; top: .05em;
+  width: calc(1.3em + 4px); height: calc(1.3em + 4px);
+  background: var(--pcd-marker-statement);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11 5h2v9h-2z'/%3E%3Ccircle cx='12' cy='18' r='1.3'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .reveal ul.keypoint-list > li { position: relative; padding-inline-start: 1.6em; }
 
 /* Intrinsic evidence lists are one surface, not a column of stretched cards. */

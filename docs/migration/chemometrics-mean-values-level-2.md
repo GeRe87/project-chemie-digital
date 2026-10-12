@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-one scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-two scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -92,6 +92,40 @@ source reference. This uses the same generic answer-disclosure interface as
 other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
+
+### Issue #266: purpose, teaching order and diagram containment
+
+The current active route contains 32 scenes (31 minus the standalone LLN theory
+scene plus purpose and illustrative-sums scenes). Reusable LLN definitions and
+interpretations remain authored, and repeated-experiment practice is retained.
+The opening is title → purpose → experiment flow → warmup → observed sums →
+expected-value theory → five-dice expectation calculation → arithmetic-mean
+theory → empirical practice → repeated sampling. The new sums are 10, 13, 18,
+10 and 23, reproduced with the unchanged `set.seed(42)` five-repeat R example.
+Their empirical average is 14.8, not the model expectation 17.5.
+
+Level 1 adds a short purpose list immediately after the variable definition,
+bringing its active route to 12 scenes (17 authored scenes including retained
+inactive resources). Both purpose cards and the sums list use existing RDF
+KeyPoints and a generic source-linked explanatory-list composition. Compact
+lists do not automatically highlight entire sentences. Stability of averaging
+is qualified by independent random fluctuations around the same target; it is
+not presented as resistance to arbitrary outliers or systematic errors.
+
+Warmup questions now explicitly author `[?]`. The shared task-circle draws a
+font-independent exclamation stem/dot rather than a potentially ambiguous heavy
+font glyph. A single authored question item also uses the safe Markdown renderer.
+
+The clipped speed-solution/layer diagrams were reproduced at 1440×900: their SVG
+minimum height was 344 logical px inside a 288px allocated host, extending below
+the slide. Formula-stage rules now constrain the runtime/figure/SVG chain with
+zero minimum height and full-viewBox scaling. Wide SVG bottoms measure 862.81px
+inside the slide bottom 882.19px; narrow checks after wide entry also retain the
+complete viewBox, but whole-deck portrait scaling remains small. This is not a
+fresh-portrait-navigation repair or completion of the separate tracer animation.
+
+Earlier increment sections below retain historical implementation/audit context;
+their prior active counts/order are superseded by this section.
 
 ### Issue #261: shared teaching primitives
 

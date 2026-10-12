@@ -167,6 +167,7 @@ for slug, selections in FACET_SELECTIONS.items():
     for suffix, (resource, role, selector) in selections.items():
         identity = EX[f"scene-item-chemometrics-mean-values-{slug}-{suffix}"]
         items[identity] = (items[identity][0], EX[resource], role, selector)
+SCENE_MATRIX.pop(EX["scene-chemometrics-mean-values-law-of-large-numbers"])
 SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"][EX["mv-expected-value-note"]] = (
     5, EX["mean-expectation-note"], CD.StatementRole, "cd:body")
 geometric_items = SCENE_MATRIX[EX["scene-chemometrics-mean-values-geometric-mean"]]["items"]
@@ -232,7 +233,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(31, len(document["scenes"]))
+        self.assertEqual(32, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],
@@ -270,7 +271,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         random_path = EX["path-chemometrics-random-variables-lecture"]
         random_graph = URIRef("https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture")
         random_document = RUNTIME.compile_scene_document(self.dataset, RUNTIME.CoursePathReference(str(random_path), str(random_graph)))
-        self.assertEqual(11, len(random_document["scenes"]))
+        self.assertEqual(12, len(random_document["scenes"]))
         self.assertIn(CD.FormulaRole, set(self.graph.objects(EX["scene4-i2"], CD.communicativeRole)))
         self.assertEqual({Literal("cd:latex")}, set(self.graph.objects(EX["scene4-i2"], CD.selectionPath)))
 

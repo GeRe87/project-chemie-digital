@@ -34,7 +34,11 @@
     cd:selectionPath "cd:hasDefinition/cd:hasSource" ;
     cd:authoredResource true .
 
-  # 03 — variables, values and observations ---------------------------------
+  ex:scene-chemometrics-variables-purpose a cd:SceneDefinition ; cd:focusConcept ex:variable ; cd:hasSceneItem ex:scene-item-variables-purpose-heading, ex:scene-item-variables-purpose-body ; cd:authoredResource true .
+  ex:scene-item-variables-purpose-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:variables-purpose-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variables-purpose-body a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:variables-purpose ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  # 04 — variables, values and observations ---------------------------------
   ex:scene-chemometrics-variables-values-observations a cd:SceneDefinition ;
     cd:focusConcept ex:variables-values-observations ;
     cd:hasSceneItem ex:scene-item-vvo-heading,

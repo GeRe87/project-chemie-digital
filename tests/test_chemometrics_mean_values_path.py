@@ -124,6 +124,8 @@ EXPECTED_SCENES = {
 }
 
 from mean_values_expectations import ADDITIONS, EXTRA_PATH_RESOURCES, ORDER
+EXPECTED_STEPS.pop(EX["path-step-chemometrics-mean-values-law-of-large-numbers"])
+EXPECTED_SCENES.pop(EX["path-step-chemometrics-mean-values-law-of-large-numbers"])
 
 for slug, (_focus, _heading, body_items) in ADDITIONS.items():
     step = EX[f"path-step-chemometrics-mean-values-{slug}"]
@@ -180,8 +182,8 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 32)), sorted(positions))
-        self.assertEqual(31, len(set(positions)))
+        self.assertEqual(list(range(1, 33)), sorted(positions))
+        self.assertEqual(32, len(set(positions)))
 
     def test_each_step_uses_exactly_the_reviewed_resources(self) -> None:
         for step, (_position, expected_resources) in EXPECTED_STEPS.items():
@@ -248,7 +250,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         random_steps = set(
             self.graph.objects(EX["path-chemometrics-random-variables-lecture"], CD.hasStep)
         )
-        self.assertEqual(11, len(random_steps))
+        self.assertEqual(12, len(random_steps))
         for step in random_steps:
             self.assertEqual(1, len(set(self.graph.objects(step, CD.usesScene))))
 

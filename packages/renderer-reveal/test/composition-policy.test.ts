@@ -1156,6 +1156,16 @@ test("learning-stage infers info plus visual with an optional note", () => {
   ]);
 });
 
+test("source-linked explanatory key points use a compact surface, independent of resource identity", () => {
+  for (const resourceId of ["resource:a", "resource:unrelated"]) {
+    const points: SceneBlock = { ...unorderedList("points"), intent: { kind: "explain" },
+      source: [{ resourceId, relationPath: "cd:hasKeyPoint" }] };
+    const blocks = [prose("heading", "introduce"), points, prose("qualification")];
+    const scene: Scene = { id: "opaque", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+    assert.equal(inferRevealCompositionPlan(scene).profile, "compact-list");
+  }
+});
+
 test("teaching visual and media are adjacent surfaces without hero treatment", () => {
   const scene: Scene = {
     id: "opaque:illustrated-visual",

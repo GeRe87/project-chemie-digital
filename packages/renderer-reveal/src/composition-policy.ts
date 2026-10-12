@@ -79,6 +79,8 @@ export type RevealLearningProfile =
   | "formula-legend"
   | "statement-support"
   | "visual-media"
+  | "evidence-practice-grid"
+  | "compact-list"
   | "formula-deck";
 
 export type RevealVisualStageProfile =
@@ -739,6 +741,19 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       mainCount: 1,
       profile: "source",
     };
+  }
+
+  // A compact list, with optional context/qualification or a follow-up prompt,
+  // is one teaching surface rather than a horizontal progression of cards.
+  const explanatoryList = (block: SceneBlock | undefined): boolean => block?.kind === "list"
+    && block.intent?.kind === "explain"
+    && block.source.some(source => source.relationPath === "cd:hasKeyPoint");
+  if ((body.length === 1 && explanatoryList(body[0]))
+      || (body.length === 2 && explanatoryList(body[0]) && body[1]?.kind === "prose")
+      || (body.length === 3 && body[0]?.kind === "prose" && explanatoryList(body[1]) && body[2]?.kind === "prompt")) {
+    const placements = placementsWithHeading(heading);
+    body.forEach((block, index) => placements.push(placement(block, "main", index)));
+    return { kind: "learning-stage", profile: "compact-list", placements, mainCount: 1 };
   }
 
   const evidencePracticeGrid = inferEvidencePracticeGrid(body, heading);

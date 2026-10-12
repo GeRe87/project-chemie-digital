@@ -1,8 +1,8 @@
 """Independent regression expectations for the reviewed Level 2 sequence."""
 
 ORDER = [
-    "title", "dice-flow", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
-    "dice-expectation", "law-of-large-numbers", "lln-practice", "real-world",
+    "title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
+    "dice-expectation", "arithmetic-mean", "dice-practice", "lln-practice", "real-world",
     "water", "growth", "geometric-mean", "growth-comparison",
     "geometric-practice", "log", "microbial", "ratios", "speed", "speed-solution", "harmonic-mean",
     "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
@@ -12,6 +12,15 @@ ORDER = [
 # focus, heading resource, ordered (resource, role, selector) body items
 ADDITIONS = {
     "title": ("arithmetic-mean", "mean-title", []),
+    "purpose": ("arithmetic-mean", "mean-purpose-heading", [
+        ("mean-purpose", "KeyPointRole", "cd:hasKeyPoint"),
+        ("mean-purpose-note", "StatementRole", "cd:body"),
+    ]),
+    "dice-sums": ("expected-value", "mean-dice-sums-heading", [
+        ("mean-dice-sums", "StatementRole", "cd:body"),
+        ("mean-dice-sums", "KeyPointRole", "cd:hasKeyPoint"),
+        ("mean-dice-sums-question", "ExerciseRole", "cd:body"),
+    ]),
     "dice-flow": ("arithmetic-mean", "mean-dice-flow-heading", [
         ("mean-five-dice-flow", "DiagramRole", "cd:body"),
         ("mean-five-dice-sketch", "MediaRole", "cd:uri"),
@@ -123,6 +132,8 @@ ADDITIONS = {
 }
 
 EXTRA_PATH_RESOURCES = {
+    "purpose": {"mean-purpose-heading"},
+    "dice-sums": {"mean-dice-sums-heading"},
     "title": {"mean-title", "mean-five-dice-sketch"},
     "dice-expectation": {"mean-dice-expectation-example"},
     "water": {"mean-water-example", "mean-oxygen-cards", "mean-oxygen-formula",
