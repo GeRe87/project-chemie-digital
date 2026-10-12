@@ -147,7 +147,7 @@ ADDITIONS = {
 }
 
 EXTRA_PATH_RESOURCES = {
-    "real-world": {"mean-model-cards", "mean-model-formula", "mean-data-cards", "mean-data-formula"},
+    "real-world": {"mean-bridge-answer"},
     "growth-comparison": {"mean-growth-geometric-cards", "mean-growth-geometric-formula"},
     "purpose": {"mean-purpose-heading"},
     "dice-sums": {"mean-dice-sums-heading"},
@@ -162,12 +162,12 @@ EXTRA_PATH_RESOURCES = {
     "order": {"mean-order-example"},
     "lead": {"mean-lead-example"},
     "arithmetic-mean": {"mean-arithmetic-facets"},
-    "expected-value": {"mean-expectation-context", "mean-expectation-facets", "mean-expectation-note"},
+    "expected-value": {"mean-expectation-context", "mean-expectation-note"},
     "law-of-large-numbers": {"mean-lln-facets", "mean-lln-note"},
-    "geometric-mean": {"mean-geometric-context", "mean-geometric-facets", "mean-geometric-note", "mean-geometric-product-cards", "mean-geometric-log-cards", "mean-geometric-log-card-formula", "mean-growth-general-note"},
+    "geometric-mean": {"mean-growth-general-note"},
     "speed-solution": {"mean-speed-context", "mean-speed-note"},
     "speed": {"mean-speed-calculation", "mean-speed-context", "mean-speed-diagram", "mean-speed-note"},
-    "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-facets", "mean-harmonic-note"},
+    "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-note"},
     "median": {"mean-median-context", "mean-median-facets", "mean-median-note"},
     "turbidity": {"mean-turbidity-context"},
 }

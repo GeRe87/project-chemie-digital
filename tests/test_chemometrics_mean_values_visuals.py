@@ -175,6 +175,23 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertIn("speeds <- c(10, 2)", speed["code"])
         self.assertIn("rep(100, 2)", speed["code"])
 
+    def test_all_seven_active_labs_have_authored_function_parts(self):
+        labs = []
+        for scene in self.scenes.values():
+            blocks = scene["blocks"]
+            for index, block in enumerate(blocks):
+                if block["kind"] == "code" and block["executable"]:
+                    labs.append((block, blocks[index + 1]))
+        self.assertEqual(7, len(labs))
+        self.assertEqual(7, len({code["source"][0]["resourceId"] for code, _legend in labs}))
+        for code, legend in labs:
+            with self.subTest(code=code["source"][0]["resourceId"]):
+                self.assertEqual("definition-list", legend["kind"])
+                self.assertEqual("supporting", legend["emphasis"])
+                self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
+                self.assertEqual(code["source"][0]["resourceId"], legend["source"][0]["resourceId"])
+                self.assertTrue(legend["entries"])
+
     def test_water_and_iron_practice_share_one_structural_four_cell_slide(self):
         scene = self.scenes["water"]
         self.assertEqual("Arithmetic means in water analysis", scene["blocks"][0]["text"])

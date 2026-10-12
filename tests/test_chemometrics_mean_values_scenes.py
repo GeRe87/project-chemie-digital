@@ -198,7 +198,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_thirty_one_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_six_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))

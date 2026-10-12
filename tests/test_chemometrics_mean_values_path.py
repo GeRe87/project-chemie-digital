@@ -170,7 +170,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOPICS, unit_topics)
         self.assertEqual(unit_topics, path_topics)
 
-    def test_path_has_exactly_thirty_one_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_exactly_thirty_six_stable_steps_with_contiguous_positions(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
         self.assertEqual(set(EXPECTED_STEPS), steps)
 

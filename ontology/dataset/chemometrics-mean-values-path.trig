@@ -112,7 +112,7 @@
   ex:path-step-chemometrics-mean-values-dice-practice a cd:PathStep ; cd:position 10 ; cd:usesResource ex:mean-dice-practice, ex:mean-dice-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-dice-practice ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-expectation a cd:PathStep ; cd:position 7 ; cd:usesResource ex:mean-one-die-cards, ex:mean-one-die-formula, ex:mean-five-dice-cards, ex:mean-five-dice-formula, ex:mean-dice-expectation-example ; cd:usesScene ex:scene-chemometrics-mean-values-dice-expectation ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-lln-practice a cd:PathStep ; cd:position 11 ; cd:usesResource ex:mean-lln-practice, ex:mean-lln-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-lln-practice ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-real-world a cd:PathStep ; cd:position 8 ; cd:usesResource ex:mean-model-cards, ex:mean-model-formula, ex:mean-data-cards, ex:mean-data-formula, ex:mean-bridge-cards, ex:mean-bridge-question ; cd:usesScene ex:scene-chemometrics-mean-values-real-world ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-real-world a cd:PathStep ; cd:position 8 ; cd:usesResource ex:mean-bridge-cards, ex:mean-bridge-question, ex:mean-bridge-answer ; cd:usesScene ex:scene-chemometrics-mean-values-real-world ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-water cd:usesResource ex:mean-fe-practice, ex:mean-fe-r .
   ex:path-step-chemometrics-mean-values-water a cd:PathStep ; cd:position 12 ; cd:usesResource ex:mean-oxygen-cards, ex:mean-oxygen-formula, ex:mean-nitrate-cards, ex:mean-nitrate-formula, ex:mean-iron-cards, ex:mean-iron-formula, ex:mean-water-example ; cd:usesScene ex:scene-chemometrics-mean-values-water ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-growth a cd:PathStep ; cd:position 13 ; cd:usesResource ex:mean-growth-diagram, ex:mean-growth-example ; cd:usesScene ex:scene-chemometrics-mean-values-growth ; cd:authoredResource true .
@@ -132,17 +132,15 @@
   # Select presentation facets without removing the detailed reusable resources.
   ex:path-step-chemometrics-mean-values-title cd:usesResource ex:mean-five-dice-sketch .
   ex:path-step-chemometrics-mean-values-arithmetic-mean cd:usesResource ex:mean-arithmetic-facets .
-  ex:path-step-chemometrics-mean-values-expected-value cd:usesResource ex:mean-expectation-context, ex:mean-expectation-facets, ex:mean-expectation-note .
-  ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-geometric-context, ex:mean-geometric-facets, ex:mean-geometric-note .
-  ex:path-step-chemometrics-mean-values-harmonic-mean cd:usesResource ex:mean-harmonic-context, ex:mean-harmonic-facets, ex:mean-harmonic-note .
+  ex:path-step-chemometrics-mean-values-expected-value cd:usesResource ex:mean-expectation-context, ex:mean-expectation-note .
+  ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-growth-general-note .
+  ex:path-step-chemometrics-mean-values-harmonic-mean cd:usesResource ex:mean-harmonic-context, ex:mean-harmonic-note .
   ex:path-step-chemometrics-mean-values-median cd:usesResource ex:mean-median-context, ex:mean-median-facets, ex:mean-median-note .
   ex:path-step-chemometrics-mean-values-water cd:usesResource ex:mean-water-summary, ex:mean-water-table .
   ex:path-step-chemometrics-mean-values-layers cd:usesResource ex:mean-layers-diagram, ex:mean-layers-note .
   ex:path-step-chemometrics-mean-values-speed cd:usesResource ex:mean-speed-context, ex:mean-speed-diagram, ex:mean-speed-note .
   ex:path-step-chemometrics-mean-values-turbidity cd:usesResource ex:mean-turbidity-slide-context, ex:mean-turbidity-order-table, ex:mean-turbidity-note .
   ex:path-step-chemometrics-mean-values-speed-solution a cd:PathStep ; cd:position 25 ; cd:usesResource ex:mean-speed-context, ex:mean-speed-calculation, ex:mean-speed-diagram, ex:mean-speed-note ; cd:usesScene ex:scene-chemometrics-mean-values-speed-solution ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-geometric-product-cards, ex:mean-geometric-log-cards .
-  ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-geometric-log-card-formula .
   ex:path-step-chemometrics-mean-values-dice-flow a cd:PathStep ; cd:position 3 ; cd:usesResource ex:mean-five-dice-flow, ex:mean-five-dice-sketch ; cd:usesScene ex:scene-chemometrics-mean-values-dice-flow ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-warmup cd:usesResource ex:mean-five-dice-sketch .
   ex:path-step-chemometrics-mean-values-growth cd:usesResource ex:mean-cell-growth-sketch .
