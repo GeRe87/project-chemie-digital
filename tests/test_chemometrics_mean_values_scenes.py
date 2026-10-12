@@ -119,7 +119,7 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
         "dice-warmup": ["1", "2", "media", "3"],
         "growth": ["1", "2", "media"],
         "speed-solution": ["solution-1", "3", "diagram"],
-        "turbidity": ["1", "2", "table", "3", "note"],
+        "turbidity": ["1", "2", "table", "3"],
         "real-world": ["1", "bridge", "question"],
     }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
     SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]] = {
@@ -189,6 +189,16 @@ for suffix, position in [("formula", 3), ("interpretation", 4)]:
     identity = EX[f"scene-item-chemometrics-mean-values-harmonic-mean-{suffix}"]
     harmonic_items[identity] = (position, *harmonic_items[identity][1:])
 
+# Owner-directed compact theory and deselected standalone practice, issue #270.
+for slug in ("geometric-practice", "median-practice"):
+    SCENE_MATRIX.pop(EX[f"scene-chemometrics-mean-values-{slug}"])
+for slug, suffix in (("arithmetic-mean", "interpretation"),
+                     ("harmonic-mean", "interpretation"), ("median", "interpretation")):
+    SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]]["items"].pop(
+        EX[f"scene-item-chemometrics-mean-values-{slug}-{suffix}"])
+SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"].pop(EX["mv-expected-value-note"])
+SCENE_MATRIX[EX["scene-chemometrics-mean-values-geometric-mean"]]["items"].pop(EX["mv-geometric-general-note"])
+
 
 class ChemometricsMeanValuesSceneTests(unittest.TestCase):
     @classmethod
@@ -198,7 +208,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_thirty_six_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_three_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))
@@ -245,7 +255,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(36, len(document["scenes"]))
+        self.assertEqual(33, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],

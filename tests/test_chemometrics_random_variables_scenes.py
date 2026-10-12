@@ -58,7 +58,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "list"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
-    ["prose", "definition-list", "prose"],
+    ["prose", "definition-list"],
     ["prose", "diagram"],
     ["prose", "math", "definition-list"],
     ["prose", "math", "definition-list"],
@@ -207,7 +207,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_why_values_differ_contrasts_assigned_and_observed_variation(self) -> None:
         scene = self.document["scenes"][5]
         self.assertEqual("Why do values differ?", scene["blocks"][0]["text"])
-        self.assertEqual(["prose", "definition-list", "prose"], [block["kind"] for block in scene["blocks"]])
+        self.assertEqual(["prose", "definition-list"], [block["kind"] for block in scene["blocks"]])
         self.assertFalse(any(
             "The same quantity can take different values" in str(block) for block in scene["blocks"]
         ))
@@ -225,7 +225,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             ["calibration-flasks", "sampling-lake"],
             [entry["visualMotif"] for entry in entries],
         )
-        self.assertIn("A variable's role depends", scene["blocks"][2]["text"])
+        self.assertIn("A variable's role depends", entries[1]["description"])
 
     def test_process_sources_slide_precedes_equation(self) -> None:
         scene = self.document["scenes"][6]

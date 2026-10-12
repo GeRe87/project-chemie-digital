@@ -4,9 +4,9 @@ ORDER = [
     "title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
     "dice-expectation", "real-world", "arithmetic-mean", "dice-practice", "lln-practice",
     "water", "growth", "growth-comparison", "geometric-mean", "growth-calculation", "growth-r",
-    "geometric-practice", "log", "microbial", "ratios", "speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r",
+    "log", "microbial", "ratios", "speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r",
     "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
-    "median-practice", "summary", "discussion-additive", "discussion-multiplicative",
+    "summary", "discussion-additive",
 ]
 
 # focus, heading resource, ordered (resource, role, selector) body items
@@ -75,7 +75,6 @@ ADDITIONS = {
         ("mean-speed-arithmetic-formula", "FormulaRole", "cd:latex"),
         ("mean-speed-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
         ("mean-speed-geometric-formula", "FormulaRole", "cd:latex"),
-        ("mean-speed-comparison-note", "StatementRole", "cd:body"),
     ]),
     "speed-r": ("harmonic-mean", "mean-speed-r-heading", [
         ("mean-speed-r-practice", "ExerciseRole", "cd:body"),
@@ -111,13 +110,11 @@ ADDITIONS = {
         ("mean-layers-assumptions", "StatementRole", "cd:body"),
         ("mean-layers-formula", "FormulaRole", "cd:latex"),
         ("mean-layers-diagram", "DiagramRole", "cd:body"),
-        ("mean-layers-note", "StatementRole", "cd:body"),
     ]),
     "turbidity": ("median", "mean-turbidity-heading", [
         ("mean-turbidity-slide-context", "StatementRole", "cd:body"),
         ("mean-turbidity-order-table", "TableRole", "cd:hasTableRow"),
         ("mean-turbidity-chart", "ChartRole", "cd:body"),
-        ("mean-turbidity-note", "StatementRole", "cd:body"),
     ]),
     "order": ("median", "mean-order-heading", [
         ("mean-odd-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
@@ -138,8 +135,6 @@ ADDITIONS = {
         ("mean-case-replicates", "ExerciseRole", "cd:body"),
         ("mean-case-sensors", "ExerciseRole", "cd:body"),
         ("mean-case-loads", "ExerciseRole", "cd:body"),
-    ]),
-    "discussion-multiplicative": ("geometric-mean", "mean-discussion-multiplicative-heading", [
         ("mean-case-microplastics", "ExerciseRole", "cd:body"),
         ("mean-case-sites", "ExerciseRole", "cd:body"),
         ("mean-case-reactors", "ExerciseRole", "cd:body"),
@@ -158,16 +153,16 @@ EXTRA_PATH_RESOURCES = {
     "growth": {"mean-growth-example"},
     "microbial": {"mean-microbial-example"},
     "ratios": {"mean-ratios-example"},
-    "layers": {"mean-layers-example"},
     "order": {"mean-order-example"},
     "lead": {"mean-lead-example"},
-    "arithmetic-mean": {"mean-arithmetic-facets"},
+    "arithmetic-mean": set(),
     "expected-value": {"mean-expectation-context", "mean-expectation-note"},
     "law-of-large-numbers": {"mean-lln-facets", "mean-lln-note"},
     "geometric-mean": {"mean-growth-general-note"},
     "speed-solution": {"mean-speed-context", "mean-speed-note"},
     "speed": {"mean-speed-calculation", "mean-speed-context", "mean-speed-diagram", "mean-speed-note"},
     "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-note"},
+    "layers": {"mean-layers-example", "mean-layers-note"},
     "median": {"mean-median-context", "mean-median-facets", "mean-median-note"},
-    "turbidity": {"mean-turbidity-context"},
+    "turbidity": {"mean-turbidity-context", "mean-turbidity-note"},
 }

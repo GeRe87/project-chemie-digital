@@ -46,7 +46,7 @@
   ex:mean-purpose-compact a cd:KeyPoint ; cd:position 2 ; cd:body "Represent many observations with one compact number."@en ; cd:authoredResource true .
   ex:mean-purpose-random a cd:KeyPoint ; cd:position 3 ; cd:body "Average comparable observations to reduce uncontrolled random fluctuations."@en ; cd:authoredResource true .
   ex:mean-purpose-note a cd:Interpretation ; cd:body "For independent random fluctuations around the same target. Averaging does not remove systematic errors or guarantee resistance to outliers."@en ; cd:authoredResource true .
-  ex:mean-dice-sums-heading a cd:Interpretation ; skos:prefLabel "Different experiments, different sums"@en ; cd:body "Different experiments, different sums"@en ; cd:authoredResource true .
+  ex:mean-dice-sums-heading a cd:Interpretation ; skos:prefLabel "Example: Different experiments, different sums"@en ; cd:body "Example: Different experiments, different sums"@en ; cd:authoredResource true .
   ex:mean-dice-sums a cd:Interpretation ; cd:body "Illustrative sums from five repetitions (seed 42)."@en ; cd:hasKeyPoint ex:mean-dice-sum-1, ex:mean-dice-sum-2, ex:mean-dice-sum-3, ex:mean-dice-sum-4, ex:mean-dice-sum-5 ; dct:hasPart ex:mean-dice-practice-r ; cd:authoredResource true .
   ex:mean-dice-sum-1 a cd:KeyPoint ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
   ex:mean-dice-sum-2 a cd:KeyPoint ; cd:position 2 ; cd:body "13"@en ; cd:authoredResource true .
@@ -56,25 +56,25 @@
   ex:mean-dice-sums-question a cd:Exercise ; cd:body "- [?] Which value is the right one?"@en ; cd:hasExpectedResult ex:mean-dice-expected ; cd:authoredResource true .
   ex:mean-fe-heading a cd:Interpretation ; skos:prefLabel "Average the iron measurements"@en ; cd:body "Average the iron measurements"@en ; cd:authoredResource true .
   ex:mean-title a cd:Interpretation ; skos:prefLabel "Mean Values"@en ; cd:body "Mean Values"@en ; cd:authoredResource true .
-  ex:mean-dice-warmup-heading a cd:Interpretation ; skos:prefLabel "Five dice, one sum"@en ; cd:body "Five dice, one sum"@en ; cd:authoredResource true .
-  ex:mean-dice-practice-heading a cd:Interpretation ; skos:prefLabel "Average five repeated experiments"@en ; cd:body "Average five repeated experiments"@en ; cd:authoredResource true .
-  ex:mean-dice-expectation-heading a cd:Interpretation ; skos:prefLabel "What do we expect from five dice?"@en ; cd:body "What do we expect from five dice?"@en ; cd:authoredResource true .
-  ex:mean-lln-practice-heading a cd:Interpretation ; skos:prefLabel "Repeat the experiment more often"@en ; cd:body "Repeat the experiment more often"@en ; cd:authoredResource true .
-  ex:mean-real-world-heading a cd:Interpretation ; skos:prefLabel "From a known model to measured data"@en ; cd:body "From a known model to measured data"@en ; cd:authoredResource true .
-  ex:mean-water-heading a cd:Interpretation ; skos:prefLabel "Arithmetic means in water analysis"@en ; cd:body "Arithmetic means in water analysis"@en ; cd:authoredResource true .
-  ex:mean-growth-heading a cd:Interpretation ; skos:prefLabel "Growth combines by multiplication"@en ; cd:body "Growth combines by multiplication"@en ; cd:authoredResource true .
-  ex:mean-growth-comparison-heading a cd:Interpretation ; skos:prefLabel "Does the arithmetic factor preserve growth?"@en ; cd:body "Does the arithmetic factor preserve growth?"@en ; cd:authoredResource true .
+  ex:mean-dice-warmup-heading a cd:Interpretation ; skos:prefLabel "Example: Five dice, one sum"@en ; cd:body "Example: Five dice, one sum"@en ; cd:authoredResource true .
+  ex:mean-dice-practice-heading a cd:Interpretation ; skos:prefLabel "Example: Average five repeated experiments"@en ; cd:body "Example: Average five repeated experiments"@en ; cd:authoredResource true .
+  ex:mean-dice-expectation-heading a cd:Interpretation ; skos:prefLabel "Example: What do we expect from five dice?"@en ; cd:body "Example: What do we expect from five dice?"@en ; cd:authoredResource true .
+  ex:mean-lln-practice-heading a cd:Interpretation ; skos:prefLabel "Example: Repeat the experiment more often"@en ; cd:body "Example: Repeat the experiment more often"@en ; cd:authoredResource true .
+  ex:mean-real-world-heading a cd:Interpretation ; skos:prefLabel "Example: From a known model to measured data"@en ; cd:body "Example: From a known model to measured data"@en ; cd:authoredResource true .
+  ex:mean-water-heading a cd:Interpretation ; skos:prefLabel "Example: Arithmetic means in water analysis"@en ; cd:body "Example: Arithmetic means in water analysis"@en ; cd:authoredResource true .
+  ex:mean-growth-heading a cd:Interpretation ; skos:prefLabel "Example: Growth combines by multiplication"@en ; cd:body "Example: Growth combines by multiplication"@en ; cd:authoredResource true .
+  ex:mean-growth-comparison-heading a cd:Interpretation ; skos:prefLabel "Example: Does arithmetic preserve growth?"@en ; cd:body "Example: Does arithmetic preserve growth?"@en ; cd:authoredResource true .
   ex:mean-log-heading a cd:Interpretation ; skos:prefLabel "Average on a logarithmic scale"@en ; cd:body "Average on a logarithmic scale"@en ; cd:authoredResource true .
-  ex:mean-microbial-heading a cd:Interpretation ; skos:prefLabel "Two summaries of microbial counts"@en ; cd:body "Two summaries of microbial counts"@en ; cd:authoredResource true .
-  ex:mean-ratios-heading a cd:Interpretation ; skos:prefLabel "Summarize proportional changes"@en ; cd:body "Summarize proportional changes"@en ; cd:authoredResource true .
-  ex:mean-speed-heading a cd:Interpretation ; skos:prefLabel "Two equal distances, two speeds"@en ; cd:body "Two equal distances, two speeds"@en ; cd:authoredResource true .
-  ex:mean-harmonic-practice-heading a cd:Interpretation ; skos:prefLabel "Pump three equal volumes"@en ; cd:body "Pump three equal volumes"@en ; cd:authoredResource true .
-  ex:mean-layers-heading a cd:Interpretation ; skos:prefLabel "Diffusion through equal layers"@en ; cd:body "Diffusion through equal layers"@en ; cd:authoredResource true .
-  ex:mean-turbidity-heading a cd:Interpretation ; skos:prefLabel "One large turbidity measurement"@en ; cd:body "One large turbidity measurement"@en ; cd:authoredResource true .
-  ex:mean-order-heading a cd:Interpretation ; skos:prefLabel "Sort first, then find the middle"@en ; cd:body "Sort first, then find the middle"@en ; cd:authoredResource true .
-  ex:mean-lead-heading a cd:Interpretation ; skos:prefLabel "A center does not describe every event"@en ; cd:body "A center does not describe every event"@en ; cd:authoredResource true .
+  ex:mean-microbial-heading a cd:Interpretation ; skos:prefLabel "Example: Two summaries of microbial counts"@en ; cd:body "Example: Two summaries of microbial counts"@en ; cd:authoredResource true .
+  ex:mean-ratios-heading a cd:Interpretation ; skos:prefLabel "Example: Summarize proportional changes"@en ; cd:body "Example: Summarize proportional changes"@en ; cd:authoredResource true .
+  ex:mean-speed-heading a cd:Interpretation ; skos:prefLabel "Example: Two equal distances, two speeds"@en ; cd:body "Example: Two equal distances, two speeds"@en ; cd:authoredResource true .
+  ex:mean-harmonic-practice-heading a cd:Interpretation ; skos:prefLabel "Example: Pump three equal volumes"@en ; cd:body "Example: Pump three equal volumes"@en ; cd:authoredResource true .
+  ex:mean-layers-heading a cd:Interpretation ; skos:prefLabel "Example: Diffusion through equal layers"@en ; cd:body "Example: Diffusion through equal layers"@en ; cd:authoredResource true .
+  ex:mean-turbidity-heading a cd:Interpretation ; skos:prefLabel "Example: One large turbidity measurement"@en ; cd:body "Example: One large turbidity measurement"@en ; cd:authoredResource true .
+  ex:mean-order-heading a cd:Interpretation ; skos:prefLabel "Example: Sort first, then find the middle"@en ; cd:body "Example: Sort first, then find the middle"@en ; cd:authoredResource true .
+  ex:mean-lead-heading a cd:Interpretation ; skos:prefLabel "Example: A center does not describe every event"@en ; cd:body "Example: A center does not describe every event"@en ; cd:authoredResource true .
   ex:mean-summary-heading a cd:Interpretation ; skos:prefLabel "Choose the summary for the question"@en ; cd:body "Choose the summary for the question"@en ; cd:authoredResource true .
-  ex:mean-discussion-additive-heading a cd:Interpretation ; skos:prefLabel "Discuss measurements and total inputs"@en ; cd:body "Discuss measurements and total inputs"@en ; cd:authoredResource true .
+  ex:mean-discussion-additive-heading a cd:Interpretation ; skos:prefLabel "Which summary answers the question?"@en ; cd:body "Which summary answers the question?"@en ; cd:authoredResource true .
   ex:mean-discussion-multiplicative-heading a cd:Interpretation ; skos:prefLabel "Discuss scale, extremes and models"@en ; cd:body "Discuss scale, extremes and models"@en ; cd:authoredResource true .
 
   ex:mean-dice-warmup a cd:Exercise ;
@@ -150,33 +150,33 @@
   ex:mean-growth-edge-1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-growth-start ; cd:targetNode ex:mean-growth-middle ; skos:prefLabel "× 2"@en ; cd:authoredResource true .
   ex:mean-growth-edge-2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:mean-growth-middle ; cd:targetNode ex:mean-growth-end ; skos:prefLabel "× 8"@en ; cd:authoredResource true .
   ex:mean-growth-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-growth-arithmetic-card ; cd:authoredResource true .
-  ex:mean-growth-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC FACTOR"@en ; cd:body "Average of the two factors\nDoes not preserve their product."@en ; cd:authoredResource true .
-  ex:mean-growth-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=(2+8)/2=5\\\\100\\times5^2&=2500\\end{aligned}" ; cd:body "The arithmetic average factor is 5. Applying it twice to 100 gives 2500, not the observed final count of 1600."@en ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC FACTOR"@en ; cd:body "Which constant factor reproduces 1600 cells from 100 in two equal periods?\nApply it twice: 100 × m × m = 100m².\nFactor 5 predicts 2500 ≠ observed 1600.\nThe arithmetic mean fails this growth question."@en ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=(2+8)/2=5\\\\100\\times5^2&=2500\\ne100\\times2\\times8=1600\\end{aligned}" ; cd:body "The arithmetic average factor is 5. One constant factor must be applied in each of two equal periods. Applying 5 twice to 100 predicts 2500, whereas the observed factors 2 and 8 give 1600 cells. The arithmetic mean fails to preserve this growth."@en ; cd:authoredResource true .
   ex:mean-growth-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-growth-geometric-card ; cd:authoredResource true .
-  ex:mean-growth-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC FACTOR"@en ; cd:body "Equivalent constant factor per period\nPreserves the final count."@en ; cd:authoredResource true .
-  ex:mean-growth-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt{2\\times8}=4\\\\100\\times4^2&=1600\\end{aligned}" ; cd:body "The geometric average factor is 4. Applying it twice to 100 preserves the final count of 1600."@en ; cd:authoredResource true .
+  ex:mean-growth-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC FACTOR"@en ; cd:body "Same question: one constant factor for two equal periods.\nApply factor 4 twice to the initial 100 cells.\nPredicted 1600 = observed 1600.\nThe geometric mean preserves this growth."@en ; cd:authoredResource true .
+  ex:mean-growth-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt{2\\times8}=4\\\\100\\times4^2&=1600=100\\times2\\times8\\end{aligned}" ; cd:body "The geometric average factor is 4. Applying it in each of two equal periods predicts 1600 cells, matching the observed final count from 100 times 2 times 8."@en ; cd:authoredResource true .
 
   ex:mean-microbial-example a cd:WorkedExample ; cd:body "Illustrative microbial counts of 10, 100 and 10000 per 100 mL have arithmetic mean 3370 and geometric mean approximately 215.44 per 100 mL. They answer different additive and equal-log-weight questions. Neither summary establishes safety or compliance, and an extreme observation must not be ignored."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-microbial-context a cd:Interpretation ; cd:body "Illustrative counts: 10, 100 and 10,000 per 100 mL. Choose the scale and question before averaging."@en ; cd:authoredResource true .
   ex:mean-microbial-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-microbial-arithmetic-card ; cd:authoredResource true .
-  ex:mean-microbial-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ADDITIVE SCALE"@en ; cd:body "10, 100, 10,000 counts per 100 mL\nAll values contribute to the sum.\nThe largest count contributes strongly."@en ; cd:authoredResource true .
+  ex:mean-microbial-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC: PULLED UPWARD"@en ; cd:body "10, 100, 10,000 counts per 100 mL\nThe extreme 10,000 strongly raises the mean to 3370.\nNot a suitable typical value for this log-scale question."@en ; cd:authoredResource true .
   ex:mean-microbial-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=\\frac{10+100+10000}{3}\\\\&=3370\\end{aligned}" ; cd:body "The arithmetic mean count is 3370 per 100 millilitres."@en ; cd:authoredResource true .
   ex:mean-microbial-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-microbial-geometric-card ; cd:authoredResource true .
-  ex:mean-microbial-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "LOGARITHMIC SCALE"@en ; cd:body "Give equal weight to logarithms.\nResult in counts per 100 mL.\nNeither center establishes safety."@en ; cd:authoredResource true .
+  ex:mean-microbial-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC: LOG-SCALE CENTER"@en ; cd:body "Give equal weight to logarithms of positive counts.\n215.44 per 100 mL better describes this log-scale center.\nKeep the extreme observation; neither center establishes safety."@en ; cd:authoredResource true .
   ex:mean-microbial-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt[3]{10\\times100\\times10000}\\\\&\\approx215.44\\end{aligned}" ; cd:body "The geometric mean count is approximately 215.44 per 100 millilitres."@en ; cd:authoredResource true .
   ex:mean-ratios-example a cd:WorkedExample ; cd:body "Positive concentration ratios 0.5, 2 and 5 have arithmetic mean 2.5 and geometric mean cube root of 5, approximately 1.710. The geometric result describes equal logarithmic weighting, not a universal rule for every ratio or monitoring task."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-ratios-context a cd:Interpretation ; cd:body "Concentration ratios across three comparisons: 0.5, 2 and 5. Ratios are dimensionless."@en ; cd:authoredResource true .
   ex:mean-ratios-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-ratios-arithmetic-card ; cd:authoredResource true .
-  ex:mean-ratios-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "AVERAGE RATIO"@en ; cd:body "Concentration ratios: 0.5, 2, 5\nAverage on the original ratio scale.\nRatios are dimensionless."@en ; cd:authoredResource true .
+  ex:mean-ratios-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC: TOO HIGH FOR THIS QUESTION"@en ; cd:body "Three concentration comparisons: 0.5, 2, 5 (dimensionless).\n2.5 exceeds the equal-log-weight center 1.710.\nIt does not preserve the product: 2.5³ = 15.625, not 5."@en ; cd:authoredResource true .
   ex:mean-ratios-arithmetic-formula a cd:MathExpression ; cd:latex "A=(0.5+2+5)/3=2.5" ; cd:body "The arithmetic average of the three ratios is 2.5."@en ; cd:authoredResource true .
   ex:mean-ratios-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-ratios-geometric-card ; cd:authoredResource true .
-  ex:mean-ratios-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MULTIPLICATIVE CHANGE"@en ; cd:body "Use when equal log weighting matches the question."@en ; cd:authoredResource true .
+  ex:mean-ratios-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC: PRESERVES THE PRODUCT"@en ; cd:body "The cube root of 5 matches the equal-log-weight question.\nG³ = 0.5 × 2 × 5 = 5.\nThese are concentration comparisons, not successive growth periods."@en ; cd:authoredResource true .
   ex:mean-ratios-geometric-formula a cd:MathExpression ; cd:latex "G=\\sqrt[3]{0.5\\times2\\times5}\\approx1.710" ; cd:body "The geometric average ratio is approximately 1.710, corresponding to about a 71 percent increase under equal log weighting."@en ; cd:authoredResource true .
 
   ex:mean-speed-question a cd:Exercise ; cd:body "A tracer travels 100 m at 10 m/s and another 100 m at 2 m/s. What is total distance divided by total time? Compare with the arithmetic average of the speeds."@en ; cd:hasExpectedResult ex:mean-speed-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-speed-result a cd:ExpectedResult ; cd:body "Times are 10 s and 50 s. Overall speed is 200/60 = 10/3 m/s, approximately 3.33 m/s, not 6 m/s. Equal time intervals would instead give the arithmetic mean of speeds."@en ; cd:authoredResource true .
   ex:mean-speed-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}t&=100/10+100/2=60\\;\\mathrm{s}\\\\v&=\\frac{200}{60}=\\frac{2}{1/10+1/2}\\approx3.33\\;\\mathrm{m/s}\\end{aligned}" ; cd:body "For two sections of 100 metres, travel times are 10 and 50 seconds. Total distance 200 metres divided by 60 seconds equals the harmonic mean, two divided by the sum of reciprocal speeds, approximately 3.33 metres per second."@en ; cd:authoredResource true .
-  ex:mean-harmonic-practice a cd:Exercise ; cd:body "Pump three successive 10 L batches at 10, 2 and 5 L/min. Calculate each pumping time and the overall rate as total volume divided by total time. Explain why equal volumes, not equal times, justify harmonic averaging."@en ; cd:hasCodeExample ex:mean-harmonic-r ; cd:hasExpectedResult ex:mean-harmonic-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  ex:mean-harmonic-practice a cd:Exercise ; cd:body "Pump three successive 10 L batches at 10, 2 and 5 L/min. Calculate each pumping time and the overall rate as total volume divided by total time."@en ; cd:hasCodeExample ex:mean-harmonic-r ; cd:hasExpectedResult ex:mean-harmonic-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-harmonic-result a cd:ExpectedResult ; cd:body "Times are 1, 5 and 2 minutes. Total volume is 30 L and total time is 8 minutes, giving 3.75 L/min. The arithmetic mean 17/3 L/min instead describes equal time weighting."@en ; cd:authoredResource true .
   ex:mean-harmonic-r a cd:CodeExample ; cd:code "rates <- c(10, 2, 5)\nvolumes <- rep(10, 3)\ntimes <- volumes / rates\nlist(times = times,\n     overall = sum(volumes) / sum(times),\n     harmonic = 1 / mean(1 / rates),\n     arithmetic = mean(rates))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
   ex:mean-layers-example a cd:WorkedExample ; cd:body "An idealized steady-state diffusion model has two equal-thickness layers in series with equal cross-sectional area and no reaction or partition discontinuity. Their diffusion coefficients are 2e-6 and 1e-8 square metres per second. Resistances add, giving effective coefficient 2/(1/(2e-6)+1/(1e-8)), approximately 1.99005e-8 square metres per second. This is a model-specific effective coefficient, not a general rule for arbitrary soils or reactors."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
@@ -232,7 +232,7 @@
   ex:mean-arithmetic-addition a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ADD AND DIVIDE"@en ; cd:body "Numerical values with meaningful addition\nEqual weight for each observation\nNormality is not required."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
   ex:mean-arithmetic-center a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "REPRESENTATIVE CENTER?"@en ; cd:body "All observations contribute.\nSkewness and extreme values can shift the mean."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
 
-  ex:mean-expectation-context a cd:Interpretation ; cd:body "For a discrete random variable, weight each possible value by its model probability."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
+  ex:mean-expectation-context a cd:Interpretation ; cd:body "For a discrete random variable with finite expected absolute value, weight each possible value by its model probability, not by observed sample frequency."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
   ex:mean-expectation-note a cd:Interpretation ; cd:body "The sum runs over possible values, not over a measured sample. A finite expected absolute value ensures this expectation is well defined."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
   ex:mean-expectation-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-expectation-outcomes, ex:mean-expectation-sample ; cd:authoredResource true .
   ex:mean-expectation-outcomes a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MODEL"@en ; cd:body "Possible outcomes and their probabilities\nProbability-weighted average\nAssume an integrable random variable."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
@@ -253,7 +253,7 @@
   ex:mean-geometric-weight a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "LOGARITHMIC WEIGHTING"@en ; cd:body "Use when equal log weighting matches the scientific question.\nNot a universal rule for rates."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
   ex:def-geometric-mean dct:hasPart ex:mean-geometric-facets .
 
-  ex:mean-harmonic-context a cd:Interpretation ; cd:body "For equal traversed quantities, add the corresponding times."@en ; cd:interpretsResource ex:worked-example-equal-distance-speed ; cd:authoredResource true .
+  ex:mean-harmonic-context a cd:Interpretation ; cd:body "For positive rates over equal quantities, add the corresponding times. Equal times instead imply arithmetic averaging of rates."@en ; cd:interpretsResource ex:worked-example-equal-distance-speed ; cd:authoredResource true .
   ex:mean-harmonic-note a cd:Interpretation ; cd:body "Equal times instead imply arithmetic averaging of rates."@en ; cd:interpretsResource ex:harmonic-mean-rate-interpretation ; cd:authoredResource true .
   ex:mean-harmonic-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-harmonic-reciprocals, ex:mean-harmonic-rates ; cd:authoredResource true .
   ex:mean-harmonic-reciprocals a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "RECIPROCALS"@en ; cd:body "Divide n by the sum of reciprocals.\nInputs and their reciprocal sum must be nonzero."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
@@ -264,7 +264,7 @@
   ex:mean-median-note a cd:Interpretation ; cd:body "Less sensitive does not mean unaffected by every extreme observation."@en ; cd:interpretsResource ex:median-robustness-interpretation ; cd:authoredResource true .
   ex:mean-median-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-median-middle, ex:mean-median-robust ; cd:authoredResource true .
   ex:mean-median-middle a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MIDDLE POSITION"@en ; cd:body "At least half of values lie on each side.\nOdd n: middle observation\nEven n: average the two middle observations"@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
-  ex:mean-median-robust a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ORDER, NOT MAGNITUDE"@en ; cd:body "Less sensitive to extreme magnitudes than the mean.\nKeep and investigate unusual observations."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:mean-median-robust a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ORDER, NOT MAGNITUDE"@en ; cd:body "Less sensitive to extreme magnitudes than the mean, not unaffected by every extreme observation.\nKeep and investigate unusual observations."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
   ex:def-median dct:hasPart ex:mean-median-facets .
 
   ex:mean-water-summary a cd:Interpretation ; cd:body "Arithmetic means of equally weighted illustrative concentrations."@en ; cd:hasKeyPoint ex:mean-water-oxygen-result, ex:mean-water-nitrate-result, ex:mean-water-iron-result ; cd:authoredResource true .
@@ -329,7 +329,7 @@
 
   ex:mean-order-example dct:hasPart ex:mean-turbidity-order-table .
   ex:mean-turbidity-context dct:hasPart ex:mean-turbidity-slide-context, ex:mean-turbidity-note .
-  ex:mean-turbidity-slide-context a cd:Interpretation ; cd:body "Keep the event visible; sort separately to find the median."@en ; cd:interpretsResource ex:mean-turbidity-context ; cd:authoredResource true .
+  ex:mean-turbidity-slide-context a cd:Interpretation ; cd:body "NTU = nephelometric turbidity units: water turbidity measured by light scattering. The 45.0 NTU event is not automatically an invalid measurement; keep it visible and sort separately for the median."@en ; cd:interpretsResource ex:mean-turbidity-context ; cd:authoredResource true .
   ex:mean-turbidity-note a cd:Interpretation ; cd:body "Rank 3 gives 2.2 NTU. The 45.0 NTU event still matters."@en ; cd:interpretsResource ex:mean-order-example ; cd:authoredResource true .
   ex:mean-turbidity-order-table a cd:TableDefinition ; skos:prefLabel "Observed order and sorted order (NTU)"@en ; cd:body "The columns show two separate orderings of the same five values. Observed order is indexed by day; sorted order is indexed by rank. A row does not pair a sorted value with an observed day."@en ; cd:hasTableColumn ex:mean-order-col-position, ex:mean-order-col-observed, ex:mean-order-col-sorted ; cd:hasTableRow ex:mean-order-row-1, ex:mean-order-row-2, ex:mean-order-row-3, ex:mean-order-row-4, ex:mean-order-row-5 ; cd:authoredResource true .
   ex:mean-order-col-position a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Day / rank"@en ; cd:authoredResource true .
@@ -355,7 +355,7 @@
   ex:mean-order-5-p a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
   ex:mean-order-5-o a cd:TableCell ; cd:position 2 ; cd:body "45.0"@en ; cd:authoredResource true .
   ex:mean-order-5-s a cd:TableCell ; cd:position 3 ; cd:body "45.0"@en ; cd:authoredResource true .
-  ex:mean-speed-solution-heading a cd:Interpretation ; skos:prefLabel "Add travel times, then divide"@en ; cd:body "Add travel times, then divide"@en ; cd:authoredResource true .
+  ex:mean-speed-solution-heading a cd:Interpretation ; skos:prefLabel "Example: Add travel times, then divide"@en ; cd:body "Example: Add travel times, then divide"@en ; cd:authoredResource true .
   ex:mean-geometric-product-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-product-card ; cd:authoredResource true .
   ex:mean-geometric-product-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "PRODUCT"@en ; cd:body "Strictly positive observations\nTake the root of their product."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
   ex:mean-geometric-log-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-log-card ; cd:authoredResource true .
@@ -363,7 +363,7 @@
   ex:def-geometric-mean dct:hasPart ex:mean-geometric-product-cards, ex:mean-geometric-log-cards .
   ex:mean-geometric-log-card-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\ell&=\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\\\G&=\\exp(\\ell),\\quad x_i>0\\end{aligned}" ; cd:body "Ell is the arithmetic mean of the logarithms of n strictly positive observations. The geometric mean G is the exponential of ell."@en ; cd:derivedFromResource ex:geometric-mean-log-formula ; cd:authoredResource true .
   ex:mean-geometric-log-cards dct:hasPart ex:mean-geometric-log-card-formula .
-  ex:mean-dice-flow-heading a cd:Interpretation ; skos:prefLabel "Five dice make one experiment"@en ; cd:body "Five dice make one experiment"@en ; cd:authoredResource true .
+  ex:mean-dice-flow-heading a cd:Interpretation ; skos:prefLabel "Example: Five dice make one experiment"@en ; cd:body "Example: Five dice make one experiment"@en ; cd:authoredResource true .
   ex:mean-cell-growth-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-cell-growth.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrative cell populations over two equal periods: 100, then 200 (factor 2), then 1600 (factor 8). Cell symbols represent populations, not individual counts."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   # Each legend is an authored semantic part of the formula, not renderer text.
   ex:arithmetic-mean-formula dct:hasPart ex:arithmetic-mean-formula-legend .
@@ -414,7 +414,7 @@
   ex:mean-lead-median-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-leadM-1, ex:mv-legend-leadM-2 ; cd:authoredResource true .
 
   ex:mv-legend-arithmetic-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄, xᵢ"@en ; cd:body "Arithmetic sample mean and observation i, in the same unit."@en ; cd:authoredResource true .
-  ex:mv-legend-arithmetic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Σ"@en ; cd:body "Sample size, observation index and sum over observations."@en ; cd:authoredResource true .
+  ex:mv-legend-arithmetic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Σ"@en ; cd:body "Sample size, observation index and sum over equally weighted numerical observations with meaningful addition. Normality is not required."@en ; cd:authoredResource true .
   ex:mv-legend-expectation-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "X, E[X]"@en ; cd:body "Discrete random variable and its distribution expectation."@en ; cd:authoredResource true .
   ex:mv-legend-expectation-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x, S"@en ; cd:body "x is one possible numerical value of X; S is the set of all possible values."@en ; cd:authoredResource true .
   ex:mv-legend-expectation-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "P(X=x)"@en ; cd:body "Probability that X takes the value x. These model probabilities sum to 1 and weight the possible values; they are not observed sample frequencies."@en ; cd:authoredResource true .
@@ -512,9 +512,9 @@
 - We can estimate the expected value from appropriately sampled real data."""@en ; cd:hasExpectedResult ex:mean-bridge-answer ; cd:authoredResource true .
   ex:mean-bridge-answer a cd:ExpectedResult ; cd:body "The theoretical expectation summarizes a distribution. Individual sums fluctuate and a finite sample does not have to equal 17.5. Under suitable sampling assumptions, a sample arithmetic mean estimates the model expectation; this does not validate the model from one sample."@en ; cd:derivedFromResource ex:sample-mean-estimator-interpretation, ex:mean-dice-expected ; cd:authoredResource true .
 
-  ex:mean-growth-calculation-heading a cd:Interpretation ; skos:prefLabel "Preserve the growth product"@en ; cd:body "Preserve the growth product"@en ; cd:authoredResource true .
+  ex:mean-growth-calculation-heading a cd:Interpretation ; skos:prefLabel "Example: Preserve the growth product"@en ; cd:body "Example: Preserve the growth product"@en ; cd:authoredResource true .
   ex:mean-growth-general-note a cd:Interpretation ; cd:body "For positive factors over equal periods, the constant factor G preserves their product: applying G n times gives the same final multiplier."@en ; cd:derivedFromResource ex:geometric-mean-product-formula ; cd:authoredResource true .
-  ex:mean-growth-r-heading a cd:Interpretation ; skos:prefLabel "Reproduce growth in R"@en ; cd:body "Reproduce growth in R"@en ; cd:authoredResource true .
+  ex:mean-growth-r-heading a cd:Interpretation ; skos:prefLabel "Example: Reproduce growth in R"@en ; cd:body "Example: Reproduce growth in R"@en ; cd:authoredResource true .
   ex:mean-growth-r-practice a cd:Exercise ; cd:body """**Start with 100 cells and growth factors 2 and 8 over two equal periods.**
 
 - [!] Calculate the geometric factor and use it twice to reconstruct the final count."""@en ; cd:hasExpectedResult ex:mean-growth-r-result ; cd:hasCodeExample ex:mean-growth-r ; cd:derivedFromResource ex:mean-growth-example ; cd:authoredResource true .
@@ -526,12 +526,12 @@
   ex:mean-growth-fn-length a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "length(x)"@en ; cd:body "Counts the factors, here the two equal-duration periods."@en ; cd:authoredResource true .
   ex:mean-growth-fn-list a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "list(...)"@en ; cd:body "Returns the geometric factor and reconstructed final count together."@en ; cd:authoredResource true .
 
-  ex:mean-speed-comparison-heading a cd:Interpretation ; skos:prefLabel "Which average preserves travel time?"@en ; cd:body "Which average preserves travel time?"@en ; cd:authoredResource true .
+  ex:mean-speed-comparison-heading a cd:Interpretation ; skos:prefLabel "Example: Which average preserves travel time?"@en ; cd:body "Example: Which average preserves travel time?"@en ; cd:authoredResource true .
   ex:mean-speed-comparison-note a cd:Interpretation ; cd:body "The real journey takes 10 + 50 = 60 s. Neither candidate preserves that time for 200 m. These averages are defined, but answer different weighting or product questions."@en ; cd:derivedFromResource ex:mean-speed-calculation ; cd:authoredResource true .
   ex:mean-speed-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-arithmetic-card ; cd:authoredResource true .
-  ex:mean-speed-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC CANDIDATE"@en ; cd:body "Equal-distance sections are not equal-time weights."@en ; cd:authoredResource true .
+  ex:mean-speed-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC CANDIDATE"@en ; cd:body "Equal-distance sections are not equal-time weights.\nPredicted 33.33 s ≠ actual 60 s."@en ; cd:authoredResource true .
   ex:mean-speed-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-geometric-card ; cd:authoredResource true .
-  ex:mean-speed-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC CANDIDATE"@en ; cd:body "Preserving a product of speeds does not preserve total travel time."@en ; cd:authoredResource true .
+  ex:mean-speed-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC CANDIDATE"@en ; cd:body "A product of speeds answers a different question.\nPredicted 44.72 s ≠ actual 60 s."@en ; cd:authoredResource true .
   ex:mean-speed-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=(10+2)/2=6\\;\\mathrm{m/s}\\\\t_A&=200/6\\approx33.33\\;\\mathrm{s}\\end{aligned}" ; cd:body "The arithmetic speed is 6 metres per second. At that constant speed, 200 metres would take about 33.33 seconds rather than 60 seconds."@en ; cd:derivedFromResource ex:mean-speed-calculation ; dct:hasPart ex:mean-speed-arithmetic-legend ; cd:authoredResource true .
   ex:mean-speed-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt{10\\times2}\\approx4.472\\;\\mathrm{m/s}\\\\t_G&=200/\\sqrt{20}\\approx44.72\\;\\mathrm{s}\\end{aligned}" ; cd:body "The geometric speed is square root of 20, about 4.472 metres per second. At that constant speed, 200 metres would take about 44.72 seconds rather than 60 seconds."@en ; cd:derivedFromResource ex:mean-speed-calculation ; dct:hasPart ex:mean-speed-geometric-legend ; cd:authoredResource true .
   ex:mean-speed-arithmetic-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-A-legend-1, ex:mean-speed-A-legend-2 ; cd:authoredResource true .
@@ -541,7 +541,7 @@
   ex:mean-speed-G-legend-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G"@en ; cd:body "Geometric average of the two positive speeds, in m/s."@en ; cd:authoredResource true .
   ex:mean-speed-G-legend-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "t_G, 200 m"@en ; cd:body "Predicted journey time at constant speed G over the total distance."@en ; cd:authoredResource true .
 
-  ex:mean-speed-r-heading a cd:Interpretation ; skos:prefLabel "Reproduce the journey in R"@en ; cd:body "Reproduce the journey in R"@en ; cd:authoredResource true .
+  ex:mean-speed-r-heading a cd:Interpretation ; skos:prefLabel "Example: Reproduce the journey in R"@en ; cd:body "Example: Reproduce the journey in R"@en ; cd:authoredResource true .
   ex:mean-speed-r-practice a cd:Exercise ; cd:body """**Travel two equal 100 m sections at 10 and 2 m/s.**
 
 - [!] Calculate section times, total time and overall speed.

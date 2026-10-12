@@ -238,7 +238,7 @@ Tuesday combines lecture and seminar. Wednesday is the hands-on tutorial."""@en 
     skos:prefLabel "TUESDAY"@en ;
     cd:visualMotif "discussion" ;
     cd:visualMotifRole "highlight" ;
-    cd:body """8.00 - 10.00 · S05 V02 E28
+    cd:body """10:00–13:00
 Interactive lecture + seminar
 Theory inputs · group discussion · worked examples · questions"""@en ;
     cd:authoredResource true .
@@ -248,7 +248,7 @@ Theory inputs · group discussion · worked examples · questions"""@en ;
     skos:prefLabel "WEDNESDAY"@en ;
     cd:visualMotif "hands-on" ;
     cd:visualMotifRole "highlight" ;
-    cd:body """8.00 - 10.00 · S05 V02 E28
+    cd:body """12:00–14:00
 Hands-on tutorial
 Principles · problem solving · calculations · programming"""@en ;
     cd:authoredResource true .

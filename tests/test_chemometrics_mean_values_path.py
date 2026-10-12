@@ -126,6 +126,9 @@ EXPECTED_SCENES = {
 from mean_values_expectations import ADDITIONS, EXTRA_PATH_RESOURCES, ORDER
 EXPECTED_STEPS.pop(EX["path-step-chemometrics-mean-values-law-of-large-numbers"])
 EXPECTED_SCENES.pop(EX["path-step-chemometrics-mean-values-law-of-large-numbers"])
+for slug in ("geometric-practice", "median-practice"):
+    EXPECTED_STEPS.pop(EX[f"path-step-chemometrics-mean-values-{slug}"])
+    EXPECTED_SCENES.pop(EX[f"path-step-chemometrics-mean-values-{slug}"])
 
 for slug, (_focus, _heading, body_items) in ADDITIONS.items():
     step = EX[f"path-step-chemometrics-mean-values-{slug}"]
@@ -170,7 +173,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOPICS, unit_topics)
         self.assertEqual(unit_topics, path_topics)
 
-    def test_path_has_exactly_thirty_six_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_exactly_thirty_three_stable_steps_with_contiguous_positions(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
         self.assertEqual(set(EXPECTED_STEPS), steps)
 
@@ -182,8 +185,8 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 37)), sorted(positions))
-        self.assertEqual(36, len(set(positions)))
+        self.assertEqual(list(range(1, 34)), sorted(positions))
+        self.assertEqual(33, len(set(positions)))
 
     def test_each_step_uses_exactly_the_reviewed_resources(self) -> None:
         for step, (_position, expected_resources) in EXPECTED_STEPS.items():

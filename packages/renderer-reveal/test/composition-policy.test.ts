@@ -1264,6 +1264,24 @@ test("learning-stage infers prompt grids from repeated prompt components", () =>
   assert.deepEqual(plan.placements.slice(1).map((placement) => placement.region), ["main", "main", "main"]);
 });
 
+test("six free-text prompts reuse the identity-independent grid in semantic reading order", () => {
+  for (const prefix of ["opaque:first", "unrelated:second"]) {
+    const prompts: SceneBlock[] = Array.from({ length: 6 }, (_, index) => ({
+      id: `${prefix}:${index}`, kind: "prompt", prompt: `Question ${index}`,
+      responseMode: "free-text", expectedResult: `Answer ${index}`,
+      source: [{ resourceId: `${prefix}:resource:${index}` }],
+    }));
+    const blocks = [prose("heading", "introduce"), ...prompts];
+    const scene: Scene = { id: prefix, source: [], blocks: [...blocks].reverse(), readingOrder: blocks.map(b => b.id) };
+    const plan = inferRevealCompositionPlan(scene);
+    assert.equal(plan.kind, "learning-stage");
+    assert.equal(plan.profile, "prompt-grid");
+    assert.equal(plan.mainCount, 6);
+    assert.deepEqual(plan.placements.slice(1).map(p => p.blockId), prompts.map(p => p.id));
+    assert.deepEqual(plan.placements.slice(1).map(p => p.index), [0, 1, 2, 3, 4, 5]);
+  }
+});
+
 test("legacy functional and observation structures resolve through main-aside-note", () => {
   const functional: Scene = {
     id: "opaque:functional",

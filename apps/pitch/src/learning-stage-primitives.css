@@ -407,7 +407,8 @@
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-grid"]
   > [data-composition-region-container="main"] {
   display: grid;
-  grid-template-columns: repeat(var(--pcd-composition-main-count), minmax(0, 1fr));
+  grid-template-columns: repeat(min(3, var(--pcd-composition-main-count)), minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
   gap: .75rem;
   min-height: 0;
 }

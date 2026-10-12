@@ -70,3 +70,13 @@ test("task marker uses one circle and a font-independent stem/dot, never a secon
   assert.match(css, /data-marker-purpose="task"\] \.teaching-point-marker::after[\s\S]*?M11 5h2v9h-2z[\s\S]*?cx='12' cy='18'/u);
   assert.doesNotMatch(css, /content: "!"/u);
 });
+
+test("generic prompt grids cap wide columns at three and wrap further prompts in reading order", async () => {
+  const { readFileSync } = await import("node:fs");
+  const css = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /grid-template-columns: repeat\(min\(3, var\(--pcd-composition-main-count\)\), minmax\(0, 1fr\)\)/u);
+  assert.match(css, /grid-auto-rows: minmax\(0, 1fr\)/u);
+  assert.doesNotMatch(css, /grid-auto-flow:\s*(?:column|dense)/u);
+  assert.match(css, /@media[^}]+[\s\S]*?grid-template-columns: 1fr/u);
+  assert.doesNotMatch(css, /mean-values|discussion-additive|mean-case-/u);
+});
