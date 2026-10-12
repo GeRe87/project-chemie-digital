@@ -18,6 +18,7 @@
     cd:forLearningUnit ex:learning-unit-random-variables ;
     cd:hasStep ex:path-step-chemometrics-variables-title,
       ex:path-step-chemometrics-variable-definition,
+      ex:path-step-chemometrics-variables-purpose,
       ex:path-step-chemometrics-variables-values-observations,
       ex:path-step-chemometrics-lake-sampling-replicates,
       ex:path-step-chemometrics-why-values-differ,
@@ -42,7 +43,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variables-values-observations a cd:PathStep ;
-    cd:position 3 ;
+    cd:position 4 ;
     cd:usesResource ex:media-uvvis-dilution-series,
       ex:variables-values-observations-intro,
       ex:table-uvvis-calibration-roles,
@@ -51,7 +52,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-lake-sampling-replicates a cd:PathStep ;
-    cd:position 4 ;
+    cd:position 5 ;
     cd:usesResource ex:media-lake-sampling-sites,
       ex:lake-sampling-replicates-intro,
       ex:table-lake-analyte-a-replicates,
@@ -60,7 +61,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-why-values-differ a cd:PathStep ;
-    cd:position 5 ;
+    cd:position 6 ;
     cd:usesResource ex:variation-origins-cards,
       ex:why-values-differ-takeaway ;
     cd:usesScene ex:scene-chemometrics-why-values-differ ;
@@ -68,13 +69,13 @@
 
 
   ex:path-step-chemometrics-variation-sources a cd:PathStep ;
-    cd:position 6 ;
+    cd:position 7 ;
     cd:usesResource ex:diagram-uvvis-variation-sources ;
     cd:usesScene ex:scene-chemometrics-variation-sources ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-additive-response-model a cd:PathStep ;
-    cd:position 7 ;
+    cd:position 8 ;
     cd:usesResource ex:uvvis-additive-response-equation,
       ex:uvvis-additive-response-legend ;
     cd:usesScene ex:scene-chemometrics-additive-response-model ;
@@ -82,7 +83,7 @@
 
 
   ex:path-step-chemometrics-general-additive-model a cd:PathStep ;
-    cd:position 8 ;
+    cd:position 9 ;
     cd:usesResource ex:general-additive-response-equation,
       ex:general-additive-response-legend ;
     cd:usesScene ex:scene-chemometrics-general-additive-model ;
@@ -90,13 +91,13 @@
 
 
   ex:path-step-chemometrics-model-function-families a cd:PathStep ;
-    cd:position 9 ;
+    cd:position 10 ;
     cd:usesResource ex:diagram-model-function-families ;
     cd:usesScene ex:scene-chemometrics-model-function-families ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-value-shapes a cd:PathStep ;
-    cd:position 10 ;
+    cd:position 11 ;
     cd:usesResource ex:worked-example-concentration-value-shapes, ex:concentration-value-shapes-intro,
       ex:value-shape-scalar-cards, ex:value-shape-scalar-formula,
       ex:value-shape-vector-cards, ex:value-shape-vector-formula,
@@ -105,7 +106,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variable-value-types a cd:PathStep ;
-    cd:position 11 ;
+    cd:position 12 ;
     cd:usesResource ex:worked-example-variable-value-types, ex:variable-value-types-intro,
       ex:value-type-numbers-cards, ex:value-type-numbers-formula,
       ex:value-type-categories-cards, ex:value-type-categories-formula,
@@ -113,4 +114,5 @@
     cd:usesScene ex:scene-chemometrics-variable-value-types ;
     cd:authoredResource true .
 
+  ex:path-step-chemometrics-variables-purpose a cd:PathStep ; cd:position 3 ; cd:usesResource ex:variables-purpose-heading, ex:variables-purpose ; cd:usesScene ex:scene-chemometrics-variables-purpose ; cd:authoredResource true .
 }

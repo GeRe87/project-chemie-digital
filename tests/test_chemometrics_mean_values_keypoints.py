@@ -152,7 +152,7 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
         }
         # Theory scenes now use bounded facets; only short numerical results
         # still use the generic key-point list presentation.
-        self.assertEqual({"mean-water-summary"}, selected_mean_values_owners)
+        self.assertEqual({"mean-water-summary", "mean-purpose", "mean-dice-sums"}, selected_mean_values_owners)
 
     def test_owner_bodies_remain_exact_and_keypoints_are_source_linked_and_contiguous(self) -> None:
         for owner_id, spec in OWNER_SPECS.items():
@@ -180,10 +180,13 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
 
     def test_theory_facets_replace_active_keypoint_selection_without_removing_owners(self) -> None:
         actual_items = set(self.scene_graph.subjects(CD.communicativeRole, CD.KeyPointRole))
-        self.assertEqual({EX["mv-water-2"]}, actual_items)
+        self.assertEqual({EX["mv-water-2"], EX["mv-purpose-2"], EX["mv-dice-sums-3"]}, actual_items)
         for owner_id, item_id in SCENE_ITEM_BY_OWNER.items():
             with self.subTest(owner=owner_id):
                 scene_item = EX[item_id]
+                if owner_id in {"def-law-of-large-numbers", "lln-not-standard-error-interpretation"}:
+                    self.assertIsNone(self.scene_graph.value(scene_item, CD.communicativeRole))
+                    continue
                 self.assertNotIn(scene_item, actual_items)
                 self.assertIn(self.scene_graph.value(scene_item, CD.communicativeRole),
                               {CD.StatementRole, CD.DefinitionListRole})

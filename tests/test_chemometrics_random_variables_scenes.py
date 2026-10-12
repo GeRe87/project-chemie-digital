@@ -35,6 +35,7 @@ SCENE_GRAPH = URIRef(
 EXPECTED_SCENES = [
     "scene-chemometrics-variables-title",
     "scene-chemometrics-variable-definition",
+    "scene-chemometrics-variables-purpose",
     "scene-chemometrics-variables-values-observations",
     "scene-chemometrics-lake-sampling-replicates",
     "scene-chemometrics-why-values-differ",
@@ -54,6 +55,7 @@ EXPECTED_SCENES = [
 EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "prose", "prose"],
+    ["prose", "list"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "media-reference", "prose", "table", "chart"],
     ["prose", "definition-list", "prose"],
@@ -86,7 +88,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         path_graph = retained_dataset.graph(PATH_GRAPH)
         path_graph.remove((PATH, CD.hasStep, None))
         retained_scene_graph = retained_dataset.graph(SCENE_GRAPH)
-        for position, name in enumerate(EXPECTED_SCENES[11:], start=1):
+        for position, name in enumerate(EXPECTED_SCENES[12:], start=1):
             step, scene = EX[f"test-retained-step-{position}"], EX[name]
             path_graph.add((PATH, CD.hasStep, step))
             path_graph.add((step, RDF.type, CD.PathStep))
@@ -106,13 +108,23 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
     def test_compiled_scene_document_preserves_exact_narrative_order(self) -> None:
         self.assertEqual("ex:path-chemometrics-random-variables-lecture", self.document["sourcePathId"])
         self.assertEqual(
-            [f"ex:{name}--scene" for name in EXPECTED_SCENES[:11]],
+            [f"ex:{name}--scene" for name in EXPECTED_SCENES[:12]],
             [scene["id"] for scene in self.document["scenes"]],
         )
         self.assertEqual(
-            EXPECTED_BLOCK_KINDS[:11],
+            EXPECTED_BLOCK_KINDS[:12],
             [[block["kind"] for block in scene["blocks"]] for scene in self.document["scenes"]],
         )
+
+    def test_purpose_after_definition_is_a_short_source_linked_list(self) -> None:
+        scene = self.document["scenes"][2]
+        self.assertEqual("ex:scene-chemometrics-variables-purpose--scene", scene["id"])
+        self.assertEqual("Why do we need variables?", scene["blocks"][0]["text"])
+        self.assertEqual([
+            "Describe experiments through individual aspects of a system.",
+            "Examine aspects separately, while stating the conditions.",
+            "Describe relationships between these aspects.",
+        ], [point["text"] for point in scene["blocks"][1]["items"]])
 
     def test_level_opens_with_general_variable_definition_not_randomness(self) -> None:
         self.assertEqual(["Variables"], [b["text"] for b in self.document["scenes"][0]["blocks"]])
@@ -124,7 +136,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertNotIn("probability distribution", definition.lower())
 
     def test_calibration_dataset_is_compact_two_column_evidence(self) -> None:
-        scene = self.document["scenes"][2]
+        scene = self.document["scenes"][3]
         media = scene["blocks"][1]
         self.assertEqual("media-reference", media["kind"])
         self.assertEqual("/chemometrics/uvvis-dilution-series.svg", media["uri"])
@@ -152,7 +164,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertEqual("Absorbance", chart["yAxis"]["label"])
 
     def test_lake_sampling_scene_groups_five_sites_with_three_replicates_each(self) -> None:
-        scene = self.document["scenes"][3]
+        scene = self.document["scenes"][4]
         self.assertEqual("Sampling locations and replicates", scene["blocks"][0]["text"])
 
         media = scene["blocks"][1]
@@ -193,7 +205,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             )
 
     def test_why_values_differ_contrasts_assigned_and_observed_variation(self) -> None:
-        scene = self.document["scenes"][4]
+        scene = self.document["scenes"][5]
         self.assertEqual("Why do values differ?", scene["blocks"][0]["text"])
         self.assertEqual(["prose", "definition-list", "prose"], [block["kind"] for block in scene["blocks"]])
         self.assertFalse(any(
@@ -216,7 +228,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("A variable's role depends", scene["blocks"][2]["text"])
 
     def test_process_sources_slide_precedes_equation(self) -> None:
-        scene = self.document["scenes"][5]
+        scene = self.document["scenes"][6]
         self.assertEqual("Observed variation has multiple sources", scene["blocks"][0]["text"])
         diagram = scene["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
@@ -250,7 +262,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertTrue(all(part["source"] for part in parts))
 
     def test_response_equation_and_three_term_legend_are_separate(self) -> None:
-        scene = self.document["scenes"][6]
+        scene = self.document["scenes"][7]
         self.assertEqual("Describing the observed response", scene["blocks"][0]["text"])
         self.assertEqual(r"A_i = f(c_i) + \varepsilon_i", scene["blocks"][1]["expression"])
         entries = scene["blocks"][2]["entries"]
@@ -260,7 +272,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("not explained", entries[2]["description"])
 
     def test_general_formula_follows_uvvis_equation_without_adding_distribution_assumptions(self) -> None:
-        scene = self.document["scenes"][7]
+        scene = self.document["scenes"][8]
         self.assertEqual("From the example to a general model", scene["blocks"][0]["text"])
         self.assertEqual(r"y_i = f(x_i) + \varepsilon_i", scene["blocks"][1]["expression"])
         entries = scene["blocks"][2]["entries"]
@@ -270,7 +282,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("unmodelled influences", entries[2]["description"])
 
     def test_model_function_families_have_five_svg_thumbnails_and_an_open_other_branch(self) -> None:
-        scene = self.document["scenes"][8]
+        scene = self.document["scenes"][9]
         self.assertEqual("What can f(xᵢ) be?", scene["blocks"][0]["text"])
         diagram = scene["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
@@ -300,7 +312,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("overlapping", definition)
 
     def test_value_shapes_follow_model_families_with_three_numeric_math_cards(self) -> None:
-        scene = self.document["scenes"][9]
+        scene = self.document["scenes"][10]
         self.assertEqual("ex:scene-chemometrics-variable-value-shapes--scene", scene["id"])
         self.assertEqual("Scalars, vectors and matrices", scene["blocks"][0]["text"])
         self.assertIn("Illustrative", scene["blocks"][1]["text"])
@@ -328,12 +340,12 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertEqual(8, len(scene["blocks"]), "No generic footer is selected")
 
     def test_value_types_follow_value_shapes_using_the_same_infocard_structure(self) -> None:
-        scene = self.document["scenes"][10]
+        scene = self.document["scenes"][11]
         self.assertEqual("ex:scene-chemometrics-variable-value-types--scene", scene["id"])
         self.assertEqual("Types of variable values", scene["blocks"][0]["text"])
         self.assertIn("not the shape", scene["blocks"][1]["text"])
         self.assertEqual(
-            [block["kind"] for block in self.document["scenes"][9]["blocks"]],
+            [block["kind"] for block in self.document["scenes"][10]["blocks"]],
             [block["kind"] for block in scene["blocks"]],
         )
         for index, name in enumerate(["numbers", "categories", "boolean"]):

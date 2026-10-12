@@ -257,7 +257,7 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
 
     def test_variables_path_uses_the_revised_level_one_resource_graph(self) -> None:
         path = EX["path-chemometrics-random-variables-lecture"]
-        self.assertEqual(11, len(set(self.path_graph.objects(path, CD.hasStep))))
+        self.assertEqual(12, len(set(self.path_graph.objects(path, CD.hasStep))))
         expected_topics = {
             EX["variables-foundation"],
             EX["variable"],
@@ -286,7 +286,7 @@ class ChemometricsVariablesConstantsContentTests(unittest.TestCase):
             set(self.graph.objects(EX["learning-unit-random-variables"], CD.hasFocusConcept)),
         )
         self.assertEqual(
-            16,
+            17,
             len(set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition))),
         )
 

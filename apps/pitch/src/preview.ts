@@ -372,7 +372,7 @@ function appendBlock(
 
     const prompt = dom.createElement("div");
     prompt.className = "poll-prompt";
-    if (/\*\*|\n/u.test(block.prompt)) prompt.innerHTML = teachingTextMarkup(block.prompt);
+    if (/\*\*|\n|^-\s+/u.test(block.prompt)) prompt.innerHTML = teachingTextMarkup(block.prompt);
     else prompt.textContent = block.prompt;
     shell.appendChild(prompt);
 

@@ -69,7 +69,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_all_added_exercises_have_answers_and_static_prompt_projection(self):
         exercises = set(self.graph.subjects(RDF.type, CD.Exercise))
-        self.assertEqual(12, len(exercises))
+        self.assertEqual(13, len(exercises))
         prompts = {block["source"][0]["resourceId"]: block
                    for scene in self.document["scenes"] for block in scene["blocks"]
                    if block["kind"] == "prompt"}
@@ -80,7 +80,10 @@ class MeanValuesExamplesTests(unittest.TestCase):
             block = prompts[f"ex:{str(exercise).removeprefix(str(EX))}"]
             self.assertEqual(str(answer), block["expectedResult"])
             self.assertTrue(block["fallback"])
-            self.assertEqual({EX["source-legacy-mean-value"]}, set(self.graph.objects(exercise, CD.hasSource)))
+            if exercise == EX["mean-dice-sums-question"]:
+                self.assertEqual(set(), set(self.graph.objects(exercise, CD.hasSource)))
+            else:
+                self.assertEqual({EX["source-legacy-mean-value"]}, set(self.graph.objects(exercise, CD.hasSource)))
 
     def test_numerical_examples_match_reviewed_results(self):
         self.assertEqual(17.5, 5 * mean(range(1, 7)))

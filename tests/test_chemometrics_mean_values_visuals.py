@@ -41,7 +41,8 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         expected = {
             "arithmetic-mean": ("learning-stage", "formula-deck"),
             "expected-value": ("learning-stage", "formula-deck"),
-            "law-of-large-numbers": ("learning-stage", "definition-deck"),
+            "purpose": ("learning-stage", "compact-list"),
+            "dice-sums": ("learning-stage", "compact-list"),
             "geometric-mean": ("learning-stage", "formula-deck"),
             "harmonic-mean": ("learning-stage", "formula-deck"),
             "median": ("learning-stage", "formula-deck"),
@@ -57,7 +58,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             with self.subTest(slug=slug):
                 self.assertEqual(kind, self.plans[slug]["kind"])
                 self.assertEqual(profile, self.plans[slug]["profile"])
-        self.assertEqual(31, len(self.scenes))
+        self.assertEqual(32, len(self.scenes))
 
     def test_water_table_preserves_all_measurements_and_equal_weight_means(self):
         scene = self.scenes["water"]
@@ -81,6 +82,22 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
     def test_dice_flow_nodes_author_the_three_requested_header_notations(self):
         diagram = next(block for block in self.scenes["dice-flow"]["blocks"] if block["kind"] == "diagram")
         self.assertEqual(["5×", "∑", "⟳"], [node["notation"] for node in diagram["nodes"]])
+
+    def test_new_opening_has_seeded_sums_and_expectation_before_empirical_mean(self):
+        self.assertEqual(["title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
+                          "dice-expectation", "arithmetic-mean", "dice-practice", "lln-practice", "real-world"],
+                         list(self.scenes)[:11])
+        self.assertNotIn("law-of-large-numbers", self.scenes)
+        sums = next(b for b in self.scenes["dice-sums"]["blocks"] if b["kind"] == "list")
+        self.assertEqual([10, 13, 18, 10, 23], [int(i["text"]) for i in sums["items"]])
+        self.assertEqual(14.8, sum(int(i["text"]) for i in sums["items"]) / 5)
+        self.assertIn("seed 42", self.scenes["dice-sums"]["blocks"][1]["text"])
+        warmup = next(b for b in self.scenes["dice-warmup"]["blocks"] if b["kind"] == "prompt")
+        self.assertEqual(2, warmup["prompt"].count("[?]"))
+        note = self.scenes["purpose"]["blocks"][-1]["text"]
+        self.assertIn("independent random fluctuations", note)
+        self.assertIn("does not remove systematic errors", note)
+        self.assertIn("outliers", note)
 
     def test_all_active_formulas_have_complete_authored_symbol_parts(self):
         formulas = []
@@ -174,7 +191,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_general_static_fallback_renders_the_complete_level_two_document(self):
         fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
-        self.assertEqual(31, fallback.count('<article data-pitch-step='))
+        self.assertEqual(32, fallback.count('<article data-pitch-step='))
         self.assertIn("Five outcomes, one sum, repeated sampling", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
@@ -205,9 +222,10 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_no_long_sentences_are_routed_through_automatic_list_markers(self):
         lists = [b for scene in self.scenes.values() for b in scene["blocks"] if b["kind"] == "list"]
-        self.assertEqual(1, len(lists))
+        self.assertEqual(3, len(lists))
+        results = next(b for b in lists if b["source"][0]["resourceId"] == "ex:mean-water-summary")
         self.assertEqual(["Oxygen: 8.6 mg/L", "Nitrate: 3.4 mg/L", "Iron: 5.0 mg/L"],
-                         [item["text"] for item in lists[0]["items"]])
+                         [item["text"] for item in results["items"]])
 
     def test_motifs_are_authored_and_projected_with_source_references(self):
         entries = [entry for scene in self.scenes.values() for b in scene["blocks"]

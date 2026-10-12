@@ -28,16 +28,16 @@
   ex:scene-item-chemometrics-mean-values-expected-value-interpretation a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-expectation-facets ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-expected-value-note a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:mean-expectation-note ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-mean-values-law-of-large-numbers a cd:SceneDefinition ;
-    cd:focusConcept ex:law-of-large-numbers ;
-    cd:hasSceneItem ex:scene-item-chemometrics-mean-values-law-of-large-numbers-heading,
-      ex:scene-item-chemometrics-mean-values-law-of-large-numbers-definition,
-      ex:scene-item-chemometrics-mean-values-law-of-large-numbers-interpretation ;
-    cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-purpose a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-purpose-1, ex:mv-purpose-2, ex:mv-purpose-3 ; cd:authoredResource true .
+  ex:mv-purpose-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-purpose-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-purpose-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-purpose ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-purpose-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-purpose-note ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:law-of-large-numbers ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
-  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-definition a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-lln-facets ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
-  ex:scene-item-chemometrics-mean-values-law-of-large-numbers-interpretation a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-lln-note ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-dice-sums a cd:SceneDefinition ; cd:focusConcept ex:expected-value ; cd:hasSceneItem ex:mv-dice-sums-1, ex:mv-dice-sums-2, ex:mv-dice-sums-3, ex:mv-dice-sums-4 ; cd:authoredResource true .
+  ex:mv-dice-sums-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-dice-sums-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-sums-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-dice-sums ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-sums-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-dice-sums ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-sums-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-dice-sums-question ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-chemometrics-mean-values-geometric-mean a cd:SceneDefinition ;
     cd:focusConcept ex:geometric-mean ;

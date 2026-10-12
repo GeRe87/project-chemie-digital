@@ -95,6 +95,12 @@
     cd:body "Independent and dependent variables distinguish explanatory or predictor inputs from response or outcome variables within a stated study, experiment or model."@en ;
     cd:authoredResource true .
 
+  ex:variables-purpose-heading a cd:Interpretation ; skos:prefLabel "Why do we need variables?"@en ; cd:body "Why do we need variables?"@en ; cd:authoredResource true .
+  ex:variables-purpose a cd:Interpretation ; cd:body "Variables describe aspects of experiments and their relationships."@en ; cd:hasKeyPoint ex:variables-purpose-describe, ex:variables-purpose-isolate, ex:variables-purpose-relate ; cd:authoredResource true .
+  ex:variables-purpose-describe a cd:KeyPoint ; cd:position 1 ; cd:body "Describe experiments through individual aspects of a system."@en ; cd:authoredResource true .
+  ex:variables-purpose-isolate a cd:KeyPoint ; cd:position 2 ; cd:body "Examine aspects separately, while stating the conditions."@en ; cd:authoredResource true .
+  ex:variables-purpose-relate a cd:KeyPoint ; cd:position 3 ; cd:body "Describe relationships between these aspects."@en ; cd:authoredResource true .
+
   ex:def-variable a cd:Definition ;
     cd:body "In statistics, a variable is a characteristic or quantity that can take different values within a stated dataset, study, model or experiment. Its values may be observed, measured, assigned or controlled."@en ;
     cd:hasSource ex:source-openstax-statistics ;
