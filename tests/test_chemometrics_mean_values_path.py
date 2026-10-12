@@ -182,8 +182,8 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 33)), sorted(positions))
-        self.assertEqual(32, len(set(positions)))
+        self.assertEqual(list(range(1, 37)), sorted(positions))
+        self.assertEqual(36, len(set(positions)))
 
     def test_each_step_uses_exactly_the_reviewed_resources(self) -> None:
         for step, (_position, expected_resources) in EXPECTED_STEPS.items():

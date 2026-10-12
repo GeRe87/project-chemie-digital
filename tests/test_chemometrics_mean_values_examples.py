@@ -29,7 +29,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_new_formulas_have_exact_english_spoken_descriptions_and_source_graph(self):
         expressions = set(self.graph.subjects(RDF.type, CD.MathExpression))
-        self.assertEqual(20, len(expressions))
+        self.assertEqual(22, len(expressions))
         math_blocks = {
             block["source"][0]["resourceId"]: block
             for scene in self.document["scenes"] for block in scene["blocks"]
@@ -41,7 +41,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
                 self.assertEqual(1, len(spoken))
                 self.assertEqual("en", spoken[0].language)
                 resource_id = f"ex:{str(expression).removeprefix(str(EX))}"
-                if expression in {EX["mean-oxygen-formula"], EX["mean-nitrate-formula"], EX["mean-iron-formula"]}:
+                if expression in {EX["mean-oxygen-formula"], EX["mean-nitrate-formula"], EX["mean-iron-formula"], EX["mean-model-formula"], EX["mean-data-formula"], EX["mean-geometric-log-card-formula"]}:
                     # Water concentrations are now shown in a semantic table; their
                     # detailed formulas remain authored and selected by the path.
                     self.assertNotIn(resource_id, math_blocks)
@@ -52,8 +52,8 @@ class MeanValuesExamplesTests(unittest.TestCase):
                 self.assertIn(str(GRAPH), block["source"][0]["provenanceIds"])
 
     def test_paired_infocards_preserve_separate_definitions_and_math(self):
-        expected = {"dice-expectation": 2, "real-world": 2,
-                    "growth-comparison": 2, "microbial": 2, "ratios": 2, "order": 2, "lead": 2}
+        expected = {"dice-expectation": 2, "growth-calculation": 1,
+                    "growth-comparison": 1, "microbial": 2, "ratios": 2, "order": 2, "lead": 2}
         for slug, count in expected.items():
             scene = next(s for s in self.document["scenes"]
                          if s["id"] == f"ex:scene-chemometrics-mean-values-{slug}--scene")
@@ -69,7 +69,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_all_added_exercises_have_answers_and_static_prompt_projection(self):
         exercises = set(self.graph.subjects(RDF.type, CD.Exercise))
-        self.assertEqual(13, len(exercises))
+        self.assertEqual(16, len(exercises))
         prompts = {block["source"][0]["resourceId"]: block
                    for scene in self.document["scenes"] for block in scene["blocks"]
                    if block["kind"] == "prompt"}
@@ -80,7 +80,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
             block = prompts[f"ex:{str(exercise).removeprefix(str(EX))}"]
             self.assertEqual(str(answer), block["expectedResult"])
             self.assertTrue(block["fallback"])
-            if exercise == EX["mean-dice-sums-question"]:
+            if exercise in {EX["mean-dice-sums-question"], EX["mean-bridge-question"], EX["mean-growth-r-practice"], EX["mean-speed-r-practice"]}:
                 self.assertEqual(set(), set(self.graph.objects(exercise, CD.hasSource)))
             else:
                 self.assertEqual({EX["source-legacy-mean-value"]}, set(self.graph.objects(exercise, CD.hasSource)))
@@ -90,6 +90,13 @@ class MeanValuesExamplesTests(unittest.TestCase):
         self.assertEqual(5.0, mean([5.2, 4.8, 5.1, 5.0, 4.9]))
         self.assertEqual(4.0, geometric_mean([2, 8]))
         self.assertEqual(1600, 100 * 4 ** 2)
+        self.assertEqual(2500, 100 * mean([2, 8]) ** 2)
+        arithmetic_speed = mean([10, 2])
+        geometric_speed = geometric_mean([10, 2])
+        self.assertAlmostEqual(33.33333333, 200 / arithmetic_speed)
+        self.assertAlmostEqual(44.72135955, 200 / geometric_speed)
+        self.assertEqual(60, 100 / 10 + 100 / 2)
+        self.assertAlmostEqual(10 / 3, harmonic_mean([10, 2]))
         self.assertAlmostEqual(215.443469, geometric_mean([10, 100, 10000]), places=5)
         self.assertEqual(3370, mean([10, 100, 10000]))
         self.assertEqual(3.75, harmonic_mean([10, 2, 5]))

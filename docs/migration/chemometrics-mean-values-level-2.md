@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-two scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-six scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -92,6 +92,43 @@ source reference. This uses the same generic answer-disclosure interface as
 other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
+
+### Issue #268: coherent mean-value teaching sequences
+
+The current route is 36 scenes: four new scenes split numerical calculation and
+R demonstrations from general theory. The flow now shows only five outcomes →
+one sum. Repeated experiments remain in the exercises, not a redundant third card.
+The discrete expectation legend explicitly explains `P(X=x)` as the probability
+that X takes outcome x; probabilities weight possible values and sum to 1, rather
+than being the observed sample frequencies. The theory selection no longer contains
+the ambiguous MODEL/OBSERVATIONS cards; the reusable resources remain authored.
+
+Immediately after the five-dice calculation, the moved `real-world` scene contrasts
+model expectation 17.5 with actual sums 10, 13, 18, 10, 23, asks why they differ and
+bridges to estimation from appropriately sampled data. Arithmetic-mean theory and
+practice follow. Finite observations are not presented as guaranteed expectations.
+
+Growth now proceeds: 100 → 200 → 1600 cells over equal periods; arithmetic factor
+5 would instead produce 2500; general geometric formula/legend; geometric factor
+sqrt(2×8) = 4 preserves 1600; same-case R. Inputs are multiplicative factors,
+not untransformed percentage rates. Existing practice/log/microbial/ratio content follows.
+
+Speed now proceeds: two equal 100 m sections at 10 and 2 m/s; arithmetic and geometric
+candidate speeds predict 33.33 and 44.72 s rather than 60 s; general harmonic
+formula with reciprocal units; total distance/total time equals the harmonic
+calculation; same-case R. The pumping lab and diffusion example follow unchanged.
+The other means are defined, but do not preserve travel time for equal distances.
+
+There are seven executable labs. New code, answers and complete function lists are
+authored RDF resources derived from the existing worked cases, not falsely credited
+as quoted source code. All seven executed/reset in dark/light via the actual 5173
+course; growth returns factor 4 and 1600 cells, speed returns times 10/50 s, total
+60 s and matching overall/harmonic speed 3.333333 m/s. No frontend, ontology vocabulary,
+Level 1 or runtime-code changes are part of this content-only increment. Existing
+portrait-navigation/small-scale limitations and separate tracer animation remain.
+
+Older sections below retain historical audit context; this section supersedes their
+previous scene/lab counts and active selection order.
 
 ### Issue #266: purpose, teaching order and diagram containment
 

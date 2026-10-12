@@ -120,6 +120,7 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
         "growth": ["1", "2", "media"],
         "speed-solution": ["solution-1", "3", "diagram"],
         "turbidity": ["1", "2", "table", "3", "note"],
+        "real-world": ["1", "bridge", "question"],
     }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
     SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]] = {
         "focus": EX[focus],
@@ -169,13 +170,24 @@ for slug, selections in FACET_SELECTIONS.items():
         items[identity] = (items[identity][0], EX[resource], role, selector)
 SCENE_MATRIX.pop(EX["scene-chemometrics-mean-values-law-of-large-numbers"])
 SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"][EX["mv-expected-value-note"]] = (
-    5, EX["mean-expectation-note"], CD.StatementRole, "cd:body")
+    4, EX["mean-expectation-note"], CD.StatementRole, "cd:body")
+SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"].pop(EX["scene-item-chemometrics-mean-values-expected-value-interpretation"])
 geometric_items = SCENE_MATRIX[EX["scene-chemometrics-mean-values-geometric-mean"]]["items"]
 del geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-example"]]
 geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-interpretation"]] = (
     4, EX["mean-geometric-log-cards"], CD.DefinitionListRole, "cd:hasDefinitionListEntry")
 geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-log-formula"]] = (
     5, EX["mean-geometric-log-card-formula"], CD.FormulaRole, "cd:latex")
+SCENE_MATRIX[EX["scene-chemometrics-mean-values-geometric-mean"]]["items"] = dict([
+    item("geometric-mean", "heading", 1, "geometric-mean", CD.HeadingRole, "skos:prefLabel@en"),
+    item("geometric-mean", "product-formula", 2, "geometric-mean-product-formula", CD.FormulaRole, "cd:latex"),
+    (EX["mv-geometric-general-note"], (3, EX["mean-growth-general-note"], CD.StatementRole, "cd:body")),
+])
+harmonic_items = SCENE_MATRIX[EX["scene-chemometrics-mean-values-harmonic-mean"]]["items"]
+harmonic_items.pop(EX["scene-item-chemometrics-mean-values-harmonic-mean-definition"])
+for suffix, position in [("formula", 3), ("interpretation", 4)]:
+    identity = EX[f"scene-item-chemometrics-mean-values-harmonic-mean-{suffix}"]
+    harmonic_items[identity] = (position, *harmonic_items[identity][1:])
 
 
 class ChemometricsMeanValuesSceneTests(unittest.TestCase):
@@ -233,7 +245,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(32, len(document["scenes"]))
+        self.assertEqual(36, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],

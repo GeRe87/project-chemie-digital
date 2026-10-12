@@ -67,11 +67,11 @@ class PromptStaticFallbackTests(unittest.TestCase):
             "ex:path-chemometrics-mean-values-lecture",
             artifact["sceneDocuments"][0]["sourcePathId"],
         )
-        self.assertEqual(32, len(artifact["sceneDocuments"][0]["scenes"]))
+        self.assertEqual(36, len(artifact["sceneDocuments"][0]["scenes"]))
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn('data-source-path-id="ex:path-chemometrics-mean-values-lecture"', fallback)
-        self.assertEqual(5, fallback.count('class="code-function-workbench-fallback"'))
+        self.assertEqual(7, fallback.count('class="code-function-workbench-fallback"'))
         self.assertIn("Makes the pseudorandom draws reproducible.", fallback)
         self.assertIn('data-marker-purpose="task"', fallback)
         self.assertIn('data-marker-purpose="question"', fallback)
