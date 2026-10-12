@@ -135,7 +135,8 @@ for slug, (_focus, _heading, body_items) in ADDITIONS.items():
     EXPECTED_SCENES[step] = EX[f"scene-chemometrics-mean-values-{slug}"]
 for slug in ORDER:
     step = EX[f"path-step-chemometrics-mean-values-{slug}"]
-    EXPECTED_STEPS[step] = (ORDER.index(slug) + 1, EXPECTED_STEPS[step][1])
+    EXPECTED_STEPS[step] = (ORDER.index(slug) + 1, EXPECTED_STEPS[step][1]
+                          | {EX[r] for r in EXTRA_PATH_RESOURCES.get(slug, set())})
 
 
 class ChemometricsMeanValuesPathTests(unittest.TestCase):

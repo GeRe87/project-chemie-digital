@@ -125,6 +125,41 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
 
 ORDERED_SCENES = [EX[f"scene-chemometrics-mean-values-{slug}"] for slug in ORDER]
 
+# Stable original SceneItem identities now select short reusable presentation facets.
+FACET_SELECTIONS = {
+    "arithmetic-mean": {"interpretation": ("mean-arithmetic-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry")},
+    "expected-value": {
+        "definition": ("mean-expectation-context", CD.StatementRole, "cd:body"),
+        "interpretation": ("mean-expectation-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+    },
+    "law-of-large-numbers": {
+        "definition": ("mean-lln-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+        "interpretation": ("mean-lln-note", CD.StatementRole, "cd:body"),
+    },
+    "geometric-mean": {
+        "definition": ("mean-geometric-context", CD.StatementRole, "cd:body"),
+        "interpretation": ("mean-geometric-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+        "example": ("mean-geometric-note", CD.StatementRole, "cd:body"),
+    },
+    "harmonic-mean": {
+        "example": ("mean-harmonic-context", CD.StatementRole, "cd:body"),
+        "definition": ("mean-harmonic-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+        "interpretation": ("mean-harmonic-note", CD.StatementRole, "cd:body"),
+    },
+    "median": {
+        "example": ("mean-median-context", CD.StatementRole, "cd:body"),
+        "definition": ("mean-median-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+        "interpretation": ("mean-median-note", CD.StatementRole, "cd:body"),
+    },
+}
+for slug, selections in FACET_SELECTIONS.items():
+    items = SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]]["items"]
+    for suffix, (resource, role, selector) in selections.items():
+        identity = EX[f"scene-item-chemometrics-mean-values-{slug}-{suffix}"]
+        items[identity] = (items[identity][0], EX[resource], role, selector)
+SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"][EX["mv-expected-value-note"]] = (
+    5, EX["mean-expectation-note"], CD.StatementRole, "cd:body")
+
 
 class ChemometricsMeanValuesSceneTests(unittest.TestCase):
     @classmethod
@@ -201,10 +236,11 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
                     self.assertEqual("unordered", block["listStyle"])
                     self.assertEqual(f"ex:{str(resource).removeprefix(str(EX))}", block["source"][0]["resourceId"])
                     self.assertEqual("cd:hasKeyPoint", block["source"][0]["relationPath"])
-                elif role in {CD.CodeRole, CD.DefinitionListRole, CD.DiagramRole, CD.ChartRole}:
+                elif role in {CD.CodeRole, CD.DefinitionListRole, CD.DiagramRole, CD.ChartRole, CD.TableRole, CD.MediaRole}:
                     self.assertEqual({
                         CD.CodeRole: "code", CD.DefinitionListRole: "definition-list",
                         CD.DiagramRole: "diagram", CD.ChartRole: "chart",
+                        CD.TableRole: "table", CD.MediaRole: "media-reference",
                     }[role], block["kind"])
                 else:
                     self.assertEqual("prose", block["kind"])

@@ -2,6 +2,7 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-mean-values-examples> {
   # Reviewed content from topics/MeanValue.md, not its HTML, CSS or runtime.
@@ -81,10 +82,10 @@
     cd:body "Each face of a fair die has probability 1/6. One die has expected value 3.5. The sum of five fair dice has expected value 17.5 by linearity of expectation. Independence is used for the repeated-experiment model, not required for linearity itself."@en ;
     dct:hasPart ex:mean-one-die-card, ex:mean-five-dice-card, ex:mean-one-die-formula, ex:mean-five-dice-formula ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-one-die-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-one-die-card ; cd:authoredResource true .
-  ex:mean-one-die-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ONE FAIR DIE"@en ; cd:body "Six possible outcomes: 1 to 6\nEach has probability 1/6."@en ; cd:authoredResource true .
+  ex:mean-one-die-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ONE FAIR DIE"@en ; cd:body "Six possible outcomes: 1 to 6\nEach has probability 1/6."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
   ex:mean-one-die-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\operatorname{E}[D]&=\\frac{1+2+3+4+5+6}{6}\\\\&=3.5\\end{aligned}" ; cd:body "The expected value of one fair die is the sum of its six outcomes divided by six, equal to 3.5."@en ; cd:authoredResource true .
   ex:mean-five-dice-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-five-dice-card ; cd:authoredResource true .
-  ex:mean-five-dice-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE FAIR DICE"@en ; cd:body "Add the five outcomes.\nExpectations add, too."@en ; cd:authoredResource true .
+  ex:mean-five-dice-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE FAIR DICE"@en ; cd:body "Add the five outcomes.\nExpectations add, too."@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
   ex:mean-five-dice-formula a cd:MathExpression ; cd:latex "\\begin{aligned}S&=D_1+\\cdots+D_5\\\\\\operatorname{E}[S]&=5\\times3.5=17.5\\end{aligned}" ; cd:body "The sum S of five fair dice has expected value five times 3.5, equal to 17.5."@en ; cd:authoredResource true .
 
   ex:mean-lln-practice a cd:Exercise ;
@@ -104,7 +105,7 @@
 
   ex:mean-water-example a cd:WorkedExample ; cd:body "Illustrative equal-weighted measurements: dissolved oxygen 8.5, 8.7, 8.6, 8.4, 8.8 mg/L; nitrate 3.2, 3.5, 3.3, 3.4, 3.6 mg/L; iron 5.2, 4.8, 5.1, 5.0, 4.9 mg/L. Their arithmetic means are 8.6, 3.4 and 5.0 mg/L."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-oxygen-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-oxygen-card ; cd:authoredResource true .
-  ex:mean-oxygen-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "DISSOLVED OXYGEN"@en ; cd:body "8.5, 8.7, 8.6, 8.4, 8.8 mg/L\nFive equally weighted values"@en ; cd:authoredResource true .
+  ex:mean-oxygen-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "DISSOLVED OXYGEN"@en ; cd:body "8.5, 8.7, 8.6, 8.4, 8.8 mg/L\nFive equally weighted values"@en ; cd:visualMotif "sampling-lake" ; cd:authoredResource true .
   ex:mean-oxygen-formula a cd:MathExpression ; cd:latex "\\bar{x}=8.6\\;\\mathrm{mg/L}" ; cd:body "The mean dissolved oxygen concentration is 8.6 milligrams per litre."@en ; cd:authoredResource true .
   ex:mean-nitrate-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-nitrate-card ; cd:authoredResource true .
   ex:mean-nitrate-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "NITRATE"@en ; cd:body "3.2, 3.5, 3.3, 3.4, 3.6 mg/L\nFive equally weighted values"@en ; cd:authoredResource true .
@@ -182,10 +183,10 @@
   ex:mean-lead-median-formula a cd:MathExpression ; cd:latex "\\tilde{x}=0.7\\;\\mathrm{\\mu g/L}" ; cd:body "The median Pb concentration is 0.7 micrograms per litre. It does not establish safety or compliance."@en ; cd:authoredResource true .
 
   ex:mean-summary-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-summary-arithmetic, ex:mean-summary-geometric, ex:mean-summary-harmonic, ex:mean-summary-median ; cd:authoredResource true .
-  ex:mean-summary-arithmetic a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC"@en ; cd:body "Additive, equally weighted values\nSensitive to extreme observations\nNormality is not required."@en ; cd:authoredResource true .
-  ex:mean-summary-geometric a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "GEOMETRIC"@en ; cd:body "Positive multiplicative factors\nEqual logarithmic weighting\nNot a rule for every rate."@en ; cd:authoredResource true .
-  ex:mean-summary-harmonic a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "HARMONIC"@en ; cd:body "Positive rates over equal quantities\nAdd times or reciprocal contributions\nEqual times imply arithmetic averaging."@en ; cd:authoredResource true .
-  ex:mean-summary-median a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "MEDIAN"@en ; cd:body "Middle of the ordered sample\nLess sensitive to extreme magnitudes\nChoice depends on the question."@en ; cd:authoredResource true .
+  ex:mean-summary-arithmetic a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC"@en ; cd:body "Additive, equally weighted values\nSensitive to extreme observations\nNormality is not required."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-summary-geometric a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "GEOMETRIC"@en ; cd:body "Positive multiplicative factors\nEqual logarithmic weighting\nNot a rule for every rate."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
+  ex:mean-summary-harmonic a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "HARMONIC"@en ; cd:body "Positive rates over equal quantities\nAdd times or reciprocal contributions\nEqual times imply arithmetic averaging."@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
+  ex:mean-summary-median a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "MEDIAN"@en ; cd:body "Middle of the ordered sample\nLess sensitive to extreme magnitudes\nChoice depends on the question."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
 
   # The six legacy SVG cases are reconstructed as accessible questions.
   ex:mean-case-replicates a cd:Exercise ; cd:body "Equal-weight nitrate replicates are 4.8, 5.0 and 5.2 mg/L. Which center summarizes the additive measurements? State your sampling assumptions."@en ; cd:hasExpectedResult ex:mean-case-replicates-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
@@ -200,4 +201,90 @@
   ex:mean-case-sites-result a cd:ExpectedResult ; cd:body "Arithmetic mean 0.37 µg/L; geometric mean and median 0.1 µg/L. Additive, equal-log-weight and middle-observation questions differ. Three values do not establish a log-normal distribution."@en ; cd:authoredResource true .
   ex:mean-case-reactors a cd:Exercise ; cd:body "Three reactors in series have rate constants 0.5, 1.0 and 2.0 per hour. Is being in series enough to infer a harmonic mean effective rate? What physical model is missing?"@en ; cd:hasExpectedResult ex:mean-case-reactors-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-case-reactors-result a cd:ExpectedResult ; cd:body "Series arrangement alone is insufficient. Residence times, reactor volumes, kinetics and the target quantity must be specified. Do not infer a harmonic effective reaction constant from the three constants alone."@en ; cd:authoredResource true .
+  # Short presentation facets supplement, never replace, the reusable definitions.
+  ex:arithmetic-mean-applicability-interpretation dct:hasPart ex:mean-arithmetic-facets .
+  ex:mean-arithmetic-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-arithmetic-addition, ex:mean-arithmetic-center ; cd:authoredResource true .
+  ex:mean-arithmetic-addition a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ADD AND DIVIDE"@en ; cd:body "Numerical values with meaningful addition\nEqual weight for each observation\nNormality is not required."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-arithmetic-center a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "REPRESENTATIVE CENTER?"@en ; cd:body "All observations contribute.\nSkewness and extreme values can shift the mean."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+
+  ex:mean-expectation-context a cd:Interpretation ; cd:body "Expected value belongs to a probability model, not one observed sample."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
+  ex:mean-expectation-note a cd:Interpretation ; cd:body "Estimate the model mean from an appropriately sampled dataset."@en ; cd:interpretsResource ex:sample-mean-estimator-interpretation ; cd:authoredResource true .
+  ex:mean-expectation-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-expectation-outcomes, ex:mean-expectation-sample ; cd:authoredResource true .
+  ex:mean-expectation-outcomes a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MODEL"@en ; cd:body "Possible outcomes and their probabilities\nProbability-weighted average\nAssume an integrable random variable."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:mean-expectation-sample a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "OBSERVATIONS"@en ; cd:body "The sample mean is a statistic.\nIt can estimate expectation under a suitable sampling model."@en ; cd:visualMotif "sampling-lake" ; cd:authoredResource true .
+  ex:def-expected-value dct:hasPart ex:mean-expectation-context, ex:mean-expectation-facets .
+
+  ex:def-law-of-large-numbers dct:hasPart ex:mean-lln-facets .
+  ex:mean-lln-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lln-model, ex:mean-lln-convergence, ex:mean-lln-limit ; cd:authoredResource true .
+  ex:mean-lln-model a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ASSUMPTIONS"@en ; cd:body "Independent, identically distributed observations\nFinite expected absolute value"@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:mean-lln-convergence a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "CONVERGENCE"@en ; cd:body "As sample size grows, the sample mean converges to expectation.\nA finite run need not improve monotonically."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-lln-limit a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "NOT A BIAS REPAIR"@en ; cd:body "Repetition does not fix sampling bias or calibration error.\nStandard error and normal approximations are separate results."@en ; cd:visualMotif "calibration-flasks" ; cd:authoredResource true .
+  ex:mean-lln-note a cd:Interpretation ; cd:body "Convergence is not a standard-error formula."@en ; cd:interpretsResource ex:lln-not-standard-error-interpretation ; cd:authoredResource true .
+
+  ex:mean-geometric-context a cd:Interpretation ; cd:body "Positive factors combine by multiplication."@en ; cd:interpretsResource ex:def-geometric-mean ; cd:authoredResource true .
+  ex:mean-geometric-note a cd:Interpretation ; cd:body "Factors 2 and 8 give an equivalent factor 4."@en ; cd:interpretsResource ex:mean-growth-example ; cd:authoredResource true .
+  ex:mean-geometric-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-positive, ex:mean-geometric-weight ; cd:authoredResource true .
+  ex:mean-geometric-positive a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "POSITIVE INPUTS"@en ; cd:body "Take the root of the product.\nEquivalently, exponentiate the average logarithm.\n|> Factors 2 and 8 have equivalent factor 4."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
+  ex:mean-geometric-weight a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "LOGARITHMIC WEIGHTING"@en ; cd:body "Use when equal log weighting matches the scientific question.\nNot a universal rule for rates."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:def-geometric-mean dct:hasPart ex:mean-geometric-facets .
+
+  ex:mean-harmonic-context a cd:Interpretation ; cd:body "For equal traversed quantities, add the corresponding times."@en ; cd:interpretsResource ex:worked-example-equal-distance-speed ; cd:authoredResource true .
+  ex:mean-harmonic-note a cd:Interpretation ; cd:body "Equal times instead imply arithmetic averaging of rates."@en ; cd:interpretsResource ex:harmonic-mean-rate-interpretation ; cd:authoredResource true .
+  ex:mean-harmonic-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-harmonic-reciprocals, ex:mean-harmonic-rates ; cd:authoredResource true .
+  ex:mean-harmonic-reciprocals a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "RECIPROCALS"@en ; cd:body "Divide n by the sum of reciprocals.\nInputs and their reciprocal sum must be nonzero."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-harmonic-rates a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "EQUAL QUANTITIES"@en ; cd:body "Common rate applications use positive values.\nOverall rate = total quantity / total time.\n|> Two equal 100 m sections at 10 and 2 m/s"@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
+  ex:def-harmonic-mean dct:hasPart ex:mean-harmonic-facets .
+
+  ex:mean-median-context a cd:Interpretation ; cd:body "Sort the sample before choosing its center."@en ; cd:interpretsResource ex:def-median ; cd:authoredResource true .
+  ex:mean-median-note a cd:Interpretation ; cd:body "Less sensitive does not mean unaffected by every extreme observation."@en ; cd:interpretsResource ex:median-robustness-interpretation ; cd:authoredResource true .
+  ex:mean-median-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-median-middle, ex:mean-median-robust ; cd:authoredResource true .
+  ex:mean-median-middle a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MIDDLE POSITION"@en ; cd:body "At least half of values lie on each side.\nOdd n: middle observation\nEven n: average the two middle observations"@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-median-robust a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ORDER, NOT MAGNITUDE"@en ; cd:body "Less sensitive to extreme magnitudes than the mean.\nKeep and investigate unusual observations."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:def-median dct:hasPart ex:mean-median-facets .
+
+  ex:mean-water-summary a cd:Interpretation ; cd:body "Arithmetic means of equally weighted illustrative concentrations."@en ; cd:hasKeyPoint ex:mean-water-oxygen-result, ex:mean-water-nitrate-result, ex:mean-water-iron-result ; cd:authoredResource true .
+  ex:mean-water-oxygen-result a cd:KeyPoint ; cd:position 1 ; cd:body "Oxygen: 8.6 mg/L"@en ; cd:authoredResource true .
+  ex:mean-water-nitrate-result a cd:KeyPoint ; cd:position 2 ; cd:body "Nitrate: 3.4 mg/L"@en ; cd:authoredResource true .
+  ex:mean-water-iron-result a cd:KeyPoint ; cd:position 3 ; cd:body "Iron: 5.0 mg/L"@en ; cd:authoredResource true .
+  ex:mean-water-example dct:hasPart ex:mean-water-table, ex:mean-water-summary .
+  ex:mean-water-table a cd:TableDefinition ; skos:prefLabel "Five equal-weight measurements (mg/L)"@en ; cd:body "Columns are separate analytes, not interchangeable observations. Average each concentration column separately."@en ; cd:hasTableColumn ex:mean-water-col-sample, ex:mean-water-col-oxygen, ex:mean-water-col-nitrate, ex:mean-water-col-iron ; cd:hasTableRow ex:mean-water-row-1, ex:mean-water-row-2, ex:mean-water-row-3, ex:mean-water-row-4, ex:mean-water-row-5 ; cd:authoredResource true .
+  ex:mean-water-col-sample a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Observation"@en ; cd:authoredResource true .
+  ex:mean-water-col-oxygen a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Oxygen"@en ; cd:authoredResource true .
+  ex:mean-water-col-nitrate a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Nitrate"@en ; cd:authoredResource true .
+  ex:mean-water-col-iron a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Iron"@en ; cd:authoredResource true .
+  ex:mean-water-row-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:mean-water-1-id, ex:mean-water-1-o, ex:mean-water-1-n, ex:mean-water-1-fe ; cd:authoredResource true .
+  ex:mean-water-row-2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:mean-water-2-id, ex:mean-water-2-o, ex:mean-water-2-n, ex:mean-water-2-fe ; cd:authoredResource true .
+  ex:mean-water-row-3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:mean-water-3-id, ex:mean-water-3-o, ex:mean-water-3-n, ex:mean-water-3-fe ; cd:authoredResource true .
+  ex:mean-water-row-4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:mean-water-4-id, ex:mean-water-4-o, ex:mean-water-4-n, ex:mean-water-4-fe ; cd:authoredResource true .
+  ex:mean-water-row-5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:mean-water-5-id, ex:mean-water-5-o, ex:mean-water-5-n, ex:mean-water-5-fe ; cd:authoredResource true .
+  ex:mean-water-1-id a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:mean-water-1-o a cd:TableCell ; cd:position 2 ; cd:body "8.5"@en ; cd:authoredResource true .
+  ex:mean-water-1-n a cd:TableCell ; cd:position 3 ; cd:body "3.2"@en ; cd:authoredResource true .
+  ex:mean-water-1-fe a cd:TableCell ; cd:position 4 ; cd:body "5.2"@en ; cd:authoredResource true .
+  ex:mean-water-2-id a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:mean-water-2-o a cd:TableCell ; cd:position 2 ; cd:body "8.7"@en ; cd:authoredResource true .
+  ex:mean-water-2-n a cd:TableCell ; cd:position 3 ; cd:body "3.5"@en ; cd:authoredResource true .
+  ex:mean-water-2-fe a cd:TableCell ; cd:position 4 ; cd:body "4.8"@en ; cd:authoredResource true .
+  ex:mean-water-3-id a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:mean-water-3-o a cd:TableCell ; cd:position 2 ; cd:body "8.6"@en ; cd:authoredResource true .
+  ex:mean-water-3-n a cd:TableCell ; cd:position 3 ; cd:body "3.3"@en ; cd:authoredResource true .
+  ex:mean-water-3-fe a cd:TableCell ; cd:position 4 ; cd:body "5.1"@en ; cd:authoredResource true .
+  ex:mean-water-4-id a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:mean-water-4-o a cd:TableCell ; cd:position 2 ; cd:body "8.4"@en ; cd:authoredResource true .
+  ex:mean-water-4-n a cd:TableCell ; cd:position 3 ; cd:body "3.4"@en ; cd:authoredResource true .
+  ex:mean-water-4-fe a cd:TableCell ; cd:position 4 ; cd:body "5.0"@en ; cd:authoredResource true .
+  ex:mean-water-5-id a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:mean-water-5-o a cd:TableCell ; cd:position 2 ; cd:body "8.8"@en ; cd:authoredResource true .
+  ex:mean-water-5-n a cd:TableCell ; cd:position 3 ; cd:body "3.6"@en ; cd:authoredResource true .
+  ex:mean-water-5-fe a cd:TableCell ; cd:position 4 ; cd:body "4.9"@en ; cd:authoredResource true .
+
+  ex:mean-layers-note a cd:Interpretation ; cd:body "This effective coefficient belongs to the stated series model."@en ; cd:interpretsResource ex:mean-layers-example ; cd:authoredResource true .
+  ex:mean-layers-example dct:hasPart ex:mean-layers-diagram, ex:mean-layers-note .
+  ex:mean-layers-diagram a cd:FlowDiagram ; skos:prefLabel "Diffusion resistances in series"@en ; cd:body "Flux passes through two equal-thickness layers with equal area. At steady state the same flux crosses both; their resistances add."@en ; cd:hasDiagramNode ex:mean-layer-fast, ex:mean-layer-slow ; cd:hasDiagramEdge ex:mean-layer-flux ; cd:authoredResource true .
+  ex:mean-layer-fast a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "LAYER 1"@en ; cd:body "D = 2 × 10^-6 m²/s\nThickness L, area A"@en ; cd:authoredResource true .
+  ex:mean-layer-slow a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "LAYER 2"@en ; cd:body "D = 10^-8 m²/s\nThickness L, area A"@en ; cd:authoredResource true .
+  ex:mean-layer-flux a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-layer-fast ; cd:targetNode ex:mean-layer-slow ; skos:prefLabel "same steady flux"@en ; cd:authoredResource true .
+
+  ex:mean-title dct:hasPart ex:mean-five-dice-sketch .
+  ex:mean-five-dice-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-five-dice.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five dice contribute their outcomes to one sum. Repeating this experiment produces a sample of sums, not a sample of individual faces."@en ; cd:authoredResource true .
 }

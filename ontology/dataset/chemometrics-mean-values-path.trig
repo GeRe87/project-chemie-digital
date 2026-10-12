@@ -127,4 +127,14 @@
   ex:path-step-chemometrics-mean-values-summary a cd:PathStep ; cd:position 28 ; cd:usesResource ex:mean-summary-cards ; cd:usesScene ex:scene-chemometrics-mean-values-summary ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-discussion-additive a cd:PathStep ; cd:position 29 ; cd:usesResource ex:mean-case-replicates, ex:mean-case-sensors, ex:mean-case-loads ; cd:usesScene ex:scene-chemometrics-mean-values-discussion-additive ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-discussion-multiplicative a cd:PathStep ; cd:position 30 ; cd:usesResource ex:mean-case-microplastics, ex:mean-case-sites, ex:mean-case-reactors ; cd:usesScene ex:scene-chemometrics-mean-values-discussion-multiplicative ; cd:authoredResource true .
+  # Select presentation facets without removing the detailed reusable resources.
+  ex:path-step-chemometrics-mean-values-title cd:usesResource ex:mean-five-dice-sketch .
+  ex:path-step-chemometrics-mean-values-arithmetic-mean cd:usesResource ex:mean-arithmetic-facets .
+  ex:path-step-chemometrics-mean-values-expected-value cd:usesResource ex:mean-expectation-context, ex:mean-expectation-facets, ex:mean-expectation-note .
+  ex:path-step-chemometrics-mean-values-law-of-large-numbers cd:usesResource ex:mean-lln-facets, ex:mean-lln-note .
+  ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-geometric-context, ex:mean-geometric-facets, ex:mean-geometric-note .
+  ex:path-step-chemometrics-mean-values-harmonic-mean cd:usesResource ex:mean-harmonic-context, ex:mean-harmonic-facets, ex:mean-harmonic-note .
+  ex:path-step-chemometrics-mean-values-median cd:usesResource ex:mean-median-context, ex:mean-median-facets, ex:mean-median-note .
+  ex:path-step-chemometrics-mean-values-water cd:usesResource ex:mean-water-summary, ex:mean-water-table .
+  ex:path-step-chemometrics-mean-values-layers cd:usesResource ex:mean-layers-diagram, ex:mean-layers-note .
 }

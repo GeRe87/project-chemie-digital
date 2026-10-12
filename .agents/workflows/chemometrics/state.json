@@ -4,33 +4,23 @@
   "status": "blocked",
   "turn": "manager",
   "nextTurn": "manager",
-  "activeRole": "Chemometrics Content Worker",
-  "activeIssue": 217,
-  "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests followed by browser review of the six screenshot-targeted slides. Verify standard npm run pitch:intro now shows editable CodeMirror + Run/Reset/output without adding ?interactive=1.",
-  "lastCompletedTurn": "manager: aligned #217 focused scene assertions with the polished authored prose before owner verification.",
-  "lastUpdated": "2026-10-06T16:55:00+02:00",
+  "activeRole": "Semantic Web and Ontology Engineer",
+  "activeIssue": 257,
+  "expectedDeliverable": "Manager review of #257 supported content increment and handoff; split shared System follow-up for phrase markers and exercise/media composition. Obtain full-test outcome, actual wide/narrow browser evidence and fresh exact-head external validation on a compatible PR #185 integration basis before acceptance.",
+  "lastCompletedTurn": "worker: implemented supported Level 2 card facets, water table, layer flow, local dice SVG and motif authoring with 30 focused tests; documented exact shared renderer gaps and returned for manager review. Full tests running; browser review pending.",
+  "lastUpdated": "2026-10-12T11:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": [
-    "Issue #217 requires owner-local npm run check:semantics and focused Variables and Constants tests",
-    "Issue #217 requires npm run test:core, npm run test:renderer-reveal and npm run test:pitch",
-    "Browser review must verify measurement and UV/Vis charts stay inside their columns",
-    "Browser review must verify observation bridge has no overlap",
-    "Browser review must verify standard pitch:intro shows editable CodeMirror with Run, Reset and webR output",
-    "Browser review must verify Quick check uses clickable options and graph-backed immediate feedback"
+    "Shared System gap: authored word-level marker ranges are unsupported; manager must assign a bounded generic follow-up",
+    "Shared System gap: generic exercise/media grouping is unsupported; discussion thumbnails and dice/sketch lab compositions remain deferred",
+    "Full npm test result, actual desktop/narrow browser fit and fresh exact-head external validator success on compatible integration basis are still required"
   ],
-  "stateRevision": 136,
+  "stateRevision": 140,
   "transitionHistory": [
-    {
-      "at": "2026-09-28T17:51:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
-      "reason": "Completed #189 semantic evidence-driven disclosure implementation and focused regressions; returned to manager for owner-local verification, browser smoke, full suite and final acceptance gates."
-    },
     {
       "at": "2026-10-06T08:52:00+02:00",
       "from": "blocked/manager",
@@ -184,6 +174,27 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-manager-issue217-test-alignment",
       "reason": "Aligned focused scene assertions with the shortened #217 authored prose: causality/statistical-independence now belongs to the caveat block, and the distribution takeaway uses the explicit random-variable-model wording."
+    },
+    {
+      "at": "2026-10-12T09:50:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-level2-20261012",
+      "reason": "Adopt owner working-tree assignment #257, recorded in GitHub issue. Level 1 #217 remains unaccepted; this task is stacked on committed PR #185 and cannot mutate renderer/System contracts."
+    },
+    {
+      "at": "2026-10-12T10:00:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-257-20261012",
+      "reason": "Claim #257 in isolated worktree based on committed PR #185 head, excluding owner-local Pitch HTML and leaving original working tree and System/main states untouched."
+    },
+    {
+      "at": "2026-10-12T11:55:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-257-20261012",
+      "reason": "Supported content-first visual increment and structured handoff completed; 30 focused tests passed. Return for review with exact System phrase-marker/exercise-media gaps, pending full-suite and browser evidence, and PR #185 stacked integration dependency. No self-acceptance, merge or System-state mutation."
     }
   ]
 }
