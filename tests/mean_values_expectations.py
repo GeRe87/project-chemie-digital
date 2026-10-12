@@ -1,7 +1,7 @@
 """Independent regression expectations for the reviewed Level 2 sequence."""
 
 ORDER = [
-    "title", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
+    "title", "dice-flow", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
     "dice-expectation", "law-of-large-numbers", "lln-practice", "real-world",
     "water", "fe-practice", "growth", "geometric-mean", "growth-comparison",
     "geometric-practice", "log", "microbial", "ratios", "speed", "speed-solution", "harmonic-mean",
@@ -11,11 +11,14 @@ ORDER = [
 
 # focus, heading resource, ordered (resource, role, selector) body items
 ADDITIONS = {
-    "title": ("arithmetic-mean", "mean-title", [
+    "title": ("arithmetic-mean", "mean-title", []),
+    "dice-flow": ("arithmetic-mean", "mean-dice-flow-heading", [
         ("mean-five-dice-flow", "DiagramRole", "cd:body"),
+        ("mean-five-dice-sketch", "MediaRole", "cd:uri"),
     ]),
     "dice-warmup": ("arithmetic-mean", "mean-dice-warmup-heading", [
         ("mean-dice-warmup", "ExerciseRole", "cd:body"),
+        ("mean-five-dice-sketch", "MediaRole", "cd:uri"),
         ("mean-dice-warmup-r", "CodeRole", "cd:hasCodeExample"),
     ]),
     "dice-practice": ("arithmetic-mean", "mean-dice-practice-heading", [

@@ -77,7 +77,8 @@ export type RevealLearningProfile =
   | "list-code-reference"
   | "definition-deck"
   | "formula-legend"
-  | "statement-support";
+  | "statement-support"
+  | "visual-media";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -424,7 +425,10 @@ function inferPromptCode(
 
   const promptIndex = promptIndexes[0]!;
   const codeIndex = codeIndexes[0]!;
-  if (codeIndex !== promptIndex + 1) return undefined;
+  const illustration = codeIndex === promptIndex + 2 && body[promptIndex + 1]?.kind === "media-reference"
+    ? body[promptIndex + 1]
+    : undefined;
+  if (codeIndex !== promptIndex + 1 && !illustration) return undefined;
 
   const before = body.slice(0, promptIndex);
   const after = body.slice(codeIndex + 1);
@@ -436,6 +440,7 @@ function inferPromptCode(
   const placements = placementsWithHeading(heading);
   before.forEach((block, index) => placements.push(placement(block, "prelude", index)));
   placements.push(placement(body[promptIndex]!, "primary", 0));
+  if (illustration) placements.push(placement(illustration, "primary", 1));
   placements.push(placement(body[codeIndex]!, "secondary", 0));
   after.forEach((block, index) => placements.push(placement(block, "footer", index)));
 
@@ -628,6 +633,13 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const middlePrimary = middle.filter(isPrimaryContent);
 
   const bodyKinds = body.map((block) => revealComponentDescriptor(block).kind);
+
+  if (matchesComponentKinds(bodyKinds, "visual", "media")) {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0]!, "primary", 0));
+    placements.push(placement(body[1]!, "secondary", 0));
+    return { kind: "learning-stage", profile: "visual-media", mainCount: 2, placements };
+  }
 
   // Matcher order is part of the renderer contract. Specific semantic/topology
   // signatures must win before broader component-kind signatures and generic

@@ -1539,12 +1539,33 @@ def fallback_attributes(sources: list[dict[str, Any]]) -> str:
     return " " + " ".join(attributes) if attributes else ""
 
 
+def media_fallback_markup(block: dict[str, Any]) -> str:
+    """Render direct or enriched media with the same escaped accessible fallback."""
+    uri = html.escape(block["uri"], quote=True)
+    alternative = html.escape(block["alternativeText"], quote=True)
+    media_type = block.get("mediaType")
+    if isinstance(media_type, str) and media_type.startswith("video/"):
+        content = f'<video src="{uri}" controls preload="metadata" playsinline aria-label="{alternative}"></video>'
+    elif media_type is None or media_type.startswith("image/"):
+        content = f'<img src="{uri}" alt="{alternative}" />'
+    else:
+        content = f'<span>{html.escape(block["alternativeText"])}</span>'
+    type_attribute = f' data-media-type="{html.escape(media_type, quote=True)}"' if media_type else ""
+    return (
+        f'<figure class="media-reference-fallback" data-media-block-id="{html.escape(block["id"], quote=True)}"'
+        f'{type_attribute}{fallback_attributes(block["source"])}>{content}</figure>'
+    )
+
+
 def static_fallback(artifact: dict[str, Any]) -> str:
     document = artifact["sceneDocuments"][0]
     articles = []
     for scene in document["scenes"]:
         blocks = []
         for block in scene["blocks"]:
+            if block["kind"] == "media-reference":
+                blocks.append(media_fallback_markup(block))
+                continue
             if block["kind"] == "math":
                 blocks.append(
                     f'<div class="math-fallback" role="math" aria-label="{html.escape(block["spokenText"], quote=True)}"{fallback_attributes(block["source"])}>'

@@ -101,14 +101,18 @@
 
   ex:scene-item-chemometrics-mean-values-median-practice-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:median ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:scene-item-chemometrics-mean-values-median-practice-exercise a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:exercise-mean-median-outlier ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
-  ex:scene-chemometrics-mean-values-title a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-title-1, ex:mv-title-2 ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-title a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-title-1 ; cd:authoredResource true .
   ex:mv-title-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
-  ex:mv-title-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-five-dice-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-dice-flow a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-dice-flow-1, ex:mv-dice-flow-2, ex:mv-dice-flow-3 ; cd:authoredResource true .
+  ex:mv-dice-flow-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-dice-flow-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-flow-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-five-dice-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-flow-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-five-dice-sketch ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-mean-values-dice-warmup a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-dice-warmup-1, ex:mv-dice-warmup-2, ex:mv-dice-warmup-3 ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-dice-warmup a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-dice-warmup-1, ex:mv-dice-warmup-2, ex:mv-dice-warmup-media, ex:mv-dice-warmup-3 ; cd:authoredResource true .
   ex:mv-dice-warmup-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-dice-warmup-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-dice-warmup-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-dice-warmup ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
-  ex:mv-dice-warmup-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-dice-warmup-r ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-warmup-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-five-dice-sketch ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-dice-warmup-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-dice-warmup-r ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-chemometrics-mean-values-dice-practice a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:mv-dice-practice-1, ex:mv-dice-practice-2, ex:mv-dice-practice-3 ; cd:authoredResource true .
   ex:mv-dice-practice-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-dice-practice-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .

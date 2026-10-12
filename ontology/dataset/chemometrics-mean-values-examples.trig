@@ -340,4 +340,5 @@
   ex:def-geometric-mean dct:hasPart ex:mean-geometric-product-cards, ex:mean-geometric-log-cards .
   ex:mean-geometric-log-card-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\ell&=\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\\\G&=\\exp(\\ell),\\quad x_i>0\\end{aligned}" ; cd:body "Ell is the arithmetic mean of the logarithms of n strictly positive observations. The geometric mean G is the exponential of ell."@en ; cd:derivedFromResource ex:geometric-mean-log-formula ; cd:authoredResource true .
   ex:mean-geometric-log-cards dct:hasPart ex:mean-geometric-log-card-formula .
+  ex:mean-dice-flow-heading a cd:Interpretation ; skos:prefLabel "Five dice make one experiment"@en ; cd:body "Five dice make one experiment"@en ; cd:authoredResource true .
 }

@@ -36,6 +36,21 @@ def artifact_with(block: dict[str, object]) -> dict[str, object]:
 
 
 class PromptStaticFallbackTests(unittest.TestCase):
+    def test_direct_media_fallback_escapes_attributes_and_keeps_alternative(self) -> None:
+        block = {
+            "id": "media", "kind": "media-reference", "uri": '/local.svg?label="dice"',
+            "alternativeText": 'Five dice & <one sum>', "mediaType": "image/svg+xml",
+            "source": [{"resourceId": "ex:media"}],
+        }
+        fallback = RUNTIME.static_fallback(artifact_with(block))
+        self.assertIn('src="/local.svg?label=&quot;dice&quot;"', fallback)
+        self.assertIn('alt="Five dice &amp; &lt;one sum&gt;"', fallback)
+        self.assertIn('data-resource-id="ex:media"', fallback)
+        block["mediaType"] = "application/octet-stream"
+        fallback = RUNTIME.static_fallback(artifact_with(block))
+        self.assertNotIn("<img", fallback)
+        self.assertIn("Five dice &amp; &lt;one sum&gt;", fallback)
+
     def test_mean_values_runtime_static_fallback_handles_free_text_exercises(self) -> None:
         artifact = RUNTIME.build_artifact(
             RUNTIME.CourseUnitPathSelectionRequest(
@@ -52,7 +67,7 @@ class PromptStaticFallbackTests(unittest.TestCase):
             "ex:path-chemometrics-mean-values-lecture",
             artifact["sceneDocuments"][0]["sourcePathId"],
         )
-        self.assertEqual(31, len(artifact["sceneDocuments"][0]["scenes"]))
+        self.assertEqual(32, len(artifact["sceneDocuments"][0]["scenes"]))
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn('data-source-path-id="ex:path-chemometrics-mean-values-lecture"', fallback)
