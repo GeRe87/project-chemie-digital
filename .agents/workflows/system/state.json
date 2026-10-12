@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 270,
   "expectedDeliverable": "Issue #270 on agent/270-mean-example-polish stacked from current committed draft #269. Exact owner-directed RDF wiring: remove arithmetic cards, explicit constant-factor/two-period growth question and compare 2500 vs observed 1600, geometric 1600 equality; scientifically qualified microbial/ratio comparisons; remove two standalone practice scenes; trim pump task; explain NTU; consistent Example: application headings; audit redundant footers across active Levels 0/1/2 without losing necessary qualifications/citations/legends. Tuesday 10:00-13:00, Wednesday 12:00-14:00, no room. Merge six discussion prompts to one 3-column/2-row wide scene, using only generic responsive prompt-grid CSS if needed. Expected 33 scenes, seven preserved executable R labs; exact issue scope/conditions govern. No external research, new ontology/compiler/runtime contracts or other Level 1 redesign. Actual pitch:intro 5173 dark/light wide/responsive checks, focused/SHACL/build/full feature-head tests, draft stacked PR and structured handoff. Return only System state; no self-acceptance/merge.",
-  "lastCompletedTurn": "manager: assigned exactly #270 to Frontend and Reveal Renderer Engineer for owner-directed course/example cleanup and generic six-prompt presentation. Numerical/scientific wording is bounded in the issue; no independent scientific claims. Inspected #269 handoff and Chemometrics #257 scope/no lease, recorded renewed overlapping-write serialization in #257. Owner feedback is internally actionable; missing external validation remains externally dependent, portrait/tracer followups independent. No feature implementation, acceptance or merge; Chemometrics state untouched.",
-  "lastUpdated": "2026-10-12T23:23:00+02:00",
+  "lastCompletedTurn": "worker: delivered #270 in draft stacked PR #271 and .agents/handoffs/issue-270-mean-example-polish.md. Explicit growth goal and observed 1600 comparisons, qualified microbial/ratio suitability, NTU explanation, trimmed practice/footer selections, Example: headings and corrected Level 0 times. 33 scenes, seven unchanged R labs; six questions in measured 3x2 wide grid. Owner approved the minimal generic six-prompt recognition extension in #270 comment. Full npm test passes 412 Python and all subsequent suites, including 105 Reveal, 75 D3, 184 Pitch and 29 self-study app. Actual 5173 Levels 0/1/2 dark/light checks and all seven R Run/Reset pass, no page/math errors or output/glossary overlap. Return only System control; external exact-head/current-main and independent review gates remain. No self-acceptance/merge, Chemometrics state untouched.",
+  "lastUpdated": "2026-10-12T23:45:19+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": ["Draft #269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
-  "stateRevision": 396,
+  "blockedBy": ["Draft #271/#269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
+  "stateRevision": 398,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T13:08:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue214-async-level-open",
-      "reason": "Owner retest confirmed the target is resolved but Reveal does not synchronously report it as current. Authorized event-driven level-open settlement for Reveal scroll mode."
-    },
-    {
-      "at": "2026-10-06T13:09:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue214-async-level-open",
-      "reason": "Claimed pending SceneDocument navigation state, exact-target completion on slidechanged and sentinel suppression while a cross-level jump is settling."
-    },
     {
       "at": "2026-10-06T13:18:00+02:00",
       "from": "busy/worker",
@@ -191,6 +177,20 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-example-polish-20261012",
       "reason": "Assign exactly #270 from draft #269 to Frontend and Reveal Renderer Engineer for exact owner-directed content wiring and generic six-prompt wrapping. Explicit bounded science, no external research or contract changes; serialized #257 overlap. Preserve seven labs, all source/condition/legend obligations and external integration gates. No implementation or merge in manager turn."
+    },
+    {
+      "at": "2026-10-12T23:23:01+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-270",
+      "reason": "Claim exactly #270 on agent/270-mean-example-polish from draft #269. Preserve generated owner HTML, seven R labs, semantic conditions and independent workflow states."
+    },
+    {
+      "at": "2026-10-12T23:45:19+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-270",
+      "reason": "Delivered draft PR #271 and structured handoff. Full feature-head npm test passes 412 Python and every subsequent phase; actual 5173 dark/light course, measured 3x2 prompts and all seven R labs pass. Owner-approved generic inference extension recorded in issue. External exact-head/current-main and independent reviews remain; no self-acceptance/merge or Chemometrics-state write."
     }
   ]
 }
