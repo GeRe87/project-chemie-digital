@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
-  "cycle": 13,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "cycle": 14,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 259,
-  "expectedDeliverable": "Issue #259: repair Level 2 using ordinary npm run pitch:intro on port 5173 with overworld/level selection. Visible Run/Reset and actual R execution for every executable Level 2 lab; generic non-overlapping title/motif/number card headers; real masks for all allowed motifs including EQUAL QUANTITIES multiple-inputs; title only Mean Values; subsequent experiment flow with prominent dice SVG and five SVG dice on Five dice one sum. Narrow Level 2 scene/media wiring and any necessary generic fallback/composition repair are explicitly scoped in #259. Work on agent/259-level2-course-preview-repair stacked on committed PR #258; serialize overlapping Chemometrics #257 edits. Browser/tests/full npm test, draft PR, handoff; no self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "worker: delivered #259 in stacked draft PR #260 on #258/#185. Normal pitch:intro/5173 browser verified all five executable R labs, 32 scenes, heading-only title, two dice illustrations, vector motifs and 21 supporting-card headers without overlap at wide/narrow viewports. Course completion returns to overworld; Level 1 opens. Full npm test rerun passed: 398 Python tests and all subsequent TypeScript/runtime/Pitch/self-study phases. Production build and additional media-escaping test passed. External exact-head validation and compatible integration remain required. Handoff: .agents/handoffs/issue-259-level2-course-preview-repair.md. No acceptance/merge or Chemometrics state changes.",
-  "lastUpdated": "2026-10-12T13:17:43+02:00",
+  "activeIssue": 261,
+  "expectedDeliverable": "Issue #261: one shared teaching-primitives increment, from committed PR #260 on agent/261-level2-shared-teaching-primitives. Transparent genuinely theme-reactive dice/cell SVGs; experiment illustration above flow; warmup bold instruction/paragraph gap/two indented questions and semantic marker standards where existing contracts support them; larger global editor type; shared square text/card surfaces and top/top teaching columns; centered formulas with source-backed Level-1-style legend cards; one intrinsic water-results surface. Exact scopes and contract boundary in #261; no scene/label/filename CSS or scientific renderer constants. Ordinary pitch:intro/5173 overworld browser dark/light/wide/narrow, focused/full tests, draft stacked PR/handoff and only System state. Quantitative TS river/tracer animation is explicitly preserved for a later separate assignment, not claimed by this task. No self-acceptance/merge or Chemometrics-state writes.",
+  "lastCompletedTurn": "manager: created and assigned exactly one #261 Frontend and Reveal Renderer Engineer increment from owner standards feedback. Cross-track #257 writes remain serialized by issue comment; Chemometrics has no lease and its state is untouched. Reuse existing semantic legends/Markdown/block intent; missing per-item semantics require explicit contract-gap handoff rather than punctuation heuristics or silent schema changes. Captured exact warmup marker and later TS river/tracer requirements. PR #260 current-head external status is missing; no acceptance, merge or implementation performed in this manager turn.",
+  "lastUpdated": "2026-10-12T13:48:41+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": ["Exact-head external success and compatible integration basis required for PR #260; local npm test passed", "Preserve stacked #258/#185 dependencies, cross-track serialized Level 2 writes and independent #214/#257 acceptance obligations; portrait whole-deck scaling and broader visual gaps remain"],
-  "stateRevision": 377,
+  "blockedBy": ["Review-only external gate: PR #260 exact-head required status is missing; #261 may implement on the committed stacked basis but acceptance/integration remains prohibited without fresh external success and compatible main", "Preserve stacked #260/#258/#185 dependencies, serialized Chemometrics #257 writes and independent #214/#217/#257 review obligations", "Quantitative TS river/tracer animation remains a separately assignable requirement recorded in #261; exact semantic per-item prompt/marker contract gaps, if found, must be reported rather than hidden"],
+  "stateRevision": 379,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T15:11:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue207-pitch-course-overworld",
-      "reason": "Claimed course-bundle generation, Pitch course runtime validation, zero-based overworld projection/rendering and generic regressions."
-    },
-    {
-      "at": "2026-10-05T15:28:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue207-pitch-course-overworld",
-      "reason": "Completed #207 foundation: pitch:intro now generates the whole Chemometrics offering bundle; generic Pitch course-world model derives regions, zero-based levels and exact availability from runtime bindings."
-    },
     {
       "at": "2026-10-05T15:29:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +177,20 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-259-course-preview-20261012",
       "reason": "Asynchronous completion evidence for the same #259 worker result: full npm test rerun passed 398 Python tests and every later phase. No new execution turn or acceptance; external exact-head/integration gates remain."
+    },
+    {
+      "at": "2026-10-12T13:44:56+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-level2-standards-20261012",
+      "reason": "New owner feedback identifies internally actionable transparent/theme-aware media, common surfaces/alignment/editor typography and authored formula legends, plus structured marker/prompt and tracer-animation requirements. Claim planning-only turn to assign one bounded standards increment and retain contract-dependent followups and missing external validation; no feature implementation or acceptance."
+    },
+    {
+      "at": "2026-10-12T13:48:41+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-level2-standards-20261012",
+      "reason": "Assign exactly #261 to Frontend and Reveal Renderer Engineer for shared media/surface/alignment/typography/formula-legend primitives and narrow Level 2 wiring. Owner-visible repairs internally actionable; external current-head status missing and integration gates retained separately. Quantitative animation awaits a separate validated semantic-data/runtime increment; markers must not invent unsupported semantic distinctions. Explicit serialization in #257 comment, no other-track state write, no implementation or merge."
     }
   ]
 }
