@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-one scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -91,7 +91,7 @@ other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
 
-Run `npm test`. The regression expectations pin all thirty scene identities,
+Run `npm test`. The regression expectations pin all thirty-one scene identities,
 positions, focus concepts, selected resources, roles, selectors and block kinds.
 SHACL validates the assembled named-graph dataset. Generic heading tests check
 the additive projection and rejection cases. New content tests check authored
@@ -111,19 +111,21 @@ table and three short numeric results rather than three repeated formula cards.
 
 Semantic vector motifs add visual anchors to cards. The existing subordinate
 example convention (`|> ` in a card description) renders the already supported
-Font Awesome arrow, without embedding HTML in RDF. A standalone local SVG on the
-title represents five contributions to one sum; its shown faces are illustrative,
-not a claim about the expected value. Diffusion's two equal-thickness layers keep
+Font Awesome arrow, without embedding HTML in RDF. The title now selects a
+supported three-node diagram (five outcomes → one sum → repeated sample).
+The local accessible SVG remains authored for later reuse, not active selection.
+Diffusion's two equal-thickness layers keep
 the steady-state, equal-area, series, no-reaction/no-partition qualifications.
 
 ### All-scene audit
 
-The table records structural authoring/policy checks, **not browser acceptance**.
-Wide/narrow geometry and reduced-motion visual review remain pending.
+The table records authoring/policy checks. A browser review of nine representative
+scenes at 1440×900 and 390×844 with reduced motion has been performed (details
+below); this is not full-deck acceptance.
 
 | Scene | Content/layout result | Remaining visual work |
 | --- | --- | --- |
-| Title | Local accessible five-dice SVG; no explanatory full-width prose | Browser sizing check |
+| Title | Supported outcomes/sum/repetition diagram | Desktop checked; mobile scaling needs shared review |
 | Five dice warmup | Existing prompt/code split retained | Dice visual beside lab needs supported composition |
 | Arithmetic mean | Formula plus two bounded facet cards | Word-level marker capability |
 | Five repeated experiments | Existing prompt/code split retained | Browser fit check |
@@ -135,19 +137,20 @@ Wide/narrow geometry and reduced-motion visual review remain pending.
 | Water analysis | Five-row concentration table beside three short mean results | Browser table fit check |
 | Iron practice | Existing prompt/code split retained | Browser fit check |
 | Growth | Existing three-node semantic growth diagram retained | Browser diagram fit check |
-| Geometric mean | Short context, formulas, positive-input/log-weight cards | Dense formula/card region needs browser review |
+| Geometric mean | Two paired formula cards; compact equivalent log expression | Horizontal formula overflow corrected in desktop review |
 | Growth comparison | Two paired infocards retained | Browser fit check |
 | Geometric practice | Existing accessible exercise retained | Optional sketch requires supported composition |
 | Logarithmic expression | Existing standalone formula retained | Optional log-scale illustration deferred |
 | Microbial counts | Two paired infocards retained | Optional count visual deferred |
 | Ratios | Two paired infocards retained | Optional ratio visual deferred |
-| Equal-distance speed | Existing prompt/calculation retained | Prompt/formula/sketch composition missing |
+| Equal-distance speed | Original exercise/answer retained on its own card | Desktop checked |
+| Speed calculation | Separate solution with formula and two-section diagram | Added after measured overflow; desktop checked |
 | Harmonic mean | Short context, reciprocal/equal-quantity cards and formula | Word markers; equal-distance sketch still deferred |
 | Pumping lab | Existing prompt/code split retained | Optional pumping sketch deferred |
 | Diffusion layers | Assumptions beside two-layer flow; full-width formula lead | Browser diagram/math fit check |
-| Turbidity | Existing authored five-point chart retained | Narrow context/chart fit; sorted-value visual deferred |
+| Turbidity | Separate day/rank-order table beside original five-point chart | Desktop checked; no observations removed or reordered |
 | Median | Short context, middle-position/robustness cards and formula | Word-level marker capability |
-| Odd/even order | Existing two paired infocards retained | Optional positional sketch deferred |
+| Odd/even order | Paired cards identify bracketed middle value/pair and retain formulas | Desktop checked; small math vertical-overflow diagnostic remains |
 | Lead comparison | Existing two paired infocards retained | Optional concentration chart deferred |
 | Median practice | Existing accessible exercise retained | Browser prompt fit check |
 | Summary | Four intrinsic cards with semantic vector motifs | Browser wrapping check |
@@ -173,11 +176,12 @@ Wide/narrow geometry and reduced-motion visual review remain pending.
 3. Full `npm test` found an additional shared static-fallback gap: the general
    `generate_canonical_runtime.static_fallback()` falls through to prose for a
    `media-reference`, then reads the nonexistent `text` property. The selected
-   title SVG triggers `KeyError: 'text'` in the existing Mean Values prompt
-   fallback test. The content compiles and its focused tests pass, but ordinary
-   Mean Values generation/static fallback is blocked until a System fix or an
-   explicitly authorized postponement of media selection. Python: 394/395 tests
-   passed; later TypeScript phases were not reached. No failing test was removed.
+   title SVG triggered `KeyError: 'text'` in the existing Mean Values prompt
+   fallback test in the first draft (394/395 Python tests passed). The manager
+   authorised a supported diagram instead of active media selection. Ordinary
+   Mean Values generation and the fallback regression now pass without compiler
+   changes or test suppression. General media fallback support is still a shared
+   future capability, but no longer blocks the active Level 2 selection.
 
 Do not resolve these gaps with content-ID CSS, a new layout name in RDF, or
 renderer-owned scientific strings. Manager should split a bounded System
@@ -187,9 +191,49 @@ evidence before accepting the full visual request.
 ### Verification additions
 
 `tests/test_chemometrics_mean_values_visuals.py` exercises the real TypeScript
-composition policy from the compiled TriG scene document. It checks the eight
-changed structural compositions, unchanged thirty-scene count, all water table
+composition policy from the compiled TriG scene document. It checks supported
+structural compositions, exact thirty-one-scene count, all water table
 cells and recomputed means, diffusion qualifications, SVG alternatives/locality,
 motif source references and absence of sentence-length automatic marker lists.
 Existing tests continue to pin exact paths/scenes, all long-form theory bodies,
 the reusable KeyPoint projection, scientific values and exercise answers.
+
+### Slide-first follow-up and browser evidence
+
+The first browser review confirmed that prompt + calculation + diagram made the
+speed slide too tall, and geometric-mean formulas overflowed the narrow main
+column. Following the manager's explicit permission for a bounded readability
+split, one solution scene was added immediately after the unchanged speed
+exercise: positions 19/20, with subsequent positions shifted by one. Scientific
+unit/path identities and focus concepts remain unchanged. The existing generic
+static-fallback test's scene-count assertion was updated mechanically to 31;
+the test itself remains active and passes.
+
+Geometric mean now pairs each independently authored card with its formula.
+The compact log-card expression introduces ell as the mean logarithm, then
+G = exp(ell), explicitly for positive inputs. It is linked to the unchanged
+original log formula, which remains selected on the logarithmic-expression scene.
+The turbidity table compares two **separate** orderings, not paired days and
+sorted values; all five original chart observations including 45.0 NTU remain.
+
+Browser: headless installed Microsoft Edge through Playwright, deck view, no
+background, reduced motion; 1440×900 and 390×844. Nine scene targets: title,
+arithmetic mean, water, geometric mean, speed exercise, speed solution, diffusion,
+turbidity and odd/even order. Screenshots and measured overflow data are retained
+locally under `level2-257-browser/` in the approved OpenCode temporary directory.
+No page errors occurred. Desktop geometric horizontal clipping was corrected;
+the speed solution now shows a readable diagram separately from the question.
+
+Remaining **measured**, not hypothetical, issues: the shared deck scales very
+small on portrait phones; diffusion's formula lead has narrow-view overflow and
+its diagram is undersized; arithmetic mean is close to the desktop height budget;
+minor math vertical-overflow diagnostics remain in paired cards. No generic CSS
+or runtime workaround was authored in this content task. These limits remain
+review blockers for full visual acceptance, not reasons to claim all slides fit.
+
+Local verification: 33 focused Mean Values tests passed; the seven existing
+prompt/static-fallback tests passed before the readability split and the complete
+fallback is additionally checked in the focused suite. Ordinary Mean Values
+runtime generation and a production Vite build passed. Full `npm test` is rerun
+on the revised content; final outcome and exact-head external evidence remain
+required. A built local preview is isolated from test-generated runtime changes.

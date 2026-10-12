@@ -115,13 +115,22 @@ from mean_values_expectations import ADDITIONS, ORDER
 
 for slug, (focus, heading, body_items) in ADDITIONS.items():
     resources = [(heading, "HeadingRole", "skos:prefLabel@en"), *body_items]
+    stable_suffixes = {
+        "speed-solution": ["solution-1", "3", "diagram"],
+        "turbidity": ["1", "2", "table", "3", "note"],
+    }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
     SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]] = {
         "focus": EX[focus],
         "items": {
-            EX[f"mv-{slug}-{position}"]: (position, EX[resource], CD[role], selector)
+            EX[f"mv-{slug}-{stable_suffixes[position - 1]}"]: (position, EX[resource], CD[role], selector)
             for position, (resource, role, selector) in enumerate(resources, 1)
         },
     }
+    if slug == "speed-solution":
+        SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]]["items"] = {
+            EX[f"mv-speed-{suffix}"]: (position, EX[resource], CD[role], selector)
+            for position, (suffix, (resource, role, selector)) in enumerate(zip(stable_suffixes, resources, strict=True), 1)
+        }
 
 ORDERED_SCENES = [EX[f"scene-chemometrics-mean-values-{slug}"] for slug in ORDER]
 
@@ -137,9 +146,8 @@ FACET_SELECTIONS = {
         "interpretation": ("mean-lln-note", CD.StatementRole, "cd:body"),
     },
     "geometric-mean": {
-        "definition": ("mean-geometric-context", CD.StatementRole, "cd:body"),
-        "interpretation": ("mean-geometric-facets", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
-        "example": ("mean-geometric-note", CD.StatementRole, "cd:body"),
+        "definition": ("mean-geometric-product-cards", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
+        "interpretation": ("mean-geometric-log-cards", CD.DefinitionListRole, "cd:hasDefinitionListEntry"),
     },
     "harmonic-mean": {
         "example": ("mean-harmonic-context", CD.StatementRole, "cd:body"),
@@ -159,6 +167,12 @@ for slug, selections in FACET_SELECTIONS.items():
         items[identity] = (items[identity][0], EX[resource], role, selector)
 SCENE_MATRIX[EX["scene-chemometrics-mean-values-expected-value"]]["items"][EX["mv-expected-value-note"]] = (
     5, EX["mean-expectation-note"], CD.StatementRole, "cd:body")
+geometric_items = SCENE_MATRIX[EX["scene-chemometrics-mean-values-geometric-mean"]]["items"]
+del geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-example"]]
+geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-interpretation"]] = (
+    4, EX["mean-geometric-log-cards"], CD.DefinitionListRole, "cd:hasDefinitionListEntry")
+geometric_items[EX["scene-item-chemometrics-mean-values-geometric-mean-log-formula"]] = (
+    5, EX["mean-geometric-log-card-formula"], CD.FormulaRole, "cd:latex")
 
 
 class ChemometricsMeanValuesSceneTests(unittest.TestCase):
@@ -169,7 +183,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_thirty_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_one_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))
@@ -211,12 +225,12 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)
 
-    def test_runtime_compiles_exactly_thirty_ordered_scenes_with_formula_latex(self) -> None:
+    def test_runtime_compiles_exactly_thirty_one_ordered_scenes_with_formula_latex(self) -> None:
         document = RUNTIME.compile_scene_document(
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(30, len(document["scenes"]))
+        self.assertEqual(31, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],

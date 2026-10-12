@@ -168,10 +168,10 @@
   ex:mean-turbidity-5 a cd:Observation ; cd:position 5 ; cd:xValue 5.0 ; cd:numericValue 45.0 ; cd:authoredResource true .
   ex:mean-order-example a cd:WorkedExample ; cd:body "Sort 2.1, 2.3, 2.0, 2.2, 45.0 as 2.0, 2.1, 2.2, 2.3, 45.0. The odd-sample median is 2.2 NTU. For 2.0, 2.1, 2.2, 2.3, average the middle two values to obtain 2.15 NTU."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-odd-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-odd-card ; cd:authoredResource true .
-  ex:mean-odd-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3, 45.0\nTake the third value."@en ; cd:authoredResource true .
+  ex:mean-odd-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIVE VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3, 45.0\nMiddle value: [2.2] NTU\nTwo observations on each side"@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
   ex:mean-odd-formula a cd:MathExpression ; cd:latex "\\tilde{x}=x_{(3)}=2.2\\;\\mathrm{NTU}" ; cd:body "For the five sorted observations the median is the third value, 2.2 NTU."@en ; cd:authoredResource true .
   ex:mean-even-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-even-card ; cd:authoredResource true .
-  ex:mean-even-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FOUR VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3\nAverage the second and third values."@en ; cd:authoredResource true .
+  ex:mean-even-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FOUR VALUES"@en ; cd:body "Sorted: 2.0, 2.1, 2.2, 2.3\nMiddle pair: [2.1, 2.2] NTU\nAverage these two observations."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
   ex:mean-even-formula a cd:MathExpression ; cd:latex "\\tilde{x}=\\frac{2.1+2.2}{2}=2.15\\;\\mathrm{NTU}" ; cd:body "For the four sorted observations the median is the average of 2.1 and 2.2, equal to 2.15 NTU."@en ; cd:authoredResource true .
   ex:mean-lead-example a cd:WorkedExample ; cd:body "Illustrative Pb concentrations 0.5, 0.7, 0.6, 0.8 and 15.0 micrograms per litre have arithmetic mean 3.52 and median 0.7 micrograms per litre. A baseline-oriented question and an aggregate-concentration question can call for different summaries. Neither value resolves compliance or removes the need to investigate the large observation."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-lead-context a cd:Interpretation ; cd:body "Pb concentrations: 0.5, 0.7, 0.6, 0.8 and 15.0 µg/L. Keep the large observation visible when reporting the center."@en ; cd:authoredResource true .
@@ -287,4 +287,57 @@
 
   ex:mean-title dct:hasPart ex:mean-five-dice-sketch .
   ex:mean-five-dice-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-five-dice.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five dice contribute their outcomes to one sum. Repeating this experiment produces a sample of sums, not a sample of individual faces."@en ; cd:authoredResource true .
+  # Slide-first visuals use supported diagrams and tables, not media fallback.
+  ex:mean-title dct:hasPart ex:mean-five-dice-flow .
+  ex:mean-five-dice-flow a cd:FlowDiagram ; skos:prefLabel "Five outcomes, one sum, repeated sampling"@en ; cd:body "One experiment observes five die outcomes D1 to D5 and adds them to one sum S. Repeating the whole experiment gives a sample of sums."@en ; cd:hasDiagramNode ex:mean-dice-outcomes-node, ex:mean-dice-sum-node, ex:mean-dice-repeat-node ; cd:hasDiagramEdge ex:mean-dice-add-edge, ex:mean-dice-repeat-edge ; cd:authoredResource true .
+  ex:mean-dice-outcomes-node a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "FIVE OUTCOMES"@en ; cd:body "D1, D2, D3, D4, D5\nEach is an integer from 1 to 6."@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
+  ex:mean-dice-sum-node a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "ONE SUM"@en ; cd:body "S = D1 + D2 + D3 + D4 + D5\nOne result per experiment"@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-dice-repeat-node a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "REPEAT"@en ; cd:body "Collect S1, S2, ..., Sn.\nAverage sums, not individual faces."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:mean-dice-add-edge a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-dice-outcomes-node ; cd:targetNode ex:mean-dice-sum-node ; skos:prefLabel "add"@en ; cd:authoredResource true .
+  ex:mean-dice-repeat-edge a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:mean-dice-sum-node ; cd:targetNode ex:mean-dice-repeat-node ; skos:prefLabel "repeat whole experiment"@en ; cd:authoredResource true .
+
+  ex:mean-speed-question dct:hasPart ex:mean-speed-diagram, ex:mean-speed-context, ex:mean-speed-note .
+  ex:mean-speed-context a cd:Interpretation ; cd:body "Equal distances do not mean equal travel times."@en ; cd:interpretsResource ex:mean-speed-question ; cd:authoredResource true .
+  ex:mean-speed-note a cd:Interpretation ; cd:body "Compare total distance / total time, not the average of speeds."@en ; cd:interpretsResource ex:mean-speed-result ; cd:authoredResource true .
+  ex:mean-speed-diagram a cd:FlowDiagram ; skos:prefLabel "Two equally long sections"@en ; cd:body "Equal 100 m sections; travel times 10 s and 50 s."@en ; cd:hasDiagramNode ex:mean-speed-fast-node, ex:mean-speed-slow-node ; cd:hasDiagramEdge ex:mean-speed-route-edge ; cd:authoredResource true .
+  ex:mean-speed-fast-node a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "FIRST 100 m"@en ; cd:body "Speed: 10 m/s\nTime: 10 s"@en ; cd:authoredResource true .
+  ex:mean-speed-slow-node a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "NEXT 100 m"@en ; cd:body "Speed: 2 m/s\nTime: 50 s"@en ; cd:authoredResource true .
+  ex:mean-speed-route-edge a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-speed-fast-node ; cd:targetNode ex:mean-speed-slow-node ; skos:prefLabel "same distance, more time"@en ; cd:authoredResource true .
+
+  ex:mean-order-example dct:hasPart ex:mean-turbidity-order-table .
+  ex:mean-turbidity-context dct:hasPart ex:mean-turbidity-slide-context, ex:mean-turbidity-note .
+  ex:mean-turbidity-slide-context a cd:Interpretation ; cd:body "Keep the event visible; sort separately to find the median."@en ; cd:interpretsResource ex:mean-turbidity-context ; cd:authoredResource true .
+  ex:mean-turbidity-note a cd:Interpretation ; cd:body "Rank 3 gives 2.2 NTU. The 45.0 NTU event still matters."@en ; cd:interpretsResource ex:mean-order-example ; cd:authoredResource true .
+  ex:mean-turbidity-order-table a cd:TableDefinition ; skos:prefLabel "Observed order and sorted order (NTU)"@en ; cd:body "The columns show two separate orderings of the same five values. Observed order is indexed by day; sorted order is indexed by rank. A row does not pair a sorted value with an observed day."@en ; cd:hasTableColumn ex:mean-order-col-position, ex:mean-order-col-observed, ex:mean-order-col-sorted ; cd:hasTableRow ex:mean-order-row-1, ex:mean-order-row-2, ex:mean-order-row-3, ex:mean-order-row-4, ex:mean-order-row-5 ; cd:authoredResource true .
+  ex:mean-order-col-position a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Day / rank"@en ; cd:authoredResource true .
+  ex:mean-order-col-observed a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Day order"@en ; cd:authoredResource true .
+  ex:mean-order-col-sorted a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Rank order"@en ; cd:authoredResource true .
+  ex:mean-order-row-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:mean-order-1-p, ex:mean-order-1-o, ex:mean-order-1-s ; cd:authoredResource true .
+  ex:mean-order-row-2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:mean-order-2-p, ex:mean-order-2-o, ex:mean-order-2-s ; cd:authoredResource true .
+  ex:mean-order-row-3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:mean-order-3-p, ex:mean-order-3-o, ex:mean-order-3-s ; cd:authoredResource true .
+  ex:mean-order-row-4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:mean-order-4-p, ex:mean-order-4-o, ex:mean-order-4-s ; cd:authoredResource true .
+  ex:mean-order-row-5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:mean-order-5-p, ex:mean-order-5-o, ex:mean-order-5-s ; cd:authoredResource true .
+  ex:mean-order-1-p a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:mean-order-1-o a cd:TableCell ; cd:position 2 ; cd:body "2.1"@en ; cd:authoredResource true .
+  ex:mean-order-1-s a cd:TableCell ; cd:position 3 ; cd:body "2.0"@en ; cd:authoredResource true .
+  ex:mean-order-2-p a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:mean-order-2-o a cd:TableCell ; cd:position 2 ; cd:body "2.3"@en ; cd:authoredResource true .
+  ex:mean-order-2-s a cd:TableCell ; cd:position 3 ; cd:body "2.1"@en ; cd:authoredResource true .
+  ex:mean-order-3-p a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:mean-order-3-o a cd:TableCell ; cd:position 2 ; cd:body "2.0"@en ; cd:authoredResource true .
+  ex:mean-order-3-s a cd:TableCell ; cd:position 3 ; cd:body "2.2"@en ; cd:authoredResource true .
+  ex:mean-order-4-p a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:mean-order-4-o a cd:TableCell ; cd:position 2 ; cd:body "2.2"@en ; cd:authoredResource true .
+  ex:mean-order-4-s a cd:TableCell ; cd:position 3 ; cd:body "2.3"@en ; cd:authoredResource true .
+  ex:mean-order-5-p a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:mean-order-5-o a cd:TableCell ; cd:position 2 ; cd:body "45.0"@en ; cd:authoredResource true .
+  ex:mean-order-5-s a cd:TableCell ; cd:position 3 ; cd:body "45.0"@en ; cd:authoredResource true .
+  ex:mean-speed-solution-heading a cd:Interpretation ; skos:prefLabel "Add travel times, then divide"@en ; cd:body "Add travel times, then divide"@en ; cd:authoredResource true .
+  ex:mean-geometric-product-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-product-card ; cd:authoredResource true .
+  ex:mean-geometric-product-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "PRODUCT"@en ; cd:body "Strictly positive observations\nTake the root of their product."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
+  ex:mean-geometric-log-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-log-card ; cd:authoredResource true .
+  ex:mean-geometric-log-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "LOGARITHMIC SCALE"@en ; cd:body "Average logarithms, then exponentiate.\nUse scientifically meaningful equal log weights.\nNot a universal rule for rates."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:def-geometric-mean dct:hasPart ex:mean-geometric-product-cards, ex:mean-geometric-log-cards .
+  ex:mean-geometric-log-card-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\ell&=\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\\\G&=\\exp(\\ell),\\quad x_i>0\\end{aligned}" ; cd:body "Ell is the arithmetic mean of the logarithms of n strictly positive observations. The geometric mean G is the exponential of ell."@en ; cd:derivedFromResource ex:geometric-mean-log-formula ; cd:authoredResource true .
+  ex:mean-geometric-log-cards dct:hasPart ex:mean-geometric-log-card-formula .
 }

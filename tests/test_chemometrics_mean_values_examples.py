@@ -29,7 +29,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_new_formulas_have_exact_english_spoken_descriptions_and_source_graph(self):
         expressions = set(self.graph.subjects(RDF.type, CD.MathExpression))
-        self.assertEqual(19, len(expressions))
+        self.assertEqual(20, len(expressions))
         math_blocks = {
             block["source"][0]["resourceId"]: block
             for scene in self.document["scenes"] for block in scene["blocks"]

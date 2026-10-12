@@ -23,14 +23,15 @@ System workflow states are unchanged; #217 remains unaccepted.
   All concentrations, units, equal weighting and original formulas are retained.
 - Diffusion selects a two-layer flow in the generic formula/visual composition,
   retaining the model-specific assumptions and coefficient.
-- A newly authored local accessible SVG illustrates five dice on the title.
+- A supported title FlowDiagram shows five outcomes → sum → repeated sample;
+  the local accessible SVG is retained for reuse, not selected by the active deck.
   Existing growth flow and turbidity chart are preserved.
 - Cards carry supported source-backed vector motifs and subordinate examples
   using the existing Font Awesome-arrow convention.
-- Added six tests exercising the actual TypeScript composition policy over
+- Added nine tests exercising the actual TypeScript composition policy over
   compiled TriG, table arithmetic, SVG alternatives/locality, diagram assumptions,
   motif provenance and removal of long automatic marker lists.
-- Documented all thirty scenes with explicit completed/retained/deferred visual
+- Documented all thirty-one scenes with explicit completed/retained/deferred visual
   behavior rather than claiming full browser acceptance.
 
 ## Files or resources changed
@@ -39,6 +40,8 @@ System workflow states are unchanged; #217 remains unaccepted.
 - `apps/pitch/public/chemometrics/mean-values-five-dice.svg`
 - `tests/mean_values_expectations.py`
 - `tests/test_chemometrics_mean_values_{examples,keypoints,path,scenes,visuals}.py`
+- `tests/test_prompt_static_fallback.py`: only the exact scene count changed to
+  31 following the explicitly authorised speed exercise/solution split.
 - `docs/migration/chemometrics-mean-values-level-2.md`, Level 2 README paragraph
 - This handoff and only Chemometrics workflow state
 
@@ -48,11 +51,15 @@ path even though the presentation now uses a table.
 
 ## Verification
 
-- [x] Focused automated tests: final rerun after documentation/example polish
-  passed all 30 tests (`python -m unittest discover -s tests -p
-  "test_chemometrics_mean_values*.py" -v`, 64.992 seconds).
+- [x] Focused automated tests: revised slide-first run passed all 33 tests
+  (`python -m unittest discover -s tests -p "test_chemometrics_mean_values*.py"
+  -v`, 60.567 seconds). Subsequent polish shortened only the speed diagram caption
+  and removed a duplicate note from the displayed solution. The seven existing
+  static-fallback tests were rerun successfully on that final content (3.413 s).
+  The new visual/fallback tests and full project suite are rerun as final evidence.
 - [x] Semantic validation: both focused SHACL tests passed with pyshacl 0.40.0.
-- [ ] Full `npm test`: **failed**, exit 1. Python semantic suite: 395 tests,
+- [ ] Full `npm test`: revised content run is in progress. The **earlier draft**
+  failed, exit 1. Python semantic suite: 395 tests,
   one error (394 passed), 399.731 seconds. The failing test is
   `test_prompt_static_fallback.PromptStaticFallbackTests.test_mean_values_runtime_static_fallback_handles_free_text_exercises`.
   `scripts/generate_canonical_runtime.py:1779` accesses `block["text"]` for the
@@ -61,8 +68,10 @@ path even though the presentation now uses a table.
   error. Later TypeScript/core/renderer/Pitch phases were **not reached**.
   The preliminary run began before final small example/documentation polish;
   no passing exact-head/full-suite evidence exists.
-- [ ] Manual browser check: not performed; desktop/narrow geometry, table/card
-  fit, title image size and reduced-motion review remain pending.
+- [x] Representative browser check performed: installed Edge via Playwright,
+  reduced motion, deck view, 1440×900 and 390×844, nine scene targets, screenshots
+  and geometry report in approved temporary `level2-257-browser/`. No page
+  errors. This is not full visual acceptance; measured limits remain below.
 - [x] Accessibility authoring check: local SVG title/description/alternative;
   semantic table headers/caption; reading order and math spoken alternatives
   retained. This is not a browser/accessibility audit.
@@ -72,8 +81,10 @@ path even though the presentation now uses a table.
 
 - No new scientific claims; facets restate accepted definitions/examples and
   remain connected to their original owners using existing semantic relations.
-- The original 30-scene progression, unit/path identities and six focus concepts
-  remain unchanged.
+- The 30 original scene identities remain; one speed-solution scene was added
+  after the unchanged exercise under explicit manager readability-split authority.
+  Unit/path identities and six focus concepts remain unchanged. This avoids a
+  measured 1099px-high combined speed slide at a 900px desktop viewport.
 - npm dependencies were installed in the isolated worktree without changing the
   lockfile. npm reported three existing dependency advisories (one low, two high);
   dependency upgrades are out of scope and no audit fix was run.
@@ -89,23 +100,40 @@ path even though the presentation now uses a table.
 2. Generic exercise+media grouping is not authorable through the current compiler;
    prompt-grid accepts only prompts and prompt-code supports only surrounding
    explanatory prose. Six discussion thumbnails, dice visuals beside code and
-   the equal-distance sketch cannot be mounted as the requested card composition
-   without a shared System follow-up. Existing accessible exercises are retained.
-3. Actual wide/narrow browser fit remains unverified, particularly geometric
-   formulas plus cards and diffusion math. See the thirty-scene audit.
+   some lab sketches cannot be mounted as combined exercise cards without a
+   shared System follow-up. The speed diagram is now shown on its own solution
+   scene; the original exercise and answer remain unchanged.
+3. Actual browser review found phone deck scaling too small, narrow diffusion
+   formula overflow/undersized diagram, arithmetic near the desktop height limit,
+   and minor vertical math overflow in paired cards. Geometric horizontal clipping
+   was fixed by an independently authored equivalent compact log expression;
+   the original formula is preserved. See the 31-scene audit.
 4. PR #185 is unmerged; final integration requires compatible reconciliation and
    fresh exact-head `agent-validator/project-chemie-digital` success. This worker
     does not accept or merge its own result.
 5. The general `static_fallback()` handles neither `media-reference` nor a
    generic unknown-block error before its terminal prose branch. Selecting the
-   local title SVG therefore breaks the existing Mean Values fallback regression
-   and default Mean Values runtime generation. Do not launch/present this draft
-   as a fully functional replacement yet. Manager must assign a bounded System
-   fix or explicitly authorize postponing the media selection. No compiler edit
-   or suppression of the failing test was performed by this content worker.
+   local title SVG caused the original failure. The manager-authorised content
+   replacement with a supported FlowDiagram now restores ordinary generation and
+   static fallback. The shared media limitation still exists, but is not an active
+   Level 2 blocker. No compiler edit or failing-test suppression was performed.
+
+## Slide-first implementation
+
+- Speed: separate unchanged exercise from a solution with calculation and a
+  readable two-section diagram. Keep 100 m/100 m, 10/2 m/s, 10/50 s and 3.33 m/s.
+- Geometric mean: two existing-style paired infocards, with source-linked compact
+  log math (`ell = mean(log x)`, `G = exp(ell)`, positive inputs). No clipping by
+  arbitrary font shrinking and no shared formula overwrite.
+- Turbidity: side-by-side table/chart; original day-order and separately sorted
+  rank-order values, middle 2.2 NTU and extreme 45.0 NTU all explicit.
+- Odd/even cards: bracketed middle observation/pair; unchanged median formulas.
+- Built preview at localhost port 5176 is isolated from disposable test outputs.
+  Production build succeeded; files stay outside the repository. No deployment.
 
 ## Recommended manager action
 
-`split follow-up` — review this bounded content increment, assign a generic System
-task for media-aware general static fallback, phrase highlights and exercise/media grouping, and arrange browser
-review. Do not mark the complete owner request or #257 done yet.
+`review / split follow-up` — review the visible slide-first increment and browser
+evidence; retain measured fit issues and deferred phrase/thumbnail capabilities.
+Require the final full-suite result, compatible integration and exact-head external
+validation before acceptance. Do not mark the complete owner request done yet.

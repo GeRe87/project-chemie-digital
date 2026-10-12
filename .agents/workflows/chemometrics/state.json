@@ -1,36 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 257,
-  "expectedDeliverable": "Issue #257 slide-first increment on existing branch / Draft PR #258: replace active title SVG MediaRole with supported authored five-outcomes-to-one-sum FlowDiagram, retain asset for reuse, restore ordinary Level 2 preview/static fallback, and improve equal-distance and sorted-median/turbidity slides using supported cards/tables/diagrams. Preserve prompts, answers, values and assumptions. Real browser review where available, focused static-fallback/composition tests, npm test, PR/handoff update. No compiler/renderer/System changes. Exact assignment: slides-first manager comment in #257.",
-  "lastCompletedTurn": "manager: owner made visible slide adaptation highest priority; assigned one bounded #257 content/preview increment using supported primitives. Phrase-marker and exercise-thumbnail shared capabilities remain deferred in the handoff, not waived. No feature implementation or acceptance in this turn.",
-  "lastUpdated": "2026-10-12T12:02:54+02:00",
+  "expectedDeliverable": "Manager review of revised PR #258 slide-first result: supported title flow restores preview/fallback; geometric paired cards with compact source-linked log expression; unchanged speed exercise followed by one authorised extra solution scene (31 total); sorted turbidity table/chart. 33 focused tests and 7 fallback tests passed, ordinary generation/production build passed. Browser screenshots at 1440x900 and 390x844 document actual desktop improvements and remaining scaling/diffusion/math-height limits. Full npm test rerun pending; no acceptance without compatible integration and exact-head external status.",
+  "lastCompletedTurn": "worker: implemented and browser-reviewed visible slide changes, fixed the active title fallback through supported content selection without shared code edits, preserved original speed prompt/answer and all observations, and built an isolated local preview on port 5176. Returned with explicit fit/deferred-capability limits and pending full-suite evidence.",
+  "lastUpdated": "2026-10-12T12:29:33+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 142,
+  "blockedBy": [
+    "Full npm test rerun is pending; fresh exact-head external success on compatible PR #185 integration basis is still required",
+    "Measured browser limits remain: small portrait deck scaling, narrow diffusion formula overflow/undersized diagram, near-budget arithmetic and minor paired-math vertical overflow; not full visual acceptance",
+    "Word-level markers and exercise/SVG thumbnail grouping remain explicitly deferred shared capabilities, not completed requirements"
+  ],
+  "stateRevision": 144,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T09:06:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue209-variables-constants-resource",
-      "reason": "Completed #209 knowledge-resource layer: Variables and Constants chapter identity, three core concepts, scope-aware comparison, three worked examples, one executable R experiment, three classification exercises, Sample↔Variable interpretation and deferred Distribution anchor. Existing five-step Random Variables path/scenes remain unchanged."
-    },
-    {
-      "at": "2026-10-06T09:12:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue209-independent-dependent-extension",
-      "reason": "Owner requested independent and dependent variables as part of the same knowledge resource. Authorized a bounded #209 extension of concepts, examples, dynamic experiment, focus set and focused tests; path/scenes remain frozen."
-    },
     {
       "at": "2026-10-06T09:13:00+02:00",
       "from": "ready/worker",
@@ -191,6 +181,20 @@
       "to": "ready/worker",
       "actor": "interactive-chemometrics-manager-257-slides-first-20261012",
       "reason": "Owner prioritizes slides. Assign one content-only #257 repair/visual increment: replace unsupported active title media with supported semantic diagram, restore preview, improve remaining concrete evidence slides without shared code changes. Internally actionable fallback blocker addressed by changed content strategy; marker/grouping capabilities deferred, not waived, in existing handoff. Browser and exact-head full-suite/external acceptance gates retained."
+    },
+    {
+      "at": "2026-10-12T12:05:57+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-257-slides-first-20261012",
+      "reason": "Claim bounded slide-first increment on existing PR #258 branch: supported title diagram, restored fallback, equal-distance evidence and sorted turbidity sample. Preserve existing prompts/answers and do not change shared compiler/renderer contracts."
+    },
+    {
+      "at": "2026-10-12T12:29:33+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-257-slides-first-20261012",
+      "reason": "Slide-first content implementation and representative Edge review completed. Authorised one added speed-solution scene to fix measured height overflow; geometric horizontal clipping fixed with paired cards/compact equivalent math; table and chart preserve original observations. Static fallback and ordinary generation restored without compiler changes. Built preview isolated on localhost 5176. Full test outcome and measured/deferred visual limits remain review gates; no self-acceptance, merge or System-state mutation."
     }
   ]
 }
