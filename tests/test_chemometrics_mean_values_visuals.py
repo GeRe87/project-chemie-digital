@@ -58,7 +58,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             with self.subTest(slug=slug):
                 self.assertEqual(kind, self.plans[slug]["kind"])
                 self.assertEqual(profile, self.plans[slug]["profile"])
-        self.assertEqual(32, len(self.scenes))
+        self.assertEqual(36, len(self.scenes))
 
     def test_water_table_preserves_all_measurements_and_equal_weight_means(self):
         scene = self.scenes["water"]
@@ -81,11 +81,11 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_dice_flow_nodes_author_the_three_requested_header_notations(self):
         diagram = next(block for block in self.scenes["dice-flow"]["blocks"] if block["kind"] == "diagram")
-        self.assertEqual(["5×", "∑", "⟳"], [node["notation"] for node in diagram["nodes"]])
+        self.assertEqual(["5×", "∑"], [node["notation"] for node in diagram["nodes"]])
 
     def test_new_opening_has_seeded_sums_and_expectation_before_empirical_mean(self):
         self.assertEqual(["title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
-                          "dice-expectation", "arithmetic-mean", "dice-practice", "lln-practice", "real-world"],
+                          "dice-expectation", "real-world", "arithmetic-mean", "dice-practice", "lln-practice"],
                          list(self.scenes)[:11])
         self.assertNotIn("law-of-large-numbers", self.scenes)
         sums = next(b for b in self.scenes["dice-sums"]["blocks"] if b["kind"] == "list")
@@ -111,18 +111,20 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                 self.assertEqual("supporting", legend["emphasis"])
                 self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
                 self.assertEqual(formula["source"][0]["resourceId"], legend["source"][0]["resourceId"])
-                self.assertEqual(2, len(legend["entries"]))
+                self.assertEqual(3 if formula["source"][0]["resourceId"] == "ex:discrete-expected-value-formula" else 2, len(legend["entries"]))
                 self.assertTrue(all(entry["term"] and entry["description"] for entry in legend["entries"]))
-        self.assertEqual(23, len(formulas))
+        self.assertEqual(22, len(formulas))
 
     def test_every_executable_level_two_example_has_source_linked_function_legend(self):
         code_blocks = [block for scene in self.scenes.values() for block in scene["blocks"]
                        if block["kind"] == "code" and block["executable"]]
-        self.assertEqual(5, len(code_blocks))
+        self.assertEqual(7, len(code_blocks))
         expected_functions = {
             "ex:mean-dice-warmup-r": {"set.seed(seed)", "sample(x, size, replace)", "sum(x)", "list(...)"},
             "ex:mean-dice-practice-r": {"set.seed(seed)", "replicate(n, expr)", "sample(x, size, replace)", "sum(x)", "mean(x)", "list(...)"},
-            "ex:mean-lln-practice-r": {"set.seed(seed)", "replicate(n, expr)", "sample(x, size, replace)", "sum(x)", "data.frame(...)", "sapply(x, function)", "function(k)", "seq_len(k)", "mean(x)"},
+            "ex:mean-lln-practice-r": {"set.seed(seed)", "replicate(n, expr)", "sample(x, size, replace)", "sum(x)", "data.frame(...)", "sapply(x, function)", "function(k)", "seq_len(k)", "mean(x)", "c(...)"},
+            "ex:mean-growth-r": {"c(...)", "prod(x)", "length(x)", "list(...)"},
+            "ex:mean-speed-r": {"c(...)", "rep(x, times)", "sum(x)", "mean(x)", "list(...)"},
             "ex:mean-fe-r": {"c(...)" , "mean(x)"},
             "ex:mean-harmonic-r": {"c(...)" , "rep(x, times)", "sum(x)", "mean(x)", "list(...)"},
         }
@@ -139,6 +141,56 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                     self.assertEqual(block["source"][0]["resourceId"], legend["source"][0]["resourceId"])
                     terms = {entry["term"] for entry in legend["entries"]}
                     self.assertEqual(expected_functions[block["source"][0]["resourceId"]], terms)
+
+    def test_theoretical_observed_bridge_and_probability_legend_are_explicit(self):
+        expected = self.scenes["expected-value"]["blocks"]
+        self.assertEqual(["prose", "prose", "math", "definition-list", "prose"], [b["kind"] for b in expected])
+        probability = next(e for e in expected[3]["entries"] if e["term"] == "P(X=x)")
+        self.assertIn("Probability that X takes the value x", probability["description"])
+        self.assertIn("sum to 1", probability["description"])
+        self.assertIn("not observed sample frequencies", probability["description"])
+        bridge = self.scenes["real-world"]["blocks"]
+        self.assertEqual(["prose", "definition-list", "prompt"], [b["kind"] for b in bridge])
+        self.assertEqual(["THEORETICAL EXPECTATION", "REAL OBSERVATIONS"], [e["term"] for e in bridge[1]["entries"]])
+        self.assertIn("17.5", bridge[1]["entries"][0]["description"])
+        self.assertIn("10, 13, 18, 10, 23", bridge[1]["entries"][1]["description"])
+        self.assertIn("[?] Why are the results different?", bridge[2]["prompt"])
+        self.assertIn("estimate the expected value", bridge[2]["prompt"])
+
+    def test_each_new_mean_has_case_failure_formula_calculation_and_same_case_r(self):
+        order = list(self.scenes)
+        self.assertEqual(["growth", "growth-comparison", "geometric-mean", "growth-calculation", "growth-r"], order[12:17])
+        self.assertEqual(["speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r"], order[21:26])
+        self.assertEqual(1, sum(b["kind"] == "math" for b in self.scenes["geometric-mean"]["blocks"]))
+        self.assertEqual(1, sum(b["kind"] == "math" for b in self.scenes["harmonic-mean"]["blocks"]))
+        formulas = [b["expression"] for b in self.scenes["speed-comparison"]["blocks"] if b["kind"] == "math"]
+        self.assertIn("33.33", formulas[0])
+        self.assertIn("44.72", formulas[1])
+        self.assertNotIn("harmonic", " ".join(formulas))
+        self.assertIn("60 s", self.scenes["speed-comparison"]["blocks"][-1]["text"])
+        growth = next(b for b in self.scenes["growth-r"]["blocks"] if b["kind"] == "code")
+        self.assertIn("factors <- c(2, 8)", growth["code"])
+        self.assertIn("prod(factors)^(1 / length(factors))", growth["code"])
+        speed = next(b for b in self.scenes["speed-r"]["blocks"] if b["kind"] == "code")
+        self.assertIn("speeds <- c(10, 2)", speed["code"])
+        self.assertIn("rep(100, 2)", speed["code"])
+
+    def test_all_seven_active_labs_have_authored_function_parts(self):
+        labs = []
+        for scene in self.scenes.values():
+            blocks = scene["blocks"]
+            for index, block in enumerate(blocks):
+                if block["kind"] == "code" and block["executable"]:
+                    labs.append((block, blocks[index + 1]))
+        self.assertEqual(7, len(labs))
+        self.assertEqual(7, len({code["source"][0]["resourceId"] for code, _legend in labs}))
+        for code, legend in labs:
+            with self.subTest(code=code["source"][0]["resourceId"]):
+                self.assertEqual("definition-list", legend["kind"])
+                self.assertEqual("supporting", legend["emphasis"])
+                self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
+                self.assertEqual(code["source"][0]["resourceId"], legend["source"][0]["resourceId"])
+                self.assertTrue(legend["entries"])
 
     def test_water_and_iron_practice_share_one_structural_four_cell_slide(self):
         scene = self.scenes["water"]
@@ -172,8 +224,9 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertEqual("Mean Values", self.scenes["title"]["blocks"][0]["text"])
         diagram = self.scenes["dice-flow"]["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
-        self.assertEqual(["FIVE OUTCOMES", "ONE SUM", "REPEAT"], [n["label"] for n in diagram["nodes"]])
-        self.assertIn("sample of sums", diagram["description"])
+        self.assertEqual(["FIVE OUTCOMES", "ONE SUM"], [n["label"] for n in diagram["nodes"]])
+        self.assertEqual(1, len(diagram["edges"]))
+        self.assertNotIn("Repeating", diagram["description"])
         media = EX["mean-five-dice-sketch"]
         uri = str(self.graph.value(media, CD.uri))
         self.assertEqual("/chemometrics/mean-values-five-dice.svg", uri)
@@ -191,8 +244,8 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_general_static_fallback_renders_the_complete_level_two_document(self):
         fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
-        self.assertEqual(32, fallback.count('<article data-pitch-step='))
-        self.assertIn("Five outcomes, one sum, repeated sampling", fallback)
+        self.assertEqual(36, fallback.count('<article data-pitch-step='))
+        self.assertIn("Five outcomes, one sum", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
         self.assertEqual(3, fallback.count('class="media-reference-fallback"'))
@@ -231,7 +284,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         entries = [entry for scene in self.scenes.values() for b in scene["blocks"]
                    if b["kind"] == "definition-list" for entry in b["entries"]]
         decorated = [e for e in entries if e.get("visualMotif")]
-        self.assertGreaterEqual(len(decorated), 15)
+        self.assertEqual(12, len(decorated))
         for entry in decorated:
             self.assertTrue(any(s["relationPath"] == "cd:visualMotif" for s in entry["source"]))
 

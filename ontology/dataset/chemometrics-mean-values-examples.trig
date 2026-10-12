@@ -63,7 +63,7 @@
   ex:mean-real-world-heading a cd:Interpretation ; skos:prefLabel "From a known model to measured data"@en ; cd:body "From a known model to measured data"@en ; cd:authoredResource true .
   ex:mean-water-heading a cd:Interpretation ; skos:prefLabel "Arithmetic means in water analysis"@en ; cd:body "Arithmetic means in water analysis"@en ; cd:authoredResource true .
   ex:mean-growth-heading a cd:Interpretation ; skos:prefLabel "Growth combines by multiplication"@en ; cd:body "Growth combines by multiplication"@en ; cd:authoredResource true .
-  ex:mean-growth-comparison-heading a cd:Interpretation ; skos:prefLabel "Which factor preserves the final count?"@en ; cd:body "Which factor preserves the final count?"@en ; cd:authoredResource true .
+  ex:mean-growth-comparison-heading a cd:Interpretation ; skos:prefLabel "Does the arithmetic factor preserve growth?"@en ; cd:body "Does the arithmetic factor preserve growth?"@en ; cd:authoredResource true .
   ex:mean-log-heading a cd:Interpretation ; skos:prefLabel "Average on a logarithmic scale"@en ; cd:body "Average on a logarithmic scale"@en ; cd:authoredResource true .
   ex:mean-microbial-heading a cd:Interpretation ; skos:prefLabel "Two summaries of microbial counts"@en ; cd:body "Two summaries of microbial counts"@en ; cd:authoredResource true .
   ex:mean-ratios-heading a cd:Interpretation ; skos:prefLabel "Summarize proportional changes"@en ; cd:body "Summarize proportional changes"@en ; cd:authoredResource true .
@@ -175,7 +175,7 @@
 
   ex:mean-speed-question a cd:Exercise ; cd:body "A tracer travels 100 m at 10 m/s and another 100 m at 2 m/s. What is total distance divided by total time? Compare with the arithmetic average of the speeds."@en ; cd:hasExpectedResult ex:mean-speed-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-speed-result a cd:ExpectedResult ; cd:body "Times are 10 s and 50 s. Overall speed is 200/60 = 10/3 m/s, approximately 3.33 m/s, not 6 m/s. Equal time intervals would instead give the arithmetic mean of speeds."@en ; cd:authoredResource true .
-  ex:mean-speed-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}t&=100/10+100/2=60\\;\\mathrm{s}\\\\v&=200/60\\approx3.33\\;\\mathrm{m/s}\\end{aligned}" ; cd:body "For two sections of 100 metres, travel times are 10 and 50 seconds. Total distance 200 metres divided by 60 seconds gives approximately 3.33 metres per second."@en ; cd:authoredResource true .
+  ex:mean-speed-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}t&=100/10+100/2=60\\;\\mathrm{s}\\\\v&=\\frac{200}{60}=\\frac{2}{1/10+1/2}\\approx3.33\\;\\mathrm{m/s}\\end{aligned}" ; cd:body "For two sections of 100 metres, travel times are 10 and 50 seconds. Total distance 200 metres divided by 60 seconds equals the harmonic mean, two divided by the sum of reciprocal speeds, approximately 3.33 metres per second."@en ; cd:authoredResource true .
   ex:mean-harmonic-practice a cd:Exercise ; cd:body "Pump three successive 10 L batches at 10, 2 and 5 L/min. Calculate each pumping time and the overall rate as total volume divided by total time. Explain why equal volumes, not equal times, justify harmonic averaging."@en ; cd:hasCodeExample ex:mean-harmonic-r ; cd:hasExpectedResult ex:mean-harmonic-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-harmonic-result a cd:ExpectedResult ; cd:body "Times are 1, 5 and 2 minutes. Total volume is 30 L and total time is 8 minutes, giving 3.75 L/min. The arithmetic mean 17/3 L/min instead describes equal time weighting."@en ; cd:authoredResource true .
   ex:mean-harmonic-r a cd:CodeExample ; cd:code "rates <- c(10, 2, 5)\nvolumes <- rep(10, 3)\ntimes <- volumes / rates\nlist(times = times,\n     overall = sum(volumes) / sum(times),\n     harmonic = 1 / mean(1 / rates),\n     arithmetic = mean(rates))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:authoredResource true .
@@ -232,8 +232,8 @@
   ex:mean-arithmetic-addition a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ADD AND DIVIDE"@en ; cd:body "Numerical values with meaningful addition\nEqual weight for each observation\nNormality is not required."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
   ex:mean-arithmetic-center a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "REPRESENTATIVE CENTER?"@en ; cd:body "All observations contribute.\nSkewness and extreme values can shift the mean."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
 
-  ex:mean-expectation-context a cd:Interpretation ; cd:body "Expected value belongs to a probability model, not one observed sample."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
-  ex:mean-expectation-note a cd:Interpretation ; cd:body "Estimate the model mean from an appropriately sampled dataset."@en ; cd:interpretsResource ex:sample-mean-estimator-interpretation ; cd:authoredResource true .
+  ex:mean-expectation-context a cd:Interpretation ; cd:body "For a discrete random variable, weight each possible value by its model probability."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
+  ex:mean-expectation-note a cd:Interpretation ; cd:body "The sum runs over possible values, not over a measured sample. A finite expected absolute value ensures this expectation is well defined."@en ; cd:interpretsResource ex:def-expected-value ; cd:authoredResource true .
   ex:mean-expectation-facets a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-expectation-outcomes, ex:mean-expectation-sample ; cd:authoredResource true .
   ex:mean-expectation-outcomes a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "MODEL"@en ; cd:body "Possible outcomes and their probabilities\nProbability-weighted average\nAssume an integrable random variable."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
   ex:mean-expectation-sample a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "OBSERVATIONS"@en ; cd:body "The sample mean is a statistic.\nIt can estimate expectation under a suitable sampling model."@en ; cd:visualMotif "sampling-lake" ; cd:authoredResource true .
@@ -314,12 +314,10 @@
   ex:mean-five-dice-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-five-dice.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five dice contribute their outcomes to one sum. Repeating this experiment produces a sample of sums, not a sample of individual faces."@en ; cd:authoredResource true .
   # Slide-first visuals use supported diagrams and tables, not media fallback.
   ex:mean-title dct:hasPart ex:mean-five-dice-flow .
-  ex:mean-five-dice-flow a cd:FlowDiagram ; skos:prefLabel "Five outcomes, one sum, repeated sampling"@en ; cd:body "One experiment observes five die outcomes D1 to D5 and adds them to one sum S. Repeating the whole experiment gives a sample of sums."@en ; cd:hasDiagramNode ex:mean-dice-outcomes-node, ex:mean-dice-sum-node, ex:mean-dice-repeat-node ; cd:hasDiagramEdge ex:mean-dice-add-edge, ex:mean-dice-repeat-edge ; cd:authoredResource true .
+  ex:mean-five-dice-flow a cd:FlowDiagram ; skos:prefLabel "Five outcomes, one sum"@en ; cd:body "One experiment observes five die outcomes D1 to D5 and adds them to one sum S."@en ; cd:hasDiagramNode ex:mean-dice-outcomes-node, ex:mean-dice-sum-node ; cd:hasDiagramEdge ex:mean-dice-add-edge ; cd:authoredResource true .
   ex:mean-dice-outcomes-node a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "FIVE OUTCOMES"@en ; skos:notation "5\u00D7" ; cd:body "D1, D2, D3, D4, D5\nEach is an integer from 1 to 6."@en ; cd:authoredResource true .
   ex:mean-dice-sum-node a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "ONE SUM"@en ; skos:notation "\u2211" ; cd:body "S = D1 + D2 + D3 + D4 + D5\nOne result per experiment"@en ; cd:authoredResource true .
-  ex:mean-dice-repeat-node a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "REPEAT"@en ; skos:notation "\u27F3" ; cd:body "Collect S1, S2, ..., Sn.\nAverage sums, not individual faces."@en ; cd:authoredResource true .
   ex:mean-dice-add-edge a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:mean-dice-outcomes-node ; cd:targetNode ex:mean-dice-sum-node ; skos:prefLabel "add"@en ; cd:authoredResource true .
-  ex:mean-dice-repeat-edge a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:mean-dice-sum-node ; cd:targetNode ex:mean-dice-repeat-node ; skos:prefLabel "repeat whole experiment"@en ; cd:authoredResource true .
 
   ex:mean-speed-question dct:hasPart ex:mean-speed-diagram, ex:mean-speed-context, ex:mean-speed-note .
   ex:mean-speed-context a cd:Interpretation ; cd:body "Equal distances do not mean equal travel times."@en ; cd:interpretsResource ex:mean-speed-question ; cd:authoredResource true .
@@ -371,7 +369,7 @@
   ex:arithmetic-mean-formula dct:hasPart ex:arithmetic-mean-formula-legend .
   ex:arithmetic-mean-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-arithmetic-1, ex:mv-legend-arithmetic-2 ; cd:authoredResource true .
   ex:discrete-expected-value-formula dct:hasPart ex:discrete-expected-value-formula-legend .
-  ex:discrete-expected-value-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-expectation-1, ex:mv-legend-expectation-2 ; cd:authoredResource true .
+  ex:discrete-expected-value-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-expectation-1, ex:mv-legend-expectation-2, ex:mv-legend-expectation-3 ; cd:authoredResource true .
   ex:mean-one-die-formula dct:hasPart ex:mean-one-die-formula-legend .
   ex:mean-one-die-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-die-1, ex:mv-legend-die-2 ; cd:authoredResource true .
   ex:mean-five-dice-formula dct:hasPart ex:mean-five-dice-formula-legend .
@@ -418,7 +416,8 @@
   ex:mv-legend-arithmetic-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄, xᵢ"@en ; cd:body "Arithmetic sample mean and observation i, in the same unit."@en ; cd:authoredResource true .
   ex:mv-legend-arithmetic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Σ"@en ; cd:body "Sample size, observation index and sum over observations."@en ; cd:authoredResource true .
   ex:mv-legend-expectation-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "X, E[X]"@en ; cd:body "Discrete random variable and its distribution expectation."@en ; cd:authoredResource true .
-  ex:mv-legend-expectation-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x, S, P(X=x)"@en ; cd:body "Outcome in the support S and its probability."@en ; cd:authoredResource true .
+  ex:mv-legend-expectation-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x, S"@en ; cd:body "x is one possible numerical value of X; S is the set of all possible values."@en ; cd:authoredResource true .
+  ex:mv-legend-expectation-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "P(X=x)"@en ; cd:body "Probability that X takes the value x. These model probabilities sum to 1 and weight the possible values; they are not observed sample frequencies."@en ; cd:authoredResource true .
   ex:mv-legend-die-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "D, E[D]"@en ; cd:body "One fair die outcome and its expected value."@en ; cd:authoredResource true .
   ex:mv-legend-die-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "1…6, 1/6"@en ; cd:body "Six faces, each with probability one sixth."@en ; cd:authoredResource true .
   ex:mv-legend-sum-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Dⱼ, S"@en ; cd:body "Outcome of die j; S is the sum of five outcomes."@en ; cd:authoredResource true .
@@ -448,7 +447,7 @@
   ex:mv-legend-speed-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "t"@en ; cd:body "Total travel time in seconds: add both section times."@en ; cd:authoredResource true .
   ex:mv-legend-speed-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "v"@en ; cd:body "Total distance 200 m divided by total time 60 s; speed in m/s."@en ; cd:authoredResource true .
   ex:mv-legend-harmonic-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "H, xᵢ"@en ; cd:body "Harmonic mean and nonzero input i; rate examples use positive values."@en ; cd:authoredResource true .
-  ex:mv-legend-harmonic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, Σ 1/xᵢ"@en ; cd:body "Number of inputs and nonzero sum of reciprocals."@en ; cd:authoredResource true .
+  ex:mv-legend-harmonic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, Σ 1/xᵢ"@en ; cd:body "n counts the inputs; add their reciprocals. For speeds in m/s, 1/xᵢ is time per metre (s/m), so H is again in m/s."@en ; cd:authoredResource true .
   ex:mv-legend-layers-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Dₑff"@en ; cd:body "Effective diffusion coefficient in m²/s for two equal series layers."@en ; cd:authoredResource true .
   ex:mv-legend-layers-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "D₁, D₂"@en ; cd:body "2 × 10⁻⁶ and 10⁻⁸ m²/s; equal thickness/area, steady state, no reaction or partition jump."@en ; cd:authoredResource true .
   ex:mv-legend-median-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̃"@en ; cd:body "Sample median: the center of the sorted observations."@en ; cd:authoredResource true .
@@ -480,7 +479,7 @@
   ex:mean-dice-practice-fn-list a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "list(...)"@en ; cd:body "Returns the named sums and their mean together."@en ; cd:authoredResource true .
 
   ex:mean-lln-practice-r dct:hasPart ex:mean-lln-practice-r-functions .
-  ex:mean-lln-practice-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lln-fn-seed, ex:mean-lln-fn-replicate, ex:mean-lln-fn-sample, ex:mean-lln-fn-sum, ex:mean-lln-fn-data-frame, ex:mean-lln-fn-sapply, ex:mean-lln-fn-function, ex:mean-lln-fn-seq-len, ex:mean-lln-fn-mean ; cd:authoredResource true .
+  ex:mean-lln-practice-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lln-fn-seed, ex:mean-lln-fn-replicate, ex:mean-lln-fn-sample, ex:mean-lln-fn-sum, ex:mean-lln-fn-data-frame, ex:mean-lln-fn-sapply, ex:mean-lln-fn-function, ex:mean-lln-fn-seq-len, ex:mean-lln-fn-mean, ex:mean-lln-fn-c ; cd:authoredResource true .
   ex:mean-lln-fn-seed a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "set.seed(seed)"@en ; cd:body "Fixes the pseudorandom sequence for reproducible comparisons."@en ; cd:authoredResource true .
   ex:mean-lln-fn-replicate a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "replicate(n, expr)"@en ; cd:body "Repeats the five-dice experiment 50,000 times."@en ; cd:authoredResource true .
   ex:mean-lln-fn-sample a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sample(x, size, replace)"@en ; cd:body "Draws five fair-die outcomes for each experiment."@en ; cd:authoredResource true .
@@ -490,6 +489,7 @@
   ex:mean-lln-fn-function a cd:DefinitionListEntry ; cd:position 7 ; skos:prefLabel "function(k)"@en ; cd:body "Defines a small calculation that receives one repetition count k."@en ; cd:authoredResource true .
   ex:mean-lln-fn-seq-len a cd:DefinitionListEntry ; cd:position 8 ; skos:prefLabel "seq_len(k)"@en ; cd:body "Selects the first k experiment sums without exceeding the available data."@en ; cd:authoredResource true .
   ex:mean-lln-fn-mean a cd:DefinitionListEntry ; cd:position 9 ; skos:prefLabel "mean(x)"@en ; cd:body "Calculates the arithmetic mean of the selected experiment sums."@en ; cd:authoredResource true .
+  ex:mean-lln-fn-c a cd:DefinitionListEntry ; cd:position 10 ; skos:prefLabel "c(...)"@en ; cd:body "Combines the three repetition counts into one vector."@en ; cd:authoredResource true .
 
   ex:mean-fe-r dct:hasPart ex:mean-fe-r-functions .
   ex:mean-fe-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-fe-fn-c, ex:mean-fe-fn-mean ; cd:authoredResource true .
@@ -503,4 +503,55 @@
   ex:mean-harmonic-fn-sum a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sum(x)"@en ; cd:body "Adds all batch volumes or all pumping times."@en ; cd:authoredResource true .
   ex:mean-harmonic-fn-mean a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "mean(x)"@en ; cd:body "Calculates the arithmetic mean, here for comparison with overall rate."@en ; cd:authoredResource true .
   ex:mean-harmonic-fn-list a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "list(...)"@en ; cd:body "Returns the named times and rates together."@en ; cd:authoredResource true .
+
+  # Locally derived demonstrations reuse the established fair-dice/growth/speed cases.
+  ex:mean-bridge-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-bridge-theory, ex:mean-bridge-observed ; cd:authoredResource true .
+  ex:mean-bridge-theory a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "THEORETICAL EXPECTATION"@en ; cd:body "Fair-dice model: E[S] = 17.5.\nA probability-weighted, long-run average, not a required single outcome."@en ; cd:derivedFromResource ex:mean-dice-expectation-example ; cd:authoredResource true .
+  ex:mean-bridge-observed a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "REAL OBSERVATIONS"@en ; cd:body "Five experiment sums: 10, 13, 18, 10, 23.\nFinite random outcomes; each observed sum is an integer."@en ; cd:derivedFromResource ex:mean-dice-sums ; cd:authoredResource true .
+  ex:mean-bridge-question a cd:Exercise ; cd:body """- [?] Why are the results different?
+- We can estimate the expected value from appropriately sampled real data."""@en ; cd:hasExpectedResult ex:mean-bridge-answer ; cd:authoredResource true .
+  ex:mean-bridge-answer a cd:ExpectedResult ; cd:body "The theoretical expectation summarizes a distribution. Individual sums fluctuate and a finite sample does not have to equal 17.5. Under suitable sampling assumptions, a sample arithmetic mean estimates the model expectation; this does not validate the model from one sample."@en ; cd:derivedFromResource ex:sample-mean-estimator-interpretation, ex:mean-dice-expected ; cd:authoredResource true .
+
+  ex:mean-growth-calculation-heading a cd:Interpretation ; skos:prefLabel "Preserve the growth product"@en ; cd:body "Preserve the growth product"@en ; cd:authoredResource true .
+  ex:mean-growth-general-note a cd:Interpretation ; cd:body "For positive factors over equal periods, the constant factor G preserves their product: applying G n times gives the same final multiplier."@en ; cd:derivedFromResource ex:geometric-mean-product-formula ; cd:authoredResource true .
+  ex:mean-growth-r-heading a cd:Interpretation ; skos:prefLabel "Reproduce growth in R"@en ; cd:body "Reproduce growth in R"@en ; cd:authoredResource true .
+  ex:mean-growth-r-practice a cd:Exercise ; cd:body """**Start with 100 cells and growth factors 2 and 8 over two equal periods.**
+
+- [!] Calculate the geometric factor and use it twice to reconstruct the final count."""@en ; cd:hasExpectedResult ex:mean-growth-r-result ; cd:hasCodeExample ex:mean-growth-r ; cd:derivedFromResource ex:mean-growth-example ; cd:authoredResource true .
+  ex:mean-growth-r-result a cd:ExpectedResult ; cd:body "The geometric factor is 4; applying it for two periods gives 100 times 4 squared = 1600 cells."@en ; cd:authoredResource true .
+  ex:mean-growth-r a cd:CodeExample ; cd:code "factors <- c(2, 8)\ng <- prod(factors)^(1 / length(factors))\nlist(geometric = g, final_cells = 100 * g^length(factors))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:derivedFromResource ex:mean-growth-example ; dct:hasPart ex:mean-growth-r-functions ; cd:authoredResource true .
+  ex:mean-growth-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-growth-fn-c, ex:mean-growth-fn-prod, ex:mean-growth-fn-length, ex:mean-growth-fn-list ; cd:authoredResource true .
+  ex:mean-growth-fn-c a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines the two positive growth factors into a vector."@en ; cd:authoredResource true .
+  ex:mean-growth-fn-prod a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "prod(x)"@en ; cd:body "Multiplies the factors to obtain their total multiplier."@en ; cd:authoredResource true .
+  ex:mean-growth-fn-length a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "length(x)"@en ; cd:body "Counts the factors, here the two equal-duration periods."@en ; cd:authoredResource true .
+  ex:mean-growth-fn-list a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "list(...)"@en ; cd:body "Returns the geometric factor and reconstructed final count together."@en ; cd:authoredResource true .
+
+  ex:mean-speed-comparison-heading a cd:Interpretation ; skos:prefLabel "Which average preserves travel time?"@en ; cd:body "Which average preserves travel time?"@en ; cd:authoredResource true .
+  ex:mean-speed-comparison-note a cd:Interpretation ; cd:body "The real journey takes 10 + 50 = 60 s. Neither candidate preserves that time for 200 m. These averages are defined, but answer different weighting or product questions."@en ; cd:derivedFromResource ex:mean-speed-calculation ; cd:authoredResource true .
+  ex:mean-speed-arithmetic-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-arithmetic-card ; cd:authoredResource true .
+  ex:mean-speed-arithmetic-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC CANDIDATE"@en ; cd:body "Equal-distance sections are not equal-time weights."@en ; cd:authoredResource true .
+  ex:mean-speed-geometric-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-geometric-card ; cd:authoredResource true .
+  ex:mean-speed-geometric-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GEOMETRIC CANDIDATE"@en ; cd:body "Preserving a product of speeds does not preserve total travel time."@en ; cd:authoredResource true .
+  ex:mean-speed-arithmetic-formula a cd:MathExpression ; cd:latex "\\begin{aligned}A&=(10+2)/2=6\\;\\mathrm{m/s}\\\\t_A&=200/6\\approx33.33\\;\\mathrm{s}\\end{aligned}" ; cd:body "The arithmetic speed is 6 metres per second. At that constant speed, 200 metres would take about 33.33 seconds rather than 60 seconds."@en ; cd:derivedFromResource ex:mean-speed-calculation ; dct:hasPart ex:mean-speed-arithmetic-legend ; cd:authoredResource true .
+  ex:mean-speed-geometric-formula a cd:MathExpression ; cd:latex "\\begin{aligned}G&=\\sqrt{10\\times2}\\approx4.472\\;\\mathrm{m/s}\\\\t_G&=200/\\sqrt{20}\\approx44.72\\;\\mathrm{s}\\end{aligned}" ; cd:body "The geometric speed is square root of 20, about 4.472 metres per second. At that constant speed, 200 metres would take about 44.72 seconds rather than 60 seconds."@en ; cd:derivedFromResource ex:mean-speed-calculation ; dct:hasPart ex:mean-speed-geometric-legend ; cd:authoredResource true .
+  ex:mean-speed-arithmetic-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-A-legend-1, ex:mean-speed-A-legend-2 ; cd:authoredResource true .
+  ex:mean-speed-A-legend-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A"@en ; cd:body "Arithmetic average of the two speeds, in m/s."@en ; cd:authoredResource true .
+  ex:mean-speed-A-legend-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "t_A, 200 m"@en ; cd:body "Predicted journey time if both 100 m sections were travelled at A."@en ; cd:authoredResource true .
+  ex:mean-speed-geometric-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-G-legend-1, ex:mean-speed-G-legend-2 ; cd:authoredResource true .
+  ex:mean-speed-G-legend-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G"@en ; cd:body "Geometric average of the two positive speeds, in m/s."@en ; cd:authoredResource true .
+  ex:mean-speed-G-legend-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "t_G, 200 m"@en ; cd:body "Predicted journey time at constant speed G over the total distance."@en ; cd:authoredResource true .
+
+  ex:mean-speed-r-heading a cd:Interpretation ; skos:prefLabel "Reproduce the journey in R"@en ; cd:body "Reproduce the journey in R"@en ; cd:authoredResource true .
+  ex:mean-speed-r-practice a cd:Exercise ; cd:body """**Travel two equal 100 m sections at 10 and 2 m/s.**
+
+- [!] Calculate section times, total time and overall speed.
+- [!] Check that the harmonic mean gives the same overall speed."""@en ; cd:hasExpectedResult ex:mean-speed-r-result ; cd:hasCodeExample ex:mean-speed-r ; cd:derivedFromResource ex:mean-speed-calculation ; cd:authoredResource true .
+  ex:mean-speed-r-result a cd:ExpectedResult ; cd:body "Section times are 10 and 50 s; total time is 60 s. Overall speed and harmonic mean are both 10/3 m/s, approximately 3.333 m/s."@en ; cd:authoredResource true .
+  ex:mean-speed-r a cd:CodeExample ; cd:code "speeds <- c(10, 2)\ndistances <- rep(100, 2)\ntimes <- distances / speeds\nlist(times_s = times, total_time_s = sum(times),\n     overall_m_s = sum(distances) / sum(times),\n     harmonic_m_s = 1 / mean(1 / speeds))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:derivedFromResource ex:mean-speed-calculation ; dct:hasPart ex:mean-speed-r-functions ; cd:authoredResource true .
+  ex:mean-speed-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-fn-c, ex:mean-speed-fn-rep, ex:mean-speed-fn-sum, ex:mean-speed-fn-mean, ex:mean-speed-fn-list ; cd:authoredResource true .
+  ex:mean-speed-fn-c a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines the two section speeds into a vector."@en ; cd:authoredResource true .
+  ex:mean-speed-fn-rep a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "rep(x, times)"@en ; cd:body "Repeats 100 m twice to represent equal section distances."@en ; cd:authoredResource true .
+  ex:mean-speed-fn-sum a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sum(x)"@en ; cd:body "Adds section distances or travel times to their journey totals."@en ; cd:authoredResource true .
+  ex:mean-speed-fn-mean a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "mean(x)"@en ; cd:body "Averages reciprocal speeds; taking its reciprocal gives the harmonic mean."@en ; cd:authoredResource true .
+  ex:mean-speed-fn-list a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "list(...)"@en ; cd:body "Returns named times and speeds together, with units in their names."@en ; cd:authoredResource true .
 }

@@ -2,9 +2,9 @@
 
 ORDER = [
     "title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
-    "dice-expectation", "arithmetic-mean", "dice-practice", "lln-practice", "real-world",
-    "water", "growth", "geometric-mean", "growth-comparison",
-    "geometric-practice", "log", "microbial", "ratios", "speed", "speed-solution", "harmonic-mean",
+    "dice-expectation", "real-world", "arithmetic-mean", "dice-practice", "lln-practice",
+    "water", "growth", "growth-comparison", "geometric-mean", "growth-calculation", "growth-r",
+    "geometric-practice", "log", "microbial", "ratios", "speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r",
     "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
     "median-practice", "summary", "discussion-additive", "discussion-multiplicative",
 ]
@@ -45,10 +45,8 @@ ADDITIONS = {
         ("mean-lln-practice-r", "CodeRole", "cd:hasCodeExample"),
     ]),
     "real-world": ("expected-value", "mean-real-world-heading", [
-        ("mean-model-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
-        ("mean-model-formula", "FormulaRole", "cd:latex"),
-        ("mean-data-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
-        ("mean-data-formula", "FormulaRole", "cd:latex"),
+        ("mean-bridge-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-bridge-question", "ExerciseRole", "cd:body"),
     ]),
     "water": ("arithmetic-mean", "mean-water-heading", [
         ("mean-water-summary", "KeyPointRole", "cd:hasKeyPoint"),
@@ -63,8 +61,25 @@ ADDITIONS = {
     "growth-comparison": ("geometric-mean", "mean-growth-comparison-heading", [
         ("mean-growth-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
         ("mean-growth-arithmetic-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "growth-calculation": ("geometric-mean", "mean-growth-calculation-heading", [
         ("mean-growth-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
         ("mean-growth-geometric-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "growth-r": ("geometric-mean", "mean-growth-r-heading", [
+        ("mean-growth-r-practice", "ExerciseRole", "cd:body"),
+        ("mean-growth-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "speed-comparison": ("harmonic-mean", "mean-speed-comparison-heading", [
+        ("mean-speed-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-speed-arithmetic-formula", "FormulaRole", "cd:latex"),
+        ("mean-speed-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-speed-geometric-formula", "FormulaRole", "cd:latex"),
+        ("mean-speed-comparison-note", "StatementRole", "cd:body"),
+    ]),
+    "speed-r": ("harmonic-mean", "mean-speed-r-heading", [
+        ("mean-speed-r-practice", "ExerciseRole", "cd:body"),
+        ("mean-speed-r", "CodeRole", "cd:hasCodeExample"),
     ]),
     "log": ("geometric-mean", "mean-log-heading", [
         ("geometric-mean-log-formula", "FormulaRole", "cd:latex"),
@@ -132,6 +147,8 @@ ADDITIONS = {
 }
 
 EXTRA_PATH_RESOURCES = {
+    "real-world": {"mean-bridge-answer"},
+    "growth-comparison": {"mean-growth-geometric-cards", "mean-growth-geometric-formula"},
     "purpose": {"mean-purpose-heading"},
     "dice-sums": {"mean-dice-sums-heading"},
     "title": {"mean-title", "mean-five-dice-sketch"},
@@ -145,12 +162,12 @@ EXTRA_PATH_RESOURCES = {
     "order": {"mean-order-example"},
     "lead": {"mean-lead-example"},
     "arithmetic-mean": {"mean-arithmetic-facets"},
-    "expected-value": {"mean-expectation-context", "mean-expectation-facets", "mean-expectation-note"},
+    "expected-value": {"mean-expectation-context", "mean-expectation-note"},
     "law-of-large-numbers": {"mean-lln-facets", "mean-lln-note"},
-    "geometric-mean": {"mean-geometric-context", "mean-geometric-facets", "mean-geometric-note", "mean-geometric-product-cards", "mean-geometric-log-cards", "mean-geometric-log-card-formula"},
+    "geometric-mean": {"mean-growth-general-note"},
     "speed-solution": {"mean-speed-context", "mean-speed-note"},
     "speed": {"mean-speed-calculation", "mean-speed-context", "mean-speed-diagram", "mean-speed-note"},
-    "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-facets", "mean-harmonic-note"},
+    "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-note"},
     "median": {"mean-median-context", "mean-median-facets", "mean-median-note"},
     "turbidity": {"mean-turbidity-context"},
 }
