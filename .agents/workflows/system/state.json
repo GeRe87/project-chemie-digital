@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 13,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 259,
   "expectedDeliverable": "Issue #259: repair Level 2 using ordinary npm run pitch:intro on port 5173 with overworld/level selection. Visible Run/Reset and actual R execution for every executable Level 2 lab; generic non-overlapping title/motif/number card headers; real masks for all allowed motifs including EQUAL QUANTITIES multiple-inputs; title only Mean Values; subsequent experiment flow with prominent dice SVG and five SVG dice on Five dice one sum. Narrow Level 2 scene/media wiring and any necessary generic fallback/composition repair are explicitly scoped in #259. Work on agent/259-level2-course-preview-repair stacked on committed PR #258; serialize overlapping Chemometrics #257 edits. Browser/tests/full npm test, draft PR, handoff; no self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "manager: assigned one Frontend and Reveal Renderer Engineer task #259 for exact owner course-preview/card/code/dice corrections. Confirmed missing card motif masks and inadequate supporting-icon header reservation; Run diagnostics must be reproduced through standard course startup. Recorded serialized cross-track gate in #257 and preserved independent #214 review in its issue comment.",
-  "lastUpdated": "2026-10-12T12:53:00+02:00",
+  "lastCompletedTurn": "worker: delivered #259 in stacked draft PR #260 on #258/#185. Normal pitch:intro/5173 browser verified all five executable R labs, 32 scenes, heading-only title, two dice illustrations, vector motifs and 21 supporting-card headers without overlap at wide/narrow viewports. Course completion returns to overworld; Level 1 opens. Renderer tests and production build pass. Full npm test rerun remains in progress after redundant title-path reference correction; external exact-head validation and compatible integration remain required. Handoff: .agents/handoffs/issue-259-level2-course-preview-repair.md. No acceptance/merge or Chemometrics state changes.",
+  "lastUpdated": "2026-10-12T13:17:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 374,
+  "blockedBy": ["Full npm test rerun completion evidence pending; exact-head external success and compatible integration basis required for PR #260", "Preserve stacked #258/#185 dependencies, cross-track serialized Level 2 writes and independent #214/#257 acceptance obligations; portrait whole-deck scaling and broader visual gaps remain"],
+  "stateRevision": 376,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T14:55:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue206-introduction-round",
-      "reason": "Claimed content cleanup to Background, Chemometrics Experience and Programming anchors only."
-    },
-    {
-      "at": "2026-10-05T15:02:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue206-introduction-round",
-      "reason": "Completed #206: removed banner/foundation/goal/takeaway from the presentation scene, reduced the round to three concise cards, and aligned the retained long-form exercise."
-    },
     {
       "at": "2026-10-05T15:10:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +177,20 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-level2-course-repair-20261012",
       "reason": "Assign exactly one #259 worker turn for standard course startup/Run controls, generic card header/masks and exact title/dice SVG selections. Narrow coordinated semantic wiring is explicit, not new scientific authoring. Cross-track overlapping writes serialized by #257 issue gate, Chemometrics state untouched; #214 independent acceptance obligations retained. These implementation/browser blockers are internally actionable with available local tools; external exact-head acceptance is not waived. No implementation or merge performed in manager turn."
+    },
+    {
+      "at": "2026-10-12T12:54:14+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-259-course-preview-20261012",
+      "reason": "Claim exact #259 on agent/259-level2-course-preview-repair from committed PR #258 basis. Standard 5173 port is available; preserve original owner work and Chemometrics state. Repair only scoped generic runtime/cards and exact Level 2 media/title selections, with ordinary pitch:intro browser evidence."
+    },
+    {
+      "at": "2026-10-12T13:17:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-259-course-preview-20261012",
+      "reason": "Publish draft PR #260 and structured handoff with actual standard-course browser evidence. Return only System control; full-test rerun evidence pending and external exact-head/integration gates block acceptance. No scientific vocabulary/API changes, no self-acceptance/merge; Chemometrics state untouched."
     }
   ]
 }
