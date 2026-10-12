@@ -19,6 +19,9 @@ EX = Namespace("https://w3id.org/project-chemie-digital/resource/")
 GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-mean-values-examples")
 
 
+from mean_values_expectations import leaf_blocks
+
+
 class MeanValuesVisualTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -113,7 +116,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                 self.assertEqual(formula["source"][0]["resourceId"], legend["source"][0]["resourceId"])
                 self.assertEqual(3 if formula["source"][0]["resourceId"] == "ex:discrete-expected-value-formula" else 2, len(legend["entries"]))
                 self.assertTrue(all(entry["term"] and entry["description"] for entry in legend["entries"]))
-        self.assertEqual(22, len(formulas))
+        self.assertEqual(23, len(formulas))
 
     def test_every_executable_level_two_example_has_source_linked_function_legend(self):
         code_blocks = [block for scene in self.scenes.values() for block in scene["blocks"]
@@ -228,7 +231,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertEqual(["ex:mean-case-" + suffix for suffix in
                           ("replicates", "sensors", "loads", "microplastics", "sites", "reactors")],
                          [b["source"][0]["resourceId"] for b in prompts])
-        self.assertTrue(all(b["kind"] == "prompt" and b["expectedResult"] for b in prompts))
+        self.assertTrue(all(b["kind"] == "group" and b["children"][0]["expectedResult"] for b in prompts))
         for resource in ("exercise-geometric-growth-factors", "exercise-mean-median-outlier"):
             basics = self.dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics"))
             self.assertTrue(list(basics.objects(EX[resource], CD.body)))
@@ -253,13 +256,13 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                   if b["kind"] == "definition-list" and b["emphasis"] != "supporting"]
         self.assertIn("15.625, not 5", ratios[0])
         self.assertIn("not successive growth periods", ratios[1])
-        pump = next(b for b in self.scenes["harmonic-practice"]["blocks"] if b["kind"] == "prompt")
+        pump = next(b for b in leaf_blocks(self.scenes["harmonic-practice"]) if b["kind"] == "prompt")
         self.assertIn("three successive 10 L batches", pump["prompt"])
         self.assertNotIn("Explain why", pump["prompt"])
         turbidity = self.scenes["turbidity"]["blocks"][1]["text"]
         self.assertIn("nephelometric turbidity units", turbidity)
         self.assertIn("light scattering", turbidity)
-        self.assertIn("not automatically an invalid measurement", turbidity)
+        self.assertIn("not automatically invalid", turbidity)
 
     def test_water_and_iron_practice_share_one_structural_four_cell_slide(self):
         scene = self.scenes["water"]
@@ -317,11 +320,11 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertIn("Five outcomes, one sum", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
-        self.assertEqual(3, fallback.count('class="media-reference-fallback"'))
+        self.assertEqual(12, fallback.count('class="media-reference-fallback"'))
 
     def test_speed_visual_keeps_exercise_answer_formula_and_exact_equal_distances(self):
         blocks = self.scenes["speed-solution"]["blocks"]
-        prompt = next(b for b in self.scenes["speed"]["blocks"] if b["kind"] == "prompt")
+        prompt = next(b for b in leaf_blocks(self.scenes["speed"]) if b["kind"] == "prompt")
         self.assertEqual(str(self.graph.value(EX["mean-speed-question"], CD.body)), prompt["prompt"])
         self.assertEqual(str(self.graph.value(EX["mean-speed-result"], CD.body)), prompt["expectedResult"])
         self.assertEqual(str(self.graph.value(EX["mean-speed-calculation"], CD.latex)),
@@ -356,6 +359,70 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertEqual(10, len(decorated))
         for entry in decorated:
             self.assertTrue(any(s["relationPath"] == "cd:visualMotif" for s in entry["source"]))
+
+    def test_illustrations_are_parts_inside_nine_prompt_groups_and_eight_inert_assets(self):
+        groups = [b for scene in self.scenes.values() for b in scene["blocks"] if b["kind"] == "group"]
+        self.assertEqual(9, len(groups))
+        assets = set()
+        for group in groups:
+            self.assertEqual([child["id"] for child in group["children"]], group["readingOrder"])
+            prompt, media = group["children"]
+            self.assertEqual("prompt", prompt["kind"])
+            self.assertTrue(prompt["expectedResult"])
+            self.assertEqual("media-reference", media["kind"])
+            self.assertEqual("image/svg+xml", media["mediaType"])
+            self.assertEqual("dct:hasPart", media["source"][0]["relationPath"])
+            self.assertEqual(prompt["source"][0]["resourceId"], media["source"][0]["resourceId"])
+            self.assertTrue(media["alternativeText"])
+            self.assertIn(str(GRAPH), media["source"][1]["provenanceIds"])
+            assets.add(media["uri"])
+        self.assertEqual(8, len(assets))
+        self.assertEqual(self.scenes["speed"]["blocks"][1]["children"][1]["uri"],
+                         self.scenes["speed-r"]["blocks"][1]["children"][1]["uri"])
+        expected_labels = {
+            "journey": ["100 m", "10 m/s", "2 m/s"], "pumping": ["10 L", "10 L/min", "2 L/min", "5 L/min"],
+            "replicates": ["4.8 mg/L", "5.0 mg/L", "5.2 mg/L"], "sensors": ["480", "500", "520", "µS/cm"],
+            "loads": ["200 g/s", "300 g/s"], "microplastics": ["100 /kg", "1000 /kg", "10000 /kg"],
+            "sites": ["0.01 µg/L", "0.1 µg/L", "1.0 µg/L"], "reactors": ["0.5 h⁻¹", "1.0 h⁻¹", "2.0 h⁻¹"],
+        }
+        for name, labels in expected_labels.items():
+            root = ET.parse(ROOT / f"apps/pitch/public/chemometrics/mean-values-{name}.svg").getroot()
+            text = " ".join(root.itertext())
+            self.assertTrue(all(label in text for label in labels), name)
+            self.assertTrue(root.findall("{http://www.w3.org/2000/svg}title"))
+            self.assertTrue(root.findall("{http://www.w3.org/2000/svg}desc"))
+            for element in root.iter():
+                self.assertNotIn(element.tag.rsplit("}", 1)[-1], {"script", "foreignObject", "image"})
+                self.assertFalse(any(key.startswith("on") or key.endswith("href") for key in element.attrib))
+            self.assertIn("currentColor", ET.tostring(root, encoding="unicode"))
+
+    def test_turbidity_reference_is_derived_and_original_measurements_are_unchanged(self):
+        blocks = self.scenes["turbidity"]["blocks"]
+        chart = next(b for b in blocks if b["kind"] == "chart")
+        observed, reference = chart["series"]
+        self.assertEqual([2.1, 2.3, 2.0, 2.2, 45.0], [d["y"] for d in observed["data"]])
+        self.assertEqual([(1.0, 10.72), (5.0, 10.72)], [(d["x"], d["y"]) for d in reference["data"]])
+        self.assertIn("derived reference", reference["label"])
+        self.assertEqual("dct:hasPart", reference["source"][0]["relationPath"])
+        self.assertIn(str(GRAPH), reference["source"][0]["provenanceIds"])
+        self.assertAlmostEqual(53.6, sum(d["y"] for d in observed["data"]))
+        self.assertAlmostEqual(10.72, sum(d["y"] for d in observed["data"]) / 5)
+        self.assertEqual({EX["mean-turbidity-dataset"]}, set(self.graph.objects(EX["mean-turbidity-chart"], CD.usesDataset)))
+        self.assertIn("strongly pulls", blocks[1]["text"])
+        self.assertIn("not automatically invalid", blocks[1]["text"])
+        formula = next(b for b in blocks if b["kind"] == "math")
+        self.assertIn(r"\frac{53.6}{5}=10.72", formula["expression"])
+        fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
+        self.assertIn("Arithmetic mean: 10.72 NTU (derived reference)", fallback)
+        self.assertEqual(9, fallback.count('class="group-fallback"'))
+
+    def test_supplementary_series_fail_closed_on_invalid_endpoints(self):
+        from rdflib import Literal
+        dataset = rdf_dataset.assemble_dataset(include_legacy=False)
+        graph = dataset.graph(GRAPH)
+        graph.set((EX["mean-turbidity-average-end"], CD.xValue, Literal(1.0)))
+        with self.assertRaisesRegex(ValueError, "strictly increasing"):
+            RUNTIME.line_chart_payload(dataset, EX["mean-turbidity-chart"], "en")
 
 
 if __name__ == "__main__":

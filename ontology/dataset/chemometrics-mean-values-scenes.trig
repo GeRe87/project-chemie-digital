@@ -156,11 +156,12 @@
   ex:mv-layers-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-layers-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-layers-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-layers-diagram ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-mean-values-turbidity a cd:SceneDefinition ; cd:focusConcept ex:median ; cd:hasSceneItem ex:mv-turbidity-1, ex:mv-turbidity-2, ex:mv-turbidity-table, ex:mv-turbidity-3 ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-turbidity a cd:SceneDefinition ; cd:focusConcept ex:median ; cd:hasSceneItem ex:mv-turbidity-1, ex:mv-turbidity-2, ex:mv-turbidity-average, ex:mv-turbidity-table, ex:mv-turbidity-3 ; cd:authoredResource true .
   ex:mv-turbidity-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-turbidity-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-turbidity-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-turbidity-slide-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
-  ex:mv-turbidity-table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-turbidity-order-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
-  ex:mv-turbidity-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-turbidity-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-turbidity-average a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-turbidity-average-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-turbidity-table a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:mean-turbidity-order-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-turbidity-3 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:mean-turbidity-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-chemometrics-mean-values-order a cd:SceneDefinition ; cd:focusConcept ex:median ; cd:hasSceneItem ex:mv-order-1, ex:mv-order-2, ex:mv-order-3, ex:mv-order-4, ex:mv-order-5 ; cd:authoredResource true .
   ex:mv-order-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-order-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .

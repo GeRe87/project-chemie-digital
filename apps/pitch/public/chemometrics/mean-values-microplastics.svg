@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" role="img" aria-labelledby="title desc">
+  <title id="title">Microplastic counts in three samples</title>
+  <desc id="desc">Three samples have 100, 1000 and 10000 particles per kilogram. Particle symbols are illustrative and are not individual counts or a fitted distribution.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <circle cx="125" cy="100" r="70"/><circle cx="350" cy="100" r="70"/><circle cx="575" cy="100" r="70"/>
+    <path d="M100 85l25-12 8 30zM150 130l-25 10-5-20zM330 60l15 13-20 15zM365 115l20-8 7 25zM325 135l-10-22 20-5zM545 65l20-8 7 25zM595 65l-10 20 25 5zM540 115l15 13-20 15zM580 125l20-8 7 25zM575 95l15-12-3 22z"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="27" text-anchor="middle">
+    <text x="125" y="215">100 /kg</text><text x="350" y="215">1000 /kg</text><text x="575" y="215">10000 /kg</text>
+  </g>
+</svg>

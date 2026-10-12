@@ -1,5 +1,15 @@
 """Independent regression expectations for the reviewed Level 2 sequence."""
 
+
+def leaf_blocks(scene):
+    """Traverse nested semantic groups in their authored reading order."""
+    def expand(block):
+        if block["kind"] != "group":
+            return [block]
+        by_id = {child["id"]: child for child in block["children"]}
+        return [leaf for identity in block["readingOrder"] for leaf in expand(by_id[identity])]
+    return [leaf for block in scene["blocks"] for leaf in expand(block)]
+
 ORDER = [
     "title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
     "dice-expectation", "real-world", "arithmetic-mean", "dice-practice", "lln-practice",
@@ -113,6 +123,7 @@ ADDITIONS = {
     ]),
     "turbidity": ("median", "mean-turbidity-heading", [
         ("mean-turbidity-slide-context", "StatementRole", "cd:body"),
+        ("mean-turbidity-average-formula", "FormulaRole", "cd:latex"),
         ("mean-turbidity-order-table", "TableRole", "cd:hasTableRow"),
         ("mean-turbidity-chart", "ChartRole", "cd:body"),
     ]),

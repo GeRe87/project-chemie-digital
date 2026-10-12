@@ -1282,6 +1282,41 @@ test("six free-text prompts reuse the identity-independent grid in semantic read
   }
 });
 
+test("illustrated prompts remain one grid card and one task-column unit independent of identity", () => {
+  for (const prefix of ["opaque:x", "unrelated:y"]) {
+    const groups: SceneBlock[] = Array.from({ length: 6 }, (_, index) => {
+      const prompt: SceneBlock = { id: `${prefix}:prompt:${index}`, kind: "prompt", prompt: "A task",
+        responseMode: "free-text", expectedResult: "An authored answer", source: [] };
+      const media = mediaReference(`${prefix}:media:${index}`);
+      return { id: `${prefix}:group:${index}`, kind: "group", children: [media, prompt],
+        readingOrder: [prompt.id, media.id], source: [] };
+    });
+    const heading = prose("heading", "introduce");
+    const blocks = [heading, ...groups];
+    const grid = inferRevealCompositionPlan({ id: prefix, source: [], blocks, readingOrder: blocks.map(b => b.id) });
+    assert.equal(grid.profile, "prompt-grid");
+    assert.equal(grid.mainCount, 6);
+    assert.deepEqual(grid.placements.slice(1).map(p => p.blockId), groups.map(b => b.id));
+    const executable: SceneBlock = { id: "code", kind: "code", language: "r", code: "sum(1:3)",
+      editable: true, executable: true, fallback: "sum(1:3)", source: [] };
+    const lab = [heading, groups[0]!, executable];
+    const workbench = inferRevealCompositionPlan({ id: prefix, source: [], blocks: lab, readingOrder: lab.map(b => b.id) });
+    assert.equal(workbench.profile, "prompt-code");
+    assert.equal(workbench.placements.find(p => p.blockId === groups[0]!.id)?.region, "primary");
+  }
+});
+
+test("evidence pairs keep an authored supporting calculation in the data rail", () => {
+  const formula = math("reference-calculation");
+  const legend: SceneBlock = { ...definitions("reference-symbols"), emphasis: "supporting",
+    source: [{ resourceId: formula.source[0]!.resourceId, relationPath: "dct:hasPart" }] };
+  const blocks = [prose("heading", "introduce"), prose("context", "explain"), formula, legend, dataTable("table"), barChart("chart")];
+  const plan = inferRevealCompositionPlan({ id: "opaque:measurement-reference", source: [], blocks, readingOrder: blocks.map(b => b.id) });
+  assert.equal(plan.kind, "evidence-stage");
+  assert.equal(plan.profile, "data-visual");
+  assert.equal(plan.placements.find(p => p.blockId === formula.id)?.region, "prelude");
+});
+
 test("legacy functional and observation structures resolve through main-aside-note", () => {
   const functional: Scene = {
     id: "opaque:functional",

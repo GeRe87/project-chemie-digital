@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { teachingTextMarkup } from "../src/teaching-text.ts";
-import { safeSvgAttribute } from "../src/teaching-svg-runtime.ts";
+import { authoredSvgUris, safeSvgAttribute } from "../src/teaching-svg-runtime.ts";
+import type { SceneBlock } from "../../../packages/core/src/scene-document.ts";
 import { installNoNetworkGuard } from "../src/preview.ts";
 
 test("authored Markdown keeps task, question and neutral marker semantics explicit per item", () => {
@@ -30,6 +31,13 @@ test("inert SVG drawing attributes allow theme color but reject external paints 
     ["fill", "url(https://example.invalid/a)"], ["fill", "u\\72l(/a)"], ["stroke", "javascript:bad()"]]) {
     assert.equal(safeSvgAttribute(key!, value!), false);
   }
+});
+
+test("explicit authored SVG discovery descends groups without guessing asset URIs", () => {
+  const media: SceneBlock = { id: "asset", kind: "media-reference", uri: "/local.svg", mediaType: "image/svg+xml", alternativeText: "Local sketch", source: [] };
+  const group: SceneBlock = { id: "group", kind: "group", children: [media], readingOrder: [media.id], source: [] };
+  assert.deepEqual(authoredSvgUris([group]), ["/local.svg"]);
+  assert.deepEqual(authoredSvgUris([{ ...media, mediaType: "image/png" }]), []);
 });
 
 test("only explicitly authored same-origin SVG reads supplement pinned runtime requests", async () => {

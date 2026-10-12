@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" role="img" aria-labelledby="title desc">
+  <title id="title">Nitrate measurement replicates</title>
+  <desc id="desc">Three comparable nitrate replicates, 4.8, 5.0 and 5.2 milligrams per litre, represented by identical laboratory flasks.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <path d="M100 30h50v60l40 85H60l40-85zM325 30h50v60l40 85H285l40-85zM550 30h50v60l40 85H510l40-85zM75 145h100M300 145h100M525 145h100"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="29" text-anchor="middle">
+    <text x="125" y="215">4.8 mg/L</text><text x="350" y="215">5.0 mg/L</text><text x="575" y="215">5.2 mg/L</text>
+  </g>
+</svg>

@@ -93,6 +93,54 @@ other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
 
+### Issue #272: experiment sketches and arithmetic-reference evidence
+
+The route remains **33 scenes and seven executable R labs**, now with **23 active
+formulas**, each retaining its authored legend. Eight original transparent,
+theme-reactive SVGs illustrate the equal-distance journey, equal-volume pumping,
+nitrate replicates, conductivity sensors, simultaneous phosphorus inputs,
+microplastic samples, pesticide sites and series reactors. The journey sketch is
+reused on the case and its R slide; pumping/journey R illustrations sit below the
+task in the left column, not inside the code workbench. Each of the six discussion
+cards contains its own setup illustration while retaining the 3×2 wide grid.
+Labels are illustrative artwork verified against the authored case values, not
+independent measured datasets or inferred physical models. Reactor icons do not
+specify equal volumes/residence times or an effective-rate model.
+
+An Exercise's explicitly authored `dct:hasPart` MediaAsset now expands to the
+existing GroupBlock: prompt first, then media, with source/answer references and
+reading order retained. Generic composition recognizes this structure as one
+prompt surface, including in prompt-code and prompt-grid views. The inert SVG
+sanitizer still owns inline enhancement. The owner explicitly approved recursive
+SVG discovery in `apps/pitch/src/main.ts`; only authored media URI values are
+collected, and the existing same-origin GET/network guard remains unchanged.
+Plain prompts and prior dice/CodeExample/function-list behavior remain valid.
+
+The turbidity values remain `2.1, 2.3, 2.0, 2.2, 45.0 NTU` in day order. Their
+sum is **53.6**, so the arithmetic mean is **10.72 NTU**. A separate derived
+reference Dataset owns two drawing endpoints `(1, 10.72)` and `(5, 10.72)`;
+these are labeled derived reference coordinates, not two extra measurements.
+The chart retains exactly one `cd:usesDataset` primary dataset, with the
+supplementary reference linked through `dct:hasPart`. Generic projection reuses
+the existing LineChartBlock `series[]`; no ontology/schema/core-contract change
+or renderer identity-dependent mean calculation is introduced. The reference is
+distinguished by a second-series color/dash style and the authored chart caption.
+Formula and legend precede the unchanged observed/sorted table in the evidence
+rail; the chart stays in the right column. The conclusion explains the strong
+upward pull of 45.0 relative to the four values near 2.0–2.3, without invalidating
+or discarding the event or claiming an unknown population mean.
+
+Verification: 48 focused Mean Values tests (including SHACL and malformed
+supplementary-series rejection), 52 composition and nine teaching-primitive tests
+pass. Actual 5173 overworld → Level 2 checks at 1440×900 in dark/light confirm
+all nine illustration placements, no prompt/image or formula/table overlap,
+two distinct chart series and seven successful R executions/resets per theme.
+Resized 390×844 screenshots follow wide entry; fresh portrait navigation/scaling
+and the separate quantitative tracer animation remain unresolved. These static
+sketches do not implement that animation. Local browser evidence is retained in
+`browser-tools/verify272.cjs`, `272-report.json` and `272-*.png` outside authored
+sources. Full feature-head test/build evidence accompanies the draft handoff.
+
 ### Issue #270: compact examples and course-wide footer audit
 
 The current active route is **33 scenes**, with **seven unchanged executable R labs**.
