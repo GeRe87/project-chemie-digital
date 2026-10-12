@@ -47,7 +47,8 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             "median": ("main-aside-note", "mixed"),
             "water": ("evidence-stage", "list-data"),
             "layers": ("main-aside-note", "formula-visual"),
-            "title": ("visual-stage", "diagram"),
+            "dice-flow": ("learning-stage", "visual-media"),
+            "dice-warmup": ("learning-stage", "prompt-code"),
             "speed": ("learning-stage", "single-prompt"),
             "speed-solution": ("learning-stage", "formula-visual"),
             "turbidity": ("evidence-stage", "data-visual"),
@@ -56,7 +57,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             with self.subTest(slug=slug):
                 self.assertEqual(kind, self.plans[slug]["kind"])
                 self.assertEqual(profile, self.plans[slug]["profile"])
-        self.assertEqual(31, len(self.scenes))
+        self.assertEqual(32, len(self.scenes))
 
     def test_water_table_preserves_all_measurements_and_equal_weight_means(self):
         scene = self.scenes["water"]
@@ -80,8 +81,10 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         for qualifier in ["steady-state", "equal thickness", "area", "series", "no reaction", "partition"]:
             self.assertIn(qualifier, context)
 
-    def test_title_uses_supported_diagram_and_retains_accessible_svg_for_reuse(self):
-        diagram = self.scenes["title"]["blocks"][1]
+    def test_title_is_heading_only_and_following_scenes_select_accessible_dice(self):
+        self.assertEqual(1, len(self.scenes["title"]["blocks"]))
+        self.assertEqual("Mean Values", self.scenes["title"]["blocks"][0]["text"])
+        diagram = self.scenes["dice-flow"]["blocks"][1]
         self.assertEqual("diagram", diagram["kind"])
         self.assertEqual(["FIVE OUTCOMES", "ONE SUM", "REPEAT"], [n["label"] for n in diagram["nodes"]])
         self.assertIn("sample of sums", diagram["description"])
@@ -96,14 +99,17 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertIsNotNone(svg.find("s:desc", ns))
         self.assertEqual([], svg.findall(".//s:script", ns))
         self.assertEqual([], svg.findall(".//s:image", ns))
+        for slug in ["dice-flow", "dice-warmup"]:
+            media_block = next(b for b in self.scenes[slug]["blocks"] if b["kind"] == "media-reference")
+            self.assertEqual(uri, media_block["uri"])
 
     def test_general_static_fallback_renders_the_complete_level_two_document(self):
         fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
-        self.assertEqual(31, fallback.count('<article data-pitch-step='))
+        self.assertEqual(32, fallback.count('<article data-pitch-step='))
         self.assertIn("Five outcomes, one sum, repeated sampling", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
-        self.assertFalse(any(b["kind"] == "media-reference" for s in self.scenes.values() for b in s["blocks"]))
+        self.assertEqual(2, fallback.count('class="media-reference-fallback"'))
 
     def test_speed_visual_keeps_exercise_answer_formula_and_exact_equal_distances(self):
         blocks = self.scenes["speed-solution"]["blocks"]

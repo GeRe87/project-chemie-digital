@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-one scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-two scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -91,7 +91,7 @@ other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
 
-Run `npm test`. The regression expectations pin all thirty-one scene identities,
+Run `npm test`. The regression expectations pin all thirty-two scene identities,
 positions, focus concepts, selected resources, roles, selectors and block kinds.
 SHACL validates the assembled named-graph dataset. Generic heading tests check
 the additive projection and rejection cases. New content tests check authored
@@ -99,6 +99,25 @@ mathematical descriptions, infocard pairing, numerical examples, answers,
 provenance and the absence of legacy layout/runtime markup.
 
 ## Issue #257: content-first visual pass
+
+### Issue #259: normal course preview corrections
+
+Use `npm run pitch:intro`, open `http://localhost:5173`, and choose Level 2
+from the overworld. This command prepares the pinned local CodeMirror/webR
+assets before generating the complete course. Local Run/Reset controls do not
+require `?interactive=1`. A standalone build without prepared assets is not
+equivalent evidence. All five executable Level 2 R blocks were executed through
+this course entry point, including the 50,000-experiment simulation.
+
+The title now selects only the Mean Values heading. A separate next scene
+retains the experiment flow alongside the accessible local five-dice SVG; the
+warmup repeats that illustration beside its prompt and code. Generic
+`visual-media` and illustrated `prompt-code` compositions retain reading order
+without scene-identity selectors. Direct media now has an escaped static fallback.
+Supporting card motifs reserve title space; the four previously missing motif
+families have SVG masks and unknown decoration is hidden rather than boxed.
+Desktop and portrait screenshots remain review evidence, not a claim that all
+existing portrait typography or course-wide lecture-budget issues are resolved.
 
 This is a stacked increment on the committed PR #185 head, not an independent
 current-main integration. The owner-local Pitch HTML was excluded using an

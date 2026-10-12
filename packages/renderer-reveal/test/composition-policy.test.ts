@@ -1154,6 +1154,36 @@ test("learning-stage infers info plus visual with an optional note", () => {
   ]);
 });
 
+test("teaching visual and media are adjacent surfaces without hero treatment", () => {
+  const scene: Scene = {
+    id: "opaque:illustrated-visual",
+    source: [{ resourceId: "resource:illustrated-visual" }],
+    blocks: [prose("heading", "introduce"), barChart("visual"), mediaReference("illustration")],
+    readingOrder: ["heading", "visual", "illustration"],
+  };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind, "learning-stage");
+  assert.equal(plan.profile, "visual-media");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["visual", "primary"], ["illustration", "secondary"],
+  ]);
+});
+
+test("prompt illustration stays with the prompt before executable code", () => {
+  const blocks: SceneBlock[] = [prose("heading", "introduce"), {
+    id: "prompt", kind: "prompt", prompt: "Compute", responseMode: "free-text",
+    source: [{ resourceId: "resource:prompt" }],
+  }, mediaReference("illustration"), {
+    id: "code", kind: "code", language: "r", code: "1+1", fallback: "1+1",
+    editable: true, executable: true, source: [{ resourceId: "resource:code" }],
+  }];
+  const plan = inferRevealCompositionPlan({id: "opaque:illustrated-lab", source: [], blocks, readingOrder: blocks.map(b => b.id)});
+  assert.equal(plan.profile, "prompt-code");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["prompt", "primary"], ["illustration", "primary"], ["code", "secondary"],
+  ]);
+});
+
 test("learning-stage infers prompt grids from repeated prompt components", () => {
   const prompts: SceneBlock[] = ["a", "b", "c"].map((suffix) => ({
     id: `prompt:${suffix}`,

@@ -31,26 +31,7 @@ def build_artifact(
 
 
 def _media_fallback_markup(block: dict[str, Any]) -> str:
-    media_type = block.get("mediaType")
-    media_type_attribute = (
-        f' data-media-type="{html.escape(str(media_type), quote=True)}"'
-        if media_type
-        else ""
-    )
-    uri = html.escape(block["uri"], quote=True)
-    alternative = html.escape(block["alternativeText"], quote=True)
-    if isinstance(media_type, str) and media_type.startswith("video/"):
-        content = (
-            f'<video src="{uri}" controls preload="metadata" playsinline '
-            f'aria-label="{alternative}"></video>'
-        )
-    else:
-        content = f'<img src="{uri}" alt="{alternative}" />'
-    return (
-        f'<figure class="media-reference-fallback" data-media-block-id="{html.escape(block["id"], quote=True)}"'
-        f'{media_type_attribute}{base.fallback_attributes(block["source"])}>'
-        f'{content}</figure>'
-    )
+    return base.media_fallback_markup(block)
 
 
 def inject_media_fallback(rendered_html: str, artifact: dict[str, Any]) -> str:
