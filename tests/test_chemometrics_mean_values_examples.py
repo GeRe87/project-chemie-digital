@@ -29,7 +29,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_new_formulas_have_exact_english_spoken_descriptions_and_source_graph(self):
         expressions = set(self.graph.subjects(RDF.type, CD.MathExpression))
-        self.assertEqual(19, len(expressions))
+        self.assertEqual(20, len(expressions))
         math_blocks = {
             block["source"][0]["resourceId"]: block
             for scene in self.document["scenes"] for block in scene["blocks"]
@@ -40,13 +40,19 @@ class MeanValuesExamplesTests(unittest.TestCase):
                 spoken = list(self.graph.objects(expression, CD.body))
                 self.assertEqual(1, len(spoken))
                 self.assertEqual("en", spoken[0].language)
-                block = math_blocks[f"ex:{str(expression).removeprefix(str(EX))}"]
+                resource_id = f"ex:{str(expression).removeprefix(str(EX))}"
+                if expression in {EX["mean-oxygen-formula"], EX["mean-nitrate-formula"], EX["mean-iron-formula"]}:
+                    # Water concentrations are now shown in a semantic table; their
+                    # detailed formulas remain authored and selected by the path.
+                    self.assertNotIn(resource_id, math_blocks)
+                    continue
+                block = math_blocks[resource_id]
                 self.assertEqual(str(spoken[0]), block["spokenText"])
                 self.assertEqual(str(self.graph.value(expression, CD.latex)), block["expression"])
                 self.assertIn(str(GRAPH), block["source"][0]["provenanceIds"])
 
     def test_paired_infocards_preserve_separate_definitions_and_math(self):
-        expected = {"dice-expectation": 2, "real-world": 2, "water": 3,
+        expected = {"dice-expectation": 2, "real-world": 2,
                     "growth-comparison": 2, "microbial": 2, "ratios": 2, "order": 2, "lead": 2}
         for slug, count in expected.items():
             scene = next(s for s in self.document["scenes"]

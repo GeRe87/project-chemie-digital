@@ -4,14 +4,16 @@ ORDER = [
     "title", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
     "dice-expectation", "law-of-large-numbers", "lln-practice", "real-world",
     "water", "fe-practice", "growth", "geometric-mean", "growth-comparison",
-    "geometric-practice", "log", "microbial", "ratios", "speed", "harmonic-mean",
+    "geometric-practice", "log", "microbial", "ratios", "speed", "speed-solution", "harmonic-mean",
     "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
     "median-practice", "summary", "discussion-additive", "discussion-multiplicative",
 ]
 
 # focus, heading resource, ordered (resource, role, selector) body items
 ADDITIONS = {
-    "title": ("arithmetic-mean", "mean-title", []),
+    "title": ("arithmetic-mean", "mean-title", [
+        ("mean-five-dice-flow", "DiagramRole", "cd:body"),
+    ]),
     "dice-warmup": ("arithmetic-mean", "mean-dice-warmup-heading", [
         ("mean-dice-warmup", "ExerciseRole", "cd:body"),
         ("mean-dice-warmup-r", "CodeRole", "cd:hasCodeExample"),
@@ -37,12 +39,8 @@ ADDITIONS = {
         ("mean-data-formula", "FormulaRole", "cd:latex"),
     ]),
     "water": ("arithmetic-mean", "mean-water-heading", [
-        ("mean-oxygen-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
-        ("mean-oxygen-formula", "FormulaRole", "cd:latex"),
-        ("mean-nitrate-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
-        ("mean-nitrate-formula", "FormulaRole", "cd:latex"),
-        ("mean-iron-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
-        ("mean-iron-formula", "FormulaRole", "cd:latex"),
+        ("mean-water-summary", "KeyPointRole", "cd:hasKeyPoint"),
+        ("mean-water-table", "TableRole", "cd:hasTableRow"),
     ]),
     "fe-practice": ("arithmetic-mean", "mean-fe-heading", [
         ("mean-fe-practice", "ExerciseRole", "cd:body"),
@@ -74,7 +72,10 @@ ADDITIONS = {
     ]),
     "speed": ("harmonic-mean", "mean-speed-heading", [
         ("mean-speed-question", "ExerciseRole", "cd:body"),
+    ]),
+    "speed-solution": ("harmonic-mean", "mean-speed-solution-heading", [
         ("mean-speed-calculation", "FormulaRole", "cd:latex"),
+        ("mean-speed-diagram", "DiagramRole", "cd:body"),
     ]),
     "harmonic-practice": ("harmonic-mean", "mean-harmonic-practice-heading", [
         ("mean-harmonic-practice", "ExerciseRole", "cd:body"),
@@ -83,10 +84,14 @@ ADDITIONS = {
     "layers": ("harmonic-mean", "mean-layers-heading", [
         ("mean-layers-assumptions", "StatementRole", "cd:body"),
         ("mean-layers-formula", "FormulaRole", "cd:latex"),
+        ("mean-layers-diagram", "DiagramRole", "cd:body"),
+        ("mean-layers-note", "StatementRole", "cd:body"),
     ]),
     "turbidity": ("median", "mean-turbidity-heading", [
-        ("mean-turbidity-context", "StatementRole", "cd:body"),
+        ("mean-turbidity-slide-context", "StatementRole", "cd:body"),
+        ("mean-turbidity-order-table", "TableRole", "cd:hasTableRow"),
         ("mean-turbidity-chart", "ChartRole", "cd:body"),
+        ("mean-turbidity-note", "StatementRole", "cd:body"),
     ]),
     "order": ("median", "mean-order-heading", [
         ("mean-odd-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
@@ -116,13 +121,23 @@ ADDITIONS = {
 }
 
 EXTRA_PATH_RESOURCES = {
-    "title": {"mean-title"},
+    "title": {"mean-title", "mean-five-dice-sketch"},
     "dice-expectation": {"mean-dice-expectation-example"},
-    "water": {"mean-water-example"},
+    "water": {"mean-water-example", "mean-oxygen-cards", "mean-oxygen-formula",
+              "mean-nitrate-cards", "mean-nitrate-formula", "mean-iron-cards", "mean-iron-formula"},
     "growth": {"mean-growth-example"},
     "microbial": {"mean-microbial-example"},
     "ratios": {"mean-ratios-example"},
     "layers": {"mean-layers-example"},
     "order": {"mean-order-example"},
     "lead": {"mean-lead-example"},
+    "arithmetic-mean": {"mean-arithmetic-facets"},
+    "expected-value": {"mean-expectation-context", "mean-expectation-facets", "mean-expectation-note"},
+    "law-of-large-numbers": {"mean-lln-facets", "mean-lln-note"},
+    "geometric-mean": {"mean-geometric-context", "mean-geometric-facets", "mean-geometric-note", "mean-geometric-product-cards", "mean-geometric-log-cards", "mean-geometric-log-card-formula"},
+    "speed-solution": {"mean-speed-context", "mean-speed-note"},
+    "speed": {"mean-speed-calculation", "mean-speed-context", "mean-speed-diagram", "mean-speed-note"},
+    "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-facets", "mean-harmonic-note"},
+    "median": {"mean-median-context", "mean-median-facets", "mean-median-note"},
+    "turbidity": {"mean-turbidity-context"},
 }

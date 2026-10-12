@@ -150,7 +150,9 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
             for scene_item in self.scene_graph.subjects(CD.communicativeRole, CD.KeyPointRole)
             for selected in self.scene_graph.objects(scene_item, CD.selectsResource)
         }
-        self.assertEqual(set(OWNER_SPECS), selected_mean_values_owners)
+        # Theory scenes now use bounded facets; only short numerical results
+        # still use the generic key-point list presentation.
+        self.assertEqual({"mean-water-summary"}, selected_mean_values_owners)
 
     def test_owner_bodies_remain_exact_and_keypoints_are_source_linked_and_contiguous(self) -> None:
         for owner_id, spec in OWNER_SPECS.items():
@@ -176,43 +178,30 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
                     self.assertEqual({Literal(True)}, set(self.content_graph.objects(point, CD.authoredResource)))
                     self.assertEqual({owner}, set(self.content_graph.subjects(CD.hasKeyPoint, point)))
 
-    def test_exactly_the_target_scene_items_use_keypoint_role_and_selector(self) -> None:
+    def test_theory_facets_replace_active_keypoint_selection_without_removing_owners(self) -> None:
         actual_items = set(self.scene_graph.subjects(CD.communicativeRole, CD.KeyPointRole))
-        expected_items = {EX[item_id] for item_id in SCENE_ITEM_BY_OWNER.values()}
-        self.assertEqual(expected_items, actual_items)
+        self.assertEqual({EX["mv-water-2"]}, actual_items)
         for owner_id, item_id in SCENE_ITEM_BY_OWNER.items():
             with self.subTest(owner=owner_id):
                 scene_item = EX[item_id]
-                self.assertEqual({EX[owner_id]}, set(self.scene_graph.objects(scene_item, CD.selectsResource)))
-                self.assertEqual({Literal("cd:hasKeyPoint")}, set(self.scene_graph.objects(scene_item, CD.selectionPath)))
+                self.assertNotIn(scene_item, actual_items)
+                self.assertIn(self.scene_graph.value(scene_item, CD.communicativeRole),
+                              {CD.StatementRole, CD.DefinitionListRole})
                 self.assertEqual({Literal("en")}, set(self.scene_graph.objects(scene_item, CD.language)))
                 self.assertEqual({Literal(True)}, set(self.scene_graph.objects(scene_item, CD.authoredResource)))
 
-    def test_runtime_uses_keypoint_lists_while_snapshot_retains_detailed_owner_prose(self) -> None:
-        list_blocks = {
-            block["source"][0]["resourceId"]: block
-            for scene in self.document["scenes"]
-            for block in scene["blocks"]
-            if block["kind"] == "list"
-            and block["source"]
-            and block["source"][0]["resourceId"].removeprefix("ex:") in OWNER_SPECS
-        }
-        self.assertEqual({f"ex:{owner_id}" for owner_id in OWNER_SPECS}, set(list_blocks))
-
+    def test_reusable_keypoint_projection_and_snapshot_remain_complete(self) -> None:
         for owner_id, spec in OWNER_SPECS.items():
             with self.subTest(owner=owner_id):
                 owner_resource_id = f"ex:{owner_id}"
-                block = list_blocks[owner_resource_id]
-                self.assertEqual("unordered", block["listStyle"])
-                self.assertEqual("cd:hasKeyPoint", block["source"][0]["relationPath"])
-                self.assertEqual(list(spec["points"]), [item["text"] for item in block["items"]])
+                points = RUNTIME.keypoint_sequence(self.dataset, EX[owner_id], "en")
+                self.assertEqual(list(spec["points"]), [text for _point, _position, text in points])
                 self.assertEqual(
-                    [f"ex:{owner_id}-keypoint-{position}" for position in range(1, len(spec["points"]) + 1)],
-                    [item["source"][0]["resourceId"] for item in block["items"]],
+                    [EX[f"{owner_id}-keypoint-{position}"] for position in range(1, len(spec["points"]) + 1)],
+                    [point for point, _position, _text in points],
                 )
-                self.assertTrue(all(item["source"][0]["relationPath"] == "cd:body" for item in block["items"]))
                 self.assertEqual(spec["body"], self.entities[owner_resource_id]["description"])
-                self.assertNotIn(spec["body"], [item["text"] for item in block["items"]])
+                self.assertNotIn(spec["body"], [text for _point, _position, text in points])
 
 
 if __name__ == "__main__":
