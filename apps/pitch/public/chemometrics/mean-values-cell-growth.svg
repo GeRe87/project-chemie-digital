@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 270" role="img" aria-labelledby="title desc">
+  <title id="title">Cell multiplication over equal periods</title>
+  <desc id="desc">Illustrative populations: 100 cells, then 200 after a factor of 2, then 1600 after a factor of 8. Cell shapes are representative, not individual counts.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <ellipse cx="150" cy="100" rx="44" ry="60"/>
+    <ellipse cx="470" cy="100" rx="30" ry="52"/><ellipse cx="540" cy="100" rx="30" ry="52"/>
+    <ellipse cx="800" cy="75" rx="20" ry="30"/><ellipse cx="850" cy="75" rx="20" ry="30"/><ellipse cx="900" cy="75" rx="20" ry="30"/>
+    <ellipse cx="800" cy="145" rx="20" ry="30"/><ellipse cx="850" cy="145" rx="20" ry="30"/><ellipse cx="900" cy="145" rx="20" ry="30"/>
+    <path d="M230 100h140m-20-15 20 15-20 15M600 100h120m-20-15 20 15-20 15"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="34" text-anchor="middle">
+    <text x="150" y="230">100 cells</text><text x="505" y="230">200 cells</text><text x="850" y="230">1600 cells</text>
+    <text x="300" y="70">× 2</text><text x="660" y="70">× 8</text>
+  </g>
+</svg>

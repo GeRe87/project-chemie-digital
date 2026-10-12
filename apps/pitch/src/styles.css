@@ -6,6 +6,9 @@
   --pcd-foreground: #172026;
   --pcd-muted: #4d5a63;
   --pcd-accent: #005a78;
+  --pcd-marker-question: var(--pcd-accent);
+  --pcd-marker-statement: #915900;
+  --pcd-marker-neutral: #7544b7;
   --pcd-accent-foreground: #ffffff;
   --pcd-focus: #9b4d00;
   --pcd-border: #c9d4da;
@@ -36,6 +39,8 @@ body[data-presentation-theme="dark"] {
   --pcd-foreground: #f6fbff;
   --pcd-muted: #b4c8d4;
   --pcd-accent: #62efff;
+  --pcd-marker-statement: #ffd070;
+  --pcd-marker-neutral: #bd94ff;
   --pcd-accent-foreground: #07101f;
   --pcd-focus: #ffb45c;
   --pcd-border: #40566a;
@@ -240,7 +245,7 @@ body {
   color: var(--pcd-foreground);
   background: var(--pcd-graph-runtime-bg);
   border: 1px solid var(--pcd-border);
-  border-radius: 0.5rem;
+  border-radius: var(--pcd-surface-radius, 0);
   padding: 0.75rem;
 }
 
@@ -316,9 +321,10 @@ body {
   stroke-width: 3.2;
 }
 
-/* Neutral definition-list baseline: layout-specific card primitives explicitly restore entry boxes. */
+/* Definition entries always retain their box and reading-order grouping. */
 .reveal .definition-list > .definition-list-entry {
-  display: contents;
+  display: flex;
+  flex-direction: column;
 }
 
 .definition-list-description[data-adaptive-point-spacing="true"] {

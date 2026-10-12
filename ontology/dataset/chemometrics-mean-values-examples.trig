@@ -64,7 +64,10 @@
   ex:mean-discussion-multiplicative-heading a cd:Interpretation ; skos:prefLabel "Discuss scale, extremes and models"@en ; cd:body "Discuss scale, extremes and models"@en ; cd:authoredResource true .
 
   ex:mean-dice-warmup a cd:Exercise ;
-    cd:body "Roll five fair dice and add their outcomes. What average sum would you expect after many repetitions? Can that average be a value that one experiment cannot produce?"@en ;
+    cd:body """**Roll five fair dice and add their outcomes.**
+
+- What average sum would you expect after many repetitions?
+- Can that average be a value that one experiment cannot produce?"""@en ;
     cd:hasCodeExample ex:mean-dice-warmup-r ; cd:hasExpectedResult ex:mean-dice-expected ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
   ex:mean-dice-expected a cd:ExpectedResult ; cd:body "The expected sum is 17.5. Each realized sum is an integer, so no individual experiment produces 17.5."@en ; cd:authoredResource true .
   ex:mean-dice-warmup-r a cd:CodeExample ;
@@ -341,4 +344,99 @@
   ex:mean-geometric-log-card-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\ell&=\\frac{1}{n}\\sum_{i=1}^{n}\\ln x_i\\\\G&=\\exp(\\ell),\\quad x_i>0\\end{aligned}" ; cd:body "Ell is the arithmetic mean of the logarithms of n strictly positive observations. The geometric mean G is the exponential of ell."@en ; cd:derivedFromResource ex:geometric-mean-log-formula ; cd:authoredResource true .
   ex:mean-geometric-log-cards dct:hasPart ex:mean-geometric-log-card-formula .
   ex:mean-dice-flow-heading a cd:Interpretation ; skos:prefLabel "Five dice make one experiment"@en ; cd:body "Five dice make one experiment"@en ; cd:authoredResource true .
+  ex:mean-cell-growth-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-cell-growth.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrative cell populations over two equal periods: 100, then 200 (factor 2), then 1600 (factor 8). Cell symbols represent populations, not individual counts."@en ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
+  # Each legend is an authored semantic part of the formula, not renderer text.
+  ex:arithmetic-mean-formula dct:hasPart ex:arithmetic-mean-formula-legend .
+  ex:arithmetic-mean-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-arithmetic-1, ex:mv-legend-arithmetic-2 ; cd:authoredResource true .
+  ex:discrete-expected-value-formula dct:hasPart ex:discrete-expected-value-formula-legend .
+  ex:discrete-expected-value-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-expectation-1, ex:mv-legend-expectation-2 ; cd:authoredResource true .
+  ex:mean-one-die-formula dct:hasPart ex:mean-one-die-formula-legend .
+  ex:mean-one-die-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-die-1, ex:mv-legend-die-2 ; cd:authoredResource true .
+  ex:mean-five-dice-formula dct:hasPart ex:mean-five-dice-formula-legend .
+  ex:mean-five-dice-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-sum-1, ex:mv-legend-sum-2 ; cd:authoredResource true .
+  ex:mean-model-formula dct:hasPart ex:mean-model-formula-legend .
+  ex:mean-model-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-model-1, ex:mv-legend-model-2 ; cd:authoredResource true .
+  ex:mean-data-formula dct:hasPart ex:mean-data-formula-legend .
+  ex:mean-data-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-data-1, ex:mv-legend-data-2 ; cd:authoredResource true .
+  ex:geometric-mean-product-formula dct:hasPart ex:geometric-mean-product-formula-legend .
+  ex:geometric-mean-product-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-product-1, ex:mv-legend-product-2 ; cd:authoredResource true .
+  ex:mean-geometric-log-card-formula dct:hasPart ex:mean-geometric-log-card-formula-legend .
+  ex:mean-geometric-log-card-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-logcard-1, ex:mv-legend-logcard-2 ; cd:authoredResource true .
+  ex:geometric-mean-log-formula dct:hasPart ex:geometric-mean-log-formula-legend .
+  ex:geometric-mean-log-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-log-1, ex:mv-legend-log-2 ; cd:authoredResource true .
+  ex:mean-growth-arithmetic-formula dct:hasPart ex:mean-growth-arithmetic-formula-legend .
+  ex:mean-growth-arithmetic-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-growthA-1, ex:mv-legend-growthA-2 ; cd:authoredResource true .
+  ex:mean-growth-geometric-formula dct:hasPart ex:mean-growth-geometric-formula-legend .
+  ex:mean-growth-geometric-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-growthG-1, ex:mv-legend-growthG-2 ; cd:authoredResource true .
+  ex:mean-microbial-arithmetic-formula dct:hasPart ex:mean-microbial-arithmetic-formula-legend .
+  ex:mean-microbial-arithmetic-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-countA-1, ex:mv-legend-countA-2 ; cd:authoredResource true .
+  ex:mean-microbial-geometric-formula dct:hasPart ex:mean-microbial-geometric-formula-legend .
+  ex:mean-microbial-geometric-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-countG-1, ex:mv-legend-countG-2 ; cd:authoredResource true .
+  ex:mean-ratios-arithmetic-formula dct:hasPart ex:mean-ratios-arithmetic-formula-legend .
+  ex:mean-ratios-arithmetic-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-ratioA-1, ex:mv-legend-ratioA-2 ; cd:authoredResource true .
+  ex:mean-ratios-geometric-formula dct:hasPart ex:mean-ratios-geometric-formula-legend .
+  ex:mean-ratios-geometric-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-ratioG-1, ex:mv-legend-ratioG-2 ; cd:authoredResource true .
+  ex:mean-speed-calculation dct:hasPart ex:mean-speed-calculation-legend .
+  ex:mean-speed-calculation-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-speed-1, ex:mv-legend-speed-2 ; cd:authoredResource true .
+  ex:harmonic-mean-formula dct:hasPart ex:harmonic-mean-formula-legend .
+  ex:harmonic-mean-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-harmonic-1, ex:mv-legend-harmonic-2 ; cd:authoredResource true .
+  ex:mean-layers-formula dct:hasPart ex:mean-layers-formula-legend .
+  ex:mean-layers-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-layers-1, ex:mv-legend-layers-2 ; cd:authoredResource true .
+  ex:sample-median-formula dct:hasPart ex:sample-median-formula-legend .
+  ex:sample-median-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-median-1, ex:mv-legend-median-2 ; cd:authoredResource true .
+  ex:mean-odd-formula dct:hasPart ex:mean-odd-formula-legend .
+  ex:mean-odd-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-odd-1, ex:mv-legend-odd-2 ; cd:authoredResource true .
+  ex:mean-even-formula dct:hasPart ex:mean-even-formula-legend .
+  ex:mean-even-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-even-1, ex:mv-legend-even-2 ; cd:authoredResource true .
+  ex:mean-lead-arithmetic-formula dct:hasPart ex:mean-lead-arithmetic-formula-legend .
+  ex:mean-lead-arithmetic-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-leadA-1, ex:mv-legend-leadA-2 ; cd:authoredResource true .
+  ex:mean-lead-median-formula dct:hasPart ex:mean-lead-median-formula-legend .
+  ex:mean-lead-median-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mv-legend-leadM-1, ex:mv-legend-leadM-2 ; cd:authoredResource true .
+
+  ex:mv-legend-arithmetic-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄, xᵢ"@en ; cd:body "Arithmetic sample mean and observation i, in the same unit."@en ; cd:authoredResource true .
+  ex:mv-legend-arithmetic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Σ"@en ; cd:body "Sample size, observation index and sum over observations."@en ; cd:authoredResource true .
+  ex:mv-legend-expectation-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "X, E[X]"@en ; cd:body "Discrete random variable and its distribution expectation."@en ; cd:authoredResource true .
+  ex:mv-legend-expectation-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x, S, P(X=x)"@en ; cd:body "Outcome in the support S and its probability."@en ; cd:authoredResource true .
+  ex:mv-legend-die-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "D, E[D]"@en ; cd:body "One fair die outcome and its expected value."@en ; cd:authoredResource true .
+  ex:mv-legend-die-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "1…6, 1/6"@en ; cd:body "Six faces, each with probability one sixth."@en ; cd:authoredResource true .
+  ex:mv-legend-sum-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Dⱼ, S"@en ; cd:body "Outcome of die j; S is the sum of five outcomes."@en ; cd:authoredResource true .
+  ex:mv-legend-sum-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "E[S], 3.5"@en ; cd:body "Expected sum; each fair die has expectation 3.5."@en ; cd:authoredResource true .
+  ex:mv-legend-model-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "μ"@en ; cd:body "Distribution mean of the specified model."@en ; cd:authoredResource true .
+  ex:mv-legend-model-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "X, E[X]"@en ; cd:body "Random variable and its expectation under that model."@en ; cd:authoredResource true .
+  ex:mv-legend-data-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "μ̂"@en ; cd:body "Sample-based estimate of the distribution mean."@en ; cd:authoredResource true .
+  ex:mv-legend-data-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x̄"@en ; cd:body "Arithmetic mean of equally weighted observed measurements."@en ; cd:authoredResource true .
+  ex:mv-legend-product-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G, xᵢ"@en ; cd:body "Geometric mean and positive input i."@en ; cd:authoredResource true .
+  ex:mv-legend-product-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Π"@en ; cd:body "Number of inputs, index and product over the inputs."@en ; cd:authoredResource true .
+  ex:mv-legend-logcard-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ℓ, ln xᵢ"@en ; cd:body "Mean natural logarithm of the positive inputs."@en ; cd:authoredResource true .
+  ex:mv-legend-logcard-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "G, exp, n"@en ; cd:body "Exponentiating ℓ gives G; n is the number of inputs."@en ; cd:authoredResource true .
+  ex:mv-legend-log-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G, xᵢ"@en ; cd:body "Geometric mean and positive input i."@en ; cd:authoredResource true .
+  ex:mv-legend-log-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, ln, exp"@en ; cd:body "Number of inputs, natural logarithm and inverse exponential."@en ; cd:authoredResource true .
+  ex:mv-legend-growthA-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A"@en ; cd:body "Arithmetic average of growth factors 2 and 8: A = 5."@en ; cd:authoredResource true .
+  ex:mv-legend-growthA-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "100, 2"@en ; cd:body "Initial count 100; exponent 2 applies one factor over two equal periods."@en ; cd:authoredResource true .
+  ex:mv-legend-growthG-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G"@en ; cd:body "Equivalent factor 4 per equal period preserves the product 2 × 8."@en ; cd:authoredResource true .
+  ex:mv-legend-growthG-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "100, 2"@en ; cd:body "Initial count 100; two equal periods lead to 1600 cells."@en ; cd:authoredResource true .
+  ex:mv-legend-countA-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A"@en ; cd:body "Arithmetic mean of the three equally weighted counts."@en ; cd:authoredResource true .
+  ex:mv-legend-countA-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "10, 100, 10000"@en ; cd:body "Illustrative counts per 100 mL; result has the same unit."@en ; cd:authoredResource true .
+  ex:mv-legend-countG-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G, ∛"@en ; cd:body "Geometric mean of three positive counts; ∛ is the cube root."@en ; cd:authoredResource true .
+  ex:mv-legend-countG-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "10, 100, 10000"@en ; cd:body "Illustrative counts per 100 mL; result has the same unit."@en ; cd:authoredResource true .
+  ex:mv-legend-ratioA-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A"@en ; cd:body "Arithmetic mean of three equally weighted ratios."@en ; cd:authoredResource true .
+  ex:mv-legend-ratioA-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "0.5, 2, 5"@en ; cd:body "Illustrative dimensionless ratios."@en ; cd:authoredResource true .
+  ex:mv-legend-ratioG-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "G, ∛"@en ; cd:body "Equivalent factor with equal logarithmic weight; cube root for three inputs."@en ; cd:authoredResource true .
+  ex:mv-legend-ratioG-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "0.5, 2, 5"@en ; cd:body "Positive dimensionless input ratios."@en ; cd:authoredResource true .
+  ex:mv-legend-speed-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "t"@en ; cd:body "Total travel time in seconds: add both section times."@en ; cd:authoredResource true .
+  ex:mv-legend-speed-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "v"@en ; cd:body "Total distance 200 m divided by total time 60 s; speed in m/s."@en ; cd:authoredResource true .
+  ex:mv-legend-harmonic-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "H, xᵢ"@en ; cd:body "Harmonic mean and nonzero input i; rate examples use positive values."@en ; cd:authoredResource true .
+  ex:mv-legend-harmonic-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, Σ 1/xᵢ"@en ; cd:body "Number of inputs and nonzero sum of reciprocals."@en ; cd:authoredResource true .
+  ex:mv-legend-layers-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Dₑff"@en ; cd:body "Effective diffusion coefficient in m²/s for two equal series layers."@en ; cd:authoredResource true .
+  ex:mv-legend-layers-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "D₁, D₂"@en ; cd:body "2 × 10⁻⁶ and 10⁻⁸ m²/s; equal thickness/area, steady state, no reaction or partition jump."@en ; cd:authoredResource true .
+  ex:mv-legend-median-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̃"@en ; cd:body "Sample median: the center of the sorted observations."@en ; cd:authoredResource true .
+  ex:mv-legend-median-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x₍ⱼ₎, n"@en ; cd:body "Observation at sorted position j; n is the sample size."@en ; cd:authoredResource true .
+  ex:mv-legend-odd-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̃"@en ; cd:body "Median turbidity of five observations, in NTU."@en ; cd:authoredResource true .
+  ex:mv-legend-odd-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x₍₃₎"@en ; cd:body "Third sorted value: the middle observation 2.2 NTU."@en ; cd:authoredResource true .
+  ex:mv-legend-even-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̃"@en ; cd:body "Median turbidity of four observations, in NTU."@en ; cd:authoredResource true .
+  ex:mv-legend-even-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "2.1, 2.2"@en ; cd:body "Two middle sorted observations; their mean is 2.15 NTU."@en ; cd:authoredResource true .
+  ex:mv-legend-leadA-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄"@en ; cd:body "Arithmetic mean of five equally weighted lead concentrations."@en ; cd:authoredResource true .
+  ex:mv-legend-leadA-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "µg/L"@en ; cd:body "Micrograms per litre: result 3.52 µg/L, not a safety threshold."@en ; cd:authoredResource true .
+  ex:mv-legend-leadM-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̃"@en ; cd:body "Middle sorted lead concentration, not a safety threshold."@en ; cd:authoredResource true .
+  ex:mv-legend-leadM-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "µg/L"@en ; cd:body "Micrograms per litre: median 0.7 µg/L."@en ; cd:authoredResource true .
 }

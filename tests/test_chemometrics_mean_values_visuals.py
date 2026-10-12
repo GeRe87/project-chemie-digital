@@ -39,18 +39,18 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_supported_theory_structures_use_existing_bounded_compositions(self):
         expected = {
-            "arithmetic-mean": ("learning-stage", "formula-legend"),
-            "expected-value": ("main-aside-note", "formula-cards"),
+            "arithmetic-mean": ("learning-stage", "formula-deck"),
+            "expected-value": ("learning-stage", "formula-deck"),
             "law-of-large-numbers": ("learning-stage", "definition-deck"),
-            "geometric-mean": ("learning-stage", "definition-deck"),
-            "harmonic-mean": ("main-aside-note", "mixed"),
-            "median": ("main-aside-note", "mixed"),
+            "geometric-mean": ("learning-stage", "formula-deck"),
+            "harmonic-mean": ("learning-stage", "formula-deck"),
+            "median": ("learning-stage", "formula-deck"),
             "water": ("evidence-stage", "list-data"),
-            "layers": ("main-aside-note", "formula-visual"),
+            "layers": ("learning-stage", "formula-deck"),
             "dice-flow": ("learning-stage", "visual-media"),
             "dice-warmup": ("learning-stage", "prompt-code"),
             "speed": ("learning-stage", "single-prompt"),
-            "speed-solution": ("learning-stage", "formula-visual"),
+            "speed-solution": ("learning-stage", "formula-deck"),
             "turbidity": ("evidence-stage", "data-visual"),
         }
         for slug, (kind, profile) in expected.items():
@@ -71,6 +71,22 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         for index, expected_mean in enumerate([8.6, 3.4, 5.0], 1):
             self.assertAlmostEqual(expected_mean, sum(float(row[index]) for row in actual) / len(actual))
         self.assertIn(str(GRAPH), table["source"][0]["provenanceIds"])
+
+    def test_all_active_formulas_have_complete_authored_symbol_parts(self):
+        formulas = []
+        for scene in self.scenes.values():
+            for index, formula in enumerate(scene["blocks"]):
+                if formula["kind"] != "math":
+                    continue
+                formulas.append(formula)
+                legend = scene["blocks"][index + 1]
+                self.assertEqual("definition-list", legend["kind"])
+                self.assertEqual("supporting", legend["emphasis"])
+                self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
+                self.assertEqual(formula["source"][0]["resourceId"], legend["source"][0]["resourceId"])
+                self.assertEqual(2, len(legend["entries"]))
+                self.assertTrue(all(entry["term"] and entry["description"] for entry in legend["entries"]))
+        self.assertEqual(23, len(formulas))
 
     def test_layer_diagram_preserves_series_model_and_qualifications(self):
         diagram = next(b for b in self.scenes["layers"]["blocks"] if b["kind"] == "diagram")
@@ -109,7 +125,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertIn("Five outcomes, one sum, repeated sampling", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
-        self.assertEqual(2, fallback.count('class="media-reference-fallback"'))
+        self.assertEqual(3, fallback.count('class="media-reference-fallback"'))
 
     def test_speed_visual_keeps_exercise_answer_formula_and_exact_equal_distances(self):
         blocks = self.scenes["speed-solution"]["blocks"]

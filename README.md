@@ -28,6 +28,8 @@ Chemometrics Level 2, Mean Values, contains thirty-two scenes covering five-dice
 
 The active Variables presentation currently ends with “Types of variable values” (11 scenes). Later scene definitions and their semantic resources remain authored for reuse but are not selected by this path. The broader learning-unit focus concepts are unchanged.
 
+Shared teaching primitives give Level 2 transparent theme-aware dice/cell drawings, square text/card surfaces, top-aligned prompt/code columns and larger editor type. All 23 active formulas have authored symbol legends displayed underneath; the compiler preserves their RDF `dct:hasPart` links. The warmup uses a bold instruction and two question bullets; ordinary and emphasized points use distinct reusable markers. Water-analysis results share one intrinsic-height surface. See the Level 2 audit for remaining portrait-navigation/scaling limits and the separately pending river/tracer animation.
+
 ## Local validation
 
 The repository is validated without GitHub Actions. The sole authorised automated provider is the local exact-head validator at `GeRe87/agent-workflow-validator`.

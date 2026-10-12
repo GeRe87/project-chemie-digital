@@ -110,7 +110,7 @@ body.pcd-background-active .reveal .slides section {
   background: var(--pcd-world-panel-bg);
   color: var(--pcd-foreground);
   border: 1px solid var(--pcd-world-panel-border);
-  border-radius: 18px;
+  border-radius: var(--pcd-surface-radius, 0);
   box-shadow: var(--pcd-world-panel-shadow);
   backdrop-filter: blur(8px);
 }

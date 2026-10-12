@@ -38,7 +38,7 @@ body[data-presentation-theme="dark"] .reveal {
   align-content: start;
   padding: 2rem 2.5rem !important;
   border: 1px solid var(--pcd-world-panel-border);
-  border-radius: 1.25rem;
+  border-radius: var(--pcd-surface-radius, 0);
   background: var(--pcd-world-panel-bg);
   box-shadow: var(--pcd-world-panel-shadow);
 }

@@ -68,10 +68,12 @@ Generated SceneDocument JSON and application pages are disposable outputs.
 
 Scenes select existing definition-list, formula, prompt, code, chart, table,
 media and flow-diagram primitives. Adjacent singleton definition lists and
-formulas use the existing shared infocard projection. Short theory facets use
-formula-legend, definition-deck and main-aside-note compositions; water analysis
-uses list-data evidence and diffusion uses formula-visual. All decisions remain
-generic renderer inference, without scene-ID layout maps or new CSS.
+formulas retain the shared infocard projection when no separate symbol parts are
+authored. Selected formulas with authored DefinitionList parts use the shared
+formula-deck projection: each centered formula keeps its legend immediately below
+it, with theory cards separate. Water analysis uses list-data evidence and one
+intrinsic results surface. All decisions remain generic renderer inference,
+without scene-ID layout maps or authored CSS/layout names.
 Long formulas retain authored English spoken descriptions. Data charts and
 diagrams carry textual alternatives; prompts carry static fallbacks and answers.
 Base-R examples use local seeded synthetic data, no installation commands,
@@ -90,6 +92,47 @@ source reference. This uses the same generic answer-disclosure interface as
 other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
+
+### Issue #261: shared teaching primitives
+
+- Teaching textboxes, definition cards, editor/output surfaces and slide panels
+  use a common square-corner default. Definition entries retain their wrapper
+  everywhere, not only in a selected main-region layout. Supporting motifs stay
+  anchored to their own card. Prompt/code columns both start at the top.
+- The editor uses 24 px logical presentation type, matching the unchanged output
+  scale. CodeMirror wrapping and local Run/Reset remain intact.
+- Authored prompt literals may use an inert Markdown subset: paragraphs, strong
+  text and unordered bullets. The warmup has one bold instruction, then two
+  indented questions. Question, emphasized-statement and ordinary-list markers
+  share theme tokens (cyan/teal question circle, amber exclamation circle, violet
+  triangle). They are decorative and hidden from assistive technology. No
+  punctuation or scientific label is used to infer marker purpose. Explicit
+  prose `format: plain` remains plain.
+- Local SVGs are copied into inert drawing primitives through an allowlist,
+  never inserted as raw fetched HTML. Only exact same-origin SVG URLs present in
+  the compiled scene transport supplement the pinned-vendor fetch allowlist;
+  external SVG reads, writes, scripts, event handlers, foreignObject and external
+  paints are not enabled. Unsupported drawings retain their accessible image
+  fallback. Dice and cells have transparent canvases and inherit active theme
+  color through the inline drawing. The source image is replaced, not shown
+  twice. Live Alt+T switching updates their color without changing scientific
+  content. Static source images/alternatives remain available without JavaScript.
+- All 23 active Level 2 formulas now own source-linked DefinitionList legends
+  through existing `dct:hasPart` relationships. The generic compiler preserves
+  these explicitly authored parts after the selected math block. No symbols or
+  scientific explanations are inferred from LaTeX. Each entry has one owning
+  list, stable identity, English label/body and source traceability. Formula
+  values, spoken descriptions, all 32 scenes and their ordering are retained.
+- The cell sketch represents populations, not literal cell counts; its labels
+  agree with the existing 100 → 200 → 1600 experiment over equal periods.
+
+Browser evidence uses the ordinary 5173 course with actual overworld selection.
+Wide dark/light opening and active-slide theme switching were verified. Portrait
+reflow is reviewed after opening at wide size and resizing to 390×844: a fresh
+portrait opening also exhibited the independent course-navigation settlement
+failure and is **not** reported as passing. Whole-deck portrait scaling remains
+small. Quantitative TypeScript river/tracer animation is a separate pending
+assignment, not delivered by these static illustrations.
 
 Run `npm test`. The regression expectations pin all thirty-two scene identities,
 positions, focus concepts, selected resources, roles, selectors and block kinds.
@@ -110,7 +153,7 @@ equivalent evidence. All five executable Level 2 R blocks were executed through
 this course entry point, including the 50,000-experiment simulation.
 
 The title now selects only the Mean Values heading. A separate next scene
-retains the experiment flow alongside the accessible local five-dice SVG; the
+retains the experiment flow below the accessible local five-dice SVG; the
 warmup repeats that illustration beside its prompt and code. Generic
 `visual-media` and illustrated `prompt-code` compositions retain reading order
 without scene-identity selectors. Direct media now has an escaped static fallback.

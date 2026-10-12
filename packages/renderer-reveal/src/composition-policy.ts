@@ -78,7 +78,8 @@ export type RevealLearningProfile =
   | "definition-deck"
   | "formula-legend"
   | "statement-support"
-  | "visual-media";
+  | "visual-media"
+  | "formula-deck";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -594,6 +595,22 @@ export function resolveDefinitionFormulaPairs(scene: Scene): readonly {
   return pairs;
 }
 
+/** Supporting definition parts immediately follow their owning formula. */
+export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly SceneBlock[])[] {
+  const blocks = orderedBlocks(scene);
+  const units: SceneBlock[][] = [];
+  for (let i = 0; i < blocks.length - 1; i++) {
+    const formula = blocks[i]!;
+    const legend = blocks[i + 1]!;
+    if (formula.kind !== "math" || legend.kind !== "definition-list" || legend.emphasis !== "supporting") continue;
+    const context = blocks[i - 1];
+    units.push(context?.kind === "definition-list" && context.entries.length === 1
+      ? [context, formula, legend] : [formula, legend]);
+    i++;
+  }
+  return units;
+}
+
 /**
  * Generic composition inference.
  *
@@ -607,6 +624,16 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const heading = isHeading(blocks[0]) ? blocks[0] : undefined;
   const body = heading ? blocks.slice(1) : blocks;
+
+  const formulaUnits = resolveFormulaLegendUnits(scene);
+  if (formulaUnits.length) {
+    const unitIds = new Set(formulaUnits.flatMap(unit => unit.map(block => block.id)));
+    const firstFormula = body.findIndex(block => unitIds.has(block.id));
+    const placements = placementsWithHeading(heading);
+    body.forEach((block, index) => placements.push(placement(block,
+      unitIds.has(block.id) ? "main" : index < firstFormula ? "prelude" : "footer", index)));
+    return { kind: "learning-stage", profile: "formula-deck", mainCount: formulaUnits.length, placements };
+  }
 
   const definitionFormulaPairs = resolveDefinitionFormulaPairs(scene);
   if (definitionFormulaPairs) {

@@ -5,6 +5,7 @@ import type { Scene, SceneBlock } from "../../core/src/scene-document.ts";
 import {
   inferRevealCompositionPlan,
   resolveDefinitionFormulaPairs,
+  resolveFormulaLegendUnits,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
@@ -1167,6 +1168,16 @@ test("teaching visual and media are adjacent surfaces without hero treatment", (
   assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
     ["heading", "heading"], ["visual", "primary"], ["illustration", "secondary"],
   ]);
+});
+
+test("supporting definition parts stay immediately below their formula with no identity selector", () => {
+  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting" };
+  const scene: Scene = { id: "opaque:formula-parts", source: [],
+    blocks: [prose("heading", "introduce"), math("formula"), legend],
+    readingOrder: ["heading", "formula", "symbols"] };
+  assert.equal(inferRevealCompositionPlan(scene).profile, "formula-deck");
+  assert.deepEqual(resolveFormulaLegendUnits(scene).map(unit => unit.map(b => b.id)), [["formula", "symbols"]]);
+  assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), inferRevealCompositionPlan(scene));
 });
 
 test("prompt illustration stays with the prompt before executable code", () => {

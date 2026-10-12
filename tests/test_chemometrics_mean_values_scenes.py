@@ -117,6 +117,7 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
     resources = [(heading, "HeadingRole", "skos:prefLabel@en"), *body_items]
     stable_suffixes = {
         "dice-warmup": ["1", "2", "media", "3"],
+        "growth": ["1", "2", "media"],
         "speed-solution": ["solution-1", "3", "diagram"],
         "turbidity": ["1", "2", "table", "3", "note"],
     }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
@@ -238,8 +239,10 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         )
         for scene_resource, compiled_scene in zip(ORDERED_SCENES, document["scenes"], strict=True):
             ordered_items = sorted(SCENE_MATRIX[scene_resource]["items"].items(), key=lambda entry: entry[1][0])
-            self.assertEqual(len(ordered_items), len(compiled_scene["blocks"]))
-            for (_scene_item, (_position, resource, role, selector)), block in zip(ordered_items, compiled_scene["blocks"], strict=True):
+            direct = [block for block in compiled_scene["blocks"] if block["source"][0]["relationPath"] != "dct:hasPart"]
+            self.assertEqual(len(ordered_items), len(direct))
+            self.assertEqual(len(direct) + sum(block["kind"] == "math" for block in direct), len(compiled_scene["blocks"]))
+            for (_scene_item, (_position, resource, role, selector)), block in zip(ordered_items, direct, strict=True):
                 self.assertEqual(selector, block["source"][0]["relationPath"])
                 if role == CD.FormulaRole:
                     self.assertEqual("math", block["kind"])

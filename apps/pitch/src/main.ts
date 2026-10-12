@@ -26,6 +26,8 @@ import "./presentation-mobile.css";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
+import "./teaching-primitives.css";
+import { mountTeachingSvgMedia } from "./teaching-svg-runtime.ts";
 import {
   canonicalDatasetSnapshot,
   compilePitchCourseRuntime,
@@ -83,9 +85,12 @@ shellRoot.id = "view-switch-shell";
 presentation.before(shellRoot);
 
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
-const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window);
 const courseRuntime = compilePitchCourseRuntime();
 const documents = courseRuntime?.sceneDocuments ?? compilePitchSceneDocuments();
+const localSvgUris = documents.flatMap(document => document.scenes.flatMap(scene => scene.blocks
+  .filter(block => block.kind === "media-reference" && block.mediaType === "image/svg+xml")
+  .map(block => block.kind === "media-reference" ? block.uri : "")));
+const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window, window.location.href, localSvgUris);
 const courseWorldModel = courseRuntime ? createPitchCourseWorldFromRuntime(courseRuntime) : undefined;
 let unmountScenes: () => void;
 try {
@@ -366,6 +371,7 @@ const stopBackgroundProgress = progressSource.start((offset) => {
 });
 
 let codeRuntime: CodeRuntimeController | undefined;
+const destroyTeachingMedia = await mountTeachingSvgMedia(root);
 let pollRuntime: PollRuntimeController | undefined;
 let localPollRuntime: LocalPollRuntimeController | undefined;
 
@@ -408,6 +414,7 @@ window.addEventListener("pagehide", () => {
   pollRuntime?.destroy();
   localPollRuntime?.destroy();
   codeRuntime?.destroy();
+  destroyTeachingMedia();
   deck.off("slidechanged", syncPresentationVideos);
   deck.off("slidechanged", syncFullMediaMode);
   deck.off("slidechanged", syncNavigationMode);

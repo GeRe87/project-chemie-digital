@@ -456,7 +456,7 @@ body[data-presentation-theme="dark"] .reveal
   min-width: 0;
   max-width: none;
   min-height: 9rem;
-  border-radius: .4rem;
+  border-radius: var(--pcd-surface-radius, 0);
   padding: 1rem 1.15rem;
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
