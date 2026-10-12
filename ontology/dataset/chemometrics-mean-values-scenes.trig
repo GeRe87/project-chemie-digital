@@ -148,9 +148,10 @@
   ex:mv-fe-practice-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-fe-practice ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-fe-practice-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-fe-r ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-mean-values-growth a cd:SceneDefinition ; cd:focusConcept ex:geometric-mean ; cd:hasSceneItem ex:mv-growth-1, ex:mv-growth-2 ; cd:authoredResource true .
+  ex:scene-chemometrics-mean-values-growth a cd:SceneDefinition ; cd:focusConcept ex:geometric-mean ; cd:hasSceneItem ex:mv-growth-1, ex:mv-growth-2, ex:mv-growth-media ; cd:authoredResource true .
   ex:mv-growth-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-growth-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:mv-growth-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:mean-growth-diagram ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:mv-growth-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:mean-cell-growth-sketch ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
 
   ex:scene-chemometrics-mean-values-growth-comparison a cd:SceneDefinition ; cd:focusConcept ex:geometric-mean ; cd:hasSceneItem ex:mv-growth-comparison-1, ex:mv-growth-comparison-2, ex:mv-growth-comparison-3, ex:mv-growth-comparison-4, ex:mv-growth-comparison-5 ; cd:authoredResource true .
   ex:mv-growth-comparison-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:mean-growth-comparison-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .

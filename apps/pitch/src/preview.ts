@@ -1,10 +1,12 @@
 import katex from "katex";
+import { teachingTextMarkup } from "./teaching-text.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
   resolveDefinitionFormulaPairs,
+  resolveFormulaLegendUnits,
   revealComponentDescriptor,
   shouldWrapRevealCompositionPlacement,
   type RevealCompositionPlacement,
@@ -335,6 +337,7 @@ function appendBlock(
   if (block.kind === "list") {
     const list = dom.createElement(block.listStyle === "ordered" ? "ol" : "ul");
     list.className = "keypoint-list";
+    if (block.listStyle === "unordered") list.setAttribute("data-marker-purpose", "neutral");
     blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
     sourceAttributes(list, block.source);
     for (const item of block.items) {
@@ -343,6 +346,12 @@ function appendBlock(
       itemText.className = "pcd-list-item-text";
       itemText.textContent = item.text;
       listItem.appendChild(itemText);
+      if (block.listStyle === "unordered") {
+        const marker = dom.createElement("span");
+        marker.className = "teaching-point-marker";
+        marker.setAttribute("aria-hidden", "true");
+        listItem.appendChild(marker);
+      }
       listItem.setAttribute("data-list-item-id", item.id);
       sourceAttributes(listItem, item.source);
       list.appendChild(listItem);
@@ -360,9 +369,10 @@ function appendBlock(
     if (block.correctOptionId) shell.setAttribute("data-correct-option-id", block.correctOptionId);
     sourceAttributes(shell, block.source);
 
-    const prompt = dom.createElement("p");
+    const prompt = dom.createElement("div");
     prompt.className = "poll-prompt";
-    prompt.textContent = block.prompt;
+    if (/\*\*|\n/u.test(block.prompt)) prompt.innerHTML = teachingTextMarkup(block.prompt, "question");
+    else prompt.textContent = block.prompt;
     shell.appendChild(prompt);
 
     if (block.options?.length) {
@@ -461,7 +471,8 @@ function appendBlock(
   const node = dom.createElement(tag);
   blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
   if (tag === "h2") node.setAttribute("id", headingId);
-  node.textContent = block.text;
+  if (tag !== "h2" && block.format === "markdown") node.innerHTML = teachingTextMarkup(block.text, block.intent?.kind === "emphasize" ? "statement" : "neutral");
+  else node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
   sourceAttributes(node, block.source);
   parent.appendChild(node);
@@ -502,6 +513,9 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
 
     const compositionRegions = new Map<string, MinimalElement>();
     const definitionPairs = resolveDefinitionFormulaPairs(scene);
+    const formulaUnits = resolveFormulaLegendUnits(scene);
+    const formulaUnitByStart = new Map(formulaUnits.map(unit => [unit[0]!.id, unit]));
+    const formulaUnitChildren = new Set(formulaUnits.flatMap(unit => unit.slice(1).map(block => block.id)));
     const formulaByCard = new Map(definitionPairs?.map(pair => [pair.card.id, pair.formula]));
     const embeddedFormulaIds = new Set(definitionPairs?.map(pair => pair.formula.id));
     let definitionCollection: MinimalElement | undefined;
@@ -524,7 +538,17 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       if (embeddedFormulaIds.has(blockId)) continue;
+      if (formulaUnitChildren.has(blockId)) continue;
       const compositionPlacement = compositionByBlockId.get(block.id);
+      const formulaUnit = formulaUnitByStart.get(blockId);
+      if (formulaUnit) {
+        const unit = dom.createElement("div");
+        unit.className = "formula-with-legend";
+        compositionParent(compositionPlacement).appendChild(unit);
+        for (const child of formulaUnit) appendBlock(unit, dom, child, headingId, compositionFit.density,
+          compositionByBlockId.get(child.id));
+        continue;
+      }
       const formula = formulaByCard.get(blockId);
       const rendered = appendBlock(
         compositionParent(compositionPlacement),
@@ -580,14 +604,24 @@ export function isAllowedLocalRuntimeRequest(input: unknown, baseHref: string): 
 export function installNoNetworkGuard(
   target: { fetch?: typeof fetch; XMLHttpRequest?: unknown; WebSocket?: unknown },
   baseHref = typeof window !== "undefined" ? window.location.href : "",
+  localSvgUris: readonly string[] = [],
 ): () => void {
   const originalFetch = target.fetch;
   const originalXhr = target.XMLHttpRequest;
   const originalSocket = target.WebSocket;
   const deny = () => { throw new Error("External runtime network requests are prohibited in the pitch preview"); };
+  const svgUrls = new Set(localSvgUris.flatMap(uri => {
+    try {
+      const url = new URL(resolvePublicAssetUrl(uri), baseHref);
+      return url.origin === new URL(baseHref).origin && url.pathname.endsWith(".svg") ? [url.href] : [];
+    } catch { return []; }
+  }));
 
   target.fetch = ((input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
-    if (originalFetch && baseHref && isAllowedLocalRuntimeRequest(input, baseHref)) {
+    let rawUrl = "";
+    try { rawUrl = typeof input === "string" ? new URL(input, baseHref).href : input instanceof URL ? input.href : ""; } catch { /* Denied below. */ }
+    const isAuthoredSvgRead = svgUrls.has(rawUrl) && (!init?.method || init.method === "GET");
+    if (originalFetch && baseHref && (isAllowedLocalRuntimeRequest(input, baseHref) || isAuthoredSvgRead)) {
       return originalFetch(input, init);
     }
     return deny();

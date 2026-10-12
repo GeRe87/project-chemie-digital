@@ -234,11 +234,11 @@ test("generic card primitive restores definition entries as visual cards", () =>
   const sharedCss = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
   const cardCss = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
 
-  // The neutral baseline stays compatible with table-like definition lists.
-  // The reusable card component restores the wrapper only when projected as a card collection.
+  // A definition entry always retains its wrapper, including supporting legends
+  // and footer cards; flattening it interleaves terms and descriptions.
   assert.match(
     sharedCss,
-    /\.reveal \.definition-list > \.definition-list-entry\s*\{\s*display:\s*contents;/u,
+    /\.reveal \.definition-list > \.definition-list-entry\s*\{\s*display:\s*flex;\s*flex-direction:\s*column;/u,
   );
   assert.match(
     cardCss,

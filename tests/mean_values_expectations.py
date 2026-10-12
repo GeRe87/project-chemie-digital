@@ -51,6 +51,7 @@ ADDITIONS = {
     ]),
     "growth": ("geometric-mean", "mean-growth-heading", [
         ("mean-growth-diagram", "DiagramRole", "cd:body"),
+        ("mean-cell-growth-sketch", "MediaRole", "cd:uri"),
     ]),
     "growth-comparison": ("geometric-mean", "mean-growth-comparison-heading", [
         ("mean-growth-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),

@@ -57,12 +57,15 @@ class MeanValuesExamplesTests(unittest.TestCase):
         for slug, count in expected.items():
             scene = next(s for s in self.document["scenes"]
                          if s["id"] == f"ex:scene-chemometrics-mean-values-{slug}--scene")
-            self.assertEqual(1 + 2 * count, len(scene["blocks"]))
+            self.assertEqual(1 + 3 * count, len(scene["blocks"]))
             for index in range(count):
-                card, formula = scene["blocks"][1 + index * 2:3 + index * 2]
+                card, formula, legend = scene["blocks"][1 + index * 3:4 + index * 3]
                 self.assertEqual("definition-list", card["kind"])
                 self.assertEqual("math", formula["kind"])
                 self.assertNotEqual(card["source"][0]["resourceId"], formula["source"][0]["resourceId"])
+                self.assertEqual("definition-list", legend["kind"])
+                self.assertEqual("dct:hasPart", legend["source"][0]["relationPath"])
+                self.assertEqual(formula["source"][0]["resourceId"], legend["source"][0]["resourceId"])
 
     def test_all_added_exercises_have_answers_and_static_prompt_projection(self):
         exercises = set(self.graph.subjects(RDF.type, CD.Exercise))

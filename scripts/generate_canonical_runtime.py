@@ -1286,6 +1286,30 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
             blocks.append(block)
+            # A selected formula retains its explicitly authored definition parts.
+            # This is semantic expansion, not a renderer-generated symbol glossary.
+            if block["kind"] == "math":
+                legends = sorted((part for part in objects(dataset, selected, DCTERMS.hasPart)
+                                  if isinstance(part, URIRef) and is_resource_type(dataset, part, "DefinitionList")), key=str)
+                for legend in legends:
+                    entries = definition_list_sequence(dataset, legend, language)
+                    blocks.append({
+                        "id": f'{block_id}--{compact(legend)}', "kind": "definition-list",
+                        "source": [source_reference(dataset, selected, "dct:hasPart"),
+                                   source_reference(dataset, legend, "cd:hasDefinitionListEntry")],
+                        "entries": [{
+                            "id": f"{compact(entry)}--definition-entry", "term": term,
+                            **({"description": description} if description is not None else {}),
+                            **({"visualMotif": motif} if motif is not None else {}),
+                            **({"visualMotifRole": motif_role} if motif_role is not None else {}),
+                            "source": [source_reference(dataset, entry, term_path),
+                                       *([source_reference(dataset, entry, "cd:body")] if description is not None else []),
+                                       *([source_reference(dataset, entry, "cd:visualMotif")] if motif is not None else []),
+                                       *([source_reference(dataset, entry, "cd:visualMotifRole")] if motif_role is not None else [])],
+                        } for entry, _, term, term_path, description, motif, motif_role in entries],
+                        "emphasis": "supporting", "intent": {"kind": "explain"},
+                    })
+                    document_version = promote_document_version(document_version, "1.4")
             if isinstance(selected, URIRef):
                 selected_blocks.append((selected, block))
 
@@ -1539,6 +1563,20 @@ def fallback_attributes(sources: list[dict[str, Any]]) -> str:
     return " " + " ".join(attributes) if attributes else ""
 
 
+def teaching_text_fallback(text: str) -> str:
+    """Same inert paragraph/strong/list subset used by the live text primitive."""
+    def inline(value: str) -> str:
+        return re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", html.escape(value))
+    parts = []
+    for paragraph in re.split(r"\r?\n\s*\r?\n", text):
+        lines = paragraph.splitlines()
+        if lines and all(re.match(r"^-\s+", line) for line in lines):
+            parts.append('<ul>' + ''.join('<li>' + inline(re.sub(r"^-\s+", "", line)) + '</li>' for line in lines) + '</ul>')
+        else:
+            parts.append('<p>' + inline(paragraph).replace('\n', '<br>') + '</p>')
+    return ''.join(parts)
+
+
 def media_fallback_markup(block: dict[str, Any]) -> str:
     """Render direct or enriched media with the same escaped accessible fallback."""
     uri = html.escape(block["uri"], quote=True)
@@ -1781,13 +1819,13 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     blocks.append(
                         f'<div class="poll-fallback" data-poll-key="{html.escape(poll_key, quote=True)}" '
                         f'data-poll-option-ids="{html.escape(option_ids, quote=True)}"{fallback_attributes(block["source"])}>'
-                        f'<p>{html.escape(block["prompt"])}</p><ul>{options}</ul>'
+                        f'{teaching_text_fallback(block["prompt"])}<ul>{options}</ul>'
                         f'</div>'
                     )
                 elif response_mode == "free-text":
                     blocks.append(
                         f'<div class="prompt-fallback"{fallback_attributes(block["source"])}>'
-                        f'<p>{html.escape(block["prompt"])}</p>'
+                        f'{teaching_text_fallback(block["prompt"])}'
                         f'</div>'
                     )
                 else:

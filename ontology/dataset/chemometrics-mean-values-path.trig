@@ -146,4 +146,5 @@
   ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-geometric-log-card-formula .
   ex:path-step-chemometrics-mean-values-dice-flow a cd:PathStep ; cd:position 2 ; cd:usesResource ex:mean-five-dice-flow, ex:mean-five-dice-sketch ; cd:usesScene ex:scene-chemometrics-mean-values-dice-flow ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-warmup cd:usesResource ex:mean-five-dice-sketch .
+  ex:path-step-chemometrics-mean-values-growth cd:usesResource ex:mean-cell-growth-sketch .
 }

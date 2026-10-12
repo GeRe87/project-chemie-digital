@@ -9,7 +9,7 @@
   margin: 0;
   padding: 0.8rem 1rem;
   border: 1px solid var(--pcd-border);
-  border-radius: 0.45rem;
+  border-radius: var(--pcd-surface-radius, 0);
   background: var(--pcd-surface);
   color: var(--pcd-foreground);
   white-space: pre-wrap;
@@ -22,7 +22,7 @@
   margin: 1.2rem auto 0;
   padding-top: 2.7rem;
   border: 3px solid var(--pcd-accent);
-  border-radius: 0.8rem;
+  border-radius: var(--pcd-surface-radius, 0);
   background: color-mix(in srgb, var(--pcd-surface-strong) 92%, transparent);
   box-shadow:
     0 0 0 2px color-mix(in srgb, var(--pcd-accent) 45%, transparent),
@@ -68,14 +68,15 @@
 .reveal .code-editor-host {
   overflow: hidden;
   border: 2px solid var(--pcd-accent);
-  border-radius: 0.45rem;
+  border-radius: var(--pcd-surface-radius, 0);
   background: var(--pcd-surface-strong);
   color: var(--pcd-foreground);
 }
 
 .reveal .code-editor-host .cm-editor {
   min-height: 8.5rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  line-height: 1.4;
   text-align: left;
 }
 
