@@ -58,7 +58,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
             with self.subTest(slug=slug):
                 self.assertEqual(kind, self.plans[slug]["kind"])
                 self.assertEqual(profile, self.plans[slug]["profile"])
-        self.assertEqual(36, len(self.scenes))
+        self.assertEqual(33, len(self.scenes))
 
     def test_water_table_preserves_all_measurements_and_equal_weight_means(self):
         scene = self.scenes["water"]
@@ -144,7 +144,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_theoretical_observed_bridge_and_probability_legend_are_explicit(self):
         expected = self.scenes["expected-value"]["blocks"]
-        self.assertEqual(["prose", "prose", "math", "definition-list", "prose"], [b["kind"] for b in expected])
+        self.assertEqual(["prose", "prose", "math", "definition-list"], [b["kind"] for b in expected])
         probability = next(e for e in expected[3]["entries"] if e["term"] == "P(X=x)")
         self.assertIn("Probability that X takes the value x", probability["description"])
         self.assertIn("sum to 1", probability["description"])
@@ -160,14 +160,16 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
     def test_each_new_mean_has_case_failure_formula_calculation_and_same_case_r(self):
         order = list(self.scenes)
         self.assertEqual(["growth", "growth-comparison", "geometric-mean", "growth-calculation", "growth-r"], order[12:17])
-        self.assertEqual(["speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r"], order[21:26])
+        self.assertEqual(["speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r"], order[20:25])
         self.assertEqual(1, sum(b["kind"] == "math" for b in self.scenes["geometric-mean"]["blocks"]))
         self.assertEqual(1, sum(b["kind"] == "math" for b in self.scenes["harmonic-mean"]["blocks"]))
         formulas = [b["expression"] for b in self.scenes["speed-comparison"]["blocks"] if b["kind"] == "math"]
         self.assertIn("33.33", formulas[0])
         self.assertIn("44.72", formulas[1])
         self.assertNotIn("harmonic", " ".join(formulas))
-        self.assertIn("60 s", self.scenes["speed-comparison"]["blocks"][-1]["text"])
+        candidates = [e["description"] for b in self.scenes["speed-comparison"]["blocks"]
+                      if b["kind"] == "definition-list" and b["emphasis"] != "supporting" for e in b["entries"]]
+        self.assertTrue(all("actual 60 s" in text for text in candidates))
         growth = next(b for b in self.scenes["growth-r"]["blocks"] if b["kind"] == "code")
         self.assertIn("factors <- c(2, 8)", growth["code"])
         self.assertIn("prod(factors)^(1 / length(factors))", growth["code"])
@@ -192,9 +194,76 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                 self.assertEqual(code["source"][0]["resourceId"], legend["source"][0]["resourceId"])
                 self.assertTrue(legend["entries"])
 
+    def test_growth_candidates_explain_two_periods_and_compare_with_observation(self):
+        for slug, candidate, conclusion in [("growth-comparison", "2500", "fails"),
+                                             ("growth-calculation", "1600", "preserves")]:
+            blocks = self.scenes[slug]["blocks"]
+            card = next(b for b in blocks if b["kind"] == "definition-list" and b["emphasis"] != "supporting")
+            text = card["entries"][0]["description"]
+            self.assertIn("two equal periods", text)
+            self.assertIn("observed", (text + card["entries"][0]["term"]).lower())
+            self.assertIn(candidate, text)
+            self.assertIn(conclusion, text)
+            math = next(b["expression"] for b in blocks if b["kind"] == "math")
+            self.assertIn(r"100\times2\times8", math)
+            self.assertIn("1600", math)
+        self.assertIn("100 × m × m = 100m²", self.scenes["growth-comparison"]["blocks"][1]["entries"][0]["description"])
+        self.assertEqual(2500, 100 * ((2 + 8) / 2) ** 2)
+        self.assertEqual(1600, 100 * 2 * 8)
+        self.assertEqual(1600, 100 * ((2 * 8) ** (1 / 2)) ** 2)
+
+    def test_compact_theory_and_six_discussion_questions_preserve_essential_content(self):
+        for slug in ("arithmetic-mean", "geometric-mean"):
+            self.assertEqual(["prose", "math", "definition-list"], [b["kind"] for b in self.scenes[slug]["blocks"]])
+        arithmetic = self.scenes["arithmetic-mean"]["blocks"][2]["entries"][1]["description"]
+        self.assertIn("equally weighted", arithmetic)
+        self.assertIn("Normality is not required", arithmetic)
+        self.assertNotIn("geometric-practice", self.scenes)
+        self.assertNotIn("median-practice", self.scenes)
+        self.assertNotIn("discussion-multiplicative", self.scenes)
+        discussion = self.scenes["discussion-additive"]
+        self.assertEqual("prompt-grid", self.plans["discussion-additive"]["profile"])
+        prompts = discussion["blocks"][1:]
+        self.assertEqual(6, len(prompts))
+        self.assertEqual(["ex:mean-case-" + suffix for suffix in
+                          ("replicates", "sensors", "loads", "microplastics", "sites", "reactors")],
+                         [b["source"][0]["resourceId"] for b in prompts])
+        self.assertTrue(all(b["kind"] == "prompt" and b["expectedResult"] for b in prompts))
+        for resource in ("exercise-geometric-growth-factors", "exercise-mean-median-outlier"):
+            basics = self.dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-basics"))
+            self.assertTrue(list(basics.objects(EX[resource], CD.body)))
+
+    def test_examples_are_labelled_and_scale_comparisons_and_ntu_are_explicit(self):
+        examples = ("dice-flow", "dice-warmup", "dice-sums", "dice-expectation", "real-world",
+                    "dice-practice", "lln-practice", "water", "growth", "growth-comparison",
+                    "growth-calculation", "growth-r", "microbial", "ratios", "speed",
+                    "speed-comparison", "speed-solution", "speed-r", "harmonic-practice",
+                    "layers", "turbidity", "order", "lead")
+        for slug in examples:
+            self.assertTrue(self.scenes[slug]["blocks"][0]["text"].startswith("Example:"), slug)
+        for slug in ("arithmetic-mean", "geometric-mean", "harmonic-mean", "median", "summary", "discussion-additive"):
+            self.assertFalse(self.scenes[slug]["blocks"][0]["text"].startswith("Example:"), slug)
+        microbial = [b["entries"][0]["description"] for b in self.scenes["microbial"]["blocks"]
+                     if b["kind"] == "definition-list" and b["emphasis"] != "supporting"]
+        self.assertIn("extreme 10,000", microbial[0])
+        self.assertIn("log-scale question", microbial[0])
+        self.assertIn("better describes this log-scale center", microbial[1])
+        self.assertIn("Keep the extreme observation", microbial[1])
+        ratios = [b["entries"][0]["description"] for b in self.scenes["ratios"]["blocks"]
+                  if b["kind"] == "definition-list" and b["emphasis"] != "supporting"]
+        self.assertIn("15.625, not 5", ratios[0])
+        self.assertIn("not successive growth periods", ratios[1])
+        pump = next(b for b in self.scenes["harmonic-practice"]["blocks"] if b["kind"] == "prompt")
+        self.assertIn("three successive 10 L batches", pump["prompt"])
+        self.assertNotIn("Explain why", pump["prompt"])
+        turbidity = self.scenes["turbidity"]["blocks"][1]["text"]
+        self.assertIn("nephelometric turbidity units", turbidity)
+        self.assertIn("light scattering", turbidity)
+        self.assertIn("not automatically an invalid measurement", turbidity)
+
     def test_water_and_iron_practice_share_one_structural_four_cell_slide(self):
         scene = self.scenes["water"]
-        self.assertEqual("Arithmetic means in water analysis", scene["blocks"][0]["text"])
+        self.assertEqual("Example: Arithmetic means in water analysis", scene["blocks"][0]["text"])
         self.assertEqual(["list", "table", "prompt", "code", "definition-list"],
                          [block["kind"] for block in scene["blocks"][1:]])
         self.assertNotIn("fe-practice", self.scenes)
@@ -244,7 +313,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
 
     def test_general_static_fallback_renders_the_complete_level_two_document(self):
         fallback = RUNTIME.static_fallback({"sceneDocuments": [self.document]})
-        self.assertEqual(36, fallback.count('<article data-pitch-step='))
+        self.assertEqual(33, fallback.count('<article data-pitch-step='))
         self.assertIn("Five outcomes, one sum", fallback)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn("Observed order and sorted order (NTU)", fallback)
@@ -284,7 +353,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         entries = [entry for scene in self.scenes.values() for b in scene["blocks"]
                    if b["kind"] == "definition-list" for entry in b["entries"]]
         decorated = [e for e in entries if e.get("visualMotif")]
-        self.assertEqual(12, len(decorated))
+        self.assertEqual(10, len(decorated))
         for entry in decorated:
             self.assertTrue(any(s["relationPath"] == "cd:visualMotif" for s in entry["source"]))
 

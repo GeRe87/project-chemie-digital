@@ -184,7 +184,7 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
         for owner_id, item_id in SCENE_ITEM_BY_OWNER.items():
             with self.subTest(owner=owner_id):
                 scene_item = EX[item_id]
-                if item_id in {"scene-item-chemometrics-mean-values-expected-value-interpretation", "scene-item-chemometrics-mean-values-geometric-mean-definition", "scene-item-chemometrics-mean-values-geometric-mean-interpretation", "scene-item-chemometrics-mean-values-harmonic-mean-definition"} or owner_id in {"def-law-of-large-numbers", "lln-not-standard-error-interpretation"}:
+                if item_id in {"scene-item-chemometrics-mean-values-arithmetic-mean-interpretation", "scene-item-chemometrics-mean-values-expected-value-interpretation", "scene-item-chemometrics-mean-values-geometric-mean-definition", "scene-item-chemometrics-mean-values-geometric-mean-interpretation", "scene-item-chemometrics-mean-values-harmonic-mean-definition", "scene-item-chemometrics-mean-values-harmonic-mean-interpretation", "scene-item-chemometrics-mean-values-median-interpretation"} or owner_id in {"def-law-of-large-numbers", "lln-not-standard-error-interpretation"}:
                     self.assertIsNone(self.scene_graph.value(scene_item, CD.communicativeRole))
                     continue
                 self.assertNotIn(scene_item, actual_items)

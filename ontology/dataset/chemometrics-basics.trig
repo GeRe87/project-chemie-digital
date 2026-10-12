@@ -1126,7 +1126,7 @@ Constant: aliquot volume"""@en ;
   ex:observed-variation-card a cd:DefinitionListEntry ;
     cd:position 2 ;
     skos:prefLabel "OBSERVED VARIATION"@en ;
-    cd:body """We measure differences rather than assign them.
+    cd:body """We measure differences rather than assign them. A variable's role depends on the study design.
 |> Lake samples: concentration may vary with the environment, sampling and measurement."""@en ;
     cd:visualMotif "sampling-lake" ;
     cd:visualMotifRole "highlight" ;

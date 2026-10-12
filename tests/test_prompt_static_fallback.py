@@ -67,7 +67,7 @@ class PromptStaticFallbackTests(unittest.TestCase):
             "ex:path-chemometrics-mean-values-lecture",
             artifact["sceneDocuments"][0]["sourcePathId"],
         )
-        self.assertEqual(36, len(artifact["sceneDocuments"][0]["scenes"]))
+        self.assertEqual(33, len(artifact["sceneDocuments"][0]["scenes"]))
         fallback = RUNTIME.static_fallback(artifact)
         self.assertIn('class="prompt-fallback"', fallback)
         self.assertIn('data-source-path-id="ex:path-chemometrics-mean-values-lecture"', fallback)

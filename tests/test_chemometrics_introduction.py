@@ -66,7 +66,7 @@ EXPECTED_BLOCK_KINDS = [
     ["prose"],
     ["prose", "prose", "prose"],
     ["prose", "group", "table", "chart", "list"],
-    ["prose", "definition-list", "prose"],
+    ["prose", "definition-list"],
     ["prose", "prose", "definition-list"],
     ["prose", "diagram"],
     ["prose", "definition-list"],
@@ -361,7 +361,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
 
         tuesday = str(next(self.content_graph.objects(entries[0], CD.body))).splitlines()
-        self.assertEqual("8.00 - 10.00 · S05 V02 E28", tuesday[0])
+        self.assertEqual("10:00–13:00", tuesday[0])
         self.assertEqual("Interactive lecture + seminar", tuesday[1])
         self.assertEqual(
             "Theory inputs · group discussion · worked examples · questions",
@@ -369,7 +369,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         )
 
         wednesday = str(next(self.content_graph.objects(entries[1], CD.body))).splitlines()
-        self.assertEqual("8.00 - 10.00 · S05 V02 E28", wednesday[0])
+        self.assertEqual("12:00–14:00", wednesday[0])
         self.assertEqual("Hands-on tutorial", wednesday[1])
         self.assertEqual(
             "Principles · problem solving · calculations · programming",
@@ -545,6 +545,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [entry["term"] for entry in lecturer_cards["entries"]],
         )
         self.assertTrue(all(entry.get("description") for entry in lecturer_cards["entries"]))
+        self.assertEqual(2, len(self.document["scenes"][3]["blocks"]), "No repeated lecturer footer")
 
         format_scene = self.document["scenes"][4]
         self.assertEqual("How is the course organized?", format_scene["blocks"][0]["text"])

@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-six scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-three scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -92,6 +92,60 @@ source reference. This uses the same generic answer-disclosure interface as
 other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
+
+### Issue #270: compact examples and course-wide footer audit
+
+The current active route is **33 scenes**, with **seven unchanged executable R labs**.
+The standalone geometric/median practice selections are omitted; their reusable
+Exercises and ExpectedResults remain authored. The six discussion Exercises share
+one scene, preserving their original order and answers. Generic prompt-grid
+recognition now supports up to six prompts; wide CSS caps columns at three and
+wraps later prompts into a second row, with a single-column narrow fallback.
+The owner explicitly approved the composition-policy scope extension in #270.
+No content identity, scientific label or course name selects renderer behavior.
+
+The growth question is now explicit: replace the two observed factors with one
+constant factor applied in both equal periods. Starting from 100 cells, arithmetic
+factor 5 predicts 2500 rather than observed 1600; geometric factor 4 predicts
+exactly 1600. Both calculation slides show the original `100 × 2 × 8` comparison.
+Microbial arithmetic 3370 is marked as pulled upward by 10000, unsuitable for the
+stated positive/log-scale typical-value question; geometric 215.44 describes that
+log-scale center better. This does not assert bias relative to an unknown population
+mean, universal superiority, safety or permission to discard the extreme count.
+For the three concentration comparisons 0.5, 2, 5, arithmetic 2.5 fails the product
+criterion (`2.5³ = 15.625 ≠ 5`); the geometric cube root of 5 preserves it. No
+sequential-growth model is inferred from these comparisons.
+
+NTU is explained on the turbidity slide as nephelometric turbidity units, a
+light-scattering measure of water turbidity. The large event remains visible and
+is not automatically classified as invalid. Pumping keeps its equal-volume task,
+rates, answer and R, without the extra justification sentence. Level 0 logistics
+are Tuesday 10:00–13:00 and Wednesday 12:00–14:00, without a room.
+
+All active Levels 0/1/2 were audited for redundant closing prose:
+
+| Level | Removed active selection | Essential content retained |
+| --- | --- | --- |
+| 0 | Lecturer's repeated name/institution tagline | Profile cards and IUPAC definition citation. Nitrate questions remain substantive practice, not a slogan. |
+| 1 | Why-values-differ closing paraphrase | Designed/observed cards; study-design role qualification moved into observed card. Definition citation and all model/formula legends retained. No other active slide has redundant closing prose. Later deselected scenes are not changed. |
+| 2 | Arithmetic ADD AND DIVIDE / REPRESENTATIVE CENTER cards; geometric general footer; expectation, harmonic, median, layers, turbidity and speed-comparison closing notes | Equal numerical weighting/meaningful addition/non-normality in arithmetic legend; finite expected absolute value in expectation context; positivity in geometric legend; equal quantities versus times in harmonic context; median qualification in robust card; full layer assumptions/legend; turbidity event caveat in context; actual 60 s in both speed candidate cards. |
+| 2 | None on purpose or model/data bridge | Purpose sampling/bias/outlier condition and bridge estimation/answer are necessary, not disposable slogans. All 22 formula legends, seven function legends and optional authored answers remain. |
+
+Removed prose resources remain reusable in RDF; no global footer CSS hiding was
+introduced. Example headings are explicitly prefixed in authored RDF for:
+`dice-flow`, `dice-warmup`, `dice-sums`, `dice-expectation`, `real-world`,
+`dice-practice`, `lln-practice`, `water`, `growth`, `growth-comparison`,
+`growth-calculation`, `growth-r`, `microbial`, `ratios`, `speed`,
+`speed-comparison`, `speed-solution`, `speed-r`, `harmonic-practice`, `layers`,
+`turbidity`, `order`, `lead`. Concept, logarithmic-theory, summary and discussion
+headings are not mislabeled as examples.
+
+Validation uses the actual 5173 course overworld, not a standalone preview.
+Free-text discussion remains spoken classroom interaction: Pitch has no answer
+buttons for these existing prompts; their ExpectedResults remain in transport and
+the static/self-study projection. No new voting or answer-entry runtime is claimed.
+Fresh portrait opening and quantitative river/tracer animation remain separate.
+Earlier sections below are historical and their counts/order are superseded here.
 
 ### Issue #268: coherent mean-value teaching sequences
 

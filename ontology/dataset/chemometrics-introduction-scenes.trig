@@ -103,8 +103,7 @@
   ex:scene-chemometrics-introduction-lecturer a cd:SceneDefinition ;
     cd:focusConcept ex:chemometrics-lecturer-context ;
     cd:hasSceneItem ex:scene-item-chemometrics-introduction-lecturer-heading,
-      ex:scene-item-chemometrics-introduction-lecturer-profile,
-      ex:scene-item-chemometrics-introduction-lecturer-takeaway ;
+      ex:scene-item-chemometrics-introduction-lecturer-profile ;
     cd:authoredResource true .
 
   ex:scene-item-chemometrics-introduction-lecturer-heading a cd:SceneItem ;
@@ -123,13 +122,6 @@
     cd:language "en" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-introduction-lecturer-takeaway a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:chemometrics-lecturer-takeaway ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
 
   # Slide 5 — paired-info-cards --------------------------------------------
   ex:scene-chemometrics-introduction-format a cd:SceneDefinition ;

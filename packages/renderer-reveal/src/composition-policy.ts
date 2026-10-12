@@ -885,7 +885,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   if (
     body.length >= 2
-    && body.length <= 4
+    && body.length <= 6
     && bodyKinds.every((kind) => kind === "prompt")
   ) {
     const placements = placementsWithHeading(heading);
