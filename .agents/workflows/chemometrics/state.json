@@ -1,34 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 257,
-  "expectedDeliverable": "Manager review of Draft PR #258 / #257 and handoff; assign bounded System media-aware general static-fallback fix or explicitly postpone title media selection, plus phrase-marker/exercise-media follow-up. Full npm test failed in Python (394/395 passed); TypeScript phases not reached. Browser review and exact-head external validation still required on compatible PR #185 basis.",
-  "lastCompletedTurn": "worker: delivered supported Level 2 content increment in Draft PR #258 with 30 focused tests; full npm test exposed media-reference falling through the generic static fallback to missing text. Recorded exact shared implementation blocker without changing compiler scope or suppressing test.",
-  "lastUpdated": "2026-10-12T11:58:36+02:00",
+  "expectedDeliverable": "Issue #257 slide-first increment on existing branch / Draft PR #258: replace active title SVG MediaRole with supported authored five-outcomes-to-one-sum FlowDiagram, retain asset for reuse, restore ordinary Level 2 preview/static fallback, and improve equal-distance and sorted-median/turbidity slides using supported cards/tables/diagrams. Preserve prompts, answers, values and assumptions. Real browser review where available, focused static-fallback/composition tests, npm test, PR/handoff update. No compiler/renderer/System changes. Exact assignment: slides-first manager comment in #257.",
+  "lastCompletedTurn": "manager: owner made visible slide adaptation highest priority; assigned one bounded #257 content/preview increment using supported primitives. Phrase-marker and exercise-thumbnail shared capabilities remain deferred in the handoff, not waived. No feature implementation or acceptance in this turn.",
+  "lastUpdated": "2026-10-12T12:02:54+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Shared System gap: authored word-level marker ranges are unsupported; manager must assign a bounded generic follow-up",
-    "Shared System gap: generic exercise/media grouping is unsupported; discussion thumbnails and dice/sketch lab compositions remain deferred",
-    "Full npm test failed: selected title media-reference triggers KeyError text in scripts/generate_canonical_runtime.py:1779; manager must assign System fallback fix or authorize postponing media selection",
-    "Actual desktop/narrow browser fit and fresh successful full/exact-head external validation on compatible integration basis are still required; TypeScript phases were not reached"
-  ],
-  "stateRevision": 141,
+  "blockedBy": [],
+  "stateRevision": 142,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T08:53:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue209-variables-constants-resource",
-      "reason": "Claimed #209 Variables/Constants concepts, relation/comparison, examples, dynamic R experiment, classification exercises, Sample relationship, Distribution anchor, exact focused regressions and chapter label/focus update."
-    },
     {
       "at": "2026-10-06T09:06:00+02:00",
       "from": "busy/worker",
@@ -196,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-chemometrics-worker-257-20261012",
       "reason": "Completion evidence update for resumed background test: npm test failed with one Python static-fallback error (394/395 passed), media-reference treated as prose at line 1779. Later TypeScript phases not run. Draft PR #258 remains blocked; no compiler/renderer expansion, test suppression, acceptance or merge."
+    },
+    {
+      "at": "2026-10-12T12:02:54+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-257-slides-first-20261012",
+      "reason": "Owner prioritizes slides. Assign one content-only #257 repair/visual increment: replace unsupported active title media with supported semantic diagram, restore preview, improve remaining concrete evidence slides without shared code changes. Internally actionable fallback blocker addressed by changed content strategy; marker/grouping capabilities deferred, not waived, in existing handoff. Browser and exact-head full-suite/external acceptance gates retained."
     }
   ]
 }
