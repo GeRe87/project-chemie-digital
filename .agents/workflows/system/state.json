@@ -7,23 +7,16 @@
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 259,
   "expectedDeliverable": "Issue #259: repair Level 2 using ordinary npm run pitch:intro on port 5173 with overworld/level selection. Visible Run/Reset and actual R execution for every executable Level 2 lab; generic non-overlapping title/motif/number card headers; real masks for all allowed motifs including EQUAL QUANTITIES multiple-inputs; title only Mean Values; subsequent experiment flow with prominent dice SVG and five SVG dice on Five dice one sum. Narrow Level 2 scene/media wiring and any necessary generic fallback/composition repair are explicitly scoped in #259. Work on agent/259-level2-course-preview-repair stacked on committed PR #258; serialize overlapping Chemometrics #257 edits. Browser/tests/full npm test, draft PR, handoff; no self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "worker: delivered #259 in stacked draft PR #260 on #258/#185. Normal pitch:intro/5173 browser verified all five executable R labs, 32 scenes, heading-only title, two dice illustrations, vector motifs and 21 supporting-card headers without overlap at wide/narrow viewports. Course completion returns to overworld; Level 1 opens. Renderer tests and production build pass. Full npm test rerun remains in progress after redundant title-path reference correction; external exact-head validation and compatible integration remain required. Handoff: .agents/handoffs/issue-259-level2-course-preview-repair.md. No acceptance/merge or Chemometrics state changes.",
-  "lastUpdated": "2026-10-12T13:17:00+02:00",
+  "lastCompletedTurn": "worker: delivered #259 in stacked draft PR #260 on #258/#185. Normal pitch:intro/5173 browser verified all five executable R labs, 32 scenes, heading-only title, two dice illustrations, vector motifs and 21 supporting-card headers without overlap at wide/narrow viewports. Course completion returns to overworld; Level 1 opens. Full npm test rerun passed: 398 Python tests and all subsequent TypeScript/runtime/Pitch/self-study phases. Production build and additional media-escaping test passed. External exact-head validation and compatible integration remain required. Handoff: .agents/handoffs/issue-259-level2-course-preview-repair.md. No acceptance/merge or Chemometrics state changes.",
+  "lastUpdated": "2026-10-12T13:17:43+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": ["Full npm test rerun completion evidence pending; exact-head external success and compatible integration basis required for PR #260", "Preserve stacked #258/#185 dependencies, cross-track serialized Level 2 writes and independent #214/#257 acceptance obligations; portrait whole-deck scaling and broader visual gaps remain"],
-  "stateRevision": 376,
+  "blockedBy": ["Exact-head external success and compatible integration basis required for PR #260; local npm test passed", "Preserve stacked #258/#185 dependencies, cross-track serialized Level 2 writes and independent #214/#257 acceptance obligations; portrait whole-deck scaling and broader visual gaps remain"],
+  "stateRevision": 377,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T15:10:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue207-pitch-course-overworld",
-      "reason": "Owner requested the course-level overworld with Introduction selectable as Level 0. Authorized Pitch application navigation over the existing TeachingOffering runtime and exact scene bindings."
-    },
     {
       "at": "2026-10-05T15:11:00+02:00",
       "from": "ready/worker",
@@ -191,6 +184,13 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-259-course-preview-20261012",
       "reason": "Publish draft PR #260 and structured handoff with actual standard-course browser evidence. Return only System control; full-test rerun evidence pending and external exact-head/integration gates block acceptance. No scientific vocabulary/API changes, no self-acceptance/merge; Chemometrics state untouched."
+    },
+    {
+      "at": "2026-10-12T13:17:43+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-259-course-preview-20261012",
+      "reason": "Asynchronous completion evidence for the same #259 worker result: full npm test rerun passed 398 Python tests and every later phase. No new execution turn or acceptance; external exact-head/integration gates remain."
     }
   ]
 }

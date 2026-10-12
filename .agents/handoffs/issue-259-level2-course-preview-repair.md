@@ -35,7 +35,11 @@ Frontend and Reveal Renderer Engineer — System worker only.
 
 ## Verification
 
-- [x] Renderer tests: 100 passed; full `npm test` rerun result pending recording.
+- [x] Full `npm test` rerun passed: 398 Python semantic tests, all subsequent
+  TypeScript/runtime/Pitch/self-study phases (including 100 Reveal and 176
+  Pitch tests). Additional direct-media escaping test passed in the eight-test
+  focused fallback run. Production build passed. These local results do not
+  substitute for external exact-head status on the final audit commit.
 - [x] SHACL passed in focused Mean Values tests. Initial full run: 397/398
   Python tests; a redundant title-path flow reference caused the sole failure
   and was removed before the rerun.
