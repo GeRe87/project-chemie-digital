@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
-  "activeIssue": 268,
-  "expectedDeliverable": "Issue #268 on agent/268-mean-values-teaching-sequence from current committed draft #267: content-only two-node dice flow; explicit discrete probability P(X=x) legend and focused expectation theory without unclear MODEL/OBSERVATIONS cards; move/rework real-world model-data bridge after dice expectation and before arithmetic mean with authored sums versus 17.5, difference question and estimation point. Rebuild geometric and harmonic sequences as case, mismatch of other summaries for the stated preservation question, general formula/legend, math numerical example and same-case executable R. Add two R labs with authored complete function parts while preserving five existing labs and all scientific conditions/values/resources. Exact scope/order/track/contracts in #268; final exact scene count derived and pinned, seven-lab validation. Chemistry lecturer role: authored TriG/tests/docs only, no renderer/CSS/schema/Level 1 changes or external research. Actual 5173 pitch:intro course, focused/numerical/SHACL/full final-head tests and build, draft stacked PR/handoff and only System state. Preserve cross-track/external gates, portrait failure and separately pending tracer animation. No self-acceptance or merge.",
-  "lastCompletedTurn": "worker: delivered #268 in draft stacked PR #269 and .agents/handoffs/issue-268-mean-values-teaching-sequence.md. Two-node dice flow, explicit probability meaning, observed/model bridge, and ordered geometric/harmonic case → comparison → general formula → calculation → same-case R sequences are authored. Preserved five labs plus two new, for seven total. Focused 42 Mean Values tests, SHACL, production build and actual 5173 dark/light/responsive course checks pass; all seven labs execute/reset with no glossary overlap. Full npm test passes all 409 Python tests and subsequent suites (104 Reveal, 75 D3, 183 Pitch, 29 self-study app). Return only System control; external exact-head/current-main integration and independent cross-track reviews remain mandatory. No acceptance/merge; Chemometrics state untouched.",
-  "lastUpdated": "2026-10-12T22:42:00+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Frontend and Reveal Renderer Engineer",
+  "activeIssue": 270,
+  "expectedDeliverable": "Issue #270 on agent/270-mean-example-polish stacked from current committed draft #269. Exact owner-directed RDF wiring: remove arithmetic cards, explicit constant-factor/two-period growth question and compare 2500 vs observed 1600, geometric 1600 equality; scientifically qualified microbial/ratio comparisons; remove two standalone practice scenes; trim pump task; explain NTU; consistent Example: application headings; audit redundant footers across active Levels 0/1/2 without losing necessary qualifications/citations/legends. Tuesday 10:00-13:00, Wednesday 12:00-14:00, no room. Merge six discussion prompts to one 3-column/2-row wide scene, using only generic responsive prompt-grid CSS if needed. Expected 33 scenes, seven preserved executable R labs; exact issue scope/conditions govern. No external research, new ontology/compiler/runtime contracts or other Level 1 redesign. Actual pitch:intro 5173 dark/light wide/responsive checks, focused/SHACL/build/full feature-head tests, draft stacked PR and structured handoff. Return only System state; no self-acceptance/merge.",
+  "lastCompletedTurn": "manager: assigned exactly #270 to Frontend and Reveal Renderer Engineer for owner-directed course/example cleanup and generic six-prompt presentation. Numerical/scientific wording is bounded in the issue; no independent scientific claims. Inspected #269 handoff and Chemometrics #257 scope/no lease, recorded renewed overlapping-write serialization in #257. Owner feedback is internally actionable; missing external validation remains externally dependent, portrait/tracer followups independent. No feature implementation, acceptance or merge; Chemometrics state untouched.",
+  "lastUpdated": "2026-10-12T23:23:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["Draft #269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
-  "stateRevision": 394,
+  "stateRevision": 396,
   "transitionHistory": [
-    {
-      "at": "2026-10-06T12:51:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue213-cross-level-navigation",
-      "reason": "Claimed active SceneDocument lifecycle state, sentinel ownership guard, hidden Reveal jump and post-jump target verification."
-    },
-    {
-      "at": "2026-10-06T13:00:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue213-cross-level-navigation",
-      "reason": "Completed #213: stale sentinels from a previous level can no longer close a newly selected level, and cross-level jumps remain visually hidden until Reveal confirms the requested first slide."
-    },
     {
       "at": "2026-10-06T13:08:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +177,20 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-268",
       "reason": "Delivered draft PR #269 and structured handoff. Focused tests, SHACL, build, actual 5173 browser and all seven R labs verified. Full npm test passed 409 Python and every subsequent phase. External exact-head/current-main integration and independent reviews remain; no self-acceptance/merge. Chemometrics state untouched."
+    },
+    {
+      "at": "2026-10-12T23:19:23+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-example-polish-20261012",
+      "reason": "New owner feedback authorizes bounded course-content cleanup and six-prompt presentation. Plan one follow-up from draft #269; inspect #257 overlap and preserve external validation, portrait and tracer gates. No worker implementation in this manager turn."
+    },
+    {
+      "at": "2026-10-12T23:23:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-example-polish-20261012",
+      "reason": "Assign exactly #270 from draft #269 to Frontend and Reveal Renderer Engineer for exact owner-directed content wiring and generic six-prompt wrapping. Explicit bounded science, no external research or contract changes; serialized #257 overlap. Preserve seven labs, all source/condition/legend obligations and external integration gates. No implementation or merge in manager turn."
     }
   ]
 }
