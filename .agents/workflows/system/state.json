@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Frontend and Reveal Renderer Engineer",
   "activeIssue": 261,
   "expectedDeliverable": "Issue #261: one shared teaching-primitives increment, from committed PR #260 on agent/261-level2-shared-teaching-primitives. Transparent genuinely theme-reactive dice/cell SVGs; experiment illustration above flow; warmup bold instruction/paragraph gap/two indented questions and semantic marker standards where existing contracts support them; larger global editor type; shared square text/card surfaces and top/top teaching columns; centered formulas with source-backed Level-1-style legend cards; one intrinsic water-results surface. Exact scopes and contract boundary in #261; no scene/label/filename CSS or scientific renderer constants. Ordinary pitch:intro/5173 overworld browser dark/light/wide/narrow, focused/full tests, draft stacked PR/handoff and only System state. Quantitative TS river/tracer animation is explicitly preserved for a later separate assignment, not claimed by this task. No self-acceptance/merge or Chemometrics-state writes.",
-  "lastCompletedTurn": "manager: created and assigned exactly one #261 Frontend and Reveal Renderer Engineer increment from owner standards feedback. Cross-track #257 writes remain serialized by issue comment; Chemometrics has no lease and its state is untouched. Reuse existing semantic legends/Markdown/block intent; missing per-item semantics require explicit contract-gap handoff rather than punctuation heuristics or silent schema changes. Captured exact warmup marker and later TS river/tracer requirements. PR #260 current-head external status is missing; no acceptance, merge or implementation performed in this manager turn.",
-  "lastUpdated": "2026-10-12T13:48:41+02:00",
+  "lastCompletedTurn": "worker: completed #261 on agent/261-level2-shared-teaching-primitives; draft PR #262 stacked on #260/#258/#185. Full npm test passed on feature commit 5a0f973 (400 Python tests and all subsequent core/client/learner-state/renderer/Pitch/self-study phases); production Vite build passed; 34 focused Mean Values tests/SHACL passed. Actual pitch:intro 5173 overworld browser verified five executable R labs, 21 card headers without text/icon overlap, theme-aware transparent SVGs, 23 authored formula legends, prompt structure, 24px editor and wide/dark/light plus responsive reflow. Sanitizer checks and Level 1 open/formula compatibility passed. Fresh portrait level opening still fails to settle; responsive screenshots only after wide open. Handoff: .agents/handoffs/issue-261-shared-teaching-primitives.md. External exact-head success/current-main integration, independent #214/#217/#257 reviews and separately scoped river/tracer animation remain outstanding. No self-acceptance/merge or Chemometrics-state writes.",
+  "lastUpdated": "2026-10-12T15:20:08+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": ["Review-only external gate: PR #260 exact-head required status is missing; #261 may implement on the committed stacked basis but acceptance/integration remains prohibited without fresh external success and compatible main", "Preserve stacked #260/#258/#185 dependencies, serialized Chemometrics #257 writes and independent #214/#217/#257 review obligations", "Quantitative TS river/tracer animation remains a separately assignable requirement recorded in #261; exact semantic per-item prompt/marker contract gaps, if found, must be reported rather than hidden"],
-  "stateRevision": 379,
+  "blockedBy": ["PR #262 exact-head agent-validator/project-chemie-digital status is missing and current-main compatible integration basis is not established; manager acceptance/merge prohibited until both gates pass", "Preserve PR #262 → #260 → #258 → #185 stacking, serialized Chemometrics #257 writes and independent #214/#217/#257 review obligations; fresh portrait opening settlement still fails", "Quantitative TS river/tracer animation remains a separately assignable requirement recorded in #261; no playback implementation claimed"],
+  "stateRevision": 381,
   "transitionHistory": [
-    {
-      "at": "2026-10-05T15:29:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue207-208-course-lifecycle",
-      "reason": "Reviewed #207 foundation and authorized live Pitch mounting plus #208 renderer-owned level completion boundary and automatic return sentinel."
-    },
     {
       "at": "2026-10-05T15:30:00+02:00",
       "from": "ready/worker",
@@ -37,13 +30,6 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-issue207-208-course-lifecycle",
       "reason": "Completed #207/#208 live lifecycle: course bundles open on the overworld, Start jumps to the exact bound document, each document ends in a Level complete buffer, and the next Reveal navigation reaches an invisible sentinel that restores the overworld and originating focus."
-    },
-    {
-      "at": "2026-10-06T10:10:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue210-overworld-start-fix",
-      "reason": "Owner browser test confirmed the overworld renders but Start level buttons do not open presentations. Authorized #210 navigation-contract repair and visible diagnostics."
     },
     {
       "at": "2026-10-06T10:11:00+02:00",
@@ -191,6 +177,20 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-level2-standards-20261012",
       "reason": "Assign exactly #261 to Frontend and Reveal Renderer Engineer for shared media/surface/alignment/typography/formula-legend primitives and narrow Level 2 wiring. Owner-visible repairs internally actionable; external current-head status missing and integration gates retained separately. Quantitative animation awaits a separate validated semantic-data/runtime increment; markers must not invent unsupported semantic distinctions. Explicit serialization in #257 comment, no other-track state write, no implementation or merge."
+    },
+    {
+      "at": "2026-10-12T14:05:28+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-261-teaching-primitives-20261012",
+      "reason": "Claim exact #261 on agent/261-level2-shared-teaching-primitives from committed #260. Preserve generated owner HTML and Chemometrics state; implement only assigned shared primitives and narrow Level 2 wiring, not deferred quantitative animation."
+    },
+    {
+      "at": "2026-10-12T15:20:08+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-261-teaching-primitives-20261012",
+      "reason": "Delivered draft PR #262 and structured handoff with exact normal-course browser and full local test/build evidence. Return only System control. Fresh portrait navigation settlement, external exact-head validation/current-main integration and separately assigned typed tracer animation remain open; preserve independent reviews and cross-track serialization. No self-acceptance/merge."
     }
   ]
 }
