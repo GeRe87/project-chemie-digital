@@ -28,6 +28,18 @@ WEBR_LOCAL_URL = f"/vendor/webr/v{WEBR_VERSION}/"
 WEBR_BROWSER_ENTRY = "webr.js"
 WEBR_BROWSER_EXPORT = "./dist/webr.js"
 
+# Reviewed build dependency bytes, including transitive CDN modules after local
+# import rewriting. Changes require an explicit dependency review, not auto-pin.
+WEBR_ARCHIVE_SHA256 = "5821c8bd87484add59064fa13fa62a65f686032f3f64dacf4b0aa34c4325e959"
+VENDOR_TREE_SHA256 = "3a55651d84a14286e33890d35c13007a7598e17c6eba5d31e409cea7d6b5e4f9"
+
+
+def vendor_tree_digest(root: Path = VENDOR_ROOT) -> str:
+    entries = {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+               for path in sorted(root.rglob("*"))
+               if path.is_file() and path.relative_to(root).as_posix() != "runtime-manifest.json"}
+    return hashlib.sha256(json.dumps(entries, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
 _IMPORT_SPECIFIER_RE = re.compile(
     r"(?P<quote>['\"])(?P<specifier>(?:https://cdn\.jsdelivr\.net)?/npm/[^'\"]+/\+esm(?:\?[^'\"]*)?)(?P=quote)"
 )
@@ -88,7 +100,7 @@ def mirror_codemirror_graph() -> dict[str, str]:
 
         target = _public_file_from_url(local_url)
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(source, encoding="utf-8")
+        target.write_text(source, encoding="utf-8", newline="\n")
         return local_url
 
     mirror(CODEMIRROR_REMOTE_ENTRY)
@@ -121,6 +133,8 @@ def _declared_browser_export(metadata: dict[str, object]) -> str | None:
 def install_webr_dist() -> str:
     archive = _download(WEBR_NPM_TARBALL)
     archive_sha256 = hashlib.sha256(archive).hexdigest()
+    if archive_sha256 != WEBR_ARCHIVE_SHA256:
+        raise RuntimeError("webR archive integrity mismatch; dependency review required")
 
     with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
         package_json_member = tar.getmember("package/package.json")
@@ -191,6 +205,8 @@ def check_vendor() -> list[str]:
         manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return [f"invalid runtime manifest: {exc}"]
+    if not isinstance(manifest, dict):
+        return ["invalid runtime manifest: expected object"]
 
     expected = expected_manifest()
     for section in ("codeMirror", "webR"):
@@ -213,6 +229,11 @@ def check_vendor() -> list[str]:
             errors.append(f"missing local webR asset: {name}")
     if not (WEBR_LOCAL_ROOT / "vfs").is_dir():
         errors.append("missing local webR vfs directory")
+    webr_record = manifest.get("webR", {})
+    if not isinstance(webr_record, dict) or webr_record.get("archiveSha256") != WEBR_ARCHIVE_SHA256:
+        errors.append("webR archive pin mismatch")
+    if vendor_tree_digest() != VENDOR_TREE_SHA256:
+        errors.append("interactive vendor tree integrity mismatch (missing, changed or extra files)")
     return errors
 
 

@@ -1,0 +1,11 @@
+# Fixed semantic-validation dependencies for the production preparation command.
+pyshacl==0.40.0
+rdflib==7.6.0
+owlrl==7.6.2
+packaging==26.2
+prettytable==3.18.0
+pyparsing==3.3.2
+html5rdf==1.2.1
+wcwidth==0.8.3
+importlib-metadata==8.7.0; python_version < "3.12"
+zipp==3.23.0; python_version < "3.12"
