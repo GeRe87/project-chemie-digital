@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+  <title id="title">Three equal-volume pumping batches</title>
+  <desc id="desc">Three successive equal 10 litre batches are pumped at 10, 2 and 5 litres per minute. Equal volumes do not imply equal pumping times.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="5">
+    <path d="M80 60v140h170V60M365 60v140h170V60M650 60v140h170V60M80 105h170M365 105h170M650 105h170"/>
+    <path d="M265 135h75m-18-12 18 12-18 12M550 135h75m-18-12 18 12-18 12"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="32" text-anchor="middle">
+    <text x="165" y="155">10 L</text><text x="450" y="155">10 L</text><text x="735" y="155">10 L</text>
+    <text x="165" y="255">10 L/min</text><text x="450" y="255">2 L/min</text><text x="735" y="255">5 L/min</text>
+  </g>
+</svg>

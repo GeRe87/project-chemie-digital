@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" role="img" aria-labelledby="title desc">
+  <title id="title">Three comparable conductivity sensors</title>
+  <desc id="desc">Three sensors report 480, 500 and 520 microsiemens per centimetre; the drawing does not imply equal calibration accuracy.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <rect x="60" y="30" width="130" height="105"/><rect x="285" y="30" width="130" height="105"/><rect x="510" y="30" width="130" height="105"/>
+    <path d="M85 55h80v45H85zM310 55h80v45h-80zM535 55h80v45h-80zM125 135v50M350 135v50M575 135v50M105 185h40M330 185h40M555 185h40"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">
+    <text x="125" y="88">480</text><text x="350" y="88">500</text><text x="575" y="88">520</text><text x="350" y="225">µS/cm</text>
+  </g>
+</svg>

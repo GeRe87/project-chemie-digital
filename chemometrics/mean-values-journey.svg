@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" role="img" aria-labelledby="title desc">
+  <title id="title">Two equal-distance journey sections</title>
+  <desc id="desc">Start, junction and end define two equally long 100 metre sections, travelled at 10 and 2 metres per second in the same direction.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="5">
+    <path d="M70 115h760M420 105l15 10-15 10M805 105l15 10-15 10M70 85v60M450 85v60M830 85v60"/>
+    <circle cx="70" cy="115" r="10"/><circle cx="450" cy="115" r="10"/><circle cx="830" cy="115" r="10"/>
+    <path d="M70 170v12h380v-12M450 170v12h380v-12"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="32" text-anchor="middle">
+    <text x="260" y="65">10 m/s</text><text x="640" y="65">2 m/s</text>
+    <text x="260" y="225">100 m</text><text x="640" y="225">100 m</text>
+  </g>
+</svg>

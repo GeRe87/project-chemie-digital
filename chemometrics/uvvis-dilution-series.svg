@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-labelledby="title desc">
+  <title id="title">UV/Vis calibration dilution series</title>
+  <desc id="desc">Five volumetric flasks with the same liquid volume but increasingly coloured solutions. Chosen standard concentrations are 0, 1, 2, 5 and 10 milligrams per litre.</desc>
+  <path d="M30 248 H610" fill="none" stroke="#7aafc2" stroke-width="2" opacity=".45"/>
+  <g transform="translate(80 12)">
+    <defs><clipPath id="flask-fill-0"><path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z"/></clipPath></defs>
+    <path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z" fill="#f8fcff" fill-opacity=".86" stroke="#24566c" stroke-width="3" stroke-linejoin="round"/>
+    <g clip-path="url(#flask-fill-0)">
+      <rect x="-53" y="155" width="106" height="75" fill="#d5f0f7" opacity=".94"/>
+      <path d="M -51 155 Q -26 150 0 155 T 52 155" stroke="#ffffff" stroke-width="2.3" fill="none"/>
+    </g>
+    <path d="M -15 8 H 15 M -17 101 H 17" fill="none" stroke="#24566c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -6 28 V 92" stroke="#ffffff" opacity=".7" stroke-width="4" stroke-linecap="round"/>
+    <text x="0" y="263" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="750" text-anchor="middle" fill="#24566c">0</text>
+  </g>
+  <g transform="translate(200 12)">
+    <defs><clipPath id="flask-fill-1"><path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z"/></clipPath></defs>
+    <path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z" fill="#f8fcff" fill-opacity=".86" stroke="#24566c" stroke-width="3" stroke-linejoin="round"/>
+    <g clip-path="url(#flask-fill-1)">
+      <rect x="-53" y="155" width="106" height="75" fill="#98d9e8" opacity=".94"/>
+      <path d="M -51 155 Q -26 150 0 155 T 52 155" stroke="#ffffff" stroke-width="2.3" fill="none"/>
+    </g>
+    <path d="M -15 8 H 15 M -17 101 H 17" fill="none" stroke="#24566c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -6 28 V 92" stroke="#ffffff" opacity=".7" stroke-width="4" stroke-linecap="round"/>
+    <text x="0" y="263" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="750" text-anchor="middle" fill="#24566c">1</text>
+  </g>
+  <g transform="translate(320 12)">
+    <defs><clipPath id="flask-fill-2"><path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z"/></clipPath></defs>
+    <path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z" fill="#f8fcff" fill-opacity=".86" stroke="#24566c" stroke-width="3" stroke-linejoin="round"/>
+    <g clip-path="url(#flask-fill-2)">
+      <rect x="-53" y="155" width="106" height="75" fill="#65b9dc" opacity=".94"/>
+      <path d="M -51 155 Q -26 150 0 155 T 52 155" stroke="#ffffff" stroke-width="2.3" fill="none"/>
+    </g>
+    <path d="M -15 8 H 15 M -17 101 H 17" fill="none" stroke="#24566c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -6 28 V 92" stroke="#ffffff" opacity=".7" stroke-width="4" stroke-linecap="round"/>
+    <text x="0" y="263" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="750" text-anchor="middle" fill="#24566c">2</text>
+  </g>
+  <g transform="translate(440 12)">
+    <defs><clipPath id="flask-fill-3"><path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z"/></clipPath></defs>
+    <path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z" fill="#f8fcff" fill-opacity=".86" stroke="#24566c" stroke-width="3" stroke-linejoin="round"/>
+    <g clip-path="url(#flask-fill-3)">
+      <rect x="-53" y="155" width="106" height="75" fill="#3378c7" opacity=".94"/>
+      <path d="M -51 155 Q -26 150 0 155 T 52 155" stroke="#ffffff" stroke-width="2.3" fill="none"/>
+    </g>
+    <path d="M -15 8 H 15 M -17 101 H 17" fill="none" stroke="#24566c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -6 28 V 92" stroke="#ffffff" opacity=".7" stroke-width="4" stroke-linecap="round"/>
+    <text x="0" y="263" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="750" text-anchor="middle" fill="#24566c">5</text>
+  </g>
+  <g transform="translate(560 12)">
+    <defs><clipPath id="flask-fill-4"><path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z"/></clipPath></defs>
+    <path d="M -11 10 L -11 97 C -11 117 -31 140 -42 163 C -58 198 -34 225 0 225 C 34 225 58 198 42 163 C 31 140 11 117 11 97 L 11 10 Z" fill="#f8fcff" fill-opacity=".86" stroke="#24566c" stroke-width="3" stroke-linejoin="round"/>
+    <g clip-path="url(#flask-fill-4)">
+      <rect x="-53" y="155" width="106" height="75" fill="#213e95" opacity=".94"/>
+      <path d="M -51 155 Q -26 150 0 155 T 52 155" stroke="#ffffff" stroke-width="2.3" fill="none"/>
+    </g>
+    <path d="M -15 8 H 15 M -17 101 H 17" fill="none" stroke="#24566c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -6 28 V 92" stroke="#ffffff" opacity=".7" stroke-width="4" stroke-linecap="round"/>
+    <text x="0" y="263" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="750" text-anchor="middle" fill="#24566c">10</text>
+  </g>
+  <text x="320" y="297" font-family="Arial,Helvetica,sans-serif" font-size="17" text-anchor="middle" fill="#24566c">Assigned concentration (mg/L)</text>
+</svg>
