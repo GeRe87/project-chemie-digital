@@ -193,6 +193,18 @@ dependency remediation before any release-security verdict. The existing Vite
 large-chunk warning also remains. Actual final-head test counts/logs are recorded
 in the structured issue handoff, not fabricated as publication approval here.
 
+The full #276 `npm test` attempt on the isolated Windows checkout failed in the
+unchanged `apps/pitch/test/card-motif-repair.test.ts:8`: its raw substring assertion
+requires literal LF, but the new checkout has477 CRLF lines in `card-primitives.css`.
+The normalized file is byte-identical to its canonical Git blob, and the assertion
+passes against that blob. **433 Python tests passed; Pitch passed184/185** before
+the top-level command stopped. Self-study was subsequently run separately and
+passed29/29. This is an actual failed full gate, not a waived test. That existing
+test/renderer file is outside #276, so it was not changed, globally monkey-patched,
+skipped or normalized in-place. Manager must authorize a bounded portability fix
+and a fresh full/exact-head rerun before project acceptance. The local Root
+production build/static verification is a distinct successful check.
+
 ## Future release branch and host configuration (requirements only)
 
 1. Obtain independent review, successful exact-current-head
