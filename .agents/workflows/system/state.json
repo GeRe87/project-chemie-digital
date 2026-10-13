@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
   "activeIssue": 274,
   "expectedDeliverable": "Issue #274 content-only on agent/274-mean-calculation-sequence from committed draft #273. Remove active purpose caveat selection while retaining reusable scientific qualification; add arithmetic substitution 74/5=14.8 after general formula before same-case five-dice R; speed solution only harmonic 10/3 m/s then 200/(10/3)=60s with exact/rounded distinction; add Pb median R (0.7 µg/L) after lead example; application-oriented four summary boxes with concise scientific conditions. 35 scenes/eight executable labs, all formula/function legends and existing SVG/reference/discussion content preserved. Exact scope in #274; no renderer/compiler/schema edits or external research. Focused tests/SHACL/build/full feature-head npm test; actual pitch:intro 5173 dark/light/eight R Run/Reset and restore course bundle after tests. Draft stacked PR/structured handoff; return only System state, no acceptance/merge.",
-  "lastCompletedTurn": "manager: created and assigned exactly #274 to Chemistry Lecturer and Subject-Matter Expert for new owner-directed content/sequence increment from draft #273. Inspected #257 blocked/no lease and overlapping graph/test scope; renewed serialization in issue comment. Bounded existing semantic primitives suffice; no renderer work assigned. External exact-head/current-main integration, independent reviews, portrait and tracer remain. No worker implementation, acceptance or merge; Chemometrics state untouched.",
-  "lastUpdated": "2026-10-13T06:51:00+02:00",
+  "lastCompletedTurn": "worker: delivered #274 in draft PR #275 with35 scenes/eight labs/25 formula legends, arithmetic substitution before R, harmonic speed then time, same-case Pb median R and application summary cards. Full npm test passed419 Python and every subsequent phase; actual5173 dark/light/eight R Run/Reset checks passed again after post-test course restoration. Structured handoff records exact feature validation and scope; no renderer/compiler changes. Return only System control; external exact-head/current-main and independent reviews/portrait/tracer remain. No self-acceptance/merge; Chemometrics state untouched.",
+  "lastUpdated": "2026-10-13T07:12:01+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["Draft #271/#269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
-  "stateRevision": 404,
+  "stateRevision": 406,
   "transitionHistory": [
-    {
-      "at": "2026-10-12T13:44:56+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-level2-standards-20261012",
-      "reason": "New owner feedback identifies internally actionable transparent/theme-aware media, common surfaces/alignment/editor typography and authored formula legends, plus structured marker/prompt and tracer-animation requirements. Claim planning-only turn to assign one bounded standards increment and retain contract-dependent followups and missing external validation; no feature implementation or acceptance."
-    },
-    {
-      "at": "2026-10-12T13:48:41+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-level2-standards-20261012",
-      "reason": "Assign exactly #261 to Frontend and Reveal Renderer Engineer for shared media/surface/alignment/typography/formula-legend primitives and narrow Level 2 wiring. Owner-visible repairs internally actionable; external current-head status missing and integration gates retained separately. Quantitative animation awaits a separate validated semantic-data/runtime increment; markers must not invent unsupported semantic distinctions. Explicit serialization in #257 comment, no other-track state write, no implementation or merge."
-    },
     {
       "at": "2026-10-12T15:20:08+02:00",
       "from": "busy/worker",
@@ -191,6 +177,20 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-mean-calculation-sequence-20261013",
       "reason": "Assign exactly #274 content-only to Chemistry Lecturer and Subject-Matter Expert on draft #273 basis. New arithmetic/Pb-median sequence gives 35 scenes/eight labs; application cards qualified and harmonic calculation exact before rounded display. #257 writes serialized until handoff, Chemometrics state untouched. Restore actual course preview after tests. No implementation, acceptance or merge in manager turn; independent external/integration/portrait/tracer gates retained."
+    },
+    {
+      "at": "2026-10-13T06:50:33+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-system-worker-274",
+      "reason": "Claim exactly #274 content-only on agent/274-mean-calculation-sequence from committed draft #273. Preserve generated HTML, other-track state and every existing SVG/lab/reference; no renderer or compiler edits."
+    },
+    {
+      "at": "2026-10-13T07:12:01+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-system-worker-274",
+      "reason": "Delivered draft #275 and structured #274 handoff. Full feature-head npm test passed419 Python and all later phases; after tests restored Chemometrics course bundle on5173 and repeated dark/light/eight R Run/Reset checks. Content-only scope, owner-approved extra fallback count test, generated HTML excluded. External current-head/compatible-main and independent reviews/portrait/tracer gates retained; no self-acceptance/merge or other-track state writes."
     }
   ]
 }
