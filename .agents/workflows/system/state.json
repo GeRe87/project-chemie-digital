@@ -1,43 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Frontend and Reveal Renderer Engineer",
-  "activeIssue": 272,
-  "expectedDeliverable": "Issue #272 on agent/272-mean-experiment-sketches from committed draft #271. Local transparent theme-reactive equal-distance SVG on speed case and below journey R task; equal-volume pump SVG bottom-left; six discussion setup sketches grouped inside their existing 3x2 cards. Reuse explicit RDF media parts and existing GroupBlock/LineChartBlock series; bounded generic projection/composition permitted, no ontology/schema/core-contract changes, identity-specific rules or external research. Turbidity sum 53.6/5 = 10.72 NTU with authored formula/legend and source-linked derived horizontal reference series, retain original five observations/order and explain upward pull of extreme 45.0 without discarding it. Preserve 33 scenes, seven labs, all other content and scientific conditions. Exact scope/gates in #272. Actual pitch:intro 5173 dark/light wide/resized checks and all seven R Run/Reset, focused/source/numerical/SHACL/build/full feature-head tests. Draft stacked PR/handoff, return only System control; no self-acceptance or merge. Static SVGs do not complete quantitative tracer animation.",
-  "lastCompletedTurn": "worker: delivered #272 in draft PR #273, feature 673a5a0, with eight setup SVGs/nine placements, generic illustrated prompt grouping and authored 10.72 NTU derived reference. Full npm test passed 415 Python and every subsequent suite; actual 5173 dark/light and all seven R Run/Reset checks passed. Structured handoff records source/numerical/accessibility and owner-approved recursive main.ts SVG discovery. Return only System control; external current-head validation/integration, independent reviews, portrait and tracer gates remain. No self-acceptance/merge; Chemometrics state untouched.",
-  "lastUpdated": "2026-10-13T01:03:22+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
+  "activeIssue": 274,
+  "expectedDeliverable": "Issue #274 content-only on agent/274-mean-calculation-sequence from committed draft #273. Remove active purpose caveat selection while retaining reusable scientific qualification; add arithmetic substitution 74/5=14.8 after general formula before same-case five-dice R; speed solution only harmonic 10/3 m/s then 200/(10/3)=60s with exact/rounded distinction; add Pb median R (0.7 µg/L) after lead example; application-oriented four summary boxes with concise scientific conditions. 35 scenes/eight executable labs, all formula/function legends and existing SVG/reference/discussion content preserved. Exact scope in #274; no renderer/compiler/schema edits or external research. Focused tests/SHACL/build/full feature-head npm test; actual pitch:intro 5173 dark/light/eight R Run/Reset and restore course bundle after tests. Draft stacked PR/structured handoff; return only System state, no acceptance/merge.",
+  "lastCompletedTurn": "manager: created and assigned exactly #274 to Chemistry Lecturer and Subject-Matter Expert for new owner-directed content/sequence increment from draft #273. Inspected #257 blocked/no lease and overlapping graph/test scope; renewed serialization in issue comment. Bounded existing semantic primitives suffice; no renderer work assigned. External exact-head/current-main integration, independent reviews, portrait and tracer remain. No worker implementation, acceptance or merge; Chemometrics state untouched.",
+  "lastUpdated": "2026-10-13T06:51:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["Draft #271/#269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
-  "stateRevision": 402,
+  "stateRevision": 404,
   "transitionHistory": [
-    {
-      "at": "2026-10-12T12:54:14+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-259-course-preview-20261012",
-      "reason": "Claim exact #259 on agent/259-level2-course-preview-repair from committed PR #258 basis. Standard 5173 port is available; preserve original owner work and Chemometrics state. Repair only scoped generic runtime/cards and exact Level 2 media/title selections, with ordinary pitch:intro browser evidence."
-    },
-    {
-      "at": "2026-10-12T13:17:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-259-course-preview-20261012",
-      "reason": "Publish draft PR #260 and structured handoff with actual standard-course browser evidence. Return only System control; full-test rerun evidence pending and external exact-head/integration gates block acceptance. No scientific vocabulary/API changes, no self-acceptance/merge; Chemometrics state untouched."
-    },
-    {
-      "at": "2026-10-12T13:17:43+02:00",
-      "from": "blocked/manager",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-259-course-preview-20261012",
-      "reason": "Asynchronous completion evidence for the same #259 worker result: full npm test rerun passed 398 Python tests and every later phase. No new execution turn or acceptance; external exact-head/integration gates remain."
-    },
     {
       "at": "2026-10-12T13:44:56+02:00",
       "from": "blocked/manager",
@@ -198,6 +177,20 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-272",
       "reason": "Delivered draft #273 and structured #272 handoff with full feature-head npm test, focused SHACL/numerical/source tests, build and actual 5173 dark/light/R-lab evidence. Return only System control with lease cleared. Exact-current-head external status and compatible-main integration remain mandatory; independent reviews, fresh portrait and quantitative tracer remain. No self-acceptance/merge or other-track state writes."
+    },
+    {
+      "at": "2026-10-13T06:46:55+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-mean-calculation-sequence-20261013",
+      "reason": "Plan one content-only owner follow-up from draft #273: purpose-footer removal, arithmetic worked substitution before R, harmonic speed then total time, median R after lead comparison and application-example summary cards. New request is internally actionable; retain externally dependent exact-head validation/integration and independent portrait/tracer reviews. No implementation or acceptance in this manager turn."
+    },
+    {
+      "at": "2026-10-13T06:51:00+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-mean-calculation-sequence-20261013",
+      "reason": "Assign exactly #274 content-only to Chemistry Lecturer and Subject-Matter Expert on draft #273 basis. New arithmetic/Pb-median sequence gives 35 scenes/eight labs; application cards qualified and harmonic calculation exact before rounded display. #257 writes serialized until handoff, Chemometrics state untouched. Restore actual course preview after tests. No implementation, acceptance or merge in manager turn; independent external/integration/portrait/tracer gates retained."
     }
   ]
 }
