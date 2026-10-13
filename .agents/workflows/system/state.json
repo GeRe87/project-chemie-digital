@@ -1,36 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 16,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": "Chemistry Lecturer and Subject-Matter Expert",
-  "activeIssue": 274,
-  "expectedDeliverable": "Issue #274 content-only on agent/274-mean-calculation-sequence from committed draft #273. Remove active purpose caveat selection while retaining reusable scientific qualification; add arithmetic substitution 74/5=14.8 after general formula before same-case five-dice R; speed solution only harmonic 10/3 m/s then 200/(10/3)=60s with exact/rounded distinction; add Pb median R (0.7 µg/L) after lead example; application-oriented four summary boxes with concise scientific conditions. 35 scenes/eight executable labs, all formula/function legends and existing SVG/reference/discussion content preserved. Exact scope in #274; no renderer/compiler/schema edits or external research. Focused tests/SHACL/build/full feature-head npm test; actual pitch:intro 5173 dark/light/eight R Run/Reset and restore course bundle after tests. Draft stacked PR/structured handoff; return only System state, no acceptance/merge.",
-  "lastCompletedTurn": "worker: delivered #274 in draft PR #275 with35 scenes/eight labs/25 formula legends, arithmetic substitution before R, harmonic speed then time, same-case Pb median R and application summary cards. Full npm test passed419 Python and every subsequent phase; actual5173 dark/light/eight R Run/Reset checks passed again after post-test course restoration. Structured handoff records exact feature validation and scope; no renderer/compiler changes. Return only System control; external exact-head/current-main and independent reviews/portrait/tracer remain. No self-acceptance/merge; Chemometrics state untouched.",
-  "lastUpdated": "2026-10-13T07:12:01+02:00",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "QA, DevOps, Security, and Accessibility Engineer",
+  "activeIssue": 276,
+  "expectedDeliverable": "Issue #276 in NEW isolated chemie-production-build-276 worktree on agent/276-chemometrics-production-build, committed draft #275 basis (main lacks course generator). Implement additive root build:chemometrics via existing offering generator, generic configurable base/output and fail-closed SHACL/selection/vendor/build/static artifact checks. Static-root/subpath browser tests of existing world/Reveal/D3/KaTeX/media/eight R Run/Reset; reproducibility/dependency integrity evidence, full exact-feature-head npm test, deployment/promotion/rollback/policy-exception documentation. Exact scope in #276. No RDF/content/renderer implementation, existing-worktree writes/server stops, workflows/policy/Pages/settings/secrets/release-branch/deployment/merge. Commit isolated result, draft stacked PR/handoff, return only NEW-worktree System state. Preparation is not an accepted release; external exact-head/current-main/independent gates remain.",
+  "lastCompletedTurn": "manager: created and assigned exactly #276 to QA, DevOps, Security, and Accessibility Engineer. Created NEW isolated worktree from committed draft #275; current main lacks the required course generator. Inspected other-track #257 blocked/no lease and declared distinct build/test/docs scope, no RDF/renderer changes. Existing dirty worktrees and5173 server unchanged. Build preparation internally actionable; missing accepted stack/external validation/integration and future deployment-policy authorization/publication approvals are separate release gates. No worker implementation, merge, workflow or deployment in manager turn.",
+  "lastUpdated": "2026-10-13T07:21:45+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
   "blockedBy": ["Draft #271/#269/#267/#265/#262/#260/#258/#185 stack is unaccepted; required external exact-current-head status and compatible-main integration remain mandatory before acceptance/merge", "Independent #214/#217/#257 reviews and known fresh-portrait navigation failure remain; inspect cross-track write scopes again before further assignment", "Quantitative river/tracer animation remains separately pending"],
-  "stateRevision": 406,
+  "stateRevision": 408,
   "transitionHistory": [
-    {
-      "at": "2026-10-12T15:20:08+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-261-teaching-primitives-20261012",
-      "reason": "Delivered draft PR #262 and structured handoff with exact normal-course browser and full local test/build evidence. Return only System control. Fresh portrait navigation settlement, external exact-head validation/current-main integration and separately assigned typed tracer animation remain open; preserve independent reviews and cross-track serialization. No self-acceptance/merge."
-    },
-    {
-      "at": "2026-10-12T16:03:54+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-mean-values-followup-20261012",
-      "reason": "Owner gave a new bounded set of Level 2 requirements after #261 handoff. Claim planning-only System turn to create and assign one shared renderer/Mean Values authoring issue from #262. Explicitly inspect serialized Chemometrics #257 gate; keep exact-head/integration blockers, #214 portrait navigation and separate tracer-animation follow-up. No implementation, acceptance or merge in manager turn."
-    },
     {
       "at": "2026-10-12T16:06:14+02:00",
       "from": "busy/manager",
@@ -191,6 +177,20 @@
       "to": "blocked/manager",
       "actor": "interactive-system-worker-274",
       "reason": "Delivered draft #275 and structured #274 handoff. Full feature-head npm test passed419 Python and all later phases; after tests restored Chemometrics course bundle on5173 and repeated dark/light/eight R Run/Reset checks. Content-only scope, owner-approved extra fallback count test, generated HTML excluded. External current-head/compatible-main and independent reviews/portrait/tracer gates retained; no self-acceptance/merge or other-track state writes."
+    },
+    {
+      "at": "2026-10-13T07:21:45+02:00",
+      "from": "blocked/manager",
+      "to": "busy/manager",
+      "actor": "interactive-system-manager-production-build-276",
+      "reason": "Owner narrowed deployment request to isolated host-neutral production build/static validation/docs, with no Actions/merge/publication. Claim planning-only System turn in NEW worktree from committed draft #275, since current main lacks course generator. Existing worktrees/state/server remain untouched; inspect #257 scope and retain unaccepted-stack/external/integration/policy gates."
+    },
+    {
+      "at": "2026-10-13T07:21:45+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-production-build-276",
+      "reason": "Assign exactly #276 host-neutral build/static validation/docs on explicit unchanged draft #275 dependency. Work only in NEW isolated worktree, additive generic configuration of existing course pipeline; no renderer/content/ontology or live existing-worktree changes. Future Actions requires authorized narrowly scoped deployment exception, not validation-provider bypass. No implementation/acceptance/merge/publication; independent external/integration/portrait/tracer gates retained."
     }
   ]
 }
