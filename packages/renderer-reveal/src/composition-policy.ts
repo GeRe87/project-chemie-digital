@@ -165,6 +165,15 @@ function isAttributionMediaGroup(block: SceneBlock): boolean {
   return prose.length === 1 && media.length === 1;
 }
 
+/** An explicitly grouped task and its illustrations remain one prompt surface. */
+function isIllustratedPrompt(block: SceneBlock): boolean {
+  if (block.kind !== "group" || block.children.length < 2) return false;
+  const byId = new Map(block.children.map(child => [child.id, child]));
+  const ordered = block.readingOrder.map(id => byId.get(id));
+  return ordered[0]?.kind === "prompt"
+    && ordered.slice(1).every(child => child?.kind === "media-reference");
+}
+
 function isFullViewportMediaGroup(block: SceneBlock): boolean {
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter((child) => child.kind === "prose");
@@ -571,6 +580,7 @@ export function revealComponentDescriptor(block: SceneBlock): RevealComponentDes
     case "media-reference":
       return { blockId: block.id, kind: "media" };
     case "group":
+      if (isIllustratedPrompt(block)) return { blockId: block.id, kind: "prompt" };
       return { blockId: block.id, kind: "group", itemCount: block.children.length };
     default: {
       const unreachable: never = block;
@@ -665,7 +675,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const body = heading ? blocks.slice(1) : blocks;
 
   const formulaUnits = resolveFormulaLegendUnits(scene);
-  if (formulaUnits.length) {
+  if (formulaUnits.length && !(body.some(block => block.kind === "table") && body.some(block => block.kind === "chart"))) {
     const unitIds = new Set(formulaUnits.flatMap(unit => unit.map(block => block.id)));
     const firstFormula = body.findIndex(block => unitIds.has(block.id));
     const placements = placementsWithHeading(heading);
@@ -963,8 +973,17 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     const second = body[evidencePairIndex + 1]!;
     const before = body.slice(0, evidencePairIndex);
     const after = body.slice(evidencePairIndex + 2);
-    const supportKinds = [...before, ...after].map((item) => revealComponentDescriptor(item).kind);
-    const validSupport = supportKinds.every((kind) => kind === "info-surface" || kind === "list-collection" || kind === "media");
+    const validSupportSequence = (items: readonly SceneBlock[]): boolean => items.every((item, index) => {
+      const kind = revealComponentDescriptor(item).kind;
+      if (kind === "info-surface" || kind === "list-collection" || kind === "media") return true;
+      const formula = item.kind === "math" ? item : items[index - 1];
+      const legend = item.kind === "math" ? items[index + 1] : item;
+      return formula?.kind === "math" && legend?.kind === "definition-list"
+        && legend.emphasis === "supporting"
+        && legend.source.some(source => source.relationPath === "dct:hasPart"
+          && formula.source.some(owner => owner.resourceId === source.resourceId));
+    });
+    const validSupport = validSupportSequence(before) && validSupportSequence(after);
     if (validSupport) {
       const firstKind = revealComponentDescriptor(first).kind;
       const secondKind = revealComponentDescriptor(second).kind;

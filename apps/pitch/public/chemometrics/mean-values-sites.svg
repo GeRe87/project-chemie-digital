@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" role="img" aria-labelledby="title desc">
+  <title id="title">Pesticide concentrations at three sampling sites</title>
+  <desc id="desc">Three distinct sampling sites have pesticide concentrations 0.01, 0.1 and 1.0 micrograms per litre. The three measurements do not establish a log-normal distribution.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <path d="M40 130q130-90 260-25t180 0t180 25M40 170q130-90 260-25t180 0t180 25"/>
+    <circle cx="130" cy="72" r="20"/><circle cx="350" cy="86" r="20"/><circle cx="570" cy="75" r="20"/>
+    <path d="M130 92v20M350 106v20M570 95v20"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="29" text-anchor="middle">
+    <text x="130" y="215">0.01 µg/L</text><text x="350" y="215">0.1 µg/L</text><text x="570" y="215">1.0 µg/L</text>
+  </g>
+</svg>

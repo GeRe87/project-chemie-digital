@@ -119,7 +119,7 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
         "dice-warmup": ["1", "2", "media", "3"],
         "growth": ["1", "2", "media"],
         "speed-solution": ["solution-1", "3", "diagram"],
-        "turbidity": ["1", "2", "table", "3"],
+        "turbidity": ["1", "2", "average", "table", "3"],
         "real-world": ["1", "bridge", "question"],
     }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
     SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]] = {
@@ -274,7 +274,11 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
                     self.assertEqual("math", block["kind"])
                     self.assertEqual(str(next(self.graph.objects(resource, CD.latex))), block["expression"])
                 elif role == CD.ExerciseRole:
-                    self.assertEqual("prompt", block["kind"])
+                    if block["kind"] == "group":
+                        self.assertEqual("prompt", block["children"][0]["kind"])
+                        self.assertTrue(all(child["kind"] == "media-reference" for child in block["children"][1:]))
+                    else:
+                        self.assertEqual("prompt", block["kind"])
                 elif role == CD.KeyPointRole:
                     self.assertEqual("list", block["kind"])
                     self.assertEqual("unordered", block["listStyle"])

@@ -184,8 +184,8 @@
   ex:mean-layers-formula a cd:MathExpression ; cd:latex "D_{\\mathrm{eff}}=\\frac{2}{1/(2\\times10^{-6})+1/(10^{-8})}\\approx1.99\\times10^{-8}\\;\\mathrm{m^2/s}" ; cd:body "The effective diffusion coefficient for this equal-layer model is approximately 1.99 times ten to the minus eight square metres per second."@en ; cd:authoredResource true .
 
   ex:mean-turbidity-context a cd:Interpretation ; cd:body "Illustrative daily turbidity: 2.1, 2.3, 2.0, 2.2 and 45.0 NTU. The final value records a large event, not automatically an invalid measurement."@en ; cd:authoredResource true .
-  ex:mean-turbidity-chart a cd:ChartDefinition ; skos:prefLabel "Five turbidity observations"@en ; cd:body "Turbidity on days 1 to 5, with one much larger final observation."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Day"@en ; cd:yAxisLabel "Turbidity"@en ; cd:yAxisUnit "NTU" ; cd:usesDataset ex:mean-turbidity-dataset ; cd:authoredResource true .
-  ex:mean-turbidity-dataset a cd:Dataset ; cd:hasObservation ex:mean-turbidity-1, ex:mean-turbidity-2, ex:mean-turbidity-3, ex:mean-turbidity-4, ex:mean-turbidity-5 ; cd:authoredResource true .
+  ex:mean-turbidity-chart a cd:ChartDefinition ; skos:prefLabel "Turbidity and arithmetic mean"@en ; cd:body "Measured turbidity varies by day. The horizontal reference is the arithmetic mean: 10.72 NTU, not extra measurements."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Day"@en ; cd:yAxisLabel "Turbidity"@en ; cd:yAxisUnit "NTU" ; cd:usesDataset ex:mean-turbidity-dataset ; dct:hasPart ex:mean-turbidity-average-reference ; cd:authoredResource true .
+  ex:mean-turbidity-dataset a cd:Dataset ; skos:prefLabel "Observed turbidity"@en ; cd:hasObservation ex:mean-turbidity-1, ex:mean-turbidity-2, ex:mean-turbidity-3, ex:mean-turbidity-4, ex:mean-turbidity-5 ; cd:authoredResource true .
   ex:mean-turbidity-1 a cd:Observation ; cd:position 1 ; cd:xValue 1.0 ; cd:numericValue 2.1 ; cd:authoredResource true .
   ex:mean-turbidity-2 a cd:Observation ; cd:position 2 ; cd:xValue 2.0 ; cd:numericValue 2.3 ; cd:authoredResource true .
   ex:mean-turbidity-3 a cd:Observation ; cd:position 3 ; cd:xValue 3.0 ; cd:numericValue 2.0 ; cd:authoredResource true .
@@ -329,7 +329,7 @@
 
   ex:mean-order-example dct:hasPart ex:mean-turbidity-order-table .
   ex:mean-turbidity-context dct:hasPart ex:mean-turbidity-slide-context, ex:mean-turbidity-note .
-  ex:mean-turbidity-slide-context a cd:Interpretation ; cd:body "NTU = nephelometric turbidity units: water turbidity measured by light scattering. The 45.0 NTU event is not automatically an invalid measurement; keep it visible and sort separately for the median."@en ; cd:interpretsResource ex:mean-turbidity-context ; cd:authoredResource true .
+  ex:mean-turbidity-slide-context a cd:Interpretation ; cd:body "NTU = nephelometric turbidity units (light scattering). The extreme 45.0 NTU strongly pulls the arithmetic mean above the four values around 2.0 to 2.3 NTU. The event is not automatically invalid; keep it visible."@en ; cd:interpretsResource ex:mean-turbidity-context ; cd:authoredResource true .
   ex:mean-turbidity-note a cd:Interpretation ; cd:body "Rank 3 gives 2.2 NTU. The 45.0 NTU event still matters."@en ; cd:interpretsResource ex:mean-order-example ; cd:authoredResource true .
   ex:mean-turbidity-order-table a cd:TableDefinition ; skos:prefLabel "Observed order and sorted order (NTU)"@en ; cd:body "The columns show two separate orderings of the same five values. Observed order is indexed by day; sorted order is indexed by rank. A row does not pair a sorted value with an observed day."@en ; cd:hasTableColumn ex:mean-order-col-position, ex:mean-order-col-observed, ex:mean-order-col-sorted ; cd:hasTableRow ex:mean-order-row-1, ex:mean-order-row-2, ex:mean-order-row-3, ex:mean-order-row-4, ex:mean-order-row-5 ; cd:authoredResource true .
   ex:mean-order-col-position a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Day / rank"@en ; cd:authoredResource true .
@@ -554,4 +554,31 @@
   ex:mean-speed-fn-sum a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sum(x)"@en ; cd:body "Adds section distances or travel times to their journey totals."@en ; cd:authoredResource true .
   ex:mean-speed-fn-mean a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "mean(x)"@en ; cd:body "Averages reciprocal speeds; taking its reciprocal gives the harmonic mean."@en ; cd:authoredResource true .
   ex:mean-speed-fn-list a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "list(...)"@en ; cd:body "Returns named times and speeds together, with units in their names."@en ; cd:authoredResource true .
+  # Setup illustrations are reusable semantic parts of the exercises.
+  ex:mean-speed-question dct:hasPart ex:mean-journey-sketch .
+  ex:mean-speed-r-practice dct:hasPart ex:mean-journey-sketch .
+  ex:mean-harmonic-practice dct:hasPart ex:mean-pumping-sketch .
+  ex:mean-case-replicates dct:hasPart ex:mean-replicates-sketch .
+  ex:mean-case-sensors dct:hasPart ex:mean-sensors-sketch .
+  ex:mean-case-loads dct:hasPart ex:mean-loads-sketch .
+  ex:mean-case-microplastics dct:hasPart ex:mean-microplastics-sketch .
+  ex:mean-case-sites dct:hasPart ex:mean-sites-sketch .
+  ex:mean-case-reactors dct:hasPart ex:mean-reactors-sketch .
+  ex:mean-journey-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-journey.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Start, junction and end mark two equal 100 m sections, travelled at 10 and 2 m/s in the same direction."@en ; cd:derivedFromResource ex:mean-speed-question ; cd:authoredResource true .
+  ex:mean-pumping-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-pumping.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three successive 10 L batches pumped at 10, 2 and 5 L/min. Equal volumes do not imply equal pumping times."@en ; cd:derivedFromResource ex:mean-harmonic-practice ; cd:authoredResource true .
+  ex:mean-replicates-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-replicates.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three nitrate replicates in comparable laboratory flasks: 4.8, 5.0 and 5.2 mg/L."@en ; cd:derivedFromResource ex:mean-case-replicates ; cd:authoredResource true .
+  ex:mean-sensors-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-sensors.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three comparable conductivity sensors report 480, 500 and 520 µS/cm; calibration equality is not inferred."@en ; cd:derivedFromResource ex:mean-case-sensors ; cd:authoredResource true .
+  ex:mean-loads-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-loads.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three simultaneous phosphorus inputs of 200, 300 and 200 g/s converge into one lake."@en ; cd:derivedFromResource ex:mean-case-loads ; cd:authoredResource true .
+  ex:mean-microplastics-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-microplastics.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three microplastic samples contain 100, 1000 and 10000 particles/kg. Drawn particles are illustrative, not individual counts or a fitted distribution."@en ; cd:derivedFromResource ex:mean-case-microplastics ; cd:authoredResource true .
+  ex:mean-sites-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-sites.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three pesticide sampling sites report 0.01, 0.1 and 1.0 µg/L; these values do not establish a log-normal distribution."@en ; cd:derivedFromResource ex:mean-case-sites ; cd:authoredResource true .
+  ex:mean-reactors-sketch a cd:MediaAsset ; cd:uri "/chemometrics/mean-values-reactors.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three series reactors with rate constants 0.5, 1.0 and 2.0 per hour. Tank symbols do not specify volumes, residence times or an effective-rate model."@en ; cd:derivedFromResource ex:mean-case-reactors ; cd:authoredResource true .
+
+  # Derived summary reference, not an extension of the measured observation dataset.
+  ex:mean-turbidity-average-reference a cd:Dataset ; skos:prefLabel "Arithmetic mean: 10.72 NTU (derived reference)"@en ; cd:hasObservation ex:mean-turbidity-average-start, ex:mean-turbidity-average-end ; cd:derivedFromResource ex:mean-turbidity-dataset, ex:mean-turbidity-average-formula ; cd:authoredResource true .
+  ex:mean-turbidity-average-start a cd:Observation ; cd:position 1 ; cd:xValue 1.0 ; cd:numericValue 10.72 ; cd:derivedFromResource ex:mean-turbidity-dataset ; cd:authoredResource true .
+  ex:mean-turbidity-average-end a cd:Observation ; cd:position 2 ; cd:xValue 5.0 ; cd:numericValue 10.72 ; cd:derivedFromResource ex:mean-turbidity-dataset ; cd:authoredResource true .
+  ex:mean-turbidity-average-formula a cd:MathExpression ; cd:latex "\\bar{x}=\\frac{53.6}{5}=10.72\\;\\mathrm{NTU}" ; cd:body "All five observed turbidity values sum to 53.6 NTU. Their equally weighted arithmetic mean is 53.6 divided by 5, equal to 10.72 NTU."@en ; cd:derivedFromResource ex:mean-turbidity-dataset ; dct:hasPart ex:mean-turbidity-average-legend ; cd:authoredResource true .
+  ex:mean-turbidity-average-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-turbidity-average-symbol, ex:mean-turbidity-average-sum ; cd:authoredResource true .
+  ex:mean-turbidity-average-symbol a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄"@en ; cd:body "Arithmetic mean of all five values, in NTU."@en ; cd:authoredResource true .
+  ex:mean-turbidity-average-sum a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "53.6, 5"@en ; cd:body "Sum 2.1 + 2.3 + 2.0 + 2.2 + 45.0; five equal weights."@en ; cd:authoredResource true .
 }

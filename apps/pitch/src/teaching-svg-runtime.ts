@@ -1,4 +1,11 @@
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
+import type { SceneBlock } from "../../../packages/core/src/scene-document.ts";
+
+/** Only explicit authored media, including media inside semantic groups. */
+export function authoredSvgUris(blocks: readonly SceneBlock[]): readonly string[] {
+  return blocks.flatMap(block => block.kind === "group" ? authoredSvgUris(block.children)
+    : block.kind === "media-reference" && block.mediaType === "image/svg+xml" ? [block.uri] : []);
+}
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const tags = new Set(["svg", "g", "path", "rect", "circle", "ellipse", "line", "polyline", "polygon", "text", "tspan", "title", "desc"]);

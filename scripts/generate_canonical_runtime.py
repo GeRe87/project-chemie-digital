@@ -725,11 +725,7 @@ def bar_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[d
 
 
 
-def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
-    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
-    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
-        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
-
+def line_series_payload(dataset: Dataset, chart_dataset: URIRef, language: str) -> dict[str, Any]:
     observation_records = [
         (observation, integer(dataset, observation, iri(CD, "position")))
         for observation in objects(dataset, chart_dataset, iri(CD, "hasObservation"))
@@ -743,10 +739,8 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         raise ValueError(f"Line-chart observation positions must be unique and contiguous for {compact(chart_dataset)}")
 
     data: list[dict[str, Any]] = []
-    observation_ids: set[URIRef] = set()
     previous_x: float | None = None
     for observation, _position in observation_records:
-        observation_ids.add(observation)
         x_value = decimal_number(dataset, observation, iri(CD, "xValue"))
         y_value = decimal_number(dataset, observation, iri(CD, "numericValue"))
         if previous_x is not None and x_value <= previous_x:
@@ -763,7 +757,32 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         })
 
     series_label, series_label_path = selected_label_reference(dataset, chart_dataset, language)
-    series_id = compact(chart_dataset)
+    return {
+        "id": compact(chart_dataset), "label": series_label, "data": data,
+        "source": [source_reference(dataset, chart_dataset, series_label_path)],
+    }
+
+
+def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError(f"ChartDefinition {compact(chart)} requires exactly one Dataset")
+    series = [line_series_payload(dataset, chart_dataset, language)]
+    # Explicit supplemental datasets are authored series, never computed from chart identity.
+    parts = sorted((part for part in objects(dataset, chart, DCTERMS.hasPart)
+                    if isinstance(part, URIRef) and is_resource_type(dataset, part, "Dataset")), key=str)
+    for part in parts:
+        if part == chart_dataset:
+            raise ValueError("Supplementary line dataset must differ from the primary dataset")
+        additional = line_series_payload(dataset, part, language)
+        additional["source"].insert(0, source_reference(dataset, chart, "dct:hasPart"))
+        series.append(additional)
+    owners: dict[str, str] = {}
+    for entry in series:
+        for datum in entry["data"]:
+            if datum["id"] in owners:
+                raise ValueError("Line-chart observations must belong to exactly one series")
+            owners[datum["id"]] = entry["id"]
     annotation_records = [
         (annotation, integer(dataset, annotation, iri(CD, "position")))
         for annotation in objects(dataset, chart, iri(CD, "hasChartAnnotation"))
@@ -774,22 +793,24 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
     for annotation, _position in annotation_records:
         base = {
             "id": compact(annotation),
-            "seriesId": series_id,
             "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
             "source": [source_reference(dataset, annotation, "cd:body")],
         }
         if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
             target = one(dataset, annotation, iri(CD, "targetObservation"))
-            if target not in observation_ids:
+            if compact(target) not in owners:
                 raise ValueError(f"Point annotation {compact(annotation)} targets an observation outside the chart dataset")
-            annotations.append({**base, "kind": "point", "datumId": compact(target)})
+            annotations.append({**base, "seriesId": owners[compact(target)], "kind": "point", "datumId": compact(target)})
         elif is_resource_type(dataset, annotation, "ChartRangeAnnotation"):
             start_observation = one(dataset, annotation, iri(CD, "startObservation"))
             end_observation = one(dataset, annotation, iri(CD, "endObservation"))
-            if start_observation not in observation_ids or end_observation not in observation_ids:
+            if compact(start_observation) not in owners or compact(end_observation) not in owners:
                 raise ValueError(f"Range annotation {compact(annotation)} targets an observation outside the chart dataset")
+            if owners[compact(start_observation)] != owners[compact(end_observation)]:
+                raise ValueError("Range annotation endpoints must belong to the same series")
             annotations.append({
                 **base,
+                "seriesId": owners[compact(start_observation)],
                 "kind": "x-range",
                 "startDatumId": compact(start_observation),
                 "endDatumId": compact(end_observation),
@@ -812,12 +833,7 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
             "label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language),
             **({"unit": y_unit} if y_unit else {}),
         },
-        "series": [{
-            "id": series_id,
-            "label": series_label,
-            "data": data,
-            "source": [source_reference(dataset, chart_dataset, series_label_path)],
-        }],
+        "series": series,
         "annotations": annotations,
     }
     return payload, label_relation_path
@@ -1285,6 +1301,29 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 }
             else:
                 raise ValueError(f"Unsupported communicative role {role}")
+            if block["kind"] == "prompt" and role == "ExerciseRole":
+                media_parts = sorted((part for part in objects(dataset, selected, DCTERMS.hasPart)
+                                      if isinstance(part, URIRef) and is_resource_type(dataset, part, "MediaAsset")), key=str)
+                if media_parts:
+                    children = [{**block, "disclosure": {"order": 0, "mode": "initial"}}]
+                    for media_index, media in enumerate(media_parts, 1):
+                        children.append({
+                            "id": f"{block_id}--{compact(media)}", "kind": "media-reference",
+                            "uri": selected_literal(dataset, media, iri(CD, "uri"), "cd:uri", None),
+                            "mediaType": selected_literal(dataset, media, iri(CD, "mediaType"), "cd:mediaType", None),
+                            "alternativeText": selected_literal(dataset, media, iri(CD, "alternativeText"), "cd:alternativeText", language),
+                            "source": [source_reference(dataset, selected, "dct:hasPart"),
+                                       source_reference(dataset, media, "cd:uri"),
+                                       source_reference(dataset, media, "cd:alternativeText")],
+                            "disclosure": {"order": media_index, "mode": "initial"},
+                            "emphasis": "supporting", "intent": {"kind": "explain"},
+                        })
+                    block = {
+                        "id": f"{block_id}--illustrated", "kind": "group", "children": children,
+                        "readingOrder": [child["id"] for child in children],
+                        "source": [source_reference(dataset, selected, relation_path), source_reference(dataset, selected, "dct:hasPart")],
+                        "disclosure": block["disclosure"], "emphasis": "primary", "intent": {"kind": "practice"},
+                    }
             blocks.append(block)
             # A selected formula retains its explicitly authored definition parts.
             # This is semantic expansion, not a renderer-generated symbol glossary.
@@ -1636,7 +1675,7 @@ def definition_list_fallback_markup(block: dict[str, Any], *, scrollable: bool =
     return f'<dl class="definition-list-fallback"{scroll_attributes}{fallback_attributes(block["source"])}>{entries}</dl>'
 
 
-def static_fallback(artifact: dict[str, Any]) -> str:
+def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str:
     document = artifact["sceneDocuments"][0]
     articles = []
     for scene in document["scenes"]:
@@ -1644,6 +1683,12 @@ def static_fallback(artifact: dict[str, Any]) -> str:
         consumed_function_legend_ids: set[str] = set()
         for block in scene["blocks"]:
             if block["id"] in consumed_function_legend_ids:
+                continue
+            if block["kind"] == "group":
+                by_id = {child["id"]: child for child in block["children"]}
+                children = [by_id[child_id] for child_id in block["readingOrder"]]
+                content = static_fallback({"sceneDocuments": [{**document, "scenes": [{**scene, "blocks": children}]}]}, _fragment=True)
+                blocks.append(f'<section class="group-fallback" role="group"{fallback_attributes(block["source"])}>{content}</section>')
                 continue
             if block["kind"] == "media-reference":
                 blocks.append(media_fallback_markup(block))
@@ -1734,10 +1779,12 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                     )
                 elif block["chartType"] == "line":
                     point_items = "".join(
-                        f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
-                        f'x={html.escape(str(datum["x"]))}, y={html.escape(str(datum["y"]))}</li>'
+                        f'<li data-chart-series-id="{html.escape(series["id"], quote=True)}"{fallback_attributes(series["source"])}>'
+                        f'<strong>{html.escape(series["label"])}</strong><ol>'
+                        + "".join(f'<li data-chart-datum-id="{html.escape(datum["id"], quote=True)}"{fallback_attributes(datum["source"])}>'
+                                  f'x={html.escape(str(datum["x"]))}, y={html.escape(str(datum["y"]))}</li>' for datum in series["data"])
+                        + '</ol></li>'
                         for series in block["series"]
-                        for datum in series["data"]
                     )
                     annotation_items = "".join(
                         f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
@@ -1882,6 +1929,9 @@ def static_fallback(artifact: dict[str, Any]) -> str:
                 f'{html.escape(block["text"])}'
                 f'</{tag}>'
             )
+        if _fragment:
+            articles.append("".join(blocks))
+            continue
         articles.append(
             f'<article data-pitch-step="{html.escape(scene["id"], quote=True)}" '
             f'data-source-path-id="{html.escape(document["sourcePathId"], quote=True)}"{fallback_attributes(scene["source"])}>'

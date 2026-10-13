@@ -29,7 +29,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_new_formulas_have_exact_english_spoken_descriptions_and_source_graph(self):
         expressions = set(self.graph.subjects(RDF.type, CD.MathExpression))
-        self.assertEqual(22, len(expressions))
+        self.assertEqual(23, len(expressions))
         math_blocks = {
             block["source"][0]["resourceId"]: block
             for scene in self.document["scenes"] for block in scene["blocks"]
@@ -70,8 +70,9 @@ class MeanValuesExamplesTests(unittest.TestCase):
     def test_all_added_exercises_have_answers_and_static_prompt_projection(self):
         exercises = set(self.graph.subjects(RDF.type, CD.Exercise))
         self.assertEqual(16, len(exercises))
+        from mean_values_expectations import leaf_blocks
         prompts = {block["source"][0]["resourceId"]: block
-                   for scene in self.document["scenes"] for block in scene["blocks"]
+                   for scene in self.document["scenes"] for block in leaf_blocks(scene)
                    if block["kind"] == "prompt"}
         for exercise in exercises:
             result = self.graph.value(exercise, CD.hasExpectedResult)

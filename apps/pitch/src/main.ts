@@ -27,7 +27,7 @@ import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
 import "./teaching-primitives.css";
-import { mountTeachingSvgMedia } from "./teaching-svg-runtime.ts";
+import { authoredSvgUris, mountTeachingSvgMedia } from "./teaching-svg-runtime.ts";
 import {
   canonicalDatasetSnapshot,
   compilePitchCourseRuntime,
@@ -87,9 +87,7 @@ presentation.before(shellRoot);
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
 const courseRuntime = compilePitchCourseRuntime();
 const documents = courseRuntime?.sceneDocuments ?? compilePitchSceneDocuments();
-const localSvgUris = documents.flatMap(document => document.scenes.flatMap(scene => scene.blocks
-  .filter(block => block.kind === "media-reference" && block.mediaType === "image/svg+xml")
-  .map(block => block.kind === "media-reference" ? block.uri : "")));
+const localSvgUris = documents.flatMap(document => document.scenes.flatMap(scene => authoredSvgUris(scene.blocks)));
 const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window, window.location.href, localSvgUris);
 const courseWorldModel = courseRuntime ? createPitchCourseWorldFromRuntime(courseRuntime) : undefined;
 let unmountScenes: () => void;

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" role="img" aria-labelledby="title desc">
+  <title id="title">Three reactors arranged in series</title>
+  <desc id="desc">Series reactors have rate constants 0.5, 1.0 and 2.0 per hour. Identical schematic tank icons do not specify volumes, residence times or an effective-rate model.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <rect x="50" y="55" width="140" height="115"/><rect x="280" y="55" width="140" height="115"/><rect x="510" y="55" width="140" height="115"/>
+    <path d="M120 30v105m-25 0h50M350 30v105m-25 0h50M580 30v105m-25 0h50M190 110h90m-20-12 20 12-20 12M420 110h90m-20-12 20 12-20 12"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="120" y="220">0.5 h⁻¹</text><text x="350" y="220">1.0 h⁻¹</text><text x="580" y="220">2.0 h⁻¹</text>
+  </g>
+</svg>

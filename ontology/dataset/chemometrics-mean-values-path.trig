@@ -124,7 +124,7 @@
   ex:path-step-chemometrics-mean-values-water cd:usesResource ex:mean-water-summary, ex:mean-water-table .
   ex:path-step-chemometrics-mean-values-layers cd:usesResource ex:mean-layers-diagram, ex:mean-layers-note .
   ex:path-step-chemometrics-mean-values-speed cd:usesResource ex:mean-speed-context, ex:mean-speed-diagram, ex:mean-speed-note .
-  ex:path-step-chemometrics-mean-values-turbidity cd:usesResource ex:mean-turbidity-slide-context, ex:mean-turbidity-order-table, ex:mean-turbidity-note .
+  ex:path-step-chemometrics-mean-values-turbidity cd:usesResource ex:mean-turbidity-slide-context, ex:mean-turbidity-average-formula, ex:mean-turbidity-order-table, ex:mean-turbidity-note .
   ex:path-step-chemometrics-mean-values-speed-solution a cd:PathStep ; cd:position 24 ; cd:usesResource ex:mean-speed-context, ex:mean-speed-calculation, ex:mean-speed-diagram, ex:mean-speed-note ; cd:usesScene ex:scene-chemometrics-mean-values-speed-solution ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-flow a cd:PathStep ; cd:position 3 ; cd:usesResource ex:mean-five-dice-flow, ex:mean-five-dice-sketch ; cd:usesScene ex:scene-chemometrics-mean-values-dice-flow ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-warmup cd:usesResource ex:mean-five-dice-sketch .

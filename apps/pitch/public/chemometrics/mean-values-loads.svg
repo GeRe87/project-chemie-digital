@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" role="img" aria-labelledby="title desc">
+  <title id="title">Simultaneous phosphorus inputs into a lake</title>
+  <desc id="desc">Three simultaneous inputs of 200, 300 and 200 grams per second converge into one lake. This is a total-load question.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <ellipse cx="350" cy="190" rx="210" ry="37"/>
+    <path d="M125 70l100 90m-20-5 20 5-5-20M350 70v90m-12-18 12 18 12-18M575 70l-100 90m5-20-5 20 20-5"/>
+    <path d="M210 185q35-18 70 0t70 0t70 0t70 0"/>
+  </g>
+  <g fill="currentColor" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="125" y="45">200 g/s</text><text x="350" y="45">300 g/s</text><text x="575" y="45">200 g/s</text>
+  </g>
+</svg>
