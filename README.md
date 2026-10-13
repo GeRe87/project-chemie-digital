@@ -30,6 +30,21 @@ The active Variables presentation currently ends with “Types of variable value
 
 Shared teaching primitives give Level 2 transparent theme-aware dice/cell and experiment-setup drawings, square text/card surfaces, top-aligned prompt/code columns and larger editor type. All 25 active formulas have authored symbol legends displayed underneath; the compiler preserves their RDF `dct:hasPart` links. Illustrated exercises keep their sketches inside the task column or discussion card. Turbidity shows the arithmetic mean 10.72 NTU as an explicitly authored derived reference alongside the unchanged measurements. The warmup uses a bold instruction and two question bullets; ordinary and emphasized points use distinct reusable markers. Water-analysis results share one intrinsic-height surface. See the Level 2 audit for remaining portrait-navigation/scaling limits and the separately pending river/tracer animation.
 
+## Local Chemometrics production preparation
+
+`npm run build:chemometrics` reuses the semantic offering/Overworld generator and
+generic Pitch application, validates SHACL/selection/pinned runtime dependencies,
+and emits a checked static site in `dist/chemometrics/` with base `/`.
+`npm run check:chemometrics-build` verifies the emitted transport/assets/hash evidence.
+Use `npm ci` and the production pins in `scripts/requirements-static-build.txt`;
+`--offline` requires an already prepared verified vendor tree. No deployment is
+performed. Nested project-path hosting remains blocked by existing generic R-runtime
+paths; a `./` bundle is supported only at a domain root. See
+[production preparation and future deployment requirements](docs/deployment/chemometrics.md)
+for tests, limitations, release-branch promotion/rollback and the required authorized
+deployment-only Actions policy exception. This work depends on the unaccepted draft
+course stack and does not constitute a release or merge approval.
+
 ## Local validation
 
 The repository is validated without GitHub Actions. The sole authorised automated provider is the local exact-head validator at `GeRe87/agent-workflow-validator`.
