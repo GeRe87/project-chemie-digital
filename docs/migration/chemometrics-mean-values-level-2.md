@@ -2,7 +2,7 @@
 
 ## Authored source and boundaries
 
-Level 2 expands the existing Mean Values path from eight to thirty-three scenes. The
+Level 2 expands the existing Mean Values path from eight to thirty-five scenes. The
 learning unit, path identity and six scientific focus concepts are unchanged.
 Level 1 still ends at Types of variable values.
 
@@ -30,7 +30,7 @@ Generated SceneDocument JSON and application pages are disposable outputs.
 | Legacy content | New sequence | Treatment |
 | --- | --- | --- |
 | Requirements / initial thoughts | Title and five-dice warmup | Level 1 is the preceding course unit; warmup is an Exercise with an ExpectedResult and base-R CodeExample. |
-| Arithmetic mean and five repetitions | Arithmetic formula, five-experiment practice | Existing formula and applicability resources are reused. Random sums are averages of experiments, not averages of five individual faces. |
+| Arithmetic mean and five repetitions | Arithmetic formula, worked substitution, five-experiment R practice | Existing formula and applicability resources are reused. 10 + 13 + 18 + 10 + 23 = 74; 74/5 = 14.8. Random sums are averages of experiments, not averages of five individual faces. |
 | Expected value | Definition and one-die / five-dice cards | Distribution expectation is distinguished from realized outcomes and observed sample means. |
 | Many repetitions | Law of large numbers and simulation | Compare nested samples of 5, 50 and 50,000 independent experiments with a reproducible seed. No convergence plot is fabricated. |
 | Real-world measurements | Known model versus observed data | Separate model expectation from sample-based estimation. |
@@ -40,9 +40,9 @@ Generated SceneDocument JSON and application pages are disposable outputs.
 | Microbial counts and proportional changes | Paired arithmetic / geometric cards | Retain numbers; show that additive and logarithmic questions differ. |
 | Rates and harmonic mean | Equal-distance speed example, definition and equal-volume pumping practice | Averaging assumptions and total-quantity / total-time reasoning are explicit. |
 | Diffusion through layers | Model assumptions and effective-coefficient formula | State equal thickness/area, series geometry, steady state and no reaction or partition discontinuity. |
-| Turbidity and median | Data chart, definition, odd/even cards, Pb comparison and practice | Preserve the large observation; sorting and units remain explicit. |
-| Summary | Four existing-style infocards | Compare the question, scale and assumptions rather than assign one mean automatically. |
-| Six discussion illustrations | Two discussion scenes with three questions each | Reconstruct the numerical cases as accessible Exercises and ExpectedResults, not image-only content. |
+| Turbidity and median | Data chart, definition, odd/even cards, Pb comparison and same-case R | Preserve the large observation; sorting and units remain explicit. |
+| Summary | Four application-example infocards | State example applications and their question/scale/weighting conditions rather than assign one mean automatically. |
+| Six discussion illustrations | One six-card discussion scene | Reconstruct the numerical cases as accessible Exercises and ExpectedResults with local setup sketches, not image-only content. |
 
 ## Scientific review
 
@@ -92,6 +92,68 @@ source reference. This uses the same generic answer-disclosure interface as
 other prompts; an exercise without an answer continues to compile unchanged.
 
 ## Verification
+
+### Issue #274: calculation-before-code and application examples
+
+The current route is **35 scenes, eight executable R labs and 25 active formulas**.
+This section supersedes earlier active counts and selections; earlier sections
+retain historical evidence. No renderer, compiler, ontology or schema changes are
+part of this increment. Source-backed math/legend and prompt/code/function-list
+structures reuse existing generic compositions.
+
+- The purpose slide is now heading plus three concise points, without the owner's
+  removed sentence. Its reusable `mean-purpose-note` remains an explicit semantic
+  part of the purpose resource: independent random fluctuations around the same
+  target, no systematic-error correction or outlier-resistance guarantee. This
+  qualification is not deleted or replaced by a universal claim.
+- Immediately after arithmetic theory, the calculation substitutes the actual
+  experiment sums `10, 13, 18, 10, 23`: `x̄ = Σxᵢ/n = 74/5 = 14.8`, rendered as
+  authored math, not a prose/code imitation. A short context distinguishes these
+  observations from possible outcomes and the model expectation 17.5. The next
+  scene is the unchanged seeded R example that reproduces those sums and mean.
+- The speed solution now shows only harmonic speed, then total time, with one
+  legend under each: `v_H = 2/(1/10 + 1/2) = 10/3 ≈ 3.333 m/s`, followed by
+  `t = 200/(10/3) = 60 s`. Two equal 100 m sections and positive input speeds
+  remain explicit. Exact 10/3 is used in the second calculation; `200/3.333`
+  would be approximate, not exactly 60. The old section-time MathExpression and
+  diagram remain authored but are no longer selected on this calculation slide;
+  comparison scenes, journey R and its setup sketch are unchanged.
+- Immediately after the Pb center comparison, a new R task uses the same
+  `0.5, 0.7, 0.6, 0.8, 15.0 µg/L` observations. It returns the sorted vector and
+  median together through `list(sorted = sort(pb), median = median(pb))`, so the
+  renderer's final-expression output displays both, including 15.0. The median is
+  0.7 µg/L; retain/investigate the extreme event, and neither center establishes
+  safety or compliance. All four used functions have authored glossary entries.
+  The unrelated deselected standalone median practice remains deselected.
+- Four selection boxes now list repeated measurements/peak areas/intensities/
+  concentrations, growth factors/positive orders-of-magnitude data, equal-distance
+  speeds/positive reciprocal averages and data with extreme values. Compact
+  parenthetical conditions retain comparable equal weights, multiplicative/log
+  objectives, positive transformed percentage factors, distance-versus-time
+  weighting and the continued relevance of extreme events. A large range alone
+  does not choose the geometric mean or establish log-normality. These are
+  application examples, not an automatic classification rule.
+
+Verification: **52 focused Mean Values tests** pass, including SHACL and new exact
+sequence, substitution, rational-speed/time, same-case median/source/answer and
+summary-condition regressions. Exact scene/workbench counts are updated, not
+relaxed; the owner approved the additional `test_prompt_static_fallback.py`
+35-scene/eight-workbench maintenance. Production Vite build passes with its
+existing large-chunk warning. Actual 5173 overworld → Level 2 dark/light at
+1440×900 confirms no formula/card clipping or workbench/output/glossary overlap,
+no page/KaTeX errors and eight successful Run/Reset pairs per theme. The six-card
+3×2 ending and all setup illustrations/turbidity reference remain. Screenshots
+at resized 390×844 follow wide entry and retain the existing small whole-deck
+scale; they do not establish fresh portrait opening or a scaling fix.
+
+Browser reproduction/evidence is local `browser-tools/verify274.cjs`,
+`274-report.json`, `274-*.png`. Full final-feature-head `npm test` completion
+evidence accompanies the draft handoff. After full tests, regenerate the course
+bundle (`npm --workspace @project-chemie-digital/pitch run generate:introduction`)
+and verify 5173 again: test generation otherwise leaves the default German pitch,
+not the requested Chemometrics overworld. External exact-current-head validation,
+compatible-main integration, independent reviews and quantitative tracer animation
+remain separate acceptance/follow-up gates.
 
 ### Issue #272: experiment sketches and arithmetic-reference evidence
 

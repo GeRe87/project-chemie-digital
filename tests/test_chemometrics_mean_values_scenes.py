@@ -118,7 +118,7 @@ for slug, (focus, heading, body_items) in ADDITIONS.items():
     stable_suffixes = {
         "dice-warmup": ["1", "2", "media", "3"],
         "growth": ["1", "2", "media"],
-        "speed-solution": ["solution-1", "3", "diagram"],
+        "speed-solution": ["solution-1", "3", "time"],
         "turbidity": ["1", "2", "average", "table", "3"],
         "real-world": ["1", "bridge", "question"],
     }.get(slug, [str(position) for position in range(1, len(resources) + 1)])
@@ -208,7 +208,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_thirty_three_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_five_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))
@@ -250,12 +250,12 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)
 
-    def test_runtime_compiles_exactly_thirty_one_ordered_scenes_with_formula_latex(self) -> None:
+    def test_runtime_compiles_exactly_thirty_five_ordered_scenes_with_formula_latex(self) -> None:
         document = RUNTIME.compile_scene_document(
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(33, len(document["scenes"]))
+        self.assertEqual(35, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],

@@ -41,7 +41,7 @@
 
   # Headings are reusable authored prose resources, not layout selectors.
   ex:mean-purpose-heading a cd:Interpretation ; skos:prefLabel "Why do we need mean values?"@en ; cd:body "Why do we need mean values?"@en ; cd:authoredResource true .
-  ex:mean-purpose a cd:Interpretation ; cd:body "Mean values summarize variable values compactly."@en ; cd:hasKeyPoint ex:mean-purpose-summarize, ex:mean-purpose-compact, ex:mean-purpose-random ; cd:authoredResource true .
+  ex:mean-purpose a cd:Interpretation ; cd:body "Mean values summarize variable values compactly."@en ; cd:hasKeyPoint ex:mean-purpose-summarize, ex:mean-purpose-compact, ex:mean-purpose-random ; dct:hasPart ex:mean-purpose-note ; cd:authoredResource true .
   ex:mean-purpose-summarize a cd:KeyPoint ; cd:position 1 ; cd:body "Summarize several values of a variable."@en ; cd:authoredResource true .
   ex:mean-purpose-compact a cd:KeyPoint ; cd:position 2 ; cd:body "Represent many observations with one compact number."@en ; cd:authoredResource true .
   ex:mean-purpose-random a cd:KeyPoint ; cd:position 3 ; cd:body "Average comparable observations to reduce uncontrolled random fluctuations."@en ; cd:authoredResource true .
@@ -208,10 +208,10 @@
   ex:mean-lead-median-formula a cd:MathExpression ; cd:latex "\\tilde{x}=0.7\\;\\mathrm{\\mu g/L}" ; cd:body "The median Pb concentration is 0.7 micrograms per litre. It does not establish safety or compliance."@en ; cd:authoredResource true .
 
   ex:mean-summary-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-summary-arithmetic, ex:mean-summary-geometric, ex:mean-summary-harmonic, ex:mean-summary-median ; cd:authoredResource true .
-  ex:mean-summary-arithmetic a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC"@en ; cd:body "Additive, equally weighted values\nSensitive to extreme observations\nNormality is not required."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
-  ex:mean-summary-geometric a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "GEOMETRIC"@en ; cd:body "Positive multiplicative factors\nEqual logarithmic weighting\nNot a rule for every rate."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
-  ex:mean-summary-harmonic a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "HARMONIC"@en ; cd:body "Positive rates over equal quantities\nAdd times or reciprocal contributions\nEqual times imply arithmetic averaging."@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
-  ex:mean-summary-median a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "MEDIAN"@en ; cd:body "Middle of the ordered sample\nLess sensitive to extreme magnitudes\nChoice depends on the question."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
+  ex:mean-summary-arithmetic a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ARITHMETIC"@en ; cd:body "Repeated measurements · peak areas · intensities · concentrations (same quantity, comparable conditions, equal weights)."@en ; cd:visualMotif "statistics" ; cd:authoredResource true .
+  ex:mean-summary-geometric a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "GEOMETRIC"@en ; cd:body "Growth factors (equal periods) · positive data spanning orders of magnitude (multiplicative / log-scale center, not range alone; convert % rates to positive factors)."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
+  ex:mean-summary-harmonic a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "HARMONIC"@en ; cd:body "Speeds (equal distances) · positive quantities averaged via reciprocals (equal-time speed averages are arithmetic)."@en ; cd:visualMotif "multiple-inputs" ; cd:authoredResource true .
+  ex:mean-summary-median a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "MEDIAN"@en ; cd:body "Data with extreme values (middle sorted observation; less sensitive to magnitudes, but extreme events remain relevant)."@en ; cd:visualMotif "inference" ; cd:authoredResource true .
 
   # The six legacy SVG cases are reconstructed as accessible questions.
   ex:mean-case-replicates a cd:Exercise ; cd:body "Equal-weight nitrate replicates are 4.8, 5.0 and 5.2 mg/L. Which center summarizes the additive measurements? State your sampling assumptions."@en ; cd:hasExpectedResult ex:mean-case-replicates-result ; cd:hasSource ex:source-legacy-mean-value ; cd:authoredResource true .
@@ -355,7 +355,7 @@
   ex:mean-order-5-p a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
   ex:mean-order-5-o a cd:TableCell ; cd:position 2 ; cd:body "45.0"@en ; cd:authoredResource true .
   ex:mean-order-5-s a cd:TableCell ; cd:position 3 ; cd:body "45.0"@en ; cd:authoredResource true .
-  ex:mean-speed-solution-heading a cd:Interpretation ; skos:prefLabel "Example: Add travel times, then divide"@en ; cd:body "Example: Add travel times, then divide"@en ; cd:authoredResource true .
+  ex:mean-speed-solution-heading a cd:Interpretation ; skos:prefLabel "Example: Harmonic speed, then total time"@en ; cd:body "Example: Harmonic speed, then total time"@en ; cd:authoredResource true .
   ex:mean-geometric-product-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-product-card ; cd:authoredResource true .
   ex:mean-geometric-product-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "PRODUCT"@en ; cd:body "Strictly positive observations\nTake the root of their product."@en ; cd:visualMotif "nonlinear-curve" ; cd:authoredResource true .
   ex:mean-geometric-log-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-geometric-log-card ; cd:authoredResource true .
@@ -581,4 +581,40 @@
   ex:mean-turbidity-average-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-turbidity-average-symbol, ex:mean-turbidity-average-sum ; cd:authoredResource true .
   ex:mean-turbidity-average-symbol a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄"@en ; cd:body "Arithmetic mean of all five values, in NTU."@en ; cd:authoredResource true .
   ex:mean-turbidity-average-sum a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "53.6, 5"@en ; cd:body "Sum 2.1 + 2.3 + 2.0 + 2.2 + 45.0; five equal weights."@en ; cd:authoredResource true .
+  # Same observed dice sums: formula substitution before the executable R example.
+  ex:arithmetic-mean cd:hasExample ex:mean-dice-average-example .
+  ex:mean-dice-average-example a cd:WorkedExample ; cd:body "Five observed experiment sums are 10, 13, 18, 10 and 23. Substitute these equally weighted sums into the arithmetic-mean formula: 74 divided by 5 equals 14.8. This finite sample average differs from the fair-dice model expectation 17.5."@en ; cd:derivedFromResource ex:mean-dice-sums, ex:arithmetic-mean-formula ; dct:hasPart ex:mean-dice-average-context, ex:mean-dice-average-formula ; cd:authoredResource true .
+  ex:mean-dice-average-heading a cd:Interpretation ; skos:prefLabel "Example: Average five observed sums"@en ; cd:body "Example: Average five observed sums"@en ; cd:authoredResource true .
+  ex:mean-dice-average-context a cd:Interpretation ; cd:body "Average five observed experiment sums, not all possible outcomes. The sample result need not equal the model expectation 17.5."@en ; cd:interpretsResource ex:mean-dice-average-example ; cd:authoredResource true .
+  ex:mean-dice-average-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\bar{x}&=\\frac{\\sum_{i=1}^{n}x_i}{n}\\\\&=\\frac{10+13+18+10+23}{5}\\\\&=\\frac{74}{5}=14.8\\end{aligned}" ; cd:body "The arithmetic sample mean is the sum of n observations divided by n. Substitute the five experiment sums 10, 13, 18, 10 and 23. Their sum is 74, and 74 divided by 5 equals 14.8."@en ; cd:derivedFromResource ex:mean-dice-sums, ex:arithmetic-mean-formula ; dct:hasPart ex:mean-dice-average-legend ; cd:authoredResource true .
+  ex:mean-dice-average-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-dice-average-symbol, ex:mean-dice-average-size ; cd:authoredResource true .
+  ex:mean-dice-average-symbol a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "x̄, xᵢ"@en ; cd:body "Average and observed sum from experiment i, not individual die faces."@en ; cd:authoredResource true .
+  ex:mean-dice-average-size a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n, i, Σ"@en ; cd:body "Five equally weighted experiments; i indexes them; Σ adds their sums."@en ; cd:authoredResource true .
+
+  # Speed first, then total time; the old section-time derivation remains reusable.
+  ex:mean-speed-question dct:hasPart ex:mean-speed-harmonic-calculation, ex:mean-speed-total-time-calculation .
+  ex:mean-speed-harmonic-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}v_H&=\\frac{2}{1/10+1/2}\\\\&=\\frac{10}{3}\\;\\mathrm{m/s}\\\\&\\approx3.333\\;\\mathrm{m/s}\\end{aligned}" ; cd:body "For two equal 100 metre sections at positive speeds 10 and 2 metres per second, the harmonic speed is two divided by the sum of the reciprocal speeds, exactly ten thirds metres per second, approximately 3.333 metres per second."@en ; cd:derivedFromResource ex:mean-speed-calculation, ex:harmonic-mean-formula ; dct:hasPart ex:mean-speed-harmonic-calculation-legend ; cd:authoredResource true .
+  ex:mean-speed-harmonic-calculation-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-H-symbol, ex:mean-speed-H-inputs ; cd:authoredResource true .
+  ex:mean-speed-H-symbol a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "v_H"@en ; cd:body "Harmonic speed in m/s; use exact 10/3 for the next calculation."@en ; cd:authoredResource true .
+  ex:mean-speed-H-inputs a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "2, 10, 2"@en ; cd:body "Two equal 100 m sections; positive speeds 10 and 2 m/s."@en ; cd:authoredResource true .
+  ex:mean-speed-total-time-calculation a cd:MathExpression ; cd:latex "\\begin{aligned}t&=\\frac{d}{v_H}\\\\&=\\frac{200}{10/3}\\\\&=60\\;\\mathrm{s}\\end{aligned}" ; cd:body "The total journey time is total distance d divided by harmonic speed v H. Two 100 metre sections give 200 metres; dividing by exact ten thirds metres per second gives exactly 60 seconds. Using rounded 3.333 metres per second would give only an approximate time."@en ; cd:derivedFromResource ex:mean-speed-harmonic-calculation ; dct:hasPart ex:mean-speed-total-time-legend ; cd:authoredResource true .
+  ex:mean-speed-total-time-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-speed-time-symbol, ex:mean-speed-distance-symbol ; cd:authoredResource true .
+  ex:mean-speed-time-symbol a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "t"@en ; cd:body "Total journey time in seconds, not one section time."@en ; cd:authoredResource true .
+  ex:mean-speed-distance-symbol a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "d, v_H"@en ; cd:body "Total distance 100 + 100 = 200 m; exact speed 10/3 m/s."@en ; cd:authoredResource true .
+
+  # The Pb example continues with a same-case R median, without discarding its event.
+  ex:median cd:hasExercise ex:mean-lead-median-r-practice .
+  ex:mean-lead-example dct:hasPart ex:mean-lead-median-r-practice, ex:mean-lead-median-r .
+  ex:mean-lead-median-r-heading a cd:Interpretation ; skos:prefLabel "Example: Find the Pb median in R"@en ; cd:body "Example: Find the Pb median in R"@en ; cd:authoredResource true .
+  ex:mean-lead-median-r-practice a cd:Exercise ; cd:body """**Use the same Pb concentrations: 0.5, 0.7, 0.6, 0.8 and 15.0 µg/L.**
+
+- [!] Sort all five observations and calculate their median.
+- [?] Does a small median make the 15.0 µg/L event unimportant?"""@en ; cd:hasExpectedResult ex:mean-lead-median-r-result ; cd:hasCodeExample ex:mean-lead-median-r ; cd:derivedFromResource ex:mean-lead-example ; cd:authoredResource true .
+  ex:mean-lead-median-r-result a cd:ExpectedResult ; cd:body "Sorted Pb concentrations: 0.5, 0.6, 0.7, 0.8 and 15.0 µg/L. The middle observation and median are 0.7 µg/L. Retain and investigate the large event; neither the median nor the arithmetic mean establishes safety or compliance."@en ; cd:derivedFromResource ex:mean-lead-example ; cd:authoredResource true .
+  ex:mean-lead-median-r a cd:CodeExample ; cd:code "pb <- c(0.5, 0.7, 0.6, 0.8, 15.0)\nlist(sorted = sort(pb), median = median(pb))" ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:derivedFromResource ex:mean-lead-example ; dct:hasPart ex:mean-lead-median-r-functions ; cd:authoredResource true .
+  ex:mean-lead-median-r-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mean-lead-median-fn-c, ex:mean-lead-median-fn-sort, ex:mean-lead-median-fn-median, ex:mean-lead-median-fn-list ; cd:authoredResource true .
+  ex:mean-lead-median-fn-c a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines all five Pb concentrations into a vector, including 15.0."@en ; cd:authoredResource true .
+  ex:mean-lead-median-fn-sort a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "sort(x)"@en ; cd:body "Returns the concentrations in increasing order without discarding any."@en ; cd:authoredResource true .
+  ex:mean-lead-median-fn-median a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "median(x)"@en ; cd:body "Returns the sample median: the middle observation here, 0.7 µg/L."@en ; cd:authoredResource true .
+  ex:mean-lead-median-fn-list a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "list(...)"@en ; cd:body "Returns the sorted observations and median together so both are visible."@en ; cd:authoredResource true .
 }

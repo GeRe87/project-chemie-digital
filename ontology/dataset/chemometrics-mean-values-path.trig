@@ -13,6 +13,8 @@
       ex:median ;
     cd:forLearningUnit ex:learning-unit-mean-values ;
     cd:hasStep ex:path-step-chemometrics-mean-values-arithmetic-mean,
+      ex:path-step-chemometrics-mean-values-arithmetic-calculation,
+      ex:path-step-chemometrics-mean-values-median-r,
       ex:path-step-chemometrics-mean-values-expected-value,
       ex:path-step-chemometrics-mean-values-purpose,
       ex:path-step-chemometrics-mean-values-dice-sums,
@@ -62,11 +64,11 @@
     cd:usesScene ex:scene-chemometrics-mean-values-expected-value ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-mean-values-purpose a cd:PathStep ; cd:position 2 ; cd:usesResource ex:mean-purpose-heading, ex:mean-purpose, ex:mean-purpose-note ; cd:usesScene ex:scene-chemometrics-mean-values-purpose ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-purpose a cd:PathStep ; cd:position 2 ; cd:usesResource ex:mean-purpose-heading, ex:mean-purpose ; cd:usesScene ex:scene-chemometrics-mean-values-purpose ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-sums a cd:PathStep ; cd:position 5 ; cd:usesResource ex:mean-dice-sums-heading, ex:mean-dice-sums, ex:mean-dice-sums-question ; cd:usesScene ex:scene-chemometrics-mean-values-dice-sums ; cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-geometric-mean a cd:PathStep ;
-    cd:position 15 ;
+    cd:position 16 ;
     cd:usesResource ex:def-geometric-mean,
       ex:geometric-mean-product-formula,
       ex:geometric-mean-log-formula,
@@ -77,7 +79,7 @@
 
 
   ex:path-step-chemometrics-mean-values-harmonic-mean a cd:PathStep ;
-    cd:position 23 ;
+    cd:position 24 ;
     cd:usesResource ex:worked-example-equal-distance-speed,
       ex:def-harmonic-mean,
       ex:harmonic-mean-formula,
@@ -86,7 +88,7 @@
     cd:authoredResource true .
 
   ex:path-step-chemometrics-mean-values-median a cd:PathStep ;
-    cd:position 29 ;
+    cd:position 30 ;
     cd:usesResource ex:worked-example-turbidity-median,
       ex:def-median,
       ex:sample-median-formula,
@@ -96,25 +98,25 @@
 
   ex:path-step-chemometrics-mean-values-title a cd:PathStep ; cd:position 1 ; cd:usesResource ex:mean-title ; cd:usesScene ex:scene-chemometrics-mean-values-title ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-warmup a cd:PathStep ; cd:position 4 ; cd:usesResource ex:mean-dice-warmup, ex:mean-dice-warmup-r ; cd:usesScene ex:scene-chemometrics-mean-values-dice-warmup ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-dice-practice a cd:PathStep ; cd:position 10 ; cd:usesResource ex:mean-dice-practice, ex:mean-dice-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-dice-practice ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-dice-practice a cd:PathStep ; cd:position 11 ; cd:usesResource ex:mean-dice-practice, ex:mean-dice-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-dice-practice ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-expectation a cd:PathStep ; cd:position 7 ; cd:usesResource ex:mean-one-die-cards, ex:mean-one-die-formula, ex:mean-five-dice-cards, ex:mean-five-dice-formula, ex:mean-dice-expectation-example ; cd:usesScene ex:scene-chemometrics-mean-values-dice-expectation ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-lln-practice a cd:PathStep ; cd:position 11 ; cd:usesResource ex:mean-lln-practice, ex:mean-lln-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-lln-practice ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-lln-practice a cd:PathStep ; cd:position 12 ; cd:usesResource ex:mean-lln-practice, ex:mean-lln-practice-r ; cd:usesScene ex:scene-chemometrics-mean-values-lln-practice ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-real-world a cd:PathStep ; cd:position 8 ; cd:usesResource ex:mean-bridge-cards, ex:mean-bridge-question, ex:mean-bridge-answer ; cd:usesScene ex:scene-chemometrics-mean-values-real-world ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-water cd:usesResource ex:mean-fe-practice, ex:mean-fe-r .
-  ex:path-step-chemometrics-mean-values-water a cd:PathStep ; cd:position 12 ; cd:usesResource ex:mean-oxygen-cards, ex:mean-oxygen-formula, ex:mean-nitrate-cards, ex:mean-nitrate-formula, ex:mean-iron-cards, ex:mean-iron-formula, ex:mean-water-example ; cd:usesScene ex:scene-chemometrics-mean-values-water ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-growth a cd:PathStep ; cd:position 13 ; cd:usesResource ex:mean-growth-diagram, ex:mean-growth-example ; cd:usesScene ex:scene-chemometrics-mean-values-growth ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-growth-comparison a cd:PathStep ; cd:position 14 ; cd:usesResource ex:mean-growth-arithmetic-cards, ex:mean-growth-arithmetic-formula, ex:mean-growth-geometric-cards, ex:mean-growth-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-growth-comparison ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-log a cd:PathStep ; cd:position 18 ; cd:usesResource ex:geometric-mean-log-formula ; cd:usesScene ex:scene-chemometrics-mean-values-log ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-microbial a cd:PathStep ; cd:position 19 ; cd:usesResource ex:mean-microbial-arithmetic-cards, ex:mean-microbial-arithmetic-formula, ex:mean-microbial-geometric-cards, ex:mean-microbial-geometric-formula, ex:mean-microbial-example ; cd:usesScene ex:scene-chemometrics-mean-values-microbial ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-ratios a cd:PathStep ; cd:position 20 ; cd:usesResource ex:mean-ratios-arithmetic-cards, ex:mean-ratios-arithmetic-formula, ex:mean-ratios-geometric-cards, ex:mean-ratios-geometric-formula, ex:mean-ratios-example ; cd:usesScene ex:scene-chemometrics-mean-values-ratios ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-speed a cd:PathStep ; cd:position 21 ; cd:usesResource ex:mean-speed-question, ex:mean-speed-calculation ; cd:usesScene ex:scene-chemometrics-mean-values-speed ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-harmonic-practice a cd:PathStep ; cd:position 26 ; cd:usesResource ex:mean-harmonic-practice, ex:mean-harmonic-r ; cd:usesScene ex:scene-chemometrics-mean-values-harmonic-practice ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-layers a cd:PathStep ; cd:position 27 ; cd:usesResource ex:mean-layers-assumptions, ex:mean-layers-formula, ex:mean-layers-example ; cd:usesScene ex:scene-chemometrics-mean-values-layers ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-turbidity a cd:PathStep ; cd:position 28 ; cd:usesResource ex:mean-turbidity-context, ex:mean-turbidity-chart ; cd:usesScene ex:scene-chemometrics-mean-values-turbidity ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-order a cd:PathStep ; cd:position 30 ; cd:usesResource ex:mean-odd-cards, ex:mean-odd-formula, ex:mean-even-cards, ex:mean-even-formula, ex:mean-order-example ; cd:usesScene ex:scene-chemometrics-mean-values-order ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-lead a cd:PathStep ; cd:position 31 ; cd:usesResource ex:mean-lead-arithmetic-cards, ex:mean-lead-arithmetic-formula, ex:mean-lead-median-cards, ex:mean-lead-median-formula, ex:mean-lead-example ; cd:usesScene ex:scene-chemometrics-mean-values-lead ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-summary a cd:PathStep ; cd:position 32 ; cd:usesResource ex:mean-summary-cards ; cd:usesScene ex:scene-chemometrics-mean-values-summary ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-discussion-additive a cd:PathStep ; cd:position 33 ; cd:usesResource ex:mean-case-replicates, ex:mean-case-sensors, ex:mean-case-loads, ex:mean-case-microplastics, ex:mean-case-sites, ex:mean-case-reactors ; cd:usesScene ex:scene-chemometrics-mean-values-discussion-additive ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-water a cd:PathStep ; cd:position 13 ; cd:usesResource ex:mean-oxygen-cards, ex:mean-oxygen-formula, ex:mean-nitrate-cards, ex:mean-nitrate-formula, ex:mean-iron-cards, ex:mean-iron-formula, ex:mean-water-example ; cd:usesScene ex:scene-chemometrics-mean-values-water ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-growth a cd:PathStep ; cd:position 14 ; cd:usesResource ex:mean-growth-diagram, ex:mean-growth-example ; cd:usesScene ex:scene-chemometrics-mean-values-growth ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-growth-comparison a cd:PathStep ; cd:position 15 ; cd:usesResource ex:mean-growth-arithmetic-cards, ex:mean-growth-arithmetic-formula, ex:mean-growth-geometric-cards, ex:mean-growth-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-growth-comparison ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-log a cd:PathStep ; cd:position 19 ; cd:usesResource ex:geometric-mean-log-formula ; cd:usesScene ex:scene-chemometrics-mean-values-log ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-microbial a cd:PathStep ; cd:position 20 ; cd:usesResource ex:mean-microbial-arithmetic-cards, ex:mean-microbial-arithmetic-formula, ex:mean-microbial-geometric-cards, ex:mean-microbial-geometric-formula, ex:mean-microbial-example ; cd:usesScene ex:scene-chemometrics-mean-values-microbial ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-ratios a cd:PathStep ; cd:position 21 ; cd:usesResource ex:mean-ratios-arithmetic-cards, ex:mean-ratios-arithmetic-formula, ex:mean-ratios-geometric-cards, ex:mean-ratios-geometric-formula, ex:mean-ratios-example ; cd:usesScene ex:scene-chemometrics-mean-values-ratios ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-speed a cd:PathStep ; cd:position 22 ; cd:usesResource ex:mean-speed-question, ex:mean-speed-calculation ; cd:usesScene ex:scene-chemometrics-mean-values-speed ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-harmonic-practice a cd:PathStep ; cd:position 27 ; cd:usesResource ex:mean-harmonic-practice, ex:mean-harmonic-r ; cd:usesScene ex:scene-chemometrics-mean-values-harmonic-practice ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-layers a cd:PathStep ; cd:position 28 ; cd:usesResource ex:mean-layers-assumptions, ex:mean-layers-formula, ex:mean-layers-example ; cd:usesScene ex:scene-chemometrics-mean-values-layers ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-turbidity a cd:PathStep ; cd:position 29 ; cd:usesResource ex:mean-turbidity-context, ex:mean-turbidity-chart ; cd:usesScene ex:scene-chemometrics-mean-values-turbidity ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-order a cd:PathStep ; cd:position 31 ; cd:usesResource ex:mean-odd-cards, ex:mean-odd-formula, ex:mean-even-cards, ex:mean-even-formula, ex:mean-order-example ; cd:usesScene ex:scene-chemometrics-mean-values-order ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-lead a cd:PathStep ; cd:position 32 ; cd:usesResource ex:mean-lead-arithmetic-cards, ex:mean-lead-arithmetic-formula, ex:mean-lead-median-cards, ex:mean-lead-median-formula, ex:mean-lead-example ; cd:usesScene ex:scene-chemometrics-mean-values-lead ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-summary a cd:PathStep ; cd:position 34 ; cd:usesResource ex:mean-summary-cards ; cd:usesScene ex:scene-chemometrics-mean-values-summary ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-discussion-additive a cd:PathStep ; cd:position 35 ; cd:usesResource ex:mean-case-replicates, ex:mean-case-sensors, ex:mean-case-loads, ex:mean-case-microplastics, ex:mean-case-sites, ex:mean-case-reactors ; cd:usesScene ex:scene-chemometrics-mean-values-discussion-additive ; cd:authoredResource true .
   # Select presentation facets without removing the detailed reusable resources.
   ex:path-step-chemometrics-mean-values-title cd:usesResource ex:mean-five-dice-sketch .
   ex:path-step-chemometrics-mean-values-expected-value cd:usesResource ex:mean-expectation-context, ex:mean-expectation-note .
@@ -125,13 +127,15 @@
   ex:path-step-chemometrics-mean-values-layers cd:usesResource ex:mean-layers-diagram, ex:mean-layers-note .
   ex:path-step-chemometrics-mean-values-speed cd:usesResource ex:mean-speed-context, ex:mean-speed-diagram, ex:mean-speed-note .
   ex:path-step-chemometrics-mean-values-turbidity cd:usesResource ex:mean-turbidity-slide-context, ex:mean-turbidity-average-formula, ex:mean-turbidity-order-table, ex:mean-turbidity-note .
-  ex:path-step-chemometrics-mean-values-speed-solution a cd:PathStep ; cd:position 24 ; cd:usesResource ex:mean-speed-context, ex:mean-speed-calculation, ex:mean-speed-diagram, ex:mean-speed-note ; cd:usesScene ex:scene-chemometrics-mean-values-speed-solution ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-speed-solution a cd:PathStep ; cd:position 25 ; cd:usesResource ex:mean-speed-harmonic-calculation, ex:mean-speed-total-time-calculation ; cd:usesScene ex:scene-chemometrics-mean-values-speed-solution ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-flow a cd:PathStep ; cd:position 3 ; cd:usesResource ex:mean-five-dice-flow, ex:mean-five-dice-sketch ; cd:usesScene ex:scene-chemometrics-mean-values-dice-flow ; cd:authoredResource true .
   ex:path-step-chemometrics-mean-values-dice-warmup cd:usesResource ex:mean-five-dice-sketch .
   ex:path-step-chemometrics-mean-values-growth cd:usesResource ex:mean-cell-growth-sketch .
   ex:path-step-chemometrics-mean-values-geometric-mean cd:usesResource ex:mean-growth-general-note .
-  ex:path-step-chemometrics-mean-values-growth-calculation a cd:PathStep ; cd:position 16 ; cd:usesResource ex:mean-growth-geometric-cards, ex:mean-growth-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-growth-calculation ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-growth-r a cd:PathStep ; cd:position 17 ; cd:usesResource ex:mean-growth-r-practice, ex:mean-growth-r ; cd:usesScene ex:scene-chemometrics-mean-values-growth-r ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-speed-comparison a cd:PathStep ; cd:position 22 ; cd:usesResource ex:mean-speed-arithmetic-cards, ex:mean-speed-arithmetic-formula, ex:mean-speed-geometric-cards, ex:mean-speed-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-speed-comparison ; cd:authoredResource true .
-  ex:path-step-chemometrics-mean-values-speed-r a cd:PathStep ; cd:position 25 ; cd:usesResource ex:mean-speed-r-practice, ex:mean-speed-r ; cd:usesScene ex:scene-chemometrics-mean-values-speed-r ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-growth-calculation a cd:PathStep ; cd:position 17 ; cd:usesResource ex:mean-growth-geometric-cards, ex:mean-growth-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-growth-calculation ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-growth-r a cd:PathStep ; cd:position 18 ; cd:usesResource ex:mean-growth-r-practice, ex:mean-growth-r ; cd:usesScene ex:scene-chemometrics-mean-values-growth-r ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-speed-comparison a cd:PathStep ; cd:position 23 ; cd:usesResource ex:mean-speed-arithmetic-cards, ex:mean-speed-arithmetic-formula, ex:mean-speed-geometric-cards, ex:mean-speed-geometric-formula ; cd:usesScene ex:scene-chemometrics-mean-values-speed-comparison ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-speed-r a cd:PathStep ; cd:position 26 ; cd:usesResource ex:mean-speed-r-practice, ex:mean-speed-r ; cd:usesScene ex:scene-chemometrics-mean-values-speed-r ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-arithmetic-calculation a cd:PathStep ; cd:position 10 ; cd:usesResource ex:mean-dice-average-example, ex:mean-dice-average-context, ex:mean-dice-average-formula ; cd:usesScene ex:scene-chemometrics-mean-values-arithmetic-calculation ; cd:authoredResource true .
+  ex:path-step-chemometrics-mean-values-median-r a cd:PathStep ; cd:position 33 ; cd:usesResource ex:mean-lead-example, ex:mean-lead-median-r-practice, ex:mean-lead-median-r ; cd:usesScene ex:scene-chemometrics-mean-values-median-r ; cd:authoredResource true .
 }
