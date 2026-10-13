@@ -173,7 +173,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOPICS, unit_topics)
         self.assertEqual(unit_topics, path_topics)
 
-    def test_path_has_exactly_thirty_three_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_exactly_thirty_five_stable_steps_with_contiguous_positions(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
         self.assertEqual(set(EXPECTED_STEPS), steps)
 
@@ -185,8 +185,8 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 34)), sorted(positions))
-        self.assertEqual(33, len(set(positions)))
+        self.assertEqual(list(range(1, 36)), sorted(positions))
+        self.assertEqual(35, len(set(positions)))
 
     def test_each_step_uses_exactly_the_reviewed_resources(self) -> None:
         for step, (_position, expected_resources) in EXPECTED_STEPS.items():

@@ -12,10 +12,10 @@ def leaf_blocks(scene):
 
 ORDER = [
     "title", "purpose", "dice-flow", "dice-warmup", "dice-sums", "expected-value",
-    "dice-expectation", "real-world", "arithmetic-mean", "dice-practice", "lln-practice",
+    "dice-expectation", "real-world", "arithmetic-mean", "arithmetic-calculation", "dice-practice", "lln-practice",
     "water", "growth", "growth-comparison", "geometric-mean", "growth-calculation", "growth-r",
     "log", "microbial", "ratios", "speed", "speed-comparison", "harmonic-mean", "speed-solution", "speed-r",
-    "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
+    "harmonic-practice", "layers", "turbidity", "median", "order", "lead", "median-r",
     "summary", "discussion-additive",
 ]
 
@@ -24,7 +24,6 @@ ADDITIONS = {
     "title": ("arithmetic-mean", "mean-title", []),
     "purpose": ("arithmetic-mean", "mean-purpose-heading", [
         ("mean-purpose", "KeyPointRole", "cd:hasKeyPoint"),
-        ("mean-purpose-note", "StatementRole", "cd:body"),
     ]),
     "dice-sums": ("expected-value", "mean-dice-sums-heading", [
         ("mean-dice-sums", "StatementRole", "cd:body"),
@@ -63,6 +62,14 @@ ADDITIONS = {
         ("mean-water-table", "TableRole", "cd:hasTableRow"),
         ("mean-fe-practice", "ExerciseRole", "cd:body"),
         ("mean-fe-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "arithmetic-calculation": ("arithmetic-mean", "mean-dice-average-heading", [
+        ("mean-dice-average-context", "StatementRole", "cd:body"),
+        ("mean-dice-average-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "median-r": ("median", "mean-lead-median-r-heading", [
+        ("mean-lead-median-r-practice", "ExerciseRole", "cd:body"),
+        ("mean-lead-median-r", "CodeRole", "cd:hasCodeExample"),
     ]),
     "growth": ("geometric-mean", "mean-growth-heading", [
         ("mean-growth-diagram", "DiagramRole", "cd:body"),
@@ -109,8 +116,8 @@ ADDITIONS = {
         ("mean-speed-question", "ExerciseRole", "cd:body"),
     ]),
     "speed-solution": ("harmonic-mean", "mean-speed-solution-heading", [
-        ("mean-speed-calculation", "FormulaRole", "cd:latex"),
-        ("mean-speed-diagram", "DiagramRole", "cd:body"),
+        ("mean-speed-harmonic-calculation", "FormulaRole", "cd:latex"),
+        ("mean-speed-total-time-calculation", "FormulaRole", "cd:latex"),
     ]),
     "harmonic-practice": ("harmonic-mean", "mean-harmonic-practice-heading", [
         ("mean-harmonic-practice", "ExerciseRole", "cd:body"),
@@ -170,7 +177,8 @@ EXTRA_PATH_RESOURCES = {
     "expected-value": {"mean-expectation-context", "mean-expectation-note"},
     "law-of-large-numbers": {"mean-lln-facets", "mean-lln-note"},
     "geometric-mean": {"mean-growth-general-note"},
-    "speed-solution": {"mean-speed-context", "mean-speed-note"},
+    "arithmetic-calculation": {"mean-dice-average-example"},
+    "median-r": {"mean-lead-example"},
     "speed": {"mean-speed-calculation", "mean-speed-context", "mean-speed-diagram", "mean-speed-note"},
     "harmonic-mean": {"mean-harmonic-context", "mean-harmonic-note"},
     "layers": {"mean-layers-example", "mean-layers-note"},

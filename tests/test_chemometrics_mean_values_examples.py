@@ -29,7 +29,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_new_formulas_have_exact_english_spoken_descriptions_and_source_graph(self):
         expressions = set(self.graph.subjects(RDF.type, CD.MathExpression))
-        self.assertEqual(23, len(expressions))
+        self.assertEqual(26, len(expressions))
         math_blocks = {
             block["source"][0]["resourceId"]: block
             for scene in self.document["scenes"] for block in scene["blocks"]
@@ -41,7 +41,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
                 self.assertEqual(1, len(spoken))
                 self.assertEqual("en", spoken[0].language)
                 resource_id = f"ex:{str(expression).removeprefix(str(EX))}"
-                if expression in {EX["mean-oxygen-formula"], EX["mean-nitrate-formula"], EX["mean-iron-formula"], EX["mean-model-formula"], EX["mean-data-formula"], EX["mean-geometric-log-card-formula"]}:
+                if expression in {EX["mean-oxygen-formula"], EX["mean-nitrate-formula"], EX["mean-iron-formula"], EX["mean-model-formula"], EX["mean-data-formula"], EX["mean-geometric-log-card-formula"], EX["mean-speed-calculation"]}:
                     # Water concentrations are now shown in a semantic table; their
                     # detailed formulas remain authored and selected by the path.
                     self.assertNotIn(resource_id, math_blocks)
@@ -69,7 +69,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
 
     def test_all_added_exercises_have_answers_and_static_prompt_projection(self):
         exercises = set(self.graph.subjects(RDF.type, CD.Exercise))
-        self.assertEqual(16, len(exercises))
+        self.assertEqual(17, len(exercises))
         from mean_values_expectations import leaf_blocks
         prompts = {block["source"][0]["resourceId"]: block
                    for scene in self.document["scenes"] for block in leaf_blocks(scene)
@@ -81,7 +81,7 @@ class MeanValuesExamplesTests(unittest.TestCase):
             block = prompts[f"ex:{str(exercise).removeprefix(str(EX))}"]
             self.assertEqual(str(answer), block["expectedResult"])
             self.assertTrue(block["fallback"])
-            if exercise in {EX["mean-dice-sums-question"], EX["mean-bridge-question"], EX["mean-growth-r-practice"], EX["mean-speed-r-practice"]}:
+            if exercise in {EX["mean-dice-sums-question"], EX["mean-bridge-question"], EX["mean-growth-r-practice"], EX["mean-speed-r-practice"], EX["mean-lead-median-r-practice"]}:
                 self.assertEqual(set(), set(self.graph.objects(exercise, CD.hasSource)))
             else:
                 self.assertEqual({EX["source-legacy-mean-value"]}, set(self.graph.objects(exercise, CD.hasSource)))
