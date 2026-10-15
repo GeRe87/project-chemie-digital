@@ -87,7 +87,7 @@ export function createHttpLiveResponseProvider(
 function authoredOptionLabels(shell: HTMLElement): ReadonlyMap<string, string> {
   const optionIds = (shell.dataset.pollOptionIds ?? "").split(/\s+/).filter(Boolean);
   const labels = [...shell.querySelectorAll<HTMLElement>(".poll-options li")]
-    .map((item) => item.textContent?.trim() ?? "")
+    .map((item) => item.querySelector<HTMLElement>(".poll-option-button")?.textContent?.trim() ?? item.textContent?.trim() ?? "")
     .filter(Boolean);
   if (optionIds.length < 2 || optionIds.length !== labels.length || new Set(optionIds).size !== optionIds.length) {
     throw new Error("Graph-backed poll options are incomplete");
@@ -148,7 +148,7 @@ export function mountLivePolls(
   search: string,
   provider: LiveResponseProvider = createHttpLiveResponseProvider(search),
 ): PollRuntimeController {
-  const shells = [...root.querySelectorAll<HTMLElement>('.live-poll[data-poll-key]')];
+  const shells = [...root.querySelectorAll<HTMLElement>('.live-poll[data-poll-key]:not([data-correct-option-id])')];
   if (shells.length === 0) return { refresh: async () => undefined, destroy: () => undefined };
   const cleanup: Array<() => void> = [];
   const refreshers: Array<() => Promise<void>> = [];

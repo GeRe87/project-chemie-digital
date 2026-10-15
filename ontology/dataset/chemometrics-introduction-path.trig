@@ -5,47 +5,67 @@
 <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction> {
   ex:path-chemometrics-introduction a cd:LearningPath ;
     skos:prefLabel "Chemometrics Introduction path"@en ;
-    cd:forTopic ex:chemometrics-course-overview,
+    cd:forTopic ex:chemometrics-course-title,
+      ex:chemometrics-definition,
+      ex:chemometrics-course-overview,
       ex:chemometrics-lecturer-context,
       ex:chemometrics-course-format,
       ex:chemometrics-course-roadmap,
       ex:chemometrics-introduction-round ;
     cd:forLearningUnit ex:learning-unit-chemometrics-introduction ;
-    cd:hasStep ex:path-step-chemometrics-introduction-overview,
+    cd:hasStep ex:path-step-chemometrics-introduction-title,
+      ex:path-step-chemometrics-introduction-definition,
+      ex:path-step-chemometrics-introduction-overview,
       ex:path-step-chemometrics-introduction-lecturer,
       ex:path-step-chemometrics-introduction-format,
       ex:path-step-chemometrics-introduction-roadmap,
       ex:path-step-chemometrics-introduction-round ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-introduction-overview a cd:PathStep ;
+  ex:path-step-chemometrics-introduction-title a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:chemometrics-course-overview-note ;
+    cd:usesResource ex:def-chemometrics-course-title ;
+    cd:usesScene ex:scene-chemometrics-introduction-title ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-introduction-definition a cd:PathStep ;
+    cd:position 2 ;
+    cd:usesResource ex:def-chemometrics-definition ;
+    cd:usesScene ex:scene-chemometrics-introduction-definition ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-introduction-overview a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:chemometrics-nitrate-case-problem,
+      ex:table-chemometrics-nitrate-replicates,
+      ex:chart-chemometrics-nitrate-means,
+      ex:chemometrics-nitrate-case-discussion ;
     cd:usesScene ex:scene-chemometrics-introduction-overview ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-introduction-lecturer a cd:PathStep ;
-    cd:position 2 ;
-    cd:usesResource ex:attribution-chemometrics-gerrit-renner,
-      ex:chemometrics-lecturer-context-note ;
+    cd:position 4 ;
+    cd:usesResource ex:chemometrics-lecturer-pillars,
+      ex:chemometrics-lecturer-takeaway ;
     cd:usesScene ex:scene-chemometrics-introduction-lecturer ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-introduction-format a cd:PathStep ;
-    cd:position 3 ;
-    cd:usesResource ex:chemometrics-course-format-list ;
+    cd:position 5 ;
+    cd:usesResource ex:chemometrics-course-format-banner,
+      ex:chemometrics-course-format-sessions ;
     cd:usesScene ex:scene-chemometrics-introduction-format ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-introduction-roadmap a cd:PathStep ;
-    cd:position 4 ;
-    cd:usesResource ex:chemometrics-course-roadmap-list ;
+    cd:position 6 ;
+    cd:usesResource ex:diagram-chemometrics-course-roadmap ;
     cd:usesScene ex:scene-chemometrics-introduction-roadmap ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-introduction-round a cd:PathStep ;
-    cd:position 5 ;
-    cd:usesResource ex:exercise-chemometrics-introduction-round ;
+    cd:position 7 ;
+    cd:usesResource ex:chemometrics-introduction-round-prompts ;
     cd:usesScene ex:scene-chemometrics-introduction-round ;
     cd:authoredResource true .
 }

@@ -1,196 +1,189 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
-  "activeRole": "Semantic Web and Ontology Engineer",
-  "activeIssue": 184,
-  "expectedDeliverable": "On one fresh branch, implement the exact six-slide Chemometrics Introduction redesign using existing generic semantic primitives only: title KeyPoint cards, overview DefinitionList cards, lecturer KeyPoint cards, format DefinitionList cards, six-node FlowDiagram roadmap, four-card introduction round. Update path/scenes/focused tests. No renderer/System changes.",
-  "lastCompletedTurn": "manager: verified generic concept-specification, foundation-card-grid and diagram-stage layouts already cover the requested visual structures and authorized one bounded content worker turn.",
-  "lastUpdated": "2026-09-28T11:13:00+02:00",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
+  "activeRole": "Chemometrics Content Worker",
+  "activeIssue": 217,
+  "expectedDeliverable": "Owner-local semantic/core/renderer/Pitch tests followed by browser review of the six screenshot-targeted slides. Verify standard npm run pitch:intro now shows editable CodeMirror + Run/Reset/output without adding ?interactive=1.",
+  "lastCompletedTurn": "manager: aligned #217 focused scene assertions with the polished authored prose before owner verification.",
+  "lastUpdated": "2026-10-06T16:55:00+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 106,
+  "blockedBy": [
+    "Issue #217 requires owner-local npm run check:semantics and focused Variables and Constants tests",
+    "Issue #217 requires npm run test:core, npm run test:renderer-reveal and npm run test:pitch",
+    "Browser review must verify measurement and UV/Vis charts stay inside their columns",
+    "Browser review must verify observation bridge has no overlap",
+    "Browser review must verify standard pitch:intro shows editable CodeMirror with Run, Reset and webR output",
+    "Browser review must verify Quick check uses clickable options and graph-backed immediate feedback"
+  ],
+  "stateRevision": 136,
   "transitionHistory": [
     {
-      "at": "2026-09-27T14:41:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
-      "reason": "Claimed bounded Chemometrics Issue #167 after verifying #160 and #166 are completed and the Chemometrics lane is idle; scope is exactly seven authored OfferingSections plus focused content/runtime tests, with no System/UI/progress expansion."
-    },
-    {
-      "at": "2026-09-27T14:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer worker turn for Issue #167 to author the exact seven Chemometrics OfferingSections and focused regressions only; no shared System contract, renderer/UI, learner-state or future scientific LearningUnit work."
-    },
-    {
-      "at": "2026-09-27T14:46:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
-      "reason": "Claimed bounded Chemometrics Issue #167 on fresh branch agent/167-chemometrics-offering-sections to author exactly seven OfferingSections, exact current placement membership and focused runtime/semantic regressions."
-    },
-    {
-      "at": "2026-09-27T14:52:00+02:00",
+      "at": "2026-09-28T17:51:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue167-sections-20260927T144600+0200",
-      "reason": "Completed bounded Issue #167 with exact seven-section Chemometrics OfferingSection data, focused semantic/runtime/source-anchor regressions, Draft PR #177 and structured handoff; returned to manager for local tests, independent review and later exact-head acceptance gates."
+      "actor": "interactive-chemometrics-worker-issue189-semantic-disclosure-20260928T172200+0200",
+      "reason": "Completed #189 semantic evidence-driven disclosure implementation and focused regressions; returned to manager for owner-local verification, browser smoke, full suite and final acceptance gates."
     },
     {
-      "at": "2026-09-27T15:16:00+02:00",
+      "at": "2026-10-06T08:52:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
-      "reason": "Claimed final Issue #167 acceptance after independent review, owner-local focused 12/12 and full repository 19/19 test evidence, clean-tree restoration and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-27T15:40:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue167-final-acceptance-20260927T151600+0200",
-      "reason": "Exact-head validator success, local focused/full tests, independent review, integration freshness and Ready lifecycle all passed for PR #177. Squash-merged Issue #167 as 1e0346df26b4650c49d573182dc10f205989d2e0, verified Issue #167 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
-    {
-      "at": "2026-09-27T16:48:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue169-source-audit-20260927T164800+0200",
-      "reason": "Claimed planning-only Issue #169 to audit current availability of the 2026 Chemometrics Markdown sources and create the bounded source-recovery child issue; no semantic content worker is authorized from inventory-only evidence."
-    },
-    {
-      "at": "2026-09-27T16:50:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue169-source-audit-20260927T164800+0200",
-      "reason": "Completed the bounded #169 controller turn: documented missing 2026 primary-source evidence, created recovery Issue #179, prepared source-complete Signal Processing reconciliation Issue #180 from the pinned public source, authorized no semantic worker, and returned Chemometrics to idle manager state."
-    },
-    {
-      "at": "2026-09-28T09:18:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
-      "reason": "Claimed planning-only Issue #180 after verifying the pinned Signal Processing source and preliminary canonical reuse/correction audit; no semantic authoring is authorized in the manager turn."
-    },
-    {
-      "at": "2026-09-28T09:20:00+02:00",
-      "from": "busy/manager",
       "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
-      "reason": "Authorized one documentation-only Semantic Web and Ontology Engineer turn for #180 source reconciliation; RDF/content/path/scene/renderer implementation remains explicitly out of scope."
+      "actor": "interactive-chemometrics-manager-issue209-variables-constants-resource",
+      "reason": "Owner moved to Region 2 and requested a knowledge-resource-first rebuild of the first chapter. Authorized #209 scientific content plus LearningUnit label/focus changes only; existing Random Variables path/scenes remain structurally frozen."
     },
     {
-      "at": "2026-09-28T09:22:00+02:00",
+      "at": "2026-10-06T08:53:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
-      "reason": "Claimed documentation-only #180 branch for exact source mapping, canonical reuse audit, scientific correction log, bounded unit split and renderer-boundary planning only."
+      "actor": "interactive-chemometrics-worker-issue209-variables-constants-resource",
+      "reason": "Claimed #209 Variables/Constants concepts, relation/comparison, examples, dynamic R experiment, classification exercises, Sample relationship, Distribution anchor, exact focused regressions and chapter label/focus update."
     },
     {
-      "at": "2026-09-28T09:24:00+02:00",
+      "at": "2026-10-06T09:06:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue180-reconciliation-20260928T092200+0200",
-      "reason": "Completed documentation-only #180 source reconciliation, Draft PR #181 and structured handoff; returned to manager for independent review and exact-head acceptance gates."
+      "actor": "interactive-chemometrics-worker-issue209-variables-constants-resource",
+      "reason": "Completed #209 knowledge-resource layer: Variables and Constants chapter identity, three core concepts, scope-aware comparison, three worked examples, one executable R experiment, three classification exercises, Sample↔Variable interpretation and deferred Distribution anchor. Existing five-step Random Variables path/scenes remain unchanged."
     },
     {
-      "at": "2026-09-28T09:27:00+02:00",
+      "at": "2026-10-06T09:12:00+02:00",
       "from": "blocked/manager",
       "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue180-reconciliation-20260928T091800+0200",
-      "reason": "Independent #180 review found one count-only documentation mismatch; authorized a bounded worker repair changing 33 substantive-after-title to 33 total / 32 substantive while preserving all mapped ranges and decisions."
+      "actor": "interactive-chemometrics-manager-issue209-independent-dependent-extension",
+      "reason": "Owner requested independent and dependent variables as part of the same knowledge resource. Authorized a bounded #209 extension of concepts, examples, dynamic experiment, focus set and focused tests; path/scenes remain frozen."
     },
     {
-      "at": "2026-09-28T09:28:00+02:00",
+      "at": "2026-10-06T09:13:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
-      "reason": "Claimed only the count wording repair authorized by the independent manager review."
+      "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
+      "reason": "Claimed independent/dependent variable definitions, role caveats, reciprocal contrast/comparison, example enrichment, calibration code experiment enrichment and exact focus/test migration."
     },
     {
-      "at": "2026-09-28T09:29:00+02:00",
+      "at": "2026-10-06T09:22:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue180-count-repair-20260928T092800+0200",
-      "reason": "Completed the count-only documentation repair and returned #180 to manager; no source mapping, scientific correction, unit-boundary or implementation scope changed."
+      "actor": "interactive-chemometrics-worker-issue209-independent-dependent-extension",
+      "reason": "Completed #209 extension: independent and dependent variables are narrower Variable concepts with explicit non-causal/model-role caveats; all three examples and the R experiment now expose independent/dependent/constant roles."
     },
     {
-      "at": "2026-09-28T09:31:00+02:00",
+      "at": "2026-10-06T11:45:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
-      "reason": "Claimed final documentation-only #180 acceptance after clean independent review and count repair; exact-head external validation is the remaining technical gate before Ready/merge."
-    },
-    {
-      "at": "2026-09-28T09:51:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue180-final-acceptance-20260928T093100+0200",
-      "reason": "Exact-head validator success, independent review, count repair, integration freshness and Ready lifecycle all passed for PR #181. Squash-merged Issue #180 as b0d4ef680887f0e760054931b6d407362d0aece7, verified Issue #180 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
-    {
-      "at": "2026-09-28T09:54:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue182-preprocessing-resources-20260928T095400+0200",
-      "reason": "Claimed bounded resource-only Issue #182 after accepted #180 reconciliation; scope is reusable Foundations/Preprocessing scientific resources, provenance and focused tests only, with course integration explicitly deferred."
-    },
-    {
-      "at": "2026-09-28T09:55:00+02:00",
-      "from": "busy/manager",
       "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue182-preprocessing-resources-20260928T095400+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer turn for #182 resource-only canonical authoring and focused tests; all course integration and renderer work remains out of scope."
+      "actor": "interactive-chemometrics-manager-issue212-variables-constants-presentation",
+      "reason": "Owner requested implementation of Region 2 Level 1 from the accepted Variables and Constants knowledge resource."
     },
     {
-      "at": "2026-09-28T09:56:00+02:00",
+      "at": "2026-10-06T11:46:00+02:00",
       "from": "ready/worker",
       "to": "busy/worker",
-      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
-      "reason": "Claimed bounded resource-only #182 branch for canonical Foundations/Preprocessing resources, pinned provenance and focused regressions only."
+      "actor": "interactive-chemometrics-worker-issue212-variables-constants-presentation",
+      "reason": "Claimed stable-path migration to fourteen scenes, umbrella topic concepts, graph-backed classification polls, dynamic R experiment placement and compatibility regressions."
     },
     {
-      "at": "2026-09-28T10:00:00+02:00",
+      "at": "2026-10-06T12:10:00+02:00",
       "from": "busy/worker",
       "to": "blocked/manager",
-      "actor": "interactive-chemometrics-worker-issue182-preprocessing-resources-20260928T095600+0200",
-      "reason": "Completed bounded resource-only Issue #182 with canonical Foundations/Preprocessing resources, strict provenance separation, focused regressions, Draft PR #183 and handoff; returned to manager for local tests, independent review and exact-head acceptance gates."
+      "actor": "interactive-chemometrics-worker-issue212-variables-constants-presentation",
+      "reason": "Completed #212: Level 1 now compiles a fourteen-scene Variables and Constants presentation, ending with three single-choice classification exercises."
     },
     {
-      "at": "2026-09-28T10:33:00+02:00",
+      "at": "2026-10-06T12:18:00+02:00",
       "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue182-final-acceptance-20260928T103300+0200",
-      "reason": "Claimed final Issue #182 acceptance after clean independent review, owner-local focused 9/9 and full repository 29/29 test evidence, clean-tree restoration, no review threads and current-main freshness. The resulting exact PR head now requires fresh external validator success before Ready/merge."
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue212-test-repair",
+      "reason": "Owner-local focused tests found one exact wording regression: the comparison used capitalized plural 'Variables', while the semantic content contract asserts the explicit singular term 'variable'. Reworded the authored comparison to singular variable/constant without changing meaning or graph structure."
     },
     {
-      "at": "2026-09-28T10:55:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-chemometrics-manager-issue182-final-acceptance-20260928T103300+0200",
-      "reason": "Exact-head validator success, focused/full local tests, independent review, integration freshness and Ready lifecycle all passed for PR #183. Squash-merged Issue #182 as 45fe74f715667c1747c63d7b1b8830555fd2fa73, verified Issue #182 closed completed and single-parent squash, and returned Chemometrics to idle manager state."
-    },
-    {
-      "at": "2026-09-28T11:12:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
-      "reason": "Claimed bounded Issue #184 to redesign the six-slide Introduction using generic semantic cards, key-point lists and a flow diagram only; no renderer-specific Intro logic."
-    },
-    {
-      "at": "2026-09-28T11:13:00+02:00",
-      "from": "busy/manager",
+      "at": "2026-10-06T13:30:00+02:00",
+      "from": "blocked/manager",
       "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue184-intro-redesign-20260928T111200+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer turn for #184 six-slide Intro redesign; existing generic renderer layouts must be used without System mutation."
+      "actor": "interactive-chemometrics-manager-issue215-visual-level1",
+      "reason": "Owner requested full visual/interactivity pass for Variables and Constants using varied semantic layouts comparable to Introduction."
+    },
+    {
+      "at": "2026-10-06T13:31:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue215-visual-level1",
+      "reason": "Claimed semantic diagrams/charts/table/formula/keypoints plus generic code-lab, concept-chart, math-diagram and large-poll renderer layouts."
+    },
+    {
+      "at": "2026-10-06T14:05:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue215-visual-level1",
+      "reason": "Completed #215 visual implementation: all fourteen scenes now use purposeful diagram/card/code/table/chart/formula/poll structures; renderer additions are identity-free."
+    },
+    {
+      "at": "2026-10-06T13:58:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue215-trig-syntax-repair",
+      "reason": "Owner-local focused tests failed before setup with rdflib BadSyntax. Three analytical-example DiagramNode bodies used short Turtle strings across physical newlines. Converted exactly those bodies to valid triple-quoted language-tagged literals and verified no remaining multiline short cd:body literals in chemometrics-basics.trig."
+    },
+    {
+      "at": "2026-10-06T14:59:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue216-story-rewrite",
+      "reason": "Owner replaced the 14-scene story with a nine-scene teaching narrative and explicitly raised the variable versus random-variable ambiguity."
+    },
+    {
+      "at": "2026-10-06T15:00:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue216-story-rewrite",
+      "reason": "Claimed scientific terminology correction, nine-scene path/scene rewrite, generic live measurement runtime, new structural layouts, minimal webR demo and role quiz."
+    },
+    {
+      "at": "2026-10-06T15:34:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue216-story-rewrite",
+      "reason": "Completed #216 implementation: generic Variable no longer implies a probability distribution; observation/sample/random-variable terminology is explicit; Level 1 now follows the requested nine-scene narrative with live measurement example, minimal webR and UV/Vis role quiz."
+    },
+    {
+      "at": "2026-10-06T15:42:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue216-contract-hardening",
+      "reason": "Hardened the new generic live-chart contract before owner verification: replaced EXISTS/BIND SHACL completeness logic with portable UNION/NOT EXISTS constraints and added core SceneDocument acceptance/fail-closed tests for interval, amplitude and precision."
+    },
+    {
+      "at": "2026-10-06T16:16:00+02:00",
+      "from": "blocked/manager",
+      "to": "ready/worker",
+      "actor": "interactive-chemometrics-manager-issue217-browser-polish",
+      "reason": "Owner supplied browser screenshots showing nested chart overflow, observation-bridge overlap, static webR fallback, and non-interactive quiz options."
+    },
+    {
+      "at": "2026-10-06T16:17:00+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "interactive-chemometrics-worker-issue217-browser-polish",
+      "reason": "Claimed generic nested-chart constraints, compact narrative layouts, standard local CodeMirror/webR enhancement, graph-backed local quiz feedback, and focused regressions."
+    },
+    {
+      "at": "2026-10-06T16:48:00+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-worker-issue217-browser-polish",
+      "reason": "Completed #217 implementation: charts are constrained to layout slots, observation bridge is compacted, R code is editable with Run/Reset/Output in standard course mode, and quiz choices are local buttons with authored correct-answer feedback."
+    },
+    {
+      "at": "2026-10-06T16:55:00+02:00",
+      "from": "blocked/manager",
+      "to": "blocked/manager",
+      "actor": "interactive-chemometrics-manager-issue217-test-alignment",
+      "reason": "Aligned focused scene assertions with the shortened #217 authored prose: causality/statistical-independence now belongs to the caveat block, and the distribution takeaway uses the explicit random-variable-model wording."
     }
   ]
 }

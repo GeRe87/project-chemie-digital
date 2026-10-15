@@ -42,14 +42,15 @@
   stroke-width: 4;
 }
 
-/* Reveal owns slide visibility. Scene-specific layouts may use display:grid !important
-   for their active composition, but they must never surface inactive sibling slides. */
-#pitch-slides > section:not(.present) {
+/* Reveal owns slide visibility. In deck view, layout CSS with display:grid !important
+   must not surface inactive siblings. Scroll view intentionally keeps every slide in
+   the document flow, so never hide non-present slides there. */
+body[data-presentation-view="deck"] #pitch-slides > section:not(.present) {
   display: none !important;
   pointer-events: none !important;
 }
 
-#pitch-slides > section.present {
+body[data-presentation-view="deck"] #pitch-slides > section.present {
   pointer-events: auto;
 }
 
@@ -61,6 +62,59 @@
   .d3-flow-node,
   .d3-flow-edge,
   .d3-flow-edge-label {
+    transition: none !important;
+  }
+}
+
+
+/* Staged slides evolve in place: fragment changes must never move or scroll the slide. */
+html:has(body.pcd-stage-lock-active),
+body.pcd-stage-lock-active,
+body.pcd-stage-lock-active.reveal-viewport,
+body.pcd-stage-lock-active .reveal-viewport,
+body.pcd-stage-lock-active .reveal {
+  scroll-behavior: auto !important;
+  overscroll-behavior: none !important;
+  scrollbar-gutter: stable;
+}
+
+body.pcd-stage-lock-active .reveal-viewport,
+body.pcd-stage-lock-active .reveal {
+  touch-action: none;
+}
+
+#pitch-slides > section[data-stage-lock="true"] {
+  overflow: hidden !important;
+  contain: layout paint;
+}
+
+#pitch-slides > section[data-stage-lock="true"] .pcd-presentation-step-fragment {
+  position: absolute !important;
+  inset: auto !important;
+}
+
+
+/* Semantic progressive disclosure reserves the authored layout slot. Content
+   visibility changes with the staged resource that semantically triggers it,
+   never by removing the block from layout flow. */
+[data-presentation-disclosure-mode="progressive"] {
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+
+[data-presentation-disclosure-mode="progressive"][data-presentation-disclosure-visible="false"] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-presentation-disclosure-mode="progressive"][data-presentation-disclosure-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-presentation-disclosure-mode="progressive"] {
     transition: none !important;
   }
 }

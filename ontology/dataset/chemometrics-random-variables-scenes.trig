@@ -2,149 +2,404 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 
 <https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-random-variables-lecture> {
-  ex:scene-chemometrics-random-variables-opener a cd:SceneDefinition ;
-    cd:focusConcept ex:random-variable ;
-    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-opener-heading,
-      ex:scene-item-chemometrics-random-variables-opener-exercise,
-      ex:scene-item-chemometrics-random-variables-opener-code ;
+  # 01 — title ---------------------------------------------------------------
+  ex:scene-chemometrics-variables-title a cd:SceneDefinition ;
+    cd:focusConcept ex:variables-foundation ;
+    cd:hasSceneItem ex:scene-item-variables-title-heading ;
+    cd:authoredResource true .
+  ex:scene-item-variables-title-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variables-foundation ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+
+  # 02 — general variable definition ----------------------------------------
+  ex:scene-chemometrics-variable-definition a cd:SceneDefinition ;
+    cd:focusConcept ex:variable ;
+    cd:presentationPattern cd:DefinitionWithCitation ;
+    cd:hasSceneItem ex:scene-item-variable-heading,
+      ex:scene-item-variable-definition,
+      ex:scene-item-variable-citation ;
+    cd:authoredResource true .
+  ex:scene-item-variable-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variable-definition a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:def-variable ;
+    cd:communicativeRole cd:QuotationRole ; cd:selectionPath "cd:hasDefinition" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variable-citation a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:source-openstax-statistics ;
+    cd:communicativeRole cd:CitationRole ;
+    cd:selectionPath "cd:hasDefinition/cd:hasSource" ;
     cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-opener-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:random-variable ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
+  # 03 — variables, values and observations ---------------------------------
+  ex:scene-chemometrics-variables-values-observations a cd:SceneDefinition ;
+    cd:focusConcept ex:variables-values-observations ;
+    cd:hasSceneItem ex:scene-item-vvo-heading,
+      ex:scene-item-vvo-media,
+      ex:scene-item-vvo-intro,
+      ex:scene-item-vvo-table,
+      ex:scene-item-vvo-chart ;
     cd:authoredResource true .
+  ex:scene-item-vvo-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variables-values-observations ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-vvo-media a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:media-uvvis-dilution-series ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-vvo-intro a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:variables-values-observations-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-vvo-table a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:table-uvvis-calibration-roles ;
+    cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-vvo-chart a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  # 04 — lake sampling locations and replicates ------------------------------
+  ex:scene-chemometrics-lake-sampling-replicates a cd:SceneDefinition ;
+    cd:focusConcept ex:lake-sampling-replicates ;
+    cd:hasSceneItem ex:scene-item-lake-sampling-heading,
+      ex:scene-item-lake-sampling-media,
+      ex:scene-item-lake-sampling-intro,
+      ex:scene-item-lake-sampling-table,
+      ex:scene-item-lake-sampling-chart ;
+    cd:authoredResource true .
+  ex:scene-item-lake-sampling-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:lake-sampling-replicates ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-media a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:media-lake-sampling-sites ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-intro a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:lake-sampling-replicates-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-table a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:table-lake-analyte-a-replicates ;
+    cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-lake-sampling-chart a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:chart-lake-analyte-a-replicates ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-opener-exercise a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:exercise-dice-realizations ;
-    cd:communicativeRole cd:ExerciseRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
+  # 05 — designed and observed sources of variation ----------------------------
+  ex:scene-chemometrics-why-values-differ a cd:SceneDefinition ;
+    cd:focusConcept ex:variability-randomness-uncertainty ;
+    cd:hasSceneItem ex:scene-item-why-values-heading,
+      ex:scene-item-why-values-cards,
+      ex:scene-item-why-values-takeaway ;
     cd:authoredResource true .
+  ex:scene-item-why-values-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variability-randomness-uncertainty ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-why-values-cards a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:variation-origins-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-why-values-takeaway a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:why-values-differ-takeaway ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-opener-code a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:code-dice-roll-r ;
-    cd:communicativeRole cd:CodeRole ;
-    cd:selectionPath "cd:hasCodeExample" ;
-    cd:language "en" ;
-    cd:authoredResource true .
 
-  ex:scene-chemometrics-random-variables-core-distinction a cd:SceneDefinition ;
-    cd:focusConcept ex:random-variable ;
-    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-core-distinction-heading,
-      ex:scene-item-chemometrics-random-variables-core-distinction-definition,
-      ex:scene-item-chemometrics-random-variables-core-distinction-realization ;
+  # 06 — process diagram: inputs and sources of residual variation ----------
+  ex:scene-chemometrics-variation-sources a cd:SceneDefinition ;
+    cd:focusConcept ex:uvvis-variation-sources ;
+    cd:hasSceneItem ex:scene-item-variation-sources-heading,
+      ex:scene-item-variation-sources-diagram ;
     cd:authoredResource true .
+  ex:scene-item-variation-sources-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:uvvis-variation-sources ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variation-sources-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:diagram-uvvis-variation-sources ;
+    cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-core-distinction-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:random-variable ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
+  # 07 — additive equation and its legend ----------------------------------
+  ex:scene-chemometrics-additive-response-model a cd:SceneDefinition ;
+    cd:focusConcept ex:uvvis-additive-response-model ;
+    cd:hasSceneItem ex:scene-item-response-model-heading,
+      ex:scene-item-response-model-equation,
+      ex:scene-item-response-model-legend ;
     cd:authoredResource true .
+  ex:scene-item-response-model-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:uvvis-additive-response-model ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-response-model-equation a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:uvvis-additive-response-equation ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-response-model-legend a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:uvvis-additive-response-legend ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-core-distinction-definition a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:def-random-variable ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-core-distinction-realization a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:random-variable-realization-interpretation ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
+  # 08 — general additive model and symbol legend --------------------------
+  ex:scene-chemometrics-general-additive-model a cd:SceneDefinition ;
+    cd:focusConcept ex:general-additive-response-model ;
+    cd:hasSceneItem ex:scene-item-general-model-heading,
+      ex:scene-item-general-model-equation,
+      ex:scene-item-general-model-legend ;
     cd:authoredResource true .
+  ex:scene-item-general-model-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:general-additive-response-model ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-general-model-equation a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:general-additive-response-equation ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-general-model-legend a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:general-additive-response-legend ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-random-variables-measurement-model a cd:SceneDefinition ;
-    cd:focusConcept ex:random-variable ;
-    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-measurement-model-heading,
-      ex:scene-item-chemometrics-random-variables-measurement-model-interpretation ;
-    cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-measurement-model-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:random-variable ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
+  # 09 — the model function can take many forms -----------------------------
+  ex:scene-chemometrics-model-function-families a cd:SceneDefinition ;
+    cd:focusConcept ex:model-function-families ;
+    cd:hasSceneItem ex:scene-item-function-families-heading,
+      ex:scene-item-function-families-diagram ;
     cd:authoredResource true .
+  ex:scene-item-function-families-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:model-function-families ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-function-families-diagram a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:diagram-model-function-families ;
+    cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-measurement-model-interpretation a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:random-measurement-model-interpretation ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
+  # 10 — one value, an ordered collection, or a rectangular array ------------
+  ex:scene-chemometrics-variable-value-shapes a cd:SceneDefinition ;
+    cd:focusConcept ex:variable-value-shapes ;
+    cd:hasSceneItem ex:scene-item-value-shapes-heading, ex:scene-item-value-shapes-example,
+      ex:scene-item-value-shapes-scalar, ex:scene-item-value-shapes-scalar-formula,
+      ex:scene-item-value-shapes-vector, ex:scene-item-value-shapes-vector-formula,
+      ex:scene-item-value-shapes-matrix, ex:scene-item-value-shapes-matrix-formula ;
     cd:authoredResource true .
+  ex:scene-item-value-shapes-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable-value-shapes ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-example a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:concentration-value-shapes-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-scalar a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:value-shape-scalar-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-scalar-formula a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:value-shape-scalar-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-vector a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:value-shape-vector-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-vector-formula a cd:SceneItem ;
+    cd:position 6 ; cd:selectsResource ex:value-shape-vector-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-matrix a cd:SceneItem ;
+    cd:position 7 ; cd:selectsResource ex:value-shape-matrix-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-shapes-matrix-formula a cd:SceneItem ;
+    cd:position 8 ; cd:selectsResource ex:value-shape-matrix-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-random-variables-discrete-case a cd:SceneDefinition ;
-    cd:focusConcept ex:discrete-random-variable ;
-    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-discrete-case-heading,
-      ex:scene-item-chemometrics-random-variables-discrete-case-definition,
-      ex:scene-item-chemometrics-random-variables-discrete-case-example ;
+  # 11: numeric, categorical and logical values
+  ex:scene-chemometrics-variable-value-types a cd:SceneDefinition ;
+    cd:focusConcept ex:variable-value-types ;
+    cd:hasSceneItem ex:scene-item-value-types-heading, ex:scene-item-value-types-intro,
+      ex:scene-item-value-types-numbers, ex:scene-item-value-types-numbers-formula,
+      ex:scene-item-value-types-categories, ex:scene-item-value-types-categories-formula,
+      ex:scene-item-value-types-boolean, ex:scene-item-value-types-boolean-formula ;
     cd:authoredResource true .
+  ex:scene-item-value-types-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable-value-types ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:variable-value-types-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-numbers a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:value-type-numbers-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-numbers-formula a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:value-type-numbers-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-categories a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:value-type-categories-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-categories-formula a cd:SceneItem ;
+    cd:position 6 ; cd:selectsResource ex:value-type-categories-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-boolean a cd:SceneItem ;
+    cd:position 7 ; cd:selectsResource ex:value-type-boolean-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-value-types-boolean-formula a cd:SceneItem ;
+    cd:position 8 ; cd:selectsResource ex:value-type-boolean-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-discrete-case-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:discrete-random-variable ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
+  # 12: controlled design points, random response
+  ex:scene-chemometrics-controlled-calibration a cd:SceneDefinition ;
+    cd:focusConcept ex:controlled-calibration-model ;
+    cd:hasSceneItem ex:scene-item-controlled-calibration-heading,
+      ex:scene-item-controlled-calibration-intro,
+      ex:scene-item-controlled-calibration-formula,
+      ex:scene-item-controlled-calibration-chart,
+      ex:scene-item-controlled-calibration-assumption ;
     cd:authoredResource true .
+  ex:scene-item-controlled-calibration-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:controlled-calibration-model ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-controlled-calibration-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:controlled-calibration-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-controlled-calibration-formula a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:controlled-calibration-formula ;
+    cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-controlled-calibration-chart a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:chart-uvvis-calibration-response ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-controlled-calibration-assumption a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:controlled-calibration-assumption ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-discrete-case-definition a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:def-discrete-random-variable ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
+  # 13: same physical quantity, different role
+  ex:scene-chemometrics-context-roles a cd:SceneDefinition ;
+    cd:focusConcept ex:concentration-context-roles ;
+    cd:hasSceneItem ex:scene-item-context-roles-heading,
+      ex:scene-item-context-roles-intro,
+      ex:scene-item-context-roles-cards,
+      ex:scene-item-context-roles-takeaway ;
     cd:authoredResource true .
+  ex:scene-item-context-roles-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:concentration-context-roles ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-context-roles-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:concentration-context-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-context-roles-cards a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:concentration-context-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-context-roles-takeaway a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:concentration-context-takeaway ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-discrete-case-example a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:worked-example-discrete-colony-count ;
-    cd:communicativeRole cd:ExampleRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
+  # 14: orthogonal variable classifications
+  ex:scene-chemometrics-variable-classification a cd:SceneDefinition ;
+    cd:focusConcept ex:variable-classification ;
+    cd:hasSceneItem ex:scene-item-variable-classification-heading,
+      ex:scene-item-variable-classification-intro,
+      ex:scene-item-variable-classification-cards,
+      ex:scene-item-variable-classification-takeaway ;
     cd:authoredResource true .
+  ex:scene-item-variable-classification-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variable-classification ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variable-classification-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:variable-classification-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variable-classification-cards a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:variable-classification-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variable-classification-takeaway a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:variable-classification-takeaway ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-chemometrics-random-variables-continuous-case a cd:SceneDefinition ;
-    cd:focusConcept ex:continuous-random-variable ;
-    cd:hasSceneItem ex:scene-item-chemometrics-random-variables-continuous-case-heading,
-      ex:scene-item-chemometrics-random-variables-continuous-case-definition,
-      ex:scene-item-chemometrics-random-variables-continuous-case-example ;
+  # 15: empirical frequencies versus probability model
+  ex:scene-chemometrics-empirical-probability a cd:SceneDefinition ;
+    cd:focusConcept ex:empirical-probability-distribution-distinction ;
+    cd:hasSceneItem ex:scene-item-empirical-probability-heading,
+      ex:scene-item-empirical-probability-intro,
+      ex:scene-item-empirical-probability-cards,
+      ex:scene-item-empirical-probability-chart,
+      ex:scene-item-empirical-probability-takeaway ;
     cd:authoredResource true .
+  ex:scene-item-empirical-probability-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:empirical-probability-distribution-distinction ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-empirical-probability-intro a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:empirical-probability-intro ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-empirical-probability-cards a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:distribution-comparison-cards ;
+    cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-empirical-probability-chart a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:chart-assigned-concentration-frequency ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-empirical-probability-takeaway a cd:SceneItem ;
+    cd:position 5 ; cd:selectsResource ex:assigned-frequency-takeaway ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:language "en" ; cd:authoredResource true .
 
-  ex:scene-item-chemometrics-random-variables-continuous-case-heading a cd:SceneItem ;
-    cd:position 1 ;
-    cd:selectsResource ex:continuous-random-variable ;
-    cd:communicativeRole cd:HeadingRole ;
-    cd:selectionPath "skos:prefLabel@en" ;
-    cd:language "en" ;
+  # 16: checkpoint and bridge
+  ex:scene-chemometrics-variables-checkpoint a cd:SceneDefinition ;
+    cd:focusConcept ex:variables-level-check ;
+    cd:hasSceneItem ex:scene-item-variables-checkpoint-heading,
+      ex:scene-item-variables-checkpoint-randomness,
+      ex:scene-item-variables-checkpoint-variability,
+      ex:scene-item-variables-checkpoint-distribution ;
     cd:authoredResource true .
-
-  ex:scene-item-chemometrics-random-variables-continuous-case-definition a cd:SceneItem ;
-    cd:position 2 ;
-    cd:selectsResource ex:def-continuous-random-variable ;
-    cd:communicativeRole cd:StatementRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
-
-  ex:scene-item-chemometrics-random-variables-continuous-case-example a cd:SceneItem ;
-    cd:position 3 ;
-    cd:selectsResource ex:worked-example-continuous-concentration ;
-    cd:communicativeRole cd:ExampleRole ;
-    cd:selectionPath "cd:body" ;
-    cd:language "en" ;
-    cd:authoredResource true .
+  ex:scene-item-variables-checkpoint-heading a cd:SceneItem ;
+    cd:position 1 ; cd:selectsResource ex:variables-level-check ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variables-checkpoint-randomness a cd:SceneItem ;
+    cd:position 2 ; cd:selectsResource ex:poll-variable-randomness-check ;
+    cd:communicativeRole cd:PollRole ; cd:selectionPath "cd:hasAudiencePoll" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variables-checkpoint-variability a cd:SceneItem ;
+    cd:position 3 ; cd:selectsResource ex:poll-variability-check ;
+    cd:communicativeRole cd:PollRole ; cd:selectionPath "cd:hasAudiencePoll" ;
+    cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variables-checkpoint-distribution a cd:SceneItem ;
+    cd:position 4 ; cd:selectsResource ex:poll-distribution-check ;
+    cd:communicativeRole cd:PollRole ; cd:selectionPath "cd:hasAudiencePoll" ;
+    cd:language "en" ; cd:authoredResource true .
 }

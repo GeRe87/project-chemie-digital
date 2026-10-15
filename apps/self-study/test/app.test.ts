@@ -24,6 +24,123 @@ function leaves(nodes: readonly SelfStudyNodePlan[]): SelfStudyNodePlan[] {
   return nodes.flatMap((node) => node.kind === "group" ? leaves(node.children) : [node]);
 }
 
+
+function escapeRenderedText(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void {
+  const visible = (value: string, message: string): void => {
+    assert.ok(index.includes(escapeRenderedText(value)), message);
+  };
+
+  switch (node.kind) {
+    case "prose":
+      visible(node.text, `missing static prose ${node.sourceBlockId}`);
+      return;
+    case "math":
+      visible(node.expression, `missing static math expression ${node.sourceBlockId}`);
+      visible(node.spokenText, `missing static math spoken text ${node.sourceBlockId}`);
+      return;
+    case "code":
+      visible(node.code, `missing static code ${node.sourceBlockId}`);
+      visible(node.fallback, `missing static code fallback ${node.sourceBlockId}`);
+      return;
+    case "media-reference":
+      visible(node.alternativeText, `missing static media alternative text ${node.sourceBlockId}`);
+      return;
+    case "list":
+      for (const item of node.items) {
+        visible(item.text, `missing static list item ${item.id}`);
+      }
+      return;
+    case "definition-list":
+      for (const entry of node.entries) {
+        visible(entry.term, `missing static definition term ${entry.id}`);
+        if (entry.description) {
+          visible(entry.description, `missing static definition description ${entry.id}`);
+        }
+      }
+      return;
+    case "table":
+      visible(node.caption, `missing static table caption ${node.sourceBlockId}`);
+      if (node.description) {
+        visible(node.description, `missing static table description ${node.sourceBlockId}`);
+      }
+      for (const column of node.columns) {
+        visible(column.label, `missing static table column ${column.id}`);
+      }
+      for (const row of node.rows) {
+        for (const cell of row.cells) {
+          visible(cell.text, `missing static table cell ${cell.id}`);
+        }
+      }
+      return;
+    case "prompt":
+      visible(node.prompt, `missing static prompt ${node.sourceBlockId}`);
+      for (const option of node.options ?? []) {
+        visible(option, `missing static prompt option ${node.sourceBlockId}`);
+      }
+      visible(node.fallback, `missing static prompt fallback ${node.sourceBlockId}`);
+      return;
+    case "diagram":
+      visible(node.label, `missing static diagram label ${node.sourceBlockId}`);
+      visible(node.description, `missing static diagram description ${node.sourceBlockId}`);
+      for (const item of node.nodes) {
+        visible(item.label, `missing static diagram node ${item.id}`);
+      }
+      for (const edge of node.edges) {
+        visible(edge.label, `missing static diagram edge ${edge.id}`);
+      }
+      for (const role of node.participantRoles ?? []) {
+        visible(role.label, `missing static participant role ${role.id}`);
+      }
+      for (const message of node.messages ?? []) {
+        visible(message.label, `missing static interaction message ${message.id}`);
+      }
+      for (const state of node.states ?? []) {
+        visible(state.label, `missing static diagram state ${state.id}`);
+        for (const annotation of state.sharedEdgeAnnotations) {
+          visible(annotation.label, `missing static diagram annotation ${annotation.id}`);
+        }
+        for (const binding of state.participantBindings ?? []) {
+          visible(binding.label, `missing static participant binding ${binding.roleId}`);
+        }
+      }
+      return;
+    case "chart":
+      visible(node.label, `missing static chart label ${node.sourceBlockId}`);
+      visible(node.description, `missing static chart description ${node.sourceBlockId}`);
+      visible(node.xAxis.label, `missing static chart x-axis ${node.sourceBlockId}`);
+      visible(node.yAxis.label, `missing static chart y-axis ${node.sourceBlockId}`);
+      if (node.chartType === "bar") {
+        for (const datum of node.data) {
+          visible(datum.category, `missing static chart datum ${datum.id}`);
+          visible(String(datum.value), `missing static chart value ${datum.id}`);
+        }
+      } else {
+        for (const series of node.series) {
+          visible(series.label, `missing static chart series ${series.id}`);
+          for (const datum of series.data) {
+            visible(String(datum.x), `missing static chart x value ${datum.id}`);
+            visible(String(datum.y), `missing static chart y value ${datum.id}`);
+          }
+        }
+      }
+      for (const annotation of node.annotations ?? []) {
+        visible(annotation.label, `missing static chart annotation ${annotation.id}`);
+      }
+      return;
+    case "group":
+      throw new Error(`group ${node.sourceBlockId} must be flattened before leaf assertions`);
+  }
+}
+
 test("self-study app consumes a validated generated canonical SceneDocument transport", async () => {
   const artifact = await readRuntimeArtifact();
   assert.equal(artifact.artifactVersion, "1.0");
@@ -99,22 +216,13 @@ test("generated static-first shell contains all self-study leaf fallback content
   for (const documentValue of artifact.sceneDocuments) {
     const plan = createSelfStudyRenderPlan(documentValue).plan!;
     for (const section of plan.sections) {
-      assert.ok(index.includes(section.semanticLabel), `missing static section ${section.semanticLabel}`);
+      assert.ok(index.includes(escapeRenderedText(section.semanticLabel)), `missing static section ${section.semanticLabel}`);
       for (const node of leaves(section.nodes)) {
-        if (node.kind === "definition-list") {
-          for (const entry of node.entries) {
-            const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-            assert.ok(index.includes(term), `missing static definition term ${entry.id}`);
-            if (entry.description) {
-              const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-              assert.ok(index.includes(description), `missing static definition description ${entry.id}`);
-            }
-          }
-          continue;
-        }
-        const probe = node.staticFallback.slice(0, Math.min(24, node.staticFallback.length));
-        const escaped = probe.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        assert.ok(index.includes(escaped) || index.includes(probe), `missing static fallback ${node.sourceBlockId}`);
+        assert.ok(
+          index.includes(`data-source-block-id="${node.sourceBlockId}"`),
+          `missing static block ${node.sourceBlockId}`,
+        );
+        assertLeafContentVisible(index, node);
       }
     }
   }
@@ -133,10 +241,10 @@ test("generated static-first shell renders DefinitionList terms and descriptions
   for (const node of definitionLists) {
     assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
     for (const entry of node.entries) {
-      const term = entry.term.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      const term = escapeRenderedText(entry.term);
       assert.ok(index.includes(`<dt>${term}</dt>`), `missing semantic dt for ${entry.id}`);
       if (entry.description) {
-        const description = entry.description.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        const description = escapeRenderedText(entry.description);
         assert.ok(index.includes(`<dd>${description}</dd>`), `missing semantic dd for ${entry.id}`);
       }
     }

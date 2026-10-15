@@ -482,3 +482,41 @@ test("delegates SceneDocument validation to the existing SceneDocument contract"
     /sceneDocuments\[0\] is invalid: Scene scene source must retain at least one source resource/,
   );
 });
+
+test("canonical runtime accepts the two authored variation card motifs and rejects unknown motifs", () => {
+  const value = artifact();
+  value.sceneDocuments[0].version = "1.5";
+  value.sceneDocuments[0].scenes = [{
+    id: "scene:why-values-differ",
+    source: [{ resourceId: "ex:why-values-differ" }],
+    blocks: [{
+      id: "block:variation-cards",
+      kind: "definition-list",
+      source: [{ resourceId: "ex:variation-origins-cards" }],
+      entries: [
+        {
+          id: "ex:designed-variation-card--definition-entry",
+          term: "DESIGNED VARIATION",
+          visualMotif: "calibration-flasks",
+          visualMotifRole: "highlight",
+          source: [{ resourceId: "ex:designed-variation-card" }],
+        },
+        {
+          id: "ex:observed-variation-card--definition-entry",
+          term: "OBSERVED VARIATION",
+          visualMotif: "sampling-lake",
+          visualMotifRole: "highlight",
+          source: [{ resourceId: "ex:observed-variation-card" }],
+        },
+      ],
+    }],
+    readingOrder: ["block:variation-cards"],
+  }];
+  assert.doesNotThrow(() => validateCanonicalRuntimeArtifact(value));
+
+  value.sceneDocuments[0].scenes[0].blocks[0].entries[0].visualMotif = "unknown-motif";
+  assert.throws(
+    () => validateCanonicalRuntimeArtifact(value),
+    /visualMotif is not supported/,
+  );
+});

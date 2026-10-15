@@ -1,8 +1,8 @@
-[data-layout="semantic-multi-view"] {
+[data-composition="semantic-stage"][data-composition-profile="multi-view"] {
   display: block !important;
 }
 
-[data-layout="semantic-multi-view"] h2 {
+[data-composition="semantic-stage"][data-composition-profile="multi-view"] > [data-composition-region="heading"] {
   margin-bottom: 0.42em;
 }
 
@@ -173,11 +173,11 @@
 
 
 /* Generic scene-scale composition for one semantic source with multiple projections. */
-.reveal .slides section[data-layout="semantic-multi-view"] {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] {
   padding: 2.2rem 3.2rem 2rem !important;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] > [data-layout-slot="heading"] {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] > [data-composition-region="heading"] {
   max-width: 20ch;
   margin: 0 0 .3em;
   font-size: 2.42em;
@@ -186,7 +186,7 @@
   text-wrap: balance;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-multi-view-rail {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-multi-view-rail {
   width: min(820px, 76vw);
   margin: .25rem auto .5rem;
   display: grid;
@@ -195,7 +195,7 @@
   font-size: .78em;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-multi-view-rail-item {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-multi-view-rail-item {
   position: relative;
   display: grid;
   place-items: center;
@@ -205,58 +205,58 @@
   text-align: center;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-multi-view-frame {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-multi-view-frame {
   min-height: 27rem;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-source-stage,
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-table-stage,
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-chart-stage {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-source-stage,
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-table-stage,
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-chart-stage {
   width: min(960px, 84vw);
   margin-inline: auto;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .code-static-fallback {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .code-static-fallback {
   max-height: 23.5rem;
   font-size: .66em;
   line-height: 1.42;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-table-stage {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-table-stage {
   align-self: center;
   padding: 1rem 1.15rem 1.2rem;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-table {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-table {
   font-size: .84em;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .retro-neon-chart-subtitle,
-.reveal .slides section[data-layout="semantic-multi-view"] .d3-chart-caption {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .retro-neon-chart-subtitle,
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .d3-chart-caption {
   display: none;
 }
 
-.reveal .slides section[data-layout="semantic-multi-view"] .d3-chart-svg {
+.reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .d3-chart-svg {
   max-height: 24rem;
 }
 
 @media (max-width: 700px) {
-  .reveal .slides section[data-layout="semantic-multi-view"] {
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] {
     padding: 1.2rem .85rem 1rem !important;
   }
 
-  .reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-multi-view-rail {
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-multi-view-rail {
     width: 100%;
     grid-template-columns: 1fr;
   }
 
-  .reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-multi-view-rail-item:not(:last-child)::after {
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-multi-view-rail-item:not(:last-child)::after {
     display: none;
   }
 
-  .reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-source-stage,
-  .reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-table-stage,
-  .reveal .slides section[data-layout="semantic-multi-view"] .pcd-semantic-chart-stage {
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-source-stage,
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-table-stage,
+  .reveal .slides section[data-composition="semantic-stage"][data-composition-profile="multi-view"] .pcd-semantic-chart-stage {
     width: 100%;
   }
 }

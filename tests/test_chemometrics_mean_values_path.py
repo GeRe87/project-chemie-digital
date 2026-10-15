@@ -123,6 +123,20 @@ EXPECTED_SCENES = {
     EX["path-step-chemometrics-mean-values-median-practice"]: EX["scene-chemometrics-mean-values-median-practice"],
 }
 
+from mean_values_expectations import ADDITIONS, EXTRA_PATH_RESOURCES, ORDER
+
+for slug, (_focus, _heading, body_items) in ADDITIONS.items():
+    step = EX[f"path-step-chemometrics-mean-values-{slug}"]
+    EXPECTED_STEPS[step] = (
+        ORDER.index(slug) + 1,
+        {EX[resource] for resource, _role, _selector in body_items}
+        | {EX[resource] for resource in EXTRA_PATH_RESOURCES.get(slug, set())},
+    )
+    EXPECTED_SCENES[step] = EX[f"scene-chemometrics-mean-values-{slug}"]
+for slug in ORDER:
+    step = EX[f"path-step-chemometrics-mean-values-{slug}"]
+    EXPECTED_STEPS[step] = (ORDER.index(slug) + 1, EXPECTED_STEPS[step][1])
+
 
 class ChemometricsMeanValuesPathTests(unittest.TestCase):
     @classmethod
@@ -153,7 +167,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOPICS, unit_topics)
         self.assertEqual(unit_topics, path_topics)
 
-    def test_path_has_exactly_eight_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_exactly_thirty_stable_steps_with_contiguous_positions(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
         self.assertEqual(set(EXPECTED_STEPS), steps)
 
@@ -165,10 +179,10 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 9)), sorted(positions))
-        self.assertEqual(8, len(set(positions)))
+        self.assertEqual(list(range(1, 31)), sorted(positions))
+        self.assertEqual(30, len(set(positions)))
 
-    def test_each_step_uses_exactly_the_manager_approved_reviewed_resources(self) -> None:
+    def test_each_step_uses_exactly_the_reviewed_resources(self) -> None:
         for step, (_position, expected_resources) in EXPECTED_STEPS.items():
             with self.subTest(step=step):
                 self.assertEqual(
@@ -176,8 +190,13 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
                     set(self.path_graph.objects(step, CD.usesResource)),
                 )
                 for resource in expected_resources:
+                    owner_graph = (
+                        self.dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-mean-values-examples"))
+                        if str(resource).removeprefix(str(EX)).startswith("mean-")
+                        else self.content_graph
+                    )
                     self.assertTrue(
-                        any(self.content_graph.triples((resource, None, None))),
+                        any(owner_graph.triples((resource, None, None))),
                         f"Reviewed Mean Values resource is absent from the Chemometrics content graph: {resource}",
                     )
                     self.assertIn(
@@ -228,7 +247,7 @@ class ChemometricsMeanValuesPathTests(unittest.TestCase):
         random_steps = set(
             self.graph.objects(EX["path-chemometrics-random-variables-lecture"], CD.hasStep)
         )
-        self.assertEqual(5, len(random_steps))
+        self.assertEqual(11, len(random_steps))
         for step in random_steps:
             self.assertEqual(1, len(set(self.graph.objects(step, CD.usesScene))))
 

@@ -43,4 +43,8 @@ The runtime port owns keyboard listeners, timers, focus operations and transitio
 
 ## Boundaries
 
+Adjacent singleton definition lists and mathematical expressions reuse the existing `definition-deck` composition and infocard primitive. Expressions remain independent source-linked blocks and are projected into their preceding infocard. Selection depends only on block kinds and reading order, never lecture titles or identities. No separate card layout is introduced.
+
+Infocard point connectors use a shared 2.4–3.2 rem gap so the dashed shaft stays visible above its bottom-aligned arrowhead. Supporting examples retain a compact gap without a vertical connector. These are shared primitive styles, not scene-specific layouts.
+
 The package does not modify semantic pitch claims, narrative order, or renderer-neutral `SceneDocument` content. It accepts validated `SceneDocument 1.0` and `1.1`, normalizes to `RevealRenderPlan 1.1`, and emits `PitchComponentDocument 1.1` for the pitch-component projection. Presenter mode is a local renderer capability, not semantic state. Deployment, public release, OER publication, accounts, analytics and Phase 2 review execution remain outside this package.

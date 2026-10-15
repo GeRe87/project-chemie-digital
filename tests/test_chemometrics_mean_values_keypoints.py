@@ -138,12 +138,19 @@ class ChemometricsMeanValuesKeyPointTests(unittest.TestCase):
             for entity in cls.artifact["datasetSnapshot"]["entities"]
         }
 
-    def test_exactly_the_eleven_mean_values_owners_gain_keypoints(self) -> None:
+    def test_all_eleven_mean_values_owners_gain_keypoints_without_claiming_shared_graph_exclusivity(self) -> None:
         owners = {
             str(subject).removeprefix(str(EX))
             for subject in self.content_graph.subjects(CD.hasKeyPoint, None)
         }
-        self.assertEqual(set(OWNER_SPECS), owners)
+        self.assertTrue(set(OWNER_SPECS).issubset(owners))
+
+        selected_mean_values_owners = {
+            str(selected).removeprefix(str(EX))
+            for scene_item in self.scene_graph.subjects(CD.communicativeRole, CD.KeyPointRole)
+            for selected in self.scene_graph.objects(scene_item, CD.selectsResource)
+        }
+        self.assertEqual(set(OWNER_SPECS), selected_mean_values_owners)
 
     def test_owner_bodies_remain_exact_and_keypoints_are_source_linked_and_contiguous(self) -> None:
         for owner_id, spec in OWNER_SPECS.items():

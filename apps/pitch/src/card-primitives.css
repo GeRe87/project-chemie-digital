@@ -1,0 +1,441 @@
+/* Shared card primitives and generic definition-deck learning-stage profile.
+   Styling depends only on component/composition metadata emitted by the renderer. */
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  row-gap: .72rem;
+  align-content: stretch;
+  padding: 1.2rem 1.65rem 1.15rem !important;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] > [data-composition-region="heading"] {
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.42em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+  > [data-composition-region-container="prelude"] {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  width: min(1140px, 96%);
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+  > [data-composition-region-container="main"] {
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+  > [data-composition-region-container="footer"] {
+  grid-row: 4;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  width: min(1140px, 96%);
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"])) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"]))
+  > [data-composition-region-container="main"] {
+  grid-row: 2;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"]))
+  > [data-composition-region-container="footer"] {
+  grid-row: 3;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]:not(:has(> [data-composition-region-container="prelude"])):not(:has(> [data-composition-region-container="footer"])) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+  [data-component-kind="info-surface"] {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .56rem .9rem;
+  border: 2px solid color-mix(in srgb, var(--pcd-accent) 68%, transparent);
+  background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 12%, transparent);
+  color: var(--pcd-foreground);
+  font: 760 .82em/1.2 Arial, Helvetica, sans-serif;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+  > [data-composition-region-container="footer"]
+  [data-component-kind="info-surface"] {
+  border-width: 0;
+  border-top: 2px solid var(--pcd-accent);
+  box-shadow: none;
+  background: color-mix(in srgb, var(--pcd-accent) 4%, transparent);
+  font-weight: 760;
+}
+
+/* Generic collection layout: intrinsic content width determines wrapping, not a fixed card count. */
+.reveal .definition-list-entry .math-display {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: .6rem 0 0;
+  font-size: 1em;
+  overflow-x: auto;
+}
+.reveal .definition-list-entry .math-display .katex-display {
+  margin: 0;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"] {
+  counter-reset: pcd-card;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: .72rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: .1rem 0;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  > .definition-list-entry {
+  --pcd-card-hue: var(--definition-entry-hue, 205deg);
+  --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
+  counter-increment: pcd-card;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem);
+  flex-direction: column;
+  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem));
+  max-width: 34rem;
+  min-height: 0;
+  margin: 0;
+  padding: .82rem .88rem;
+  border: 2px solid var(--pcd-card-stroke);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--pcd-card-stroke) 8%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 72%
+    );
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-card-stroke) 13%, transparent);
+  color: var(--pcd-foreground);
+  text-align: left;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  > .definition-list-entry::before {
+  content: counter(pcd-card, decimal-leading-zero);
+  position: absolute;
+  top: .58rem;
+  right: .68rem;
+  color: color-mix(in srgb, var(--pcd-card-stroke) 68%, var(--pcd-foreground));
+  font: 850 .62em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .04em;
+  opacity: .66;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-term {
+  margin: 0 0 .42rem;
+  padding: 0 2rem .36rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcd-card-stroke) 48%, transparent);
+  color: color-mix(in srgb, var(--pcd-card-stroke) 88%, var(--pcd-foreground));
+  font: 900 .78em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-description {
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--pcd-foreground);
+  font: 740 .78em/1.28 Arial, Helvetica, sans-serif;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-description[data-adaptive-point-spacing="true"] {
+  display: flex;
+  min-height: 0;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer {
+  position: relative;
+  flex-basis: var(--pcd-point-gap-min);
+  min-height: var(--pcd-point-gap-min);
+  max-height: var(--pcd-point-gap-max);
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: .12rem;
+  bottom: .67rem;
+  width: 2px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--pcd-card-stroke) 64%, var(--pcd-muted)) 0 6px,
+    transparent 6px 10px
+  );
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: .12rem;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: .35rem solid transparent;
+  border-right: .35rem solid transparent;
+  border-top: .55rem solid color-mix(in srgb, var(--pcd-card-stroke) 78%, var(--pcd-muted));
+}
+
+/* A leading "|> " denotes a subordinate supporting example. Preserve the
+   adaptive gap but do not draw the connector/arrow for that one transition. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"] {
+  --pcd-point-gap-min: .72rem;
+  --pcd-point-gap-max: 1.2rem;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"]::before,
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point-spacer[data-followed-by-indented-point="true"]::after {
+  content: none;
+}
+
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point[data-definition-point-level="1"] {
+  position: relative;
+  padding-inline-start: 1.8em;
+  text-indent: 0;
+}
+
+/* Font Awesome Free 6.7.2 "arrow-right" (Icons: CC BY 4.0).
+   Copyright 2024 Fonticons, Inc. https://fontawesome.com/license/free
+   SVG source: https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/solid/arrow-right.svg
+   A mask takes its colors from the current card without adding a font or CDN dependency. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-point[data-definition-point-level="1"]::before {
+  --pcd-example-arrow-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20448%20512%27%3E%3Cpath%20d%3D%27M438.6%20278.6c12.5-12.5%2012.5-32.8%200-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3%200s-12.5%2032.8%200%2045.3L338.8%20224%2032%20224c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032l306.7%200L233.4%20393.4c-12.5%2012.5-12.5%2032.8%200%2045.3s32.8%2012.5%2045.3%200l160-160z%27%2F%3E%3C%2Fsvg%3E");
+  content: "";
+  position: absolute;
+  inset-inline-start: .15em;
+  top: .12em;
+  display: block;
+  width: 1.05em;
+  height: 1.05em;
+  background: linear-gradient(135deg, var(--pcd-card-stroke, var(--pcd-accent)), var(--pcd-chart-series-3, #eda934));
+  -webkit-mask: var(--pcd-example-arrow-mask) center / contain no-repeat;
+  mask: var(--pcd-example-arrow-mask) center / contain no-repeat;
+}
+
+/* Visual motifs are semantic component decoration and therefore live with the card primitive. */
+.reveal .definition-list-visual-motif {
+  display: block;
+  flex: 0 0 auto;
+  background: var(--pcd-card-stroke, var(--pcd-accent));
+  opacity: .88;
+  -webkit-mask: var(--pcd-motif-mask) center / contain no-repeat;
+  mask: var(--pcd-motif-mask) center / contain no-repeat;
+}
+
+.reveal .definition-list-visual-motif[data-visual-motif-role="highlight"] {
+  width: clamp(4.4rem, 10vw, 6.6rem);
+  height: clamp(4.4rem, 10vw, 6.6rem);
+  margin: .12rem auto .45rem;
+}
+
+.reveal .definition-list-visual-motif[data-visual-motif-role="supporting"] {
+  position: absolute;
+  top: .8rem;
+  right: 2.7rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  opacity: .68;
+}
+
+.definition-list-visual-motif[data-visual-motif="discussion"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 12h32v24H22L12 45v-9H8z'/%3E%3Cpath d='M30 30h26v18H46l-8 7v-7h-8'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="hands-on"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 50l22-22'/%3E%3Cpath d='M38 10a12 12 0 0 0 15 15L31 47l-14 3 3-14 22-22a12 12 0 0 0-4-4z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="statistics"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 54h48M12 50V38h8v12M26 50V28h8v22M40 50V18h8v32'/%3E%3Cpath d='M10 34c10 0 12-18 22-18s12 18 22 18'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="inference"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 22h18M36 22h18M19 14v16M45 14v16M12 43h40'/%3E%3Cpath d='M24 36l8 7-8 7M40 36l-8 7 8 7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="regression"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M10 54V10M10 54h44M16 47L50 17'/%3E%3Cpath d='M18 39h1M26 34h1M35 30h1M43 21h1M49 28h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="design-of-experiments"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linejoin='round'%3E%3Cpath d='M10 10h44v44H10zM32 10v44M10 32h44'/%3E%3Cpath d='M18 18h1M45 18h1M18 45h1M45 45h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="calibration-flasks"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%208h10M14%208v23l-8%2016q-5%2012%2010%2012t10-12l-8-16V8M39%208h10M42%208v23l-8%2016q-5%2012%2010%2012t10-12l-8-16V8%22%2F%3E%3Cpath%20d%3D%22M7%2047h18M35%2043h18%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="sampling-lake"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M12%2016Q19%204%2034%2012T52%2029Q63%2043%2046%2049T17%2053Q2%2045%2010%2031T12%2016Z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%223%22%2F%3E%3Cg%20fill%3D%22black%22%3E%3Ccircle%20cx%3D%2223%22%20cy%3D%2223%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2225%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2235%22%20cy%3D%2239%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2241%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2243%22%20r%3D%224%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="multivariate"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M10 52h44M14 54L48 14'/%3E%3Cpath d='M18 42h1M24 35h1M31 39h1M38 27h1M45 23h1M48 34h1M28 25h1' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+.definition-list-visual-motif[data-visual-motif="machine-learning"] {
+  --pcd-motif-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 12v12M32 24L16 36M32 24l16 12M16 36v12M48 36v12'/%3E%3Cpath d='M28 8h8v8h-8zM12 32h8v8h-8zM44 32h8v8h-8zM12 46h8v8h-8zM44 46h8v8h-8z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+body[data-presentation-theme="dark"] .reveal
+  [data-component-kind="card-collection"][data-composition-region="main"]
+  > .definition-list-entry {
+  --pcd-card-stroke: hsl(var(--pcd-card-hue) 72% 66%);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--pcd-card-stroke) 9%, var(--pcd-surface-strong)) 0%,
+      var(--pcd-surface-strong) 74%
+    );
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--pcd-card-stroke) 8%, transparent),
+    4px 4px 0 rgb(0 0 0 / .24);
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
+    max-height: 100%;
+    overflow-y: auto;
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem !important;
+  }
+
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+    > [data-composition-region-container="prelude"],
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
+    > [data-composition-region-container="footer"] {
+    width: 100%;
+  }
+
+  .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
+    align-content: flex-start;
+  }
+
+  .reveal [data-component-kind="card-collection"][data-composition-region="main"]
+    > .definition-list-entry {
+    flex-basis: 100%;
+    max-width: none;
+    min-width: 100%;
+  }
+}
+
+
+/* Generic math + definition-list profile. No slide, course or resource names. */
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"] {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, .88fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.5rem 2rem !important;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  > [data-composition-region="heading"] {
+  grid-row: 1;
+  margin: 0;
+  max-width: none;
+  font-size: 2.45em;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  > [data-composition-region-container="prelude"] {
+  grid-row: 2;
+  align-self: center;
+  min-width: 0;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  .math-display[data-component-kind="formula"] {
+  margin: 0;
+  padding: 1.5rem .75rem;
+  text-align: center;
+  font-size: 2em;
+  border-bottom: 3px solid var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 6%, transparent);
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  > [data-composition-region-container="main"] {
+  grid-row: 3;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  [data-component-kind="card-collection"][data-composition-region="main"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  .definition-list-entry {
+  flex: none;
+  min-width: 0;
+  max-width: none;
+  min-height: 9rem;
+  border-radius: .4rem;
+  padding: 1rem 1.15rem;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  .definition-list-term {
+  font-size: 1.08em;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+  .definition-list-description {
+  font-size: .68em;
+}
+@media (max-width: 900px) {
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+    [data-component-kind="card-collection"][data-composition-region="main"] {
+    grid-template-columns: 1fr;
+  }
+  .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
+    .math-display[data-component-kind="formula"] { font-size: 1.3em; padding: .75rem; }
+}

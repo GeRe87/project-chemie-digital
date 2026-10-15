@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { DiagramBlock } from "../../core/src/index.ts";
+import { VISUAL_MOTIF_KEYS } from "../../core/src/scene-document.ts";
 import { createD3FlowRenderModel, createSvgD3FlowRuntime } from "../src/flow-diagram.ts";
 import { createD3FlowLayout } from "../src/flow-layout.ts";
 
@@ -11,6 +12,11 @@ class FakeElement {
   parent: FakeElement | null = null;
   textContent: string | null = null;
   clientWidth = 1200;
+  readonly style = {
+    properties: new Map<string, string>(),
+    setProperty(name: string, value: string): void { this.properties.set(name, value); },
+    getPropertyValue(name: string): string { return this.properties.get(name) ?? ""; },
+  };
 
   constructor(tagName: string) {
     this.tagName = tagName;
@@ -253,6 +259,145 @@ test("effective edge visualRole policy: explicit wins, equal endpoint roles prop
     assert.equal(mixedEdge?.hasAttribute("data-visual-role"), false);
 
     mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});
+
+test("SVG renders source-linked mathematical notation separately from description", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const mathBlock: DiagramBlock = {
+      ...block,
+      nodes: block.nodes.map((node) => node.id === "node:a"
+        ? { ...node, label: "INPUT", notation: "cᵢ", description: "Chosen concentration" }
+        : node),
+    };
+    const result = createD3FlowRenderModel(mathBlock, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(result.model);
+    const model = result.model!;
+    const layout = createD3FlowLayout(model, 1200);
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
+    const notation = host.findByClass("d3-flow-node-notation");
+    assert.equal(notation.length, 1);
+    assert.equal(notation[0]!.children[0]!.textContent, "cᵢ");
+    assert.equal(notation[0]!.getAttribute("xml:space"), "preserve");
+    const descriptions = host.findByClass("d3-flow-node-body");
+    assert.ok(descriptions.some((node) =>
+      node.children.map((part) => part.textContent ?? "").join("") === "Chosen concentration"));
+    assert.ok(descriptions.some((node) => node.children.length > 1), "exercise visual wrapping, not just a single tspan");
+    assert.ok(host.findByClass("d3-flow-node").some((node) => node.getAttribute("data-node-has-notation") === "true"));
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});
+
+// Synthetic renderer fixture, not a content requirement for any lecture card.
+test("generic process fixture displays mathematical notation without replacing authored prose", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const nodes: DiagramBlock["nodes"] = [
+      { id: "input", label: "INPUT", notation: "cᵢ", visualRole: "input", source: [{ resourceId: "ex:input" }] },
+      { id: "process", label: "PROCESS", notation: "f(cᵢ) + εᵢ", description: "Chemical and analytical process",
+        visualRole: "process", source: [{ resourceId: "ex:process" }] },
+      { id: "output", label: "OUTPUT", notation: "Aᵢ", visualRole: "output", source: [{ resourceId: "ex:output" }] },
+      { id: "influences", label: "ADDITIONAL INFLUENCES", visualRole: "influences", source: [{ resourceId: "ex:influences" }],
+        parts: [{ id: "prep", label: "Preparation", source: [{ resourceId: "ex:prep" }] },
+                { id: "readout", label: "Measurement", source: [{ resourceId: "ex:readout" }] }] },
+      { id: "residual", label: "UNEXPLAINED EFFECTS", notation: "εᵢ", visualRole: "residual", source: [{ resourceId: "ex:residual" }] },
+    ];
+    const edges: DiagramBlock["edges"] = [
+      { id: "a", sourceNodeId: "input", targetNodeId: "process", label: "input", source: [{ resourceId: "ex:a" }] },
+      { id: "b", sourceNodeId: "process", targetNodeId: "output", label: "produces", source: [{ resourceId: "ex:b" }] },
+      { id: "c", sourceNodeId: "process", targetNodeId: "influences", label: "affected by", source: [{ resourceId: "ex:c" }] },
+      { id: "d", sourceNodeId: "influences", targetNodeId: "residual", label: "aggregates", source: [{ resourceId: "ex:d" }] },
+    ];
+    const result = createD3FlowRenderModel({
+      ...block, nodes, edges, label: "Experiment with unexplained influences",
+    }, { reducedMotion: true, interactionPolicy: "static" });
+    assert.ok(result.model);
+    const layout = createD3FlowLayout(result.model!, 1200);
+    assert.equal(layout.strategy, "process-system");
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, result.model!, layout);
+    const node = host.findByClass("d3-flow-node").find((item) => item.getAttribute("data-node-id") === "process");
+    assert.ok(node);
+    const formula = node.findByClass("d3-flow-node-notation");
+    assert.equal(formula.length, 1);
+    assert.equal(formula[0]!.children.map((item) => item.textContent ?? "").join(""), "f(cᵢ) + εᵢ");
+    const prose = node.findByClass("d3-flow-node-body");
+    assert.ok(prose.length > 0);
+    assert.equal(prose.flatMap((item) => item.children.map((child) => child.textContent ?? "")).join(""), nodes[1]!.description);
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});
+
+test("hierarchy thumbnails are rendered as native SVG paths for all five authored motifs", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const motifs = ["regression", "nonlinear-curve", "multiple-inputs", "neural-network", "other-models"] as const;
+    const nodes: DiagramBlock["nodes"] = [
+      { id: "root", label: "MODEL FUNCTION", notation: "f(xᵢ)", visualRole: "hierarchy-root",
+        source: [{ resourceId: "ex:root" }] },
+      ...motifs.map((motif, i) => ({
+        id: `family-${i}`, label: `Family ${i}`, description: `Example ${i}`,
+        visualRole: i === 4 ? "hierarchy-other" : "hierarchy-option",
+        visualMotif: motif, visualMotifRole: "highlight" as const,
+        source: [{ resourceId: `ex:family-${i}` }],
+      })),
+    ];
+    const edges: DiagramBlock["edges"] = nodes.slice(1).map((node, i) => ({
+      id: `edge-${i}`, sourceNodeId: "root", targetNodeId: node.id,
+      label: "example", source: [{ resourceId: `ex:edge-${i}` }],
+    }));
+    const rendered = createD3FlowRenderModel({ ...block, nodes, edges }, {
+      reducedMotion: true, interactionPolicy: "static",
+    });
+    assert.ok(rendered.model);
+    const layout = createD3FlowLayout(rendered.model!, 1190);
+    assert.equal(layout.strategy, "hierarchy-fanout");
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, rendered.model!, layout);
+    assert.equal(host.findByClass("d3-flow-node-motif").length, 5);
+    assert.ok(host.findByClass("d3-flow-node").every((element) =>
+      element.style.getPropertyValue("--d3-flow-card-hue") !== ""));
+    const motifsSeen = host.findByClass("d3-flow-node-motif").map((element) => element.getAttribute("data-visual-motif"));
+    assert.deepEqual(motifsSeen, [...motifs]);
+    assert.ok(host.findByClass("d3-flow-node-motif").every((element) => element.findByTag("path").length > 0));
+    assert.equal(host.findByClass("d3-flow-node-notation").length, 1);
+    assert.equal(host.findByClass("d3-flow-edge").length, 5);
+    assert.ok(host.findByClass("d3-flow-edge").every((element) => (element.getAttribute("d") ?? "").includes(" L ")));
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});
+
+test("every supported semantic motif has reusable native SVG primitives outside a hierarchy", () => {
+  const restoreDom = installFakeDom();
+  try {
+    for (const visualMotif of VISUAL_MOTIF_KEYS) {
+      const rendered = createD3FlowRenderModel({
+        ...block,
+        nodes: block.nodes.map((node, index) => index === 0
+          ? { ...node, description: "  Generic  illustration\nwith authored spacing", visualMotif, visualMotifRole: "highlight" }
+          : node),
+      }, { reducedMotion: true, interactionPolicy: "static" });
+      assert.ok(rendered.model);
+      const host = new FakeHTMLElement("div");
+      const mounted = createSvgD3FlowRuntime().mount(host, rendered.model, createD3FlowLayout(rendered.model, 1200));
+      const motifs = host.findByClass("d3-flow-node-motif");
+      assert.equal(motifs.length, 1, visualMotif);
+      assert.equal(motifs[0]!.getAttribute("data-visual-motif"), visualMotif);
+      assert.ok(motifs[0]!.findByTag("path").every((path) => (path.getAttribute("d") ?? "").startsWith("M")), visualMotif);
+      assert.equal(host.findByClass("d3-flow-node-body")[0]!.children.map((child) => child.textContent ?? "").join(""),
+        "  Generic  illustration\nwith authored spacing");
+      mounted.destroy();
+    }
   } finally {
     restoreDom();
   }

@@ -27,6 +27,13 @@ CHEMOMETRICS_GRAPH = URIRef(
 )
 
 NEW_CONCEPTS = {
+    EX["variables-and-constants"],
+    EX["variable"],
+    EX["independent-dependent-variable-roles"],
+    EX["independent-variable"],
+    EX["dependent-variable"],
+    EX["constant"],
+    EX["distribution"],
     EX["discrete-random-variable"],
     EX["continuous-random-variable"],
     EX["expected-value"],

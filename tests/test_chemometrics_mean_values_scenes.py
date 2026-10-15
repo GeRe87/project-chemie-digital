@@ -111,7 +111,19 @@ SCENE_MATRIX = {
     },
 }
 
-ORDERED_SCENES = list(SCENE_MATRIX)
+from mean_values_expectations import ADDITIONS, ORDER
+
+for slug, (focus, heading, body_items) in ADDITIONS.items():
+    resources = [(heading, "HeadingRole", "skos:prefLabel@en"), *body_items]
+    SCENE_MATRIX[EX[f"scene-chemometrics-mean-values-{slug}"]] = {
+        "focus": EX[focus],
+        "items": {
+            EX[f"mv-{slug}-{position}"]: (position, EX[resource], CD[role], selector)
+            for position, (resource, role, selector) in enumerate(resources, 1)
+        },
+    }
+
+ORDERED_SCENES = [EX[f"scene-chemometrics-mean-values-{slug}"] for slug in ORDER]
 
 
 class ChemometricsMeanValuesSceneTests(unittest.TestCase):
@@ -122,7 +134,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         cls.scene_graph = cls.dataset.graph(SCENE_GRAPH)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
 
-    def test_scene_graph_contains_exactly_eight_scene_definitions(self) -> None:
+    def test_scene_graph_contains_exactly_thirty_scene_definitions(self) -> None:
         self.assertEqual(set(SCENE_MATRIX), set(self.scene_graph.subjects(RDF.type, CD.SceneDefinition)))
         for scene, expected in SCENE_MATRIX.items():
             self.assertEqual({expected["focus"]}, set(self.scene_graph.objects(scene, CD.focusConcept)))
@@ -164,12 +176,12 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)
 
-    def test_runtime_compiles_exactly_eight_ordered_scenes_with_formula_latex(self) -> None:
+    def test_runtime_compiles_exactly_thirty_ordered_scenes_with_formula_latex(self) -> None:
         document = RUNTIME.compile_scene_document(
             self.dataset,
             RUNTIME.CoursePathReference(str(PATH), str(PATH_GRAPH)),
         )
-        self.assertEqual(8, len(document["scenes"]))
+        self.assertEqual(30, len(document["scenes"]))
         self.assertEqual(
             [f"ex:{str(scene).removeprefix(str(EX))}--scene" for scene in ORDERED_SCENES],
             [scene["id"] for scene in document["scenes"]],
@@ -189,6 +201,11 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
                     self.assertEqual("unordered", block["listStyle"])
                     self.assertEqual(f"ex:{str(resource).removeprefix(str(EX))}", block["source"][0]["resourceId"])
                     self.assertEqual("cd:hasKeyPoint", block["source"][0]["relationPath"])
+                elif role in {CD.CodeRole, CD.DefinitionListRole, CD.DiagramRole, CD.ChartRole}:
+                    self.assertEqual({
+                        CD.CodeRole: "code", CD.DefinitionListRole: "definition-list",
+                        CD.DiagramRole: "diagram", CD.ChartRole: "chart",
+                    }[role], block["kind"])
                 else:
                     self.assertEqual("prose", block["kind"])
 
@@ -196,7 +213,7 @@ class ChemometricsMeanValuesSceneTests(unittest.TestCase):
         random_path = EX["path-chemometrics-random-variables-lecture"]
         random_graph = URIRef("https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture")
         random_document = RUNTIME.compile_scene_document(self.dataset, RUNTIME.CoursePathReference(str(random_path), str(random_graph)))
-        self.assertEqual(5, len(random_document["scenes"]))
+        self.assertEqual(11, len(random_document["scenes"]))
         self.assertIn(CD.FormulaRole, set(self.graph.objects(EX["scene4-i2"], CD.communicativeRole)))
         self.assertEqual({Literal("cd:latex")}, set(self.graph.objects(EX["scene4-i2"], CD.selectionPath)))
 

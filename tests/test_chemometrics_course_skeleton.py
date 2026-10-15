@@ -247,9 +247,22 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             self._ordered_rows(self.dataset, DIGITAL_CHEMISTRY),
         )
 
+    def test_variables_unit_has_updated_label(self) -> None:
+        self.assertEqual(
+            {"Variables"},
+            {
+                str(value)
+                for value in self.graph.objects(
+                    EX["learning-unit-random-variables"], SKOS.prefLabel
+                )
+            },
+        )
+
     def test_learning_units_use_expected_focus_concepts(self) -> None:
         expected = {
             EX["learning-unit-chemometrics-introduction"]: {
+                EX["chemometrics-course-title"],
+                EX["chemometrics-definition"],
                 EX["chemometrics-course-overview"],
                 EX["chemometrics-lecturer-context"],
                 EX["chemometrics-course-format"],
@@ -257,9 +270,23 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["chemometrics-introduction-round"],
             },
             EX["learning-unit-random-variables"]: {
+                EX["variables-foundation"],
+                EX["variable"],
+                EX["variables-values-observations"],
+                EX["lake-sampling-replicates"],
+                EX["variability-randomness-uncertainty"],
+                EX["uvvis-variation-sources"],
+                EX["uvvis-additive-response-model"],
+                EX["general-additive-response-model"],
+                EX["model-function-families"],
+                EX["variable-value-shapes"],
+                EX["variable-value-types"],
+                EX["controlled-calibration-model"],
+                EX["concentration-context-roles"],
+                EX["variable-classification"],
+                EX["empirical-probability-distribution-distinction"],
                 EX["random-variable"],
-                EX["discrete-random-variable"],
-                EX["continuous-random-variable"],
+                EX["distribution"],
             },
             EX["learning-unit-mean-values"]: {
                 EX["arithmetic-mean"],

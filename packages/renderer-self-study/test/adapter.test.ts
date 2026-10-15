@@ -15,6 +15,33 @@ async function fixture(): Promise<SceneDocument> {
   return JSON.parse(await readFile(fixtureUrl, "utf8")) as SceneDocument;
 }
 
+test("authored prompt answers survive projection and use native optional disclosure", async () => {
+  const document = clone(await fixture()) as any;
+  const scene = document.scenes[0];
+  const block = {
+    id: "block:answered-exercise", kind: "prompt",
+    source: [{ resourceId: "ex:exercise" }, { resourceId: "ex:answer", relationPath: "cd:body" }],
+    prompt: "Calculate a summary.", responseMode: "free-text", fallback: "Calculate a summary.",
+    expectedResult: "The result is <5> & needs context.",
+  };
+  scene.blocks.push(block);
+  scene.readingOrder.push(block.id);
+  const result = createSelfStudyRenderPlan(document);
+  assert.deepEqual(result.diagnostics, []);
+  assert.ok(result.plan);
+  const answerNode = result.plan.sections[0].nodes.find(node => node.sourceBlockId === block.id);
+  assert.ok(answerNode?.kind === "prompt");
+  assert.equal(answerNode.expectedResult, block.expectedResult);
+  assert.deepEqual(answerNode.source, block.source);
+  for (const interactive of [true, false]) {
+    const html = renderSelfStudyHtml(result.plan, { interactive });
+    assert.ok(html.includes("The result is &lt;5&gt; &amp; needs context."));
+    assert.ok(html.includes('data-resource-id="ex:exercise ex:answer"'));
+    if (interactive) assert.ok(html.includes('<details class="self-study-answer"><summary>Musterlösung anzeigen</summary>'));
+    else assert.ok(html.includes('<p class="self-study-answer">'));
+  }
+});
+
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
@@ -81,6 +108,29 @@ test("same SceneDocument produces byte-identical self-study render plans", async
   assert.deepEqual(first.diagnostics, []);
   assert.ok(first.plan && second.plan);
   assert.equal(canonicalSerializeSelfStudyRenderPlan(first.plan), canonicalSerializeSelfStudyRenderPlan(second.plan));
+});
+
+test("unrelated explanation/math pairs render responsive cards with native MathML and complete source fallbacks", async () => {
+  const document = await fixture();
+  const blocks = [
+    { id: "deck-heading", kind: "prose" as const, text: "Other examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:deck-heading" }] },
+    ...["u=7", "v=11", "w=13"].flatMap((expression, index) => [
+      { id: `deck-text-${index}`, kind: "definition-list" as const, entries: [{ id: `entry-${index}`, term: `CASE ${index}`, description: "Keep  spacing", source: [{ resourceId: `ex:deck-text-${index}` }] }], source: [{ resourceId: `ex:deck-text-${index}` }] },
+      { id: `deck-math-${index}`, kind: "math" as const, expression, spokenText: `Expression ${index}`, source: [{ resourceId: `ex:deck-math-${index}` }] },
+    ]),
+  ];
+  const scene = { id: "unrelated-deck", source: [{ resourceId: "ex:unrelated-deck" }], blocks, readingOrder: blocks.map(block => block.id) };
+  const result = createSelfStudyRenderPlan({ ...document, version: "1.4", scenes: [scene] });
+  assert.ok(result.plan);
+  for (const interactive of [false, true]) {
+    const html = renderSelfStudyHtml(result.plan, { interactive });
+    assert.equal((html.match(/class="self-study-definition-entry"/gu) ?? []).length, 3);
+    assert.equal((html.match(/<math /gu) ?? []).length, 3);
+    assert.ok(html.includes("CASE 0"));
+    assert.ok(html.includes("Keep  spacing"));
+    for (const expression of ["u=7", "v=11", "w=13"]) assert.ok(html.includes(`<code>${expression}</code>`));
+    assert.ok(html.includes('data-resource-id="ex:deck-math-2"'));
+  }
 });
 
 test("canonical scene and source identities plus reading order are preserved", async () => {

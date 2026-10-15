@@ -3,47 +3,114 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture> {
+  # Stable legacy path identity; the authored Level 1 topic is now the broader Variables foundation.
   ex:path-chemometrics-random-variables-lecture a cd:LearningPath ;
-    skos:prefLabel "Chemometrics Random Variables lecture path"@en ;
-    cd:forTopic ex:random-variable ;
+    skos:prefLabel "Chemometrics Variables lecture path"@en ;
+    cd:forTopic ex:variables-foundation, ex:variable,
+      ex:variables-values-observations, ex:lake-sampling-replicates,
+      ex:variability-randomness-uncertainty,
+      ex:uvvis-variation-sources, ex:uvvis-additive-response-model,
+      ex:general-additive-response-model, ex:model-function-families,
+      ex:variable-value-shapes, ex:variable-value-types,
+      ex:controlled-calibration-model, ex:concentration-context-roles,
+      ex:variable-classification, ex:empirical-probability-distribution-distinction,
+      ex:random-variable, ex:distribution ;
     cd:forLearningUnit ex:learning-unit-random-variables ;
-    cd:hasStep ex:path-step-chemometrics-random-variables-opener,
-      ex:path-step-chemometrics-random-variables-core-distinction,
-      ex:path-step-chemometrics-random-variables-measurement-model,
-      ex:path-step-chemometrics-random-variables-discrete-case,
-      ex:path-step-chemometrics-random-variables-continuous-case ;
+    cd:hasStep ex:path-step-chemometrics-variables-title,
+      ex:path-step-chemometrics-variable-definition,
+      ex:path-step-chemometrics-variables-values-observations,
+      ex:path-step-chemometrics-lake-sampling-replicates,
+      ex:path-step-chemometrics-why-values-differ,
+      ex:path-step-chemometrics-variation-sources,
+      ex:path-step-chemometrics-additive-response-model,
+      ex:path-step-chemometrics-general-additive-model,
+      ex:path-step-chemometrics-model-function-families,
+      ex:path-step-chemometrics-variable-value-shapes,
+      ex:path-step-chemometrics-variable-value-types ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-opener a cd:PathStep ;
+  ex:path-step-chemometrics-variables-title a cd:PathStep ;
     cd:position 1 ;
-    cd:usesResource ex:exercise-dice-realizations ;
-    cd:usesScene ex:scene-chemometrics-random-variables-opener ;
+    cd:usesResource ex:variables-foundation ;
+    cd:usesScene ex:scene-chemometrics-variables-title ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-core-distinction a cd:PathStep ;
+  ex:path-step-chemometrics-variable-definition a cd:PathStep ;
     cd:position 2 ;
-    cd:usesResource ex:def-random-variable,
-      ex:random-variable-realization-interpretation ;
-    cd:usesScene ex:scene-chemometrics-random-variables-core-distinction ;
+    cd:usesResource ex:def-variable, ex:source-openstax-statistics ;
+    cd:usesScene ex:scene-chemometrics-variable-definition ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-measurement-model a cd:PathStep ;
+  ex:path-step-chemometrics-variables-values-observations a cd:PathStep ;
     cd:position 3 ;
-    cd:usesResource ex:random-measurement-model-interpretation ;
-    cd:usesScene ex:scene-chemometrics-random-variables-measurement-model ;
+    cd:usesResource ex:media-uvvis-dilution-series,
+      ex:variables-values-observations-intro,
+      ex:table-uvvis-calibration-roles,
+      ex:chart-uvvis-calibration-response ;
+    cd:usesScene ex:scene-chemometrics-variables-values-observations ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-discrete-case a cd:PathStep ;
+  ex:path-step-chemometrics-lake-sampling-replicates a cd:PathStep ;
     cd:position 4 ;
-    cd:usesResource ex:def-discrete-random-variable,
-      ex:worked-example-discrete-colony-count ;
-    cd:usesScene ex:scene-chemometrics-random-variables-discrete-case ;
+    cd:usesResource ex:media-lake-sampling-sites,
+      ex:lake-sampling-replicates-intro,
+      ex:table-lake-analyte-a-replicates,
+      ex:chart-lake-analyte-a-replicates ;
+    cd:usesScene ex:scene-chemometrics-lake-sampling-replicates ;
     cd:authoredResource true .
 
-  ex:path-step-chemometrics-random-variables-continuous-case a cd:PathStep ;
+  ex:path-step-chemometrics-why-values-differ a cd:PathStep ;
     cd:position 5 ;
-    cd:usesResource ex:def-continuous-random-variable,
-      ex:worked-example-continuous-concentration ;
-    cd:usesScene ex:scene-chemometrics-random-variables-continuous-case ;
+    cd:usesResource ex:variation-origins-cards,
+      ex:why-values-differ-takeaway ;
+    cd:usesScene ex:scene-chemometrics-why-values-differ ;
     cd:authoredResource true .
+
+
+  ex:path-step-chemometrics-variation-sources a cd:PathStep ;
+    cd:position 6 ;
+    cd:usesResource ex:diagram-uvvis-variation-sources ;
+    cd:usesScene ex:scene-chemometrics-variation-sources ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-additive-response-model a cd:PathStep ;
+    cd:position 7 ;
+    cd:usesResource ex:uvvis-additive-response-equation,
+      ex:uvvis-additive-response-legend ;
+    cd:usesScene ex:scene-chemometrics-additive-response-model ;
+    cd:authoredResource true .
+
+
+  ex:path-step-chemometrics-general-additive-model a cd:PathStep ;
+    cd:position 8 ;
+    cd:usesResource ex:general-additive-response-equation,
+      ex:general-additive-response-legend ;
+    cd:usesScene ex:scene-chemometrics-general-additive-model ;
+    cd:authoredResource true .
+
+
+  ex:path-step-chemometrics-model-function-families a cd:PathStep ;
+    cd:position 9 ;
+    cd:usesResource ex:diagram-model-function-families ;
+    cd:usesScene ex:scene-chemometrics-model-function-families ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variable-value-shapes a cd:PathStep ;
+    cd:position 10 ;
+    cd:usesResource ex:worked-example-concentration-value-shapes, ex:concentration-value-shapes-intro,
+      ex:value-shape-scalar-cards, ex:value-shape-scalar-formula,
+      ex:value-shape-vector-cards, ex:value-shape-vector-formula,
+      ex:value-shape-matrix-cards, ex:value-shape-matrix-formula ;
+    cd:usesScene ex:scene-chemometrics-variable-value-shapes ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variable-value-types a cd:PathStep ;
+    cd:position 11 ;
+    cd:usesResource ex:worked-example-variable-value-types, ex:variable-value-types-intro,
+      ex:value-type-numbers-cards, ex:value-type-numbers-formula,
+      ex:value-type-categories-cards, ex:value-type-categories-formula,
+      ex:value-type-boolean-cards, ex:value-type-boolean-formula ;
+    cd:usesScene ex:scene-chemometrics-variable-value-types ;
+    cd:authoredResource true .
+
 }

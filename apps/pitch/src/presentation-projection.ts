@@ -45,8 +45,12 @@ function createPublicationProjection(
   documentRef: Document,
   scene: HTMLElement,
 ): HTMLElement | undefined {
-  const cards = scene.querySelector<HTMLElement>('[data-layout-slot="cards"]');
-  const takeaway = scene.querySelector<HTMLElement>('[data-layout-slot="takeaway"]');
+  const cards = scene.querySelector<HTMLElement>(
+    '[data-component-kind="list-collection"][data-composition-region="main"]',
+  );
+  const takeaway = scene.querySelector<HTMLElement>(
+    '[data-component-kind="info-surface"][data-composition-region="footer"]',
+  );
   if (!cards || !takeaway) return undefined;
 
   const authoredParagraphs = Array.from(cards.querySelectorAll(":scope > li"))
@@ -119,14 +123,16 @@ function mountProjectionForScene(scene: HTMLElement): () => void {
 }
 
 /**
- * Adds an alternate publication realization to every scene whose generic layout
- * identifies it as concept-specification. The projection reuses the already
- * compiled heading/card/takeaway content; no audience-authored content is
- * synthesized or selected by scene/resource identity.
+ * Adds an alternate publication realization to structurally compatible card
+ * progressions. The projection reuses the already compiled heading/card/takeaway
+ * content; no audience-authored content is synthesized or selected by
+ * scene/resource identity.
  */
 export function mountPresentationProjections(root: HTMLElement): () => void {
   const destroyers = Array.from(
-    root.querySelectorAll<HTMLElement>('section[data-layout="concept-specification"]'),
+    root.querySelectorAll<HTMLElement>(
+      'section[data-composition="progression-stage"][data-composition-profile="cards-with-footer"]',
+    ),
   ).map(mountProjectionForScene);
 
   return () => {

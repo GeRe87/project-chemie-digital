@@ -1,0 +1,128 @@
+"""Independent regression expectations for the reviewed Level 2 sequence."""
+
+ORDER = [
+    "title", "dice-warmup", "arithmetic-mean", "dice-practice", "expected-value",
+    "dice-expectation", "law-of-large-numbers", "lln-practice", "real-world",
+    "water", "fe-practice", "growth", "geometric-mean", "growth-comparison",
+    "geometric-practice", "log", "microbial", "ratios", "speed", "harmonic-mean",
+    "harmonic-practice", "layers", "turbidity", "median", "order", "lead",
+    "median-practice", "summary", "discussion-additive", "discussion-multiplicative",
+]
+
+# focus, heading resource, ordered (resource, role, selector) body items
+ADDITIONS = {
+    "title": ("arithmetic-mean", "mean-title", []),
+    "dice-warmup": ("arithmetic-mean", "mean-dice-warmup-heading", [
+        ("mean-dice-warmup", "ExerciseRole", "cd:body"),
+        ("mean-dice-warmup-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "dice-practice": ("arithmetic-mean", "mean-dice-practice-heading", [
+        ("mean-dice-practice", "ExerciseRole", "cd:body"),
+        ("mean-dice-practice-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "dice-expectation": ("expected-value", "mean-dice-expectation-heading", [
+        ("mean-one-die-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-one-die-formula", "FormulaRole", "cd:latex"),
+        ("mean-five-dice-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-five-dice-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "lln-practice": ("law-of-large-numbers", "mean-lln-practice-heading", [
+        ("mean-lln-practice", "ExerciseRole", "cd:body"),
+        ("mean-lln-practice-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "real-world": ("expected-value", "mean-real-world-heading", [
+        ("mean-model-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-model-formula", "FormulaRole", "cd:latex"),
+        ("mean-data-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-data-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "water": ("arithmetic-mean", "mean-water-heading", [
+        ("mean-oxygen-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-oxygen-formula", "FormulaRole", "cd:latex"),
+        ("mean-nitrate-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-nitrate-formula", "FormulaRole", "cd:latex"),
+        ("mean-iron-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-iron-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "fe-practice": ("arithmetic-mean", "mean-fe-heading", [
+        ("mean-fe-practice", "ExerciseRole", "cd:body"),
+        ("mean-fe-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "growth": ("geometric-mean", "mean-growth-heading", [
+        ("mean-growth-diagram", "DiagramRole", "cd:body"),
+    ]),
+    "growth-comparison": ("geometric-mean", "mean-growth-comparison-heading", [
+        ("mean-growth-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-growth-arithmetic-formula", "FormulaRole", "cd:latex"),
+        ("mean-growth-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-growth-geometric-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "log": ("geometric-mean", "mean-log-heading", [
+        ("geometric-mean-log-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "microbial": ("geometric-mean", "mean-microbial-heading", [
+        ("mean-microbial-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-microbial-arithmetic-formula", "FormulaRole", "cd:latex"),
+        ("mean-microbial-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-microbial-geometric-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "ratios": ("geometric-mean", "mean-ratios-heading", [
+        ("mean-ratios-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-ratios-arithmetic-formula", "FormulaRole", "cd:latex"),
+        ("mean-ratios-geometric-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-ratios-geometric-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "speed": ("harmonic-mean", "mean-speed-heading", [
+        ("mean-speed-question", "ExerciseRole", "cd:body"),
+        ("mean-speed-calculation", "FormulaRole", "cd:latex"),
+    ]),
+    "harmonic-practice": ("harmonic-mean", "mean-harmonic-practice-heading", [
+        ("mean-harmonic-practice", "ExerciseRole", "cd:body"),
+        ("mean-harmonic-r", "CodeRole", "cd:hasCodeExample"),
+    ]),
+    "layers": ("harmonic-mean", "mean-layers-heading", [
+        ("mean-layers-assumptions", "StatementRole", "cd:body"),
+        ("mean-layers-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "turbidity": ("median", "mean-turbidity-heading", [
+        ("mean-turbidity-context", "StatementRole", "cd:body"),
+        ("mean-turbidity-chart", "ChartRole", "cd:body"),
+    ]),
+    "order": ("median", "mean-order-heading", [
+        ("mean-odd-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-odd-formula", "FormulaRole", "cd:latex"),
+        ("mean-even-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-even-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "lead": ("median", "mean-lead-heading", [
+        ("mean-lead-arithmetic-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-lead-arithmetic-formula", "FormulaRole", "cd:latex"),
+        ("mean-lead-median-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+        ("mean-lead-median-formula", "FormulaRole", "cd:latex"),
+    ]),
+    "summary": ("arithmetic-mean", "mean-summary-heading", [
+        ("mean-summary-cards", "DefinitionListRole", "cd:hasDefinitionListEntry"),
+    ]),
+    "discussion-additive": ("arithmetic-mean", "mean-discussion-additive-heading", [
+        ("mean-case-replicates", "ExerciseRole", "cd:body"),
+        ("mean-case-sensors", "ExerciseRole", "cd:body"),
+        ("mean-case-loads", "ExerciseRole", "cd:body"),
+    ]),
+    "discussion-multiplicative": ("geometric-mean", "mean-discussion-multiplicative-heading", [
+        ("mean-case-microplastics", "ExerciseRole", "cd:body"),
+        ("mean-case-sites", "ExerciseRole", "cd:body"),
+        ("mean-case-reactors", "ExerciseRole", "cd:body"),
+    ]),
+}
+
+EXTRA_PATH_RESOURCES = {
+    "title": {"mean-title"},
+    "dice-expectation": {"mean-dice-expectation-example"},
+    "water": {"mean-water-example"},
+    "growth": {"mean-growth-example"},
+    "microbial": {"mean-microbial-example"},
+    "ratios": {"mean-ratios-example"},
+    "layers": {"mean-layers-example"},
+    "order": {"mean-order-example"},
+    "lead": {"mean-lead-example"},
+}

@@ -1,8 +1,49 @@
 import { scaleBand, scaleLinear } from "d3-scale";
 import type { ChartBlock } from "../../core/src/scene-document.ts";
 
-export interface D3BarChartOptions { readonly reducedMotion: boolean; }
-export interface D3BarDatum { readonly id: string; readonly category: string; readonly value: number; }
+export interface D3BarChartOptions {
+  readonly reducedMotion: boolean;
+  readonly density?: "comfortable" | "dense" | "compact";
+}
+export interface D3BarChartGeometry {
+  readonly minimumWidth: number;
+  readonly minimumHeight: number;
+  readonly heightRatio: number;
+  readonly margin: { readonly top: number; readonly right: number; readonly bottom: number; readonly left: number };
+}
+
+export function barChartGeometryForDensity(
+  density: D3BarChartOptions["density"] = "comfortable",
+): D3BarChartGeometry {
+  if (density === "compact") {
+    return {
+      minimumWidth: 420,
+      minimumHeight: 310,
+      heightRatio: 0.48,
+      margin: { top: 34, right: 18, bottom: 68, left: 58 },
+    };
+  }
+  if (density === "dense") {
+    return {
+      minimumWidth: 500,
+      minimumHeight: 350,
+      heightRatio: 0.5,
+      margin: { top: 40, right: 22, bottom: 78, left: 66 },
+    };
+  }
+  return {
+    minimumWidth: 640,
+    minimumHeight: 460,
+    heightRatio: 0.52,
+    margin: { top: 58, right: 36, bottom: 112, left: 92 },
+  };
+}
+export interface D3BarDatum { readonly id: string; readonly category: string; readonly group?: string; readonly value: number; }
+export interface D3BarPointAnnotation {
+  readonly id: string;
+  readonly datumId: string;
+  readonly label: string;
+}
 export interface D3BarChartRenderModel {
   readonly version: "1.0";
   readonly sourceBlockId: string;
@@ -12,6 +53,7 @@ export interface D3BarChartRenderModel {
   readonly yAxisLabel: string;
   readonly yAxisUnit?: string;
   readonly data: readonly D3BarDatum[];
+  readonly annotations: readonly D3BarPointAnnotation[];
   readonly staticFallback: string;
 }
 export interface D3BarChartDiagnostic {
@@ -40,7 +82,8 @@ function fallback(block: Extract<ChartBlock, { chartType: "bar" }>): string {
     block.label,
     block.description,
     `${block.xAxis.label} / ${block.yAxis.label}`,
-    ...block.data.map((datum) => `- ${datum.category}: ${datum.value}${unit}`),
+    ...block.data.map((datum) => `- ${datum.group ? `${datum.group} / ` : ""}${datum.category}: ${datum.value}${unit}`),
+    ...(block.annotations ?? []).map((annotation) => `* ${annotation.label}`),
   ].join("\n");
 }
 
@@ -54,6 +97,18 @@ export function createD3BarChartRenderModel(block: ChartBlock): D3BarChartRender
   if (block.data.some((datum) => !Number.isFinite(datum.value))) {
     return invalid("bar chart values must be finite");
   }
+  const groupedDatumCount = block.data.filter((datum) => datum.group !== undefined).length;
+  if (groupedDatumCount !== 0 && groupedDatumCount !== block.data.length) {
+    return invalid("grouped bar charts must assign a group to every datum");
+  }
+  const idSet = new Set(ids);
+  const annotationIds = new Set<string>();
+  for (const annotation of block.annotations ?? []) {
+    if (annotation.kind !== "point") return invalid("bar chart annotations must be point annotations");
+    if (annotationIds.has(annotation.id)) return invalid("bar chart annotation ids must be unique");
+    annotationIds.add(annotation.id);
+    if (!idSet.has(annotation.datumId)) return invalid("bar chart annotation must reference a known datum");
+  }
   return {
     model: {
       version: "1.0",
@@ -63,7 +118,8 @@ export function createD3BarChartRenderModel(block: ChartBlock): D3BarChartRender
       xAxisLabel: block.xAxis.label,
       yAxisLabel: block.yAxis.label,
       ...(block.yAxis.unit ? { yAxisUnit: block.yAxis.unit } : {}),
-      data: block.data.map(({ id, category, value }) => ({ id, category, value })),
+      data: block.data.map(({ id, category, group, value }) => ({ id, category, ...(group ? { group } : {}), value })),
+      annotations: (block.annotations ?? []).map(({ id, datumId, label }) => ({ id, datumId, label })),
       staticFallback: fallback(block),
     },
     diagnostics: [],
@@ -91,6 +147,48 @@ function wrapLabel(text: string, maxCharacters = 16): string[] {
   return lines.length ? lines : [text];
 }
 
+export interface D3BarChartGrouping {
+  readonly groups: readonly string[];
+  readonly categories: readonly string[];
+}
+
+export function barChartGrouping(model: D3BarChartRenderModel): D3BarChartGrouping | undefined {
+  if (!model.data.length || model.data.some((datum) => datum.group === undefined)) return undefined;
+  return {
+    groups: [...new Set(model.data.map((datum) => datum.group!))],
+    categories: [...new Set(model.data.map((datum) => datum.category))],
+  };
+}
+
+export function barChartEmphasisDatumIds(model: D3BarChartRenderModel): ReadonlySet<string> {
+  if (model.annotations.length) {
+    return new Set(model.annotations.map((annotation) => annotation.datumId));
+  }
+  // A grouped chart usually encodes repeated measures or categorical series.
+  // Without authored annotations, selecting the largest single bar would invent
+  // a comparison that is not part of the semantic content.
+  if (barChartGrouping(model)) return new Set();
+  const maximum = Math.max(...model.data.map((datum) => datum.value));
+  return new Set(model.data.filter((datum) => datum.value === maximum).map((datum) => datum.id));
+}
+
+export interface D3BarChartPresentation {
+  readonly stepCount: number;
+  readonly showBarsImmediately: boolean;
+  readonly showValueLabels: boolean;
+}
+
+export function barChartPresentation(model: D3BarChartRenderModel): D3BarChartPresentation {
+  // Unannotated grouped data is intended to be compared as a whole, not
+  // gradually disclosed or cluttered with repeated numeric value labels.
+  const staticGrouped = barChartGrouping(model) !== undefined && model.annotations.length === 0;
+  return {
+    stepCount: staticGrouped ? 0 : barChartEmphasisDatumIds(model).size > 0 ? 3 : 2,
+    showBarsImmediately: staticGrouped,
+    showValueLabels: !staticGrouped,
+  };
+}
+
 function clampStep(step: number, count: number): number {
   return Math.max(0, Math.min(count, Math.trunc(Number.isFinite(step) ? step : 0)));
 }
@@ -109,7 +207,8 @@ export function mountD3BarChart(
   }
 
   const model = result.model;
-  const stepCount = 3;
+  const presentation = barChartPresentation(model);
+  const stepCount = presentation.stepCount;
   let currentStep = 0;
   let destroyed = false;
 
@@ -133,20 +232,20 @@ export function mountD3BarChart(
   host.append(figure);
 
   const applyStep = (): void => {
-    const maximum = Math.max(...model.data.map((datum) => datum.value));
+    const emphasizedDatumIds = barChartEmphasisDatumIds(model);
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
-      const value = Number(rect.dataset.value ?? 0);
-      const visible = currentStep >= 1;
+      const datumId = rect.dataset.datumId ?? "";
+      const visible = presentation.showBarsImmediately || currentStep >= 1;
       const focused = currentStep >= 3;
-      const emphasized = focused && value === maximum;
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       rect.style.transform = visible ? "scaleY(1)" : "scaleY(0)";
       rect.style.opacity = focused ? (emphasized ? "1" : "0.28") : (visible ? "1" : "0");
       rect.classList.toggle("d3-chart-emphasis", emphasized);
     }
     for (const label of chartSvg.querySelectorAll<SVGTextElement>(".d3-chart-value-label")) {
-      const value = Number(label.dataset.value ?? 0);
+      const datumId = label.dataset.datumId ?? "";
       const focused = currentStep >= 3;
-      const emphasized = focused && value === maximum;
+      const emphasized = focused && emphasizedDatumIds.has(datumId);
       label.style.opacity = currentStep >= 2 ? (focused ? (emphasized ? "1" : "0.22") : "1") : "0";
       label.classList.toggle("d3-chart-emphasis", emphasized);
     }
@@ -155,16 +254,27 @@ export function mountD3BarChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const width = Math.max(640, Math.round(host.getBoundingClientRect().width || 960));
-    const height = Math.max(460, Math.round(width * 0.52));
-    const margin = { top: 58, right: 36, bottom: 112, left: 92 };
+    const geometry = barChartGeometryForDensity(options.density);
+    const { minimumWidth, minimumHeight, heightRatio, margin } = geometry;
+    const width = Math.max(minimumWidth, Math.round(host.getBoundingClientRect().width || 960));
+    const height = Math.max(minimumHeight, Math.round(width * heightRatio));
     const plotWidth = Math.max(100, width - margin.left - margin.right);
     const plotHeight = Math.max(100, height - margin.top - margin.bottom);
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const maximum = Math.max(0, ...model.data.map((datum) => datum.value));
     const y = scaleLinear().domain([0, maximum * 1.15 || 1]).nice(5).range([margin.top + plotHeight, margin.top]);
-    const x = scaleBand<string>().domain(model.data.map((datum) => datum.id)).range([margin.left, margin.left + plotWidth]).padding(0.28);
+    const grouping = barChartGrouping(model);
+    chartSvg.setAttribute("data-grouped-bar-chart", grouping ? "true" : "false");
+    const x = grouping
+      ? undefined
+      : scaleBand<string>().domain(model.data.map((datum) => datum.id)).range([margin.left, margin.left + plotWidth]).padding(0.28);
+    const groupX = grouping
+      ? scaleBand<string>().domain([...grouping.groups]).range([margin.left, margin.left + plotWidth]).paddingInner(0.22).paddingOuter(0.06)
+      : undefined;
+    const categoryX = grouping && groupX
+      ? scaleBand<string>().domain([...grouping.categories]).range([0, groupX.bandwidth()]).padding(0.08)
+      : undefined;
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");
     const axis = svg("g");
@@ -208,13 +318,20 @@ export function mountD3BarChart(
     axis.append(xAxis);
 
     model.data.forEach((datum, index) => {
-      const bx = x(datum.id) ?? margin.left;
+      const bx = grouping && groupX && categoryX
+        ? (groupX(datum.group!) ?? margin.left) + (categoryX(datum.category) ?? 0)
+        : (x?.(datum.id) ?? margin.left);
       const by = y(datum.value);
-      const bw = x.bandwidth();
+      const bw = grouping && categoryX ? categoryX.bandwidth() : (x?.bandwidth() ?? 0);
       const bh = Math.max(0, margin.top + plotHeight - by);
+      const categoryIndex = grouping ? Math.max(0, grouping.categories.indexOf(datum.category)) : index;
+      const seriesIndex = (categoryIndex % 5) + 1;
+
       const rect = svg("rect");
-      rect.classList.add("d3-chart-bar", `d3-chart-series-${(index % 5) + 1}`);
+      rect.classList.add("d3-chart-bar", `d3-chart-series-${seriesIndex}`);
       rect.setAttribute("data-datum-id", datum.id);
+      if (datum.group) rect.setAttribute("data-bar-group", datum.group);
+      rect.setAttribute("data-bar-category", datum.category);
       rect.dataset.value = String(datum.value);
       rect.setAttribute("x", String(bx));
       rect.setAttribute("y", String(by));
@@ -222,33 +339,74 @@ export function mountD3BarChart(
       rect.setAttribute("height", String(bh));
       rect.style.transformBox = "fill-box";
       rect.style.transformOrigin = "center bottom";
-      rect.style.transition = options.reducedMotion ? "none" : "transform 520ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, filter 320ms ease";
+      rect.style.transition = (options.reducedMotion || presentation.showBarsImmediately) ? "none" : "transform 520ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, filter 320ms ease";
       bars.append(rect);
 
-      const valueText = svg("text");
-      valueText.classList.add("d3-chart-value-label");
-      valueText.dataset.value = String(datum.value);
-      valueText.setAttribute("x", String(bx + bw / 2));
-      valueText.setAttribute("y", String(by - 14));
-      valueText.setAttribute("text-anchor", "middle");
-      valueText.textContent = String(datum.value);
-      valueText.style.transition = options.reducedMotion ? "none" : "opacity 320ms ease, filter 320ms ease";
-      labels.append(valueText);
+      if (presentation.showValueLabels) {
+        const valueText = svg("text");
+        valueText.classList.add("d3-chart-value-label");
+        valueText.dataset.datumId = datum.id;
+        valueText.dataset.value = String(datum.value);
+        valueText.setAttribute("x", String(bx + bw / 2));
+        valueText.setAttribute("y", String(by - 14));
+        valueText.setAttribute("text-anchor", "middle");
+        valueText.textContent = String(datum.value);
+        valueText.style.transition = options.reducedMotion ? "none" : "opacity 320ms ease, filter 320ms ease";
+        labels.append(valueText);
+      }
 
-      const category = svg("text");
-      category.classList.add("d3-chart-category-label");
-      category.setAttribute("x", String(bx + bw / 2));
-      category.setAttribute("y", String(margin.top + plotHeight + 32));
-      category.setAttribute("text-anchor", "middle");
-      wrapLabel(datum.category).forEach((line, lineIndex) => {
-        const tspan = svg("tspan");
-        tspan.setAttribute("x", String(bx + bw / 2));
-        tspan.setAttribute("dy", lineIndex === 0 ? "0" : "1.15em");
-        tspan.textContent = line;
-        category.append(tspan);
-      });
-      labels.append(category);
+      if (!grouping) {
+        const category = svg("text");
+        category.classList.add("d3-chart-category-label");
+        category.setAttribute("x", String(bx + bw / 2));
+        category.setAttribute("y", String(margin.top + plotHeight + 32));
+        category.setAttribute("text-anchor", "middle");
+        wrapLabel(datum.category).forEach((line, lineIndex) => {
+          const tspan = svg("tspan");
+          tspan.setAttribute("x", String(bx + bw / 2));
+          tspan.setAttribute("dy", lineIndex === 0 ? "0" : "1.15em");
+          tspan.textContent = line;
+          category.append(tspan);
+        });
+        labels.append(category);
+      }
     });
+
+    if (grouping && groupX && categoryX) {
+      grouping.groups.forEach((group) => {
+        const groupLabel = svg("text");
+        groupLabel.classList.add("d3-chart-category-label", "d3-chart-group-label");
+        groupLabel.setAttribute("x", String((groupX(group) ?? margin.left) + groupX.bandwidth() / 2));
+        groupLabel.setAttribute("y", String(margin.top + plotHeight + 34));
+        groupLabel.setAttribute("text-anchor", "middle");
+        groupLabel.textContent = group;
+        labels.append(groupLabel);
+      });
+
+      const legend = svg("g");
+      legend.classList.add("d3-chart-legend");
+      const itemWidth = Math.min(132, plotWidth / Math.max(1, grouping.categories.length));
+      const totalWidth = itemWidth * grouping.categories.length;
+      const startX = margin.left + Math.max(0, (plotWidth - totalWidth) / 2);
+      grouping.categories.forEach((category, categoryIndex) => {
+        const item = svg("g");
+        item.classList.add("d3-chart-legend-item");
+        item.setAttribute("transform", `translate(${startX + categoryIndex * itemWidth} ${Math.max(10, margin.top - 30)})`);
+        const swatch = svg("rect");
+        swatch.classList.add("d3-chart-legend-swatch", `d3-chart-series-${(categoryIndex % 5) + 1}`);
+        swatch.setAttribute("width", "18");
+        swatch.setAttribute("height", "18");
+        swatch.setAttribute("rx", "2");
+        const legendText = svg("text");
+        legendText.classList.add("d3-chart-legend-label");
+        legendText.setAttribute("x", "27");
+        legendText.setAttribute("y", "14");
+        legendText.textContent = category;
+        item.append(swatch, legendText);
+        legend.append(item);
+      });
+      labels.append(legend);
+    }
 
     const xTitle = svg("text");
     xTitle.classList.add("d3-chart-axis-title");

@@ -1,0 +1,57 @@
+# Issue #200 — Space-filling long linear flows
+
+## Role
+
+`Presentation System Worker`
+
+## Generic trigger
+
+A flow selects `space-filling-flow` only when:
+- it is a strict directed chain;
+- it contains at least five nodes;
+- the presentation host is wide;
+- the normal horizontal intrinsic card width would exceed 108% of the host width.
+
+Narrow/mobile hosts retain the existing vertical layered flow.
+
+## Geometry
+
+The renderer:
+1. derives chain order from topology;
+2. chooses the smallest power-of-two Hilbert grid that can contain the nodes;
+3. samples node positions across the full Hilbert index range;
+4. keeps cards at least 220px wide;
+5. routes each semantic edge through its corresponding Hilbert subpath;
+6. stores those orthogonal route points in the renderer-only layout model.
+
+No RDF coordinates or presentation hints are authored.
+
+## Visual grammar
+
+`space-filling-flow` nodes use a renderer-owned information-card grammar:
+- deterministic hue from canonical reading index;
+- colored card face/stroke/shadow;
+- title/body hierarchy;
+- compact top-right sequence number;
+- technical rail/status chrome removed for this strategy.
+
+## Verification
+
+```powershell
+npm run test:renderer-d3
+npm run test:pitch
+```
+
+The existing Chemometrics roadmap is already a strict six-node chain, so #201 should require no scientific RDF mutation if browser verification confirms the generic trigger behaves as intended.
+
+## Stage-fit refinement
+
+The space-filling SVG now explicitly uses `height: 100%`, `max-height: 100%` and removes the generic `24rem` minimum inside `diagram-stage`. Combined with the SVG `viewBox` and `preserveAspectRatio=xMidYMid meet`, the Hilbert canvas scales into the available slide stage instead of overflowing vertically.
+
+## Browser readability refinement
+
+The first browser realization spread six nodes across too much of the Hilbert domain. The generic strategy now chooses the most compact contiguous Hilbert window for the node count, preferring a landscape aspect when equal-area windows exist. Six nodes therefore occupy a 3×2 Hilbert segment rather than sparse cells across a 4×4 domain.
+
+Space-filling cards now target 272–352 px width, reserve at least 190 px height, and use larger index/title/body typography.
+
+When every edge in a strict space-filling chain carries the same non-empty normalized label, the renderer suppresses those repeated visual label panels. The authored edge labels remain in the canonical model and static accessibility fallback. Non-repetitive labels remain visible.

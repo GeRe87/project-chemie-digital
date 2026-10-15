@@ -23,6 +23,25 @@ SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core
 STANDARD_DEVIATION_PATH = EX["path-standard-deviation"]
 RANDOM_VARIABLES_PATH = EX["path-chemometrics-random-variables-lecture"]
 STANDARD_DEVIATION_TOPIC = EX["standard-deviation"]
+VARIABLES_TOPICS = {
+    EX["variables-foundation"],
+    EX["variable"],
+    EX["variables-values-observations"],
+    EX["lake-sampling-replicates"],
+    EX["variability-randomness-uncertainty"],
+    EX["uvvis-variation-sources"],
+    EX["uvvis-additive-response-model"],
+    EX["general-additive-response-model"],
+    EX["model-function-families"],
+    EX["variable-value-shapes"],
+    EX["variable-value-types"],
+    EX["controlled-calibration-model"],
+    EX["concentration-context-roles"],
+    EX["variable-classification"],
+    EX["empirical-probability-distribution-distinction"],
+    EX["random-variable"],
+    EX["distribution"],
+}
 RANDOM_VARIABLE_TOPIC = EX["random-variable"]
 SYNTHETIC_PATH = EX["path-test-multi-topic"]
 SYNTHETIC_STEP = EX["path-step-test-multi-topic"]
@@ -113,13 +132,13 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
         graph.remove((STANDARD_DEVIATION_PATH, CD.forTopic, None))
         self._assert_nonconformant(graph)
 
-    def test_existing_single_topic_paths_remain_conformant(self) -> None:
+    def test_existing_paths_support_single_and_multi_topic_authoring(self) -> None:
         self.assertEqual(
             {STANDARD_DEVIATION_TOPIC},
             set(self.graph.objects(STANDARD_DEVIATION_PATH, CD.forTopic)),
         )
         self.assertEqual(
-            {RANDOM_VARIABLE_TOPIC},
+            VARIABLES_TOPICS,
             set(self.graph.objects(RANDOM_VARIABLES_PATH, CD.forTopic)),
         )
         self._assert_conformant(learning_path_fixture())

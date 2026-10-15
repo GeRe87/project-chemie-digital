@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_TABLE_VERSION,
+  VISUAL_MOTIF_KEYS,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   type SceneDocument,
@@ -312,6 +313,20 @@ test("diagram groups and visual roles remain semantic while membership is valida
   assert.throws(() => validateSceneDocument(value), /references an unknown group/);
 });
 
+test("visual motifs are controlled and portable across definition cards and diagram nodes", () => {
+  const value = structuredClone(flowDocument());
+  const block = value.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  block.nodes[0]!.visualMotif = "statistics";
+  block.nodes[0]!.visualMotifRole = "highlight";
+  assert.doesNotThrow(() => validateSceneDocument(value));
+  (block.nodes[0] as { visualMotif?: string }).visualMotif = "unknown-motif";
+  assert.throws(() => validateSceneDocument(value), /visualMotif is not supported/);
+  block.nodes[0]!.visualMotif = "statistics";
+  (block.nodes[0] as { visualMotifRole?: string }).visualMotifRole = "dominant";
+  assert.throws(() => validateSceneDocument(value), /visualMotifRole must be supporting or highlight/);
+});
+
 test("diagram edge visual roles use the same portable token contract as node roles", () => {
   const value = structuredClone(flowDocument());
   const block = value.scenes[0]!.blocks[0]!;
@@ -355,4 +370,86 @@ test("table shape fails closed on malformed rows and identities", () => {
     const block = value.scenes[0]!.blocks[0]!;
     if (block.kind === "table") block.rows = [block.rows[0]!, { ...block.rows[0]!, id: "row:second", cells: block.rows[0]!.cells.map((cell) => ({ ...cell })) }];
   }, /duplicate cell ids/);
+});
+
+test("designed and observed variation motifs are registered without relaxing motif validation", () => {
+  assert.ok(VISUAL_MOTIF_KEYS.includes("calibration-flasks"));
+  assert.ok(VISUAL_MOTIF_KEYS.includes("sampling-lake"));
+
+  for (const visualMotif of ["calibration-flasks", "sampling-lake"] as const) {
+    const value = structuredClone(flowDocument());
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind !== "diagram") throw new Error("expected diagram");
+    block.nodes[0]!.visualMotif = visualMotif;
+    block.nodes[0]!.visualMotifRole = "highlight";
+    assert.doesNotThrow(() => validateSceneDocument(value));
+  }
+
+  const invalid = structuredClone(flowDocument());
+  const block = invalid.scenes[0]!.blocks[0]!;
+  if (block.kind !== "diagram") throw new Error("expected diagram");
+  (block.nodes[0] as { visualMotif?: string }).visualMotif = "unregistered-motif";
+  assert.throws(() => validateSceneDocument(invalid), /visualMotif is not supported/);
+});
+
+test("diagram nodes may contain authored, source-linked columns but reject malformed parts", () => {
+  const valid = structuredClone(flowDocument());
+  const diagram = valid.scenes[0]!.blocks[0]!;
+  if (diagram.kind !== "diagram") throw new Error("expected diagram");
+  diagram.nodes[1]!.parts = [
+    { id: "part:prep", label: "Preparation", source: [{ resourceId: "ex:prep" }] },
+    { id: "part:measurement", label: "Measurement", description: "Instrument noise", source: [{ resourceId: "ex:measurement" }] },
+  ];
+  assert.doesNotThrow(() => validateSceneDocument(valid));
+  const duplicate = structuredClone(valid);
+  const bad = duplicate.scenes[0]!.blocks[0]!;
+  if (bad.kind !== "diagram") throw new Error("expected diagram");
+  bad.nodes[1]!.parts![1]!.id = bad.nodes[1]!.parts![0]!.id;
+  assert.throws(() => validateSceneDocument(duplicate), /duplicate part ids/);
+  const emptySources = structuredClone(valid);
+  const missing = emptySources.scenes[0]!.blocks[0]!;
+  if (missing.kind !== "diagram") throw new Error("expected diagram");
+  missing.nodes[1]!.parts![0]!.source = [];
+  assert.throws(() => validateSceneDocument(emptySources), /must retain at least one source resource/);
+});
+
+test("diagram notation is optional and validated independently from description", () => {
+  const baseline = flowDocument();
+  const valid: SceneDocument = {
+    ...baseline,
+    scenes: baseline.scenes.map((scene) => ({
+      ...scene,
+      blocks: scene.blocks.map((block) => block.kind === "diagram" ? {
+        ...block,
+        nodes: block.nodes.map((node) => node.id === "node:processing"
+          ? { ...node, notation: "εᵢ" }
+          : node),
+      } : block),
+    })),
+  };
+  assert.doesNotThrow(() => validateSceneDocument(valid));
+  const invalid: SceneDocument = {
+    ...valid,
+    scenes: valid.scenes.map((scene) => ({
+      ...scene,
+      blocks: scene.blocks.map((block) => block.kind === "diagram" ? {
+        ...block,
+        nodes: block.nodes.map((node) => node.id === "node:processing"
+          ? { ...node, notation: " " }
+          : node),
+      } : block),
+    })),
+  };
+  assert.throws(() => validateSceneDocument(invalid), /notation must be non-empty/);
+});
+
+test("extended model-family motifs are accepted but arbitrary motif names remain invalid", () => {
+  for (const visualMotif of ["nonlinear-curve", "multiple-inputs", "neural-network", "other-models"] as const) {
+    const value = structuredClone(flowDocument());
+    const block = value.scenes[0]!.blocks[0]!;
+    if (block.kind !== "diagram") throw new Error("expected diagram");
+    block.nodes[0]!.visualMotif = visualMotif;
+    block.nodes[0]!.visualMotifRole = "highlight";
+    assert.doesNotThrow(() => validateSceneDocument(value));
+  }
 });

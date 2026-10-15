@@ -161,10 +161,10 @@ body[data-presentation-theme="dark"] .reveal {
   stroke-linejoin: round;
 }
 
-.reveal .d3-flow-node-label { stroke-width: 3px; }
+.reveal .d3-flow-node-label { stroke-width: 3px; font-size: 23px; }
 .reveal .d3-flow-node-title {
   fill: var(--pcd-foreground);
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 900;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
@@ -173,13 +173,23 @@ body[data-presentation-theme="dark"] .reveal {
 }
 .reveal .d3-flow-node-body {
   fill: var(--pcd-foreground);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 650;
   paint-order: stroke;
   stroke: var(--pcd-surface-strong);
   stroke-width: 2px;
   stroke-linejoin: round;
 }
+/* Source-linked skos:notation remains legible independently of node prose. */
+.reveal .d3-flow-node-notation {
+  fill: var(--pcd-foreground);
+  font-family: "Cambria Math", "STIX Two Math", "Noto Sans Math", Georgia, serif;
+  font-size: 44px;
+  font-weight: 750;
+  stroke: none;
+  paint-order: normal;
+}
+
 .reveal .d3-flow-node-title-divider {
   stroke: color-mix(in srgb, var(--pcd-accent) 46%, var(--pcd-surface-strong));
   stroke-width: 2;
@@ -209,6 +219,163 @@ body[data-presentation-theme="dark"] .reveal {
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-edge-label-group,
 .reveal .d3-flow-svg:not([data-reduced-motion="true"]) .d3-flow-shared-edge-annotation { transition: opacity var(--pcd-diagram-transition-normal), filter var(--pcd-diagram-transition-normal), transform var(--pcd-diagram-transition-normal); }
+
+/* Generic flow diagrams share the same lightweight visual grammar as information cards.
+   The trigger is semantic/structural (diagramType=flow), never a scene or resource identity.
+   Network diagrams retain their own established node chrome. */
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
+  stroke: color-mix(in srgb, var(--pcd-accent) 82%, var(--pcd-foreground));
+  stroke-width: 2.25;
+  filter: drop-shadow(4px 4px 0 color-mix(in srgb, var(--pcd-accent) 13%, transparent));
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"]
+  :is(.d3-flow-node-inner-frame, .d3-flow-node-rail, .d3-flow-node-status, .d3-flow-node-divider) {
+  display: none;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  fill: color-mix(in srgb, var(--pcd-accent) 86%, var(--pcd-foreground));
+  font-size: 23px;
+  font-weight: 900;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font-size: 18px;
+  font-weight: 700;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-label {
+  fill: var(--pcd-foreground);
+  font-weight: 850;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 42%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"] .d3-flow-edge {
+  stroke-width: 2;
+  opacity: .78;
+}
+
+.reveal .d3-flow-svg[data-diagram-type="flow"] .d3-flow-edge-label-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 94%, var(--pcd-accent) 6%);
+  stroke: color-mix(in srgb, var(--pcd-accent) 55%, transparent);
+  stroke-width: 1.5;
+  filter: none;
+}
+
+/* Long strict linear flows use renderer-owned information cards on a space-filling route.
+   Selection is topology/readability based in renderer-d3; presentation CSS never inspects scene identity. */
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-shape {
+  fill: hsl(var(--d3-flow-card-hue, 205) 74% 91% / .98);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 60% 38%);
+  stroke-width: 4;
+  filter:
+    drop-shadow(0 -2px 0 rgb(255 255 255 / .55))
+    drop-shadow(7px 7px 0 hsl(var(--d3-flow-card-hue, 205) 48% 30% / .18));
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-inner-frame,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-rail,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-status,
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-divider {
+  display: none;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif {
+  color: hsl(var(--d3-flow-card-hue, 205) 58% 38%);
+  opacity: .72;
+  pointer-events: none;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-motif[data-visual-motif-role="highlight"] {
+  opacity: .88;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index {
+  fill: hsl(var(--d3-flow-card-hue, 205) 58% 34%);
+  font: 900 17px/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .05em;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  fill: hsl(var(--d3-flow-card-hue, 205) 66% 30%);
+  font-size: 26px;
+  font-weight: 900;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 72% 96% / .96);
+  stroke-width: 4px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title-divider {
+  stroke: hsl(var(--d3-flow-card-hue, 205) 55% 48% / .66);
+  stroke-width: 3;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  fill: #18242c;
+  font-size: 19px;
+  font-weight: 720;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 70% 96% / .96);
+  stroke-width: 3px;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge {
+  stroke: var(--pcd-accent);
+  stroke-width: 3.5;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge-label-panel {
+  fill: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-accent) 8%);
+  stroke: color-mix(in srgb, var(--pcd-accent) 72%, var(--pcd-surface-strong));
+  stroke-width: 2;
+}
+
+.reveal .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-edge-label {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-shape {
+  fill: hsl(var(--d3-flow-card-hue, 205) 32% 20% / .98);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 72% 68%);
+  filter:
+    drop-shadow(0 0 7px hsl(var(--d3-flow-card-hue, 205) 78% 62% / .14))
+    drop-shadow(6px 6px 0 rgb(0 0 0 / .30));
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-index,
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-title {
+  fill: hsl(var(--d3-flow-card-hue, 205) 82% 78%);
+  stroke: hsl(var(--d3-flow-card-hue, 205) 28% 16% / .96);
+}
+
+body[data-presentation-theme="dark"] .reveal
+  .d3-flow-svg[data-layout-strategy="space-filling-flow"] .d3-flow-node-body {
+  fill: #f2fbff;
+  stroke: hsl(var(--d3-flow-card-hue, 205) 28% 16% / .96);
+}
 
 /* Sequence diagrams use the same semantic panel grammar without participant-specific selectors. */
 .reveal .d3-sequence-host .d3-sequence-runtime,
@@ -495,7 +662,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label {
   stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 900;
   letter-spacing: -.05em;
   paint-order: stroke fill;
@@ -508,7 +675,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-title {
   stroke-width: 2.5px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 19px;
+  font-size: 23px;
   font-weight: 950;
   letter-spacing: -.04em;
   paint-order: stroke fill;
@@ -521,7 +688,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-body {
   stroke-width: 2px;
   stroke-linejoin: miter;
   font-family: var(--pcd-flow-pixel-font);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: -.025em;
   paint-order: stroke fill;
@@ -631,7 +798,7 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-node[data-visual-role="high
     min-height: 23rem;
   }
 
-  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 14px; }
+  body[data-diagram-theme="eco-city"] .reveal .d3-flow-node-label { font-size: 18px; }
   body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label { font-size: 11px; }
 }
 
@@ -656,3 +823,142 @@ body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card[data-p
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant[data-participant-index="3"] { fill: #3b2164; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-lifeline[data-participant-index="3"] { stroke: #7046ad; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-message[data-source-participant-index="3"] .d3-sequence-message-line { stroke: #7046ad; color: #7046ad; }
+
+/* Generic process-system topology (input → process → output, with influences
+   → residual): color is inferred from semantic visualRole, not scene IDs.
+   Each surface tint is derived from the exact same hue as its outline, so
+   light and dark themes retain a readable, consistent information hierarchy.
+   The three influence columns remain authored DiagramNodePart resources. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] {
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+}
+/* Five reusable color roles. Cards with the same semantic role share a hue. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="input"] {
+  --pcd-flow-role-color: #288ec4;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="process"] {
+  --pcd-flow-role-color: #986bd6;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="output"] {
+  --pcd-flow-role-color: #28a57b;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="influences"] {
+  --pcd-flow-role-color: #d09235;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node[data-visual-role="residual"] {
+  --pcd-flow-role-color: #c075a3;
+}
+
+/* Match background to its outline, overriding the general flow-card surface.
+   Only the process-system strategy is affected; other diagrams keep their theme. */
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 16%, var(--pcd-surface-strong));
+  stroke: var(--pcd-flow-role-color, var(--pcd-accent));
+  stroke-width: 2.7;
+  filter: drop-shadow(4px 4px 0 color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 20%, transparent));
+}
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title,
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-notation {
+  fill: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 60%, var(--pcd-foreground));
+}
+/* Partition lines stay visible over the tinted influence-card surface. */
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-divider {
+  stroke: color-mix(in srgb, var(--pcd-flow-role-color, var(--pcd-accent)) 65%, var(--pcd-foreground));
+  stroke-width: 2;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  font-size: 26px;
+  letter-spacing: .03em;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  font-size: 20px;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-title {
+  fill: var(--pcd-foreground);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-node-part-body {
+  fill: var(--pcd-foreground);
+  font-size: 18px;
+  font-weight: 600;
+}
+.reveal .d3-flow-svg[data-layout-strategy="process-system"] .d3-flow-edge {
+  stroke: var(--pcd-accent);
+  stroke-width: 3.5;
+}
+
+/* Generic one-to-many semantic hierarchy. Child node cards contain native
+   SVG thumbnail motifs whose keys are authored in TriG. */
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-shape {
+  stroke-width: 3;
+  filter: drop-shadow(5px 5px 0 hsl(var(--d3-flow-card-hue, 205) 45% 35% / .17));
+}
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue, 205) 73% 59%) 17%, var(--pcd-surface-strong));
+  stroke: hsl(var(--d3-flow-card-hue, 205) 59% 43%);
+  stroke-width: 3;
+}
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"][data-visual-role="hierarchy-root"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, #9871d0 18%, var(--pcd-surface-strong));
+  stroke: #9871d0;
+}
+.reveal .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"][data-visual-role="hierarchy-other"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-muted) 10%, var(--pcd-surface-strong));
+  stroke: color-mix(in srgb, var(--pcd-muted) 80%, var(--pcd-foreground));
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-title {
+  fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue, 205) 57% 40%) 70%, var(--pcd-foreground));
+  font-size: 24px;
+  font-weight: 900;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-root"] .d3-flow-node-title,
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-title {
+  fill: var(--pcd-foreground);
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-node-presentation="information-card"] .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font-size: 19px;
+  font-weight: 700;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-motif {
+  color: hsl(var(--d3-flow-card-hue, 205) 68% 42%);
+  opacity: .96;
+  pointer-events: none;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-other"] .d3-flow-node-motif {
+  color: var(--pcd-muted);
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-edge {
+  stroke: color-mix(in srgb, var(--pcd-accent) 67%, var(--pcd-foreground));
+  stroke-width: 2.5;
+}
+.reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] .d3-flow-node-title-divider {
+  stroke: color-mix(in srgb, var(--pcd-accent) 33%, transparent);
+}
+
+/* Keep branch accents readable on dark surfaces without changing semantic roles. */
+body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-option"] .d3-flow-node-title {
+  fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue, 205) 68% 72%) 70%, var(--pcd-foreground));
+}
+body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
+  .d3-flow-node[data-visual-role="hierarchy-option"] .d3-flow-node-motif {
+  color: hsl(var(--d3-flow-card-hue, 205) 68% 72%);
+}

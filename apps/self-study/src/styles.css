@@ -473,6 +473,27 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; }
 }
 .self-study-disclosure summary { cursor: pointer; font-weight: 700; padding: .35rem 0; }
 .self-study-prose { white-space: pre-wrap; }
+.self-study-definition-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+.self-study-definition-entry {
+  min-width: 0;
+  padding: 1rem;
+  border: 2px solid var(--accent, #237c87);
+  border-radius: .5rem;
+}
+.self-study-definition-entry dd {
+  white-space: pre-line;
+}
+.self-study-math {
+  overflow-x: auto;
+  padding: .5rem 0;
+}
+.self-study-math math {
+  font-size: 1.2em;
+}
 .self-study-math code {
   display: block;
   overflow-x: auto;
@@ -488,6 +509,42 @@ h1 { margin: .2rem 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; }
   border-radius: .35rem;
 }
 .self-study-fallback { font-size: .95rem; }
+.self-study-chart {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #d6dde2;
+  border-radius: .45rem;
+  background: #fff;
+}
+.self-study-chart figcaption {
+  margin-bottom: .5rem;
+}
+.self-study-chart-axes {
+  margin: .35rem 0 .75rem;
+  color: #4a5965;
+}
+.self-study-chart table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: .6rem 0;
+}
+.self-study-chart th,
+.self-study-chart td {
+  padding: .45rem .6rem;
+  border: 1px solid #d6dde2;
+  text-align: left;
+}
+.self-study-chart-series + .self-study-chart-series {
+  margin-top: 1rem;
+}
+.self-study-chart-series h3 {
+  margin: .5rem 0;
+  font-size: 1rem;
+}
+.self-study-chart-annotations {
+  margin: .75rem 0 0;
+}
+
 .self-study-prompt {
   display: grid;
   gap: .65rem;

@@ -36,22 +36,94 @@ const branchedInput = {
   ],
 } as const;
 
-test("selects horizontal and vertical layouts from host width without reordering semantics", () => {
+test("short strict linear flows use compact horizontal structure before the generic width breakpoint", () => {
   assert.equal(flowOrientationForWidth(1200), "horizontal");
   assert.equal(flowOrientationForWidth(640), "vertical");
 
-  const wide = createD3FlowLayout(input, 1200);
-  const narrow = createD3FlowLayout(input, 640);
+  const explicitFlow = { ...input, diagramType: "flow" as const };
+  const wide = createD3FlowLayout(explicitFlow, 1200);
+  const compact = createD3FlowLayout(explicitFlow, 640);
+  const narrow = createD3FlowLayout(explicitFlow, 520);
   assert.equal(wide.orientation, "horizontal");
+  assert.equal(compact.orientation, "horizontal");
   assert.equal(narrow.orientation, "vertical");
   assert.deepEqual(wide.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
+  assert.deepEqual(compact.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
   assert.deepEqual(narrow.nodes.map((node) => node.id), input.nodes.map((node) => node.id));
-  assert.deepEqual(wide.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.deepEqual(narrow.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
-  assert.ok(wide.nodes[1]!.x > wide.nodes[0]!.x);
-  assert.equal(wide.nodes[1]!.y, wide.nodes[0]!.y);
+  assert.deepEqual(compact.edges.map((edge) => edge.id), input.edges.map((edge) => edge.id));
+  assert.ok(compact.nodes[1]!.x > compact.nodes[0]!.x);
+  assert.equal(compact.nodes[1]!.y, compact.nodes[0]!.y);
+  assert.ok(compact.nodes.every((node) => node.width >= 150));
+  const compactRight = Math.max(...compact.nodes.map((node) => node.x + node.width / 2));
+  assert.ok(compactRight <= compact.width + 0.001);
   assert.ok(narrow.nodes[1]!.y > narrow.nodes[0]!.y);
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
+});
+
+test("long strict linear flows use a readable Hilbert-style space-filling route", () => {
+  const longLinear = {
+    diagramType: "flow" as const,
+    nodes: Array.from({ length: 6 }, (_, index) => ({
+      id: `step:${index + 1}`,
+      label: `STAGE ${index + 1} WITH READABLE TITLE`,
+      description: `Principle ${index + 1} · worked example · interpretation`,
+    })),
+    edges: Array.from({ length: 5 }, (_, index) => ({
+      id: `edge:${index + 1}`,
+      sourceNodeId: `step:${index + 1}`,
+      targetNodeId: `step:${index + 2}`,
+      label: "builds on",
+    })),
+  };
+
+  const highlightLinear = {
+    ...longLinear,
+    nodes: longLinear.nodes.map((node, index) => ({
+      ...node,
+      ...(index === 0 ? { visualMotifRole: "highlight" as const } : {}),
+    })),
+  };
+  const wide = createD3FlowLayout(highlightLinear, 1180);
+  assert.equal(wide.strategy, "space-filling-flow");
+  assert.equal(wide.orientation, "horizontal");
+  assert.deepEqual(wide.nodes.map((node) => node.id), longLinear.nodes.map((node) => node.id));
+  assert.ok(wide.nodes.every((node) => node.width >= 300), "space-filling cards maximize readable width");
+  assert.ok(wide.nodes.every((node) => node.height >= 190), "space-filling cards reserve readable vertical space");
+  assert.ok(wide.nodes[0]!.height >= 276, "highlight motifs reserve central vertical space inside the card");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.x))).size, 3, "six stages use a compact three-column Hilbert window");
+  assert.equal(new Set(wide.nodes.map((node) => Math.round(node.y))).size, 2, "six stages use a compact two-row Hilbert window");
+  assert.ok(wide.edges.every((edge) => edge.labelLines.length === 0), "identical repeated linear relation labels are visually suppressed");
+  for (const edge of wide.edges) {
+    assert.ok((edge.routePoints?.length ?? 0) >= 2);
+    for (let index = 1; index < edge.routePoints!.length; index += 1) {
+      const previous = edge.routePoints![index - 1]!;
+      const point = edge.routePoints![index]!;
+      assert.ok(previous.x === point.x || previous.y === point.y, "Hilbert route remains orthogonal");
+    }
+  }
+
+  const variedLabels = createD3FlowLayout({
+    ...longLinear,
+    edges: longLinear.edges.map((edge, index) => ({
+      ...edge,
+      label: index === 2 ? "then applies" : edge.label,
+    })),
+  }, 1180);
+  assert.ok(
+    variedLabels.edges.some((edge) => edge.labelLines.length > 0),
+    "non-repetitive edge labels remain visible",
+  );
+
+  const shortLinear = {
+    ...longLinear,
+    nodes: longLinear.nodes.slice(0, 4),
+    edges: longLinear.edges.slice(0, 3),
+  };
+  assert.equal(createD3FlowLayout(shortLinear, 1180).strategy, "layered-flow");
+
+  const narrow = createD3FlowLayout(longLinear, 720);
+  assert.equal(narrow.orientation, "vertical");
+  assert.equal(narrow.strategy, "layered-flow");
 });
 
 test("long horizontal node labels wrap before colliding with card chrome", () => {
@@ -92,10 +164,13 @@ test("structured flow nodes separate title and body geometry without changing pl
   }, 1200);
 
   const baseline = structured.nodes[0]!;
-  assert.deepEqual(baseline.labelLines, ["BASELINE CORRECTION"]);
+  // The enlarged title no longer fits the 178px wrapping budget. Wrapping
+  // must retain every authored character and grow the card vertically.
+  assert.deepEqual(baseline.labelLines, ["BASELINE ", "CORRECTION"]);
+  assert.equal(baseline.labelLines.join(""), "BASELINE CORRECTION");
   assert.equal(baseline.bodyLines[0], "ProcessingStep\n");
   assert.ok(baseline.bodyLines.some((line) => line.includes("PARAM")));
-  assert.ok(baseline.height >= 154);
+  assert.ok(baseline.height >= 62 + baseline.labelLines.length * 28 + baseline.bodyLines.length * 23 + 18);
   assert.ok(baseline.width <= 298);
 
   const plain = createD3FlowLayout(input, 1200);
@@ -427,4 +502,131 @@ test("layout fails closed when an edge references an unknown node", () => {
     () => createD3FlowLayout({ ...input, edges: [{ ...input.edges[0], targetNodeId: "node:missing" }] }, 1200),
     /unknown layout node/,
   );
+});
+
+test("generic input-process-output with an influence branch yields a reusable process-system layout", () => {
+  const nodes = [
+    { id: "design", label: "Chosen factor", visualRole: "input" },
+    { id: "transform", label: "Process", visualRole: "process" },
+    { id: "result", label: "Measured response", visualRole: "output" },
+    { id: "effects", label: "Contributing influences", visualRole: "influences",
+      parts: [{ id: "a", label: "Preparation" }, { id: "b", label: "Conditions" }, { id: "c", label: "Readout" }] },
+    { id: "noise", label: "Combined effects", visualRole: "residual" },
+  ];
+  const edges = [
+    { id: "in", sourceNodeId: "design", targetNodeId: "transform", label: "input" },
+    { id: "out", sourceNodeId: "transform", targetNodeId: "result", label: "output" },
+    { id: "sources", sourceNodeId: "transform", targetNodeId: "effects", label: "influences" },
+    { id: "residual", sourceNodeId: "effects", targetNodeId: "noise", label: "combined" },
+  ];
+  const layout = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1180);
+  assert.equal(layout.strategy, "process-system");
+  assert.equal(layout.nodes.length, 5);
+  const positions = new Map(layout.nodes.map((node) => [node.id, node]));
+  assert.equal(positions.get("design")!.y, positions.get("transform")!.y);
+  assert.equal(positions.get("transform")!.y, positions.get("result")!.y);
+  assert.ok(positions.get("design")!.x < positions.get("transform")!.x);
+  assert.ok(positions.get("transform")!.x < positions.get("result")!.x);
+  assert.equal(positions.get("effects")!.x, positions.get("transform")!.x);
+  assert.ok(positions.get("effects")!.y > positions.get("transform")!.y);
+  assert.ok(positions.get("noise")!.y > positions.get("effects")!.y);
+  assert.ok(positions.get("effects")!.width > positions.get("transform")!.width);
+  const generic = createD3FlowLayout({ diagramType: "flow", nodes: nodes.map((n) => ({...n, visualRole: undefined})), edges }, 1180);
+  assert.notEqual(generic.strategy, "process-system");
+});
+
+test("flow geometry reserves vertical space for enlarged notation without clipping", () => {
+  const result = createD3FlowLayout({
+    diagramType: "flow",
+    nodes: [
+      { id: "factor", label: "Chosen input", notation: "cᵢ", description: "Fixed concentration" },
+      { id: "response", label: "Measured response", description: "Analytical signal" },
+    ],
+    edges: [{ id: "measurement", sourceNodeId: "factor", targetNodeId: "response", label: "produces" }],
+  }, 1200);
+  const factor = result.nodes.find((node) => node.id === "factor")!;
+  assert.ok(factor.height >= 186);
+  assert.ok(factor.bodyLines.length > 0);
+  assert.ok(factor.width >= 252);
+});
+
+test("semantic one-to-many model hierarchy places a root above five visual cards", () => {
+  const nodes = [
+    { id: "root", label: "Function", notation: "f(xᵢ)", visualRole: "hierarchy-root" },
+    ...["a", "b", "c", "d"].map((id) => ({
+      id, label: `Family ${id}`, description: `Example ${id}`,
+      visualRole: "hierarchy-option", visualMotifRole: "highlight" as const,
+    })),
+    { id: "other", label: "Others", description: "More models", visualRole: "hierarchy-other" },
+  ];
+  const edges = nodes.slice(1).map((node, index) => ({
+    id: `edge-${index}`, sourceNodeId: "root", targetNodeId: node.id, label: "illustrates",
+  }));
+  const result = createD3FlowLayout({ diagramType: "flow", nodes, edges }, 1600);
+  assert.equal(result.strategy, "hierarchy-fanout");
+  assert.equal(result.nodes.length, 6);
+  assert.equal(result.edges.length, 5);
+  const root = result.nodes.find((node) => node.id === "root")!;
+  const children = result.nodes.filter((node) => node.id !== "root");
+  assert.ok(children.every((node) => node.y > root.y + root.height / 2));
+  assert.deepEqual(children.map((node) => node.x), [...children.map((node) => node.x)].sort((a,b) => a-b));
+  assert.ok(children.every((node) => node.width === children[0]?.width));
+  assert.ok(children.every((node) => node.height === children[0]?.height));
+  assert.ok(result.edges.every((edge) => edge.labelLines.length === 0 && edge.routePoints?.length === 4));
+  assert.ok(result.edges.every((edge) => edge.y2 === children.find((node) => node.id === edge.targetNodeId)!.y - children[0]!.height / 2));
+  const withoutRole = createD3FlowLayout({
+    diagramType: "flow", nodes: nodes.map((node) => ({ ...node, visualRole: undefined })), edges,
+  }, 1190);
+  assert.notEqual(withoutRole.strategy, "hierarchy-fanout");
+});
+
+test("hierarchies reflow unrelated content by available width and grow for long authored text", () => {
+  const nodes = [
+    { id: "storage", label: "Storage options", visualRole: "hierarchy-root" },
+    ...Array.from({ length: 5 }, (_, index) => ({
+      id: `choice-${index}`, label: "WIDE STORAGE CHOICES",
+      description: "  Retain  repeated spaces\nand explain the strategy in enough detail to require many lines. ".repeat(index === 4 ? 5 : 1),
+      visualRole: index === 4 ? "hierarchy-other" : "hierarchy-option",
+      visualMotifRole: "highlight" as const,
+    })),
+  ];
+  const edges = nodes.slice(1).map((node, index) => ({
+    id: `relation-${index}`, sourceNodeId: "storage", targetNodeId: node.id, label: "example",
+  }));
+  for (const width of [320, 640, 1190, 1600]) {
+    const layout = createD3FlowLayout({ diagramType: "flow", nodes, edges }, width);
+    assert.equal(layout.strategy, "hierarchy-fanout");
+    assert.equal(layout.width, width);
+    assert.equal(layout.nodes.length, 6);
+    for (const node of layout.nodes) {
+      const authored = nodes.find((item) => item.id === node.id)!;
+      assert.equal(node.labelLines.join(""), authored.label);
+      assert.equal(node.bodyLines.join(""), authored.description ?? "");
+      assert.ok(node.x - node.width / 2 >= 0 && node.x + node.width / 2 <= width);
+      assert.ok(node.y - node.height / 2 >= 0 && node.y + node.height / 2 <= layout.height);
+      if (authored.description) {
+        assert.ok(node.labelLines.length >= 2, "bold uppercase titles must wrap before reaching the card edge");
+        const motifSize = Math.min(88, Math.max(72, node.width * .24));
+        assert.ok(node.height >= 42 + node.labelLines.length * 28 + 11 + 20 + motifSize + 20 + node.bodyLines.length * 23 + 24);
+      }
+    }
+    // Orthogonal connectors must not run through unrelated cards in earlier rows.
+    for (const edge of layout.edges) {
+      const points = edge.routePoints!;
+      for (let index = 1; index < points.length; index += 1) {
+        const a = points[index - 1]!;
+        const b = points[index]!;
+        for (const node of layout.nodes.filter((item) => item.id !== edge.sourceNodeId && item.id !== edge.targetNodeId)) {
+          const intersects = a.x === b.x
+            ? a.x > node.x - node.width / 2 && a.x < node.x + node.width / 2
+              && Math.max(a.y, b.y) > node.y - node.height / 2 && Math.min(a.y, b.y) < node.y + node.height / 2
+            : a.y > node.y - node.height / 2 && a.y < node.y + node.height / 2
+              && Math.max(a.x, b.x) > node.x - node.width / 2 && Math.min(a.x, b.x) < node.x + node.width / 2;
+          assert.equal(intersects, false, `${edge.id} intersects ${node.id} at width ${width}`);
+        }
+      }
+    }
+  }
+  const invalidTopology = { diagramType: "flow" as const, nodes, edges: edges.map((edge, index) => index === 4 ? { ...edge, sourceNodeId: "choice-0" } : edge) };
+  assert.notEqual(createD3FlowLayout(invalidTopology, 1600).strategy, "hierarchy-fanout");
 });

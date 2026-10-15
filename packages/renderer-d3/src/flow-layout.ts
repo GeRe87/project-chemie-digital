@@ -1,11 +1,15 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "layered-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
+  readonly notation?: string;
+  readonly visualRole?: string;
+  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
   readonly description?: string;
   readonly groupIds?: readonly string[];
+  readonly visualMotifRole?: "supporting" | "highlight";
 }
 
 export interface D3FlowLayoutEdgeInput {
@@ -35,6 +39,11 @@ export interface D3FlowLayoutNode {
   readonly bodyLines: readonly string[];
 }
 
+export interface D3FlowLayoutPoint {
+  readonly x: number;
+  readonly y: number;
+}
+
 export interface D3FlowLayoutEdge {
   readonly id: string;
   readonly sourceNodeId: string;
@@ -46,6 +55,7 @@ export interface D3FlowLayoutEdge {
   readonly labelX: number;
   readonly labelY: number;
   readonly labelLines: readonly string[];
+  readonly routePoints?: readonly D3FlowLayoutPoint[];
   readonly visualRole?: string;
 }
 
@@ -99,6 +109,8 @@ interface PreparedNode extends D3FlowLayoutNodeInput {
 // Renderer-local geometry constraints keep authored graph content readable across hosts.
 const FLOW_MIN_WIDTH = 320;
 const FLOW_HORIZONTAL_BREAKPOINT = 900;
+const COMPACT_LINEAR_HORIZONTAL_BREAKPOINT = 560;
+const COMPACT_LINEAR_MAX_NODES = 4;
 const FLOW_NODE_MIN_HEIGHT = 112;
 const HORIZONTAL_LABEL_WIDTH = 178;
 const HORIZONTAL_NODE_MIN_WIDTH = 268;
@@ -107,7 +119,7 @@ const HORIZONTAL_NODE_CHROME = 132;
 const STRUCTURED_NODE_MIN_WIDTH = 252;
 const STRUCTURED_NODE_MAX_WIDTH = 298;
 const STRUCTURED_NODE_CHROME = 104;
-const FLOW_BODY_LINE_HEIGHT = 18;
+const FLOW_BODY_LINE_HEIGHT = 23;
 // Keep relationship callouts above the workflow rather than inside card bounds.
 const HORIZONTAL_EDGE_LABEL_CLEARANCE = 94;
 const EDGE_LABEL_MAX_WIDTH = 130;
@@ -119,6 +131,14 @@ const NETWORK_COMPACT_BREAKPOINT = 720;
 const NETWORK_MARGIN = 32;
 const NETWORK_NODE_MAX_WIDTH = 210;
 const NETWORK_CLUSTER_GAP = 42;
+const SPACE_FILLING_MIN_NODES = 5;
+const SPACE_FILLING_CARD_MIN_WIDTH = 272;
+const SPACE_FILLING_CARD_MAX_WIDTH = 352;
+const SPACE_FILLING_COLUMN_GAP = 42;
+const SPACE_FILLING_ROW_GAP = 68;
+const SPACE_FILLING_MARGIN_X = 24;
+const SPACE_FILLING_MARGIN_Y = 24;
+const SPACE_FILLING_WIDTH_TOLERANCE = 1.08;
 
 function segmentGraphemes(value: string): string[] {
   const Segmenter = (Intl as unknown as { Segmenter?: GraphemeSegmenterConstructor }).Segmenter;
@@ -190,23 +210,48 @@ export function flowOrientationForWidth(hostWidth: number): D3FlowOrientation {
   return hostWidth < FLOW_HORIZONTAL_BREAKPOINT ? "vertical" : "horizontal";
 }
 
+function flowOrientationForStructure(
+  input: D3FlowLayoutInput,
+  hostWidth: number,
+  linearOrder: readonly string[] | undefined,
+): D3FlowOrientation {
+  if (
+    input.diagramType === "flow"
+    && linearOrder
+    && linearOrder.length >= 2
+    && linearOrder.length <= COMPACT_LINEAR_MAX_NODES
+    && hostWidth >= COMPACT_LINEAR_HORIZONTAL_BREAKPOINT
+  ) {
+    return "horizontal";
+  }
+  return flowOrientationForWidth(hostWidth);
+}
+
 function structuredTitleTextMeasure(value: string): number {
-  // Structured titles render at 20px, smaller than the plain-node label style.
-  // Keep the conservative deterministic metric, scaled to that authored typography.
-  return deterministicFlowTextMeasure(value) * (5 / 6);
+  // Conservative glyph advances for bold 23px card titles, including up to
+  // .05em tracking. The plain-label 11px estimate undercounts capitals in
+  // this typography; count graphemes without changing authored whitespace.
+  return segmentGraphemes(value).reduce((width, grapheme) => {
+    const advance = /\s/u.test(grapheme) ? 0.35
+      : /^[Ilij1.,:;|'`]$/u.test(grapheme) ? 0.35
+      : /^[MWmw]$/u.test(grapheme) ? 0.95
+      : /^\p{Lu}$/u.test(grapheme) ? 0.72
+      : /^[\p{Ll}\p{N}]$/u.test(grapheme) ? 0.65
+      : 1.2;
+    return width + 23 * (advance + 0.05);
+  }, 0);
 }
 
 function bodyTextMeasure(value: string): number {
-  return deterministicFlowTextMeasure(value) * 0.72;
+  return deterministicFlowTextMeasure(value) * 0.94;
 }
 
-function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
-  if (bodyLines.length === 0) {
-    return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + Math.max(labelLines.length, 1) * 24);
-  }
-  const titleHeight = Math.max(labelLines.length, 1) * 22;
-  const bodyHeight = Math.max(bodyLines.length, 1) * FLOW_BODY_LINE_HEIGHT;
-  return Math.max(154, 62 + titleHeight + bodyHeight + 18);
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string): number {
+  const titleHeight = Math.max(labelLines.length, 1) * 28;
+  const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
+  if (notation) return Math.max(186, 42 + titleHeight + 54 + bodyHeight + (bodyHeight ? 12 : 0));
+  if (bodyLines.length === 0) return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + titleHeight);
+  return Math.max(168, 62 + titleHeight + bodyHeight + 18);
 }
 
 function horizontalNodeWidth(labelLines: readonly string[], bodyLines: readonly string[] = []): number {
@@ -229,11 +274,12 @@ function structuredNodeText(
   label: string,
   description: string | undefined,
   maxWidth: number,
+  titleMeasure: (value: string) => number = description ? structuredTitleTextMeasure : deterministicFlowTextMeasure,
 ): { readonly labelLines: readonly string[]; readonly bodyLines: readonly string[] } {
   const labelLines = wrapFlowText(
     label,
     maxWidth,
-    description ? structuredTitleTextMeasure : deterministicFlowTextMeasure,
+    titleMeasure,
   );
   const bodyLines = description
     ? wrapFlowText(description, maxWidth, bodyTextMeasure)
@@ -371,6 +417,7 @@ function resolveEdgeLabelCollisions(
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
   return edges.map((edge) => {
+    if (edge.labelLines.length === 0) return edge;
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) return edge;
@@ -429,6 +476,329 @@ function topologicalLayers(input: D3FlowLayoutInput): readonly (readonly string[
   return layers;
 }
 
+function strictLinearFlowOrder(input: D3FlowLayoutInput): readonly string[] | undefined {
+  if (input.diagramType === "network" || input.nodes.length < 2 || input.edges.length !== input.nodes.length - 1) return undefined;
+  const ids = new Set(input.nodes.map((node) => node.id));
+  const indegree = new Map(input.nodes.map((node) => [node.id, 0]));
+  const outgoing = new Map<string, string[]>();
+  for (const edge of input.edges) {
+    if (!ids.has(edge.sourceNodeId) || !ids.has(edge.targetNodeId)) return undefined;
+    indegree.set(edge.targetNodeId, (indegree.get(edge.targetNodeId) ?? 0) + 1);
+    const targets = outgoing.get(edge.sourceNodeId) ?? [];
+    targets.push(edge.targetNodeId);
+    outgoing.set(edge.sourceNodeId, targets);
+  }
+  const sources = input.nodes.filter((node) => (indegree.get(node.id) ?? 0) === 0);
+  if (sources.length !== 1) return undefined;
+  const order: string[] = [];
+  const visited = new Set<string>();
+  let current: string | undefined = sources[0]!.id;
+  while (current !== undefined) {
+    if (visited.has(current)) return undefined;
+    visited.add(current);
+    order.push(current);
+    const targets = outgoing.get(current) ?? [];
+    if (targets.length > 1) return undefined;
+    current = targets[0];
+  }
+  return order.length === input.nodes.length ? order : undefined;
+}
+
+function shouldUseSpaceFillingFlow(
+  prepared: readonly PreparedNode[],
+  linearOrder: readonly string[] | undefined,
+  hostWidth: number,
+  orientation: D3FlowOrientation,
+): boolean {
+  if (orientation !== "horizontal" || !linearOrder || linearOrder.length < SPACE_FILLING_MIN_NODES) return false;
+  const byId = new Map(prepared.map((node) => [node.id, node]));
+  const intrinsicWidth = SPACE_FILLING_MARGIN_X * 2
+    + linearOrder.reduce((sum, id) => sum + (byId.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH), 0)
+    + Math.max(0, linearOrder.length - 1) * 56;
+  return intrinsicWidth > hostWidth * SPACE_FILLING_WIDTH_TOLERANCE;
+}
+
+function hilbertRotate(
+  scale: number,
+  x: number,
+  y: number,
+  rx: number,
+  ry: number,
+): readonly [number, number] {
+  if (ry !== 0) return [x, y];
+  let nextX = x;
+  let nextY = y;
+  if (rx === 1) {
+    nextX = scale - 1 - nextX;
+    nextY = scale - 1 - nextY;
+  }
+  return [nextY, nextX];
+}
+
+function hilbertPoint(side: number, index: number): readonly [number, number] {
+  let x = 0;
+  let y = 0;
+  let value = index;
+  for (let scale = 1; scale < side; scale *= 2) {
+    const rx = 1 & Math.floor(value / 2);
+    const ry = 1 & (value ^ rx);
+    [x, y] = hilbertRotate(scale, x, y, rx, ry);
+    x += scale * rx;
+    y += scale * ry;
+    value = Math.floor(value / 4);
+  }
+  return [x, y];
+}
+
+function hilbertSideForNodeCount(nodeCount: number): number {
+  let side = 2;
+  while (side * side < nodeCount) side *= 2;
+  return side;
+}
+
+interface CompactHilbertWindow {
+  readonly indices: readonly number[];
+  readonly minX: number;
+  readonly minY: number;
+  readonly columns: number;
+  readonly rows: number;
+}
+
+function compactHilbertWindow(nodeCount: number, side: number): CompactHilbertWindow {
+  const maximumStart = side * side - nodeCount;
+  const targetAspect = 1.55;
+  let best: {
+    readonly start: number;
+    readonly minX: number;
+    readonly minY: number;
+    readonly columns: number;
+    readonly rows: number;
+    readonly area: number;
+    readonly aspectDistance: number;
+  } | undefined;
+
+  for (let start = 0; start <= maximumStart; start += 1) {
+    const points = Array.from({ length: nodeCount }, (_, offset) => hilbertPoint(side, start + offset));
+    const xs = points.map(([x]) => x);
+    const ys = points.map(([, y]) => y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const columns = maxX - minX + 1;
+    const rows = maxY - minY + 1;
+    const area = columns * rows;
+    const aspectDistance = Math.abs(Math.log((columns / rows) / targetAspect));
+
+    if (
+      !best
+      || area < best.area
+      || (area === best.area && aspectDistance < best.aspectDistance)
+      || (area === best.area && aspectDistance === best.aspectDistance && start < best.start)
+    ) {
+      best = { start, minX, minY, columns, rows, area, aspectDistance };
+    }
+  }
+
+  if (!best) return { indices: [0], minX: 0, minY: 0, columns: 1, rows: 1 };
+
+  return {
+    indices: Array.from({ length: nodeCount }, (_, offset) => best.start + offset),
+    minX: best.minX,
+    minY: best.minY,
+    columns: best.columns,
+    rows: best.rows,
+  };
+}
+
+function repeatedLinearEdgeLabel(input: D3FlowLayoutInput, linearOrder: readonly string[] | undefined): boolean {
+  if (!linearOrder || input.edges.length < 2) return false;
+  const labels = input.edges.map((edge) => edge.label.trim().replace(/\s+/gu, " ").toLocaleLowerCase());
+  return labels[0]!.length > 0 && labels.every((label) => label === labels[0]);
+}
+
+function simplifyOrthogonalRoute(points: readonly D3FlowLayoutPoint[]): readonly D3FlowLayoutPoint[] {
+  const deduplicated = points.filter((point, index) =>
+    index === 0 || point.x !== points[index - 1]!.x || point.y !== points[index - 1]!.y);
+  if (deduplicated.length <= 2) return deduplicated;
+  const simplified: D3FlowLayoutPoint[] = [deduplicated[0]!];
+  for (let index = 1; index < deduplicated.length - 1; index += 1) {
+    const previous = simplified[simplified.length - 1]!;
+    const current = deduplicated[index]!;
+    const next = deduplicated[index + 1]!;
+    const collinear = (previous.x === current.x && current.x === next.x)
+      || (previous.y === current.y && current.y === next.y);
+    if (!collinear) simplified.push(current);
+  }
+  simplified.push(deduplicated[deduplicated.length - 1]!);
+  return simplified;
+}
+
+function nodeBoundaryToward(
+  node: D3FlowLayoutNode,
+  target: D3FlowLayoutPoint,
+): D3FlowLayoutPoint {
+  const dx = target.x - node.x;
+  const dy = target.y - node.y;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return { x: node.x + Math.sign(dx || 1) * node.width / 2, y: node.y };
+  }
+  return { x: node.x, y: node.y + Math.sign(dy || 1) * node.height / 2 };
+}
+
+function clippedOrthogonalRoute(
+  centerPoints: readonly D3FlowLayoutPoint[],
+  source: D3FlowLayoutNode,
+  target: D3FlowLayoutNode,
+): readonly D3FlowLayoutPoint[] {
+  if (centerPoints.length < 2) return [];
+  const points = [...centerPoints];
+  points[0] = nodeBoundaryToward(source, points[1]!);
+  points[points.length - 1] = nodeBoundaryToward(target, points[points.length - 2]!);
+  return simplifyOrthogonalRoute(points);
+}
+
+function polylineMidpoint(
+  points: readonly D3FlowLayoutPoint[],
+): { readonly x: number; readonly y: number; readonly dx: number; readonly dy: number } {
+  const segments = points.slice(1).map((point, index) => {
+    const previous = points[index]!;
+    return {
+      start: previous,
+      end: point,
+      length: Math.hypot(point.x - previous.x, point.y - previous.y),
+    };
+  });
+  const total = segments.reduce((sum, segment) => sum + segment.length, 0);
+  let remaining = total / 2;
+  for (const segment of segments) {
+    if (remaining <= segment.length || segment === segments[segments.length - 1]) {
+      const ratio = segment.length > 0 ? Math.min(1, remaining / segment.length) : 0;
+      return {
+        x: segment.start.x + (segment.end.x - segment.start.x) * ratio,
+        y: segment.start.y + (segment.end.y - segment.start.y) * ratio,
+        dx: segment.end.x - segment.start.x,
+        dy: segment.end.y - segment.start.y,
+      };
+    }
+    remaining -= segment.length;
+  }
+  const fallback = points[0] ?? { x: 0, y: 0 };
+  return { x: fallback.x, y: fallback.y, dx: 1, dy: 0 };
+}
+
+interface SpaceFillingFlowGeometry {
+  readonly width: number;
+  readonly height: number;
+  readonly nodes: readonly D3FlowLayoutNode[];
+  readonly edgeRoutes: ReadonlyMap<string, readonly D3FlowLayoutPoint[]>;
+}
+
+function spaceFillingLinearFlowLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  linearOrder: readonly string[],
+  hostWidth: number,
+): SpaceFillingFlowGeometry {
+  const side = hilbertSideForNodeCount(linearOrder.length);
+  const window = compactHilbertWindow(linearOrder.length, side);
+  const width = Math.max(
+    hostWidth,
+    SPACE_FILLING_MARGIN_X * 2
+      + window.columns * SPACE_FILLING_CARD_MIN_WIDTH
+      + Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP,
+  );
+  const availableCardWidth = (
+    width
+    - SPACE_FILLING_MARGIN_X * 2
+    - Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP
+  ) / window.columns;
+  const cardWidth = Math.max(
+    SPACE_FILLING_CARD_MIN_WIDTH,
+    Math.min(SPACE_FILLING_CARD_MAX_WIDTH, availableCardWidth),
+  );
+  const preparedById = new Map(prepared.map((node) => [node.id, node]));
+  const cardNodes = linearOrder.map((id) => {
+    const original = preparedById.get(id)!;
+    const contentWidth = Math.max(180, cardWidth - 48);
+    const { labelLines, bodyLines } = structuredNodeText(
+      original.label,
+      original.description,
+      contentWidth,
+    );
+    const titleHeight = Math.max(labelLines.length, 1) * 28;
+    const bodyHeight = Math.max(bodyLines.length, 1) * 24;
+    const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
+    return {
+      ...original,
+      labelLines,
+      bodyLines,
+      width: cardWidth,
+      height: Math.max(
+        original.visualMotifRole === "highlight" ? 276 : 190,
+        70 + titleHeight + 22 + highlightMotifHeight + (original.notation ? 56 : 0) + bodyHeight,
+      ),
+    };
+  });
+  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
+  const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
+  const columnPitch = cardWidth + SPACE_FILLING_COLUMN_GAP;
+  const height = SPACE_FILLING_MARGIN_Y * 2
+    + window.rows * maxCardHeight
+    + Math.max(0, window.rows - 1) * SPACE_FILLING_ROW_GAP;
+
+  const pointForCurveIndex = (curveIndex: number): D3FlowLayoutPoint => {
+    const [rawX, rawY] = hilbertPoint(side, curveIndex);
+    const gridX = rawX - window.minX;
+    const gridY = rawY - window.minY;
+    return {
+      x: SPACE_FILLING_MARGIN_X + cardWidth / 2 + gridX * columnPitch,
+      y: SPACE_FILLING_MARGIN_Y + maxCardHeight / 2 + gridY * rowPitch,
+    };
+  };
+
+  const nodeById = new Map<string, D3FlowLayoutNode>();
+  linearOrder.forEach((id, orderIndex) => {
+    const node = cardNodes[orderIndex]!;
+    const point = pointForCurveIndex(window.indices[orderIndex]!);
+    nodeById.set(id, {
+      id,
+      x: point.x,
+      y: point.y,
+      width: node.width,
+      height: node.height,
+      labelLines: node.labelLines,
+      bodyLines: node.bodyLines,
+    });
+  });
+
+  const orderIndexById = new Map(linearOrder.map((id, index) => [id, index]));
+  const edgeRoutes = new Map<string, readonly D3FlowLayoutPoint[]>();
+  for (const edge of input.edges) {
+    const sourceOrder = orderIndexById.get(edge.sourceNodeId);
+    const targetOrder = orderIndexById.get(edge.targetNodeId);
+    const source = nodeById.get(edge.sourceNodeId);
+    const target = nodeById.get(edge.targetNodeId);
+    if (sourceOrder === undefined || targetOrder === undefined || !source || !target) continue;
+    const start = window.indices[sourceOrder]!;
+    const end = window.indices[targetOrder]!;
+    const direction = end >= start ? 1 : -1;
+    const centers: D3FlowLayoutPoint[] = [];
+    for (let curveIndex = start; ; curveIndex += direction) {
+      centers.push(pointForCurveIndex(curveIndex));
+      if (curveIndex === end) break;
+    }
+    edgeRoutes.set(edge.id, clippedOrthogonalRoute(centers, source, target));
+  }
+
+  return {
+    width,
+    height,
+    nodes: prepared.map((node) => nodeById.get(node.id)!),
+    edgeRoutes,
+  };
+}
+
 function horizontalLayeredLayout(
   input: D3FlowLayoutInput,
   prepared: readonly PreparedNode[],
@@ -436,10 +806,38 @@ function horizontalLayeredLayout(
   hostWidth: number,
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const margin = 24;
-  const layerGap = 56;
+  const compactLinear = input.diagramType === "flow"
+    && layers.length >= 2
+    && layers.length <= COMPACT_LINEAR_MAX_NODES
+    && layers.every((layer) => layer.length === 1)
+    && hostWidth >= COMPACT_LINEAR_HORIZONTAL_BREAKPOINT
+    && hostWidth < FLOW_HORIZONTAL_BREAKPOINT;
+  const layerGap = compactLinear ? 28 : 56;
   const siblingGap = 54;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
-  const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => nodeById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
+  const compactNodeWidth = compactLinear
+    ? Math.max(
+        150,
+        (Math.max(FLOW_MIN_WIDTH, hostWidth) - margin * 2 - Math.max(0, layers.length - 1) * layerGap) / layers.length,
+      )
+    : undefined;
+
+  const fittedNode = (id: string): PreparedNode => {
+    const original = nodeById.get(id)!;
+    if (!compactNodeWidth) return original;
+    const contentWidth = Math.max(108, compactNodeWidth - 42);
+    const { labelLines, bodyLines } = structuredNodeText(original.label, original.description, contentWidth);
+    return {
+      ...original,
+      labelLines,
+      bodyLines,
+      width: compactNodeWidth,
+      height: nodeHeight(labelLines, bodyLines, original.notation),
+    };
+  };
+
+  const fittedById = new Map(prepared.map((node) => [node.id, fittedNode(node.id)]));
+  const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => fittedById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
   const layerGapFor = (layer: readonly string[]): number => {
     if (layer.length < 2) return siblingGap;
     const ids = new Set(layer);
@@ -452,15 +850,14 @@ function horizontalLayeredLayout(
           wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH).length * EDGE_LABEL_LINE_HEIGHT + EDGE_LABEL_VERTICAL_PADDING,
         )),
     );
-    // Labels move half as far apart as their sibling nodes, so double their clearance.
     return Math.max(siblingGap, 2 * (tallestLabelPanel + PARALLEL_LABEL_BREATHING_ROOM));
   };
   const layerHeights = layers.map((layer) =>
-    layer.reduce((sum, id) => sum + (nodeById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
+    layer.reduce((sum, id) => sum + (fittedById.get(id)?.height ?? 112), 0) + Math.max(0, layer.length - 1) * layerGapFor(layer),
   );
   const contentHeight = Math.max(112, ...layerHeights);
   const intrinsicWidth = margin * 2 + layerWidths.reduce((sum, width) => sum + width, 0) + Math.max(0, layers.length - 1) * layerGap;
-  const width = Math.max(hostWidth, intrinsicWidth);
+  const width = compactLinear ? Math.max(FLOW_MIN_WIDTH, hostWidth) : Math.max(hostWidth, intrinsicWidth);
   const height = margin * 2 + HORIZONTAL_EDGE_LABEL_CLEARANCE + contentHeight + 34;
   const byId = new Map<string, D3FlowLayoutNode>();
 
@@ -473,7 +870,7 @@ function horizontalLayeredLayout(
     let cursorY = margin + HORIZONTAL_EDGE_LABEL_CLEARANCE + 17 + (contentHeight - layerHeight) / 2;
     const x = layerLeft + layerWidth / 2;
     for (const id of layer) {
-      const node = nodeById.get(id)!;
+      const node = fittedById.get(id)!;
       byId.set(id, {
         id,
         x,
@@ -524,7 +921,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines),
+        height: nodeHeight(labelLines, bodyLines, original.notation),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1087,9 +1484,120 @@ function concentricNetworkLayout(
   };
 }
 
+
+/**
+ * Generic five-node system model, detected solely from authored node roles and
+ * the input -> process -> output / process -> influences -> residual topology.
+ * No scene, course or resource identifiers participate in selection or geometry.
+ */
+function processSystemNodes(input: D3FlowLayoutInput): Readonly<Record<"input" | "process" | "output" | "influences" | "residual", string>> | undefined {
+  if (input.diagramType !== "flow" || input.nodes.length !== 5 || input.edges.length !== 4) return undefined;
+  const roles = ["input", "process", "output", "influences", "residual"] as const;
+  const nodes = new Map(input.nodes.map((node) => [node.visualRole, node.id]));
+  if (roles.some((role) => !nodes.has(role)) || nodes.size !== 5) return undefined;
+  const selected = Object.fromEntries(roles.map((role) => [role, nodes.get(role)!])) as Record<typeof roles[number], string>;
+  const edges = new Set(input.edges.map((edge) => `${edge.sourceNodeId}->${edge.targetNodeId}`));
+  for (const [from, to] of [["input", "process"], ["process", "output"], ["process", "influences"], ["influences", "residual"]] as const) {
+    if (!edges.has(`${selected[from]}->${selected[to]}`)) return undefined;
+  }
+  return selected;
+}
+
+function processSystemLayout(
+  input: D3FlowLayoutInput,
+  prepared: readonly PreparedNode[],
+  selection: Readonly<Record<"input" | "process" | "output" | "influences" | "residual", string>>,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const width = 1200;
+  const middle = width / 2;
+  const specs = new Map<string, { x: number; y: number; width: number; height: number }>([
+    [selection.input, { x: 195, y: 145, width: 328, height: 188 }],
+    [selection.process, { x: middle, y: 145, width: 328, height: 188 }],
+    [selection.output, { x: width - 195, y: 145, width: 328, height: 188 }],
+    [selection.influences, { x: middle, y: 395, width: 790, height: 174 }],
+    [selection.residual, { x: middle, y: 600, width: 490, height: 146 }],
+  ]);
+  return {
+    width,
+    height: 700,
+    nodes: prepared.map((node) => {
+      const spec = specs.get(node.id)!;
+      const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, spec.width - 56);
+      return { id: node.id, ...spec, labelLines, bodyLines };
+    }),
+  };
+}
+
+
+/**
+ * Reusable visual hierarchy: one explicitly marked root with 3–6 outgoing
+ * example/category edges. Ordering follows canonical node order, never labels
+ * or presentation IDs. Branch cards provide their own SVG visual motifs.
+ */
+function hierarchyFanoutSelection(input: D3FlowLayoutInput): { readonly rootId: string; readonly childIds: readonly string[] } | undefined {
+  if (input.diagramType !== "flow" || input.nodes.length < 4 || input.nodes.length > 7
+      || input.edges.length !== input.nodes.length - 1) return undefined;
+  const roots = input.nodes.filter((node) => node.visualRole === "hierarchy-root");
+  if (roots.length !== 1) return undefined;
+  const rootId = roots[0]!.id;
+  const children = input.nodes.filter((node) => node.id !== rootId);
+  if (children.some((node) => node.visualRole !== "hierarchy-option" && node.visualRole !== "hierarchy-other")) return undefined;
+  const childIds = new Set(children.map((node) => node.id));
+  if (new Set(input.edges.map((edge) => edge.targetNodeId)).size !== children.length) return undefined;
+  if (input.edges.some((edge) => edge.sourceNodeId !== rootId || !childIds.has(edge.targetNodeId))) return undefined;
+  return { rootId, childIds: children.map((node) => node.id) };
+}
+
+function hierarchyFanoutLayout(
+  prepared: readonly PreparedNode[],
+  selection: { readonly rootId: string; readonly childIds: readonly string[] },
+  hostWidth: number,
+): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
+  const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
+  const gap = 24;
+  const margin = 24;
+  const columns = Math.max(1, Math.min(selection.childIds.length, Math.floor((width - margin * 2 + gap) / (280 + gap))));
+  const cardWidth = Math.min(280, width - margin * 2);
+  const gridWidth = columns * cardWidth + (columns - 1) * gap;
+  const gridLeft = (width - gridWidth) / 2;
+  const rootX = width / 2;
+  const children = new Map(selection.childIds.map((id, index) => [id, index]));
+  const fitted = prepared.map((node) => {
+    const root = node.id === selection.rootId;
+    const w = root ? Math.min(380, width - margin * 2) : cardWidth;
+    // Hierarchy titles use 24px rather than the standard 23px card type.
+    const titleMeasure = (value: string): number => structuredTitleTextMeasure(value) * (24 / 23);
+    const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
+    const motifSize = node.visualMotifRole === "highlight" ? Math.min(88, Math.max(72, w * .24)) : 0;
+    const height = Math.max(root ? 154 : 324,
+      nodeHeight(labelLines, bodyLines, node.notation),
+      motifSize ? 42 + labelLines.length * 28 + 11 + 20 + motifSize + 20 + bodyLines.length * 23 + 24 : 0);
+    return { ...node, width: w, height, labelLines, bodyLines };
+  });
+  const rootHeight = fitted.find((node) => node.id === selection.rootId)!.height;
+  const cardHeight = Math.max(...fitted.filter((node) => node.id !== selection.rootId).map((node) => node.height));
+  const rootY = margin + rootHeight / 2;
+  const gridTop = margin + rootHeight + 96;
+  const rows = Math.ceil(selection.childIds.length / columns);
+  return {
+    width,
+    height: gridTop + rows * cardHeight + (rows - 1) * 48 + margin,
+    nodes: fitted.map((node) => {
+      const root = node.id === selection.rootId;
+      const order = children.get(node.id);
+      if (!root && order === undefined) throw new Error("Hierarchy layout received an unknown child node");
+      const h = root ? rootHeight : cardHeight;
+      const x = root ? rootX : gridLeft + cardWidth / 2 + (order! % columns) * (cardWidth + gap);
+      const y = root ? rootY : gridTop + Math.floor(order! / columns) * (cardHeight + 48) + cardHeight / 2;
+      return { id: node.id, x, y, width: node.width, height: h, labelLines: node.labelLines, bodyLines: node.bodyLines };
+    }),
+  };
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
-  const orientation = flowOrientationForWidth(hostWidth);
+  const linearOrder = strictLinearFlowOrder(input);
+  const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
     const { labelLines, bodyLines } = structuredNodeText(
@@ -1104,20 +1612,33 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelLines,
       bodyLines,
       width: horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines),
+      height: nodeHeight(labelLines, bodyLines, node.notation),
     };
   });
   const layers = topologicalLayers(input);
-  const concentric = isConcentricNetwork(input)
+  const systemSelection = processSystemNodes(input);
+  const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
+  const hierarchySelection = hierarchyFanoutSelection(input);
+  const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection, hostWidth) : undefined;
+  const spaceFilling = !system && !hierarchy && shouldUseSpaceFillingFlow(prepared, linearOrder, hostWidth, orientation)
+    ? spaceFillingLinearFlowLayout(input, prepared, linearOrder!, hostWidth)
+    : undefined;
+  const suppressRepeatedSpaceFillingLabels = Boolean(
+    spaceFilling && repeatedLinearEdgeLabel(input, linearOrder),
+  );
+  const concentric = !spaceFilling && isConcentricNetwork(input)
     ? concentricNetworkLayout(input, prepared, hostWidth)
     : undefined;
-  const triadic = !concentric && isTriadicNetwork(input)
+  const triadic = !spaceFilling && !concentric && isTriadicNetwork(input)
     ? triadicNetworkLayout(prepared, hostWidth)
     : undefined;
-  const radial = !concentric && !triadic && isCompactRadialNetwork(input)
+  const radial = !spaceFilling && !concentric && !triadic && isCompactRadialNetwork(input)
     ? compactRadialNetworkLayout(prepared, hostWidth)
     : undefined;
-  const geometry = concentric
+  const geometry = hierarchy
+    ?? system
+    ?? spaceFilling
+    ?? concentric
     ?? triadic
     ?? radial
     ?? (input.diagramType === "network"
@@ -1131,6 +1652,76 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     const source = nodeById.get(edge.sourceNodeId);
     const target = nodeById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Flow edge ${edge.id} references an unknown layout node`);
+
+    if (hierarchy) {
+      const x1 = source.x;
+      const y1 = source.y + source.height / 2;
+      const x2 = target.x;
+      const y2 = target.y - target.height / 2;
+      const firstRowTop = Math.min(...geometry.nodes.filter((node) => node.id !== hierarchySelection!.rootId).map((node) => node.y - node.height / 2));
+      const branchY = (y1 + firstRowTop) / 2;
+      // Later rows travel through the column gutters, not through earlier cards.
+      const gutterX = target.x - target.width / 2 - 12;
+      return {
+        id: edge.id, sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1, y1, x2, y2, labelX: midpoint(x1, x2),
+        labelY: branchY, labelLines: [],
+        routePoints: y2 === firstRowTop ? [
+          { x: x1, y: y1 }, { x: x1, y: branchY },
+          { x: x2, y: branchY }, { x: x2, y: y2 },
+        ] : [
+          { x: x1, y: y1 }, { x: x1, y: branchY },
+          { x: gutterX, y: branchY }, { x: gutterX, y: y2 - 24 },
+          { x: x2, y: y2 - 24 }, { x: x2, y: y2 },
+        ],
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
+
+    if (system) {
+      const vertical = Math.abs(source.x - target.x) < 1;
+      const x1 = vertical ? source.x : source.x + (target.x > source.x ? source.width / 2 : -source.width / 2);
+      const x2 = vertical ? target.x : target.x + (target.x > source.x ? -target.width / 2 : target.width / 2);
+      const y1 = vertical ? source.y + source.height / 2 : source.y;
+      const y2 = vertical ? target.y - target.height / 2 : target.y;
+      return {
+        id: edge.id,
+        sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1, y1, x2, y2,
+        labelX: (x1 + x2) / 2,
+        labelY: (y1 + y2) / 2,
+        labelLines: [],
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
+
+    if (spaceFilling) {
+      const routePoints = spaceFilling.edgeRoutes.get(edge.id);
+      if (!routePoints || routePoints.length < 2) throw new Error(`Space-filling flow edge ${edge.id} requires a routed path`);
+      const first = routePoints[0]!;
+      const last = routePoints[routePoints.length - 1]!;
+      const center = polylineMidpoint(routePoints);
+      const segmentLength = Math.hypot(center.dx, center.dy) || 1;
+      const labelOffset = 24;
+      return {
+        id: edge.id,
+        sourceNodeId: edge.sourceNodeId,
+        targetNodeId: edge.targetNodeId,
+        x1: first.x,
+        y1: first.y,
+        x2: last.x,
+        y2: last.y,
+        labelX: center.x - (center.dy / segmentLength) * labelOffset,
+        labelY: center.y + (center.dx / segmentLength) * labelOffset,
+        labelLines: suppressRepeatedSpaceFillingLabels
+          ? []
+          : wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        routePoints,
+        ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+      };
+    }
 
     if (input.diagramType !== "network" && orientation === "horizontal") {
       const forward = target.x >= source.x;
@@ -1184,15 +1775,21 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
 
-  const strategy: D3FlowLayoutStrategy = concentric
-    ? "concentric-network"
-    : triadic
-      ? "triadic-network"
-      : radial
-        ? "radial-network"
-        : input.diagramType === "network"
-          ? "grouped-network"
-          : "layered-flow";
+  const strategy: D3FlowLayoutStrategy = hierarchy
+    ? "hierarchy-fanout"
+    : system
+      ? "process-system"
+    : spaceFilling
+      ? "space-filling-flow"
+    : concentric
+      ? "concentric-network"
+      : triadic
+        ? "triadic-network"
+        : radial
+          ? "radial-network"
+          : input.diagramType === "network"
+            ? "grouped-network"
+            : "layered-flow";
   const edges = resolveEdgeLabelCollisions(
     rawEdges,
     geometry.nodes,

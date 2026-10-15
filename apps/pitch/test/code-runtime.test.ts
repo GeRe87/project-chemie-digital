@@ -51,26 +51,30 @@ test("CodeMirror enhancement keeps one prepared dependency graph and keyboard is
   assert.match(source, /event\.stopPropagation\(\)/);
 });
 
-test("normal mode gates both interactive runtimes and R output remains accessible", () => {
+test("local code enhancement is standard while external live polling remains opt-in", () => {
   const mainSource = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
   const runtimeSource = readFileSync(new URL("../src/code-runtime.ts", import.meta.url), "utf8");
+  const codeMount = mainSource.indexOf("codeRuntime = await mountExecutableCodeBlocks(root)");
   const gateStart = mainSource.indexOf("if (connectedInteractive) {");
-  const gateEnd = mainSource.indexOf("const unmountShell", gateStart);
-  assert.ok(gateStart >= 0 && gateEnd > gateStart, "connected runtime gate must remain explicit in main.ts");
+  const gateEnd = mainSource.indexOf("const refreshInteractiveRuntime", gateStart);
+  assert.ok(codeMount >= 0 && gateStart > codeMount, "local code runtime must mount before the connected network gate");
+  assert.ok(gateStart >= 0 && gateEnd > gateStart, "external live poll gate must remain explicit");
   const connectedBlock = mainSource.slice(gateStart, gateEnd);
-  assert.match(connectedBlock, /codeRuntime = await mountExecutableCodeBlocks\(root\)/);
+  assert.doesNotMatch(connectedBlock, /mountExecutableCodeBlocks/);
   assert.match(connectedBlock, /pollRuntime = mountLivePolls\(root, window\.location\.search\)/);
-  assert.equal(mainSource.match(/codeRuntime = await mountExecutableCodeBlocks\(root\)/g)?.length, 1);
-  assert.equal(mainSource.match(/pollRuntime = mountLivePolls\(root, window\.location\.search\)/g)?.length, 1);
+  assert.match(runtimeSource, /run\.textContent = "Run"/);
+  assert.match(runtimeSource, /reset\.textContent = "Reset"/);
   assert.match(runtimeSource, /output\.setAttribute\("aria-live", "polite"\)/);
-  assert.match(runtimeSource, /output\.setAttribute\("aria-label", "R-Ausgabe"\)/);
+  assert.match(runtimeSource, /output\.setAttribute\("aria-label", "R output"\)/);
 });
 
-test("interactive runtime preparation is explicit and does not run as part of pitch startup", () => {
+test("interactive runtime preparation stays pinned and the course dev entry prepares it automatically", () => {
   const rootPackage = JSON.parse(readFileSync(new URL("../../../package.json", import.meta.url), "utf8"));
+  const pitchPackage = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
   assert.equal(rootPackage.scripts["prepare:interactive-runtime"], "python scripts/prepare_interactive_runtime.py");
   assert.equal(rootPackage.scripts["check:interactive-runtime"], "python scripts/prepare_interactive_runtime.py --check");
   assert.doesNotMatch(rootPackage.scripts["pitch:dev"], /prepare:interactive-runtime/);
+  assert.match(pitchPackage.scripts["dev:introduction"], /prepare_interactive_runtime\.py/);
 
   const prepSource = readFileSync(new URL("../../../scripts/prepare_interactive_runtime.py", import.meta.url), "utf8");
   assert.match(prepSource, /CODEMIRROR_VERSION = "6\.43\.6"/);

@@ -1,3 +1,4 @@
+import katex from "katex";
 import {
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
@@ -90,6 +91,8 @@ export interface SelfStudyDefinitionListEntryPlan {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
 }
 
@@ -124,6 +127,84 @@ export interface SelfStudyTablePlan extends SelfStudyNodeBase {
   readonly rows: readonly SelfStudyTableRowPlan[];
 }
 
+export interface SelfStudyChartAxisPlan {
+  readonly label: string;
+  readonly unit?: string;
+}
+
+export interface SelfStudyBarChartDatumPlan {
+  readonly id: string;
+  readonly category: string;
+  readonly group?: string;
+  readonly value: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyLineChartDatumPlan {
+  readonly id: string;
+  readonly x: number;
+  readonly y: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyLineChartSeriesPlan {
+  readonly id: string;
+  readonly label: string;
+  readonly data: readonly SelfStudyLineChartDatumPlan[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface SelfStudyBarChartAnnotationPlan {
+  readonly id: string;
+  readonly kind: "point";
+  readonly datumId: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+}
+
+export type SelfStudyLineChartAnnotationPlan =
+  | {
+      readonly id: string;
+      readonly kind: "point";
+      readonly seriesId: string;
+      readonly datumId: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+    }
+  | {
+      readonly id: string;
+      readonly kind: "x-range";
+      readonly seriesId: string;
+      readonly startDatumId: string;
+      readonly endDatumId: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+    };
+
+export interface SelfStudyBarChartPlan extends SelfStudyNodeBase {
+  readonly kind: "chart";
+  readonly chartType: "bar";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: SelfStudyChartAxisPlan;
+  readonly yAxis: SelfStudyChartAxisPlan;
+  readonly data: readonly SelfStudyBarChartDatumPlan[];
+  readonly annotations?: readonly SelfStudyBarChartAnnotationPlan[];
+}
+
+export interface SelfStudyLineChartPlan extends SelfStudyNodeBase {
+  readonly kind: "chart";
+  readonly chartType: "line";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: SelfStudyChartAxisPlan;
+  readonly yAxis: SelfStudyChartAxisPlan;
+  readonly series: readonly SelfStudyLineChartSeriesPlan[];
+  readonly annotations?: readonly SelfStudyLineChartAnnotationPlan[];
+}
+
+export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan;
+
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
   readonly children: readonly SelfStudyNodePlan[];
@@ -135,6 +216,7 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
   readonly prompt: string;
   readonly responseMode: "reflection" | "single-choice" | "multiple-choice" | "free-text";
   readonly options?: readonly string[];
+  readonly expectedResult?: string;
   readonly fallback: string;
 }
 
@@ -144,6 +226,8 @@ export interface SelfStudyDiagramNodePlan {
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
   readonly visualRole?: string;
+  readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
+  readonly visualMotifRole?: "supporting" | "highlight";
   readonly groupIds?: readonly string[];
 }
 
@@ -201,7 +285,8 @@ export type SelfStudyNodePlan =
   | SelfStudyTablePlan
   | SelfStudyGroupPlan
   | SelfStudyPromptPlan
-  | SelfStudyDiagramPlan;
+  | SelfStudyDiagramPlan
+  | SelfStudyChartPlan;
 
 export interface SelfStudySectionPlan {
   readonly id: string;
@@ -317,6 +402,34 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
   ].join("\n");
 }
 
+function chartAxisLabel(axis: { readonly label: string; readonly unit?: string }): string {
+  return axis.unit ? `${axis.label} [${axis.unit}]` : axis.label;
+}
+
+function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  const header = [
+    block.label,
+    block.description,
+    `X: ${chartAxisLabel(block.xAxis)}`,
+    `Y: ${chartAxisLabel(block.yAxis)}`,
+  ];
+  if (block.chartType === "bar") {
+    return [
+      ...header,
+      ...block.data.map((datum) => `${datum.group ? `${datum.group} / ` : ""}${datum.category}: ${datum.value}`),
+      ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+    ].join("\n");
+  }
+  return [
+    ...header,
+    ...block.series.flatMap((series) => [
+      `Series: ${series.label}`,
+      ...series.data.map((datum) => `- ${datum.x}, ${datum.y}`),
+    ]),
+    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+  ].join("\n");
+}
+
 function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
   switch (block.kind) {
     case "prose":
@@ -367,6 +480,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           id: entry.id,
           term: entry.term,
           ...(entry.description ? { description: entry.description } : {}),
+          ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
+          ...(entry.visualMotifRole ? { visualMotifRole: entry.visualMotifRole } : {}),
           source: sourceCopy(entry.source),
         })),
       };
@@ -416,7 +531,76 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         prompt: block.prompt,
         responseMode: block.responseMode,
         ...(block.options ? { options: [...block.options] } : {}),
+        ...(block.expectedResult ? { expectedResult: block.expectedResult } : {}),
         fallback: block.fallback,
+      };
+    case "chart":
+      if (block.chartType === "bar") {
+        return {
+          ...baseFor(block, position, chartStaticFallback(block)),
+          kind: "chart",
+          chartType: "bar",
+          label: block.label,
+          description: block.description,
+          xAxis: { ...block.xAxis },
+          yAxis: { ...block.yAxis },
+          data: block.data.map((datum) => ({
+            id: datum.id,
+            category: datum.category,
+            ...(datum.group ? { group: datum.group } : {}),
+            value: datum.value,
+            source: sourceCopy(datum.source),
+          })),
+          ...(block.annotations ? {
+            annotations: block.annotations.map((annotation) => ({
+              id: annotation.id,
+              kind: annotation.kind,
+              datumId: annotation.datumId,
+              label: annotation.label,
+              source: sourceCopy(annotation.source),
+            })),
+          } : {}),
+        };
+      }
+      return {
+        ...baseFor(block, position, chartStaticFallback(block)),
+        kind: "chart",
+        chartType: "line",
+        label: block.label,
+        description: block.description,
+        xAxis: { ...block.xAxis },
+        yAxis: { ...block.yAxis },
+        series: block.series.map((series) => ({
+          id: series.id,
+          label: series.label,
+          source: sourceCopy(series.source),
+          data: series.data.map((datum) => ({
+            id: datum.id,
+            x: datum.x,
+            y: datum.y,
+            source: sourceCopy(datum.source),
+          })),
+        })),
+        ...(block.annotations ? {
+          annotations: block.annotations.map((annotation) => annotation.kind === "point"
+            ? {
+                id: annotation.id,
+                kind: "point" as const,
+                seriesId: annotation.seriesId,
+                datumId: annotation.datumId,
+                label: annotation.label,
+                source: sourceCopy(annotation.source),
+              }
+            : {
+                id: annotation.id,
+                kind: "x-range" as const,
+                seriesId: annotation.seriesId,
+                startDatumId: annotation.startDatumId,
+                endDatumId: annotation.endDatumId,
+                label: annotation.label,
+                source: sourceCopy(annotation.source),
+              }),
+        } : {}),
       };
     case "diagram":
       return {
@@ -431,6 +615,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
+          ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
+          ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
           ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
         })),
         edges: block.edges.map((edge) => ({
@@ -531,16 +717,21 @@ function sourceAttributes(source: readonly SourceReference[]): string {
 }
 
 function renderPrompt(node: SelfStudyPromptPlan, interactive: boolean): string {
+  const answer = node.expectedResult
+    ? interactive
+      ? `<details class="self-study-answer"><summary>Musterlösung anzeigen</summary><p>${escapeHtml(node.expectedResult)}</p></details>`
+      : `<p class="self-study-answer">${escapeHtml(node.expectedResult)}</p>`
+    : "";
   if (!interactive) {
     const options = node.options?.length ? `<ul>${node.options.map((option) => `<li>${escapeHtml(option)}</li>`).join("")}</ul>` : "";
-    return `<section class="self-study-prompt"><p>${escapeHtml(node.prompt)}</p>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p></section>`;
+    return `<section class="self-study-prompt"><p>${escapeHtml(node.prompt)}</p>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</section>`;
   }
   if (node.responseMode === "free-text" || node.responseMode === "reflection") {
-    return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend><textarea aria-label="${escapeHtml(node.prompt)}"></textarea><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></fieldset>`;
+    return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend><textarea aria-label="${escapeHtml(node.prompt)}"></textarea><p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</fieldset>`;
   }
   const inputType = node.responseMode === "multiple-choice" ? "checkbox" : "radio";
   const options = (node.options ?? []).map((option, index) => `<label><input type="${inputType}" name="${escapeHtml(node.id)}" value="${index}"> ${escapeHtml(option)}</label>`).join("");
-  return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p></fieldset>`;
+  return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</fieldset>`;
 }
 
 function renderDiagram(node: SelfStudyDiagramPlan): string {
@@ -555,12 +746,45 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}</figure>`;
 }
 
-function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
+function renderChart(node: SelfStudyChartPlan): string {
+  const xAxis = chartAxisLabel(node.xAxis);
+  const yAxis = chartAxisLabel(node.yAxis);
+  const axes = `<p class="self-study-chart-axes">X: ${escapeHtml(xAxis)} · Y: ${escapeHtml(yAxis)}</p>`;
+  const annotations = (node.annotations ?? []).length > 0
+    ? `<ul class="self-study-chart-annotations">${(node.annotations ?? []).map((annotation) =>
+        `<li data-chart-annotation-id="${escapeHtml(annotation.id)}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</li>`
+      ).join("")}</ul>`
+    : "";
+
+  if (node.chartType === "bar") {
+    const grouped = node.data.length > 0 && node.data.every((datum) => datum.group !== undefined);
+    const rows = node.data.map((datum) =>
+      grouped
+        ? `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.group ?? "")}</th><td>${escapeHtml(datum.category)}</td><td>${escapeHtml(String(datum.value))}</td></tr>`
+        : `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><th scope="row">${escapeHtml(datum.category)}</th><td>${escapeHtml(String(datum.value))}</td></tr>`
+    ).join("");
+    const head = grouped
+      ? `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">Replicate</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`
+      : `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`;
+    return `<figure class="self-study-chart" data-chart-type="bar"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}<table><thead>${head}</thead><tbody>${rows}</tbody></table>${annotations}</figure>`;
+  }
+
+  const series = node.series.map((seriesItem) => {
+    const rows = seriesItem.data.map((datum) =>
+      `<tr data-chart-datum-id="${escapeHtml(datum.id)}"${sourceAttributes(datum.source)}><td>${escapeHtml(String(datum.x))}</td><td>${escapeHtml(String(datum.y))}</td></tr>`
+    ).join("");
+    return `<section class="self-study-chart-series" data-chart-series-id="${escapeHtml(seriesItem.id)}"${sourceAttributes(seriesItem.source)}><h3>${escapeHtml(seriesItem.label)}</h3><table><thead><tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }).join("");
+
+  return `<figure class="self-study-chart" data-chart-type="line"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}${series}${annotations}</figure>`;
+}
+
+function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
   switch (node.kind) {
     case "prose":
       return `<div class="self-study-prose">${escapeHtml(node.text)}</div>`;
     case "math":
-      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}"><code>${escapeHtml(node.expression)}</code><span class="visually-hidden">${escapeHtml(node.spokenText)}</span></div>`;
+      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}">${katex.renderToString(node.expression, { displayMode: true, output: "mathml", throwOnError: false, trust: false })}<span class="visually-hidden"><code>${escapeHtml(node.expression)}</code>${escapeHtml(node.spokenText)}</span></div>`;
     case "code":
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
@@ -571,7 +795,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<${tag} class="self-study-list">${items}</${tag}>`;
     }
     case "definition-list": {
-      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}</div>`).join("");
+      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "table": {
@@ -585,13 +809,15 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean): string {
       return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
     case "prompt":
       return renderPrompt(node, interactive);
+    case "chart":
+      return renderChart(node);
     case "diagram":
       return renderDiagram(node);
   }
 }
 
-function renderNode(node: SelfStudyNodePlan, interactive: boolean): string {
-  const body = renderNodeBody(node, interactive);
+function renderNode(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
+  const body = renderNodeBody(node, interactive, entryFormula);
   const attributes = `${sourceAttributes(node.source)} data-source-block-id="${escapeHtml(node.sourceBlockId)}" data-disclosure-mode="${node.disclosureMode}"`;
   if (!interactive || node.disclosureMode === "always") {
     return `<section class="self-study-block"${attributes}>${body}</section>`;
@@ -601,8 +827,22 @@ function renderNode(node: SelfStudyNodePlan, interactive: boolean): string {
   return `<details class="self-study-block self-study-disclosure"${attributes} data-disclosure-order="${order}"><summary>${summary}</summary>${body}</details>`;
 }
 
+function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: boolean): string {
+  const heading = nodes[0]?.kind === "prose" && nodes[0].intent?.kind === "introduce" ? nodes[0] : undefined;
+  const body = heading ? nodes.slice(1) : nodes;
+  const context = body.length % 2 === 1 && body[0]?.kind === "prose" && body[0].intent?.kind === "explain" ? body[0] : undefined;
+  const pairs = context ? body.slice(1) : body;
+  if (pairs.length >= 4 && pairs.length <= 8 && pairs.every((node, index) =>
+    index % 2 === 0 ? node.kind === "definition-list" && node.entries.length === 1 : node.kind === "math")) {
+    const cards = pairs.filter((_, index) => index % 2 === 0).map((node, index) =>
+      renderNode(node, interactive, pairs[index * 2 + 1]!)).join("");
+    return `${heading ? renderNode(heading, interactive) : ""}${context ? renderNode(context, interactive) : ""}<div class="self-study-definition-list">${cards}</div>`;
+  }
+  return nodes.map(node => renderNode(node, interactive)).join("");
+}
+
 export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean }): string {
   const navigation = `<nav class="self-study-navigation" aria-label="Lernabschnitte"><ol>${plan.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${escapeHtml(section.semanticLabel)}</a></li>`).join("")}</ol></nav>`;
-  const sections = plan.sections.map((section, index) => `<section id="${escapeHtml(section.id)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${section.nodes.map((node) => renderNode(node, options.interactive)).join("")}</section>`).join("");
+  const sections = plan.sections.map((section, index) => `<section id="${escapeHtml(section.id)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${renderSectionNodes(section.nodes, options.interactive)}</section>`).join("");
   return `${navigation}${sections}`;
 }

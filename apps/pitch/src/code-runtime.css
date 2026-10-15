@@ -91,7 +91,8 @@
   margin: 0.65rem 0;
 }
 
-.reveal .code-run-button {
+.reveal .code-run-button,
+.reveal .code-reset-button {
   border: 2px solid var(--pcd-accent);
   border-radius: 0.35rem;
   background: var(--pcd-accent);
@@ -105,6 +106,11 @@
 .reveal .code-run-button:disabled {
   cursor: progress;
   opacity: 0.65;
+}
+
+.reveal .code-reset-button {
+  background: transparent;
+  color: var(--pcd-accent);
 }
 
 .reveal .code-runtime-label {
