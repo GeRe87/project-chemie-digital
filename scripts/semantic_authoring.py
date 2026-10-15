@@ -179,20 +179,23 @@ def _target_for_metadata(metadata: dict[str, Any]) -> tuple[URIRef, ...]:
 
 def _assert_variance_source_ownership(canonical: Dataset) -> None:
     """Fail closed if canonical graph-source allocation has drifted."""
-    path_file = ROOT / _VARIANCE_GRAPH_SOURCES[str(VARIANCE_PATH_GRAPH)]
-    new_file = ROOT / _VARIANCE_GRAPH_SOURCES[str(VARIANCE_SCENE_GRAPH)]
-    if new_file.exists():
-        raise AuthoringError("Proposed new Variance scene source already exists; manager reconciliation required")
-    if VARIANCE_SCENE_GRAPH in populated_graph_ids(canonical):
-        raise AuthoringError("Variance scene named graph already exists; target must be reviewed")
-    sources: list[str] = []
+    scene_file = ROOT / _VARIANCE_GRAPH_SOURCES[str(VARIANCE_SCENE_GRAPH)]
+    sources: dict[str, list[str]] = {key: [] for key in _VARIANCE_GRAPH_SOURCES}
     for file in CANONICAL_TRIG:
         local = Dataset(default_union=False)
         parse_trig_path(local, file)
-        if VARIANCE_PATH_GRAPH in populated_graph_ids(local):
-            sources.append(file.relative_to(ROOT).as_posix())
-    if sources != [_VARIANCE_GRAPH_SOURCES[str(VARIANCE_PATH_GRAPH)]]:
+        graphs = populated_graph_ids(local)
+        for iri in sources:
+            if URIRef(iri) in graphs:
+                sources[iri].append(file.relative_to(ROOT).as_posix())
+    if sources[str(VARIANCE_PATH_GRAPH)] != [_VARIANCE_GRAPH_SOURCES[str(VARIANCE_PATH_GRAPH)]]:
         raise AuthoringError("Variance path named graph has ambiguous canonical source-file ownership")
+    scene_sources = sources[str(VARIANCE_SCENE_GRAPH)]
+    if scene_sources:
+        if scene_sources != [_VARIANCE_GRAPH_SOURCES[str(VARIANCE_SCENE_GRAPH)]]:
+            raise AuthoringError("Existing Variance scene graph has ambiguous/unapproved source ownership")
+    elif scene_file.exists():
+        raise AuthoringError("Scene source exists but contains no owned scene graph; reconcile its source allocation")
     if VARIANCE_PATH_GRAPH not in populated_graph_ids(canonical):
         raise AuthoringError("Variance path graph is missing from the canonical Dataset")
     graph = canonical.graph(VARIANCE_PATH_GRAPH)
@@ -221,13 +224,23 @@ def _assert_variance_path_additive(canonical: Dataset, candidate: Dataset) -> No
     removed = before - after
     additions = after - before
     predicate = URIRef(_GRAPH.replace("/graph/", "/ontology/") + "usesScene")
-    allowed = {(VARIANCE_STEP, predicate, scene) for _s, _p, scene in additions
-               if _s == VARIANCE_STEP and _p == predicate
-               and isinstance(scene, URIRef)
-               and str(scene).startswith(_EX)}
-    if removed or len(additions) != 1 or additions != allowed:
-        raise AuthoringError("Variance path candidate may only add one approved usesScene link")
-    selected_scene = next(iter(additions))[2]
+    previous_links = sorted(
+        (o for s, p, o in before if s == VARIANCE_STEP and p == predicate), key=str
+    )
+    if len(previous_links) > 1:
+        raise AuthoringError("Existing Variance step has ambiguous scene bindings")
+    if previous_links:
+        if removed or additions:
+            raise AuthoringError("Existing Variance path/scene binding may not be changed")
+        selected_scene = previous_links[0]
+    else:
+        allowed = {(VARIANCE_STEP, predicate, scene) for _s, _p, scene in additions
+                   if _s == VARIANCE_STEP and _p == predicate
+                   and isinstance(scene, URIRef)
+                   and str(scene).startswith(_EX)}
+        if removed or len(additions) != 1 or additions != allowed:
+            raise AuthoringError("Variance path candidate may only add one approved usesScene link")
+        selected_scene = next(iter(additions))[2]
     if (selected_scene, RDF.type,
             URIRef(_GRAPH.replace("/graph/", "/ontology/") + "SceneDefinition")) not in candidate.graph(VARIANCE_SCENE_GRAPH):
         raise AuthoringError("Variance linked scene must be defined in the candidate scene named graph")
