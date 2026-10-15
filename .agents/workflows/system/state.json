@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "ready",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
   "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
-  "lastCompletedTurn": "manager: owner approved pausing #276 and prioritizing #279; verified main manager idle, zero lease, Chemometrics #184, PR #277 preserved/blocked #276, #185→#277 stack unaccepted and authoring sources identical while compiler differs. Assigned one narrow System Semantic Web and Ontology Engineer worker turn for #279; issue records exact scope and separate integration gate. No worker started.",
-  "lastUpdated": "2026-10-15T10:48:38+02:00",
+  "lastCompletedTurn": "administrative recovery: owner approved reconciling a completed isolated System #279 worker handoff that did not reach authoritative main. Draft PR #280 and structured handoff exist; branch-local worker state is blocked/manager with released lease. No tests, validator acceptance, Product content changes, PR merge, or additional manager/worker claim is asserted.",
+  "lastUpdated": "2026-10-15T11:58:51+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 237,
+  "blockedBy": [
+    "Exact-head local focused Python and full npm test evidence for open Draft PR #280 is missing; do not mark authoring implementation accepted",
+    "Independent manager code/SHACL/explicit-path SceneDocument review and preview evidence are missing; no canonical Variance scene has been authored",
+    "Required external exact-head agent-validator/project-chemie-digital success and compatible main/stack compiler integration are unverified; no merge permitted"
+  ],
+  "stateRevision": 238,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:28:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
-      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
-    },
     {
       "at": "2026-09-27T12:29:00+02:00",
       "from": "ready/worker",
@@ -191,6 +188,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue279-authoring-assignment-20261015T104605+0200",
       "reason": "Assigned only System #279 generic named-graph authoring on fresh main-based isolated worktree. #276 paused with PR #277 preserved; #278 remains separately gated; no worker execution, no compiler/RDF/renderer scope and no acceptance/merge."
+    },
+    {
+      "at": "2026-10-15T11:58:51+02:00",
+      "from": "ready/worker",
+      "to": "blocked/manager",
+      "actor": "owner-authorized-system-manager-recovery-issue279-20261015T115851+0200",
+      "reason": "Owner-authorized one-time recovery: reconcile completed isolated #279 worker handoff and open Draft PR #280 with authoritative main; branch-local manager state is already blocked with free lease. No new worker run or simulated claim, no validation/acceptance/merge; preserve unresolved evidence and cross-stack integration blockers."
     }
   ]
 }
