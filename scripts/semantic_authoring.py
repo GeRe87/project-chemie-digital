@@ -46,6 +46,7 @@ from validate_semantics import validate_dataset  # noqa: E402
 
 SH = Namespace("http://www.w3.org/ns/shacl#")
 DRAFT_CONTRACT_VERSION = "1.0"
+VARIANCE_DRAFT_CONTRACT_VERSION = "1.1"
 VALIDATION_CONTRACT_VERSION = "1.0"
 PREVIEW_CONTRACT_VERSION = "1.0"
 PROMOTION_CONTRACT_VERSION = "1.0"
@@ -126,7 +127,7 @@ def _canonical_context() -> tuple[Dataset, str]:
     return _cached_canonical_context(_canonical_source_signature())
 
 
-_VALIDATION_RESULT_CACHE: dict[tuple[str, str], dict[str, Any]] = {}
+_VALIDATION_RESULT_CACHE: dict[tuple[str, str, str], dict[str, Any]] = {}
 
 
 def _canonical_json(value: Any) -> str:
@@ -253,7 +254,11 @@ def _read_metadata(draft_root: Path) -> dict[str, Any]:
         metadata = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise AuthoringError(f"Draft metadata is unreadable: {path}: {exc}") from exc
-    if metadata.get("contractVersion") != DRAFT_CONTRACT_VERSION:
+    if draft_root.is_symlink() or path.is_symlink():
+        raise AuthoringError("Symlink draft metadata/root is not permitted")
+    expected_version = (DRAFT_CONTRACT_VERSION if metadata.get("draftId") == DRAFT_ID
+                        else VARIANCE_DRAFT_CONTRACT_VERSION)
+    if metadata.get("contractVersion") != expected_version:
         raise AuthoringError("Unsupported authoring draft contract version")
     _target_for_metadata(metadata)
     if metadata.get("candidatePath") != CANDIDATE_FILE:
@@ -263,6 +268,8 @@ def _read_metadata(draft_root: Path) -> dict[str, Any]:
 
 def checkout_draft(draft_root: Path = DEFAULT_DRAFT_ROOT, *, force: bool = False,
                    target_id: str = DRAFT_ID) -> dict[str, Any]:
+    if target_id == VARIANCE_DRAFT_ID and draft_root == DEFAULT_DRAFT_ROOT:
+        draft_root = ROOT / ".local" / "authoring" / VARIANCE_DRAFT_ID
     if target_id not in (DRAFT_ID, VARIANCE_DRAFT_ID):
         raise AuthoringError("Unknown or unapproved authoring target")
     if draft_root.is_symlink():
@@ -287,7 +294,8 @@ def checkout_draft(draft_root: Path = DEFAULT_DRAFT_ROOT, *, force: bool = False
     draft_root.mkdir(parents=True, exist_ok=True)
     _write_text(_candidate_path(draft_root), candidate_text)
     metadata = {
-        "contractVersion": DRAFT_CONTRACT_VERSION,
+        "contractVersion": (DRAFT_CONTRACT_VERSION if target_id == DRAFT_ID
+                            else VARIANCE_DRAFT_CONTRACT_VERSION),
         "draftId": target_id,
         "baseDatasetFingerprint": base_fingerprint,
         "targetGraphIri": str(TARGET_GRAPH if target_id == DRAFT_ID else VARIANCE_SCENE_GRAPH),
@@ -452,6 +460,7 @@ def _validate_candidate(
         # Only approved graphs are replaced; the SHACL shapes remain canonical.
         # Full candidate content is validated using the Product-owned SHACL policy.
         conforms, report_graph, _report_text = validate_dataset(candidate, meta_shacl=False)
+        diagnostics = _diagnostics(report_graph)
         result = {
             "contractVersion": VALIDATION_CONTRACT_VERSION,
             "draftId": metadata["draftId"],
@@ -460,8 +469,8 @@ def _validate_candidate(
             "candidateFileSha256": candidate_file_sha,
             "candidateDatasetFingerprint": "sha256:" + dataset_fingerprint(candidate),
             "conforms": bool(conforms),
-            "diagnostics": _diagnostics(report_graph)[:MAX_DRAFT_DIAGNOSTICS],
-            "diagnosticsTruncated": len(_diagnostics(report_graph)) > MAX_DRAFT_DIAGNOSTICS,
+            "diagnostics": diagnostics[:MAX_DRAFT_DIAGNOSTICS],
+            "diagnosticsTruncated": len(diagnostics) > MAX_DRAFT_DIAGNOSTICS,
         }
         _VALIDATION_RESULT_CACHE[cache_key] = copy.deepcopy(result)
     if write_reports:
