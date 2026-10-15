@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 from rdflib import Dataset, Literal, RDF, URIRef
+from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
@@ -101,9 +102,9 @@ class NamedGraphDraftTests(unittest.TestCase):
         for gid in RDF_MODULE.populated_graph_ids(original):
             if gid == MODULE.VARIANCE_PATH_GRAPH:
                 continue
-            self.assertEqual(
-                set(candidate.graph(gid)), set(original.graph(gid)),
-                f"Unexpected change in named graph {gid}",
+            self.assertTrue(
+                isomorphic(candidate.graph(gid), original.graph(gid)),
+                f"Unexpected semantic change in named graph {gid}",
             )
 
     def test_modified_existing_path_content_is_rejected(self) -> None:
