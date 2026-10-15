@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "blocked",
+  "status": "ready",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
   "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
   "lastCompletedTurn": "administrative recovery: owner approved reconciling a completed isolated System #279 worker handoff that did not reach authoritative main. Draft PR #280 and structured handoff exist; branch-local worker state is blocked/manager with released lease. No tests, validator acceptance, Product content changes, PR merge, or additional manager/worker claim is asserted.",
-  "lastUpdated": "2026-10-15T11:58:51+02:00",
+  "lastUpdated": "2026-10-15T13:08:02+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
@@ -19,15 +19,8 @@
     "Independent manager code/SHACL/explicit-path SceneDocument review and preview evidence are missing; no canonical Variance scene has been authored",
     "Required external exact-head agent-validator/project-chemie-digital success and compatible main/stack compiler integration are unverified; no merge permitted"
   ],
-  "stateRevision": 238,
+  "stateRevision": 239,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:29:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Claimed only the generated Self-Study index refresh on the already locally verified Introduction-aware runtime."
-    },
     {
       "at": "2026-09-27T12:35:00+02:00",
       "from": "busy/worker",
@@ -195,6 +188,13 @@
       "to": "blocked/manager",
       "actor": "owner-authorized-system-manager-recovery-issue279-20261015T115851+0200",
       "reason": "Owner-authorized one-time recovery: reconcile completed isolated #279 worker handoff and open Draft PR #280 with authoritative main; branch-local manager state is already blocked with free lease. No new worker run or simulated claim, no validation/acceptance/merge; preserve unresolved evidence and cross-stack integration blockers."
+    },
+    {
+      "at": "2026-10-15T13:08:02+02:00",
+      "from": "blocked/manager",
+      "to": "ready/manager",
+      "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
+      "reason": "Owner approved reopening only System Issue #279 for one correction of exact RDF BNode identity test in open Draft PR #280. All other validation, SceneDocument and merge blockers remain recorded, no worker claimed yet."
     }
   ]
 }
