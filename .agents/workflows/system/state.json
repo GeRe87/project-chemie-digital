@@ -1,33 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "ready",
+  "status": "busy",
   "turn": "manager",
   "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
   "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
   "lastCompletedTurn": "administrative recovery: owner approved reconciling a completed isolated System #279 worker handoff that did not reach authoritative main. Draft PR #280 and structured handoff exist; branch-local worker state is blocked/manager with released lease. No tests, validator acceptance, Product content changes, PR merge, or additional manager/worker claim is asserted.",
-  "lastUpdated": "2026-10-15T13:08:02+02:00",
+  "lastUpdated": "2026-10-15T13:08:16+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "owner-authorized-system-manager-279-corrective-turn-20261015",
+    "claimedAt": "2026-10-15T13:08:16+02:00",
+    "expiresAt": "2026-10-15T15:08:16+02:00"
   },
   "blockedBy": [
     "Exact-head local focused Python and full npm test evidence for open Draft PR #280 is missing; do not mark authoring implementation accepted",
     "Independent manager code/SHACL/explicit-path SceneDocument review and preview evidence are missing; no canonical Variance scene has been authored",
     "Required external exact-head agent-validator/project-chemie-digital success and compatible main/stack compiler integration are unverified; no merge permitted"
   ],
-  "stateRevision": 239,
+  "stateRevision": 240,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:35:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
-    },
     {
       "at": "2026-09-27T12:36:00+02:00",
       "from": "blocked/manager",
@@ -195,6 +188,13 @@
       "to": "ready/manager",
       "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
       "reason": "Owner approved reopening only System Issue #279 for one correction of exact RDF BNode identity test in open Draft PR #280. All other validation, SceneDocument and merge blockers remain recorded, no worker claimed yet."
+    },
+    {
+      "at": "2026-10-15T13:08:16+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
+      "reason": "Claim one bounded manager reassignment turn for owner-authorized System #279 test-only repair; no worker execution and no acceptance of PR #280."
     }
   ]
 }
