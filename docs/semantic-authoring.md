@@ -263,9 +263,12 @@ PathStep to a SceneDefinition typed within the proposed scene graph.
 Any other named graph, default-graph triple, unapproved source mapping,
 identity change, existing scene source, ambiguous graph file ownership,
 or stale full Dataset fingerprint is rejected before SHACL/preview.
-The entire new scene graph must also be populated before validation;
-an initial checkout with an empty scene graph intentionally remains
-an **incomplete** draft.
+The scene graph must be populated before validation; an initial checkout
+with an empty new scene graph intentionally remains an **incomplete** draft.
+Once the approved scene source exists canonically, this same fixed target can
+be checked out again as an **existing-graph** draft, but the authored
+PathStep-to-scene binding must then remain unchanged. Source ownership is
+rechecked for both graphs on every validation.
 
 ### Create a new candidate (never overwrites canonical TriG)
 
@@ -275,6 +278,9 @@ not a live course worktree:
 ```powershell
 python scripts/semantic_authoring.py checkout --target-id variance-dispersion-scenes
 ```
+
+The new target uses versioned draft metadata **1.1**; existing
+Standardabweichung drafts retain their established **1.0** contract.
 
 The program prints the concrete target workspace. The expected default
 workspace is:
