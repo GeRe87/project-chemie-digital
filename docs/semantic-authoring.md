@@ -232,3 +232,111 @@ The local draft may then be removed safely:
 ```powershell
 Remove-Item -Recurse -Force .local\authoring\standard-deviation-scenes
 ```
+
+## Additive v0.2 boundary — Issue #279: explicit approved two-graph Variance draft
+
+**This section is a Draft-PR implementation candidate, not a merged or
+validated Product release.** Standardabweichung's no-flag
+`npm run authoring:checkout`, `authoring:validate`,
+`authoring:preview` and `authoring:prepare-promotion` interfaces
+remain unchanged. v0.2 adds exactly one allowlisted draft target,
+`variance-dispersion-scenes`; callers may **not** infer arbitrary
+graph IDs, resource IDs or filesystem locations from a lecture title.
+
+The Product-owned target registry in
+`scripts/semantic_authoring.py` pins:
+
+| Purpose | Approved identity | Canonical source allocation |
+|---|---|---|
+| Existing Variance LearningPath | `graph/paths/chemometrics-variance-dispersion-lecture` | `ontology/dataset/chemometrics-variance-dispersion-path.trig` |
+| Proposed *new* SceneDefinition graph | `graph/scenes/chemometrics-variance-dispersion` | `ontology/dataset/chemometrics-variance-dispersion-scenes.trig` (currently absent; **not written**) |
+| Step | `ex:path-step-chemometrics-variance-dispersion-variance` | Add exactly one `cd:usesScene` binding |
+| LearningUnit | `ex:learning-unit-variance-dispersion` | Existing canonical authority |
+| TeachingOffering / placement | `ex:teaching-offering-chemometrics-applied-statistics` / `ex:unit-placement-chemometrics-variance-dispersion` | Existing canonical authority |
+| LearningPath | `ex:path-chemometrics-variance-dispersion-lecture` and its exact graph IRI | Explicit selected path only |
+
+The two graphs are authored **together in one ignored local
+`candidate.trig`**, evaluated as one in-memory Dataset. Existing path
+triples cannot be modified or removed: the *only* permitted path delta
+is **one new** `cd:usesScene` relation from the preselected first
+PathStep to a SceneDefinition typed within the proposed scene graph.
+Any other named graph, default-graph triple, unapproved source mapping,
+identity change, existing scene source, ambiguous graph file ownership,
+or stale full Dataset fingerprint is rejected before SHACL/preview.
+The scene graph must be populated before validation; an initial checkout
+with an empty new scene graph intentionally remains an **incomplete** draft.
+Once the approved scene source exists canonically, this same fixed target can
+be checked out again as an **existing-graph** draft, but the authored
+PathStep-to-scene binding must then remain unchanged. Source ownership is
+rechecked for both graphs on every validation.
+
+### Create a new candidate (never overwrites canonical TriG)
+
+Run from a **clean, independently authorized issue-specific worktree**,
+not a live course worktree:
+
+```powershell
+python scripts/semantic_authoring.py checkout --target-id variance-dispersion-scenes
+```
+
+The new target uses versioned draft metadata **1.1**; existing
+Standardabweichung drafts retain their established **1.0** contract.
+
+The program prints the concrete target workspace. The expected default
+workspace is:
+
+```text
+.local/authoring/variance-dispersion-scenes/
+  draft.json
+  candidate.trig
+```
+
+Edit only the candidate file in that ignored local workspace. Its two
+graph blocks represent a full replacement **in memory**; a new scene
+must be authored in the scene block and linked through exactly one
+added relation in the path block. The `--force` destructive option is
+intentionally **not available** for the new target.
+
+To check the candidate:
+
+```powershell
+python scripts/semantic_authoring.py validate --draft-root .local/authoring/variance-dispersion-scenes
+python scripts/semantic_authoring.py preview --draft-root .local/authoring/variance-dispersion-scenes
+python scripts/semantic_authoring.py prepare-promotion --draft-root .local/authoring/variance-dispersion-scenes
+```
+
+Existing Product-owned `rdf_dataset.py`,
+`validate_semantics.py` and `generate_canonical_runtime.py` are
+reused directly. SHACL is applied to the complete assembled candidate.
+Preview selects the pinned `CourseUnitPathSelectionRequest` explicitly,
+**not** the Standardabweichung default. If the candidate is not
+SHACL-conformant or the existing compiler cannot compile the explicit
+Variance path, it **fails closed**; the output is never mislabeled as
+a finished slide. Validation returns the first 50 deterministic SHACL
+diagnostics with `diagnosticsTruncated` signaling whether the report
+contains more.
+
+A review-only manifest, when successfully produced, additionally lists
+both target graph IRIs and the immutable source-file allocation.
+`canonicalWritePerformed: false` and `sourceWritePerformed: false`
+remain mandatory. **There is no automatic promotion, push, merge,
+Fuseki Update, or presentation publication.**
+
+### Explicit limitations and integration gate
+
+- The **new** target is a fixed reviewed contract for this first
+  vertical slice, not a general arbitrary-graph editor.
+- The local draft does not manufacture lecture narration, numeric
+  example data, or visualization affordances; those require approved
+  authored RDF under separate Chemometrics Issue #278.
+- This System increment does **not** change ontology/SHACL/compiler,
+  renderer or production runtime contracts. Existing generic compiler
+  capabilities may not yet support the desired interactive Variance
+  illustration; any missing contract must return to the manager.
+- Product `main` and the unaccepted #185→#277 stack differ in
+  `scripts/generate_canonical_runtime.py`, so **the future exact
+  integration base and visual preview must be checked separately**.
+- The exact-head `agent-validator/project-chemie-digital` result,
+  Product `npm test`, and independent manager acceptance are required
+  before any merge. Local tests or an advisory CDAC scene plan alone
+  do not authorize Product integration.
