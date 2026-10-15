@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
   "expectedDeliverable": "Owner-authorized follow-up System #279 worker, no new issue: on existing isolated agent/279-semantic-authoring-graph-targets Draft PR #280 at expected baseline ed2bdf2b459757cbc616086930da914daacfadb7, change only tests/test_semantic_authoring_graph_targets.py replacing unrelated named graph set equality with rdflib.compare.isomorphic and adjust import. Update own .agents/handoffs/issue-279-semantic-authoring.md and own .agents/workflows/system/state.json on issue branch. No other code files, canonical science or main source modification. Leave PR draft. Do not self-merge, claim tests/SHACL/preview success or resolve previously observed single-step compiler limitation. Return to blocked/manager with evidence gaps and free lease.",
-  "lastCompletedTurn": "manager: owner authorized one scope-limited correction to PR #280 (BNode-isomorphism assertion) following submitted local failing test; verified exact PR head and recorded permitted test-only write scope in Issue #279. No broader System/Compiler/SHACL/Variance-scene work or PR acceptance is authorized.",
-  "lastUpdated": "2026-10-15T13:10:10+02:00",
+  "lastCompletedTurn": "worker: owner-authorized System #279 correction changed only tests/test_semantic_authoring_graph_targets.py to use rdflib.compare.isomorphic for unrelated graph comparisons, plus branch-scoped handoff/state. Standalone rdflib reproduction succeeded, Product focused/full tests not run. Return to blocked/manager; preserve PR #280 as Draft and await fresh owner-local evidence.",
+  "lastUpdated": "2026-10-15T13:12:55+02:00",
   "lease": {
-    "owner": "github-test-only-worker-issue279-20261015",
-    "claimedAt": "2026-10-15T13:10:10+02:00",
-    "expiresAt": "2026-10-15T15:10:10+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 242,
+  "blockedBy": [
+    "Product operator must rerun focused Python semantic authoring tests and complete npm test on corrected exact Draft PR #280 head; isolated rdflib BNode smoke is not Product acceptance",
+    "Independent code review, complete canonical SHACL and explicit single-step/complete SceneDocument preview validation remain missing; full Variance lecture has 6 path steps without canonical scenes",
+    "Required external exact-head agent-validator/project-chemie-digital success and compatible Product main/unmerged stack integration not confirmed; keep PR draft and do not merge"
+  ],
+  "stateRevision": 243,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T13:00:00+02:00",
-      "from": "ready/worker",
-      "to": "busy/worker",
-      "actor": "interactive-system-worker-issue165-offering-section-architecture-20260927T130000+0200",
-      "reason": "Claimed Issue #165 to author the renderer-neutral OfferingSection boundary and TeachingOfferingRuntimeDocument 1.1 compatibility decision only."
-    },
     {
       "at": "2026-09-27T13:08:00+02:00",
       "from": "busy/worker",
@@ -191,6 +188,13 @@
       "to": "busy/worker",
       "actor": "github-test-only-worker-issue279-20261015",
       "reason": "Claim exactly one owner-approved follow-up test-only worker turn for Issue #279 on PR #280; replace brittle SHACL BNode identity equality with RDF graph isomorphism; no Product runtime/ontology/content edits."
+    },
+    {
+      "at": "2026-10-15T13:12:55+02:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "github-test-only-worker-issue279-20261015",
+      "reason": "Completed only scoped BNode RDF-isomorphism test assertion fix and updated structured handoff; released branch lease and returned to manager with unresolved Product tests/SHACL/preview/external validator. No self-acceptance or merge."
     }
   ]
 }
