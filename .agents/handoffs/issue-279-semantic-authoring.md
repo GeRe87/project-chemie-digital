@@ -82,3 +82,18 @@ Run the established Standardabweichung no-op checkout/validate/preview/prepare-p
 ## Recommended manager action
 
 **Request tests and independent review, do not merge.** Preserve branch/PR as-is until actual evidence arrives; authorize only narrowly bounded follow-up repairs if tests reveal defects. Do not assign a second Worker turn during this same worker run.
+
+
+## Follow-up correction #279 — 2026-10-15
+
+**Owner-approved scope:** only `tests/test_semantic_authoring_graph_targets.py` plus this handoff and System state on the isolated PR branch, under the fresh System manager assignment.
+
+**Owner-local reported failure:** `test_two_graph_candidate_assembles_without_mutating_other_named_graphs` generated a very long RDF SHACL `BNode` identity assertion diff; the user-uploaded error output was truncated before the total test summary.
+
+**Correction committed:** `0907bbc67867304caa2eb2dbb5aa9b2bea6be6a5`. Imported `rdflib.compare.isomorphic` and replaced `set(candidate.graph(gid)) == set(original.graph(gid))` for unrelated named graphs with a per-graph RDF isomorphism assertion. This preserves detection of real semantic graph changes while ignoring parser-local blank node identifiers.
+
+**Validation actually performed:** small isolated Python/RDFLib experiment confirmed unequal raw BNode triple sets compare isomorphically for identical RDF structures; this does NOT execute the Product tests or validate full Product code.
+
+**Validation still required on the final exact PR head:** `python -m unittest discover -s tests -p "test_semantic_authoring*.py" -v`, `npm test`, exact-head `agent-validator/project-chemie-digital`, manager review, and full path/positive Preview contract checks. All remain incomplete; prior CDAC 376-test acceptance does not apply. PR #280 remains a Draft; no merge, release, main Product source change or other-track mutation.
+
+**Return to manager:** Corrected the single test assertion and handoff only. Preserve existing draft PR/branch, request operator's concise rerun summary; do not self-accept.
