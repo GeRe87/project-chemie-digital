@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "ready",
+  "status": "busy",
   "turn": "worker",
   "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
   "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
   "lastCompletedTurn": "manager: owner approved pausing #276 and prioritizing #279; verified main manager idle, zero lease, Chemometrics #184, PR #277 preserved/blocked #276, #185→#277 stack unaccepted and authoring sources identical while compiler differs. Assigned one narrow System Semantic Web and Ontology Engineer worker turn for #279; issue records exact scope and separate integration gate. No worker started.",
-  "lastUpdated": "2026-10-15T10:48:38+02:00",
+  "lastUpdated": "2026-10-15T11:03:03+02:00",
   "lease": {
-    "owner": null,
-    "claimedAt": null,
-    "expiresAt": null
+    "owner": "chatgpt-system-worker-issue279-20261015T110303+0200",
+    "claimedAt": "2026-10-15T11:03:03+02:00",
+    "expiresAt": "2026-10-15T13:03:03+02:00"
   },
   "blockedBy": [],
-  "stateRevision": 237,
+  "stateRevision": 238,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:28:00+02:00",
-      "from": "blocked/manager",
-      "to": "ready/worker",
-      "actor": "interactive-system-manager-issue162-static-artifact-refresh-20260927T122800+0200",
-      "reason": "Authorized only the tracked Self-Study static fallback refresh after local 19/19 root tests and browser smoke; unrelated generated Pitch output is excluded."
-    },
     {
       "at": "2026-09-27T12:29:00+02:00",
       "from": "ready/worker",
@@ -191,6 +184,13 @@
       "to": "ready/worker",
       "actor": "interactive-system-manager-issue279-authoring-assignment-20261015T104605+0200",
       "reason": "Assigned only System #279 generic named-graph authoring on fresh main-based isolated worktree. #276 paused with PR #277 preserved; #278 remains separately gated; no worker execution, no compiler/RDF/renderer scope and no acceptance/merge."
+    },
+    {
+      "at": "2026-10-15T11:03:03+02:00",
+      "from": "ready/worker",
+      "to": "busy/worker",
+      "actor": "chatgpt-system-worker-issue279-20261015T110303+0200",
+      "reason": "Claim the assigned one-turn System #279 bounded semantic authoring generalization in isolated branch only; no Product main or Chemometrics state write."
     }
   ]
 }
