@@ -1,54 +1,22 @@
 {
   "schemaVersion": 2,
   "cycle": 14,
-  "status": "blocked",
-  "turn": "manager",
-  "nextTurn": "manager",
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 279,
-  "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
-  "lastCompletedTurn": "worker: implemented bounded Product-owned System #279 draft-target v1.1 on isolated branch and opened Draft PR #280 with 11 added negative/regression tests and handoff. Remote GitHub changed only assigned files; no Product main/other track/canonical TriG write. Full local tests, SHACL/runtime preview, exact-head validator and independent review NOT performed. Return to manager blocked for evidence; no self-acceptance or merge.",
-  "lastUpdated": "2026-10-15T11:18:28+02:00",
+  "expectedDeliverable": "Owner-authorized follow-up System #279 worker, no new issue: on existing isolated agent/279-semantic-authoring-graph-targets Draft PR #280 at expected baseline ed2bdf2b459757cbc616086930da914daacfadb7, change only tests/test_semantic_authoring_graph_targets.py replacing unrelated named graph set equality with rdflib.compare.isomorphic and adjust import. Update own .agents/handoffs/issue-279-semantic-authoring.md and own .agents/workflows/system/state.json on issue branch. No other code files, canonical science or main source modification. Leave PR draft. Do not self-merge, claim tests/SHACL/preview success or resolve previously observed single-step compiler limitation. Return to blocked/manager with evidence gaps and free lease.",
+  "lastCompletedTurn": "manager: owner authorized one scope-limited correction to PR #280 (BNode-isomorphism assertion) following submitted local failing test; verified exact PR head and recorded permitted test-only write scope in Issue #279. No broader System/Compiler/SHACL/Variance-scene work or PR acceptance is authorized.",
+  "lastUpdated": "2026-10-15T13:08:34+02:00",
   "lease": {
     "owner": null,
     "claimedAt": null,
     "expiresAt": null
   },
-  "blockedBy": [
-    "Product operator-local focused Python and full npm test results on exact Draft PR #280 HEAD missing; connector-only worker environment cannot execute complete Product test suite",
-    "Independent manager code review and full canonical SHACL + exact selected path/SceneDocument preview acceptance not performed; no authored Variance scene exists in Product",
-    "External exact-head agent-validator/project-chemie-digital success and compatible main/stack compiler integration remain unverified; no PR acceptance or merge authorized"
-  ],
-  "stateRevision": 239,
+  "blockedBy": [],
+  "stateRevision": 241,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T12:35:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-static-artifact-refresh-20260927T122900+0200",
-      "reason": "Committed only the verified Introduction-aware apps/self-study/index.html generated fallback and returned Issue #162 to the manager. No source/runtime/content/style/test or Pitch change was added."
-    },
-    {
-      "at": "2026-09-27T12:36:00+02:00",
-      "from": "blocked/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-      "reason": "Claimed final Issue #162 acceptance after local Self-Study/root tests, browser smoke, current-main reconciliation and generated fallback refresh. The resulting exact claim head now requires fresh external validator success before Ready/merge."
-    },
-    {
-      "at": "2026-09-27T12:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/manager",
-      "actor": "interactive-system-manager-issue162-final-acceptance-20260927T123600+0200",
-      "reason": "Exact-head validator success, local tests, browser smoke, integration freshness and Ready lifecycle all passed for PR #163. Squash-merged Issue #162 as 9369e976017f70afac17f6d80de3e7bf26d1d7ef, verified Issue #162 closed completed and single-parent squash, and returned System to idle manager state."
-    },
-    {
-      "at": "2026-09-27T12:55:00+02:00",
-      "from": "ready/manager",
-      "to": "busy/manager",
-      "actor": "interactive-system-manager-issue165-offering-section-architecture-20260927T125500+0200",
-      "reason": "Claimed Issue #165 to define OfferingSection as a renderer-neutral offering-specific curriculum grouping overlay and settle its versioned runtime compatibility boundary."
-    },
     {
       "at": "2026-09-27T12:57:00+02:00",
       "from": "busy/manager",
@@ -195,6 +163,34 @@
       "to": "blocked/manager",
       "actor": "chatgpt-system-worker-issue279-20261015T110303+0200",
       "reason": "Completed scoped #279 implementation, Draft PR #280 and structured handoff; returned to System manager with explicit missing local tests, external validator and integration blockers. No worker self-acceptance, lease release PUT outside owned branch, or Product main mutation."
+    },
+    {
+      "at": "2026-10-15T11:58:51+02:00",
+      "from": "ready/worker",
+      "to": "blocked/manager",
+      "actor": "owner-authorized-system-manager-recovery-issue279-20261015T115851+0200",
+      "reason": "Owner-authorized one-time recovery: reconcile completed isolated #279 worker handoff and open Draft PR #280 with authoritative main; branch-local manager state is already blocked with free lease. No new worker run or simulated claim, no validation/acceptance/merge; preserve unresolved evidence and cross-stack integration blockers."
+    },
+    {
+      "at": "2026-10-15T13:08:02+02:00",
+      "from": "blocked/manager",
+      "to": "ready/manager",
+      "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
+      "reason": "Owner approved reopening only System Issue #279 for one correction of exact RDF BNode identity test in open Draft PR #280. All other validation, SceneDocument and merge blockers remain recorded, no worker claimed yet."
+    },
+    {
+      "at": "2026-10-15T13:08:16+02:00",
+      "from": "ready/manager",
+      "to": "busy/manager",
+      "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
+      "reason": "Claim one bounded manager reassignment turn for owner-authorized System #279 test-only repair; no worker execution and no acceptance of PR #280."
+    },
+    {
+      "at": "2026-10-15T13:08:34+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "owner-authorized-system-manager-279-corrective-turn-20261015",
+      "reason": "Assign one subsequent #279 test-only corrective worker turn on existing isolated PR #280 branch; preserve earlier missing tests/SHACL/validator/preview blockers for handoff and keep paused other tracks untouched."
     }
   ]
 }
