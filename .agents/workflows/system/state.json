@@ -1,29 +1,22 @@
 {
   "schemaVersion": 2,
-  "cycle": 13,
-  "status": "busy",
-  "turn": "manager",
-  "nextTurn": "manager",
-  "activeRole": null,
-  "activeIssue": null,
-  "expectedDeliverable": null,
-  "lastCompletedTurn": "manager: formally accepted Issue #168 / PR #178 after fresh exact-head agent-validator/project-chemie-digital success on 15b0a7641d7b5922f89a7f5025df8afcdd0fbab4. Marked PR Ready and squash-merged it as 2bd2c520beff57e1b39a7eb1e30b2102cc2b0412; Issue #168 closed completed; verified the squash commit has exactly one parent. System returned to idle manager state.",
-  "lastUpdated": "2026-10-15T10:46:05+02:00",
+  "cycle": 14,
+  "status": "ready",
+  "turn": "worker",
+  "nextTurn": "worker",
+  "activeRole": "Semantic Web and Ontology Engineer",
+  "activeIssue": 279,
+  "expectedDeliverable": "On one fresh isolated branch agent/279-semantic-authoring-graph-targets from the exact current main after manager assignment: generalize only Product-owned scripts/semantic_authoring.py, focused tests/test_semantic_authoring*.py and docs/semantic-authoring.md to support explicit allowed existing/new named-graph draft targets with fail-closed multi-graph candidate validation and explicit path-selected preview, preserving Standardabweichung. No ontology/SHACL/compiler/renderer/other-track changes. Produce focused and full test evidence, Draft PR and structured handoff; no merge or worker self-acceptance.",
+  "lastCompletedTurn": "manager: owner approved pausing #276 and prioritizing #279; verified main manager idle, zero lease, Chemometrics #184, PR #277 preserved/blocked #276, #185→#277 stack unaccepted and authoring sources identical while compiler differs. Assigned one narrow System Semantic Web and Ontology Engineer worker turn for #279; issue records exact scope and separate integration gate. No worker started.",
+  "lastUpdated": "2026-10-15T10:48:38+02:00",
   "lease": {
-    "owner": "interactive-system-manager-issue279-authoring-assignment-20261015T104605+0200",
-    "claimedAt": "2026-10-15T10:46:05+02:00",
-    "expiresAt": "2026-10-15T12:46:05+02:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
   "blockedBy": [],
-  "stateRevision": 236,
+  "stateRevision": 237,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T11:34:00+02:00",
-      "from": "busy/worker",
-      "to": "blocked/manager",
-      "actor": "interactive-system-worker-issue162-definition-list-test-repair-20260927T112900+0200",
-      "reason": "Completed the bounded DefinitionList test-only integration repair and handoff update; returned #162 to manager for local retest, browser smoke review and later exact-head acceptance gates."
-    },
     {
       "at": "2026-09-27T12:28:00+02:00",
       "from": "blocked/manager",
@@ -191,6 +184,13 @@
       "to": "busy/manager",
       "actor": "interactive-system-manager-issue279-authoring-assignment-20261015T104605+0200",
       "reason": "Claim one bounded System manager assignment turn for owner-prioritized Issue #279; verify paused #276, pending #185/#277 stack and independent first-slice authoring scope. No worker execution."
+    },
+    {
+      "at": "2026-10-15T10:48:38+02:00",
+      "from": "busy/manager",
+      "to": "ready/worker",
+      "actor": "interactive-system-manager-issue279-authoring-assignment-20261015T104605+0200",
+      "reason": "Assigned only System #279 generic named-graph authoring on fresh main-based isolated worktree. #276 paused with PR #277 preserved; #278 remains separately gated; no worker execution, no compiler/RDF/renderer scope and no acceptance/merge."
     }
   ]
 }
