@@ -68,6 +68,7 @@ class NamedGraphDraftTests(unittest.TestCase):
 
     def test_explicit_checkout_is_a_non_authoritative_two_graph_draft(self) -> None:
         self.assertEqual(self.metadata["draftId"], MODULE.VARIANCE_DRAFT_ID)
+        self.assertEqual(self.metadata["contractVersion"], MODULE.VARIANCE_DRAFT_CONTRACT_VERSION)
         self.assertEqual(self.metadata["targetGraphIris"], [
             str(MODULE.VARIANCE_PATH_GRAPH), str(MODULE.VARIANCE_SCENE_GRAPH)
         ])
