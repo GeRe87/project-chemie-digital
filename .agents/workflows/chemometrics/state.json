@@ -1,29 +1,26 @@
 {
   "schemaVersion": 2,
   "cycle": 7,
-  "status": "busy",
-  "turn": "worker",
-  "nextTurn": "worker",
+  "status": "blocked",
+  "turn": "manager",
+  "nextTurn": "manager",
   "activeRole": "Semantic Web and Ontology Engineer",
   "activeIssue": 184,
   "expectedDeliverable": "On one fresh branch, implement the exact six-slide Chemometrics Introduction redesign using existing generic semantic primitives only: title KeyPoint cards, overview DefinitionList cards, lecturer KeyPoint cards, format DefinitionList cards, six-node FlowDiagram roadmap, four-card introduction round. Update path/scenes/focused tests. No renderer/System changes.",
-  "lastCompletedTurn": "manager: verified generic concept-specification, foundation-card-grid and diagram-stage layouts already cover the requested visual structures and authorized one bounded content worker turn.",
-  "lastUpdated": "2026-10-16T22:55:55.596868+00:00",
+  "lastCompletedTurn": "worker: performed the existing #184 scope/executability assessment and stored a structured blocked handoff in Issue #184. Verified concrete six-versus-seven scene and four-versus-three prompt contract conflicts with preserved follow-ons, plus out-of-scope shared changes in Draft PR #185. No feature implementation, tests/SHACL/browser execution, acceptance, PR mutation, System change or new assignment. Returned only Chemometrics control to blocked/manager with free lease; original #184 assignment retained.",
+  "lastUpdated": "2026-10-16T22:57:16.662561+00:00",
   "lease": {
-    "owner": "opencode-chemometrics-worker-184-blocked-handoff-20261016T225555Z",
-    "claimedAt": "2026-10-16T22:55:55.596868+00:00",
-    "expiresAt": "2026-10-17T00:55:55.596868+00:00"
+    "owner": null,
+    "claimedAt": null,
+    "expiresAt": null
   },
-  "blockedBy": [],
-  "stateRevision": 107,
+  "blockedBy": [
+    "Issue #184 assigned six-scene/four-prompt Introduction contract conflicts with preserved #205/#206 follow-on resources and regression tests in Draft PR #185 (seven steps, three prompt cards, revised title/overview/course-format structures). Manager must reconcile the task contract; worker may not revert or accept later results.",
+    "Draft PR #185 contains renderer/compiler/vocabulary/System-state and unrelated scientific changes outside the active #184 content-only assignment and is the base of the preserved #258-to-#277 stack. Manager must determine bounded result ownership and safe integration/review scope before resuming #184; no stack acceptance is implied.",
+    "Independent review of this real #184 blocked-worker handoff is required: https://github.com/GeRe87/project-chemie-digital/issues/184#issuecomment-6226242056. Preserve branch-local #217/#257 evidence and all separate validation/visual/System blockers; no new worker assignment is authorized by this return."
+  ],
+  "stateRevision": 108,
   "transitionHistory": [
-    {
-      "at": "2026-09-27T14:43:00+02:00",
-      "from": "busy/manager",
-      "to": "ready/worker",
-      "actor": "interactive-chemometrics-manager-issue167-sections-20260927T144100+0200",
-      "reason": "Authorized one bounded Semantic Web and Ontology Engineer worker turn for Issue #167 to author the exact seven Chemometrics OfferingSections and focused regressions only; no shared System contract, renderer/UI, learner-state or future scientific LearningUnit work."
-    },
     {
       "at": "2026-09-27T14:46:00+02:00",
       "from": "ready/worker",
@@ -191,6 +188,13 @@
       "to": "busy/worker",
       "actor": "opencode-chemometrics-worker-184-blocked-handoff-20261016T225555Z",
       "reason": "Claimed the existing Issue #184 worker turn solely to document a verified execution blocker and produce its regular blocked handoff under Core sections 5, 7 and 11. Exact assigned six-scene/four-prompt scope conflicts with preserved Issue #205/#206 follow-on results and tests in Draft PR #185; renderer/compiler/vocabulary changes and branch-local follow-on assignments require manager arbitration. No implementation, prior-result acceptance, PR change or new assignment is authorized."
+    },
+    {
+      "at": "2026-10-16T22:57:16.662561+00:00",
+      "from": "busy/worker",
+      "to": "blocked/manager",
+      "actor": "opencode-chemometrics-worker-184-blocked-handoff-20261016T225555Z",
+      "reason": "Regular blocked Issue #184 worker handoff under Core sections 7 and 11 after actual worker claim. Scope and acceptance conflicts require manager arbitration, not repeated Introduction implementation, branch-local state adoption or administrative recovery. Durable structured evidence: https://github.com/GeRe87/project-chemie-digital/issues/184#issuecomment-6226242056. Preserve activeIssue 184, original role/deliverable, all existing PRs/results and independent blockers; clear only this worker lease. No manager turn executed."
     }
   ]
 }
