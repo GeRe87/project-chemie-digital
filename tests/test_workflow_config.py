@@ -1,58 +1,49 @@
-"""Contract tests for the scheduled workflow configuration."""
-
+"""Product-owned contract for the CDAC-native v2 control boundary."""
 from __future__ import annotations
 
 import json
-import unittest
 from pathlib import Path
-
+import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / ".agents" / "workflow-config.json"
-CORE_REF = "e04fddc8cf6de6e03da6305a475ff0a04ae29521"
-CONTEXT = "agent-validator/project-chemie-digital"
-MARKER = "<!-- agent-workflow-validator:project-chemie-digital -->"
+MARKER = ROOT / ".cdac" / "project.json"
 
 
-class WorkflowConfigContractTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.config = json.loads(CONFIG.read_text(encoding="utf-8"))
+class NativeAgentControlContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.manifest = json.loads(MARKER.read_text(encoding="utf-8"))
+        cls.package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
 
-    def test_core_is_immutably_pinned(self) -> None:
-        core = self.config["core"]
-        self.assertEqual(core["repository"], "GeRe87/agent-workflow-core")
-        self.assertEqual(core["ref"], CORE_REF)
-        self.assertEqual(len(core["ref"]), 40)
-        self.assertNotIn(core["ref"], {"main", "master", "HEAD"})
-        self.assertIn("governance/ci-diagnostics.md", core["governance"])
-        self.assertEqual(len(core["governance"]), len(set(core["governance"])))
+    def test_canonical_native_manifest(self):
+        self.assertEqual(self.manifest, {
+            "schema": "chemie-digital.product-control.v2",
+            "control": "cdac",
+            "repository": "GeRe87/project-chemie-digital",
+            "semantic_source": "ontology/dataset",
+            "validation": {"local_command": ["npm", "test"], "semantic": "SHACL"},
+        })
+        self.assertTrue((ROOT / "ontology" / "dataset").is_dir())
 
-    def test_external_exact_head_provider_is_closed(self) -> None:
-        validation = self.config["validation"]
-        self.assertEqual(
-            set(validation),
-            {"provider", "requiredContexts", "requireExactHead", "evidence"},
-        )
-        self.assertEqual(validation["provider"], "external-commit-status")
-        self.assertEqual(validation["requiredContexts"], [CONTEXT])
-        self.assertTrue(validation["requireExactHead"])
-        self.assertEqual(
-            validation["evidence"],
-            {"type": "pull-request-comment", "marker": MARKER},
-        )
+    def test_validator_and_semantic_validation_remain(self):
+        scripts = self.package["scripts"]
+        self.assertIn("check:semantics", scripts)
+        self.assertIn("test:semantics", scripts)
+        self.assertIn("test", scripts)
+        self.assertIn("test:semantics", scripts["test"])
+        self.assertIn("check:semantics", scripts)
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("agent-validator/project-chemie-digital", agents)
+        self.assertIn("npm test", agents)
+        self.assertIn("SHACL", agents)
+        self.assertIn("no automatic merge", agents.lower())
 
-    def test_merge_policy_remains_manager_only(self) -> None:
-        self.assertEqual(
-            self.config["merge_policy"],
-            {
-                "agent_merge_enabled": True,
-                "base_branch": "main",
-                "manager_only": True,
-                "require_successful_checks": True,
-                "require_accepted_review": True,
-                "merge_method": "squash",
-            },
-        )
+    def test_single_control_interface(self):
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("chemie-digital-agent-control-", agents)
+        self.assertIn(".cdac/project.json", agents)
+        self.assertFalse((ROOT / ".agents/workflows/index.json").exists())
+        self.assertFalse((ROOT / ".agents/dispatcher-protocol.md").exists())
 
 
 if __name__ == "__main__":
