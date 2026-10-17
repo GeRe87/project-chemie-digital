@@ -78,7 +78,7 @@
 
   ex:scene-item-chemometrics-variance-dispersion-standard-deviation-units a cd:SceneItem ;
     cd:position 4 ;
-    cd:selectsResource ex:sd-unit-rule ;
+    cd:selectsResource ex:sd-spread-interpretation ;
     cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ;
     cd:language "en" ;
@@ -220,7 +220,7 @@
 
   ex:scene-item-chemometrics-variance-dispersion-practice-code a cd:SceneItem ;
     cd:position 3 ;
-    cd:selectsResource ex:exercise-summary-statistics-r ;
+    cd:selectsResource ex:code-summary-statistics-r ;
     cd:communicativeRole cd:CodeRole ;
     cd:selectionPath "cd:hasCodeExample" ;
     cd:language "en" ;
