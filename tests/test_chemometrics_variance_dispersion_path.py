@@ -176,8 +176,20 @@ class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
         self.assertEqual(expected_typed, typed)
         self.assertEqual([], list(self.path_graph.triples((None, CD.body, None))))
 
-    def test_path_is_intentionally_scene_free(self) -> None:
-        self.assertEqual([], list(self.path_graph.triples((None, CD.usesScene, None))))
+    def test_path_is_fully_scene_bound_without_authoring_scenes_in_path_graph(self) -> None:
+        for step in EXPECTED_STEPS:
+            expected_scene = EX[
+                str(step).removeprefix(str(EX)).replace(
+                    "path-step-chemometrics-variance-dispersion-",
+                    "scene-chemometrics-variance-dispersion-",
+                )
+            ]
+            with self.subTest(step=step):
+                self.assertEqual(
+                    {expected_scene},
+                    set(self.path_graph.objects(step, CD.usesScene)),
+                )
+                self.assertIn(CD.SceneDefinition, set(self.graph.objects(expected_scene, RDF.type)))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 
