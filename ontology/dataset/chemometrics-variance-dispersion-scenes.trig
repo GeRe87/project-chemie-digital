@@ -1,0 +1,229 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+# Renderer-neutral scene selection: the scientific values and expressions
+# remain authored only in their reusable RDF specification graphs.
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-variance-dispersion-lecture> {
+  ex:scene-chemometrics-variance-dispersion-variance a cd:SceneDefinition ;
+    cd:focusConcept ex:variance ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-variance-heading,
+      ex:scene-item-chemometrics-variance-dispersion-variance-example,
+      ex:scene-item-chemometrics-variance-dispersion-variance-keypoints,
+      ex:scene-item-chemometrics-variance-dispersion-variance-formula ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-variance-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:variance ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-variance-example a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:variance-equal-mean-example ;
+    cd:communicativeRole cd:ExampleRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-variance-keypoints a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:variance-spread-teaching-point ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-variance-formula a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sample-variance-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-standard-deviation a cd:SceneDefinition ;
+    cd:focusConcept ex:standard-deviation ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-standard-deviation-heading,
+      ex:scene-item-chemometrics-variance-dispersion-standard-deviation-definition,
+      ex:scene-item-chemometrics-variance-dispersion-standard-deviation-formula,
+      ex:scene-item-chemometrics-variance-dispersion-standard-deviation-units ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-deviation-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:standard-deviation ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-deviation-definition a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:sd-definition-university-en ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-deviation-formula a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:sample-sd-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-deviation-units a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sd-unit-rule ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-bessel a cd:SceneDefinition ;
+    cd:focusConcept ex:degrees-of-freedom ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-bessel-heading,
+      ex:scene-item-chemometrics-variance-dispersion-bessel-example,
+      ex:scene-item-chemometrics-variance-dispersion-bessel-keypoints,
+      ex:scene-item-chemometrics-variance-dispersion-bessel-formula ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-bessel-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:degrees-of-freedom ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-bessel-example a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:variance-degrees-of-freedom-example ;
+    cd:communicativeRole cd:ExampleRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-bessel-keypoints a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:variance-bessel-teaching-point ;
+    cd:communicativeRole cd:KeyPointRole ;
+    cd:selectionPath "cd:hasKeyPoint" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-bessel-formula a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sample-variance-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-standard-error a cd:SceneDefinition ;
+    cd:focusConcept ex:standard-error ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-standard-error-heading,
+      ex:scene-item-chemometrics-variance-dispersion-standard-error-population-formula,
+      ex:scene-item-chemometrics-variance-dispersion-standard-error-estimated-formula,
+      ex:scene-item-chemometrics-variance-dispersion-standard-error-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-error-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:standard-error ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-error-population-formula a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:sem-population-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-error-estimated-formula a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:sem-estimated-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-standard-error-interpretation a cd:SceneItem ;
+    cd:position 4 ;
+    cd:selectsResource ex:sem-scope-interpretation ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-rsd a cd:SceneDefinition ;
+    cd:focusConcept ex:relative-standard-deviation ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-rsd-heading,
+      ex:scene-item-chemometrics-variance-dispersion-rsd-formula,
+      ex:scene-item-chemometrics-variance-dispersion-rsd-interpretation ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-rsd-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:relative-standard-deviation ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-rsd-formula a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:relative-standard-deviation-formula ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-rsd-interpretation a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:relative-standard-deviation-scope-interpretation ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-practice a cd:SceneDefinition ;
+    cd:focusConcept ex:variance ;
+    cd:hasSceneItem ex:scene-item-chemometrics-variance-dispersion-practice-heading,
+      ex:scene-item-chemometrics-variance-dispersion-practice-exercise,
+      ex:scene-item-chemometrics-variance-dispersion-practice-code ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-practice-heading a cd:SceneItem ;
+    cd:position 1 ;
+    cd:selectsResource ex:variance ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-practice-exercise a cd:SceneItem ;
+    cd:position 2 ;
+    cd:selectsResource ex:exercise-summary-statistics-r ;
+    cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+  ex:scene-item-chemometrics-variance-dispersion-practice-code a cd:SceneItem ;
+    cd:position 3 ;
+    cd:selectsResource ex:exercise-summary-statistics-r ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:language "en" ;
+    cd:authoredResource true .
+
+}
