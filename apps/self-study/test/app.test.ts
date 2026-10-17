@@ -68,7 +68,7 @@ test("generated runtime exposes the validated Chemometrics course bundle in auth
   const boundPathIds = new Set(artifact.sceneDocumentBindings.map((item) => item.pathId));
   assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture"));
   assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture"));
-  assert.ok(!boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture"));
+  assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture"));
   if (introduction) {
     assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction"));
   }
