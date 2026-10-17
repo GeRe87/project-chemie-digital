@@ -41,7 +41,7 @@ The mapping applies independently to each track state:
 - `status: ready`, `turn: manager` corresponds to `nextTurn: manager`.
 - `status: ready`, `turn: worker` corresponds to `nextTurn: worker`.
 - `status: busy` means the exact turn is claimed under that track's lease.
-- `status: blocked` means that track may not proceed until its recorded blocker is resolved.
+- `status: blocked` prevents ordinary task execution; only a `blocked/manager` classification claim expressly permitted below may proceed while recorded blockers remain unresolved.
 - `status: complete` means no further action is required for that workflow instance.
 
 `nextTurn` must agree with `turn` whenever status is `ready` or `busy`.
@@ -75,6 +75,14 @@ Before assignment it applies the cross-track gate above and assigns at most one 
 
 The manager may merge only the exact accepted pull request into `main`, only after the cross-track/integration-freshness gate and every pinned merge-policy condition pass and the configured external status is `success` on the current head. It must use squash merge and an expected-head guard when supported. Merges remain sequential across tracks.
 
+### Bounded claim of a blocked manager turn
+
+The project expressly opts in to the narrowly scoped allowance in pinned Core scheduled-dispatcher protocol §5: a manager may claim an existing `blocked/manager` turn **only** to classify recorded blockers under `governance/blocker-management.md` and perform at most one otherwise authorised, bounded unblock action under Core §6. This is an ordinary manager claim, not administrative recovery, worker execution, a second turn or a bypass of issue/PR ownership.
+
+Before the claim, the dispatcher must read the complete current track state, the pinned Core and Product rules, relevant issue/PR/handoff evidence and the other track's state. It must establish `status: blocked`, `turn: manager`, `nextTurn: manager`, a fully empty lease and an actionable classification/review purpose. Immediately before writing, it must re-fetch the full state and current content identifier. A claim atomically changes only that track to `busy/manager`, preserves the active issue, role, deliverable and unresolved blockers, records a real owner and configured expiring lease, increments the state revision and appends one bounded transition-history entry. A stale or conflicting update fails closed without retry.
+
+The claim itself accepts no result, resolves no blocker, authorises no new worker assignment, waives no review/validator/cross-track gate and changes no other track. Any later manager assignment or acceptance must independently satisfy the existing Core §§6 and 11, this Product protocol and the active issue contract. Completion must use the normal exact-content-identifier handoff, clear the lease and retain every independently unresolved blocker; one claimed turn must not execute a worker turn.
+
 ## Worker turn
 
 The worker executes only `activeIssue` under `activeRole` from its selected track state on `agent/<issue-number>-<short-slug>`. It modifies only the issue-declared scope, produces tests/validation, a draft PR and a structured handoff, and never merges.
@@ -95,7 +103,7 @@ GitHub Actions are not an authorised validation provider. Managers and workers m
 
 - Use the lease duration from the selected track workflow configuration.
 - Before every state update, fetch the complete latest selected track state and current content identifier.
-- Claim only a `ready` state by setting `status: busy` and populating that track lease.
+- Claim a `ready` state by setting `status: busy` and populating that track lease, except for the explicitly bounded `blocked/manager` manager claim defined above under pinned Core §5. No other blocked, worker or recovery claim is authorised.
 - Never take over an unexpired lease.
 - Increment only that track's `stateRevision` and append only that track's transition history.
 - Retain only the configured number of transition entries.
