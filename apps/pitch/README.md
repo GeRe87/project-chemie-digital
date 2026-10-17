@@ -73,6 +73,39 @@ To inspect the historical Standard Deviation preview instead:
 npm --workspace @project-chemie-digital/pitch run dev:standard-deviation
 ```
 
+## Preview: variance, dispersion and degrees of freedom (draft)
+
+The six-step Chemometrics variance path now has six renderer-neutral scenes.
+The first three introduce comparable series with the same mean but different
+sample variances, standard deviation, and why estimating the mean leaves
+`n - 1` free deviations. The last three reuse reviewed standard-error,
+relative-standard-deviation and R exercise resources.
+
+Use a **separate Product worktree** for this unmerged preview branch. From its
+repository root:
+
+```powershell
+npm ci
+npm --workspace @project-chemie-digital/pitch run dev:variance
+```
+
+Preview in a browser (the dedicated port avoids the existing 5173 server):
+
+```text
+http://127.0.0.1:5174/?view=deck&background=chemometrics-city&theme=dark
+```
+
+The script generates the complete 6-scene teaching path from canonical TriG
+using the existing compiler. Presentation formatting is controlled only by the
+generic Reveal renderer. Local generation may write the **ignored** runtime
+JSON and rewrite the tracked `apps/pitch/index.html` fallback in the isolated
+worktree. Do not commit that generated HTML as part of this preview or reset
+other worktrees; review the diff and restore it selectively if needed.
+
+This is a work-in-progress course preview, not a published or pedagogically
+accepted lecture. Run the project-owned tests and external exact-HEAD validator
+before requesting integration.
+
 ## Switching appearance while presenting
 
 The control bar contains labelled **Background** and **Theme** selectors. Theme and background enablement are independent renderer/runtime state.
