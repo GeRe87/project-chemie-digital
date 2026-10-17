@@ -1,102 +1,106 @@
 # Agent operating instructions
 
-## Mission
+## Mission and scientific authority
 
-Develop a semantic authoring and orchestration platform for chemistry education. The platform stores concepts, definitions, mathematical expressions, examples, exercises, learning objectives, sources and their relations as semantic resources. Learning paths select resources; renderers turn resolved paths into usable views such as Reveal.js presentations.
+Develop the semantic chemistry-education platform. Concepts, definitions,
+mathematical expressions, examples, exercises, learning objectives and sources
+are authored as linked semantic resources. LearningPaths select those resources;
+renderer-neutral scenes are compiled into Reveal.js and other educational views.
 
-## Non-negotiable architecture
+**Non-negotiable architecture:**
 
-- RDF is the semantic model.
-- TriG files under `ontology/dataset/` are the sole authored semantic source and assemble into one logical RDF Dataset with preserved named-graph identity.
-- JSON is permitted only as disposable generated transport or non-semantic application configuration; retired JSON-LD/Turtle compatibility sources must not be restored.
-- Apache Jena Fuseki is the planned RDF database.
-- TypeScript is the primary application language.
-- React components provide interactive views.
-- Reveal.js is an encapsulated presentation renderer.
-- The core domain model must not depend on Reveal.js.
-- Markdown may be embedded as a literal for longer human-authored prose.
-- SHACL validates semantic content and project invariants.
+- Canonical RDF/TriG under `ontology/dataset/` is the single authored semantic source.
+- Preserve named-graph identities, semantic provenance and SHACL validation.
+- JSON and SceneDocument exports are disposable generated transport, not a
+  parallel hand-authored source of scientific truth.
+- Product-owned semantic/compiler contracts must remain independent of Reveal.js.
+- Apache Jena Fuseki is the planned RDF store; TypeScript is the primary
+  application language, and React/Reveal.js are presentation boundaries.
+- Do not hardcode a specific lecture concept or resource IRI in generic renderers.
+- Scientific claims, statistical assumptions and citations must be reviewable.
 
-## Track workflow dispatchers
+## Agent control: CDAC only
 
-The workflow registry is `.agents/workflows/index.json`. Issue #110 replaces the single worker dispatcher with two independent Core-compliant workflow instances. Each instance still alternates strictly between `manager` and `worker`, executes at most one claimed turn per run, and has one active role/work item and one lease.
+The sole Project Chemie Digital agent-control interface is
+`GeRe87/chemie-digital-agent-control-` (CDAC), bound to the explicit
+`.cdac/project.json` contract (`chemie-digital.product-control.v2`).
 
-After the Issue #110 migration PR is merged, use exactly these paths:
+**Do not use `agent-workflow-core`, a manager/worker dispatcher, scheduled
+turns, claimable workflow states, activeIssue assignment, agent leases or legacy
+track status as authorisation.** Historical Agent Workflow Core configuration
+and state have been retired; their immutable Git blob references are archived in
+`docs/legacy-agent-workflow-core/README.md`. Existing `.agents/handoffs/`
+remain historical task evidence, not executable instructions.
 
-| Track | Workflow configuration | Workflow state |
-|---|---|---|
-| System | `.agents/workflows/system/workflow-config.json` | `.agents/workflows/system/state.json` |
-| Chemometrics | `.agents/workflows/chemometrics/workflow-config.json` | `.agents/workflows/chemometrics/state.json` |
+An owner may directly authorise a bounded OpenCode task in conversation or
+issue form. CDAC supplies exact Product context, semantic discovery, diff
+inspection and other *explicitly enabled* inspection tools; read-only CDAC
+output never creates editing permission by itself. No CDAC worker-start or
+Product-writing service is implied by the current MCP implementation.
 
-The legacy `.agents/workflow-config.json` / `.agents/state.json` pair is retained only as the migration/audit boundary and must not be used as a manager or worker execution lane after activation. Until the migration PR is merged, the root pair on `main` remains authoritative; proposed track states on the feature branch are not live dispatcher state.
+## Direct owner-to-agent implementation
 
-Immediately after merge, `.agents/workflows/index.json` is authoritative for lane discovery and its legacy entry with `workerExecution: false` disables the root pair as an execution lane even before the audit state is finalized. In the same manager merge-completion turn, the manager must perform the one-time root state handoff by setting `.agents/state.json` to `status: complete`, clearing its lease, and recording the migration activation in `transitionHistory`. This final root-state transition is intentionally not authored in the feature PR and no worker may claim the root state after the merge.
+For every nontrivial change:
 
-A System worker may claim or update only `.agents/workflows/system/state.json`. A Chemometrics worker may claim or update only `.agents/workflows/chemometrics/state.json`. Parallel execution is possible because those leases live in distinct state files; the Core one-turn rule remains unchanged within each workflow instance.
+1. Record the intended deliverable, permitted write scope and any affected
+   semantic/runtime contracts. A GitHub issue is useful, **not** mandatory for
+   each lecture-content edit.
+2. Confirm the actual Product repository origin, branch, clean/dirty status and
+   exact current HEAD; distinguish `main` from the heads of existing draft PRs.
+3. Work in a new isolated branch/worktree. Never replace or reset the owner's
+   existing checkout or another PR's worktree.
+4. Inspect relevant canonical RDF, ontology, SHACL, tests and prior work.
+   Reuse resources and generic scene contracts before adding new ones.
+5. Modify only the authorised scope; preserve named-graph provenance, identity
+   and existing scientific corrections.
+6. Run focused tests and `npm test`; report actual commands, exit codes,
+   failures and unrun checks without inventing a result.
+7. Submit a reviewable draft PR or user-requested equivalent, with rationale,
+   changed paths, tests and an explicit review decision before integration.
+8. Reconcile the exact PR head against current `main` and any overlapping
+   open PR stack. Never silently adopt unmerged results or overwrite other work.
 
-### Manager turn
+System/renderer/vocabulary changes require broader integration review than a
+bounded lecture-content edit. The owner retains release and integration
+decisions; no automatic merge, deployment or publication is authorised.
 
-The manager must:
+## Validation and integration
 
-1. Read the exact workflow configuration and state for the track being managed, all exact pinned Core sources, `README.md`, `AGENTS.md`, current issues, open pull requests and the latest relevant handoff.
-2. Inspect the other track's current state and active issue before assignment and again before integration.
-3. Require the candidate issue to record **Track**, **Intended write scope**, **Cross-track dependencies**, and **Shared contract impact**. `none` must be explicit when applicable.
-4. Serialize or block concurrent work when write scopes materially overlap, one issue depends on the other track's unmerged result, both mutate the same canonical identity/contract, or repository evidence cannot determine a safe integration order.
-5. Select one bounded task and exactly one worker role for this workflow instance.
-6. Set only this track's workflow state to the worker turn without implementing worker code/content.
-7. Review only the exact assigned result, handoff, cross-track gate and current exact-head validation evidence.
-8. Merge PRs into `main` sequentially. A merge in one track never authorises a merge in the other track.
-9. Apply the integration-freshness rule in `.agents/dispatcher-protocol.md`: a stale integration basis is acceptable only for an intervening change proven to be harmless workflow-state/audit evidence; otherwise reconcile with current `main` and obtain fresh exact-head validation before acceptance.
+Authoritative project command: `npm test`. This includes semantic/SHACL,
+Python and frontend/runtime tests; focused tests do not replace the full suite.
+The existing local validator at `GeRe87/agent-workflow-validator` is a
+technical checker, **not** a second agent-control authority.
 
-The marked local-validator PR comment is diagnostic evidence. It never substitutes for the required commit status. Evidence from an older SHA is stale.
-
-### Worker turn
-
-The worker must:
-
-1. Read the active assignment and corresponding role file from its exact track workflow.
-2. Stay within the assigned role, issue, declared write scope and track state boundary.
-3. Inspect existing code and relevant ADRs before changing anything.
-4. Work on `agent/<issue-number>-<short-slug>`.
-5. Produce one coherent, reviewable increment with tests or deterministic validation.
-6. Open or update a draft pull request linked to the issue.
-7. Add a structured handoff using `.agents/templates/handoff.md`.
-8. Return only its own track state to the manager turn after handoff.
-9. Never claim/update the other track state, accept its own result, or merge the pull request.
-
-## Validation boundary
-
-Both workflows use the local exact-head validator at `GeRe87/agent-workflow-validator` with required context `agent-validator/project-chemie-digital`. GitHub Actions are prohibited and are not valid evidence. Agents must not create, restore, invoke or depend on `.github/workflows` for validation.
-
-The authoritative project command is:
+Required exact-current-head external commit status for a governed Product PR:
 
 ```text
-npm test
+agent-validator/project-chemie-digital
 ```
 
-The local host must provide Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. A missing local executable or dependency is validator infrastructure error, not justification for speculative feature-code changes.
+The diagnostic PR comment marker is
+`<!-- agent-workflow-validator:project-chemie-digital -->`.
+Only a `success` result on that exact head counts; missing, stale, pending,
+failure or error does not. No GitHub Actions workflow is authorised. When a
+relevant change has merged into `main`, assess stale integration bases and
+rerun validation on any reconciled PR head.
 
-## Human approval gates
+The host requirements are Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm.
 
-Agents must not independently:
+## Human approvals and safe handling
 
-- publish public releases or OER materials,
-- change repository visibility, access, protected settings or deployment targets,
-- add secrets or credentials,
-- make breaking ontology changes after version `0.1.0`,
-- remove accepted requirements,
-- make legal, examination-regulation or data-protection decisions,
-- claim pedagogical effectiveness without evidence.
+Agents must not independently publish OER, release, deploy, change repository
+visibility/access/protected settings or credentials, make binding legal,
+regulatory, examination or data-protection decisions, remove previously accepted
+requirements or make breaking ontology changes. Never claim pedagogy is
+effective without evidence. Do not copy secrets into logs, issues or evidence.
 
-Pull-request merging into `main` is not a human approval gate when governed agent merging is explicitly enabled. Only a manager may merge, and only after explicit acceptance, successful exact-head external validation, a mergeable current head, the cross-track integration gate and the pinned Core merge policy all pass.
+Existing draft PRs #185–#277 and #280, historical reviews and Handoffs remain
+preserved and unaccepted unless reviewed independently. Their old workflow
+state records confer neither permission nor acceptance under CDAC.
 
 ## Definition of done
 
-A task is done only when:
-
-- acceptance criteria are satisfied,
-- tests or validation pass on the exact current PR head and a compatible integration basis,
-- documentation is updated,
-- accessibility and privacy implications are considered,
-- the draft PR includes a concise rationale and verification steps,
-- the manager can review the result without reconstructing hidden assumptions.
+The deliverable matches its approved scope; RDF and SHACL remain valid;
+semantic and runtime tests are actually verified; affected accessibility
+and privacy boundaries are considered; and the exact diff, provenance,
+limitations, review and integration evidence are reproducible.

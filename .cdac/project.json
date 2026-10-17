@@ -1,0 +1,13 @@
+{
+  "schema": "chemie-digital.product-control.v2",
+  "control": "cdac",
+  "repository": "GeRe87/project-chemie-digital",
+  "semantic_source": "ontology/dataset",
+  "validation": {
+    "local_command": [
+      "npm",
+      "test"
+    ],
+    "semantic": "SHACL"
+  }
+}
