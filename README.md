@@ -118,8 +118,9 @@ Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasSt
 ## Repository principles
 
 - `main` remains reviewable and stable.
-- Agents work through issues, `agent/*` branches and draft pull requests.
-- Workers never merge their own work.
+- CDAC (`GeRe87/chemie-digital-agent-control-`) is the single agent-control interface declared in `.cdac/project.json`.
+- Owner-authorized tasks use isolated Git branches and reviewable draft pull requests; neither issues nor legacy manager/worker leases are required for routine lecture editing.
+- No automatic PR merge, deployment or release occurs without the applicable review, exact-head validator and owner decision.
 - Architectural decisions are recorded as ADRs.
 - Semantic content is validated with SHACL.
 - Domain knowledge, reusable resources, paths, scenes, view documents and renderer adapters remain separate layers.
