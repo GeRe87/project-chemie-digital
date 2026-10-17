@@ -1,0 +1,51 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Reuse the existing, reviewed 9/10/11 and 5/10/15 mg/L observation datasets.
+# The scientific resources here are independent of any renderer or scene layout.
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-variance-teaching> {
+  ex:variance-equal-mean-example a cd:WorkedExample ;
+    skos:prefLabel "Two measurement series with the same mean"@en ;
+    cd:body "For two synthetic sets of three repeated measurements of the same quantity under comparable conditions, A = (9, 10, 11) mg/L and B = (5, 10, 15) mg/L. Both sample means are 10 mg/L; nevertheless their Bessel-corrected sample variances are 1 and 25 (mg/L)², respectively (s = 1 and 5 mg/L). A mean alone cannot describe the spread."@en ;
+    cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ;
+    cd:authoredResource true .
+
+  ex:variance-spread-teaching-point a cd:Interpretation ;
+    cd:body "Values can share a mean but differ in dispersion; variance uses squared deviations from the mean."@en ;
+    cd:hasKeyPoint ex:variance-spread-point-one, ex:variance-spread-point-two ;
+    cd:authoredResource true .
+
+  ex:variance-spread-point-one a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "Same mean does not imply the same spread. Compare the two already reviewed measurement datasets."@en ;
+    cd:authoredResource true .
+  ex:variance-spread-point-two a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Variance has squared measurement units; taking its square root returns to the original unit."@en ;
+    cd:authoredResource true .
+
+  ex:variance-degrees-of-freedom-example a cd:WorkedExample ;
+    skos:prefLabel "Three measurements, two free deviations"@en ;
+    cd:body "Consider the synthetic sample 9, 10, 11 mg/L, with an estimated mean of 10 mg/L. Deviations are −1, 0, +1 mg/L. Once the mean is fixed by these three observations, their deviations must sum to zero: choosing two deviations determines the third. Only n − 1 = 2 deviations are free. The sum of squared deviations is 2 (mg/L)²; dividing by 2 gives the Bessel-corrected sample variance s² = 1 (mg/L)²."@en ;
+    cd:usesDataset ex:dataset-compare-series-a ;
+    cd:authoredResource true .
+
+  ex:variance-bessel-teaching-point a cd:Interpretation ;
+    cd:body "Degrees of freedom reflect constraints imposed by estimated parameters. Estimating the sample mean uses one degree of freedom in the usual sample-variance calculation."@en ;
+    cd:hasKeyPoint ex:variance-bessel-point-one, ex:variance-bessel-point-two, ex:variance-bessel-point-three ;
+    cd:authoredResource true .
+
+  ex:variance-bessel-point-one a cd:KeyPoint ;
+    cd:position 1 ;
+    cd:body "After estimating the mean from n observations, the deviations sum to zero: only n − 1 vary independently."@en ;
+    cd:authoredResource true .
+  ex:variance-bessel-point-two a cd:KeyPoint ;
+    cd:position 2 ;
+    cd:body "Under independent, identically distributed sampling with finite variance, dividing the squared deviations by n − 1 makes s² unbiased for the population variance."@en ;
+    cd:authoredResource true .
+  ex:variance-bessel-point-three a cd:KeyPoint ;
+    cd:position 3 ;
+    cd:body "This does not make s an unbiased estimator of population standard deviation; n − 1 is not a universal denominator for every descriptive or fitted model."@en ;
+    cd:authoredResource true .
+}

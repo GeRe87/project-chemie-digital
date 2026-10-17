@@ -41,7 +41,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
             artifact["sceneDocumentBindings"],
         )
 
-    def test_current_chemometrics_bundle_keeps_all_units_but_compiles_only_scene_ready_paths(self) -> None:
+    def test_current_chemometrics_bundle_compiles_all_scene_ready_paths(self) -> None:
         artifact = RUNTIME.build_offering_artifact(OFFERING, snapshot_language="en")
         self.assertEqual(1, len(artifact["teachingOfferingDocuments"]))
         document = artifact["teachingOfferingDocuments"][0]
@@ -65,7 +65,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         }
         self.assertIn((RANDOM_PATH, RANDOM_GRAPH), binding_pairs)
         self.assertIn((MEAN_PATH, MEAN_GRAPH), binding_pairs)
-        self.assertNotIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
+        self.assertIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
         if introduction_id in placements:
             self.assertIn(
                 (
@@ -75,7 +75,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
                 binding_pairs,
             )
 
-        expected_renderable_count = 3 if introduction_id in placements else 2
+        expected_renderable_count = 4 if introduction_id in placements else 3
         self.assertEqual(
             expected_renderable_count,
             len(artifact["sceneDocuments"]),
@@ -101,9 +101,9 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
             variance_unit["paths"],
         )
 
-    def test_scene_free_variance_path_is_valid_but_not_renderable(self) -> None:
+    def test_variance_path_is_now_fully_scene_bound(self) -> None:
         dataset = RUNTIME.assemble_dataset()
-        self.assertFalse(
+        self.assertTrue(
             RUNTIME.path_is_fully_scene_bound(
                 dataset,
                 RUNTIME.CoursePathReference(VARIANCE_PATH, VARIANCE_GRAPH),
@@ -113,11 +113,11 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
     def test_partial_scene_binding_fails_closed(self) -> None:
         dataset = RUNTIME.assemble_dataset()
         graph = dataset.graph(URIRef(VARIANCE_GRAPH))
-        graph.add(
+        graph.remove(
             (
                 URIRef(f"{EX}path-step-chemometrics-variance-dispersion-variance"),
                 URIRef(f"{CD}usesScene"),
-                URIRef(f"{EX}scene-partial-test"),
+                None,
             )
         )
         with self.assertRaisesRegex(
