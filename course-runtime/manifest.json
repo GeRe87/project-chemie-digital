@@ -1,0 +1,458 @@
+{
+  "bindings": [
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction",
+      "sceneDocumentId": "ex:path-chemometrics-introduction--scene-document"
+    },
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture",
+      "sceneDocumentId": "ex:path-chemometrics-mean-values-lecture--scene-document"
+    },
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture",
+      "sceneDocumentId": "ex:path-chemometrics-random-variables-lecture--scene-document"
+    },
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture",
+      "sceneDocumentId": "ex:path-chemometrics-variance-dispersion-lecture--scene-document"
+    }
+  ],
+  "documents": [
+    {
+      "id": "ex:path-chemometrics-introduction--scene-document",
+      "pathId": "ex:path-chemometrics-introduction",
+      "runtime": "course-runtime/7a3e34729ed2f6a7.json",
+      "sceneIds": [
+        "ex:scene-chemometrics-introduction-title--scene",
+        "ex:scene-chemometrics-introduction-definition--scene",
+        "ex:scene-chemometrics-introduction-overview--scene",
+        "ex:scene-chemometrics-introduction-lecturer--scene",
+        "ex:scene-chemometrics-introduction-format--scene",
+        "ex:scene-chemometrics-introduction-roadmap--scene",
+        "ex:scene-chemometrics-introduction-round--scene"
+      ]
+    },
+    {
+      "id": "ex:path-chemometrics-random-variables-lecture--scene-document",
+      "pathId": "ex:path-chemometrics-random-variables-lecture",
+      "runtime": "course-runtime/2d2de07ca29d35fe.json",
+      "sceneIds": [
+        "ex:scene-chemometrics-variables-title--scene",
+        "ex:scene-chemometrics-variable-definition--scene",
+        "ex:scene-chemometrics-variables-purpose--scene",
+        "ex:scene-chemometrics-variables-values-observations--scene",
+        "ex:scene-chemometrics-lake-sampling-replicates--scene",
+        "ex:scene-chemometrics-why-values-differ--scene",
+        "ex:scene-chemometrics-variation-sources--scene",
+        "ex:scene-chemometrics-additive-response-model--scene",
+        "ex:scene-chemometrics-general-additive-model--scene",
+        "ex:scene-chemometrics-model-function-families--scene",
+        "ex:scene-chemometrics-variable-value-shapes--scene",
+        "ex:scene-chemometrics-variable-value-types--scene"
+      ]
+    },
+    {
+      "id": "ex:path-chemometrics-mean-values-lecture--scene-document",
+      "pathId": "ex:path-chemometrics-mean-values-lecture",
+      "runtime": "course-runtime/8851f49ff6e4bfb0.json",
+      "sceneIds": [
+        "ex:scene-chemometrics-mean-values-title--scene",
+        "ex:scene-chemometrics-mean-values-purpose--scene",
+        "ex:scene-chemometrics-mean-values-dice-flow--scene",
+        "ex:scene-chemometrics-mean-values-dice-warmup--scene",
+        "ex:scene-chemometrics-mean-values-dice-sums--scene",
+        "ex:scene-chemometrics-mean-values-expected-value--scene",
+        "ex:scene-chemometrics-mean-values-dice-expectation--scene",
+        "ex:scene-chemometrics-mean-values-real-world--scene",
+        "ex:scene-chemometrics-mean-values-arithmetic-mean--scene",
+        "ex:scene-chemometrics-mean-values-arithmetic-calculation--scene",
+        "ex:scene-chemometrics-mean-values-dice-practice--scene",
+        "ex:scene-chemometrics-mean-values-lln-practice--scene",
+        "ex:scene-chemometrics-mean-values-water--scene",
+        "ex:scene-chemometrics-mean-values-growth--scene",
+        "ex:scene-chemometrics-mean-values-growth-comparison--scene",
+        "ex:scene-chemometrics-mean-values-geometric-mean--scene",
+        "ex:scene-chemometrics-mean-values-growth-calculation--scene",
+        "ex:scene-chemometrics-mean-values-growth-r--scene",
+        "ex:scene-chemometrics-mean-values-log--scene",
+        "ex:scene-chemometrics-mean-values-microbial--scene",
+        "ex:scene-chemometrics-mean-values-ratios--scene",
+        "ex:scene-chemometrics-mean-values-speed--scene",
+        "ex:scene-chemometrics-mean-values-speed-comparison--scene",
+        "ex:scene-chemometrics-mean-values-harmonic-mean--scene",
+        "ex:scene-chemometrics-mean-values-speed-solution--scene",
+        "ex:scene-chemometrics-mean-values-speed-r--scene",
+        "ex:scene-chemometrics-mean-values-harmonic-practice--scene",
+        "ex:scene-chemometrics-mean-values-layers--scene",
+        "ex:scene-chemometrics-mean-values-turbidity--scene",
+        "ex:scene-chemometrics-mean-values-median--scene",
+        "ex:scene-chemometrics-mean-values-order--scene",
+        "ex:scene-chemometrics-mean-values-lead--scene",
+        "ex:scene-chemometrics-mean-values-median-r--scene",
+        "ex:scene-chemometrics-mean-values-summary--scene",
+        "ex:scene-chemometrics-mean-values-discussion-additive--scene"
+      ]
+    },
+    {
+      "id": "ex:path-chemometrics-variance-dispersion-lecture--scene-document",
+      "pathId": "ex:path-chemometrics-variance-dispersion-lecture",
+      "runtime": "course-runtime/977747f41c637b11.json",
+      "sceneIds": [
+        "ex:scene-chemometrics-variance-dispersion-title--scene",
+        "ex:scene-vr02--scene",
+        "ex:scene-vr03--scene",
+        "ex:scene-vr04--scene",
+        "ex:scene-vr05--scene",
+        "ex:scene-cv-zero--scene",
+        "ex:scene-vr07--scene",
+        "ex:scene-vr08--scene",
+        "ex:scene-cv-compare--scene",
+        "ex:scene-bf-e-rules--scene",
+        "ex:scene-cv-rules--scene",
+        "ex:scene-lake--scene",
+        "ex:scene-cv-question--scene",
+        "ex:scene-vb-mc--scene",
+        "ex:scene-vs-mc--scene",
+        "ex:scene-cv-algebra--scene",
+        "ex:scene-cv-expect--scene",
+        "ex:scene-cv-helper--scene",
+        "ex:scene-cv-bias--scene",
+        "ex:scene-cv-correction--scene",
+        "ex:scene-cv-practical--scene",
+        "ex:scene-vm-recap--scene",
+        "ex:scene-vr19--scene",
+        "ex:scene-vr21--scene",
+        "ex:scene-vr22--scene",
+        "ex:scene-vr23--scene",
+        "ex:scene-vr24--scene",
+        "ex:scene-vr25--scene",
+        "ex:scene-vr26--scene",
+        "ex:scene-vr27--scene",
+        "ex:scene-vb-quality--scene",
+        "ex:scene-vr29--scene",
+        "ex:scene-vr30--scene",
+        "ex:scene-vr31--scene",
+        "ex:scene-uq-components--scene",
+        "ex:scene-uq-component-sd--scene",
+        "ex:scene-uq-matrix--scene",
+        "ex:scene-vr32--scene",
+        "ex:scene-vr33--scene",
+        "ex:scene-vr34--scene",
+        "ex:scene-vr35--scene",
+        "ex:scene-vr36--scene",
+        "ex:scene-vr37--scene",
+        "ex:scene-se-return--scene",
+        "ex:scene-se-sem--scene",
+        "ex:scene-se-rate--scene",
+        "ex:scene-se-example--scene",
+        "ex:scene-vr39--scene"
+      ]
+    }
+  ],
+  "offering": {
+    "datasetFingerprint": "sha256:0f350478d2666ab9171272ab7f140d606463ff9f4c90a0264d44a0e937162794",
+    "offering": {
+      "descriptions": [],
+      "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
+      "id": "https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics",
+      "labels": [
+        {
+          "language": "en",
+          "value": "Chemometrics and Applied Statistics"
+        }
+      ]
+    },
+    "placements": [
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-introduction",
+        "position": 10,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-introduction"
+      },
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-random-variables",
+        "position": 20,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-random-variables"
+      },
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-mean-values",
+        "position": 30,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-mean-values"
+      },
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-variance-dispersion",
+        "position": 40,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-variance-dispersion"
+      }
+    ],
+    "sections": [
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Course orientation, lecturer context, learning workflow, materials and introduction activities."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-getting-started",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Getting Started"
+          }
+        ],
+        "placementIds": [
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-introduction"
+        ],
+        "position": 10
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Basic statistical measures, location and dispersion, distributions and statistical moments."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-data-characterization",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Data Characterization"
+          }
+        ],
+        "placementIds": [
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-random-variables",
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-mean-values",
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-variance-dispersion"
+        ],
+        "position": 20
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-similarity-analysis",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Similarity Analysis"
+          }
+        ],
+        "placementIds": [],
+        "position": 30
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Linear and non-linear regression, model diagnostics and machine-learning methods for prediction and classification."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-data-modeling",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Data Modeling"
+          }
+        ],
+        "placementIds": [],
+        "position": 40
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Normalization, smoothing and denoising with convolution, Savitzky-Golay methods, Fourier filtering and wavelet analysis."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-signal-processing",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Signal Processing"
+          }
+        ],
+        "placementIds": [],
+        "position": 50
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Measurement uncertainty, uncertainty propagation, errors and bias, outliers, bootstrap methods and classification-error concepts."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-uncertainties",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Uncertainties"
+          }
+        ],
+        "placementIds": [],
+        "position": 60
+      },
+      {
+        "descriptions": [
+          {
+            "language": "en",
+            "value": "Downhill-simplex optimization and design of experiments including factorial, fractional and response-surface designs."
+          }
+        ],
+        "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-experimental-design",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Experimental Design"
+          }
+        ],
+        "placementIds": [],
+        "position": 70
+      }
+    ],
+    "units": [
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-introduction",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Introduction"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Chemometrics Introduction path"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated starting island with a laboratory, a flask and a flag: an invitation to explore chemometrics."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-introduction-art",
+          "uri": "/course-world/introduction.svg"
+        }
+      },
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-mean-values",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Mean Values"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Chemometrics Mean Values lecture path"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated island with a balance and measurement markers gathering around a center, suggesting averages. Decorative, not a worked numerical example."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-mean-art",
+          "uri": "/course-world/mean-values.svg"
+        }
+      },
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-random-variables",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Variables"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Chemometrics Variables lecture path"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated observatory island with a die and coloured sample vials, suggesting chance and different kinds of variables. Decorative, not experimental data."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-variables-art",
+          "uri": "/course-world/variables.svg"
+        }
+      },
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-variance-dispersion",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Variance and Dispersion"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Chemometrics Variance and Dispersion lecture path"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated island with two groups of measurement markers at different spreads, suggesting variance and dispersion. Decorative, not experimental data."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-variance-art",
+          "uri": "/course-world/variance.svg"
+        }
+      }
+    ],
+    "version": "1.1"
+  }
+}

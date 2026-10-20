@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250">
+  <title>Two illustrative centers and their shared shift</title>
+  <desc>Population mean 10 and separate illustrative Series A mean 32/3 mg/L. Series A is not a simulated draw from the demonstration population.</desc>
+  <g font-family="sans-serif" fill="var(--pcd-foreground)">
+    <text x="500" y="32" font-size="34" text-anchor="middle">Illustrative centers (mg/L)</text>
+    <line x1="80" y1="140" x2="930" y2="140" stroke="currentColor" stroke-width="3"/>
+    <path d="M920 132L936 140L920 148" fill="none" stroke="currentColor" stroke-width="3"/>
+    <line x1="200" y1="116" x2="200" y2="156" stroke="var(--pcd-chart-series-4)" stroke-width="5"/>
+    <line x1="480" y1="130" x2="480" y2="150" stroke="currentColor" stroke-width="2"/>
+    <line x1="760" y1="116" x2="760" y2="156" stroke="var(--pcd-chart-series-3)" stroke-width="5"/>
+    <circle cx="200" cy="140" r="8" fill="var(--pcd-chart-series-4)"/>
+    <path d="M760 128L772 140L760 152L748 140Z" fill="var(--pcd-chart-series-3)"/>
+    <path d="M205 86L755 86M205 86L219 78M205 86L219 94M755 86L741 78M755 86L741 94" fill="none" stroke="var(--pcd-chart-series-3)" stroke-width="4"/>
+    <text x="480" y="73" font-size="37" text-anchor="middle">Δ = x̄ − μ</text>
+    <text x="200" y="190" font-size="39" text-anchor="middle">μ = 10</text>
+    <text x="760" y="190" font-size="39" text-anchor="middle">x̄ = 32/3</text>
+    <text x="500" y="232" font-size="27" text-anchor="middle">Series A: separate illustration, not a simulated sample.</text>
+  </g>
+</svg>

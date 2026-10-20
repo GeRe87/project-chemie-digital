@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 220">
+  <title>Sum of squares decomposition, schematic and not to scale</title>
+  <desc>The sum of squares about the population mean equals the residual sum of squares plus the shared shift contribution. The cross term vanishes because residuals sum to zero.</desc>
+  <g font-family="sans-serif" fill="var(--pcd-foreground)" text-anchor="middle">
+    <rect x="15" y="35" width="290" height="100" fill="var(--pcd-surface-strong)" stroke="var(--pcd-chart-series-4)" stroke-width="3"/>
+    <rect x="390" y="35" width="290" height="100" fill="var(--pcd-surface-strong)" stroke="var(--pcd-chart-series-1)" stroke-width="3"/>
+    <rect x="765" y="35" width="315" height="100" fill="var(--pcd-surface-strong)" stroke="var(--pcd-chart-series-3)" stroke-width="3"/>
+    <text x="160" y="73" font-size="26">About μ</text><text x="160" y="114" font-size="33">Σ(Xᵢ − μ)²</text>
+    <text x="348" y="98" font-size="43">=</text>
+    <text x="535" y="73" font-size="26">Residual squares</text><text x="535" y="114" font-size="33">Σdᵢ²</text>
+    <text x="723" y="98" font-size="43">+</text>
+    <text x="922" y="73" font-size="26">Shared shift squares</text><text x="922" y="114" font-size="33">nΔ²</text>
+    <text x="550" y="176" font-size="27">Cross term: 2ΔΣdᵢ = 0</text>
+    <text x="550" y="212" font-size="23">Algebraic components, not areas or proportional amounts.</text>
+  </g>
+</svg>
