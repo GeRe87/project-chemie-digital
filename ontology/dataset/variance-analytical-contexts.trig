@@ -1,0 +1,62 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-analytical-contexts> {
+  ex:uq-repeated-scenario a cd:Interpretation ; cd:hasKeyPoint ex:uq-rs1, ex:uq-rs2 ; cd:authoredResource true .
+  ex:uq-rs1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: a known illustrative normal population, μ = 10 mg/L and σ² = 5 (mg/L)²."@en ; cd:authoredResource true .
+  ex:uq-rs2 a cd:KeyPoint ; cd:position 2 ; cd:body "Draw independent samples of sizes 2–100. How strongly do individual MSD estimates fluctuate?"@en ; cd:authoredResource true .
+  ex:uq-many-scenario a cd:Interpretation ; cd:hasKeyPoint ex:uq-ms1, ex:uq-ms2 ; cd:authoredResource true .
+  ex:uq-ms1 a cd:KeyPoint ; cd:position 1 ; cd:body "For each selected size, simulate 5,000 independent samples and average their MSD estimates."@en ; cd:authoredResource true .
+  ex:uq-ms2 a cd:KeyPoint ; cd:position 2 ; cd:body "Compare with σ² = 5 (mg/L)². Monte Carlo averages approximate expectations; bias is not the fluctuation of one estimate."@en ; cd:authoredResource true .
+  ex:uq-conditions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:uq-repeat, ex:uq-intermediate, ex:uq-reproduce ; cd:authoredResource true .
+  ex:uq-repeat a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeatability"@en ; cd:body "Scenario: repeat a control measurement within one short run.\n**Same laboratory and method.**\nRelevant conditions remain the same over a ==short interval==.\nDescribe which operations were actually repeated."@en ; cd:authoredResource true .
+  ex:uq-intermediate a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Intermediate precision"@en ; cd:body "Scenario: compare control results collected on different days.\n**Same laboratory**, with specified changes.\nVary day, operator or instrument deliberately.\nThe design determines which sources are represented."@en ; cd:authoredResource true .
+  ex:uq-reproduce a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Reproducibility"@en ; cd:body "Scenario: a defined interlaboratory comparison.\n**Different laboratories**, under stated conditions.\nSpecify the method, materials and comparison protocol.\nNo universal quantitative ranking follows without data."@en ; cd:authoredResource true .
+  ex:uq-quality a cd:DefinitionList ; cd:hasDefinitionListEntry ex:uq-precision, ex:uq-trueness, ex:uq-bias ; cd:authoredResource true .
+  ex:uq-precision a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Precision"@en ; cd:body "Scenario: repeat the same control measurement.\n**Precision** concerns agreement among repeated results.\nState the measurement conditions and independent units.\nSmall spread does ==not establish trueness==."@en ; cd:authoredResource true .
+  ex:uq-trueness a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Trueness"@en ; cd:body "Scenario: compare an average with a suitable reference.\n**Trueness** concerns agreement of the long-run average with the reference.\nA small observed SD does not answer that question.\nFinite data only estimate the long-run behavior."@en ; cd:authoredResource true .
+  ex:uq-bias a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Bias"@en ; cd:body "Scenario: a tightly grouped series is centered above the reference.\n**Bias** is the difference between the expected result and the reference.\nAn observed mean difference estimates bias with uncertainty.\nA series can be precise and systematically shifted."@en ; cd:authoredResource true .
+  ex:uq-replicates a cd:DefinitionList ; cd:hasDefinitionListEntry ex:uq-injections, ex:uq-preparations, ex:uq-fields ; cd:authoredResource true .
+  ex:uq-injections a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Three injections from one vial"@en ; cd:body "Scenario: inject the same prepared material three times.\nRepeat **injection and detection**; vial, preparation and field sample remain shared.\nInstrumental variation can become visible.\nThese technical repeats are ==not three independent field units==; drift can also correlate them."@en ; cd:authoredResource true .
+  ex:uq-preparations a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Three independent preparations"@en ; cd:body "Scenario: prepare three separate aliquots of one sample.\nRepeat **preparation and measurement**; the field sample remains shared.\nPreparation plus downstream variation can become visible.\nIndependent preparation errors need justification; these are not three independent field samples."@en ; cd:authoredResource true .
+  ex:uq-fields a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Three independently collected field samples"@en ; cd:body "Scenario: collect, prepare and measure three field samples separately.\nRepeat **collection and downstream operations**; site or time may remain shared.\nField-sampling and analytical variation can both appear.\nIndependence depends on collection design; treating nested readings as independent is pseudoreplication."@en ; cd:authoredResource true .
+  ex:uq-shift-scenario a cd:Interpretation ; cd:hasKeyPoint ex:uq-sh1, ex:uq-sh2 ; cd:authoredResource true .
+  ex:uq-sh1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: compare two series with the reference 10 mg/L. Their observed SDs agree, but their means are 10 and 11 mg/L."@en ; cd:authoredResource true .
+  ex:uq-sh2 a cd:KeyPoint ; cd:position 2 ; cd:body "Can precision alone tell us which average agrees better with the reference?"@en ; cd:authoredResource true .
+  ex:uq-extreme-scenario a cd:Interpretation ; cd:hasKeyPoint ex:uq-ex1, ex:uq-ex2 ; cd:authoredResource true .
+  ex:uq-ex1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: measure a control sample five times, then replace one result by an unusually high value."@en ; cd:authoredResource true .
+  ex:uq-ex2 a cd:KeyPoint ; cd:position 2 ; cd:body "How do the mean and SD change? Should the unusual value automatically be discarded?"@en ; cd:authoredResource true .
+  ex:uq-sources-cue a cd:Interpretation ; cd:hasKeyPoint ex:uq-src1 ; cd:authoredResource true .
+  ex:uq-src1 a cd:KeyPoint ; cd:position 1 ; cd:body "An analytical result may be influenced by several sources of variability."@en ; cd:authoredResource true .
+
+  ex:uq-worked-table a cd:TableDefinition ; skos:prefLabel "Series A/B: sample variance only"@en ; cd:hasTableColumn ex:uq-wc1, ex:uq-wc2, ex:uq-wc3 ; cd:hasTableRow ex:uq-wr1, ex:uq-wr2, ex:uq-wr3, ex:uq-wr4, ex:uq-wr5, ex:uq-wr6 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:uq-wc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Step"@en ; cd:authoredResource true .
+  ex:uq-wc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Series A"@en ; cd:authoredResource true .
+  ex:uq-wc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Series B"@en ; cd:authoredResource true .
+  ex:uq-wr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:uq-w11, ex:uq-w12, ex:uq-w13 ; cd:authoredResource true .
+  ex:uq-wr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:uq-w21, ex:uq-w22, ex:uq-w23 ; cd:authoredResource true .
+  ex:uq-wr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:uq-w31, ex:uq-w32, ex:uq-w33 ; cd:authoredResource true .
+  ex:uq-wr4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:uq-w41, ex:uq-w42, ex:uq-w43 ; cd:authoredResource true .
+  ex:uq-wr5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:uq-w51, ex:uq-w52, ex:uq-w53 ; cd:authoredResource true .
+  ex:uq-wr6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:uq-w61, ex:uq-w62, ex:uq-w63 ; cd:authoredResource true .
+  ex:uq-w11 a cd:TableCell ; cd:position 1 ; cd:body "Observations (mg/L)"@en ; cd:authoredResource true .
+  ex:uq-w12 a cd:TableCell ; cd:position 2 ; cd:body "9, 10, 13"@en ; cd:authoredResource true .
+  ex:uq-w13 a cd:TableCell ; cd:position 3 ; cd:body "5, 10, 17"@en ; cd:authoredResource true .
+  ex:uq-w21 a cd:TableCell ; cd:position 1 ; cd:body "Sample mean (mg/L)"@en ; cd:authoredResource true .
+  ex:uq-w22 a cd:TableCell ; cd:position 2 ; cd:body "32/3"@en ; cd:authoredResource true .
+  ex:uq-w23 a cd:TableCell ; cd:position 3 ; cd:body "32/3"@en ; cd:authoredResource true .
+  ex:uq-w31 a cd:TableCell ; cd:position 1 ; cd:body "Sum of squares ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:uq-w32 a cd:TableCell ; cd:position 2 ; cd:body "26/3"@en ; cd:authoredResource true .
+  ex:uq-w33 a cd:TableCell ; cd:position 3 ; cd:body "218/3"@en ; cd:authoredResource true .
+  ex:uq-w51 a cd:TableCell ; cd:position 1 ; cd:body "Denominator n−1"@en ; cd:authoredResource true .
+  ex:uq-w52 a cd:TableCell ; cd:position 2 ; cd:body "3 − 1 = 2"@en ; cd:authoredResource true .
+  ex:uq-w53 a cd:TableCell ; cd:position 3 ; cd:body "3 − 1 = 2"@en ; cd:authoredResource true .
+  ex:uq-w61 a cd:TableCell ; cd:position 1 ; cd:body "Sample variance ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:uq-w62 a cd:TableCell ; cd:position 2 ; cd:body "(26/3)/2 = 13/3"@en ; cd:authoredResource true .
+  ex:uq-w63 a cd:TableCell ; cd:position 3 ; cd:body "(218/3)/2 = 109/3"@en ; cd:authoredResource true .
+  ex:uq-w41 a cd:TableCell ; cd:position 1 ; cd:body "Bessel correction: n−1"@en ; cd:authoredResource true .
+  ex:uq-w42 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:uq-w43 a cd:TableCell ; cd:position 3 ; cd:body "2"@en ; cd:authoredResource true .
+}

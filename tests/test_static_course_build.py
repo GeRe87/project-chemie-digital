@@ -82,6 +82,25 @@ class StaticCourseBuildTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Development runtime"):
                     STATIC.validate_files(output, "https://example/course", "/", public)
 
+    def test_lazy_chunks_and_exact_per_level_transports_are_validated(self):
+        with tempfile.TemporaryDirectory(dir=self.temp_parent) as temporary:
+            output, public = self.fixture(Path(temporary))
+            artifact=json.loads((output/'course-runtime.json').read_text())
+            artifact['teachingOfferingDocuments']=[{'units':[]}]
+            artifact['sceneDocuments'][0].update({'id':'document','sourcePathId':'path'})
+            (output/'course-runtime.json').write_text(json.dumps(artifact))
+            (output/'assets/app.js').write_text('import "./world.js"; import("./fallback.js"); "course-runtime/manifest.json";')
+            (output/'assets/world.js').write_text('"pitch-world-start";')
+            (output/'assets/fallback.js').write_text('"sha256:fixture"; "first";')
+            lazy=output/'course-runtime';lazy.mkdir()
+            (lazy/'level.json').write_text(json.dumps(artifact))
+            (lazy/'manifest.json').write_text(json.dumps({'offering':artifact['teachingOfferingDocuments'][0],'bindings':[], 'documents':[{'id':'document','pathId':'path','sceneIds':['first'],'runtime':'course-runtime/level.json'}]}))
+            with patch.object(STATIC,'validate_transport',return_value={'title':'Authored course'}),patch.object(VENDOR,'vendor_tree_digest',return_value=VENDOR.VENDOR_TREE_SHA256):
+                STATIC.validate_files(output,'https://example/course','/',public)
+                (lazy/'level.json').write_text('{}')
+                with self.assertRaisesRegex(ValueError,'Lazy level transport'):
+                    STATIC.validate_files(output,'https://example/course','/',public)
+
     def test_failed_semantics_invalidates_prior_evidence_and_preserves_output(self):
         with tempfile.TemporaryDirectory(dir=self.temp_parent) as temporary:
             output = Path(temporary)
@@ -116,7 +135,8 @@ class StaticCourseBuildTests(unittest.TestCase):
             self.assertEqual(offering, model["offeringId"])
             self.assertEqual({"ex:path-chemometrics-introduction--scene-document",
                               "ex:path-chemometrics-random-variables-lecture--scene-document",
-                              "ex:path-chemometrics-mean-values-lecture--scene-document"},
+                               "ex:path-chemometrics-mean-values-lecture--scene-document",
+                               "ex:path-chemometrics-variance-dispersion-lecture--scene-document"},
                              {path["sceneDocumentId"] for unit in model["units"] for path in unit["paths"] if path["status"] == "available"})
             with self.assertRaises(subprocess.CalledProcessError):
                 STATIC.validate_transport(file, "https://example/wrong")

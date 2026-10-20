@@ -1,4 +1,5 @@
 import type { PitchCourseRuntime } from "./graph-scene-data.ts";
+import { mountCourseWorldMap } from "./course-world-map.ts";
 import {
   createPitchCourseWorldModel,
   pitchCourseLevelBoundaries,
@@ -138,6 +139,7 @@ export function mountPitchCourseWorldNavigation(options: {
   const worldTitle = worldShell.querySelector<HTMLElement>("#pitch-course-world-title");
   const navigationStatus = worldShell.querySelector<HTMLElement>("[data-course-navigation-status]");
   const disposers: Array<() => void> = [];
+  disposers.push(mountCourseWorldMap(worldShell));
   let returnFocus: HTMLElement | undefined;
   let activeDocumentId: string | undefined;
   let pendingDocumentId: string | undefined;
@@ -261,6 +263,11 @@ export function mountPitchCourseWorldNavigation(options: {
     deck.configure({ keyboard: false });
     deck.layout();
     deck.slide(target.h, target.v, target.f);
+
+    // In scroll view, Reveal's proportional trigger offset can fall short in
+    // long decks with differently sized fragment pages. Navigate to the actual
+    // native page boundary; normal deck view has no scroll-page wrapper.
+    first.closest<HTMLElement>(".scroll-page")?.scrollIntoView({ block: "start", behavior: "instant" });
 
     // Conventional Reveal mode may update synchronously. Scroll mode may settle
     // without a usable slidechanged callback, so keep a short bounded check alive

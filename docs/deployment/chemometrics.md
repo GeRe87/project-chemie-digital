@@ -1,6 +1,61 @@
 # Chemometrics static production preparation
 
-## Status and scope
+## Reviewed course publication
+
+The owner-approved course revision is maintained on
+`agent/variance-first-two-published`. Its source and generated Pages output are
+published separately; this operation does not merge that branch into `main`.
+The existing Pages source is `gh-pages:/`, served at
+`https://chemometrics.odea-project.org/`. Keep its existing `CNAME` and
+`.nojekyll`; no Actions workflow, Pages setting or DNS change is required.
+
+Before publishing, run the complete `npm test` command in an isolated environment
+with `scripts/requirements-static-build.txt`, then create a fresh **domain-root**
+artifact using the existing build helper:
+
+```text
+python scripts/build_static_course.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --offline --base / --out-dir dist/chemometrics-reviewed-release
+python scripts/static_course_artifact.py dist/chemometrics-reviewed-release
+```
+
+The artifact verifier follows the compiled local import graph rather than
+assuming a monolithic entry bundle. For the lazy course runtime it also checks
+the manifest's offering, bindings, scene order and every level transport against
+the validated canonical artifact. It rejects altered level payloads or missing
+assets. Current availability is four units: Introduction, Variables, Mean Values,
+and Variance and Dispersion.
+
+Test-source wiring checks cover both the lightweight bootstrap and lazy
+presentation module. Minimal DOM test doubles mirror the text update caused by
+safe `innerHTML` assignment; assertions are not removed to accommodate the
+teaching-text renderer. Windows line endings are normalized in CSS source
+assertions. The clock assertion reflects its approved general availability,
+while the laser pointer retains its profile capability gate.
+
+Release preflight also updates obsolete scene-free/six-step/71-slide expectations
+to the reviewed 48-scene variance sequence and four renderable units. Lazy
+transport tests generate their own isolated offering fixture, so the root test
+command's single-document runtime generation cannot invalidate that fixture.
+The variance path explicitly includes standard error in its topic set, matching
+the learning unit. Legacy authored formula-part explanations remain intact when
+additional `hasSymbol` links are present; normalized symbol-reference legends
+still opt into the structured projection through explicit references. The
+unchanged mean-values tests cover worked substitutions, scope and units here.
+Self-study app assertions also cover the now-renderable variance unit, exact
+dot-plot observations and curve values, and KaTeX-rendered definition terms.
+Derivation sections retain the canonical spoken description as an accessible
+label in the static and enhanced reading views.
+
+For deployment, use a clean worktree at the current `origin/gh-pages`, preserve
+non-artifact files, and replace only the previous artifact's owned paths with
+the freshly verified output. Do not force-push. Preserve artifact bytes exactly
+when staging the deployment (`core.autocrlf=false` for that operation), and
+verify staged blob hashes against `validated-build.json`; line-ending conversion
+must not invalidate the publication inventory. The Pages commit message records
+the source commit. Verify the deployed manifest, level routes, thumbnails,
+mathematics, dialogs and R runtime on the public URL after the native Pages build.
+
+## Original issue #276 status and scope (historical)
 
 Issue #276 prepares a **local domain-root build**, not a published or accepted
 release. Its unchanged basis is draft #275, commit

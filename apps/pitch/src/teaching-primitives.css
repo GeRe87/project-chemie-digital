@@ -1,4 +1,5 @@
 /* Shared teaching surface policy. Color varies; geometry does not depend on scene identity. */
+/* Projection geometry follows component signatures and content quantity only. */
 .reveal {
   --pcd-surface-radius: 0;
 }
@@ -20,7 +21,8 @@
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region="heading"] { margin: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="prelude"] { grid-row: 2; }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"] {
-  grid-row: 3; display: flex; gap: 1.2rem; align-items: flex-start; min-height: 0;
+  grid-row: 3; display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: safe center; min-height: 0;
+  overflow: auto;
 }
 .reveal .formula-with-legend { flex: 1 1 0; min-width: 0; text-align: center; }
 .reveal .formula-with-legend > [data-component-kind="formula"] { margin: .6rem 0 1rem; font-size: 1.35em; text-align: center; }
@@ -31,11 +33,64 @@
 }
 .reveal .formula-with-legend > .definition-list .definition-list-term { font-size: .7em; text-transform: none; }
 .reveal .formula-with-legend > .definition-list .definition-list-description { font-size: .65em; }
+/* Formula units compare like with like. Available unit width, not resource
+   identity, determines how their authored legend entries wrap. */
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend {
+  flex: 1 1 24rem;
+  min-width: min(100%, 24rem);
+  container-type: inline-size;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .math-display {
+  max-width: 100%;
+  margin: .5rem 0 1.25rem;
+  font-size: clamp(1.1em, 3cqi, 1.6em);
+  overflow-x: auto;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: .85rem;
+  align-items: stretch;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list > .definition-list-entry {
+  max-width: none;
+  padding: .9rem 1rem;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend .definition-list-term {
+  font-size: .88em;
+  text-transform: none;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend .definition-list-description {
+  font-size: .94em;
+  line-height: 1.28;
+}
+/* Dense content keeps readable text and wraps/scrolls instead of being scaled
+   down to a slide-specific fit factor. */
+.reveal .slides section[data-composition-profile="formula-deck"][data-composition-density="compact"] .formula-with-legend .definition-list-description {
+  font-size: .9em;
+}
+@container (max-width: 36rem) {
+  .reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list {
+    grid-template-columns: 1fr;
+  }
+}
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] {
   grid-row: 4; display: flex; gap: .65rem; align-items: flex-start; min-height: 0;
 }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > * { flex: 1 1 0; min-width: 0; }
-.reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="info-surface"] { font-size: .7em; margin: 0; }
+/* A calculation and its concise takeaway share the existing formula family.
+   The signature is structural, not a scientific or scene identity. */
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"]:has(> [data-component-kind="data-surface"]):has(> .keypoint-list > li:only-child):not(:has(> :nth-child(3))) {
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(18ch, 1fr); gap: 1rem;
+  align-items: start;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > [data-component-kind="data-surface"] {
+  font-size: 1em;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > .keypoint-list {
+  list-style: none; max-width: 40ch; margin: 0; padding: .5rem;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="info-surface"] { font-size: .8em; line-height: 1.3; margin: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] [data-component-kind="visual"] { max-height: 18rem; min-height: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] .d3-flow-host {
   height: 18rem; max-height: 18rem; padding: 0; margin: 0;
@@ -138,7 +193,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .reveal .poll-prompt > p:last-child { margin-bottom: 0; }
 .reveal .poll-prompt:not(:has(strong)) { font-weight: 600; }
 .reveal .teaching-points { list-style: none; margin: .7em 0 0; padding: 0; text-align: left; }
-.reveal .teaching-points li { position: relative; padding-inline-start: 2em; margin: .5em 0; font-weight: 500; }
+.reveal .teaching-points li { position: relative; padding-inline-start: 2em; margin: .5em 0; font-weight: 400; }
 .reveal :is(.teaching-points, .keypoint-list) .teaching-point-marker::before {
   content: ""; position: absolute; inset-inline-start: .2em; top: .45em;
   width: .55em; height: .55em; background: var(--pcd-marker-neutral);
@@ -171,6 +226,19 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
   background: none; box-shadow: none;
 }
 .reveal .slides section[data-composition="evidence-stage"] [data-component-kind="list-collection"] > li::before { display: none; }
+/* Evidence lists already share one surface. Multi-line text needs no inline
+   marker ribbons; keep the semantic bullet/task markers and theme colours. */
+body[data-presentation-readability="lecture"] .reveal .slides section[data-composition="evidence-stage"]
+  [data-component-kind="list-collection"]:not([data-composition-region="footer"]:has(> li:only-child)) .pcd-list-item-text {
+  background: none;
+  box-shadow: none;
+  padding-inline: 0;
+}
+/* Single supporting key points retain the existing lecture marker convention. */
+.reveal .slides section > .keypoint-list:has(> li:only-child),
+.reveal .slides section > [data-composition-region-container="footer"] > .keypoint-list:has(> li:only-child) {
+  max-width: 40ch; list-style: none;
+}
 /* Supporting calculations in an evidence rail retain their authored legends. */
 .reveal .d3-chart-line.d3-chart-series-2 {
   stroke: var(--pcd-chart-series-2);
@@ -188,3 +256,185 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .reveal [data-composition="evidence-stage"] [data-composition-region-container="prelude"] .formula-with-legend > .definition-list {
   margin: .3rem 0 0;
 }
+
+/* One chart and bounded takeaways use the existing visual-stage family. */
+.reveal .slides section[data-composition="visual-stage"]:has(.d3-dot-plot-svg) {
+  grid-template-rows: auto minmax(0, 1fr) auto; gap: .65rem;
+  padding: 1.1rem 1.6rem !important;
+}
+.reveal .slides section[data-composition="visual-stage"]:has(.d3-dot-plot-svg) > [data-composition-region="heading"] {
+  max-width: none; font-size: 1.7em; line-height: 1.05; margin: 0;
+}
+.reveal .slides section[data-composition="visual-stage"]:has(.d3-dot-plot-svg) > [data-composition-region-container="main"] { grid-row: 2; }
+.reveal .slides section[data-composition="visual-stage"]:has(.d3-dot-plot-svg) > [data-composition-region-container="footer"] { grid-row: 3; }
+.reveal .slides section[data-composition="visual-stage"]:has(.d3-dot-plot-svg) > [data-composition-region-container="main"] [data-component-kind="visual"] {
+  width: 100%; height: 100%; padding: .5rem .8rem; margin: 0; box-sizing: border-box;
+}
+.reveal .slides section[data-composition="visual-stage"] .d3-dot-plot-figure {
+  height: 100%; display: flex; flex-direction: column; gap: .4rem;
+}
+.reveal .slides section[data-composition="visual-stage"] .d3-dot-plot-svg {
+  flex: 1 1 0; width: 100%; height: 100%; min-height: 0;
+}
+.reveal .slides section[data-composition="visual-stage"] .d3-chart-caption {
+  font: .8em/1.25 sans-serif; opacity: 1; max-width: 80ch; margin: 0 auto;
+}
+.reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="footer"] {
+  max-width: 75ch; width: 100%; margin: 0 auto;
+}
+.reveal .slides section[data-composition="visual-stage"] .keypoint-list {
+  margin: 0; list-style: none; padding: .25rem .6rem; font-size: .95em;
+}
+body[data-presentation-readability="lecture"] .reveal .slides section[data-composition="visual-stage"] .keypoint-list:has(> li:nth-child(2)) .pcd-list-item-text {
+  background: none; box-shadow: none;
+}
+
+/* Sparse definition decks grow into the available space rather than shrinking
+   to intrinsic card height. The count/role signature applies to every subject. */
+.reveal .slides section[data-composition-profile="definition-deck"]:has(.definition-list > :nth-child(2):last-child) {
+  display: grid !important; grid-template-rows: auto minmax(0,1fr) auto; gap: 1.2rem;
+  padding: 1.4rem 1.8rem !important;
+}
+.reveal .slides section[data-composition-profile="definition-deck"] .definition-list:has(> :nth-child(2):last-child) {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; align-items: center;
+}
+.reveal .slides section[data-composition-profile="definition-deck"] .definition-list:has(> :nth-child(2):last-child) > .definition-list-entry {
+  padding: 1.4rem; min-height: 16rem; justify-content: center;
+}
+.reveal .slides section[data-composition-profile="definition-deck"] .definition-list:has(> :nth-child(2):last-child) .definition-list-term { font-size: 1.15em; }
+.reveal .slides section[data-composition-profile="definition-deck"] .definition-list:has(> :nth-child(2):last-child) .definition-list-description { font-size: 1.15em; line-height: 1.4; }
+.reveal .slides section[data-composition-profile="definition-deck"] > [data-composition-region-container="footer"] { max-width: 65ch; margin-inline: auto; font-size: .95em; }
+
+/* Authored sketches accompany, rather than displace, a formula/legend unit. */
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="footer"] > .media-reference) {
+  grid-template-rows: auto auto minmax(0,1fr) auto; gap: .4rem;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] > .media-reference {
+  margin: 0 auto; width: 100%; max-width: 72rem;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .media-reference .teaching-svg { max-height: 14rem; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.media-reference) .formula-with-legend > .math-display {
+  font-size: clamp(1.05em,2.2cqi,1.25em); margin: .2rem 0 .7rem;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .media-reference figcaption { display: none; }
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list { grid-template-columns: repeat(auto-fit,minmax(min(100%,23rem),1fr)); }
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend .definition-list-term { font-size: .95em; }
+/* Comparisons share their width between multiple complete formula units. Keep
+   their established compact grid, rather than imposing single-unit sizing. */
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.formula-with-legend ~ .formula-with-legend) .formula-with-legend > .definition-list {
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,18rem),1fr));
+}
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.formula-with-legend ~ .formula-with-legend) .formula-with-legend .definition-list-description { font-size: .8em; line-height: 1.35; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.formula-with-legend ~ .formula-with-legend) .formula-with-legend .definition-list-term { font-size: .88em; }
+.reveal .slides section[data-composition-profile="formula-deck"][data-composition-density="compact"]:has(.formula-with-legend ~ .formula-with-legend) .formula-with-legend .definition-list-description { font-size: .74em; }
+body[data-presentation-theme="light"] .reveal .slides section[data-composition-profile="formula-deck"] {
+  background: color-mix(in srgb,var(--pcd-surface-strong) 97%,transparent) !important;
+}
+
+/* Bounded interpretation plus authored media: the existing info-visual grid. */
+.reveal .slides section[data-composition-profile="info-visual"]:has(.teaching-svg) .keypoint-list {
+  max-width: 32ch; font-size: 1.1em; line-height: 1.35; list-style: none;
+}
+.reveal .slides section[data-composition-profile="info-visual"]:has(.teaching-svg) .media-reference {
+  width: 100%; margin: 0; align-self: center;
+}
+.reveal .slides section[data-composition-profile="info-visual"]:has(.teaching-svg) > [data-composition-region-container="secondary"] {
+  display: flex; align-items: center; min-height: 0;
+}
+body[data-presentation-readability="lecture"] .reveal .slides section[data-composition-profile="info-visual"]:has(.teaching-svg) .pcd-list-item-text {
+  background: none; box-shadow: none;
+}
+.reveal .slides section[data-composition-profile="info-visual"] .media-reference .teaching-svg { max-height: none; }
+.reveal .slides section[data-composition-profile="info-visual"] .media-reference figcaption { display: none; }
+
+/* Few evidence statements and a compact table warrant projection-sized text. */
+.reveal .slides section[data-composition-profile="list-data"]:not(:has(.keypoint-list > li:nth-child(4))) .keypoint-list { font-size: 1.03em; line-height: 1.3; }
+.reveal .slides section[data-composition-profile="list-data"]:not(:has(.keypoint-list > li:nth-child(4))) .keypoint-list > li { font: 600 1em/1.3 sans-serif; }
+.reveal .slides section[data-composition-profile="list-data"]:not(:has(.keypoint-list > li:nth-child(4))) table tbody td { font-size: 1.08em; padding: .55rem .7rem; }
+.reveal .slides section[data-composition-profile="list-data"]:not(:has(.keypoint-list > li:nth-child(4))) > [data-composition-region-container="primary"],
+.reveal .slides section[data-composition-profile="list-data"]:not(:has(.keypoint-list > li:nth-child(4))) > [data-composition-region-container="secondary"] { align-self: center; }
+.reveal .formula-with-legend [data-component-kind="definitions"] .definition-list-entry,
+.reveal .formula-legend-unit [data-component-kind="definitions"] .definition-list-entry { font-weight: 400; }
+.reveal .formula-with-legend dt, .reveal .formula-legend-unit dt { color: var(--pcd-chart-series-3); font-weight: 750; }
+.reveal .formula-with-legend dd, .reveal .formula-legend-unit dd { color: var(--pcd-foreground); font-weight: 400; }
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,20rem),1fr)); gap: .3rem 1rem; padding: .35rem 0;
+}
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry {
+  display: flex; flex-direction: row; align-items: baseline; gap: .4rem; min-height: 0; min-width: 0;
+  border: 0; background: none; box-shadow: none; padding: .1rem 0; margin: 0; font-size: .8em;
+}
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry::before,
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry::after { content: none; display: none; }
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] .definition-list-term {
+  flex: 0 0 auto; margin: 0; padding: 0; border: 0; font-size: 1em; font-weight: 750; color: var(--pcd-chart-series-3);
+}
+.reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] .definition-list-description {
+  margin: 0; font-size: 1em; line-height: 1.25; font-weight: 400; color: var(--pcd-foreground);
+}
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="prelude"] .keypoint-list,
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="footer"] .keypoint-list {
+  font: 400 .95em/1.3 Arial, Helvetica, sans-serif; padding: .7rem .8rem; margin: 0;
+}
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="prelude"] .pcd-list-item-text,
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="footer"] .pcd-list-item-text { font: inherit; }
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="prelude"] .keypoint-list > li,
+.reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="footer"] .keypoint-list > li { font: inherit; }
+.reveal .slides section[data-composition-profile="data-visual"] [data-component-kind="data-surface"] { font-size: 1.1em; }
+.reveal .formula-with-legend .definition-list-description,
+.reveal .formula-with-legend .definition-list-description * { font-weight: 400 !important; color: var(--pcd-foreground); }
+.reveal .formula-with-legend .definition-list-term,
+.reveal .formula-with-legend .definition-list-term * { font-weight: 750 !important; color: var(--pcd-chart-series-3); }
+.reveal .definition-list-description, .reveal .definition-list-point { font-weight: 400 !important; }
+.reveal .definition-list-description strong { font-weight: 700 !important; }
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="prelude"]) { grid-template-rows: auto auto minmax(0,1fr) auto; gap: .5rem; }
+.reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="prelude"] { grid-row: 2; }
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="prelude"]) > [data-composition-region-container="main"] { grid-row: 3; }
+.reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="prelude"]) > [data-composition-region-container="footer"] { grid-row: 4; }
+.reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="prelude"] .keypoint-list { font-size: .8em; font-weight: 400; display: flex; gap: 1.2rem; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] {
+  display: grid !important; grid-template: auto auto minmax(0,1fr) auto / minmax(0,1fr) minmax(0,1fr); gap: .7rem 1.2rem; padding: 1.2rem 1.6rem !important;
+}
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="heading"] { grid-area: 1 / 1 / 2 / -1; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="prelude"] { grid-area: 2 / 1 / 3 / -1; max-width: 100ch; justify-self: center; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] { grid-area: 3 / 1; display: flex; flex-direction: column; justify-content: center; gap: .8rem; min-height: 0; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="secondary"] { grid-area: 3 / 2; display: flex; align-items: center; min-height: 0; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="footer"] { grid-area: 4 / 1 / 5 / -1; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] :is(.keypoint-list,table) { font-size: .8em; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .keypoint-list { font-weight: 400; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .media-reference { width: 100%; height: 100%; margin: 0; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .media-reference svg { width: 100%; max-height: 100%; }
+.reveal .slides section[data-composition-profile="process-matrix"] { display: grid !important; grid-template-rows: auto minmax(5rem,.5fr) minmax(0,1.5fr) auto; gap: .6rem; padding: 1rem 1.5rem !important; }
+.reveal .slides section[data-composition-profile="process-matrix"] > [data-composition-region-container="heading"] { grid-row: 1; }
+.reveal .slides section[data-composition-profile="process-matrix"] > [data-composition-region-container="prelude"] { grid-row: 2; min-height: 0; }
+.reveal .slides section[data-composition-profile="process-matrix"] > [data-composition-region-container="main"] { grid-row: 3; min-height: 0; }
+.reveal .slides section[data-composition-profile="process-matrix"] > [data-composition-region-container="footer"] { grid-row: 4; }
+.reveal .slides section[data-composition-profile="process-matrix"] :is(table,.keypoint-list) { font-size: .72em; }
+.reveal .slides section[data-composition-profile="process-matrix"] [data-component-kind="data-surface"] { table-layout:auto; }
+.reveal .slides section[data-composition-profile="process-matrix"] [data-component-kind="data-surface"] :is(th,td) {font-size:1em;line-height:1.2;padding:.4rem .55rem;}
+.reveal .slides section[data-composition-profile="process-matrix"] .diagram { height: 100%; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.mathematical-derivation):has(> [data-composition-region-container="footer"]) { grid-template-rows: auto minmax(0,1fr) auto; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(.mathematical-derivation) > [data-composition-region-container="footer"] { grid-row: 3; }
+.reveal .slides section[data-composition-profile="process-matrix"] .d3-flow-host,
+.reveal .slides section[data-composition-profile="process-matrix"] .d3-flow-runtime,
+.reveal .slides section[data-composition-profile="process-matrix"] .d3-flow-figure { height: 100%; min-height: 0; padding: 0; margin: 0 auto; }
+.reveal .slides section[data-composition-profile="process-matrix"] .d3-flow-svg { height: 100%; min-height: 0; }
+.reveal .slides section[data-composition-profile="process-matrix"] .d3-flow-caption { display: none; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .keypoint-list,
+.reveal .slides section[data-composition-profile="process-matrix"] .keypoint-list { list-style: none; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] .keypoint-list:has(li:nth-child(2)) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; width: 100%; max-width: none; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="footer"] .keypoint-list:has(li:nth-child(2)) li { max-width: none; }
+.reveal .slides section[data-composition-profile="process-matrix"] { grid-template-rows: auto minmax(0,1fr) auto auto; }
+.reveal .slides section[data-composition-profile="process-matrix"] table :is(th,td) { padding: .16em .4em; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .keypoint-list > li > .pcd-list-item-text { font-weight: 400 !important; }
+.reveal .keypoint-list { list-style: none; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] > .definition-list { margin: 0; width: 100%; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .definition-list-term { font-size: .8em; text-transform: none; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] .definition-list-description { font-size: .72em; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] > .keypoint-list { padding: .7rem 1rem; border: 2px solid var(--pcd-accent); background: var(--pcd-surface-strong); box-sizing: border-box; max-width: 100%; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] table:has(th:nth-child(2):last-child) tbody tr:nth-child(odd) td:first-child { color: var(--pcd-chart-series-1); font-weight: 700; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] table:has(th:nth-child(2):last-child) tbody tr:nth-child(even) td:first-child { color: var(--pcd-chart-series-2); font-weight: 700; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem 2rem; align-items: center; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) > .formula-with-legend { min-width: 0; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) > .formula-with-legend:last-child { grid-column: 1 / -1; width: 65%; justify-self: center; }
+.reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) .formula-with-legend > .math-display { margin: .2rem 0 .5rem; }

@@ -1,0 +1,235 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-review3> {
+  ex:vs-model a cd:Interpretation ; skos:prefLabel "Known population for variance simulations"@en ; cd:body "Independent normal observations with population mean μ = 10 mg/L, population variance σ² = 5 (mg/L)², and population SD σ = √5 mg/L. The population is deliberately known for checking estimators. The illustrative Series A/B and the QC observations are separate teaching datasets, not records of these random draws."@en ; cd:hasCodeExample ex:vs-exp1-code, ex:vs-exp2-code, ex:vs-mc-code ; cd:authoredResource true .
+  ex:vs-Delta-symbol a cd:MathSymbol ; cd:symbol "Δ" ; cd:body "Random sample mean minus fixed population mean. This common offset is shared by every observation in one sample; it is not an individual residual d_i."@en ; cd:authoredResource true .
+  ex:vs-X-symbol a cd:MathSymbol ; cd:symbol "X" ; cd:body "One random observation from the population, before a specific value is observed."@en ; cd:authoredResource true .
+  ex:vs-pop-formula cd:hasSymbol ex:vs-X-symbol .
+  ex:vs-theory-formula cd:hasSymbol ex:vr-E-symbol, ex:vr-msd-symbol, ex:n-symbol .
+  ex:vs-calc05 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc05-k ; dct:source ex:vr05 ; cd:authoredResource true .
+  ex:vs-calc05-k a cd:KeyPoint ; cd:position 1 ; cd:body "A signed deviation gives direction and distance from the sample mean."@en ; cd:authoredResource true .
+  ex:vs-calc06 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc06-k ; dct:source ex:vr06 ; cd:authoredResource true .
+  ex:vs-calc06-k a cd:KeyPoint ; cd:position 1 ; cd:body "Deviations sum to zero: a fundamental property of the arithmetic mean."@en ; cd:authoredResource true .
+  ex:vs-calc07 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc07-k ; dct:source ex:vr07 ; cd:authoredResource true .
+  ex:vs-calc07-k a cd:KeyPoint ; cd:position 1 ; cd:body "Squared deviations do not cancel and therefore preserve information about spread."@en ; cd:authoredResource true .
+  ex:vs-calc08 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc08-k ; dct:source ex:vr08 ; cd:authoredResource true .
+  ex:vs-calc08-k a cd:KeyPoint ; cd:position 1 ; cd:body "MSD describes the average squared deviation per observation."@en ; cd:authoredResource true .
+  ex:vs-dev-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-dev-l1, ex:vs-dev-l2 ; cd:authoredResource true .
+  ex:vs-dev-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observation and center"@en ; cd:body "xᵢ: individual observation i; i: observation index. x̄: arithmetic sample mean."@en ; dct:references ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol ; cd:authoredResource true .
+  ex:vs-dev-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Signed deviation"@en ; cd:body "dᵢ: observation minus its sample mean. Positive is above, negative below. Values and deviations have the same unit, here mg/L."@en ; dct:references ex:vr-d-symbol ; cd:authoredResource true .
+  ex:vs-cancel-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-cancel-l1, ex:vs-cancel-l2 ; cd:authoredResource true .
+  ex:vs-cancel-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Values and count"@en ; cd:body "xᵢ: observation i; i: index; x̄: arithmetic sample mean. n: number of observations."@en ; cd:authoredResource true .
+  ex:vs-cancel-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Summation identity"@en ; cd:body "Σ adds terms from i = 1 to n. Summing the same mean n times gives nx̄, which equals the sum of the observations. Their difference is zero."@en ; cd:authoredResource true .
+  ex:vs-ss-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-ss-l1, ex:vs-ss-l2 ; cd:authoredResource true .
+  ex:vs-ss-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Square each deviation"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean; dᵢ: their signed difference. Superscript 2 denotes squaring."@en ; cd:authoredResource true .
+  ex:vs-ss-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "SS: Sum of Squares"@en ; cd:body "n: observation count; Σ: sum from 1 to n. SS adds the squared deviations. Squaring mg/L produces the unit (mg/L)²."@en ; cd:authoredResource true .
+  ex:vs-msd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-msd-l1, ex:vs-msd-l2 ; cd:authoredResource true .
+  ex:vs-msd-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Mean squared deviation"@en ; cd:body "MSD: mean squared deviation; SS: sum of squared deviations. xᵢ: observation i; i: index; x̄: sample mean; n: count; Σ: sum from 1 to n."@en ; cd:authoredResource true .
+  ex:vs-msd-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Squared unit, not absolute distance"@en ; cd:body "The deviations are squared before averaging, so MSD has unit (mg/L)². Division by a count does not change that unit. MSD is not mean absolute distance."@en ; cd:authoredResource true .
+
+  ex:vs-transition a cd:Interpretation ; cd:body "Descriptive MSD correctly describes observed values about their observed mean. If those values are sampled, using this statistic to estimate population variance introduces a new target and a question about bias. The descriptive statistic is not inherently erroneous."@en ; cd:hasKeyPoint ex:vs-transition-k ; dct:source ex:vr09, ex:vr10 ; cd:authoredResource true .
+  ex:vs-transition-k a cd:KeyPoint ; cd:position 1 ; cd:body "μ is usually unknown; x̄ is estimated. How well does MSD estimate the unknown population variance?"@en ; cd:authoredResource true .
+  ex:vs-pop-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\mu=\\operatorname{E}[X]\\\\\\sigma^2=\\operatorname{E}[(X-\\mu)^2]\\end{gathered}" ; dct:hasPart ex:vs-pop-legend ; cd:hasSymbol ex:mu-symbol, ex:vr-E-symbol, ex:vr-sigma2-symbol ; cd:authoredResource true .
+  ex:vs-pop-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-pop-l1, ex:vs-pop-l2, ex:vs-pop-l3 ; cd:authoredResource true .
+  ex:vs-pop-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Population quantity"@en ; cd:body "X: one random observation from the population. μ: its population mean. E: expectation under that population, not an average of the observed sample alone."@en ; cd:authoredResource true .
+  ex:vs-pop-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Population variance"@en ; cd:body "σ²: expected squared distance from μ. Superscript 2 means square. Its unit is (mg/L)² when X has unit mg/L."@en ; cd:authoredResource true .
+  ex:vs-pop-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "A new estimation question"@en ; cd:body "The laboratory usually does not know μ. x̄ is the sample mean fitted from observed values. MSD about x̄ is valid descriptively; its repeated-sampling behavior determines its quality as an estimator."@en ; cd:authoredResource true .
+
+  ex:vs-exp1-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:vs-model ; cd:code "# Prepared instructor demonstration\nset.seed(1901)\n# Preserve the original seeded drawing order\nsizes <- c(100, 50, 25, 10, 5, 3, 2)\ndraws1 <- do.call(rbind, lapply(sizes, function(n) {\n  t(replicate(5, {\n    x <- rnorm(n, 10, sqrt(5)); m <- mean(x)\n    c(n = n, xbar = m, MSD = mean((x-m)^2))\n  }))\n}))\ndraws1 <- draws1[order(draws1[, 'n']), ]\nround(draws1, 3)" ; cd:authoredResource true .
+  ex:vs-exp2-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:vs-model ; cd:code "# Prepared instructor demonstration: all n from 2 to 100\nset.seed(1902)\ndraws2 <- do.call(rbind, lapply(2:100, function(n) {\n  t(replicate(5, {\n    x <- rnorm(n, 10, sqrt(5)); m <- mean(x)\n    c(n = n, xbar = m, MSD = mean((x-m)^2))\n  }))\n}))\n# All 495 estimates remain in draws2; preview seven sizes\nround(draws2[draws2[, 'n'] %in% c(2,3,5,10,25,50,100), ], 3)" ; cd:authoredResource true .
+  ex:vs-mc a cd:Interpretation ; skos:prefLabel "Many Repetitions Check Average Bias"@en ; cd:hasCodeExample ex:vs-mc-code ; dct:source ex:vs-model ; cd:authoredResource true .
+  ex:vs-mc-task a cd:Exercise ; cd:body "Prepared instructor demonstration, not a student coding task. Use 5,000 independent samples at each displayed size and compare average MSD with the known population variance 5 (mg/L)². Seed 1903. These are reproducible Monte-Carlo approximations, not exact expectations. What could cause a persistent shortfall?"@en ; cd:hasCodeExample ex:vs-mc-code ; cd:authoredResource true .
+  ex:vs-mc-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:vs-model ; cd:code "# Prepared instructor demonstration\nset.seed(1903)\nmc <- t(sapply(c(2, 3, 5, 10, 25, 50, 100), function(n) {\n  z <- replicate(5000, {\n    x <- rnorm(n, 10, sqrt(5)); m <- mean(x)\n    c(xbar = m, MSD = mean((x-m)^2))\n  })\n  c(n = n, rowMeans(z))\n}))\nround(mc, 3)" ; cd:authoredResource true .
+  ex:vs-exp1-view a cd:Interpretation ; skos:prefLabel "Five Estimates at Each Sample Size"@en ; cd:hasKeyPoint ex:vs-exp1-k ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vs-exp1-k a cd:KeyPoint ; cd:position 1 ; cd:body "Five repetitions show random variability, not reliable evidence of estimator bias."@en ; cd:authoredResource true .
+  ex:vs-d100 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o100a, ex:vs-o100b, ex:vs-o100c, ex:vs-o100d, ex:vs-o100e ; cd:authoredResource true .
+  ex:vs-d50 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o50a, ex:vs-o50b, ex:vs-o50c, ex:vs-o50d, ex:vs-o50e ; cd:authoredResource true .
+  ex:vs-d25 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o25a, ex:vs-o25b, ex:vs-o25c, ex:vs-o25d, ex:vs-o25e ; cd:authoredResource true .
+  ex:vs-d10 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o10a, ex:vs-o10b, ex:vs-o10c, ex:vs-o10d, ex:vs-o10e ; cd:authoredResource true .
+  ex:vs-d5 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o5a, ex:vs-o5b, ex:vs-o5c, ex:vs-o5d, ex:vs-o5e ; cd:authoredResource true .
+  ex:vs-d3 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o3a, ex:vs-o3b, ex:vs-o3c, ex:vs-o3d, ex:vs-o3e ; cd:authoredResource true .
+  ex:vs-d2 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp1-code ; cd:hasObservation ex:vs-o2a, ex:vs-o2b, ex:vs-o2c, ex:vs-o2d, ex:vs-o2e ; cd:authoredResource true .
+  ex:vs-o100a a cd:Observation ; cd:position 1 ; cd:numericValue 5.227814 ; cd:authoredResource true .
+  ex:vs-o100b a cd:Observation ; cd:position 2 ; cd:numericValue 5.290197 ; cd:authoredResource true .
+  ex:vs-o100c a cd:Observation ; cd:position 3 ; cd:numericValue 4.404432 ; cd:authoredResource true .
+  ex:vs-o100d a cd:Observation ; cd:position 4 ; cd:numericValue 4.633991 ; cd:authoredResource true .
+  ex:vs-o100e a cd:Observation ; cd:position 5 ; cd:numericValue 4.942847 ; cd:authoredResource true .
+  ex:vs-o50a a cd:Observation ; cd:position 1 ; cd:numericValue 6.351467 ; cd:authoredResource true .
+  ex:vs-o50b a cd:Observation ; cd:position 2 ; cd:numericValue 3.806925 ; cd:authoredResource true .
+  ex:vs-o50c a cd:Observation ; cd:position 3 ; cd:numericValue 4.434327 ; cd:authoredResource true .
+  ex:vs-o50d a cd:Observation ; cd:position 4 ; cd:numericValue 3.809613 ; cd:authoredResource true .
+  ex:vs-o50e a cd:Observation ; cd:position 5 ; cd:numericValue 5.418146 ; cd:authoredResource true .
+  ex:vs-o25a a cd:Observation ; cd:position 1 ; cd:numericValue 4.032684 ; cd:authoredResource true .
+  ex:vs-o25b a cd:Observation ; cd:position 2 ; cd:numericValue 7.150818 ; cd:authoredResource true .
+  ex:vs-o25c a cd:Observation ; cd:position 3 ; cd:numericValue 6.489618 ; cd:authoredResource true .
+  ex:vs-o25d a cd:Observation ; cd:position 4 ; cd:numericValue 5.027654 ; cd:authoredResource true .
+  ex:vs-o25e a cd:Observation ; cd:position 5 ; cd:numericValue 7.159179 ; cd:authoredResource true .
+  ex:vs-o10a a cd:Observation ; cd:position 1 ; cd:numericValue 9.129656 ; cd:authoredResource true .
+  ex:vs-o10b a cd:Observation ; cd:position 2 ; cd:numericValue 8.425514 ; cd:authoredResource true .
+  ex:vs-o10c a cd:Observation ; cd:position 3 ; cd:numericValue 2.529390 ; cd:authoredResource true .
+  ex:vs-o10d a cd:Observation ; cd:position 4 ; cd:numericValue 3.138278 ; cd:authoredResource true .
+  ex:vs-o10e a cd:Observation ; cd:position 5 ; cd:numericValue 8.641642 ; cd:authoredResource true .
+  ex:vs-o5a a cd:Observation ; cd:position 1 ; cd:numericValue 6.854357 ; cd:authoredResource true .
+  ex:vs-o5b a cd:Observation ; cd:position 2 ; cd:numericValue 9.362059 ; cd:authoredResource true .
+  ex:vs-o5c a cd:Observation ; cd:position 3 ; cd:numericValue 3.120832 ; cd:authoredResource true .
+  ex:vs-o5d a cd:Observation ; cd:position 4 ; cd:numericValue 2.432746 ; cd:authoredResource true .
+  ex:vs-o5e a cd:Observation ; cd:position 5 ; cd:numericValue 2.455926 ; cd:authoredResource true .
+  ex:vs-o3a a cd:Observation ; cd:position 1 ; cd:numericValue 3.619376 ; cd:authoredResource true .
+  ex:vs-o3b a cd:Observation ; cd:position 2 ; cd:numericValue 1.036645 ; cd:authoredResource true .
+  ex:vs-o3c a cd:Observation ; cd:position 3 ; cd:numericValue 5.976120 ; cd:authoredResource true .
+  ex:vs-o3d a cd:Observation ; cd:position 4 ; cd:numericValue 7.418001 ; cd:authoredResource true .
+  ex:vs-o3e a cd:Observation ; cd:position 5 ; cd:numericValue 3.422647 ; cd:authoredResource true .
+  ex:vs-o2a a cd:Observation ; cd:position 1 ; cd:numericValue 0.307804 ; cd:authoredResource true .
+  ex:vs-o2b a cd:Observation ; cd:position 2 ; cd:numericValue 0.992199 ; cd:authoredResource true .
+  ex:vs-o2c a cd:Observation ; cd:position 3 ; cd:numericValue 0.372344 ; cd:authoredResource true .
+  ex:vs-o2d a cd:Observation ; cd:position 4 ; cd:numericValue 4.795977 ; cd:authoredResource true .
+  ex:vs-o2e a cd:Observation ; cd:position 5 ; cd:numericValue 0.109259 ; cd:authoredResource true .
+  ex:vs-g100 a cd:ChartGroup ; cd:position 7 ; skos:prefLabel "100"@en ; cd:usesDataset ex:vs-d100 ; cd:authoredResource true .
+  ex:vs-g50 a cd:ChartGroup ; cd:position 6 ; skos:prefLabel "50"@en ; cd:usesDataset ex:vs-d50 ; cd:authoredResource true .
+  ex:vs-g25 a cd:ChartGroup ; cd:position 5 ; skos:prefLabel "25"@en ; cd:usesDataset ex:vs-d25 ; cd:authoredResource true .
+  ex:vs-g10 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "10"@en ; cd:usesDataset ex:vs-d10 ; cd:authoredResource true .
+  ex:vs-g5 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "5"@en ; cd:usesDataset ex:vs-d5 ; cd:authoredResource true .
+  ex:vs-g3 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "3"@en ; cd:usesDataset ex:vs-d3 ; cd:authoredResource true .
+  ex:vs-g2 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "2"@en ; cd:usesDataset ex:vs-d2 ; cd:authoredResource true .
+  ex:vs-reference a cd:StatisticalResult, cd:ExpectedResult ; cd:numericValue 5.0 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:population-variance ; cd:usesDataset ex:vs-d100, ex:vs-d50, ex:vs-d25, ex:vs-d10, ex:vs-d5, ex:vs-d3, ex:vs-d2 ; dct:source ex:vs-model ; cd:authoredResource true .
+  ex:vs-reference-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "True population variance"@en ; cd:referenceResult ex:vs-reference ; cd:authoredResource true .
+  ex:vs-exp1-chart a cd:ChartDefinition ; skos:prefLabel "Five individual MSD estimates per size"@en ; cd:body "Five independent samples per size; seed 1901. Diamonds show the average of five MSDs. Sample sizes are displayed as equally spaced categories."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Sample size n (categories)"@en ; cd:yAxisLabel "MSD"@en ; cd:yAxisUnit "(mg/L)²" ; cd:hasChartGroup ex:vs-g100, ex:vs-g50, ex:vs-g25, ex:vs-g10, ex:vs-g5, ex:vs-g3, ex:vs-g2 ; cd:hasChartAnnotation ex:vs-reference-line ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vs-means-table a cd:TableDefinition ; skos:prefLabel "Mean of five MSD estimates ((mg/L)²)"@en ; cd:hasTableColumn ex:vs-mc1, ex:vs-mc2 ; cd:hasTableRow ex:vs-mr100, ex:vs-mr50, ex:vs-mr25, ex:vs-mr10, ex:vs-mr5, ex:vs-mr3, ex:vs-mr2 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vs-mc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "n"@en ; cd:authoredResource true .
+  ex:vs-mc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean MSD of five"@en ; cd:authoredResource true .
+  ex:vs-mr100 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:vs-m100n, ex:vs-m100v ; cd:authoredResource true .
+  ex:vs-mr50 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:vs-m50n, ex:vs-m50v ; cd:authoredResource true .
+  ex:vs-mr25 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vs-m25n, ex:vs-m25v ; cd:authoredResource true .
+  ex:vs-mr10 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vs-m10n, ex:vs-m10v ; cd:authoredResource true .
+  ex:vs-mr5 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vs-m5n, ex:vs-m5v ; cd:authoredResource true .
+  ex:vs-mr3 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vs-m3n, ex:vs-m3v ; cd:authoredResource true .
+  ex:vs-mr2 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vs-m2n, ex:vs-m2v ; cd:authoredResource true .
+  ex:vs-m100n a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vs-m100v a cd:TableCell ; cd:position 2 ; cd:body "4.900"@en ; dct:references ex:vm-mean100 ; cd:authoredResource true .
+  ex:vs-m50n a cd:TableCell ; cd:position 1 ; cd:body "50"@en ; cd:authoredResource true .
+  ex:vs-m50v a cd:TableCell ; cd:position 2 ; cd:body "4.764"@en ; dct:references ex:vm-mean50 ; cd:authoredResource true .
+  ex:vs-m25n a cd:TableCell ; cd:position 1 ; cd:body "25"@en ; cd:authoredResource true .
+  ex:vs-m25v a cd:TableCell ; cd:position 2 ; cd:body "5.972"@en ; dct:references ex:vm-mean25 ; cd:authoredResource true .
+  ex:vs-m10n a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vs-m10v a cd:TableCell ; cd:position 2 ; cd:body "6.373"@en ; dct:references ex:vm-mean10 ; cd:authoredResource true .
+  ex:vs-m5n a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vs-m5v a cd:TableCell ; cd:position 2 ; cd:body "4.845"@en ; dct:references ex:vm-mean5 ; cd:authoredResource true .
+  ex:vs-m3n a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vs-m3v a cd:TableCell ; cd:position 2 ; cd:body "4.295"@en ; dct:references ex:vm-mean3 ; cd:authoredResource true .
+  ex:vs-m2n a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vs-m2v a cd:TableCell ; cd:position 2 ; cd:body "1.316"@en ; dct:references ex:vm-mean2 ; cd:authoredResource true .
+
+  ex:vs-theory a cd:Interpretation ; skos:prefLabel "The Expected MSD Across Sample Sizes"@en ; cd:hasKeyPoint ex:vs-theory-k ; dct:source ex:vs-model ; cd:authoredResource true .
+  ex:vs-theory-k a cd:KeyPoint ; cd:position 1 ; cd:body "Bias concerns an estimator's expectation. Five fluctuating estimates do not establish it."@en ; cd:authoredResource true .
+  ex:vs-theory-formula a cd:MathExpression ; cd:latex "\\operatorname{E}[\\mathrm{MSD}_n]=5\\,\\frac{n-1}{n}" ; dct:hasPart ex:vs-theory-legend ; cd:authoredResource true .
+  ex:vs-theory-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-theory-l1, ex:vs-theory-l2 ; cd:authoredResource true .
+  ex:vs-theory-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Expectation and sample size"@en ; cd:body "E: repeated-sampling expectation. MSDₙ: descriptive mean squared deviation in a sample of n independent observations, centered on its sample mean. n ranges from 2 to 100."@en ; cd:authoredResource true .
+  ex:vs-theory-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Known population variance"@en ; cd:body "5 is the population variance in (mg/L)². Independent normal draws imply this theoretical expectation. It is not a curve fitted to the five-repeat results."@en ; cd:authoredResource true .
+  ex:vs-theory-table a cd:TableDefinition ; skos:prefLabel "Theoretical expected MSD ((mg/L)²), rounded"@en ; cd:hasTableColumn ex:vs-tc1, ex:vs-tc2 ; cd:hasTableRow ex:vs-tr2, ex:vs-tr3, ex:vs-tr5, ex:vs-tr10, ex:vs-tr25, ex:vs-tr50, ex:vs-tr100 ; dct:source ex:vs-model, ex:vs-theory-formula ; cd:authoredResource true .
+  ex:vs-tc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "n"@en ; cd:authoredResource true .
+  ex:vs-tc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Expected MSD"@en ; cd:authoredResource true .
+  ex:vs-tr2 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vs-t2n, ex:vs-t2v ; cd:authoredResource true .
+  ex:vs-tr3 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vs-t3n, ex:vs-t3v ; cd:authoredResource true .
+  ex:vs-tr5 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vs-t5n, ex:vs-t5v ; cd:authoredResource true .
+  ex:vs-tr10 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vs-t10n, ex:vs-t10v ; cd:authoredResource true .
+  ex:vs-tr25 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vs-t25n, ex:vs-t25v ; cd:authoredResource true .
+  ex:vs-tr50 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:vs-t50n, ex:vs-t50v ; cd:authoredResource true .
+  ex:vs-tr100 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:vs-t100n, ex:vs-t100v ; cd:authoredResource true .
+  ex:vs-t2n a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vs-t2v a cd:TableCell ; cd:position 2 ; cd:body "2.500"@en ; cd:authoredResource true .
+  ex:vs-t3n a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vs-t3v a cd:TableCell ; cd:position 2 ; cd:body "3.333"@en ; cd:authoredResource true .
+  ex:vs-t5n a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vs-t5v a cd:TableCell ; cd:position 2 ; cd:body "4.000"@en ; cd:authoredResource true .
+  ex:vs-t10n a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vs-t10v a cd:TableCell ; cd:position 2 ; cd:body "4.500"@en ; cd:authoredResource true .
+  ex:vs-t25n a cd:TableCell ; cd:position 1 ; cd:body "25"@en ; cd:authoredResource true .
+  ex:vs-t25v a cd:TableCell ; cd:position 2 ; cd:body "4.800"@en ; cd:authoredResource true .
+  ex:vs-t50n a cd:TableCell ; cd:position 1 ; cd:body "50"@en ; cd:authoredResource true .
+  ex:vs-t50v a cd:TableCell ; cd:position 2 ; cd:body "4.900"@en ; cd:authoredResource true .
+  ex:vs-t100n a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vs-t100v a cd:TableCell ; cd:position 2 ; cd:body "4.950"@en ; cd:authoredResource true .
+  ex:vs-theory-preview a cd:TableDefinition ; skos:prefLabel "Selected expected MSD values ((mg/L)²)"@en ; cd:hasTableColumn ex:vs-pc1, ex:vs-pc2 ; cd:hasTableRow ex:vs-pr1, ex:vs-pr2, ex:vs-pr3 ; dct:source ex:vs-theory-table ; cd:authoredResource true .
+  ex:vs-pc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "n"@en ; cd:authoredResource true .
+  ex:vs-pc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Expected MSD"@en ; cd:authoredResource true .
+  ex:vs-pr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vs-p11, ex:vs-p12 ; cd:authoredResource true .
+  ex:vs-pr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vs-p21, ex:vs-p22 ; cd:authoredResource true .
+  ex:vs-pr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vs-p31, ex:vs-p32 ; cd:authoredResource true .
+  ex:vs-p11 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vs-p12 a cd:TableCell ; cd:position 2 ; cd:body "2.500"@en ; cd:authoredResource true .
+  ex:vs-p21 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vs-p22 a cd:TableCell ; cd:position 2 ; cd:body "4.500"@en ; cd:authoredResource true .
+  ex:vs-p31 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vs-p32 a cd:TableCell ; cd:position 2 ; cd:body "4.950"@en ; cd:authoredResource true .
+
+  ex:vs-center-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-center-l1, ex:vs-center-l2, ex:vs-center-l3 ; cd:authoredResource true .
+  ex:vs-center-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Random observations and mean"@en ; cd:body "Xᵢ: random observation i; i: observation index. X̄: sample mean. μ: fixed population mean, usually unknown in the laboratory."@en ; cd:authoredResource true .
+  ex:vs-center-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Δ is shared; dᵢ is individual"@en ; cd:body "Δ = X̄ − μ: common center shift for the whole sample. dᵢ = Xᵢ − X̄: residual of observation i. Both have measurement units, but they are different quantities."@en ; cd:authoredResource true .
+  ex:vs-center-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Before and after observing"@en ; cd:body "Capital X denotes random quantities across samples. Realized observations and their mean use lowercase xᵢ and x̄. The same decomposition holds for observed values."@en ; cd:authoredResource true .
+  ex:vs-expand-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-expand-l1, ex:vs-expand-l2 ; cd:authoredResource true .
+  ex:vs-expand-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols"@en ; cd:body "Xᵢ: observation i; i: index; μ: population mean. dᵢ: residual about the sample mean. Δ: sample mean minus μ, shared within the sample."@en ; cd:authoredResource true .
+  ex:vs-expand-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Three terms"@en ; cd:body "Superscript 2 means square. Multiplying dᵢ + Δ by itself gives a residual square, two equal cross-products and the offset square. Every term has squared measurement units."@en ; cd:authoredResource true .
+  ex:vs-sum-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-sum-l1, ex:vs-sum-l2, ex:vs-sum-l3 ; cd:authoredResource true .
+  ex:vs-sum-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observations and residuals"@en ; cd:body "Xᵢ: observation i; μ: population mean; dᵢ: Xᵢ minus the sample mean. Δ: sample mean minus μ."@en ; cd:authoredResource true .
+  ex:vs-sum-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Sum every term"@en ; cd:body "n: observation count; i: index. Every Σ adds from i = 1 to n. Superscript 2 means square. The coefficient 2 comes from the two cross-products."@en ; cd:authoredResource true .
+  ex:vs-sum-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "One common offset"@en ; cd:body "Δ is identical for all observations within one sample, so it can be taken outside the cross-term sum. Do not omit the sum of offset squares."@en ; cd:authoredResource true .
+  ex:vs-simplify a cd:Interpretation ; skos:prefLabel "Simplifying the Summation"@en ; dct:source ex:vr-sum-formula ; cd:authoredResource true .
+  ex:vs-simplify-formula a cd:MathExpression ; cd:latex "\\begin{gathered}{\\textstyle\\sum_{i=1}^{n}}d_i=0,\\qquad2\\Delta{\\textstyle\\sum_{i=1}^{n}}d_i=0\\\\{\\textstyle\\sum_{i=1}^{n}}\\Delta^2=n\\Delta^2\\\\{\\textstyle\\sum_{i=1}^{n}}(X_i-\\mu)^2={\\textstyle\\sum_{i=1}^{n}}d_i^2+n\\Delta^2\\end{gathered}" ; dct:hasPart ex:vv-simplify-legend ; cd:hasSymbol ex:vs-Delta-symbol, ex:vr-X-symbol, ex:mu-symbol, ex:vr-d-symbol, ex:n-symbol, ex:vr-index-symbol, ex:v-sum-symbol ; cd:authoredResource true .
+  ex:vs-simplify-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-simplify-l1, ex:vs-simplify-l2, ex:vs-simplify-l3 ; cd:authoredResource true .
+  ex:vs-simplify-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Residual sum"@en ; cd:body "dᵢ: observation Xᵢ minus its fitted sample mean; i: index. Residuals sum to zero, so the cross term is zero too."@en ; cd:authoredResource true .
+  ex:vs-simplify-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Same shift n times"@en ; cd:body "Δ: sample mean minus population mean μ. n: observation count. Σ sums from 1 to n; superscript 2 squares. Summing the same Δ² n times gives nΔ²."@en ; cd:authoredResource true .
+  ex:vs-simplify-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Fitting the center reduces the sum"@en ; cd:body "The offset-square term is nonnegative. The sum of squares about the fitted mean is therefore no larger than about μ. Expectations will quantify the average reduction."@en ; cd:authoredResource true .
+  ex:vs-expect-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-expect-l1, ex:vs-expect-l2, ex:vs-expect-l3 ; cd:authoredResource true .
+  ex:vs-expect-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Random quantities"@en ; cd:body "Xᵢ: observation i; i: index; n: count greater than 1. dᵢ: residual about the sample mean. Δ: sample mean minus population mean μ."@en ; cd:authoredResource true .
+  ex:vs-expect-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Expectation and variance"@en ; cd:body "E: repeated-sampling expectation. σ²: population variance. Σ sums from i = 1 to n. Superscript 2 means square. MSDₙ: sum of squared residuals divided by n. Here σ² = 5 (mg/L)²."@en ; cd:authoredResource true .
+  ex:vs-expect-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Use the preceding result"@en ; cd:body "Independent identical sampling with finite variance gives E[nΔ²] = σ². Subtract this from nσ² to get the expected residual sum of squares; divide by n for expected MSD. Normality is not required."@en ; cd:authoredResource true .
+  ex:vs-variance-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-variance-l1, ex:vs-variance-l2, ex:vs-variance-l3 ; cd:authoredResource true .
+  ex:vs-variance-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Sample residuals"@en ; cd:body "dᵢ: observation i minus the fitted sample mean; i: index; n: count greater than 1. Σ adds squared residuals from i = 1 to n."@en ; cd:authoredResource true .
+  ex:vs-variance-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Remove average variance bias"@en ; cd:body "s²: sample variance; σ²: population variance; E: expectation. Under independent identical sampling with finite variance, the numerator averages (n−1)σ². Division by n−1 therefore targets σ²."@en ; cd:authoredResource true .
+  ex:vs-variance-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Two separate ideas"@en ; cd:body "This expectation argument explains unbiased variance estimation. Residual degrees of freedom describe constraints and will be discussed next. Neither argument makes the square-root estimator s automatically unbiased."@en ; cd:authoredResource true .
+
+  ex:vs-precision-cue a cd:Interpretation ; cd:hasKeyPoint ex:vs-precision-k ; cd:authoredResource true .
+  ex:vs-precision-k a cd:KeyPoint ; cd:position 1 ; cd:body "Precision describes agreement under stated measurement conditions."@en ; cd:authoredResource true .
+  ex:vs-conditions-cue a cd:Interpretation ; cd:hasKeyPoint ex:vs-conditions-k ; cd:authoredResource true .
+  ex:vs-conditions-k a cd:KeyPoint ; cd:position 1 ; cd:body "Choose and report the measurement conditions before interpreting an SD."@en ; cd:authoredResource true .
+  ex:vs-quality-cue a cd:Interpretation ; cd:hasKeyPoint ex:vs-quality-k ; cd:authoredResource true .
+  ex:vs-quality-k a cd:KeyPoint ; cd:position 1 ; cd:body "A small SD alone does not establish closeness to the reference or method suitability."@en ; cd:authoredResource true .
+  ex:vs-replicates-cue a cd:Interpretation ; cd:hasKeyPoint ex:vs-replicates-k ; cd:authoredResource true .
+  ex:vs-replicates-k a cd:KeyPoint ; cd:position 1 ; cd:body "Measurement repetitions are not automatically independent experimental units."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-review3> {
+  ex:vs05k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-calc05 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs06k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-calc06 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs07k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-calc07 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs08k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-calc08 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs09f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-pop-mean ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs09k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-transition ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs14f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-theory-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs14t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-theory-preview ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs14k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-theory ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vs-exp1 a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vs-exp1-h, ex:vs-exp1-c, ex:vs-exp1-ki ; cd:authoredResource true .
+  ex:vs-exp1-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vs-exp1-view ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-exp1-t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-means-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-exp1-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-exp1-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-exp1-ki a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-exp1-view ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vs-mc a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vs-mc-h, ex:vv-mc-c, ex:vv-mc-k ; cd:authoredResource true .
+  ex:vs-mc-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vs-mc ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-mc-p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-mc-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-mc-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-mc-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vs-simplify a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:vs-simplify-h, ex:vs-simplify-f ; cd:authoredResource true .
+  ex:vs-simplify-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vs-simplify ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-simplify-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-3 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs26k a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vs-precision-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs27k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-conditions-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs30k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-replicates-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vs-step-exp1 a cd:PathStep ; cd:position 14 ; cd:usesResource ex:vs-exp1-view, ex:vs-means-table, ex:vs-exp1-chart ; cd:usesScene ex:scene-vs-exp1 ; cd:authoredResource true .
+  ex:vs-step-mc a cd:PathStep ; cd:position 14 ; cd:usesResource ex:vs-mc, ex:vs-mc-task, ex:vs-mc-code ; cd:usesScene ex:scene-vs-mc ; cd:authoredResource true .
+  ex:vs-step-simplify a cd:PathStep ; cd:position 20 ; cd:usesResource ex:vs-simplify, ex:vs-simplify-formula ; cd:usesScene ex:scene-vs-simplify ; cd:authoredResource true .
+}

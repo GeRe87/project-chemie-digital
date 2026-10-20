@@ -304,7 +304,7 @@ SELECT $this WHERE {
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
-    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart ) ] ;
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart cd:DotPlot ) ] ;
     sh:property [ sh:path cd:xAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:yAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:liveUpdateIntervalMs ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 250 ] ;
@@ -348,7 +348,14 @@ SELECT $this WHERE {
     ] ;
     sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:yAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
-    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+    sh:or (
+      [ sh:property [ sh:path cd:chartType ; sh:in ( cd:BarChart cd:LineChart ) ] ;
+        sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+        sh:property [ sh:path cd:hasChartGroup ; sh:maxCount 0 ] ]
+      [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:DotPlot ] ;
+        sh:property [ sh:path cd:usesDataset ; sh:maxCount 0 ] ;
+        sh:property [ sh:path cd:hasChartGroup ; sh:minCount 1 ; sh:class cd:ChartGroup ; sh:nodeKind sh:IRI ] ]
+    ) ;
     sh:sparql [
       sh:message "Bar-chart observations require an authored category label." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
@@ -732,8 +739,8 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
     sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:or ( [ sh:class cd:Concept ] [ sh:class cd:LearningResource ] [ sh:class cd:Source ] ) ] ;
     sh:property [ sh:path ( cd:selectsResource cd:authoredResource ) ; sh:hasValue true ; sh:message "A selected resource must carry explicit authored-resource evidence." ] ;
-    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:TableRole cd:AttributionRole cd:DiagramRole cd:ChartRole cd:MediaRole ) ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" "cd:hasTableRow" "cd:uri" ) ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:HeadingRole cd:QuotationRole cd:CitationRole cd:CodeRole cd:PollRole cd:StatementRole cd:ExampleRole cd:ExerciseRole cd:FormulaRole cd:KeyPointRole cd:DefinitionListRole cd:TableRole cd:AttributionRole cd:DiagramRole cd:ChartRole cd:MediaRole cd:DerivationRole ) ] ;
+    sh:property [ sh:path cd:selectionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ( "skos:prefLabel@de" "skos:prefLabel@en" "cd:hasDefinition" "cd:hasDefinition/cd:hasSource" "cd:hasCodeExample" "cd:hasAudiencePoll" "cd:body" "cd:latex" "cd:hasKeyPoint" "cd:hasDefinitionListEntry" "cd:hasTableRow" "cd:uri" "cd:partOfDerivation" ) ] ;
     sh:sparql [
       sh:message "KeyPointRole requires exactly the cd:hasKeyPoint selector." ;
       sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>

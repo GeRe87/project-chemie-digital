@@ -1,0 +1,58 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/mathematical-presentation-labels> {
+  cd:LearningDomain cdm:definesAttribute cd:mathNotation, cd:formulaLabel .
+  cd:mathNotation a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:MathSymbol ; rdfs:range xsd:string ; rdfs:comment "Authored LaTeX notation of a reusable mathematical symbol, independent of its prose definition."@en .
+  cd:formulaLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:MathExpression ; rdfs:comment "Optional localized scientific label kept with the expression in every composition."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/mathematical-presentation-labels> {
+  cd:MathNotationShape a sh:NodeShape ; sh:targetSubjectsOf cd:mathNotation ; sh:class cd:MathSymbol ; sh:property [ sh:path cd:mathNotation ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] .
+  cd:FormulaLabelShape a sh:NodeShape ; sh:targetSubjectsOf cd:formulaLabel ; sh:class cd:MathExpression ; sh:property [ sh:path cd:formulaLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/mathematics/mathematical-presentation-labels> {
+  ex:mean-die-symbol cd:mathNotation "D" .
+  ex:mean-indexed-die-symbol cd:mathNotation "D_j" .
+  ex:mean-dice-sum-symbol cd:mathNotation "S" .
+  ex:mean-die-index-symbol cd:mathNotation "j" .
+  ex:mean-microbial-A-symbol cd:mathNotation "A" .
+  ex:mean-microbial-G-symbol cd:mathNotation "G" .
+  ex:mean-harmonic-speed-symbol cd:mathNotation "v_H" .
+  ex:mean-journey-distance-symbol cd:mathNotation "d" .
+  ex:mean-journey-time-symbol cd:mathNotation "t" .
+  ex:n-symbol cd:mathNotation "n" .
+  ex:xi-symbol cd:mathNotation "x_i" .
+  ex:xbar-symbol cd:mathNotation "\\bar{x}" .
+  ex:vr-index-symbol cd:mathNotation "i" .
+  ex:v-sum-symbol cd:mathNotation "\\sum" .
+  ex:vr-d-symbol cd:mathNotation "d_i" .
+  ex:vr-X-symbol cd:mathNotation "X_i" .
+  ex:vr-Xbar-symbol cd:mathNotation "\\bar X" .
+  ex:vs-X-symbol cd:mathNotation "X" .
+  ex:mu-symbol cd:mathNotation "\\mu" .
+  ex:vr-sigma2-symbol cd:mathNotation "\\sigma^2" .
+  ex:vs-Delta-symbol cd:mathNotation "\\Delta" .
+  ex:vr-E-symbol cd:mathNotation "\\operatorname{E}" .
+  ex:vm-var-symbol cd:mathNotation "\\operatorname{Var}" .
+  ex:vr-s2-symbol cd:mathNotation "s^2" .
+  ex:df-symbol cd:mathNotation "\\mathrm{df}" .
+  ex:vr-f-symbol cd:mathNotation "f_1, f_2, f_3" .
+  ex:s-symbol cd:mathNotation "s" .
+  ex:vr-root-symbol cd:mathNotation "\\sqrt{\\phantom{x}}" .
+  ex:vr-rsd-symbol cd:mathNotation "\\mathrm{RSD}" .
+  ex:vr-absolute-symbol cd:mathNotation "|\\cdot|" .
+  ex:vr-ss-symbol cd:mathNotation "\\mathrm{SS}" .
+  ex:vr-msd-symbol cd:mathNotation "\\mathrm{MSD}" .
+  ex:vr-dev-formula cd:formulaLabel "Deviation from the sample mean"@en .
+  ex:md-center-definitions cd:formulaLabel "Residual and common shift"@en .
+  ex:md-centers cd:formulaLabel "Deviation from the population mean"@en .
+  ex:md-decomposition cd:formulaLabel "One sample: two squared-distance contributions"@en .
+  ex:md-shift-variance cd:formulaLabel "Expected squared shift of the fitted mean"@en .
+  ex:md-residual-expectation cd:formulaLabel "Expected residual sum of squares"@en .
+  ex:vr-variance-formula cd:formulaLabel "Unbiased sample variance"@en .
+}

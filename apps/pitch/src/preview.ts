@@ -1,7 +1,8 @@
 import katex from "katex";
-import { teachingTextMarkup } from "./teaching-text.ts";
+import { teachingTextMarkup, teachingInlineMarkup } from "./teaching-text.ts";
+import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
-import { validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
+import { dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
@@ -62,6 +63,7 @@ function blockPresentationAttributes(
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if (block.chartType === "dot") return dotPlotStaticFallback(block);
   if (block.chartType === "bar") {
     const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
     return [
@@ -117,9 +119,26 @@ function appendBlock(
 ): MinimalElement | void {
   if (block.kind === "math") {
     const node = dom.createElement("div");
+    if (block.derivation) {
+      node.className = "mathematical-derivation";
+      blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
+      node.setAttribute("data-derivation-block-id", block.id);
+      node.setAttribute("role", "group");
+      node.setAttribute("aria-label", block.derivation.label);
+      node.setAttribute("data-derivation-id", block.derivation.derivationId);
+      node.setAttribute("data-presentation-step-count", String(block.derivation.steps.length * 2));
+      node.setAttribute("data-presentation-step-resource-id", block.derivation.id);
+      node.innerHTML = renderMathematicalDerivation(block.derivation, expression => katex.renderToString(expression, {
+        displayMode: true, output: "htmlAndMathml", strict: "warn", throwOnError: false, trust: false,
+      }));
+      node.innerHTML += renderDerivationDetailButtons(block.derivationDetails);
+      sourceAttributes(node, block.source);
+      parent.appendChild(node);
+      return node;
+    }
     node.className = "math-display";
     blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
-    node.setAttribute("role", "math");
+    node.setAttribute("role", block.derivationDetails?.length ? "group" : "math");
     node.setAttribute("aria-label", block.spokenText);
     node.innerHTML = katex.renderToString(block.expression, {
       displayMode: true,
@@ -128,6 +147,8 @@ function appendBlock(
       throwOnError: false,
       trust: false,
     });
+    if (block.label) node.innerHTML = `<div class="math-expression-label">${teachingTextMarkup(block.label)}</div>` + node.innerHTML;
+    node.innerHTML += renderDerivationDetailButtons(block.derivationDetails);
     sourceAttributes(node, block.source);
     parent.appendChild(node);
     return;
@@ -186,6 +207,7 @@ function appendBlock(
   }
   if (block.kind === "definition-list") {
     const list = definitionCollection ?? dom.createElement("dl");
+    if (block.entries.every(entry => entry.symbol)) list.setAttribute("data-symbol-legend", "true");
     if (!definitionCollection) {
       list.className = "definition-list";
       blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
@@ -215,7 +237,8 @@ function appendBlock(
 
       const term = dom.createElement("dt");
       term.className = "definition-list-term";
-      term.textContent = entry.term;
+      if (entry.symbol) term.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
+      else term.textContent = entry.term;
       term.setAttribute("data-definition-entry-id", entry.id);
       sourceAttributes(term, entry.source);
       entryShell.appendChild(term);
@@ -258,12 +281,12 @@ function appendBlock(
             point.className = "definition-list-point";
             point.setAttribute("data-definition-point-index", String(pointIndex));
             if (isIndentedPoint) point.setAttribute("data-definition-point-level", "1");
-            point.textContent = isIndentedPoint ? pointText.slice(3) : pointText;
+            point.innerHTML = teachingInlineMarkup(isIndentedPoint ? pointText.slice(3) : pointText);
             points.appendChild(point);
           }
           description.appendChild(points);
         } else {
-          description.textContent = entry.description;
+          description.innerHTML = teachingInlineMarkup(entry.description);
         }
 
         entryShell.appendChild(description);
@@ -345,7 +368,8 @@ function appendBlock(
       const listItem = dom.createElement("li");
       const itemText = dom.createElement("span");
       itemText.className = "pcd-list-item-text";
-      itemText.textContent = item.text;
+      if (/\*\*|==/u.test(item.text)) itemText.innerHTML = teachingInlineMarkup(item.text);
+      else itemText.textContent = item.text;
       listItem.appendChild(itemText);
       if (block.listStyle === "unordered") {
         const marker = dom.createElement("span");
@@ -629,7 +653,8 @@ export function isAllowedLocalRuntimeRequest(input: unknown, baseHref: string): 
     if (!raw) return false;
     const base = new URL(baseHref);
     const resolved = new URL(raw, base);
-    return resolved.origin === base.origin && resolved.pathname.startsWith("/vendor/");
+    const vendorPrefix = new URL("vendor/", base).pathname;
+    return resolved.origin === base.origin && resolved.pathname.startsWith(vendorPrefix);
   } catch {
     return false;
   }

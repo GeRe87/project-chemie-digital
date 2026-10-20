@@ -15,6 +15,8 @@ import {
   registerBackgroundAssetFailure,
   shouldShowBackgroundWorld,
   tiledLayerTranslation,
+  interpolateBackgroundProgress,
+  BACKGROUND_TRANSITION_DURATION_MS,
 } from "../src/background/background-runtime.ts";
 
 const pack: BackgroundPack = {
@@ -36,6 +38,26 @@ test("tiled layer translation wraps negative parallax offsets without a visible 
   assert.equal(tiledLayerTranslation(-200, 1000), -200);
   assert.equal(tiledLayerTranslation(-1200, 1000), -200);
   assert.equal(tiledLayerTranslation(250, 1000), -750);
+});
+
+test("background progress interpolates forward, backward and from an interrupted position",()=>{
+  assert.equal(interpolateBackgroundProgress(10,110,0),10);
+  assert.equal(interpolateBackgroundProgress(10,110,1),110);
+  const halfway=interpolateBackgroundProgress(10,110,.5);
+  assert.ok(halfway>10&&halfway<110);
+  const reversed=interpolateBackgroundProgress(halfway,-50,.25);
+  assert.ok(reversed<halfway&&reversed>-50);
+  assert.equal(interpolateBackgroundProgress(halfway,-50,2),-50);
+  assert.equal(interpolateBackgroundProgress(10,110,-1),10);
+});
+
+test("background easing starts and stops gently over a longer interval",()=>{
+  assert.equal(BACKGROUND_TRANSITION_DURATION_MS,900);
+  assert.ok(interpolateBackgroundProgress(0,1,.01)<.0001);
+  assert.ok(1-interpolateBackgroundProgress(0,1,.99)<.0001);
+  assert.equal(interpolateBackgroundProgress(0,1,.5),.5);
+  const samples=Array.from({length:101},(_,i)=>interpolateBackgroundProgress(0,1,i/100));
+  assert.ok(samples.every((v,i)=>!i||v>=samples[i-1]!));
 });
 
 test("background world is visible only for an enabled active pack", () => {

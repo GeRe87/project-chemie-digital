@@ -1,0 +1,182 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:bf-path12 a cd:PathStep ; cd:position 12 ; cd:usesResource ex:bf-problem, ex:bf-observed, ex:bf-unobserved ; cd:usesScene ex:scene-bf-problem ; cd:authoredResource true .
+  ex:bf-path22 a cd:PathStep ; cd:position 22 ; cd:usesResource ex:bf-title-normalized, ex:bf-section1 ; cd:usesScene ex:scene-bf-normalized ; cd:authoredResource true .
+  ex:bf-path23 a cd:PathStep ; cd:position 23 ; cd:usesResource ex:bf-basics, ex:uq-pop-mean, ex:bf-variance-definition ; cd:usesScene ex:scene-bf-definition ; cd:authoredResource true .
+  ex:bf-path24 a cd:PathStep ; cd:position 24 ; cd:usesResource ex:bf-e-rules, ex:rule-expectation-constant, ex:rule-expectation-location-scale, ex:rule-expectation-addition ; cd:usesScene ex:scene-bf-e-rules ; cd:authoredResource true .
+  ex:bf-path25 a cd:PathStep ; cd:position 25 ; cd:usesResource ex:bf-v-rules, ex:rule-variance-translation, ex:rule-variance-scaling, ex:rule-variance-location-scale ; cd:usesScene ex:scene-bf-v-rules ; cd:authoredResource true .
+  ex:bf-path26 a cd:PathStep ; cd:position 26 ; cd:usesResource ex:bf-sum-rules, ex:rule-variance-covariance, ex:rule-variance-independent-sum ; cd:usesScene ex:scene-bf-sum-rules ; cd:authoredResource true .
+  ex:bf-path27 a cd:PathStep ; cd:position 27 ; cd:usesResource ex:bf-title-example, ex:bf-scaling-example, ex:bf-example-cue ; cd:usesScene ex:scene-bf-example ; cd:authoredResource true .
+  ex:bf-path28 a cd:PathStep ; cd:position 28 ; cd:usesResource ex:bf-why, ex:bf-normalized ; cd:usesScene ex:scene-bf-why ; cd:authoredResource true .
+  ex:bf-path29 a cd:PathStep ; cd:position 29 ; cd:usesResource ex:bf-title-expect, ex:bf-section2 ; cd:usesScene ex:scene-bf-expect ; cd:authoredResource true .
+  ex:bf-path30 a cd:PathStep ; cd:position 30 ; cd:usesResource ex:bf-title-average, ex:bf-section3 ; cd:usesScene ex:scene-bf-average ; cd:authoredResource true .
+  ex:bf-path31 a cd:PathStep ; cd:position 31 ; cd:usesResource ex:bf-title-population, ex:bf-section4 ; cd:usesScene ex:scene-bf-population ; cd:authoredResource true .
+  ex:bf-path32 a cd:PathStep ; cd:position 32 ; cd:usesResource ex:bf-title-mean1, ex:bf-me1 ; cd:usesScene ex:scene-bf-mean1 ; cd:authoredResource true .
+  ex:bf-path33 a cd:PathStep ; cd:position 33 ; cd:usesResource ex:bf-title-mean2, ex:bf-me2 ; cd:usesScene ex:scene-bf-mean2 ; cd:authoredResource true .
+  ex:bf-path34 a cd:PathStep ; cd:position 34 ; cd:usesResource ex:bf-title-var1, ex:bf-va1 ; cd:usesScene ex:scene-bf-var1 ; cd:authoredResource true .
+  ex:bf-path35 a cd:PathStep ; cd:position 35 ; cd:usesResource ex:bf-title-var2, ex:bf-va2 ; cd:usesScene ex:scene-bf-var2 ; cd:authoredResource true .
+  ex:bf-path36 a cd:PathStep ; cd:position 36 ; cd:usesResource ex:bf-title-var3, ex:bf-va3 ; cd:usesScene ex:scene-bf-var3 ; cd:authoredResource true .
+  ex:bf-path37 a cd:PathStep ; cd:position 37 ; cd:usesResource ex:bf-title-shift1, ex:bf-sh1 ; cd:usesScene ex:scene-bf-shift1 ; cd:authoredResource true .
+  ex:bf-path38 a cd:PathStep ; cd:position 38 ; cd:usesResource ex:bf-title-shift2, ex:bf-sh2, ex:bf-shift-cue ; cd:usesScene ex:scene-bf-shift2 ; cd:authoredResource true .
+  ex:bf-path39 a cd:PathStep ; cd:position 39 ; cd:usesResource ex:bf-title-bias1, ex:bf-section5 ; cd:usesScene ex:scene-bf-bias1 ; cd:authoredResource true .
+  ex:bf-path40 a cd:PathStep ; cd:position 40 ; cd:usesResource ex:bf-title-bias2, ex:bf-section6 ; cd:usesScene ex:scene-bf-bias2 ; cd:authoredResource true .
+  ex:bf-path41 a cd:PathStep ; cd:position 41 ; cd:usesResource ex:bf-title-correct, ex:bf-section7 ; cd:usesScene ex:scene-bf-correct ; cd:authoredResource true .
+  ex:bf-path42 a cd:PathStep ; cd:position 42 ; cd:usesResource ex:bf-title-practical, ex:bf-practical, ex:uq-df-transfer ; cd:usesScene ex:scene-bf-practical ; cd:authoredResource true .
+  ex:bf-path43 a cd:PathStep ; cd:position 43 ; cd:usesResource ex:bf-title-finish, ex:bf-finish ; cd:usesScene ex:scene-bf-finish ; cd:authoredResource true .
+  # Existing later scenes are selected unchanged with new local path positions.
+  ex:bf-path44 a cd:PathStep ; cd:position 44 ; cd:usesResource ex:vm-recap, ex:uq-corrected-chart ; cd:usesScene ex:scene-vm-recap ; cd:authoredResource true .
+  ex:bf-path45 a cd:PathStep ; cd:position 45 ; cd:usesResource ex:vb-mixture, ex:vb-mixture-cards ; cd:usesScene ex:scene-vb-mixture ; cd:authoredResource true .
+  ex:bf-path46 a cd:PathStep ; cd:position 46 ; cd:usesResource ex:vr12, ex:vr-mixture-formula ; cd:usesScene ex:scene-vr12 ; cd:authoredResource true .
+  ex:bf-path47 a cd:PathStep ; cd:position 47 ; cd:usesResource ex:vr13, ex:vr-df-formula ; cd:usesScene ex:scene-vr13 ; cd:authoredResource true .
+  ex:bf-path48 a cd:PathStep ; cd:position 48 ; cd:usesResource ex:uq-df-transfer, ex:uq-df-formula, ex:uq-df-constraint ; cd:usesScene ex:scene-uq-df ; cd:authoredResource true .
+  ex:bf-path49 a cd:PathStep ; cd:position 49 ; cd:usesResource ex:vr19, ex:uq-worked-table ; cd:usesScene ex:scene-vr19 ; cd:authoredResource true .
+  ex:bf-path50 a cd:PathStep ; cd:position 50 ; cd:usesResource ex:vr21, ex:uq-sd-section, ex:uq-sd-cue ; cd:usesScene ex:scene-vr21 ; cd:authoredResource true .
+  ex:bf-path51 a cd:PathStep ; cd:position 51 ; cd:usesResource ex:vr22, ex:vr-read-sd ; cd:usesScene ex:scene-vr22 ; cd:authoredResource true .
+  ex:bf-path52 a cd:PathStep ; cd:position 52 ; cd:usesResource ex:vr23, ex:vr-summary, ex:vr-chart ; cd:usesScene ex:scene-vr23 ; cd:authoredResource true .
+  ex:bf-path53 a cd:PathStep ; cd:position 53 ; cd:usesResource ex:vr24, ex:vr24-task, ex:vr24-code ; cd:usesScene ex:scene-vr24 ; cd:authoredResource true .
+  ex:bf-path54 a cd:PathStep ; cd:position 54 ; cd:usesResource ex:vr25, ex:vr25-task, ex:vr25-code ; cd:usesScene ex:scene-vr25 ; cd:authoredResource true .
+  ex:bf-path55 a cd:PathStep ; cd:position 55 ; cd:usesResource ex:vr26, ex:vb-qc-table, ex:uq-target-media ; cd:usesScene ex:scene-vr26 ; cd:authoredResource true .
+  ex:bf-path56 a cd:PathStep ; cd:position 56 ; cd:usesResource ex:vr27, ex:uq-conditions ; cd:usesScene ex:scene-vr27 ; cd:authoredResource true .
+  ex:bf-path57 a cd:PathStep ; cd:position 57 ; cd:usesResource ex:vb-quality, ex:uq-quality ; cd:usesScene ex:scene-vb-quality ; cd:authoredResource true .
+  ex:bf-path58 a cd:PathStep ; cd:position 58 ; cd:usesResource ex:vr29, ex:uq-shift-scenario, ex:vb-shift-table, ex:vb-shift-chart ; cd:usesScene ex:scene-vr29 ; cd:authoredResource true .
+  ex:bf-path59 a cd:PathStep ; cd:position 59 ; cd:usesResource ex:vr30, ex:uq-replicates ; cd:usesScene ex:scene-vr30 ; cd:authoredResource true .
+  ex:bf-path60 a cd:PathStep ; cd:position 60 ; cd:usesResource ex:vr31, ex:v39-flow, ex:uq-sources-cue ; cd:usesScene ex:scene-vr31 ; cd:authoredResource true .
+  ex:bf-path61 a cd:PathStep ; cd:position 61 ; cd:usesResource ex:uq-components-title, ex:uq-components-section1 ; cd:usesScene ex:scene-uq-components ; cd:authoredResource true .
+  ex:bf-path62 a cd:PathStep ; cd:position 62 ; cd:usesResource ex:uq-root-title, ex:uq-components-section2 ; cd:usesScene ex:scene-uq-component-sd ; cd:authoredResource true .
+  ex:bf-path63 a cd:PathStep ; cd:position 63 ; cd:usesResource ex:uq-replicate-title, ex:uq-matrix, ex:v39-flow ; cd:usesScene ex:scene-uq-matrix ; cd:authoredResource true .
+  ex:bf-path64 a cd:PathStep ; cd:position 64 ; cd:usesResource ex:vr32, ex:uq-sites-table, ex:v40-chart ; cd:usesScene ex:scene-vr32 ; cd:authoredResource true .
+  ex:bf-path65 a cd:PathStep ; cd:position 65 ; cd:usesResource ex:vr33, ex:vr-rsd-formula ; cd:usesScene ex:scene-vr33 ; cd:authoredResource true .
+  ex:bf-path66 a cd:PathStep ; cd:position 66 ; cd:usesResource ex:vr34, ex:uq-rsd-table, ex:uq-rsd-cue ; cd:usesScene ex:scene-vr34 ; cd:authoredResource true .
+  ex:bf-path67 a cd:PathStep ; cd:position 67 ; cd:usesResource ex:vr35, ex:v27-table ; cd:usesScene ex:scene-vr35 ; cd:authoredResource true .
+  ex:bf-path68 a cd:PathStep ; cd:position 68 ; cd:usesResource ex:vr36, ex:uq-extreme-scenario, ex:v29-table, ex:v29-chart ; cd:usesScene ex:scene-vr36 ; cd:authoredResource true .
+  ex:bf-path69 a cd:PathStep ; cd:position 69 ; cd:usesResource ex:vr37, ex:vr37-task, ex:vr37-code ; cd:usesScene ex:scene-vr37 ; cd:authoredResource true .
+  ex:bf-path70 a cd:PathStep ; cd:position 70 ; cd:usesResource ex:vr38, ex:v45-table, ex:vr38-task ; cd:usesScene ex:scene-vr38 ; cd:authoredResource true .
+  ex:bf-path71 a cd:PathStep ; cd:position 71 ; cd:usesResource ex:vr39 ; cd:usesScene ex:scene-vr39 ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/bessel-learning-sequence> {
+  ex:bf-section1 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step1 ; cd:lastDerivationStep ex:bf-step1 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section2 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step2 ; cd:lastDerivationStep ex:bf-step2 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section3 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step3 ; cd:lastDerivationStep ex:bf-step3 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section4 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step4 ; cd:lastDerivationStep ex:bf-step4 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section5 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step5 ; cd:lastDerivationStep ex:bf-step5 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section6 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step6 ; cd:lastDerivationStep ex:bf-step6 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-section7 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-derivation ; cd:firstDerivationStep ex:bf-step7 ; cd:lastDerivationStep ex:bf-step7 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-me1 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-mean-derivation ; cd:firstDerivationStep ex:bf-mean-step1 ; cd:lastDerivationStep ex:bf-mean-step1 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-me2 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-mean-derivation ; cd:firstDerivationStep ex:bf-mean-step2 ; cd:lastDerivationStep ex:bf-mean-step2 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-va1 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-var-derivation ; cd:firstDerivationStep ex:bf-var-step1 ; cd:lastDerivationStep ex:bf-var-step1 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-va2 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-var-derivation ; cd:firstDerivationStep ex:bf-var-step2 ; cd:lastDerivationStep ex:bf-var-step2 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-va3 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-var-derivation ; cd:firstDerivationStep ex:bf-var-step3 ; cd:lastDerivationStep ex:bf-var-step3 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-sh1 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-shift-derivation ; cd:firstDerivationStep ex:bf-shift-step1 ; cd:lastDerivationStep ex:bf-shift-step1 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+  ex:bf-sh2 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:bf-shift-derivation ; cd:firstDerivationStep ex:bf-shift-step2 ; cd:lastDerivationStep ex:bf-shift-step2 ; cd:usesLegend ex:bf-legend ; cd:authoredResource true .
+
+  ex:bf-title-normalized a cd:Interpretation ; skos:prefLabel "The MSD Lost a Squared Shift"@en ; cd:authoredResource true .
+  ex:bf-title-expect a cd:Interpretation ; skos:prefLabel "Take Expectations of the MSD Identity"@en ; cd:authoredResource true .
+  ex:bf-title-average a cd:Interpretation ; skos:prefLabel "Average the Individual Squared Distances"@en ; cd:authoredResource true .
+  ex:bf-title-population a cd:Interpretation ; skos:prefLabel "Each Population-Centered Square Has Expectation σ²"@en ; cd:authoredResource true .
+  ex:bf-title-mean1 a cd:Interpretation ; skos:prefLabel "First: What Is the Expected Sample Mean?"@en ; cd:authoredResource true .
+  ex:bf-title-mean2 a cd:Interpretation ; skos:prefLabel "The Sample Mean Has Expectation μ"@en ; cd:authoredResource true .
+  ex:bf-title-var1 a cd:Interpretation ; skos:prefLabel "Variance of the Mean: Square the Scale Factor"@en ; cd:authoredResource true .
+  ex:bf-title-var2 a cd:Interpretation ; skos:prefLabel "Variance of the Mean: Use Independence"@en ; cd:authoredResource true .
+  ex:bf-title-var3 a cd:Interpretation ; skos:prefLabel "Variance of the Mean: Insert the Common Variance"@en ; cd:authoredResource true .
+  ex:bf-title-shift1 a cd:Interpretation ; skos:prefLabel "Connect the Squared Shift to Variance"@en ; cd:authoredResource true .
+  ex:bf-title-shift2 a cd:Interpretation ; skos:prefLabel "We Derived an Expected Error, Not an Observed Error"@en ; cd:authoredResource true .
+  ex:bf-title-bias1 a cd:Interpretation ; skos:prefLabel "Return to the MSD: Insert the Expected Squared Error"@en ; cd:authoredResource true .
+  ex:bf-title-bias2 a cd:Interpretation ; skos:prefLabel "The Average MSD Is Too Small by a Known Factor"@en ; cd:authoredResource true .
+  ex:bf-title-correct a cd:Interpretation ; skos:prefLabel "Bessel's Correction Removes the Average Bias"@en ; cd:authoredResource true .
+  ex:bf-title-practical a cd:Interpretation ; skos:prefLabel "Compute Sample Variance Without Knowing μ or σ²"@en ; cd:authoredResource true .
+  ex:bf-title-finish a cd:Interpretation ; skos:prefLabel "Unknown Target, Observable Inputs, Unbiased Estimator"@en ; cd:authoredResource true .
+  ex:bf-title-example a cd:Interpretation ; skos:prefLabel "Doubling a Quantity: Mean × 2, Variance × 4"@en ; cd:authoredResource true .
+
+  ex:scene-bf-problem a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-problem-h, ex:bf-problem-f1, ex:bf-problem-f2, ex:bf-problem-k ; cd:authoredResource true .
+  ex:bf-problem-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-problem ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-problem-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-observed ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-problem-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:bf-unobserved ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-problem-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:bf-problem ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-definition a cd:SceneDefinition ; cd:focusConcept ex:population-variance ; cd:hasSceneItem ex:bf-definition-h, ex:bf-definition-f1, ex:bf-definition-f2, ex:bf-definition-k ; cd:authoredResource true .
+  ex:bf-definition-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-basics ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-definition-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-pop-mean ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-definition-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:bf-variance-definition ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-definition-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:bf-basics ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-e-rules a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:bf-er-h, ex:bf-er1, ex:bf-er3, ex:bf-er-k ; cd:authoredResource true .
+  ex:bf-er-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-e-rules ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-er1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:se-expectation-fixed ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-er2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rule-expectation-location-scale-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-er3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:se-expectation-linearity ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-er-k a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:bf-e-rules ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-v-rules a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-vr-h, ex:bf-vr1, ex:bf-vr2, ex:bf-vr3, ex:bf-vr-k ; cd:authoredResource true .
+  ex:bf-vr-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-v-rules ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-vr1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rule-variance-translation-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-vr2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rule-variance-scaling-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-vr3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:rule-variance-location-scale-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-vr-k a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:bf-v-rules ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-sum-rules a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-sr-h, ex:bf-sr1, ex:bf-sr2, ex:bf-sr-k ; cd:authoredResource true .
+  ex:bf-sr-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-sum-rules ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sr1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rule-variance-covariance-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sr2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rule-independent-pair-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sr-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:bf-sum-rules ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-bf-why a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-why-h, ex:bf-why-f, ex:bf-why-k ; cd:authoredResource true .
+  ex:bf-why-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-why ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-why-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-normalized ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-why-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:bf-why ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-example a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-example-h, ex:bf-example-f, ex:bf-example-k ; cd:authoredResource true .
+  ex:bf-example-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-example ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-example-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-scaling-example ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-example-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:bf-example-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-bf-normalized a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-n-h, ex:bf-n-f ; cd:authoredResource true .
+  ex:bf-n-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-normalized ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-n-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-expect a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-e-h, ex:bf-e-f ; cd:authoredResource true .
+  ex:bf-e-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-expect ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-e-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-average a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-a-h, ex:bf-a-f ; cd:authoredResource true .
+  ex:bf-a-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-average ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-a-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section3 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-population a cd:SceneDefinition ; cd:focusConcept ex:population-variance ; cd:hasSceneItem ex:bf-p-h, ex:bf-p-f ; cd:authoredResource true .
+  ex:bf-p-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-population ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-p-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section4 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-mean1 a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:bf-me1-h, ex:bf-me1-f ; cd:authoredResource true .
+  ex:bf-me1-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-mean1 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-me1-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-me1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-mean2 a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:bf-me2-h, ex:bf-me2-f ; cd:authoredResource true .
+  ex:bf-me2-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-mean2 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-me2-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-me2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-var1 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-va1-h, ex:bf-va1-f ; cd:authoredResource true .
+  ex:bf-va1-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-var1 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-va1-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-va1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-var2 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-va2-h, ex:bf-va2-f ; cd:authoredResource true .
+  ex:bf-va2-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-var2 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-va2-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-va2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-var3 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-va3-h, ex:bf-va3-f ; cd:authoredResource true .
+  ex:bf-va3-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-var3 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-va3-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-va3 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-shift1 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-sh1-h, ex:bf-sh1-f ; cd:authoredResource true .
+  ex:bf-sh1-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-shift1 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sh1-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-sh1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-shift2 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:bf-sh2-h, ex:bf-sh2-f, ex:bf-sh2-k ; cd:authoredResource true .
+  ex:bf-sh2-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-shift2 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sh2-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-sh2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-sh2-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:bf-shift-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-bias1 a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-bi1-h, ex:bf-bi1-f ; cd:authoredResource true .
+  ex:bf-bi1-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-bias1 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-bi1-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section5 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-bias2 a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-bi2-h, ex:bf-bi2-f ; cd:authoredResource true .
+  ex:bf-bi2-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-bias2 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-bi2-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section6 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-correct a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-co-h, ex:bf-co-f ; cd:authoredResource true .
+  ex:bf-co-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-correct ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-co-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section7 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-practical a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-pr-h, ex:bf-pr-f, ex:bf-pr-k ; cd:authoredResource true .
+  ex:bf-pr-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-practical ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-pr-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-practical ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-pr-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-df-transfer ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-bf-finish a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:bf-fi-h, ex:bf-fi-l ; cd:authoredResource true .
+  ex:bf-fi-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:bf-title-finish ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:bf-fi-l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-finish ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}

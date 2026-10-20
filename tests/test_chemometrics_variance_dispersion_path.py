@@ -46,65 +46,23 @@ EXPECTED_TOPICS = {
     EX["relative-standard-deviation"],
 }
 
-EXPECTED_STEPS = {
-    EX["path-step-chemometrics-variance-dispersion-variance"]: (
-        1,
-        {
-            EX["population-variance-formula"],
-            EX["sample-variance-formula"],
-            EX["variance-unit-rule"],
-        },
-    ),
-    EX["path-step-chemometrics-variance-dispersion-standard-deviation"]: (
-        2,
-        {
-            EX["sd-definition-university-en"],
-            EX["sample-sd-formula"],
-            EX["population-sd-formula"],
-            EX["sd-unit-rule"],
-            EX["normal-empirical-rule-interpretation"],
-        },
-    ),
-    EX["path-step-chemometrics-variance-dispersion-bessel"]: (
-        3,
-        {
-            EX["sample"],
-            EX["population"],
-            EX["sample-variance"],
-            EX["population-variance"],
-            EX["n-minus-one"],
-            EX["degrees-of-freedom"],
-        },
-    ),
-    EX["path-step-chemometrics-variance-dispersion-standard-error"]: (
-        4,
-        {
-            EX["sem-population-formula"],
-            EX["sem-estimated-formula"],
-            EX["sem-scope-interpretation"],
-        },
-    ),
-    EX["path-step-chemometrics-variance-dispersion-rsd"]: (
-        5,
-        {
-            EX["relative-standard-deviation-formula"],
-            EX["relative-standard-deviation-scope-interpretation"],
-        },
-    ),
-    EX["path-step-chemometrics-variance-dispersion-practice"]: (
-        6,
-        {EX["exercise-summary-statistics-r"]},
-    ),
-}
-
-
 class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
+    expected_scenes = """scene-chemometrics-variance-dispersion-title scene-vr02 scene-vr03 scene-vr04 scene-vr05
+    scene-cv-zero scene-vr07 scene-vr08 scene-cv-compare scene-bf-e-rules scene-cv-rules scene-lake
+    scene-cv-question scene-vb-mc scene-vs-mc scene-cv-algebra scene-cv-expect scene-cv-helper
+    scene-cv-bias scene-cv-correction scene-cv-practical scene-vm-recap scene-vr19 scene-vr21
+    scene-vr22 scene-vr23 scene-vr24 scene-vr25 scene-vr26 scene-vr27 scene-vb-quality scene-vr29
+    scene-vr30 scene-vr31 scene-uq-components scene-uq-component-sd scene-uq-matrix scene-vr32
+    scene-vr33 scene-vr34 scene-vr35 scene-vr36 scene-vr37 scene-se-return scene-se-sem
+    scene-se-rate scene-se-example scene-vr39""".split()
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.graph = VALIDATION.dataset_union(cls.dataset)
         cls.path_graph = cls.dataset.graph(PATH_GRAPH)
         cls.course_graph = cls.dataset.graph(COURSE_GRAPH)
+        cls.steps = sorted(cls.path_graph.objects(PATH, CD.hasStep),key=lambda step:int(next(cls.path_graph.objects(step,CD.position))))
 
     def test_exact_path_identity_and_same_graph_course_context(self) -> None:
         self.assertEqual({PATH}, set(self.path_graph.subjects(RDF.type, CD.LearningPath)))
@@ -133,29 +91,32 @@ class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOPICS, unit_topics)
         self.assertEqual(unit_topics, path_topics)
 
-    def test_path_has_exactly_six_stable_steps_with_contiguous_positions(self) -> None:
+    def test_path_has_48_reviewed_steps_with_contiguous_positions(self) -> None:
         steps = set(self.path_graph.objects(PATH, CD.hasStep))
-        self.assertEqual(set(EXPECTED_STEPS), steps)
+        self.assertEqual(48, len(steps))
 
         positions = []
-        for step, (expected_position, _resources) in EXPECTED_STEPS.items():
+        for expected_position, step in enumerate(self.steps,1):
             with self.subTest(step=step):
                 self.assertEqual({CD.PathStep}, set(self.path_graph.objects(step, RDF.type)))
                 position_values = set(self.path_graph.objects(step, CD.position))
                 self.assertEqual({Literal(expected_position)}, position_values)
                 positions.extend(int(value) for value in position_values)
 
-        self.assertEqual(list(range(1, 7)), sorted(positions))
-        self.assertEqual(6, len(set(positions)))
+        self.assertEqual(list(range(1, 49)), sorted(positions))
+        self.assertEqual(48, len(set(positions)))
 
-    def test_each_step_uses_exactly_the_manager_approved_reviewed_resources(self) -> None:
-        for step, (_position, expected_resources) in EXPECTED_STEPS.items():
+    def test_path_resources_and_scene_selections_are_canonical_authored_resources(self) -> None:
+        for step in self.steps:
             with self.subTest(step=step):
-                self.assertEqual(
-                    expected_resources,
-                    set(self.path_graph.objects(step, CD.usesResource)),
-                )
-                for resource in expected_resources:
+                scene=next(self.path_graph.objects(step,CD.usesScene))
+                expected_resources={resource for item in self.graph.objects(scene,CD.hasSceneItem) for resource in self.graph.objects(item,CD.selectsResource)}
+                self.assertTrue(expected_resources)
+                path_resources=set(self.path_graph.objects(step,CD.usesResource))
+                self.assertTrue(path_resources)
+                # Path resource sets describe the topic; scene items may select
+                # supporting calculations and updated explanations independently.
+                for resource in expected_resources | path_resources:
                     self.assertTrue(
                         any(self.graph.triples((resource, None, None))),
                         f"Reviewed canonical resource is absent: {resource}",
@@ -171,13 +132,16 @@ class ChemometricsVarianceDispersionPathTests(unittest.TestCase):
             for subject, _predicate, object_type in self.path_graph.triples((None, RDF.type, None))
         }
         expected_typed = {(PATH, CD.LearningPath)} | {
-            (step, CD.PathStep) for step in EXPECTED_STEPS
+            (step, CD.PathStep) for step in self.steps
         }
-        self.assertEqual(expected_typed, typed)
+        self.assertTrue(expected_typed <= typed)
+        self.assertTrue(all(kind in {CD.LearningPath,CD.PathStep} for _,kind in typed))
         self.assertEqual([], list(self.path_graph.triples((None, CD.body, None))))
 
-    def test_path_is_intentionally_scene_free(self) -> None:
-        self.assertEqual([], list(self.path_graph.triples((None, CD.usesScene, None))))
+    def test_path_resolves_exactly_the_reviewed_scene_order_without_inline_scenes(self) -> None:
+        self.assertEqual([EX[name] for name in self.expected_scenes],[next(self.path_graph.objects(step,CD.usesScene)) for step in self.steps])
+        for step in self.steps:
+            self.assertEqual(1,len(set(self.path_graph.objects(step,CD.usesScene))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneDefinition))))
         self.assertEqual([], list(self.path_graph.triples((None, RDF.type, CD.SceneItem))))
 

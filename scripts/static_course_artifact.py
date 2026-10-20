@@ -88,6 +88,45 @@ def media_uris(blocks):
             yield block["uri"]
 
 
+def compiled_module_text(directory: Path, entry: Path) -> str:
+    """Follow local compiled imports, including lazy chunks, from the real entry."""
+    pending = [entry]
+    visited: set[Path] = set()
+    sources = []
+    while pending:
+        module = pending.pop()
+        if module in visited:
+            continue
+        visited.add(module)
+        text = module.read_text(encoding="utf-8")
+        sources.append(text)
+        for uri in re.findall(r'(?:from\s*|import\s*\(?\s*)["\']([^"\']+\.js)["\']', text):
+            dependency = asset_path(directory, uri, module)
+            if dependency is not None:
+                pending.append(dependency)
+    return "\n".join(sources)
+
+
+def validate_lazy_transport(directory: Path, artifact: dict, index: Path) -> None:
+    manifest_file = directory / "course-runtime/manifest.json"
+    manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
+    documents = artifact["sceneDocuments"]
+    if (manifest.get("offering") != artifact["teachingOfferingDocuments"][0]
+            or manifest.get("bindings") != artifact["sceneDocumentBindings"]
+            or [record.get("id") for record in manifest.get("documents", [])] != [doc["id"] for doc in documents]):
+        raise ValueError("Lazy course manifest does not match the validated canonical transport")
+    for record, document in zip(manifest["documents"], documents):
+        if (record.get("pathId") != document["sourcePathId"]
+                or record.get("sceneIds") != [scene["id"] for scene in document["scenes"]]):
+            raise ValueError("Lazy course manifest has inconsistent scene/path identities")
+        file = asset_path(directory, record["runtime"], index)
+        payload = json.loads(file.read_text(encoding="utf-8"))
+        expected = {**artifact, "sceneDocuments": [document],
+                    "sceneDocumentBindings": [b for b in artifact["sceneDocumentBindings"] if b["sceneDocumentId"] == document["id"]]}
+        if payload != expected:
+            raise ValueError("Lazy level transport does not match its canonical document and snapshot")
+
+
 def validate_files(directory: Path, offering: str, base: str, public: Path) -> dict:
     validate_base(base)
     if VENDOR.vendor_tree_digest(directory / "vendor") != VENDOR.VENDOR_TREE_SHA256:
@@ -106,11 +145,16 @@ def validate_files(directory: Path, offering: str, base: str, public: Path) -> d
     for uri in parser.references:
         asset_path(directory, uri, index)
     bundle = asset_path(directory, parser.scripts[0], index)
-    script = bundle.read_text(encoding="utf-8")
+    script = compiled_module_text(directory, bundle)
     if artifact["datasetFingerprint"] not in script or "pitch-world-start" not in script:
         raise ValueError("Application bundle does not contain this course revision/world")
     if any(token in script or token in markup for token in ("/@vite/client", "/src/main.ts", "import.meta.hot")):
         raise ValueError("Development runtime remains in output")
+    if "course-runtime/manifest.json" in script or (directory / "course-runtime/manifest.json").exists():
+        validate_lazy_transport(directory, artifact, index)
+    for unit in artifact.get("teachingOfferingDocuments", [{}])[0].get("units", []):
+        if unit.get("thumbnail"):
+            asset_path(directory, unit["thumbnail"]["uri"], index)
     # Every public asset must be copied without mutation: backgrounds, icons,
     # semantic media and the complete pinned vendor/worker/VFS tree.
     for source in sorted(public.rglob("*")):

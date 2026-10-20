@@ -1,0 +1,176 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-24-31> {
+  ex:v24 a cd:Interpretation ; skos:prefLabel "Relative Standard Deviation"@en ; cd:body "Interpret RSD only for a suitable ratio-scale quantity: ratios and an absolute zero must be meaningful, and the mean must be sufficiently separated from zero for the purpose. For positive concentrations, the RSD ratio equals CV = s/x̄."@en ; dct:references ex:relative-standard-deviation, ex:relative-standard-deviation-scope-interpretation ; cd:authoredResource true .
+  ex:v24-formula a cd:MathExpression ; cd:latex "\\mathrm{RSD}=\\frac{s}{|\\bar{x}|}\\,,\\qquad\\mathrm{RSD}(\\%)=100\\,\\frac{s}{|\\bar{x}|}" ; cd:body "Relative standard deviation is the dimensionless ratio of sample standard deviation to the magnitude of the sample mean. Multiplying the ratio by one hundred gives its numerical percentage value."@en ; dct:hasPart ex:v24-legend ; cd:authoredResource true .
+  ex:v24-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v24-s, ex:v24-m, ex:v24-percent ; cd:authoredResource true .
+  ex:v24-s a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "s: sample SD"@en ; cd:body "Absolute spread in the same unit as the sample mean. The units cancel in their ratio: RSD is dimensionless."@en ; dct:references ex:s-symbol ; cd:authoredResource true .
+  ex:v24-m a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "|x̄|: nonzero mean magnitude"@en ; cd:body "The bars mean absolute value. Our concentration means are positive. A nonzero denominator alone does not guarantee a scientifically useful ratio."@en ; dct:references ex:xbar-symbol ; cd:authoredResource true .
+  ex:v24-percent a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "100: report the ratio as percent"@en ; cd:body "A ratio of 0.02 is 2%. Multiplication by 100 changes the numerical reporting scale, not the physical dimension."@en ; cd:authoredResource true .
+
+  ex:v25 a cd:Interpretation ; skos:prefLabel "RSD in Analytical Quality Control"@en ; cd:body "For these five repeats, B's relative spread is about 6.37 times A's. This compares sample dispersion under the stated conditions, not trueness or guaranteed long-term performance."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:v25-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v25-note ; cd:authoredResource true .
+  ex:v25-note a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Same center, different relative spread"@en ; cd:body "A: about 1.58%; B: about 10.07%. Both use the sample SD with n − 1 = 4."@en ; cd:authoredResource true .
+  ex:v25 cd:hasKeyPoint ex:v25-key, ex:v25-key2, ex:v25-key3 .
+  ex:v25-key a cd:KeyPoint ; cd:position 1 ; cd:body "RSD expresses SD as a percentage of the concentration level rather than in mg/L."@en ; cd:authoredResource true .
+  ex:v25-key2 a cd:KeyPoint ; cd:position 2 ; cd:body "Both means are 10 mg/L: the SD and RSD rankings are identical, not independent evidence."@en ; cd:authoredResource true .
+  ex:v25-key3 a cd:KeyPoint ; cd:position 3 ; cd:body "Compute from unrounded SDs. Display SD to three decimals and RSD to two; both SDs use n − 1 = 4."@en ; cd:authoredResource true .
+  ex:v25-table a cd:TableDefinition ; skos:prefLabel "QC comparison, n = 5"@en ; cd:hasTableColumn ex:v25-c1, ex:v25-c2, ex:v25-c3, ex:v25-c4 ; cd:hasTableRow ex:v25-r1, ex:v25-r2 ; cd:authoredResource true .
+  ex:v25-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:authoredResource true .
+  ex:v25-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:v25-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "SD (mg/L)"@en ; cd:authoredResource true .
+  ex:v25-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "RSD (%)"@en ; cd:authoredResource true .
+  ex:v25-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v25-a1, ex:v25-a2, ex:v25-a3, ex:v25-a4 ; cd:authoredResource true .
+  ex:v25-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v25-b1, ex:v25-b2, ex:v25-b3, ex:v25-b4 ; cd:authoredResource true .
+  ex:v25-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:v25-a2 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:v25-a3 a cd:TableCell ; cd:position 3 ; cd:body "0.158"@en ; cd:authoredResource true .
+  ex:v25-a4 a cd:TableCell ; cd:position 4 ; cd:body "1.58"@en ; cd:authoredResource true .
+  ex:v25-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:v25-b2 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:v25-b3 a cd:TableCell ; cd:position 3 ; cd:body "1.007"@en ; cd:authoredResource true .
+  ex:v25-b4 a cd:TableCell ; cd:position 4 ; cd:body "10.07"@en ; cd:authoredResource true .
+
+  ex:v26 a cd:Interpretation ; skos:prefLabel "Absolute vs Relative Spread"@en ; cd:body "The mean and SD both increase tenfold, so their ratio stays constant: RSD = 2%. Equal relative spread does not mean equal absolute spread. Such comparisons still require a compatible quantity, meaningful zero and relevant measurement conditions."@en ; cd:authoredResource true .
+  ex:v26-table a cd:TableDefinition ; skos:prefLabel "Illustrative concentration levels"@en ; cd:hasTableColumn ex:v26-c1, ex:v26-c2, ex:v26-c3 ; cd:hasTableRow ex:v26-r1, ex:v26-r2 ; cd:authoredResource true .
+  ex:v26-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:v26-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "SD (mg/L)"@en ; cd:authoredResource true .
+  ex:v26-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "RSD (%)"@en ; cd:authoredResource true .
+  ex:v26-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v26-a1, ex:v26-a2, ex:v26-a3 ; cd:authoredResource true .
+  ex:v26-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v26-b1, ex:v26-b2, ex:v26-b3 ; cd:authoredResource true .
+  ex:v26-a1 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:v26-a2 a cd:TableCell ; cd:position 2 ; cd:body "0.2"@en ; cd:authoredResource true .
+  ex:v26-a3 a cd:TableCell ; cd:position 3 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v26-b1 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:v26-b2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v26-b3 a cd:TableCell ; cd:position 3 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v26-rsd-data a cd:Dataset ; cd:unit "%" ; dct:description "Derived summaries for two illustrative levels, not individual measured observations: 100 times 0.2/10 and 100 times 2/100 both equal 2 percent."@en ; dct:source ex:v26-cards, ex:v24-formula ; cd:hasObservation ex:v26-rsd1, ex:v26-rsd2 ; cd:authoredResource true .
+  ex:v26-rsd1 a cd:Observation ; cd:position 1 ; skos:prefLabel "RSD"@en ; cd:groupLabel "10 mg/L"@en ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:v26-rsd2 a cd:Observation ; cd:position 2 ; skos:prefLabel "RSD"@en ; cd:groupLabel "100 mg/L"@en ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:v26-chart a cd:ChartDefinition ; skos:prefLabel "Same relative spread at different levels"@en ; cd:body "Illustrative summaries: identical bar heights show equal RSD, while the table shows different absolute SDs."@en ; cd:chartType cd:BarChart ; cd:xAxisLabel "Mean concentration"@en ; cd:yAxisLabel "RSD"@en ; cd:yAxisUnit "%" ; cd:usesDataset ex:v26-rsd-data ; cd:authoredResource true .
+  ex:v26-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v26-a, ex:v26-b ; cd:authoredResource true .
+  ex:v26-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Illustrative level: 10 mg/L"@en ; cd:body "SD = 0.2 mg/L.\nRSD = 100 × 0.2/10 = 2%."@en ; cd:authoredResource true .
+  ex:v26-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Illustrative level: 100 mg/L"@en ; cd:body "SD = 2 mg/L.\nRSD = 100 × 2/100 = 2%."@en ; cd:authoredResource true .
+
+  ex:v27 a cd:Interpretation ; skos:prefLabel "When RSD Is Misleading"@en ; cd:body "Even on a concentration scale with a meaningful zero, a blank mean near zero is a poor denominator. Blank-corrected estimates may be positive or negative. Celsius temperature has a different problem: its arbitrary zero makes RSD inappropriate regardless of the denominator's size."@en ; cd:hasKeyPoint ex:v27-k1, ex:v27-k2, ex:v27-k3 ; cd:authoredResource true .
+  ex:v27-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Hold absolute SD fixed at 0.020 mg/L. Only the illustrative mean changes."@en ; cd:authoredResource true .
+  ex:v27-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "At a zero mean, RSD is undefined; near zero it is unstable. Taking an absolute value does not fix this."@en ; cd:authoredResource true .
+  ex:v27-k3 a cd:KeyPoint ; cd:position 3 ; cd:body "A huge RSD alone does not prove a poor method. For blanks, assess absolute SD and the relevant detection or decision requirements."@en ; cd:authoredResource true .
+  ex:v27-table a cd:TableDefinition ; skos:prefLabel "Arithmetic ratios, not blank-quality verdicts"@en ; cd:hasTableColumn ex:v27-c1, ex:v27-c2, ex:v27-c3 ; cd:hasTableRow ex:v27-r1, ex:v27-r2, ex:v27-r3, ex:v27-r4 ; cd:authoredResource true .
+  ex:v27-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:v27-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "SD (mg/L)"@en ; cd:authoredResource true .
+  ex:v27-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "RSD (%)"@en ; cd:authoredResource true .
+  ex:v27-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v27-a1, ex:v27-a2, ex:v27-a3 ; cd:authoredResource true .
+  ex:v27-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v27-b1, ex:v27-b2, ex:v27-b3 ; cd:authoredResource true .
+  ex:v27-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v27-d1, ex:v27-d2, ex:v27-d3 ; cd:authoredResource true .
+  ex:v27-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:v27-e1, ex:v27-e2, ex:v27-e3 ; cd:authoredResource true .
+  ex:v27-a1 a cd:TableCell ; cd:position 1 ; cd:body "0.100"@en ; cd:authoredResource true .
+  ex:v27-a2 a cd:TableCell ; cd:position 2 ; cd:body "0.020"@en ; cd:authoredResource true .
+  ex:v27-a3 a cd:TableCell ; cd:position 3 ; cd:body "20"@en ; cd:authoredResource true .
+  ex:v27-b1 a cd:TableCell ; cd:position 1 ; cd:body "0.010"@en ; cd:authoredResource true .
+  ex:v27-b2 a cd:TableCell ; cd:position 2 ; cd:body "0.020"@en ; cd:authoredResource true .
+  ex:v27-b3 a cd:TableCell ; cd:position 3 ; cd:body "200"@en ; cd:authoredResource true .
+  ex:v27-d1 a cd:TableCell ; cd:position 1 ; cd:body "0.001"@en ; cd:authoredResource true .
+  ex:v27-d2 a cd:TableCell ; cd:position 2 ; cd:body "0.020"@en ; cd:authoredResource true .
+  ex:v27-d3 a cd:TableCell ; cd:position 3 ; cd:body "2000"@en ; cd:authoredResource true .
+  ex:v27-e1 a cd:TableCell ; cd:position 1 ; cd:body "0.000"@en ; cd:authoredResource true .
+  ex:v27-e2 a cd:TableCell ; cd:position 2 ; cd:body "0.020"@en ; cd:authoredResource true .
+  ex:v27-e3 a cd:TableCell ; cd:position 3 ; cd:body "undefined"@en ; cd:authoredResource true .
+  ex:v27-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v27-a, ex:v27-b, ex:v27-c ; cd:authoredResource true .
+  ex:v27-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Illustrative blank"@en ; cd:body "Mean = 0.001 mg/L; SD = 0.020 mg/L. RSD = 2000%, driven by a tiny denominator."@en ; cd:authoredResource true .
+  ex:v27-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Exactly zero mean"@en ; cd:body "Division by zero: RSD is undefined, not zero. Near zero it is unstable and can change drastically."@en ; cd:authoredResource true .
+  ex:v27-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Check the measurement scale"@en ; cd:body "Ratios require a meaningful zero. Absolute values in the denominator do not repair arbitrary scale origins."@en ; cd:authoredResource true .
+
+  ex:v28 a cd:Interpretation ; skos:prefLabel "How Much Can We Trust a Sample SD?"@en ; cd:body "Compare n = 3 and n = 30 from the same iid normal population: μ = 10 mg/L, σ = 2 mg/L.\nSample variance is unbiased: E[s²] = 4 (mg/L)². Sample SD is generally not unbiased for σ.\nMonte Carlo means approximate expectations; SD percentiles describe repeated estimates, not a confidence interval for σ from one sample."@en ; cd:authoredResource true .
+  ex:v28 cd:hasCodeExample ex:v28-code .
+  ex:v31-task cd:hasCodeExample ex:v31-code .
+  ex:v28-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "set.seed(2801); B <- 10000\nsim <- function(n) {\n  v <- replicate(B, var(rnorm(n, 10, 2)))\n  s <- sqrt(v)\n  c(mean_var=mean(v), mean_SD=mean(s),\n    quantile(s, c(.05, .5, .95)))\n}\nround(rbind(n3=sim(3), n30=sim(30)), 3)\n# mean_var: (mg/L)^2; all SD columns: mg/L" ; cd:authoredResource true .
+
+  ex:v29 a cd:Interpretation ; skos:prefLabel "One Extreme Value Changes Everything"@en ; cd:body "Squared deviations make variance and SD sensitive to extreme values; the mean shifts too. Investigate the cause and measurement context. An unusual result may be real and must not be deleted solely because it changes the summaries."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:v29-data ; cd:authoredResource true .
+  ex:v29-context a cd:Interpretation ; cd:body "Illustrative change to QC Method A: replace only 10.2 with 15.2 mg/L. The original dataset is preserved."@en ; cd:authoredResource true .
+  ex:v29-table a cd:TableDefinition ; skos:prefLabel "One changed value, n = 5"@en ; cd:hasTableColumn ex:v29-c1, ex:v29-c2, ex:v29-c3, ex:v29-c4 ; cd:hasTableRow ex:v29-r1, ex:v29-r2 ; cd:authoredResource true .
+  ex:v29-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Version"@en ; cd:authoredResource true .
+  ex:v29-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:v29-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "s² (mg/L)²"@en ; cd:authoredResource true .
+  ex:v29-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "s (mg/L)"@en ; cd:authoredResource true .
+  ex:v29-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v29-a1, ex:v29-a2, ex:v29-a3, ex:v29-a4 ; cd:authoredResource true .
+  ex:v29-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v29-b1, ex:v29-b2, ex:v29-b3, ex:v29-b4 ; cd:authoredResource true .
+  ex:v29-a1 a cd:TableCell ; cd:position 1 ; cd:body "Original"@en ; cd:authoredResource true .
+  ex:v29-a2 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:v29-a3 a cd:TableCell ; cd:position 3 ; cd:body "0.025"@en ; cd:authoredResource true .
+  ex:v29-a4 a cd:TableCell ; cd:position 4 ; cd:body "0.158"@en ; cd:authoredResource true .
+  ex:v29-b1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:v29-b2 a cd:TableCell ; cd:position 2 ; cd:body "11"@en ; cd:authoredResource true .
+  ex:v29-b3 a cd:TableCell ; cd:position 3 ; cd:body "5.525"@en ; cd:authoredResource true .
+  ex:v29-b4 a cd:TableCell ; cd:position 4 ; cd:body "2.351"@en ; cd:authoredResource true .
+  ex:v29-data a cd:Dataset ; cd:unit "mg/L" ; dct:description "Synthetic teaching modification of QC Method A: only its final value changes from 10.2 to 15.2 mg/L. No published observations are changed."@en ; cd:hasObservation ex:v29-o1, ex:v29-o2, ex:v29-o3, ex:v29-o4, ex:v29-o5 ; cd:authoredResource true .
+  ex:v29-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.8 ; cd:authoredResource true .
+  ex:v29-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:v29-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:v29-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 9.9 ; cd:authoredResource true .
+  ex:v29-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 15.2 ; cd:authoredResource true .
+  ex:v29-chart a cd:ChartDefinition ; skos:prefLabel "Before and after one extreme value"@en ; cd:body "Illustrative comparison on the same unshifted concentration scale."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Dataset version"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v29-g1, ex:v29-g2 ; cd:authoredResource true .
+  ex:v29-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Original"@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:v29-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "One extreme value"@en ; cd:usesDataset ex:v29-data ; cd:authoredResource true .
+
+  ex:v30 a cd:Interpretation ; skos:prefLabel "Robust Measures of Spread"@en ; cd:body "Same unit does not mean same scale: raw MAD and IQR are not interchangeable with SD. Normal-model scaling is assumption-dependent, not a universal conversion. Robust summaries reduce sensitivity to extremes; they do not establish that an observation is erroneous."@en ; cd:usesDataset ex:v29-data ; cd:authoredResource true .
+  ex:v-mad a cd:Concept ; skos:prefLabel "median absolute deviation"@en ; cd:hasDefinition ex:v-mad-def ; cd:authoredResource true .
+  ex:v-mad-def a cd:Definition ; cd:body "The unscaled MAD is the median of absolute distances from the sample median."@en ; cd:authoredResource true .
+  ex:v-iqr a cd:Concept ; skos:prefLabel "interquartile range"@en ; cd:hasDefinition ex:v-iqr-def ; cd:authoredResource true .
+  ex:v-iqr-def a cd:Definition ; cd:body "Third quartile minus first quartile; a spread measure for the central half of the data. Numerical values depend on the quantile convention."@en ; cd:authoredResource true .
+  ex:v-robustness a cd:Concept ; skos:prefLabel "robustness"@en ; cd:hasDefinition ex:v-robustness-def ; cd:authoredResource true .
+  ex:v-robustness-def a cd:Definition ; cd:body "Reduced sensitivity of a statistical procedure to a limited fraction of contaminated or extreme data."@en ; cd:authoredResource true .
+  ex:v30-formula a cd:MathExpression ; cd:latex "\\mathrm{MAD}_{\\mathrm{raw}}=\\operatorname{median}_i\\!\\left|x_i-\\operatorname{median}(x)\\right|" ; dct:hasPart ex:v30-legend ; cd:authoredResource true .
+  ex:v30-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v30-a, ex:v30-b, ex:v30-c, ex:v30-d ; cd:authoredResource true .
+  ex:v30-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SD: 2.351 mg/L"@en ; cd:body "Sample SD: square root of SS/(n − 1), centered on the mean (11 mg/L here). Squaring makes it sensitive to the extreme result."@en ; cd:authoredResource true .
+  ex:v30-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Raw MAD: 0.100 mg/L"@en ; cd:body "xᵢ: an observation; median(x) = 10 mg/L; | · |: absolute distance. Take the median of these distances. In R: mad(x, constant=1)."@en ; dct:references ex:v-mad ; cd:authoredResource true .
+  ex:v30-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "IQR: 0.200 mg/L"@en ; cd:body "Q₃ − Q₁ = 10.1 − 9.9 mg/L using R's default type-7 quartiles. It describes the width of the central half, not a standard deviation."@en ; dct:references ex:v-iqr ; cd:authoredResource true .
+  ex:v30-d a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "R mad(): 0.148 mg/L"@en ; cd:body "Default: 1.4826 × raw MAD = 0.14826 mg/L before rounding. This large-sample normal-consistency scaling is not a small-sample unbiasedness correction."@en ; cd:authoredResource true .
+
+  ex:v31 a cd:Interpretation ; skos:prefLabel "R Lab 3: Explore the Influence of Outliers"@en ; cd:body "Seven minutes: compare a synthetic modification with the original QC measurements. Keep both datasets and document the change."@en ; cd:authoredResource true .
+  ex:v31-task a cd:Exercise ; cd:body "Seven minutes: compare mean, median, SD, IQR and both versions of MAD before and after replacing 10.2 with 15.2 mg/L. All reported results here are in mg/L.\nWhich summaries react most, and why? Does stability of MAD or IQR establish that the observation is wrong? Explain why investigation must precede any exclusion."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:v29-data ; cd:authoredResource true .
+  ex:v31-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "x <- c(9.8, 10, 10.1, 9.9, 10.2)\ny <- x; y[5] <- 15.2\nstats <- function(z) c(mean=mean(z), median=median(z),\n  SD=sd(z), IQR=IQR(z),\n  MAD_raw=mad(z, constant=1), MAD_R=mad(z))\ncbind(original=stats(x), modified=stats(y))\n# IQR: type-7 quartiles; all outputs: mg/L\n# mad() uses constant=1.4826 by default." ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-24-31> {
+  ex:scene-v24 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; cd:hasSceneItem ex:v24h, ex:v24f, ex:v24t ; cd:authoredResource true .
+  ex:v24h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v24 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v24f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v24-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v24t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v24 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v25 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; cd:hasSceneItem ex:v25h, ex:v25l, ex:v25table, ex:v25t ; cd:authoredResource true .
+  ex:v25h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v25 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v25l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v25 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:v25table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v25-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v25t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v25 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v26 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; cd:hasSceneItem ex:v26h, ex:v26l, ex:v26chart, ex:v26t ; cd:authoredResource true .
+  ex:v26h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v26 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v26l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v26-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v26chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v26-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v26t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v26 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v27 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; cd:hasSceneItem ex:v27h, ex:v27l, ex:v27table, ex:v27t ; cd:authoredResource true .
+  ex:v27h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v27 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v27l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v27 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:v27table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v27-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v27t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v27 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v28 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v28h, ex:v28t, ex:v28c ; cd:authoredResource true .
+  ex:v28h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v28 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v28t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v28 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v28c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v28-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v29 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v29h, ex:v29intro, ex:v29table, ex:v29chart, ex:v29t ; cd:authoredResource true .
+  ex:v29h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v29 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v29intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v29-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v29table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v29-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v29chart a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v29-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v29t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v29 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v30 a cd:SceneDefinition ; cd:focusConcept ex:v-mad ; cd:hasSceneItem ex:v30h, ex:v30f, ex:v30t ; cd:authoredResource true .
+  ex:v30h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v30 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v30f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v30-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v30t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v30 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v31 a cd:SceneDefinition ; cd:focusConcept ex:v-robustness ; cd:hasSceneItem ex:v31h, ex:v31task, ex:v31c ; cd:authoredResource true .
+  ex:v31h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v31 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v31task a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v31-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v31c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v31-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+}

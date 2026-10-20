@@ -1,0 +1,98 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-compact-scenes> {
+  ex:md-sum-zero dct:hasPart ex:cv-zero-legend .
+  ex:cv-zero-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:cv-zero-symbols ; cd:authoredResource true .
+  ex:cv-zero-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Residual sum constraint"@en ; cd:body "Signed residuals from one fitted arithmetic mean."@en ; dct:references ex:vr-d-symbol, ex:n-symbol, ex:vr-index-symbol, ex:v-sum-symbol ; cd:authoredResource true .
+  ex:cv-zero-title a cd:Interpretation ; skos:prefLabel "Residuals Share One Exact Constraint"@en ; cd:hasKeyPoint ex:cv-zero-k ; cd:authoredResource true .
+  ex:cv-zero-k a cd:KeyPoint ; cd:position 1 ; cd:body "Signed deviations from the mean of these same observations sum to zero. Squaring them will retain their size without cancellation."@en ; cd:authoredResource true .
+  ex:cv-compare-title a cd:Interpretation ; skos:prefLabel "From Empirical MSD to Theoretical Variance"@en ; cd:hasKeyPoint ex:cv-compare-k1, ex:cv-compare-k2 ; cd:authoredResource true .
+  ex:cv-compare-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "MSD describes this observed sample around its fitted mean. Lowercase xᵢ and x̄ are realized values."@en ; cd:authoredResource true .
+  ex:cv-compare-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Variance describes the underlying random variable around its expectation. The generally unknown σ² is our estimation target."@en ; cd:authoredResource true .
+  ex:cv-empirical-msd a cd:MathExpression ; cd:formulaLabel "Computed from observed measurements"@en ; cd:latex "\\mathrm{MSD}_n=\\frac1n{\\textstyle\\sum_{i=1}^n}(x_i-\\bar x)^2" ; cd:hasSymbol ex:bf-msd-symbol, ex:n-symbol, ex:v-sum-symbol, ex:vr-index-symbol, ex:xi-symbol, ex:xbar-symbol ; dct:hasPart ex:cv-empirical-legend ; dct:source ex:vr-msd-formula ; cd:authoredResource true .
+  ex:cv-empirical-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:cv-empirical-symbols ; cd:authoredResource true .
+  ex:cv-empirical-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observed sample"@en ; cd:body "The count, observations and their fitted mean are empirically available."@en ; dct:references ex:bf-msd-symbol, ex:n-symbol, ex:v-sum-symbol, ex:vr-index-symbol, ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:cv-population-summary a cd:MathExpression ; cd:formulaLabel "Defined by the underlying distribution"@en ; cd:latex "\\begin{aligned}\\mu&=\\operatorname{E}[X]\\\\\\operatorname{Var}(X)&=\\operatorname{E}[(X-\\operatorname{E}[X])^2]\\\\&=\\operatorname{E}[(X-\\mu)^2]=\\sigma^2\\end{aligned}" ; cd:hasSymbol ex:mu-symbol, ex:vr-E-symbol, ex:vs-X-symbol, ex:vm-var-symbol, ex:vr-sigma2-symbol ; dct:hasPart ex:bf-definition-legend ; dct:source ex:uq-pop-mean, ex:bf-variance-definition ; cd:authoredResource true .
+  ex:cv-rules-title a cd:Interpretation ; skos:prefLabel "Variance Rules: Scaling and Covariance"@en ; cd:hasKeyPoint ex:cv-rules-k1, ex:cv-rules-k2 ; cd:authoredResource true .
+  ex:cv-rules-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "A fixed shift does not change variance; scaling by a multiplies it by a². Finite second moments are assumed."@en ; cd:authoredResource true .
+  ex:cv-rules-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Independent variables have zero covariance. Expectation linearity, in contrast, needs no independence."@en ; cd:authoredResource true .
+  ex:cv-question-title a cd:Interpretation ; skos:prefLabel "Does the MSD Estimate the True Variance Without Bias?"@en ; cd:hasKeyPoint ex:cv-question-k1, ex:cv-question-k2 ; cd:authoredResource true .
+  ex:cv-question-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Xᵢ and X̄ now vary over hypothetical repeated samples. We ask about the average of the statistic, not just one observed MSD."@en ; cd:authoredResource true .
+  ex:cv-question-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "One MSD may be above or below σ². Systematic underestimation concerns its expectation; simulated averages only approximate that expectation."@en ; cd:authoredResource true .
+  ex:cv-random-msd a cd:MathExpression ; cd:formulaLabel "Statistic across hypothetical samples"@en ; cd:latex "\\mathrm{MSD}_n=\\frac1n{\\textstyle\\sum_{i=1}^n}(X_i-\\bar X)^2" ; cd:hasSymbol ex:bf-msd-symbol, ex:n-symbol, ex:v-sum-symbol, ex:vr-index-symbol, ex:vr-X-symbol, ex:vr-Xbar-symbol ; dct:hasPart ex:cv-random-legend ; cd:authoredResource true .
+  ex:cv-random-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:cv-random-symbols ; cd:authoredResource true .
+  ex:cv-random-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeated sampling"@en ; cd:body "The count stays fixed, but observations and their mean vary."@en ; dct:references ex:bf-msd-symbol, ex:n-symbol, ex:v-sum-symbol, ex:vr-index-symbol, ex:vr-X-symbol, ex:vr-Xbar-symbol ; cd:authoredResource true .
+  ex:cv-question-equation a cd:MathExpression ; cd:formulaLabel "Compare the expected estimate with the unknown target"@en ; cd:latex "\\operatorname{E}[\\mathrm{MSD}_n]\\;\\overset{?}{=}\\;\\sigma^2" ; cd:hasSymbol ex:vr-E-symbol, ex:bf-msd-symbol, ex:vr-sigma2-symbol ; dct:hasPart ex:cv-question-legend ; cd:authoredResource true .
+  ex:cv-question-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:cv-question-symbols ; cd:authoredResource true .
+  ex:cv-question-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Estimator and estimand"@en ; cd:body "The population variance is the target; the expectation describes the estimator's average."@en ; dct:references ex:vr-E-symbol, ex:bf-msd-symbol, ex:vr-sigma2-symbol ; cd:authoredResource true .
+  ex:cv-algebra-title a cd:Interpretation ; skos:prefLabel "Where Does the MSD Shortfall Come From?"@en ; cd:authoredResource true .
+  ex:cv-expect-title a cd:Interpretation ; skos:prefLabel "Average the Identity over Repeated Samples"@en ; cd:authoredResource true .
+  ex:cv-helper-title a cd:Interpretation ; skos:prefLabel "The Needed Result: Variance of the Sample Mean"@en ; cd:hasKeyPoint ex:cv-helper-k1, ex:cv-helper-k2 ; cd:authoredResource true .
+  ex:cv-helper-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Equal means, equal finite variances and pairwise zero covariance suffice. Independent identical sampling meets these conditions; normality is not required."@en ; cd:authoredResource true .
+  ex:cv-helper-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "This is a theoretical variance across samples, not a squared error calculated from one real sample. Open the derivation for the complete argument."@en ; cd:authoredResource true .
+  ex:cv-bias-title a cd:Interpretation ; skos:prefLabel "The MSD Is Too Small in Expectation"@en ; cd:hasKeyPoint ex:cv-bias-k1, ex:cv-bias-k2 ; cd:authoredResource true .
+  ex:cv-bias-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Insert Var(X̄) = σ²/n into E[MSDₙ] = σ² − Var(X̄), then factor the common σ²."@en ; cd:authoredResource true .
+  ex:cv-bias-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "The downward bias factor is (n−1)/n in expectation, not in every sample. The model assumptions of the preceding result still apply."@en ; cd:authoredResource true .
+  ex:cv-correct-title a cd:Interpretation ; skos:prefLabel "Bessel's Correction Removes the Systematic Bias"@en ; cd:authoredResource true .
+  ex:cv-practical-title a cd:Interpretation ; skos:prefLabel "Use the Correction on Observed Measurements"@en ; cd:hasKeyPoint ex:cv-practical-k1, ex:cv-practical-k2 ; cd:authoredResource true .
+  ex:cv-practical-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "S² denotes the statistic across samples; s² is its observed value. The practical formula needs only xᵢ, x̄ and n > 1, not the unknown μ or σ²."@en ; cd:authoredResource true .
+  ex:cv-practical-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Unbiasedness means the correct average over hypothetical samples. One realized s² need not equal the population variance."@en ; cd:authoredResource true .
+  ex:cv-df-title a cd:Interpretation ; skos:prefLabel "Degrees of Freedom: n−1 Free Residuals"@en ; cd:hasKeyPoint ex:cv-df-k1, ex:cv-df-k2 ; cd:authoredResource true .
+  ex:cv-df-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "For Series A (9, 10, 13 mg/L), x̄ = 32/3 mg/L. Once the first two residuals are chosen, the third must complete the zero sum."@en ; cd:authoredResource true .
+  ex:cv-df-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Fitting one mean leaves n−1 freely varying residuals. This count explains the constraint; the preceding expectation argument proves the bias correction."@en ; cd:authoredResource true .
+  ex:cv-df-constraint a cd:MathExpression ; cd:formulaLabel "Residuals from the same fitted mean"@en ; cd:latex "\\begin{gathered}d_i=x_i-\\bar x\\\\\\sum_{i=1}^n d_i=0\\quad\\Rightarrow\\quad\\mathrm{df}=n-1\\end{gathered}" ; cd:hasSymbol ex:vr-d-symbol, ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol, ex:df-symbol ; dct:hasPart ex:vr-df-legend ; cd:authoredResource true .
+  ex:cv-df-example a cd:MathExpression ; cd:formulaLabel "Three observations, two freely varying residuals"@en ; cd:latex "\\begin{gathered}d_3=-(d_1+d_2)\\\\d_1=-\\frac53,\\quad d_2=-\\frac23\\\\d_3=\\frac73\\;\\mathrm{mg/L}\\end{gathered}" ; cd:hasSymbol ex:vr-d-symbol ; dct:source ex:vr-data-a ; dct:hasPart ex:cv-df-example-legend ; cd:authoredResource true .
+  ex:cv-df-example-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:cv-df-example-symbols ; cd:authoredResource true .
+  ex:cv-df-example-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observed residuals"@en ; cd:body "The displayed residual values are in mg/L. Freely varying coordinates do not assert statistical independence."@en ; dct:references ex:vr-d-symbol ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-compact> {
+  ex:scene-cv-zero a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:cv-zero-h, ex:cv-zero-f, ex:cv-zero-i ; cd:authoredResource true .
+  ex:cv-zero-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-zero-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-zero-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-sum-zero ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-zero-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-zero-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-compare a cd:SceneDefinition ; cd:focusConcept ex:population-variance ; cd:hasSceneItem ex:cv-compare-h, ex:cv-compare-f1, ex:cv-compare-f2, ex:cv-compare-i ; cd:authoredResource true .
+  ex:cv-compare-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-compare-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-compare-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-empirical-msd ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-compare-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-population-summary ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-compare-i a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:cv-compare-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-rules a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:cv-rules-h, ex:cv-rules-f1, ex:cv-rules-f2, ex:cv-rules-i ; cd:authoredResource true .
+  ex:cv-rules-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-rules-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-rules-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:se-variance-fixed ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-rules-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:se-variance-joint ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-rules-i a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:cv-rules-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-question a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-question-h, ex:cv-question-f1, ex:cv-question-f2, ex:cv-question-i ; cd:authoredResource true .
+  ex:cv-question-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-question-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-question-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-random-msd ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-question-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-question-equation ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-question-i a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:cv-question-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-algebra a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-algebra-h, ex:cv-algebra-f ; cd:authoredResource true .
+  ex:cv-algebra-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-algebra-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-algebra-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-main-algebra-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-expect a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-expect-h, ex:cv-expect-f ; cd:authoredResource true .
+  ex:cv-expect-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-expect-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-expect-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-expectation-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-helper a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:cv-helper-h, ex:cv-helper-f, ex:cv-helper-i ; cd:authoredResource true .
+  ex:cv-helper-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-helper-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-helper-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-mean-result ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-helper-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-helper-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-bias a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-bias-h, ex:cv-bias-f, ex:cv-bias-i ; cd:authoredResource true .
+  ex:cv-bias-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-bias-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-bias-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-section6 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-bias-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-bias-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-correction a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-correction-h, ex:cv-correction-f ; cd:authoredResource true .
+  ex:cv-correction-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-correct-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-correction-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-correction-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-practical a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:cv-practical-h, ex:cv-practical-f, ex:cv-practical-i ; cd:authoredResource true .
+  ex:cv-practical-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-practical-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-practical-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-practical ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-practical-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-practical-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-cv-df a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:cv-df-h, ex:cv-df-f1, ex:cv-df-f2, ex:cv-df-i ; cd:authoredResource true .
+  ex:cv-df-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:cv-df-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-df-f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:cv-df-constraint ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-df-f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:cv-df-example ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:cv-df-i a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:cv-df-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}

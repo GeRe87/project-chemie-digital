@@ -1,0 +1,56 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-derivation-sections> {
+  ex:md-title-summing a cd:Interpretation ; skos:prefLabel "Summing Individual Deviations"@en ; cd:authoredResource true .
+  ex:md-title-zero a cd:Interpretation ; skos:prefLabel "Separating Values and Their Shared Mean"@en ; cd:authoredResource true .
+  ex:md-title-constant a cd:Interpretation ; skos:prefLabel "Counting the Shared Squared Shift"@en ; cd:authoredResource true .
+  ex:md-title-aux a cd:Interpretation ; skos:prefLabel "The Expected Contribution of the Shared Shift"@en ; cd:authoredResource true .
+  ex:md-title-moments a cd:Interpretation ; skos:prefLabel "Using the Population Moment Results"@en ; cd:authoredResource true .
+  ex:md-title-residual a cd:Interpretation ; skos:prefLabel "The Expected Residual Sum of Squares"@en ; cd:authoredResource true .
+  ex:md-title-sketch a cd:Interpretation ; skos:prefLabel "One Sum, Two Contributions"@en ; cd:hasKeyPoint ex:md-sketch-k1, ex:md-sketch-k2 ; dct:source ex:vs-simplify-formula ; cd:authoredResource true .
+  ex:md-sketch-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Fitting the sample mean reduces the sum about μ by the shared-shift contribution nΔ²."@en ; cd:authoredResource true .
+  ex:md-sketch-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Next, expectations quantify this reduction across repeated samples."@en ; cd:authoredResource true .
+
+  ex:scene-md-zero a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; cd:hasSceneItem ex:md-zero-h, ex:md-zero-f ; dct:source ex:scene-vr06 ; cd:authoredResource true .
+  ex:md-zero-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-zero ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-zero-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-zero-section-2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-zero-result a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; cd:hasSceneItem ex:md-zero-result-h, ex:md-zero-result-f ; dct:source ex:scene-vr06 ; cd:authoredResource true .
+  ex:md-zero-result-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr06 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-zero-result-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-zero-section-3 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-constant a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:md-constant-h, ex:md-constant-f ; dct:source ex:scene-vs-simplify ; cd:authoredResource true .
+  ex:md-constant-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-constant ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-constant-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-4 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-aux a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:md-aux-h, ex:md-aux-f ; dct:source ex:scene-vm-helper ; cd:authoredResource true .
+  ex:md-aux-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-aux ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-aux-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-shift-section-2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-moments a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:md-moments-h, ex:md-moments-f ; dct:source ex:scene-vr17 ; cd:authoredResource true .
+  ex:md-moments-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-moments ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-moments-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-6 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-residual a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:md-residual-h, ex:md-residual-f ; dct:source ex:scene-vr17 ; cd:authoredResource true .
+  ex:md-residual-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-residual ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-residual-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-7 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-md-sketch a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:md-sketch-h, ex:md-sketch-m, ex:md-sketch-k ; dct:source ex:scene-vr16, ex:scene-vs-simplify ; cd:authoredResource true .
+  ex:md-sketch-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-sketch ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-sketch-m a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vv-decomposition-svg ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-sketch-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:md-title-sketch ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:md-step-zero a cd:PathStep ; cd:position 7 ; cd:usesResource ex:md-title-zero, ex:md-zero-section-2 ; cd:usesScene ex:scene-md-zero ; cd:authoredResource true .
+  ex:md-step-zero-result a cd:PathStep ; cd:position 8 ; cd:usesResource ex:vr06, ex:md-zero-section-3 ; cd:usesScene ex:scene-md-zero-result ; cd:authoredResource true .
+  ex:md-step-constant a cd:PathStep ; cd:position 21 ; cd:usesResource ex:md-title-constant, ex:md-bessel-section-4 ; cd:usesScene ex:scene-md-constant ; cd:authoredResource true .
+  ex:md-step-sketch a cd:PathStep ; cd:position 24 ; cd:usesResource ex:md-title-sketch, ex:vv-decomposition-svg ; cd:usesScene ex:scene-md-sketch ; cd:authoredResource true .
+  ex:md-step-aux a cd:PathStep ; cd:position 26 ; cd:usesResource ex:md-title-aux, ex:md-shift-section-2 ; cd:usesScene ex:scene-md-aux ; cd:authoredResource true .
+  ex:md-step-moments a cd:PathStep ; cd:position 27 ; cd:usesResource ex:md-title-moments, ex:md-bessel-section-6 ; cd:usesScene ex:scene-md-moments ; cd:authoredResource true .
+  ex:md-step-residual a cd:PathStep ; cd:position 28 ; cd:usesResource ex:md-title-residual, ex:md-bessel-section-7 ; cd:usesScene ex:scene-md-residual ; cd:authoredResource true .
+  ex:vr-step06 cd:usesResource ex:md-title-summing, ex:md-zero-section-1 .
+  ex:vr-step15 cd:usesResource ex:md-bessel-section-1 .
+  ex:vr-step16 cd:usesResource ex:md-bessel-section-2 .
+  ex:vs-step-simplify cd:usesResource ex:md-bessel-section-3 .
+  ex:vm-step-helper cd:usesResource ex:md-shift-section-1 .
+  ex:vr-step17 cd:usesResource ex:md-bessel-section-5 .
+  ex:vr-step18 cd:usesResource ex:md-bessel-section-8 .
+}

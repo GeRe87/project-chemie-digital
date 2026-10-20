@@ -1,0 +1,47 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+# New positions select existing content without rewriting previous path drafts.
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:cv-path06 a cd:PathStep ; cd:position 6 ; cd:usesResource ex:cv-zero-title, ex:md-sum-zero ; cd:usesScene ex:scene-cv-zero ; cd:authoredResource true .
+  ex:cv-path07 a cd:PathStep ; cd:position 7 ; cd:usesResource ex:vr07, ex:vr-ss-formula ; cd:usesScene ex:scene-vr07 ; cd:authoredResource true .
+  ex:cv-path08 a cd:PathStep ; cd:position 8 ; cd:usesResource ex:vr08, ex:vr-msd-formula ; cd:usesScene ex:scene-vr08 ; cd:authoredResource true .
+  ex:cv-path09 a cd:PathStep ; cd:position 9 ; cd:usesResource ex:cv-compare-title, ex:cv-empirical-msd, ex:cv-population-summary ; cd:usesScene ex:scene-cv-compare ; cd:authoredResource true .
+  ex:cv-path10 a cd:PathStep ; cd:position 10 ; cd:usesResource ex:bf-e-rules, ex:rule-expectation-constant, ex:rule-expectation-location-scale, ex:rule-expectation-addition ; cd:usesScene ex:scene-bf-e-rules ; cd:authoredResource true .
+  ex:cv-path11 a cd:PathStep ; cd:position 11 ; cd:usesResource ex:cv-rules-title, ex:rule-variance-location-scale, ex:rule-variance-covariance ; cd:usesScene ex:scene-cv-rules ; cd:authoredResource true .
+  ex:cv-path12 a cd:PathStep ; cd:position 12 ; cd:usesResource ex:lake-title, ex:bf-lake-scenario, ex:lake-table, ex:lake-interpretation ; cd:usesScene ex:scene-lake ; cd:authoredResource true .
+  ex:cv-path13 a cd:PathStep ; cd:position 13 ; cd:usesResource ex:cv-question-title, ex:cv-random-msd, ex:cv-question-equation ; cd:usesScene ex:scene-cv-question ; cd:authoredResource true .
+  ex:cv-path14 a cd:PathStep ; cd:position 14 ; cd:usesResource ex:vb-mc, ex:vv-scatter, ex:uq-repeated-scenario ; cd:usesScene ex:scene-vb-mc ; cd:authoredResource true .
+  ex:cv-path15 a cd:PathStep ; cd:position 15 ; cd:usesResource ex:vs-mc, ex:vv-mc-chart, ex:uq-many-scenario ; cd:usesScene ex:scene-vs-mc ; cd:authoredResource true .
+  ex:cv-path16 a cd:PathStep ; cd:position 16 ; cd:usesResource ex:cv-algebra-title, ex:cv-main-algebra-section ; cd:usesScene ex:scene-cv-algebra ; cd:authoredResource true .
+  ex:cv-path17 a cd:PathStep ; cd:position 17 ; cd:usesResource ex:cv-expect-title, ex:cv-expectation-section ; cd:usesScene ex:scene-cv-expect ; cd:authoredResource true .
+  ex:cv-path18 a cd:PathStep ; cd:position 18 ; cd:usesResource ex:cv-helper-title, ex:cv-mean-result ; cd:usesScene ex:scene-cv-helper ; cd:authoredResource true .
+  ex:cv-path19 a cd:PathStep ; cd:position 19 ; cd:usesResource ex:cv-bias-title, ex:bf-section6 ; cd:usesScene ex:scene-cv-bias ; cd:authoredResource true .
+  ex:cv-path20 a cd:PathStep ; cd:position 20 ; cd:usesResource ex:cv-correct-title, ex:cv-correction-section ; cd:usesScene ex:scene-cv-correction ; cd:authoredResource true .
+  ex:cv-path21 a cd:PathStep ; cd:position 21 ; cd:usesResource ex:cv-practical-title, ex:bf-practical ; cd:usesScene ex:scene-cv-practical ; cd:authoredResource true .
+  ex:cv-path22 a cd:PathStep ; cd:position 22 ; cd:usesResource ex:vm-recap, ex:uq-corrected-chart ; cd:usesScene ex:scene-vm-recap ; cd:authoredResource true .
+  ex:cv-path23 a cd:PathStep ; cd:position 23 ; cd:usesResource ex:cv-df-title, ex:cv-df-constraint, ex:cv-df-example ; cd:usesScene ex:scene-cv-df ; cd:authoredResource true .
+  ex:cv-path24 a cd:PathStep ; cd:position 23 ; cd:usesResource ex:vr19, ex:uq-worked-table ; cd:usesScene ex:scene-vr19 ; cd:authoredResource true .
+  ex:cv-path25 a cd:PathStep ; cd:position 24 ; cd:usesResource ex:vr21, ex:uq-sd-section, ex:uq-sd-cue ; cd:usesScene ex:scene-vr21 ; cd:authoredResource true .
+  ex:cv-path26 a cd:PathStep ; cd:position 25 ; cd:usesResource ex:vr22, ex:vr-read-sd ; cd:usesScene ex:scene-vr22 ; cd:authoredResource true .
+  ex:cv-path27 a cd:PathStep ; cd:position 26 ; cd:usesResource ex:vr23, ex:vr-summary, ex:vr-chart ; cd:usesScene ex:scene-vr23 ; cd:authoredResource true .
+  ex:cv-path28 a cd:PathStep ; cd:position 27 ; cd:usesResource ex:vr24, ex:vr24-task, ex:vr24-code ; cd:usesScene ex:scene-vr24 ; cd:authoredResource true .
+  ex:cv-path29 a cd:PathStep ; cd:position 28 ; cd:usesResource ex:vr25, ex:vr25-task, ex:vr25-code ; cd:usesScene ex:scene-vr25 ; cd:authoredResource true .
+  ex:cv-path30 a cd:PathStep ; cd:position 29 ; cd:usesResource ex:vr26, ex:vb-qc-table, ex:uq-target-media ; cd:usesScene ex:scene-vr26 ; cd:authoredResource true .
+  ex:cv-path31 a cd:PathStep ; cd:position 30 ; cd:usesResource ex:vr27, ex:uq-conditions ; cd:usesScene ex:scene-vr27 ; cd:authoredResource true .
+  ex:cv-path32 a cd:PathStep ; cd:position 31 ; cd:usesResource ex:vb-quality, ex:uq-quality ; cd:usesScene ex:scene-vb-quality ; cd:authoredResource true .
+  ex:cv-path33 a cd:PathStep ; cd:position 32 ; cd:usesResource ex:vr29, ex:ui-shift-context, ex:vb-shift-table, ex:vb-shift-chart ; cd:usesScene ex:scene-vr29 ; cd:authoredResource true .
+  ex:cv-path34 a cd:PathStep ; cd:position 33 ; cd:usesResource ex:vr30, ex:uq-replicates ; cd:usesScene ex:scene-vr30 ; cd:authoredResource true .
+  ex:cv-path35 a cd:PathStep ; cd:position 34 ; cd:usesResource ex:vr31, ex:v39-flow, ex:uq-sources-cue ; cd:usesScene ex:scene-vr31 ; cd:authoredResource true .
+  ex:cv-path36 a cd:PathStep ; cd:position 35 ; cd:usesResource ex:uq-components-title, ex:uq-components-section1 ; cd:usesScene ex:scene-uq-components ; cd:authoredResource true .
+  ex:cv-path37 a cd:PathStep ; cd:position 36 ; cd:usesResource ex:uq-root-title, ex:uq-components-section2 ; cd:usesScene ex:scene-uq-component-sd ; cd:authoredResource true .
+  ex:cv-path38 a cd:PathStep ; cd:position 37 ; cd:usesResource ex:uq-replicate-title, ex:uq-matrix, ex:v39-flow ; cd:usesScene ex:scene-uq-matrix ; cd:authoredResource true .
+  ex:cv-path39 a cd:PathStep ; cd:position 38 ; cd:usesResource ex:vr32, ex:uq-sites-table, ex:v40-chart ; cd:usesScene ex:scene-vr32 ; cd:authoredResource true .
+  ex:cv-path40 a cd:PathStep ; cd:position 39 ; cd:usesResource ex:vr33, ex:vr-rsd-formula ; cd:usesScene ex:scene-vr33 ; cd:authoredResource true .
+  ex:cv-path41 a cd:PathStep ; cd:position 40 ; cd:usesResource ex:vr34, ex:uq-rsd-table, ex:uq-rsd-cue ; cd:usesScene ex:scene-vr34 ; cd:authoredResource true .
+  ex:cv-path42 a cd:PathStep ; cd:position 41 ; cd:usesResource ex:vr35, ex:v27-table ; cd:usesScene ex:scene-vr35 ; cd:authoredResource true .
+  ex:cv-path43 a cd:PathStep ; cd:position 42 ; cd:usesResource ex:vr36, ex:se-extreme-context, ex:v29-table, ex:v29-chart ; cd:usesScene ex:scene-vr36 ; cd:authoredResource true .
+  ex:cv-path44 a cd:PathStep ; cd:position 43 ; cd:usesResource ex:vr37, ex:vr37-task, ex:vr37-code ; cd:usesScene ex:scene-vr37 ; cd:authoredResource true .
+  ex:cv-path45 a cd:PathStep ; cd:position 45 ; cd:usesResource ex:vr38, ex:v45-table, ex:vr38-task ; cd:usesScene ex:scene-vr38 ; cd:authoredResource true .
+  ex:cv-path46 a cd:PathStep ; cd:position 48 ; cd:usesResource ex:vr39 ; cd:usesScene ex:scene-vr39 ; cd:authoredResource true .
+}

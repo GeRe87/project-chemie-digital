@@ -127,6 +127,25 @@ function unorderedList(id: string, count = 3): SceneBlock {
   };
 }
 
+test("scenario and evidence layouts depend only on ordered block kinds", () => {
+  const railBlocks=[prose("heading","introduce"),definitions("scenario"),dataTable("observations"),unorderedList("conclusion"),barChart("stems")];
+  const rail=inferRevealCompositionPlan({id:"opaque-rail",blocks:railBlocks,source:[],readingOrder:railBlocks.map(b=>b.id)});
+  assert.equal(rail.profile,"scenario-data-visual");
+  assert.deepEqual(rail.placements.filter(p=>["scenario","observations","conclusion"].includes(p.blockId)).map(p=>p.region),["primary","primary","primary"]);
+  assert.equal(rail.placements.find(p=>p.blockId==="stems")?.region,"secondary");
+  for (const visual of [barChart("anything"), mediaReference("unrelated")]) {
+    const blocks = [prose("heading", "introduce"), unorderedList("context"), dataTable("data"), visual, unorderedList("conclusion")];
+    const plan = inferRevealCompositionPlan({ id: "opaque", blocks, source: [], readingOrder: blocks.map(b => b.id) });
+    assert.equal(plan.profile, "scenario-data-visual");
+    assert.equal(plan.placements.find(p => p.blockId === "context")?.region, visual.kind === "chart" ? "prelude" : "primary");
+    assert.equal(plan.placements.find(p => p.blockId === visual.id)?.region, "secondary");
+  }
+  const blocks = [prose("heading", "introduce"), flowDiagram("process"), dataTable("matrix"), unorderedList("qualification")];
+  const plan = inferRevealCompositionPlan({ id: "another", blocks, source: [], readingOrder: blocks.map(b => b.id) });
+  assert.equal(plan.profile, "process-matrix");
+  assert.equal(plan.placements.find(p => p.blockId === "process")?.region, "prelude");
+});
+
 test("component descriptors depend on semantic block kind and intent", () => {
   assert.equal(revealComponentDescriptor(prose("h", "introduce")).kind, "heading");
   assert.equal(revealComponentDescriptor(prose("i", "explain")).kind, "info-surface");
@@ -349,6 +368,14 @@ test("evidence-stage infers data plus visual with explanatory prelude and list s
       { blockId: "roles", region: "footer", index: 0 },
     ],
   });
+});
+
+test("evidence-stage reuses its left context/data/conclusion rail for authored cards", () => {
+  const blocks=[prose("heading","introduce"),definitions("context"),dataTable("table"),barChart("chart"),unorderedList("conclusion")];
+  const scene: Scene={id:"unrelated",source:[],blocks,readingOrder:blocks.map(b=>b.id)};
+  const plan=inferRevealCompositionPlan(scene);
+  assert.equal(plan.kind,"evidence-stage");assert.equal(plan.profile,"data-visual");
+  assert.deepEqual(plan.placements.map(p=>[p.blockId,p.region]),[["heading","heading"],["context","prelude"],["table","primary"],["chart","secondary"],["conclusion","footer"]]);
 });
 
 test("evidence-stage accepts contextual media above prose before data plus visual", () => {
@@ -1189,6 +1216,24 @@ test("supporting definition parts stay immediately below their formula with no i
   assert.equal(inferRevealCompositionPlan(scene).profile, "formula-deck");
   assert.deepEqual(resolveFormulaLegendUnits(scene).map(unit => unit.map(b => b.id)), [["formula", "symbols"]]);
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), inferRevealCompositionPlan(scene));
+});
+
+test("adjacent singleton formula legends remain separate comparison units", () => {
+  const singleton = (id: string, emphasis: "primary" | "supporting"): SceneBlock => {
+    const block = definitions(id);
+    assert.ok(block.kind === "definition-list");
+    return { ...block, entries: block.entries.slice(0, 1), emphasis };
+  };
+  const blocks = [prose("heading", "introduce"), singleton("context", "primary"),
+    math("left"), singleton("left-legend", "supporting"),
+    math("right"), singleton("right-legend", "supporting")];
+  const scene: Scene = { id: "opaque:comparison", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const units = resolveFormulaLegendUnits(scene);
+  assert.deepEqual(units.map(unit => unit.map(b => b.id)), [
+    ["context", "left", "left-legend"], ["right", "right-legend"],
+  ]);
+  assert.equal(new Set(units.flat().map(b => b.id)).size, units.flat().length);
+  assert.equal(inferRevealCompositionPlan(scene).mainCount, 2);
 });
 
 test("prompt illustration stays with the prompt before executable code", () => {

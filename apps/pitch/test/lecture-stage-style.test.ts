@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { presentationRuntimeSource } from "./runtime-source.ts";
 import test from "node:test";
 
 const lectureStyles = readFileSync(
@@ -10,10 +11,7 @@ const stageStyles = readFileSync(
   new URL("../src/presentation-step-runtime.css", import.meta.url),
   "utf8",
 );
-const mainSource = readFileSync(
-  new URL("../src/main.ts", import.meta.url),
-  "utf8",
-);
+const mainSource = presentationRuntimeSource();
 const stageRuntime = readFileSync(
   new URL("../src/presentation-step-runtime.ts", import.meta.url),
   "utf8",

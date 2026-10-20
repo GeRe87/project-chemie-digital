@@ -1,0 +1,28 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/mathematical-derivation-details> {
+  cd:LearningDomain cdm:definesRelation cd:hasDerivationDetail .
+  cd:hasDerivationDetail a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range cd:MathematicalDerivation ;
+    rdfs:comment "An explicit optional proof of a mathematical expression or displayed derivation section. Its complete authored sections are read in a detail view, not added to a LearningPath or its stages."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/mathematical-derivation-details> {
+  cd:DerivationDetailLinkShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasDerivationDetail ;
+    sh:or ( [ sh:class cd:MathExpression ] [ sh:class cd:MathematicalDerivationSection ] ) ;
+    sh:property [ sh:path cd:hasDerivationDetail ; sh:minCount 1 ; sh:class cd:MathematicalDerivation ] ;
+    sh:sparql [ sh:message "Every detail step must be covered by an authored section." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:hasDerivationDetail ?owner . ?owner cd:hasDerivationStep ?step . ?step cd:position ?p .
+        FILTER NOT EXISTS { ?section cd:partOfDerivation ?owner ; cd:firstDerivationStep/cd:position ?a ; cd:lastDerivationStep/cd:position ?b . FILTER (?a <= ?p && ?p <= ?b) }
+      }""" ] ;
+    sh:sparql [ sh:message "Detail sections must not overlap." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:hasDerivationDetail ?owner .
+        ?one cd:partOfDerivation ?owner ; cd:firstDerivationStep/cd:position ?a ; cd:lastDerivationStep/cd:position ?b .
+        ?two cd:partOfDerivation ?owner ; cd:firstDerivationStep/cd:position ?c ; cd:lastDerivationStep/cd:position ?d .
+        FILTER (?one != ?two && ?a <= ?d && ?c <= ?b)
+      }""" ] .
+}

@@ -1,0 +1,95 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-10-16> {
+  ex:v10 a cd:Interpretation ; skos:prefLabel "Two Variances, Two Questions"@en ; cd:body "N counts the complete population; n counts the sample. Describing that population and estimating its variance are different questions."@en ; cd:authoredResource true .
+  ex:v10-pop a cd:MathExpression ; cd:latex "\\sigma^2=\\frac{1}{N}\\sum_{i=1}^{N}(x_i-\\mu)^2" ; dct:hasPart ex:v10-pop-legend ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:v10-pop-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v10-pop-key ; cd:authoredResource true .
+  ex:v10-pop-key a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Population variance: describe"@en ; cd:body "N: all population values; μ: their mean.\nxᵢ: a population value; Σ: sum over all N.\nσ² describes this complete population's variability."@en ; cd:authoredResource true .
+  ex:v10-sample a cd:MathExpression ; cd:latex "s^2=\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2" ; dct:hasPart ex:v10-sample-legend ; dct:source ex:vd-sample-variance-formula ; cd:authoredResource true .
+  ex:v10-sample-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v10-sample-key ; cd:authoredResource true .
+  ex:v10-sample-key a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Sample variance: estimate"@en ; cd:body "n: sampled observations xᵢ; x̄: their fitted mean.\ns² estimates the unknown population variance σ².\nUnbiased for independent, identically distributed observations with finite variance and n > 1."@en ; cd:authoredResource true .
+
+  ex:v11 a cd:Interpretation ; skos:prefLabel "Why Does Bessel's Correction Work?"@en ; cd:body "Assume independent, identically distributed observations with finite variance and n > 1. E denotes repeated-sampling expectation. Normality is not required; unbiased does not mean exact for one sample."@en ; cd:authoredResource true .
+  ex:v11-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\sum_i(X_i-\\mu)^2&=\\sum_i(X_i-\\bar{X})^2+n(\\bar{X}-\\mu)^2\\\\E[SS_{\\mathrm{res}}]&=n\\sigma^2-\\sigma^2=(n-1)\\sigma^2\\\\E[s^2]&=\\sigma^2\\end{aligned}" ; cd:body "The total sum of squares about the population mean equals the residual sum of squares about the sample mean plus n times the squared distance between the two means. Taking expectations leaves n minus one times population variance for residuals."@en ; dct:hasPart ex:v11-cards ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:v11-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v11-a, ex:v11-b, ex:v11-c, ex:v11-d ; cd:authoredResource true .
+  ex:v11-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Fit the mean"@en ; cd:body "μ is the population mean; X̄ is fitted from the same n observations Xᵢ. σ² is the population variance."@en ; cd:authoredResource true .
+  ex:v11-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "One constraint"@en ; cd:body "Residuals sum to zero: Σᵢ(Xᵢ − X̄) = 0. Only n − 1 residuals are free; SS_res is their sum of squares."@en ; cd:authoredResource true .
+  ex:v11-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Mean contribution"@en ; cd:body "Var(X̄) = σ²/n. Thus the fitted-mean term contributes σ² in expectation; the full sum contributes nσ²."@en ; cd:authoredResource true .
+  ex:v11-d a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Correct the denominator"@en ; cd:body "Divide SS_res by n − 1: E[s²] = σ². Division by n instead gives (n − 1)σ²/n on average."@en ; cd:authoredResource true .
+
+  ex:v12 a cd:Interpretation ; skos:prefLabel "Bessel's Correction in a Simulation"@en ; cd:body "Known population: μ = 10 mg/L, σ² = 4 (mg/L)². Sample size n = 3.\nExpected SS/n: 8/3 ≈ 2.667 (mg/L)².\nExpected SS/(n − 1): 4 (mg/L)².\nMonte Carlo averages approximate these expectations; they need not equal them."@en ; cd:authoredResource true .
+  ex:v12 cd:hasCodeExample ex:v12-code .
+  ex:v16-task cd:hasCodeExample ex:v16-code .
+  ex:v12-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "set.seed(20261017)\nn <- 3; B <- 10000\nv <- replicate(B, {\n  x <- rnorm(n, mean = 10, sd = 2)\n  ss <- sum((x - mean(x))^2)\n  c(descriptive = ss/n, corrected = ss/(n-1))\n})\nrbind(Monte_Carlo = rowMeans(v),\n      expectation = c(8/3, 4))\n# Random approximations, not exact identities" ; cd:authoredResource true .
+
+  ex:v13 a cd:Interpretation ; skos:prefLabel "From Variance to Standard Deviation"@en ; cd:body "Squaring creates squared units; the non-negative square root restores the measurement unit. SD describes a typical scale of spread, not the mean absolute distance. The square root of an unbiased variance estimator is not automatically an unbiased SD estimator."@en ; cd:authoredResource true .
+  ex:v13-formula a cd:MathExpression ; cd:latex "s=\\sqrt{s^2}" ; dct:hasPart ex:v13-cards ; cd:authoredResource true .
+  ex:v13-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v13-a, ex:v13-b, ex:v13-c ; cd:authoredResource true .
+  ex:v13-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Variance: squared spread"@en ; cd:body "Series B: s² = 25 (mg/L)².\nSquared deviations produce squared concentration units."@en ; cd:authoredResource true .
+  ex:v13-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Transformation: square root"@en ; cd:body "Take the non-negative root.\n√25 = 5; √[(mg/L)²] = mg/L."@en ; cd:authoredResource true .
+  ex:v13-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "SD: original measurement unit"@en ; cd:body "Series B: s = 5 mg/L.\nNow the spread is expressed on the concentration scale."@en ; cd:authoredResource true .
+
+  ex:v14 a cd:Interpretation ; skos:prefLabel "Reading the Standard Deviation Formula"@en ; cd:body "Read the expression as a sequence: center, square, sum, divide by residual degrees of freedom, then take the square root."@en ; cd:authoredResource true .
+  ex:v14-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v14-x, ex:v14-mean, ex:v14-n, ex:v14-df, ex:v14-sum, ex:v14-s ; cd:authoredResource true .
+  ex:v14-x a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "xᵢ: individual observation"@en ; cd:body "One measured value; i identifies the observation."@en ; dct:references ex:xi-symbol ; cd:authoredResource true .
+  ex:v14-mean a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "x̄: sample mean"@en ; cd:body "Estimated from the same observations."@en ; dct:references ex:xbar-symbol ; cd:authoredResource true .
+  ex:v14-n a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "n: number of observations"@en ; cd:body "Count the relevant sampled units; n > 1."@en ; dct:references ex:n-symbol ; cd:authoredResource true .
+  ex:v14-df a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "n − 1: residual degrees of freedom"@en ; cd:body "One constraint after fitting the mean."@en ; dct:references ex:df-symbol ; cd:authoredResource true .
+  ex:v14-sum a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "Σ: sum over observations"@en ; cd:body "Add all n squared deviations."@en ; dct:references ex:v-sum-symbol ; cd:authoredResource true .
+  ex:v14-s a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "s: sample standard deviation"@en ; cd:body "Non-negative; same unit as xᵢ."@en ; dct:references ex:s-symbol ; cd:authoredResource true .
+  ex:v-sum-symbol a cd:MathSymbol ; cd:symbol "Σ" ; cd:body "Sum over the indexed observations."@en ; cd:authoredResource true .
+
+  ex:v15 a cd:Interpretation ; skos:prefLabel "Same Data, Different Standard Deviations"@en ; cd:body "The visible spread now has a numerical scale: s(A) = 1 mg/L; s(B) = 5 mg/L. Both means remain 10 mg/L."@en ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:v15-results a cd:TableDefinition ; skos:prefLabel "Sample spread, n = 3"@en ; cd:hasTableColumn ex:v15-c1, ex:v15-c2, ex:v15-c3 ; cd:hasTableRow ex:v15-r1, ex:v15-r2 ; cd:authoredResource true .
+  ex:v15-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:v15-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "s² (mg/L)²"@en ; cd:authoredResource true .
+  ex:v15-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "s (mg/L)"@en ; cd:authoredResource true .
+  ex:v15-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v15-a1, ex:v15-a2, ex:v15-a3 ; cd:authoredResource true .
+  ex:v15-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v15-b1, ex:v15-b2, ex:v15-b3 ; cd:authoredResource true .
+  ex:v15-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:v15-a2 a cd:TableCell ; cd:position 2 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:v15-a3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:v15-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:v15-b2 a cd:TableCell ; cd:position 2 ; cd:body "25"@en ; cd:authoredResource true .
+  ex:v15-b3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; cd:authoredResource true .
+
+  ex:v16 a cd:Interpretation ; skos:prefLabel "R Lab 1: Calculate the Spread"@en ; cd:body "Six minutes: calculate n, mean, SS, variance and SD for both series. Check the manual denominators against var() and sd(). Values are in mg/L; variances in (mg/L)²."@en ; cd:authoredResource true .
+  ex:v16-task a cd:Exercise ; cd:body "Six minutes: calculate n, mean, SS, variance and SD for both series. Compare the manual calculations with var() and sd().\nWhy does var() divide by n − 1? Change one value: predict which summaries change, then run again. Concentrations and SDs are in mg/L; variances are in (mg/L)²."@en ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:v16-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "A <- c(9, 10, 11); B <- c(5, 10, 15)\nspread <- function(x) {\n  n <- length(x); m <- mean(x)\n  ss <- sum((x-m)^2)\n  c(n=n, mean=m, SS=ss, manual_var=ss/(n-1),\n    var_R=var(x), manual_sd=sqrt(ss/(n-1)), sd_R=sd(x))\n}\nrbind(A=spread(A), B=spread(B))" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-10-16> {
+  ex:scene-v10 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:v10h, ex:v10f1, ex:v10f2, ex:v10t ; cd:authoredResource true .
+  ex:v10h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v10 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v10f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v10-pop ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v10f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v10-sample ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v10t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v10 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v11 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:v11h, ex:v11f, ex:v11t ; cd:authoredResource true .
+  ex:v11h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v11 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v11f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v11-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v11t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v11 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v12 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:v12h, ex:v12t, ex:v12c ; cd:authoredResource true .
+  ex:v12h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v12 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v12t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v12 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v12c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v12-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v13 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v13h, ex:v13f, ex:v13t ; cd:authoredResource true .
+  ex:v13h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v13 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v13f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v13-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v13t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v13 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v14 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v14h, ex:v14f, ex:v14l ; cd:authoredResource true .
+  ex:v14h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v14 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v14f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sample-sd-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v14l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v14-legend ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v15 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v15h, ex:v15table, ex:v15chart, ex:v15t ; cd:authoredResource true .
+  ex:v15h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v15 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v15table a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v15-results ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v15chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:chart-variance-same-mean ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v15t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v15 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v16 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:v16h, ex:v16task, ex:v16c ; cd:authoredResource true .
+  ex:v16h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v16 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v16task a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v16-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v16c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v16-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+}

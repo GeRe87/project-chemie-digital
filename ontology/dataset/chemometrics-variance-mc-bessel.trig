@@ -1,0 +1,107 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-mc-bessel> {
+  ex:vr-expect-formula cd:hasSymbol ex:vr-msd-symbol .
+  # Rounded numeric results remain linked to the exact seeded demonstration.
+  ex:vm-mean2 a cd:StatisticalResult ; cd:numericValue 1.315517 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d2 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean3 a cd:StatisticalResult ; cd:numericValue 4.294558 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d3 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean5 a cd:StatisticalResult ; cd:numericValue 4.845184 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d5 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean10 a cd:StatisticalResult ; cd:numericValue 6.372896 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d10 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean25 a cd:StatisticalResult ; cd:numericValue 5.971991 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d25 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean50 a cd:StatisticalResult ; cd:numericValue 4.764096 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d50 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vm-mean100 a cd:StatisticalResult ; cd:numericValue 4.899856 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vs-d100 ; dct:source ex:vs-exp1-code ; cd:authoredResource true .
+
+  ex:vm-empirical a cd:Interpretation ; skos:prefLabel "Many Samples: An Empirical Shortfall"@en ; cd:hasKeyPoint ex:vm-e1, ex:vm-e2, ex:vm-e3 ; dct:source ex:vs-model, ex:vs-mc-code ; cd:authoredResource true .
+  ex:vm-e1 a cd:KeyPoint ; cd:position 1 ; cd:body "Known variance: 5 (mg/L)². Average MSD remains below it, especially at small n."@en ; cd:authoredResource true .
+  ex:vm-e2 a cd:KeyPoint ; cd:position 2 ; cd:body "Seed 1903; 5,000 independent samples per size. Finite Monte-Carlo averages approximate, rather than equal, expectations."@en ; cd:authoredResource true .
+  ex:vm-e3 a cd:KeyPoint ; cd:position 3 ; cd:body "Bias is a systematic error in expectation, not each estimate's random error. Why does fitting the mean reduce the squared deviations?"@en ; cd:authoredResource true .
+  ex:vm-emp-table a cd:TableDefinition ; skos:prefLabel "Mean MSD across 5,000 samples ((mg/L)²)"@en ; cd:hasTableColumn ex:vm-ec1, ex:vm-ec2 ; cd:hasTableRow ex:vm-er2, ex:vm-er3, ex:vm-er5, ex:vm-er10, ex:vm-er25, ex:vm-er50, ex:vm-er100 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:vm-ec1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "n"@en ; cd:authoredResource true .
+  ex:vm-ec2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "MC mean MSD"@en ; cd:authoredResource true .
+  ex:vm-er2 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vm-e21, ex:vm-e22 ; cd:authoredResource true .
+  ex:vm-er3 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vm-e31, ex:vm-e32 ; cd:authoredResource true .
+  ex:vm-er5 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vm-e51, ex:vm-e52 ; cd:authoredResource true .
+  ex:vm-er10 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vm-e101, ex:vm-e102 ; cd:authoredResource true .
+  ex:vm-er25 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vm-e251, ex:vm-e252 ; cd:authoredResource true .
+  ex:vm-er50 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:vm-e501, ex:vm-e502 ; cd:authoredResource true .
+  ex:vm-er100 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:vm-e1001, ex:vm-e1002 ; cd:authoredResource true .
+  ex:vm-e21 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vm-e22 a cd:TableCell ; cd:position 2 ; cd:body "2.454"@en ; cd:authoredResource true .
+  ex:vm-e31 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vm-e32 a cd:TableCell ; cd:position 2 ; cd:body "3.368"@en ; cd:authoredResource true .
+  ex:vm-e51 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vm-e52 a cd:TableCell ; cd:position 2 ; cd:body "3.989"@en ; cd:authoredResource true .
+  ex:vm-e101 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vm-e102 a cd:TableCell ; cd:position 2 ; cd:body "4.477"@en ; cd:authoredResource true .
+  ex:vm-e251 a cd:TableCell ; cd:position 1 ; cd:body "25"@en ; cd:authoredResource true .
+  ex:vm-e252 a cd:TableCell ; cd:position 2 ; cd:body "4.782"@en ; cd:authoredResource true .
+  ex:vm-e501 a cd:TableCell ; cd:position 1 ; cd:body "50"@en ; cd:authoredResource true .
+  ex:vm-e502 a cd:TableCell ; cd:position 2 ; cd:body "4.926"@en ; cd:authoredResource true .
+  ex:vm-e1001 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vm-e1002 a cd:TableCell ; cd:position 2 ; cd:body "4.926"@en ; cd:authoredResource true .
+
+  ex:vm-helper a cd:Interpretation ; skos:prefLabel "The Expected Squared Shift of the Mean"@en ; dct:source ex:vr-expect-formula ; cd:authoredResource true .
+  ex:vm-var-symbol a cd:MathSymbol ; cd:symbol "Var" ; cd:body "Variance: expected squared deviation of a random quantity from its expectation."@en ; cd:authoredResource true .
+  ex:vm-helper-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\operatorname{E}[\\bar X]=\\mu,\\qquad\\operatorname{Var}(\\bar X)=\\frac{\\sigma^2}{n}\\\\\\operatorname{E}[(\\bar X-\\mu)^2]=\\frac{\\sigma^2}{n}\\\\\\Delta=\\bar X-\\mu\\quad\\Longrightarrow\\quad\\operatorname{E}[n\\Delta^2]=\\sigma^2\\end{gathered}" ; cd:hasSymbol ex:vr-E-symbol, ex:vr-Xbar-symbol, ex:mu-symbol, ex:vm-var-symbol, ex:vr-sigma2-symbol, ex:n-symbol, ex:vs-Delta-symbol ; dct:hasPart ex:vv-helper-legend ; cd:authoredResource true .
+  ex:vm-helper-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vm-hl1, ex:vm-hl2, ex:vm-hl3 ; cd:authoredResource true .
+  ex:vm-hl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Random mean and fixed parameters"@en ; cd:body "X̄: random sample mean before observing data; observed value: x̄. μ: fixed population mean; σ²: finite population variance; n: sample size greater than 1."@en ; cd:authoredResource true .
+  ex:vm-hl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Expectation and variance"@en ; cd:body "E: repeated-sampling expectation; Var: expected squared distance from that expectation. Independent, identically distributed observations give E(X̄) = μ and Var(X̄) = σ²/n."@en ; cd:authoredResource true .
+  ex:vm-hl3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "The needed offset term"@en ; cd:body "Δ = X̄ − μ: shared random shift. Since E(X̄) = μ, its expected square is Var(X̄). Multiply by fixed n to obtain σ². This is the auxiliary result needed for Bessel's correction; normality is not required."@en ; cd:authoredResource true .
+
+  ex:vm-recap a cd:Interpretation ; skos:prefLabel "Theory Explains the Monte Carlo Shortfall"@en ; cd:hasKeyPoint ex:vm-rk1, ex:vm-rk2 ; dct:source ex:vr-expect-formula, ex:vs-mc-code ; cd:authoredResource true .
+  ex:vm-rk1 a cd:KeyPoint ; cd:position 1 ; cd:body "The derived expectation explains downward bias. A small sample's MSD is also more variable; five individual estimates cannot reliably establish bias."@en ; cd:authoredResource true .
+  ex:vm-rk2 a cd:KeyPoint ; cd:position 2 ; cd:body "Theory is exact under the sampling assumptions. Seed-1903 means from 5,000 samples per n are finite approximations, rounded to three decimals."@en ; cd:authoredResource true .
+  ex:vm-compare a cd:TableDefinition ; skos:prefLabel "Expected MSD versus empirical average ((mg/L)²)"@en ; cd:hasTableColumn ex:vm-cc1, ex:vm-cc2, ex:vm-cc3 ; cd:hasTableRow ex:vm-cr2, ex:vm-cr3, ex:vm-cr5, ex:vm-cr10, ex:vm-cr25, ex:vm-cr50, ex:vm-cr100 ; dct:source ex:vs-theory-table, ex:vm-emp-table ; cd:authoredResource true .
+  ex:vm-cc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "n"@en ; cd:authoredResource true .
+  ex:vm-cc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Theory"@en ; cd:authoredResource true .
+  ex:vm-cc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "MC mean"@en ; cd:authoredResource true .
+  ex:vm-cr2 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vm-c21, ex:vm-c22, ex:vm-c23 ; cd:authoredResource true .
+  ex:vm-cr3 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vm-c31, ex:vm-c32, ex:vm-c33 ; cd:authoredResource true .
+  ex:vm-cr5 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vm-c51, ex:vm-c52, ex:vm-c53 ; cd:authoredResource true .
+  ex:vm-cr10 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vm-c101, ex:vm-c102, ex:vm-c103 ; cd:authoredResource true .
+  ex:vm-cr25 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vm-c251, ex:vm-c252, ex:vm-c253 ; cd:authoredResource true .
+  ex:vm-cr50 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:vm-c501, ex:vm-c502, ex:vm-c503 ; cd:authoredResource true .
+  ex:vm-cr100 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:vm-c1001, ex:vm-c1002, ex:vm-c1003 ; cd:authoredResource true .
+  ex:vm-c21 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vm-c22 a cd:TableCell ; cd:position 2 ; cd:body "2.500"@en ; cd:authoredResource true .
+  ex:vm-c23 a cd:TableCell ; cd:position 3 ; cd:body "2.454"@en ; dct:source ex:vm-e22 ; cd:authoredResource true .
+  ex:vm-c31 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vm-c32 a cd:TableCell ; cd:position 2 ; cd:body "3.333"@en ; cd:authoredResource true .
+  ex:vm-c33 a cd:TableCell ; cd:position 3 ; cd:body "3.368"@en ; dct:source ex:vm-e32 ; cd:authoredResource true .
+  ex:vm-c51 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vm-c52 a cd:TableCell ; cd:position 2 ; cd:body "4.000"@en ; cd:authoredResource true .
+  ex:vm-c53 a cd:TableCell ; cd:position 3 ; cd:body "3.989"@en ; dct:source ex:vm-e52 ; cd:authoredResource true .
+  ex:vm-c101 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vm-c102 a cd:TableCell ; cd:position 2 ; cd:body "4.500"@en ; cd:authoredResource true .
+  ex:vm-c103 a cd:TableCell ; cd:position 3 ; cd:body "4.477"@en ; dct:source ex:vm-e102 ; cd:authoredResource true .
+  ex:vm-c251 a cd:TableCell ; cd:position 1 ; cd:body "25"@en ; cd:authoredResource true .
+  ex:vm-c252 a cd:TableCell ; cd:position 2 ; cd:body "4.800"@en ; cd:authoredResource true .
+  ex:vm-c253 a cd:TableCell ; cd:position 3 ; cd:body "4.782"@en ; dct:source ex:vm-e252 ; cd:authoredResource true .
+  ex:vm-c501 a cd:TableCell ; cd:position 1 ; cd:body "50"@en ; cd:authoredResource true .
+  ex:vm-c502 a cd:TableCell ; cd:position 2 ; cd:body "4.900"@en ; cd:authoredResource true .
+  ex:vm-c503 a cd:TableCell ; cd:position 3 ; cd:body "4.926"@en ; dct:source ex:vm-e502 ; cd:authoredResource true .
+  ex:vm-c1001 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vm-c1002 a cd:TableCell ; cd:position 2 ; cd:body "4.950"@en ; cd:authoredResource true .
+  ex:vm-c1003 a cd:TableCell ; cd:position 3 ; cd:body "4.926"@en ; dct:source ex:vm-e1002 ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-mc-bessel> {
+  ex:vm-emp-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vm-empirical ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vm-emp-k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vv-empirical-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vm-emp-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vm-emp-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vm-helper a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vm-helper-h, ex:vm-helper-f ; cd:authoredResource true .
+  ex:vm-helper-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vm-helper ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vm-helper-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-shift-section-1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vm-recap a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vm-recap-h, ex:vm-recap-k, ex:vv-recap-chart ; cd:authoredResource true .
+  ex:vm-recap-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vm-recap ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vm-recap-k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vv-recap-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vm-recap-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vm-compare ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vm-step-helper a cd:PathStep ; cd:position 25 ; cd:usesResource ex:vm-helper, ex:vm-helper-formula ; cd:usesScene ex:scene-vm-helper ; cd:authoredResource true .
+  ex:vm-step-recap a cd:PathStep ; cd:position 30 ; cd:usesResource ex:vm-recap, ex:vm-compare ; cd:usesScene ex:scene-vm-recap ; cd:authoredResource true .
+}

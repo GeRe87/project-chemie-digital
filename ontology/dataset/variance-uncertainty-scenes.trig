@@ -1,0 +1,70 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-uncertainty> {
+  ex:scene-vr09 cd:hasSceneItem ex:uq-pop-variance-i .
+  ex:scene-vb-mc cd:hasSceneItem ex:uq-repeat-i .
+  ex:scene-vs-mc cd:hasSceneItem ex:uq-many-i .
+  ex:scene-vr26 cd:hasSceneItem ex:uq-target-i .
+  ex:scene-vr29 cd:hasSceneItem ex:uq-shift-i .
+  ex:scene-vr36 cd:hasSceneItem ex:uq-extreme-i .
+  ex:uq-mean-title a cd:Interpretation ; skos:prefLabel "Why the Sample Mean Fluctuates Less"@en ; cd:authoredResource true .
+  ex:uq-root-title a cd:Interpretation ; skos:prefLabel "From Total Variance to Total SD"@en ; cd:authoredResource true .
+  ex:uq-components-section1 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:uq-components-derivation ; cd:firstDerivationStep ex:uq-components-step1 ; cd:lastDerivationStep ex:uq-components-step1 ; cd:usesLegend ex:uq-components-legend ; cd:authoredResource true .
+  ex:uq-components-section2 a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:uq-components-derivation ; cd:firstDerivationStep ex:uq-components-step2 ; cd:lastDerivationStep ex:uq-components-step2 ; cd:usesLegend ex:uq-components-legend ; cd:authoredResource true .
+  ex:scene-uq-average a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; cd:hasSceneItem ex:uq-av-h, ex:uq-av-f, ex:uq-av-k ; cd:authoredResource true .
+  ex:uq-av-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-average-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-av-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-decomposition ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-av-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-average-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-uq-mean a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:uq-mean-h, ex:uq-mean-f ; cd:authoredResource true .
+  ex:uq-mean-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-mean-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-mean-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-mean-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-uq-df a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:uq-df-h, ex:uq-df-reminder, ex:uq-df-f, ex:uq-df-k ; cd:authoredResource true .
+  ex:uq-df-reminder a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-df-constraint ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-df-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-df-transfer ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-df-f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-df-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-df-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:uq-df-transfer ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-uq-components a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:uq-co-h, ex:uq-co-f ; cd:authoredResource true .
+  ex:uq-co-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-components-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-co-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-components-section1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-uq-component-sd a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; cd:hasSceneItem ex:uq-cr-h, ex:uq-cr-f ; cd:authoredResource true .
+  ex:uq-cr-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-root-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-cr-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-components-section2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-uq-matrix a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:uq-mx-h, ex:uq-mx-d, ex:uq-mx-t, ex:uq-mx-k ; cd:authoredResource true .
+  ex:uq-mx-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:uq-replicate-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-mx-d a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v39-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-mx-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-matrix ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-mx-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:uq-replicate-title ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:uq-pop-variance-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-pop-variance ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-repeat-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-repeated-scenario ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-many-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-many-scenario ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-target-i a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:uq-target-media ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-shift-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ui-shift-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:uq-extreme-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:se-extreme-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:uq-average-path a cd:PathStep ; cd:position 22 ; cd:usesResource ex:uq-average-title, ex:md-decomposition ; cd:usesScene ex:scene-uq-average ; cd:authoredResource true .
+  ex:uq-mean-path a cd:PathStep ; cd:position 24 ; cd:usesResource ex:uq-mean-title, ex:uq-mean-section ; cd:usesScene ex:scene-uq-mean ; cd:authoredResource true .
+  ex:uq-df-path a cd:PathStep ; cd:position 34 ; cd:usesResource ex:uq-df-transfer, ex:uq-df-formula, ex:uq-df-constraint ; cd:usesScene ex:scene-uq-df ; cd:authoredResource true .
+  ex:uq-components-path a cd:PathStep ; cd:position 47 ; cd:usesResource ex:uq-components-title, ex:uq-components-section1 ; cd:usesScene ex:scene-uq-components ; cd:authoredResource true .
+  ex:uq-component-sd-path a cd:PathStep ; cd:position 48 ; cd:usesResource ex:uq-root-title, ex:uq-components-section2 ; cd:usesScene ex:scene-uq-component-sd ; cd:authoredResource true .
+  ex:uq-matrix-path a cd:PathStep ; cd:position 49 ; cd:usesResource ex:uq-replicate-title, ex:uq-matrix, ex:v39-flow ; cd:usesScene ex:scene-uq-matrix ; cd:authoredResource true .
+  ex:vr-step09 cd:usesResource ex:uq-pop-mean, ex:uq-pop-variance .
+  ex:vb-step-mc cd:usesResource ex:uq-repeated-scenario .
+  ex:vs-step-mc cd:usesResource ex:uq-many-scenario .
+  ex:vm-step-recap cd:usesResource ex:uq-corrected-chart .
+  ex:vr-step19 cd:usesResource ex:uq-worked-table .
+  ex:vr-step21 cd:usesResource ex:uq-sd-section, ex:uq-sd-cue .
+  ex:vr-step26 cd:usesResource ex:uq-target-media .
+  ex:vr-step27 cd:usesResource ex:uq-conditions .
+  ex:vb-step-quality cd:usesResource ex:uq-quality .
+  ex:vr-step29 cd:usesResource ex:uq-shift-scenario .
+  ex:vr-step30 cd:usesResource ex:uq-replicates .
+  ex:vr-step31 cd:usesResource ex:uq-sources-cue .
+  ex:vr-step32 cd:usesResource ex:uq-sites-table .
+  ex:vr-step34 cd:usesResource ex:uq-rsd-table, ex:uq-rsd-cue .
+  ex:vr-step36 cd:usesResource ex:uq-extreme-scenario .
+}

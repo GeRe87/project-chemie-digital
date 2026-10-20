@@ -77,6 +77,7 @@ function numericStepCount(host: Element): number {
 
 function hostId(host: Element, fallbackIndex: number): string {
   return host.getAttribute("data-presentation-step-group")
+    ?? host.getAttribute("data-derivation-block-id")
     ?? host.getAttribute("data-chart-block-id")
     ?? host.getAttribute("data-diagram-block-id")
     ?? host.getAttribute("data-flow-block-id")
@@ -202,8 +203,11 @@ export function mountPresentationStepRuntime(
 
 type PresentationStageDirection = "next" | "prev";
 
-function stageDirectionForKey(event: KeyboardEvent): PresentationStageDirection | undefined {
+export function stageDirectionForKey(event: KeyboardEvent): PresentationStageDirection | undefined {
   if (event.altKey || event.ctrlKey || event.metaKey) return undefined;
+  if ((event.target as Element | null)?.closest?.("dialog[open]")) return undefined;
+  if ((event.key === " " || event.key === "Spacebar" || event.key === "Enter")
+    && (event.target as Element | null)?.closest?.("button, a, [role='button']")) return undefined;
 
   const target = event.target as { tagName?: string; isContentEditable?: boolean } | null;
   const tagName = target?.tagName?.toLowerCase();
@@ -244,6 +248,7 @@ function scrollToAdjacentPage(
   const page = target.closest(".scroll-page") as HTMLElement | null;
   if (!viewport || !page) return false;
 
+  if(root?.ownerDocument?.defaultView)root.dispatchEvent(new CustomEvent("pcd-presentation-page-will-change",{detail:{sourceId:deck.getCurrentSlide()?.id,targetId:target.id,direction}}));
   root?.dispatchEvent(new CustomEvent("pcd-presentation-stage-exit", { bubbles: false }));
 
   let top = page.offsetTop;
@@ -253,7 +258,13 @@ function scrollToAdjacentPage(
     if (lastSnap) top += lastSnap.offsetTop;
   }
 
-  viewport.scrollTop = top;
+  // Releasing the stage lock restores Reveal's smooth-scroll CSS. Assigning
+  // scrollTop would then leave the old scene active during the animation, so
+  // subsequent commands can keep targeting that same transition. Commands
+  // need an atomic page move; native scrolling inside other surfaces remains.
+  if (typeof viewport.scrollTo === "function") viewport.scrollTo({ top, behavior: "instant" });
+  else viewport.scrollTop = top;
+  if (root?.ownerDocument?.defaultView) root.dispatchEvent(new CustomEvent("pcd-presentation-page-change",{detail:{targetId:target.id,direction}}));
   return true;
 }
 
@@ -294,15 +305,21 @@ export function consumePresentationStageNavigation(
   direction: PresentationStageDirection,
   options: PresentationStageNavigationOptions = {},
 ): boolean {
+  if (options.root?.ownerDocument?.body?.dataset?.presentationMode === "script") return false;
   const slide = deck.getCurrentSlide();
-  if (!isStageLockedSlide(slide)) return false;
+  if (!slide || (!isStageLockedSlide(slide) && options.view !== "scroll")) return false;
 
   const available = deck.availableFragments();
+  const settlePageMotion = ():void => {
+    if(options.root?.ownerDocument?.defaultView) options.root.dispatchEvent(new CustomEvent("pcd-presentation-command"));
+  };
   if (direction === "next" && available.next) {
+    settlePageMotion();
     deck.nextFragment();
     return true;
   }
   if (direction === "prev" && available.prev) {
+    settlePageMotion();
     deck.prevFragment();
     return true;
   }
@@ -318,6 +335,7 @@ export function mountPresentationStageNavigation(
 ): () => void {
   const onKeyDown: EventListener = (event) => {
     const keyboardEvent = event as KeyboardEvent;
+    if (options.root?.ownerDocument.body.classList.contains("pcd-course-world-active") || options.root?.ownerDocument.body.dataset?.presentationMode === "script") return;
     const direction = stageDirectionForKey(keyboardEvent);
     if (!direction || !consumePresentationStageNavigation(deck, direction, options)) return;
     keyboardEvent.preventDefault();
@@ -342,6 +360,85 @@ export function mountPresentationStageNavigation(
     keyboardTarget.removeEventListener("keydown", onKeyDown, { capture: true });
     controlTarget?.removeEventListener("click", onClick, { capture: true });
   };
+}
+
+/** Scroll view hides Reveal's own directional controls. These accessible controls
+ * feed the same stage navigation command, not a separate counter or deck. */
+export function mountPresentationNavigationControls(presentation: HTMLElement): () => void {
+  const controls = presentation.ownerDocument.createElement("nav");
+  controls.className = "pcd-presentation-navigation";
+  controls.setAttribute("aria-label", "Presentation navigation");
+  for (const [direction, text] of [["prev", "Previous"], ["next", "Next"]]) {
+    const button = presentation.ownerDocument.createElement("button");
+    button.type = "button"; button.className = `navigate-${direction}`; button.textContent = text!;
+    controls.append(button);
+  }
+  presentation.append(controls);
+  return () => controls.remove();
+}
+
+/** Staged scroll pages intentionally suppress native touch scrolling. A swipe
+ * releases exactly one normal navigation command after the gesture ends. */
+export function mountPresentationSwipeNavigation(
+  deck: PresentationStageNavigationDeck,
+  target: HTMLElement,
+  options: PresentationStageNavigationOptions,
+): () => void {
+  let start: { x: number; y: number } | undefined;
+  const begin = (event: TouchEvent): void => {
+    start = undefined;
+    if (event.touches.length !== 1 || !isStageLockedSlide(deck.getCurrentSlide())
+      || (event.target as Element).closest("button, input, textarea, select, a, dialog, [contenteditable]")) return;
+    start = { x: event.touches[0]!.clientX, y: event.touches[0]!.clientY };
+  };
+  const end = (event: TouchEvent): void => {
+    const origin = start; start = undefined;
+    if (!origin || !event.changedTouches.length) return;
+    const dx = event.changedTouches[0]!.clientX - origin.x;
+    const dy = event.changedTouches[0]!.clientY - origin.y;
+    const movement = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
+    if (Math.abs(movement) < 50) return;
+    consumePresentationStageNavigation(deck, movement < 0 ? "next" : "prev", options);
+  };
+  target.addEventListener("touchstart", begin, { passive: true });
+  target.addEventListener("touchend", end);
+  return () => { target.removeEventListener("touchstart", begin); target.removeEventListener("touchend", end); };
+}
+
+/** Scroll-view wheel input uses the same command on staged and plain pages.
+ * Native mandatory snapping can otherwise undo small detents on plain pages.
+ * Bound repeat rate from the last accepted command, not the last event: a
+ * sustained stream must not extend a debounce lock forever. Small trackpad
+ * deltas accumulate, while tiny decaying tails do not each advance a scene. */
+export function mountPresentationWheelNavigation(
+  deck: PresentationStageNavigationDeck,
+  target: HTMLElement,
+  options: PresentationStageNavigationOptions,
+): () => void {
+  let lastEvent = -Infinity;
+  let lastCommand = -Infinity;
+  let accumulated = 0;
+  let previousDirection = 0;
+  const wheel = (event: WheelEvent): void => {
+    if (event.ctrlKey || !event.deltaY || Math.abs(event.deltaX ?? 0) > Math.abs(event.deltaY)) return;
+    if (options.root?.ownerDocument.body.classList.contains("pcd-course-world-active") || options.root?.ownerDocument.body.dataset?.presentationMode === "script") return;
+    if ((event.target as Element).closest("dialog, input, textarea, select, .cm-editor")) return;
+    if (options.view !== "scroll" && !isStageLockedSlide(deck.getCurrentSlide())) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    const direction = Math.sign(event.deltaY);
+    const reversed = direction !== previousDirection;
+    if (reversed || event.timeStamp - lastEvent >= 180) accumulated = 0;
+    lastEvent = event.timeStamp;
+    previousDirection = direction;
+    accumulated += Math.abs(event.deltaY) * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 720 : 1);
+    if (accumulated < 64 || (!reversed && event.timeStamp - lastCommand < 180)) return;
+    if (consumePresentationStageNavigation(deck, direction > 0 ? "next" : "prev", options)) {
+      lastCommand = event.timeStamp;
+      accumulated = 0;
+    }
+  };
+  target.addEventListener("wheel", wheel, { capture: true, passive: false });
+  return () => target.removeEventListener("wheel", wheel, true);
 }
 
 export function isStageLockedSlide(slide: Element | null | undefined): boolean {
@@ -420,7 +517,7 @@ export function mountPresentationStageLock(
   const activateAfterRevealSettles = (): void => {
     unlock();
     const slide = deck.getCurrentSlide() ?? null;
-    if (!slide || !isStageLockedSlide(slide)) return;
+    if (!slide || !isStageLockedSlide(slide) || body?.dataset?.presentationMode === "script") return;
 
     targetSlide = slide;
     settleFrameOne = browserWindow.requestAnimationFrame(() => {
@@ -438,7 +535,7 @@ export function mountPresentationStageLock(
   };
 
   const blockScroll = (event: Event): void => {
-    if (!locked) return;
+    if (!locked || body?.dataset?.presentationMode === "script" || (event.type === "wheel" && (event as WheelEvent).ctrlKey)) return;
     event.preventDefault();
     queueRestore();
   };
@@ -466,6 +563,7 @@ export function mountPresentationStageLock(
   };
 
   root.addEventListener("pcd-presentation-stage-exit", onStageExit);
+  root.addEventListener("pcd-presentation-stage-enter", activateAfterRevealSettles);
   deck.on("beforeslidechange", onBeforeSlideChange);
   deck.on("fragmentshown", onFragment);
   deck.on("fragmenthidden", onFragment);
@@ -482,6 +580,7 @@ export function mountPresentationStageLock(
     destroyed = true;
     unlock();
     root.removeEventListener("pcd-presentation-stage-exit", onStageExit);
+    root.removeEventListener("pcd-presentation-stage-enter", activateAfterRevealSettles);
     deck.off("beforeslidechange", onBeforeSlideChange);
     deck.off("fragmentshown", onFragment);
     deck.off("fragmenthidden", onFragment);

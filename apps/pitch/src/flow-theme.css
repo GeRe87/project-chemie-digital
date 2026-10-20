@@ -722,6 +722,14 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-svg marker path {
   shape-rendering: crispEdges;
 }
 
+/* Relationship callouts must follow the active presentation contrast, too. */
+body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .reveal {
+  --pcd-flow-callout-text: var(--pcd-foreground);
+  --pcd-flow-callout-fill: var(--pcd-surface-strong);
+  --pcd-flow-callout-stroke: var(--pcd-accent);
+  --pcd-flow-callout-stem: var(--pcd-accent);
+}
+
 /* Relationship labels are compact light pixel callouts with a short pixel stem. */
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-edge-label-panel,
 body[data-diagram-theme="eco-city"] .reveal .d3-flow-shared-edge-annotation-panel {

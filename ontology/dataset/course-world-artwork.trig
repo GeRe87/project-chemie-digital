@@ -1,0 +1,27 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/course-world-artwork> {
+  cd:LearningDomain cdm:definesRelation cd:hasThumbnail .
+  cd:hasThumbnail a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:LearningUnit ; rdfs:range cd:MediaAsset ; rdfs:comment "Optional authored level artwork, independent of a unit's title, position or learning-path contents. Artwork is an illustration, not measurement data."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/course-world-artwork> {
+  cd:UnitThumbnailShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasThumbnail ; sh:class cd:LearningUnit ;
+    sh:property [ sh:path cd:hasThumbnail ; sh:maxCount 1 ; sh:class cd:MediaAsset ] .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork> {
+  ex:learning-unit-chemometrics-introduction cd:hasThumbnail ex:world-introduction-art .
+  ex:learning-unit-random-variables cd:hasThumbnail ex:world-variables-art .
+  ex:learning-unit-mean-values cd:hasThumbnail ex:world-mean-art .
+  ex:learning-unit-variance-dispersion cd:hasThumbnail ex:world-variance-art .
+
+  ex:world-introduction-art a cd:MediaAsset ; cd:uri "/course-world/introduction.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated starting island with a laboratory, a flask and a flag: an invitation to explore chemometrics."@en ; cd:authoredResource true .
+  ex:world-variables-art a cd:MediaAsset ; cd:uri "/course-world/variables.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated observatory island with a die and coloured sample vials, suggesting chance and different kinds of variables. Decorative, not experimental data."@en ; cd:authoredResource true .
+  ex:world-mean-art a cd:MediaAsset ; cd:uri "/course-world/mean-values.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated island with a balance and measurement markers gathering around a center, suggesting averages. Decorative, not a worked numerical example."@en ; cd:authoredResource true .
+  ex:world-variance-art a cd:MediaAsset ; cd:uri "/course-world/variance.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated island with two groups of measurement markers at different spreads, suggesting variance and dispersion. Decorative, not experimental data."@en ; cd:authoredResource true .
+}

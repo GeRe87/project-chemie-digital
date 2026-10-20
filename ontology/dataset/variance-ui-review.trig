@@ -1,0 +1,38 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-ui-review> {
+  ex:ui-shift-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-shift-card ; cd:authoredResource true .
+  ex:ui-shift-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: same spread, different center"@en ; cd:body "• Compare two series with reference **10 mg/L**.\n• Their observed **SDs agree**, but their means are **10 and 11 mg/L**.\n• Does ==precision alone== identify agreement with the reference?"@en ; dct:source ex:vb-shift-table, ex:vb-shift-chart ; cd:authoredResource true .
+  ex:vr24-code dct:hasPart ex:ui-functions-mean .
+  ex:vr25-code dct:hasPart ex:ui-functions-spread .
+  ex:vr37-code dct:hasPart ex:ui-functions-qc .
+  ex:ui-functions-mean a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-fn-c, ex:ui-fn-mean, ex:ui-fn-assign ; cd:authoredResource true .
+  ex:ui-functions-spread a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-fn-c-spread, ex:ui-fn-var, ex:ui-fn-sd ; cd:authoredResource true .
+  ex:ui-functions-qc a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-fn-c-qc, ex:ui-fn-mean-qc, ex:ui-fn-sd-qc, ex:ui-fn-sum, ex:ui-fn-logical ; cd:authoredResource true .
+  ex:ui-fn-c-spread a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines input values or collects output results into a vector."@en ; dct:source ex:ui-fn-c ; cd:authoredResource true .
+  ex:ui-fn-c-qc a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines input values or collects output results into a vector."@en ; dct:source ex:ui-fn-c ; cd:authoredResource true .
+  ex:ui-fn-mean-qc a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "mean(x)"@en ; cd:body "Calculates the arithmetic mean of x."@en ; dct:source ex:ui-fn-mean ; cd:authoredResource true .
+  ex:ui-fn-sd-qc a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sd(x)"@en ; cd:body "Calculates sample SD using the corrected variance."@en ; dct:source ex:ui-fn-sd ; cd:authoredResource true .
+  ex:ui-fn-c a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "c(...)"@en ; cd:body "Combines values into a vector; also collects results for output."@en ; cd:authoredResource true .
+  ex:ui-fn-mean a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "mean(x)"@en ; cd:body "Calculates the arithmetic mean of the values in x."@en ; cd:authoredResource true .
+  ex:ui-fn-assign a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "name <- value"@en ; cd:body "Assignment operator: stores a value under a name."@en ; cd:authoredResource true .
+  ex:ui-fn-var a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "var(x)"@en ; cd:body "Calculates sample variance using divisor n−1."@en ; cd:authoredResource true .
+  ex:ui-fn-sd a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "sd(x)"@en ; cd:body "Calculates sample SD, the square root of var(x)."@en ; cd:authoredResource true .
+  ex:ui-fn-sum a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "sum(x)"@en ; cd:body "Adds values; for logical x, counts TRUE entries."@en ; cd:authoredResource true .
+  ex:ui-fn-logical a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel ">=, <= and &"@en ; cd:body "Operators: compare to inclusive bounds; & requires both conditions."@en ; cd:authoredResource true .
+
+  ex:ui-Ybar a cd:MathSymbol ; cd:symbol "Ȳ" ; cd:mathNotation "\\bar Y" ; cd:body "Random sample mean of n measurements Y_i; Y is a local renaming of the earlier measurement variable X, not a new dataset."@en ; cd:presentationDefinition "Random mean of the same measurements, now named Yᵢ."@en ; cd:authoredResource true .
+  ex:ui-ybar a cd:MathSymbol ; cd:symbol "ȳ" ; cd:mathNotation "\\bar y" ; cd:body "Observed arithmetic mean of the same measurements, using the local Y notation."@en ; cd:presentationDefinition "Observed sample mean in the Y notation."@en ; cd:authoredResource true .
+  ex:ui-sem-population a cd:MathExpression ; cd:formulaLabel "Random sampling uncertainty of the mean"@en ; cd:latex "\\operatorname{SE}(\\bar Y)=\\frac{\\sigma}{\\sqrt n}" ; cd:hasSymbol ex:se-symbol, ex:ui-Ybar, ex:sigma-symbol, ex:n-symbol ; dct:source ex:sem-population-formula ; dct:hasPart ex:ui-pop-legend ; cd:authoredResource true .
+  ex:ui-sem-estimated a cd:MathExpression ; cd:formulaLabel "Estimate the unknown standard error"@en ; cd:latex "\\widehat{\\operatorname{SE}}(\\bar Y)=\\frac{s}{\\sqrt n}" ; cd:hasSymbol ex:se-estimated-symbol, ex:ui-Ybar, ex:s-symbol, ex:n-symbol ; dct:source ex:sem-estimated-formula ; dct:hasPart ex:ui-est-legend ; cd:authoredResource true .
+  ex:ui-pop-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-pop-symbols ; cd:authoredResource true .
+  ex:ui-pop-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Mean uncertainty"@en ; cd:body "Independent common finite-variance observations."@en ; dct:references ex:se-symbol, ex:ui-Ybar, ex:sigma-symbol, ex:n-symbol ; cd:authoredResource true .
+  ex:ui-est-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-est-symbols ; cd:authoredResource true .
+  ex:ui-est-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Estimated uncertainty"@en ; cd:body "s estimates unknown σ."@en ; dct:references ex:se-estimated-symbol, ex:ui-Ybar, ex:s-symbol, ex:n-symbol ; cd:authoredResource true .
+  ex:ui-example-formula a cd:MathExpression ; cd:formulaLabel "Mean ± one estimated SE; n = 5 iid QC repeats"@en ; cd:latex "\\begin{gathered}\\widehat{\\operatorname{SE}}(\\bar Y)=\\frac{0.1581}{\\sqrt5}\\approx0.0707\\;\\mathrm{mg/L}\\\\\\boxed{\\bar y\\;\\pm\\;\\widehat{\\operatorname{SE}}(\\bar Y)=(10.00\\pm0.07)\\;\\mathrm{mg/L}}\\end{gathered}" ; cd:hasSymbol ex:se-estimated-symbol, ex:ui-Ybar, ex:ui-ybar ; dct:source ex:se-example-formula, ex:dataset-qc-method-a ; dct:hasPart ex:ui-example-legend ; cd:authoredResource true .
+  ex:ui-example-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ui-example-symbols ; cd:authoredResource true .
+  ex:ui-example-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observed report"@en ; cd:body "Mean ± one estimated SE, not a confidence interval."@en ; dct:references ex:se-estimated-symbol, ex:ui-Ybar, ex:ui-ybar ; cd:authoredResource true .
+}

@@ -4,7 +4,7 @@ import sys
 import unittest
 from pathlib import Path
 
-from rdflib import URIRef
+from rdflib import URIRef, Dataset, Literal
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
@@ -65,7 +65,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         }
         self.assertIn((RANDOM_PATH, RANDOM_GRAPH), binding_pairs)
         self.assertIn((MEAN_PATH, MEAN_GRAPH), binding_pairs)
-        self.assertNotIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
+        self.assertIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
         if introduction_id in placements:
             self.assertIn(
                 (
@@ -75,7 +75,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
                 binding_pairs,
             )
 
-        expected_renderable_count = 3 if introduction_id in placements else 2
+        expected_renderable_count = 4 if introduction_id in placements else 3
         self.assertEqual(
             expected_renderable_count,
             len(artifact["sceneDocuments"]),
@@ -101,21 +101,21 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
             variance_unit["paths"],
         )
 
-    def test_scene_free_variance_path_is_valid_but_not_renderable(self) -> None:
-        dataset = RUNTIME.assemble_dataset()
-        self.assertFalse(
-            RUNTIME.path_is_fully_scene_bound(
-                dataset,
-                RUNTIME.CoursePathReference(VARIANCE_PATH, VARIANCE_GRAPH),
-            )
-        )
+    def test_scene_free_path_is_valid_but_not_renderable_and_variance_is_now_ready(self) -> None:
+        dataset = Dataset()
+        graph=dataset.graph(URIRef(GRAPH+'fixture-scene-free'))
+        path=URIRef(EX+'fixture-scene-free');step=URIRef(EX+'fixture-step')
+        graph.add((path,URIRef(CD+'hasStep'),step));graph.add((step,URIRef(CD+'position'),Literal(1)))
+        self.assertFalse(RUNTIME.path_is_fully_scene_bound(dataset,RUNTIME.CoursePathReference(str(path),str(graph.identifier))))
+        self.assertTrue(RUNTIME.path_is_fully_scene_bound(RUNTIME.assemble_dataset(),RUNTIME.CoursePathReference(VARIANCE_PATH,VARIANCE_GRAPH)))
 
     def test_partial_scene_binding_fails_closed(self) -> None:
         dataset = RUNTIME.assemble_dataset()
         graph = dataset.graph(URIRef(VARIANCE_GRAPH))
+        active_step=next(graph.objects(URIRef(VARIANCE_PATH),URIRef(f"{CD}hasStep")))
         graph.add(
             (
-                URIRef(f"{EX}path-step-chemometrics-variance-dispersion-variance"),
+                active_step,
                 URIRef(f"{CD}usesScene"),
                 URIRef(f"{EX}scene-partial-test"),
             )

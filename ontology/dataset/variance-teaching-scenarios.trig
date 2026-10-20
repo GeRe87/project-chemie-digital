@@ -1,0 +1,108 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/symbol-presentation> {
+  cd:LearningDomain cdm:definesAttribute cd:presentationDefinition .
+  cd:presentationDefinition a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:MathSymbol ; rdfs:comment "Concise authored definition for a projected symbol legend; the full scientific body remains available."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/symbol-presentation> {
+  cd:SymbolPresentationShape a sh:NodeShape ; sh:targetSubjectsOf cd:presentationDefinition ; sh:class cd:MathSymbol ;
+    sh:property [ sh:path cd:presentationDefinition ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-teaching-scenarios> {
+  ex:vs-scene-a a cd:Interpretation ; cd:hasKeyPoint ex:vs-a1, ex:vs-a2, ex:vs-a3 ; cd:authoredResource true .
+  ex:vs-a1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: compare measurement series A and B."@en ; cd:authoredResource true .
+  ex:vs-a2 a cd:KeyPoint ; cd:position 2 ; cd:body "Their arithmetic means are the same: 32/3 mg/L."@en ; cd:authoredResource true .
+  ex:vs-a3 a cd:KeyPoint ; cd:position 3 ; cd:body "Do they show the same measurement behavior?"@en ; cd:authoredResource true .
+  ex:vs-scene-qc a cd:Interpretation ; cd:hasKeyPoint ex:vs-q1, ex:vs-q2, ex:vs-q3 ; cd:authoredResource true .
+  ex:vs-q1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: two analytical methods measure the same control sample."@en ; cd:authoredResource true .
+  ex:vs-q2 a cd:KeyPoint ; cd:position 2 ; cd:body "Both give results around the target, with different variability."@en ; cd:authoredResource true .
+  ex:vs-q3 a cd:KeyPoint ; cd:position 3 ; cd:body "Would one method be preferable?"@en ; cd:authoredResource true .
+  ex:vs-scene-back a cd:Interpretation ; cd:hasKeyPoint ex:vs-b1 ; cd:authoredResource true .
+  ex:vs-b1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: compare each of the six observations with its series mean, 32/3 mg/L."@en ; cd:authoredResource true .
+  ex:vs-back-result a cd:Interpretation ; cd:hasKeyPoint ex:vs-br1 ; cd:authoredResource true .
+  ex:vs-br1 a cd:KeyPoint ; cd:position 1 ; cd:body "To describe spread, we need to examine the distances between individual observations and their arithmetic mean."@en ; cd:authoredResource true .
+
+  ex:vr-a1 skos:prefLabel "A₁"@en . ex:vr-a2 skos:prefLabel "A₂"@en . ex:vr-a3 skos:prefLabel "A₃"@en .
+  ex:vr-b1 skos:prefLabel "B₁"@en . ex:vr-b2 skos:prefLabel "B₂"@en . ex:vr-b3 skos:prefLabel "B₃"@en .
+  ex:vs-deviation-chart a cd:ChartDefinition ; skos:prefLabel "Signed distances from the shared mean"@en ;
+    cd:body "Stems connect the common mean 32/3 mg/L to each observation. Labels show signed deviations in mg/L, rounded to two decimals."@en ;
+    cd:chartType cd:DotPlot ; cd:drawStems true ; cd:xAxisLabel "Individual observation"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ;
+    cd:hasChartGroup ex:vr-ga, ex:vr-gb ; cd:hasChartAnnotation ex:vs-exact-mean-line ; cd:markerRadius 6.0 ; cd:authoredResource true .
+  ex:vs-exact-mean-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Mean = 32/3 mg/L"@en ; cd:referenceResult ex:vr-mean ; cd:authoredResource true .
+
+  # Reproduced in the existing local webR runtime. Values are stored with 14–15
+  # significant digits; displayed tables round, calculations use the full draw.
+  ex:lake-sample a cd:Dataset ; skos:prefLabel "One hypothetical lake sample"@en ; cd:unit "mg/L" ; cd:hasObservation ex:lake-x1, ex:lake-x2, ex:lake-x3, ex:lake-x4, ex:lake-x5 ; dct:source ex:lake-code, ex:vs-model ; cd:authoredResource true .
+  ex:lake-x1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.42516497226621 ; cd:authoredResource true .
+  ex:lake-x2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.26811152026492 ; cd:authoredResource true .
+  ex:lake-x3 a cd:Observation ; cd:position 3 ; cd:numericValue 7.22860199659618 ; cd:authoredResource true .
+  ex:lake-x4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.30411898848890 ; cd:authoredResource true .
+  ex:lake-x5 a cd:Observation ; cd:position 5 ; cd:numericValue 11.29116798138752 ; cd:authoredResource true .
+  ex:lake-mean a cd:StatisticalResult ; cd:numericValue 9.50343309180074 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:lake-sample ; cd:authoredResource true .
+  ex:lake-msd a cd:StatisticalResult ; cd:numericValue 1.81469051857526 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:variance ; cd:usesDataset ex:lake-sample ; cd:authoredResource true .
+  ex:lake-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "set.seed(1904)\nlake <- rnorm(5, mean = 10, sd = sqrt(5))\nlake_mean <- mean(lake)\nlake_msd <- mean((lake - lake_mean)^2)\nc(lake, lake_mean, lake_msd)" ; cd:authoredResource true .
+  ex:lake-title a cd:Interpretation ; skos:prefLabel "One Sample from a Hypothetical Lake"@en ; cd:authoredResource true .
+  ex:lake-scenario a cd:Interpretation ; cd:hasKeyPoint ex:lake-s1, ex:lake-s2, ex:lake-s3 ; cd:authoredResource true .
+  ex:lake-s1 a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: a fully defined demonstration population of lake concentrations."@en ; cd:authoredResource true .
+  ex:lake-s2 a cd:KeyPoint ; cd:position 2 ; cd:body "Independent normal observations; μ = 10 mg/L; σ² = 5 (mg/L)²."@en ; cd:authoredResource true .
+  ex:lake-s3 a cd:KeyPoint ; cd:position 3 ; cd:body "One sample (n = 5, seed 1904): 9.425, 9.268, 7.229, 10.304, 11.291 mg/L."@en ; cd:authoredResource true .
+  ex:lake-interpretation a cd:Interpretation ; cd:hasKeyPoint ex:lake-i1, ex:lake-i2, ex:lake-i3 ; cd:authoredResource true .
+  ex:lake-i1 a cd:KeyPoint ; cd:position 1 ; cd:body "One sample generally does not reproduce the population parameters exactly."@en ; cd:authoredResource true .
+  ex:lake-i2 a cd:KeyPoint ; cd:position 2 ; cd:body "One sample cannot establish systematic bias. We need repeated sampling."@en ; cd:authoredResource true .
+  ex:lake-i3 a cd:KeyPoint ; cd:position 3 ; cd:body "How does sample size influence the quality of our estimates?"@en ; cd:authoredResource true .
+  ex:lake-table a cd:TableDefinition ; skos:prefLabel "One sample versus the known population"@en ; cd:hasTableColumn ex:lake-c1, ex:lake-c2, ex:lake-c3 ; cd:hasTableRow ex:lake-r1, ex:lake-r2 ; dct:source ex:lake-mean, ex:lake-msd, ex:vs-model ; cd:authoredResource true .
+  ex:lake-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Quantity"@en ; cd:authoredResource true .
+  ex:lake-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Population"@en ; cd:authoredResource true .
+  ex:lake-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "This sample"@en ; cd:authoredResource true .
+  ex:lake-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:lake-r1c1, ex:lake-r1c2, ex:lake-r1c3 ; cd:authoredResource true .
+  ex:lake-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:lake-r2c1, ex:lake-r2c2, ex:lake-r2c3 ; cd:authoredResource true .
+  ex:lake-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:lake-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:lake-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "9.503"@en ; dct:source ex:lake-mean ; cd:authoredResource true .
+  ex:lake-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Variance / MSD ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:lake-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:lake-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "1.815"@en ; dct:source ex:lake-msd ; cd:authoredResource true .
+
+  ex:n-symbol cd:presentationDefinition "Number of observations."@en .
+  ex:xi-symbol cd:presentationDefinition "Individual observed value."@en .
+  ex:xbar-symbol cd:presentationDefinition "Arithmetic sample mean."@en .
+  ex:vr-index-symbol cd:presentationDefinition "Observation index (1 to n)."@en .
+  ex:v-sum-symbol cd:presentationDefinition "Sum over the displayed indices."@en .
+  ex:vr-d-symbol cd:presentationDefinition "Observation minus its sample mean."@en .
+  ex:vr-X-symbol cd:presentationDefinition "Random observation i."@en .
+  ex:vr-Xbar-symbol cd:presentationDefinition "Random sample mean."@en .
+  ex:vs-Delta-symbol cd:presentationDefinition "Shared shift X̄ − μ."@en .
+  ex:mu-symbol cd:presentationDefinition "Population mean."@en .
+  ex:vr-sigma2-symbol cd:presentationDefinition "Population variance."@en .
+  ex:vr-E-symbol cd:presentationDefinition "Repeated-sampling expectation."@en .
+  ex:vm-var-symbol cd:presentationDefinition "Variance of a random quantity."@en .
+  ex:vr-s2-symbol cd:presentationDefinition "Sample variance (divisor n−1)."@en .
+  ex:vr-msd-symbol cd:presentationDefinition "Descriptive mean squared deviation (divisor n)."@en .
+  ex:vr-ss-symbol cd:presentationDefinition "Sum of squared deviations."@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-teaching-scenarios> {
+  ex:vs-a-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-scene-a ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-q-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vs-scene-qc ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-b-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-back-scenario ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-b-c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vs-deviation-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vs-b-k a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vs-back-result ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-lake a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:lake-h, ex:lake-s, ex:lake-t, ex:lake-k ; cd:authoredResource true .
+  ex:lake-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:lake-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:lake-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:bf-lake-scenario ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:lake-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:lake-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:lake-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:lake-interpretation ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:lake-step a cd:PathStep ; cd:position 11 ; cd:usesResource ex:lake-title, ex:lake-scenario, ex:lake-table, ex:lake-interpretation ; cd:usesScene ex:scene-lake ; cd:authoredResource true .
+  ex:vr-step02 cd:usesResource ex:vs-scene-a .
+  ex:vr-step03 cd:usesResource ex:vs-scene-qc .
+  ex:vr-step04 cd:usesResource ex:vs-scene-back, ex:vr-values, ex:vs-deviation-chart, ex:vs-back-result .
+}

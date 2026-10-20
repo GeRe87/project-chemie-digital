@@ -1,0 +1,90 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-visual-review> {
+  ex:vs-exp1-chart cd:yAxisMinimum 0.0 ; cd:markerRadius 5.0 ; cd:markerOpacity 0.8 ; cd:summaryRadius 10.0 ; cd:observationLabel "One sample" ; cd:summaryLabel "Mean of five MSDs" .
+  ex:vs-g2 cd:summaryResult ex:vm-mean2 .
+  ex:vs-g3 cd:summaryResult ex:vm-mean3 .
+  ex:vs-g5 cd:summaryResult ex:vm-mean5 .
+  ex:vs-g10 cd:summaryResult ex:vm-mean10 .
+  ex:vs-g25 cd:summaryResult ex:vm-mean25 .
+  ex:vs-g50 cd:summaryResult ex:vm-mean50 .
+  ex:vs-g100 cd:summaryResult ex:vm-mean100 .
+
+  ex:vv-intro a cd:Interpretation ; cd:hasKeyPoint ex:vv-intro-point ; dct:source ex:vs-model, ex:vb-sample-task ; cd:authoredResource true .
+  ex:vv-intro-point a cd:KeyPoint ; cd:position 1 ; cd:body "Prepared instructor demonstration: interpret the estimates, not the R programming."@en ; cd:authoredResource true .
+  ex:vv-intro-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-pop-card, ex:vv-samples-card ; dct:source ex:vs-model, ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vv-pop-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A known population"@en ; cd:body "Independent normal observations. Mean μ = 10 mg/L; variance σ² = 5 (mg/L)²; SD σ = √5 mg/L."@en ; cd:authoredResource true .
+  ex:vv-samples-card a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Five fresh samples at each size"@en ; cd:body "n = 2, 3, 5, 10, 25, 50, 100. Fit each sample mean, then calculate MSD with divisor n. Seed 1901."@en ; cd:authoredResource true .
+  ex:vv-scatter-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-scatter-point ; dct:source ex:vb-mc-task ; cd:authoredResource true .
+  ex:vv-scatter-point a cd:KeyPoint ; cd:position 1 ; cd:body "Small samples fluctuate more. Five realizations per size cannot reliably establish bias."@en ; cd:authoredResource true .
+  ex:vv-mc-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-mc-point ; dct:source ex:vs-mc-task ; cd:authoredResource true .
+  ex:vv-mc-point a cd:KeyPoint ; cd:position 1 ; cd:body "Prepared demonstration: average 5,000 independent samples per size, then compare with the known variance."@en ; cd:authoredResource true .
+  ex:vv-centers-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-centers-1, ex:vv-centers-2 ; dct:source ex:vb-centers-cards ; cd:authoredResource true .
+  ex:vv-centers-1 a cd:KeyPoint ; cd:position 1 ; cd:body "The population mean μ is usually unknown. A sample supplies an estimate x̄, which generally differs from μ."@en ; cd:authoredResource true .
+  ex:vv-centers-2 a cd:KeyPoint ; cd:position 2 ; cd:body "Here, Series A is a separate illustration, not a random draw from the demonstration population."@en ; cd:authoredResource true .
+  ex:vv-centers-svg a cd:MediaAsset ; cd:uri "/chemometrics/variance-centers.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrative number line: population mean 10 mg/L and separate Series A mean 32/3 mg/L, connected by their common shift Δ. Series A is not simulated from the demonstration population."@en ; dct:source ex:vr-data-a, ex:vs-model, ex:vr-center-formula ; cd:authoredResource true .
+  ex:vv-decomposition-svg a cd:MediaAsset ; cd:uri "/chemometrics/variance-square-decomposition.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Schematic, not to scale: sum of squares about μ equals the residual sum of squares about the sample mean plus n times Δ squared. The residual cross term vanishes because residuals sum to zero."@en ; dct:source ex:vr-sum-formula, ex:vs-simplify-formula ; cd:authoredResource true .
+
+  # Concise projection legends; full explanations remain reusable source resources.
+  ex:vv-center-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-cl1, ex:vv-cl2 ; dct:source ex:vs-center-legend ; cd:authoredResource true .
+  ex:vv-cl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observations and centers"@en ; cd:body "Xᵢ: random observation i; i: index. X̄: random sample mean; μ: fixed population mean. Realized values use xᵢ and x̄."@en ; cd:authoredResource true .
+  ex:vv-cl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Two different differences"@en ; cd:body "dᵢ = Xᵢ − X̄: individual residual. Δ = X̄ − μ: shared shift for this sample. Both have unit mg/L."@en ; cd:authoredResource true .
+  ex:vv-expand-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-xl1, ex:vv-xl2 ; dct:source ex:vs-expand-legend ; cd:authoredResource true .
+  ex:vv-xl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols"@en ; cd:body "Xᵢ: random observation i; μ: population mean; dᵢ: residual about X̄; Δ: X̄ − μ. i indexes observations."@en ; cd:authoredResource true .
+  ex:vv-xl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Square all terms"@en ; cd:body "Superscript 2 means square. The two cross-products give 2Δdᵢ. Every term has unit (mg/L)²."@en ; cd:authoredResource true .
+  ex:vv-sum-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-sl1, ex:vv-sl2 ; dct:source ex:vs-sum-legend ; cd:authoredResource true .
+  ex:vv-sl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Values and sums"@en ; cd:body "Xᵢ: observation i; μ: population mean; dᵢ: residual about X̄. n: count; i: index; Σ: sum from 1 to n."@en ; cd:authoredResource true .
+  ex:vv-sl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "One common shift"@en ; cd:body "Δ = X̄ − μ is shared by every observation. Superscript 2 means square. Keep the residual, cross and offset terms."@en ; cd:authoredResource true .
+  ex:vv-simplify-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-zl1, ex:vv-zl2 ; dct:source ex:vs-simplify-legend ; cd:authoredResource true .
+  ex:vv-zl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "The cross term vanishes"@en ; cd:body "dᵢ = Xᵢ − X̄: residual of observation i. Σ sums from 1 to n. Since Σdᵢ = 0, the cross term is zero."@en ; cd:authoredResource true .
+  ex:vv-zl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "The offset remains"@en ; cd:body "Δ = X̄ − μ; μ: population mean; n: count. The shared squared shift occurs n times. Superscript 2 means square."@en ; cd:authoredResource true .
+  ex:vv-helper-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-hl1, ex:vv-hl2 ; dct:source ex:vm-helper-legend ; cd:authoredResource true .
+  ex:vv-hl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Random mean, fixed population"@en ; cd:body "X̄: random sample mean; x̄: realized value. μ: population mean; σ²: finite population variance; n > 1: sample size."@en ; cd:authoredResource true .
+  ex:vv-hl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Expected squared shift"@en ; cd:body "E: expectation; Var: variance; Δ = X̄ − μ. E(Δ²) = Var(X̄). Assumptions: independent, identically distributed observations. Normality is not required."@en ; cd:authoredResource true .
+  ex:vv-hl3 a cd:Interpretation ; skos:prefLabel "The needed auxiliary result"@en ; cd:body "Δ = X̄ − μ. Because E(X̄) = μ, E(Δ²) = Var(X̄). Multiply by fixed n. Normality is not required."@en ; cd:authoredResource true .
+  ex:vv-expect-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-el1, ex:vv-el2, ex:vv-el3 ; dct:source ex:vs-expect-legend ; cd:authoredResource true .
+  ex:vv-el1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Residuals and offset"@en ; cd:body "Xᵢ: observation i; μ: population mean; dᵢ = Xᵢ − X̄; Δ = X̄ − μ. n > 1: count; Σ: sum from i = 1 to n."@en ; cd:authoredResource true .
+  ex:vv-el2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "The variance target"@en ; cd:body "E: repeated-sampling expectation; σ²: population variance; MSDₙ: residual sum of squares divided by n. Here σ² = 5 (mg/L)²."@en ; cd:authoredResource true .
+  ex:vv-el3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Apply the preceding result"@en ; cd:body "Subtract E(nΔ²) = σ² from nσ². Assumptions: independent identical sampling, finite variance. Normality is not needed."@en ; cd:authoredResource true .
+  ex:vv-variance-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vv-vl1, ex:vv-vl2, ex:vv-vl3 ; dct:source ex:vs-variance-legend ; cd:authoredResource true .
+  ex:vv-vl1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Sample variance"@en ; cd:body "s²: sample variance; dᵢ: observation i minus its fitted mean; n > 1: count; Σ: sum over i = 1 to n."@en ; cd:authoredResource true .
+  ex:vv-vl2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Remove average bias"@en ; cd:body "E: expectation; σ²: population variance. The numerator averages (n−1)σ², so division by n−1 targets σ². Sampling must be iid with finite variance."@en ; cd:authoredResource true .
+  ex:vv-vl3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Keep the arguments separate"@en ; cd:body "Expectation explains unbiased variance estimation. Residual degrees of freedom describe constraints. The square root s is not automatically unbiased."@en ; cd:authoredResource true .
+  ex:vv-empirical-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-ep1, ex:vv-ep2, ex:vv-ep3 ; dct:source ex:vm-empirical ; cd:authoredResource true .
+  ex:vv-ep1 a cd:KeyPoint ; cd:position 1 ; cd:body "Population variance: 5 (mg/L)². Average MSD is lower, especially for small samples."@en ; cd:authoredResource true .
+  ex:vv-ep2 a cd:KeyPoint ; cd:position 2 ; cd:body "5,000 independent samples per size; seed 1903. These averages approximate expectations."@en ; cd:authoredResource true .
+  ex:vv-ep3 a cd:KeyPoint ; cd:position 3 ; cd:body "Bias concerns expectation, not each realization. Why does fitting the mean reduce squared deviations?"@en ; cd:authoredResource true .
+  ex:vv-recap-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-rp1 ; dct:source ex:vm-recap ; cd:authoredResource true .
+  ex:vv-rp1 a cd:KeyPoint ; cd:position 1 ; cd:body "Theory explains average bias. Monte Carlo means approximate the curve; they need not lie exactly on it."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vb-step-sample cd:usesResource ex:vv-intro-cards, ex:vv-intro .
+  ex:vb-step-mc cd:usesResource ex:vv-scatter, ex:vv-scatter-cue .
+  ex:vs-step-mc cd:usesResource ex:vv-mc-chart, ex:vv-mc-cue .
+  ex:vb-step-centers cd:usesResource ex:vv-centers-cue, ex:vv-centers-svg .
+  ex:vr-step14 cd:usesResource ex:vv-centers-svg .
+  ex:vr-step16 cd:usesResource ex:vv-decomposition-svg .
+  ex:vs-step-simplify cd:usesResource ex:vv-decomposition-svg .
+  ex:vb-step-bias cd:usesResource ex:vv-empirical-cue .
+  ex:vm-step-recap cd:usesResource ex:vv-theory-chart, ex:vv-recap-cue .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-visual-review> {
+  ex:vv-intro-cards-i a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vv-intro-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-intro-k a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-intro ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-scatter-i a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-scatter ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-scatter-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vv-scatter-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-mc-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-mc-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-mc-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vv-mc-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-centers-k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vv-centers-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-centers-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-centers-svg ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-shift-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-centers-svg ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-sum-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-decomposition-svg ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-simplify-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vv-decomposition-svg ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:vv-recap-chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-corrected-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

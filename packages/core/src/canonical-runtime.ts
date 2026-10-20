@@ -21,6 +21,12 @@ export interface TeachingOfferingRuntimeUnit {
   readonly labels: readonly RuntimeLocalizedText[];
   readonly descriptions: readonly RuntimeLocalizedText[];
   readonly paths: readonly TeachingOfferingRuntimePathReference[];
+  readonly thumbnail?: {
+    readonly id: string;
+    readonly graphId: string;
+    readonly uri: string;
+    readonly alternativeTexts: readonly RuntimeLocalizedText[];
+  };
 }
 
 export interface TeachingOfferingRuntimePlacement {
@@ -260,6 +266,14 @@ function validateTeachingOfferingDocument(value: unknown, rootFingerprint: strin
     validateLocalizedText(unit.labels, `${unitLabel}.labels`);
     validateLocalizedText(unit.descriptions, `${unitLabel}.descriptions`);
     validatePathReferences(unit.paths, `${unitLabel}.paths`);
+    if (unit.thumbnail !== undefined) {
+      const thumbnail = requireRecord(unit.thumbnail, `${unitLabel}.thumbnail`);
+      requireHttpIri(thumbnail.id, `${unitLabel}.thumbnail.id`);
+      requireHttpIri(thumbnail.graphId, `${unitLabel}.thumbnail.graphId`);
+      if (typeof thumbnail.uri !== "string" || !/^\/[A-Za-z0-9/_-]+\.svg$/u.test(thumbnail.uri)) fail(`${unitLabel}.thumbnail.uri must be a safe local SVG path`);
+      const alternatives = validateLocalizedText(thumbnail.alternativeTexts, `${unitLabel}.thumbnail.alternativeTexts`);
+      if (!alternatives.length || alternatives.some(text=>!text.value.trim())) fail(`${unitLabel}.thumbnail requires non-empty alternative text`);
+    }
   }
 
   for (const unitId of placementUnitIds) {

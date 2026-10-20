@@ -3,6 +3,7 @@ import test from "node:test";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { presentationRuntimeSource } from "./runtime-source.ts";
 
 const source = (relative: string): string =>
   readFileSync(new URL(relative, import.meta.url), "utf8").replace(/\r\n?/gu, "\n");
@@ -109,7 +110,7 @@ test("migrated scenes are not selected by id in shared app styling or navigation
   const preview = source("../src/preview.ts");
   const styles = source("../src/styles.css");
   const sharedRuntime = [
-    source("../src/main.ts"),
+    presentationRuntimeSource(),
     source("../src/presentation-mobile.css"),
   ].join("\n");
 
@@ -177,7 +178,7 @@ test("composition variants use one generic profile channel", () => {
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const productionSources = [
     preview,
-    source("../src/main.ts"),
+    presentationRuntimeSource(),
     source("../src/component-composition.css"),
     source("../src/evidence-primitives.css"),
     source("../src/progression-primitives.css"),
@@ -239,7 +240,7 @@ test("production Pitch rendering no longer emits or consumes legacy layout slots
 
 
 test("legacy per-scene layout styles are no longer imported", () => {
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   assert.equal(main.includes('import "./cogniflow-domain-specifications.css"'), false);
   assert.equal(main.includes('import "./cogniflow-ui-specifications.css"'), false);
   assert.equal(main.includes('import "./cogniflow-presentation-specifications.css"'), false);
@@ -338,7 +339,7 @@ test("FAIR processing gap reuses the generic process-context layout semantics", 
 
 test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
   const trig = source("../../../ontology/dataset/cogniflow-semantic-triples.trig");
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   assert.equal(trig.includes("ex:diagram-cogniflow-semantic-triples-network a cd:NetworkDiagram"), true);
   assert.equal(trig.includes('skos:prefLabel "livesIn"@en'), true);
   assert.equal(trig.includes('skos:prefLabel "worksAt"@en'), true);
@@ -359,7 +360,7 @@ test("generic concentric renderer uses true SVG circles instead of themed card r
 
 test("semantic core is canonical grouped network data rather than a bespoke ring payload", () => {
   const trig = source("../../../ontology/dataset/cogniflow-semantic-core.trig");
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   assert.equal(trig.includes("ex:diagram-cogniflow-semantic-core a cd:NetworkDiagram"), true);
   assert.equal(trig.includes("cd:focusNode ex:node-cogniflow-semantic-core"), true);
   assert.equal(trig.includes("cd:hasDiagramGroup ex:group-cogniflow-semantic-concepts"), true);
@@ -400,7 +401,7 @@ test("processing pipeline nodes author title and body separately", () => {
 
 test("extension system uses structured module entries and generic card primitives", () => {
   const trig = source("../../../ontology/dataset/cogniflow-extension-system.trig");
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   const css = source("../src/card-primitives.css");
   const preview = source("../src/preview.ts");
 
@@ -419,7 +420,7 @@ test("extension system uses structured module entries and generic card primitive
 test("alternate publication projection is generic and profile-gated", () => {
   const runtime = source("../src/presentation-projection.ts");
   const css = source("../src/presentation-projection.css");
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   const profile = source("../src/presentation-profile.ts");
 
   assert.equal(runtime.toLowerCase().includes("cogniflow"), false);
@@ -445,8 +446,8 @@ test("alternate publication projection is generic and profile-gated", () => {
 });
 
 
-test("presenter clock and laser pointer are generic profile capabilities", () => {
-  const main = source("../src/main.ts");
+test("presenter clock is available generally and laser pointer remains profile-gated", () => {
+  const main = presentationRuntimeSource();
   const profile = source("../src/presentation-profile.ts");
   const clock = source("../src/presentation-clock.ts");
   const laser = source("../src/presentation-laser-pointer.ts");
@@ -458,14 +459,14 @@ test("presenter clock and laser pointer are generic profile capabilities", () =>
   assert.equal(main.includes("mountCogniflowClockPanel"), false);
   assert.equal(main.includes("mountCogniflowLaserPointer"), false);
   assert.equal(main.includes('appearance.profile.id === "cogniflow-standardized-data-processing"\n  ? mountPresentationClock'), false);
-  assert.equal(main.includes("appearance.profile.presenterCapabilities?.clock"), true);
+  assert.match(main,/const unmountPresentationClock = mountPresentationClock\(document\.body\)/u);
   assert.equal(main.includes("appearance.profile.presenterCapabilities?.laserPointer"), true);
   assert.equal(profile.includes("readonly presenterCapabilities?: PresenterCapabilities"), true);
 });
 
 
 test("full-media showcase behavior is structural rather than scene-id driven", () => {
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const css = source("../src/media-stage-primitives.css");
 
@@ -486,7 +487,7 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
 
 
 test("take-home, closing and portrait viewport no longer depend on CogniFlow identity", () => {
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   const profile = source("../src/presentation-profile.ts");
   const composition = source("../src/component-composition.css");
   const mobile = source("../src/presentation-mobile.css");
@@ -508,7 +509,7 @@ test("take-home, closing and portrait viewport no longer depend on CogniFlow ide
 
 
 test("final title opening and semantic-core layouts are structurally selected", () => {
-  const main = source("../src/main.ts");
+  const main = presentationRuntimeSource();
   const compositionPolicy = source("../../../packages/renderer-reveal/src/composition-policy.ts");
   const preview = source("../src/preview.ts");
   const titleCss = source("../src/media-stage-primitives.css");

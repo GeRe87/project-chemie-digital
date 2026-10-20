@@ -1,3 +1,5 @@
+import { resolvePublicAssetUrl } from "./public-asset-url.ts";
+
 const CODEMIRROR_VIEW_MODULE_PATH = "/vendor/codemirror/view-6.43.6.mjs";
 const WEBR_MODULE_PATH = "/vendor/webr/v0.6.0/webr.js";
 const WEBR_BASE_PATH = "/vendor/webr/v0.6.0/";
@@ -40,11 +42,25 @@ export function isConnectedInteractiveMode(search: string): boolean {
 }
 
 export function wrapRForCapturedOutput(code: string): string {
-  return `paste(capture.output(print({\n${code}\n})), collapse="\\n")`;
+  return `paste(capture.output(local({ .pcd_connection <- textConnection(${JSON.stringify(code)}); tryCatch(source(.pcd_connection, local=.GlobalEnv, echo=FALSE, print.eval=TRUE), finally=close(.pcd_connection)) })), collapse="\\n")`;
 }
 
 function localBrowserUrl(path: string): string {
-  return new URL(path, window.location.origin).href;
+  return new URL(resolvePublicAssetUrl(path), document.baseURI).href;
+}
+
+export function vendorImportMap(baseHref: string): { imports: Record<string, string> } {
+  // Preserve the reviewed vendor bytes and their absolute internal specifiers.
+  // A native prefix map resolves those same modules below a deployment subpath.
+  return { imports: { "/vendor/": resolvePublicAssetUrl("/vendor/", baseHref) } };
+}
+
+function installVendorImportMap(): void {
+  if (document.querySelector("script[data-pcd-vendor-import-map]")) return;
+  const map = document.createElement("script");
+  map.type = "importmap"; map.dataset.pcdVendorImportMap = "true";
+  map.textContent = JSON.stringify(vendorImportMap(document.baseURI));
+  document.head.append(map);
 }
 
 async function importPinned<T>(path: string): Promise<T> {
@@ -52,6 +68,7 @@ async function importPinned<T>(path: string): Promise<T> {
 }
 
 async function loadCodeMirrorView(): Promise<EditorViewConstructor> {
+  installVendorImportMap();
   const module = await importPinned<CodeMirrorViewModule>(CODEMIRROR_VIEW_MODULE_PATH);
   return module.EditorView;
 }
@@ -64,7 +81,7 @@ function createWebRExecutor(): { execute(code: string): Promise<string>; close()
         const webR = new WebR({ baseUrl: localBrowserUrl(WEBR_BASE_PATH), channelType: ChannelType.PostMessage });
         await webR.init();
         return webR;
-      });
+      }).catch((error: unknown) => { instancePromise = undefined; throw error; });
     }
     return instancePromise;
   };
@@ -123,6 +140,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
 
       const output = document.createElement("pre");
       output.className = "code-output";
+      output.tabIndex = 0;
       output.setAttribute("aria-live", "polite");
       output.setAttribute("aria-label", "R output");
       output.textContent = "Output will appear here.";

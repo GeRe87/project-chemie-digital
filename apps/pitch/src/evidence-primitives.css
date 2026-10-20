@@ -157,7 +157,7 @@
 /* Shared structured data surface. */
 /* Tables keep their intrinsic row height. Forcing a table to the evidence-row height
    stretches every row and can push the caption/table box beyond the slide boundary. */
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] {
   box-sizing: border-box;
   align-self: flex-start;
@@ -177,7 +177,7 @@
   overflow: hidden;
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] caption {
   caption-side: top;
   box-sizing: border-box;
@@ -191,7 +191,7 @@
   text-align: left;
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] thead th {
   padding: .56rem .65rem;
   border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 54%, transparent);
@@ -202,12 +202,12 @@
   vertical-align: middle;
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] :is(th, td) + :is(th, td) {
   border-left: 1px solid color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] tbody td {
   padding: .56rem .65rem;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
@@ -219,14 +219,21 @@
   overflow-wrap: break-word;
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
 }
 
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"] tbody tr:last-child td {
   border-bottom: 0;
+}
+
+/* Two-column evidence tables get restrained column colour coding.
+   Stack tables share the data surface without inheriting evidence grid layout. */
+.reveal .slides section[data-composition="stack"] [data-component-kind="data-surface"] {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  margin-block: .8em;
 }
 
 /* Two-column evidence tables get restrained column colour coding.
@@ -270,47 +277,47 @@
 }
 
 /* Four-column evidence tables: grouping label plus three coloured replicate measures. */
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   thead th:nth-child(1) {
   border-top: 4px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-accent) 14%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   thead th:nth-child(2) {
   border-top: 4px solid var(--pcd-chart-series-1);
   background: color-mix(in srgb, var(--pcd-chart-series-1) 18%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   thead th:nth-child(3) {
   border-top: 4px solid var(--pcd-chart-series-2);
   background: color-mix(in srgb, var(--pcd-chart-series-2) 18%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   thead th:nth-child(4) {
   border-top: 4px solid var(--pcd-chart-series-3);
   background: color-mix(in srgb, var(--pcd-chart-series-3) 18%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   tbody td:nth-child(1) {
   font-weight: 850;
   background: color-mix(in srgb, var(--pcd-accent) 6%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   tbody td:nth-child(2) {
   background: color-mix(in srgb, var(--pcd-chart-series-1) 8%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   tbody td:nth-child(3) {
   background: color-mix(in srgb, var(--pcd-chart-series-2) 8%, var(--pcd-surface-strong));
 }
-.reveal .slides section[data-composition="evidence-stage"]
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition-profile="process-matrix"])
   [data-component-kind="data-surface"]:has(thead th:nth-child(4):last-child)
   tbody td:nth-child(4) {
   background: color-mix(in srgb, var(--pcd-chart-series-3) 8%, var(--pcd-surface-strong));

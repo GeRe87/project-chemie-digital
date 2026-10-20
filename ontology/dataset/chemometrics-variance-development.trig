@@ -1,0 +1,197 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-variance-development> {
+  # All worked results refer to the existing illustrative concentration datasets.
+  ex:vd-deviations a cd:Interpretation ; skos:prefLabel "Deviations from the Mean"@en ;
+    cd:body "To understand how spread is quantified, we return to our simpler three-observation example: Series A (9, 10, 11) and Series B (5, 10, 15) mg/L, not QC Method A/B. A deviation describes both direction and distance from the mean."@en ;
+    cd:derivedFrom ex:deviation-from-mean ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:vd-cancellation a cd:Interpretation ; skos:prefLabel "Why Deviations Cancel Out"@en ;
+    cd:body "Signed deviations always sum to zero around their own arithmetic mean — even when the spreads differ. Their sum cannot measure spread."@en ;
+    cd:derivedFrom ex:deviation-from-mean ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:vd-squaring a cd:Interpretation ; skos:prefLabel "Squaring the Deviations"@en ;
+    cd:body "Squaring prevents cancellation and gives larger deviations more weight."@en ;
+    cd:derivedFrom ex:squared-deviation ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:vd-average a cd:Interpretation ; skos:prefLabel "Mean Squared Deviation"@en ;
+    cd:body "So far, we have described the spread of the observed data. Estimating the variance of a larger population introduces an additional question. The descriptive SS/n is not an unbiased estimator of population variance."@en ;
+    cd:derivedFrom ex:sum-of-squared-deviations ; cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:authoredResource true .
+  ex:vd-freedom a cd:Interpretation ; skos:prefLabel "Degrees of Freedom: What Can Still Vary?"@en ;
+    cd:body "After estimating the mean, only two of the three residuals can vary freely. The original independently collected measurements are not restricted in this way."@en ;
+    cd:derivedFrom ex:degrees-of-freedom ; cd:authoredResource true .
+  ex:vd-bessel a cd:Interpretation ; skos:prefLabel "Sample Variance and Bessel's Correction"@en ;
+    cd:body "The mean is estimated from the same observations: the residuals have n − 1 degrees of freedom. For independent, identically distributed samples with finite variance, dividing by n underestimates population variance on average; dividing by n − 1 removes this bias."@en ;
+    cd:derivedFrom ex:sample-variance, ex:n-minus-one ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:vd-bessel-limit a cd:Interpretation ;
+    cd:body "Unbiased in repeated sampling does not mean exact for one sample. It does not make the sample standard deviation unbiased."@en ; cd:authoredResource true .
+
+  ex:vd-deviation-formula a cd:MathExpression ; cd:latex "d_i=x_i-\\bar{x}" ;
+    dct:hasPart ex:vd-deviation-legend ;
+    cd:body "Each deviation is the observed concentration minus the arithmetic mean."@en ; cd:hasSymbol ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vd-cancel-formula a cd:MathExpression ; cd:latex "\\sum_{i=1}^{n}(x_i-\\bar{x})=0" ;
+    dct:hasPart ex:vd-cancel-cards ;
+    cd:body "Signed deviations from the arithmetic mean sum to zero."@en ; cd:hasSymbol ex:n-symbol, ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vd-square-formula a cd:MathExpression ; cd:latex "SS=\\sum_{i=1}^{n}d_i^2" ;
+    dct:hasPart ex:vd-square-legend ;
+    cd:body "The sum of squares adds the squared deviations."@en ; cd:derivedFrom ex:sum-of-squared-deviations ; cd:authoredResource true .
+  ex:vd-average-formula a cd:MathExpression ; cd:latex "\\mathrm{MSD}=\\frac{1}{n}\\sum_{i=1}^{n}(x_i-\\bar{x})^2" ;
+    dct:hasPart ex:vd-average-cards ;
+    cd:body "Descriptive mean squared deviation: divide the sum of squares by the dataset size, here n equals three. N is also used for the size of a complete finite dataset; the descriptive denominator is its size, not size minus one."@en ; cd:hasSymbol ex:n-symbol, ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vd-freedom-formula a cd:MathExpression ;
+    dct:hasPart ex:vd-freedom-cards ;
+    cd:latex "\\begin{gathered}x_1+x_2+x_3=30\\;\\mathrm{mg/L},\\quad d_1+d_2+d_3=0\\\\\\mathrm{df}=n-1=2\\end{gathered}" ;
+    cd:body "With three values and mean fixed at ten milligrams per litre, the sum is thirty milligrams per litre. Residuals sum to zero and have two degrees of freedom."@en ; cd:hasSymbol ex:df-symbol, ex:n-symbol ; cd:authoredResource true .
+  ex:vd-sample-variance-formula a cd:MathExpression ; cd:latex "s^2=\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2" ;
+    dct:hasPart ex:vd-bessel-cards ;
+    cd:body "Sample variance divides the sum of squared deviations by n minus one."@en ; cd:derivedFrom ex:sample-variance ; cd:hasSymbol ex:n-symbol, ex:xi-symbol, ex:xbar-symbol ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+
+  ex:vd-deviation-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-deviation-key ; cd:authoredResource true .
+  ex:vd-cancel-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-cancel-card-a, ex:vd-cancel-card-b ; cd:authoredResource true .
+  ex:vd-freedom-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-free-card-1, ex:vd-free-card-2, ex:vd-fixed-card ; cd:authoredResource true .
+  ex:vd-free-card-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "d₁: FREE"@en ; cd:body "Choose −1 mg/L.\nWith mean fixed at 10 mg/L: x₁ = 9 mg/L."@en ; cd:authoredResource true .
+  ex:vd-free-card-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "d₂: FREE"@en ; cd:body "Choose 0 mg/L.\nWith mean fixed at 10 mg/L: x₂ = 10 mg/L."@en ; cd:authoredResource true .
+  ex:vd-fixed-card a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "d₃: DETERMINED"@en ; cd:body "d₃ = −(d₁ + d₂) = +1 mg/L.\nThe constraint fixes x₃ = 11 mg/L."@en ; cd:authoredResource true .
+  ex:vd-cancel-card-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Series A"@en ; cd:body "−1 + 0 + 1 = 0 mg/L\nNegative and positive deviations cancel."@en ; cd:authoredResource true .
+  ex:vd-cancel-card-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Series B"@en ; cd:body "−5 + 0 + 5 = 0 mg/L\nLarger deviations — but still a zero sum."@en ; cd:authoredResource true .
+  ex:vd-average-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-average-card-a, ex:vd-average-card-b ; cd:authoredResource true .
+  ex:vd-average-card-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Series A: SS / n"@en ; cd:body "2/3 ≈ 0.667 (mg/L)²\nThree observations; descriptive mean squared deviation."@en ; cd:authoredResource true .
+  ex:vd-average-card-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Series B: SS / n"@en ; cd:body "50/3 ≈ 16.667 (mg/L)²\nThree observations; descriptive mean squared deviation."@en ; cd:authoredResource true .
+  ex:vd-bessel-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-bessel-card-a, ex:vd-bessel-card-b ; cd:authoredResource true .
+  ex:vd-bessel-card-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Series A"@en ; cd:body "s² = 2/2 = 1 (mg/L)²\nDescriptive SS/3 instead: 2/3 (mg/L)²."@en ; cd:authoredResource true .
+  ex:vd-bessel-card-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Series B"@en ; cd:body "s² = 50/2 = 25 (mg/L)²\nDescriptive SS/3 instead: 50/3 (mg/L)²."@en ; cd:authoredResource true .
+  ex:vd-deviation-key a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Deviation"@en ; cd:body "Observed value minus mean; here the mean is 10 mg/L."@en ; cd:authoredResource true .
+  ex:vd-square-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vd-square-key ; cd:authoredResource true .
+  ex:vd-square-key a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SS"@en ; cd:body "Sum of squared deviations, in (mg/L)²."@en ; cd:authoredResource true .
+
+  # Compact, explicitly unit-labelled worked calculations; generic tables only.
+  ex:vd-series-column a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vd-negative-column a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Negative (mg/L)"@en ; cd:authoredResource true .
+  ex:vd-zero-column a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Zero (mg/L)"@en ; cd:authoredResource true .
+  ex:vd-positive-column a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Positive (mg/L)"@en ; cd:authoredResource true .
+  ex:vd-sum-column a cd:TableColumn ; cd:position 5 ; skos:prefLabel "Sum (mg/L)"@en ; cd:authoredResource true .
+  ex:vd-cancel-table a cd:TableDefinition ; skos:prefLabel "Opposite deviations balance"@en ;
+    cd:body "Different distances; the same signed sum."@en ;
+    cd:hasTableColumn ex:vd-series-column, ex:vd-negative-column, ex:vd-zero-column, ex:vd-positive-column, ex:vd-sum-column ;
+    cd:hasTableRow ex:vd-cancel-a, ex:vd-cancel-b ; cd:authoredResource true .
+  ex:vd-cancel-a a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vd-ca1, ex:vd-ca2, ex:vd-ca3, ex:vd-ca4, ex:vd-ca5 ; cd:authoredResource true .
+  ex:vd-cancel-b a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vd-cb1, ex:vd-cb2, ex:vd-cb3, ex:vd-cb4, ex:vd-cb5 ; cd:authoredResource true .
+  ex:vd-ca1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vd-ca2 a cd:TableCell ; cd:position 2 ; cd:body "−1"@en ; cd:authoredResource true .
+  ex:vd-ca3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:authoredResource true .
+  ex:vd-ca4 a cd:TableCell ; cd:position 4 ; cd:body "+1"@en ; cd:authoredResource true .
+  ex:vd-ca5 a cd:TableCell ; cd:position 5 ; cd:body "0"@en ; cd:authoredResource true .
+  ex:vd-cb1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vd-cb2 a cd:TableCell ; cd:position 2 ; cd:body "−5"@en ; cd:authoredResource true .
+  ex:vd-cb3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:authoredResource true .
+  ex:vd-cb4 a cd:TableCell ; cd:position 4 ; cd:body "+5"@en ; cd:authoredResource true .
+  ex:vd-cb5 a cd:TableCell ; cd:position 5 ; cd:body "0"@en ; cd:authoredResource true .
+
+  ex:vd-deviation-column a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Deviations (mg/L)"@en ; cd:authoredResource true .
+  ex:vd-dev-series a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vd-deviation-table a cd:TableDefinition ; skos:prefLabel "Subtract 10 mg/L from each value"@en ;
+    cd:body "Observation order is unchanged: 9, 10, 11 for A; 5, 10, 15 for B."@en ;
+    cd:hasTableColumn ex:vd-dev-series, ex:vd-deviation-column ; cd:hasTableRow ex:vd-dev-a, ex:vd-dev-b ; cd:authoredResource true .
+  ex:vd-dev-a a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vd-da1, ex:vd-da2 ; cd:authoredResource true .
+  ex:vd-dev-b a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vd-db1, ex:vd-db2 ; cd:authoredResource true .
+  ex:vd-da1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vd-db1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vd-da2 a cd:TableCell ; cd:position 2 ; cd:body "−1, 0, +1"@en ; cd:authoredResource true .
+  ex:vd-db2 a cd:TableCell ; cd:position 2 ; cd:body "−5, 0, +5"@en ; cd:authoredResource true .
+
+  ex:vd-squares-column a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Squared deviations (mg/L)²"@en ; cd:authoredResource true .
+  ex:vd-sq-series a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vd-ss-column a cd:TableColumn ; cd:position 3 ; skos:prefLabel "SS (mg/L)²"@en ; cd:authoredResource true .
+  ex:vd-squares-table a cd:TableDefinition ; skos:prefLabel "From deviations to squares"@en ; cd:body "Squared units: (mg/L)²."@en ;
+    cd:hasTableColumn ex:vd-sq-series, ex:vd-squares-column, ex:vd-ss-column ; cd:hasTableRow ex:vd-sq-a, ex:vd-sq-b ; cd:authoredResource true .
+  ex:vd-sq-a a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vd-sa1, ex:vd-sa2, ex:vd-sa3 ; cd:authoredResource true .
+  ex:vd-sq-b a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vd-sb1, ex:vd-sb2, ex:vd-sb3 ; cd:authoredResource true .
+  ex:vd-sa1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vd-sb1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vd-sa2 a cd:TableCell ; cd:position 2 ; cd:body "1, 0, 1"@en ; cd:authoredResource true .
+  ex:vd-sb2 a cd:TableCell ; cd:position 2 ; cd:body "25, 0, 25"@en ; cd:authoredResource true .
+  ex:vd-sa3 a cd:TableCell ; cd:position 3 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vd-sb3 a cd:TableCell ; cd:position 3 ; cd:body "50"@en ; cd:authoredResource true .
+
+  ex:vd-msd-column a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Descriptive SS / n (mg/L)²"@en ; cd:authoredResource true .
+  ex:vd-ms-series a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vd-average-table a cd:TableDefinition ; skos:prefLabel "Three observations per dataset"@en ;
+    cd:body "Average squared distance from each dataset's own mean; denominator n = 3."@en ;
+    cd:hasTableColumn ex:vd-ms-series, ex:vd-msd-column ; cd:hasTableRow ex:vd-ms-a, ex:vd-ms-b ; cd:authoredResource true .
+  ex:vd-ms-a a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vd-ma1, ex:vd-ma2 ; cd:authoredResource true .
+  ex:vd-ms-b a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vd-mb1, ex:vd-mb2 ; cd:authoredResource true .
+  ex:vd-ma1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vd-mb1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vd-ma2 a cd:TableCell ; cd:position 2 ; cd:body "2/3 ≈ 0.667"@en ; cd:authoredResource true .
+  ex:vd-mb2 a cd:TableCell ; cd:position 2 ; cd:body "50/3 ≈ 16.667"@en ; cd:authoredResource true .
+
+  ex:vd-descriptive-column a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Descriptive: SS / 3"@en ; cd:authoredResource true .
+  ex:vd-bs-series a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vd-estimate-column a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Sample variance: SS / 2"@en ; cd:authoredResource true .
+  ex:vd-bessel-table a cd:TableDefinition ; skos:prefLabel "Different questions, different denominators"@en ;
+    cd:body "All values in (mg/L)². Describe these data with n; estimate population variance without bias with n − 1."@en ;
+    cd:hasTableColumn ex:vd-bs-series, ex:vd-descriptive-column, ex:vd-estimate-column ; cd:hasTableRow ex:vd-bs-a, ex:vd-bs-b ; cd:authoredResource true .
+  ex:vd-bs-a a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vd-ba1, ex:vd-ba2, ex:vd-ba3 ; cd:authoredResource true .
+  ex:vd-bs-b a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vd-bb1, ex:vd-bb2, ex:vd-bb3 ; cd:authoredResource true .
+  ex:vd-ba1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vd-bb1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vd-ba2 a cd:TableCell ; cd:position 2 ; cd:body "2/3 ≈ 0.667"@en ; cd:authoredResource true .
+  ex:vd-bb2 a cd:TableCell ; cd:position 2 ; cd:body "50/3 ≈ 16.667"@en ; cd:authoredResource true .
+  ex:vd-ba3 a cd:TableCell ; cd:position 3 ; cd:body "s² = 2/2 = 1"@en ; cd:authoredResource true .
+  ex:vd-bb3 a cd:TableCell ; cd:position 3 ; cd:body "s² = 50/2 = 25"@en ; cd:authoredResource true .
+
+  ex:vd-ss-dataset a cd:Dataset ; cd:unit "(mg/L)²" ;
+    dct:source ex:dataset-compare-series-a, ex:dataset-compare-series-b ; cd:hasObservation ex:vd-ss-a, ex:vd-ss-b ; cd:authoredResource true .
+  ex:vd-ss-a a cd:Observation ; cd:position 1 ; skos:prefLabel "Series A"@en ; cd:numericValue "2"^^xsd:decimal ; cd:authoredResource true .
+  ex:vd-ss-b a cd:Observation ; cd:position 2 ; skos:prefLabel "Series B"@en ; cd:numericValue "50"^^xsd:decimal ; cd:authoredResource true .
+  ex:vd-ss-chart a cd:ChartDefinition ; skos:prefLabel "Sum of squared deviations"@en ;
+    cd:body "The sum of squares is 25 times larger for Series B."@en ; cd:chartType cd:BarChart ;
+    cd:xAxisLabel "Dataset"@en ; cd:yAxisLabel "SS"@en ; cd:yAxisUnit "(mg/L)²" ; cd:usesDataset ex:vd-ss-dataset ; cd:authoredResource true .
+
+  ex:vd-freedom-diagram a cd:FlowDiagram ; skos:prefLabel "Two free residuals; one determined"@en ;
+    cd:body "Once the mean is fitted: choose d₁ and d₂; then d₃ = −(d₁ + d₂). Example: −1 + 0 + 1 = 0 mg/L."@en ;
+    cd:hasDiagramNode ex:vd-free-1, ex:vd-free-2, ex:vd-determined ; cd:hasDiagramEdge ex:vd-constraint-1, ex:vd-constraint-2 ; cd:authoredResource true .
+  ex:vd-free-1 a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "d₁: FREE"@en ; cd:body "Example: −1 mg/L"@en ; cd:authoredResource true .
+  ex:vd-free-2 a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "d₂: FREE"@en ; cd:body "Example: 0 mg/L"@en ; cd:authoredResource true .
+  ex:vd-determined a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "d₃: DETERMINED"@en ; cd:body "−(d₁ + d₂) = +1 mg/L"@en ; cd:authoredResource true .
+  ex:vd-constraint-1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:vd-free-1 ; cd:targetNode ex:vd-determined ; skos:prefLabel "zero-sum constraint"@en ; cd:authoredResource true .
+  ex:vd-constraint-2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:vd-free-2 ; cd:targetNode ex:vd-determined ; skos:prefLabel "zero-sum constraint"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-variance-development> {
+  ex:scene-vd-deviations a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; cd:hasSceneItem ex:vd4-1, ex:vd4-2, ex:vd4-3, ex:vd4-4, ex:vd4-5 ; cd:authoredResource true .
+  ex:vd4-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-deviations ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd4-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-deviation-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd4-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:chart-variance-same-mean ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd4-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-deviation-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd4-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vd-deviations ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-vd-cancellation a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; cd:hasSceneItem ex:vd5-1, ex:vd5-2, ex:vd5-4 ; cd:authoredResource true .
+  ex:vd5-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-cancellation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd5-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-cancel-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd5-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-cancellation ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-vd-squaring a cd:SceneDefinition ; cd:focusConcept ex:squared-deviation ; cd:hasSceneItem ex:vd6-1, ex:vd6-2, ex:vd6-3, ex:vd6-4, ex:vd6-5 ; cd:authoredResource true .
+  ex:vd6-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-squaring ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd6-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-square-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd6-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vd-ss-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd6-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-squares-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd6-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vd-squaring ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-vd-average a cd:SceneDefinition ; cd:focusConcept ex:sum-of-squared-deviations ; cd:hasSceneItem ex:vd7-1, ex:vd7-2, ex:vd7-4 ; cd:authoredResource true .
+  ex:vd7-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-average ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd7-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-average-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd7-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-average ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-vd-freedom a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:vd8-1, ex:vd8-2, ex:vd8-4 ; cd:authoredResource true .
+  ex:vd8-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-freedom ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd8-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-freedom-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd8-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-freedom ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-vd-bessel a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vd9-1, ex:vd9-2, ex:vd9-4, ex:vd9-5 ; cd:authoredResource true .
+  ex:vd9-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vd-bessel ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd9-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vd-sample-variance-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd9-4 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vd-bessel ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vd9-5 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vd-bessel-limit ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

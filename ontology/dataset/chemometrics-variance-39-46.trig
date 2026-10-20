@@ -1,0 +1,198 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-39-46> {
+  ex:v39 a cd:Interpretation ; skos:prefLabel "Variability Occurs at Different Levels"@en ; cd:body "Compare sites, independent samples within a site, preparations within a sample, and instrumental repeats within a preparation. A lower-level repeat does not measure every higher-level source. Independent, additive variance components require an appropriate model; nesting alone does not establish them."@en ; cd:authoredResource true .
+  ex:v39-flow a cd:FlowDiagram ; skos:prefLabel "A nested analytical workflow"@en ; cd:body "Each parent may have several children. The four boxes show levels, not four independent observations."@en ; cd:hasDiagramNode ex:v39-n1, ex:v39-n2, ex:v39-n3, ex:v39-n4 ; cd:hasDiagramEdge ex:v39-e1, ex:v39-e2, ex:v39-e3 ; cd:authoredResource true .
+  ex:v39-n1 a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Sampling site"@en ; cd:body "Between-site variation"@en ; cd:authoredResource true .
+  ex:v39-n2 a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Independent sample"@en ; cd:body "Between samples within a site"@en ; cd:authoredResource true .
+  ex:v39-n3 a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Sample preparation"@en ; cd:body "Between preparations of a sample"@en ; cd:authoredResource true .
+  ex:v39-n4 a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Instrument repeat"@en ; cd:body "Instrumental replicates within a preparation"@en ; cd:authoredResource true .
+  ex:v39-e1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:v39-n1 ; cd:targetNode ex:v39-n2 ; skos:prefLabel "collect"@en ; cd:authoredResource true .
+  ex:v39-e2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:v39-n2 ; cd:targetNode ex:v39-n3 ; skos:prefLabel "prepare"@en ; cd:authoredResource true .
+  ex:v39-e3 a cd:DiagramEdge ; cd:position 3 ; cd:sourceNode ex:v39-n3 ; cd:targetNode ex:v39-n4 ; skos:prefLabel "measure"@en ; cd:authoredResource true .
+
+  ex:v40 a cd:Interpretation ; skos:prefLabel "Lake Sampling: Within-Site and Between-Site Variation"@en ; cd:body "Same fifteen values as in Variables. Within-site spread compares three values at one site; between-site variation compares sites, for example their means. Observed differences do not identify causes: three values per site cannot separate sampling, preparation and instrument variance without a suitable experimental design."@en ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:authoredResource true .
+  # Per-site projections retain exact published numbers and observation provenance.
+  # New local positions are needed by the existing generic Dot Plot contract.
+  ex:v40-site1 a cd:Dataset ; cd:unit "mg/L" ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:hasObservation ex:v40-o11, ex:v40-o12, ex:v40-o13 ; cd:authoredResource true .
+  ex:v40-site2 a cd:Dataset ; cd:unit "mg/L" ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:hasObservation ex:v40-o21, ex:v40-o22, ex:v40-o23 ; cd:authoredResource true .
+  ex:v40-site3 a cd:Dataset ; cd:unit "mg/L" ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:hasObservation ex:v40-o31, ex:v40-o32, ex:v40-o33 ; cd:authoredResource true .
+  ex:v40-site4 a cd:Dataset ; cd:unit "mg/L" ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:hasObservation ex:v40-o41, ex:v40-o42, ex:v40-o43 ; cd:authoredResource true .
+  ex:v40-site5 a cd:Dataset ; cd:unit "mg/L" ; dct:source ex:dataset-lake-analyte-a-replicates ; cd:hasObservation ex:v40-o51, ex:v40-o52, ex:v40-o53 ; cd:authoredResource true .
+  ex:v40-o11 a cd:Observation ; cd:position 1 ; cd:numericValue 5.02 ; dct:source ex:lake-site-1-r1 ; cd:authoredResource true .
+  ex:v40-o12 a cd:Observation ; cd:position 2 ; cd:numericValue 4.96 ; dct:source ex:lake-site-1-r2 ; cd:authoredResource true .
+  ex:v40-o13 a cd:Observation ; cd:position 3 ; cd:numericValue 5.05 ; dct:source ex:lake-site-1-r3 ; cd:authoredResource true .
+  ex:v40-o21 a cd:Observation ; cd:position 1 ; cd:numericValue 4.98 ; dct:source ex:lake-site-2-r1 ; cd:authoredResource true .
+  ex:v40-o22 a cd:Observation ; cd:position 2 ; cd:numericValue 5.01 ; dct:source ex:lake-site-2-r2 ; cd:authoredResource true .
+  ex:v40-o23 a cd:Observation ; cd:position 3 ; cd:numericValue 4.95 ; dct:source ex:lake-site-2-r3 ; cd:authoredResource true .
+  ex:v40-o31 a cd:Observation ; cd:position 1 ; cd:numericValue 5.04 ; dct:source ex:lake-site-3-r1 ; cd:authoredResource true .
+  ex:v40-o32 a cd:Observation ; cd:position 2 ; cd:numericValue 5.00 ; dct:source ex:lake-site-3-r2 ; cd:authoredResource true .
+  ex:v40-o33 a cd:Observation ; cd:position 3 ; cd:numericValue 4.97 ; dct:source ex:lake-site-3-r3 ; cd:authoredResource true .
+  ex:v40-o41 a cd:Observation ; cd:position 1 ; cd:numericValue 4.99 ; dct:source ex:lake-site-4-r1 ; cd:authoredResource true .
+  ex:v40-o42 a cd:Observation ; cd:position 2 ; cd:numericValue 5.03 ; dct:source ex:lake-site-4-r2 ; cd:authoredResource true .
+  ex:v40-o43 a cd:Observation ; cd:position 3 ; cd:numericValue 5.01 ; dct:source ex:lake-site-4-r3 ; cd:authoredResource true .
+  ex:v40-o51 a cd:Observation ; cd:position 1 ; cd:numericValue 4.96 ; dct:source ex:lake-site-5-r1 ; cd:authoredResource true .
+  ex:v40-o52 a cd:Observation ; cd:position 2 ; cd:numericValue 5.02 ; dct:source ex:lake-site-5-r2 ; cd:authoredResource true .
+  ex:v40-o53 a cd:Observation ; cd:position 3 ; cd:numericValue 4.98 ; dct:source ex:lake-site-5-r3 ; cd:authoredResource true .
+  ex:v40-chart a cd:ChartDefinition ; skos:prefLabel "Lake analyte A: the original fifteen values"@en ; cd:body "Three measurement replicates per site, on one common concentration axis. Their sampling/preparation independence is not established by the plot."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Sampling site"@en ; cd:yAxisLabel "Analyte A"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v40-g1, ex:v40-g2, ex:v40-g3, ex:v40-g4, ex:v40-g5 ; cd:authoredResource true .
+  ex:v40-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Site 1"@en ; cd:usesDataset ex:v40-site1 ; cd:authoredResource true .
+  ex:v40-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Site 2"@en ; cd:usesDataset ex:v40-site2 ; cd:authoredResource true .
+  ex:v40-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "Site 3"@en ; cd:usesDataset ex:v40-site3 ; cd:authoredResource true .
+  ex:v40-g4 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "Site 4"@en ; cd:usesDataset ex:v40-site4 ; cd:authoredResource true .
+  ex:v40-g5 a cd:ChartGroup ; cd:position 5 ; skos:prefLabel "Site 5"@en ; cd:usesDataset ex:v40-site5 ; cd:authoredResource true .
+  ex:v40-table a cd:TableDefinition ; skos:prefLabel "Site summaries (mg/L)"@en ; cd:hasTableColumn ex:v40-c1, ex:v40-c2, ex:v40-c3 ; cd:hasTableRow ex:v40-r1, ex:v40-r2, ex:v40-r3, ex:v40-r4, ex:v40-r5 ; cd:authoredResource true .
+  ex:v40-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Site"@en ; cd:authoredResource true .
+  ex:v40-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean"@en ; cd:authoredResource true .
+  ex:v40-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Within-site range"@en ; cd:authoredResource true .
+  ex:v40-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v40-a1, ex:v40-a2, ex:v40-a3 ; cd:authoredResource true .
+  ex:v40-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v40-b1, ex:v40-b2, ex:v40-b3 ; cd:authoredResource true .
+  ex:v40-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v40-d1, ex:v40-d2, ex:v40-d3 ; cd:authoredResource true .
+  ex:v40-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:v40-e1, ex:v40-e2, ex:v40-e3 ; cd:authoredResource true .
+  ex:v40-r5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:v40-f1, ex:v40-f2, ex:v40-f3 ; cd:authoredResource true .
+  ex:v40-a1 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:v40-a2 a cd:TableCell ; cd:position 2 ; cd:body "5.010"@en ; cd:authoredResource true .
+  ex:v40-a3 a cd:TableCell ; cd:position 3 ; cd:body "0.090"@en ; cd:authoredResource true .
+  ex:v40-b1 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v40-b2 a cd:TableCell ; cd:position 2 ; cd:body "4.980"@en ; cd:authoredResource true .
+  ex:v40-b3 a cd:TableCell ; cd:position 3 ; cd:body "0.060"@en ; cd:authoredResource true .
+  ex:v40-d1 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:v40-d2 a cd:TableCell ; cd:position 2 ; cd:body "5.003"@en ; cd:authoredResource true .
+  ex:v40-d3 a cd:TableCell ; cd:position 3 ; cd:body "0.070"@en ; cd:authoredResource true .
+  ex:v40-e1 a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:v40-e2 a cd:TableCell ; cd:position 2 ; cd:body "5.010"@en ; cd:authoredResource true .
+  ex:v40-e3 a cd:TableCell ; cd:position 3 ; cd:body "0.040"@en ; cd:authoredResource true .
+  ex:v40-f1 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:v40-f2 a cd:TableCell ; cd:position 2 ; cd:body "4.987"@en ; cd:authoredResource true .
+  ex:v40-f3 a cd:TableCell ; cd:position 3 ; cd:body "0.060"@en ; cd:authoredResource true .
+
+  ex:v41 a cd:Interpretation ; skos:prefLabel "What Counts as an Independent Replicate?"@en ; cd:body "The number of measurements is not necessarily the number of independent experimental units. An independent unit supplies separate evidence for the target question under the design and assumptions. Pseudoreplication counts dependent or nested readings as if they were such units; the label ‘replicate’ does not establish independence."@en ; cd:authoredResource true .
+  ex:v-pseudoreplication a cd:Concept ; skos:prefLabel "pseudoreplication"@en ; cd:hasDefinition ex:v-pseudo-def ; cd:authoredResource true .
+  ex:v-pseudo-def a cd:Definition ; cd:body "Treating measurements that are not independent replicates for the inferential target as if they were independent sampling units."@en ; cd:authoredResource true .
+  ex:v41-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v41-a, ex:v41-b, ex:v41-c ; cd:authoredResource true .
+  ex:v41-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Three injections, one vial"@en ; cd:body "Technical replicates: repeated readings of the same material. Capture injection/instrument variation, not preparation or field-sampling variation. Shared drift can still cause dependence."@en ; cd:authoredResource true .
+  ex:v41-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Three independent preparations"@en ; cd:body "Separately prepare aliquots of one sample. Can capture preparation plus downstream measurement variation. They share the field sample and are not three independent field units."@en ; cd:authoredResource true .
+  ex:v41-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Three independent field samples"@en ; cd:body "Separately collect, prepare and measure samples. Can capture sampling plus downstream variation. Independent evidence for a field target depends on spatial/temporal design and shared conditions."@en ; cd:authoredResource true .
+
+  ex:v42 a cd:Interpretation ; skos:prefLabel "Degrees of Freedom Beyond the Mean"@en ; cd:body "For a linear model with a full-column-rank design matrix, residual df = n − p. Here p counts independent estimated model coefficients. This is a model-rank statement, not a universal formula for every statistical procedure."@en ; cd:authoredResource true .
+  ex:v42-formula a cd:MathExpression ; cd:latex "\\mathrm{df}_{\\mathrm{res}}=n-p" ; dct:hasPart ex:v42-legend ; cd:authoredResource true .
+  ex:v42-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v42-a, ex:v42-b, ex:v42-c ; cd:authoredResource true .
+  ex:v42-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n observations, p estimable parameters"@en ; cd:body "X is the linear-model design matrix. For ordinary least squares, full column rank gives p independently estimable coefficients and p residual constraints. In general, residual df = n − rank(X)."@en ; cd:authoredResource true .
+  ex:v42-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Estimate one mean"@en ; cd:body "p = 1: one intercept/mean. Residual df = n − 1."@en ; cd:authoredResource true .
+  ex:v42-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Fit a straight line"@en ; cd:body "p = 2: intercept and slope. With distinct x values and full rank, residual df = n − 2."@en ; cd:authoredResource true .
+
+  ex:v43 a cd:Interpretation ; skos:prefLabel "Residual Standard Deviation in Calibration"@en ; cd:body "Illustrative UV/Vis calibration: five standards, two fitted coefficients, three residual df. OLS fit: intercept 0.044 a.u.; slope 0.982 a.u. per mg/L; SS residual = 0.01824 a.u.²; s_res ≈ 0.07797 a.u. It measures response scatter about the fitted line, not concentration uncertainty."@en ; cd:authoredResource true .
+  ex:v43-formula a cd:MathExpression ; cd:latex "\\begin{gathered}y_i=\\beta_0+\\beta_1x_i+\\varepsilon_i\\\\s_{\\mathrm{res}}=\\sqrt{\\frac{\\sum_i(y_i-\\hat{y}_i)^2}{n-2}}\\end{gathered}" ; dct:hasPart ex:v43-legend ; cd:authoredResource true .
+  ex:v43-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v43-key ; cd:authoredResource true .
+  ex:v43-key a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Model and residuals"@en ; cd:body "xᵢ: standard concentration; yᵢ: observed response; ŷᵢ: predicted response. β₀: intercept; β₁: slope; εᵢ: model error. n − 2: residual df. Interpreting s_res as an error SD assumes independent zero-mean errors of common variance and a suitable linear model."@en ; cd:authoredResource true .
+  ex:v43-data a cd:Dataset ; skos:prefLabel "Observed signals"@en ; cd:unit "a.u." ; dct:description "Illustrative UV/Vis calibration standards; concentrations 0, 1, 2, 3, 4 mg/L."@en ; cd:hasObservation ex:v43-o1, ex:v43-o2, ex:v43-o3, ex:v43-o4, ex:v43-o5 ; cd:authoredResource true .
+  ex:v43-o1 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:v43-o2 a cd:Observation ; cd:position 2 ; cd:xValue 1.0 ; cd:numericValue 1.02 ; cd:authoredResource true .
+  ex:v43-o3 a cd:Observation ; cd:position 3 ; cd:xValue 2.0 ; cd:numericValue 1.95 ; cd:authoredResource true .
+  ex:v43-o4 a cd:Observation ; cd:position 4 ; cd:xValue 3.0 ; cd:numericValue 3.10 ; cd:authoredResource true .
+  ex:v43-o5 a cd:Observation ; cd:position 5 ; cd:xValue 4.0 ; cd:numericValue 3.92 ; cd:authoredResource true .
+  ex:v43-fit a cd:Dataset ; skos:prefLabel "OLS fitted line"@en ; cd:unit "a.u." ; dct:source ex:v43-data ; cd:hasObservation ex:v43-f1, ex:v43-f2 ; cd:authoredResource true .
+  ex:v43-f1 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.044 ; cd:authoredResource true .
+  ex:v43-f2 a cd:Observation ; cd:position 2 ; cd:xValue 4.0 ; cd:numericValue 3.972 ; cd:authoredResource true .
+  ex:v43-chart a cd:ChartDefinition ; skos:prefLabel "OLS model: ŷ = 0.044 + 0.982x"@en ; cd:body "Only the fitted model is drawn. Endpoint markers are model predictions, not observations. Observed signals appear in the table: the current line-chart contract cannot show an unconnected observation series alongside the fitted line."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Predicted signal"@en ; cd:yAxisUnit "a.u." ; cd:usesDataset ex:v43-fit ; cd:authoredResource true .
+  ex:v43-table a cd:TableDefinition ; skos:prefLabel "Observed y, fitted ŷ and residual (a.u.)"@en ; cd:hasTableColumn ex:v43-c1, ex:v43-c2, ex:v43-c3, ex:v43-c4 ; cd:hasTableRow ex:v43-r1, ex:v43-r2, ex:v43-r3, ex:v43-r4, ex:v43-r5 ; cd:authoredResource true .
+  ex:v43-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "x (mg/L)"@en ; cd:authoredResource true .
+  ex:v43-c2 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "ŷ"@en ; cd:authoredResource true .
+  ex:v43-c3 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "y − ŷ"@en ; cd:authoredResource true .
+  ex:v43-c4 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "y"@en ; cd:authoredResource true .
+  ex:v43-r1 cd:hasTableCell ex:v43-y1 .
+  ex:v43-r2 cd:hasTableCell ex:v43-y2 .
+  ex:v43-r3 cd:hasTableCell ex:v43-y3 .
+  ex:v43-r4 cd:hasTableCell ex:v43-y4 .
+  ex:v43-r5 cd:hasTableCell ex:v43-y5 .
+  ex:v43-y1 a cd:TableCell ; cd:position 2 ; cd:body "0.050"@en ; cd:authoredResource true .
+  ex:v43-y2 a cd:TableCell ; cd:position 2 ; cd:body "1.020"@en ; cd:authoredResource true .
+  ex:v43-y3 a cd:TableCell ; cd:position 2 ; cd:body "1.950"@en ; cd:authoredResource true .
+  ex:v43-y4 a cd:TableCell ; cd:position 2 ; cd:body "3.100"@en ; cd:authoredResource true .
+  ex:v43-y5 a cd:TableCell ; cd:position 2 ; cd:body "3.920"@en ; cd:authoredResource true .
+  ex:v43-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v43-a1, ex:v43-a2, ex:v43-a3 ; cd:authoredResource true .
+  ex:v43-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v43-b1, ex:v43-b2, ex:v43-b3 ; cd:authoredResource true .
+  ex:v43-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v43-d1, ex:v43-d2, ex:v43-d3 ; cd:authoredResource true .
+  ex:v43-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:v43-e1, ex:v43-e2, ex:v43-e3 ; cd:authoredResource true .
+  ex:v43-r5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:v43-fc1, ex:v43-fc2, ex:v43-fc3 ; cd:authoredResource true .
+  ex:v43-a1 a cd:TableCell ; cd:position 1 ; cd:body "0"@en ; cd:authoredResource true .
+  ex:v43-a2 a cd:TableCell ; cd:position 3 ; cd:body "0.044"@en ; cd:authoredResource true .
+  ex:v43-a3 a cd:TableCell ; cd:position 4 ; cd:body "+0.006"@en ; cd:authoredResource true .
+  ex:v43-b1 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:v43-b2 a cd:TableCell ; cd:position 3 ; cd:body "1.026"@en ; cd:authoredResource true .
+  ex:v43-b3 a cd:TableCell ; cd:position 4 ; cd:body "−0.006"@en ; cd:authoredResource true .
+  ex:v43-d1 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v43-d2 a cd:TableCell ; cd:position 3 ; cd:body "2.008"@en ; cd:authoredResource true .
+  ex:v43-d3 a cd:TableCell ; cd:position 4 ; cd:body "−0.058"@en ; cd:authoredResource true .
+  ex:v43-e1 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:v43-e2 a cd:TableCell ; cd:position 3 ; cd:body "2.990"@en ; cd:authoredResource true .
+  ex:v43-e3 a cd:TableCell ; cd:position 4 ; cd:body "+0.110"@en ; cd:authoredResource true .
+  ex:v43-fc1 a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:v43-fc2 a cd:TableCell ; cd:position 3 ; cd:body "3.972"@en ; cd:authoredResource true .
+  ex:v43-fc3 a cd:TableCell ; cd:position 4 ; cd:body "−0.052"@en ; cd:authoredResource true .
+
+  ex:v44 a cd:Interpretation ; skos:prefLabel "R Lab 5: Residual Degrees of Freedom"@en ; cd:body "Six minutes: fit a calibration line with intercept and slope and inspect its residual spread."@en ; cd:authoredResource true .
+  ex:v44-task a cd:Exercise ; cd:body "Six minutes: use lm(), coef(), residuals() and df.residual(). Check the manual residual SD against summary(fit)$sigma.\nWhy do fitting an intercept and slope leave only three residual df? Explain what this signal-scale SD describes and why it is not concentration uncertainty."@en ; cd:usesDataset ex:v43-data ; cd:authoredResource true .
+  ex:v44-task cd:hasCodeExample ex:v44-code .
+  ex:v44-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "concentration <- c(0, 1, 2, 3, 4)\nsignal <- c(.05, 1.02, 1.95, 3.10, 3.92)\nfit <- lm(signal ~ concentration)\nlist(coefficients=coef(fit),\n     residuals=residuals(fit),\n     df=df.residual(fit),\n     manual=sqrt(sum(residuals(fit)^2)/df.residual(fit)),\n     R=summary(fit)$sigma)\n# n = 5, p = 2, residual df = 3" ; cd:authoredResource true .
+
+  ex:v45 a cd:Interpretation ; skos:prefLabel "Analytical Decision Challenge"@en ; cd:body "Discuss two QC methods using five repeats each. The inclusive interval [9.5, 10.5] mg/L is an illustrative teaching rule, not a validated routine-performance requirement. These results alone cannot establish routine suitability."@en ; cd:authoredResource true .
+  ex:v45-table a cd:TableDefinition ; skos:prefLabel "Case data: control target 10 mg/L"@en ; cd:hasTableColumn ex:v45-c1, ex:v45-c2 ; cd:hasTableRow ex:v45-r1, ex:v45-r2 ; cd:authoredResource true .
+  ex:v45-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:authoredResource true .
+  ex:v45-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Five measurements (mg/L)"@en ; cd:authoredResource true .
+  ex:v45-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v45-a1, ex:v45-a2 ; cd:authoredResource true .
+  ex:v45-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v45-b1, ex:v45-b2 ; cd:authoredResource true .
+  ex:v45-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:v45-a2 a cd:TableCell ; cd:position 2 ; cd:body "9.8, 10.0, 10.1, 9.9, 10.2"@en ; cd:authoredResource true .
+  ex:v45-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:v45-b2 a cd:TableCell ; cd:position 2 ; cd:body "8.7, 10.8, 9.5, 11.2, 9.8"@en ; cd:authoredResource true .
+  ex:v45-task a cd:Exercise ; cd:body "Discuss in pairs: what would you report about A versus B from these five results each? Compare means, SD, RSD and counts in the inclusive illustrative interval [9.5, 10.5] mg/L.\nWhich measurement conditions and independent sampling units must be known? Propose further independent replication and a validated performance requirement before judging routine suitability. Separate what n = 5 shows from what it cannot establish."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+
+  ex:v46 a cd:Interpretation ; skos:prefLabel "What Have We Learned?"@en ; cd:hasKeyPoint ex:v46-k1, ex:v46-k2, ex:v46-k3, ex:v46-k4, ex:v46-k5 ; cd:authoredResource true .
+  ex:v46-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "The mean describes location; variance describes spread."@en ; cd:authoredResource true .
+  ex:v46-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Variance has squared units; SD is its square root, in the original unit."@en ; cd:authoredResource true .
+  ex:v46-k3 a cd:KeyPoint ; cd:position 3 ; cd:body "Degrees of freedom account for constraints introduced by estimated parameters."@en ; cd:authoredResource true .
+  ex:v46-k4 a cd:KeyPoint ; cd:position 4 ; cd:body "SD: individual spread. SE: sampling spread of an estimate. RSD: SD relative to |mean|."@en ; cd:authoredResource true .
+  ex:v46-k5 a cd:KeyPoint ; cd:position 5 ; cd:body "Interpretation needs measurement conditions and a design identifying independent units."@en ; cd:authoredResource true .
+  ex:v46-task a cd:Exercise ; cd:body "A report states ‘10.0 ± 0.2 mg/L’. What does ± mean: SD, SE, a confidence interval or something else? Which sample size, independent units and measurement conditions are missing? Explain why the statement alone is insufficient."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-39-46> {
+  ex:scene-v39 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v39h, ex:v39d, ex:v39t ; cd:authoredResource true .
+  ex:v39h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v39 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v39d a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v39-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v39t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v39 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v40 a cd:SceneDefinition ; cd:focusConcept ex:lake-sampling-replicates ; cd:hasSceneItem ex:v40h, ex:v40table, ex:v40chart, ex:v40t ; cd:authoredResource true .
+  ex:v40h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v40 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v40table a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v40-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v40chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v40-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v40t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v40 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v41 a cd:SceneDefinition ; cd:focusConcept ex:v-pseudoreplication ; cd:hasSceneItem ex:v41h, ex:v41l, ex:v41t ; cd:authoredResource true .
+  ex:v41h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v41 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v41l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v41-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:v41t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v41 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v42 a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:v42h, ex:v42f, ex:v42t ; cd:authoredResource true .
+  ex:v42h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v42 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v42f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v42-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v42t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v42 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v43 a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:v43h, ex:v43f, ex:v43table, ex:v43chart, ex:v43t ; cd:authoredResource true .
+  ex:v43h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v43 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v43f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v43-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v43table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v43-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v43chart a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v43-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v43t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v43 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v44 a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:v44h, ex:v44task, ex:v44c ; cd:authoredResource true .
+  ex:v44h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v44 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v44task a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v44-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v44c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v44-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v45 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v45h, ex:v45table, ex:v45task ; cd:authoredResource true .
+  ex:v45h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v45 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v45table a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v45-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v45task a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v45-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v46 a cd:SceneDefinition ; cd:focusConcept ex:variance ; cd:hasSceneItem ex:v46h, ex:v46list, ex:v46task ; cd:authoredResource true .
+  ex:v46h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v46 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v46list a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v46 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:v46task a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v46-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

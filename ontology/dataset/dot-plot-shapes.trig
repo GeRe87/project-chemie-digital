@@ -1,0 +1,79 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:ChartGroupShape a sh:NodeShape ;
+    sh:targetClass cd:ChartGroup ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path ( cd:usesDataset cd:unit ) ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path ( cd:usesDataset cd:hasObservation ) ; sh:minCount 1 ; sh:class cd:Observation ; sh:node cd:DotPlotObservationShape ] .
+
+  cd:DotPlotObservationShape a sh:NodeShape ;
+    sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] .
+
+  cd:StatisticalResultShape a sh:NodeShape ;
+    sh:targetClass cd:StatisticalResult ;
+    sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:quantifiesProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ; sh:maxCount 1 ] .
+
+  cd:ChartReferenceLineShape a sh:NodeShape ;
+    sh:targetClass cd:ChartReferenceLine ;
+    sh:property [ sh:path cd:referenceResult ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:StatisticalResult ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:numericValue ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ; sh:maxCount 1 ] ;
+    sh:property [ sh:path [ sh:inversePath cd:hasChartAnnotation ] ; sh:node [
+      sh:property [ sh:path cd:chartType ; sh:hasValue cd:DotPlot ]
+    ] ] .
+
+  cd:DotPlotShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:hasChartGroup ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:DotPlot ] ;
+    sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:hasChartAnnotation ; sh:maxCount 1 ; sh:class cd:ChartReferenceLine ] ;
+    sh:sparql [
+      sh:message "Dot-plot groups must have unique contiguous positions starting at one." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasChartGroup ?group . ?group cd:position ?position .
+  FILTER ((?position != 1 && NOT EXISTS { $this cd:hasChartGroup ?previous . ?previous cd:position ?p . FILTER (?p = ?position - 1) })
+    || EXISTS { $this cd:hasChartGroup ?other . ?other cd:position ?position . FILTER (?other != ?group) })
+}""" ] ;
+    sh:sparql [
+      sh:message "Dot-plot observation positions must be unique and contiguous within each group." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasChartGroup/cd:usesDataset ?dataset .
+  ?dataset cd:hasObservation ?observation . ?observation cd:position ?position .
+  FILTER ((?position != 1 && NOT EXISTS { ?dataset cd:hasObservation ?previous . ?previous cd:position ?p . FILTER (?p = ?position - 1) })
+    || EXISTS { ?dataset cd:hasObservation ?other . ?other cd:position ?position . FILTER (?other != ?observation) })
+}""" ] ;
+    sh:sparql [
+      sh:message "Dot-plot datasets and reference results must use the numeric axis unit." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:yAxisUnit ?unit .
+  { $this cd:hasChartGroup/cd:usesDataset/cd:unit ?otherUnit . }
+  UNION { $this cd:hasChartAnnotation/cd:referenceResult/cd:unit ?otherUnit . }
+  FILTER (?unit != ?otherUnit)
+}""" ] ;
+    sh:sparql [
+      sh:message "A shared reference result must be supported by exactly the plotted datasets." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasChartAnnotation/cd:referenceResult ?result .
+  { $this cd:hasChartGroup/cd:usesDataset ?dataset . FILTER NOT EXISTS { ?result cd:usesDataset ?dataset . } }
+  UNION { ?result cd:usesDataset ?dataset . FILTER NOT EXISTS { $this cd:hasChartGroup/cd:usesDataset ?dataset . } }
+}""" ] .
+}

@@ -255,15 +255,47 @@ export function mountD3BarChart(
     if (destroyed) return;
     chartSvg.replaceChildren();
     const geometry = barChartGeometryForDensity(options.density);
-    const { minimumWidth, minimumHeight, heightRatio, margin } = geometry;
+    const { minimumWidth, minimumHeight, heightRatio } = geometry;
+    let margin = geometry.margin;
     const width = Math.max(minimumWidth, Math.round(host.getBoundingClientRect().width || 960));
     const height = Math.max(minimumHeight, Math.round(width * heightRatio));
-    const plotWidth = Math.max(100, width - margin.left - margin.right);
     const plotHeight = Math.max(100, height - margin.top - margin.bottom);
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const maximum = Math.max(0, ...model.data.map((datum) => datum.value));
     const y = scaleLinear().domain([0, maximum * 1.15 || 1]).nice(5).range([margin.top + plotHeight, margin.top]);
+    const yAxisTitle = model.yAxisUnit ? `${model.yAxisLabel} (${model.yAxisUnit})` : model.yAxisLabel;
+    const tickGap = 16;
+    const titleX = 24;
+    // Reserve actual text space before laying out the plot. Compact chart
+    // margins must still separate a rotated title from wide numeric ticks.
+    // SVG measurement uses the active theme/font and no content identities.
+    if (typeof chartSvg.getBBox === "function") {
+      const tickProbe = svg("text");
+      tickProbe.classList.add("d3-chart-tick-label");
+      tickProbe.setAttribute("visibility", "hidden");
+      const titleProbe = svg("text");
+      titleProbe.classList.add("d3-chart-axis-title");
+      titleProbe.setAttribute("visibility", "hidden");
+      titleProbe.textContent = yAxisTitle;
+      chartSvg.append(tickProbe, titleProbe);
+      let tickWidth = 0;
+      let tickHeight = 0;
+      for (const tick of y.ticks(5)) {
+        tickProbe.textContent = String(tick);
+        const bounds = tickProbe.getBBox();
+        tickWidth = Math.max(tickWidth, bounds.width);
+        tickHeight = Math.max(tickHeight, bounds.height);
+      }
+      const titleBounds = titleProbe.getBBox();
+      if (tickWidth > 0 && titleBounds.height > 0) {
+        const textGap = Math.max(8, tickHeight / 2);
+        margin = { ...margin, left: Math.max(margin.left,
+          titleX + Math.max(0, -titleBounds.y) + textGap + tickWidth + tickGap) };
+      }
+      chartSvg.replaceChildren();
+    }
+    const plotWidth = Math.max(100, width - margin.left - margin.right);
     const grouping = barChartGrouping(model);
     chartSvg.setAttribute("data-grouped-bar-chart", grouping ? "true" : "false");
     const x = grouping
@@ -295,7 +327,7 @@ export function mountD3BarChart(
       grid.append(line);
       const tickText = svg("text");
       tickText.classList.add("d3-chart-tick-label");
-      tickText.setAttribute("x", String(margin.left - 16));
+      tickText.setAttribute("x", String(margin.left - tickGap));
       tickText.setAttribute("y", String(yy + 5));
       tickText.setAttribute("text-anchor", "end");
       tickText.textContent = String(tick);
@@ -417,9 +449,9 @@ export function mountD3BarChart(
     labels.append(xTitle);
     const yTitle = svg("text");
     yTitle.classList.add("d3-chart-axis-title");
-    yTitle.setAttribute("transform", `translate(24 ${margin.top + plotHeight / 2}) rotate(-90)`);
+    yTitle.setAttribute("transform", `translate(${titleX} ${margin.top + plotHeight / 2}) rotate(-90)`);
     yTitle.setAttribute("text-anchor", "middle");
-    yTitle.textContent = model.yAxisUnit ? `${model.yAxisLabel} (${model.yAxisUnit})` : model.yAxisLabel;
+    yTitle.textContent = yAxisTitle;
     labels.append(yTitle);
 
     chartSvg.append(grid, axis, bars, labels);

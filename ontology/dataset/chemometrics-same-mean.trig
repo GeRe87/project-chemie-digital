@@ -1,0 +1,47 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-same-mean> {
+  ex:variance-lecture-title a cd:Interpretation ;
+    skos:prefLabel "Variance and Uncertainty of the Mean"@en ;
+    cd:body "Variance and Uncertainty of the Mean"@en ;
+    cd:authoredResource true .
+
+  ex:mean-and-spread-comparison a cd:Concept ;
+    skos:prefLabel "Same Mean, Different Spread"@en ;
+    cd:hasDefinition ex:variance-same-mean-definition ;
+    cd:authoredResource true .
+
+  ex:variance-same-mean-definition a cd:Definition ;
+    cd:body "The mean summarizes the center of both groups, but it does not capture the spread of the observations."@en ;
+    cd:authoredResource true .
+
+  ex:variance-shared-mean a cd:StatisticalResult ;
+    cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:dataset-compare-series-a, ex:dataset-compare-series-b ;
+    cd:numericValue "10"^^xsd:decimal ; cd:unit "mg/L" ;
+    cd:authoredResource true .
+
+  ex:chart-variance-same-mean a cd:ChartDefinition ;
+    skos:prefLabel "Same Mean, Different Spread"@en ;
+    cd:body "Illustrative measurement series. Each dot is one observation."@en ;
+    cd:chartType cd:DotPlot ;
+    cd:xAxisLabel "Measurement series"@en ;
+    cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ;
+    cd:hasChartGroup ex:chart-variance-group-a, ex:chart-variance-group-b ;
+    cd:hasChartAnnotation ex:annotation-variance-shared-mean ;
+    cd:authoredResource true .
+
+  ex:chart-variance-group-a a cd:ChartGroup ;
+    skos:prefLabel "Series A"@en ; cd:position 1 ;
+    cd:usesDataset ex:dataset-compare-series-a ; cd:authoredResource true .
+  ex:chart-variance-group-b a cd:ChartGroup ;
+    skos:prefLabel "Series B"@en ; cd:position 2 ;
+    cd:usesDataset ex:dataset-compare-series-b ; cd:authoredResource true .
+
+  ex:annotation-variance-shared-mean a cd:ChartReferenceLine ;
+    cd:body "Mean of both series"@en ; cd:position 1 ;
+    cd:referenceResult ex:variance-shared-mean ; cd:authoredResource true .
+}

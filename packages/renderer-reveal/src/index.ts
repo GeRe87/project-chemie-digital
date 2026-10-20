@@ -4,6 +4,11 @@ import {
   SCENE_DOCUMENT_SEQUENCE_VERSION,
   SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
   SCENE_DOCUMENT_TABLE_VERSION,
+  SCENE_DOCUMENT_DOT_PLOT_VERSION,
+  SCENE_DOCUMENT_DERIVATION_VERSION,
+  mathematicalDerivationText,
+  type MathematicalDerivationSection,
+  type MathematicalDerivationDetail,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -63,6 +68,8 @@ export interface RevealMathPlan extends RevealNodeBase {
   readonly kind: "math";
   readonly expression: string;
   readonly spokenText: string;
+  readonly derivation?: MathematicalDerivationSection;
+  readonly derivationDetails?: readonly MathematicalDerivationDetail[];
 }
 
 export interface RevealCodePlan extends RevealNodeBase {
@@ -337,10 +344,12 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
     case "math":
       if (block.spokenText.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Mathematics requires spokenText", block.id);
       return {
-        ...baseFor(block, position, options, `${block.expression} — ${block.spokenText}`),
+        ...baseFor(block, position, options, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression} — ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
         kind: "math",
         expression: block.expression,
         spokenText: block.spokenText,
+        ...(block.derivation ? { derivation: block.derivation } : {}),
+        ...(block.derivationDetails ? { derivationDetails: block.derivationDetails } : {}),
       };
     case "code":
       if (block.fallback.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Code requires a static fallback", block.id);
@@ -504,7 +513,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

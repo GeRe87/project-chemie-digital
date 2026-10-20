@@ -90,6 +90,22 @@ def add_path(dataset: Dataset, path_id: str, path_graph_id: str, unit_id: str) -
 
 
 class TeachingOfferingRuntimeTests(unittest.TestCase):
+    def test_thumbnail_is_projected_from_its_named_graph_without_title_matching(self):
+        dataset=Dataset();add_offering(dataset);add_placement(dataset,PLACEMENT,UNIT,Literal(10,datatype=XSD.integer))
+        graph_id=URIRef(GRAPH+'artwork');graph=dataset.graph(graph_id);asset=URIRef(EX+'any-art')
+        graph.add((URIRef(UNIT),URIRef(CD+'hasThumbnail'),asset))
+        graph.add((asset,RDF.type,URIRef(CD+'MediaAsset')))
+        graph.add((asset,URIRef(CD+'uri'),Literal('/course-world/example.svg',datatype=XSD.anyURI)))
+        graph.add((asset,URIRef(CD+'mediaType'),Literal('image/svg+xml')))
+        graph.add((asset,URIRef(CD+'alternativeText'),Literal('Authored thumbnail',lang='en')))
+        record=project(dataset)['units'][0]['thumbnail']
+        self.assertEqual(record,{'id':str(asset),'graphId':str(graph_id),'uri':'/course-world/example.svg','alternativeTexts':[{'value':'Authored thumbnail','language':'en'}]})
+        graph.set((asset,URIRef(CD+'uri'),Literal('//remote.test/image.svg')))
+        with self.assertRaisesRegex(ValueError,'safe local SVG'):project(dataset)
+        graph.set((asset,URIRef(CD+'uri'),Literal('/course-world/example.svg')))
+        graph.add((URIRef(UNIT),URIRef(CD+'hasThumbnail'),URIRef(EX+'second-art')))
+        with self.assertRaisesRegex(ValueError,'at most one'):project(dataset)
+
     def test_current_standard_deviation_document_preserves_authored_course_metadata(self) -> None:
         current = assemble_dataset()
         identity = f"sha256:{dataset_fingerprint(current)}"

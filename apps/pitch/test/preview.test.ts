@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { presentationRuntimeSource } from "./runtime-source.ts";
 import {
   canonicalDatasetFingerprint,
   canonicalDatasetSnapshot,
@@ -14,7 +15,7 @@ import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocument
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
   get innerHTML(): string { return this.html; }
-  set innerHTML(value: string) { this.html = value; if (value === "") this.children = []; }
+  set innerHTML(value: string) { this.html = value; this.children = []; this.textContent = value.replace(/<[^>]*>/gu,"").replaceAll("&lt;","<").replaceAll("&gt;",">").replaceAll("&quot;",'"').replaceAll("&#39;","'").replaceAll("&amp;","&"); }
   appendChild(node: MinimalElement): void { this.children.push(node as FakeElement); }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
 }
@@ -607,6 +608,8 @@ test("prohibits external runtime network calls while allowing pinned same-origin
   const base = "http://127.0.0.1:5173/pitch";
   assert.equal(isAllowedLocalRuntimeRequest("/vendor/webr/v0.6.0/R.wasm", base), true);
   assert.equal(isAllowedLocalRuntimeRequest("https://example.invalid/runtime.js", base), false);
+  assert.equal(isAllowedLocalRuntimeRequest("/chemie-review/vendor/webr/v0.6.0/R.wasm", "http://127.0.0.1:5196/chemie-review/?theme=light"), true);
+  assert.equal(isAllowedLocalRuntimeRequest("/vendor/webr/v0.6.0/R.wasm", "http://127.0.0.1:5196/chemie-review/"), false);
   const restore = installNoNetworkGuard(target, base);
   assert.throws(() => target.fetch?.("https://example.invalid/runtime.js"), /prohibited/);
   await target.fetch?.("/vendor/webr/v0.6.0/R.wasm");
@@ -877,7 +880,7 @@ test("renders generic evidence-stage regions from table and chart semantics", ()
 test("legacy learning and teaching evidence families no longer own CSS presentation", () => {
   const learningCss = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
   const evidenceCss = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.equal(main.includes('import "./learning-concept-layouts.css"'), false);
   assert.equal(main.includes('import "./learning-stage-primitives.css"'), true);
@@ -892,7 +895,7 @@ test("legacy learning and teaching evidence families no longer own CSS presentat
 
 test("generic visual evidence compositions own analysis and worked-case presentation", () => {
   const css = readFileSync(new URL("../src/evidence-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="evidence-stage"/u);
   assert.match(css, /data-composition-profile="visual-data-flow"/u);
@@ -1025,7 +1028,7 @@ test("renders evidence-stage context-data-visual regions from generic block stru
 
 test("process progression styling is generic and specialized diagram layout files stay removed", () => {
   const css = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="progression-stage"/u);
   assert.match(css, /data-composition-profile="compact-linear"/u);
@@ -1039,7 +1042,7 @@ test("process progression styling is generic and specialized diagram layout file
 
 test("learning-stage reference profiles replace process-context and reference-code family CSS", () => {
   const css = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="learning-stage"/u);
   assert.match(css, /data-composition-profile="visual-dual-reference"/u);
@@ -1056,7 +1059,7 @@ test("learning-stage reference profiles replace process-context and reference-co
 
 test("card progression styling uses the generic progression stage", () => {
   const css = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="progression-stage"/u);
   assert.match(css, /data-composition-profile="cards-only"/u);
@@ -1073,7 +1076,7 @@ test("card progression styling uses the generic progression stage", () => {
 
 test("learning-stage primitives replace legacy learning concept family CSS", () => {
   const css = readFileSync(new URL("../src/learning-stage-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   for (const profile of [
     "prompt-code",
@@ -1096,7 +1099,7 @@ test("learning-stage primitives replace legacy learning concept family CSS", () 
 
 test("visual-stage primitives replace standalone and concentric diagram family CSS", () => {
   const css = readFileSync(new URL("../src/visual-stage-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="visual-stage"/u);
   assert.match(css, /data-composition-profile="concentric-network"/u);
@@ -1113,7 +1116,7 @@ test("concept specification presentation is owned by progression composition", (
   const progression = readFileSync(new URL("../src/progression-primitives.css", import.meta.url), "utf8");
   const projection = readFileSync(new URL("../src/presentation-projection.css", import.meta.url), "utf8");
   const runtime = readFileSync(new URL("../src/presentation-projection.ts", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(progression, /data-composition-profile="cards-with-footer"/u);
   assert.match(projection, /data-composition-profile="cards-with-footer"/u);
@@ -1126,7 +1129,7 @@ test("concept specification presentation is owned by progression composition", (
 
 test("statement-support learning profile styling lives in the shared component composition layer", () => {
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="learning-stage"/u);
   assert.match(css, /data-composition-profile="statement-support"/u);
@@ -1140,7 +1143,7 @@ test("statement-support learning profile styling lives in the shared component c
 
 test("heading-only stack closing stage is owned by generic composition styling", () => {
   const css = readFileSync(new URL("../src/component-composition.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="stack"\]\[data-composition-main-count="0"/u);
   assert.match(css, /data-composition-region="heading"/u);
@@ -1151,7 +1154,7 @@ test("heading-only stack closing stage is owned by generic composition styling",
 
 test("full-viewport media presentation is owned by generic media-stage composition", () => {
   const css = readFileSync(new URL("../src/media-stage-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="media-stage"/u);
   assert.match(css, /data-composition-profile="full-viewport"/u);
@@ -1168,7 +1171,7 @@ test("full-viewport media presentation is owned by generic media-stage compositi
 
 test("hero title presentation is owned by the media-stage hero-attributions profile", () => {
   const css = readFileSync(new URL("../src/media-stage-primitives.css", import.meta.url), "utf8");
-  const main = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const main = presentationRuntimeSource();
 
   assert.match(css, /data-composition="media-stage"/u);
   assert.match(css, /data-composition-profile="hero-attributions"/u);

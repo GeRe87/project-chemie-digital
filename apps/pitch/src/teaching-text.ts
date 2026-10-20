@@ -2,9 +2,14 @@ export function escapeTeachingText(text: string): string {
   return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 }
 
+export function teachingInlineMarkup(text: string): string {
+  return escapeTeachingText(text).replace(/\*\*([^*]+)\*\*/gu, "<strong>$1</strong>")
+    .replace(/==([^=]+)==/gu, '<span class="pcd-marker-highlight pcd-marker-highlight--cyan">$1</span>');
+}
+
 /** A deliberately small safe Markdown subset. List purpose uses explicit [!] / [?] markers. */
 export function teachingTextMarkup(text: string): string {
-  const inline = (value: string): string => escapeTeachingText(value).replace(/\*\*([^*]+)\*\*/gu, "<strong>$1</strong>");
+  const inline = teachingInlineMarkup;
   return text.split(/\r?\n\s*\r?\n/u).map(paragraph => {
     const lines = paragraph.split(/\r?\n/u);
     if (lines.every(line => /^-\s+/u.test(line))) {

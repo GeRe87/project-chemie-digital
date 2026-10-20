@@ -7,6 +7,7 @@ import {
   interactiveRuntimeVersions,
   isConnectedInteractiveMode,
   wrapRForCapturedOutput,
+  vendorImportMap,
 } from "../src/code-runtime.ts";
 
 test("connected interactive mode is explicit and opt-in", () => {
@@ -19,9 +20,15 @@ test("connected interactive mode is explicit and opt-in", () => {
 test("R execution wrapper captures deterministic console-style output", () => {
   const code = "x <- c(6, 8, 10)\nsd(x)";
   const wrapped = wrapRForCapturedOutput(code);
-  assert.match(wrapped, /^paste\(capture\.output\(print\(\{/);
-  assert.ok(wrapped.includes(code));
+  assert.match(wrapped, /^paste\(capture\.output\(local\(/);
+  assert.ok(wrapped.includes(JSON.stringify(code)));
+  assert.match(wrapped, /print.eval=TRUE/);
+  assert.match(wrapped, /finally=close\(\.pcd_connection\)/);
   assert.match(wrapped, /collapse="\\n"\)$/);
+});
+
+test("reviewed vendor imports follow the deployment base without changing vendor bytes", () => {
+  assert.deepEqual(vendorImportMap("http://localhost/course/index.html?theme=dark"), { imports: { "/vendor/": "http://localhost/course/vendor/" } });
 });
 
 test("interactive browser runtime versions and destinations are pinned locally", () => {
@@ -52,7 +59,7 @@ test("CodeMirror enhancement keeps one prepared dependency graph and keyboard is
 });
 
 test("local code enhancement is standard while external live polling remains opt-in", () => {
-  const mainSource = readFileSync(new URL("../src/main.ts", import.meta.url), "utf8");
+  const mainSource = readFileSync(new URL("../src/presentation-main.ts", import.meta.url), "utf8");
   const runtimeSource = readFileSync(new URL("../src/code-runtime.ts", import.meta.url), "utf8");
   const codeMount = mainSource.indexOf("codeRuntime = await mountExecutableCodeBlocks(root)");
   const gateStart = mainSource.indexOf("if (connectedInteractive) {");

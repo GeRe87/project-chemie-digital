@@ -5,12 +5,14 @@ interface LiveChartComponent {
   destroy(): void;
 }
 
-function liveChartBlocks(documents: readonly SceneDocument[]): Map<string, ChartBlock> {
-  const result = new Map<string, ChartBlock>();
+type LiveSupportedChart = Exclude<ChartBlock, { readonly chartType: "dot" }>;
+
+function liveChartBlocks(documents: readonly SceneDocument[]): Map<string, LiveSupportedChart> {
+  const result = new Map<string, LiveSupportedChart>();
   for (const document of documents) {
     for (const scene of document.scenes) {
       for (const block of scene.blocks) {
-        if (block.kind === "chart" && block.liveUpdate) result.set(block.id, block);
+        if (block.kind === "chart" && block.chartType !== "dot" && block.liveUpdate) result.set(block.id, block);
       }
     }
   }
@@ -58,13 +60,13 @@ export function interpolateLiveValues(
   return from.map((value, index) => value + ((to[index] ?? value) - value) * eased);
 }
 
-function chartValues(block: ChartBlock): readonly number[] {
+function chartValues(block: LiveSupportedChart): readonly number[] {
   return block.chartType === "bar"
     ? block.data.map((datum) => datum.value)
     : block.series[0]?.data.map((datum) => datum.y) ?? [];
 }
 
-function withChartValues(block: ChartBlock, values: readonly number[]): ChartBlock {
+function withChartValues(block: LiveSupportedChart, values: readonly number[]): LiveSupportedChart {
   if (block.chartType === "bar") {
     return {
       ...block,

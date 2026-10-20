@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 test("missing motif families have vector masks, with reserved supporting-title space", () => {
-  const css = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8").replace(/\r\n?/gu,"\n");
   for (const motif of ["multiple-inputs", "nonlinear-curve", "neural-network", "other-models"]) {
     assert.ok(css.includes(`[data-visual-motif="${motif}"] {\n  --pcd-motif-mask: url("data:image/svg+xml,`));
   }

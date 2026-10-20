@@ -23,7 +23,7 @@
 
 /* Prompt + executable code ------------------------------------------------ */
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"] {
-  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: .7rem 1.4rem;
   padding: 1.35rem 1.8rem !important;
@@ -91,6 +91,44 @@
   overflow: auto;
 }
 
+/* A direct editor keeps an explicit output area. Function-glossary workbenches
+   retain their own existing grid. Scrolling preserves code/output alignment. */
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block {
+  display: grid;
+  grid-template-rows: minmax(10rem, 1.25fr) auto minmax(6rem, .75fr);
+  gap: .65rem;
+  max-width: none;
+}
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block > .code-editor-host {
+  min-height: 0;
+  overflow: auto;
+}
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block .cm-editor,
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block .cm-scroller {
+  height: 100%;
+  min-height: 0;
+  font-size: clamp(1.15rem, 1.65vw, 1.5rem);
+}
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block > .code-runtime-controls {
+  margin: 0;
+  flex-wrap: wrap;
+}
+.reveal .slides section[data-composition-profile="prompt-code"]
+  > [data-composition-region-container="secondary"] > .code-block > .code-output {
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+  white-space: pre;
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  line-height: 1.35;
+}
+.reveal .code-output:focus-visible { outline: 3px solid var(--pcd-focus); outline-offset: 2px; }
+
 /* Explanatory prose + compact code demo ---------------------------------- */
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"] {
   grid-template-rows: auto auto minmax(0, 1fr) auto;
@@ -123,12 +161,13 @@
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]
   [data-component-kind="info-surface"] {
   box-sizing: border-box;
-  width: min(940px, 88%);
+  width: min(1140px, 100%);
   margin: 0 auto;
   padding: .48rem .75rem;
   border-left: 5px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-accent) 8%, var(--pcd-surface-strong));
-  font: 800 .76em/1.18 Arial, Helvetica, sans-serif;
+  font: 650 .86em/1.35 Arial, Helvetica, sans-serif;
+  white-space: pre-line;
 }
 
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="info-code"]

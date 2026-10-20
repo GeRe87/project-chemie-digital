@@ -35,12 +35,30 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     )
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(RUNTIME.canonical_json(artifact), encoding="utf-8", newline="\n")
+    # Disposable per-level transports. The world manifest contains identities,
+    # labels and bindings, never scene bodies or the semantic dataset snapshot.
+    import hashlib
+    public = ROOT / "apps/pitch/public/course-runtime"
+    public.mkdir(parents=True, exist_ok=True)
+    documents = []
+    for document in artifact["sceneDocuments"]:
+        key = hashlib.sha256(document["id"].encode()).hexdigest()[:16]
+        single = {**artifact, "sceneDocuments": [document], "sceneDocumentBindings": [b for b in artifact["sceneDocumentBindings"] if b["sceneDocumentId"] == document["id"]]}
+        (public / f"{key}.json").write_text(RUNTIME.canonical_json(single), encoding="utf-8", newline="\n")
+        documents.append({"id": document["id"], "pathId": document["sourcePathId"], "sceneIds": [s["id"] for s in document["scenes"]], "runtime": f"course-runtime/{key}.json"})
+    manifest = {"offering": artifact["teachingOfferingDocuments"][0], "documents": documents, "bindings": artifact["sceneDocumentBindings"]}
+    (OUTPUT.parent / "course-manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
+    (public / "manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
     offering = artifact["teachingOfferingDocuments"][0]["offering"]
     labels = offering["labels"]
     label = next((item["value"] for item in labels if item.get("language") == language),
                  labels[0]["value"] if labels else offering["id"])
     title = html.escape(label)
     shell = MEDIA.rendered_index(base_artifact, artifact)
+    # rendered_index reuses the current HTML shell. Keep repeated dev/build
+    # preparation idempotent instead of accumulating identical world markers.
+    shell = re.sub(r'\s*<meta name="pitch-course-world" content="enabled"\s*/>', '', shell)
+    shell = shell.replace('</head>', '<meta name="pitch-course-world" content="enabled" />\n  </head>')
     shell = re.sub(r"<html lang=\"[^\"]*\">", f'<html lang="{html.escape(language, quote=True)}">', shell)
     shell = re.sub(r"<title>.*?</title>", lambda _: f"<title>{title}</title>", shell)
     shell = re.sub(r'<div class="reveal" aria-label="[^"]*">', lambda _: f'<div class="reveal" aria-label="{title}">', shell)
@@ -48,7 +66,13 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     shell = re.sub(r'(<h1 id="pitch-static-title">.*?</h1>\s*)<p>.*?</p>', r'\1<p>Static course content; interactive navigation requires JavaScript.</p>', shell)
     fallback = "\n".join(RUNTIME.static_fallback({"sceneDocuments": [document]}) for document in artifact["sceneDocuments"])
     shell = re.sub(r"(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)",
-                   lambda match: match[1] + "\n" + fallback + "\n" + match[2], shell, flags=re.DOTALL)
+                    lambda match: match[1] + "\n" + fallback + "\n" + match[2], shell, flags=re.DOTALL)
+    static = re.sub(r'<script\b[^>]*>.*?</script>', '', shell, flags=re.DOTALL)
+    static = static.replace('<noscript>', '').replace('</noscript>', '')
+    static = re.sub(r'(src|href)="/(?!/)', r'\1="../', static)
+    (public / "static-course.html").write_text(static, encoding="utf-8", newline="\n")
+    shell = re.sub(r"(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)",
+                   lambda match: match[1] + '\n<p><a href="./course-runtime/static-course.html">Open static course content</a></p>\n' + match[2], shell, flags=re.DOTALL)
     RUNTIME.PITCH_INDEX.write_text(shell, encoding="utf-8", newline="\n")
     return artifact
 

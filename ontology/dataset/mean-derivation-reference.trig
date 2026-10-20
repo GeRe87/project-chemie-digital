@@ -1,0 +1,24 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Unselected integration reference. No published Mean Values scene or path is changed.
+<https://w3id.org/project-chemie-digital/graph/mathematics/mean-derivation-reference> {
+  ex:arithmetic-mean-formula cd:hasSymbol ex:xbar-symbol, ex:xi-symbol, ex:n-symbol, ex:vr-index-symbol, ex:v-sum-symbol .
+  ex:mean-dice-average-formula cd:hasSymbol ex:xbar-symbol, ex:xi-symbol, ex:n-symbol, ex:vr-index-symbol, ex:v-sum-symbol .
+  ex:rule-arithmetic-mean a cd:MathematicalRule ; skos:prefLabel "Arithmetic mean"@en ; cd:ruleFormula ex:arithmetic-mean-formula ; cd:requiresAssumption ex:assumption-finite-sum ; cd:body "For n numerical observations, add the values and divide their sum by the positive count n."@en ; dct:source ex:arithmetic-mean ; cd:authoredResource true .
+  ex:derivation-mean-reference a cd:MathematicalDerivation ; skos:prefLabel "Explain the existing five-dice arithmetic calculation"@en ; cd:inputFormula ex:arithmetic-mean-formula ; cd:resultFormula ex:mean-dice-average-formula ; cd:hasDerivationStep ex:md-mean-reference-step ; dct:source ex:mean-dice-average-formula ; cd:authoredResource true .
+  ex:md-mean-reference-step a cd:DerivationStep ; cd:position 1 ; skos:prefLabel "Insert the five observations; add and divide"@en ; cd:fromFormula ex:arithmetic-mean-formula ; cd:toFormula ex:mean-dice-average-formula ; cd:appliesRule ex:rule-arithmetic-mean ; cd:transformationKind cd:EquivalentTransformation ; cd:hasExplanation ex:md-mean-reference-explanation ; cd:authoredResource true .
+  ex:md-mean-reference-explanation a cd:Interpretation ; cd:body "Use the five observed experiment sums: 10, 13, 18, 10 and 23. The count n is 5.\nAdding gives 74; division by 5 gives 14.8. These are observed experiment sums, not the population expectation of a die.\nNormality is not needed to compute this finite arithmetic mean."@en ; cd:applicationFormula ex:mean-dice-average-formula ; cd:authoredResource true .
+  ex:md-mean-reference-section a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:derivation-mean-reference ; cd:firstDerivationStep ex:md-mean-reference-step ; cd:lastDerivationStep ex:md-mean-reference-step ; cd:usesLegend ex:md-sum-legend ; cd:authoredResource true .
+  ex:md-mean-reference-title a cd:Interpretation ; skos:prefLabel "Arithmetic Mean: Explained Calculation"@en ; cd:authoredResource true .
+  ex:scene-md-mean-reference a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:md-mean-reference-h, ex:md-mean-reference-f ; cd:authoredResource true .
+  ex:md-mean-reference-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-mean-reference-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:md-mean-reference-f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-mean-reference-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/mathematical-derivation-reference> {
+  ex:path-mathematical-derivation-reference a cd:LearningPath ; skos:prefLabel "Unselected mathematical derivation integration reference"@en ; cd:forTopic ex:arithmetic-mean ; cd:hasStep ex:path-step-mathematical-derivation-reference ; cd:authoredResource true .
+  ex:path-step-mathematical-derivation-reference a cd:PathStep ; cd:position 1 ; cd:usesResource ex:md-mean-reference-title, ex:md-mean-reference-section ; cd:usesScene ex:scene-md-mean-reference ; cd:authoredResource true .
+}

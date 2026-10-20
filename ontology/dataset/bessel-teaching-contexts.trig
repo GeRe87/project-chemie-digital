@@ -1,0 +1,55 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/bessel-contexts> {
+  ex:bf-back-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-back-card ; cd:authoredResource true .
+  ex:bf-back-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: compare individual observations"@en ; cd:body "The two series share the mean 32/3 mg/L.\nCompare each value with its own series mean.\nWhich signed deviations produce the greater spread?"@en ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:bf-lake-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-lake-card ; cd:authoredResource true .
+  ex:bf-lake-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: A fully defined demonstration population of lake concentrations"@en ; cd:body "Population mean: μ = 10 mg/L.\nPopulation variance: σ² = 5 (mg/L)².\nModel: independent normally distributed concentrations.\nSample: n = 5, using the existing seed 1904.\nGoal: compare estimates from one sample with known model parameters."@en ; dct:source ex:lake-code, ex:vs-model ; cd:authoredResource true .
+
+  ex:bf-problem a cd:Interpretation ; skos:prefLabel "Why Does Fitting the Mean Reduce the MSD?"@en ; cd:hasKeyPoint ex:bf-problem-k1, ex:bf-problem-k2 ; cd:authoredResource true .
+  ex:bf-problem-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "The goal is to estimate the unknown population variance. Why does MSD underestimate it on average when we fit the mean from the same observations?"@en ; cd:authoredResource true .
+  ex:bf-problem-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "In repeated sampling we use Xᵢ, X̄ and Δ = X̄ − μ. Simulation parameters are known only because we defined the demonstration population."@en ; cd:authoredResource true .
+  ex:bf-observed a cd:MathExpression ; cd:formulaLabel "Computable from the realized observations"@en ; cd:latex "\\begin{gathered}x_i,\\quad\\bar x,\\quad n\\\\d_i=x_i-\\bar x,\\quad\\mathrm{MSD}_n,\\quad s^2\\end{gathered}" ; cd:hasSymbol ex:xi-symbol, ex:xbar-symbol, ex:n-symbol, ex:vr-d-symbol, ex:bf-msd-symbol, ex:vr-s2-symbol ; dct:hasPart ex:bf-observed-legend ; cd:authoredResource true .
+  ex:bf-unobserved a cd:MathExpression ; cd:formulaLabel "Ordinarily unknown in a real system"@en ; cd:latex "\\mu,\\quad\\sigma^2,\\quad\\delta=\\bar x-\\mu" ; cd:hasSymbol ex:mu-symbol, ex:vr-sigma2-symbol, ex:vr-delta-symbol, ex:xbar-symbol ; dct:hasPart ex:bf-unknown-legend ; cd:authoredResource true .
+  ex:bf-observed-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-obs-entry ; cd:authoredResource true .
+  ex:bf-obs-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Sample quantities"@en ; cd:body "These are computed from the same observed sample."@en ; dct:references ex:xi-symbol, ex:xbar-symbol, ex:n-symbol, ex:vr-d-symbol, ex:bf-msd-symbol, ex:vr-s2-symbol ; cd:authoredResource true .
+  ex:bf-unknown-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-unknown-entry ; cd:authoredResource true .
+  ex:bf-unknown-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Population parameters and unobserved shift"@en ; cd:body "μ and σ² are parameters. δ is the sample's shift from the unknown population mean, not a population parameter."@en ; dct:references ex:mu-symbol, ex:vr-sigma2-symbol, ex:vr-delta-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vr-delta-symbol cd:mathNotation "\\delta" ; cd:presentationDefinition "Realized shift x̄ − μ; generally unknown."@en .
+  ex:bf-msd-symbol a cd:MathSymbol ; cd:symbol "MSD_n" ; cd:mathNotation "\\mathrm{MSD}_n" ; cd:body "Mean squared deviation about the fitted sample mean, with divisor n; a statistic across repeated samples."@en ; cd:presentationDefinition "Squared residual average, divisor n."@en ; cd:authoredResource true .
+  ex:rule-a-symbol cd:mathNotation "a, a_i" .
+  ex:rule-b-symbol cd:mathNotation "b, b_i" .
+  ex:rule-c-symbol cd:mathNotation "c" .
+  ex:rule-U-symbol cd:mathNotation "U" .
+  ex:rule-V-symbol cd:mathNotation "V" .
+  ex:rule-Y-symbol cd:mathNotation "Y" .
+
+  ex:bf-basics a cd:Interpretation ; skos:prefLabel "Expected Value and Variance"@en ; cd:hasKeyPoint ex:bf-basics-k1, ex:bf-basics-k2 ; cd:authoredResource true .
+  ex:bf-basics-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Expectation is the theoretical average over the distribution, not the arithmetic mean of one realized sample."@en ; cd:authoredResource true .
+  ex:bf-basics-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "μ and σ² belong to the underlying distribution. Empirical sample summaries estimate them."@en ; cd:authoredResource true .
+  ex:bf-variance-definition a cd:MathExpression ; cd:formulaLabel "Variance: theoretical squared distance from the expected value"@en ; cd:latex "\\begin{aligned}\\operatorname{Var}(X)&=\\operatorname{E}[(X-\\operatorname{E}[X])^2]\\\\&=\\operatorname{E}[(X-\\mu)^2]=\\sigma^2\\end{aligned}" ; cd:hasSymbol ex:vm-var-symbol, ex:vs-X-symbol, ex:vr-E-symbol, ex:mu-symbol, ex:vr-sigma2-symbol ; dct:hasPart ex:bf-definition-legend ; cd:authoredResource true .
+  ex:bf-definition-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-definition-entry ; cd:authoredResource true .
+  ex:bf-definition-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Distribution quantities"@en ; cd:body "Finite second moment is assumed for variance."@en ; dct:references ex:vs-X-symbol, ex:vr-E-symbol, ex:mu-symbol, ex:vm-var-symbol, ex:vr-sigma2-symbol ; cd:authoredResource true .
+
+  ex:bf-e-rules a cd:Interpretation ; skos:prefLabel "Calculation Rules for Expected Values"@en ; cd:hasKeyPoint ex:bf-e-k1, ex:bf-e-k2 ; cd:authoredResource true .
+  ex:bf-e-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Finite sum:** all expectations exist; coefficients and n are fixed. ==No independence needed== for linearity."@en ; cd:authoredResource true .
+  ex:bf-e-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Long-run mean:** for iid observations with E[|X|] < ∞, the sample average converges to E[X] as n grows. A finite average need not equal it."@en ; cd:authoredResource true .
+  ex:bf-v-rules a cd:Interpretation ; skos:prefLabel "Calculation Rules for Variances"@en ; cd:hasKeyPoint ex:bf-v-k1, ex:bf-v-k2 ; cd:authoredResource true .
+  ex:bf-v-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "A fixed shift changes the mean, not the variance. Finite second moments and fixed scalars are assumed."@en ; cd:authoredResource true .
+  ex:bf-v-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Scaling by a multiplies expectation by a, but variance by a²."@en ; cd:authoredResource true .
+  ex:bf-sum-rules a cd:Interpretation ; skos:prefLabel "Variance of a Sum: Check Independence"@en ; cd:hasKeyPoint ex:bf-sum-k1, ex:bf-sum-k2 ; cd:authoredResource true .
+  ex:bf-sum-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "The covariance identity holds with finite second moments. Independence makes the cross covariances zero."@en ; cd:authoredResource true .
+  ex:bf-sum-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Independent additive contributions add their variances, not their standard deviations."@en ; cd:authoredResource true .
+  ex:bf-rule-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-rule-entry ; cd:authoredResource true .
+  ex:bf-rule-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Reusable rule symbols"@en ; cd:body "Y, U and V are random quantities; a, b and c are fixed scalars."@en ; dct:references ex:vr-E-symbol, ex:vm-var-symbol, ex:rule-cov-symbol, ex:rule-a-symbol, ex:rule-b-symbol, ex:rule-c-symbol, ex:rule-U-symbol, ex:rule-V-symbol, ex:rule-Y-symbol, ex:rule-indexed-Y-symbol, ex:rule-m-symbol, ex:rule-v-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol ; cd:authoredResource true .
+  ex:bf-why a cd:Interpretation ; skos:prefLabel "Return to the MSD Identity: Why Average It?"@en ; cd:hasKeyPoint ex:bf-why-k1, ex:bf-why-k2 ; cd:authoredResource true .
+  ex:bf-why-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "This identity holds for every sample. Using the estimated mean reduces the average squared deviation by the squared shift between the two centers."@en ; cd:authoredResource true .
+  ex:bf-why-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "For a real sample, Δ² is unknown because μ is unknown. Bias concerns E[MSDₙ] over repeated samples, so we determine E[Δ²] under stated assumptions."@en ; cd:authoredResource true .
+  ex:bf-finish a cd:DefinitionList ; cd:hasDefinitionListEntry ex:bf-finish1, ex:bf-finish2, ex:bf-finish3 ; cd:authoredResource true .
+  ex:bf-finish1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Unknown population quantity"@en ; cd:body "Population variance σ² is the target. We did not calculate the unknown shift Δ from the observed sample."@en ; cd:authoredResource true .
+  ex:bf-finish2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Observable sample quantities"@en ; cd:body "Only xᵢ, x̄ and n are required by the practical formula. All residuals are computable from the same observations."@en ; cd:authoredResource true .
+  ex:bf-finish3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Unbiased estimator"@en ; cd:body "s² estimates σ² without average bias under the assumptions. The later n−1 residual degrees of freedom are compatible with this proof, not a replacement for it."@en ; cd:authoredResource true .
+}

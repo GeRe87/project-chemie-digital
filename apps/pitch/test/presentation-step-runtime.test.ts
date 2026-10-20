@@ -10,13 +10,65 @@ import {
   mountPresentationStageLock,
   mountPresentationStageNavigation,
   stepFromVisibleCount,
+  stageDirectionForKey,
+  mountPresentationWheelNavigation,
 } from "../src/presentation-step-runtime.ts";
+
+test("focused operation cards retain Enter/Space activation but do not swallow arrow navigation", () => {
+  const button = { tagName: "BUTTON", closest: (selector: string) => selector.includes("dialog") ? null : {} };
+  assert.equal(stageDirectionForKey({ key: "ArrowRight", target: button } as unknown as KeyboardEvent), "next");
+  assert.equal(stageDirectionForKey({ key: "ArrowLeft", target: button } as unknown as KeyboardEvent), "prev");
+  assert.equal(stageDirectionForKey({ key: " ", target: button } as unknown as KeyboardEvent), undefined);
+  assert.equal(stageDirectionForKey({ key: "Enter", target: button } as unknown as KeyboardEvent), undefined);
+});
+
+test("wheel repeat is bounded without starving sustained input and listeners are disposed", () => {
+  let listener: ((event: WheelEvent) => void) | undefined;
+  const target = { addEventListener(_type: string, callback: typeof listener) { listener = callback; }, removeEventListener() { listener = undefined; } } as unknown as HTMLElement;
+  let next = 0;
+  const deck = { getCurrentSlide: () => ({ getAttribute: () => "true" }), availableFragments: () => ({ next: true, prev: false }), nextFragment: () => { next++; return true; } } as unknown as Parameters<typeof mountPresentationWheelNavigation>[0];
+  const destroy = mountPresentationWheelNavigation(deck, target, { view: "scroll" });
+  const event = (timeStamp: number) => ({ timeStamp, deltaY: 120, target: { closest: () => null }, preventDefault() {}, stopImmediatePropagation() {} }) as unknown as WheelEvent;
+  listener!(event(1000)); listener!(event(1050)); listener!(event(1100));
+  assert.equal(next, 1);
+  listener!(event(1400)); assert.equal(next, 2);
+  for (const stamp of [1450,1500,1550,1600,1650,1700,1750,1800]) listener!(event(stamp));
+  assert.equal(next, 4);
+  destroy(); assert.equal(listener, undefined);
+});
 
 test("presentation steps clamp deterministically in both directions", () => {
   assert.equal(clampPresentationStep(-4, 3), 0);
   assert.equal(clampPresentationStep(0, 3), 0);
   assert.equal(clampPresentationStep(2, 3), 2);
   assert.equal(clampPresentationStep(99, 3), 3);
+});
+
+test("plain scroll pages use the same wheel command and instant boundary positioning", () => {
+  let listener: ((event: WheelEvent) => void) | undefined;
+  const target = { addEventListener(_type: string, fn: typeof listener) { listener = fn; }, removeEventListener() {} } as unknown as HTMLElement;
+  const a = { getAttribute: () => null };
+  const b = { closest: () => ({ offsetTop: 900 }) };
+  let position: ScrollToOptions | undefined;
+  const deck = { getCurrentSlide: () => a, availableFragments: () => ({ prev: false, next: false }), getSlides: () => [a,b], getViewportElement: () => ({ scrollTo: (options: ScrollToOptions) => { position = options; } }) } as unknown as Parameters<typeof mountPresentationWheelNavigation>[0];
+  mountPresentationWheelNavigation(deck,target,{view:"scroll"});
+  let prevented = false;
+  listener!({ deltaY:120, deltaX:0, deltaMode:0, timeStamp:1000, target:{closest:()=>null}, preventDefault(){ prevented=true; },stopImmediatePropagation(){} } as unknown as WheelEvent);
+  assert.equal(prevented,true);
+  assert.deepEqual(position,{top:900,behavior:"instant"});
+});
+
+test("small trackpad deltas accumulate, direction reversal is responsive, Ctrl-wheel stays native", () => {
+  let listener: ((event: WheelEvent) => void) | undefined;
+  const target = { addEventListener(_type: string, fn: typeof listener) { listener=fn; }, removeEventListener(){} } as unknown as HTMLElement;
+  let next=0,prev=0;
+  const deck={getCurrentSlide:()=>({getAttribute:()=>"true"}),availableFragments:()=>({next:true,prev:true}),nextFragment:()=>{next++;return true;},prevFragment:()=>{prev++;return true;}} as unknown as Parameters<typeof mountPresentationWheelNavigation>[0];
+  mountPresentationWheelNavigation(deck,target,{view:"scroll"});
+  const send=(deltaY:number,timeStamp:number,ctrlKey=false)=>listener!({deltaY,timeStamp,ctrlKey,target:{closest:()=>null},preventDefault(){},stopImmediatePropagation(){}} as unknown as WheelEvent);
+  for(let i=0;i<7;i++)send(10,1000+i*20);
+  assert.equal(next,1);
+  send(-120,1140);assert.equal(prev,1);
+  send(120,1400,true);assert.equal(next,1);
 });
 
 test("visible Reveal fragments reconstruct the absolute D3 step", () => {

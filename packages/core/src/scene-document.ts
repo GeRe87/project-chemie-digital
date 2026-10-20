@@ -4,6 +4,8 @@ export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
 export const SCENE_DOCUMENT_SEQUENCE_VERSION = "1.3" as const;
 export const SCENE_DOCUMENT_DEFINITION_LIST_VERSION = "1.4" as const;
 export const SCENE_DOCUMENT_TABLE_VERSION = "1.5" as const;
+export const SCENE_DOCUMENT_DOT_PLOT_VERSION = "1.6" as const;
+export const SCENE_DOCUMENT_DERIVATION_VERSION = "1.7" as const;
 
 export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_VERSION
@@ -11,7 +13,9 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_CHART_VERSION
   | typeof SCENE_DOCUMENT_SEQUENCE_VERSION
   | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION
-  | typeof SCENE_DOCUMENT_TABLE_VERSION;
+  | typeof SCENE_DOCUMENT_TABLE_VERSION
+  | typeof SCENE_DOCUMENT_DOT_PLOT_VERSION
+  | typeof SCENE_DOCUMENT_DERIVATION_VERSION;
 
 export const VISUAL_MOTIF_KEYS = [
   "discussion",
@@ -78,9 +82,124 @@ export interface ProseBlock extends SceneBlockBase {
 }
 
 export interface MathBlock extends SceneBlockBase {
+  readonly label?: string;
   readonly kind: "math";
   readonly expression: string;
   readonly spokenText: string;
+  /** Explicit semantic transformations; absence retains ordinary formula behavior. */
+  readonly derivation?: MathematicalDerivationSection;
+  /** Optional full proofs; their authored sections do not become slide stages. */
+  readonly derivationDetails?: readonly MathematicalDerivationDetail[];
+}
+
+export interface DerivationFormula {
+  readonly label?: string;
+  readonly id: string;
+  readonly expression: string;
+  readonly source: readonly SourceReference[];
+}
+export interface DerivationAssumption {
+  readonly id: string;
+  readonly label: string;
+  readonly description: string;
+  readonly source: readonly SourceReference[];
+}
+export interface MathematicalRule {
+  readonly id: string;
+  readonly label: string;
+  readonly formula: DerivationFormula;
+  readonly description: string;
+  readonly source: readonly SourceReference[];
+}
+export interface DerivationStep {
+  readonly id: string;
+  readonly order: number;
+  readonly from: DerivationFormula;
+  readonly to: DerivationFormula;
+  readonly operation: string;
+  readonly kind: "equivalence" | "implication" | "statistical";
+  readonly kindLabel: string;
+  readonly rule: MathematicalRule;
+  readonly explanation: { readonly id: string; readonly text: string; readonly application: DerivationFormula; readonly source: readonly SourceReference[] };
+  readonly assumptions: readonly DerivationAssumption[];
+  readonly source: readonly SourceReference[];
+}
+export interface MathematicalDerivationSection {
+  readonly id: string;
+  readonly derivationId: string;
+  readonly label: string;
+  readonly firstOrder: number;
+  readonly lastOrder: number;
+  readonly steps: readonly DerivationStep[];
+  readonly legend: readonly DefinitionListEntry[];
+  readonly source: readonly SourceReference[];
+}
+
+export interface MathematicalDerivationDetail {
+  readonly id: string;
+  readonly label: string;
+  readonly stepCount: number;
+  readonly inputFormulaId: string;
+  readonly resultFormulaId: string;
+  readonly sections: readonly MathematicalDerivationSection[];
+  readonly source: readonly SourceReference[];
+}
+
+export function validateMathematicalDerivationDetail(detail: MathematicalDerivationDetail): void {
+  requireNonEmpty(detail.id, "detail derivation id");
+  requireNonEmpty(detail.label, "detail derivation label");
+  validateSource(detail.source, "detail derivation source");
+  if (!detail.sections.length || !Number.isInteger(detail.stepCount) || detail.stepCount < 1) throw new SceneContractError("Detail derivation needs complete authored sections");
+  let order = 1;
+  let previous = detail.inputFormulaId;
+  const ids = new Set<string>();
+  for (const section of detail.sections) {
+    validateMathematicalDerivation(section);
+    if (ids.has(section.id) || section.derivationId !== detail.id || section.firstOrder !== order || section.steps[0]!.from.id !== previous) throw new SceneContractError("Detail sections must uniquely and continuously cover their derivation");
+    ids.add(section.id); order = section.lastOrder + 1; previous = section.steps.at(-1)!.to.id;
+  }
+  if (order !== detail.stepCount + 1 || previous !== detail.resultFormulaId) throw new SceneContractError("Incomplete detail derivation boundaries");
+}
+
+export function mathematicalDerivationText(section: MathematicalDerivationSection): string {
+  return [section.steps[0]!.from.expression, ...section.steps.flatMap(step => [step.operation,
+    step.rule.formula.expression, step.to.expression, step.rule.description,
+    step.explanation.application.expression, step.explanation.text, ...step.assumptions.map(a => a.description)]),
+    ...section.legend.map(e => `${e.term}: ${e.description ?? ""}`)].join("\n");
+}
+
+export function validateMathematicalDerivation(section: MathematicalDerivationSection): void {
+  requireNonEmpty(section.id, "derivation section id");
+  requireNonEmpty(section.derivationId, "derivation id");
+  requireNonEmpty(section.label, "derivation label");
+  validateSource(section.source, "derivation section source");
+  if (!section.steps.length || section.steps.length > 2) throw new SceneContractError("Derivation section needs one or two steps; author explicit contiguous sections instead of shrinking formulas");
+  if (!Number.isInteger(section.firstOrder) || section.firstOrder < 1) throw new SceneContractError("Invalid first derivation step");
+  if (section.lastOrder !== section.firstOrder + section.steps.length - 1) throw new SceneContractError("Invalid derivation section range");
+  const formula = (f: DerivationFormula) => {
+    requireNonEmpty(f.id, "derivation formula id"); requireNonEmpty(f.expression, "derivation formula expression"); validateSource(f.source, "derivation formula source");
+    if (f.label !== undefined) requireNonEmpty(f.label, "derivation formula label");
+  };
+  for (const [i, step] of section.steps.entries()) {
+    if (step.order !== section.firstOrder + i) throw new SceneContractError("Derivation step order must be contiguous");
+    if (i && section.steps[i - 1]!.to.id !== step.from.id) throw new SceneContractError("Disconnected derivation formulas");
+    formula(step.from); formula(step.to); formula(step.rule.formula); formula(step.explanation.application);
+    requireNonEmpty(step.id, "derivation step id"); requireNonEmpty(step.operation, "derivation operation");
+    if (!["equivalence", "implication", "statistical"].includes(step.kind)) throw new SceneContractError("Unknown derivation transformation kind");
+    requireNonEmpty(step.kindLabel, "derivation kind label"); requireNonEmpty(step.rule.id, "derivation rule id");
+    requireNonEmpty(step.rule.label, "derivation rule label"); requireNonEmpty(step.rule.description, "derivation rule description");
+    requireNonEmpty(step.explanation.text, "derivation explanation"); validateSource(step.source, "derivation step source");
+    validateSource(step.rule.source, "mathematical rule source"); validateSource(step.explanation.source, "derivation explanation source");
+    if (step.kind === "statistical" && !step.assumptions.length) throw new SceneContractError("Statistical transformation requires explicit assumptions");
+    for (const assumption of step.assumptions) {
+      requireNonEmpty(assumption.id, "assumption id"); requireNonEmpty(assumption.label, "assumption label");
+      requireNonEmpty(assumption.description, "assumption description"); validateSource(assumption.source, "assumption source");
+    }
+  }
+  if (!section.legend.length) throw new SceneContractError("Derivation requires a symbol legend");
+  for (const entry of section.legend) { requireNonEmpty(entry.term, "derivation legend term"); requireNonEmpty(entry.description ?? "", "derivation legend definition"); validateSource(entry.source, "derivation legend source");
+    if (entry.expression !== undefined) requireNonEmpty(entry.expression, "derivation symbol expression");
+  }
 }
 
 export interface CodeBlock extends SceneBlockBase {
@@ -114,6 +233,8 @@ export interface ListBlock extends SceneBlockBase {
 }
 
 export interface DefinitionListEntry {
+  readonly expression?: string;
+  readonly symbol?: boolean;
   readonly id: string;
   readonly term: string;
   readonly description?: string;
@@ -351,7 +472,54 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly liveUpdate?: LiveChartUpdate;
 }
 
-export type ChartBlock = BarChartBlock | LineChartBlock;
+export interface DotPlotGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly source: readonly SourceReference[];
+  readonly data: readonly { readonly id: string; readonly value: number; readonly label?: string; readonly source: readonly SourceReference[] }[];
+  readonly x?: number;
+  readonly summary?: ChartReferenceLine;
+}
+
+export interface ChartReferenceLine {
+  readonly id: string;
+  readonly label: string;
+  readonly value: number;
+  readonly source: readonly SourceReference[];
+}
+
+export interface DotPlotBlock extends SceneBlockBase {
+  readonly kind: "chart";
+  readonly chartType: "dot";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: ChartAxis;
+  readonly yAxis: ChartAxis;
+  readonly groups: readonly DotPlotGroup[];
+  readonly referenceLine?: ChartReferenceLine;
+  readonly xScale?: "linear";
+  readonly yMinimum?: number;
+  readonly markerRadius?: number;
+  readonly markerOpacity?: number;
+  readonly summaryRadius?: number;
+  readonly drawStems?: boolean;
+  readonly observationLabel?: string;
+  readonly summaryLabel?: string;
+  readonly curves?: readonly LineChartSeries[];
+  readonly liveUpdate?: never;
+}
+
+export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock;
+
+export function dotPlotStaticFallback(block: DotPlotBlock): string {
+  const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
+  return [block.label, block.description,
+    ...block.groups.flatMap((group) => group.data.map((datum) => `${group.label}${datum.label ? `, ${datum.label}` : ""}: ${datum.value}${unit}${block.drawStems && block.referenceLine ? `; deviation ${datum.value - block.referenceLine.value >= 0 ? "+" : ""}${datum.value - block.referenceLine.value}${unit}` : ""}`)),
+    ...block.groups.flatMap(group => group.summary ? [`${group.label}, ${group.summary.label}: ${group.summary.value}${unit}`] : []),
+    ...(block.curves ?? []).flatMap(curve => curve.data.map(datum => `${curve.label}: x=${datum.x}, y=${datum.y}${unit}`)),
+    ...(block.referenceLine ? [`${block.referenceLine.label}: ${block.referenceLine.value}${unit}`] : []),
+  ].join("\n");
+}
 
 export type SceneBlock =
   | ProseBlock
@@ -441,6 +609,8 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     if (ids.has(entry.id)) throw new SceneContractError(`${label} contains duplicate entry ids`);
     ids.add(entry.id);
     requireNonEmpty(entry.term, `${label} entry ${entry.id} term`);
+    if (entry.expression !== undefined) requireNonEmpty(entry.expression, `${label} entry ${entry.id} symbol expression`);
+    if (entry.symbol !== undefined && typeof entry.symbol !== "boolean") throw new SceneContractError(`${label} symbol flag must be boolean`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
     if (entry.visualMotifRole !== undefined && entry.visualMotifRole !== "supporting" && entry.visualMotifRole !== "highlight") {
       throw new SceneContractError(`${label} entry ${entry.id} visualMotifRole must be supporting or highlight`);
@@ -673,7 +843,69 @@ function validateChart(block: ChartBlock, label: string): void {
     return;
   }
 
-  if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar or line`);
+  if (block.chartType === "dot") {
+    if (block.xScale !== undefined && block.xScale !== "linear") throw new SceneContractError(`${label} invalid dot x-scale`);
+    for (const size of [block.markerRadius, block.summaryRadius]) {
+      if (size !== undefined && (!Number.isFinite(size) || size <= 0 || size > 20)) throw new SceneContractError(`${label} invalid marker radius`);
+    }
+    if (block.drawStems !== undefined && typeof block.drawStems !== "boolean") throw new SceneContractError("drawStems must be boolean");
+    if (block.drawStems && (!block.referenceLine || block.xScale || block.groups.some(g => g.summary || g.data.some(d => !d.label)))) throw new SceneContractError("Categorical stems require a reference and an authored category label for every observation, without group summary markers");
+    if (block.markerOpacity !== undefined && (!Number.isFinite(block.markerOpacity) || block.markerOpacity <= 0 || block.markerOpacity > 1)) throw new SceneContractError(`${label} invalid marker opacity`);
+    if (block.yMinimum !== undefined && !Number.isFinite(block.yMinimum)) throw new SceneContractError(`${label} invalid y minimum`);
+    const requireVisible = (value: number) => {
+      if (!Number.isFinite(value) || (block.yMinimum !== undefined && value < block.yMinimum)) throw new SceneContractError(`${label} value below y minimum or nonfinite`);
+    };
+    if (!block.yAxis.unit) throw new SceneContractError(`${label} dot plot requires a numeric axis unit`);
+    if (!block.groups.length) throw new SceneContractError(`${label} dot plot requires groups`);
+    const groupIds = new Set<string>();
+    for (const group of block.groups) {
+      requireNonEmpty(group.id, `${label} group id`);
+      if (groupIds.has(group.id)) throw new SceneContractError(`${label} duplicate group id`);
+      groupIds.add(group.id);
+      requireNonEmpty(group.label, `${label} group label`);
+      validateSource(group.source, `${label} group source`);
+      if (block.xScale === "linear" && !Number.isFinite(group.x)) throw new SceneContractError(`${label} numeric dot group requires x`);
+      if (group.summary) {
+        requireNonEmpty(group.summary.id, `${label} summary id`);
+        requireNonEmpty(group.summary.label, `${label} summary label`);
+        validateSource(group.summary.source, `${label} summary source`);
+        requireVisible(group.summary.value);
+      }
+      if (!group.data.length) throw new SceneContractError(`${label} dot group requires observations`);
+      const ids = new Set<string>();
+      for (const datum of group.data) {
+        requireNonEmpty(datum.id, `${label} dot datum id`);
+        if (ids.has(datum.id)) throw new SceneContractError(`${label} duplicate dot datum id`);
+        ids.add(datum.id);
+        if (!Number.isFinite(datum.value)) throw new SceneContractError(`${label} dot value must be finite`);
+        requireVisible(datum.value);
+        validateSource(datum.source, `${label} dot datum source`);
+      }
+    }
+    if (block.referenceLine) {
+      requireNonEmpty(block.referenceLine.id, `${label} reference id`);
+      requireNonEmpty(block.referenceLine.label, `${label} reference label`);
+      if (!Number.isFinite(block.referenceLine.value)) throw new SceneContractError(`${label} reference value must be finite`);
+      requireVisible(block.referenceLine.value);
+      validateSource(block.referenceLine.source, `${label} reference source`);
+    }
+    for (const curve of block.curves ?? []) {
+      if (block.xScale !== "linear") throw new SceneContractError(`${label} curve requires numeric x-scale`);
+      requireNonEmpty(curve.id, `${label} curve id`);
+      requireNonEmpty(curve.label, `${label} curve label`);
+      validateSource(curve.source, `${label} curve source`);
+      if (curve.data.length < 2) throw new SceneContractError(`${label} curve needs two points`);
+      let previous = -Infinity;
+      for (const datum of curve.data) {
+        if (!Number.isFinite(datum.x) || datum.x <= previous) throw new SceneContractError(`${label} curve x must increase`);
+        previous = datum.x;
+        requireVisible(datum.y);
+        validateSource(datum.source, `${label} curve point source`);
+      }
+    }
+    return;
+  }
+  if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar, line or dot`);
   if (block.series.length === 0) throw new SceneContractError(`${label} line chart must contain at least one series`);
 
   const seriesIds = new Set<string>();
@@ -768,18 +1000,30 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateListItems(block.items, `${label} list ${block.id}`);
     }
     if (block.kind === "definition-list") {
-      if (version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+      if (version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} definition list requires SceneDocument ${SCENE_DOCUMENT_DEFINITION_LIST_VERSION} or newer`);
       }
       validateDefinitionListEntries(block.entries, `${label} definition list ${block.id}`);
     }
     if (block.kind === "table") {
-      if (version !== SCENE_DOCUMENT_TABLE_VERSION) {
+      if (version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} table requires SceneDocument ${SCENE_DOCUMENT_TABLE_VERSION}`);
       }
       validateTable(block, `${label} table ${block.id}`);
     }
-    if (block.kind === "math") requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
+    if (block.kind === "math") {
+      if (block.label !== undefined) requireNonEmpty(block.label, "math label");
+      requireNonEmpty(block.spokenText, `${label} math ${block.id} spokenText`);
+      if (block.derivation) {
+        if (version !== SCENE_DOCUMENT_DERIVATION_VERSION) throw new SceneContractError("Semantic derivations require SceneDocument 1.7");
+        validateMathematicalDerivation(block.derivation);
+        if (block.expression !== block.derivation.steps[0]!.from.expression) throw new SceneContractError("Derivation input must match its MathBlock expression");
+      }
+      if (block.derivationDetails !== undefined) {
+        if (version !== SCENE_DOCUMENT_DERIVATION_VERSION || !block.derivationDetails.length) throw new SceneContractError("Derivation details require nonempty SceneDocument 1.7 content");
+        for (const detail of block.derivationDetails) validateMathematicalDerivationDetail(detail);
+      }
+    }
     if (block.kind === "code") {
       requireNonEmpty(block.language, `${label} code ${block.id} language`);
       requireNonEmpty(block.code, `${label} code ${block.id} code`);
@@ -812,16 +1056,16 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       }
     }
     if (block.kind === "diagram") {
-       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+       if (version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram requires SceneDocument ${SCENE_DOCUMENT_FLOW_VERSION} or newer`);
       }
-      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+      if (block.diagramType === "sequence" && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} sequence diagram requires SceneDocument ${SCENE_DOCUMENT_SEQUENCE_VERSION}`);
       }
       if (block.diagramType !== "sequence" && (block.participantRoles !== undefined || block.messages !== undefined)) {
         throw new SceneContractError(`${label} block ${block.id} only sequence diagrams may define participant roles or messages`);
       }
-       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+       if (block.states !== undefined && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} diagram states require SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
       if (block.diagramType !== "sequence" && block.states?.some((state) => state.activeMessageIds !== undefined || state.participantBindings !== undefined)) {
@@ -830,8 +1074,11 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-       if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+        if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
+      }
+      if (block.chartType === "dot" && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
+        throw new SceneContractError(`${label} dot plot requires SceneDocument ${SCENE_DOCUMENT_DOT_PLOT_VERSION}`);
       }
       validateChart(block, `${label} block ${block.id}`);
     }
@@ -846,6 +1093,8 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_SEQUENCE_VERSION
     && document.version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION
     && document.version !== SCENE_DOCUMENT_TABLE_VERSION
+    && document.version !== SCENE_DOCUMENT_DOT_PLOT_VERSION
+    && document.version !== SCENE_DOCUMENT_DERIVATION_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }
@@ -856,6 +1105,7 @@ export function validateSceneDocument(document: SceneDocument): void {
   if (new Set(sceneIds).size !== sceneIds.length) throw new SceneContractError("SceneDocument contains duplicate scene ids");
 
   for (const scene of document.scenes) {
+    if (scene.narration !== undefined && (typeof scene.narration !== "string" || !scene.narration.trim())) throw new SceneContractError("Scene narration must be non-empty authored text");
     requireNonEmpty(scene.id, "Scene id");
     validateSource(scene.source, `Scene ${scene.id} source`);
     validateBlocks(scene.blocks, `Scene ${scene.id}`, document.version);

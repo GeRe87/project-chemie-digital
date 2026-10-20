@@ -1,0 +1,279 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Local didactic additions. Existing data, excluded topics and published units
+# are preserved. Numerical projections are authored tables, not renderer text.
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-bias-scenarios> {
+  ex:vr04 cd:hasKeyPoint ex:vb04-b .
+  ex:vb04-b a cd:KeyPoint ; cd:position 2 ; cd:body "The arithmetic mean is the sum of observations divided by their count."@en ; cd:authoredResource true .
+  ex:vr05 cd:hasKeyPoint ex:vb05-a, ex:vb05-b .
+  ex:vb05-a a cd:KeyPoint ; cd:position 1 ; cd:body "Subtract the sample mean from each observation to obtain its signed deviation."@en ; cd:authoredResource true .
+  ex:vb05-b a cd:KeyPoint ; cd:position 2 ; cd:body "Negative means below the sample mean; positive means above it."@en ; cd:authoredResource true .
+  ex:vr06 cd:hasKeyPoint ex:vb06-a, ex:vb06-b .
+  ex:vb06-a a cd:KeyPoint ; cd:position 1 ; cd:body "Signed deviations cancel around their own arithmetic mean."@en ; cd:authoredResource true .
+  ex:vb06-b a cd:KeyPoint ; cd:position 2 ; cd:body "A zero sum does not mean zero spread. We need a summary that avoids cancellation."@en ; cd:authoredResource true .
+  ex:vr07 cd:hasKeyPoint ex:vb07-b .
+  ex:vb07-b a cd:KeyPoint ; cd:position 2 ; cd:body "SS names the sum of squared deviations. Its unit is the squared measurement unit."@en ; cd:authoredResource true .
+  ex:vr08 cd:hasKeyPoint ex:vb08-a, ex:vb08-b .
+  ex:vb08-a a cd:KeyPoint ; cd:position 1 ; cd:body "MSD means mean squared deviation. Divide SS, the sum of squared deviations, by the observation count."@en ; cd:authoredResource true .
+  ex:vb08-b a cd:KeyPoint ; cd:position 2 ; cd:body "This describes the spread of the observed values about their observed mean."@en ; cd:authoredResource true .
+  ex:vb-msd-comparison a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr09a, ex:vr09b ; dct:source ex:vr09, ex:vr10 ; cd:authoredResource true .
+  ex:vr11-cards cd:hasDefinitionListEntry ex:vb-pop-context .
+  ex:vb-pop-context a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Why make the population known?"@en ; cd:body "In a real laboratory the population mean is often unknown. Here it is deliberately specified, so we can compare estimates with known targets and investigate estimation bias."@en ; cd:authoredResource true .
+
+  # Introductory calculation tables, with distinct ownership for all cells.
+  ex:vb-mean-table a cd:TableDefinition ; skos:prefLabel "Three-observation Series A/B, not QC Methods (mg/L)"@en ; cd:hasTableColumn ex:vb-mc1, ex:vb-mc2, ex:vb-mc3 ; cd:hasTableRow ex:vb-mr1, ex:vb-mr2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vb-mc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vb-mc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Observations"@en ; cd:authoredResource true .
+  ex:vb-mc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Mean: sum divided by count"@en ; cd:authoredResource true .
+  ex:vb-mr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-m11, ex:vb-m12, ex:vb-m13 ; cd:authoredResource true .
+  ex:vb-mr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-m21, ex:vb-m22, ex:vb-m23 ; cd:authoredResource true .
+  ex:vb-m11 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vb-m12 a cd:TableCell ; cd:position 2 ; cd:body "9, 10, 13"@en ; cd:authoredResource true .
+  ex:vb-m13 a cd:TableCell ; cd:position 3 ; cd:body "(9 + 10 + 13)/3 = 32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vb-m21 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vb-m22 a cd:TableCell ; cd:position 2 ; cd:body "5, 10, 17"@en ; cd:authoredResource true .
+  ex:vb-m23 a cd:TableCell ; cd:position 3 ; cd:body "(5 + 10 + 17)/3 = 32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vb-dev-table a cd:TableDefinition ; skos:prefLabel "Subtract 32/3 mg/L; values and deviations in mg/L"@en ; cd:hasTableColumn ex:vb-dc1, ex:vb-dc2, ex:vb-dc3, ex:vb-dc4, ex:vb-dc5 ; cd:hasTableRow ex:vb-dr1, ex:vb-dr2, ex:vb-dr3 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vb-dc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Observation"@en ; cd:authoredResource true .
+  ex:vb-dc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A value"@en ; cd:authoredResource true .
+  ex:vb-dc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "A deviation"@en ; cd:authoredResource true .
+  ex:vb-dc4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "B value"@en ; cd:authoredResource true .
+  ex:vb-dc5 a cd:TableColumn ; cd:position 5 ; skos:prefLabel "B deviation"@en ; cd:authoredResource true .
+  ex:vb-dr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-d11, ex:vb-d12, ex:vb-d13, ex:vb-d14, ex:vb-d15 ; cd:authoredResource true .
+  ex:vb-dr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-d21, ex:vb-d22, ex:vb-d23, ex:vb-d24, ex:vb-d25 ; cd:authoredResource true .
+  ex:vb-dr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vb-d31, ex:vb-d32, ex:vb-d33, ex:vb-d34, ex:vb-d35 ; cd:authoredResource true .
+  ex:vb-d11 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:vb-d12 a cd:TableCell ; cd:position 2 ; cd:body "9"@en ; cd:authoredResource true .
+  ex:vb-d13 a cd:TableCell ; cd:position 3 ; cd:body "−5/3"@en ; cd:authoredResource true .
+  ex:vb-d14 a cd:TableCell ; cd:position 4 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vb-d15 a cd:TableCell ; cd:position 5 ; cd:body "−17/3"@en ; cd:authoredResource true .
+  ex:vb-d21 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:vb-d22 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vb-d23 a cd:TableCell ; cd:position 3 ; cd:body "−2/3"@en ; cd:authoredResource true .
+  ex:vb-d24 a cd:TableCell ; cd:position 4 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vb-d25 a cd:TableCell ; cd:position 5 ; cd:body "−2/3"@en ; cd:authoredResource true .
+  ex:vb-d31 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vb-d32 a cd:TableCell ; cd:position 2 ; cd:body "13"@en ; cd:authoredResource true .
+  ex:vb-d33 a cd:TableCell ; cd:position 3 ; cd:body "7/3"@en ; cd:authoredResource true .
+  ex:vb-d34 a cd:TableCell ; cd:position 4 ; cd:body "17"@en ; cd:authoredResource true .
+  ex:vb-d35 a cd:TableCell ; cd:position 5 ; cd:body "19/3"@en ; cd:authoredResource true .
+  ex:vb-cancel-table a cd:TableDefinition ; skos:prefLabel "Signed sums: zero does not mean no spread (mg/L)"@en ; cd:hasTableColumn ex:vb-cc1, ex:vb-cc2 ; cd:hasTableRow ex:vb-cr1, ex:vb-cr2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vb-cc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vb-cc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Calculation"@en ; cd:authoredResource true .
+  ex:vb-cr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-c11, ex:vb-c12 ; cd:authoredResource true .
+  ex:vb-cr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-c21, ex:vb-c22 ; cd:authoredResource true .
+  ex:vb-c11 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vb-c12 a cd:TableCell ; cd:position 2 ; cd:body "(−5 − 2 + 7)/3 = 0"@en ; cd:authoredResource true .
+  ex:vb-c21 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vb-c22 a cd:TableCell ; cd:position 2 ; cd:body "(−17 − 2 + 19)/3 = 0"@en ; cd:authoredResource true .
+  ex:vb-msd-table a cd:TableDefinition ; skos:prefLabel "MSD: average the squared deviations ((mg/L)²)"@en ; cd:hasTableColumn ex:vb-ac1, ex:vb-ac2, ex:vb-ac3 ; cd:hasTableRow ex:vb-ar1, ex:vb-ar2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vb-ac1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vb-ac2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Sum of squares"@en ; cd:authoredResource true .
+  ex:vb-ac3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "MSD: divide by 3"@en ; cd:authoredResource true .
+  ex:vb-ar1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-a11, ex:vb-a12, ex:vb-a13 ; cd:authoredResource true .
+  ex:vb-ar2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-a21, ex:vb-a22, ex:vb-a23 ; cd:authoredResource true .
+  ex:vb-a11 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vb-a12 a cd:TableCell ; cd:position 2 ; cd:body "26/3"@en ; cd:authoredResource true .
+  ex:vb-a13 a cd:TableCell ; cd:position 3 ; cd:body "(26/3)/3 = 26/9 ≈ 2.889"@en ; cd:authoredResource true .
+  ex:vb-a21 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vb-a22 a cd:TableCell ; cd:position 2 ; cd:body "218/3"@en ; cd:authoredResource true .
+  ex:vb-a23 a cd:TableCell ; cd:position 3 ; cd:body "(218/3)/3 = 218/9 ≈ 24.222"@en ; cd:authoredResource true .
+
+  # Prepared demonstrations separate random estimates from their expectations.
+  ex:vb-sample a cd:Interpretation ; skos:prefLabel "Experiment 1: Five Samples at Each Size"@en ; cd:hasCodeExample ex:vs-exp1-code ; dct:source ex:vs-model, ex:vr20 ; cd:authoredResource true .
+  ex:vb-sample-task a cd:Exercise ; cd:body "Prepared instructor demonstration. Five independent normal samples for each n = 2, 3, 5, 10, 25, 50, 100. Mean 10 mg/L; variance 5 (mg/L)². Calculate MSD about each empirical mean using divisor n. Seed 1901 retains the original drawing order; display is ascending. Five repeats illustrate fluctuations, not reliable evidence of bias."@en ; cd:hasCodeExample ex:vs-exp1-code ; cd:authoredResource true .
+  ex:vb-sample-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "# Prepared instructor code; students interpret the output\nset.seed(1801)\nsizes <- c(3, 5, 10, 30, 100)\none <- t(sapply(sizes, function(n) {\n  x <- rnorm(n, 10, 2)\n  ss <- sum((x - mean(x))^2)\n  c(n = n, mean = mean(x), MSD = ss/n, s2 = ss/(n-1))\n}))\nround(one, 3)" ; cd:authoredResource true .
+  ex:vb-mc a cd:Interpretation ; skos:prefLabel "Repeated Sampling: Sizes 2 to 100"@en ; cd:hasCodeExample ex:vs-exp2-code ; dct:source ex:vs-model, ex:vr20 ; cd:authoredResource true .
+  ex:vb-mc-task a cd:Exercise ; cd:body "Prepared instructor demonstration. Five independent samples at every n from 2 to 100: 495 estimates. Mean 10 mg/L; variance 5 (mg/L)²; seed 1902. draws2 retains all results; output previews seven sizes. A numerical scatterplot is not supported by the current chart contract. Five realizations per n do not reliably establish bias."@en ; cd:hasCodeExample ex:vs-exp2-code ; cd:authoredResource true .
+  ex:vb-mc-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "set.seed(1802)\nsizes <- c(3, 5, 10, 30, 100)\nmc <- t(sapply(sizes, function(n) {\n  z <- replicate(5000, {\n    x <- rnorm(n, 10, 2)\n    ss <- sum((x - mean(x))^2)\n    c(mean = mean(x), MSD = ss/n, s2 = ss/(n-1))\n  })\n  c(n = n, rowMeans(z))\n}))\nround(mc, 6)" ; cd:authoredResource true .
+  ex:vb-bias a cd:Interpretation ; skos:prefLabel "Theory and Monte Carlo: Variance Estimates"@en ; cd:body "Theory describes the expected estimator under repeated sampling. A finite Monte-Carlo mean is a reproducible random approximation. The sample mean is unbiased for μ but random. MSD about the fitted mean has downward bias as a population-variance estimator; the n−1 estimator is unbiased for σ² under iid sampling with finite variance."@en ; cd:hasKeyPoint ex:vb-bias-k1, ex:vb-bias-k2, ex:vb-bias-k3 ; cd:authoredResource true .
+  ex:vb-bias-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "The sample mean is unbiased but random. Its repeated-sampling average targets 10 mg/L."@en ; cd:authoredResource true .
+  ex:vb-bias-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "MSD using n is downward biased for population variance. Using n−1 removes this average bias, not random fluctuation."@en ; cd:authoredResource true .
+  ex:vb-bias-k3 a cd:KeyPoint ; cd:position 3 ; cd:body "Theory means exact expectations. MC means averages of 5,000 independent simulated samples, seed 1802."@en ; cd:authoredResource true .
+  ex:vb-bias-data a cd:Dataset ; cd:unit "(mg/L)²" ; dct:description "Theoretical expectations and rounded webR Monte-Carlo means. MC provenance: seed 1802, 5000 independent samples per size, normal population mean 10 mg/L and SD 2 mg/L. Values are estimates of averages, not raw measurement observations."@en ; dct:source ex:vb-mc-code ; cd:hasObservation ex:vb-n3-tm, ex:vb-n3-ts, ex:vb-n3-mm, ex:vb-n3-ms, ex:vb-n5-tm, ex:vb-n5-ts, ex:vb-n5-mm, ex:vb-n5-ms, ex:vb-n10-tm, ex:vb-n10-ts, ex:vb-n10-mm, ex:vb-n10-ms, ex:vb-n30-tm, ex:vb-n30-ts, ex:vb-n30-mm, ex:vb-n30-ms, ex:vb-n100-tm, ex:vb-n100-ts, ex:vb-n100-mm, ex:vb-n100-ms ; cd:authoredResource true .
+  ex:vb-n3-tm a cd:Observation ; cd:position 1 ; skos:prefLabel "Theory MSD"@en ; cd:groupLabel "n = 3"@en ; cd:numericValue 2.666666666666667 ; cd:authoredResource true .
+  ex:vb-n3-ts a cd:Observation ; cd:position 2 ; skos:prefLabel "Theory s²"@en ; cd:groupLabel "n = 3"@en ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:vb-n3-mm a cd:Observation ; cd:position 3 ; skos:prefLabel "MC MSD"@en ; cd:groupLabel "n = 3"@en ; cd:numericValue 2.683254 ; cd:authoredResource true .
+  ex:vb-n3-ms a cd:Observation ; cd:position 4 ; skos:prefLabel "MC s²"@en ; cd:groupLabel "n = 3"@en ; cd:numericValue 4.024881 ; cd:authoredResource true .
+  ex:vb-n5-tm a cd:Observation ; cd:position 5 ; skos:prefLabel "Theory MSD"@en ; cd:groupLabel "n = 5"@en ; cd:numericValue 3.2 ; cd:authoredResource true .
+  ex:vb-n5-ts a cd:Observation ; cd:position 6 ; skos:prefLabel "Theory s²"@en ; cd:groupLabel "n = 5"@en ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:vb-n5-mm a cd:Observation ; cd:position 7 ; skos:prefLabel "MC MSD"@en ; cd:groupLabel "n = 5"@en ; cd:numericValue 3.162774 ; cd:authoredResource true .
+  ex:vb-n5-ms a cd:Observation ; cd:position 8 ; skos:prefLabel "MC s²"@en ; cd:groupLabel "n = 5"@en ; cd:numericValue 3.953467 ; cd:authoredResource true .
+  ex:vb-n10-tm a cd:Observation ; cd:position 9 ; skos:prefLabel "Theory MSD"@en ; cd:groupLabel "n = 10"@en ; cd:numericValue 3.6 ; cd:authoredResource true .
+  ex:vb-n10-ts a cd:Observation ; cd:position 10 ; skos:prefLabel "Theory s²"@en ; cd:groupLabel "n = 10"@en ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:vb-n10-mm a cd:Observation ; cd:position 11 ; skos:prefLabel "MC MSD"@en ; cd:groupLabel "n = 10"@en ; cd:numericValue 3.583525 ; cd:authoredResource true .
+  ex:vb-n10-ms a cd:Observation ; cd:position 12 ; skos:prefLabel "MC s²"@en ; cd:groupLabel "n = 10"@en ; cd:numericValue 3.981695 ; cd:authoredResource true .
+  ex:vb-n30-tm a cd:Observation ; cd:position 13 ; skos:prefLabel "Theory MSD"@en ; cd:groupLabel "n = 30"@en ; cd:numericValue 3.866666666666667 ; cd:authoredResource true .
+  ex:vb-n30-ts a cd:Observation ; cd:position 14 ; skos:prefLabel "Theory s²"@en ; cd:groupLabel "n = 30"@en ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:vb-n30-mm a cd:Observation ; cd:position 15 ; skos:prefLabel "MC MSD"@en ; cd:groupLabel "n = 30"@en ; cd:numericValue 3.860909 ; cd:authoredResource true .
+  ex:vb-n30-ms a cd:Observation ; cd:position 16 ; skos:prefLabel "MC s²"@en ; cd:groupLabel "n = 30"@en ; cd:numericValue 3.994043 ; cd:authoredResource true .
+  ex:vb-n100-tm a cd:Observation ; cd:position 17 ; skos:prefLabel "Theory MSD"@en ; cd:groupLabel "n = 100"@en ; cd:numericValue 3.96 ; cd:authoredResource true .
+  ex:vb-n100-ts a cd:Observation ; cd:position 18 ; skos:prefLabel "Theory s²"@en ; cd:groupLabel "n = 100"@en ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:vb-n100-mm a cd:Observation ; cd:position 19 ; skos:prefLabel "MC MSD"@en ; cd:groupLabel "n = 100"@en ; cd:numericValue 3.962702 ; cd:authoredResource true .
+  ex:vb-n100-ms a cd:Observation ; cd:position 20 ; skos:prefLabel "MC s²"@en ; cd:groupLabel "n = 100"@en ; cd:numericValue 4.002729 ; cd:authoredResource true .
+  ex:vb-bias-chart a cd:ChartDefinition ; skos:prefLabel "Theoretical expectation versus Monte-Carlo mean"@en ; cd:body "Theory bars show exact expectations at each sample size. MC bars show the seeded 5000-repeat means, rounded to six decimals. n is independent sample size; MSD uses n; s² uses n−1. The target population variance is 4 (mg/L)²."@en ; cd:chartType cd:BarChart ; cd:xAxisLabel "Independent sample size n"@en ; cd:yAxisLabel "Variance"@en ; cd:yAxisUnit "(mg/L)²" ; cd:usesDataset ex:vb-bias-data ; cd:authoredResource true .
+  ex:vb-theory-table a cd:TableDefinition ; skos:prefLabel "Theoretical expectations ((mg/L)²), rounded"@en ; cd:hasTableColumn ex:vb-tc1, ex:vb-tc2, ex:vb-tc3 ; cd:hasTableRow ex:vb-tr1, ex:vb-tr2, ex:vb-tr3, ex:vb-tr4, ex:vb-tr5 ; dct:source ex:vb-bias-data ; cd:authoredResource true .
+  ex:vb-tc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Sample size n"@en ; cd:authoredResource true .
+  ex:vb-tc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Expected MSD"@en ; cd:authoredResource true .
+  ex:vb-tc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Expected s²"@en ; cd:authoredResource true .
+  ex:vb-tr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-t11, ex:vb-t12, ex:vb-t13 ; cd:authoredResource true .
+  ex:vb-tr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-t21, ex:vb-t22, ex:vb-t23 ; cd:authoredResource true .
+  ex:vb-tr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vb-t31, ex:vb-t32, ex:vb-t33 ; cd:authoredResource true .
+  ex:vb-tr4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vb-t41, ex:vb-t42, ex:vb-t43 ; cd:authoredResource true .
+  ex:vb-tr5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vb-t51, ex:vb-t52, ex:vb-t53 ; cd:authoredResource true .
+  ex:vb-t11 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:vb-t12 a cd:TableCell ; cd:position 2 ; cd:body "2.667"@en ; cd:authoredResource true .
+  ex:vb-t13 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:vb-t21 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:vb-t22 a cd:TableCell ; cd:position 2 ; cd:body "3.200"@en ; cd:authoredResource true .
+  ex:vb-t23 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:vb-t31 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:vb-t32 a cd:TableCell ; cd:position 2 ; cd:body "3.600"@en ; cd:authoredResource true .
+  ex:vb-t33 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:vb-t41 a cd:TableCell ; cd:position 1 ; cd:body "30"@en ; cd:authoredResource true .
+  ex:vb-t42 a cd:TableCell ; cd:position 2 ; cd:body "3.867"@en ; cd:authoredResource true .
+  ex:vb-t43 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:vb-t51 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:authoredResource true .
+  ex:vb-t52 a cd:TableCell ; cd:position 2 ; cd:body "3.960"@en ; cd:authoredResource true .
+  ex:vb-t53 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:authoredResource true .
+
+  # Scenario introductions precede their algebra or interpretation.
+  ex:vb-centers a cd:Interpretation ; skos:prefLabel "Two Different Centers"@en ; dct:source ex:vr14 ; cd:authoredResource true .
+  ex:vb-centers-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vb-centers-a, ex:vb-centers-b ; cd:authoredResource true .
+  ex:vb-centers-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Population center"@en ; cd:body "Scenario: the true mean μ is usually unknown in a laboratory. Our demonstration deliberately supplies μ = 10 mg/L so we can assess estimation errors."@en ; cd:authoredResource true .
+  ex:vb-centers-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Estimated center"@en ; cd:body "Series A has sample mean x̄ = 32/3 ≈ 10.667 mg/L. This is not the supplied population mean. The difference between these centers shifts every deviation by the same amount."@en ; cd:authoredResource true .
+  ex:vb-mixture a cd:Interpretation ; skos:prefLabel "A Mixture with One Constraint"@en ; dct:source ex:vr12 ; cd:authoredResource true .
+  ex:vb-mixture-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vb-mixture-a, ex:vb-mixture-b ; cd:authoredResource true .
+  ex:vb-mixture-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario"@en ; cd:body "A mixture contains three nonnegative component percentages.\nTogether they must total 100%.\nSet the first two to 20% and 30%. What remains?"@en ; cd:authoredResource true .
+  ex:vb-mixture-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Degrees of freedom"@en ; cd:body "The number of quantities that can vary freely after independent constraints are imposed. Here the third share is determined. This is a constraint concept, not a statement about probabilistic sampling independence."@en ; cd:authoredResource true .
+  ex:vb-quality a cd:Interpretation ; skos:prefLabel "Precision, Trueness and Bias"@en ; dct:source ex:vr29 ; cd:authoredResource true .
+
+  # Complete worked calculation after derivation and degrees of freedom.
+  ex:vb-worked-table a cd:TableDefinition ; skos:prefLabel "Return to Series A/B: from data to sample variance and SD"@en ; cd:hasTableColumn ex:vb-wc1, ex:vb-wc2, ex:vb-wc3 ; cd:hasTableRow ex:vb-wr1, ex:vb-wr2, ex:vb-wr3, ex:vb-wr4, ex:vb-wr5, ex:vb-wr6 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vb-wc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Step"@en ; cd:authoredResource true .
+  ex:vb-wc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A"@en ; cd:authoredResource true .
+  ex:vb-wc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "B"@en ; cd:authoredResource true .
+  ex:vb-wr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-w11, ex:vb-w12, ex:vb-w13 ; cd:authoredResource true .
+  ex:vb-wr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-w21, ex:vb-w22, ex:vb-w23 ; cd:authoredResource true .
+  ex:vb-wr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vb-w31, ex:vb-w32, ex:vb-w33 ; cd:authoredResource true .
+  ex:vb-wr4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vb-w41, ex:vb-w42, ex:vb-w43 ; cd:authoredResource true .
+  ex:vb-wr5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:vb-w51, ex:vb-w52, ex:vb-w53 ; cd:authoredResource true .
+  ex:vb-wr6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:vb-w61, ex:vb-w62, ex:vb-w63 ; cd:authoredResource true .
+  ex:vb-w11 a cd:TableCell ; cd:position 1 ; cd:body "Observations (mg/L)"@en ; cd:authoredResource true .
+  ex:vb-w12 a cd:TableCell ; cd:position 2 ; cd:body "9, 10, 13"@en ; cd:authoredResource true .
+  ex:vb-w13 a cd:TableCell ; cd:position 3 ; cd:body "5, 10, 17"@en ; cd:authoredResource true .
+  ex:vb-w21 a cd:TableCell ; cd:position 1 ; cd:body "Sample mean (mg/L)"@en ; cd:authoredResource true .
+  ex:vb-w22 a cd:TableCell ; cd:position 2 ; cd:body "32/3"@en ; cd:authoredResource true .
+  ex:vb-w23 a cd:TableCell ; cd:position 3 ; cd:body "32/3"@en ; cd:authoredResource true .
+  ex:vb-w31 a cd:TableCell ; cd:position 1 ; cd:body "Sum of squares ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:vb-w32 a cd:TableCell ; cd:position 2 ; cd:body "26/3"@en ; cd:authoredResource true .
+  ex:vb-w33 a cd:TableCell ; cd:position 3 ; cd:body "218/3"@en ; cd:authoredResource true .
+  ex:vb-w41 a cd:TableCell ; cd:position 1 ; cd:body "Denominator: count minus one"@en ; cd:authoredResource true .
+  ex:vb-w42 a cd:TableCell ; cd:position 2 ; cd:body "3 − 1 = 2"@en ; cd:authoredResource true .
+  ex:vb-w43 a cd:TableCell ; cd:position 3 ; cd:body "3 − 1 = 2"@en ; cd:authoredResource true .
+  ex:vb-w51 a cd:TableCell ; cd:position 1 ; cd:body "Sample variance ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:vb-w52 a cd:TableCell ; cd:position 2 ; cd:body "(26/3)/2 = 13/3"@en ; cd:authoredResource true .
+  ex:vb-w53 a cd:TableCell ; cd:position 3 ; cd:body "(218/3)/2 = 109/3"@en ; cd:authoredResource true .
+  ex:vb-w61 a cd:TableCell ; cd:position 1 ; cd:body "SD: square root (mg/L)"@en ; cd:authoredResource true .
+  ex:vb-w62 a cd:TableCell ; cd:position 2 ; cd:body "√(13/3) ≈ 2.082"@en ; cd:authoredResource true .
+  ex:vb-w63 a cd:TableCell ; cd:position 3 ; cd:body "√(109/3) ≈ 6.028"@en ; cd:authoredResource true .
+
+  # Analytical scenarios reuse the unchanged five-value QC example.
+  ex:vr26 cd:hasKeyPoint ex:vb26-a, ex:vb26-b, ex:vb26-c .
+  ex:vb26-a a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: control sample, assigned reference 10 mg/L. Five determinations per method in one session, with fixed procedure, operator and instrument."@en ; cd:authoredResource true .
+  ex:vb26-b a cd:KeyPoint ; cd:position 2 ; cd:body "Precision is closeness of agreement among repeated measurement results under stated conditions."@en ; cd:authoredResource true .
+  ex:vb26-c a cd:KeyPoint ; cd:position 3 ; cd:body "A has smaller observed SD: closer agreement in this session, not proof of general method suitability."@en ; cd:authoredResource true .
+  ex:vb-qc-table a cd:TableDefinition ; skos:prefLabel "Five QC repeats: values, mean and sample SD (mg/L)"@en ; cd:hasTableColumn ex:vb-qc1, ex:vb-qc2, ex:vb-qc3, ex:vb-qc4 ; cd:hasTableRow ex:vb-qr1, ex:vb-qr2 ; dct:source ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:vb-qc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:authoredResource true .
+  ex:vb-qc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Values"@en ; cd:authoredResource true .
+  ex:vb-qc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Mean"@en ; cd:authoredResource true .
+  ex:vb-qc4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "SD"@en ; cd:authoredResource true .
+  ex:vb-qr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-q11, ex:vb-q12, ex:vb-q13, ex:vb-q14 ; cd:authoredResource true .
+  ex:vb-qr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-q21, ex:vb-q22, ex:vb-q23, ex:vb-q24 ; cd:authoredResource true .
+  ex:vb-q11 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vb-q12 a cd:TableCell ; cd:position 2 ; cd:body "9.8, 10.0, 10.1, 9.9, 10.2"@en ; cd:authoredResource true .
+  ex:vb-q13 a cd:TableCell ; cd:position 3 ; cd:body "10.000"@en ; cd:authoredResource true .
+  ex:vb-q14 a cd:TableCell ; cd:position 4 ; cd:body "0.158"@en ; cd:authoredResource true .
+  ex:vb-q21 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vb-q22 a cd:TableCell ; cd:position 2 ; cd:body "8.7, 10.8, 9.5, 11.2, 9.8"@en ; cd:authoredResource true .
+  ex:vb-q23 a cd:TableCell ; cd:position 3 ; cd:body "10.000"@en ; cd:authoredResource true .
+  ex:vb-q24 a cd:TableCell ; cd:position 4 ; cd:body "1.007"@en ; cd:authoredResource true .
+  ex:vb-shift-data a cd:Dataset ; skos:prefLabel "Illustrative shifted series"@en ; cd:unit "mg/L" ; dct:description "Constructed by adding 1 mg/L to every QC A value. This preserves sample SD and shifts sample mean from 10 to 11 mg/L. It illustrates a possible systematic offset, not an empirical validation of long-run bias from five results."@en ; dct:source ex:dataset-qc-method-a ; cd:hasObservation ex:vb-sh1, ex:vb-sh2, ex:vb-sh3, ex:vb-sh4, ex:vb-sh5 ; cd:authoredResource true .
+  ex:vb-sh1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.8 ; dct:source ex:qc-a-1 ; cd:authoredResource true .
+  ex:vb-sh2 a cd:Observation ; cd:position 2 ; cd:numericValue 11.0 ; dct:source ex:qc-a-2 ; cd:authoredResource true .
+  ex:vb-sh3 a cd:Observation ; cd:position 3 ; cd:numericValue 11.1 ; dct:source ex:qc-a-3 ; cd:authoredResource true .
+  ex:vb-sh4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.9 ; dct:source ex:qc-a-4 ; cd:authoredResource true .
+  ex:vb-sh5 a cd:Observation ; cd:position 5 ; cd:numericValue 11.2 ; dct:source ex:qc-a-5 ; cd:authoredResource true .
+  ex:vb-shift-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Centered"@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:vb-shift-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Shifted"@en ; cd:usesDataset ex:vb-shift-data ; cd:authoredResource true .
+  ex:vb-shift-reference a cd:ExpectedResult, cd:StatisticalResult ; cd:body "Assigned reference for both illustrative series, not a shared observed mean. The shifted series intentionally differs from this target."@en ; cd:numericValue 10.0 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:dataset-qc-method-a, ex:vb-shift-data ; dct:source ex:qc-target-and-shared-mean ; cd:authoredResource true .
+  ex:vb-shift-reference-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Assigned reference"@en ; cd:referenceResult ex:vb-shift-reference ; cd:authoredResource true .
+  ex:vb-shift-chart a cd:ChartDefinition ; skos:prefLabel "Equal SD, different observed centers"@en ; cd:body "Illustrative construction: shifted values are centered values plus 1 mg/L. Both sample SDs are 0.1581 mg/L. The reference is 10 mg/L; a five-result center is not a known long-run mean."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Constructed measurement series"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:vb-shift-g1, ex:vb-shift-g2 ; cd:hasChartAnnotation ex:vb-shift-reference-line ; cd:authoredResource true .
+  ex:vr29 cd:hasKeyPoint ex:vb29-a, ex:vb29-b, ex:vb29-c .
+  ex:vb29-a a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: add 1 mg/L to every QC A result. The spread is unchanged."@en ; cd:authoredResource true .
+  ex:vb29-b a cd:KeyPoint ; cd:position 2 ; cd:body "The means are 10 and 11 mg/L; both SDs are 0.158 mg/L."@en ; cd:authoredResource true .
+  ex:vb29-c a cd:KeyPoint ; cd:position 3 ; cd:body "This illustrates possible bias. Five readings alone do not establish a long-run offset or routine suitability."@en ; cd:authoredResource true .
+  ex:vb-shift-table a cd:TableDefinition ; skos:prefLabel "Reference 10 mg/L; illustrative summaries in mg/L"@en ; cd:hasTableColumn ex:vb-sc1, ex:vb-sc2, ex:vb-sc3 ; cd:hasTableRow ex:vb-sr1, ex:vb-sr2 ; dct:source ex:dataset-qc-method-a, ex:vb-shift-data ; cd:authoredResource true .
+  ex:vb-sc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vb-sc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean"@en ; cd:authoredResource true .
+  ex:vb-sc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "SD"@en ; cd:authoredResource true .
+  ex:vb-sr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vb-s11, ex:vb-s12, ex:vb-s13 ; cd:authoredResource true .
+  ex:vb-sr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vb-s21, ex:vb-s22, ex:vb-s23 ; cd:authoredResource true .
+  ex:vb-s11 a cd:TableCell ; cd:position 1 ; cd:body "Centered"@en ; cd:authoredResource true .
+  ex:vb-s12 a cd:TableCell ; cd:position 2 ; cd:body "10.000"@en ; cd:authoredResource true .
+  ex:vb-s13 a cd:TableCell ; cd:position 3 ; cd:body "0.158"@en ; cd:authoredResource true .
+  ex:vb-s21 a cd:TableCell ; cd:position 1 ; cd:body "Shifted"@en ; cd:authoredResource true .
+  ex:vb-s22 a cd:TableCell ; cd:position 2 ; cd:body "11.000"@en ; cd:authoredResource true .
+  ex:vb-s23 a cd:TableCell ; cd:position 3 ; cd:body "0.158"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-bias-scenarios> {
+  ex:vb04k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr04 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb04t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-values ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb05k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr05 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb05t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-dev-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb06k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr06 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb06t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-cancel-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb07k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr07 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb08k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr08 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb08t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-msd-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-sample a cd:SceneDefinition ; cd:focusConcept ex:sample ; cd:hasSceneItem ex:vb-sample-h, ex:vv-intro-cards-i, ex:vv-intro-k ; cd:authoredResource true .
+  ex:vb-sample-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vb-sample ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-sample-p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-sample-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-sample-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-exp1-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-mc a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vb-mc-h, ex:vv-scatter-i, ex:vv-scatter-k ; cd:authoredResource true .
+  ex:vb-mc-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vb-mc ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-mc-p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-mc-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-mc-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vs-exp2-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-bias a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:vm-emp-h, ex:vm-emp-k, ex:vm-emp-t ; cd:authoredResource true .
+  ex:vb-bias-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vs-theory ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-bias-t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-theory-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-bias-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vb-bias ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-bias-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-bias-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-centers a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:vb-centers-h, ex:vv-centers-k, ex:vv-centers-media ; cd:authoredResource true .
+  ex:vb-centers-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vb-centers ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-centers-l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-centers-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-mixture a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:vb-mixture-h, ex:vb-mixture-l ; cd:authoredResource true .
+  ex:vb-mixture-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vb-mixture ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-mixture-l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-mixture-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vb-quality a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:vb-quality-h, ex:vb-quality-l ; cd:authoredResource true .
+  ex:vb-quality-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vb-quality ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb-quality-l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-quality ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb26k a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr26 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb26t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-qc-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb29t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vb-shift-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb29c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vb-shift-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vb29k a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vs-quality-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vb-step-sample a cd:PathStep ; cd:position 13 ; cd:usesResource ex:vb-sample, ex:vb-sample-task, ex:vs-exp1-code ; cd:usesScene ex:scene-vb-sample ; cd:authoredResource true .
+  ex:vb-step-mc a cd:PathStep ; cd:position 13 ; cd:usesResource ex:vb-mc, ex:vb-mc-task, ex:vs-exp2-code ; cd:usesScene ex:scene-vb-mc ; cd:authoredResource true .
+  ex:vb-step-bias a cd:PathStep ; cd:position 15 ; cd:usesResource ex:vm-empirical, ex:vm-emp-table ; cd:usesScene ex:scene-vb-bias ; cd:authoredResource true .
+  ex:vb-step-centers a cd:PathStep ; cd:position 16 ; cd:usesResource ex:vb-centers, ex:vb-centers-cards ; cd:usesScene ex:scene-vb-centers ; cd:authoredResource true .
+  ex:vb-step-mixture a cd:PathStep ; cd:position 31 ; cd:usesResource ex:vb-mixture, ex:vb-mixture-cards ; cd:usesScene ex:scene-vb-mixture ; cd:authoredResource true .
+  ex:vb-step-quality a cd:PathStep ; cd:position 43 ; cd:usesResource ex:vb-quality, ex:vr29-cards ; cd:usesScene ex:scene-vb-quality ; cd:authoredResource true .
+}

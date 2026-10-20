@@ -10,6 +10,11 @@
   clip-path: inset(50%) !important;
 }
 
+.pcd-presentation-navigation { position: fixed; right: .7rem; bottom: .5rem; z-index: 30; display: flex; gap: .5rem; }
+.pcd-presentation-navigation button, .pcd-return-world { font: 16px/1.3 sans-serif; padding: .35rem .6rem; color: var(--pcd-foreground); background: var(--pcd-surface-strong); border: 1px solid var(--pcd-accent); cursor: pointer; }
+.pcd-presentation-navigation button:focus-visible { outline: 3px solid var(--pcd-chart-series-3); }
+@media print { .pcd-presentation-navigation, .pcd-return-world { display: none !important; } }
+
 .d3-chart-emphasis {
   filter: drop-shadow(0 0 12px var(--pcd-chart-window-highlight))
           drop-shadow(0 0 26px var(--pcd-chart-shadow)) !important;

@@ -1,16 +1,16 @@
 type ClockParts = {
   hours: string;
   minutes: string;
-  meridiem: "am" | "pm";
+  meridiem: "a.m." | "p.m.";
 };
 
-function clockParts(date: Date): ClockParts {
+export function clockParts(date: Date): ClockParts {
   const rawHours = date.getHours();
   const twelveHour = rawHours % 12 || 12;
   return {
     hours: String(twelveHour).padStart(2, "0"),
     minutes: String(date.getMinutes()).padStart(2, "0"),
-    meridiem: rawHours >= 12 ? "pm" : "am",
+    meridiem: rawHours >= 12 ? "p.m." : "a.m.",
   };
 }
 

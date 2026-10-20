@@ -251,6 +251,11 @@ export function mountAppearanceControls(options: {
     themeSelect.append(option);
   }
   themeSelect.value = options.theme;
+  const screenControls=document.createElement("div");screenControls.className="pcd-screen-controls";
+  const lamp=document.createElement("button");lamp.type="button";lamp.className="pcd-theme-toggle";
+  lamp.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 2H9s0-1-1-2Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 1v2M3 5l2 2M21 5l-2 2M1 12h2M21 12h2" stroke="currentColor" stroke-width="1.5"/></svg>';
+  const syncLamp=()=>{const light=themeSelect.value==="light";lamp.setAttribute("aria-pressed",String(light));lamp.setAttribute("aria-label",light?"Switch to dark mode":"Switch to light mode");lamp.title=lamp.getAttribute("aria-label")!;};
+  syncLamp();screenControls.append(lamp);document.body.append(screenControls);
 
   const hint = document.createElement("span");
   hint.className = "appearance-controls-hint";
@@ -264,7 +269,7 @@ export function mountAppearanceControls(options: {
     lastFamilyId = backgroundSelect.value;
     options.onBackgroundChange(backgroundSelect.value);
   };
-  const applyTheme = () => options.onThemeChange(themeSelect.value as PresentationThemeMode);
+  const applyTheme = () => {syncLamp();options.onThemeChange(themeSelect.value as PresentationThemeMode);};
 
   const toggleBackground = () => {
     if (backgroundSelect.value === "none") {
@@ -283,6 +288,7 @@ export function mountAppearanceControls(options: {
     themeSelect.value = themeSelect.value === "dark" ? "light" : "dark";
     applyTheme();
   };
+  lamp.addEventListener("click",toggleTheme);
 
   const shortcut = (event: KeyboardEvent) => {
     if (!event.altKey) return;
@@ -311,6 +317,7 @@ export function mountAppearanceControls(options: {
       themeSelect.removeEventListener("change", applyTheme);
       window.removeEventListener("keydown", shortcut);
       wrapper.remove();
+      lamp.removeEventListener("click",toggleTheme);screenControls.remove();
     },
   };
 }

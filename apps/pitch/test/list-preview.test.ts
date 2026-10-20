@@ -11,7 +11,7 @@ class FakeElement implements MinimalElement {
   children: FakeElement[] = [];
   attributes = new Map<string, string>();
   get innerHTML(): string { return this.html; }
-  set innerHTML(value: string) { this.html = value; if (value === "") this.children = []; }
+  set innerHTML(value: string) { this.html = value; this.children = []; this.textContent = value.replace(/<[^>]*>/gu,"").replaceAll("&lt;","<").replaceAll("&gt;",">").replaceAll("&quot;",'"').replaceAll("&#39;","'").replaceAll("&amp;","&"); }
   appendChild(node: MinimalElement): void { this.children.push(node as FakeElement); }
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
 }

@@ -1,0 +1,827 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+<https://w3id.org/project-chemie-digital/graph/data/variance-chart-import> {
+  ex:vv-d2 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 2; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-2-1, ex:vv-e2-2-2, ex:vv-e2-2-3, ex:vv-e2-2-4, ex:vv-e2-2-5 ; cd:authoredResource true .
+  ex:vv-e2-2-1 a cd:Observation ; cd:position 1 ; cd:numericValue 14.391652 ; cd:authoredResource true .
+  ex:vv-e2-2-2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.924333 ; cd:authoredResource true .
+  ex:vv-e2-2-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.629147 ; cd:authoredResource true .
+  ex:vv-e2-2-4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.310390 ; cd:authoredResource true .
+  ex:vv-e2-2-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.777370 ; cd:authoredResource true .
+  ex:vv-g2 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "2"@en ; cd:groupXValue 2.0 ; cd:usesDataset ex:vv-d2 ; cd:authoredResource true .
+  ex:vv-d3 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 3; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-3-1, ex:vv-e2-3-2, ex:vv-e2-3-3, ex:vv-e2-3-4, ex:vv-e2-3-5 ; cd:authoredResource true .
+  ex:vv-e2-3-1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.094089 ; cd:authoredResource true .
+  ex:vv-e2-3-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.685913 ; cd:authoredResource true .
+  ex:vv-e2-3-3 a cd:Observation ; cd:position 3 ; cd:numericValue 1.093891 ; cd:authoredResource true .
+  ex:vv-e2-3-4 a cd:Observation ; cd:position 4 ; cd:numericValue 0.362298 ; cd:authoredResource true .
+  ex:vv-e2-3-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.800782 ; cd:authoredResource true .
+  ex:vv-g3 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "3"@en ; cd:groupXValue 3.0 ; cd:usesDataset ex:vv-d3 ; cd:authoredResource true .
+  ex:vv-d4 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 4; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-4-1, ex:vv-e2-4-2, ex:vv-e2-4-3, ex:vv-e2-4-4, ex:vv-e2-4-5 ; cd:authoredResource true .
+  ex:vv-e2-4-1 a cd:Observation ; cd:position 1 ; cd:numericValue 1.454449 ; cd:authoredResource true .
+  ex:vv-e2-4-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.558749 ; cd:authoredResource true .
+  ex:vv-e2-4-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.042033 ; cd:authoredResource true .
+  ex:vv-e2-4-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.439296 ; cd:authoredResource true .
+  ex:vv-e2-4-5 a cd:Observation ; cd:position 5 ; cd:numericValue 8.457150 ; cd:authoredResource true .
+  ex:vv-g4 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "4"@en ; cd:groupXValue 4.0 ; cd:usesDataset ex:vv-d4 ; cd:authoredResource true .
+  ex:vv-d5 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 5; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-5-1, ex:vv-e2-5-2, ex:vv-e2-5-3, ex:vv-e2-5-4, ex:vv-e2-5-5 ; cd:authoredResource true .
+  ex:vv-e2-5-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.021537 ; cd:authoredResource true .
+  ex:vv-e2-5-2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.845462 ; cd:authoredResource true .
+  ex:vv-e2-5-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.559661 ; cd:authoredResource true .
+  ex:vv-e2-5-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.844169 ; cd:authoredResource true .
+  ex:vv-e2-5-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.165549 ; cd:authoredResource true .
+  ex:vv-g5 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "5"@en ; cd:groupXValue 5.0 ; cd:usesDataset ex:vv-d5 ; cd:authoredResource true .
+  ex:vv-d6 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 6; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-6-1, ex:vv-e2-6-2, ex:vv-e2-6-3, ex:vv-e2-6-4, ex:vv-e2-6-5 ; cd:authoredResource true .
+  ex:vv-e2-6-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.139340 ; cd:authoredResource true .
+  ex:vv-e2-6-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.173444 ; cd:authoredResource true .
+  ex:vv-e2-6-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.490283 ; cd:authoredResource true .
+  ex:vv-e2-6-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.233163 ; cd:authoredResource true .
+  ex:vv-e2-6-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.759763 ; cd:authoredResource true .
+  ex:vv-g6 a cd:ChartGroup ; cd:position 5 ; skos:prefLabel "6"@en ; cd:groupXValue 6.0 ; cd:usesDataset ex:vv-d6 ; cd:authoredResource true .
+  ex:vv-d7 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 7; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-7-1, ex:vv-e2-7-2, ex:vv-e2-7-3, ex:vv-e2-7-4, ex:vv-e2-7-5 ; cd:authoredResource true .
+  ex:vv-e2-7-1 a cd:Observation ; cd:position 1 ; cd:numericValue 2.463024 ; cd:authoredResource true .
+  ex:vv-e2-7-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.847654 ; cd:authoredResource true .
+  ex:vv-e2-7-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.145253 ; cd:authoredResource true .
+  ex:vv-e2-7-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.288358 ; cd:authoredResource true .
+  ex:vv-e2-7-5 a cd:Observation ; cd:position 5 ; cd:numericValue 1.840644 ; cd:authoredResource true .
+  ex:vv-g7 a cd:ChartGroup ; cd:position 6 ; skos:prefLabel "7"@en ; cd:groupXValue 7.0 ; cd:usesDataset ex:vv-d7 ; cd:authoredResource true .
+  ex:vv-d8 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 8; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-8-1, ex:vv-e2-8-2, ex:vv-e2-8-3, ex:vv-e2-8-4, ex:vv-e2-8-5 ; cd:authoredResource true .
+  ex:vv-e2-8-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.205630 ; cd:authoredResource true .
+  ex:vv-e2-8-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.888001 ; cd:authoredResource true .
+  ex:vv-e2-8-3 a cd:Observation ; cd:position 3 ; cd:numericValue 8.565561 ; cd:authoredResource true .
+  ex:vv-e2-8-4 a cd:Observation ; cd:position 4 ; cd:numericValue 8.338644 ; cd:authoredResource true .
+  ex:vv-e2-8-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.927047 ; cd:authoredResource true .
+  ex:vv-g8 a cd:ChartGroup ; cd:position 7 ; skos:prefLabel "8"@en ; cd:groupXValue 8.0 ; cd:usesDataset ex:vv-d8 ; cd:authoredResource true .
+  ex:vv-d9 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 9; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-9-1, ex:vv-e2-9-2, ex:vv-e2-9-3, ex:vv-e2-9-4, ex:vv-e2-9-5 ; cd:authoredResource true .
+  ex:vv-e2-9-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.174821 ; cd:authoredResource true .
+  ex:vv-e2-9-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.748556 ; cd:authoredResource true .
+  ex:vv-e2-9-3 a cd:Observation ; cd:position 3 ; cd:numericValue 2.630580 ; cd:authoredResource true .
+  ex:vv-e2-9-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.490069 ; cd:authoredResource true .
+  ex:vv-e2-9-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.728240 ; cd:authoredResource true .
+  ex:vv-g9 a cd:ChartGroup ; cd:position 8 ; skos:prefLabel "9"@en ; cd:groupXValue 9.0 ; cd:usesDataset ex:vv-d9 ; cd:authoredResource true .
+  ex:vv-d10 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 10; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-10-1, ex:vv-e2-10-2, ex:vv-e2-10-3, ex:vv-e2-10-4, ex:vv-e2-10-5 ; cd:authoredResource true .
+  ex:vv-e2-10-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.722491 ; cd:authoredResource true .
+  ex:vv-e2-10-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.808957 ; cd:authoredResource true .
+  ex:vv-e2-10-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.152706 ; cd:authoredResource true .
+  ex:vv-e2-10-4 a cd:Observation ; cd:position 4 ; cd:numericValue 1.533594 ; cd:authoredResource true .
+  ex:vv-e2-10-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.599605 ; cd:authoredResource true .
+  ex:vv-g10 a cd:ChartGroup ; cd:position 9 ; skos:prefLabel "10"@en ; cd:groupXValue 10.0 ; cd:usesDataset ex:vv-d10 ; cd:authoredResource true .
+  ex:vv-d11 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 11; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-11-1, ex:vv-e2-11-2, ex:vv-e2-11-3, ex:vv-e2-11-4, ex:vv-e2-11-5 ; cd:authoredResource true .
+  ex:vv-e2-11-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.013642 ; cd:authoredResource true .
+  ex:vv-e2-11-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.925807 ; cd:authoredResource true .
+  ex:vv-e2-11-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.567554 ; cd:authoredResource true .
+  ex:vv-e2-11-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.051498 ; cd:authoredResource true .
+  ex:vv-e2-11-5 a cd:Observation ; cd:position 5 ; cd:numericValue 14.160362 ; cd:authoredResource true .
+  ex:vv-g11 a cd:ChartGroup ; cd:position 10 ; skos:prefLabel "11"@en ; cd:groupXValue 11.0 ; cd:usesDataset ex:vv-d11 ; cd:authoredResource true .
+  ex:vv-d12 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 12; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-12-1, ex:vv-e2-12-2, ex:vv-e2-12-3, ex:vv-e2-12-4, ex:vv-e2-12-5 ; cd:authoredResource true .
+  ex:vv-e2-12-1 a cd:Observation ; cd:position 1 ; cd:numericValue 2.624107 ; cd:authoredResource true .
+  ex:vv-e2-12-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.188715 ; cd:authoredResource true .
+  ex:vv-e2-12-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.827360 ; cd:authoredResource true .
+  ex:vv-e2-12-4 a cd:Observation ; cd:position 4 ; cd:numericValue 1.498743 ; cd:authoredResource true .
+  ex:vv-e2-12-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.394299 ; cd:authoredResource true .
+  ex:vv-g12 a cd:ChartGroup ; cd:position 11 ; skos:prefLabel "12"@en ; cd:groupXValue 12.0 ; cd:usesDataset ex:vv-d12 ; cd:authoredResource true .
+  ex:vv-d13 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 13; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-13-1, ex:vv-e2-13-2, ex:vv-e2-13-3, ex:vv-e2-13-4, ex:vv-e2-13-5 ; cd:authoredResource true .
+  ex:vv-e2-13-1 a cd:Observation ; cd:position 1 ; cd:numericValue 7.013368 ; cd:authoredResource true .
+  ex:vv-e2-13-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.706046 ; cd:authoredResource true .
+  ex:vv-e2-13-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.530932 ; cd:authoredResource true .
+  ex:vv-e2-13-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.628854 ; cd:authoredResource true .
+  ex:vv-e2-13-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.233873 ; cd:authoredResource true .
+  ex:vv-g13 a cd:ChartGroup ; cd:position 12 ; skos:prefLabel "13"@en ; cd:groupXValue 13.0 ; cd:usesDataset ex:vv-d13 ; cd:authoredResource true .
+  ex:vv-d14 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 14; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-14-1, ex:vv-e2-14-2, ex:vv-e2-14-3, ex:vv-e2-14-4, ex:vv-e2-14-5 ; cd:authoredResource true .
+  ex:vv-e2-14-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.345730 ; cd:authoredResource true .
+  ex:vv-e2-14-2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.630146 ; cd:authoredResource true .
+  ex:vv-e2-14-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.443611 ; cd:authoredResource true .
+  ex:vv-e2-14-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.694644 ; cd:authoredResource true .
+  ex:vv-e2-14-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.119408 ; cd:authoredResource true .
+  ex:vv-g14 a cd:ChartGroup ; cd:position 13 ; skos:prefLabel "14"@en ; cd:groupXValue 14.0 ; cd:usesDataset ex:vv-d14 ; cd:authoredResource true .
+  ex:vv-d15 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 15; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-15-1, ex:vv-e2-15-2, ex:vv-e2-15-3, ex:vv-e2-15-4, ex:vv-e2-15-5 ; cd:authoredResource true .
+  ex:vv-e2-15-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.216454 ; cd:authoredResource true .
+  ex:vv-e2-15-2 a cd:Observation ; cd:position 2 ; cd:numericValue 1.667691 ; cd:authoredResource true .
+  ex:vv-e2-15-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.979972 ; cd:authoredResource true .
+  ex:vv-e2-15-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.197194 ; cd:authoredResource true .
+  ex:vv-e2-15-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.464508 ; cd:authoredResource true .
+  ex:vv-g15 a cd:ChartGroup ; cd:position 14 ; skos:prefLabel "15"@en ; cd:groupXValue 15.0 ; cd:usesDataset ex:vv-d15 ; cd:authoredResource true .
+  ex:vv-d16 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 16; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-16-1, ex:vv-e2-16-2, ex:vv-e2-16-3, ex:vv-e2-16-4, ex:vv-e2-16-5 ; cd:authoredResource true .
+  ex:vv-e2-16-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.927870 ; cd:authoredResource true .
+  ex:vv-e2-16-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.021892 ; cd:authoredResource true .
+  ex:vv-e2-16-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.628494 ; cd:authoredResource true .
+  ex:vv-e2-16-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.676409 ; cd:authoredResource true .
+  ex:vv-e2-16-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.924124 ; cd:authoredResource true .
+  ex:vv-g16 a cd:ChartGroup ; cd:position 15 ; skos:prefLabel "16"@en ; cd:groupXValue 16.0 ; cd:usesDataset ex:vv-d16 ; cd:authoredResource true .
+  ex:vv-d17 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 17; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-17-1, ex:vv-e2-17-2, ex:vv-e2-17-3, ex:vv-e2-17-4, ex:vv-e2-17-5 ; cd:authoredResource true .
+  ex:vv-e2-17-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.703455 ; cd:authoredResource true .
+  ex:vv-e2-17-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.750864 ; cd:authoredResource true .
+  ex:vv-e2-17-3 a cd:Observation ; cd:position 3 ; cd:numericValue 7.413499 ; cd:authoredResource true .
+  ex:vv-e2-17-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.298348 ; cd:authoredResource true .
+  ex:vv-e2-17-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.210239 ; cd:authoredResource true .
+  ex:vv-g17 a cd:ChartGroup ; cd:position 16 ; skos:prefLabel "17"@en ; cd:groupXValue 17.0 ; cd:usesDataset ex:vv-d17 ; cd:authoredResource true .
+  ex:vv-d18 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 18; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-18-1, ex:vv-e2-18-2, ex:vv-e2-18-3, ex:vv-e2-18-4, ex:vv-e2-18-5 ; cd:authoredResource true .
+  ex:vv-e2-18-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.695719 ; cd:authoredResource true .
+  ex:vv-e2-18-2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.281835 ; cd:authoredResource true .
+  ex:vv-e2-18-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.875596 ; cd:authoredResource true .
+  ex:vv-e2-18-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.566953 ; cd:authoredResource true .
+  ex:vv-e2-18-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.554354 ; cd:authoredResource true .
+  ex:vv-g18 a cd:ChartGroup ; cd:position 17 ; skos:prefLabel "18"@en ; cd:groupXValue 18.0 ; cd:usesDataset ex:vv-d18 ; cd:authoredResource true .
+  ex:vv-d19 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 19; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-19-1, ex:vv-e2-19-2, ex:vv-e2-19-3, ex:vv-e2-19-4, ex:vv-e2-19-5 ; cd:authoredResource true .
+  ex:vv-e2-19-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.987355 ; cd:authoredResource true .
+  ex:vv-e2-19-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.127240 ; cd:authoredResource true .
+  ex:vv-e2-19-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.517760 ; cd:authoredResource true .
+  ex:vv-e2-19-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.436783 ; cd:authoredResource true .
+  ex:vv-e2-19-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.449726 ; cd:authoredResource true .
+  ex:vv-g19 a cd:ChartGroup ; cd:position 18 ; skos:prefLabel "19"@en ; cd:groupXValue 19.0 ; cd:usesDataset ex:vv-d19 ; cd:authoredResource true .
+  ex:vv-d20 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 20; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-20-1, ex:vv-e2-20-2, ex:vv-e2-20-3, ex:vv-e2-20-4, ex:vv-e2-20-5 ; cd:authoredResource true .
+  ex:vv-e2-20-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.552363 ; cd:authoredResource true .
+  ex:vv-e2-20-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.450032 ; cd:authoredResource true .
+  ex:vv-e2-20-3 a cd:Observation ; cd:position 3 ; cd:numericValue 2.839820 ; cd:authoredResource true .
+  ex:vv-e2-20-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.863226 ; cd:authoredResource true .
+  ex:vv-e2-20-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.646264 ; cd:authoredResource true .
+  ex:vv-g20 a cd:ChartGroup ; cd:position 19 ; skos:prefLabel "20"@en ; cd:groupXValue 20.0 ; cd:usesDataset ex:vv-d20 ; cd:authoredResource true .
+  ex:vv-d21 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 21; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-21-1, ex:vv-e2-21-2, ex:vv-e2-21-3, ex:vv-e2-21-4, ex:vv-e2-21-5 ; cd:authoredResource true .
+  ex:vv-e2-21-1 a cd:Observation ; cd:position 1 ; cd:numericValue 2.949008 ; cd:authoredResource true .
+  ex:vv-e2-21-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.184967 ; cd:authoredResource true .
+  ex:vv-e2-21-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.020120 ; cd:authoredResource true .
+  ex:vv-e2-21-4 a cd:Observation ; cd:position 4 ; cd:numericValue 1.959565 ; cd:authoredResource true .
+  ex:vv-e2-21-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.191969 ; cd:authoredResource true .
+  ex:vv-g21 a cd:ChartGroup ; cd:position 20 ; skos:prefLabel "21"@en ; cd:groupXValue 21.0 ; cd:usesDataset ex:vv-d21 ; cd:authoredResource true .
+  ex:vv-d22 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 22; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-22-1, ex:vv-e2-22-2, ex:vv-e2-22-3, ex:vv-e2-22-4, ex:vv-e2-22-5 ; cd:authoredResource true .
+  ex:vv-e2-22-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.517024 ; cd:authoredResource true .
+  ex:vv-e2-22-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.744425 ; cd:authoredResource true .
+  ex:vv-e2-22-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.480694 ; cd:authoredResource true .
+  ex:vv-e2-22-4 a cd:Observation ; cd:position 4 ; cd:numericValue 7.420267 ; cd:authoredResource true .
+  ex:vv-e2-22-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.392367 ; cd:authoredResource true .
+  ex:vv-g22 a cd:ChartGroup ; cd:position 21 ; skos:prefLabel "22"@en ; cd:groupXValue 22.0 ; cd:usesDataset ex:vv-d22 ; cd:authoredResource true .
+  ex:vv-d23 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 23; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-23-1, ex:vv-e2-23-2, ex:vv-e2-23-3, ex:vv-e2-23-4, ex:vv-e2-23-5 ; cd:authoredResource true .
+  ex:vv-e2-23-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.783774 ; cd:authoredResource true .
+  ex:vv-e2-23-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.918461 ; cd:authoredResource true .
+  ex:vv-e2-23-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.796609 ; cd:authoredResource true .
+  ex:vv-e2-23-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.672381 ; cd:authoredResource true .
+  ex:vv-e2-23-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.642093 ; cd:authoredResource true .
+  ex:vv-g23 a cd:ChartGroup ; cd:position 22 ; skos:prefLabel "23"@en ; cd:groupXValue 23.0 ; cd:usesDataset ex:vv-d23 ; cd:authoredResource true .
+  ex:vv-d24 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 24; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-24-1, ex:vv-e2-24-2, ex:vv-e2-24-3, ex:vv-e2-24-4, ex:vv-e2-24-5 ; cd:authoredResource true .
+  ex:vv-e2-24-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.025234 ; cd:authoredResource true .
+  ex:vv-e2-24-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.691194 ; cd:authoredResource true .
+  ex:vv-e2-24-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.788059 ; cd:authoredResource true .
+  ex:vv-e2-24-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.581746 ; cd:authoredResource true .
+  ex:vv-e2-24-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.305198 ; cd:authoredResource true .
+  ex:vv-g24 a cd:ChartGroup ; cd:position 23 ; skos:prefLabel "24"@en ; cd:groupXValue 24.0 ; cd:usesDataset ex:vv-d24 ; cd:authoredResource true .
+  ex:vv-d25 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 25; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-25-1, ex:vv-e2-25-2, ex:vv-e2-25-3, ex:vv-e2-25-4, ex:vv-e2-25-5 ; cd:authoredResource true .
+  ex:vv-e2-25-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.174267 ; cd:authoredResource true .
+  ex:vv-e2-25-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.694269 ; cd:authoredResource true .
+  ex:vv-e2-25-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.284535 ; cd:authoredResource true .
+  ex:vv-e2-25-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.370712 ; cd:authoredResource true .
+  ex:vv-e2-25-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.889697 ; cd:authoredResource true .
+  ex:vv-g25 a cd:ChartGroup ; cd:position 24 ; skos:prefLabel "25"@en ; cd:groupXValue 25.0 ; cd:usesDataset ex:vv-d25 ; cd:authoredResource true .
+  ex:vv-d26 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 26; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-26-1, ex:vv-e2-26-2, ex:vv-e2-26-3, ex:vv-e2-26-4, ex:vv-e2-26-5 ; cd:authoredResource true .
+  ex:vv-e2-26-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.853412 ; cd:authoredResource true .
+  ex:vv-e2-26-2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.061398 ; cd:authoredResource true .
+  ex:vv-e2-26-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.770570 ; cd:authoredResource true .
+  ex:vv-e2-26-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.218154 ; cd:authoredResource true .
+  ex:vv-e2-26-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.439991 ; cd:authoredResource true .
+  ex:vv-g26 a cd:ChartGroup ; cd:position 25 ; skos:prefLabel "26"@en ; cd:groupXValue 26.0 ; cd:usesDataset ex:vv-d26 ; cd:authoredResource true .
+  ex:vv-d27 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 27; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-27-1, ex:vv-e2-27-2, ex:vv-e2-27-3, ex:vv-e2-27-4, ex:vv-e2-27-5 ; cd:authoredResource true .
+  ex:vv-e2-27-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.947369 ; cd:authoredResource true .
+  ex:vv-e2-27-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.261184 ; cd:authoredResource true .
+  ex:vv-e2-27-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.930111 ; cd:authoredResource true .
+  ex:vv-e2-27-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.738385 ; cd:authoredResource true .
+  ex:vv-e2-27-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.825361 ; cd:authoredResource true .
+  ex:vv-g27 a cd:ChartGroup ; cd:position 26 ; skos:prefLabel "27"@en ; cd:groupXValue 27.0 ; cd:usesDataset ex:vv-d27 ; cd:authoredResource true .
+  ex:vv-d28 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 28; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-28-1, ex:vv-e2-28-2, ex:vv-e2-28-3, ex:vv-e2-28-4, ex:vv-e2-28-5 ; cd:authoredResource true .
+  ex:vv-e2-28-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.392979 ; cd:authoredResource true .
+  ex:vv-e2-28-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.635541 ; cd:authoredResource true .
+  ex:vv-e2-28-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.739370 ; cd:authoredResource true .
+  ex:vv-e2-28-4 a cd:Observation ; cd:position 4 ; cd:numericValue 7.000145 ; cd:authoredResource true .
+  ex:vv-e2-28-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.444749 ; cd:authoredResource true .
+  ex:vv-g28 a cd:ChartGroup ; cd:position 27 ; skos:prefLabel "28"@en ; cd:groupXValue 28.0 ; cd:usesDataset ex:vv-d28 ; cd:authoredResource true .
+  ex:vv-d29 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 29; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-29-1, ex:vv-e2-29-2, ex:vv-e2-29-3, ex:vv-e2-29-4, ex:vv-e2-29-5 ; cd:authoredResource true .
+  ex:vv-e2-29-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.500238 ; cd:authoredResource true .
+  ex:vv-e2-29-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.555133 ; cd:authoredResource true .
+  ex:vv-e2-29-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.787774 ; cd:authoredResource true .
+  ex:vv-e2-29-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.695151 ; cd:authoredResource true .
+  ex:vv-e2-29-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.213920 ; cd:authoredResource true .
+  ex:vv-g29 a cd:ChartGroup ; cd:position 28 ; skos:prefLabel "29"@en ; cd:groupXValue 29.0 ; cd:usesDataset ex:vv-d29 ; cd:authoredResource true .
+  ex:vv-d30 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 30; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-30-1, ex:vv-e2-30-2, ex:vv-e2-30-3, ex:vv-e2-30-4, ex:vv-e2-30-5 ; cd:authoredResource true .
+  ex:vv-e2-30-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.973160 ; cd:authoredResource true .
+  ex:vv-e2-30-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.377762 ; cd:authoredResource true .
+  ex:vv-e2-30-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.341626 ; cd:authoredResource true .
+  ex:vv-e2-30-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.004209 ; cd:authoredResource true .
+  ex:vv-e2-30-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.193159 ; cd:authoredResource true .
+  ex:vv-g30 a cd:ChartGroup ; cd:position 29 ; skos:prefLabel "30"@en ; cd:groupXValue 30.0 ; cd:usesDataset ex:vv-d30 ; cd:authoredResource true .
+  ex:vv-d31 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 31; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-31-1, ex:vv-e2-31-2, ex:vv-e2-31-3, ex:vv-e2-31-4, ex:vv-e2-31-5 ; cd:authoredResource true .
+  ex:vv-e2-31-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.359429 ; cd:authoredResource true .
+  ex:vv-e2-31-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.934873 ; cd:authoredResource true .
+  ex:vv-e2-31-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.723184 ; cd:authoredResource true .
+  ex:vv-e2-31-4 a cd:Observation ; cd:position 4 ; cd:numericValue 7.645026 ; cd:authoredResource true .
+  ex:vv-e2-31-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.441582 ; cd:authoredResource true .
+  ex:vv-g31 a cd:ChartGroup ; cd:position 30 ; skos:prefLabel "31"@en ; cd:groupXValue 31.0 ; cd:usesDataset ex:vv-d31 ; cd:authoredResource true .
+  ex:vv-d32 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 32; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-32-1, ex:vv-e2-32-2, ex:vv-e2-32-3, ex:vv-e2-32-4, ex:vv-e2-32-5 ; cd:authoredResource true .
+  ex:vv-e2-32-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.278422 ; cd:authoredResource true .
+  ex:vv-e2-32-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.566556 ; cd:authoredResource true .
+  ex:vv-e2-32-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.433803 ; cd:authoredResource true .
+  ex:vv-e2-32-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.822039 ; cd:authoredResource true .
+  ex:vv-e2-32-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.202108 ; cd:authoredResource true .
+  ex:vv-g32 a cd:ChartGroup ; cd:position 31 ; skos:prefLabel "32"@en ; cd:groupXValue 32.0 ; cd:usesDataset ex:vv-d32 ; cd:authoredResource true .
+  ex:vv-d33 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 33; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-33-1, ex:vv-e2-33-2, ex:vv-e2-33-3, ex:vv-e2-33-4, ex:vv-e2-33-5 ; cd:authoredResource true .
+  ex:vv-e2-33-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.909257 ; cd:authoredResource true .
+  ex:vv-e2-33-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.174247 ; cd:authoredResource true .
+  ex:vv-e2-33-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.983359 ; cd:authoredResource true .
+  ex:vv-e2-33-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.915582 ; cd:authoredResource true .
+  ex:vv-e2-33-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.300902 ; cd:authoredResource true .
+  ex:vv-g33 a cd:ChartGroup ; cd:position 32 ; skos:prefLabel "33"@en ; cd:groupXValue 33.0 ; cd:usesDataset ex:vv-d33 ; cd:authoredResource true .
+  ex:vv-d34 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 34; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-34-1, ex:vv-e2-34-2, ex:vv-e2-34-3, ex:vv-e2-34-4, ex:vv-e2-34-5 ; cd:authoredResource true .
+  ex:vv-e2-34-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.366404 ; cd:authoredResource true .
+  ex:vv-e2-34-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.003257 ; cd:authoredResource true .
+  ex:vv-e2-34-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.504692 ; cd:authoredResource true .
+  ex:vv-e2-34-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.912751 ; cd:authoredResource true .
+  ex:vv-e2-34-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.213339 ; cd:authoredResource true .
+  ex:vv-g34 a cd:ChartGroup ; cd:position 33 ; skos:prefLabel "34"@en ; cd:groupXValue 34.0 ; cd:usesDataset ex:vv-d34 ; cd:authoredResource true .
+  ex:vv-d35 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 35; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-35-1, ex:vv-e2-35-2, ex:vv-e2-35-3, ex:vv-e2-35-4, ex:vv-e2-35-5 ; cd:authoredResource true .
+  ex:vv-e2-35-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.137939 ; cd:authoredResource true .
+  ex:vv-e2-35-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.628328 ; cd:authoredResource true .
+  ex:vv-e2-35-3 a cd:Observation ; cd:position 3 ; cd:numericValue 2.350693 ; cd:authoredResource true .
+  ex:vv-e2-35-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.008520 ; cd:authoredResource true .
+  ex:vv-e2-35-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.384802 ; cd:authoredResource true .
+  ex:vv-g35 a cd:ChartGroup ; cd:position 34 ; skos:prefLabel "35"@en ; cd:groupXValue 35.0 ; cd:usesDataset ex:vv-d35 ; cd:authoredResource true .
+  ex:vv-d36 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 36; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-36-1, ex:vv-e2-36-2, ex:vv-e2-36-3, ex:vv-e2-36-4, ex:vv-e2-36-5 ; cd:authoredResource true .
+  ex:vv-e2-36-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.719719 ; cd:authoredResource true .
+  ex:vv-e2-36-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.152405 ; cd:authoredResource true .
+  ex:vv-e2-36-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.536430 ; cd:authoredResource true .
+  ex:vv-e2-36-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.727629 ; cd:authoredResource true .
+  ex:vv-e2-36-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.221639 ; cd:authoredResource true .
+  ex:vv-g36 a cd:ChartGroup ; cd:position 35 ; skos:prefLabel "36"@en ; cd:groupXValue 36.0 ; cd:usesDataset ex:vv-d36 ; cd:authoredResource true .
+  ex:vv-d37 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 37; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-37-1, ex:vv-e2-37-2, ex:vv-e2-37-3, ex:vv-e2-37-4, ex:vv-e2-37-5 ; cd:authoredResource true .
+  ex:vv-e2-37-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.307293 ; cd:authoredResource true .
+  ex:vv-e2-37-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.692903 ; cd:authoredResource true .
+  ex:vv-e2-37-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.124474 ; cd:authoredResource true .
+  ex:vv-e2-37-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.677958 ; cd:authoredResource true .
+  ex:vv-e2-37-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.419368 ; cd:authoredResource true .
+  ex:vv-g37 a cd:ChartGroup ; cd:position 36 ; skos:prefLabel "37"@en ; cd:groupXValue 37.0 ; cd:usesDataset ex:vv-d37 ; cd:authoredResource true .
+  ex:vv-d38 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 38; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-38-1, ex:vv-e2-38-2, ex:vv-e2-38-3, ex:vv-e2-38-4, ex:vv-e2-38-5 ; cd:authoredResource true .
+  ex:vv-e2-38-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.569940 ; cd:authoredResource true .
+  ex:vv-e2-38-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.522953 ; cd:authoredResource true .
+  ex:vv-e2-38-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.021096 ; cd:authoredResource true .
+  ex:vv-e2-38-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.085673 ; cd:authoredResource true .
+  ex:vv-e2-38-5 a cd:Observation ; cd:position 5 ; cd:numericValue 7.013133 ; cd:authoredResource true .
+  ex:vv-g38 a cd:ChartGroup ; cd:position 37 ; skos:prefLabel "38"@en ; cd:groupXValue 38.0 ; cd:usesDataset ex:vv-d38 ; cd:authoredResource true .
+  ex:vv-d39 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 39; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-39-1, ex:vv-e2-39-2, ex:vv-e2-39-3, ex:vv-e2-39-4, ex:vv-e2-39-5 ; cd:authoredResource true .
+  ex:vv-e2-39-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.623699 ; cd:authoredResource true .
+  ex:vv-e2-39-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.347652 ; cd:authoredResource true .
+  ex:vv-e2-39-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.746708 ; cd:authoredResource true .
+  ex:vv-e2-39-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.669199 ; cd:authoredResource true .
+  ex:vv-e2-39-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.080823 ; cd:authoredResource true .
+  ex:vv-g39 a cd:ChartGroup ; cd:position 38 ; skos:prefLabel "39"@en ; cd:groupXValue 39.0 ; cd:usesDataset ex:vv-d39 ; cd:authoredResource true .
+  ex:vv-d40 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 40; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-40-1, ex:vv-e2-40-2, ex:vv-e2-40-3, ex:vv-e2-40-4, ex:vv-e2-40-5 ; cd:authoredResource true .
+  ex:vv-e2-40-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.021119 ; cd:authoredResource true .
+  ex:vv-e2-40-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.486399 ; cd:authoredResource true .
+  ex:vv-e2-40-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.294050 ; cd:authoredResource true .
+  ex:vv-e2-40-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.554999 ; cd:authoredResource true .
+  ex:vv-e2-40-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.217853 ; cd:authoredResource true .
+  ex:vv-g40 a cd:ChartGroup ; cd:position 39 ; skos:prefLabel "40"@en ; cd:groupXValue 40.0 ; cd:usesDataset ex:vv-d40 ; cd:authoredResource true .
+  ex:vv-d41 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 41; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-41-1, ex:vv-e2-41-2, ex:vv-e2-41-3, ex:vv-e2-41-4, ex:vv-e2-41-5 ; cd:authoredResource true .
+  ex:vv-e2-41-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.381989 ; cd:authoredResource true .
+  ex:vv-e2-41-2 a cd:Observation ; cd:position 2 ; cd:numericValue 7.261036 ; cd:authoredResource true .
+  ex:vv-e2-41-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.397901 ; cd:authoredResource true .
+  ex:vv-e2-41-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.669576 ; cd:authoredResource true .
+  ex:vv-e2-41-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.964959 ; cd:authoredResource true .
+  ex:vv-g41 a cd:ChartGroup ; cd:position 40 ; skos:prefLabel "41"@en ; cd:groupXValue 41.0 ; cd:usesDataset ex:vv-d41 ; cd:authoredResource true .
+  ex:vv-d42 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 42; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-42-1, ex:vv-e2-42-2, ex:vv-e2-42-3, ex:vv-e2-42-4, ex:vv-e2-42-5 ; cd:authoredResource true .
+  ex:vv-e2-42-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.642316 ; cd:authoredResource true .
+  ex:vv-e2-42-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.103032 ; cd:authoredResource true .
+  ex:vv-e2-42-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.358301 ; cd:authoredResource true .
+  ex:vv-e2-42-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.096139 ; cd:authoredResource true .
+  ex:vv-e2-42-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.412324 ; cd:authoredResource true .
+  ex:vv-g42 a cd:ChartGroup ; cd:position 41 ; skos:prefLabel "42"@en ; cd:groupXValue 42.0 ; cd:usesDataset ex:vv-d42 ; cd:authoredResource true .
+  ex:vv-d43 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 43; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-43-1, ex:vv-e2-43-2, ex:vv-e2-43-3, ex:vv-e2-43-4, ex:vv-e2-43-5 ; cd:authoredResource true .
+  ex:vv-e2-43-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.120159 ; cd:authoredResource true .
+  ex:vv-e2-43-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.312685 ; cd:authoredResource true .
+  ex:vv-e2-43-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.807660 ; cd:authoredResource true .
+  ex:vv-e2-43-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.244931 ; cd:authoredResource true .
+  ex:vv-e2-43-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.986301 ; cd:authoredResource true .
+  ex:vv-g43 a cd:ChartGroup ; cd:position 42 ; skos:prefLabel "43"@en ; cd:groupXValue 43.0 ; cd:usesDataset ex:vv-d43 ; cd:authoredResource true .
+  ex:vv-d44 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 44; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-44-1, ex:vv-e2-44-2, ex:vv-e2-44-3, ex:vv-e2-44-4, ex:vv-e2-44-5 ; cd:authoredResource true .
+  ex:vv-e2-44-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.915144 ; cd:authoredResource true .
+  ex:vv-e2-44-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.391043 ; cd:authoredResource true .
+  ex:vv-e2-44-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.220899 ; cd:authoredResource true .
+  ex:vv-e2-44-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.493236 ; cd:authoredResource true .
+  ex:vv-e2-44-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.000165 ; cd:authoredResource true .
+  ex:vv-g44 a cd:ChartGroup ; cd:position 43 ; skos:prefLabel "44"@en ; cd:groupXValue 44.0 ; cd:usesDataset ex:vv-d44 ; cd:authoredResource true .
+  ex:vv-d45 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 45; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-45-1, ex:vv-e2-45-2, ex:vv-e2-45-3, ex:vv-e2-45-4, ex:vv-e2-45-5 ; cd:authoredResource true .
+  ex:vv-e2-45-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.980896 ; cd:authoredResource true .
+  ex:vv-e2-45-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.091148 ; cd:authoredResource true .
+  ex:vv-e2-45-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.019653 ; cd:authoredResource true .
+  ex:vv-e2-45-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.817806 ; cd:authoredResource true .
+  ex:vv-e2-45-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.031849 ; cd:authoredResource true .
+  ex:vv-g45 a cd:ChartGroup ; cd:position 44 ; skos:prefLabel "45"@en ; cd:groupXValue 45.0 ; cd:usesDataset ex:vv-d45 ; cd:authoredResource true .
+  ex:vv-d46 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 46; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-46-1, ex:vv-e2-46-2, ex:vv-e2-46-3, ex:vv-e2-46-4, ex:vv-e2-46-5 ; cd:authoredResource true .
+  ex:vv-e2-46-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.853586 ; cd:authoredResource true .
+  ex:vv-e2-46-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.423621 ; cd:authoredResource true .
+  ex:vv-e2-46-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.940944 ; cd:authoredResource true .
+  ex:vv-e2-46-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.440113 ; cd:authoredResource true .
+  ex:vv-e2-46-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.674890 ; cd:authoredResource true .
+  ex:vv-g46 a cd:ChartGroup ; cd:position 45 ; skos:prefLabel "46"@en ; cd:groupXValue 46.0 ; cd:usesDataset ex:vv-d46 ; cd:authoredResource true .
+  ex:vv-d47 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 47; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-47-1, ex:vv-e2-47-2, ex:vv-e2-47-3, ex:vv-e2-47-4, ex:vv-e2-47-5 ; cd:authoredResource true .
+  ex:vv-e2-47-1 a cd:Observation ; cd:position 1 ; cd:numericValue 7.037785 ; cd:authoredResource true .
+  ex:vv-e2-47-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.831166 ; cd:authoredResource true .
+  ex:vv-e2-47-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.165946 ; cd:authoredResource true .
+  ex:vv-e2-47-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.074764 ; cd:authoredResource true .
+  ex:vv-e2-47-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.147968 ; cd:authoredResource true .
+  ex:vv-g47 a cd:ChartGroup ; cd:position 46 ; skos:prefLabel "47"@en ; cd:groupXValue 47.0 ; cd:usesDataset ex:vv-d47 ; cd:authoredResource true .
+  ex:vv-d48 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 48; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-48-1, ex:vv-e2-48-2, ex:vv-e2-48-3, ex:vv-e2-48-4, ex:vv-e2-48-5 ; cd:authoredResource true .
+  ex:vv-e2-48-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.720650 ; cd:authoredResource true .
+  ex:vv-e2-48-2 a cd:Observation ; cd:position 2 ; cd:numericValue 7.078166 ; cd:authoredResource true .
+  ex:vv-e2-48-3 a cd:Observation ; cd:position 3 ; cd:numericValue 7.349939 ; cd:authoredResource true .
+  ex:vv-e2-48-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.343722 ; cd:authoredResource true .
+  ex:vv-e2-48-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.750909 ; cd:authoredResource true .
+  ex:vv-g48 a cd:ChartGroup ; cd:position 47 ; skos:prefLabel "48"@en ; cd:groupXValue 48.0 ; cd:usesDataset ex:vv-d48 ; cd:authoredResource true .
+  ex:vv-d49 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 49; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-49-1, ex:vv-e2-49-2, ex:vv-e2-49-3, ex:vv-e2-49-4, ex:vv-e2-49-5 ; cd:authoredResource true .
+  ex:vv-e2-49-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.993685 ; cd:authoredResource true .
+  ex:vv-e2-49-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.067962 ; cd:authoredResource true .
+  ex:vv-e2-49-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.904987 ; cd:authoredResource true .
+  ex:vv-e2-49-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.982741 ; cd:authoredResource true .
+  ex:vv-e2-49-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.967150 ; cd:authoredResource true .
+  ex:vv-g49 a cd:ChartGroup ; cd:position 48 ; skos:prefLabel "49"@en ; cd:groupXValue 49.0 ; cd:usesDataset ex:vv-d49 ; cd:authoredResource true .
+  ex:vv-d50 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 50; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-50-1, ex:vv-e2-50-2, ex:vv-e2-50-3, ex:vv-e2-50-4, ex:vv-e2-50-5 ; cd:authoredResource true .
+  ex:vv-e2-50-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.457502 ; cd:authoredResource true .
+  ex:vv-e2-50-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.583228 ; cd:authoredResource true .
+  ex:vv-e2-50-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.812355 ; cd:authoredResource true .
+  ex:vv-e2-50-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.951559 ; cd:authoredResource true .
+  ex:vv-e2-50-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.923200 ; cd:authoredResource true .
+  ex:vv-g50 a cd:ChartGroup ; cd:position 49 ; skos:prefLabel "50"@en ; cd:groupXValue 50.0 ; cd:usesDataset ex:vv-d50 ; cd:authoredResource true .
+  ex:vv-d51 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 51; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-51-1, ex:vv-e2-51-2, ex:vv-e2-51-3, ex:vv-e2-51-4, ex:vv-e2-51-5 ; cd:authoredResource true .
+  ex:vv-e2-51-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.922010 ; cd:authoredResource true .
+  ex:vv-e2-51-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.502178 ; cd:authoredResource true .
+  ex:vv-e2-51-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.187788 ; cd:authoredResource true .
+  ex:vv-e2-51-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.555248 ; cd:authoredResource true .
+  ex:vv-e2-51-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.515449 ; cd:authoredResource true .
+  ex:vv-g51 a cd:ChartGroup ; cd:position 50 ; skos:prefLabel "51"@en ; cd:groupXValue 51.0 ; cd:usesDataset ex:vv-d51 ; cd:authoredResource true .
+  ex:vv-d52 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 52; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-52-1, ex:vv-e2-52-2, ex:vv-e2-52-3, ex:vv-e2-52-4, ex:vv-e2-52-5 ; cd:authoredResource true .
+  ex:vv-e2-52-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.520086 ; cd:authoredResource true .
+  ex:vv-e2-52-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.293249 ; cd:authoredResource true .
+  ex:vv-e2-52-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.441051 ; cd:authoredResource true .
+  ex:vv-e2-52-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.526586 ; cd:authoredResource true .
+  ex:vv-e2-52-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.318882 ; cd:authoredResource true .
+  ex:vv-g52 a cd:ChartGroup ; cd:position 51 ; skos:prefLabel "52"@en ; cd:groupXValue 52.0 ; cd:usesDataset ex:vv-d52 ; cd:authoredResource true .
+  ex:vv-d53 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 53; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-53-1, ex:vv-e2-53-2, ex:vv-e2-53-3, ex:vv-e2-53-4, ex:vv-e2-53-5 ; cd:authoredResource true .
+  ex:vv-e2-53-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.364739 ; cd:authoredResource true .
+  ex:vv-e2-53-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.566606 ; cd:authoredResource true .
+  ex:vv-e2-53-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.938174 ; cd:authoredResource true .
+  ex:vv-e2-53-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.585537 ; cd:authoredResource true .
+  ex:vv-e2-53-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.295532 ; cd:authoredResource true .
+  ex:vv-g53 a cd:ChartGroup ; cd:position 52 ; skos:prefLabel "53"@en ; cd:groupXValue 53.0 ; cd:usesDataset ex:vv-d53 ; cd:authoredResource true .
+  ex:vv-d54 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 54; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-54-1, ex:vv-e2-54-2, ex:vv-e2-54-3, ex:vv-e2-54-4, ex:vv-e2-54-5 ; cd:authoredResource true .
+  ex:vv-e2-54-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.042698 ; cd:authoredResource true .
+  ex:vv-e2-54-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.839800 ; cd:authoredResource true .
+  ex:vv-e2-54-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.253359 ; cd:authoredResource true .
+  ex:vv-e2-54-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.283720 ; cd:authoredResource true .
+  ex:vv-e2-54-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.142174 ; cd:authoredResource true .
+  ex:vv-g54 a cd:ChartGroup ; cd:position 53 ; skos:prefLabel "54"@en ; cd:groupXValue 54.0 ; cd:usesDataset ex:vv-d54 ; cd:authoredResource true .
+  ex:vv-d55 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 55; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-55-1, ex:vv-e2-55-2, ex:vv-e2-55-3, ex:vv-e2-55-4, ex:vv-e2-55-5 ; cd:authoredResource true .
+  ex:vv-e2-55-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.869060 ; cd:authoredResource true .
+  ex:vv-e2-55-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.786521 ; cd:authoredResource true .
+  ex:vv-e2-55-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.326982 ; cd:authoredResource true .
+  ex:vv-e2-55-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.947086 ; cd:authoredResource true .
+  ex:vv-e2-55-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.859379 ; cd:authoredResource true .
+  ex:vv-g55 a cd:ChartGroup ; cd:position 54 ; skos:prefLabel "55"@en ; cd:groupXValue 55.0 ; cd:usesDataset ex:vv-d55 ; cd:authoredResource true .
+  ex:vv-d56 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 56; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-56-1, ex:vv-e2-56-2, ex:vv-e2-56-3, ex:vv-e2-56-4, ex:vv-e2-56-5 ; cd:authoredResource true .
+  ex:vv-e2-56-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.272149 ; cd:authoredResource true .
+  ex:vv-e2-56-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.032446 ; cd:authoredResource true .
+  ex:vv-e2-56-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.663388 ; cd:authoredResource true .
+  ex:vv-e2-56-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.778557 ; cd:authoredResource true .
+  ex:vv-e2-56-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.351553 ; cd:authoredResource true .
+  ex:vv-g56 a cd:ChartGroup ; cd:position 55 ; skos:prefLabel "56"@en ; cd:groupXValue 56.0 ; cd:usesDataset ex:vv-d56 ; cd:authoredResource true .
+  ex:vv-d57 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 57; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-57-1, ex:vv-e2-57-2, ex:vv-e2-57-3, ex:vv-e2-57-4, ex:vv-e2-57-5 ; cd:authoredResource true .
+  ex:vv-e2-57-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.460160 ; cd:authoredResource true .
+  ex:vv-e2-57-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.150549 ; cd:authoredResource true .
+  ex:vv-e2-57-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.030379 ; cd:authoredResource true .
+  ex:vv-e2-57-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.323832 ; cd:authoredResource true .
+  ex:vv-e2-57-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.563264 ; cd:authoredResource true .
+  ex:vv-g57 a cd:ChartGroup ; cd:position 56 ; skos:prefLabel "57"@en ; cd:groupXValue 57.0 ; cd:usesDataset ex:vv-d57 ; cd:authoredResource true .
+  ex:vv-d58 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 58; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-58-1, ex:vv-e2-58-2, ex:vv-e2-58-3, ex:vv-e2-58-4, ex:vv-e2-58-5 ; cd:authoredResource true .
+  ex:vv-e2-58-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.287125 ; cd:authoredResource true .
+  ex:vv-e2-58-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.560289 ; cd:authoredResource true .
+  ex:vv-e2-58-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.154564 ; cd:authoredResource true .
+  ex:vv-e2-58-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.361410 ; cd:authoredResource true .
+  ex:vv-e2-58-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.385585 ; cd:authoredResource true .
+  ex:vv-g58 a cd:ChartGroup ; cd:position 57 ; skos:prefLabel "58"@en ; cd:groupXValue 58.0 ; cd:usesDataset ex:vv-d58 ; cd:authoredResource true .
+  ex:vv-d59 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 59; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-59-1, ex:vv-e2-59-2, ex:vv-e2-59-3, ex:vv-e2-59-4, ex:vv-e2-59-5 ; cd:authoredResource true .
+  ex:vv-e2-59-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.098327 ; cd:authoredResource true .
+  ex:vv-e2-59-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.206038 ; cd:authoredResource true .
+  ex:vv-e2-59-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.256023 ; cd:authoredResource true .
+  ex:vv-e2-59-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.302365 ; cd:authoredResource true .
+  ex:vv-e2-59-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.597453 ; cd:authoredResource true .
+  ex:vv-g59 a cd:ChartGroup ; cd:position 58 ; skos:prefLabel "59"@en ; cd:groupXValue 59.0 ; cd:usesDataset ex:vv-d59 ; cd:authoredResource true .
+  ex:vv-d60 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 60; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-60-1, ex:vv-e2-60-2, ex:vv-e2-60-3, ex:vv-e2-60-4, ex:vv-e2-60-5 ; cd:authoredResource true .
+  ex:vv-e2-60-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.661615 ; cd:authoredResource true .
+  ex:vv-e2-60-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.631580 ; cd:authoredResource true .
+  ex:vv-e2-60-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.356404 ; cd:authoredResource true .
+  ex:vv-e2-60-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.908419 ; cd:authoredResource true .
+  ex:vv-e2-60-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.695228 ; cd:authoredResource true .
+  ex:vv-g60 a cd:ChartGroup ; cd:position 59 ; skos:prefLabel "60"@en ; cd:groupXValue 60.0 ; cd:usesDataset ex:vv-d60 ; cd:authoredResource true .
+  ex:vv-d61 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 61; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-61-1, ex:vv-e2-61-2, ex:vv-e2-61-3, ex:vv-e2-61-4, ex:vv-e2-61-5 ; cd:authoredResource true .
+  ex:vv-e2-61-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.241463 ; cd:authoredResource true .
+  ex:vv-e2-61-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.238824 ; cd:authoredResource true .
+  ex:vv-e2-61-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.512435 ; cd:authoredResource true .
+  ex:vv-e2-61-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.466908 ; cd:authoredResource true .
+  ex:vv-e2-61-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.558344 ; cd:authoredResource true .
+  ex:vv-g61 a cd:ChartGroup ; cd:position 60 ; skos:prefLabel "61"@en ; cd:groupXValue 61.0 ; cd:usesDataset ex:vv-d61 ; cd:authoredResource true .
+  ex:vv-d62 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 62; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-62-1, ex:vv-e2-62-2, ex:vv-e2-62-3, ex:vv-e2-62-4, ex:vv-e2-62-5 ; cd:authoredResource true .
+  ex:vv-e2-62-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.208443 ; cd:authoredResource true .
+  ex:vv-e2-62-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.213314 ; cd:authoredResource true .
+  ex:vv-e2-62-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.236910 ; cd:authoredResource true .
+  ex:vv-e2-62-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.952192 ; cd:authoredResource true .
+  ex:vv-e2-62-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.839197 ; cd:authoredResource true .
+  ex:vv-g62 a cd:ChartGroup ; cd:position 61 ; skos:prefLabel "62"@en ; cd:groupXValue 62.0 ; cd:usesDataset ex:vv-d62 ; cd:authoredResource true .
+  ex:vv-d63 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 63; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-63-1, ex:vv-e2-63-2, ex:vv-e2-63-3, ex:vv-e2-63-4, ex:vv-e2-63-5 ; cd:authoredResource true .
+  ex:vv-e2-63-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.586005 ; cd:authoredResource true .
+  ex:vv-e2-63-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.337975 ; cd:authoredResource true .
+  ex:vv-e2-63-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.360969 ; cd:authoredResource true .
+  ex:vv-e2-63-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.948113 ; cd:authoredResource true .
+  ex:vv-e2-63-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.461741 ; cd:authoredResource true .
+  ex:vv-g63 a cd:ChartGroup ; cd:position 62 ; skos:prefLabel "63"@en ; cd:groupXValue 63.0 ; cd:usesDataset ex:vv-d63 ; cd:authoredResource true .
+  ex:vv-d64 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 64; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-64-1, ex:vv-e2-64-2, ex:vv-e2-64-3, ex:vv-e2-64-4, ex:vv-e2-64-5 ; cd:authoredResource true .
+  ex:vv-e2-64-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.143933 ; cd:authoredResource true .
+  ex:vv-e2-64-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.271825 ; cd:authoredResource true .
+  ex:vv-e2-64-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.014521 ; cd:authoredResource true .
+  ex:vv-e2-64-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.572458 ; cd:authoredResource true .
+  ex:vv-e2-64-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.239493 ; cd:authoredResource true .
+  ex:vv-g64 a cd:ChartGroup ; cd:position 63 ; skos:prefLabel "64"@en ; cd:groupXValue 64.0 ; cd:usesDataset ex:vv-d64 ; cd:authoredResource true .
+  ex:vv-d65 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 65; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-65-1, ex:vv-e2-65-2, ex:vv-e2-65-3, ex:vv-e2-65-4, ex:vv-e2-65-5 ; cd:authoredResource true .
+  ex:vv-e2-65-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.881945 ; cd:authoredResource true .
+  ex:vv-e2-65-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.369295 ; cd:authoredResource true .
+  ex:vv-e2-65-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.605060 ; cd:authoredResource true .
+  ex:vv-e2-65-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.762495 ; cd:authoredResource true .
+  ex:vv-e2-65-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.229302 ; cd:authoredResource true .
+  ex:vv-g65 a cd:ChartGroup ; cd:position 64 ; skos:prefLabel "65"@en ; cd:groupXValue 65.0 ; cd:usesDataset ex:vv-d65 ; cd:authoredResource true .
+  ex:vv-d66 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 66; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-66-1, ex:vv-e2-66-2, ex:vv-e2-66-3, ex:vv-e2-66-4, ex:vv-e2-66-5 ; cd:authoredResource true .
+  ex:vv-e2-66-1 a cd:Observation ; cd:position 1 ; cd:numericValue 7.300033 ; cd:authoredResource true .
+  ex:vv-e2-66-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.620345 ; cd:authoredResource true .
+  ex:vv-e2-66-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.259243 ; cd:authoredResource true .
+  ex:vv-e2-66-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.163644 ; cd:authoredResource true .
+  ex:vv-e2-66-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.177229 ; cd:authoredResource true .
+  ex:vv-g66 a cd:ChartGroup ; cd:position 65 ; skos:prefLabel "66"@en ; cd:groupXValue 66.0 ; cd:usesDataset ex:vv-d66 ; cd:authoredResource true .
+  ex:vv-d67 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 67; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-67-1, ex:vv-e2-67-2, ex:vv-e2-67-3, ex:vv-e2-67-4, ex:vv-e2-67-5 ; cd:authoredResource true .
+  ex:vv-e2-67-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.350326 ; cd:authoredResource true .
+  ex:vv-e2-67-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.779742 ; cd:authoredResource true .
+  ex:vv-e2-67-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.793058 ; cd:authoredResource true .
+  ex:vv-e2-67-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.764393 ; cd:authoredResource true .
+  ex:vv-e2-67-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.516791 ; cd:authoredResource true .
+  ex:vv-g67 a cd:ChartGroup ; cd:position 66 ; skos:prefLabel "67"@en ; cd:groupXValue 67.0 ; cd:usesDataset ex:vv-d67 ; cd:authoredResource true .
+  ex:vv-d68 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 68; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-68-1, ex:vv-e2-68-2, ex:vv-e2-68-3, ex:vv-e2-68-4, ex:vv-e2-68-5 ; cd:authoredResource true .
+  ex:vv-e2-68-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.822940 ; cd:authoredResource true .
+  ex:vv-e2-68-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.129969 ; cd:authoredResource true .
+  ex:vv-e2-68-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.305699 ; cd:authoredResource true .
+  ex:vv-e2-68-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.786816 ; cd:authoredResource true .
+  ex:vv-e2-68-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.469294 ; cd:authoredResource true .
+  ex:vv-g68 a cd:ChartGroup ; cd:position 67 ; skos:prefLabel "68"@en ; cd:groupXValue 68.0 ; cd:usesDataset ex:vv-d68 ; cd:authoredResource true .
+  ex:vv-d69 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 69; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-69-1, ex:vv-e2-69-2, ex:vv-e2-69-3, ex:vv-e2-69-4, ex:vv-e2-69-5 ; cd:authoredResource true .
+  ex:vv-e2-69-1 a cd:Observation ; cd:position 1 ; cd:numericValue 7.060752 ; cd:authoredResource true .
+  ex:vv-e2-69-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.474778 ; cd:authoredResource true .
+  ex:vv-e2-69-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.994758 ; cd:authoredResource true .
+  ex:vv-e2-69-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.598865 ; cd:authoredResource true .
+  ex:vv-e2-69-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.405260 ; cd:authoredResource true .
+  ex:vv-g69 a cd:ChartGroup ; cd:position 68 ; skos:prefLabel "69"@en ; cd:groupXValue 69.0 ; cd:usesDataset ex:vv-d69 ; cd:authoredResource true .
+  ex:vv-d70 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 70; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-70-1, ex:vv-e2-70-2, ex:vv-e2-70-3, ex:vv-e2-70-4, ex:vv-e2-70-5 ; cd:authoredResource true .
+  ex:vv-e2-70-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.357600 ; cd:authoredResource true .
+  ex:vv-e2-70-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.796253 ; cd:authoredResource true .
+  ex:vv-e2-70-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.666927 ; cd:authoredResource true .
+  ex:vv-e2-70-4 a cd:Observation ; cd:position 4 ; cd:numericValue 2.266046 ; cd:authoredResource true .
+  ex:vv-e2-70-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.703291 ; cd:authoredResource true .
+  ex:vv-g70 a cd:ChartGroup ; cd:position 69 ; skos:prefLabel "70"@en ; cd:groupXValue 70.0 ; cd:usesDataset ex:vv-d70 ; cd:authoredResource true .
+  ex:vv-d71 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 71; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-71-1, ex:vv-e2-71-2, ex:vv-e2-71-3, ex:vv-e2-71-4, ex:vv-e2-71-5 ; cd:authoredResource true .
+  ex:vv-e2-71-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.492682 ; cd:authoredResource true .
+  ex:vv-e2-71-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.675511 ; cd:authoredResource true .
+  ex:vv-e2-71-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.020338 ; cd:authoredResource true .
+  ex:vv-e2-71-4 a cd:Observation ; cd:position 4 ; cd:numericValue 6.767573 ; cd:authoredResource true .
+  ex:vv-e2-71-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.777770 ; cd:authoredResource true .
+  ex:vv-g71 a cd:ChartGroup ; cd:position 70 ; skos:prefLabel "71"@en ; cd:groupXValue 71.0 ; cd:usesDataset ex:vv-d71 ; cd:authoredResource true .
+  ex:vv-d72 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 72; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-72-1, ex:vv-e2-72-2, ex:vv-e2-72-3, ex:vv-e2-72-4, ex:vv-e2-72-5 ; cd:authoredResource true .
+  ex:vv-e2-72-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.291411 ; cd:authoredResource true .
+  ex:vv-e2-72-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.403600 ; cd:authoredResource true .
+  ex:vv-e2-72-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.782335 ; cd:authoredResource true .
+  ex:vv-e2-72-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.704514 ; cd:authoredResource true .
+  ex:vv-e2-72-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.438946 ; cd:authoredResource true .
+  ex:vv-g72 a cd:ChartGroup ; cd:position 71 ; skos:prefLabel "72"@en ; cd:groupXValue 72.0 ; cd:usesDataset ex:vv-d72 ; cd:authoredResource true .
+  ex:vv-d73 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 73; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-73-1, ex:vv-e2-73-2, ex:vv-e2-73-3, ex:vv-e2-73-4, ex:vv-e2-73-5 ; cd:authoredResource true .
+  ex:vv-e2-73-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.927619 ; cd:authoredResource true .
+  ex:vv-e2-73-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.187169 ; cd:authoredResource true .
+  ex:vv-e2-73-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.349808 ; cd:authoredResource true .
+  ex:vv-e2-73-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.389313 ; cd:authoredResource true .
+  ex:vv-e2-73-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.756802 ; cd:authoredResource true .
+  ex:vv-g73 a cd:ChartGroup ; cd:position 72 ; skos:prefLabel "73"@en ; cd:groupXValue 73.0 ; cd:usesDataset ex:vv-d73 ; cd:authoredResource true .
+  ex:vv-d74 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 74; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-74-1, ex:vv-e2-74-2, ex:vv-e2-74-3, ex:vv-e2-74-4, ex:vv-e2-74-5 ; cd:authoredResource true .
+  ex:vv-e2-74-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.540090 ; cd:authoredResource true .
+  ex:vv-e2-74-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.009864 ; cd:authoredResource true .
+  ex:vv-e2-74-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.502594 ; cd:authoredResource true .
+  ex:vv-e2-74-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.800107 ; cd:authoredResource true .
+  ex:vv-e2-74-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.265672 ; cd:authoredResource true .
+  ex:vv-g74 a cd:ChartGroup ; cd:position 73 ; skos:prefLabel "74"@en ; cd:groupXValue 74.0 ; cd:usesDataset ex:vv-d74 ; cd:authoredResource true .
+  ex:vv-d75 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 75; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-75-1, ex:vv-e2-75-2, ex:vv-e2-75-3, ex:vv-e2-75-4, ex:vv-e2-75-5 ; cd:authoredResource true .
+  ex:vv-e2-75-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.388294 ; cd:authoredResource true .
+  ex:vv-e2-75-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.757728 ; cd:authoredResource true .
+  ex:vv-e2-75-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.970109 ; cd:authoredResource true .
+  ex:vv-e2-75-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.839959 ; cd:authoredResource true .
+  ex:vv-e2-75-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.888840 ; cd:authoredResource true .
+  ex:vv-g75 a cd:ChartGroup ; cd:position 74 ; skos:prefLabel "75"@en ; cd:groupXValue 75.0 ; cd:usesDataset ex:vv-d75 ; cd:authoredResource true .
+  ex:vv-d76 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 76; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-76-1, ex:vv-e2-76-2, ex:vv-e2-76-3, ex:vv-e2-76-4, ex:vv-e2-76-5 ; cd:authoredResource true .
+  ex:vv-e2-76-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.070753 ; cd:authoredResource true .
+  ex:vv-e2-76-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.514920 ; cd:authoredResource true .
+  ex:vv-e2-76-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.678752 ; cd:authoredResource true .
+  ex:vv-e2-76-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.602642 ; cd:authoredResource true .
+  ex:vv-e2-76-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.484972 ; cd:authoredResource true .
+  ex:vv-g76 a cd:ChartGroup ; cd:position 75 ; skos:prefLabel "76"@en ; cd:groupXValue 76.0 ; cd:usesDataset ex:vv-d76 ; cd:authoredResource true .
+  ex:vv-d77 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 77; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-77-1, ex:vv-e2-77-2, ex:vv-e2-77-3, ex:vv-e2-77-4, ex:vv-e2-77-5 ; cd:authoredResource true .
+  ex:vv-e2-77-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.534366 ; cd:authoredResource true .
+  ex:vv-e2-77-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.235880 ; cd:authoredResource true .
+  ex:vv-e2-77-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.861867 ; cd:authoredResource true .
+  ex:vv-e2-77-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.022457 ; cd:authoredResource true .
+  ex:vv-e2-77-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.363467 ; cd:authoredResource true .
+  ex:vv-g77 a cd:ChartGroup ; cd:position 76 ; skos:prefLabel "77"@en ; cd:groupXValue 77.0 ; cd:usesDataset ex:vv-d77 ; cd:authoredResource true .
+  ex:vv-d78 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 78; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-78-1, ex:vv-e2-78-2, ex:vv-e2-78-3, ex:vv-e2-78-4, ex:vv-e2-78-5 ; cd:authoredResource true .
+  ex:vv-e2-78-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.405290 ; cd:authoredResource true .
+  ex:vv-e2-78-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.643221 ; cd:authoredResource true .
+  ex:vv-e2-78-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.904338 ; cd:authoredResource true .
+  ex:vv-e2-78-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.591305 ; cd:authoredResource true .
+  ex:vv-e2-78-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.629610 ; cd:authoredResource true .
+  ex:vv-g78 a cd:ChartGroup ; cd:position 77 ; skos:prefLabel "78"@en ; cd:groupXValue 78.0 ; cd:usesDataset ex:vv-d78 ; cd:authoredResource true .
+  ex:vv-d79 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 79; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-79-1, ex:vv-e2-79-2, ex:vv-e2-79-3, ex:vv-e2-79-4, ex:vv-e2-79-5 ; cd:authoredResource true .
+  ex:vv-e2-79-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.890888 ; cd:authoredResource true .
+  ex:vv-e2-79-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.035182 ; cd:authoredResource true .
+  ex:vv-e2-79-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.768192 ; cd:authoredResource true .
+  ex:vv-e2-79-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.948058 ; cd:authoredResource true .
+  ex:vv-e2-79-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.282882 ; cd:authoredResource true .
+  ex:vv-g79 a cd:ChartGroup ; cd:position 78 ; skos:prefLabel "79"@en ; cd:groupXValue 79.0 ; cd:usesDataset ex:vv-d79 ; cd:authoredResource true .
+  ex:vv-d80 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 80; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-80-1, ex:vv-e2-80-2, ex:vv-e2-80-3, ex:vv-e2-80-4, ex:vv-e2-80-5 ; cd:authoredResource true .
+  ex:vv-e2-80-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.684231 ; cd:authoredResource true .
+  ex:vv-e2-80-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.757146 ; cd:authoredResource true .
+  ex:vv-e2-80-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.961954 ; cd:authoredResource true .
+  ex:vv-e2-80-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.775906 ; cd:authoredResource true .
+  ex:vv-e2-80-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.450072 ; cd:authoredResource true .
+  ex:vv-g80 a cd:ChartGroup ; cd:position 79 ; skos:prefLabel "80"@en ; cd:groupXValue 80.0 ; cd:usesDataset ex:vv-d80 ; cd:authoredResource true .
+  ex:vv-d81 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 81; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-81-1, ex:vv-e2-81-2, ex:vv-e2-81-3, ex:vv-e2-81-4, ex:vv-e2-81-5 ; cd:authoredResource true .
+  ex:vv-e2-81-1 a cd:Observation ; cd:position 1 ; cd:numericValue 3.956650 ; cd:authoredResource true .
+  ex:vv-e2-81-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.648167 ; cd:authoredResource true .
+  ex:vv-e2-81-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.044065 ; cd:authoredResource true .
+  ex:vv-e2-81-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.478590 ; cd:authoredResource true .
+  ex:vv-e2-81-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.674727 ; cd:authoredResource true .
+  ex:vv-g81 a cd:ChartGroup ; cd:position 80 ; skos:prefLabel "81"@en ; cd:groupXValue 81.0 ; cd:usesDataset ex:vv-d81 ; cd:authoredResource true .
+  ex:vv-d82 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 82; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-82-1, ex:vv-e2-82-2, ex:vv-e2-82-3, ex:vv-e2-82-4, ex:vv-e2-82-5 ; cd:authoredResource true .
+  ex:vv-e2-82-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.420050 ; cd:authoredResource true .
+  ex:vv-e2-82-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.377834 ; cd:authoredResource true .
+  ex:vv-e2-82-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.710235 ; cd:authoredResource true .
+  ex:vv-e2-82-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.799601 ; cd:authoredResource true .
+  ex:vv-e2-82-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.775589 ; cd:authoredResource true .
+  ex:vv-g82 a cd:ChartGroup ; cd:position 81 ; skos:prefLabel "82"@en ; cd:groupXValue 82.0 ; cd:usesDataset ex:vv-d82 ; cd:authoredResource true .
+  ex:vv-d83 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 83; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-83-1, ex:vv-e2-83-2, ex:vv-e2-83-3, ex:vv-e2-83-4, ex:vv-e2-83-5 ; cd:authoredResource true .
+  ex:vv-e2-83-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.007110 ; cd:authoredResource true .
+  ex:vv-e2-83-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.960836 ; cd:authoredResource true .
+  ex:vv-e2-83-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.827460 ; cd:authoredResource true .
+  ex:vv-e2-83-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.160970 ; cd:authoredResource true .
+  ex:vv-e2-83-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.189918 ; cd:authoredResource true .
+  ex:vv-g83 a cd:ChartGroup ; cd:position 82 ; skos:prefLabel "83"@en ; cd:groupXValue 83.0 ; cd:usesDataset ex:vv-d83 ; cd:authoredResource true .
+  ex:vv-d84 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 84; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-84-1, ex:vv-e2-84-2, ex:vv-e2-84-3, ex:vv-e2-84-4, ex:vv-e2-84-5 ; cd:authoredResource true .
+  ex:vv-e2-84-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.360085 ; cd:authoredResource true .
+  ex:vv-e2-84-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.133947 ; cd:authoredResource true .
+  ex:vv-e2-84-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.790778 ; cd:authoredResource true .
+  ex:vv-e2-84-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.108436 ; cd:authoredResource true .
+  ex:vv-e2-84-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.907837 ; cd:authoredResource true .
+  ex:vv-g84 a cd:ChartGroup ; cd:position 83 ; skos:prefLabel "84"@en ; cd:groupXValue 84.0 ; cd:usesDataset ex:vv-d84 ; cd:authoredResource true .
+  ex:vv-d85 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 85; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-85-1, ex:vv-e2-85-2, ex:vv-e2-85-3, ex:vv-e2-85-4, ex:vv-e2-85-5 ; cd:authoredResource true .
+  ex:vv-e2-85-1 a cd:Observation ; cd:position 1 ; cd:numericValue 6.015108 ; cd:authoredResource true .
+  ex:vv-e2-85-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.797864 ; cd:authoredResource true .
+  ex:vv-e2-85-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.923716 ; cd:authoredResource true .
+  ex:vv-e2-85-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.565309 ; cd:authoredResource true .
+  ex:vv-e2-85-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.972858 ; cd:authoredResource true .
+  ex:vv-g85 a cd:ChartGroup ; cd:position 84 ; skos:prefLabel "85"@en ; cd:groupXValue 85.0 ; cd:usesDataset ex:vv-d85 ; cd:authoredResource true .
+  ex:vv-d86 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 86; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-86-1, ex:vv-e2-86-2, ex:vv-e2-86-3, ex:vv-e2-86-4, ex:vv-e2-86-5 ; cd:authoredResource true .
+  ex:vv-e2-86-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.743001 ; cd:authoredResource true .
+  ex:vv-e2-86-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.703091 ; cd:authoredResource true .
+  ex:vv-e2-86-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.861294 ; cd:authoredResource true .
+  ex:vv-e2-86-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.696038 ; cd:authoredResource true .
+  ex:vv-e2-86-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.247141 ; cd:authoredResource true .
+  ex:vv-g86 a cd:ChartGroup ; cd:position 85 ; skos:prefLabel "86"@en ; cd:groupXValue 86.0 ; cd:usesDataset ex:vv-d86 ; cd:authoredResource true .
+  ex:vv-d87 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 87; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-87-1, ex:vv-e2-87-2, ex:vv-e2-87-3, ex:vv-e2-87-4, ex:vv-e2-87-5 ; cd:authoredResource true .
+  ex:vv-e2-87-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.989617 ; cd:authoredResource true .
+  ex:vv-e2-87-2 a cd:Observation ; cd:position 2 ; cd:numericValue 6.487035 ; cd:authoredResource true .
+  ex:vv-e2-87-3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.322259 ; cd:authoredResource true .
+  ex:vv-e2-87-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.403267 ; cd:authoredResource true .
+  ex:vv-e2-87-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.264250 ; cd:authoredResource true .
+  ex:vv-g87 a cd:ChartGroup ; cd:position 86 ; skos:prefLabel "87"@en ; cd:groupXValue 87.0 ; cd:usesDataset ex:vv-d87 ; cd:authoredResource true .
+  ex:vv-d88 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 88; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-88-1, ex:vv-e2-88-2, ex:vv-e2-88-3, ex:vv-e2-88-4, ex:vv-e2-88-5 ; cd:authoredResource true .
+  ex:vv-e2-88-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.787752 ; cd:authoredResource true .
+  ex:vv-e2-88-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.732831 ; cd:authoredResource true .
+  ex:vv-e2-88-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.894492 ; cd:authoredResource true .
+  ex:vv-e2-88-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.814837 ; cd:authoredResource true .
+  ex:vv-e2-88-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.384335 ; cd:authoredResource true .
+  ex:vv-g88 a cd:ChartGroup ; cd:position 87 ; skos:prefLabel "88"@en ; cd:groupXValue 88.0 ; cd:usesDataset ex:vv-d88 ; cd:authoredResource true .
+  ex:vv-d89 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 89; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-89-1, ex:vv-e2-89-2, ex:vv-e2-89-3, ex:vv-e2-89-4, ex:vv-e2-89-5 ; cd:authoredResource true .
+  ex:vv-e2-89-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.235635 ; cd:authoredResource true .
+  ex:vv-e2-89-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.952536 ; cd:authoredResource true .
+  ex:vv-e2-89-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.163239 ; cd:authoredResource true .
+  ex:vv-e2-89-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.845489 ; cd:authoredResource true .
+  ex:vv-e2-89-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.706804 ; cd:authoredResource true .
+  ex:vv-g89 a cd:ChartGroup ; cd:position 88 ; skos:prefLabel "89"@en ; cd:groupXValue 89.0 ; cd:usesDataset ex:vv-d89 ; cd:authoredResource true .
+  ex:vv-d90 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 90; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-90-1, ex:vv-e2-90-2, ex:vv-e2-90-3, ex:vv-e2-90-4, ex:vv-e2-90-5 ; cd:authoredResource true .
+  ex:vv-e2-90-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.252273 ; cd:authoredResource true .
+  ex:vv-e2-90-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.964080 ; cd:authoredResource true .
+  ex:vv-e2-90-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.466037 ; cd:authoredResource true .
+  ex:vv-e2-90-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.309678 ; cd:authoredResource true .
+  ex:vv-e2-90-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.071299 ; cd:authoredResource true .
+  ex:vv-g90 a cd:ChartGroup ; cd:position 89 ; skos:prefLabel "90"@en ; cd:groupXValue 90.0 ; cd:usesDataset ex:vv-d90 ; cd:authoredResource true .
+  ex:vv-d91 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 91; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-91-1, ex:vv-e2-91-2, ex:vv-e2-91-3, ex:vv-e2-91-4, ex:vv-e2-91-5 ; cd:authoredResource true .
+  ex:vv-e2-91-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.490906 ; cd:authoredResource true .
+  ex:vv-e2-91-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.669205 ; cd:authoredResource true .
+  ex:vv-e2-91-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.622283 ; cd:authoredResource true .
+  ex:vv-e2-91-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.136582 ; cd:authoredResource true .
+  ex:vv-e2-91-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.663477 ; cd:authoredResource true .
+  ex:vv-g91 a cd:ChartGroup ; cd:position 90 ; skos:prefLabel "91"@en ; cd:groupXValue 91.0 ; cd:usesDataset ex:vv-d91 ; cd:authoredResource true .
+  ex:vv-d92 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 92; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-92-1, ex:vv-e2-92-2, ex:vv-e2-92-3, ex:vv-e2-92-4, ex:vv-e2-92-5 ; cd:authoredResource true .
+  ex:vv-e2-92-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.700914 ; cd:authoredResource true .
+  ex:vv-e2-92-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.115915 ; cd:authoredResource true .
+  ex:vv-e2-92-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.091187 ; cd:authoredResource true .
+  ex:vv-e2-92-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.577995 ; cd:authoredResource true .
+  ex:vv-e2-92-5 a cd:Observation ; cd:position 5 ; cd:numericValue 6.058813 ; cd:authoredResource true .
+  ex:vv-g92 a cd:ChartGroup ; cd:position 91 ; skos:prefLabel "92"@en ; cd:groupXValue 92.0 ; cd:usesDataset ex:vv-d92 ; cd:authoredResource true .
+  ex:vv-d93 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 93; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-93-1, ex:vv-e2-93-2, ex:vv-e2-93-3, ex:vv-e2-93-4, ex:vv-e2-93-5 ; cd:authoredResource true .
+  ex:vv-e2-93-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.424615 ; cd:authoredResource true .
+  ex:vv-e2-93-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.772841 ; cd:authoredResource true .
+  ex:vv-e2-93-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.870695 ; cd:authoredResource true .
+  ex:vv-e2-93-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.474786 ; cd:authoredResource true .
+  ex:vv-e2-93-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.043363 ; cd:authoredResource true .
+  ex:vv-g93 a cd:ChartGroup ; cd:position 92 ; skos:prefLabel "93"@en ; cd:groupXValue 93.0 ; cd:usesDataset ex:vv-d93 ; cd:authoredResource true .
+  ex:vv-d94 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 94; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-94-1, ex:vv-e2-94-2, ex:vv-e2-94-3, ex:vv-e2-94-4, ex:vv-e2-94-5 ; cd:authoredResource true .
+  ex:vv-e2-94-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.324950 ; cd:authoredResource true .
+  ex:vv-e2-94-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.788555 ; cd:authoredResource true .
+  ex:vv-e2-94-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.323639 ; cd:authoredResource true .
+  ex:vv-e2-94-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.380626 ; cd:authoredResource true .
+  ex:vv-e2-94-5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.661154 ; cd:authoredResource true .
+  ex:vv-g94 a cd:ChartGroup ; cd:position 93 ; skos:prefLabel "94"@en ; cd:groupXValue 94.0 ; cd:usesDataset ex:vv-d94 ; cd:authoredResource true .
+  ex:vv-d95 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 95; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-95-1, ex:vv-e2-95-2, ex:vv-e2-95-3, ex:vv-e2-95-4, ex:vv-e2-95-5 ; cd:authoredResource true .
+  ex:vv-e2-95-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.624557 ; cd:authoredResource true .
+  ex:vv-e2-95-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.670956 ; cd:authoredResource true .
+  ex:vv-e2-95-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.025906 ; cd:authoredResource true .
+  ex:vv-e2-95-4 a cd:Observation ; cd:position 4 ; cd:numericValue 3.679324 ; cd:authoredResource true .
+  ex:vv-e2-95-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.705892 ; cd:authoredResource true .
+  ex:vv-g95 a cd:ChartGroup ; cd:position 94 ; skos:prefLabel "95"@en ; cd:groupXValue 95.0 ; cd:usesDataset ex:vv-d95 ; cd:authoredResource true .
+  ex:vv-d96 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 96; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-96-1, ex:vv-e2-96-2, ex:vv-e2-96-3, ex:vv-e2-96-4, ex:vv-e2-96-5 ; cd:authoredResource true .
+  ex:vv-e2-96-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.327943 ; cd:authoredResource true .
+  ex:vv-e2-96-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.689130 ; cd:authoredResource true .
+  ex:vv-e2-96-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.077556 ; cd:authoredResource true .
+  ex:vv-e2-96-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.674572 ; cd:authoredResource true .
+  ex:vv-e2-96-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.104127 ; cd:authoredResource true .
+  ex:vv-g96 a cd:ChartGroup ; cd:position 95 ; skos:prefLabel "96"@en ; cd:groupXValue 96.0 ; cd:usesDataset ex:vv-d96 ; cd:authoredResource true .
+  ex:vv-d97 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 97; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-97-1, ex:vv-e2-97-2, ex:vv-e2-97-3, ex:vv-e2-97-4, ex:vv-e2-97-5 ; cd:authoredResource true .
+  ex:vv-e2-97-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.349649 ; cd:authoredResource true .
+  ex:vv-e2-97-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.285370 ; cd:authoredResource true .
+  ex:vv-e2-97-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.405202 ; cd:authoredResource true .
+  ex:vv-e2-97-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.045023 ; cd:authoredResource true .
+  ex:vv-e2-97-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.662717 ; cd:authoredResource true .
+  ex:vv-g97 a cd:ChartGroup ; cd:position 96 ; skos:prefLabel "97"@en ; cd:groupXValue 97.0 ; cd:usesDataset ex:vv-d97 ; cd:authoredResource true .
+  ex:vv-d98 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 98; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-98-1, ex:vv-e2-98-2, ex:vv-e2-98-3, ex:vv-e2-98-4, ex:vv-e2-98-5 ; cd:authoredResource true .
+  ex:vv-e2-98-1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.494297 ; cd:authoredResource true .
+  ex:vv-e2-98-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.946586 ; cd:authoredResource true .
+  ex:vv-e2-98-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.502199 ; cd:authoredResource true .
+  ex:vv-e2-98-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.536990 ; cd:authoredResource true .
+  ex:vv-e2-98-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.082822 ; cd:authoredResource true .
+  ex:vv-g98 a cd:ChartGroup ; cd:position 97 ; skos:prefLabel "98"@en ; cd:groupXValue 98.0 ; cd:usesDataset ex:vv-d98 ; cd:authoredResource true .
+  ex:vv-d99 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 99; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-99-1, ex:vv-e2-99-2, ex:vv-e2-99-3, ex:vv-e2-99-4, ex:vv-e2-99-5 ; cd:authoredResource true .
+  ex:vv-e2-99-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.794766 ; cd:authoredResource true .
+  ex:vv-e2-99-2 a cd:Observation ; cd:position 2 ; cd:numericValue 4.806282 ; cd:authoredResource true .
+  ex:vv-e2-99-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.742786 ; cd:authoredResource true .
+  ex:vv-e2-99-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.315778 ; cd:authoredResource true .
+  ex:vv-e2-99-5 a cd:Observation ; cd:position 5 ; cd:numericValue 4.435753 ; cd:authoredResource true .
+  ex:vv-g99 a cd:ChartGroup ; cd:position 98 ; skos:prefLabel "99"@en ; cd:groupXValue 99.0 ; cd:usesDataset ex:vv-d99 ; cd:authoredResource true .
+  ex:vv-d100 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-exp2-code ; dct:description "Seed 1902; five independent normal samples of size 100; MSD about each fitted mean; copied from executed R to six decimals."@en ; cd:hasObservation ex:vv-e2-100-1, ex:vv-e2-100-2, ex:vv-e2-100-3, ex:vv-e2-100-4, ex:vv-e2-100-5 ; cd:authoredResource true .
+  ex:vv-e2-100-1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.224817 ; cd:authoredResource true .
+  ex:vv-e2-100-2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.121354 ; cd:authoredResource true .
+  ex:vv-e2-100-3 a cd:Observation ; cd:position 3 ; cd:numericValue 4.694139 ; cd:authoredResource true .
+  ex:vv-e2-100-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.673212 ; cd:authoredResource true .
+  ex:vv-e2-100-5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.779482 ; cd:authoredResource true .
+  ex:vv-g100 a cd:ChartGroup ; cd:position 99 ; skos:prefLabel "100"@en ; cd:groupXValue 100.0 ; cd:usesDataset ex:vv-d100 ; cd:authoredResource true .
+  ex:vv-reference a cd:StatisticalResult ; cd:numericValue 5.0 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:population-variance ; dct:source ex:vs-model ; cd:usesDataset ex:vv-d2, ex:vv-d3, ex:vv-d4, ex:vv-d5, ex:vv-d6, ex:vv-d7, ex:vv-d8, ex:vv-d9, ex:vv-d10, ex:vv-d11, ex:vv-d12, ex:vv-d13, ex:vv-d14, ex:vv-d15, ex:vv-d16, ex:vv-d17, ex:vv-d18, ex:vv-d19, ex:vv-d20, ex:vv-d21, ex:vv-d22, ex:vv-d23, ex:vv-d24, ex:vv-d25, ex:vv-d26, ex:vv-d27, ex:vv-d28, ex:vv-d29, ex:vv-d30, ex:vv-d31, ex:vv-d32, ex:vv-d33, ex:vv-d34, ex:vv-d35, ex:vv-d36, ex:vv-d37, ex:vv-d38, ex:vv-d39, ex:vv-d40, ex:vv-d41, ex:vv-d42, ex:vv-d43, ex:vv-d44, ex:vv-d45, ex:vv-d46, ex:vv-d47, ex:vv-d48, ex:vv-d49, ex:vv-d50, ex:vv-d51, ex:vv-d52, ex:vv-d53, ex:vv-d54, ex:vv-d55, ex:vv-d56, ex:vv-d57, ex:vv-d58, ex:vv-d59, ex:vv-d60, ex:vv-d61, ex:vv-d62, ex:vv-d63, ex:vv-d64, ex:vv-d65, ex:vv-d66, ex:vv-d67, ex:vv-d68, ex:vv-d69, ex:vv-d70, ex:vv-d71, ex:vv-d72, ex:vv-d73, ex:vv-d74, ex:vv-d75, ex:vv-d76, ex:vv-d77, ex:vv-d78, ex:vv-d79, ex:vv-d80, ex:vv-d81, ex:vv-d82, ex:vv-d83, ex:vv-d84, ex:vv-d85, ex:vv-d86, ex:vv-d87, ex:vv-d88, ex:vv-d89, ex:vv-d90, ex:vv-d91, ex:vv-d92, ex:vv-d93, ex:vv-d94, ex:vv-d95, ex:vv-d96, ex:vv-d97, ex:vv-d98, ex:vv-d99, ex:vv-d100 ; cd:authoredResource true .
+  ex:vv-ref-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Population variance"@en ; cd:referenceResult ex:vv-reference ; cd:authoredResource true .
+  ex:vv-scatter a cd:ChartDefinition ; skos:prefLabel "Five Samples at Every Size"@en ; cd:body "495 independent samples; seed 1902. Each point is one MSD, not a connected trajectory."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Sample size n"@en ; cd:yAxisLabel "MSD"@en ; cd:yAxisUnit "(mg/L)²" ; cd:numericXAxis true ; cd:yAxisMinimum 0.0 ; cd:markerRadius 3.5 ; cd:markerOpacity 0.65 ; cd:observationLabel "One sample" ; cd:hasChartAnnotation ex:vv-ref-line ; cd:hasChartGroup ex:vv-g2, ex:vv-g3, ex:vv-g4, ex:vv-g5, ex:vv-g6, ex:vv-g7, ex:vv-g8, ex:vv-g9, ex:vv-g10, ex:vv-g11, ex:vv-g12, ex:vv-g13, ex:vv-g14, ex:vv-g15, ex:vv-g16, ex:vv-g17, ex:vv-g18, ex:vv-g19, ex:vv-g20, ex:vv-g21, ex:vv-g22, ex:vv-g23, ex:vv-g24, ex:vv-g25, ex:vv-g26, ex:vv-g27, ex:vv-g28, ex:vv-g29, ex:vv-g30, ex:vv-g31, ex:vv-g32, ex:vv-g33, ex:vv-g34, ex:vv-g35, ex:vv-g36, ex:vv-g37, ex:vv-g38, ex:vv-g39, ex:vv-g40, ex:vv-g41, ex:vv-g42, ex:vv-g43, ex:vv-g44, ex:vv-g45, ex:vv-g46, ex:vv-g47, ex:vv-g48, ex:vv-g49, ex:vv-g50, ex:vv-g51, ex:vv-g52, ex:vv-g53, ex:vv-g54, ex:vv-g55, ex:vv-g56, ex:vv-g57, ex:vv-g58, ex:vv-g59, ex:vv-g60, ex:vv-g61, ex:vv-g62, ex:vv-g63, ex:vv-g64, ex:vv-g65, ex:vv-g66, ex:vv-g67, ex:vv-g68, ex:vv-g69, ex:vv-g70, ex:vv-g71, ex:vv-g72, ex:vv-g73, ex:vv-g74, ex:vv-g75, ex:vv-g76, ex:vv-g77, ex:vv-g78, ex:vv-g79, ex:vv-g80, ex:vv-g81, ex:vv-g82, ex:vv-g83, ex:vv-g84, ex:vv-g85, ex:vv-g86, ex:vv-g87, ex:vv-g88, ex:vv-g89, ex:vv-g90, ex:vv-g91, ex:vv-g92, ex:vv-g93, ex:vv-g94, ex:vv-g95, ex:vv-g96, ex:vv-g97, ex:vv-g98, ex:vv-g99, ex:vv-g100 ; cd:authoredResource true .
+  ex:vv-mc-d2 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o2 ; cd:authoredResource true .
+  ex:vv-mc-o2 a cd:Observation ; cd:position 1 ; cd:numericValue 2.454306 ; cd:authoredResource true .
+  ex:vv-mc-g2 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "2"@en ; cd:groupXValue 2.0 ; cd:usesDataset ex:vv-mc-d2 ; cd:authoredResource true .
+  ex:vv-mc-d3 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o3 ; cd:authoredResource true .
+  ex:vv-mc-o3 a cd:Observation ; cd:position 1 ; cd:numericValue 3.368247 ; cd:authoredResource true .
+  ex:vv-mc-g3 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "3"@en ; cd:groupXValue 3.0 ; cd:usesDataset ex:vv-mc-d3 ; cd:authoredResource true .
+  ex:vv-mc-d5 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o5 ; cd:authoredResource true .
+  ex:vv-mc-o5 a cd:Observation ; cd:position 1 ; cd:numericValue 3.989123 ; cd:authoredResource true .
+  ex:vv-mc-g5 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "5"@en ; cd:groupXValue 5.0 ; cd:usesDataset ex:vv-mc-d5 ; cd:authoredResource true .
+  ex:vv-mc-d10 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o10 ; cd:authoredResource true .
+  ex:vv-mc-o10 a cd:Observation ; cd:position 1 ; cd:numericValue 4.476612 ; cd:authoredResource true .
+  ex:vv-mc-g10 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "10"@en ; cd:groupXValue 10.0 ; cd:usesDataset ex:vv-mc-d10 ; cd:authoredResource true .
+  ex:vv-mc-d25 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o25 ; cd:authoredResource true .
+  ex:vv-mc-o25 a cd:Observation ; cd:position 1 ; cd:numericValue 4.782485 ; cd:authoredResource true .
+  ex:vv-mc-g25 a cd:ChartGroup ; cd:position 5 ; skos:prefLabel "25"@en ; cd:groupXValue 25.0 ; cd:usesDataset ex:vv-mc-d25 ; cd:authoredResource true .
+  ex:vv-mc-d50 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o50 ; cd:authoredResource true .
+  ex:vv-mc-o50 a cd:Observation ; cd:position 1 ; cd:numericValue 4.925768 ; cd:authoredResource true .
+  ex:vv-mc-g50 a cd:ChartGroup ; cd:position 6 ; skos:prefLabel "50"@en ; cd:groupXValue 50.0 ; cd:usesDataset ex:vv-mc-d50 ; cd:authoredResource true .
+  ex:vv-mc-d100 a cd:Dataset ; cd:unit "(mg/L)²" ; dct:source ex:vs-mc-code ; cd:hasObservation ex:vv-mc-o100 ; cd:authoredResource true .
+  ex:vv-mc-o100 a cd:Observation ; cd:position 1 ; cd:numericValue 4.926258 ; cd:authoredResource true .
+  ex:vv-mc-g100 a cd:ChartGroup ; cd:position 7 ; skos:prefLabel "100"@en ; cd:groupXValue 100.0 ; cd:usesDataset ex:vv-mc-d100 ; cd:authoredResource true .
+  ex:vv-mc-reference a cd:StatisticalResult ; cd:numericValue 5.0 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:population-variance ; dct:source ex:vs-model ; cd:usesDataset ex:vv-mc-d2, ex:vv-mc-d3, ex:vv-mc-d5, ex:vv-mc-d10, ex:vv-mc-d25, ex:vv-mc-d50, ex:vv-mc-d100 ; cd:authoredResource true .
+  ex:vv-mc-ref-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Population variance"@en ; cd:referenceResult ex:vv-mc-reference ; cd:authoredResource true .
+  ex:vv-theory-2 a cd:Observation ; cd:position 1 ; cd:xValue 2.0 ; cd:numericValue 2.500000000000 ; cd:authoredResource true .
+  ex:vv-theory-3 a cd:Observation ; cd:position 2 ; cd:xValue 3.0 ; cd:numericValue 3.333333333333 ; cd:authoredResource true .
+  ex:vv-theory-4 a cd:Observation ; cd:position 3 ; cd:xValue 4.0 ; cd:numericValue 3.750000000000 ; cd:authoredResource true .
+  ex:vv-theory-5 a cd:Observation ; cd:position 4 ; cd:xValue 5.0 ; cd:numericValue 4.000000000000 ; cd:authoredResource true .
+  ex:vv-theory-6 a cd:Observation ; cd:position 5 ; cd:xValue 6.0 ; cd:numericValue 4.166666666667 ; cd:authoredResource true .
+  ex:vv-theory-7 a cd:Observation ; cd:position 6 ; cd:xValue 7.0 ; cd:numericValue 4.285714285714 ; cd:authoredResource true .
+  ex:vv-theory-8 a cd:Observation ; cd:position 7 ; cd:xValue 8.0 ; cd:numericValue 4.375000000000 ; cd:authoredResource true .
+  ex:vv-theory-9 a cd:Observation ; cd:position 8 ; cd:xValue 9.0 ; cd:numericValue 4.444444444444 ; cd:authoredResource true .
+  ex:vv-theory-10 a cd:Observation ; cd:position 9 ; cd:xValue 10.0 ; cd:numericValue 4.500000000000 ; cd:authoredResource true .
+  ex:vv-theory-11 a cd:Observation ; cd:position 10 ; cd:xValue 11.0 ; cd:numericValue 4.545454545455 ; cd:authoredResource true .
+  ex:vv-theory-12 a cd:Observation ; cd:position 11 ; cd:xValue 12.0 ; cd:numericValue 4.583333333333 ; cd:authoredResource true .
+  ex:vv-theory-13 a cd:Observation ; cd:position 12 ; cd:xValue 13.0 ; cd:numericValue 4.615384615385 ; cd:authoredResource true .
+  ex:vv-theory-14 a cd:Observation ; cd:position 13 ; cd:xValue 14.0 ; cd:numericValue 4.642857142857 ; cd:authoredResource true .
+  ex:vv-theory-15 a cd:Observation ; cd:position 14 ; cd:xValue 15.0 ; cd:numericValue 4.666666666667 ; cd:authoredResource true .
+  ex:vv-theory-16 a cd:Observation ; cd:position 15 ; cd:xValue 16.0 ; cd:numericValue 4.687500000000 ; cd:authoredResource true .
+  ex:vv-theory-17 a cd:Observation ; cd:position 16 ; cd:xValue 17.0 ; cd:numericValue 4.705882352941 ; cd:authoredResource true .
+  ex:vv-theory-18 a cd:Observation ; cd:position 17 ; cd:xValue 18.0 ; cd:numericValue 4.722222222222 ; cd:authoredResource true .
+  ex:vv-theory-19 a cd:Observation ; cd:position 18 ; cd:xValue 19.0 ; cd:numericValue 4.736842105263 ; cd:authoredResource true .
+  ex:vv-theory-20 a cd:Observation ; cd:position 19 ; cd:xValue 20.0 ; cd:numericValue 4.750000000000 ; cd:authoredResource true .
+  ex:vv-theory-21 a cd:Observation ; cd:position 20 ; cd:xValue 21.0 ; cd:numericValue 4.761904761905 ; cd:authoredResource true .
+  ex:vv-theory-22 a cd:Observation ; cd:position 21 ; cd:xValue 22.0 ; cd:numericValue 4.772727272727 ; cd:authoredResource true .
+  ex:vv-theory-23 a cd:Observation ; cd:position 22 ; cd:xValue 23.0 ; cd:numericValue 4.782608695652 ; cd:authoredResource true .
+  ex:vv-theory-24 a cd:Observation ; cd:position 23 ; cd:xValue 24.0 ; cd:numericValue 4.791666666667 ; cd:authoredResource true .
+  ex:vv-theory-25 a cd:Observation ; cd:position 24 ; cd:xValue 25.0 ; cd:numericValue 4.800000000000 ; cd:authoredResource true .
+  ex:vv-theory-26 a cd:Observation ; cd:position 25 ; cd:xValue 26.0 ; cd:numericValue 4.807692307692 ; cd:authoredResource true .
+  ex:vv-theory-27 a cd:Observation ; cd:position 26 ; cd:xValue 27.0 ; cd:numericValue 4.814814814815 ; cd:authoredResource true .
+  ex:vv-theory-28 a cd:Observation ; cd:position 27 ; cd:xValue 28.0 ; cd:numericValue 4.821428571429 ; cd:authoredResource true .
+  ex:vv-theory-29 a cd:Observation ; cd:position 28 ; cd:xValue 29.0 ; cd:numericValue 4.827586206897 ; cd:authoredResource true .
+  ex:vv-theory-30 a cd:Observation ; cd:position 29 ; cd:xValue 30.0 ; cd:numericValue 4.833333333333 ; cd:authoredResource true .
+  ex:vv-theory-31 a cd:Observation ; cd:position 30 ; cd:xValue 31.0 ; cd:numericValue 4.838709677419 ; cd:authoredResource true .
+  ex:vv-theory-32 a cd:Observation ; cd:position 31 ; cd:xValue 32.0 ; cd:numericValue 4.843750000000 ; cd:authoredResource true .
+  ex:vv-theory-33 a cd:Observation ; cd:position 32 ; cd:xValue 33.0 ; cd:numericValue 4.848484848485 ; cd:authoredResource true .
+  ex:vv-theory-34 a cd:Observation ; cd:position 33 ; cd:xValue 34.0 ; cd:numericValue 4.852941176471 ; cd:authoredResource true .
+  ex:vv-theory-35 a cd:Observation ; cd:position 34 ; cd:xValue 35.0 ; cd:numericValue 4.857142857143 ; cd:authoredResource true .
+  ex:vv-theory-36 a cd:Observation ; cd:position 35 ; cd:xValue 36.0 ; cd:numericValue 4.861111111111 ; cd:authoredResource true .
+  ex:vv-theory-37 a cd:Observation ; cd:position 36 ; cd:xValue 37.0 ; cd:numericValue 4.864864864865 ; cd:authoredResource true .
+  ex:vv-theory-38 a cd:Observation ; cd:position 37 ; cd:xValue 38.0 ; cd:numericValue 4.868421052632 ; cd:authoredResource true .
+  ex:vv-theory-39 a cd:Observation ; cd:position 38 ; cd:xValue 39.0 ; cd:numericValue 4.871794871795 ; cd:authoredResource true .
+  ex:vv-theory-40 a cd:Observation ; cd:position 39 ; cd:xValue 40.0 ; cd:numericValue 4.875000000000 ; cd:authoredResource true .
+  ex:vv-theory-41 a cd:Observation ; cd:position 40 ; cd:xValue 41.0 ; cd:numericValue 4.878048780488 ; cd:authoredResource true .
+  ex:vv-theory-42 a cd:Observation ; cd:position 41 ; cd:xValue 42.0 ; cd:numericValue 4.880952380952 ; cd:authoredResource true .
+  ex:vv-theory-43 a cd:Observation ; cd:position 42 ; cd:xValue 43.0 ; cd:numericValue 4.883720930233 ; cd:authoredResource true .
+  ex:vv-theory-44 a cd:Observation ; cd:position 43 ; cd:xValue 44.0 ; cd:numericValue 4.886363636364 ; cd:authoredResource true .
+  ex:vv-theory-45 a cd:Observation ; cd:position 44 ; cd:xValue 45.0 ; cd:numericValue 4.888888888889 ; cd:authoredResource true .
+  ex:vv-theory-46 a cd:Observation ; cd:position 45 ; cd:xValue 46.0 ; cd:numericValue 4.891304347826 ; cd:authoredResource true .
+  ex:vv-theory-47 a cd:Observation ; cd:position 46 ; cd:xValue 47.0 ; cd:numericValue 4.893617021277 ; cd:authoredResource true .
+  ex:vv-theory-48 a cd:Observation ; cd:position 47 ; cd:xValue 48.0 ; cd:numericValue 4.895833333333 ; cd:authoredResource true .
+  ex:vv-theory-49 a cd:Observation ; cd:position 48 ; cd:xValue 49.0 ; cd:numericValue 4.897959183673 ; cd:authoredResource true .
+  ex:vv-theory-50 a cd:Observation ; cd:position 49 ; cd:xValue 50.0 ; cd:numericValue 4.900000000000 ; cd:authoredResource true .
+  ex:vv-theory-51 a cd:Observation ; cd:position 50 ; cd:xValue 51.0 ; cd:numericValue 4.901960784314 ; cd:authoredResource true .
+  ex:vv-theory-52 a cd:Observation ; cd:position 51 ; cd:xValue 52.0 ; cd:numericValue 4.903846153846 ; cd:authoredResource true .
+  ex:vv-theory-53 a cd:Observation ; cd:position 52 ; cd:xValue 53.0 ; cd:numericValue 4.905660377358 ; cd:authoredResource true .
+  ex:vv-theory-54 a cd:Observation ; cd:position 53 ; cd:xValue 54.0 ; cd:numericValue 4.907407407407 ; cd:authoredResource true .
+  ex:vv-theory-55 a cd:Observation ; cd:position 54 ; cd:xValue 55.0 ; cd:numericValue 4.909090909091 ; cd:authoredResource true .
+  ex:vv-theory-56 a cd:Observation ; cd:position 55 ; cd:xValue 56.0 ; cd:numericValue 4.910714285714 ; cd:authoredResource true .
+  ex:vv-theory-57 a cd:Observation ; cd:position 56 ; cd:xValue 57.0 ; cd:numericValue 4.912280701754 ; cd:authoredResource true .
+  ex:vv-theory-58 a cd:Observation ; cd:position 57 ; cd:xValue 58.0 ; cd:numericValue 4.913793103448 ; cd:authoredResource true .
+  ex:vv-theory-59 a cd:Observation ; cd:position 58 ; cd:xValue 59.0 ; cd:numericValue 4.915254237288 ; cd:authoredResource true .
+  ex:vv-theory-60 a cd:Observation ; cd:position 59 ; cd:xValue 60.0 ; cd:numericValue 4.916666666667 ; cd:authoredResource true .
+  ex:vv-theory-61 a cd:Observation ; cd:position 60 ; cd:xValue 61.0 ; cd:numericValue 4.918032786885 ; cd:authoredResource true .
+  ex:vv-theory-62 a cd:Observation ; cd:position 61 ; cd:xValue 62.0 ; cd:numericValue 4.919354838710 ; cd:authoredResource true .
+  ex:vv-theory-63 a cd:Observation ; cd:position 62 ; cd:xValue 63.0 ; cd:numericValue 4.920634920635 ; cd:authoredResource true .
+  ex:vv-theory-64 a cd:Observation ; cd:position 63 ; cd:xValue 64.0 ; cd:numericValue 4.921875000000 ; cd:authoredResource true .
+  ex:vv-theory-65 a cd:Observation ; cd:position 64 ; cd:xValue 65.0 ; cd:numericValue 4.923076923077 ; cd:authoredResource true .
+  ex:vv-theory-66 a cd:Observation ; cd:position 65 ; cd:xValue 66.0 ; cd:numericValue 4.924242424242 ; cd:authoredResource true .
+  ex:vv-theory-67 a cd:Observation ; cd:position 66 ; cd:xValue 67.0 ; cd:numericValue 4.925373134328 ; cd:authoredResource true .
+  ex:vv-theory-68 a cd:Observation ; cd:position 67 ; cd:xValue 68.0 ; cd:numericValue 4.926470588235 ; cd:authoredResource true .
+  ex:vv-theory-69 a cd:Observation ; cd:position 68 ; cd:xValue 69.0 ; cd:numericValue 4.927536231884 ; cd:authoredResource true .
+  ex:vv-theory-70 a cd:Observation ; cd:position 69 ; cd:xValue 70.0 ; cd:numericValue 4.928571428571 ; cd:authoredResource true .
+  ex:vv-theory-71 a cd:Observation ; cd:position 70 ; cd:xValue 71.0 ; cd:numericValue 4.929577464789 ; cd:authoredResource true .
+  ex:vv-theory-72 a cd:Observation ; cd:position 71 ; cd:xValue 72.0 ; cd:numericValue 4.930555555556 ; cd:authoredResource true .
+  ex:vv-theory-73 a cd:Observation ; cd:position 72 ; cd:xValue 73.0 ; cd:numericValue 4.931506849315 ; cd:authoredResource true .
+  ex:vv-theory-74 a cd:Observation ; cd:position 73 ; cd:xValue 74.0 ; cd:numericValue 4.932432432432 ; cd:authoredResource true .
+  ex:vv-theory-75 a cd:Observation ; cd:position 74 ; cd:xValue 75.0 ; cd:numericValue 4.933333333333 ; cd:authoredResource true .
+  ex:vv-theory-76 a cd:Observation ; cd:position 75 ; cd:xValue 76.0 ; cd:numericValue 4.934210526316 ; cd:authoredResource true .
+  ex:vv-theory-77 a cd:Observation ; cd:position 76 ; cd:xValue 77.0 ; cd:numericValue 4.935064935065 ; cd:authoredResource true .
+  ex:vv-theory-78 a cd:Observation ; cd:position 77 ; cd:xValue 78.0 ; cd:numericValue 4.935897435897 ; cd:authoredResource true .
+  ex:vv-theory-79 a cd:Observation ; cd:position 78 ; cd:xValue 79.0 ; cd:numericValue 4.936708860759 ; cd:authoredResource true .
+  ex:vv-theory-80 a cd:Observation ; cd:position 79 ; cd:xValue 80.0 ; cd:numericValue 4.937500000000 ; cd:authoredResource true .
+  ex:vv-theory-81 a cd:Observation ; cd:position 80 ; cd:xValue 81.0 ; cd:numericValue 4.938271604938 ; cd:authoredResource true .
+  ex:vv-theory-82 a cd:Observation ; cd:position 81 ; cd:xValue 82.0 ; cd:numericValue 4.939024390244 ; cd:authoredResource true .
+  ex:vv-theory-83 a cd:Observation ; cd:position 82 ; cd:xValue 83.0 ; cd:numericValue 4.939759036145 ; cd:authoredResource true .
+  ex:vv-theory-84 a cd:Observation ; cd:position 83 ; cd:xValue 84.0 ; cd:numericValue 4.940476190476 ; cd:authoredResource true .
+  ex:vv-theory-85 a cd:Observation ; cd:position 84 ; cd:xValue 85.0 ; cd:numericValue 4.941176470588 ; cd:authoredResource true .
+  ex:vv-theory-86 a cd:Observation ; cd:position 85 ; cd:xValue 86.0 ; cd:numericValue 4.941860465116 ; cd:authoredResource true .
+  ex:vv-theory-87 a cd:Observation ; cd:position 86 ; cd:xValue 87.0 ; cd:numericValue 4.942528735632 ; cd:authoredResource true .
+  ex:vv-theory-88 a cd:Observation ; cd:position 87 ; cd:xValue 88.0 ; cd:numericValue 4.943181818182 ; cd:authoredResource true .
+  ex:vv-theory-89 a cd:Observation ; cd:position 88 ; cd:xValue 89.0 ; cd:numericValue 4.943820224719 ; cd:authoredResource true .
+  ex:vv-theory-90 a cd:Observation ; cd:position 89 ; cd:xValue 90.0 ; cd:numericValue 4.944444444444 ; cd:authoredResource true .
+  ex:vv-theory-91 a cd:Observation ; cd:position 90 ; cd:xValue 91.0 ; cd:numericValue 4.945054945055 ; cd:authoredResource true .
+  ex:vv-theory-92 a cd:Observation ; cd:position 91 ; cd:xValue 92.0 ; cd:numericValue 4.945652173913 ; cd:authoredResource true .
+  ex:vv-theory-93 a cd:Observation ; cd:position 92 ; cd:xValue 93.0 ; cd:numericValue 4.946236559140 ; cd:authoredResource true .
+  ex:vv-theory-94 a cd:Observation ; cd:position 93 ; cd:xValue 94.0 ; cd:numericValue 4.946808510638 ; cd:authoredResource true .
+  ex:vv-theory-95 a cd:Observation ; cd:position 94 ; cd:xValue 95.0 ; cd:numericValue 4.947368421053 ; cd:authoredResource true .
+  ex:vv-theory-96 a cd:Observation ; cd:position 95 ; cd:xValue 96.0 ; cd:numericValue 4.947916666667 ; cd:authoredResource true .
+  ex:vv-theory-97 a cd:Observation ; cd:position 96 ; cd:xValue 97.0 ; cd:numericValue 4.948453608247 ; cd:authoredResource true .
+  ex:vv-theory-98 a cd:Observation ; cd:position 97 ; cd:xValue 98.0 ; cd:numericValue 4.948979591837 ; cd:authoredResource true .
+  ex:vv-theory-99 a cd:Observation ; cd:position 98 ; cd:xValue 99.0 ; cd:numericValue 4.949494949495 ; cd:authoredResource true .
+  ex:vv-theory-100 a cd:Observation ; cd:position 99 ; cd:xValue 100.0 ; cd:numericValue 4.950000000000 ; cd:authoredResource true .
+  ex:vv-theory-data a cd:Dataset ; skos:prefLabel "Theoretical expected MSD"@en ; cd:unit "(mg/L)²" ; dct:source ex:vs-theory-formula, ex:vr-expect-formula ; cd:hasObservation ex:vv-theory-2, ex:vv-theory-3, ex:vv-theory-4, ex:vv-theory-5, ex:vv-theory-6, ex:vv-theory-7, ex:vv-theory-8, ex:vv-theory-9, ex:vv-theory-10, ex:vv-theory-11, ex:vv-theory-12, ex:vv-theory-13, ex:vv-theory-14, ex:vv-theory-15, ex:vv-theory-16, ex:vv-theory-17, ex:vv-theory-18, ex:vv-theory-19, ex:vv-theory-20, ex:vv-theory-21, ex:vv-theory-22, ex:vv-theory-23, ex:vv-theory-24, ex:vv-theory-25, ex:vv-theory-26, ex:vv-theory-27, ex:vv-theory-28, ex:vv-theory-29, ex:vv-theory-30, ex:vv-theory-31, ex:vv-theory-32, ex:vv-theory-33, ex:vv-theory-34, ex:vv-theory-35, ex:vv-theory-36, ex:vv-theory-37, ex:vv-theory-38, ex:vv-theory-39, ex:vv-theory-40, ex:vv-theory-41, ex:vv-theory-42, ex:vv-theory-43, ex:vv-theory-44, ex:vv-theory-45, ex:vv-theory-46, ex:vv-theory-47, ex:vv-theory-48, ex:vv-theory-49, ex:vv-theory-50, ex:vv-theory-51, ex:vv-theory-52, ex:vv-theory-53, ex:vv-theory-54, ex:vv-theory-55, ex:vv-theory-56, ex:vv-theory-57, ex:vv-theory-58, ex:vv-theory-59, ex:vv-theory-60, ex:vv-theory-61, ex:vv-theory-62, ex:vv-theory-63, ex:vv-theory-64, ex:vv-theory-65, ex:vv-theory-66, ex:vv-theory-67, ex:vv-theory-68, ex:vv-theory-69, ex:vv-theory-70, ex:vv-theory-71, ex:vv-theory-72, ex:vv-theory-73, ex:vv-theory-74, ex:vv-theory-75, ex:vv-theory-76, ex:vv-theory-77, ex:vv-theory-78, ex:vv-theory-79, ex:vv-theory-80, ex:vv-theory-81, ex:vv-theory-82, ex:vv-theory-83, ex:vv-theory-84, ex:vv-theory-85, ex:vv-theory-86, ex:vv-theory-87, ex:vv-theory-88, ex:vv-theory-89, ex:vv-theory-90, ex:vv-theory-91, ex:vv-theory-92, ex:vv-theory-93, ex:vv-theory-94, ex:vv-theory-95, ex:vv-theory-96, ex:vv-theory-97, ex:vv-theory-98, ex:vv-theory-99, ex:vv-theory-100 ; cd:authoredResource true .
+  ex:vv-mc-chart a cd:ChartDefinition ; skos:prefLabel "Many Repetitions, Lower Average MSD"@en ; cd:body "Seed 1903; 5,000 independent samples per n. Averages are finite approximations, not exact expectations."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Sample size n"@en ; cd:yAxisLabel "Average MSD"@en ; cd:yAxisUnit "(mg/L)²" ; cd:yAxisMinimum 0.0 ; cd:markerRadius 6.0 ; cd:markerOpacity 1.0 ; cd:observationLabel "Monte Carlo mean (5,000 samples)" ; cd:hasChartAnnotation ex:vv-mc-ref-line ; cd:hasChartGroup ex:vv-mc-g2, ex:vv-mc-g3, ex:vv-mc-g5, ex:vv-mc-g10, ex:vv-mc-g25, ex:vv-mc-g50, ex:vv-mc-g100 ; cd:authoredResource true .
+  ex:vv-theory-chart a cd:ChartDefinition ; skos:prefLabel "Theory and Monte Carlo"@en ; cd:body "The solid curve is the derived expectation; points are seeded Monte Carlo averages. The dashed line is the true population variance."@en ; cd:numericXAxis true ; dct:hasPart ex:vv-theory-data ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Sample size n"@en ; cd:yAxisLabel "Average MSD"@en ; cd:yAxisUnit "(mg/L)²" ; cd:yAxisMinimum 0.0 ; cd:markerRadius 6.0 ; cd:markerOpacity 1.0 ; cd:observationLabel "Monte Carlo mean (5,000 samples)" ; cd:hasChartAnnotation ex:vv-mc-ref-line ; cd:hasChartGroup ex:vv-mc-g2, ex:vv-mc-g3, ex:vv-mc-g5, ex:vv-mc-g10, ex:vv-mc-g25, ex:vv-mc-g50, ex:vv-mc-g100 ; cd:authoredResource true .
+}

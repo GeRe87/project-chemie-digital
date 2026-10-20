@@ -28,7 +28,7 @@ export interface BackgroundRuntimeState {
 export interface BackgroundRuntimeHandle {
   setPack(packId: string | undefined): readonly BackgroundDiagnostic[];
   setEnabled(enabled: boolean): void;
-  setProgress(offset: number): void;
+  setProgress(offset: number, options?: { readonly animate?: boolean }): void;
   getState(): BackgroundRuntimeState;
   getDiagnostics(): readonly BackgroundDiagnostic[];
   destroy(): void;
@@ -194,6 +194,15 @@ export function tiledLayerTranslation(offset: number, tileHeight: number): numbe
   return normalized - tileHeight;
 }
 
+export const BACKGROUND_TRANSITION_DURATION_MS=900;
+
+export function interpolateBackgroundProgress(from:number,to:number,fraction:number):number {
+  const t=Math.max(0,Math.min(1,fraction));
+  // Smootherstep: zero velocity and acceleration at both ends, rather than
+  // starting each transition at the maximum speed of a short ease-out.
+  return from+(to-from)*t*t*t*(10+t*(-15+6*t));
+}
+
 export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): BackgroundRuntimeHandle {
   const raf = options.requestAnimationFrame ?? globalThis.requestAnimationFrame.bind(globalThis);
   const cancelRaf = options.cancelAnimationFrame ?? globalThis.cancelAnimationFrame.bind(globalThis);
@@ -225,6 +234,8 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   let enabled = true;
   let activePackId: string | undefined;
   let progress = 0;
+  let renderedProgress = 0;
+  let motion: { from:number; start?:number } | undefined;
   let currentStage: StageRuntime | undefined;
   let pendingFrame: number | undefined;
   let pendingMeasurementFrame: number | undefined;
@@ -237,14 +248,21 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     world.hidden = !active;
   };
 
-  const render = () => {
+  const render = (time:number) => {
     pendingFrame = undefined;
     if (destroyed || !currentStage || !activePackId || !enabled) return;
+    if (motion) {
+      motion.start ??= time;
+      const fraction=(time-motion.start)/BACKGROUND_TRANSITION_DURATION_MS;
+      renderedProgress=interpolateBackgroundProgress(motion.from,progress,fraction);
+      if(fraction>=1)motion=undefined;
+      else requestRender();
+    }
 
     // Scroll hot path: style writes only. DOM queries and layout measurements are
     // intentionally excluded so the browser can keep the moving layers on the compositor.
     for (const binding of currentStage.bindings) {
-      const y = layerOffset(binding.layer, progress, options.reducedMotion);
+      const y = layerOffset(binding.layer, renderedProgress, options.reducedMotion);
       const translatedY = binding.layer.repeat === "y"
         ? tiledLayerTranslation(y, binding.tileHeight)
         : y;
@@ -383,7 +401,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
   return {
     setPack,
     setEnabled,
-    setProgress(offset) {
+    setProgress(offset, update) {
       if (!Number.isFinite(offset)) {
         diagnostics.push({
           code: "INVALID_BACKGROUND_PACK",
@@ -392,6 +410,10 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
         });
         return;
       }
+      // Repeated scroll notifications must not restart an in-flight transition.
+      if(offset===progress&&(update?.animate||!motion))return;
+      if(update?.animate&&!options.reducedMotion)motion={from:renderedProgress};
+      else {motion=undefined;renderedProgress=offset;}
       progress = offset;
       requestRender();
     },

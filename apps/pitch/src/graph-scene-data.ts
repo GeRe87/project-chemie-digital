@@ -23,6 +23,7 @@ export interface PitchCourseRuntime {
 }
 
 const artifact = runtimeArtifact as CanonicalRuntimeArtifact;
+export const canonicalRuntimeArtifact = artifact;
 
 if (artifact.artifactVersion !== "1.0") {
   throw new Error(`Unsupported canonical runtime artifact: ${String(artifact.artifactVersion)}`);

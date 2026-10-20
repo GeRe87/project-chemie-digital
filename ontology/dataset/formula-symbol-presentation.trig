@@ -1,0 +1,30 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Additive symbol links for existing published formulas. Expressions, observations,
+# scenes and path selections are unchanged; long local explanations are preserved.
+<https://w3id.org/project-chemie-digital/graph/mathematics/formula-symbol-presentation> {
+  # The compact SD scene explicitly opts into the structured symbol legend.
+  # Its older worked-reading parts remain available as authored resources.
+  ex:vr-read-l1 dct:references ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol .
+  ex:vr-read-l2 dct:references ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-read-l3 dct:references ex:s-symbol, ex:vr-root-symbol .
+  ex:mean-die-symbol a cd:MathSymbol ; cd:symbol "D" ; cd:body "Outcome of one fair six-sided die."@en ; cd:authoredResource true .
+  ex:mean-indexed-die-symbol a cd:MathSymbol ; cd:symbol "Dⱼ" ; cd:body "Outcome of die j."@en ; cd:authoredResource true .
+  ex:mean-die-index-symbol a cd:MathSymbol ; cd:symbol "j" ; cd:body "Die index, from 1 to 5."@en ; cd:authoredResource true .
+  ex:mean-dice-sum-symbol a cd:MathSymbol ; cd:symbol "S" ; cd:body "Sum of the five die outcomes."@en ; cd:authoredResource true .
+  ex:mean-microbial-A-symbol a cd:MathSymbol ; cd:symbol "A" ; cd:body "Arithmetic mean of the three counts per 100 mL."@en ; cd:authoredResource true .
+  ex:mean-microbial-G-symbol a cd:MathSymbol ; cd:symbol "G" ; cd:body "Geometric mean of the three positive counts per 100 mL."@en ; cd:authoredResource true .
+  ex:mean-harmonic-speed-symbol a cd:MathSymbol ; cd:symbol "v_H" ; cd:body "Harmonic speed for the equal-distance sections, in m/s."@en ; cd:authoredResource true .
+  ex:df-symbol cd:presentationDefinition "Number of freely varying quantities under the stated constraints."@en .
+  ex:mean-journey-time-symbol a cd:MathSymbol ; cd:symbol "t" ; cd:body "Total journey time, in seconds."@en ; cd:authoredResource true .
+  ex:mean-journey-distance-symbol a cd:MathSymbol ; cd:symbol "d" ; cd:body "Total journey distance, 200 m."@en ; cd:authoredResource true .
+  ex:mean-one-die-formula cd:hasSymbol ex:mean-die-symbol, ex:vr-E-symbol .
+  ex:mean-five-dice-formula cd:hasSymbol ex:mean-indexed-die-symbol, ex:mean-die-index-symbol, ex:mean-dice-sum-symbol, ex:vr-E-symbol .
+  ex:mean-microbial-arithmetic-formula cd:hasSymbol ex:mean-microbial-A-symbol .
+  ex:mean-microbial-geometric-formula cd:hasSymbol ex:mean-microbial-G-symbol .
+  ex:mean-speed-harmonic-calculation cd:hasSymbol ex:mean-harmonic-speed-symbol .
+  ex:mean-speed-total-time-calculation cd:hasSymbol ex:mean-journey-time-symbol, ex:mean-journey-distance-symbol, ex:mean-harmonic-speed-symbol .
+  ex:mean-turbidity-average-formula cd:hasSymbol ex:xbar-symbol .
+}

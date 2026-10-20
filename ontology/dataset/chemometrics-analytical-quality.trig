@@ -1,0 +1,67 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/examples/chemometrics-analytical-quality> {
+  ex:qc-method-precision-example a cd:Interpretation ;
+    skos:prefLabel "Same Mean, Different Analytical Quality"@en ;
+    cd:body "Two analytical methods can give a similar mean result, but differ strongly in precision."@en ;
+    cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ;
+    cd:hasExpectedResult ex:qc-target-and-shared-mean ;
+    cd:authoredResource true .
+
+  ex:dataset-qc-method-a a cd:Dataset ; cd:unit "mg/L" ;
+    dct:description "Illustrative repeat measurements of one homogeneous control sample by Method A under fixed repeatability conditions. Assigned target concentration: 10 mg/L. Not experimental validation data."@en ;
+    cd:hasObservation ex:qc-a-1, ex:qc-a-2, ex:qc-a-3, ex:qc-a-4, ex:qc-a-5 ;
+    cd:authoredResource true .
+  ex:qc-a-1 a cd:Observation ; cd:position 1 ; cd:numericValue "9.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-a-2 a cd:Observation ; cd:position 2 ; cd:numericValue "10.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-a-3 a cd:Observation ; cd:position 3 ; cd:numericValue "10.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-a-4 a cd:Observation ; cd:position 4 ; cd:numericValue "9.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-a-5 a cd:Observation ; cd:position 5 ; cd:numericValue "10.2"^^xsd:decimal ; cd:authoredResource true .
+
+  ex:dataset-qc-method-b a cd:Dataset ; cd:unit "mg/L" ;
+    dct:description "Illustrative repeat measurements of the same homogeneous control sample by Method B under fixed repeatability conditions. Assigned target concentration: 10 mg/L. Not experimental validation data."@en ;
+    cd:hasObservation ex:qc-b-1, ex:qc-b-2, ex:qc-b-3, ex:qc-b-4, ex:qc-b-5 ;
+    cd:authoredResource true .
+  ex:qc-b-1 a cd:Observation ; cd:position 1 ; cd:numericValue "8.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-b-2 a cd:Observation ; cd:position 2 ; cd:numericValue "10.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-b-3 a cd:Observation ; cd:position 3 ; cd:numericValue "9.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-b-4 a cd:Observation ; cd:position 4 ; cd:numericValue "11.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:qc-b-5 a cd:Observation ; cd:position 5 ; cd:numericValue "9.8"^^xsd:decimal ; cd:authoredResource true .
+
+  # One value represents the assigned control target and, for these illustrative
+  # observations, the arithmetic mean of each method. It is not a measured truth.
+  ex:qc-target-and-shared-mean a cd:ExpectedResult, cd:StatisticalResult ;
+    skos:prefLabel "Assigned target and shared illustrative mean"@en ;
+    cd:body "The assigned control-sample target is 10 mg/L. Both illustrative arithmetic means equal this target."@en ;
+    cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ;
+    cd:numericValue "10"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-analytical-quality> {
+  ex:qc-precision-takeaway a cd:Interpretation ;
+    cd:body "Precision is essential for analytical reliability, but method suitability also depends on trueness, measurement conditions, and performance requirements."@en ;
+    cd:authoredResource true .
+
+  ex:chart-qc-method-precision a cd:ChartDefinition ;
+    skos:prefLabel "Control-sample repeatability"@en ;
+    cd:body "Illustrative repeatability comparison; routine suitability depends on the required precision and other method characteristics."@en ;
+    cd:chartType cd:DotPlot ;
+    cd:xAxisLabel "Analytical method"@en ;
+    cd:yAxisLabel "Measured concentration"@en ; cd:yAxisUnit "mg/L" ;
+    cd:hasChartGroup ex:chart-qc-method-a, ex:chart-qc-method-b ;
+    cd:hasChartAnnotation ex:annotation-qc-target ; cd:authoredResource true .
+  ex:chart-qc-method-a a cd:ChartGroup ;
+    skos:prefLabel "Method A"@en ; cd:position 1 ;
+    cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:chart-qc-method-b a cd:ChartGroup ;
+    skos:prefLabel "Method B"@en ; cd:position 2 ;
+    cd:usesDataset ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:annotation-qc-target a cd:ChartReferenceLine ;
+    cd:body "Target concentration"@en ; cd:position 1 ;
+    cd:referenceResult ex:qc-target-and-shared-mean ; cd:authoredResource true .
+}

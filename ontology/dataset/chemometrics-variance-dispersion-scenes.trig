@@ -1,0 +1,43 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-variance-dispersion-lecture> {
+  ex:scene-chemometrics-variance-dispersion-title a cd:SceneDefinition ;
+    cd:focusConcept ex:variance ;
+    cd:hasSceneItem ex:scene-item-variance-title ; cd:authoredResource true .
+  ex:scene-item-variance-title a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:variance-lecture-title ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-chemometrics-variance-dispersion-variance a cd:SceneDefinition ;
+    cd:focusConcept ex:mean-and-spread-comparison ;
+    cd:hasSceneItem ex:scene-item-variance-heading, ex:scene-item-variance-chart, ex:scene-item-variance-statement ;
+    cd:authoredResource true .
+  ex:scene-item-variance-heading a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:mean-and-spread-comparison ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variance-chart a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:chart-variance-same-mean ; cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-variance-statement a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:variance-same-mean-definition ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:scene-variance-analytical-quality a cd:SceneDefinition ;
+    cd:focusConcept ex:measurement-precision ;
+    cd:hasSceneItem ex:scene-item-qc-heading, ex:scene-item-qc-explanation,
+      ex:scene-item-qc-chart, ex:scene-item-qc-takeaway ;
+    cd:authoredResource true .
+  ex:scene-item-qc-heading a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:qc-method-precision-example ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-qc-explanation a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:qc-method-precision-example ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-qc-chart a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:chart-qc-method-precision ; cd:communicativeRole cd:ChartRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-item-qc-takeaway a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:qc-precision-takeaway ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

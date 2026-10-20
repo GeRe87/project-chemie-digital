@@ -16,6 +16,19 @@ const GRAPH = "https://w3id.org/project-chemie-digital/graph/";
 
 type MutableArtifact = Record<string, any>;
 
+test("optional unit artwork validates local SVG paths, provenance and alternative text",()=>{
+  const value=artifact();
+  const thumbnail={id:`${BASE}art`,graphId:`${GRAPH}art`,uri:'/course-world/example.svg',alternativeTexts:[{value:'Illustrated island',language:'en'}]};
+  value.teachingOfferingDocuments[0].units[0].thumbnail=thumbnail;
+  assert.doesNotThrow(()=>validateCanonicalRuntimeArtifact(value));
+  for(const uri of ['//remote.test/image.svg','/../unsafe.svg','/image.svg?x=1','javascript:bad','/image.png']){
+    thumbnail.uri=uri;assert.throws(()=>validateCanonicalRuntimeArtifact(value),/thumbnail.uri/);
+  }
+  thumbnail.uri='/course-world/example.svg';thumbnail.alternativeTexts=[];
+  assert.throws(()=>validateCanonicalRuntimeArtifact(value),/alternative text/);
+  thumbnail.alternativeTexts=[{value:' ',language:'en'}];assert.throws(()=>validateCanonicalRuntimeArtifact(value),/alternative text/);
+});
+
 function artifact(): MutableArtifact {
   return {
     artifactVersion: CANONICAL_RUNTIME_ARTIFACT_VERSION,

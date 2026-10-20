@@ -1,0 +1,174 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-17-23> {
+  ex:v17 a cd:Interpretation ; skos:prefLabel "Precision Is Not Trueness"@en ; cd:body "T10 and T12 both show small spreads, but T12 has an observed center 2 mg/L above the reference. Small spread alone cannot establish trueness. These finite-sample centers are not known long-run expected results."@en ; cd:authoredResource true .
+  ex:v17-terms a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v17-p, ex:v17-t, ex:v17-b, ex:v17-r ; cd:authoredResource true .
+  ex:v17-p a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Precision"@en ; cd:body "Agreement of repeated results under stated conditions."@en ; dct:references ex:measurement-precision ; cd:authoredResource true .
+  ex:v17-t a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Trueness"@en ; cd:body "Closeness of the expected result (or a mean of many repeats) to a reference value."@en ; dct:references ex:trueness ; cd:authoredResource true .
+  ex:v17-b a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Bias"@en ; cd:body "Expected result minus the reference value; a systematic difference."@en ; dct:references ex:v-bias ; cd:authoredResource true .
+  ex:v17-r a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Reference value"@en ; cd:body "An assigned comparison value, with its own basis and uncertainty."@en ; dct:references ex:v-reference ; cd:authoredResource true .
+  ex:v17-table a cd:TableDefinition ; skos:prefLabel "Four different concepts"@en ; cd:hasTableColumn ex:v17-c1, ex:v17-c2 ; cd:hasTableRow ex:v17-r1, ex:v17-r2, ex:v17-r3, ex:v17-r4 ; cd:authoredResource true .
+  ex:v17-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Term"@en ; cd:authoredResource true .
+  ex:v17-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Meaning"@en ; cd:authoredResource true .
+  ex:v17-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v17-a1, ex:v17-a2 ; cd:authoredResource true .
+  ex:v17-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v17-b1, ex:v17-b2 ; cd:authoredResource true .
+  ex:v17-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v17-d1, ex:v17-d2 ; cd:authoredResource true .
+  ex:v17-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:v17-e1, ex:v17-e2 ; cd:authoredResource true .
+  ex:v17-a1 a cd:TableCell ; cd:position 1 ; cd:body "Precision"@en ; dct:references ex:measurement-precision ; cd:authoredResource true .
+  ex:v17-a2 a cd:TableCell ; cd:position 2 ; cd:body "Agreement between repeats under stated conditions."@en ; cd:authoredResource true .
+  ex:v17-b1 a cd:TableCell ; cd:position 1 ; cd:body "Trueness"@en ; dct:references ex:trueness ; cd:authoredResource true .
+  ex:v17-b2 a cd:TableCell ; cd:position 2 ; cd:body "Closeness of the expected result to a reference, not of one result alone."@en ; cd:authoredResource true .
+  ex:v17-d1 a cd:TableCell ; cd:position 1 ; cd:body "Bias"@en ; dct:references ex:v-bias ; cd:authoredResource true .
+  ex:v17-d2 a cd:TableCell ; cd:position 2 ; cd:body "Expected result minus reference; a signed systematic offset."@en ; cd:authoredResource true .
+  ex:v17-e1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; dct:references ex:v-reference ; cd:authoredResource true .
+  ex:v17-e2 a cd:TableCell ; cd:position 2 ; cd:body "Assigned comparison value, with its own uncertainty."@en ; cd:authoredResource true .
+  ex:v-bias a cd:Concept ; skos:prefLabel "bias"@en ; cd:hasDefinition ex:v-bias-def ; cd:authoredResource true .
+  ex:v-bias-def a cd:Definition ; cd:body "Difference between the expected measurement result and an appropriate reference quantity value."@en ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:v-reference a cd:Concept ; skos:prefLabel "reference value"@en ; cd:hasDefinition ex:v-reference-def ; cd:authoredResource true .
+  ex:v-reference-def a cd:Definition ; cd:body "Quantity value used as a basis for comparison; it need not be an exactly known true value."@en ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:v17-chart a cd:ChartDefinition ; skos:prefLabel "Centers and spreads"@en ; cd:body "T = tight, W = wide; 10 and 12 are the observed means in mg/L. Illustrative patterns with different sample sizes, not a method-validation study."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Illustrative pattern"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v17-g1, ex:v17-g2, ex:v17-g3, ex:v17-g4 ; cd:hasChartAnnotation ex:v17-reference ; cd:authoredResource true .
+  ex:v17-reference a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Assigned reference"@en ; cd:referenceResult ex:v17-reference-result ; cd:authoredResource true .
+  ex:v17-reference-result a cd:StatisticalResult ; cd:quantifiesProperty ex:v-reference ; cd:numericValue 10.0 ; cd:unit "mg/L" ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b, ex:v17-tight, ex:v17-wide ; cd:authoredResource true .
+  ex:v17-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "T10"@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:v17-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "W10"@en ; cd:usesDataset ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:v17-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "T12"@en ; cd:usesDataset ex:v17-tight ; cd:authoredResource true .
+  ex:v17-g4 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "W12"@en ; cd:usesDataset ex:v17-wide ; cd:authoredResource true .
+  ex:v17-tight a cd:Dataset ; cd:unit "mg/L" ; dct:description "Synthetic illustrative shifted results; mean 12 mg/L."@en ; cd:hasObservation ex:v17-t1, ex:v17-t2, ex:v17-t3 ; cd:authoredResource true .
+  ex:v17-t1 a cd:Observation ; cd:position 1 ; cd:numericValue 11.8 ; cd:authoredResource true .
+  ex:v17-t2 a cd:Observation ; cd:position 2 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:v17-t3 a cd:Observation ; cd:position 3 ; cd:numericValue 12.2 ; cd:authoredResource true .
+  ex:v17-wide a cd:Dataset ; cd:unit "mg/L" ; dct:description "Synthetic illustrative shifted results; mean 12 mg/L."@en ; cd:hasObservation ex:v17-w1, ex:v17-w2, ex:v17-w3 ; cd:authoredResource true .
+  ex:v17-w1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:v17-w2 a cd:Observation ; cd:position 2 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:v17-w3 a cd:Observation ; cd:position 3 ; cd:numericValue 14.0 ; cd:authoredResource true .
+
+  ex:v18 a cd:Interpretation ; skos:prefLabel "Bias and Random Variation"@en ; cd:body "Accuracy concerns closeness to a true quantity value and is related to both trueness and precision. It is not a synonym for precision or SD. A small SD can coexist with a systematic offset."@en ; cd:hasSource ex:source-vim ; cd:hasKeyPoint ex:v18-k1, ex:v18-k2, ex:v18-k3 ; cd:authoredResource true .
+  ex:v18-context a cd:Interpretation ; cd:body "Thought experiment: assume the long-run centers and spreads are known. Reference = 10 mg/L. These are possible method behaviors, not conclusions from the few plotted repeats."@en ; cd:authoredResource true .
+  ex:v18-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Random variation creates spread under the stated conditions."@en ; cd:authoredResource true .
+  ex:v18-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Bias shifts the expected center: here 0 or +2 mg/L relative to the reference."@en ; cd:authoredResource true .
+  ex:v18-k3 a cd:KeyPoint ; cd:position 3 ; cd:body "A small SD alone does not establish trueness."@en ; cd:authoredResource true .
+  ex:v18-table a cd:TableDefinition ; skos:prefLabel "Spread and systematic offset are separate"@en ; cd:hasTableColumn ex:v18-c1, ex:v18-c2, ex:v18-c3 ; cd:hasTableRow ex:v18-r1, ex:v18-r2 ; cd:authoredResource true .
+  ex:v18-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Spread"@en ; cd:authoredResource true .
+  ex:v18-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Expected center: 10 mg/L"@en ; cd:authoredResource true .
+  ex:v18-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Expected center: 12 mg/L"@en ; cd:authoredResource true .
+  ex:v18-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v18-a1, ex:v18-a2, ex:v18-a3 ; cd:authoredResource true .
+  ex:v18-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v18-b1, ex:v18-b2, ex:v18-b3 ; cd:authoredResource true .
+  ex:v18-a1 a cd:TableCell ; cd:position 1 ; cd:body "Small SD"@en ; cd:authoredResource true .
+  ex:v18-a2 a cd:TableCell ; cd:position 2 ; cd:body "Precise; bias = 0"@en ; cd:authoredResource true .
+  ex:v18-a3 a cd:TableCell ; cd:position 3 ; cd:body "Precise; bias = +2 mg/L"@en ; cd:authoredResource true .
+  ex:v18-b1 a cd:TableCell ; cd:position 1 ; cd:body "Large SD"@en ; cd:authoredResource true .
+  ex:v18-b2 a cd:TableCell ; cd:position 2 ; cd:body "Imprecise; bias = 0"@en ; cd:authoredResource true .
+  ex:v18-b3 a cd:TableCell ; cd:position 3 ; cd:body "Imprecise; bias = +2 mg/L"@en ; cd:authoredResource true .
+  ex:v18-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v18-a, ex:v18-b, ex:v18-c, ex:v18-d ; cd:authoredResource true .
+  ex:v18-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Precise, but biased"@en ; cd:body "Tight results shifted from the reference: small random variation can coexist with a systematic error."@en ; cd:authoredResource true .
+  ex:v18-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Imprecise, but unbiased in expectation"@en ; cd:body "Wide results can have their expected center at the reference. One sample mean need not equal it."@en ; cd:authoredResource true .
+  ex:v18-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Both, or neither"@en ; cd:body "Low dispersion and low bias are separate desirable properties. A method may satisfy both or neither."@en ; cd:authoredResource true .
+  ex:v18-d a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Accuracy ≠ precision"@en ; cd:body "Accuracy concerns agreement with a true quantity value and is related to both trueness and precision. It is not another name for SD."@en ; dct:references ex:accuracy ; cd:authoredResource true .
+
+  ex:v19 a cd:Interpretation ; skos:prefLabel "Repeated Measurements of a Control Sample"@en ; cd:body "Both observed means equal the target. A has the smaller sample SD: evidence of better repeatability here, not proof of zero bias or of long-term performance. Five results give only a limited precision estimate."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:v19-context a cd:Interpretation ; cd:body "Assigned target: 10 mg/L. Five illustrative repeats per method on the same homogeneous control sample, under each method's fixed repeatability conditions."@en ; cd:authoredResource true .
+  ex:v19-table a cd:TableDefinition ; skos:prefLabel "QC summaries: five repeats per method"@en ; cd:hasTableColumn ex:v19-c1, ex:v19-c2, ex:v19-c3, ex:v19-c4 ; cd:hasTableRow ex:v19-r1, ex:v19-r2 ; cd:authoredResource true .
+  ex:v19-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:authoredResource true .
+  ex:v19-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:v19-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "s² (mg/L)²"@en ; cd:authoredResource true .
+  ex:v19-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "s (mg/L)"@en ; cd:authoredResource true .
+  ex:v19-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v19-a1, ex:v19-a2, ex:v19-a3, ex:v19-a4 ; cd:authoredResource true .
+  ex:v19-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v19-b1, ex:v19-b2, ex:v19-b3, ex:v19-b4 ; cd:authoredResource true .
+  ex:v19-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:v19-a2 a cd:TableCell ; cd:position 2 ; cd:body "10.000"@en ; cd:authoredResource true .
+  ex:v19-a3 a cd:TableCell ; cd:position 3 ; cd:body "0.025"@en ; cd:authoredResource true .
+  ex:v19-a4 a cd:TableCell ; cd:position 4 ; cd:body "0.158"@en ; cd:authoredResource true .
+  ex:v19-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:v19-b2 a cd:TableCell ; cd:position 2 ; cd:body "10.000"@en ; cd:authoredResource true .
+  ex:v19-b3 a cd:TableCell ; cd:position 3 ; cd:body "1.015"@en ; cd:authoredResource true .
+  ex:v19-b4 a cd:TableCell ; cd:position 4 ; cd:body "1.007"@en ; cd:authoredResource true .
+
+  ex:v20 a cd:Interpretation ; skos:prefLabel "When Does Spread Become a Problem?"@en ; cd:body "Equal means do not imply equal suitability for individual-result decisions: B has three observed failures. Five results do not determine the long-run failure rate. The 9.5 mg/L result is accepted because the boundary is included."@en ; cd:authoredResource true .
+  ex:v20-context a cd:Interpretation ; cd:body "Illustrative individual-result specification: 9.5–10.5 mg/L, including both endpoints. This teaching rule is neither a general analytical norm nor a confidence interval."@en ; cd:authoredResource true .
+  ex:v20-table a cd:TableDefinition ; skos:prefLabel "Observed pass / fail counts"@en ; cd:hasTableColumn ex:v20-c1, ex:v20-c2, ex:v20-c3 ; cd:hasTableRow ex:v20-r1, ex:v20-r2 ; cd:authoredResource true .
+  ex:v20-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:authoredResource true .
+  ex:v20-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Within [9.5, 10.5]"@en ; cd:authoredResource true .
+  ex:v20-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Outside"@en ; cd:authoredResource true .
+  ex:v20-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v20-a1, ex:v20-a2, ex:v20-a3 ; cd:authoredResource true .
+  ex:v20-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v20-b1, ex:v20-b2, ex:v20-b3 ; cd:authoredResource true .
+  ex:v20-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:v20-a2 a cd:TableCell ; cd:position 2 ; cd:body "5 of 5"@en ; cd:authoredResource true .
+  ex:v20-a3 a cd:TableCell ; cd:position 3 ; cd:body "0 of 5"@en ; cd:authoredResource true .
+  ex:v20-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:v20-b2 a cd:TableCell ; cd:position 2 ; cd:body "2 of 5: 9.5, 9.8"@en ; cd:authoredResource true .
+  ex:v20-b3 a cd:TableCell ; cd:position 3 ; cd:body "3 of 5"@en ; cd:authoredResource true .
+
+  ex:v21 a cd:Interpretation ; skos:prefLabel "Repeatability and Reproducibility"@en ; cd:body "Report which conditions were held constant and which changed. A short-term repeatability SD is not interchangeable with an intermediate-precision or between-laboratory reproducibility SD."@en ; cd:authoredResource true .
+  ex:v21-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v21-a, ex:v21-b, ex:v21-c ; cd:authoredResource true .
+  ex:v21-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeatability"@en ; cd:body "Same procedure, operator, instrument and location; short interval.\nExample: replicate QC determinations in one session under fixed conditions."@en ; dct:references ex:v-repeatability ; cd:authoredResource true .
+  ex:v21-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Intermediate precision"@en ; cd:body "One laboratory; specified changes in days, operators and/or instruments.\nExample: the same QC method studied over several weeks."@en ; dct:references ex:v-intermediate ; cd:authoredResource true .
+  ex:v21-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Reproducibility"@en ; cd:body "Different laboratories, with specified changed operators and systems.\nExample: an interlaboratory study of a specified measurement procedure."@en ; dct:references ex:v-reproducibility ; cd:authoredResource true .
+  ex:v-repeatability a cd:Concept ; skos:prefLabel "repeatability"@en ; cd:hasDefinition ex:v-repeatability-def ; cd:authoredResource true .
+  ex:v-repeatability-def a cd:Definition ; cd:body "Precision under repeatability conditions: same procedure, operators, system, location and operating conditions over a short period."@en ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:v-intermediate a cd:Concept ; skos:prefLabel "intermediate precision"@en ; cd:hasDefinition ex:v-intermediate-def ; cd:authoredResource true .
+  ex:v-intermediate-def a cd:Definition ; cd:body "Precision under specified changes within one laboratory, for example days, calibrations, operators or instruments."@en ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+  ex:v-reproducibility a cd:Concept ; skos:prefLabel "reproducibility"@en ; cd:hasDefinition ex:v-reproducibility-def ; cd:authoredResource true .
+  ex:v-reproducibility-def a cd:Definition ; cd:body "Precision under specified reproducibility conditions, including different locations, operators and systems."@en ; cd:hasSource ex:source-vim ; cd:authoredResource true .
+
+  ex:v22 a cd:Interpretation ; skos:prefLabel "Where Does Analytical Variation Come From?"@en ; cd:body "Which steps are repeated? Multiple injections from one vial mainly probe instrumental repeatability; they do not independently repeat sampling, preparation or extraction."@en ; cd:authoredResource true .
+  ex:v22-context a cd:Interpretation ; cd:body "Follow a sample from sampling to the reported result. Each step can contribute variability; repeating only the last step misses earlier sources."@en ; cd:authoredResource true .
+  ex:v22-flow a cd:FlowDiagram ; skos:prefLabel "Sources along the analytical workflow"@en ; cd:body "Sources may interact or be correlated. Calibration can also be carried out in parallel; this illustrative sequence does not assert a mandatory timing or additive independent variances."@en ; cd:hasDiagramNode ex:v22-n1, ex:v22-n2, ex:v22-n3, ex:v22-n4, ex:v22-n5, ex:v22-n6 ; cd:hasDiagramEdge ex:v22-e1, ex:v22-e2, ex:v22-e3, ex:v22-e4, ex:v22-e5 ; cd:authoredResource true .
+  ex:v22-n1 a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Sampling"@en ; cd:body "Location; heterogeneity"@en ; cd:authoredResource true .
+  ex:v22-n2 a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Preparation"@en ; cd:body "Weighing; dilution"@en ; cd:authoredResource true .
+  ex:v22-n3 a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Extraction"@en ; cd:body "Recovery; extraction time"@en ; cd:authoredResource true .
+  ex:v22-n4 a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Calibration"@en ; cd:body "Standards; model fit"@en ; cd:authoredResource true .
+  ex:v22-n5 a cd:DiagramNode ; cd:position 5 ; skos:prefLabel "Measurement"@en ; cd:body "Injection; signal noise"@en ; cd:authoredResource true .
+  ex:v22-n6 a cd:DiagramNode ; cd:position 6 ; skos:prefLabel "Processing"@en ; cd:body "Integration; corrections"@en ; cd:authoredResource true .
+  ex:v22-e1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:v22-n1 ; cd:targetNode ex:v22-n2 ; skos:prefLabel "→"@en ; cd:authoredResource true .
+  ex:v22-e2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:v22-n2 ; cd:targetNode ex:v22-n3 ; skos:prefLabel "→"@en ; cd:authoredResource true .
+  ex:v22-e3 a cd:DiagramEdge ; cd:position 3 ; cd:sourceNode ex:v22-n3 ; cd:targetNode ex:v22-n4 ; skos:prefLabel "→"@en ; cd:authoredResource true .
+  ex:v22-e4 a cd:DiagramEdge ; cd:position 4 ; cd:sourceNode ex:v22-n4 ; cd:targetNode ex:v22-n5 ; skos:prefLabel "→"@en ; cd:authoredResource true .
+  ex:v22-e5 a cd:DiagramEdge ; cd:position 5 ; cd:sourceNode ex:v22-n5 ; cd:targetNode ex:v22-n6 ; skos:prefLabel "→"@en ; cd:authoredResource true .
+
+  ex:v23 a cd:Interpretation ; skos:prefLabel "R Lab 2: Evaluating QC Measurements"@en ; cd:body "Six minutes: evaluate the same five results per method under fixed measurement conditions."@en ; cd:authoredResource true .
+  ex:v23-task a cd:Exercise ; cd:body "Six minutes: calculate mean, variance, SD and the count within the illustrative 9.5–10.5 mg/L interval (endpoints included).\nDoes the smaller observed SD support better precision for A under these conditions? What can five results not establish about trueness or long-term performance? Means and SDs are in mg/L; variances are in (mg/L)²."@en ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:v23-task cd:hasCodeExample ex:v23-code .
+  ex:v23-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "A <- c(9.8, 10.0, 10.1, 9.9, 10.2)\nB <- c(8.7, 10.8, 9.5, 11.2, 9.8)\nqc <- function(x) {\n  c(mean=mean(x), variance=var(x), sd=sd(x),\n    within=sum(x >= 9.5 & x <= 10.5))\n}\nrbind(A=qc(A), B=qc(B))\n# Discuss evidence, measurement conditions and limits." ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-17-23> {
+  ex:scene-v17 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v17h, ex:v17t, ex:v17chart, ex:v17l ; cd:authoredResource true .
+  ex:v17h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v17 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v17t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v17 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v17chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v17-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v17l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v17-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v18 a cd:SceneDefinition ; cd:focusConcept ex:accuracy ; cd:hasSceneItem ex:v18h, ex:v18intro, ex:v18l, ex:v18table, ex:v18t ; cd:authoredResource true .
+  ex:v18h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v18 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v18intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v18-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v18l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v18 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:v18table a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v18-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v18t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v18 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v19 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v19h, ex:v19intro, ex:v19table, ex:v19chart, ex:v19t ; cd:authoredResource true .
+  ex:v19h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v19 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v19intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v19-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v19table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v19-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v19chart a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:chart-qc-method-precision ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v19t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v19 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v20 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v20h, ex:v20intro, ex:v20table, ex:v20chart, ex:v20t ; cd:authoredResource true .
+  ex:v20h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v20 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v20intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v20-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v20table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v20-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v20chart a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:chart-qc-method-precision ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v20t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v20 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v21 a cd:SceneDefinition ; cd:focusConcept ex:v-repeatability ; cd:hasSceneItem ex:v21h, ex:v21l, ex:v21t ; cd:authoredResource true .
+  ex:v21h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v21 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v21l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v21-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:v21t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v21 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v22 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v22h, ex:v22intro, ex:v22d, ex:v22t ; cd:authoredResource true .
+  ex:v22h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v22 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v22intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v22-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v22d a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v22-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v22t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v22 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v23 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; cd:hasSceneItem ex:v23h, ex:v23task, ex:v23c ; cd:authoredResource true .
+  ex:v23h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v23 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v23task a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v23-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v23c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v23-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+}

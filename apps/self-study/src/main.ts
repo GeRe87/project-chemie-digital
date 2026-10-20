@@ -1,4 +1,5 @@
 import "./styles.css";
+import "katex/dist/katex.min.css";
 import { createSelfStudyRenderPlan, type SelfStudyRenderPlan } from "../../../packages/renderer-self-study/src/index.ts";
 import { mountSelfStudyRenderPlan, type SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
 import {

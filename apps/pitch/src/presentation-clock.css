@@ -7,15 +7,15 @@
   .presentation-clock-panel {
     position: fixed;
     top: 50%;
-    right: -.22rem;
+    right: 2px;
     z-index: 50;
     transform: translateY(-50%);
     box-sizing: border-box;
     display: grid;
     grid-template-rows: auto auto auto;
     justify-items: center;
-    width: 4.65rem;
-    padding: .78rem .52rem .68rem .58rem;
+    width: 34px;
+    padding: .45rem .15rem;
     border: 0;
     border-radius: .95rem 0 0 .95rem;
     background: color-mix(in srgb, var(--pcd-world-shell-bg) 95%, transparent);
@@ -62,7 +62,7 @@
   .presentation-clock-minutes {
     display: block;
     width: 100%;
-    font-size: 1.62rem;
+    font-size: 1.15rem;
     font-weight: 950;
     line-height: .92;
     letter-spacing: -.06em;
@@ -81,7 +81,7 @@
     display: block;
     margin-top: .34rem;
     color: var(--pcd-muted);
-    font-size: .64rem;
+    font-size: .56rem;
     font-weight: 950;
     line-height: 1;
     letter-spacing: .12em;

@@ -1,0 +1,18 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/mathematics/centers-substitution> {
+  ex:md-center-definitions a cd:MathExpression ; cd:latex "\\begin{gathered}d_i=X_i-\\bar X\\\\\\Delta=\\bar X-\\mu\\end{gathered}" ; cd:hasSymbol ex:vr-d-symbol, ex:vr-X-symbol, ex:vr-Xbar-symbol, ex:vr-index-symbol, ex:vs-Delta-symbol, ex:mu-symbol ; dct:source ex:vr-center-formula ; cd:authoredResource true .
+  ex:rule-add-differences a cd:MathematicalRule ; skos:prefLabel "Substitute and cancel the intermediate center"@en ; cd:ruleFormula ex:rule-add-differences-formula ; cd:body "Insert the two defined differences. Adding them makes the intermediate value appear once with a minus sign and once with a plus sign, so it cancels."@en ; cd:authoredResource true .
+  ex:rule-add-differences-formula a cd:MathExpression ; cd:latex "(a-b)+(b-c)=a-c" ; cd:hasSymbol ex:rule-a-symbol, ex:rule-b-symbol, ex:rule-c-symbol ; cd:authoredResource true .
+  ex:md-center-application a cd:MathExpression ; cd:latex "\\begin{aligned}d_i+\\Delta&=(X_i-\\bar X)+(\\bar X-\\mu)\\\\&=X_i-\\mu\\end{aligned}" ; cd:hasSymbol ex:vr-d-symbol, ex:vr-X-symbol, ex:vr-Xbar-symbol, ex:vr-index-symbol, ex:vs-Delta-symbol, ex:mu-symbol ; cd:authoredResource true .
+  ex:derivation-centers a cd:MathematicalDerivation ; skos:prefLabel "Relating the two centers by substitution"@en ; cd:inputFormula ex:md-center-definitions ; cd:resultFormula ex:md-centers ; cd:hasDerivationStep ex:md-centers-substitute ; cd:authoredResource true .
+  ex:md-centers-substitute a cd:DerivationStep ; cd:position 1 ; skos:prefLabel "Substitute dᵢ and Δ; cancel X̄"@en ; cd:fromFormula ex:md-center-definitions ; cd:toFormula ex:md-centers ; cd:appliesRule ex:rule-add-differences ; cd:transformationKind cd:ImpliedTransformation ; cd:hasExplanation ex:md-centers-explanation ; cd:authoredResource true .
+  ex:md-centers-explanation a cd:Interpretation ; cd:body "The individual residual dᵢ measures Xᵢ from its sample mean X̄. The shared shift Δ measures that mean from μ.\nSubstitute both definitions into dᵢ + Δ. The terms −X̄ and +X̄ cancel, leaving Xᵢ − μ. In the general identity, a = Xᵢ, b = X̄, c = μ.\nThis is an algebraic consequence of the definitions, with no normality or independence assumption. Δ is common to the indices within a sample, but can vary across samples."@en ; cd:applicationFormula ex:md-center-application ; cd:authoredResource true .
+  ex:md-centers-section a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:derivation-centers ; cd:firstDerivationStep ex:md-centers-substitute ; cd:lastDerivationStep ex:md-centers-substitute ; cd:usesLegend ex:md-bessel-legend ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vr-step14 cd:usesResource ex:md-centers-section .
+}

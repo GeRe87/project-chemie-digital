@@ -80,6 +80,8 @@ export type RevealLearningProfile =
   | "statement-support"
   | "visual-media"
   | "evidence-practice-grid"
+  | "scenario-data-visual"
+  | "process-matrix"
   | "compact-list"
   | "formula-deck";
 
@@ -618,7 +620,9 @@ export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly Scen
     const legend = blocks[i + 1]!;
     if (formula.kind !== "math" || legend.kind !== "definition-list" || legend.emphasis !== "supporting") continue;
     const context = blocks[i - 1];
-    units.push(context?.kind === "definition-list" && context.entries.length === 1
+    // A preceding formula's supporting legend is not a new context card.
+    // Otherwise adjacent formula/legend pairs overlap and one formula vanishes.
+    units.push(context?.kind === "definition-list" && context.entries.length === 1 && context.emphasis !== "supporting"
       ? [context, formula, legend] : [formula, legend]);
     i++;
   }
@@ -673,6 +677,54 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const heading = isHeading(blocks[0]) ? blocks[0] : undefined;
   const body = heading ? blocks.slice(1) : blocks;
+  if (body.length === 4 && body[0]?.kind === "definition-list" && body[1]?.kind === "table" && body[2]?.kind === "list" && body[3]?.kind === "chart") {
+    return { kind: "learning-stage", profile: "scenario-data-visual", mainCount: 2,
+      placements: [...placementsWithHeading(heading), ...body.slice(0,3).map((b,i)=>placement(b,"primary",i)), placement(body[3],"secondary",0)] };
+  }
+  if (body.length === 3 && body[0]?.kind === "definition-list" && body[1]?.kind === "table" && body[2]?.kind === "list") {
+    return { kind: "learning-stage", profile: "scenario-data-visual", mainCount: 2,
+      placements: [...placementsWithHeading(heading), placement(body[0],"primary",0), placement(body[1],"secondary",0), placement(body[2],"footer",0)] };
+  }
+  if (body.length === 4 && body[0]?.kind === "list" && body[1]?.kind === "table"
+      && (body[2]?.kind === "chart" || body[2]?.kind === "media-reference") && body[3]?.kind === "list") {
+    const contextAbove = body[2].kind === "chart";
+    return { kind: "learning-stage", profile: "scenario-data-visual", mainCount: 2,
+      placements: [...placementsWithHeading(heading), placement(body[0], contextAbove ? "prelude" : "primary", 0),
+        placement(body[1], "primary", 1), placement(body[2], "secondary", 0), placement(body[3], "footer", 0)] };
+  }
+  if (body.length === 3 && body[0]?.kind === "diagram" && body[1]?.kind === "table" && body[2]?.kind === "list") {
+    return { kind: "learning-stage", profile: "process-matrix", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "prelude", 0), placement(body[1], "main", 0), placement(body[2], "footer", 0)] };
+  }
+  if (body.length === 3 && body[0]?.kind === "list" && body[1]?.kind === "chart" && body[2]?.kind === "list") {
+    return { kind: "visual-stage", profile: "diagram", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "prelude", 0), placement(body[1], "main", 0), placement(body[2], "footer", 0)] };
+  }
+  if (body.some(block => block.kind === "math" && block.derivation)) {
+    const placements = placementsWithHeading(heading);
+    body.forEach((block, index) => placements.push(placement(block,
+      block.kind === "math" && block.derivation ? "main" : "footer", index)));
+    return { kind: "learning-stage", profile: "formula-deck", mainCount: 1, placements };
+  }
+
+  // One statistical visual owns the stage; concise conclusions do not compete
+  // with its plot area. This signature is independent of chart/subject identity.
+  if (body.length === 2 && body.some(block => block.kind === "chart") && body.some(block => block.kind === "list")) {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body.find(block => block.kind === "chart")!, "main", 0));
+    placements.push(placement(body.find(block => block.kind === "list")!, "footer", 0));
+    return { kind: "visual-stage", profile: "diagram", mainCount: 1, placements };
+  }
+  if (body.length === 2 && body[0]?.kind === "definition-list" && body[1]?.kind === "list") {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0], "main", 0), placement(body[1], "footer", 0));
+    return { kind: "learning-stage", profile: "definition-deck", mainCount: 1, placements };
+  }
+  if (body.length === 2 && body[0]?.kind === "list" && body[1]?.kind === "media-reference") {
+    const placements = placementsWithHeading(heading);
+    placements.push(placement(body[0], "primary", 0), placement(body[1], "secondary", 0));
+    return { kind: "learning-stage", profile: "info-visual", mainCount: 2, placements };
+  }
 
   const formulaUnits = resolveFormulaLegendUnits(scene);
   if (formulaUnits.length && !(body.some(block => block.kind === "table") && body.some(block => block.kind === "chart"))) {
@@ -759,7 +811,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     && block.intent?.kind === "explain"
     && block.source.some(source => source.relationPath === "cd:hasKeyPoint");
   if ((body.length === 1 && explanatoryList(body[0]))
-      || (body.length === 2 && explanatoryList(body[0]) && body[1]?.kind === "prose")
+      || (body.length === 2 && explanatoryList(body[0]) && (body[1]?.kind === "prose" || body[1]?.kind === "prompt"))
       || (body.length === 3 && body[0]?.kind === "prose" && explanatoryList(body[1]) && body[2]?.kind === "prompt")) {
     const placements = placementsWithHeading(heading);
     body.forEach((block, index) => placements.push(placement(block, "main", index)));
@@ -963,7 +1015,8 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const contextDataVisual = inferContextDataVisual(body, heading);
   if (contextDataVisual) return contextDataVisual;
-  const evidencePairIndex = bodyKinds.findIndex((kind, index) => {
+  const dataVisualIndex = bodyKinds.findIndex((kind, index) => kind === "data-surface" && bodyKinds[index + 1] === "visual");
+  const evidencePairIndex = dataVisualIndex >= 0 ? dataVisualIndex : bodyKinds.findIndex((kind, index) => {
     const next = bodyKinds[index + 1];
     return (kind === "data-surface" && next === "visual")
       || (kind === "list-collection" && next === "data-surface");
@@ -975,7 +1028,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     const after = body.slice(evidencePairIndex + 2);
     const validSupportSequence = (items: readonly SceneBlock[]): boolean => items.every((item, index) => {
       const kind = revealComponentDescriptor(item).kind;
-      if (kind === "info-surface" || kind === "list-collection" || kind === "media") return true;
+      if (kind === "info-surface" || kind === "list-collection" || kind === "card-collection" || kind === "media") return true;
       const formula = item.kind === "math" ? item : items[index - 1];
       const legend = item.kind === "math" ? items[index + 1] : item;
       return formula?.kind === "math" && legend?.kind === "definition-list"

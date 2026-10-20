@@ -4,6 +4,7 @@ import type {
   TeachingOfferingRuntimeDocument,
 } from "../../../packages/core/src/canonical-runtime.ts";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 
 export type PitchCoursePathStatus = "available" | "in-preparation";
 
@@ -23,6 +24,7 @@ export interface PitchCourseWorldUnit {
   readonly label: string;
   readonly paths: readonly PitchCourseWorldPath[];
   readonly status: PitchCoursePathStatus;
+  readonly thumbnail?: { readonly uri:string; readonly alternativeText:string; readonly resourceId:string; readonly graphId:string };
 }
 
 export interface PitchCourseWorldSection {
@@ -71,7 +73,7 @@ function optionalAuthoredText(
 
 export function createPitchCourseWorldModel(
   offering: TeachingOfferingRuntimeDocument,
-  sceneDocuments: readonly SceneDocument[],
+  sceneDocuments: readonly Pick<SceneDocument, "id">[],
   bindings: readonly CanonicalRuntimeSceneDocumentBinding[],
   language = "en",
 ): PitchCourseWorldModel {
@@ -130,6 +132,7 @@ export function createPitchCourseWorldModel(
       label: authoredText(unit.labels, language, unit.id),
       paths,
       status: paths.some((path) => path.status === "available") ? "available" : "in-preparation",
+      ...(unit.thumbnail ? {thumbnail:{uri:unit.thumbnail.uri,alternativeText:authoredText(unit.thumbnail.alternativeTexts,language,""),resourceId:unit.thumbnail.id,graphId:unit.thumbnail.graphId}} : {}),
     };
   });
 
@@ -177,7 +180,7 @@ function renderPathOptions(unit: PitchCourseWorldUnit): string {
     if (path.status === "available" && path.sceneDocumentId) {
       return `<div class="pitch-world-path" data-path-status="available">
         <span class="pitch-world-path-label">${escapeHtml(path.label)}</span>
-        <button type="button" class="pitch-world-start" data-scene-document-id="${escapeHtml(path.sceneDocumentId)}">Start level</button>
+        <button type="button" class="pitch-world-start" aria-label="${escapeHtml(`Start level: ${unit.label}${unit.paths.length > 1 ? ` — ${path.label}` : ""}`)}" data-scene-document-id="${escapeHtml(path.sceneDocumentId)}">Start level <span aria-hidden="true">↗</span></button>
       </div>`;
     }
     return `<div class="pitch-world-path" data-path-status="in-preparation">
@@ -187,23 +190,34 @@ function renderPathOptions(unit: PitchCourseWorldUnit): string {
   }).join("");
 }
 
-function renderUnit(unit: PitchCourseWorldUnit): string {
-  return `<li class="pitch-world-node" data-level="${unit.levelNumber}" data-unit-status="${unit.status}">
+function renderUnit(unit: PitchCourseWorldUnit, index:number): string {
+  const row=Math.floor(index/3),column=row%2?3-index%3:1+index%3;
+  const artwork=unit.thumbnail && unit.status === "available"
+    ? `<img class="pitch-world-thumbnail" src="${escapeHtml(resolvePublicAssetUrl(unit.thumbnail.uri))}" alt="${escapeHtml(unit.thumbnail.alternativeText)}" data-resource-id="${escapeHtml(unit.thumbnail.resourceId)}" data-source-graph="${escapeHtml(unit.thumbnail.graphId)}" width="360" height="200" decoding="async">`
+    : '<div class="pitch-world-thumbnail pitch-world-thumbnail-placeholder" aria-hidden="true"><svg viewBox="0 0 360 200" fill="none"><path d="m40 140 40 35 45 5 50 15 50-20 60-5 35-30" fill="currentColor" opacity=".3"/><ellipse cx="180" cy="140" rx="140" ry="24" fill="currentColor" opacity=".2"/><path d="M154 116V79a26 26 0 0 1 52 0v37" stroke="currentColor" stroke-width="9"/><rect x="139" y="100" width="82" height="59" rx="8" fill="currentColor" opacity=".6"/><circle cx="180" cy="124" r="7" fill="white"/><path d="M180 128v12" stroke="white" stroke-width="5"/></svg></div>';
+  return `<li class="pitch-world-node" data-level="${unit.levelNumber}" data-unit-status="${unit.status}" style="--world-column:${column};--world-row:${row+1};--world-rise:${[0,44,8,12,52,0][index%6]}px">
     <div class="pitch-world-marker" aria-hidden="true">${unit.levelNumber}</div>
     <article class="pitch-world-card">
+      <div class="pitch-world-artwork">${artwork}</div>
+      <div class="pitch-world-card-body">
       <p class="pitch-world-level">Level ${unit.levelNumber}</p>
       <h3>${escapeHtml(unit.label)}</h3>
       <div class="pitch-world-paths">${renderPathOptions(unit)}</div>
+      </div>
     </article>
   </li>`;
+}
+
+function renderRoute(units:readonly PitchCourseWorldUnit[]):string {
+  return `<div class="pitch-world-map"><ol class="pitch-world-route">${units.map(renderUnit).join("")}</ol></div>`;
 }
 
 export function renderPitchCourseWorldHtml(model: PitchCourseWorldModel): string {
   const regions = model.sections.length > 0
     ? model.sections.map((section) => {
         const body = section.units.length
-          ? `<ol class="pitch-world-route">${section.units.map(renderUnit).join("")}</ol>`
-          : '<p class="pitch-world-region-empty">In preparation</p>';
+          ? renderRoute(section.units)
+          : '<div class="pitch-world-region-empty"><span class="pitch-world-closed-gate" aria-hidden="true">⚑</span><p>In preparation</p></div>';
         return `<li class="pitch-world-region-item">
           <section class="pitch-world-region" data-course-section-id="${escapeHtml(section.id)}" data-section-status="${section.status}">
             <header class="pitch-world-region-header">
@@ -215,16 +229,17 @@ export function renderPitchCourseWorldHtml(model: PitchCourseWorldModel): string
           </section>
         </li>`;
       }).join("")
-    : `<li class="pitch-world-region-item"><section class="pitch-world-region"><ol class="pitch-world-route">${model.units.map(renderUnit).join("")}</ol></section></li>`;
+    : `<li class="pitch-world-region-item"><section class="pitch-world-region">${renderRoute(model.units)}</section></li>`;
 
   return `<section class="pitch-course-world" aria-labelledby="pitch-course-world-title">
     <header class="pitch-world-header">
       <p class="pitch-world-kicker">COURSE OVERWORLD</p>
       <h1 id="pitch-course-world-title" tabindex="-1">${escapeHtml(model.title)}</h1>
-      <p>Select a level. Finished levels return here after their closing buffer.</p>
+      <p>Choose an island. Explore a topic. Return here for your next adventure.</p>
+      <div class="pitch-world-map-key"><span><i aria-hidden="true"></i>Ready to explore</span><span><i aria-hidden="true"></i>In preparation</span></div>
       <p class="pitch-world-navigation-status" data-course-navigation-status role="status" aria-live="polite" hidden></p>
     </header>
-    <ol class="pitch-world-regions">${regions}</ol>
+    <div class="pitch-world-atlas"><svg class="pitch-world-trail" aria-hidden="true" focusable="false"><path class="pitch-world-trail-border"/><path class="pitch-world-trail-surface"/><path class="pitch-world-trail-dashes"/></svg><ol class="pitch-world-regions">${regions}</ol></div>
   </section>`;
 }
 

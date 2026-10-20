@@ -408,7 +408,7 @@ body[data-presentation-theme="dark"] .reveal
 /* Generic math + definition-list profile. No slide, course or resource names. */
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"] {
   display: grid !important;
-  grid-template-rows: auto minmax(0, .88fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, .6fr) minmax(0, 1.4fr);
   gap: 1rem;
   padding: 1.5rem 2rem !important;
 }
@@ -428,9 +428,9 @@ body[data-presentation-theme="dark"] .reveal
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
   .math-display[data-component-kind="formula"] {
   margin: 0;
-  padding: 1.5rem .75rem;
+  padding: .85rem .75rem;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.6em;
   border-bottom: 3px solid var(--pcd-accent);
   background: color-mix(in srgb, var(--pcd-accent) 6%, transparent);
 }
@@ -441,6 +441,8 @@ body[data-presentation-theme="dark"] .reveal
   align-self: stretch;
   display: flex;
   align-items: center;
+  min-height: 0;
+  overflow: auto;
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
   [data-component-kind="card-collection"][data-composition-region="main"] {
@@ -455,17 +457,19 @@ body[data-presentation-theme="dark"] .reveal
   flex: none;
   min-width: 0;
   max-width: none;
-  min-height: 9rem;
+  min-height: 7rem;
   border-radius: var(--pcd-surface-radius, 0);
   padding: 1rem 1.15rem;
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
   .definition-list-term {
-  font-size: 1.08em;
+  font-size: .9em;
+  text-transform: none;
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
   .definition-list-description {
-  font-size: .68em;
+  font-size: .82em;
+  line-height: 1.35;
 }
 @media (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]

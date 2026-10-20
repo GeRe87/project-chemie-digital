@@ -1,0 +1,148 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-32-38> {
+  ex:v32 a cd:Interpretation ; skos:prefLabel "The Spread of Observations and Means"@en ; cd:body "Repeated independent samples of the same size from one population would generate a distribution of sample means. This sampling distribution differs from the distribution of individual observations. Three sample means only illustrate the idea; they do not estimate that distribution reliably."@en ; cd:authoredResource true .
+  ex:v32-context a cd:Interpretation ; cd:body "So far, we have described how individual measurements vary. Now we ask how the mean itself varies between independent samples. Each illustrative sample contains n = 3 individual values and yields exactly one mean; recalculating the same data does not create a new sample."@en ; cd:authoredResource true .
+  ex:v-sampling a cd:Concept ; skos:prefLabel "sampling distribution"@en ; cd:hasDefinition ex:v-sampling-def ; cd:authoredResource true .
+  ex:v-sampling-def a cd:Definition ; cd:body "Probability distribution of a statistic under repeated sampling using a specified sampling design and sample size."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:v32-table a cd:TableDefinition ; skos:prefLabel "Three values → one mean (all in mg/L)"@en ; cd:hasTableColumn ex:v32-c1, ex:v32-c2, ex:v32-c3 ; cd:hasTableRow ex:v32-r1, ex:v32-r2, ex:v32-r3 ; cd:authoredResource true .
+  ex:v32-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Sample"@en ; cd:authoredResource true .
+  ex:v32-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Three observations"@en ; cd:authoredResource true .
+  ex:v32-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "One mean"@en ; cd:authoredResource true .
+  ex:v32-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v32-a1, ex:v32-a2, ex:v32-a3 ; cd:authoredResource true .
+  ex:v32-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v32-b1, ex:v32-b2, ex:v32-b3 ; cd:authoredResource true .
+  ex:v32-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v32-d1, ex:v32-d2, ex:v32-d3 ; cd:authoredResource true .
+  ex:v32-a1 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:v32-a2 a cd:TableCell ; cd:position 2 ; cd:body "8, 10, 12"@en ; cd:authoredResource true .
+  ex:v32-a3 a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:v32-b1 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v32-b2 a cd:TableCell ; cd:position 2 ; cd:body "9, 11, 13"@en ; cd:authoredResource true .
+  ex:v32-b3 a cd:TableCell ; cd:position 3 ; cd:body "11"@en ; cd:authoredResource true .
+  ex:v32-d1 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:v32-d2 a cd:TableCell ; cd:position 2 ; cd:body "7, 9, 11"@en ; cd:authoredResource true .
+  ex:v32-d3 a cd:TableCell ; cd:position 3 ; cd:body "9"@en ; cd:authoredResource true .
+  ex:v32-observations a cd:Dataset ; cd:unit "mg/L" ; dct:description "Nine synthetic values in three illustrative samples; sample membership is given in the companion table."@en ; cd:hasObservation ex:v32-o1, ex:v32-o2, ex:v32-o3, ex:v32-o4, ex:v32-o5, ex:v32-o6, ex:v32-o7, ex:v32-o8, ex:v32-o9 ; cd:authoredResource true .
+  ex:v32-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 8.0 ; cd:authoredResource true .
+  ex:v32-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:v32-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:v32-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:v32-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:v32-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 13.0 ; cd:authoredResource true .
+  ex:v32-o7 a cd:Observation ; cd:position 7 ; cd:numericValue 7.0 ; cd:authoredResource true .
+  ex:v32-o8 a cd:Observation ; cd:position 8 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:v32-o9 a cd:Observation ; cd:position 9 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:v32-means a cd:Dataset ; cd:unit "mg/L" ; dct:description "Means of the three synthetic samples: 10, 11, 9 mg/L. Three means illustrate the idea, not a well-estimated sampling distribution."@en ; cd:hasObservation ex:v32-m1, ex:v32-m2, ex:v32-m3 ; cd:authoredResource true .
+  ex:v32-m1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:v32-m2 a cd:Observation ; cd:position 2 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:v32-m3 a cd:Observation ; cd:position 3 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:v32-chart a cd:ChartDefinition ; skos:prefLabel "Individual results versus sample means"@en ; cd:body "Nine individual values versus one mean per sample. These three synthetic means are an illustration, not a simulated sampling distribution."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "What each dot represents"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v32-g1, ex:v32-g2 ; cd:authoredResource true .
+  ex:v32-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Individual values"@en ; cd:usesDataset ex:v32-observations ; cd:authoredResource true .
+  ex:v32-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Sample means"@en ; cd:usesDataset ex:v32-means ; cd:authoredResource true .
+
+  ex:v33 a cd:Interpretation ; skos:prefLabel "Standard Error of the Mean"@en ; cd:body "For independent, identically distributed observations with finite variance, the true SEM is σ/√n. Replacing σ by s estimates it. Observation spread and precision of a mean estimate are different; SEM alone is not a complete measurement uncertainty."@en ; dct:references ex:standard-error, ex:sem-scope-interpretation ; cd:authoredResource true .
+  ex:v33-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v33-a, ex:v33-b, ex:v33-c ; cd:authoredResource true .
+  ex:v33-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Estimated SE / SEM"@en ; cd:body "Estimated SD of the distribution of sample means across repeated samples. True SEM = σ/√n; the hat marks the estimate using s. Units are the same as the observations."@en ; cd:authoredResource true .
+  ex:v33-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "s: individual-observation spread"@en ; cd:body "The sample SD describes individual results, not the variability of sample means. Neither s nor SEM alone is a complete uncertainty budget or a measure of systematic error."@en ; cd:authoredResource true .
+  ex:v33-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "n: independent observations"@en ; cd:body "The simple formula requires independent, identically distributed observations with finite variance. Which observations actually count as independent observations in n? Count relevant independent sampling units, not automatically every injection."@en ; cd:authoredResource true .
+
+  ex:v34 a cd:Interpretation ; skos:prefLabel "More Measurements, Smaller Standard Error"@en ; cd:body "Four times as many independent observations halve SE: √(4n) = 2√n. Averaging reduces random variation in the mean; it does not change the individual-result SD σ or remove a systematic error."@en ; cd:authoredResource true .
+  ex:v34-table a cd:TableDefinition ; skos:prefLabel "Hold population SD σ = 2 mg/L fixed"@en ; cd:hasTableColumn ex:v34-c1, ex:v34-c2, ex:v34-c3 ; cd:hasTableRow ex:v34-r1, ex:v34-r2, ex:v34-r3 ; cd:authoredResource true .
+  ex:v34-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Independent n"@en ; cd:authoredResource true .
+  ex:v34-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "σ (mg/L)"@en ; cd:authoredResource true .
+  ex:v34-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "SE = σ/√n (mg/L)"@en ; cd:authoredResource true .
+  ex:v34-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:v34-a1, ex:v34-a2, ex:v34-a3 ; cd:authoredResource true .
+  ex:v34-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:v34-b1, ex:v34-b2, ex:v34-b3 ; cd:authoredResource true .
+  ex:v34-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:v34-d1, ex:v34-d2, ex:v34-d3 ; cd:authoredResource true .
+  ex:v34-a1 a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:v34-a2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v34-a3 a cd:TableCell ; cd:position 3 ; cd:body "2/√4 = 1"@en ; cd:authoredResource true .
+  ex:v34-b1 a cd:TableCell ; cd:position 1 ; cd:body "16"@en ; cd:authoredResource true .
+  ex:v34-b2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v34-b3 a cd:TableCell ; cd:position 3 ; cd:body "2/√16 = 0.5"@en ; cd:authoredResource true .
+  ex:v34-d1 a cd:TableCell ; cd:position 1 ; cd:body "64"@en ; cd:authoredResource true .
+  ex:v34-d2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:v34-d3 a cd:TableCell ; cd:position 3 ; cd:body "2/√64 = 0.25"@en ; cd:authoredResource true .
+  ex:v34-data a cd:Dataset ; cd:unit "mg/L" ; dct:description "Theoretical standard errors σ/sqrt(n) for independent identically distributed observations with assumed σ = 2 mg/L. Derived summaries, not individual measured observations."@en ; dct:source ex:sem-population-formula, ex:v34-cards ; cd:hasObservation ex:v34-o1, ex:v34-o2, ex:v34-o3 ; cd:authoredResource true .
+  ex:v34-o1 a cd:Observation ; cd:position 1 ; skos:prefLabel "SE"@en ; cd:groupLabel "n = 4"@en ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:v34-o2 a cd:Observation ; cd:position 2 ; skos:prefLabel "SE"@en ; cd:groupLabel "n = 16"@en ; cd:numericValue 0.5 ; cd:authoredResource true .
+  ex:v34-o3 a cd:Observation ; cd:position 3 ; skos:prefLabel "SE"@en ; cd:groupLabel "n = 64"@en ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:v34-chart a cd:ChartDefinition ; skos:prefLabel "Fourfold sample size, half the SE"@en ; cd:body "Theoretical SE = σ/√n with assumed σ = 2 mg/L throughout. These are model calculations, not simulated measurements."@en ; cd:chartType cd:BarChart ; cd:xAxisLabel "Independent sample size n"@en ; cd:yAxisLabel "SE of mean"@en ; cd:yAxisUnit "mg/L" ; cd:usesDataset ex:v34-data ; cd:authoredResource true .
+  ex:v34-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v34-a, ex:v34-b, ex:v34-c ; cd:authoredResource true .
+  ex:v34-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n = 4"@en ; cd:body "SE = 2/√4 = 1 mg/L.\nAssumed individual-observation SD: 2 mg/L."@en ; cd:authoredResource true .
+  ex:v34-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "n = 16"@en ; cd:body "SE = 2/√16 = 0.5 mg/L.\nSame population SD, four times as many independent data."@en ; cd:authoredResource true .
+  ex:v34-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "n = 64"@en ; cd:body "SE = 2/√64 = 0.25 mg/L.\nAgain four times the sample size, half the SE."@en ; cd:authoredResource true .
+
+  ex:v35 a cd:Interpretation ; skos:prefLabel "SD, SE and RSD: Three Different Questions"@en ; cd:body "The simple SEM assumes iid observations with finite variance. Label error bars explicitly: SD and SEM answer different questions; RSD describes relative spread, not the uncertainty of the estimated mean."@en ; cd:authoredResource true .
+  ex:v35-sd a cd:MathExpression ; cd:latex "s=\\sqrt{\\frac{SS}{n-1}}" ; dct:hasPart ex:v35-sd-legend ; cd:authoredResource true .
+  ex:v35-sd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v35-a ; cd:authoredResource true .
+  ex:v35-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SD: individual observations"@en ; cd:body "How much do individual results vary? SS: sum of squared deviations about x̄; n: count of observations. Sample SD uses n − 1 residual df and has the original measurement unit."@en ; cd:authoredResource true .
+  ex:v35-se a cd:MathExpression ; cd:latex "\\widehat{\\mathrm{SE}}(\\bar{X})=\\frac{s}{\\sqrt{n}}" ; dct:hasPart ex:v35-se-legend ; cd:authoredResource true .
+  ex:v35-se-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v35-b ; cd:authoredResource true .
+  ex:v35-b a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SE: repeated sample means"@en ; cd:body "How much would the sample mean vary across independent repetitions? s: sample SD; n: independent observations per sample. The estimate has the original unit; it is not individual-result dispersion."@en ; cd:authoredResource true .
+  ex:v35-rsd a cd:MathExpression ; cd:latex "\\mathrm{RSD}(\\%)=100\\,\\frac{s}{|\\bar{x}|}" ; dct:hasPart ex:v35-rsd-legend ; cd:authoredResource true .
+  ex:v35-rsd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v35-c ; cd:authoredResource true .
+  ex:v35-c a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "RSD: spread relative to level"@en ; cd:body "How large is SD relative to the mean? s/|x̄| is dimensionless; ×100 reports percent. |x̄| is the nonzero mean magnitude. Interpretation needs a suitable ratio scale and a mean away from zero."@en ; cd:authoredResource true .
+
+  ex:v36 a cd:Interpretation ; skos:prefLabel "Confidence Interval for the Mean"@en ; cd:body "μ is fixed and unknown. The interval varies across samples but is fixed once the data are observed. For iid normal observations, n > 1 and unknown variance, 95% refers to long-run coverage of the procedure—not a 95% probability for μ in this particular interval."@en ; cd:authoredResource true .
+  ex:v-confidence a cd:Concept ; skos:prefLabel "confidence interval"@en ; cd:hasDefinition ex:v-confidence-def ; cd:authoredResource true .
+  ex:v-confidence-def a cd:Definition ; cd:body "An interval constructed by a procedure with a specified long-run probability of covering a fixed population parameter under its assumptions."@en ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:v36-formula a cd:MathExpression ; cd:latex "\\bar{x}\\;\\pm\\;t_{1-\\alpha/2,\\,n-1}\\,\\frac{s}{\\sqrt{n}}" ; dct:hasPart ex:v36-legend ; cd:hasSource ex:source-openstax-statistics ; cd:authoredResource true .
+  ex:v36-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v36-a, ex:v36-b, ex:v36-c, ex:v36-d ; cd:authoredResource true .
+  ex:v36-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "α and confidence level"@en ; cd:body "α is the significance level of the corresponding two-sided test and nominal noncoverage rate. Confidence level = 1 − α. For 95%, α = 0.05, split as α/2 in each tail."@en ; dct:references ex:v-alpha-symbol ; cd:authoredResource true .
+  ex:v36-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "t critical value and df"@en ; cd:body "The (1 − α/2) quantile of Student's t distribution. Residual degrees of freedom: n − 1, because the mean is estimated from the same n observations."@en ; dct:references ex:v-t-symbol ; cd:authoredResource true .
+  ex:v36-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "s/√n: estimated SEM"@en ; cd:body "s: sample SD; n: independent observations. The estimated SD of sample means, in measurement units. Multiply by t to obtain the margin."@en ; cd:authoredResource true .
+  ex:v36-d a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "x̄ and the endpoints"@en ; cd:body "x̄ is the observed sample mean. Subtract/add the margin for lower/upper endpoints targeting the population mean μ, not individual observations."@en ; cd:authoredResource true .
+  ex:v-alpha-symbol a cd:MathSymbol ; cd:symbol "α" ; cd:body "Chosen significance level of the dual test and nominal noncoverage rate of the confidence procedure."@en ; cd:authoredResource true .
+  ex:v-t-symbol a cd:MathSymbol ; cd:symbol "t" ; cd:body "Student's t critical quantile at the stated probability and degrees of freedom."@en ; cd:authoredResource true .
+
+  ex:v37 a cd:Interpretation ; skos:prefLabel "Confidence Interval: Worked Analytical Example"@en ; cd:body "Under iid normal sampling, this interval estimates μ. It is not a specification for individual results and does not include every systematic or calibration contribution to measurement uncertainty. Calculate with unrounded values; round only for reporting."@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:v37-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\mathrm{CI}_{95\\%}\\approx(10\\pm2.776\\times0.07071)\\,\\mathrm{mg/L}\\\\\\approx[9.804,10.196]\\,\\mathrm{mg/L}\\end{gathered}" ; cd:body "QC Method A: the two-sided ninety-five percent t interval is approximately ten plus or minus 0.1963 milligrams per litre, giving endpoints 9.804 and 10.196 milligrams per litre."@en ; dct:hasPart ex:v37-legend ; cd:authoredResource true .
+  ex:v37-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:v37-a, ex:v37-b, ex:v37-c ; cd:authoredResource true .
+  ex:v37-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "QC A: sample summaries"@en ; cd:body "n = 5 repeats; x̄ = 10 mg/L; sample variance s² = 0.025 (mg/L)². Its square root gives s ≈ 0.1581 mg/L."@en ; cd:authoredResource true .
+  ex:v37-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "SE and critical t"@en ; cd:body "Estimated SEM = s/√5 ≈ 0.07071 mg/L. df = 4; α = 0.05 gives t* = t(0.975,4) ≈ 2.776. The t value is dimensionless."@en ; cd:authoredResource true .
+  ex:v37-c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Margin → endpoints"@en ; cd:body "Margin t* × SEM ≈ 0.1963 mg/L. Subtract/add it to x̄ = 10 mg/L. Report endpoints to three decimals; intermediate labels here are rounded approximations."@en ; cd:authoredResource true .
+
+  ex:v38 a cd:Interpretation ; skos:prefLabel "R Lab 4: Confidence Intervals"@en ; cd:body "Seven minutes: calculate a two-sided 95% t interval manually, then compare t.test()."@en ; cd:authoredResource true .
+  ex:v38-task a cd:Exercise ; cd:body "Seven minutes: assuming iid normal QC repeats, calculate the mean, SD, SE and qt() critical value. Compare the manual 95% interval with t.test().\nThe width comparison holds s fixed for hypothetical independent sample sizes. New data can also change s. Copying the same values does not create independent evidence or justify a smaller SE."@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
+  ex:v38-task cd:hasCodeExample ex:v38-code .
+  ex:v38-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "x <- c(9.8, 10, 10.1, 9.9, 10.2)\nn <- length(x); m <- mean(x); s <- sd(x)\nse <- s/sqrt(n); tcrit <- qt(.975, df=n-1)\nmanual <- m + c(-1, 1)*tcrit*se\nci <- rbind(manual=manual, R=t.test(x)$conf.int)\ncolnames(ci) <- c('lower_mg_L', 'upper_mg_L')\nprint(ci)\n# Hypothetical independent sizes; same observed s:\nn_new <- c(5, 20, 80)\ndata.frame(n=n_new,\n  width_mg_L=2*qt(.975, n_new-1)*s/sqrt(n_new))" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-32-38> {
+  ex:scene-v32 a cd:SceneDefinition ; cd:focusConcept ex:v-sampling ; cd:hasSceneItem ex:v32h, ex:v32intro, ex:v32table, ex:v32chart, ex:v32t ; cd:authoredResource true .
+  ex:v32h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v32 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v32intro a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v32-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v32table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v32-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v32chart a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v32-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v32t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v32 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v33 a cd:SceneDefinition ; cd:focusConcept ex:standard-error ; cd:hasSceneItem ex:v33h, ex:v33f, ex:v33l ; cd:authoredResource true .
+  ex:v33h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v33 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v33f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:sem-estimated-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v33l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v33-legend ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v34 a cd:SceneDefinition ; cd:focusConcept ex:standard-error ; cd:hasSceneItem ex:v34h, ex:v34l, ex:v34chart, ex:v34t ; cd:authoredResource true .
+  ex:v34h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v34 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v34l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v34-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:v34chart a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v34-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v34t a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v34 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v35 a cd:SceneDefinition ; cd:focusConcept ex:statistical-dispersion ; cd:hasSceneItem ex:v35h, ex:v35f1, ex:v35f2, ex:v35f3, ex:v35t ; cd:authoredResource true .
+  ex:v35h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v35 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v35f1 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v35-sd ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v35f2 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v35-se ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v35f3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v35-rsd ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v35t a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:v35 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v36 a cd:SceneDefinition ; cd:focusConcept ex:v-confidence ; cd:hasSceneItem ex:v36h, ex:v36f, ex:v36t ; cd:authoredResource true .
+  ex:v36h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v36 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v36f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v36-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v36t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v36 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v37 a cd:SceneDefinition ; cd:focusConcept ex:v-confidence ; cd:hasSceneItem ex:v37h, ex:v37f, ex:v37t ; cd:authoredResource true .
+  ex:v37h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v37 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v37f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v37-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:v37t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v37 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-v38 a cd:SceneDefinition ; cd:focusConcept ex:v-confidence ; cd:hasSceneItem ex:v38h, ex:v38task, ex:v38c ; cd:authoredResource true .
+  ex:v38h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:v38 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:v38task a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v38-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:v38c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v38-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+}

@@ -43,6 +43,7 @@ function tableDimensions(block: Extract<SceneBlock, { kind: "table" }>): {
 }
 
 function chartDatumCount(block: Extract<SceneBlock, { kind: "chart" }>): number {
+  if (block.chartType === "dot") return block.groups.reduce((total, group) => total + group.data.length, 0);
   return block.chartType === "bar"
     ? block.data.length
     : block.series.reduce((total, series) => total + series.data.length, 0);
@@ -61,6 +62,11 @@ function blockFootprint(block: SceneBlock): RevealBlockFootprint {
       };
     }
     case "math": {
+      if (block.derivation) {
+        const text = block.derivation.steps.reduce((sum, step) => sum + textUnits(step.operation), 0);
+        const structure = 2 + block.derivation.steps.length * 2;
+        return { blockId: block.id, score: structure + text, textUnits: text, structuralUnits: structure, evidenceUnits: block.derivation.steps.length };
+      }
       const text = textUnits(block.spokenText);
       return {
         blockId: block.id,

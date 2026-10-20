@@ -1,0 +1,101 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/mathematical-derivations> {
+  cd:LearningDomain cdm:definesConcept cd:MathematicalDerivation, cd:MathematicalRule, cd:DerivationStep, cd:MathematicalDerivationSection ;
+    cdm:definesRelation cd:inputFormula, cd:resultFormula, cd:hasDerivationStep, cd:fromFormula, cd:toFormula,
+      cd:appliesRule, cd:ruleFormula, cd:hasExplanation, cd:applicationFormula, cd:requiresAssumption,
+      cd:transformationKind, cd:partOfDerivation, cd:firstDerivationStep, cd:lastDerivationStep, cd:usesLegend ;
+    cdm:definesControlledValue cd:DerivationRole, cd:EquivalentTransformation, cd:ImpliedTransformation, cd:StatisticalTransformation .
+  cd:MathematicalDerivation a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:MathematicalRule a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:DerivationStep a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource ; rdfs:comment "Explicit formula transformation; unlike a legacy textual CalculationStep, its mathematical links are mandatory."@en .
+  cd:MathematicalDerivationSection a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource ; rdfs:comment "An authored contiguous range within one derivation. It does not duplicate formulas or change a LearningPath in the browser."@en .
+  cd:inputFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivation ; rdfs:range cd:MathExpression .
+  cd:resultFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivation ; rdfs:range cd:MathExpression .
+  cd:hasDerivationStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivation ; rdfs:range cd:DerivationStep .
+  cd:fromFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DerivationStep ; rdfs:range cd:MathExpression .
+  cd:toFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DerivationStep ; rdfs:range cd:MathExpression .
+  cd:appliesRule a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DerivationStep ; rdfs:range cd:MathematicalRule .
+  cd:ruleFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalRule ; rdfs:range cd:MathExpression .
+  cd:hasExplanation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DerivationStep ; rdfs:range cd:Interpretation .
+  cd:applicationFormula a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Interpretation ; rdfs:range cd:MathExpression .
+  cd:requiresAssumption a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:Interpretation .
+  cd:transformationKind a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DerivationStep .
+  cd:partOfDerivation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivationSection ; rdfs:range cd:MathematicalDerivation .
+  cd:firstDerivationStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivationSection ; rdfs:range cd:DerivationStep .
+  cd:lastDerivationStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MathematicalDerivationSection ; rdfs:range cd:DerivationStep .
+  cd:usesLegend a rdf:Property, cdm:RelationDescriptor ; rdfs:range cd:DefinitionList .
+  cd:DerivationRole a skos:Concept ; skos:prefLabel "Mathematical derivation"@en .
+  cd:EquivalentTransformation a skos:Concept ; skos:prefLabel "Equivalent transformation"@en .
+  cd:ImpliedTransformation a skos:Concept ; skos:prefLabel "Mathematical implication"@en .
+  cd:StatisticalTransformation a skos:Concept ; skos:prefLabel "Requires statistical assumptions"@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/mathematical-derivations> {
+  cd:DerivationFormulaShape a sh:NodeShape ;
+    sh:class cd:MathExpression ; sh:property [ sh:path cd:latex ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:hasSymbol ; sh:minCount 1 ; sh:class cd:MathSymbol ] .
+  cd:MathematicalRuleShape a sh:NodeShape ; sh:targetClass cd:MathematicalRule ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:ruleFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:requiresAssumption ; sh:class cd:Interpretation ] .
+  cd:DerivationStepShape a sh:NodeShape ; sh:targetClass cd:DerivationStep ;
+    sh:property [ sh:path [ sh:inversePath cd:hasDerivationStep ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:MathematicalDerivation ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:fromFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ] ;
+    sh:property [ sh:path cd:toFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ] ;
+    sh:property [ sh:path cd:appliesRule ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:MathematicalRule ] ;
+    sh:property [ sh:path cd:hasExplanation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Interpretation ; sh:node [
+      sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ] ;
+      sh:property [ sh:path cd:applicationFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ]
+    ] ] ;
+    sh:property [ sh:path cd:requiresAssumption ; sh:class cd:Interpretation ] ;
+    sh:property [ sh:path cd:transformationKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:EquivalentTransformation cd:ImpliedTransformation cd:StatisticalTransformation ) ] ;
+    sh:sparql [ sh:message "A statistical transformation must reference its assumptions explicitly." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE { $this cd:transformationKind cd:StatisticalTransformation . FILTER NOT EXISTS { $this cd:requiresAssumption ?a } }""" ] .
+  cd:MathematicalDerivationShape a sh:NodeShape ; sh:targetClass cd:MathematicalDerivation ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:inputFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ] ;
+    sh:property [ sh:path cd:resultFormula ; sh:minCount 1 ; sh:maxCount 1 ; sh:node cd:DerivationFormulaShape ] ;
+    sh:property [ sh:path cd:hasDerivationStep ; sh:minCount 1 ; sh:class cd:DerivationStep ] ;
+    sh:sparql [ sh:message "Derivation order must be unique, contiguous and formula-connected, with explicit input and result boundaries." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:hasDerivationStep ?s ; cd:inputFormula ?input ; cd:resultFormula ?result .
+        ?s cd:position ?p ; cd:fromFormula ?from ; cd:toFormula ?to .
+        FILTER ((?p = 1 && ?from != ?input)
+          || (?p > 1 && NOT EXISTS { $this cd:hasDerivationStep ?prev . ?prev cd:position ?q ; cd:toFormula ?from . FILTER (?q = ?p - 1) })
+          || EXISTS { $this cd:hasDerivationStep ?other . ?other cd:position ?p . FILTER (?other != ?s) }
+          || (NOT EXISTS { $this cd:hasDerivationStep ?next . ?next cd:position ?q . FILTER (?q = ?p + 1) } && ?to != ?result))
+      }""" ] .
+  cd:MathematicalDerivationSectionShape a sh:NodeShape ; sh:targetClass cd:MathematicalDerivationSection ;
+    sh:property [ sh:path cd:partOfDerivation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:MathematicalDerivation ] ;
+    sh:property [ sh:path cd:firstDerivationStep ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DerivationStep ] ;
+    sh:property [ sh:path cd:lastDerivationStep ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DerivationStep ] ;
+    sh:property [ sh:path cd:usesLegend ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DefinitionList ] ;
+    sh:sparql [ sh:message "Author sections of one or two contiguous steps from the same derivation; do not shrink or split them dynamically in the browser." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:partOfDerivation ?d ; cd:firstDerivationStep ?first ; cd:lastDerivationStep ?last .
+        ?first cd:position ?a . ?last cd:position ?b .
+        FILTER (?a > ?b || ?b - ?a > 1 || NOT EXISTS { ?d cd:hasDerivationStep ?first } || NOT EXISTS { ?d cd:hasDerivationStep ?last })
+      }""" ] ;
+    sh:sparql [ sh:message "Every symbol used by visible equations and rule formulas needs a referenced definition in the selected legend." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/> PREFIX dct: <http://purl.org/dc/terms/>
+      SELECT $this WHERE {
+        $this cd:partOfDerivation ?d ; cd:firstDerivationStep/cd:position ?a ; cd:lastDerivationStep/cd:position ?b ; cd:usesLegend ?legend .
+        ?d cd:hasDerivationStep ?s . ?s cd:position ?p . FILTER (?p >= ?a && ?p <= ?b)
+        ?s (cd:fromFormula|cd:toFormula|cd:appliesRule/cd:ruleFormula) ?formula . ?formula cd:hasSymbol ?symbol .
+        FILTER NOT EXISTS { ?legend cd:hasDefinitionListEntry/dct:references ?symbol }
+      }""" ] .
+  cd:DerivationSceneItemShape a sh:NodeShape ; sh:targetClass cd:SceneItem ;
+    sh:sparql [ sh:message "DerivationRole selects an authored MathematicalDerivationSection through cd:partOfDerivation." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE { $this cd:communicativeRole cd:DerivationRole ; cd:selectsResource ?s ; cd:selectionPath ?path .
+        FILTER (?path != "cd:partOfDerivation" || NOT EXISTS { ?s a cd:MathematicalDerivationSection }) }""" ] .
+}

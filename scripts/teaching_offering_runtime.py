@@ -105,6 +105,27 @@ def _display_record(graph: Graph, subject: URIRef) -> dict[str, Any]:
     }
 
 
+def _thumbnail_record(dataset: Dataset, unit: URIRef) -> dict[str, Any]:
+    links = list(dataset.quads((unit, iri("hasThumbnail"), None, None)))
+    if not links:
+        return {}
+    if len(links) != 1:
+        raise ValueError(f"LearningUnit must have at most one authored thumbnail: {unit}")
+    _, _, asset, graph_id = links[0]
+    graph = dataset.graph(graph_id)
+    if not isinstance(asset, URIRef) or (asset, RDF.type, iri("MediaAsset")) not in graph:
+        raise ValueError(f"Thumbnail must be a MediaAsset defined in its attribution graph: {unit}")
+    uris = list(graph.objects(asset, iri("uri")))
+    if len(uris) != 1 or not re.fullmatch(r"/[A-Za-z0-9/_-]+\.svg", str(uris[0])):
+        raise ValueError(f"Thumbnail must have one safe local SVG URI: {asset}")
+    if set(graph.objects(asset, iri("mediaType"))) != {Literal("image/svg+xml")}:
+        raise ValueError(f"Thumbnail mediaType must be image/svg+xml: {asset}")
+    alternatives = _localized_text(graph, asset, iri("alternativeText"))
+    if not alternatives or any(not item["value"].strip() for item in alternatives):
+        raise ValueError(f"Thumbnail must have authored alternative text: {asset}")
+    return {"thumbnail": {"id": str(asset), "graphId": str(graph_id), "uri": str(uris[0]), "alternativeTexts": alternatives}}
+
+
 def project_teaching_offering_runtime_document(
     dataset: Dataset,
     offering_id: str,
@@ -244,6 +265,7 @@ def project_teaching_offering_runtime_document(
                 "id": str(unit),
                 **_display_record(graph, unit),
                 "paths": path_records,
+                **_thumbnail_record(dataset, unit),
             }
         )
 

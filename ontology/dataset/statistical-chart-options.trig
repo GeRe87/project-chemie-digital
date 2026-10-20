@@ -1,0 +1,47 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/statistical-chart-options> {
+  cd:LearningDomain cdm:definesRelation cd:summaryResult ; cdm:definesAttribute cd:groupXValue, cd:numericXAxis,
+    cd:yAxisMinimum, cd:markerRadius, cd:markerOpacity, cd:summaryRadius, cd:observationLabel, cd:summaryLabel, cd:drawStems .
+  cd:drawStems a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean ; rdfs:comment "Categorical observations connected vertically to the authored shared reference value."@en .
+  cd:groupXValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartGroup ; rdfs:range xsd:decimal ; rdfs:comment "Numeric coordinate shared by observations in this chart group."@en .
+  cd:summaryResult a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartGroup ; rdfs:range cd:StatisticalResult ; rdfs:comment "Authored summary of exactly this group's dataset; not calculated by the renderer."@en .
+  cd:numericXAxis a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:yAxisMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:markerRadius a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:markerOpacity a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:summaryRadius a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:observationLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:summaryLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:StatisticalChartOptionsShape a sh:NodeShape ; sh:targetClass cd:ChartDefinition ;
+    sh:property [ sh:path cd:drawStems ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:sparql [ sh:message "Stem charts need an explicit reference and labels for every observation." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/> PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      SELECT $this WHERE { $this cd:drawStems true . { FILTER NOT EXISTS { $this cd:hasChartAnnotation ?r } } UNION { $this cd:hasChartGroup/cd:usesDataset/cd:hasObservation ?o . FILTER NOT EXISTS { ?o skos:prefLabel ?label } } }""" ] ;
+    sh:property [ sh:path cd:numericXAxis ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:yAxisMinimum ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:markerRadius ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:maxInclusive 20 ] ;
+    sh:property [ sh:path cd:summaryRadius ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:maxInclusive 20 ] ;
+    sh:property [ sh:path cd:markerOpacity ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:maxInclusive 1 ] ;
+    sh:property [ sh:path cd:observationLabel ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:summaryLabel ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:sparql [ sh:message "A numeric scatterplot requires a coordinate for each group." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE { $this cd:numericXAxis true ; cd:hasChartGroup ?g . FILTER NOT EXISTS { ?g cd:groupXValue ?x } }""" ] .
+  cd:GroupSummaryShape a sh:NodeShape ; sh:targetClass cd:ChartGroup ;
+    sh:property [ sh:path cd:groupXValue ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:summaryResult ; sh:maxCount 1 ; sh:class cd:StatisticalResult ] ;
+    sh:sparql [ sh:message "Group summary must use exactly its group's dataset and the same unit." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:summaryResult ?r ; cd:usesDataset ?d .
+        { FILTER NOT EXISTS { ?r cd:usesDataset ?d } }
+        UNION { ?r cd:usesDataset ?other . FILTER (?other != ?d) }
+        UNION { ?r cd:unit ?u . ?d cd:unit ?v . FILTER (?u != ?v) }
+      }""" ] .
+}

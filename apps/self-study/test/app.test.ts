@@ -8,6 +8,7 @@ import {
 import { createLearnerStateDocument } from "../../../packages/learner-state/src/index.ts";
 import { createSelfStudyRenderPlan, type SelfStudyNodePlan } from "../../../packages/renderer-self-study/src/index.ts";
 import type { SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
+import { renderStudyInline, renderStudyMath } from "../../../packages/renderer-self-study/src/teaching-text.ts";
 import {
   createSelfStudyLearnerRuntime,
   restoreSelfStudyLearnerStateAtomically,
@@ -36,7 +37,7 @@ function escapeRenderedText(value: string): string {
 
 function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void {
   const visible = (value: string, message: string): void => {
-    assert.ok(index.includes(escapeRenderedText(value)), message);
+    assert.ok(index.includes(escapeRenderedText(value)) || index.includes(renderStudyInline(value)), message);
   };
 
   switch (node.kind) {
@@ -61,7 +62,11 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       return;
     case "definition-list":
       for (const entry of node.entries) {
-        visible(entry.term, `missing static definition term ${entry.id}`);
+        if (entry.expression) {
+          assert.ok(index.includes(`<dt>${renderStudyMath(entry.expression)}</dt>`), `missing static symbol term ${entry.id}`);
+        } else {
+          visible(entry.term, `missing static definition term ${entry.id}`);
+        }
         if (entry.description) {
           visible(entry.description, `missing static definition description ${entry.id}`);
         }
@@ -114,6 +119,28 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       }
       return;
     case "chart":
+      if (node.chartType === "dot") {
+        const chart = node.payload;
+        visible(chart.label, `missing dot plot label ${node.sourceBlockId}`);
+        visible(chart.description, `missing dot plot description ${node.sourceBlockId}`);
+        visible(chart.xAxis.label, `missing dot plot x-axis ${node.sourceBlockId}`);
+        visible(chart.yAxis.label, `missing dot plot y-axis ${node.sourceBlockId}`);
+        for (const group of chart.groups) {
+          visible(group.label, `missing dot plot group ${group.id}`);
+          for (const datum of group.data) {
+            assert.ok(index.includes(`data-chart-datum-id="${datum.id}"`), `missing dot plot observation ${datum.id}`);
+            visible(String(datum.value), `missing dot plot value ${datum.id}`);
+          }
+        }
+        for (const curve of chart.curves ?? []) {
+          visible(curve.label, `missing dot plot curve ${curve.id}`);
+          for (const datum of curve.data) {
+            visible(String(datum.x), `missing curve x ${curve.id}`);
+            visible(String(datum.y), `missing curve y ${curve.id}`);
+          }
+        }
+        return;
+      }
       visible(node.label, `missing static chart label ${node.sourceBlockId}`);
       visible(node.description, `missing static chart description ${node.sourceBlockId}`);
       visible(node.xAxis.label, `missing static chart x-axis ${node.sourceBlockId}`);
@@ -185,7 +212,7 @@ test("generated runtime exposes the validated Chemometrics course bundle in auth
   const boundPathIds = new Set(artifact.sceneDocumentBindings.map((item) => item.pathId));
   assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture"));
   assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture"));
-  assert.ok(!boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture"));
+  assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture"));
   if (introduction) {
     assert.ok(boundPathIds.has("https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction"));
   }
@@ -241,10 +268,10 @@ test("generated static-first shell renders DefinitionList terms and descriptions
   for (const node of definitionLists) {
     assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
     for (const entry of node.entries) {
-      const term = escapeRenderedText(entry.term);
+      const term = entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term);
       assert.ok(index.includes(`<dt>${term}</dt>`), `missing semantic dt for ${entry.id}`);
       if (entry.description) {
-        const description = escapeRenderedText(entry.description);
+        const description = renderStudyInline(entry.description);
         assert.ok(index.includes(`<dd>${description}</dd>`), `missing semantic dd for ${entry.id}`);
       }
     }

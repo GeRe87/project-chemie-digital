@@ -1,0 +1,104 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/unit-scale-factor> {
+  cd:UnitScaleFactorShape a sh:NodeShape ; sh:targetSubjectsOf cd:unitScaleFactor ; sh:class cd:Dataset ;
+    sh:property [ sh:path cd:unitScaleFactor ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ],
+    [ sh:path cd:derivedFromResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ],
+    [ sh:path cd:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+}
+
+<https://w3id.org/project-chemie-digital/graph/ontology/unit-scale-factor> {
+  cd:LearningDomain cdm:definesAttribute cd:unitScaleFactor .
+  cd:unitScaleFactor a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:decimal ; rdfs:comment "Multiply numeric values in the derivedFromResource dataset by this factor to express the same physical values in this dataset's unit."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/data/variance-derived-evidence> {
+  # Paired correction, not a new simulation: linearity permits transforming each
+  # stored seed-1903 MC mean. Six-decimal rounding of the source means is inherited.
+  ex:uq-correct2 a cd:StatisticalResult ; cd:numericValue 4.908612 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d2 ; cd:derivedFromResource ex:vv-mc-o2 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct3 a cd:StatisticalResult ; cd:numericValue 5.0523705 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d3 ; cd:derivedFromResource ex:vv-mc-o3 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct5 a cd:StatisticalResult ; cd:numericValue 4.98640375 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d5 ; cd:derivedFromResource ex:vv-mc-o5 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct10 a cd:StatisticalResult ; cd:numericValue 4.974013333333334 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d10 ; cd:derivedFromResource ex:vv-mc-o10 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct25 a cd:StatisticalResult ; cd:numericValue 4.981755208333333 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d25 ; cd:derivedFromResource ex:vv-mc-o25 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct50 a cd:StatisticalResult ; cd:numericValue 5.026293877551020 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d50 ; cd:derivedFromResource ex:vv-mc-o50 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-correct100 a cd:StatisticalResult ; cd:numericValue 4.976018181818182 ; cd:unit "(mg/L)²" ; cd:quantifiesProperty ex:sample-variance ; cd:usesDataset ex:vv-mc-d100 ; cd:derivedFromResource ex:vv-mc-o100 ; dct:source ex:vs-mc-code ; cd:authoredResource true .
+  ex:uq-cg2 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "2"@en ; cd:groupXValue 2.0 ; cd:usesDataset ex:vv-mc-d2 ; cd:summaryResult ex:uq-correct2 ; cd:authoredResource true .
+  ex:uq-cg3 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "3"@en ; cd:groupXValue 3.0 ; cd:usesDataset ex:vv-mc-d3 ; cd:summaryResult ex:uq-correct3 ; cd:authoredResource true .
+  ex:uq-cg5 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "5"@en ; cd:groupXValue 5.0 ; cd:usesDataset ex:vv-mc-d5 ; cd:summaryResult ex:uq-correct5 ; cd:authoredResource true .
+  ex:uq-cg10 a cd:ChartGroup ; cd:position 4 ; skos:prefLabel "10"@en ; cd:groupXValue 10.0 ; cd:usesDataset ex:vv-mc-d10 ; cd:summaryResult ex:uq-correct10 ; cd:authoredResource true .
+  ex:uq-cg25 a cd:ChartGroup ; cd:position 5 ; skos:prefLabel "25"@en ; cd:groupXValue 25.0 ; cd:usesDataset ex:vv-mc-d25 ; cd:summaryResult ex:uq-correct25 ; cd:authoredResource true .
+  ex:uq-cg50 a cd:ChartGroup ; cd:position 6 ; skos:prefLabel "50"@en ; cd:groupXValue 50.0 ; cd:usesDataset ex:vv-mc-d50 ; cd:summaryResult ex:uq-correct50 ; cd:authoredResource true .
+  ex:uq-cg100 a cd:ChartGroup ; cd:position 7 ; skos:prefLabel "100"@en ; cd:groupXValue 100.0 ; cd:usesDataset ex:vv-mc-d100 ; cd:summaryResult ex:uq-correct100 ; cd:authoredResource true .
+  ex:uq-corrected-chart a cd:ChartDefinition ; skos:prefLabel "MSD and corrected variance from the same samples"@en ; cd:body "Paired seed-1903 MC means: s² = n/(n−1) MSD. Corrected means approximate σ², not exactly 5 in every finite run. Source rounding is inherited."@en ; cd:chartType cd:DotPlot ; cd:numericXAxis true ; cd:yAxisMinimum 0.0 ; cd:markerRadius 5.0 ; cd:summaryRadius 6.0 ; cd:observationLabel "MSD MC mean" ; cd:summaryLabel "Corrected MC mean (same samples)" ; cd:xAxisLabel "Sample size n"@en ; cd:yAxisLabel "Variance estimate"@en ; cd:yAxisUnit "(mg/L)²" ; cd:hasChartGroup ex:uq-cg2, ex:uq-cg3, ex:uq-cg5, ex:uq-cg10, ex:uq-cg25, ex:uq-cg50, ex:uq-cg100 ; cd:hasChartAnnotation ex:vv-mc-ref-line ; dct:hasPart ex:vv-theory-data ; dct:source ex:vv-theory-chart, ex:vs-mc-code ; cd:authoredResource true .
+
+  # All fifteen site observations remain in v40-site1 through v40-site5.
+  ex:uq-site-sd1 a cd:StatisticalResult ; cd:numericValue 0.045825756949558295 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:v40-site1 ; cd:authoredResource true .
+  ex:uq-site-sd2 a cd:StatisticalResult ; cd:numericValue 0.030000000000000000 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:v40-site2 ; cd:authoredResource true .
+  ex:uq-site-sd3 a cd:StatisticalResult ; cd:numericValue 0.035118845842842600 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:v40-site3 ; cd:authoredResource true .
+  ex:uq-site-sd4 a cd:StatisticalResult ; cd:numericValue 0.020000000000000000 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:v40-site4 ; cd:authoredResource true .
+  ex:uq-site-sd5 a cd:StatisticalResult ; cd:numericValue 0.030550504633038670 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:v40-site5 ; cd:authoredResource true .
+  ex:uq-sites-table a cd:TableDefinition ; skos:prefLabel "Three values per site: means and sample SDs (mg/L)"@en ; cd:hasTableColumn ex:uq-site-col1, ex:uq-site-col2, ex:uq-site-sd-column ; cd:hasTableRow ex:uq-sr1, ex:uq-sr2, ex:uq-sr3, ex:uq-sr4, ex:uq-sr5 ; dct:source ex:v40-site1, ex:v40-site2, ex:v40-site3, ex:v40-site4, ex:v40-site5 ; cd:authoredResource true .
+  ex:uq-site-col1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Site"@en ; cd:authoredResource true .
+  ex:uq-site-col2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean"@en ; cd:authoredResource true .
+  ex:uq-site-sd-column a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Sample SD (n−1)"@en ; cd:authoredResource true .
+  ex:uq-sr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:uq-site11, ex:uq-site12, ex:uq-sc1 ; cd:authoredResource true .
+  ex:uq-sr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:uq-site21, ex:uq-site22, ex:uq-sc2 ; cd:authoredResource true .
+  ex:uq-sr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:uq-site31, ex:uq-site32, ex:uq-sc3 ; cd:authoredResource true .
+  ex:uq-sr4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:uq-site41, ex:uq-site42, ex:uq-sc4 ; cd:authoredResource true .
+  ex:uq-sr5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:uq-site51, ex:uq-site52, ex:uq-sc5 ; cd:authoredResource true .
+  ex:uq-site11 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:uq-site12 a cd:TableCell ; cd:position 2 ; cd:body "5.0100"@en ; cd:authoredResource true .
+  ex:uq-site21 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:authoredResource true .
+  ex:uq-site22 a cd:TableCell ; cd:position 2 ; cd:body "4.9800"@en ; cd:authoredResource true .
+  ex:uq-site31 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:uq-site32 a cd:TableCell ; cd:position 2 ; cd:body "5.0033"@en ; cd:authoredResource true .
+  ex:uq-site41 a cd:TableCell ; cd:position 1 ; cd:body "4"@en ; cd:authoredResource true .
+  ex:uq-site42 a cd:TableCell ; cd:position 2 ; cd:body "5.0100"@en ; cd:authoredResource true .
+  ex:uq-site51 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:uq-site52 a cd:TableCell ; cd:position 2 ; cd:body "4.9867"@en ; cd:authoredResource true .
+  ex:uq-sc1 a cd:TableCell ; cd:position 3 ; cd:body "0.04583"@en ; dct:source ex:uq-site-sd1 ; cd:authoredResource true .
+  ex:uq-sc2 a cd:TableCell ; cd:position 3 ; cd:body "0.03000"@en ; dct:source ex:uq-site-sd2 ; cd:authoredResource true .
+  ex:uq-sc3 a cd:TableCell ; cd:position 3 ; cd:body "0.03512"@en ; dct:source ex:uq-site-sd3 ; cd:authoredResource true .
+  ex:uq-sc4 a cd:TableCell ; cd:position 3 ; cd:body "0.02000"@en ; dct:source ex:uq-site-sd4 ; cd:authoredResource true .
+  ex:uq-sc5 a cd:TableCell ; cd:position 3 ; cd:body "0.03055"@en ; dct:source ex:uq-site-sd5 ; cd:authoredResource true .
+
+  ex:uq-qc-b-gl a cd:Dataset ; skos:prefLabel "QC B in g/L: the same physical observations"@en ; cd:unit "g/L" ; cd:unitScaleFactor 0.001 ; cd:derivedFromResource ex:dataset-qc-method-b ; cd:hasObservation ex:uq-qcb1, ex:uq-qcb2, ex:uq-qcb3, ex:uq-qcb4, ex:uq-qcb5 ; cd:authoredResource true .
+  ex:uq-qcb1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.0087 ; cd:derivedFromResource ex:qc-b-1 ; cd:authoredResource true .
+  ex:uq-qcb2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.0108 ; cd:derivedFromResource ex:qc-b-2 ; cd:authoredResource true .
+  ex:uq-qcb3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.0095 ; cd:derivedFromResource ex:qc-b-3 ; cd:authoredResource true .
+  ex:uq-qcb4 a cd:Observation ; cd:position 4 ; cd:numericValue 0.0112 ; cd:derivedFromResource ex:qc-b-4 ; cd:authoredResource true .
+  ex:uq-qcb5 a cd:Observation ; cd:position 5 ; cd:numericValue 0.0098 ; cd:derivedFromResource ex:qc-b-5 ; cd:authoredResource true .
+  ex:uq-qcb-mean a cd:StatisticalResult ; cd:numericValue 0.010 ; cd:unit "g/L" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:uq-qc-b-gl ; cd:authoredResource true .
+  ex:uq-qcb-sd a cd:StatisticalResult ; cd:numericValue 0.001007472083980494 ; cd:unit "g/L" ; cd:quantifiesProperty ex:standard-deviation ; cd:usesDataset ex:uq-qc-b-gl ; cd:authoredResource true .
+  ex:uq-qcb-rsd a cd:StatisticalResult ; cd:numericValue 10.07472083980494 ; cd:unit "%" ; cd:quantifiesProperty ex:relative-standard-deviation ; cd:usesDataset ex:uq-qc-b-gl ; cd:authoredResource true .
+  ex:uq-rsd-table a cd:TableDefinition ; skos:prefLabel "Same physical QC data, different concentration units"@en ; cd:hasTableColumn ex:uq-qc1, ex:uq-qc2, ex:uq-qc3, ex:uq-qc4 ; cd:hasTableRow ex:uq-qr1, ex:uq-qr2, ex:uq-qr3 ; dct:source ex:dataset-qc-method-a, ex:dataset-qc-method-b, ex:uq-qc-b-gl ; cd:authoredResource true .
+  ex:uq-qc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Quantity"@en ; cd:authoredResource true .
+  ex:uq-qc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "QC A (mg/L)"@en ; cd:authoredResource true .
+  ex:uq-qc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "QC B (g/L)"@en ; cd:authoredResource true .
+  ex:uq-qc4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "QC B back in mg/L"@en ; cd:authoredResource true .
+  ex:uq-qr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:uq-q11, ex:uq-q12, ex:uq-q13, ex:uq-q14 ; cd:authoredResource true .
+  ex:uq-qr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:uq-q21, ex:uq-q22, ex:uq-q23, ex:uq-q24 ; cd:authoredResource true .
+  ex:uq-qr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:uq-q31, ex:uq-q32, ex:uq-q33, ex:uq-q34 ; cd:authoredResource true .
+  ex:uq-q11 a cd:TableCell ; cd:position 1 ; cd:body "Mean"@en ; cd:authoredResource true .
+  ex:uq-q12 a cd:TableCell ; cd:position 2 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:uq-q13 a cd:TableCell ; cd:position 3 ; cd:body "0.010"@en ; dct:source ex:uq-qcb-mean ; cd:authoredResource true .
+  ex:uq-q14 a cd:TableCell ; cd:position 4 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:uq-q21 a cd:TableCell ; cd:position 1 ; cd:body "Sample SD"@en ; cd:authoredResource true .
+  ex:uq-q22 a cd:TableCell ; cd:position 2 ; cd:body "0.158114"@en ; cd:authoredResource true .
+  ex:uq-q23 a cd:TableCell ; cd:position 3 ; cd:body "0.00100747"@en ; dct:source ex:uq-qcb-sd ; cd:authoredResource true .
+  ex:uq-q24 a cd:TableCell ; cd:position 4 ; cd:body "1.00747"@en ; cd:authoredResource true .
+  ex:uq-q31 a cd:TableCell ; cd:position 1 ; cd:body "RSD (%)"@en ; cd:authoredResource true .
+  ex:uq-q32 a cd:TableCell ; cd:position 2 ; cd:body "1.5811"@en ; cd:authoredResource true .
+  ex:uq-q33 a cd:TableCell ; cd:position 3 ; cd:body "10.0747"@en ; dct:source ex:uq-qcb-rsd ; cd:authoredResource true .
+  ex:uq-q34 a cd:TableCell ; cd:position 4 ; cd:body "10.0747"@en ; cd:authoredResource true .
+  ex:uq-rsd-cue a cd:Interpretation ; cd:hasKeyPoint ex:uq-rsd1, ex:uq-rsd2 ; cd:authoredResource true .
+  ex:uq-rsd1 a cd:KeyPoint ; cd:position 1 ; cd:body "SD carries the concentration unit. Convert units before comparing absolute SD values: 0.00100747 g/L = 1.00747 mg/L."@en ; cd:authoredResource true .
+  ex:uq-rsd2 a cd:KeyPoint ; cd:position 2 ; cd:body "RSD is dimensionless (reported as %). Multiplying both the mean and SD by the same positive unit factor leaves RSD unchanged."@en ; cd:authoredResource true .
+}

@@ -1,0 +1,500 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Foundational lecture projection. Historical authored resources and graphs are
+# preserved. Local variants avoid changing shared exercises or published units.
+# Authoring rule: every displayed MathExpression has a complete owning legend.
+# KeyPoints provide the short presentation projection of the longer resources.
+<https://w3id.org/project-chemie-digital/graph/specifications/variance-foundations> {
+  ex:vr-data-a a cd:Dataset ; skos:prefLabel "Series A"@en ; cd:unit "mg/L" ; dct:description "Revised synthetic three-observation teaching series: 9, 10, 13 mg/L. Not QC Method A. The observations are illustrative, not a method-validation study."@en ; dct:source ex:dataset-compare-series-a ; cd:hasObservation ex:vr-a1, ex:vr-a2, ex:vr-a3 ; cd:authoredResource true .
+  ex:vr-data-b a cd:Dataset ; skos:prefLabel "Series B"@en ; cd:unit "mg/L" ; dct:description "Revised synthetic three-observation teaching series: 5, 10, 17 mg/L. Not QC Method B. The mean matches Series A, while the observed spread is larger."@en ; dct:source ex:dataset-compare-series-b ; cd:hasObservation ex:vr-b1, ex:vr-b2, ex:vr-b3 ; cd:authoredResource true .
+  ex:vr-a1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:vr-a2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:vr-a3 a cd:Observation ; cd:position 3 ; cd:numericValue 13.0 ; cd:authoredResource true .
+  ex:vr-b1 a cd:Observation ; cd:position 1 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:vr-b2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:vr-b3 a cd:Observation ; cd:position 3 ; cd:numericValue 17.0 ; cd:authoredResource true .
+  ex:vr-mean a cd:StatisticalResult ; skos:prefLabel "Shared mean: 32/3 mg/L"@en ; cd:numericValue 10.666666666666666 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-chart a cd:ChartDefinition ; skos:prefLabel "Same mean, different spread"@en ; cd:body "Each dot is one observation. Both means are 32/3 mg/L, approximately 10.667 mg/L."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Measurement series"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:vr-ga, ex:vr-gb ; cd:hasChartAnnotation ex:vr-mean-line ; dct:source ex:chart-variance-same-mean ; cd:authoredResource true .
+  ex:vr-ga a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Series A"@en ; cd:usesDataset ex:vr-data-a ; cd:authoredResource true .
+  ex:vr-gb a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Series B"@en ; cd:usesDataset ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-mean-guide a cd:StatisticalResult ; cd:body "Chart reference rounded to three decimal places from the shared mean 32/3 mg/L. The exact expression is retained in vr-mean and the worked calculations."@en ; cd:numericValue 10.667 ; cd:unit "mg/L" ; cd:quantifiesProperty ex:arithmetic-mean ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; dct:source ex:vr-mean ; cd:authoredResource true .
+  ex:vr-mean-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Mean (rounded)"@en ; cd:referenceResult ex:vr-mean-guide ; cd:authoredResource true .
+  ex:vr-qc-chart a cd:ChartDefinition ; skos:prefLabel "Control sample: assigned target 10 mg/L"@en ; cd:body "Five illustrative repeats per method. These are QC Methods A/B, not the three-observation Series A/B."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "QC method"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:chart-qc-method-a, ex:chart-qc-method-b ; cd:hasChartAnnotation ex:annotation-qc-target ; dct:source ex:chart-qc-method-precision ; cd:authoredResource true .
+
+  # Dataset projections. Every table owns its own columns, rows and cells.
+  ex:vr-values a cd:TableDefinition ; skos:prefLabel "Three observations per series (mg/L)"@en ; cd:hasTableColumn ex:vr-val-c1, ex:vr-val-c2 ; cd:hasTableRow ex:vr-val-r1, ex:vr-val-r2 ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-val-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vr-val-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Values"@en ; cd:authoredResource true .
+  ex:vr-val-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-val-a1, ex:vr-val-a2 ; cd:authoredResource true .
+  ex:vr-val-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-val-b1, ex:vr-val-b2 ; cd:authoredResource true .
+  ex:vr-val-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vr-val-a2 a cd:TableCell ; cd:position 2 ; cd:body "9, 10, 13"@en ; cd:authoredResource true .
+  ex:vr-val-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vr-val-b2 a cd:TableCell ; cd:position 2 ; cd:body "5, 10, 17"@en ; cd:authoredResource true .
+  ex:vr-deviations a cd:TableDefinition ; skos:prefLabel "Deviations about 32/3 mg/L"@en ; cd:hasTableColumn ex:vr-dev-c1, ex:vr-dev-c2 ; cd:hasTableRow ex:vr-dev-r1, ex:vr-dev-r2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-dev-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vr-dev-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Deviations (mg/L)"@en ; cd:authoredResource true .
+  ex:vr-dev-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-dev-a1, ex:vr-dev-a2 ; cd:authoredResource true .
+  ex:vr-dev-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-dev-b1, ex:vr-dev-b2 ; cd:authoredResource true .
+  ex:vr-dev-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vr-dev-a2 a cd:TableCell ; cd:position 2 ; cd:body "−5/3, −2/3, +7/3"@en ; cd:authoredResource true .
+  ex:vr-dev-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vr-dev-b2 a cd:TableCell ; cd:position 2 ; cd:body "−17/3, −2/3, +19/3"@en ; cd:authoredResource true .
+  ex:vr-squares a cd:TableDefinition ; skos:prefLabel "Squared deviations prevent cancellation ((mg/L)²)"@en ; cd:hasTableColumn ex:vr-sq-c1, ex:vr-sq-c2, ex:vr-sq-c3 ; cd:hasTableRow ex:vr-sq-r1, ex:vr-sq-r2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-sq-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vr-sq-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Squared deviations"@en ; cd:authoredResource true .
+  ex:vr-sq-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Sum of squares (SS)"@en ; cd:authoredResource true .
+  ex:vr-sq-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-sq-a1, ex:vr-sq-a2, ex:vr-sq-a3 ; cd:authoredResource true .
+  ex:vr-sq-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-sq-b1, ex:vr-sq-b2, ex:vr-sq-b3 ; cd:authoredResource true .
+  ex:vr-sq-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vr-sq-a2 a cd:TableCell ; cd:position 2 ; cd:body "25/9, 4/9, 49/9"@en ; cd:authoredResource true .
+  ex:vr-sq-a3 a cd:TableCell ; cd:position 3 ; cd:body "26/3 ≈ 8.667"@en ; cd:authoredResource true .
+  ex:vr-sq-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vr-sq-b2 a cd:TableCell ; cd:position 2 ; cd:body "289/9, 4/9, 361/9"@en ; cd:authoredResource true .
+  ex:vr-sq-b3 a cd:TableCell ; cd:position 3 ; cd:body "218/3 ≈ 72.667"@en ; cd:authoredResource true .
+  ex:vr-summary a cd:TableDefinition ; skos:prefLabel "Same data, different summaries"@en ; cd:hasTableColumn ex:vr-sum-c1, ex:vr-sum-c2, ex:vr-sum-c3 ; cd:hasTableRow ex:vr-sum-r1, ex:vr-sum-r2, ex:vr-sum-r3, ex:vr-sum-r4 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-sum-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Summary"@en ; cd:authoredResource true .
+  ex:vr-sum-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A"@en ; cd:authoredResource true .
+  ex:vr-sum-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "B"@en ; cd:authoredResource true .
+  ex:vr-sum-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-sum-11, ex:vr-sum-12, ex:vr-sum-13 ; cd:authoredResource true .
+  ex:vr-sum-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-sum-21, ex:vr-sum-22, ex:vr-sum-23 ; cd:authoredResource true .
+  ex:vr-sum-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:vr-sum-31, ex:vr-sum-32, ex:vr-sum-33 ; cd:authoredResource true .
+  ex:vr-sum-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:vr-sum-41, ex:vr-sum-42, ex:vr-sum-43 ; cd:authoredResource true .
+  ex:vr-sum-11 a cd:TableCell ; cd:position 1 ; cd:body "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:vr-sum-12 a cd:TableCell ; cd:position 2 ; cd:body "32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vr-sum-13 a cd:TableCell ; cd:position 3 ; cd:body "32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vr-sum-21 a cd:TableCell ; cd:position 1 ; cd:body "MSD ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:vr-sum-22 a cd:TableCell ; cd:position 2 ; cd:body "26/9 ≈ 2.889"@en ; cd:authoredResource true .
+  ex:vr-sum-23 a cd:TableCell ; cd:position 3 ; cd:body "218/9 ≈ 24.222"@en ; cd:authoredResource true .
+  ex:vr-sum-31 a cd:TableCell ; cd:position 1 ; cd:body "s² ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:vr-sum-32 a cd:TableCell ; cd:position 2 ; cd:body "13/3 ≈ 4.333"@en ; cd:authoredResource true .
+  ex:vr-sum-33 a cd:TableCell ; cd:position 3 ; cd:body "109/3 ≈ 36.333"@en ; cd:authoredResource true .
+  ex:vr-sum-41 a cd:TableCell ; cd:position 1 ; cd:body "s (mg/L)"@en ; cd:authoredResource true .
+  ex:vr-sum-42 a cd:TableCell ; cd:position 2 ; cd:body "2.082"@en ; cd:authoredResource true .
+  ex:vr-sum-43 a cd:TableCell ; cd:position 3 ; cd:body "6.028"@en ; cd:authoredResource true .
+  ex:vr-bessel-table a cd:TableDefinition ; skos:prefLabel "SS divided by n−1 = 2 ((mg/L)²)"@en ; cd:hasTableColumn ex:vr-bes-c1, ex:vr-bes-c2 ; cd:hasTableRow ex:vr-bes-r1, ex:vr-bes-r2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-bes-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:vr-bes-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Sample variance s²"@en ; cd:authoredResource true .
+  ex:vr-bes-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-bes-a1, ex:vr-bes-a2 ; cd:authoredResource true .
+  ex:vr-bes-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-bes-b1, ex:vr-bes-b2 ; cd:authoredResource true .
+  ex:vr-bes-a1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:authoredResource true .
+  ex:vr-bes-a2 a cd:TableCell ; cd:position 2 ; cd:body "(26/3)/2 = 13/3 ≈ 4.333"@en ; cd:authoredResource true .
+  ex:vr-bes-b1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:authoredResource true .
+  ex:vr-bes-b2 a cd:TableCell ; cd:position 2 ; cd:body "(218/3)/2 = 109/3 ≈ 36.333"@en ; cd:authoredResource true .
+  ex:vr-msd-table a cd:TableDefinition ; skos:prefLabel "Descriptive comparison of observed data"@en ; cd:hasTableColumn ex:vr-msdc-c1, ex:vr-msdc-c2, ex:vr-msdc-c3 ; cd:hasTableRow ex:vr-msdc-r1, ex:vr-msdc-r2 ; dct:source ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr-msdc-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Summary"@en ; cd:authoredResource true .
+  ex:vr-msdc-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A"@en ; cd:authoredResource true .
+  ex:vr-msdc-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "B"@en ; cd:authoredResource true .
+  ex:vr-msdc-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:vr-msdc-11, ex:vr-msdc-12, ex:vr-msdc-13 ; cd:authoredResource true .
+  ex:vr-msdc-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:vr-msdc-21, ex:vr-msdc-22, ex:vr-msdc-23 ; cd:authoredResource true .
+  ex:vr-msdc-11 a cd:TableCell ; cd:position 1 ; cd:body "Mean (mg/L)"@en ; cd:authoredResource true .
+  ex:vr-msdc-12 a cd:TableCell ; cd:position 2 ; cd:body "32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vr-msdc-13 a cd:TableCell ; cd:position 3 ; cd:body "32/3 ≈ 10.667"@en ; cd:authoredResource true .
+  ex:vr-msdc-21 a cd:TableCell ; cd:position 1 ; cd:body "MSD ((mg/L)²)"@en ; cd:authoredResource true .
+  ex:vr-msdc-22 a cd:TableCell ; cd:position 2 ; cd:body "26/9 ≈ 2.889"@en ; cd:authoredResource true .
+  ex:vr-msdc-23 a cd:TableCell ; cd:position 3 ; cd:body "218/9 ≈ 24.222"@en ; cd:authoredResource true .
+
+  # Short projections retain the earlier long explanations through provenance.
+  ex:vr02 a cd:Interpretation ; skos:prefLabel "Same Mean, Different Spread"@en ; cd:body "Two synthetic series have a common arithmetic mean but different observed dispersion. They introduce numerical descriptions, not conclusions about the quality of analytical methods."@en ; dct:source ex:mean-and-spread-comparison ; cd:hasKeyPoint ex:vr02k ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr02k a cd:KeyPoint ; cd:position 1 ; cd:body "Same mean does not imply same spread."@en ; cd:authoredResource true .
+  ex:vr03 a cd:Interpretation ; skos:prefLabel "Why Does Spread Matter in the Laboratory?"@en ; cd:body "A laboratory uses individual results for decisions. Even if two methods have the same observed mean, their individual results can be distributed differently. This motivates quantifying spread before technical terminology is introduced."@en ; dct:source ex:qc-method-precision-example ; cd:hasKeyPoint ex:vr03k ; cd:authoredResource true .
+  ex:vr03k a cd:KeyPoint ; cd:position 1 ; cd:body "Individual results matter for laboratory decisions, not just their mean."@en ; cd:authoredResource true .
+  ex:vr04 a cd:Interpretation ; skos:prefLabel "Back to Our Three-Observation Example"@en ; cd:body "Return from the five-value QC methods to the revised three-observation Series A and B. Their different values and common sum will support the following calculations."@en ; dct:source ex:vd-deviations ; cd:hasKeyPoint ex:vr04k ; cd:authoredResource true .
+  ex:vr04k a cd:KeyPoint ; cd:position 1 ; cd:body "Scenario: return to three-observation Series A/B, not the five-value QC Methods A/B. Add each series and divide by three."@en ; cd:authoredResource true .
+  ex:vr04-task a cd:Exercise ; cd:body "Series A sums to 32 mg/L. Series B starts with 5 and 10 mg/L. Which third value gives the same mean? Check the table after predicting."@en ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr05 a cd:Interpretation ; skos:prefLabel "Deviations from the Mean"@en ; dct:source ex:vd-deviations ; cd:authoredResource true .
+  ex:vr06 a cd:Interpretation ; skos:prefLabel "The Deviations Sum to Zero"@en ; dct:source ex:vd-cancellation ; cd:authoredResource true .
+  ex:vr07 a cd:Interpretation ; skos:prefLabel "Squaring the Deviations"@en ; dct:source ex:vd-squaring ; cd:hasKeyPoint ex:vr07k ; cd:authoredResource true .
+  ex:vr07k a cd:KeyPoint ; cd:position 1 ; cd:body "Squaring prevents cancellation and gives large deviations more weight."@en ; cd:authoredResource true .
+  ex:vr08 a cd:Interpretation ; skos:prefLabel "Mean Squared Deviation"@en ; dct:source ex:vd-average ; cd:authoredResource true .
+  ex:vr09 a cd:Interpretation ; skos:prefLabel "From Description to Estimation"@en ; cd:body "MSD is an average squared distance about the observed arithmetic mean. With the same measurand and unit, it allows a descriptive comparison of these two datasets. Such a comparison does not yet quantify how well population spread is known."@en ; dct:source ex:vd-average ; cd:hasKeyPoint ex:vr09a, ex:vr09b ; cd:authoredResource true .
+  ex:vr09a a cd:KeyPoint, cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What MSD tells us"@en ; cd:body "Observed variability.\nComparison of these datasets on the same measurement scale.\nMean squared distance from the observed mean."@en ; cd:authoredResource true .
+  ex:vr09b a cd:KeyPoint, cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "What MSD does not automatically tell us"@en ; cd:body "The unknown population variance.\nHow accurately that variance has been estimated.\nWhether a method is suitable for its intended purpose."@en ; cd:authoredResource true .
+  ex:vr10 a cd:Interpretation ; skos:prefLabel "What Can the MSD Not Tell Us?"@en ; cd:body "A descriptive summary cannot identify the causes of variation, establish method suitability, or turn a few measurements into a known population. Estimation introduces a new inferential target."@en ; dct:source ex:vd-average, ex:vd-bessel ; cd:hasKeyPoint ex:vr10a, ex:vr10b ; cd:authoredResource true .
+  ex:vr10a a cd:KeyPoint ; cd:position 1 ; cd:body "MSD describes these values. It does not establish the causes of variation."@en ; cd:authoredResource true .
+  ex:vr10b a cd:KeyPoint ; cd:position 2 ; cd:body "A few observations do not reveal the exact population spread."@en ; cd:authoredResource true .
+  ex:vr10-task a cd:Exercise ; cd:body "We have measured only a few observations. Can we use them to estimate the spread of a larger population?"@en ; cd:authoredResource true .
+  ex:vr11 a cd:Interpretation ; skos:prefLabel "Population versus Sample"@en ; dct:source ex:v10 ; cd:authoredResource true .
+  ex:vr11-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr11a, ex:vr11b ; cd:authoredResource true .
+  ex:vr11a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Known demonstration population"@en ; cd:body "Independent normal observations. Population mean μ = 10 mg/L. Population variance σ² = 5 (mg/L)². Population SD σ = √5 mg/L, the nonnegative square root of the variance."@en ; dct:references ex:population, ex:mu-symbol, ex:sigma-symbol, ex:vs-model ; cd:authoredResource true .
+  ex:vr11b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Sample and estimation"@en ; cd:body "n: number of independently drawn observations. x̄: their sample mean. s²: sample variance, using denominator n−1. Compare it with descriptive MSD using n. Can observed spread estimate unknown population spread?"@en ; dct:references ex:sample, ex:n-symbol, ex:xbar-symbol, ex:vr-s2-symbol ; cd:authoredResource true .
+  ex:vr12 a cd:Interpretation ; skos:prefLabel "What Are Degrees of Freedom?"@en ; cd:body "Three mixture fractions have one independent sum constraint. Inside the allowed composition range, any two fractions determine the third. Freely variable coordinates under a constraint are not the same concept as probabilistic independence of measurements."@en ; cd:derivedFrom ex:degrees-of-freedom ; cd:authoredResource true .
+  ex:vr13 a cd:Interpretation ; skos:prefLabel "Degrees of Freedom in Sample Residuals"@en ; dct:source ex:vd-freedom ; cd:authoredResource true .
+  ex:vr14 a cd:Interpretation ; skos:prefLabel "A Common Shift Between Centers"@en ; dct:source ex:v11 ; cd:authoredResource true .
+  ex:vr15 a cd:Interpretation ; skos:prefLabel "From Deviations to Squared Deviations"@en ; dct:source ex:v11 ; cd:authoredResource true .
+  ex:vr16 a cd:Interpretation ; skos:prefLabel "Summing the Squared Deviations"@en ; dct:source ex:v11 ; cd:authoredResource true .
+  ex:vr17 a cd:Interpretation ; skos:prefLabel "Why the Expected Sum of Squares Matters"@en ; cd:body "An algebraic residual constraint alone does not establish unbiased estimation. Under independent identically distributed observations with finite variance, the expected residual sum of squares is (n−1)σ². This supplies the statistical reason for the denominator."@en ; dct:source ex:v11 ; cd:authoredResource true .
+  ex:vr18 a cd:Interpretation ; skos:prefLabel "Descriptive MSD versus Sample Variance"@en ; dct:source ex:vd-bessel, ex:v10 ; cd:authoredResource true .
+  ex:vr19 a cd:Interpretation ; skos:prefLabel "Bessel's Correction: Worked Example"@en ; dct:source ex:vd-bessel ; cd:hasKeyPoint ex:vr19a, ex:vr19b ; cd:authoredResource true .
+  ex:vr19a a cd:KeyPoint ; cd:position 1 ; cd:body "Three observations give two residual degrees of freedom."@en ; cd:authoredResource true .
+  ex:vr19b a cd:KeyPoint ; cd:position 2 ; cd:body "Divide the same squared-deviation sum by two to estimate population variance."@en ; cd:authoredResource true .
+  ex:vr20 a cd:Interpretation ; skos:prefLabel "Bessel's Correction: Simulation"@en ; dct:source ex:v12 ; cd:hasCodeExample ex:vr20-code ; cd:authoredResource true .
+  ex:vr20-task a cd:Exercise ; cd:body "**Instructor demonstration.** Predict the average of SS/n and SS/(n−1) for repeated samples of size 3 from a population with variance 4 (mg/L)². You do not need to write the simulation code. Are the simulated averages close to 8/3 and 4?"@en ; cd:hasCodeExample ex:vr20-code ; cd:authoredResource true .
+  ex:vr20-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:v12-code ; cd:code "# Instructor demonstration, not a beginner coding task\nset.seed(20261017)\nn <- 3; B <- 10000\nv <- replicate(B, {\n  x <- rnorm(n, mean = 32/3, sd = 2)\n  ss <- sum((x - mean(x))^2)\n  c(MSD = ss/n, sample_variance = ss/(n-1))\n})\nrowMeans(v)\n# Separate model illustration, not the source of Series A/B" ; cd:authoredResource true .
+  ex:vr21 a cd:Interpretation ; skos:prefLabel "From Variance to Standard Deviation"@en ; dct:source ex:v13 ; cd:authoredResource true .
+  ex:vr22 a cd:Interpretation ; skos:prefLabel "Reading the Standard Deviation Formula"@en ; dct:source ex:v14 ; cd:authoredResource true .
+  ex:vr23 a cd:Interpretation ; skos:prefLabel "Same Data, Different Standard Deviations"@en ; dct:source ex:v15 ; cd:hasKeyPoint ex:vr23k ; cd:authoredResource true .
+  ex:vr23k a cd:KeyPoint ; cd:position 1 ; cd:body "SD gives the observed spread a scale in mg/L: A ≈ 2.082; B ≈ 6.028."@en ; cd:authoredResource true .
+  ex:vr24 a cd:Interpretation ; skos:prefLabel "First Steps in R: Vectors and Means"@en ; cd:hasCodeExample ex:vr24-code ; cd:authoredResource true .
+  ex:vr24-task a cd:Exercise ; cd:body "- **Read:** c() collects values; <- assigns a name.\n- **Run:** output gives the mean of A, then B, in ==mg/L==.\n- [?] Change 13 to 14: **predict** which mean changes, then run again."@en ; cd:hasCodeExample ex:vr24-code ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr24-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:code "a <- c(9, 10, 13)\nb <- c(5, 10, 17)\nmean_a <- mean(a)\nmean_b <- mean(b)\nc(mean_a, mean_b)" ; cd:authoredResource true .
+  ex:vr25 a cd:Interpretation ; skos:prefLabel "R Practice: Variance and Standard Deviation"@en ; dct:source ex:v16 ; cd:hasCodeExample ex:vr25-code ; cd:authoredResource true .
+  ex:vr25-task a cd:Exercise ; cd:body "- **Calculate:** var() uses ==n−1==; sd() returns sample SD.\n- **Read output:** variance A/B in (mg/L)², then SD A/B in mg/L.\n- [?] Compare with the **worked example**. Can you reproduce both results?"@en ; cd:hasCodeExample ex:vr25-code ; cd:usesDataset ex:vr-data-a, ex:vr-data-b ; cd:authoredResource true .
+  ex:vr25-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:v16-code ; cd:code "a <- c(9, 10, 13)\nb <- c(5, 10, 17)\nva <- var(a)\nvb <- var(b)\nsa <- sd(a)\nsb <- sd(b)\nc(va, vb, sa, sb)" ; cd:authoredResource true .
+  ex:vr26 a cd:Interpretation ; skos:prefLabel "What Does SD Tell Us About Precision?"@en ; cd:body "Precision is closeness of agreement among repeated measurement results under stated conditions. A standard deviation quantifies the spread of such results, but it must be associated with a specified measurand, procedure and measurement conditions."@en ; dct:source ex:v17, ex:v18 ; cd:authoredResource true .
+  ex:vr26-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr26a, ex:vr26b ; cd:authoredResource true .
+  ex:vr26a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Precision"@en ; cd:body "Closeness of agreement among repeated measurement results under stated conditions."@en ; dct:references ex:measurement-precision ; cd:authoredResource true .
+  ex:vr26b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Standard deviation"@en ; cd:body "Smaller SD means less observed spread. Precision depends on stated measurement conditions."@en ; dct:references ex:standard-deviation ; cd:authoredResource true .
+  ex:vr27 a cd:Interpretation ; skos:prefLabel "Repeatability and Measurement Conditions"@en ; dct:source ex:v21 ; cd:authoredResource true .
+  ex:vr27-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr27a, ex:vr27b, ex:vr27c ; cd:authoredResource true .
+  ex:vr27a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeatability"@en ; cd:body "Scenario: five QC determinations in one morning. Same procedure, operator, instrument and laboratory over a short interval. The SD describes repeatability for this procedure and material."@en ; cd:authoredResource true .
+  ex:vr27b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Intermediate precision"@en ; cd:body "Scenario: one laboratory measures the same QC material over several days, with specified operator changes. The SD includes variation under these within-laboratory changes."@en ; cd:authoredResource true .
+  ex:vr27c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Reproducibility"@en ; cd:body "Scenario: different laboratories analyze the same homogeneous QC material using a specified procedure. Their results assess between-laboratory conditions. These labels do not imply a universal ordering of SDs."@en ; cd:authoredResource true .
+  ex:vr28 a cd:Interpretation ; skos:prefLabel "Repeated Measurements of a Control Sample"@en ; dct:source ex:v19, ex:v20 ; cd:hasKeyPoint ex:vr28a, ex:vr28b ; cd:authoredResource true .
+  ex:vr28a a cd:KeyPoint ; cd:position 1 ; cd:body "Five repeats per method on the same control sample under fixed repeatability conditions."@en ; cd:authoredResource true .
+  ex:vr28b a cd:KeyPoint ; cd:position 2 ; cd:body "A has smaller observed SD. Five repeats provide limited evidence about long-term performance."@en ; cd:authoredResource true .
+  ex:vr29 a cd:Interpretation ; skos:prefLabel "Why Precision Alone Is Not Enough"@en ; dct:source ex:v17, ex:v18, ex:qc-precision-takeaway ; cd:authoredResource true .
+  ex:vr29-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr29a, ex:vr29b, ex:vr29c ; cd:authoredResource true .
+  ex:vr29a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Trueness"@en ; cd:body "Closeness of the long-run mean result to a reference value. A small SD alone does not establish trueness."@en ; cd:authoredResource true .
+  ex:vr29b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Bias"@en ; cd:body "Long-run mean result minus the reference value. A tightly clustered set of results can still have an offset."@en ; cd:authoredResource true .
+  ex:vr29c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Method suitability"@en ; cd:body "Requires relevant performance requirements and measurement conditions, not only a small observed SD."@en ; cd:authoredResource true .
+  ex:vr30 a cd:Interpretation ; skos:prefLabel "What Counts as an Independent Replicate?"@en ; dct:source ex:v41 ; cd:authoredResource true .
+  ex:vr30-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr30a, ex:vr30b, ex:vr30c ; cd:authoredResource true .
+  ex:vr30a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Three injections, one vial"@en ; cd:body "Inject one prepared vial three times. These technical replicates assess instrumental variation, not new preparation or field sampling. Shared drift may still make the readings dependent."@en ; cd:authoredResource true .
+  ex:vr30b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Three independent preparations"@en ; cd:body "Prepare three aliquots of one field sample separately and measure each. This captures preparation plus downstream variation. They share the field sample; independent preparation errors require justified assumptions about common batch effects. They are not three field units."@en ; cd:authoredResource true .
+  ex:vr30c a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Three independent field samples"@en ; cd:body "Collect, prepare and measure three field samples separately. These may be independent experimental units for a field question, depending on spatial and temporal design. Pseudoreplication counts nested readings as separate field units."@en ; cd:authoredResource true .
+  ex:vr31 a cd:Interpretation ; skos:prefLabel "Sources of Analytical Variation"@en ; dct:source ex:v22, ex:v39 ; cd:hasKeyPoint ex:vr31a, ex:vr31b ; cd:authoredResource true .
+  ex:vr31a a cd:KeyPoint ; cd:position 1 ; cd:body "Repeating only instrument readings misses earlier sources of variation."@en ; cd:authoredResource true .
+  ex:vr31b a cd:KeyPoint ; cd:position 2 ; cd:body "Nesting does not establish independent, additive variance components. That requires a model."@en ; cd:authoredResource true .
+  ex:vr32 a cd:Interpretation ; skos:prefLabel "Lake Sampling: Variation Between Sites"@en ; dct:source ex:v40 ; cd:hasKeyPoint ex:vr32a, ex:vr32b ; cd:authoredResource true .
+  ex:vr32a a cd:KeyPoint ; cd:position 1 ; cd:body "Within-site spread and differences between site means are different comparisons."@en ; cd:authoredResource true .
+  ex:vr32b a cd:KeyPoint ; cd:position 2 ; cd:body "Three values per site cannot separate sampling, preparation and instrument causes without a suitable design."@en ; cd:authoredResource true .
+  ex:vr33 a cd:Interpretation ; skos:prefLabel "Relative Standard Deviation"@en ; dct:source ex:v24 ; cd:authoredResource true .
+  ex:vr34 a cd:Interpretation ; skos:prefLabel "RSD in Analytical Quality Control"@en ; dct:source ex:v25, ex:v26 ; cd:hasKeyPoint ex:vr34a, ex:vr34b ; cd:authoredResource true .
+  ex:vr34a a cd:KeyPoint ; cd:position 1 ; cd:body "Both means are 10 mg/L. SD and RSD give the same ranking here."@en ; cd:authoredResource true .
+  ex:vr34b a cd:KeyPoint ; cd:position 2 ; cd:body "RSD reports relative spread, not trueness or guaranteed future performance."@en ; cd:authoredResource true .
+  ex:vr35 a cd:Interpretation ; skos:prefLabel "When RSD Becomes Misleading"@en ; dct:source ex:v27 ; cd:hasKeyPoint ex:vr35a, ex:vr35b ; cd:authoredResource true .
+  ex:vr35a a cd:KeyPoint ; cd:position 1 ; cd:body "RSD is undefined at a zero mean and unstable near zero. Blank measurements need absolute-spread assessment."@en ; cd:authoredResource true .
+  ex:vr35b a cd:KeyPoint ; cd:position 2 ; cd:body "Ratios need a meaningful zero. RSD of Celsius temperatures is inappropriate."@en ; cd:authoredResource true .
+  ex:vr36 a cd:Interpretation ; skos:prefLabel "The Influence of an Extreme Measurement"@en ; dct:source ex:v29 ; cd:hasKeyPoint ex:vr36a, ex:vr36b ; cd:authoredResource true .
+  ex:vr36a a cd:KeyPoint ; cd:position 1 ; cd:body "Replace only QC A's 10.2 with 15.2 mg/L. The mean, variance and SD all increase."@en ; cd:authoredResource true .
+  ex:vr36b a cd:KeyPoint ; cd:position 2 ; cd:body "Investigate the cause. A large effect on the summaries is not a reason for automatic deletion."@en ; cd:authoredResource true .
+  ex:vr37 a cd:Interpretation ; skos:prefLabel "R Practice: Evaluate Two QC Methods"@en ; dct:source ex:v23, ex:v31 ; cd:hasCodeExample ex:vr37-code ; cd:authoredResource true .
+  ex:vr37-task a cd:Exercise ; cd:body "- **Compare A/B:** means, SDs and RSDs.\n- **Count:** comparisons return TRUE/FALSE; sum() counts TRUE.\n- **Read output:** means, SDs, RSD (%) and counts; each in A/B order.\n- **Interpret:** [9.5, 10.5] mg/L includes endpoints and is ==illustrative, not a validated requirement==."@en ; cd:hasCodeExample ex:vr37-code ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:vr37-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; dct:source ex:v23-code ; cd:code "a <- c(9.8, 10.0, 10.1, 9.9, 10.2)\nb <- c(8.7, 10.8, 9.5, 11.2, 9.8)\nma <- mean(a); mb <- mean(b)\nsa <- sd(a); sb <- sd(b)\nra <- 100*sa/ma; rb <- 100*sb/mb\ninside_a <- a >= 9.5 & a <= 10.5\ninside_b <- b >= 9.5 & b <= 10.5\nna <- sum(inside_a); nb <- sum(inside_b)\nc(ma, mb, sa, sb, ra, rb, na, nb)" ; cd:authoredResource true .
+  ex:vr38 a cd:Interpretation ; skos:prefLabel "Analytical Decision Challenge"@en ; dct:source ex:v45 ; cd:authoredResource true .
+  ex:vr38-task a cd:Exercise ; cd:body "Discuss in pairs. Compare QC A and B using means, SDs, RSDs and counts in [9.5, 10.5] mg/L. What do five results support? Which measurement conditions, independent replicates and validated performance requirements are needed before judging routine suitability?"@en ; cd:usesDataset ex:dataset-qc-method-a, ex:dataset-qc-method-b ; cd:authoredResource true .
+  ex:vr39 a cd:Interpretation ; skos:prefLabel "What Have We Learned?"@en ; dct:source ex:v46 ; cd:hasKeyPoint ex:vr39a, ex:vr39b, ex:vr39c, ex:vr39d, ex:vr39e ; cd:authoredResource true .
+  ex:vr39a a cd:KeyPoint ; cd:position 1 ; cd:body "A common mean can hide different observed spreads."@en ; cd:authoredResource true .
+  ex:vr39b a cd:KeyPoint ; cd:position 2 ; cd:body "MSD describes data; sample variance estimates population variance under assumptions."@en ; cd:authoredResource true .
+  ex:vr39c a cd:KeyPoint ; cd:position 3 ; cd:body "Fitting the mean constrains residuals, not the original sampling design."@en ; cd:authoredResource true .
+  ex:vr39d a cd:KeyPoint ; cd:position 4 ; cd:body "SD has the original unit; RSD expresses spread relative to the mean magnitude."@en ; cd:authoredResource true .
+  ex:vr39e a cd:KeyPoint ; cd:position 5 ; cd:body "Precision and analytical decisions require stated measurement conditions."@en ; cd:authoredResource true .
+  ex:vr39-task a cd:Exercise ; cd:body "A report says ‘10.0 ± 0.2 mg/L’. What does ± denote? Which sample size, independent units and measurement conditions must be stated before you can interpret it?"@en ; cd:authoredResource true .
+  # A single KeyPoint following a formula uses the existing lecture marker
+  # convention. Keep markers selective, rather than marking every legend entry.
+  ex:vr13 cd:hasKeyPoint ex:vr13-k .
+  ex:vr13-k a cd:KeyPoint ; cd:position 1 ; cd:body "Only n−1 residuals can vary freely."@en ; cd:authoredResource true .
+  ex:vr18 cd:hasKeyPoint ex:vr18-k .
+  ex:vr18-k a cd:KeyPoint ; cd:position 1 ; cd:body "Sample variance estimates population variance."@en ; cd:authoredResource true .
+  ex:vr21 cd:hasKeyPoint ex:vr21-k .
+  ex:vr21-k a cd:KeyPoint ; cd:position 1 ; cd:body "Standard deviation has the original measurement unit."@en ; cd:authoredResource true .
+  ex:vr31-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr31-c1, ex:vr31-c2 ; cd:authoredResource true .
+  ex:vr31-c1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeat the relevant steps"@en ; cd:body "Repeating only instrument readings misses earlier sources of variation."@en ; dct:source ex:vr31a ; cd:authoredResource true .
+  ex:vr31-c2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Separate design from model"@en ; cd:body "Nesting does not establish independent, additive variance components. That requires a model."@en ; dct:source ex:vr31b ; cd:authoredResource true .
+
+  # Reusable symbol definitions complement the short, local presentation legends.
+  ex:vr-index-symbol a cd:MathSymbol ; cd:symbol "i" ; cd:body "Observation index, running from 1 to the declared observation count."@en ; cd:authoredResource true .
+  ex:vr-d-symbol a cd:MathSymbol ; cd:symbol "d_i" ; cd:body "Signed deviation of observation i from its sample mean."@en ; cd:authoredResource true .
+  ex:vr-ss-symbol a cd:MathSymbol ; cd:symbol "SS" ; cd:body "Sum of squared deviations about the sample mean."@en ; cd:authoredResource true .
+  ex:vr-msd-symbol a cd:MathSymbol ; cd:symbol "MSD" ; cd:body "Descriptive mean squared deviation, the residual sum of squares divided by the observation count."@en ; cd:authoredResource true .
+  ex:vr-delta-symbol a cd:MathSymbol ; cd:symbol "δ" ; cd:body "Sample mean minus population mean in the observed-sample algebraic decomposition."@en ; cd:authoredResource true .
+  ex:vr-E-symbol a cd:MathSymbol ; cd:symbol "E" ; cd:body "Expectation, the probability-weighted average of a random quantity under repeated sampling."@en ; cd:authoredResource true .
+  ex:vr-sigma2-symbol a cd:MathSymbol ; cd:symbol "σ²" ; cd:body "Population variance, the expected squared deviation from the population mean."@en ; cd:authoredResource true .
+  ex:vr-s2-symbol a cd:MathSymbol ; cd:symbol "s²" ; cd:body "Sample variance, residual sum of squares divided by n minus one for the usual mean-fitted iid estimator."@en ; cd:authoredResource true .
+  ex:vr-X-symbol a cd:MathSymbol ; cd:symbol "X_i" ; cd:body "Random observation i before its value x_i is observed."@en ; cd:authoredResource true .
+  ex:vr-Xbar-symbol a cd:MathSymbol ; cd:symbol "X̄" ; cd:body "Random sample mean across repeated samples, as distinct from an observed sample mean x̄."@en ; cd:authoredResource true .
+  ex:vr-f-symbol a cd:MathSymbol ; cd:symbol "f_1, f_2, f_3" ; cd:body "Nonnegative component percentages of a three-component mixture, summing to one hundred percent."@en ; cd:authoredResource true .
+  ex:vr-rsd-symbol a cd:MathSymbol ; cd:symbol "RSD" ; cd:body "Relative standard deviation, the ratio of sample SD to the magnitude of the sample mean on a suitable ratio scale."@en ; cd:authoredResource true .
+  ex:vr-root-symbol a cd:MathSymbol ; cd:symbol "√" ; cd:body "Nonnegative square root."@en ; cd:authoredResource true .
+  ex:vr-absolute-symbol a cd:MathSymbol ; cd:symbol "| |" ; cd:body "Absolute value or magnitude of the enclosed real number."@en ; cd:authoredResource true .
+  ex:vr-mean-formula cd:hasSymbol ex:xbar-symbol, ex:xi-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-dev-formula cd:hasSymbol ex:vr-d-symbol, ex:xi-symbol, ex:vr-index-symbol, ex:xbar-symbol .
+  ex:vr-cancel-formula cd:hasSymbol ex:vr-d-symbol, ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-ss-formula cd:hasSymbol ex:vr-ss-symbol, ex:vr-d-symbol, ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-msd-formula cd:hasSymbol ex:vr-msd-symbol, ex:vr-ss-symbol, ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-mixture-formula cd:hasSymbol ex:vr-f-symbol, ex:df-symbol .
+  ex:vr-df-formula cd:hasSymbol ex:vr-d-symbol, ex:df-symbol, ex:n-symbol .
+  ex:vr-center-formula cd:hasSymbol ex:vs-Delta-symbol, ex:vr-X-symbol, ex:vr-Xbar-symbol, ex:vr-d-symbol, ex:vr-index-symbol, ex:mu-symbol .
+  ex:vr-expand-formula cd:hasSymbol ex:vs-Delta-symbol, ex:vr-X-symbol, ex:vr-d-symbol, ex:vr-index-symbol, ex:mu-symbol .
+  ex:vr-sum-formula cd:hasSymbol ex:vs-Delta-symbol, ex:vr-X-symbol, ex:vr-d-symbol, ex:mu-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-expect-formula cd:hasSymbol ex:vr-X-symbol, ex:vr-Xbar-symbol, ex:vs-Delta-symbol, ex:vr-d-symbol, ex:mu-symbol, ex:vr-sigma2-symbol, ex:vr-E-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol .
+  ex:vr-variance-formula cd:hasSymbol ex:vr-d-symbol, ex:vr-index-symbol, ex:v-sum-symbol, ex:n-symbol, ex:vr-s2-symbol, ex:vr-sigma2-symbol, ex:vr-E-symbol .
+  ex:vr-sd-formula cd:hasSymbol ex:s-symbol, ex:vr-s2-symbol, ex:vr-root-symbol .
+  ex:vr-read-sd cd:hasSymbol ex:s-symbol, ex:xi-symbol, ex:xbar-symbol, ex:vr-index-symbol, ex:n-symbol, ex:v-sum-symbol, ex:vr-root-symbol .
+  ex:vr-rsd-formula cd:hasSymbol ex:vr-rsd-symbol, ex:s-symbol, ex:xbar-symbol, ex:vr-absolute-symbol .
+
+  # Formulae and complete symbol legends. Each legend entry has one owner.
+  ex:vr-mean-formula a cd:MathExpression ; cd:latex "\\bar{x}=\\frac{1}{n}\\sum_{i=1}^{n}x_i=\\frac{32}{3}\\,\\mathrm{mg/L}" ; dct:hasPart ex:vr-mean-legend ; cd:derivedFrom ex:arithmetic-mean ; cd:authoredResource true .
+  ex:vr-mean-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-mean-l1, ex:vr-mean-l2, ex:vr-mean-l3 ; cd:authoredResource true .
+  ex:vr-mean-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Return to Series A/B"@en ; cd:body "A: 9, 10, 13 mg/L. B: 5, 10, 17 mg/L. These are our simpler three-observation series, not the five-value QC Methods A/B."@en ; cd:authoredResource true .
+  ex:vr-mean-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Values and mean"@en ; cd:body "xᵢ: observation i; i: observation index. x̄: arithmetic sample mean, in mg/L."@en ; dct:references ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vr-mean-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Count and summation"@en ; cd:body "n: number of observations, here 3. Σ adds the indexed values from i = 1 to n. Both series sum to 32 mg/L."@en ; dct:references ex:n-symbol, ex:v-sum-symbol ; cd:authoredResource true .
+  ex:vr-dev-formula a cd:MathExpression ; cd:latex "d_i=x_i-\\bar{x}" ; dct:hasPart ex:vs-dev-legend ; dct:source ex:vd-deviation-formula ; cd:authoredResource true .
+  ex:vr-dev-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-dev-l1, ex:vr-dev-l2, ex:vr-dev-l3 ; cd:authoredResource true .
+  ex:vr-dev-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Calculate each deviation"@en ; cd:body "A: −5/3, −2/3, +7/3 mg/L. B: −17/3, −2/3, +19/3 mg/L. Subtract the same mean from every value."@en ; cd:authoredResource true .
+  ex:vr-dev-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observation and index"@en ; cd:body "xᵢ: individual observation i; i: observation index. x̄: sample mean, here 32/3 mg/L."@en ; dct:references ex:xi-symbol, ex:xbar-symbol ; cd:authoredResource true .
+  ex:vr-dev-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Signed deviation"@en ; cd:body "dᵢ: deviation of observation i from its sample mean. Positive is above the mean; negative is below it. Units: mg/L."@en ; dct:references ex:deviation-from-mean ; cd:authoredResource true .
+  ex:vr-cancel-formula a cd:MathExpression ; cd:latex "\\sum_{i=1}^{n}(x_i-\\bar{x})=\\sum_{i=1}^{n}x_i-n\\bar{x}=0" ; dct:hasPart ex:vs-cancel-legend ; dct:source ex:vd-cancel-formula ; cd:authoredResource true .
+  ex:vr-cancel-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-cancel-l1, ex:vr-cancel-l2, ex:vr-cancel-l3 ; cd:authoredResource true .
+  ex:vr-cancel-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "dᵢ, xᵢ and x̄"@en ; cd:body "dᵢ: signed deviation; xᵢ: observation; x̄: mean of these same observations. All are on the mg/L scale."@en ; cd:authoredResource true .
+  ex:vr-cancel-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "i, n and Σ"@en ; cd:body "i: observation index; n: observation count. Σ sums from observation 1 to n. Signed deviations cancel, regardless of spread."@en ; cd:authoredResource true .
+  ex:vr-cancel-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Check both series"@en ; cd:body "A: (−5 − 2 + 7)/3 = 0 mg/L. B: (−17 − 2 + 19)/3 = 0 mg/L. Zero sum does not mean zero spread."@en ; cd:authoredResource true .
+  ex:vr-ss-formula a cd:MathExpression ; cd:latex "\\begin{gathered}d_i^2=(x_i-\\bar{x})^2\\\\SS=\\sum_{i=1}^{n}d_i^2\\end{gathered}" ; dct:hasPart ex:vs-ss-legend ; dct:source ex:vd-square-formula ; cd:authoredResource true .
+  ex:vr-ss-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-ss-l1, ex:vr-ss-l2, ex:vr-ss-l3 ; cd:authoredResource true .
+  ex:vr-ss-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Check the sums ((mg/L)²)"@en ; cd:body "A: 25/9 + 4/9 + 49/9 = 26/3. B: 289/9 + 4/9 + 361/9 = 218/3. SS increases with spread."@en ; cd:authoredResource true .
+  ex:vr-ss-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Values and deviations"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean. dᵢ = xᵢ − x̄ is its signed deviation."@en ; cd:authoredResource true .
+  ex:vr-ss-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Sum of squares"@en ; cd:body "n: observation count; Σ: sum from 1 to n; superscript 2: square. SS: sum of squared deviations, in (mg/L)²."@en ; cd:authoredResource true .
+  ex:vr-msd-formula a cd:MathExpression ; cd:latex "\\mathrm{MSD}=\\frac{SS}{n}=\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^2}{n}" ; dct:hasPart ex:vs-msd-legend ; dct:source ex:vd-average-formula ; cd:authoredResource true .
+  ex:vr-msd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-msd-l1, ex:vr-msd-l2, ex:vr-msd-l3 ; cd:authoredResource true .
+  ex:vr-msd-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observed data"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean. n: number of observations. Σ sums all n squared deviations; SS names that sum."@en ; cd:authoredResource true .
+  ex:vr-msd-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "MSD: descriptive average"@en ; cd:body "MSD means mean squared deviation. Average SS over the observed n values. Units: (mg/L)²."@en ; cd:authoredResource true .
+  ex:vr-msd-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Our examples"@en ; cd:body "A: 26/9 ≈ 2.889 (mg/L)². B: 218/9 ≈ 24.222 (mg/L)². These describe the observed datasets."@en ; cd:authoredResource true .
+  ex:vr-mixture-formula a cd:MathExpression ; cd:latex "\\begin{gathered}f_1+f_2+f_3=100\\%\\\\f_3=100\\%-f_1-f_2\\\\\\mathrm{df}=3-1=2\\end{gathered}" ; dct:hasPart ex:vr-mixture-legend ; cd:derivedFrom ex:degrees-of-freedom ; cd:authoredResource true .
+  ex:vr-mixture-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-mixture-l1, ex:vr-mixture-l2 ; cd:authoredResource true .
+  ex:vr-mixture-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Three mixture fractions"@en ; cd:body "f₁, f₂, f₃: component percentages; subscripts identify components. Choose two within the allowed range. The third is determined; all must remain nonnegative."@en ; cd:authoredResource true .
+  ex:vr-mixture-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "One independent constraint"@en ; cd:body "df: degrees of freedom. Three quantities minus one sum constraint leave two freely variable coordinates. Example: 20%, 30%, then 50%."@en ; cd:authoredResource true .
+  ex:vr-df-formula a cd:MathExpression ; cd:latex "\\begin{gathered}d_1+d_2+d_3=0\\\\d_3=-(d_1+d_2)\\\\\\mathrm{df}=n-1=2\\end{gathered}" ; dct:hasPart ex:vr-df-legend ; dct:source ex:vd-freedom-formula ; cd:authoredResource true .
+  ex:vr-df-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-df-l1, ex:vr-df-l2, ex:vr-df-l3 ; cd:authoredResource true .
+  ex:vr-df-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Residuals"@en ; cd:body "d₁, d₂, d₃: observation minus fitted sample mean; subscripts identify observations. Units: mg/L."@en ; cd:authoredResource true .
+  ex:vr-df-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Free coordinates"@en ; cd:body "n: observation count, here 3. df: residual degrees of freedom. One sum constraint fixes the last residual once the others are chosen."@en ; cd:authoredResource true .
+  ex:vr-df-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Not sampling independence"@en ; cd:body "Residuals share the fitted mean. Their constraint does not retroactively remove independence from the original observations. Independence comes from the sampling design and assumptions."@en ; cd:authoredResource true .
+  ex:vr-center-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\Delta=\\bar{X}-\\mu,\\qquad d_i=X_i-\\bar{X}\\\\X_i-\\mu=d_i+\\Delta\\end{gathered}" ; dct:hasPart ex:vv-center-legend ; dct:source ex:v11-formula ; cd:authoredResource true .
+  ex:vr-center-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-center-l1, ex:vr-center-l2, ex:vr-center-l3 ; cd:authoredResource true .
+  ex:vr-center-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two centers"@en ; cd:body "μ: population mean, usually unknown in the laboratory. It is deliberately set to 10 mg/L in this demonstration. x̄: sample mean estimated from the observed data."@en ; cd:authoredResource true .
+  ex:vr-center-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Observation and offset"@en ; cd:body "xᵢ: observation i; i: observation index. δ: sample mean minus population mean. All differences have measurement units."@en ; cd:authoredResource true .
+  ex:vr-center-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Split the distance"@en ; cd:body "Observation to population center equals observation to sample center plus the distance between the centers. No probability argument is needed for this identity."@en ; cd:authoredResource true .
+  ex:vr-expand-formula a cd:MathExpression ; cd:latex "(X_i-\\mu)^2=d_i^2+2\\Delta d_i+\\Delta^2" ; dct:hasPart ex:vv-expand-legend ; dct:source ex:v11-formula ; cd:authoredResource true .
+  ex:vr-expand-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-expand-l1, ex:vr-expand-l2 ; cd:authoredResource true .
+  ex:vr-expand-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols from the previous step"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean; μ: population mean; δ = x̄ − μ: center offset."@en ; cd:authoredResource true .
+  ex:vr-expand-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Square the sum"@en ; cd:body "Multiply residual plus offset by itself. This gives a residual square, two equal cross-products and an offset square. Superscript 2 denotes squaring; all terms have squared measurement units."@en ; cd:authoredResource true .
+  ex:vr-sum-formula a cd:MathExpression ; cd:latex "\\begin{aligned}\\sum_{i=1}^{n}(X_i-\\mu)^2&=\\sum_{i=1}^{n}d_i^2\\\\&\\quad+2\\Delta\\sum_{i=1}^{n}d_i+\\sum_{i=1}^{n}\\Delta^2\\end{aligned}" ; dct:hasPart ex:vv-sum-legend ; dct:source ex:v11-formula ; cd:authoredResource true .
+  ex:vr-sum-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-sum-l1, ex:vr-sum-l2, ex:vr-sum-l3 ; cd:authoredResource true .
+  ex:vr-sum-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Values and centers"@en ; cd:body "xᵢ: observation i; x̄: sample mean; μ: population mean. δ = x̄ − μ is the offset between centers."@en ; cd:authoredResource true .
+  ex:vr-sum-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Summation"@en ; cd:body "i: index; n: observation count; Σ: add terms for i = 1 to n; superscript 2: square. Summing δ² n times gives nδ²."@en ; cd:authoredResource true .
+  ex:vr-sum-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "The cross term vanishes"@en ; cd:body "The residual sum is zero, so its cross term vanishes. The remaining squared-offset term is nonnegative. The sum of squares about the fitted mean is therefore no larger than about the population mean."@en ; cd:authoredResource true .
+  ex:vr-expect-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\operatorname{E}[{\\textstyle\\sum_{i=1}^{n}}(X_i-\\mu)^2]=n\\sigma^2\\\\\\operatorname{E}[{\\textstyle\\sum_{i=1}^{n}}d_i^2]=(n-1)\\sigma^2\\\\\\operatorname{E}[\\mathrm{MSD}_n]=\\frac{n-1}{n}\\sigma^2=5\\frac{n-1}{n}\\end{gathered}" ; dct:hasPart ex:vv-expect-legend ; dct:source ex:v11-formula, ex:vm-helper-formula, ex:vs-theory-formula ; cd:authoredResource true .
+  ex:vr-expect-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-expect-l1, ex:vr-expect-l2, ex:vr-expect-l3 ; cd:authoredResource true .
+  ex:vr-expect-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeated sampling"@en ; cd:body "Xᵢ: random observation i; X̄: random sample mean. i: index; n: count, greater than 1; Σ: sum from 1 to n. E: repeated-sampling average."@en ; cd:authoredResource true .
+  ex:vr-expect-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Population and residuals"@en ; cd:body "μ: population mean; σ²: population variance. Xᵢ − X̄ is a residual about the fitted mean. Capital X distinguishes random quantities from observed values x."@en ; cd:authoredResource true .
+  ex:vr-expect-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Assumptions matter"@en ; cd:body "Independent, identically distributed observations of finite variance give sample-mean expectation μ and variance σ²/n. The center-offset term averages σ². Subtract it from nσ². Normality is not required."@en ; cd:authoredResource true .
+  ex:vr-variance-formula a cd:MathExpression ; cd:latex "\\begin{gathered}s^2=\\frac{\\sum_{i=1}^{n}d_i^2}{n-1}\\\\\\operatorname{E}[s^2]=\\sigma^2\\end{gathered}" ; dct:hasPart ex:vv-variance-legend ; dct:source ex:v10-sample ; cd:authoredResource true .
+  ex:vr-variance-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-variance-l1, ex:vr-variance-l2, ex:vr-variance-l3 ; cd:authoredResource true .
+  ex:vr-variance-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Observed deviations"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean; n: count. Σ adds squared deviations from 1 to n. Descriptive MSD divides that sum by n instead."@en ; cd:authoredResource true .
+  ex:vr-variance-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Estimate population variance"@en ; cd:body "s²: sample variance; σ²: population variance. The denominator n−1 corrects average bias for iid observations of finite variance, n > 1."@en ; cd:authoredResource true .
+  ex:vr-variance-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Expectation is not exactness"@en ; cd:body "E: average over repeated sampling. Unbiased s² does not mean exact in one sample. The result follows from the expectation calculation, not merely from counting residuals."@en ; cd:authoredResource true .
+  ex:vr-sd-formula a cd:MathExpression ; cd:latex "s=\\sqrt{s^2}" ; dct:hasPart ex:vr-sd-legend ; dct:source ex:v13-formula ; cd:authoredResource true .
+  ex:vr-sd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-sd-l1, ex:vr-sd-l2 ; cd:authoredResource true .
+  ex:vr-sd-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Variance to SD"@en ; cd:body "s²: sample variance, in squared measurement units. √: nonnegative square root. s: sample standard deviation."@en ; cd:authoredResource true .
+  ex:vr-sd-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Back to the measurement scale"@en ; cd:body "SD is not mean absolute distance. Taking a square root does not preserve unbiasedness of the estimator. Original measurement units make the spread easier to interpret."@en ; cd:authoredResource true .
+  ex:vr-read-sd a cd:MathExpression ; cd:latex "s=\\sqrt{\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^2}{n-1}}" ; dct:hasPart ex:vr-read-legend ; dct:source ex:sample-sd-formula ; cd:authoredResource true .
+  ex:vr-read-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-read-l1, ex:vr-read-l2, ex:vr-read-l3 ; cd:authoredResource true .
+  ex:vr-read-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Center and square"@en ; cd:body "xᵢ: observation i; i: index; x̄: sample mean. Subtract x̄ and square each deviation; superscript 2 denotes the square."@en ; cd:authoredResource true .
+  ex:vr-read-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Sum and divide"@en ; cd:body "Σ: sum from i = 1 to n; n: observation count, greater than 1. n−1: residual degrees of freedom after estimating one mean."@en ; cd:authoredResource true .
+  ex:vr-read-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Take the root"@en ; cd:body "√: nonnegative square root. s: sample standard deviation, in the original unit. This describes spread about the sample mean."@en ; cd:authoredResource true .
+  ex:vr-rsd-formula a cd:MathExpression ; cd:latex "\\mathrm{RSD}=\\frac{s}{|\\bar{x}|},\\qquad\\mathrm{RSD}(\\%)=100\\,\\frac{s}{|\\bar{x}|}" ; dct:hasPart ex:vr-rsd-legend ; dct:source ex:v24-formula ; cd:authoredResource true .
+  ex:vr-rsd-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vr-rsd-l1, ex:vr-rsd-l2, ex:vr-rsd-l3 ; cd:authoredResource true .
+  ex:vr-rsd-l1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Spread relative to level"@en ; cd:body "RSD: relative standard deviation; s: sample SD; x̄: sample mean. | | takes its absolute value. The mean must be nonzero and sufficiently far from zero."@en ; cd:authoredResource true .
+  ex:vr-rsd-l2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Ratio or percentage"@en ; cd:body "The units cancel. RSD is dimensionless. Multiplying by 100 expresses its numerical percentage; % denotes percent. A ratio of 0.02 is 2%."@en ; cd:authoredResource true .
+  ex:vr-rsd-l3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Meaningful ratios"@en ; cd:body "Use a suitable ratio-scale quantity with a meaningful zero and compatible measurement conditions. A nonzero mean alone is not sufficient."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/variance-foundations> {
+  ex:scene-vr02 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-chemometrics-variance-dispersion-variance ; cd:hasSceneItem ex:vr02h, ex:vs-a-i, ex:vr02t, ex:vr02c ; cd:authoredResource true .
+  ex:vr02h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr02 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr02t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-values ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr02c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr02kitem a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr02 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr03 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-variance-analytical-quality ; cd:hasSceneItem ex:vr03h, ex:vs-q-i, ex:vr03t, ex:vr03c ; cd:authoredResource true .
+  ex:vr03h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr03 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr03t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v45-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr03c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr-qc-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr03kitem a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr03 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr04 a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; dct:source ex:scene-vd-deviations ; cd:hasSceneItem ex:vr04h, ex:vs-b-i, ex:vb04t, ex:vs-b-c, ex:vs-b-k ; cd:authoredResource true .
+  ex:vr04h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr04 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr04f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-mean-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr05 a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; dct:source ex:scene-vd-deviations ; cd:hasSceneItem ex:vr05h, ex:vr05f, ex:vb05t, ex:vs05k ; cd:authoredResource true .
+  ex:vr05h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr05 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr05f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-dev-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr05t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-deviations ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr06 a cd:SceneDefinition ; cd:focusConcept ex:deviation-from-mean ; dct:source ex:scene-vd-cancellation ; cd:hasSceneItem ex:vr06h, ex:vr06f ; cd:authoredResource true .
+  ex:vr06h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:md-title-summing ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr06f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-zero-section-1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr07 a cd:SceneDefinition ; cd:focusConcept ex:squared-deviation ; dct:source ex:scene-vd-squaring ; cd:hasSceneItem ex:vr07h, ex:vr07f, ex:vr07t, ex:vs07k ; cd:authoredResource true .
+  ex:vr07h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr07 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr07f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-ss-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr07t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-squares ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr08 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-vd-average ; cd:hasSceneItem ex:vr08h, ex:vr08f, ex:vb08t, ex:vs08k ; cd:authoredResource true .
+  ex:vr08h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr08 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr08f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-msd-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr09 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-vd-average ; cd:hasSceneItem ex:vr09h, ex:vs09f, ex:vs09k ; cd:authoredResource true .
+  ex:vr09h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr09 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr09kitem a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vb-msd-comparison ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr09t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-msd-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr10 a cd:SceneDefinition ; cd:focusConcept ex:sample ; dct:source ex:scene-vd-average ; cd:hasSceneItem ex:vr10h, ex:vr10kitem, ex:vr10p ; cd:authoredResource true .
+  ex:vr10h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr10 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr10kitem a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr10 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr10p a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr10-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr11 a cd:SceneDefinition ; cd:focusConcept ex:population ; dct:source ex:scene-v10 ; cd:hasSceneItem ex:vr11h, ex:vr11l ; cd:authoredResource true .
+  ex:vr11h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr11 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr11l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr11-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr12 a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; cd:hasSceneItem ex:vr12h, ex:vr12f ; cd:authoredResource true .
+  ex:vr12h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr12 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr12f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-mixture-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr13 a cd:SceneDefinition ; cd:focusConcept ex:degrees-of-freedom ; dct:source ex:scene-vd-freedom ; cd:hasSceneItem ex:vr13h, ex:vr13f, ex:vr13ki ; cd:authoredResource true .
+  ex:vr13h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr13 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr13f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-df-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr13ki a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr13 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr14 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; dct:source ex:scene-v11 ; cd:hasSceneItem ex:vr14h, ex:vr14f ; cd:authoredResource true .
+  ex:vr14h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr14 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr14f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-centers-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr15 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; dct:source ex:scene-v11 ; cd:hasSceneItem ex:vr15h, ex:vr15f ; cd:authoredResource true .
+  ex:vr15h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr15 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr15f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-1 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr16 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; dct:source ex:scene-v11 ; cd:hasSceneItem ex:vr16h, ex:vr16f ; cd:authoredResource true .
+  ex:vr16h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr16 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr16f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-2 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr17 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; dct:source ex:scene-v11 ; cd:hasSceneItem ex:vr17h, ex:vr17f ; cd:authoredResource true .
+  ex:vr17h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr17 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr17f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-5 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr18 a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; dct:source ex:scene-v10, ex:scene-vd-bessel ; cd:hasSceneItem ex:vr18h, ex:vr18f, ex:vr18ki ; cd:authoredResource true .
+  ex:vr18h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr18 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr18f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:md-bessel-section-8 ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr18ki a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr18 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr19 a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; dct:source ex:scene-vd-bessel ; cd:hasSceneItem ex:vr19h, ex:vr19t ; cd:authoredResource true .
+  ex:vr19h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr19 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr19kitem a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr19 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr19t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-worked-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr20 a cd:SceneDefinition ; cd:focusConcept ex:n-minus-one ; dct:source ex:scene-v12 ; cd:hasSceneItem ex:vr20h, ex:vr20p, ex:vr20c ; cd:authoredResource true .
+  ex:vr20h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr20 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr20p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr20-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr20c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr20-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr21 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; dct:source ex:scene-v13 ; cd:hasSceneItem ex:vr21h, ex:vr21f, ex:vr21ki ; cd:authoredResource true .
+  ex:vr21h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr21 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr21f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-sd-section ; cd:communicativeRole cd:DerivationRole ; cd:selectionPath "cd:partOfDerivation" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr21ki a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-sd-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr22 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; dct:source ex:scene-v14 ; cd:hasSceneItem ex:vr22h, ex:vr22f ; cd:authoredResource true .
+  ex:vr22h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr22 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr22f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-read-sd ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr23 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; dct:source ex:scene-v15 ; cd:hasSceneItem ex:vr23h, ex:vr23t, ex:vr23c, ex:vr23kitem ; cd:authoredResource true .
+  ex:vr23h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr23 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr23t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-summary ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr23c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr23kitem a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr23 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr24 a cd:SceneDefinition ; cd:focusConcept ex:arithmetic-mean ; cd:hasSceneItem ex:vr24h, ex:vr24p, ex:vr24c ; cd:authoredResource true .
+  ex:vr24h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr24 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr24p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr24-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr24c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr24-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr25 a cd:SceneDefinition ; cd:focusConcept ex:standard-deviation ; dct:source ex:scene-v16 ; cd:hasSceneItem ex:vr25h, ex:vr25p, ex:vr25c ; cd:authoredResource true .
+  ex:vr25h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr25 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr25p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr25-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr25c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr25-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr26 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v17 ; cd:hasSceneItem ex:vr26h, ex:vb26k, ex:vb26t, ex:vs26k ; cd:authoredResource true .
+  ex:vr26h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr26 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr26l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr26-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr27 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v21 ; cd:hasSceneItem ex:vr27h, ex:vr27l, ex:vs27k ; cd:authoredResource true .
+  ex:vr27h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr27 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr27l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-conditions ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr28 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v19 ; cd:hasSceneItem ex:vr28h, ex:vr28t, ex:vr28c, ex:vr28kitem ; cd:authoredResource true .
+  ex:vr28h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr28 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr28t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v19-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr28c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr-qc-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr28kitem a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr28 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr29 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v18 ; cd:hasSceneItem ex:vr29h, ex:vb29t, ex:vb29c, ex:vb29k ; cd:authoredResource true .
+  ex:vr29h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr29 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr29l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr29-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr30 a cd:SceneDefinition ; cd:focusConcept ex:v-pseudoreplication ; dct:source ex:scene-v41 ; cd:hasSceneItem ex:vr30h, ex:vr30l, ex:vs30k ; cd:authoredResource true .
+  ex:vr30h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr30 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr30l a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-replicates ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr31 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v22, ex:scene-v39 ; cd:hasSceneItem ex:vr31h, ex:vr31d, ex:vr31kitem ; cd:authoredResource true .
+  ex:vr31h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr31 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr31d a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v39-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr31kitem a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-sources-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr32 a cd:SceneDefinition ; cd:focusConcept ex:lake-sampling-replicates ; dct:source ex:scene-v40 ; cd:hasSceneItem ex:vr32h, ex:vr32t, ex:vr32c, ex:vr32kitem ; cd:authoredResource true .
+  ex:vr32h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr32 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr32t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-sites-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr32c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v40-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr32kitem a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:vr32 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr33 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; dct:source ex:scene-v24 ; cd:hasSceneItem ex:vr33h, ex:vr33f ; cd:authoredResource true .
+  ex:vr33h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr33 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr33f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr-rsd-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr34 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; dct:source ex:scene-v25, ex:scene-v26 ; cd:hasSceneItem ex:vr34h, ex:vr34kitem, ex:vr34t ; cd:authoredResource true .
+  ex:vr34h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr34 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr34kitem a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:uq-rsd-cue ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr34t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:uq-rsd-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr35 a cd:SceneDefinition ; cd:focusConcept ex:relative-standard-deviation ; dct:source ex:scene-v27 ; cd:hasSceneItem ex:vr35h, ex:vr35kitem, ex:vr35t ; cd:authoredResource true .
+  ex:vr35h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr35 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr35kitem a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr35 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr35t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v27-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr36 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-v29 ; cd:hasSceneItem ex:vr36h, ex:vr36t, ex:vr36c, ex:vr36kitem ; cd:authoredResource true .
+  ex:vr36h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr36 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr36t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v29-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr36c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:v29-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr36kitem a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:vr36 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr37 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v23 ; cd:hasSceneItem ex:vr37h, ex:vr37p, ex:vr37c ; cd:authoredResource true .
+  ex:vr37h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr37 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr37p a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr37-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr37c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr37-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr38 a cd:SceneDefinition ; cd:focusConcept ex:measurement-precision ; dct:source ex:scene-v45 ; cd:hasSceneItem ex:vr38h, ex:vr38t, ex:vr38p ; cd:authoredResource true .
+  ex:vr38h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr38 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr38t a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v45-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr38p a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr38-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:scene-vr39 a cd:SceneDefinition ; cd:focusConcept ex:variance ; dct:source ex:scene-v46 ; cd:hasSceneItem ex:vr39h, ex:vr39kitem, ex:vr39p ; cd:authoredResource true .
+  ex:vr39h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:vr39 ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr39kitem a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:vr39 ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:vr39p a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:vr39-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {
+  ex:vr-step02 a cd:PathStep ; cd:position 2 ; cd:usesResource ex:vr02, ex:vr-values, ex:vr-chart ; cd:usesScene ex:scene-vr02 ; cd:authoredResource true .
+  ex:vr-step03 a cd:PathStep ; cd:position 3 ; cd:usesResource ex:vr03, ex:v45-table, ex:vr-qc-chart ; cd:usesScene ex:scene-vr03 ; cd:authoredResource true .
+  ex:vr-step04 a cd:PathStep ; cd:position 4 ; cd:usesResource ex:vr04, ex:vb-mean-table ; cd:usesScene ex:scene-vr04 ; cd:authoredResource true .
+  ex:vr-step05 a cd:PathStep ; cd:position 5 ; cd:usesResource ex:vr05, ex:vr-dev-formula, ex:vb-dev-table, ex:vs-calc05 ; cd:usesScene ex:scene-vr05 ; cd:authoredResource true .
+  ex:vr-step06 a cd:PathStep ; cd:position 6 ; cd:usesResource ex:vr06, ex:vr-cancel-formula, ex:vb-cancel-table, ex:vs-calc06 ; cd:usesScene ex:scene-vr06 ; cd:authoredResource true .
+  ex:vr-step07 a cd:PathStep ; cd:position 9 ; cd:usesResource ex:vr07, ex:vr-ss-formula, ex:vr-squares, ex:vs-calc07 ; cd:usesScene ex:scene-vr07 ; cd:authoredResource true .
+  ex:vr-step08 a cd:PathStep ; cd:position 10 ; cd:usesResource ex:vr08, ex:vr-msd-formula, ex:vb-msd-table, ex:vs-calc08 ; cd:usesScene ex:scene-vr08 ; cd:authoredResource true .
+  ex:vr-step09 a cd:PathStep ; cd:position 12 ; cd:usesResource ex:vr09, ex:vs-pop-formula, ex:vs-transition ; cd:usesScene ex:scene-vr09 ; cd:authoredResource true .
+  ex:vr-step10 a cd:PathStep ; cd:position 10 ; cd:usesResource ex:vr10, ex:vr10-task ; cd:usesScene ex:scene-vr10 ; cd:authoredResource true .
+  ex:vr-step11 a cd:PathStep ; cd:position 12 ; cd:usesResource ex:vr11, ex:vr11-cards ; cd:usesScene ex:scene-vr11 ; cd:authoredResource true .
+  ex:vr-step12 a cd:PathStep ; cd:position 32 ; cd:usesResource ex:vr12, ex:vr-mixture-formula ; cd:usesScene ex:scene-vr12 ; cd:authoredResource true .
+  ex:vr-step13 a cd:PathStep ; cd:position 33 ; cd:usesResource ex:vr13, ex:vr-df-formula ; cd:usesScene ex:scene-vr13 ; cd:authoredResource true .
+  ex:vr-step14 a cd:PathStep ; cd:position 17 ; cd:usesResource ex:vr14, ex:vr-center-formula ; cd:usesScene ex:scene-vr14 ; cd:authoredResource true .
+  ex:vr-step15 a cd:PathStep ; cd:position 18 ; cd:usesResource ex:vr15, ex:vr-expand-formula ; cd:usesScene ex:scene-vr15 ; cd:authoredResource true .
+  ex:vr-step16 a cd:PathStep ; cd:position 19 ; cd:usesResource ex:vr16, ex:vr-sum-formula ; cd:usesScene ex:scene-vr16 ; cd:authoredResource true .
+  ex:vr-step17 a cd:PathStep ; cd:position 23 ; cd:usesResource ex:vr17, ex:vr-expect-formula ; cd:usesScene ex:scene-vr17 ; cd:authoredResource true .
+  ex:vr-step18 a cd:PathStep ; cd:position 29 ; cd:usesResource ex:vr18, ex:vr-variance-formula ; cd:usesScene ex:scene-vr18 ; cd:authoredResource true .
+  ex:vr-step19 a cd:PathStep ; cd:position 35 ; cd:usesResource ex:vr19, ex:vb-worked-table ; cd:usesScene ex:scene-vr19 ; cd:authoredResource true .
+  ex:vr-step20 a cd:PathStep ; cd:position 20 ; cd:usesResource ex:vr20, ex:vr20-task, ex:vr20-code ; cd:usesScene ex:scene-vr20 ; cd:authoredResource true .
+  ex:vr-step21 a cd:PathStep ; cd:position 36 ; cd:usesResource ex:vr21, ex:vr-sd-formula ; cd:usesScene ex:scene-vr21 ; cd:authoredResource true .
+  ex:vr-step22 a cd:PathStep ; cd:position 37 ; cd:usesResource ex:vr22, ex:vr-read-sd ; cd:usesScene ex:scene-vr22 ; cd:authoredResource true .
+  ex:vr-step23 a cd:PathStep ; cd:position 38 ; cd:usesResource ex:vr23, ex:vr-summary, ex:vr-chart ; cd:usesScene ex:scene-vr23 ; cd:authoredResource true .
+  ex:vr-step24 a cd:PathStep ; cd:position 39 ; cd:usesResource ex:vr24, ex:vr24-task, ex:vr24-code ; cd:usesScene ex:scene-vr24 ; cd:authoredResource true .
+  ex:vr-step25 a cd:PathStep ; cd:position 40 ; cd:usesResource ex:vr25, ex:vr25-task, ex:vr25-code ; cd:usesScene ex:scene-vr25 ; cd:authoredResource true .
+  ex:vr-step26 a cd:PathStep ; cd:position 41 ; cd:usesResource ex:vr26, ex:vb-qc-table, ex:vs-precision-cue ; cd:usesScene ex:scene-vr26 ; cd:authoredResource true .
+  ex:vr-step27 a cd:PathStep ; cd:position 42 ; cd:usesResource ex:vr27, ex:vr27-cards, ex:vs-conditions-cue ; cd:usesScene ex:scene-vr27 ; cd:authoredResource true .
+  ex:vr-step28 a cd:PathStep ; cd:position 28 ; cd:usesResource ex:vr28, ex:v19-table, ex:vr-qc-chart ; cd:usesScene ex:scene-vr28 ; cd:authoredResource true .
+  ex:vr-step29 a cd:PathStep ; cd:position 44 ; cd:usesResource ex:vr29, ex:vb-shift-table, ex:vb-shift-chart, ex:vs-quality-cue ; cd:usesScene ex:scene-vr29 ; cd:authoredResource true .
+  ex:vr-step30 a cd:PathStep ; cd:position 45 ; cd:usesResource ex:vr30, ex:vr30-cards, ex:vs-replicates-cue ; cd:usesScene ex:scene-vr30 ; cd:authoredResource true .
+  ex:vr-step31 a cd:PathStep ; cd:position 46 ; cd:usesResource ex:vr31, ex:vr31-cards, ex:v39-flow ; cd:usesScene ex:scene-vr31 ; cd:authoredResource true .
+  ex:vr-step32 a cd:PathStep ; cd:position 50 ; cd:usesResource ex:vr32, ex:v40-table, ex:v40-chart ; cd:usesScene ex:scene-vr32 ; cd:authoredResource true .
+  ex:vr-step33 a cd:PathStep ; cd:position 51 ; cd:usesResource ex:vr33, ex:vr-rsd-formula ; cd:usesScene ex:scene-vr33 ; cd:authoredResource true .
+  ex:vr-step34 a cd:PathStep ; cd:position 52 ; cd:usesResource ex:vr34, ex:v25-table ; cd:usesScene ex:scene-vr34 ; cd:authoredResource true .
+  ex:vr-step35 a cd:PathStep ; cd:position 53 ; cd:usesResource ex:vr35, ex:v27-table ; cd:usesScene ex:scene-vr35 ; cd:authoredResource true .
+  ex:vr-step36 a cd:PathStep ; cd:position 54 ; cd:usesResource ex:vr36, ex:v29-table, ex:v29-chart ; cd:usesScene ex:scene-vr36 ; cd:authoredResource true .
+  ex:vr-step37 a cd:PathStep ; cd:position 55 ; cd:usesResource ex:vr37, ex:vr37-task, ex:vr37-code ; cd:usesScene ex:scene-vr37 ; cd:authoredResource true .
+  ex:vr-step38 a cd:PathStep ; cd:position 56 ; cd:usesResource ex:vr38, ex:v45-table, ex:vr38-task ; cd:usesScene ex:scene-vr38 ; cd:authoredResource true .
+  ex:vr-step39 a cd:PathStep ; cd:position 57 ; cd:usesResource ex:vr39, ex:vr39-task ; cd:usesScene ex:scene-vr39 ; cd:authoredResource true .
+}

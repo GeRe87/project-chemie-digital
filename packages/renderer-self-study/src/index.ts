@@ -1,10 +1,18 @@
-import katex from "katex";
+import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
+import { renderDerivationDetail } from "../../renderer-reveal/src/mathematical-derivation.ts";
 import {
+  dotPlotStaticFallback,
+  type DotPlotBlock,
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
   SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
   SCENE_DOCUMENT_TABLE_VERSION,
+  SCENE_DOCUMENT_DOT_PLOT_VERSION,
+  SCENE_DOCUMENT_DERIVATION_VERSION,
+  mathematicalDerivationText,
+  type MathematicalDerivationSection,
+  type MathematicalDerivationDetail,
   SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
@@ -55,6 +63,8 @@ export interface SelfStudyMathPlan extends SelfStudyNodeBase {
   readonly kind: "math";
   readonly expression: string;
   readonly spokenText: string;
+  readonly derivation?: MathematicalDerivationSection;
+  readonly derivationDetails?: readonly MathematicalDerivationDetail[];
 }
 
 export interface SelfStudyCodePlan extends SelfStudyNodeBase {
@@ -90,6 +100,8 @@ export interface SelfStudyListPlan extends SelfStudyNodeBase {
 export interface SelfStudyDefinitionListEntryPlan {
   readonly id: string;
   readonly term: string;
+  readonly expression?: string;
+  readonly symbol?: boolean;
   readonly description?: string;
   readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
@@ -203,7 +215,12 @@ export interface SelfStudyLineChartPlan extends SelfStudyNodeBase {
   readonly annotations?: readonly SelfStudyLineChartAnnotationPlan[];
 }
 
-export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan;
+export interface SelfStudyDotChartPlan extends SelfStudyNodeBase {
+  readonly kind: "chart";
+  readonly chartType: "dot";
+  readonly payload: DotPlotBlock;
+}
+export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan | SelfStudyDotChartPlan;
 
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
@@ -436,10 +453,12 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
       return { ...baseFor(block, position, block.text), kind: "prose", text: block.text, format: block.format ?? "plain" };
     case "math":
       return {
-        ...baseFor(block, position, `${block.expression} — ${block.spokenText}`),
+        ...baseFor(block, position, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression} — ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
         kind: "math",
         expression: block.expression,
         spokenText: block.spokenText,
+        ...(block.derivation ? { derivation: block.derivation } : {}),
+        ...(block.derivationDetails ? { derivationDetails: block.derivationDetails } : {}),
       };
     case "code":
       return {
@@ -479,6 +498,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         entries: block.entries.map((entry) => ({
           id: entry.id,
           term: entry.term,
+          ...(entry.expression ? { expression: entry.expression } : {}),
+          ...(entry.symbol !== undefined ? { symbol: entry.symbol } : {}),
           ...(entry.description ? { description: entry.description } : {}),
           ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
           ...(entry.visualMotifRole ? { visualMotifRole: entry.visualMotifRole } : {}),
@@ -535,6 +556,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "chart":
+      if (block.chartType === "dot") return { ...baseFor(block,position,dotPlotStaticFallback(block)),kind:"chart",chartType:"dot",payload:block };
       if (block.chartType === "bar") {
         return {
           ...baseFor(block, position, chartStaticFallback(block)),
@@ -657,7 +679,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -747,6 +769,14 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
 }
 
 function renderChart(node: SelfStudyChartPlan): string {
+  if(node.chartType==="dot"){
+    const p=node.payload;
+    const references=[...(p.referenceLine?[p.referenceLine]:[]),...p.groups.flatMap(g=>g.summary?[g.summary]:[])];
+    const summary=references.map(r=>`<p${sourceAttributes(r.source)}>${escapeHtml(r.label)}: ${r.value} ${escapeHtml(p.yAxis.unit??"")}</p>`).join("");
+    const rows=p.groups.flatMap(g=>g.data.map((d,i)=>`<tr data-chart-datum-id="${escapeHtml(d.id)}"${sourceAttributes(d.source)}><th scope="row">${escapeHtml(g.label)}</th><td>${escapeHtml(d.label??String(i+1))}</td><td>${d.value}</td></tr>`)).join("");
+    const curves=(p.curves??[]).map(c=>`<details><summary>${escapeHtml(c.label)}</summary><table><thead><tr><th>${escapeHtml(chartAxisLabel(p.xAxis))}</th><th>${escapeHtml(chartAxisLabel(p.yAxis))}</th></tr></thead><tbody>${c.data.map(d=>`<tr${sourceAttributes(d.source)}><td>${d.x}</td><td>${d.y}</td></tr>`).join("")}</tbody></table></details>`).join("");
+    return `<figure class="self-study-dot-plot"><figcaption>${escapeHtml(p.label)}</figcaption><p>${escapeHtml(p.description)}</p><div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Show values for this figure</summary>${summary}<table><thead><tr><th>${escapeHtml(p.xAxis.label)}</th><th>Observation</th><th>${escapeHtml(chartAxisLabel(p.yAxis))}</th></tr></thead><tbody>${rows}</tbody></table>${curves}</details></figure>`;
+  }
   const xAxis = chartAxisLabel(node.xAxis);
   const yAxis = chartAxisLabel(node.yAxis);
   const axes = `<p class="self-study-chart-axes">X: ${escapeHtml(xAxis)} · Y: ${escapeHtml(yAxis)}</p>`;
@@ -779,12 +809,22 @@ function renderChart(node: SelfStudyChartPlan): string {
   return `<figure class="self-study-chart" data-chart-type="line"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}${series}${annotations}</figure>`;
 }
 
+function renderMathDetails(details: readonly MathematicalDerivationDetail[] = []): string {
+  return details.map(d => `<details class="self-study-proof"><summary>${escapeHtml(d.label)}</summary>${renderDerivationDetail(d,e=>renderStudyMath(e,true))}</details>`).join("");
+}
+
 function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
   switch (node.kind) {
     case "prose":
-      return `<div class="self-study-prose">${escapeHtml(node.text)}</div>`;
+      return `<div class="self-study-prose">${renderStudyInline(node.text)}</div>`;
     case "math":
-      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}">${katex.renderToString(node.expression, { displayMode: true, output: "mathml", throwOnError: false, trust: false })}<span class="visually-hidden"><code>${escapeHtml(node.expression)}</code>${escapeHtml(node.spokenText)}</span></div>`;
+      if (node.derivation) {
+        const math = (expression: string) => `<div class="self-study-math">${renderStudyMath(expression,true)}</div>`;
+        return `<section class="self-study-derivation" aria-label="${escapeHtml(node.spokenText)}">${math(node.derivation.steps[0]!.from.expression)}${node.derivation.steps.map(step =>
+          `<section><h3>${escapeHtml(step.operation)}</h3>${math(step.rule.formula.expression)}${math(step.to.expression)}<details><summary>${escapeHtml(step.rule.label)}</summary><p>${escapeHtml(step.rule.description)}</p>${math(step.explanation.application.expression)}<p>${escapeHtml(step.explanation.text)}</p>${step.assumptions.map(a => `<p>${escapeHtml(a.description)}</p>`).join("")}</details></section>`
+         ).join("")}<dl>${node.derivation.legend.map(e => `<dt>${e.expression ? renderStudyMath(e.expression) : renderStudyInline(e.term)}</dt><dd>${renderStudyInline(e.description ?? "")}</dd>`).join("")}</dl></section>` + renderMathDetails(node.derivationDetails);
+      }
+      return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}">${renderStudyMath(node.expression,true)}<span class="visually-hidden"><code>${escapeHtml(node.expression)}</code>${escapeHtml(node.spokenText)}</span></div>` + renderMathDetails(node.derivationDetails);
     case "code":
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
@@ -795,13 +835,13 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
       return `<${tag} class="self-study-list">${items}</${tag}>`;
     }
     case "definition-list": {
-      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${escapeHtml(entry.term)}</dt>${entry.description ? `<dd>${escapeHtml(entry.description)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
+      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "table": {
       const caption = `<caption>${escapeHtml(node.caption)}</caption>`;
       const head = `<thead><tr>${node.columns.map((column) => `<th scope="col" data-table-column-id="${escapeHtml(column.id)}"${sourceAttributes(column.source)}>${escapeHtml(column.label)}</th>`).join("")}</tr></thead>`;
-      const body = `<tbody>${node.rows.map((row) => `<tr data-table-row-id="${escapeHtml(row.id)}"${sourceAttributes(row.source)}>${row.cells.map((cell) => `<td data-table-cell-id="${escapeHtml(cell.id)}"${sourceAttributes(cell.source)}>${escapeHtml(cell.text)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+      const body = `<tbody>${node.rows.map((row) => `<tr data-table-row-id="${escapeHtml(row.id)}"${sourceAttributes(row.source)}>${row.cells.map((cell) => `<td data-table-cell-id="${escapeHtml(cell.id)}"${sourceAttributes(cell.source)}>${renderStudyInline(cell.text)}</td>`).join("")}</tr>`).join("")}</tbody>`;
       const description = node.description ? ` aria-description="${escapeHtml(node.description)}"` : "";
       return `<table class="self-study-table"${description}>${caption}${head}${body}</table>`;
     }
@@ -841,8 +881,13 @@ function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: bo
   return nodes.map(node => renderNode(node, interactive)).join("");
 }
 
-export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean }): string {
+export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean; readonly narrative?: boolean }): string {
   const navigation = `<nav class="self-study-navigation" aria-label="Lernabschnitte"><ol>${plan.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${escapeHtml(section.semanticLabel)}</a></li>`).join("")}</ol></nav>`;
-  const sections = plan.sections.map((section, index) => `<section id="${escapeHtml(section.id)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${renderSectionNodes(section.nodes, options.interactive)}</section>`).join("");
+  const sections = plan.sections.map((section, index) => {
+    const narrative=options.narrative&&section.narration;
+    const prose=narrative?`<div class="self-study-narration">${section.narration!.split(/\n\s*\n/u).map(p=>`<p>${renderStudyInline(p)}</p>`).join("")}</div>`:"";
+    const nodes=narrative?section.nodes.filter(n=>!["list","prompt","prose"].includes(n.kind)&&(n.kind!=="definition-list"||n.emphasis==="supporting")):section.nodes;
+    return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive)}</section>`;
+  }).join("");
   return `${navigation}${sections}`;
 }

@@ -10,20 +10,86 @@
       ex:standard-error,
       ex:relative-standard-deviation ;
     cd:forLearningUnit ex:learning-unit-variance-dispersion ;
-    cd:hasStep ex:path-step-chemometrics-variance-dispersion-variance,
-      ex:path-step-chemometrics-variance-dispersion-standard-deviation,
-      ex:path-step-chemometrics-variance-dispersion-bessel,
-      ex:path-step-chemometrics-variance-dispersion-standard-error,
-      ex:path-step-chemometrics-variance-dispersion-rsd,
-      ex:path-step-chemometrics-variance-dispersion-practice ;
+    # Compact primary argument. Full algebra and sample-mean proofs are explicit
+    # optional derivation details, never extra slides or hidden slide stages.
+    cd:hasStep ex:path-step-chemometrics-variance-dispersion-title,
+      ex:vr-step02, ex:vr-step03, ex:vr-step04, ex:vr-step05,
+      ex:cv-path06, ex:cv-path07, ex:cv-path08, ex:cv-path09, ex:cv-path10,
+      ex:cv-path11, ex:cv-path12, ex:cv-path13, ex:cv-path14, ex:cv-path15,
+      ex:cv-path16, ex:cv-path17, ex:cv-path18, ex:cv-path19, ex:cv-path20,
+      ex:cv-path21, ex:cv-path22, ex:cv-path24, ex:cv-path25,
+      ex:cv-path26, ex:cv-path27, ex:cv-path28, ex:cv-path29, ex:cv-path30,
+      ex:cv-path31, ex:cv-path32, ex:cv-path33, ex:cv-path34, ex:cv-path35,
+      ex:cv-path36, ex:cv-path37, ex:cv-path38, ex:cv-path39, ex:cv-path40,
+      ex:cv-path41, ex:cv-path42, ex:cv-path43, ex:cv-path44,
+      ex:se-path-return, ex:se-path-sem, ex:se-path-rate, ex:se-path-example, ex:cv-path46 ;
+    cd:authoredResource true .
+
+  ex:path-step-chemometrics-variance-dispersion-title a cd:PathStep ;
+    cd:position 1 ;
+    cd:usesResource ex:variance-lecture-title ;
+    cd:usesScene ex:scene-chemometrics-variance-dispersion-title ;
     cd:authoredResource true .
 
   ex:path-step-chemometrics-variance-dispersion-variance a cd:PathStep ;
-    cd:position 1 ;
-    cd:usesResource ex:population-variance-formula,
-      ex:sample-variance-formula,
-      ex:variance-unit-rule ;
+    cd:position 2 ;
+    cd:usesResource ex:mean-and-spread-comparison, ex:chart-variance-same-mean, ex:variance-same-mean-definition ;
+    cd:usesScene ex:scene-chemometrics-variance-dispersion-variance ;
     cd:authoredResource true .
+
+  ex:path-step-variance-analytical-quality a cd:PathStep ;
+    cd:position 3 ;
+    cd:usesResource ex:qc-method-precision-example, ex:chart-qc-method-precision, ex:qc-precision-takeaway ;
+    cd:usesScene ex:scene-variance-analytical-quality ; cd:authoredResource true .
+
+  ex:path-step-vd-deviations a cd:PathStep ; cd:position 4 ; cd:usesResource ex:vd-deviations, ex:vd-deviation-formula, ex:chart-variance-same-mean, ex:vd-deviation-table ; cd:usesScene ex:scene-vd-deviations ; cd:authoredResource true .
+  ex:path-step-vd-cancellation a cd:PathStep ; cd:position 5 ; cd:usesResource ex:vd-cancellation, ex:vd-cancel-formula, ex:vd-cancel-table ; cd:usesScene ex:scene-vd-cancellation ; cd:authoredResource true .
+  ex:path-step-vd-squaring a cd:PathStep ; cd:position 6 ; cd:usesResource ex:vd-squaring, ex:vd-square-formula, ex:vd-ss-chart, ex:vd-squares-table ; cd:usesScene ex:scene-vd-squaring ; cd:authoredResource true .
+  ex:path-step-vd-average a cd:PathStep ; cd:position 7 ; cd:usesResource ex:vd-average, ex:vd-average-formula, ex:vd-average-table ; cd:usesScene ex:scene-vd-average ; cd:authoredResource true .
+  ex:path-step-vd-freedom a cd:PathStep ; cd:position 8 ; cd:usesResource ex:vd-freedom, ex:vd-freedom-formula, ex:vd-freedom-diagram ; cd:usesScene ex:scene-vd-freedom ; cd:authoredResource true .
+  ex:path-step-vd-bessel a cd:PathStep ; cd:position 9 ; cd:usesResource ex:vd-bessel, ex:vd-sample-variance-formula, ex:vd-bessel-table, ex:vd-bessel-limit ; cd:usesScene ex:scene-vd-bessel ; cd:authoredResource true .
+
+  ex:step-v10 a cd:PathStep ; cd:position 10 ; cd:usesResource ex:v10, ex:v10-pop, ex:v10-sample ; cd:usesScene ex:scene-v10 ; cd:authoredResource true .
+  ex:step-v11 a cd:PathStep ; cd:position 11 ; cd:usesResource ex:v11, ex:v11-formula ; cd:usesScene ex:scene-v11 ; cd:authoredResource true .
+  ex:step-v12 a cd:PathStep ; cd:position 12 ; cd:usesResource ex:v12, ex:v12-code ; cd:usesScene ex:scene-v12 ; cd:authoredResource true .
+  ex:step-v13 a cd:PathStep ; cd:position 13 ; cd:usesResource ex:v13, ex:v13-formula ; cd:usesScene ex:scene-v13 ; cd:authoredResource true .
+  ex:step-v14 a cd:PathStep ; cd:position 14 ; cd:usesResource ex:v14, ex:sample-sd-formula, ex:v14-legend ; cd:usesScene ex:scene-v14 ; cd:authoredResource true .
+  ex:step-v15 a cd:PathStep ; cd:position 15 ; cd:usesResource ex:v15, ex:v15-results, ex:chart-variance-same-mean ; cd:usesScene ex:scene-v15 ; cd:authoredResource true .
+  ex:step-v16 a cd:PathStep ; cd:position 16 ; cd:usesResource ex:v16, ex:v16-task, ex:v16-code ; cd:usesScene ex:scene-v16 ; cd:authoredResource true .
+
+  ex:step-v17 a cd:PathStep ; cd:position 17 ; cd:usesResource ex:v17, ex:v17-chart, ex:v17-table ; cd:usesScene ex:scene-v17 ; cd:authoredResource true .
+  ex:step-v18 a cd:PathStep ; cd:position 18 ; cd:usesResource ex:v18, ex:v18-context, ex:v18-table ; cd:usesScene ex:scene-v18 ; cd:authoredResource true .
+  ex:step-v19 a cd:PathStep ; cd:position 19 ; cd:usesResource ex:v19, ex:v19-context, ex:v19-table, ex:chart-qc-method-precision ; cd:usesScene ex:scene-v19 ; cd:authoredResource true .
+  ex:step-v20 a cd:PathStep ; cd:position 20 ; cd:usesResource ex:v20, ex:v20-context, ex:v20-table, ex:chart-qc-method-precision ; cd:usesScene ex:scene-v20 ; cd:authoredResource true .
+  ex:step-v21 a cd:PathStep ; cd:position 21 ; cd:usesResource ex:v21, ex:v21-cards ; cd:usesScene ex:scene-v21 ; cd:authoredResource true .
+  ex:step-v22 a cd:PathStep ; cd:position 22 ; cd:usesResource ex:v22, ex:v22-context, ex:v22-flow ; cd:usesScene ex:scene-v22 ; cd:authoredResource true .
+  ex:step-v23 a cd:PathStep ; cd:position 23 ; cd:usesResource ex:v23, ex:v23-task, ex:v23-code ; cd:usesScene ex:scene-v23 ; cd:authoredResource true .
+
+  ex:step-v24 a cd:PathStep ; cd:position 24 ; cd:usesResource ex:v24, ex:v24-formula ; cd:usesScene ex:scene-v24 ; cd:authoredResource true .
+  ex:step-v25 a cd:PathStep ; cd:position 25 ; cd:usesResource ex:v25, ex:v25-table ; cd:usesScene ex:scene-v25 ; cd:authoredResource true .
+  ex:step-v26 a cd:PathStep ; cd:position 26 ; cd:usesResource ex:v26, ex:v26-table, ex:v26-chart ; cd:usesScene ex:scene-v26 ; cd:authoredResource true .
+  ex:step-v27 a cd:PathStep ; cd:position 27 ; cd:usesResource ex:v27, ex:v27-table ; cd:usesScene ex:scene-v27 ; cd:authoredResource true .
+  ex:step-v28 a cd:PathStep ; cd:position 28 ; cd:usesResource ex:v28, ex:v28-code ; cd:usesScene ex:scene-v28 ; cd:authoredResource true .
+  ex:step-v29 a cd:PathStep ; cd:position 29 ; cd:usesResource ex:v29, ex:v29-context, ex:v29-table, ex:v29-chart ; cd:usesScene ex:scene-v29 ; cd:authoredResource true .
+  ex:step-v30 a cd:PathStep ; cd:position 30 ; cd:usesResource ex:v30, ex:v30-formula ; cd:usesScene ex:scene-v30 ; cd:authoredResource true .
+  ex:step-v31 a cd:PathStep ; cd:position 31 ; cd:usesResource ex:v31, ex:v31-task, ex:v31-code ; cd:usesScene ex:scene-v31 ; cd:authoredResource true .
+
+  ex:step-v32 a cd:PathStep ; cd:position 32 ; cd:usesResource ex:v32, ex:v32-context, ex:v32-table, ex:v32-chart ; cd:usesScene ex:scene-v32 ; cd:authoredResource true .
+  ex:step-v33 a cd:PathStep ; cd:position 33 ; cd:usesResource ex:v33, ex:sem-estimated-formula, ex:v33-legend ; cd:usesScene ex:scene-v33 ; cd:authoredResource true .
+  ex:step-v34 a cd:PathStep ; cd:position 34 ; cd:usesResource ex:v34, ex:v34-table, ex:v34-chart ; cd:usesScene ex:scene-v34 ; cd:authoredResource true .
+  ex:step-v35 a cd:PathStep ; cd:position 35 ; cd:usesResource ex:v35, ex:v35-sd, ex:v35-se, ex:v35-rsd ; cd:usesScene ex:scene-v35 ; cd:authoredResource true .
+  ex:step-v36 a cd:PathStep ; cd:position 36 ; cd:usesResource ex:v36, ex:v36-formula ; cd:usesScene ex:scene-v36 ; cd:authoredResource true .
+  ex:step-v37 a cd:PathStep ; cd:position 37 ; cd:usesResource ex:v37, ex:v37-formula ; cd:usesScene ex:scene-v37 ; cd:authoredResource true .
+  ex:step-v38 a cd:PathStep ; cd:position 38 ; cd:usesResource ex:v38, ex:v38-task, ex:v38-code ; cd:usesScene ex:scene-v38 ; cd:authoredResource true .
+
+  ex:step-v39 a cd:PathStep ; cd:position 39 ; cd:usesResource ex:v39, ex:v39-flow ; cd:usesScene ex:scene-v39 ; cd:authoredResource true .
+  ex:step-v40 a cd:PathStep ; cd:position 40 ; cd:usesResource ex:v40, ex:v40-table, ex:v40-chart ; cd:usesScene ex:scene-v40 ; cd:authoredResource true .
+  ex:step-v41 a cd:PathStep ; cd:position 41 ; cd:usesResource ex:v41, ex:v41-cards ; cd:usesScene ex:scene-v41 ; cd:authoredResource true .
+  ex:step-v42 a cd:PathStep ; cd:position 42 ; cd:usesResource ex:v42, ex:v42-formula ; cd:usesScene ex:scene-v42 ; cd:authoredResource true .
+  ex:step-v43 a cd:PathStep ; cd:position 43 ; cd:usesResource ex:v43, ex:v43-formula, ex:v43-table, ex:v43-chart ; cd:usesScene ex:scene-v43 ; cd:authoredResource true .
+  ex:step-v44 a cd:PathStep ; cd:position 44 ; cd:usesResource ex:v44, ex:v44-task, ex:v44-code ; cd:usesScene ex:scene-v44 ; cd:authoredResource true .
+  ex:step-v45 a cd:PathStep ; cd:position 45 ; cd:usesResource ex:v45, ex:v45-table, ex:v45-task ; cd:usesScene ex:scene-v45 ; cd:authoredResource true .
+  ex:step-v46 a cd:PathStep ; cd:position 46 ; cd:usesResource ex:v46, ex:v46-task ; cd:usesScene ex:scene-v46 ; cd:authoredResource true .
 
   ex:path-step-chemometrics-variance-dispersion-standard-deviation a cd:PathStep ;
     cd:position 2 ;

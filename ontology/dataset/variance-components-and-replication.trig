@@ -1,0 +1,77 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/mathematics/variance-components> {
+  ex:uq-components-title a cd:Interpretation ; skos:prefLabel "Combining Variance Contributions"@en ; cd:authoredResource true .
+  ex:uq-component-assumption a cd:Interpretation ; skos:prefLabel "Illustrative independent additive model"@en ; cd:body "Illustrative model, not estimated components: sampling variance 4, preparation variance 1, instrument variance 0.25 (mg/L)². Assume independent additive contributions with finite variance. Correlated sources require covariance terms."@en ; cd:authoredResource true .
+  ex:uq-A a cd:MathSymbol ; cd:symbol "A" ; cd:mathNotation "A" ; cd:body "Additive sampling contribution in the illustrative model."@en ; cd:authoredResource true .
+  ex:uq-B a cd:MathSymbol ; cd:symbol "B" ; cd:mathNotation "B" ; cd:body "Additive preparation contribution in the illustrative model."@en ; cd:authoredResource true .
+  ex:uq-C a cd:MathSymbol ; cd:symbol "C" ; cd:mathNotation "C" ; cd:body "Additive instrument contribution in the illustrative model."@en ; cd:authoredResource true .
+  ex:uq-total-variance-symbol a cd:MathSymbol ; cd:symbol "σ²total" ; cd:mathNotation "\\sigma_{\\mathrm{total}}^2" ; cd:body "Total variance in (mg/L)²."@en ; cd:authoredResource true .
+  ex:uq-total-sd-symbol a cd:MathSymbol ; cd:symbol "σtotal" ; cd:mathNotation "\\sigma_{\\mathrm{total}}" ; cd:body "Total standard deviation in mg/L."@en ; cd:authoredResource true .
+  ex:uq-k-symbol a cd:MathSymbol ; cd:symbol "k" ; cd:mathNotation "k" ; cd:body "Index of the additive contributions."@en ; cd:authoredResource true .
+  ex:uq-sigmak-symbol a cd:MathSymbol ; cd:symbol "σ²k" ; cd:mathNotation "\\sigma_k^2" ; cd:body "Variance of contribution k in the common squared unit."@en ; cd:authoredResource true .
+  ex:uq-components-input a cd:MathExpression ; cd:latex "\\sigma_{\\mathrm{total}}^2=\\operatorname{Var}(A+B+C)" ; cd:formulaLabel "Independent additive contributions: an illustrative model"@en ; cd:hasSymbol ex:uq-total-variance-symbol, ex:vm-var-symbol, ex:uq-A, ex:uq-B, ex:uq-C ; cd:authoredResource true .
+  ex:uq-components-variance a cd:MathExpression ; cd:latex "\\sigma_{\\mathrm{total}}^2=4+1+0.25=5.25\\;(\\mathrm{mg/L})^2" ; cd:formulaLabel "Add variances, not standard deviations"@en ; cd:hasSymbol ex:uq-total-variance-symbol ; cd:authoredResource true .
+  ex:uq-components-sd a cd:MathExpression ; cd:latex "\\sigma_{\\mathrm{total}}=\\sqrt{5.25}\\;\\mathrm{mg/L}\\approx2.291\\;\\mathrm{mg/L}" ; cd:formulaLabel "The resulting standard deviation is not 2 + 1 + 0.5"@en ; cd:hasSymbol ex:uq-total-sd-symbol, ex:vr-root-symbol ; cd:authoredResource true .
+  ex:uq-independent-variance-rule a cd:MathematicalRule ; skos:prefLabel "Variance of independent additive contributions"@en ; cd:ruleFormula ex:uq-additive-variance-formula ; cd:requiresAssumption ex:uq-component-assumption ; cd:body "For independent finite-variance contributions, covariance terms vanish. Therefore Var(A+B) = Var(A)+Var(B), and the finite-sum extension gives total variance as the sum of component variances. For correlated sources Var(A+B) also contains 2 Cov(A,B). This law concerns an assumed model, not differences between pooled experimental SDs."@en ; cd:authoredResource true .
+  ex:uq-additive-variance-formula a cd:MathExpression ; cd:latex "\\begin{gathered}\\operatorname{Var}(A+B)=\\operatorname{Var}(A)+\\operatorname{Var}(B)\\\\\\sigma_{\\mathrm{total}}^2=\\sum_k\\sigma_k^2\\end{gathered}" ; cd:hasSymbol ex:vm-var-symbol, ex:uq-A, ex:uq-B, ex:uq-total-variance-symbol, ex:uq-k-symbol, ex:uq-sigmak-symbol, ex:v-sum-symbol ; cd:authoredResource true .
+  ex:uq-total-sd-rule a cd:MathematicalRule ; skos:prefLabel "Take the square root of total variance"@en ; cd:ruleFormula ex:uq-total-sd-formula ; cd:body "After adding variances in the same squared unit, take one nonnegative square root. Standard deviations are not directly additive. This root-sum-of-squares calculation needs the independence/additivity assumptions used in the preceding step."@en ; cd:authoredResource true .
+  ex:uq-total-sd-formula a cd:MathExpression ; cd:latex "\\sigma_{\\mathrm{total}}=\\sqrt{\\sum_k\\sigma_k^2}" ; cd:hasSymbol ex:uq-total-sd-symbol, ex:uq-sigmak-symbol, ex:uq-k-symbol, ex:v-sum-symbol, ex:vr-root-symbol ; cd:authoredResource true .
+  ex:uq-components-ex1 a cd:Interpretation ; cd:body "Treat A, B and C as additive random contributions, all expressed in mg/L. Their illustrative variances are 4, 1 and 0.25 (mg/L)².\nIndependence removes the covariance terms. Add the three variances to obtain 5.25 (mg/L)².\nThe numbers are model inputs for teaching, not variance components isolated from the lake or QC data."@en ; cd:applicationFormula ex:uq-components-variance ; cd:authoredResource true .
+  ex:uq-components-ex2 a cd:Interpretation ; cd:body "Take one square root of the total 5.25 (mg/L)², giving approximately 2.291 mg/L.\nAdding the individual SDs would give 2 + 1 + 0.5 = 3.5 mg/L, which is not the SD of this independent sum.\nIf contributions were correlated, include covariance terms before taking the square root."@en ; cd:applicationFormula ex:uq-components-sd ; cd:authoredResource true .
+  ex:uq-components-derivation a cd:MathematicalDerivation ; skos:prefLabel "Combining independent analytical variance contributions"@en ; cd:inputFormula ex:uq-components-input ; cd:resultFormula ex:uq-components-sd ; cd:hasDerivationStep ex:uq-components-step1, ex:uq-components-step2 ; cd:requiresAssumption ex:uq-component-assumption ; cd:authoredResource true .
+  ex:uq-components-step1 a cd:DerivationStep ; cd:position 1 ; skos:prefLabel "Add the independent component variances"@en ; cd:fromFormula ex:uq-components-input ; cd:toFormula ex:uq-components-variance ; cd:appliesRule ex:uq-independent-variance-rule ; cd:requiresAssumption ex:uq-component-assumption ; cd:hasExplanation ex:uq-components-ex1 ; cd:transformationKind cd:StatisticalTransformation ; cd:authoredResource true .
+  ex:uq-components-step2 a cd:DerivationStep ; cd:position 2 ; skos:prefLabel "Take one square root after adding"@en ; cd:fromFormula ex:uq-components-variance ; cd:toFormula ex:uq-components-sd ; cd:appliesRule ex:uq-total-sd-rule ; cd:hasExplanation ex:uq-components-ex2 ; cd:transformationKind cd:ImpliedTransformation ; cd:authoredResource true .
+  ex:uq-components-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:uq-components-symbols ; cd:authoredResource true .
+  ex:uq-components-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Model quantities"@en ; cd:body "Independent additive contributions in a common unit."@en ; dct:references ex:uq-A, ex:uq-B, ex:uq-C, ex:uq-total-variance-symbol, ex:uq-total-sd-symbol, ex:uq-k-symbol, ex:uq-sigmak-symbol, ex:vm-var-symbol, ex:v-sum-symbol, ex:vr-root-symbol ; cd:authoredResource true .
+  ex:uq-components-section a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:uq-components-derivation ; cd:firstDerivationStep ex:uq-components-step1 ; cd:lastDerivationStep ex:uq-components-step2 ; cd:usesLegend ex:uq-components-legend ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/replication-matrix> {
+  ex:uq-replicate-title a cd:Interpretation ; skos:prefLabel "What Must We Replicate?"@en ; cd:hasKeyPoint ex:uq-matrix-k1, ex:uq-matrix-k2 ; cd:authoredResource true .
+  ex:uq-matrix-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Each child belongs to one parent: injections within preparations, preparations within field samples, samples within sites. 81 readings are only three sites, not 81 independent sites."@en ; cd:authoredResource true .
+  ex:uq-matrix-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Pooled SDs do not isolate variance components. Replication at the relevant levels plus a suitable hierarchical model may be needed to separate sources."@en ; cd:authoredResource true .
+  ex:uq-matrix a cd:TableDefinition ; skos:prefLabel "Balanced nested designs: three repetitions at each added level"@en ; cd:hasTableColumn ex:uq-mc1, ex:uq-mc2, ex:uq-mc3, ex:uq-mc4 ; cd:hasTableRow ex:uq-mr1, ex:uq-mr2, ex:uq-mr3, ex:uq-mr4 ; cd:authoredResource true .
+  ex:uq-mc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Repeated level"@en ; cd:authoredResource true .
+  ex:uq-mc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Measurement structure"@en ; cd:authoredResource true .
+  ex:uq-mc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Readings"@en ; cd:authoredResource true .
+  ex:uq-mc4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Included variation / shared levels"@en ; cd:authoredResource true .
+  ex:uq-mr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:uq-m11, ex:uq-m12, ex:uq-m13, ex:uq-m14 ; cd:authoredResource true .
+  ex:uq-mr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:uq-m21, ex:uq-m22, ex:uq-m23, ex:uq-m24 ; cd:authoredResource true .
+  ex:uq-mr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:uq-m31, ex:uq-m32, ex:uq-m33, ex:uq-m34 ; cd:authoredResource true .
+  ex:uq-mr4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:uq-m41, ex:uq-m42, ex:uq-m43, ex:uq-m44 ; cd:authoredResource true .
+  ex:uq-m11 a cd:TableCell ; cd:position 1 ; cd:body "Instrumental repeats"@en ; cd:authoredResource true .
+  ex:uq-m12 a cd:TableCell ; cd:position 2 ; cd:body "3 injections, one vial"@en ; cd:authoredResource true .
+  ex:uq-m13 a cd:TableCell ; cd:position 3 ; cd:body "3"@en ; cd:authoredResource true .
+  ex:uq-m14 a cd:TableCell ; cd:position 4 ; cd:body "Instrument; preparation and field sample shared"@en ; cd:authoredResource true .
+  ex:uq-m21 a cd:TableCell ; cd:position 1 ; cd:body "Preparation repeats"@en ; cd:authoredResource true .
+  ex:uq-m22 a cd:TableCell ; cd:position 2 ; cd:body "3 preparations × 3 injections"@en ; cd:authoredResource true .
+  ex:uq-m23 a cd:TableCell ; cd:position 3 ; cd:body "9"@en ; cd:authoredResource true .
+  ex:uq-m24 a cd:TableCell ; cd:position 4 ; cd:body "Preparation + instrument; field sample shared"@en ; cd:authoredResource true .
+  ex:uq-m31 a cd:TableCell ; cd:position 1 ; cd:body "Field samples"@en ; cd:authoredResource true .
+  ex:uq-m32 a cd:TableCell ; cd:position 2 ; cd:body "3 samples × 3 preparations × 3 injections"@en ; cd:authoredResource true .
+  ex:uq-m33 a cd:TableCell ; cd:position 3 ; cd:body "27"@en ; cd:authoredResource true .
+  ex:uq-m34 a cd:TableCell ; cd:position 4 ; cd:body "Within-site sampling + preparation + instrument; site shared"@en ; cd:authoredResource true .
+  ex:uq-m41 a cd:TableCell ; cd:position 1 ; cd:body "Sampling sites"@en ; cd:authoredResource true .
+  ex:uq-m42 a cd:TableCell ; cd:position 2 ; cd:body "3 sites × 3 samples × 3 preparations × 3 injections"@en ; cd:authoredResource true .
+  ex:uq-m43 a cd:TableCell ; cd:position 3 ; cd:body "81"@en ; cd:authoredResource true .
+  ex:uq-m44 a cd:TableCell ; cd:position 4 ; cd:body "Between-site + all downstream variation; nested readings remain dependent"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/precision-sketch> {
+  ex:uq-target-a a cd:Dataset ; skos:prefLabel "Small illustrative spread"@en ; cd:unit "schematic coordinate" ; cd:hasObservation ex:uq-ta1, ex:uq-ta2, ex:uq-ta3, ex:uq-ta4 ; cd:authoredResource true .
+  ex:uq-target-b a cd:Dataset ; skos:prefLabel "Larger illustrative spread"@en ; cd:unit "schematic coordinate" ; cd:hasObservation ex:uq-tb1, ex:uq-tb2, ex:uq-tb3, ex:uq-tb4 ; cd:authoredResource true .
+  ex:uq-ta1 a cd:Observation ; cd:position 1 ; cd:xValue -0.12 ; cd:numericValue -0.08 ; cd:authoredResource true .
+  ex:uq-ta2 a cd:Observation ; cd:position 2 ; cd:xValue 0.12 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:uq-ta3 a cd:Observation ; cd:position 3 ; cd:xValue -0.08 ; cd:numericValue 0.12 ; cd:authoredResource true .
+  ex:uq-ta4 a cd:Observation ; cd:position 4 ; cd:xValue 0.08 ; cd:numericValue -0.12 ; cd:authoredResource true .
+  ex:uq-tb1 a cd:Observation ; cd:position 1 ; cd:xValue -0.70 ; cd:numericValue -0.45 ; cd:authoredResource true .
+  ex:uq-tb2 a cd:Observation ; cd:position 2 ; cd:xValue 0.70 ; cd:numericValue 0.45 ; cd:authoredResource true .
+  ex:uq-tb3 a cd:Observation ; cd:position 3 ; cd:xValue -0.45 ; cd:numericValue 0.70 ; cd:authoredResource true .
+  ex:uq-tb4 a cd:Observation ; cd:position 4 ; cd:xValue 0.45 ; cd:numericValue -0.70 ; cd:authoredResource true .
+  ex:uq-target-media a cd:MediaAsset ; cd:uri "/chemometrics/precision-targets.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two illustrative target patterns, centered by construction. Crosses have smaller spread; open circles have larger spread. The target center is a reference, not a validation of trueness of the QC methods."@en ; cd:body "Schematic spread only: both patterns are centered by construction. This does not establish method trueness."@en ; dct:source ex:uq-target-a, ex:uq-target-b ; cd:authoredResource true .
+}

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import type { TeachingOfferingRuntimeDocument } from "../../../packages/core/src/canonical-runtime.ts";
 import type { SceneDocument } from "../../../packages/core/src/scene-document.ts";
+import { worldTrailPath } from "../src/course-world-map.ts";
 import {
   createPitchCourseWorldModel,
   pitchCourseLevelBoundaries,
@@ -103,6 +104,28 @@ test("Pitch course world HTML exposes Level 0 and exact bound Start action", () 
   assert.match(html, /Next Topic/);
   assert.match(html, /In preparation/);
   assert.match(html, /data-course-navigation-status/);
+});
+
+test("overworld artwork follows authored metadata, not unit names or level indices",()=>{
+  const source=structuredClone(offering);
+  const intro=source.units.find(u=>u.id.endsWith('/intro'))!;
+  Object.assign(intro,{labels:[{value:'Entirely different topic',language:'en'}],thumbnail:{id:'https://example.test/art',graphId:'https://example.test/art-graph',uri:'/course-world/example.svg',alternativeTexts:[{value:'Authored art & safe description',language:'en'}]}});
+  const changed=createPitchCourseWorldModel(source,[introDocument],[{pathId:'https://example.test/path/intro',pathGraphId:'https://example.test/graph/path/intro',sceneDocumentId:'document:intro'}]);
+  const html=renderPitchCourseWorldHtml(changed);
+  assert.match(html,/src="\/course-world\/example.svg"/);
+  assert.match(html,/alt="Authored art &amp; safe description"/);
+  assert.match(html,/data-source-graph="https:\/\/example.test\/art-graph"/);
+  assert.match(html,/Start level: Entirely different topic/);
+  assert.equal((html.match(/class="pitch-world-thumbnail"/gu)??[]).length,1);
+  assert.match(html,/pitch-world-thumbnail-placeholder/);
+});
+
+test("world trail is a deterministic curve through actual landmarks in either layout",()=>{
+  assert.equal(worldTrailPath([]),'');
+  assert.equal(worldTrailPath([{x:10,y:20}]),'M 10 20');
+  const path=worldTrailPath([{x:10,y:20},{x:90,y:50},{x:90,y:160},{x:30,y:200}]);
+  assert.equal(path,'M 10 20 C 50 20, 50 50, 90 50 C 160 85, 160 125, 90 160 C 60 160, 60 200, 30 200');
+  assert.ok(!path.includes('NaN'));
 });
 
 test("Pitch course slide identity excludes synthetic buffer and return sentinel", () => {

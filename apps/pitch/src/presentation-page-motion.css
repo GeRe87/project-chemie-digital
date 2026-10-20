@@ -1,0 +1,14 @@
+.pcd-page-motion-layer {
+  position:fixed;inset:0;z-index:3;overflow:hidden;pointer-events:none;
+  contain:layout paint;will-change:transform;
+}
+.pcd-page-motion-panel.reveal {
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  margin:0!important;overflow:hidden!important;pointer-events:none!important;
+}
+.pcd-page-motion-panel.reveal > .slides {
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  margin:0!important;transform:none!important;perspective:none!important;
+}
+.pcd-page-motion-panel * { pointer-events:none!important;caret-color:transparent!important; }
+@media print { .pcd-page-motion-layer { display:none!important; } }

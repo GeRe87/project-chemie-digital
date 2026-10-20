@@ -881,8 +881,146 @@ def media_asset_payload(dataset: Dataset, media: URIRef, language: str | None) -
         raise ValueError(f"Incomplete MediaAsset {compact(media)}")
     return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
 
+def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    """Project ordered dataset references; never manufacture observations or statistics."""
+    resources_by_id = {}
+    def ordered(owner: URIRef, predicate: str) -> list[URIRef]:
+        values = objects(dataset, owner, iri(CD, predicate))
+        resource_type = "ChartGroup" if predicate == "hasChartGroup" else "Observation"
+        if any(not isinstance(value, URIRef) or not is_resource_type(dataset, value, resource_type) for value in values):
+            raise ValueError(f"Dot-plot {predicate} requires {resource_type} IRIs")
+        records = [(value, integer(dataset, value, iri(CD, "position")))
+                   for value in values]
+        records.sort(key=lambda record: (record[1], str(record[0])))
+        if not records or [position for _, position in records] != list(range(1, len(records) + 1)):
+            raise ValueError(f"Dot-plot {predicate} positions must be nonempty, unique and contiguous")
+        resources_by_id.update({compact(value): value for value, _ in records})
+        return [value for value, _ in records]
+
+    unit = literal(dataset, chart, iri(CD, "yAxisUnit"))
+    if not unit:
+        raise ValueError("Dot-plot numeric axis requires a unit")
+    groups = []
+    datasets = set()
+    for group in ordered(chart, "hasChartGroup"):
+        chart_dataset = one(dataset, group, iri(CD, "usesDataset"))
+        if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+            raise ValueError("Dot-plot group requires exactly one Dataset")
+        if literal(dataset, chart_dataset, iri(CD, "unit")) != unit:
+            raise ValueError("Dot-plot dataset unit must match numeric axis")
+        datasets.add(chart_dataset)
+        label, label_path = selected_label_reference(dataset, group, language)
+        groups.append({
+            "id": compact(group), "label": label,
+            "source": [source_reference(dataset, group, label_path),
+                       source_reference(dataset, group, "cd:usesDataset"),
+                       source_reference(dataset, chart_dataset, "cd:unit")],
+            "data": [{"id": compact(observation),
+                      "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
+                      "source": [source_reference(dataset, observation, "cd:numericValue"),
+                                 source_reference(dataset, chart_dataset, "cd:hasObservation")]}
+                     for observation in ordered(chart_dataset, "hasObservation")],
+        })
+        if one(dataset, group, iri(CD, "groupXValue"), required=False) is not None:
+            groups[-1]["x"] = decimal_number(dataset, group, iri(CD, "groupXValue"))
+            groups[-1]["source"].append(source_reference(dataset, group, "cd:groupXValue"))
+        summary = one(dataset, group, iri(CD, "summaryResult"), required=False)
+        if summary is not None:
+            if not is_resource_type(dataset, summary, "StatisticalResult"):
+                raise ValueError("Group summary requires a StatisticalResult")
+            if set(objects(dataset, summary, iri(CD, "usesDataset"))) != {chart_dataset}:
+                raise ValueError("Group summary must reference exactly its observed dataset")
+            if literal(dataset, summary, iri(CD, "unit")) != unit:
+                raise ValueError("Group summary unit must match numeric axis")
+            groups[-1]["summary"] = {
+                "id": compact(summary), "label": literal(dataset, chart, iri(CD, "summaryLabel")) or "Group summary",
+                "value": decimal_number(dataset, summary, iri(CD, "numericValue")),
+                "source": [source_reference(dataset, group, "cd:summaryResult"),
+                           source_reference(dataset, summary, "cd:numericValue"),
+                           source_reference(dataset, summary, "cd:usesDataset")],
+            }
+    annotations = objects(dataset, chart, iri(CD, "hasChartAnnotation"))
+    if len(annotations) > 1:
+        raise ValueError("Dot plot supports at most one shared reference line")
+    reference = None
+    if annotations:
+        annotation = annotations[0]
+        if not is_resource_type(dataset, annotation, "ChartReferenceLine"):
+            raise ValueError("Dot plot requires a reference-line annotation")
+        result = one(dataset, annotation, iri(CD, "referenceResult"))
+        if not is_resource_type(dataset, result, "StatisticalResult"):
+            raise ValueError("Reference line requires a StatisticalResult")
+        statistic = one(dataset, result, iri(CD, "quantifiesProperty"))
+        if not is_resource_type(dataset, statistic, "Concept"):
+            raise ValueError("StatisticalResult requires a statistic concept")
+        if literal(dataset, result, iri(CD, "unit")) != unit:
+            raise ValueError("Reference result unit must match numeric axis")
+        if set(objects(dataset, result, iri(CD, "usesDataset"))) != datasets:
+            raise ValueError("Reference result must be supported by exactly the plotted datasets")
+        reference = {
+            "id": compact(annotation), "label": selected_literal(dataset, annotation, iri(CD, "body"), "cd:body", language),
+            "value": decimal_number(dataset, result, iri(CD, "numericValue")),
+            "source": [source_reference(dataset, annotation, "cd:referenceResult"),
+                       source_reference(dataset, result, "cd:numericValue"),
+                       source_reference(dataset, result, "cd:unit"),
+                       source_reference(dataset, result, "cd:quantifiesProperty"),
+                       source_reference(dataset, result, "cd:usesDataset")],
+        }
+    label, label_path = selected_label_reference(dataset, chart, language)
+    options = {}
+    if str(one(dataset, chart, iri(CD, "drawStems"), required=False)).lower() == "true":
+        if reference is None or str(one(dataset, chart, iri(CD, "numericXAxis"), required=False)).lower() == "true":
+            raise ValueError("Categorical stems require a shared reference and categorical x axis")
+        options["drawStems"] = True
+        for group in groups:
+            for datum in group["data"]:
+                resource = resources_by_id[datum["id"]]
+                datum["label"], path = selected_label_reference(dataset, resource, language)
+                datum["source"].append(source_reference(dataset, resource, path))
+    for predicate, key in [("yAxisMinimum", "yMinimum"), ("markerRadius", "markerRadius"),
+                           ("markerOpacity", "markerOpacity"), ("summaryRadius", "summaryRadius")]:
+        if one(dataset, chart, iri(CD, predicate), required=False) is not None:
+            options[key] = decimal_number(dataset, chart, iri(CD, predicate))
+    for predicate in ["observationLabel", "summaryLabel"]:
+        value = literal(dataset, chart, iri(CD, predicate))
+        if value: options[predicate] = value
+    numeric = one(dataset, chart, iri(CD, "numericXAxis"), required=False)
+    if numeric is not None and str(numeric).lower() == "true":
+        if any("x" not in group for group in groups):
+            raise ValueError("Numeric scatterplot requires groupXValue for every group")
+        options["xScale"] = "linear"
+    curves = [line_series_payload(dataset, part, language) for part in sorted(objects(dataset, chart, DCTERMS.hasPart), key=str)
+              if isinstance(part, URIRef) and is_resource_type(dataset, part, "Dataset")]
+    if curves:
+        if "xScale" not in options: raise ValueError("Curve overlay requires numeric x-axis")
+        for part in objects(dataset, chart, DCTERMS.hasPart):
+            if isinstance(part, URIRef) and is_resource_type(dataset, part, "Dataset") and literal(dataset, part, iri(CD, "unit")) != unit:
+                raise ValueError("Curve dataset unit must match numeric axis")
+        options["curves"] = curves
+    for key in ["markerRadius", "summaryRadius"]:
+        if key in options and not 0 < options[key] <= 20: raise ValueError("Invalid dot marker radius")
+    if "markerOpacity" in options and not 0 < options["markerOpacity"] <= 1: raise ValueError("Invalid dot marker opacity")
+    values = [point["value"] for group in groups for point in group["data"]]
+    values += [group["summary"]["value"] for group in groups if "summary" in group]
+    values += [point["y"] for curve in curves for point in curve["data"]]
+    if reference: values.append(reference["value"])
+    if "yMinimum" in options and min(values) < options["yMinimum"]:
+        raise ValueError("Authored y minimum must not clip chart data")
+    return {
+        "chartType": "dot", "label": label,
+        "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+        "xAxis": {"label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language)},
+        "yAxis": {"label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language), "unit": unit},
+        "groups": groups,
+        **({"referenceLine": reference} if reference else {}),
+        **options,
+    }, label_path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "DotPlot"):
+        return dot_plot_payload(dataset, chart, language)
     if chart_type == iri(CD, "BarChart"):
         payload, relation_path = bar_chart_payload(dataset, chart, language)
     elif chart_type == iri(CD, "LineChart"):
@@ -937,8 +1075,141 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7}
     return required if versions[required] > versions[current] else current
+
+
+def mathematical_symbol_entries(dataset: Dataset, symbols: set[URIRef], language: str) -> list[dict[str, Any]]:
+    result = []
+    for symbol in sorted(symbols, key=lambda s: (literal(dataset, s, iri(CD, "symbol")) or str(s), str(s))):
+        if not is_resource_type(dataset, symbol, "MathSymbol"):
+            continue
+        term = literal(dataset, symbol, iri(CD, "symbol"))
+        predicate = "presentationDefinition" if objects(dataset, symbol, iri(CD, "presentationDefinition")) else "body"
+        description = selected_literal(dataset, symbol, iri(CD, predicate), f"cd:{predicate}", language)
+        if not term or not description: raise ValueError(f"Symbol requires a name and a definition: {symbol}")
+        notation = literal(dataset, symbol, iri(CD, "mathNotation")) or term
+        result.append({"id": f"{compact(symbol)}--symbol-entry", "symbol": True, "expression": notation, "term": term, "description": description,
+                       "source": [source_reference(dataset, symbol, "cd:symbol"), source_reference(dataset, symbol, f"cd:{predicate}")]
+                       + ([source_reference(dataset, symbol, "cd:mathNotation")] if objects(dataset, symbol, iri(CD, "mathNotation")) else [])})
+    return result
+
+
+def mathematical_derivation_payload(dataset: Dataset, section: URIRef, language: str) -> dict[str, Any]:
+    """Resolve authored identities and contiguous ranges; never infer algebra from LaTeX."""
+    def required_type(resource: URIRef, kind: str) -> None:
+        if not isinstance(resource, URIRef) or not is_resource_type(dataset, resource, kind):
+            raise ValueError(f"Expected {kind}: {resource}")
+
+    def formula(resource: URIRef) -> dict[str, Any]:
+        required_type(resource, "MathExpression")
+        expression = literal(dataset, resource, iri(CD, "latex"))
+        if not expression or not objects(dataset, resource, iri(CD, "hasSymbol")):
+            raise ValueError(f"Derivation formulas need LaTeX and symbol references: {resource}")
+        label_text = deterministic_authored_literal(dataset, resource, iri(CD, "formulaLabel"), language)
+        return {"id": compact(resource), "expression": expression, **({"label": label_text} if label_text else {}),
+                "source": [source_reference(dataset, resource, "cd:latex"), source_reference(dataset, resource, "cd:hasSymbol")]
+                + ([source_reference(dataset, resource, "cd:formulaLabel")] if label_text else [])}
+
+    def label(resource: URIRef) -> str:
+        return selected_label_reference(dataset, resource, language)[0]
+
+    required_type(section, "MathematicalDerivationSection")
+    owner = one(dataset, section, iri(CD, "partOfDerivation"))
+    required_type(owner, "MathematicalDerivation")
+    steps = sorted(objects(dataset, owner, iri(CD, "hasDerivationStep")),
+                   key=lambda step: (integer(dataset, step, iri(CD, "position")), str(step)))
+    if not steps or [integer(dataset, step, iri(CD, "position")) for step in steps] != list(range(1, len(steps) + 1)):
+        raise ValueError("Derivation step positions must be unique and contiguous")
+    previous = one(dataset, owner, iri(CD, "inputFormula"))
+    for step in steps:
+        required_type(step, "DerivationStep")
+        if one(dataset, step, iri(CD, "fromFormula")) != previous:
+            raise ValueError("Disconnected derivation formulas")
+        if set(objects(dataset, step, iri(CD, "hasDerivationStep"))):
+            raise ValueError("Derivation steps cannot recursively own steps")
+        previous = one(dataset, step, iri(CD, "toFormula"))
+    if previous != one(dataset, owner, iri(CD, "resultFormula")):
+        raise ValueError("Derivation result does not match the final step")
+    first = one(dataset, section, iri(CD, "firstDerivationStep"))
+    last = one(dataset, section, iri(CD, "lastDerivationStep"))
+    if first not in steps or last not in steps:
+        raise ValueError("Derivation section endpoints must belong to its derivation")
+    a, b = steps.index(first), steps.index(last)
+    if a > b or b - a > 1:
+        raise ValueError("Use explicit contiguous derivation sections of one or two steps; do not shrink formulas")
+    legend_resource = one(dataset, section, iri(CD, "usesLegend"))
+    entries = definition_list_sequence(dataset, legend_resource, language)
+    defined_symbols = {symbol for entry, *_ in entries for symbol in objects(dataset, entry, DCTERMS.references)}
+    output = []
+    kinds = {"EquivalentTransformation": "equivalence", "ImpliedTransformation": "implication", "StatisticalTransformation": "statistical"}
+    for step in steps[a:b + 1]:
+        rule = one(dataset, step, iri(CD, "appliesRule"))
+        required_type(rule, "MathematicalRule")
+        general = one(dataset, rule, iri(CD, "ruleFormula"))
+        explanation = one(dataset, step, iri(CD, "hasExplanation"))
+        required_type(explanation, "Interpretation")
+        application = one(dataset, explanation, iri(CD, "applicationFormula"))
+        start, end = one(dataset, step, iri(CD, "fromFormula")), one(dataset, step, iri(CD, "toFormula"))
+        used_symbols = {symbol for f in [start, end, general] for symbol in objects(dataset, f, iri(CD, "hasSymbol"))}
+        if not used_symbols.issubset(defined_symbols):
+            raise ValueError(f"Incomplete derivation symbol legend: {sorted(str(s) for s in used_symbols - defined_symbols)}")
+        kind_resource = one(dataset, step, iri(CD, "transformationKind"))
+        kind = kinds.get(local_name(kind_resource))
+        if kind is None: raise ValueError("Unknown derivation transformation kind")
+        own_assumptions = objects(dataset, step, iri(CD, "requiresAssumption"))
+        if kind == "statistical" and not own_assumptions:
+            raise ValueError("Statistical transformations require explicit assumptions")
+        assumptions = sorted(set(own_assumptions + objects(dataset, rule, iri(CD, "requiresAssumption"))
+                                 + objects(dataset, owner, iri(CD, "requiresAssumption"))), key=str)
+        assumption_payload = []
+        for assumption in assumptions:
+            required_type(assumption, "Interpretation")
+            assumption_payload.append({"id": compact(assumption), "label": label(assumption),
+                "description": selected_literal(dataset, assumption, iri(CD, "body"), "cd:body", language),
+                "source": [source_reference(dataset, assumption, "cd:body")]})
+        output.append({"id": compact(step), "order": integer(dataset, step, iri(CD, "position")),
+            "from": formula(start), "to": formula(end), "operation": label(step), "kind": kind, "kindLabel": label(kind_resource),
+            "rule": {"id": compact(rule), "label": label(rule), "formula": formula(general),
+                     "description": selected_literal(dataset, rule, iri(CD, "body"), "cd:body", language),
+                     "source": [source_reference(dataset, rule, "cd:ruleFormula"), source_reference(dataset, rule, "cd:body")]},
+            "explanation": {"id": compact(explanation), "text": selected_literal(dataset, explanation, iri(CD, "body"), "cd:body", language),
+                            "application": formula(application), "source": [source_reference(dataset, explanation, "cd:body"), source_reference(dataset, explanation, "cd:applicationFormula")]},
+            "assumptions": assumption_payload,
+            "source": [source_reference(dataset, step, predicate) for predicate in ["cd:fromFormula", "cd:toFormula", "cd:appliesRule", "cd:hasExplanation", "cd:position", "cd:transformationKind"]]})
+    visible_symbols = {symbol for step in steps[a:b + 1] for p in ["fromFormula", "toFormula"]
+                       for f in objects(dataset, step, iri(CD, p)) for symbol in objects(dataset, f, iri(CD, "hasSymbol"))}
+    return {"id": compact(section), "derivationId": compact(owner), "label": label(owner), "firstOrder": a + 1, "lastOrder": b + 1,
+            "steps": output, "legend": mathematical_symbol_entries(dataset, visible_symbols, language) or [{"id": compact(entry), "term": term, "description": description,
+                 "source": [source_reference(dataset, entry, term_path), source_reference(dataset, entry, "cd:body")]} for entry, _p, term, term_path, description, _v, _r in entries],
+            "source": [source_reference(dataset, section, "cd:partOfDerivation"), source_reference(dataset, section, "cd:firstDerivationStep"), source_reference(dataset, section, "cd:lastDerivationStep"), source_reference(dataset, section, "cd:usesLegend")]}
+
+
+def mathematical_derivation_details(dataset: Dataset, resource: URIRef, language: str) -> list[dict[str, Any]]:
+    """Explicit proof links reuse authored short sections without creating scenes."""
+    output = []
+    for owner in sorted(set(objects(dataset, resource, iri(CD, "hasDerivationDetail"))), key=str):
+        if not is_resource_type(dataset, owner, "MathematicalDerivation"):
+            raise ValueError(f"Derivation detail must resolve to a MathematicalDerivation: {owner}")
+        sections = {s for s, _p, _o, _g in dataset.quads((None, iri(CD, "partOfDerivation"), owner, None))
+                    if is_resource_type(dataset, s, "MathematicalDerivationSection")}
+        payloads = sorted((mathematical_derivation_payload(dataset, s, language) for s in sections), key=lambda s: (s["firstOrder"], s["id"]))
+        count = len(objects(dataset, owner, iri(CD, "hasDerivationStep")))
+        order = 1
+        previous = compact(one(dataset, owner, iri(CD, "inputFormula")))
+        for section in payloads:
+            if section["firstOrder"] != order or section["steps"][0]["from"]["id"] != previous:
+                raise ValueError("Detail sections must uniquely and continuously cover the derivation")
+            order = section["lastOrder"] + 1
+            previous = section["steps"][-1]["to"]["id"]
+        result = compact(one(dataset, owner, iri(CD, "resultFormula")))
+        if not payloads or order != count + 1 or previous != result:
+            raise ValueError("Incomplete detail derivation coverage")
+        output.append({"id": compact(owner), "label": selected_label_reference(dataset, owner, language)[0],
+                       "stepCount": count, "inputFormulaId": compact(one(dataset, owner, iri(CD, "inputFormula"))),
+                       "resultFormulaId": result, "sections": payloads,
+                       "source": [source_reference(dataset, resource, "cd:hasDerivationDetail"), source_reference(dataset, owner, "cd:hasDerivationStep")]})
+    return output
 
 
 def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference) -> dict[str, Any]:
@@ -990,7 +1261,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 raise ValueError(f"ChartDefinition {compact(selected)} requires ChartRole in {compact(item)}")
             if selected_is_media_asset and role != "MediaRole":
                 raise ValueError(f"MediaAsset {compact(selected)} requires MediaRole in {compact(item)}")
-            if role == "FormulaRole":
+            if role == "DerivationRole":
+                if relation_path != "cd:partOfDerivation":
+                    raise ValueError("DerivationRole requires cd:partOfDerivation")
+                derivation = mathematical_derivation_payload(dataset, selected, language or "en")
+                block = {"id": block_id, "kind": "math", "source": derivation["source"],
+                         "expression": derivation["steps"][0]["from"]["expression"], "spokenText": derivation["label"],
+                         "derivation": derivation, "disclosure": {"order": position - 1, "mode": "initial"},
+                         "emphasis": "primary", "intent": {"kind": "derive"}}
+                document_version = promote_document_version(document_version, "1.7")
+            elif role == "FormulaRole":
                 if relation_path != "cd:latex":
                     raise ValueError(f"FormulaRole requires direct cd:latex selection in {compact(item)}")
                 if not selected_is_math_expression:
@@ -1159,7 +1439,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = promote_document_version(document_version, "1.2")
+                document_version = promote_document_version(document_version, "1.6" if payload["chartType"] == "dot" else "1.2")
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -1324,6 +1604,17 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         "source": [source_reference(dataset, selected, relation_path), source_reference(dataset, selected, "dct:hasPart")],
                         "disclosure": block["disclosure"], "emphasis": "primary", "intent": {"kind": "practice"},
                     }
+            if block["kind"] == "math" and is_resource_type(dataset, selected, "MathExpression"):
+                formula_label = deterministic_authored_literal(dataset, selected, iri(CD, "formulaLabel"), language)
+                if formula_label:
+                    block["label"] = formula_label
+                    block["source"].append(source_reference(dataset, selected, "cd:formulaLabel"))
+            if block["kind"] == "math":
+                details = mathematical_derivation_details(dataset, selected, language or "en")
+                if details:
+                    block["derivationDetails"] = details
+                    block["source"].append(source_reference(dataset, selected, "cd:hasDerivationDetail"))
+                    document_version = promote_document_version(document_version, "1.7")
             blocks.append(block)
             # A selected formula retains its explicitly authored definition parts.
             # This is semantic expansion, not a renderer-generated symbol glossary.
@@ -1348,6 +1639,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         } for entry, _, term, term_path, description, motif, motif_role in entries],
                         "emphasis": "supporting", "intent": {"kind": "explain"},
                     })
+                    symbols = set(objects(dataset, selected, iri(CD, "hasSymbol")))
+                    referenced_symbols = {symbol for entry, *_ in entries for symbol in objects(dataset, entry, DCTERMS.references)
+                                          if is_resource_type(dataset, symbol, "MathSymbol")}
+                    symbols.update(referenced_symbols)
+                    structured = mathematical_symbol_entries(dataset, symbols, language or "en")
+                    # Explicit symbol-reference legends opt into normalization.
+                    # Legacy authored parts can contain scope, units or worked-
+                    # example explanations: adding hasSymbol must not erase them.
+                    if structured and referenced_symbols:
+                        blocks[-1]["entries"] = structured
                     document_version = promote_document_version(document_version, "1.4")
             if block["kind"] == "code":
                 # Code glossaries are authored RDF parts, never generated by parsing R.
@@ -1440,6 +1741,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             "blocks": blocks,
             "readingOrder": [block["id"] for block in blocks],
             "accessibility": {"label": accessibility_label},
+            **({"narration": literal(dataset, scene_id, iri(CD, "narration"), language or "en"),
+                "source": [source_reference(dataset, scene_id), source_reference(dataset, focus), source_reference(dataset, scene_id, "cd:narration")]}
+               if literal(dataset, scene_id, iri(CD, "narration"), language or "en") else {}),
         })
     return {"version": document_version, "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
@@ -1675,6 +1979,16 @@ def definition_list_fallback_markup(block: dict[str, Any], *, scrollable: bool =
     return f'<dl class="definition-list-fallback"{scroll_attributes}{fallback_attributes(block["source"])}>{entries}</dl>'
 
 
+def derivation_fallback_markup(section: dict[str, Any]) -> str:
+    content = [f'<code>{html.escape(section["steps"][0]["from"]["expression"])}</code>']
+    for step in section["steps"]:
+        content.append(f'<h3>{html.escape(step["operation"])}</h3><code>{html.escape(step["rule"]["formula"]["expression"])}</code><code>{html.escape(step["to"]["expression"])}</code>')
+        content.append(f'<details><summary>{html.escape(step["rule"]["label"])}</summary><p>{html.escape(step["rule"]["description"])}</p><code>{html.escape(step["explanation"]["application"]["expression"])}</code><p>{html.escape(step["explanation"]["text"])}</p></details>')
+        content.extend(f'<p>{html.escape(a["description"])}</p>' for a in step["assumptions"])
+    content.append('<dl>' + ''.join(f'<dt>{html.escape(e["term"])}</dt><dd>{html.escape(e.get("description", ""))}</dd>' for e in section["legend"]) + '</dl>')
+    return '<section class="derivation-fallback">' + ''.join(content) + '</section>'
+
+
 def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str:
     document = artifact["sceneDocuments"][0]
     articles = []
@@ -1694,11 +2008,16 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 blocks.append(media_fallback_markup(block))
                 continue
             if block["kind"] == "math":
-                blocks.append(
+                if block.get("derivation"):
+                    blocks.append(derivation_fallback_markup(block["derivation"]))
+                else:
+                    blocks.append(
                     f'<div class="math-fallback" role="math" aria-label="{html.escape(block["spokenText"], quote=True)}"{fallback_attributes(block["source"])}>'
                     f'<code>{html.escape(block["expression"])}</code>'
                     f'</div>'
-                )
+                    )
+                for detail in block.get("derivationDetails", []):
+                    blocks.append(f'<details class="derivation-detail-fallback"><summary>{html.escape(detail["label"])}</summary>' + ''.join(derivation_fallback_markup(s) for s in detail['sections']) + '</details>')
                 continue
             if block["kind"] == "code":
                 code_markup = (
@@ -1777,6 +2096,24 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                         f'<ol class="chart-data">{value_items}</ol>'
                         f'<ul class="chart-annotations">{annotation_items}</ul>'
                     )
+                elif block["chartType"] == "dot":
+                    unit = html.escape(block["yAxis"].get("unit", ""))
+                    rows = "".join(
+                        f'<li{fallback_attributes(datum["source"])}>{html.escape(group["label"])}: {datum["value"]} {unit}</li>'
+                        for group in block["groups"] for datum in group["data"]
+                    )
+                    reference = block.get("referenceLine")
+                    annotation = (f'<p{fallback_attributes(reference["source"])}>{html.escape(reference["label"])}: {reference["value"]} {unit}</p>' if reference else "")
+                    summaries = "".join(
+                        f'<li{fallback_attributes(group["summary"]["source"])}>{html.escape(group["label"])}; '
+                        f'{html.escape(group["summary"]["label"])}: {group["summary"]["value"]} {unit}</li>'
+                        for group in block["groups"] if "summary" in group
+                    )
+                    curves = "".join(
+                        f'<li{fallback_attributes(datum["source"])}>{html.escape(curve["label"])}: x={datum["x"]}, y={datum["y"]} {unit}</li>'
+                        for curve in block.get("curves", []) for datum in curve["data"]
+                    )
+                    body = f'<ol class="chart-data">{rows}{summaries}{curves}</ol>{annotation}'
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-series-id="{html.escape(series["id"], quote=True)}"{fallback_attributes(series["source"])}>'
