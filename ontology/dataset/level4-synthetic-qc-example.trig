@@ -1,0 +1,41 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Synthetic, not real patient/sample data. Values are exact authored observations.
+<https://w3id.org/project-chemie-digital/graph/examples/level4-synthetic-qc> {
+  ex:l4-qc-example a cd:WorkedExample ; skos:prefLabel "Synthetic QC: identical robust summaries, different moments"@en ; cd:body "Two constructed seven-observation concentration series differ only in the last value (7 vs 30 mg/L). Under R type-7 sample quartiles both have Q1=4, median=5, Q3=5.5, IQR=1.5 and raw MAD=1 mg/L. Their means and second empirical central moments differ greatly. These are illustrative values, not evidence that a QC outlier is erroneous; determine the cause before exclusion."@en ; cd:usesDataset ex:l4-qc-reference, ex:l4-qc-extreme ; cd:hasSource ex:l4-source-r-quantile, ex:l4-source-r-mad ; cd:authoredResource true .
+  ex:interquartile-range cd:hasExample ex:l4-qc-example .
+  ex:median-absolute-deviation cd:hasExample ex:l4-qc-example .
+  ex:empirical-central-moment cd:hasExample ex:l4-qc-example .
+  ex:l4-qc-reference a cd:Dataset ; dct:description "Synthetic QC reference; seven constructed, equally weighted concentrations, units mg/L; ordered as authored."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-qc-reference-o1, ex:l4-qc-reference-o2, ex:l4-qc-reference-o3, ex:l4-qc-reference-o4, ex:l4-qc-reference-o5, ex:l4-qc-reference-o6, ex:l4-qc-reference-o7 ; cd:authoredResource true .
+  ex:l4-qc-reference-o1 a cd:Observation ; cd:position 1 ; cd:numericValue "2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o2 a cd:Observation ; cd:position 2 ; cd:numericValue "4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o3 a cd:Observation ; cd:position 3 ; cd:numericValue "4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o4 a cd:Observation ; cd:position 4 ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o5 a cd:Observation ; cd:position 5 ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o6 a cd:Observation ; cd:position 6 ; cd:numericValue "6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-o7 a cd:Observation ; cd:position 7 ; cd:numericValue "7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme a cd:Dataset ; dct:description "Synthetic QC with one large observation; seven constructed, equally weighted concentrations, units mg/L; ordered as authored."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-qc-extreme-o1, ex:l4-qc-extreme-o2, ex:l4-qc-extreme-o3, ex:l4-qc-extreme-o4, ex:l4-qc-extreme-o5, ex:l4-qc-extreme-o6, ex:l4-qc-extreme-o7 ; cd:authoredResource true .
+  ex:l4-qc-extreme-o1 a cd:Observation ; cd:position 1 ; cd:numericValue "2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o2 a cd:Observation ; cd:position 2 ; cd:numericValue "4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o3 a cd:Observation ; cd:position 3 ; cd:numericValue "4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o4 a cd:Observation ; cd:position 4 ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o5 a cd:Observation ; cd:position 5 ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o6 a cd:Observation ; cd:position 6 ; cd:numericValue "6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-extreme-o7 a cd:Observation ; cd:position 7 ; cd:numericValue "30"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-qc-reference-q1 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "4"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-reference-median a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-reference-q3 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "5.5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-reference-iqr a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:interquartile-range ; cd:numericValue "1.5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-reference-mad a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:median-absolute-deviation ; cd:numericValue "1"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-reference-m2 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-reference ; cd:quantifiesProperty ex:empirical-central-moment ; cd:numericValue "2.204081632653061"^^xsd:decimal ; cd:unit "(mg/L)^2" ; cd:authoredResource true .
+  ex:l4-qc-extreme-q1 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "4"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-extreme-median a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-extreme-q3 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:sample-quantile ; cd:numericValue "5.5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-extreme-iqr a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:interquartile-range ; cd:numericValue "1.5"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-extreme-mad a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:median-absolute-deviation ; cd:numericValue "1"^^xsd:decimal ; cd:unit "mg/L" ; cd:authoredResource true .
+  ex:l4-qc-extreme-m2 a cd:StatisticalResult ; cd:usesDataset ex:l4-qc-extreme ; cd:quantifiesProperty ex:empirical-central-moment ; cd:numericValue "82"^^xsd:decimal ; cd:unit "(mg/L)^2" ; cd:authoredResource true .
+}
