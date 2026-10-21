@@ -26,6 +26,8 @@ The conceptual categories *population parameter*, *descriptive sample statistic*
 - **Descriptive sample shape**: unadjusted \(g_1=m_3/m_2^{3/2}\), \(g_2=m_4/m_2^2-3\), defined when \(m_2>0\). Other bias-adjusted conventions are explicitly not conflated.
 - **Analytical interpretation**: a Tukey fence labels potentially unusual observations; it is not permission to delete a laboratory result. Zero skewness does not prove symmetry; kurtosis is not central-peak height.
 
+The Q1/Q3 and second empirical central moment results have **explicit quantitative concept identities** (first quartile, third quartile, empirical second central moment), not meanings inferred from resource ID strings. The recorded quartile/IQR results explicitly depend on the type-7 method via the already established `cd:dependsOn` relation.
+
 The new QC example is **synthetic**: seven equal-weighted concentrations with an altered last value. It records exact observations and method-dependent results, not inferred chemical facts. Its comparison demonstrates stable median/IQR/raw-MAD but changed uncorrected \(m_2\).
 
 ## Provenance and further steps

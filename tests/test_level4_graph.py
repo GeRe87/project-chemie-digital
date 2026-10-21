@@ -71,6 +71,9 @@ class Level4KnowledgeGraphTests(unittest.TestCase):
         self.assertNotIn((EX["sample-quantile-type-1"], OWL.sameAs, EX["sample-quantile-type-7"]), self.union)
         self.assertIn((EX["empirical-central-moment"], SKOS.related, EX["sample-variance"]), self.spec)
         self.assertIn((EX["sample-skewness"], CD.prerequisite, EX["empirical-central-moment"]), self.spec)
+        self.assertIn((EX["empirical-second-central-moment"], SKOS.broader, EX["empirical-central-moment"]), self.spec)
+        for method_id in ("first-quartile", "third-quartile"):
+            self.assertIn((EX[method_id], SKOS.broader, EX["quartile"]), self.spec)
 
     def test_method_ambiguities_have_explicit_corrections(self):
         for key in ("quantile-convention", "outlier-is-error", "mad-unscaled", "n-minus-one-all",
@@ -113,6 +116,14 @@ class Level4KnowledgeGraphTests(unittest.TestCase):
             expected["m2"] = actual_m2
             for key, calc in expected.items():
                 result = EX[name + "-" + key]
+                expected_property = {
+                    "q1": "first-quartile", "q3": "third-quartile", "median": "median",
+                    "iqr": "interquartile-range", "mad": "median-absolute-deviation",
+                    "m2": "empirical-second-central-moment",
+                }[key]
+                self.assertIn((result, CD.quantifiesProperty, EX[expected_property]), self.examples)
+                if key in {"q1", "q3", "median", "iqr"}:
+                    self.assertIn((result, CD.dependsOn, EX["sample-quantile-type-7"]), self.examples)
                 self.assertIn((result, CD.usesDataset, EX[name]), self.examples)
                 declared = Decimal(str(next(self.union.objects(result, CD.numericValue))))
                 self.assertLess(abs(calc-declared), Decimal("1e-12"), result)
