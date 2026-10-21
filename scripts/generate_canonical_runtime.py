@@ -1786,7 +1786,12 @@ def dataset_snapshot(dataset: Dataset, fingerprint: str, language: str) -> dict[
             "targetEntityId": compact(target), "predicateLabel": local_name(predicate),
             "source": [{"resourceId": compact(subject), "provenanceIds": [str(graph)]}],
         })
-    statements.sort(key=lambda item: (item["sourceEntityId"], item["predicateId"], item["targetEntityId"]))
+    # The same triple can legitimately occur in multiple named graphs. Retain
+    # each attributed record, but never let quad iteration order break that tie.
+    statements.sort(key=lambda item: (
+        item["sourceEntityId"], item["predicateId"], item["targetEntityId"],
+        tuple(item["source"][0]["provenanceIds"]),
+    ))
     return {
         "version": "1.0", "identity": f"sha256:{fingerprint}",
         "entities": entities, "statements": statements,

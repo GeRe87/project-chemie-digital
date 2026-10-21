@@ -605,20 +605,33 @@ export function resolveDefinitionFormulaPairs(scene: Scene): readonly {
   for (let index = 0; index < paired.length; index += 2) {
     const card = paired[index];
     const formula = paired[index + 1];
-    if (card?.kind !== "definition-list" || card.entries.length !== 1 || formula?.kind !== "math") return undefined;
+    // A supporting legend belongs to its preceding owner, not to a second
+    // card/formula strategy. Overlapping strategies can suppress that formula.
+    if (card?.kind !== "definition-list" || card.emphasis === "supporting"
+        || card.entries.length !== 1 || formula?.kind !== "math") return undefined;
     pairs.push({ card, formula });
   }
   return pairs;
 }
 
-/** Supporting definition parts immediately follow their owning formula. */
+/** Existing relation evidence, independent of source-array order or IRI spelling. */
+function isAuthoredPartLegend(owner: SceneBlock | undefined, legend: SceneBlock | undefined):
+  legend is Extract<SceneBlock, { kind: "definition-list" }> {
+  return owner !== undefined
+    && legend?.kind === "definition-list"
+    && legend.emphasis === "supporting"
+    && legend.source.some(part => part.relationPath === "dct:hasPart"
+      && owner.source.some(source => source.resourceId === part.resourceId));
+}
+
+/** Adjacent supporting parts form a unit only with explicit ownership evidence. */
 export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly SceneBlock[])[] {
   const blocks = orderedBlocks(scene);
   const units: SceneBlock[][] = [];
   for (let i = 0; i < blocks.length - 1; i++) {
     const formula = blocks[i]!;
     const legend = blocks[i + 1]!;
-    if (formula.kind !== "math" || legend.kind !== "definition-list" || legend.emphasis !== "supporting") continue;
+    if (formula.kind !== "math" || !isAuthoredPartLegend(formula, legend)) continue;
     const context = blocks[i - 1];
     // A preceding formula's supporting legend is not a new context card.
     // Otherwise adjacent formula/legend pairs overlap and one formula vanishes.
@@ -632,10 +645,7 @@ export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly Scen
 function isAuthoredCodeFunctionLegend(code: SceneBlock | undefined, legend: SceneBlock | undefined):
   legend is Extract<SceneBlock, { kind: "definition-list" }> {
   return code?.kind === "code"
-    && legend?.kind === "definition-list"
-    && legend.emphasis === "supporting"
-    && legend.source.some(source => source.relationPath === "dct:hasPart"
-      && source.resourceId === code.source[0]?.resourceId);
+    && isAuthoredPartLegend(code, legend);
 }
 
 export function resolveCodeFunctionLegendUnits(scene: Scene): readonly {
@@ -667,9 +677,9 @@ function inferEvidencePracticeGrid(body: readonly SceneBlock[], heading: SceneBl
 /**
  * Generic composition inference.
  *
- * The policy deliberately ignores scene ids, resource ids, authored labels and
- * course identity. It only considers validated block order, block kind and
- * didactic intent.
+ * The policy ignores the lexical meaning of scene/resource ids, authored labels
+ * and course identity. It uses validated order, kinds, intents and explicit
+ * relation evidence; resource equality is used only to resolve that evidence.
  */
 export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan {
   const blocks = orderedBlocks(scene);

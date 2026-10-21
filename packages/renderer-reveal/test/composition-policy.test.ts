@@ -1209,7 +1209,8 @@ test("teaching visual and media are adjacent surfaces without hero treatment", (
 });
 
 test("supporting definition parts stay immediately below their formula with no identity selector", () => {
-  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting" };
+  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting",
+    source: [{ resourceId: "resource:formula", relationPath: "dct:hasPart" }] };
   const scene: Scene = { id: "opaque:formula-parts", source: [],
     blocks: [prose("heading", "introduce"), math("formula"), legend],
     readingOrder: ["heading", "formula", "symbols"] };
@@ -1222,7 +1223,8 @@ test("adjacent singleton formula legends remain separate comparison units", () =
   const singleton = (id: string, emphasis: "primary" | "supporting"): SceneBlock => {
     const block = definitions(id);
     assert.ok(block.kind === "definition-list");
-    return { ...block, entries: block.entries.slice(0, 1), emphasis };
+    return { ...block, entries: block.entries.slice(0, 1), emphasis,
+      ...(emphasis === "supporting" ? { source: [{ resourceId: `resource:${id.replace(/-legend$/u, "")}`, relationPath: "dct:hasPart" }] } : {}) };
   };
   const blocks = [prose("heading", "introduce"), singleton("context", "primary"),
     math("left"), singleton("left-legend", "supporting"),
