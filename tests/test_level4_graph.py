@@ -7,7 +7,7 @@ import sys
 import unittest
 from pathlib import Path
 
-from rdflib import Namespace, RDF, SKOS, Literal
+from rdflib import Namespace, RDF, SKOS
 from rdflib.namespace import OWL
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +58,7 @@ class Level4KnowledgeGraphTests(unittest.TestCase):
         self.assertEqual(5, len(sources))
         for item in sources:
             self.assertNotIn("example.org", str(item))
-            self.assertEqual(1, len(list(self.union.objects(item, CD.supportsResource))) != 0)
+            self.assertGreater(len(list(self.union.objects(item, CD.supportsResource))), 0)
             self.assertEqual(1, len(list(self.union.objects(item, CD.authoredResource))))
             for target in self.union.objects(item, CD.supportsResource):
                 self.assertIn((target, CD.hasSource, item), self.spec)
