@@ -127,6 +127,64 @@ class Level4TeachingPathTests(unittest.TestCase):
             set(self.paths.objects(step, CD.usesResource)),
         )
 
+    def test_all_scene_item_roles_match_canonical_resource_types_and_selectors(self):
+        # Verify every scene, not just headings, before invoking the compiler:
+        # cd:Correction is a valid scientific resource, but is not a StatementRole.
+        allowed = {
+            CD.StatementRole: (CD.Definition, CD.Interpretation, "cd:body"),
+            CD.ExampleRole: (CD.WorkedExample, None, "cd:body"),
+            CD.ExerciseRole: (CD.Exercise, None, "cd:body"),
+            CD.FormulaRole: (CD.MathExpression, None, "cd:latex"),
+            CD.CodeRole: (CD.CodeExample, None, "cd:hasCodeExample"),
+            CD.PollRole: (CD.AudiencePoll, None, "cd:hasAudiencePoll"),
+        }
+        count = 0
+        for scene in self.scenes.subjects(RDF.type, CD.SceneDefinition):
+            focus = next(self.scenes.objects(scene, CD.focusConcept))
+            for item in self.scenes.objects(scene, CD.hasSceneItem):
+                count += 1
+                resource = next(self.scenes.objects(item, CD.selectsResource))
+                role = next(self.scenes.objects(item, CD.communicativeRole))
+                selector = next(self.scenes.objects(item, CD.selectionPath))
+                with self.subTest(item=item, resource=resource, role=role):
+                    kinds = set(self.union.objects(resource, RDF.type))
+                    if role == CD.HeadingRole:
+                        self.assertEqual({Literal("skos:prefLabel@en")}, {selector})
+                        self.assertTrue(
+                            resource == focus or CD.Interpretation in kinds,
+                            f"{resource} is neither scene focus nor narrative Interpretation",
+                        )
+                    else:
+                        self.assertIn(role, allowed)
+                        primary, alternative, expected_selector = allowed[role]
+                        self.assertEqual(Literal(expected_selector), selector)
+                        self.assertTrue(
+                            primary in kinds or (alternative is not None and alternative in kinds),
+                            f"{resource} has types {kinds}, incompatible with {role}",
+                        )
+        self.assertEqual(55, count)
+
+    def test_summary_reuses_four_scientific_interpretations_without_copying_corrections(self):
+        selected = [
+            next(self.scenes.objects(EX[f"l4-takeaways-i{i}"], CD.selectsResource))
+            for i in range(2, 6)
+        ]
+        expected = [
+            EX["l4-interpretation-quartile-method"],
+            EX["l4-interpretation-outlier-diagnosis"],
+            EX["l4-interpretation-moment-sample-correction"],
+            EX["l4-interpretation-kurtosis-limits"],
+        ]
+        self.assertEqual(expected, selected)
+        for resource in selected:
+            self.assertIn((resource, RDF.type, CD.Interpretation), self.union)
+            self.assertTrue(list(self.union.objects(resource, CD.hasSource)))
+            self.assertNotIn((resource, RDF.type, CD.Correction), self.union)
+            self.assertEqual([], list(self.teaching.triples((resource, None, None))))
+        step = EX["l4-step-takeaways"]
+        self.assertEqual({EX["l4-lesson-takeaways"], *expected},
+                         set(self.paths.objects(step, CD.usesResource)))
+
     def test_existing_level4_scientific_formulas_are_selected_by_identity(self):
         expected = {
             "l4-formula-empirical-cdf", "l4-formula-sample-quantile-type-1",

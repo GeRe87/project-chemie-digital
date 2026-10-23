@@ -202,16 +202,16 @@
     cd:selectsResource ex:l4-lesson-takeaways ; cd:communicativeRole cd:HeadingRole ;
     cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:l4-takeaways-i2 a cd:SceneItem ; cd:position 2 ;
-    cd:selectsResource ex:l4-correction-quantile-convention ; cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:l4-interpretation-quartile-method ; cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:l4-takeaways-i3 a cd:SceneItem ; cd:position 3 ;
-    cd:selectsResource ex:l4-correction-outlier-is-error ; cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:l4-interpretation-outlier-diagnosis ; cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:l4-takeaways-i4 a cd:SceneItem ; cd:position 4 ;
-    cd:selectsResource ex:l4-correction-n-minus-one-all ; cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:l4-interpretation-moment-sample-correction ; cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:l4-takeaways-i5 a cd:SceneItem ; cd:position 5 ;
-    cd:selectsResource ex:l4-correction-kurtosis-peak ; cd:communicativeRole cd:StatementRole ;
+    cd:selectsResource ex:l4-interpretation-kurtosis-limits ; cd:communicativeRole cd:StatementRole ;
     cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
 }

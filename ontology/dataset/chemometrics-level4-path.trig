@@ -54,5 +54,5 @@
     cd:usesResource ex:moment-estimation-convention, ex:l4-task-shape, ex:l4-code-shape ; cd:authoredResource true .
   ex:l4-step-takeaways a cd:PathStep ; cd:position 15 ;
     cd:usesScene ex:l4-scene-takeaways ;
-    cd:usesResource ex:l4-lesson-takeaways, ex:l4-correction-quantile-convention, ex:l4-correction-outlier-is-error, ex:l4-correction-n-minus-one-all, ex:l4-correction-kurtosis-peak ; cd:authoredResource true .
+    cd:usesResource ex:l4-lesson-takeaways, ex:l4-interpretation-quartile-method, ex:l4-interpretation-outlier-diagnosis, ex:l4-interpretation-moment-sample-correction, ex:l4-interpretation-kurtosis-limits ; cd:authoredResource true .
 }
