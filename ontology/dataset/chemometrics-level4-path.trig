@@ -1,0 +1,58 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> {
+  ex:path-chemometrics-level4-distribution-shape-lecture a cd:LearningPath ;
+    skos:prefLabel "Chemometrics Level 4: Quantiles, Moments & Distribution Shape"@en ;
+    cd:forTopic ex:sample-quantile, ex:quantile-estimation-method, ex:empirical-cdf, ex:interquartile-range, ex:median-absolute-deviation, ex:potential-outlier, ex:empirical-central-moment, ex:skewness, ex:kurtosis, ex:sample-skewness, ex:sample-excess-kurtosis, ex:moment-estimation-convention ;
+    cd:forLearningUnit ex:learning-unit-quantiles-moments-shape ;
+    cd:hasStep ex:l4-step-title, ex:l4-step-population-sample, ex:l4-step-empirical-cdf, ex:l4-step-type-7, ex:l4-step-type-7-poll, ex:l4-step-quantile-r, ex:l4-step-iqr, ex:l4-step-mad, ex:l4-step-synthetic-qc, ex:l4-step-outlier-poll, ex:l4-step-moments, ex:l4-step-skewness, ex:l4-step-kurtosis, ex:l4-step-shape-r, ex:l4-step-takeaways ;
+    cd:authoredResource true .
+
+  ex:l4-step-title a cd:PathStep ; cd:position 1 ;
+    cd:usesScene ex:l4-scene-title ;
+    cd:usesResource ex:l4-lesson-title, ex:l4-lesson-intro ; cd:authoredResource true .
+  ex:l4-step-population-sample a cd:PathStep ; cd:position 2 ;
+    cd:usesScene ex:l4-scene-population-sample ;
+    cd:usesResource ex:sample-quantile, ex:l4-def-population-quantile, ex:l4-def-sample-quantile ; cd:authoredResource true .
+  ex:l4-step-empirical-cdf a cd:PathStep ; cd:position 3 ;
+    cd:usesScene ex:l4-scene-empirical-cdf ;
+    cd:usesResource ex:empirical-cdf, ex:l4-def-empirical-cdf, ex:l4-formula-empirical-cdf, ex:l4-def-sample-quantile-type-1, ex:l4-formula-sample-quantile-type-1 ; cd:authoredResource true .
+  ex:l4-step-type-7 a cd:PathStep ; cd:position 4 ;
+    cd:usesScene ex:l4-scene-type-7 ;
+    cd:usesResource ex:sample-quantile-type-7, ex:l4-def-sample-quantile-type-7, ex:l4-formula-sample-quantile-type-7, ex:l4-interpretation-quartile-method ; cd:authoredResource true .
+  ex:l4-step-type-7-poll a cd:PathStep ; cd:position 5 ;
+    cd:usesScene ex:l4-scene-type-7-poll ;
+    cd:usesResource ex:quantile-estimation-method, ex:l4-poll-type-7 ; cd:authoredResource true .
+  ex:l4-step-quantile-r a cd:PathStep ; cd:position 6 ;
+    cd:usesScene ex:l4-scene-quantile-r ;
+    cd:usesResource ex:quantile-estimation-method, ex:l4-task-quantile, ex:l4-code-quantile ; cd:authoredResource true .
+  ex:l4-step-iqr a cd:PathStep ; cd:position 7 ;
+    cd:usesScene ex:l4-scene-iqr ;
+    cd:usesResource ex:interquartile-range, ex:l4-def-interquartile-range, ex:l4-formula-interquartile-range, ex:l4-interpretation-quartile-method ; cd:authoredResource true .
+  ex:l4-step-mad a cd:PathStep ; cd:position 8 ;
+    cd:usesScene ex:l4-scene-mad ;
+    cd:usesResource ex:median-absolute-deviation, ex:l4-def-median-absolute-deviation, ex:l4-formula-median-absolute-deviation, ex:l4-formula-normal-scaled-mad, ex:l4-interpretation-mad-consistency ; cd:authoredResource true .
+  ex:l4-step-synthetic-qc a cd:PathStep ; cd:position 9 ;
+    cd:usesScene ex:l4-scene-synthetic-qc ;
+    cd:usesResource ex:l4-qc-example, ex:l4-task-qc, ex:l4-code-qc ; cd:authoredResource true .
+  ex:l4-step-outlier-poll a cd:PathStep ; cd:position 10 ;
+    cd:usesScene ex:l4-scene-outlier-poll ;
+    cd:usesResource ex:potential-outlier, ex:l4-interpretation-outlier-diagnosis, ex:l4-poll-outlier ; cd:authoredResource true .
+  ex:l4-step-moments a cd:PathStep ; cd:position 11 ;
+    cd:usesScene ex:l4-scene-moments ;
+    cd:usesResource ex:empirical-central-moment, ex:l4-def-empirical-central-moment, ex:l4-formula-empirical-second-central-moment, ex:l4-interpretation-variance-denominator ; cd:authoredResource true .
+  ex:l4-step-skewness a cd:PathStep ; cd:position 12 ;
+    cd:usesScene ex:l4-scene-skewness ;
+    cd:usesResource ex:sample-skewness, ex:l4-def-sample-skewness, ex:l4-formula-sample-skewness, ex:l4-interpretation-shape-limits ; cd:authoredResource true .
+  ex:l4-step-kurtosis a cd:PathStep ; cd:position 13 ;
+    cd:usesScene ex:l4-scene-kurtosis ;
+    cd:usesResource ex:sample-excess-kurtosis, ex:l4-def-sample-excess-kurtosis, ex:l4-formula-sample-excess-kurtosis, ex:l4-interpretation-kurtosis-limits ; cd:authoredResource true .
+  ex:l4-step-shape-r a cd:PathStep ; cd:position 14 ;
+    cd:usesScene ex:l4-scene-shape-r ;
+    cd:usesResource ex:moment-estimation-convention, ex:l4-task-shape, ex:l4-code-shape ; cd:authoredResource true .
+  ex:l4-step-takeaways a cd:PathStep ; cd:position 15 ;
+    cd:usesScene ex:l4-scene-takeaways ;
+    cd:usesResource ex:l4-lesson-takeaways, ex:l4-correction-quantile-convention, ex:l4-correction-outlier-is-error, ex:l4-correction-n-minus-one-all, ex:l4-correction-kurtosis-peak ; cd:authoredResource true .
+}
