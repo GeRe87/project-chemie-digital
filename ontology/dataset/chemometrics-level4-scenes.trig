@@ -1,0 +1,217 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# A SceneDefinition only selects canonical resources. No audience-visible scientific prose is copied here.
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-title a cd:SceneDefinition ; cd:focusConcept ex:sample-quantile ;
+    cd:hasSceneItem ex:l4-title-i1, ex:l4-title-i2 ; cd:authoredResource true .
+  ex:l4-title-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:l4-lesson-title ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-title-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-lesson-intro ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-population-sample a cd:SceneDefinition ; cd:focusConcept ex:sample-quantile ;
+    cd:hasSceneItem ex:l4-population-sample-i1, ex:l4-population-sample-i2, ex:l4-population-sample-i3 ; cd:authoredResource true .
+  ex:l4-population-sample-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:sample-quantile ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-population-sample-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-population-quantile ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-population-sample-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-def-sample-quantile ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-empirical-cdf a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ;
+    cd:hasSceneItem ex:l4-empirical-cdf-i1, ex:l4-empirical-cdf-i2, ex:l4-empirical-cdf-i3, ex:l4-empirical-cdf-i4, ex:l4-empirical-cdf-i5 ; cd:authoredResource true .
+  ex:l4-empirical-cdf-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:empirical-cdf ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-empirical-cdf-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-empirical-cdf ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-empirical-cdf-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-empirical-cdf ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-empirical-cdf-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-def-sample-quantile-type-1 ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-empirical-cdf-i5 a cd:SceneItem ; cd:position 5 ;
+    cd:selectsResource ex:l4-formula-sample-quantile-type-1 ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-type-7 a cd:SceneDefinition ; cd:focusConcept ex:sample-quantile-type-7 ;
+    cd:hasSceneItem ex:l4-type-7-i1, ex:l4-type-7-i2, ex:l4-type-7-i3, ex:l4-type-7-i4 ; cd:authoredResource true .
+  ex:l4-type-7-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:sample-quantile-type-7 ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-type-7-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-sample-quantile-type-7 ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-type-7-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-sample-quantile-type-7 ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-type-7-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-quartile-method ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-type-7-poll a cd:SceneDefinition ; cd:focusConcept ex:quantile-estimation-method ;
+    cd:hasSceneItem ex:l4-type-7-poll-i1, ex:l4-type-7-poll-i2 ; cd:authoredResource true .
+  ex:l4-type-7-poll-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:quantile-estimation-method ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-type-7-poll-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-poll-type-7 ; cd:communicativeRole cd:PollRole ;
+    cd:selectionPath "cd:hasAudiencePoll" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-quantile-r a cd:SceneDefinition ; cd:focusConcept ex:quantile-estimation-method ;
+    cd:hasSceneItem ex:l4-quantile-r-i1, ex:l4-quantile-r-i2, ex:l4-quantile-r-i3 ; cd:authoredResource true .
+  ex:l4-quantile-r-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:quantile-estimation-method ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-quantile-r-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-task-quantile ; cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-quantile-r-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-code-quantile ; cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-iqr a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ;
+    cd:hasSceneItem ex:l4-iqr-i1, ex:l4-iqr-i2, ex:l4-iqr-i3, ex:l4-iqr-i4 ; cd:authoredResource true .
+  ex:l4-iqr-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:interquartile-range ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-iqr-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-interquartile-range ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-iqr-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-interquartile-range ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-iqr-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-quartile-method ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-mad a cd:SceneDefinition ; cd:focusConcept ex:median-absolute-deviation ;
+    cd:hasSceneItem ex:l4-mad-i1, ex:l4-mad-i2, ex:l4-mad-i3, ex:l4-mad-i4, ex:l4-mad-i5 ; cd:authoredResource true .
+  ex:l4-mad-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:median-absolute-deviation ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-mad-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-median-absolute-deviation ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-mad-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-median-absolute-deviation ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-mad-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-formula-normal-scaled-mad ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-mad-i5 a cd:SceneItem ; cd:position 5 ;
+    cd:selectsResource ex:l4-interpretation-mad-consistency ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-synthetic-qc a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ;
+    cd:hasSceneItem ex:l4-synthetic-qc-i1, ex:l4-synthetic-qc-i2, ex:l4-synthetic-qc-i3, ex:l4-synthetic-qc-i4 ; cd:authoredResource true .
+  ex:l4-synthetic-qc-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:l4-qc-scene-heading ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-synthetic-qc-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-qc-example ; cd:communicativeRole cd:ExampleRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-synthetic-qc-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-task-qc ; cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-synthetic-qc-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-code-qc ; cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-outlier-poll a cd:SceneDefinition ; cd:focusConcept ex:potential-outlier ;
+    cd:hasSceneItem ex:l4-outlier-poll-i1, ex:l4-outlier-poll-i2, ex:l4-outlier-poll-i3 ; cd:authoredResource true .
+  ex:l4-outlier-poll-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:potential-outlier ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-outlier-poll-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-interpretation-outlier-diagnosis ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-outlier-poll-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-poll-outlier ; cd:communicativeRole cd:PollRole ;
+    cd:selectionPath "cd:hasAudiencePoll" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-moments a cd:SceneDefinition ; cd:focusConcept ex:empirical-central-moment ;
+    cd:hasSceneItem ex:l4-moments-i1, ex:l4-moments-i2, ex:l4-moments-i3, ex:l4-moments-i4 ; cd:authoredResource true .
+  ex:l4-moments-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:empirical-central-moment ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-moments-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-empirical-central-moment ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-moments-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-empirical-second-central-moment ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-moments-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-variance-denominator ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-skewness a cd:SceneDefinition ; cd:focusConcept ex:sample-skewness ;
+    cd:hasSceneItem ex:l4-skewness-i1, ex:l4-skewness-i2, ex:l4-skewness-i3, ex:l4-skewness-i4 ; cd:authoredResource true .
+  ex:l4-skewness-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:sample-skewness ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-skewness-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-sample-skewness ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-skewness-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-sample-skewness ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-skewness-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-shape-limits ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-kurtosis a cd:SceneDefinition ; cd:focusConcept ex:sample-excess-kurtosis ;
+    cd:hasSceneItem ex:l4-kurtosis-i1, ex:l4-kurtosis-i2, ex:l4-kurtosis-i3, ex:l4-kurtosis-i4 ; cd:authoredResource true .
+  ex:l4-kurtosis-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:sample-excess-kurtosis ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-kurtosis-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-def-sample-excess-kurtosis ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-kurtosis-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-formula-sample-excess-kurtosis ; cd:communicativeRole cd:FormulaRole ;
+    cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-kurtosis-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-kurtosis-limits ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-shape-r a cd:SceneDefinition ; cd:focusConcept ex:moment-estimation-convention ;
+    cd:hasSceneItem ex:l4-shape-r-i1, ex:l4-shape-r-i2, ex:l4-shape-r-i3 ; cd:authoredResource true .
+  ex:l4-shape-r-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:moment-estimation-convention ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-shape-r-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-task-shape ; cd:communicativeRole cd:ExerciseRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-shape-r-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-code-shape ; cd:communicativeRole cd:CodeRole ;
+    cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-takeaways a cd:SceneDefinition ; cd:focusConcept ex:moment-estimation-convention ;
+    cd:hasSceneItem ex:l4-takeaways-i1, ex:l4-takeaways-i2, ex:l4-takeaways-i3, ex:l4-takeaways-i4, ex:l4-takeaways-i5 ; cd:authoredResource true .
+  ex:l4-takeaways-i1 a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:l4-lesson-takeaways ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-takeaways-i2 a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:l4-interpretation-quartile-method ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-takeaways-i3 a cd:SceneItem ; cd:position 3 ;
+    cd:selectsResource ex:l4-interpretation-outlier-diagnosis ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-takeaways-i4 a cd:SceneItem ; cd:position 4 ;
+    cd:selectsResource ex:l4-interpretation-moment-sample-correction ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-takeaways-i5 a cd:SceneItem ; cd:position 5 ;
+    cd:selectsResource ex:l4-interpretation-kurtosis-limits ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+}

@@ -119,6 +119,11 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                     EX["unit-placement-chemometrics-variance-dispersion"],
                     EX["learning-unit-variance-dispersion"],
                 ),
+                (
+                    50,
+                    EX["unit-placement-chemometrics-quantiles-moments-shape"],
+                    EX["learning-unit-quantiles-moments-shape"],
+                ),
             ],
             sorted(placements),
         )
@@ -583,6 +588,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             EX["learning-unit-random-variables"]: EX["path-chemometrics-random-variables-lecture"],
             EX["learning-unit-mean-values"]: EX["path-chemometrics-mean-values-lecture"],
             EX["learning-unit-variance-dispersion"]: EX["path-chemometrics-variance-dispersion-lecture"],
+            EX["learning-unit-quantiles-moments-shape"]: EX["path-chemometrics-level4-distribution-shape-lecture"],
         }
         for unit, path in expected.items():
             with self.subTest(unit=unit):
