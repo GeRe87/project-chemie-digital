@@ -24,7 +24,8 @@
       ex:unit-placement-chemometrics-introduction,
       ex:unit-placement-chemometrics-random-variables,
       ex:unit-placement-chemometrics-mean-values,
-      ex:unit-placement-chemometrics-variance-dispersion ;
+      ex:unit-placement-chemometrics-variance-dispersion,
+      ex:unit-placement-chemometrics-quantiles-moments-shape ;
     cd:hasOfferingSection
       ex:offering-section-chemometrics-getting-started,
       ex:offering-section-chemometrics-data-characterization,
@@ -47,7 +48,8 @@
     cd:groupsUnitPlacement
       ex:unit-placement-chemometrics-random-variables,
       ex:unit-placement-chemometrics-mean-values,
-      ex:unit-placement-chemometrics-variance-dispersion .
+      ex:unit-placement-chemometrics-variance-dispersion,
+      ex:unit-placement-chemometrics-quantiles-moments-shape .
 
   ex:offering-section-chemometrics-similarity-analysis a cd:OfferingSection ;
     cd:position 30 ;
@@ -103,6 +105,10 @@
     cd:hasFocusConcept ex:variance, ex:standard-deviation, ex:standard-error,
       ex:relative-standard-deviation .
 
+  ex:learning-unit-quantiles-moments-shape a cd:LearningUnit ;
+    skos:prefLabel "Quantiles, Moments & Distribution Shape"@en ;
+    cd:hasFocusConcept ex:sample-quantile, ex:quantile-estimation-method, ex:empirical-cdf, ex:interquartile-range, ex:median-absolute-deviation, ex:potential-outlier, ex:empirical-central-moment, ex:skewness, ex:kurtosis, ex:sample-skewness, ex:sample-excess-kurtosis, ex:moment-estimation-convention .
+
   ex:unit-placement-chemometrics-introduction a cd:UnitPlacement ;
     cd:position 10 ;
     cd:placesLearningUnit ex:learning-unit-chemometrics-introduction .
@@ -118,6 +124,10 @@
   ex:unit-placement-chemometrics-variance-dispersion a cd:UnitPlacement ;
     cd:position 40 ;
     cd:placesLearningUnit ex:learning-unit-variance-dispersion .
+
+  ex:unit-placement-chemometrics-quantiles-moments-shape a cd:UnitPlacement ;
+    cd:position 50 ;
+    cd:placesLearningUnit ex:learning-unit-quantiles-moments-shape .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/standard-deviation> {
