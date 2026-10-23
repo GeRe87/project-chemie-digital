@@ -96,6 +96,37 @@ class Level4TeachingPathTests(unittest.TestCase):
         for source in self.teaching.subjects(RDF.type, CD.CodeExample):
             self.assertTrue(list(self.teaching.objects(source, CD.showsResource)))
 
+    def test_narrative_heading_contract_and_qc_source_identity(self):
+        # A scene heading must select either its focus concept or an authored
+        # Interpretation. WorkedExample is not a permissible HeadingRole selector.
+        for scene in self.scenes.subjects(RDF.type, CD.SceneDefinition):
+            focus = next(self.scenes.objects(scene, CD.focusConcept))
+            for item in self.scenes.objects(scene, CD.hasSceneItem):
+                if (item, CD.communicativeRole, CD.HeadingRole) not in self.scenes:
+                    continue
+                selected = next(self.scenes.objects(item, CD.selectsResource))
+                if selected != focus:
+                    self.assertIn((selected, RDF.type, CD.Interpretation), self.union)
+                    self.assertIn((selected, CD.authoredResource, Literal(True)), self.union)
+                self.assertEqual({Literal("skos:prefLabel@en")},
+                                 set(self.scenes.objects(item, CD.selectionPath)))
+                self.assertEqual({Literal("en")}, set(self.scenes.objects(item, CD.language)))
+
+        item = EX["l4-synthetic-qc-i1"]
+        title = EX["l4-qc-scene-heading"]
+        example = EX["l4-qc-example"]
+        self.assertEqual({title}, set(self.scenes.objects(item, CD.selectsResource)))
+        self.assertIn((title, RDF.type, CD.Interpretation), self.teaching)
+        self.assertIn((title, CD.derivedFromResource, example), self.teaching)
+        self.assertEqual({example},
+                         set(self.scenes.objects(EX["l4-synthetic-qc-i2"], CD.selectsResource)))
+        self.assertIn((example, RDF.type, CD.WorkedExample), self.union)
+        step = EX["l4-step-synthetic-qc"]
+        self.assertEqual(
+            {title, example, EX["l4-task-qc"], EX["l4-code-qc"]},
+            set(self.paths.objects(step, CD.usesResource)),
+        )
+
     def test_existing_level4_scientific_formulas_are_selected_by_identity(self):
         expected = {
             "l4-formula-empirical-cdf", "l4-formula-sample-quantile-type-1",

@@ -115,7 +115,7 @@
   ex:l4-scene-synthetic-qc a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ;
     cd:hasSceneItem ex:l4-synthetic-qc-i1, ex:l4-synthetic-qc-i2, ex:l4-synthetic-qc-i3, ex:l4-synthetic-qc-i4 ; cd:authoredResource true .
   ex:l4-synthetic-qc-i1 a cd:SceneItem ; cd:position 1 ;
-    cd:selectsResource ex:l4-qc-example ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectsResource ex:l4-qc-scene-heading ; cd:communicativeRole cd:HeadingRole ;
     cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:l4-synthetic-qc-i2 a cd:SceneItem ; cd:position 2 ;
     cd:selectsResource ex:l4-qc-example ; cd:communicativeRole cd:ExampleRole ;

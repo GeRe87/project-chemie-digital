@@ -8,6 +8,12 @@
 <https://w3id.org/project-chemie-digital/graph/specifications/chemometrics-level4-teaching> {
   ex:l4-lesson-title a cd:Interpretation ; skos:prefLabel "Quantiles, Moments & Distribution Shape"@en ; cd:body "From location and variance to order-based summaries and distribution shape."@en ; cd:authoredResource true .
   ex:l4-lesson-intro a cd:Interpretation ; skos:prefLabel "Questions first"@en ; cd:body "How can two quantile conventions describe one dataset differently? Which summaries resist one large observation, and what do central moments reveal?"@en ; cd:authoredResource true .
+  # Narrative scene heading is not a second scientific definition. It only
+  # names the activity and points back to the canonical synthetic WorkedExample.
+  ex:l4-qc-scene-heading a cd:Interpretation ;
+    skos:prefLabel "Compare two synthetic QC series"@en ;
+    cd:body "Explore order-based and moment-based summaries of the same constructed measurements."@en ;
+    cd:derivedFromResource ex:l4-qc-example ; cd:authoredResource true .
   ex:l4-lesson-takeaways a cd:Interpretation ; skos:prefLabel "Review the scientific decisions"@en ; cd:body "Use a declared quantile method, justify treatment of extreme observations, and distinguish descriptive moments from estimators."@en ; cd:authoredResource true .
   ex:l4-poll-type-7 a cd:AudiencePoll ; skos:prefLabel "Level 4 type-7 knowledge check"@en ; cd:body "Four observations are 2, 4, 5 and 8 mg/L. What is the first quartile using R's type-7 sample quantile?"@en ;
     cd:hasPollOption ex:l4-poll-type-7-option-a, ex:l4-poll-type-7-option-b, ex:l4-poll-type-7-option-c ;

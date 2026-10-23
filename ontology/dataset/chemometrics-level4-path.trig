@@ -36,7 +36,7 @@
     cd:usesResource ex:median-absolute-deviation, ex:l4-def-median-absolute-deviation, ex:l4-formula-median-absolute-deviation, ex:l4-formula-normal-scaled-mad, ex:l4-interpretation-mad-consistency ; cd:authoredResource true .
   ex:l4-step-synthetic-qc a cd:PathStep ; cd:position 9 ;
     cd:usesScene ex:l4-scene-synthetic-qc ;
-    cd:usesResource ex:l4-qc-example, ex:l4-task-qc, ex:l4-code-qc ; cd:authoredResource true .
+    cd:usesResource ex:l4-qc-scene-heading, ex:l4-qc-example, ex:l4-task-qc, ex:l4-code-qc ; cd:authoredResource true .
   ex:l4-step-outlier-poll a cd:PathStep ; cd:position 10 ;
     cd:usesScene ex:l4-scene-outlier-poll ;
     cd:usesResource ex:potential-outlier, ex:l4-interpretation-outlier-diagnosis, ex:l4-poll-outlier ; cd:authoredResource true .
