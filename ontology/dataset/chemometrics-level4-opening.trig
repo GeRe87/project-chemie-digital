@@ -11,18 +11,19 @@
     cd:comparisonCenter ex:l4-opening-mean ; cd:comparisonSpread ex:l4-opening-sd ; cd:comparisonVariance ex:l4-opening-variance ; cd:authoredResource true .
   ex:l4-opening-series-b a cd:ObservationSeries ; skos:prefLabel "Series B"@en ; cd:position 2 ; cd:usesDataset ex:l4-opening-data-b ; cd:hasObservationPlacement ex:l4-opening-pb1, ex:l4-opening-pb2, ex:l4-opening-pb3, ex:l4-opening-pb4, ex:l4-opening-pb5 ;
     cd:comparisonCenter ex:l4-opening-mean ; cd:comparisonSpread ex:l4-opening-sd ; cd:comparisonVariance ex:l4-opening-variance ; cd:authoredResource true .
-  ex:l4-opening-pa1 a cd:ObservationPlacement ; cd:position 1 ; cd:targetObservation ex:l4-opening-a1 ; cd:authoredResource true .
-  ex:l4-opening-pa2 a cd:ObservationPlacement ; cd:position 2 ; cd:targetObservation ex:l4-opening-a2 ; cd:authoredResource true .
-  ex:l4-opening-pa3 a cd:ObservationPlacement ; cd:position 3 ; cd:targetObservation ex:l4-opening-a3 ; cd:authoredResource true .
-  ex:l4-opening-pa4 a cd:ObservationPlacement ; cd:position 4 ; cd:targetObservation ex:l4-opening-a4 ; cd:authoredResource true .
-  ex:l4-opening-pa5 a cd:ObservationPlacement ; cd:position 5 ; cd:targetObservation ex:l4-opening-a5 ; cd:authoredResource true .
-  ex:l4-opening-pb1 a cd:ObservationPlacement ; cd:position 1 ; cd:targetObservation ex:l4-opening-b1 ; cd:authoredResource true .
-  ex:l4-opening-pb2 a cd:ObservationPlacement ; cd:position 2 ; cd:targetObservation ex:l4-opening-b2 ; cd:authoredResource true .
-  ex:l4-opening-pb3 a cd:ObservationPlacement ; cd:position 3 ; cd:targetObservation ex:l4-opening-b3 ; cd:authoredResource true .
-  ex:l4-opening-pb4 a cd:ObservationPlacement ; cd:position 4 ; cd:targetObservation ex:l4-opening-b4 ; cd:authoredResource true .
-  ex:l4-opening-pb5 a cd:ObservationPlacement ; cd:position 5 ; cd:targetObservation ex:l4-opening-b5 ; cd:authoredResource true .
+  ex:l4-opening-pa1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-opening-a1 ; cd:authoredResource true .
+  ex:l4-opening-pa2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-opening-a2 ; cd:authoredResource true .
+  ex:l4-opening-pa3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-opening-a3 ; cd:authoredResource true .
+  ex:l4-opening-pa4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-opening-a4 ; cd:authoredResource true .
+  ex:l4-opening-pa5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-opening-a5 ; cd:authoredResource true .
+  ex:l4-opening-pb1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-opening-b1 ; cd:authoredResource true .
+  ex:l4-opening-pb2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-opening-b2 ; cd:authoredResource true .
+  ex:l4-opening-pb3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-opening-b3 ; cd:authoredResource true .
+  ex:l4-opening-pb4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-opening-b4 ; cd:authoredResource true .
+  ex:l4-opening-pb5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-opening-b5 ; cd:authoredResource true .
 
   ex:l4-opening-sd-guide a cd:KeyPoint ; cd:position 1 ; cd:body "Bars: mean ± one sample SD, not a confidence interval or the data range."@en ; dct:references ex:sample-sd-formula ; cd:authoredResource true .
+  ex:l4-opening-data-sd-guide a cd:KeyPoint ; cd:position 1 ; cd:body "Bars: mean ± one sample SD, not a confidence interval or the data range."@en ; dct:references ex:sample-sd-formula ; cd:authoredResource true .
 
   ex:l4-gap-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "summary" ;
     skos:prefLabel "Same summaries, four different empirical shapes"@en ; cd:body "Four constructed sets · 100 observations each · mean 50 and sample SD 10 a.u. (within decimal precision). Vertical stacking only separates points; it is not a second measured variable."@en ;
@@ -31,7 +32,7 @@
     cd:hasComparisonStage ex:l4-shapes-overview ;
     dct:hasPart ex:arithmetic-mean-formula, ex:sample-variance-formula, ex:sd-definition-university-en, ex:sample-sd-formula, ex:l4-shapes-example ; cd:authoredResource true .
   ex:l4-shapes-overview a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Same summaries, different shapes"@en ; cd:comparisonMode "distribution" ; cd:body "Vertical offsets separate observations. SD bars are not confidence intervals."@en ; cd:authoredResource true .
-  ex:l4-shapes-bridge a cd:KeyPoint ; cd:position 2 ; cd:body "Beyond mean and SD: ECDF, quantiles and distribution shape."@en ; cd:showsResource ex:empirical-cdf, ex:sample-quantile, ex:empirical-central-moment ; cd:authoredResource true .
+  ex:l4-shapes-bridge a cd:KeyPoint ; cd:position 2 ; cd:body "Beyond mean and SD: ECDF, quantiles and distribution shape."@en ; dct:references ex:empirical-cdf, ex:sample-quantile, ex:empirical-central-moment ; cd:authoredResource true .
 
   ex:l4-shapes-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-shapes-scenario ; cd:authoredResource true .
   ex:l4-shapes-scenario a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: identical summaries"@en ; cd:body "• Four synthetic sets, **100 values each**.\n• All have the **same mean and sample SD**.\n• Do they also have the ==same distribution==?"@en ; dct:source ex:l4-shapes-example ; cd:authoredResource true .
@@ -59,15 +60,15 @@
   ex:l4-shapes-s-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
   ex:l4-shapes-b-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
   ex:l4-gap-summary a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Known summaries"@en ; cd:comparisonMode "summaries" ; cd:body "Can identical summaries hide different measurements?"@en ; cd:hasKeyPoint ex:l4-opening-sd-guide ; cd:authoredResource true .
-  ex:l4-gap-data a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Reveal observations"@en ; cd:comparisonMode "spread" ; cd:body "Equal summaries do not uniquely determine the empirical distribution."@en ; cd:allowSeriesOverlay true ; cd:hasKeyPoint ex:l4-opening-sd-guide ; cd:authoredResource true .
+  ex:l4-gap-data a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Reveal observations"@en ; cd:comparisonMode "spread" ; cd:body "Equal summaries do not uniquely determine the empirical distribution."@en ; cd:allowSeriesOverlay true ; cd:hasKeyPoint ex:l4-opening-data-sd-guide ; cd:authoredResource true .
 
-  ex:l4-needs-position a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Position"@en ; cd:comparisonMode "rank" ; cd:body "Where do observations lie within the ordered data?"@en ; cd:showsResource ex:order-statistic, ex:sample-quantile ; cd:authoredResource true .
-  ex:l4-needs-interval a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Interval"@en ; cd:comparisonMode "interval" ; cd:body "How much of the data lies within a particular interval?"@en ; cd:showsResource ex:quartile, ex:interquartile-range ; cd:authoredResource true .
-  ex:l4-needs-shape a cd:ComparisonStage ; cd:position 3 ; skos:prefLabel "Symmetry"@en ; cd:comparisonMode "mirror" ; cd:body "Are observations arranged symmetrically or asymmetrically?"@en ; cd:showsResource ex:distribution-symmetry, ex:empirical-central-moment ; cd:authoredResource true .
+  ex:l4-needs-position a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Position"@en ; cd:comparisonMode "rank" ; cd:body "Where do observations lie within the ordered data?"@en ; dct:references ex:order-statistic, ex:sample-quantile ; cd:authoredResource true .
+  ex:l4-needs-interval a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Interval"@en ; cd:comparisonMode "interval" ; cd:body "How much of the data lies within a particular interval?"@en ; dct:references ex:quartile, ex:interquartile-range ; cd:authoredResource true .
+  ex:l4-needs-shape a cd:ComparisonStage ; cd:position 3 ; skos:prefLabel "Symmetry"@en ; cd:comparisonMode "mirror" ; cd:body "Are observations arranged symmetrically or asymmetrically?"@en ; dct:references ex:distribution-symmetry, ex:empirical-central-moment ; cd:authoredResource true .
   ex:l4-needs-next a cd:ComparisonStage ; cd:position 3 ; skos:prefLabel "Explore what is missing"@en ; cd:comparisonMode "topics" ; cd:body "Next: order the measurements and inspect their ranks."@en ; cd:allowSeriesOverlay true ; cd:hasInvestigation ex:l4-needs-position, ex:l4-needs-interval, ex:l4-needs-shape ; cd:hasKeyPoint ex:l4-position-topic, ex:l4-concentration-topic, ex:l4-shape-topic ; cd:authoredResource true .
-  ex:l4-position-topic a cd:KeyPoint ; cd:position 1 ; cd:body "Position → Quantiles"@en ; cd:showsResource ex:sample-quantile ; cd:authoredResource true .
-  ex:l4-concentration-topic a cd:KeyPoint ; cd:position 2 ; cd:body "Concentration → Quartiles & IQR"@en ; cd:showsResource ex:quartile, ex:interquartile-range ; cd:authoredResource true .
-  ex:l4-shape-topic a cd:KeyPoint ; cd:position 3 ; cd:body "Shape → Statistical moments"@en ; cd:showsResource ex:empirical-central-moment ; cd:authoredResource true .
+  ex:l4-position-topic a cd:KeyPoint ; cd:position 1 ; cd:body "Position → Quantiles"@en ; dct:references ex:sample-quantile ; cd:authoredResource true .
+  ex:l4-concentration-topic a cd:KeyPoint ; cd:position 2 ; cd:body "Concentration → Quartiles & IQR"@en ; dct:references ex:quartile, ex:interquartile-range ; cd:authoredResource true .
+  ex:l4-shape-topic a cd:KeyPoint ; cd:position 3 ; cd:body "Shape → Statistical moments"@en ; dct:references ex:empirical-central-moment ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {

@@ -2,7 +2,7 @@
 import sys
 import unittest
 from pathlib import Path
-from rdflib import Graph, Literal, Namespace, RDF
+from rdflib import Graph, Literal, Namespace, RDF, URIRef
 from pyshacl import validate
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -16,20 +16,35 @@ GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 REFERENCE = runtime.CoursePathReference(str(EX["path-chemometrics-level4-distribution-shape-lecture"]), GRAPH + "paths/chemometrics-level4-distribution-shape-lecture")
 
 
+def retained_kernel_path(dataset):
+    """Exercise the reusable original scenes without reactivating them in the lecture."""
+    path = EX["test-retained-observation-kernels"]
+    graph_id = GRAPH + "paths/test-retained-observation-kernels"
+    graph = dataset.graph(URIRef(graph_id))
+    graph.add((path, RDF.type, CD.LearningPath))
+    for position, slug in enumerate(("opening", "order", "count", "ecdf"), 1):
+        step = EX[f"test-retained-observation-step-{position}"]
+        graph.add((path, CD.hasStep, step))
+        graph.add((step, RDF.type, CD.PathStep))
+        graph.add((step, CD.position, Literal(position)))
+        graph.add((step, CD.usesScene, EX[f"l4-scene-observation-{slug}"]))
+    return runtime.CoursePathReference(str(path), graph_id)
+
+
 class ObservationIterationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.dataset = rdf_dataset.assemble_dataset()
         cls.union = validate_semantics.dataset_union(cls.dataset)
         cls.document = runtime.compile_scene_document(cls.dataset, REFERENCE)
-        # The accepted kernels/scenes survive the new opening and path reordering.
-        cls.legacy_scenes = [next(s for s in cls.document["scenes"] if any(b.get("view") == view for b in s["blocks"])) for view in ("compare", "order", "count", "ecdf")]
+        # Retained RDF scenes are reusable, but are not all active lecture steps.
+        cls.legacy_document = runtime.compile_scene_document(cls.dataset, retained_kernel_path(cls.dataset))
+        cls.legacy_scenes = cls.legacy_document["scenes"]
         cls.charts = [s["blocks"][1] for s in cls.legacy_scenes]
 
     def test_preserved_discovery_scenes_still_compile(self):
-        # Native boxplots raise the containing path to additive version 1.9;
-        # the retained observation/ECDF primitive is still compatible with 1.8.
-        self.assertEqual("1.10", self.document["version"])
+        self.assertEqual("1.12", self.document["version"])
+        self.assertEqual("1.8", self.legacy_document["version"])
         self.assertEqual(["compare", "order", "count", "ecdf"], [b["view"] for b in self.charts])
         self.assertTrue(all(b["chartType"] == "observations" for b in self.charts))
         self.assertTrue(all(b["kind"] == "chart" for b in self.charts))
@@ -84,12 +99,12 @@ class ObservationIterationTests(unittest.TestCase):
         graph = dataset.graph(GRAPH + "specifications/level4-observation-teaching")
         graph.remove((EX["l4-observation-reference"], CD.hasObservationPlacement, EX["l4-placement-1"]))
         with self.assertRaisesRegex(ValueError, "positions|every dataset observation"):
-            runtime.compile_scene_document(dataset, REFERENCE)
+            runtime.compile_scene_document(dataset, retained_kernel_path(dataset))
         dataset = rdf_dataset.assemble_dataset()
         graph = dataset.graph(GRAPH + "specifications/level4-observation-teaching")
         graph.set((EX["l4-count-chart"], CD.thresholdMinimum, Literal(4)))
         with self.assertRaisesRegex(ValueError, "Threshold domain"):
-            runtime.compile_scene_document(dataset, REFERENCE)
+            runtime.compile_scene_document(dataset, retained_kernel_path(dataset))
 
 
 if __name__ == "__main__":

@@ -1046,7 +1046,7 @@ def observation_explorer_payload(dataset: Dataset, chart: URIRef, language: str)
         for placement in sequence(resource, iri(CD, "hasObservationPlacement")):
             if not is_resource_type(dataset, placement, "ObservationPlacement"):
                 raise ValueError("Presentation placement must have explicit type")
-            observation = one(dataset, placement, iri(CD, "targetObservation"))
+            observation = one(dataset, placement, iri(CD, "placedObservation"))
             if observation not in objects(dataset, source_dataset, iri(CD, "hasObservation")):
                 raise ValueError("Observation placement refers outside its dataset")
             if not is_resource_type(dataset, observation, "Observation"):
@@ -1055,7 +1055,7 @@ def observation_explorer_payload(dataset: Dataset, chart: URIRef, language: str)
                          "label": f'O{integer(dataset, observation, iri(CD, "position"))}',
                          "source": [source_reference(dataset, observation, "cd:numericValue"),
                                     source_reference(dataset, observation, "cd:position"),
-                                    source_reference(dataset, placement, "cd:targetObservation")]})
+                                    source_reference(dataset, placement, "cd:placedObservation")]})
         if not data or len({d["id"] for d in data}) != len(data) or {d["id"] for d in data} != {compact(o) for o in objects(dataset, source_dataset, iri(CD, "hasObservation"))}:
             raise ValueError("Presentation must retain every dataset observation exactly once")
         label, label_path = selected_label_reference(dataset, resource, language)

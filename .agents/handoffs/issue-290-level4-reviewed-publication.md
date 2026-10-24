@@ -52,6 +52,14 @@ earlier turns, not the publication status of this increment.
 
 ## Risks or unresolved questions
 
+The first production validation at `f77e7380` failed with 532 SHACL violations;
+no merge or deployment followed. The owner then explicitly requested repair.
+Corrections and regression evidence are recorded in
+`docs/chemometrics-level4-semantic-integration-fix.md`. The PR now targets
+`chemometrics` directly and includes #289, which is to be closed as superseded
+only after successful integration. Full and external validation must be fresh
+for the correction head; the original head's evidence is not reusable.
+
 - Broad shared rendering/contract changes require independent review and fresh
   integration evidence before acceptance; the earlier source stack is unmerged.
 - The final moment-lab `stopifnot` still checks the last loop series only, as

@@ -2,6 +2,7 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/level4-observation-teaching> {
   ex:l4-opening-heading a cd:Interpretation ; skos:prefLabel "One measurement changes. What changes with it?"@en ; cd:body "Predict before calculating."@en ; cd:derivedFromResource ex:l4-qc-example ; cd:authoredResource true .
@@ -12,45 +13,45 @@
   ex:l4-observation-reference a cd:ObservationSeries ; skos:prefLabel "Reference · synthetic concentrations"@en ; cd:position 1 ; cd:usesDataset ex:l4-qc-reference ;
     cd:hasObservationPlacement ex:l4-placement-1, ex:l4-placement-2, ex:l4-placement-3, ex:l4-placement-4, ex:l4-placement-5, ex:l4-placement-6, ex:l4-placement-7 ; cd:authoredResource true .
   # Deliberately permuted display order. This is not a claim about acquisition order.
-  ex:l4-placement-1 a cd:ObservationPlacement ; cd:position 1 ; cd:targetObservation ex:l4-qc-reference-o6 ; cd:authoredResource true .
-  ex:l4-placement-2 a cd:ObservationPlacement ; cd:position 2 ; cd:targetObservation ex:l4-qc-reference-o2 ; cd:authoredResource true .
-  ex:l4-placement-3 a cd:ObservationPlacement ; cd:position 3 ; cd:targetObservation ex:l4-qc-reference-o7 ; cd:authoredResource true .
-  ex:l4-placement-4 a cd:ObservationPlacement ; cd:position 4 ; cd:targetObservation ex:l4-qc-reference-o1 ; cd:authoredResource true .
-  ex:l4-placement-5 a cd:ObservationPlacement ; cd:position 5 ; cd:targetObservation ex:l4-qc-reference-o5 ; cd:authoredResource true .
-  ex:l4-placement-6 a cd:ObservationPlacement ; cd:position 6 ; cd:targetObservation ex:l4-qc-reference-o3 ; cd:authoredResource true .
-  ex:l4-placement-7 a cd:ObservationPlacement ; cd:position 7 ; cd:targetObservation ex:l4-qc-reference-o4 ; cd:authoredResource true .
+  ex:l4-placement-1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-qc-reference-o6 ; cd:authoredResource true .
+  ex:l4-placement-2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-qc-reference-o2 ; cd:authoredResource true .
+  ex:l4-placement-3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-qc-reference-o7 ; cd:authoredResource true .
+  ex:l4-placement-4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-qc-reference-o1 ; cd:authoredResource true .
+  ex:l4-placement-5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-qc-reference-o5 ; cd:authoredResource true .
+  ex:l4-placement-6 a cd:ObservationPlacement ; cd:position 6 ; cd:placedObservation ex:l4-qc-reference-o3 ; cd:authoredResource true .
+  ex:l4-placement-7 a cd:ObservationPlacement ; cd:position 7 ; cd:placedObservation ex:l4-qc-reference-o4 ; cd:authoredResource true .
   ex:l4-observation-modified a cd:ObservationSeries ; skos:prefLabel "Modified · synthetic concentrations"@en ; cd:position 2 ; cd:usesDataset ex:l4-qc-extreme ;
     cd:hasObservationPlacement ex:l4-modified-placement-1, ex:l4-modified-placement-2, ex:l4-modified-placement-3, ex:l4-modified-placement-4, ex:l4-modified-placement-5, ex:l4-modified-placement-6, ex:l4-modified-placement-7 ; cd:authoredResource true .
-  ex:l4-modified-placement-1 a cd:ObservationPlacement ; cd:position 1 ; cd:targetObservation ex:l4-qc-extreme-o6 ; cd:authoredResource true .
-  ex:l4-modified-placement-2 a cd:ObservationPlacement ; cd:position 2 ; cd:targetObservation ex:l4-qc-extreme-o2 ; cd:authoredResource true .
-  ex:l4-modified-placement-3 a cd:ObservationPlacement ; cd:position 3 ; cd:targetObservation ex:l4-qc-extreme-o7 ; cd:authoredResource true .
-  ex:l4-modified-placement-4 a cd:ObservationPlacement ; cd:position 4 ; cd:targetObservation ex:l4-qc-extreme-o1 ; cd:authoredResource true .
-  ex:l4-modified-placement-5 a cd:ObservationPlacement ; cd:position 5 ; cd:targetObservation ex:l4-qc-extreme-o5 ; cd:authoredResource true .
-  ex:l4-modified-placement-6 a cd:ObservationPlacement ; cd:position 6 ; cd:targetObservation ex:l4-qc-extreme-o3 ; cd:authoredResource true .
-  ex:l4-modified-placement-7 a cd:ObservationPlacement ; cd:position 7 ; cd:targetObservation ex:l4-qc-extreme-o4 ; cd:authoredResource true .
+  ex:l4-modified-placement-1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-qc-extreme-o6 ; cd:authoredResource true .
+  ex:l4-modified-placement-2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-qc-extreme-o2 ; cd:authoredResource true .
+  ex:l4-modified-placement-3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-qc-extreme-o7 ; cd:authoredResource true .
+  ex:l4-modified-placement-4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-qc-extreme-o1 ; cd:authoredResource true .
+  ex:l4-modified-placement-5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-qc-extreme-o5 ; cd:authoredResource true .
+  ex:l4-modified-placement-6 a cd:ObservationPlacement ; cd:position 6 ; cd:placedObservation ex:l4-qc-extreme-o3 ; cd:authoredResource true .
+  ex:l4-modified-placement-7 a cd:ObservationPlacement ; cd:position 7 ; cd:placedObservation ex:l4-qc-extreme-o4 ; cd:authoredResource true .
 
   ex:l4-opening-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "compare" ;
     skos:prefLabel "Predict the response of statistical summaries"@en ;
     cd:body "Reveal the modified series. One value changes from 7 to 30 mg/L. Which summaries might change: mean, variance, median, IQR or MAD? Make a prediction and explain your reasoning; do not calculate yet."@en ;
     cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Observations"@en ;
-    cd:hasObservationSeries ex:l4-observation-reference, ex:l4-observation-modified ; cd:showsResource ex:l4-qc-reference, ex:l4-qc-extreme ; cd:authoredResource true .
+    cd:hasObservationSeries ex:l4-observation-reference, ex:l4-observation-modified ; dct:references ex:l4-qc-reference, ex:l4-qc-extreme ; cd:authoredResource true .
   ex:l4-order-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "order" ;
     skos:prefLabel "Values, identities and ranks"@en ;
     cd:body "These are the same seven reference observations in a deliberately permuted display order, not acquisition order. Select an observation, then sort. What happens to the two observations equal to 4 mg/L?"@en ;
     cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Rank"@en ;
-    cd:hasObservationSeries ex:l4-observation-reference ; cd:showsResource ex:order-statistic ; cd:authoredResource true .
+    cd:hasObservationSeries ex:l4-observation-reference ; dct:references ex:order-statistic ; cd:authoredResource true .
   ex:l4-count-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "count" ;
     skos:prefLabel "Count at or below the threshold"@en ;
     cd:body "Move x from 3.9 to 4, then to 4.1 mg/L. Count every observation with value ≤ x. Why do two observations enter together? Try a threshold below the minimum and above the maximum."@en ;
     cd:xAxisLabel "Threshold x"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Cumulative fraction"@en ;
     cd:thresholdMinimum "0"^^xsd:decimal ; cd:thresholdMaximum "8"^^xsd:decimal ; cd:thresholdInitial "3.9"^^xsd:decimal ; cd:thresholdStep "0.1"^^xsd:decimal ;
-    cd:hasObservationSeries ex:l4-observation-reference ; cd:showsResource ex:empirical-cdf ; cd:authoredResource true .
+    cd:hasObservationSeries ex:l4-observation-reference ; dct:references ex:empirical-cdf ; cd:authoredResource true .
   ex:l4-ecdf-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "ecdf" ;
     skos:prefLabel "The empirical cumulative distribution function"@en ;
     cd:body "Move x across 4 mg/L: why does Fₙ(x) jump by 2/7? Filled points belong to the function; open points show excluded left limits. Dashed vertical lines mark jumps, not intermediate values."@en ;
     cd:xAxisLabel "Threshold x"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Fₙ(x)"@en ;
     cd:thresholdMinimum "0"^^xsd:decimal ; cd:thresholdMaximum "8"^^xsd:decimal ; cd:thresholdInitial "3.9"^^xsd:decimal ; cd:thresholdStep "0.1"^^xsd:decimal ;
-    cd:hasObservationSeries ex:l4-observation-reference ; cd:showsResource ex:empirical-cdf ;
+    cd:hasObservationSeries ex:l4-observation-reference ; dct:references ex:empirical-cdf ;
     cd:formalDefinition ex:l4-def-empirical-cdf ; cd:formalExpression ex:l4-formula-empirical-cdf ; cd:authoredResource true .
 }
 

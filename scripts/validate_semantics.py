@@ -19,6 +19,15 @@ from rdf_dataset import assemble_dataset, dataset_fingerprint  # noqa: E402
 SHAPES_GRAPH = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core")
 
 
+def dataset_shapes(dataset: Dataset) -> Graph:
+    """Collect every authored shapes graph, without modifying named-graph identity."""
+    graph = Graph()
+    for subject, predicate, obj, context in dataset.quads((None, None, None, None)):
+        if str(context).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
+            graph.add((subject, predicate, obj))
+    return graph
+
+
 def dataset_union(dataset: Dataset, *, exclude_shapes: bool = True) -> Graph:
     """Return a detached union graph for SHACL data validation."""
     graph = Graph()
@@ -51,7 +60,7 @@ def validate_dataset(dataset: Dataset, *, meta_shacl: bool = True) -> tuple[bool
     end-to-end gate has covered it.
     """
     data_graph = dataset_union(dataset)
-    shapes_graph = detached_graph(dataset.graph(SHAPES_GRAPH))
+    shapes_graph = dataset_shapes(dataset)
     conforms, report_graph, report_text = validate(
         data_graph=data_graph,
         shacl_graph=shapes_graph,

@@ -36,5 +36,5 @@
   ex:l4-opening-iqr-b a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-b ; cd:quantifiesProperty ex:interquartile-range ; cd:numericValue "3"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
   ex:l4-opening-arrangement a cd:Interpretation ; skos:prefLabel "Observed arrangement, not a population model"@en ;
     cd:body "In the observed Series A, 1 and 9 and 3 and 7 pair around 5 mg/L, with a point at 5. Series B is not symmetric about 5: for example, the reflection of 2 would be 8, which is absent. This describes the constructed samples; five observations do not establish population symmetry or a distribution family."@en ;
-    cd:showsResource ex:distribution-symmetry ; cd:derivedFromResource ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:authoredResource true .
+    dct:references ex:distribution-symmetry ; cd:derivedFromResource ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:authoredResource true .
 }

@@ -123,8 +123,11 @@ class OpeningTests(unittest.TestCase):
 
     def test_qc_and_ecdf_are_retained_but_not_the_opening(self):
         scenes=[s["id"] for s in self.document["scenes"]]
-        self.assertGreater(scenes.index("ex:l4-scene-observation-ecdf--scene"),2)
-        self.assertGreater(scenes.index("ex:l4-scene-observation-opening--scene"),scenes.index("ex:l4-scene-mad-concept--scene"))
+        self.assertGreater(scenes.index("ex:l4-scene-ecdf-worked--scene"),2)
+        self.assertGreater(scenes.index("ex:l4-scene-ecdf-worked--scene"),scenes.index("ex:l4-scene-mad-concept--scene"))
+        self.assertNotIn("ex:l4-scene-observation-ecdf--scene",scenes)
+        for slug in ("opening","ecdf"):
+            self.assertIn((EX["l4-scene-observation-"+slug],RDF.type,CD.SceneDefinition),self.union)
         self.assertEqual(Decimal(30),self.values("l4-qc-extreme")[-1])
 
     def test_targeted_shapes_conform(self):

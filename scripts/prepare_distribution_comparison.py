@@ -52,7 +52,7 @@ def snapshot():
         placements = ', '.join(f'{stem}-p{i}' for i in range(1, N + 1))
         lines.append(f'  {stem}-series a cd:ObservationSeries ; skos:prefLabel "{label}"@en ; cd:position {position} ; cd:usesDataset {stem} ; cd:hasObservationPlacement {placements} ; cd:comparisonCenter ex:l4-shapes-mean ; cd:comparisonSpread ex:l4-shapes-sd ; cd:comparisonVariance ex:l4-shapes-variance ; cd:authoredResource true .')
         for i in range(1, N + 1):
-            lines.append(f'  {stem}-p{i} a cd:ObservationPlacement ; cd:position {i} ; cd:targetObservation {stem}-{i} ; cd:authoredResource true .')
+            lines.append(f'  {stem}-p{i} a cd:ObservationPlacement ; cd:position {i} ; cd:placedObservation {stem}-{i} ; cd:authoredResource true .')
     return '\n'.join(lines + ['}', ''])
 
 
@@ -60,8 +60,17 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--write', action='store_true', help='Create the new authored snapshot; refuses to overwrite')
+    parser.add_argument('--migrate-placement-relation', action='store_true', help='Migrate only the exact previous deterministic snapshot, preserving every value and identity')
     args = parser.parse_args()
-    if args.write:
+    if args.migrate_placement_relation:
+        expected = snapshot()
+        previous = expected.replace('cd:placedObservation', 'cd:targetObservation')
+        actual = TARGET.read_text(encoding='utf-8')
+        if actual not in (previous, expected):
+            raise ValueError('Unfamiliar authored snapshot; migration refused')
+        TARGET.write_text(expected, encoding='utf-8', newline='\n')
+        print('Migrated the verified snapshot placement relation; numerical content unchanged.')
+    elif args.write:
         with TARGET.open('x', encoding='utf-8', newline='\n') as output:
             output.write(snapshot())
         print(f'Created {TARGET}')
