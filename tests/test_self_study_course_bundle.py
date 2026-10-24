@@ -112,7 +112,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         )
         self.assertEqual(
             [{"id": LEVEL4_PATH, "graphId": LEVEL4_GRAPH,
-              "labels": [{"value": "Chemometrics Level 4: Quantiles, Moments & Distribution Shape", "language": "en"}],
+              "labels": [{"value": "Quantiles & Statistical Moments", "language": "en"}],
               "descriptions": []}],
             level4_unit["paths"],
         )

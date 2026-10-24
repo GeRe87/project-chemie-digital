@@ -41,6 +41,14 @@ are byte-equivalent after normalizing only the provenance predicate
 `cd:placedObservation` back to `cd:targetObservation`. This covers teaching text,
 formula bodies, numerical data, chart parameters, scene order and R source.
 
+The broader suite also exposed stale pre-review expectations: the course skeleton
+still omitted the eight authored range/order/quartile/boxplot/histogram topics,
+and the self-study projection expected the superseded long lecture title. These
+assertions now match the reviewed canonical content, while retaining exact set
+and label equality. The focused skeleton assertion and all four course-bundle
+tests pass. Retained inactive observation scenes are tested through an isolated
+four-step fixture rather than requiring their reactivation in the current path.
+
 Full semantic, project, external exact-head and build results remain separate
 gates. Pending runs are not success, and evidence for `f77e7380` is stale after
 this correction. See the PR for observed results on the submitted head.
