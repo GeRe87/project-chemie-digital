@@ -48,6 +48,12 @@ assertions now match the reviewed canonical content, while retaining exact set
 and label equality. The focused skeleton assertion and all four course-bundle
 tests pass. Retained inactive observation scenes are tested through an isolated
 four-step fixture rather than requiring their reactivation in the current path.
+The self-study leaf-content test also now handles the new typed scientific chart
+payloads explicitly. It requires their label, description and complete numerical
+fallback instead of treating them as bar/line plans with top-level axis fields.
+All 233 Pitch tests and all 29 self-study app tests pass, as do the separate
+Core, renderer, semantic-client and learner-state suites. These component runs
+do not replace a fresh successful root `npm test` and external exact-head status.
 
 Full semantic, project, external exact-head and build results remain separate
 gates. Pending runs are not success, and evidence for `f77e7380` is stale after
