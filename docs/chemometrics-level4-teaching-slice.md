@@ -1,5 +1,7 @@
 # Chemometrics Level 4 — first interactive teaching slice
 
+**Local authoring update:** The new opening review adds three comparison scenes before the retained material and moves the QC-extreme comparison to the robustness section. The active local path now has 19 scenes, but only the first three are included in the review preview. Subsequent selections remain provisional. See [opening review](chemometrics-level4-opening-review.md); the 15-scene description below and [iteration A](chemometrics-level4-iteration-a.md) are historical development records.
+
 **Issue #288 | Base:** `chemometrics` after accepted scientific graph PR #287.
 
 ## Scope and authorship

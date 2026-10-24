@@ -1,0 +1,761 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Authored teaching content. This TriG is the sole semantic source, not generator input.
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-histogram-knowledge> {
+  ex:histogram cd:prerequisite ex:sample ; skos:related ex:distribution .
+  ex:histogram-2d cd:prerequisite ex:histogram .
+  ex:histogram-bin-width cd:prerequisite ex:histogram .
+  ex:histogram-density cd:prerequisite ex:histogram, ex:histogram-bin-width .
+  ex:l4-hist-rules-formula a cd:MathExpression ; cd:formulaLabel "Starting rules, not an automatic verdict"@en ; cd:latex "\\begin{gathered}h_{FD}=2\\,\\mathrm{IQR}\\,n^{-1/3}\\\\h_{Scott}=3.5\\,s\\,n^{-1/3}\\\\k_{Sturges}=\\lceil1+\\log_2 n\\rceil\\end{gathered}" ; dct:hasPart ex:l4-hist-rules-formula-legend ; cd:hasSource ex:l4-source-r-histogram ; cd:authoredResource true .
+  ex:l4-hist-density-formula a cd:MathExpression ; cd:formulaLabel "Unequal widths: use density so area represents frequency"@en ; cd:latex "\\begin{gathered}h_j=b_{j+1}-b_j\\\\d_j=\\frac{n_j}{n\\,h_j}\\\\d_jh_j=\\frac{n_j}{n},\\qquad\\sum_j d_jh_j=1\\end{gathered}" ; dct:hasPart ex:l4-hist-density-formula-legend ; cd:hasSource ex:l4-source-r-histogram ; cd:authoredResource true .
+  ex:histogram a cd:Concept ; skos:prefLabel "Histogramm"@de, "histogram"@en ; cd:hasDefinition ex:l4-def-histogram ; cd:authoredResource true .
+  ex:l4-def-histogram a cd:Definition ; cd:body "An empirical summary of numerical observations in adjacent value intervals (bins). Counts describe occupancy; with unequal widths, density heights ensure that bar areas represent relative frequencies."@en ; cd:hasSource ex:l4-source-nist-histogram ; cd:authoredResource true .
+  ex:histogram-2d a cd:Concept ; skos:prefLabel "zweidimensionales Histogramm"@de, "two-dimensional histogram"@en ; cd:hasDefinition ex:l4-def-histogram-2d ; cd:authoredResource true .
+  ex:l4-def-histogram-2d a cd:Definition ; cd:body "An empirical joint-frequency summary of paired numerical observations in rectangular cells formed from bins on each measurement axis."@en ; cd:hasSource ex:l4-source-ggplot-bin2d ; cd:authoredResource true .
+  ex:histogram-bin-width a cd:Concept ; skos:prefLabel "Histogrammklassenbreite"@de, "histogram bin width"@en ; cd:hasDefinition ex:l4-def-histogram-bin-width ; cd:authoredResource true .
+  ex:l4-def-histogram-bin-width a cd:Definition ; cd:body "The difference between adjacent numeric bin edges. Width and origin influence the displayed aggregation and must not be confused with sample size or measurement resolution."@en ; cd:hasSource ex:l4-source-nist-histogram ; cd:authoredResource true .
+  ex:histogram-density a cd:Concept ; skos:prefLabel "Histogrammdichte"@de, "histogram density"@en ; cd:hasDefinition ex:l4-def-histogram-density ; cd:authoredResource true .
+  ex:l4-def-histogram-density a cd:Definition ; cd:body "The sample count in a bin divided by the total count and that bin width. Its area equals the bin relative frequency; its unit is inverse to the measurement unit."@en ; cd:hasSource ex:l4-source-nist-histogram ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/level4-histograms> {
+  ex:l4-source-nist-histogram cd:supportsResource ex:l4-def-histogram, ex:l4-def-histogram-bin-width, ex:l4-def-histogram-density .
+  ex:l4-source-r-histogram cd:supportsResource ex:l4-hist-rules-formula, ex:l4-hist-density-formula .
+  ex:l4-source-ggplot-bin2d cd:supportsResource ex:l4-def-histogram-2d .
+  ex:l4-source-nist-histogram a cd:Source ; dct:title "NIST/SEMATECH e-Handbook: Histogram" ; dct:creator "NIST" ; dct:identifier "l4-source-nist-histogram" ; dct:source <https://www.itl.nist.gov/div898/handbook/eda/section3/histogra.htm> ; cd:authoredResource true .
+  ex:l4-source-r-histogram a cd:Source ; dct:title "R documentation: hist and nclass bin rules" ; dct:creator "R Core Team" ; dct:identifier "l4-source-r-histogram" ; dct:source <https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/hist.html> ; cd:authoredResource true .
+  ex:l4-source-ggplot-bin2d a cd:Source ; dct:title "ggplot2: Two dimensional binning" ; dct:creator "ggplot2 authors" ; dct:identifier "l4-source-ggplot-bin2d" ; dct:source <https://ggplot2.tidyverse.org/reference/geom_bin_2d.html> ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-histogram-teaching> {
+  ex:l4-hist-adjustable-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "Interactive bin width and origin"@en ; cd:body "Change width and origin, or choose a named starting rule. All 100 observations remain counted; the grid extends to cover the authored domain."@en ; cd:usesDataset ex:l4-shapes-normal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-normal-chart-edge-1 ; cd:histogramNormalization "count" ; cd:allowBinAdjustment true ; cd:binWidthMinimum 0.5 ; cd:binWidthMaximum 60.0 ; cd:binWidthStep 0.01 ; cd:authoredResource true .
+  ex:l4-box-extremes-chart-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Synthetic observations"@en ; cd:usesDataset ex:l4-large-tail ; cd:authoredResource true .
+  ex:l4-box-extremes-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "n=50"@en ; cd:body "n=50. Small points are all observations; the larger separate point is flagged by 1.5 IQR fences, not deleted."@en ; cd:xAxisLabel "Sample"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-box-extremes-chart-group ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:showObservations true ; cd:authoredResource true .
+  ex:l4-box-extremes-title a cd:Interpretation ; skos:prefLabel "Boxplots: extreme observations are separate points"@en ; cd:authoredResource true .
+  ex:l4-box-extremes-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**50 synthetic river concentrations**: one at **90 mg/L**, the other 49 at 0.5–24.5 mg/L."@en ; cd:authoredResource true .
+  ex:l4-box-extremes-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "Read the summary (mg/L):\n\n- **Quartiles:** Q₁ 6.625, median 12.75, Q₃ 18.875.\n- **Upper fence:** 37.25.\n- **Upper whisker:** 24.5, not 37.25 or 90."@en ; cd:authoredResource true .
+  ex:l4-box-extremes-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "==Flagged does not mean diagnosed.==\n\nBefore interpreting **90 mg/L**, check:\n\n- Sample identity and sampling records.\n- Instrument records."@en ; cd:authoredResource true .
+  ex:l4-box-symmetric-chart-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Synthetic observations"@en ; cd:usesDataset ex:l4-shapes-normal ; cd:authoredResource true .
+  ex:l4-box-symmetric-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "n=100"@en ; cd:body "n=100. Linearly interpolated quartiles and observed whiskers; small points show all responses, large separate points are flagged observations."@en ; cd:xAxisLabel "Sample"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-box-symmetric-chart-group ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:showObservations true ; cd:authoredResource true .
+  ex:l4-box-symmetric-title a cd:Interpretation ; skos:prefLabel "Boxplots: a roughly symmetric central pattern"@en ; cd:authoredResource true .
+  ex:l4-box-symmetric-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**100 synthetic detector responses**; not a fitted population model."@en ; cd:authoredResource true .
+  ex:l4-box-symmetric-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "Read the central pattern:\n\n- **Median:** 50 a.u., near the box centre.\n- **Quartiles:** about 43.32 and 56.68 a.u.\n\nComparable halves and whiskers are consistent with **central symmetry**."@en ; cd:authoredResource true .
+  ex:l4-box-symmetric-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "==Not a normality test.==\n\nInspect the **small raw points**: they reveal tail detail that the box suppresses."@en ; cd:authoredResource true .
+  ex:l4-box-skewed-chart-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Synthetic observations"@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:authoredResource true .
+  ex:l4-box-skewed-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "n=100"@en ; cd:body "n=100. Linearly interpolated quartiles and observed whiskers; small points show all responses, large separate points are flagged observations."@en ; cd:xAxisLabel "Sample"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-box-skewed-chart-group ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:showObservations true ; cd:authoredResource true .
+  ex:l4-box-skewed-title a cd:Interpretation ; skos:prefLabel "Boxplots: a longer upper tail"@en ; cd:authoredResource true .
+  ex:l4-box-skewed-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**100 synthetic right-skewed responses**, standardized to mean **50** and sample SD **10 a.u.**"@en ; cd:authoredResource true .
+  ex:l4-box-skewed-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "Read the asymmetry:\n\n- **Median:** 46.92 a.u.\n- **Quartiles:** about 42.84 and 53.86 a.u.\n\nThe **upper box half and upper tail** are longer."@en ; cd:authoredResource true .
+  ex:l4-box-skewed-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "==Large values are not automatically errors.==\n\nThey may be expected **tail observations**. The boxplot suggests asymmetry, but does not identify its cause."@en ; cd:authoredResource true .
+  ex:l4-box-bimodal-chart-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Synthetic observations"@en ; cd:usesDataset ex:l4-shapes-bimodal ; cd:authoredResource true .
+  ex:l4-box-bimodal-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "n=100"@en ; cd:body "n=100. Linearly interpolated quartiles and observed whiskers; small points show all responses, large separate points are flagged observations."@en ; cd:xAxisLabel "Sample"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-box-bimodal-chart-group ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:showObservations true ; cd:authoredResource true .
+  ex:l4-box-bimodal-title a cd:Interpretation ; skos:prefLabel "Boxplots: two clusters can disappear inside one box"@en ; cd:authoredResource true .
+  ex:l4-box-bimodal-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**100 synthetic detector responses** from two constructed clusters."@en ; cd:authoredResource true .
+  ex:l4-box-bimodal-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "Read the gap:\n\n- **Median:** 50 a.u., between the clusters.\n- **Quartiles:** Q₁ about 40.22, Q₃ about 59.78 a.u.\n\nThe box spans a **sparsely occupied region**."@en ; cd:authoredResource true .
+  ex:l4-box-bimodal-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "==One box can hide two modes.==\n\n- **Raw points** reveal the gap.\n- Check a **histogram** before calling the centre typical."@en ; cd:authoredResource true .
+  ex:l4-box-uniform-chart-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Synthetic observations"@en ; cd:usesDataset ex:l4-shapes-uniform ; cd:authoredResource true .
+  ex:l4-box-uniform-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "n=100"@en ; cd:body "n=100. Linearly interpolated quartiles and observed whiskers; small points show all responses, large separate points are flagged observations."@en ; cd:xAxisLabel "Sample"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-box-uniform-chart-group ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:showObservations true ; cd:authoredResource true .
+  ex:l4-box-uniform-title a cd:Interpretation ; skos:prefLabel "Boxplots: symmetry does not imply a bell shape"@en ; cd:authoredResource true .
+  ex:l4-box-uniform-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**100 evenly spaced synthetic responses**. Mean **50** and sample SD **10 a.u.** match the preceding examples."@en ; cd:authoredResource true .
+  ex:l4-box-uniform-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "Read the symmetric box:\n\n- **Median:** 50 a.u.\n- **Quartiles:** about 41.47 and 58.53 a.u.\n\nHere it comes from **nearly flat occupancy**, not a bell-shaped sample."@en ; cd:authoredResource true .
+  ex:l4-box-uniform-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "==Similar boxes do not imply similar distributions.==\n\nBoxplots summarize **ranks**. Inspect the observations and binning-based views as well."@en ; cd:authoredResource true .
+  ex:l4-hist-normal-chart-edge-1 rdf:first 20.0 ; rdf:rest ex:l4-hist-normal-chart-edge-2 .
+  ex:l4-hist-normal-chart-edge-2 rdf:first 25.0 ; rdf:rest ex:l4-hist-normal-chart-edge-3 .
+  ex:l4-hist-normal-chart-edge-3 rdf:first 30.0 ; rdf:rest ex:l4-hist-normal-chart-edge-4 .
+  ex:l4-hist-normal-chart-edge-4 rdf:first 35.0 ; rdf:rest ex:l4-hist-normal-chart-edge-5 .
+  ex:l4-hist-normal-chart-edge-5 rdf:first 40.0 ; rdf:rest ex:l4-hist-normal-chart-edge-6 .
+  ex:l4-hist-normal-chart-edge-6 rdf:first 45.0 ; rdf:rest ex:l4-hist-normal-chart-edge-7 .
+  ex:l4-hist-normal-chart-edge-7 rdf:first 50.0 ; rdf:rest ex:l4-hist-normal-chart-edge-8 .
+  ex:l4-hist-normal-chart-edge-8 rdf:first 55.0 ; rdf:rest ex:l4-hist-normal-chart-edge-9 .
+  ex:l4-hist-normal-chart-edge-9 rdf:first 60.0 ; rdf:rest ex:l4-hist-normal-chart-edge-10 .
+  ex:l4-hist-normal-chart-edge-10 rdf:first 65.0 ; rdf:rest ex:l4-hist-normal-chart-edge-11 .
+  ex:l4-hist-normal-chart-edge-11 rdf:first 70.0 ; rdf:rest ex:l4-hist-normal-chart-edge-12 .
+  ex:l4-hist-normal-chart-edge-12 rdf:first 75.0 ; rdf:rest ex:l4-hist-normal-chart-edge-13 .
+  ex:l4-hist-normal-chart-edge-13 rdf:first 80.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-normal-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "100 synthetic normal-like responses"@en ; cd:body "100 synthetic normal-like responses. Equal-width bins: 5 a.u.; height is count. Final upper edge included."@en ; cd:usesDataset ex:l4-shapes-normal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-normal-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-hist-skewed-chart-edge-1 rdf:first 35.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-2 .
+  ex:l4-hist-skewed-chart-edge-2 rdf:first 40.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-3 .
+  ex:l4-hist-skewed-chart-edge-3 rdf:first 45.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-4 .
+  ex:l4-hist-skewed-chart-edge-4 rdf:first 50.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-5 .
+  ex:l4-hist-skewed-chart-edge-5 rdf:first 55.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-6 .
+  ex:l4-hist-skewed-chart-edge-6 rdf:first 60.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-7 .
+  ex:l4-hist-skewed-chart-edge-7 rdf:first 65.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-8 .
+  ex:l4-hist-skewed-chart-edge-8 rdf:first 70.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-9 .
+  ex:l4-hist-skewed-chart-edge-9 rdf:first 75.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-10 .
+  ex:l4-hist-skewed-chart-edge-10 rdf:first 80.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-11 .
+  ex:l4-hist-skewed-chart-edge-11 rdf:first 85.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-12 .
+  ex:l4-hist-skewed-chart-edge-12 rdf:first 90.0 ; rdf:rest ex:l4-hist-skewed-chart-edge-13 .
+  ex:l4-hist-skewed-chart-edge-13 rdf:first 95.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-skewed-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "100 synthetic right-skewed responses"@en ; cd:body "100 synthetic right-skewed responses. Equal-width bins: 5 a.u.; do not confuse the upper tail with measurement failure."@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-skewed-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-hist-bimodal-chart-edge-1 rdf:first 30.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-2 .
+  ex:l4-hist-bimodal-chart-edge-2 rdf:first 34.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-3 .
+  ex:l4-hist-bimodal-chart-edge-3 rdf:first 38.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-4 .
+  ex:l4-hist-bimodal-chart-edge-4 rdf:first 42.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-5 .
+  ex:l4-hist-bimodal-chart-edge-5 rdf:first 46.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-6 .
+  ex:l4-hist-bimodal-chart-edge-6 rdf:first 50.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-7 .
+  ex:l4-hist-bimodal-chart-edge-7 rdf:first 54.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-8 .
+  ex:l4-hist-bimodal-chart-edge-8 rdf:first 58.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-9 .
+  ex:l4-hist-bimodal-chart-edge-9 rdf:first 62.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-10 .
+  ex:l4-hist-bimodal-chart-edge-10 rdf:first 66.0 ; rdf:rest ex:l4-hist-bimodal-chart-edge-11 .
+  ex:l4-hist-bimodal-chart-edge-11 rdf:first 70.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-bimodal-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "100 synthetic two-cluster responses"@en ; cd:body "100 synthetic two-cluster responses. Equal-width bins: 4 a.u.; two occupied regions separated by a sparse middle."@en ; cd:usesDataset ex:l4-shapes-bimodal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-bimodal-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-histogram-intro-title a cd:Interpretation ; skos:prefLabel "Histograms: each bar represents a bin"@en ; cd:authoredResource true .
+  ex:l4-histogram-intro-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Question**\n\nHow are 100 numerical readings distributed? Group adjacent values into **equal-width bins**, not unrelated categories."@en ; cd:authoredResource true .
+  ex:l4-histogram-intro-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Read the bars**\n\n- Width: **5 a.u. per bin**.\n- Height: **observations in that interval**.\n- A bar is not one observation or the measured signal height."@en ; cd:authoredResource true .
+  ex:l4-histogram-intro-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Check the boundaries**\n\nIntervals are [left,right); the last includes its right edge. ==Every observation is counted exactly once.=="@en ; cd:authoredResource true .
+  ex:l4-histogram-reading-title a cd:Interpretation ; skos:prefLabel "Read a histogram: centre, spread and occupancy"@en ; cd:authoredResource true .
+  ex:l4-histogram-reading-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario**\n\n100 synthetic responses from repeated measurements of a control signal."@en ; cd:authoredResource true .
+  ex:l4-histogram-reading-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Interpretation**\n\n- Centre near **50 a.u.**\n- Fewer observations in either tail.\n- Read **location, spread and symmetry together**."@en ; cd:authoredResource true .
+  ex:l4-histogram-reading-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Limit**\n\n==Taller means more observations in this interval==, not higher concentration or proof of a population distribution."@en ; cd:authoredResource true .
+  ex:l4-histogram-skewed-title a cd:Interpretation ; skos:prefLabel "Read a histogram: a long right tail"@en ; cd:authoredResource true .
+  ex:l4-histogram-skewed-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario**\n\nMany moderate synthetic responses, a few much larger ones."@en ; cd:authoredResource true .
+  ex:l4-histogram-skewed-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Interpretation**\n\n- Bulk near the lower end.\n- **Long right tail**.\n- Mean **50** exceeds median **46.92 a.u.**"@en ; cd:authoredResource true .
+  ex:l4-histogram-skewed-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Investigate, do not diagnose**\n\nSampling, mixtures or contamination may matter. ==A tail value is not automatically an error.== Time order is absent."@en ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-title a cd:Interpretation ; skos:prefLabel "Read a histogram: two occupied regions"@en ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario**\n\n100 synthetic detector responses from two narrow groups."@en ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Interpretation**\n\n- Peaks near **40 and 60 a.u.**\n- Few observations near **50**.\n- One centre may sit in a gap."@en ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Next question**\n\nCheck **matrix, batch or method labels**. The plot suggests subgroups; it does not identify their cause or significance."@en ; cd:authoredResource true .
+  ex:l4-hist-2d-chart-edge-1 rdf:first 0.0 ; rdf:rest ex:l4-hist-2d-chart-edge-2 .
+  ex:l4-hist-2d-chart-edge-2 rdf:first 1.0 ; rdf:rest ex:l4-hist-2d-chart-edge-3 .
+  ex:l4-hist-2d-chart-edge-3 rdf:first 2.0 ; rdf:rest ex:l4-hist-2d-chart-edge-4 .
+  ex:l4-hist-2d-chart-edge-4 rdf:first 3.0 ; rdf:rest ex:l4-hist-2d-chart-edge-5 .
+  ex:l4-hist-2d-chart-edge-5 rdf:first 4.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-2d-chart-y-edge-1 rdf:first 0.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-2 .
+  ex:l4-hist-2d-chart-y-edge-2 rdf:first 10.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-3 .
+  ex:l4-hist-2d-chart-y-edge-3 rdf:first 20.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-4 .
+  ex:l4-hist-2d-chart-y-edge-4 rdf:first 30.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-5 .
+  ex:l4-hist-2d-chart-y-edge-5 rdf:first 40.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-6 .
+  ex:l4-hist-2d-chart-y-edge-6 rdf:first 50.0 ; rdf:rest ex:l4-hist-2d-chart-y-edge-7 .
+  ex:l4-hist-2d-chart-y-edge-7 rdf:first 60.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-2d-chart a cd:ChartDefinition ; cd:chartType cd:Histogram2D ; skos:prefLabel "60 synthetic paired concentration/response observations"@en ; cd:body "60 synthetic paired concentration/response observations. Equal rectangular cells; number and color show observations per cell, not a third measured variable."@en ; cd:usesDataset ex:l4-paired-data ; cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Response"@en ; cd:yAxisUnit "a.u." ; cd:binEdges ex:l4-hist-2d-chart-edge-1 ; cd:yBinEdges ex:l4-hist-2d-chart-y-edge-1 ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-title a cd:Interpretation ; skos:prefLabel "2D histograms: bin paired measurements on two axes"@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario: paired measurements**\n\n60 concentration/response pairs. Keep each pair together and count observations in rectangular cells."@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Read a cell**\n\n- Intersection of an **x bin and a y bin**.\n- Number and color encode **count**.\n- Empty cell: **zero** observations."@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Do not confuse the encodings**\n\nEqual widths within each axis. ==Color is frequency, not response magnitude.== Read both axes and the count scale."@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-title a cd:Interpretation ; skos:prefLabel "Read a 2D histogram: an upward band, not a calibration"@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario**\n\nThe same 60 synthetic paired sensor readings, aggregated on a concentration–response grid."@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Interpretation**\n\nOccupied cells form an **upward band**: higher concentrations tend to accompany higher responses here."@en ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Limit**\n\nBinning hides exact pairs and within-cell scatter. ==Not a fitted calibration==, proof of linearity or a causal conclusion."@en ; cd:authoredResource true .
+  ex:l4-hist-coarse-chart-edge-1 rdf:first 30.0 ; rdf:rest ex:l4-hist-coarse-chart-edge-2 .
+  ex:l4-hist-coarse-chart-edge-2 rdf:first 70.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-coarse-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "The same 100 synthetic two-cluster responses in one 40-a"@en ; cd:body "The same 100 synthetic two-cluster responses in one 40-a.u. bin. All observations survive, but internal structure disappears."@en ; cd:usesDataset ex:l4-shapes-bimodal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-coarse-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-hist-fine-chart-edge-1 rdf:first 30.0 ; rdf:rest ex:l4-hist-fine-chart-edge-2 .
+  ex:l4-hist-fine-chart-edge-2 rdf:first 30.1 ; rdf:rest ex:l4-hist-fine-chart-edge-3 .
+  ex:l4-hist-fine-chart-edge-3 rdf:first 30.2 ; rdf:rest ex:l4-hist-fine-chart-edge-4 .
+  ex:l4-hist-fine-chart-edge-4 rdf:first 30.3 ; rdf:rest ex:l4-hist-fine-chart-edge-5 .
+  ex:l4-hist-fine-chart-edge-5 rdf:first 30.4 ; rdf:rest ex:l4-hist-fine-chart-edge-6 .
+  ex:l4-hist-fine-chart-edge-6 rdf:first 30.5 ; rdf:rest ex:l4-hist-fine-chart-edge-7 .
+  ex:l4-hist-fine-chart-edge-7 rdf:first 30.6 ; rdf:rest ex:l4-hist-fine-chart-edge-8 .
+  ex:l4-hist-fine-chart-edge-8 rdf:first 30.7 ; rdf:rest ex:l4-hist-fine-chart-edge-9 .
+  ex:l4-hist-fine-chart-edge-9 rdf:first 30.8 ; rdf:rest ex:l4-hist-fine-chart-edge-10 .
+  ex:l4-hist-fine-chart-edge-10 rdf:first 30.9 ; rdf:rest ex:l4-hist-fine-chart-edge-11 .
+  ex:l4-hist-fine-chart-edge-11 rdf:first 31.0 ; rdf:rest ex:l4-hist-fine-chart-edge-12 .
+  ex:l4-hist-fine-chart-edge-12 rdf:first 31.1 ; rdf:rest ex:l4-hist-fine-chart-edge-13 .
+  ex:l4-hist-fine-chart-edge-13 rdf:first 31.2 ; rdf:rest ex:l4-hist-fine-chart-edge-14 .
+  ex:l4-hist-fine-chart-edge-14 rdf:first 31.3 ; rdf:rest ex:l4-hist-fine-chart-edge-15 .
+  ex:l4-hist-fine-chart-edge-15 rdf:first 31.4 ; rdf:rest ex:l4-hist-fine-chart-edge-16 .
+  ex:l4-hist-fine-chart-edge-16 rdf:first 31.5 ; rdf:rest ex:l4-hist-fine-chart-edge-17 .
+  ex:l4-hist-fine-chart-edge-17 rdf:first 31.6 ; rdf:rest ex:l4-hist-fine-chart-edge-18 .
+  ex:l4-hist-fine-chart-edge-18 rdf:first 31.7 ; rdf:rest ex:l4-hist-fine-chart-edge-19 .
+  ex:l4-hist-fine-chart-edge-19 rdf:first 31.8 ; rdf:rest ex:l4-hist-fine-chart-edge-20 .
+  ex:l4-hist-fine-chart-edge-20 rdf:first 31.9 ; rdf:rest ex:l4-hist-fine-chart-edge-21 .
+  ex:l4-hist-fine-chart-edge-21 rdf:first 32.0 ; rdf:rest ex:l4-hist-fine-chart-edge-22 .
+  ex:l4-hist-fine-chart-edge-22 rdf:first 32.1 ; rdf:rest ex:l4-hist-fine-chart-edge-23 .
+  ex:l4-hist-fine-chart-edge-23 rdf:first 32.2 ; rdf:rest ex:l4-hist-fine-chart-edge-24 .
+  ex:l4-hist-fine-chart-edge-24 rdf:first 32.3 ; rdf:rest ex:l4-hist-fine-chart-edge-25 .
+  ex:l4-hist-fine-chart-edge-25 rdf:first 32.4 ; rdf:rest ex:l4-hist-fine-chart-edge-26 .
+  ex:l4-hist-fine-chart-edge-26 rdf:first 32.5 ; rdf:rest ex:l4-hist-fine-chart-edge-27 .
+  ex:l4-hist-fine-chart-edge-27 rdf:first 32.6 ; rdf:rest ex:l4-hist-fine-chart-edge-28 .
+  ex:l4-hist-fine-chart-edge-28 rdf:first 32.7 ; rdf:rest ex:l4-hist-fine-chart-edge-29 .
+  ex:l4-hist-fine-chart-edge-29 rdf:first 32.8 ; rdf:rest ex:l4-hist-fine-chart-edge-30 .
+  ex:l4-hist-fine-chart-edge-30 rdf:first 32.9 ; rdf:rest ex:l4-hist-fine-chart-edge-31 .
+  ex:l4-hist-fine-chart-edge-31 rdf:first 33.0 ; rdf:rest ex:l4-hist-fine-chart-edge-32 .
+  ex:l4-hist-fine-chart-edge-32 rdf:first 33.1 ; rdf:rest ex:l4-hist-fine-chart-edge-33 .
+  ex:l4-hist-fine-chart-edge-33 rdf:first 33.2 ; rdf:rest ex:l4-hist-fine-chart-edge-34 .
+  ex:l4-hist-fine-chart-edge-34 rdf:first 33.3 ; rdf:rest ex:l4-hist-fine-chart-edge-35 .
+  ex:l4-hist-fine-chart-edge-35 rdf:first 33.4 ; rdf:rest ex:l4-hist-fine-chart-edge-36 .
+  ex:l4-hist-fine-chart-edge-36 rdf:first 33.5 ; rdf:rest ex:l4-hist-fine-chart-edge-37 .
+  ex:l4-hist-fine-chart-edge-37 rdf:first 33.6 ; rdf:rest ex:l4-hist-fine-chart-edge-38 .
+  ex:l4-hist-fine-chart-edge-38 rdf:first 33.7 ; rdf:rest ex:l4-hist-fine-chart-edge-39 .
+  ex:l4-hist-fine-chart-edge-39 rdf:first 33.8 ; rdf:rest ex:l4-hist-fine-chart-edge-40 .
+  ex:l4-hist-fine-chart-edge-40 rdf:first 33.9 ; rdf:rest ex:l4-hist-fine-chart-edge-41 .
+  ex:l4-hist-fine-chart-edge-41 rdf:first 34.0 ; rdf:rest ex:l4-hist-fine-chart-edge-42 .
+  ex:l4-hist-fine-chart-edge-42 rdf:first 34.1 ; rdf:rest ex:l4-hist-fine-chart-edge-43 .
+  ex:l4-hist-fine-chart-edge-43 rdf:first 34.2 ; rdf:rest ex:l4-hist-fine-chart-edge-44 .
+  ex:l4-hist-fine-chart-edge-44 rdf:first 34.3 ; rdf:rest ex:l4-hist-fine-chart-edge-45 .
+  ex:l4-hist-fine-chart-edge-45 rdf:first 34.4 ; rdf:rest ex:l4-hist-fine-chart-edge-46 .
+  ex:l4-hist-fine-chart-edge-46 rdf:first 34.5 ; rdf:rest ex:l4-hist-fine-chart-edge-47 .
+  ex:l4-hist-fine-chart-edge-47 rdf:first 34.6 ; rdf:rest ex:l4-hist-fine-chart-edge-48 .
+  ex:l4-hist-fine-chart-edge-48 rdf:first 34.7 ; rdf:rest ex:l4-hist-fine-chart-edge-49 .
+  ex:l4-hist-fine-chart-edge-49 rdf:first 34.8 ; rdf:rest ex:l4-hist-fine-chart-edge-50 .
+  ex:l4-hist-fine-chart-edge-50 rdf:first 34.9 ; rdf:rest ex:l4-hist-fine-chart-edge-51 .
+  ex:l4-hist-fine-chart-edge-51 rdf:first 35.0 ; rdf:rest ex:l4-hist-fine-chart-edge-52 .
+  ex:l4-hist-fine-chart-edge-52 rdf:first 35.1 ; rdf:rest ex:l4-hist-fine-chart-edge-53 .
+  ex:l4-hist-fine-chart-edge-53 rdf:first 35.2 ; rdf:rest ex:l4-hist-fine-chart-edge-54 .
+  ex:l4-hist-fine-chart-edge-54 rdf:first 35.3 ; rdf:rest ex:l4-hist-fine-chart-edge-55 .
+  ex:l4-hist-fine-chart-edge-55 rdf:first 35.4 ; rdf:rest ex:l4-hist-fine-chart-edge-56 .
+  ex:l4-hist-fine-chart-edge-56 rdf:first 35.5 ; rdf:rest ex:l4-hist-fine-chart-edge-57 .
+  ex:l4-hist-fine-chart-edge-57 rdf:first 35.6 ; rdf:rest ex:l4-hist-fine-chart-edge-58 .
+  ex:l4-hist-fine-chart-edge-58 rdf:first 35.7 ; rdf:rest ex:l4-hist-fine-chart-edge-59 .
+  ex:l4-hist-fine-chart-edge-59 rdf:first 35.8 ; rdf:rest ex:l4-hist-fine-chart-edge-60 .
+  ex:l4-hist-fine-chart-edge-60 rdf:first 35.9 ; rdf:rest ex:l4-hist-fine-chart-edge-61 .
+  ex:l4-hist-fine-chart-edge-61 rdf:first 36.0 ; rdf:rest ex:l4-hist-fine-chart-edge-62 .
+  ex:l4-hist-fine-chart-edge-62 rdf:first 36.1 ; rdf:rest ex:l4-hist-fine-chart-edge-63 .
+  ex:l4-hist-fine-chart-edge-63 rdf:first 36.2 ; rdf:rest ex:l4-hist-fine-chart-edge-64 .
+  ex:l4-hist-fine-chart-edge-64 rdf:first 36.3 ; rdf:rest ex:l4-hist-fine-chart-edge-65 .
+  ex:l4-hist-fine-chart-edge-65 rdf:first 36.4 ; rdf:rest ex:l4-hist-fine-chart-edge-66 .
+  ex:l4-hist-fine-chart-edge-66 rdf:first 36.5 ; rdf:rest ex:l4-hist-fine-chart-edge-67 .
+  ex:l4-hist-fine-chart-edge-67 rdf:first 36.6 ; rdf:rest ex:l4-hist-fine-chart-edge-68 .
+  ex:l4-hist-fine-chart-edge-68 rdf:first 36.7 ; rdf:rest ex:l4-hist-fine-chart-edge-69 .
+  ex:l4-hist-fine-chart-edge-69 rdf:first 36.8 ; rdf:rest ex:l4-hist-fine-chart-edge-70 .
+  ex:l4-hist-fine-chart-edge-70 rdf:first 36.9 ; rdf:rest ex:l4-hist-fine-chart-edge-71 .
+  ex:l4-hist-fine-chart-edge-71 rdf:first 37.0 ; rdf:rest ex:l4-hist-fine-chart-edge-72 .
+  ex:l4-hist-fine-chart-edge-72 rdf:first 37.1 ; rdf:rest ex:l4-hist-fine-chart-edge-73 .
+  ex:l4-hist-fine-chart-edge-73 rdf:first 37.2 ; rdf:rest ex:l4-hist-fine-chart-edge-74 .
+  ex:l4-hist-fine-chart-edge-74 rdf:first 37.3 ; rdf:rest ex:l4-hist-fine-chart-edge-75 .
+  ex:l4-hist-fine-chart-edge-75 rdf:first 37.4 ; rdf:rest ex:l4-hist-fine-chart-edge-76 .
+  ex:l4-hist-fine-chart-edge-76 rdf:first 37.5 ; rdf:rest ex:l4-hist-fine-chart-edge-77 .
+  ex:l4-hist-fine-chart-edge-77 rdf:first 37.6 ; rdf:rest ex:l4-hist-fine-chart-edge-78 .
+  ex:l4-hist-fine-chart-edge-78 rdf:first 37.7 ; rdf:rest ex:l4-hist-fine-chart-edge-79 .
+  ex:l4-hist-fine-chart-edge-79 rdf:first 37.8 ; rdf:rest ex:l4-hist-fine-chart-edge-80 .
+  ex:l4-hist-fine-chart-edge-80 rdf:first 37.9 ; rdf:rest ex:l4-hist-fine-chart-edge-81 .
+  ex:l4-hist-fine-chart-edge-81 rdf:first 38.0 ; rdf:rest ex:l4-hist-fine-chart-edge-82 .
+  ex:l4-hist-fine-chart-edge-82 rdf:first 38.1 ; rdf:rest ex:l4-hist-fine-chart-edge-83 .
+  ex:l4-hist-fine-chart-edge-83 rdf:first 38.2 ; rdf:rest ex:l4-hist-fine-chart-edge-84 .
+  ex:l4-hist-fine-chart-edge-84 rdf:first 38.3 ; rdf:rest ex:l4-hist-fine-chart-edge-85 .
+  ex:l4-hist-fine-chart-edge-85 rdf:first 38.4 ; rdf:rest ex:l4-hist-fine-chart-edge-86 .
+  ex:l4-hist-fine-chart-edge-86 rdf:first 38.5 ; rdf:rest ex:l4-hist-fine-chart-edge-87 .
+  ex:l4-hist-fine-chart-edge-87 rdf:first 38.6 ; rdf:rest ex:l4-hist-fine-chart-edge-88 .
+  ex:l4-hist-fine-chart-edge-88 rdf:first 38.7 ; rdf:rest ex:l4-hist-fine-chart-edge-89 .
+  ex:l4-hist-fine-chart-edge-89 rdf:first 38.8 ; rdf:rest ex:l4-hist-fine-chart-edge-90 .
+  ex:l4-hist-fine-chart-edge-90 rdf:first 38.9 ; rdf:rest ex:l4-hist-fine-chart-edge-91 .
+  ex:l4-hist-fine-chart-edge-91 rdf:first 39.0 ; rdf:rest ex:l4-hist-fine-chart-edge-92 .
+  ex:l4-hist-fine-chart-edge-92 rdf:first 39.1 ; rdf:rest ex:l4-hist-fine-chart-edge-93 .
+  ex:l4-hist-fine-chart-edge-93 rdf:first 39.2 ; rdf:rest ex:l4-hist-fine-chart-edge-94 .
+  ex:l4-hist-fine-chart-edge-94 rdf:first 39.3 ; rdf:rest ex:l4-hist-fine-chart-edge-95 .
+  ex:l4-hist-fine-chart-edge-95 rdf:first 39.4 ; rdf:rest ex:l4-hist-fine-chart-edge-96 .
+  ex:l4-hist-fine-chart-edge-96 rdf:first 39.5 ; rdf:rest ex:l4-hist-fine-chart-edge-97 .
+  ex:l4-hist-fine-chart-edge-97 rdf:first 39.6 ; rdf:rest ex:l4-hist-fine-chart-edge-98 .
+  ex:l4-hist-fine-chart-edge-98 rdf:first 39.7 ; rdf:rest ex:l4-hist-fine-chart-edge-99 .
+  ex:l4-hist-fine-chart-edge-99 rdf:first 39.8 ; rdf:rest ex:l4-hist-fine-chart-edge-100 .
+  ex:l4-hist-fine-chart-edge-100 rdf:first 39.9 ; rdf:rest ex:l4-hist-fine-chart-edge-101 .
+  ex:l4-hist-fine-chart-edge-101 rdf:first 40.0 ; rdf:rest ex:l4-hist-fine-chart-edge-102 .
+  ex:l4-hist-fine-chart-edge-102 rdf:first 40.1 ; rdf:rest ex:l4-hist-fine-chart-edge-103 .
+  ex:l4-hist-fine-chart-edge-103 rdf:first 40.2 ; rdf:rest ex:l4-hist-fine-chart-edge-104 .
+  ex:l4-hist-fine-chart-edge-104 rdf:first 40.3 ; rdf:rest ex:l4-hist-fine-chart-edge-105 .
+  ex:l4-hist-fine-chart-edge-105 rdf:first 40.4 ; rdf:rest ex:l4-hist-fine-chart-edge-106 .
+  ex:l4-hist-fine-chart-edge-106 rdf:first 40.5 ; rdf:rest ex:l4-hist-fine-chart-edge-107 .
+  ex:l4-hist-fine-chart-edge-107 rdf:first 40.6 ; rdf:rest ex:l4-hist-fine-chart-edge-108 .
+  ex:l4-hist-fine-chart-edge-108 rdf:first 40.7 ; rdf:rest ex:l4-hist-fine-chart-edge-109 .
+  ex:l4-hist-fine-chart-edge-109 rdf:first 40.8 ; rdf:rest ex:l4-hist-fine-chart-edge-110 .
+  ex:l4-hist-fine-chart-edge-110 rdf:first 40.9 ; rdf:rest ex:l4-hist-fine-chart-edge-111 .
+  ex:l4-hist-fine-chart-edge-111 rdf:first 41.0 ; rdf:rest ex:l4-hist-fine-chart-edge-112 .
+  ex:l4-hist-fine-chart-edge-112 rdf:first 41.1 ; rdf:rest ex:l4-hist-fine-chart-edge-113 .
+  ex:l4-hist-fine-chart-edge-113 rdf:first 41.2 ; rdf:rest ex:l4-hist-fine-chart-edge-114 .
+  ex:l4-hist-fine-chart-edge-114 rdf:first 41.3 ; rdf:rest ex:l4-hist-fine-chart-edge-115 .
+  ex:l4-hist-fine-chart-edge-115 rdf:first 41.4 ; rdf:rest ex:l4-hist-fine-chart-edge-116 .
+  ex:l4-hist-fine-chart-edge-116 rdf:first 41.5 ; rdf:rest ex:l4-hist-fine-chart-edge-117 .
+  ex:l4-hist-fine-chart-edge-117 rdf:first 41.6 ; rdf:rest ex:l4-hist-fine-chart-edge-118 .
+  ex:l4-hist-fine-chart-edge-118 rdf:first 41.7 ; rdf:rest ex:l4-hist-fine-chart-edge-119 .
+  ex:l4-hist-fine-chart-edge-119 rdf:first 41.8 ; rdf:rest ex:l4-hist-fine-chart-edge-120 .
+  ex:l4-hist-fine-chart-edge-120 rdf:first 41.9 ; rdf:rest ex:l4-hist-fine-chart-edge-121 .
+  ex:l4-hist-fine-chart-edge-121 rdf:first 42.0 ; rdf:rest ex:l4-hist-fine-chart-edge-122 .
+  ex:l4-hist-fine-chart-edge-122 rdf:first 42.1 ; rdf:rest ex:l4-hist-fine-chart-edge-123 .
+  ex:l4-hist-fine-chart-edge-123 rdf:first 42.2 ; rdf:rest ex:l4-hist-fine-chart-edge-124 .
+  ex:l4-hist-fine-chart-edge-124 rdf:first 42.3 ; rdf:rest ex:l4-hist-fine-chart-edge-125 .
+  ex:l4-hist-fine-chart-edge-125 rdf:first 42.4 ; rdf:rest ex:l4-hist-fine-chart-edge-126 .
+  ex:l4-hist-fine-chart-edge-126 rdf:first 42.5 ; rdf:rest ex:l4-hist-fine-chart-edge-127 .
+  ex:l4-hist-fine-chart-edge-127 rdf:first 42.6 ; rdf:rest ex:l4-hist-fine-chart-edge-128 .
+  ex:l4-hist-fine-chart-edge-128 rdf:first 42.7 ; rdf:rest ex:l4-hist-fine-chart-edge-129 .
+  ex:l4-hist-fine-chart-edge-129 rdf:first 42.8 ; rdf:rest ex:l4-hist-fine-chart-edge-130 .
+  ex:l4-hist-fine-chart-edge-130 rdf:first 42.9 ; rdf:rest ex:l4-hist-fine-chart-edge-131 .
+  ex:l4-hist-fine-chart-edge-131 rdf:first 43.0 ; rdf:rest ex:l4-hist-fine-chart-edge-132 .
+  ex:l4-hist-fine-chart-edge-132 rdf:first 43.1 ; rdf:rest ex:l4-hist-fine-chart-edge-133 .
+  ex:l4-hist-fine-chart-edge-133 rdf:first 43.2 ; rdf:rest ex:l4-hist-fine-chart-edge-134 .
+  ex:l4-hist-fine-chart-edge-134 rdf:first 43.3 ; rdf:rest ex:l4-hist-fine-chart-edge-135 .
+  ex:l4-hist-fine-chart-edge-135 rdf:first 43.4 ; rdf:rest ex:l4-hist-fine-chart-edge-136 .
+  ex:l4-hist-fine-chart-edge-136 rdf:first 43.5 ; rdf:rest ex:l4-hist-fine-chart-edge-137 .
+  ex:l4-hist-fine-chart-edge-137 rdf:first 43.6 ; rdf:rest ex:l4-hist-fine-chart-edge-138 .
+  ex:l4-hist-fine-chart-edge-138 rdf:first 43.7 ; rdf:rest ex:l4-hist-fine-chart-edge-139 .
+  ex:l4-hist-fine-chart-edge-139 rdf:first 43.8 ; rdf:rest ex:l4-hist-fine-chart-edge-140 .
+  ex:l4-hist-fine-chart-edge-140 rdf:first 43.9 ; rdf:rest ex:l4-hist-fine-chart-edge-141 .
+  ex:l4-hist-fine-chart-edge-141 rdf:first 44.0 ; rdf:rest ex:l4-hist-fine-chart-edge-142 .
+  ex:l4-hist-fine-chart-edge-142 rdf:first 44.1 ; rdf:rest ex:l4-hist-fine-chart-edge-143 .
+  ex:l4-hist-fine-chart-edge-143 rdf:first 44.2 ; rdf:rest ex:l4-hist-fine-chart-edge-144 .
+  ex:l4-hist-fine-chart-edge-144 rdf:first 44.3 ; rdf:rest ex:l4-hist-fine-chart-edge-145 .
+  ex:l4-hist-fine-chart-edge-145 rdf:first 44.4 ; rdf:rest ex:l4-hist-fine-chart-edge-146 .
+  ex:l4-hist-fine-chart-edge-146 rdf:first 44.5 ; rdf:rest ex:l4-hist-fine-chart-edge-147 .
+  ex:l4-hist-fine-chart-edge-147 rdf:first 44.6 ; rdf:rest ex:l4-hist-fine-chart-edge-148 .
+  ex:l4-hist-fine-chart-edge-148 rdf:first 44.7 ; rdf:rest ex:l4-hist-fine-chart-edge-149 .
+  ex:l4-hist-fine-chart-edge-149 rdf:first 44.8 ; rdf:rest ex:l4-hist-fine-chart-edge-150 .
+  ex:l4-hist-fine-chart-edge-150 rdf:first 44.9 ; rdf:rest ex:l4-hist-fine-chart-edge-151 .
+  ex:l4-hist-fine-chart-edge-151 rdf:first 45.0 ; rdf:rest ex:l4-hist-fine-chart-edge-152 .
+  ex:l4-hist-fine-chart-edge-152 rdf:first 45.1 ; rdf:rest ex:l4-hist-fine-chart-edge-153 .
+  ex:l4-hist-fine-chart-edge-153 rdf:first 45.2 ; rdf:rest ex:l4-hist-fine-chart-edge-154 .
+  ex:l4-hist-fine-chart-edge-154 rdf:first 45.3 ; rdf:rest ex:l4-hist-fine-chart-edge-155 .
+  ex:l4-hist-fine-chart-edge-155 rdf:first 45.4 ; rdf:rest ex:l4-hist-fine-chart-edge-156 .
+  ex:l4-hist-fine-chart-edge-156 rdf:first 45.5 ; rdf:rest ex:l4-hist-fine-chart-edge-157 .
+  ex:l4-hist-fine-chart-edge-157 rdf:first 45.6 ; rdf:rest ex:l4-hist-fine-chart-edge-158 .
+  ex:l4-hist-fine-chart-edge-158 rdf:first 45.7 ; rdf:rest ex:l4-hist-fine-chart-edge-159 .
+  ex:l4-hist-fine-chart-edge-159 rdf:first 45.8 ; rdf:rest ex:l4-hist-fine-chart-edge-160 .
+  ex:l4-hist-fine-chart-edge-160 rdf:first 45.9 ; rdf:rest ex:l4-hist-fine-chart-edge-161 .
+  ex:l4-hist-fine-chart-edge-161 rdf:first 46.0 ; rdf:rest ex:l4-hist-fine-chart-edge-162 .
+  ex:l4-hist-fine-chart-edge-162 rdf:first 46.1 ; rdf:rest ex:l4-hist-fine-chart-edge-163 .
+  ex:l4-hist-fine-chart-edge-163 rdf:first 46.2 ; rdf:rest ex:l4-hist-fine-chart-edge-164 .
+  ex:l4-hist-fine-chart-edge-164 rdf:first 46.3 ; rdf:rest ex:l4-hist-fine-chart-edge-165 .
+  ex:l4-hist-fine-chart-edge-165 rdf:first 46.4 ; rdf:rest ex:l4-hist-fine-chart-edge-166 .
+  ex:l4-hist-fine-chart-edge-166 rdf:first 46.5 ; rdf:rest ex:l4-hist-fine-chart-edge-167 .
+  ex:l4-hist-fine-chart-edge-167 rdf:first 46.6 ; rdf:rest ex:l4-hist-fine-chart-edge-168 .
+  ex:l4-hist-fine-chart-edge-168 rdf:first 46.7 ; rdf:rest ex:l4-hist-fine-chart-edge-169 .
+  ex:l4-hist-fine-chart-edge-169 rdf:first 46.8 ; rdf:rest ex:l4-hist-fine-chart-edge-170 .
+  ex:l4-hist-fine-chart-edge-170 rdf:first 46.9 ; rdf:rest ex:l4-hist-fine-chart-edge-171 .
+  ex:l4-hist-fine-chart-edge-171 rdf:first 47.0 ; rdf:rest ex:l4-hist-fine-chart-edge-172 .
+  ex:l4-hist-fine-chart-edge-172 rdf:first 47.1 ; rdf:rest ex:l4-hist-fine-chart-edge-173 .
+  ex:l4-hist-fine-chart-edge-173 rdf:first 47.2 ; rdf:rest ex:l4-hist-fine-chart-edge-174 .
+  ex:l4-hist-fine-chart-edge-174 rdf:first 47.3 ; rdf:rest ex:l4-hist-fine-chart-edge-175 .
+  ex:l4-hist-fine-chart-edge-175 rdf:first 47.4 ; rdf:rest ex:l4-hist-fine-chart-edge-176 .
+  ex:l4-hist-fine-chart-edge-176 rdf:first 47.5 ; rdf:rest ex:l4-hist-fine-chart-edge-177 .
+  ex:l4-hist-fine-chart-edge-177 rdf:first 47.6 ; rdf:rest ex:l4-hist-fine-chart-edge-178 .
+  ex:l4-hist-fine-chart-edge-178 rdf:first 47.7 ; rdf:rest ex:l4-hist-fine-chart-edge-179 .
+  ex:l4-hist-fine-chart-edge-179 rdf:first 47.8 ; rdf:rest ex:l4-hist-fine-chart-edge-180 .
+  ex:l4-hist-fine-chart-edge-180 rdf:first 47.9 ; rdf:rest ex:l4-hist-fine-chart-edge-181 .
+  ex:l4-hist-fine-chart-edge-181 rdf:first 48.0 ; rdf:rest ex:l4-hist-fine-chart-edge-182 .
+  ex:l4-hist-fine-chart-edge-182 rdf:first 48.1 ; rdf:rest ex:l4-hist-fine-chart-edge-183 .
+  ex:l4-hist-fine-chart-edge-183 rdf:first 48.2 ; rdf:rest ex:l4-hist-fine-chart-edge-184 .
+  ex:l4-hist-fine-chart-edge-184 rdf:first 48.3 ; rdf:rest ex:l4-hist-fine-chart-edge-185 .
+  ex:l4-hist-fine-chart-edge-185 rdf:first 48.4 ; rdf:rest ex:l4-hist-fine-chart-edge-186 .
+  ex:l4-hist-fine-chart-edge-186 rdf:first 48.5 ; rdf:rest ex:l4-hist-fine-chart-edge-187 .
+  ex:l4-hist-fine-chart-edge-187 rdf:first 48.6 ; rdf:rest ex:l4-hist-fine-chart-edge-188 .
+  ex:l4-hist-fine-chart-edge-188 rdf:first 48.7 ; rdf:rest ex:l4-hist-fine-chart-edge-189 .
+  ex:l4-hist-fine-chart-edge-189 rdf:first 48.8 ; rdf:rest ex:l4-hist-fine-chart-edge-190 .
+  ex:l4-hist-fine-chart-edge-190 rdf:first 48.9 ; rdf:rest ex:l4-hist-fine-chart-edge-191 .
+  ex:l4-hist-fine-chart-edge-191 rdf:first 49.0 ; rdf:rest ex:l4-hist-fine-chart-edge-192 .
+  ex:l4-hist-fine-chart-edge-192 rdf:first 49.1 ; rdf:rest ex:l4-hist-fine-chart-edge-193 .
+  ex:l4-hist-fine-chart-edge-193 rdf:first 49.2 ; rdf:rest ex:l4-hist-fine-chart-edge-194 .
+  ex:l4-hist-fine-chart-edge-194 rdf:first 49.3 ; rdf:rest ex:l4-hist-fine-chart-edge-195 .
+  ex:l4-hist-fine-chart-edge-195 rdf:first 49.4 ; rdf:rest ex:l4-hist-fine-chart-edge-196 .
+  ex:l4-hist-fine-chart-edge-196 rdf:first 49.5 ; rdf:rest ex:l4-hist-fine-chart-edge-197 .
+  ex:l4-hist-fine-chart-edge-197 rdf:first 49.6 ; rdf:rest ex:l4-hist-fine-chart-edge-198 .
+  ex:l4-hist-fine-chart-edge-198 rdf:first 49.7 ; rdf:rest ex:l4-hist-fine-chart-edge-199 .
+  ex:l4-hist-fine-chart-edge-199 rdf:first 49.8 ; rdf:rest ex:l4-hist-fine-chart-edge-200 .
+  ex:l4-hist-fine-chart-edge-200 rdf:first 49.9 ; rdf:rest ex:l4-hist-fine-chart-edge-201 .
+  ex:l4-hist-fine-chart-edge-201 rdf:first 50.0 ; rdf:rest ex:l4-hist-fine-chart-edge-202 .
+  ex:l4-hist-fine-chart-edge-202 rdf:first 50.1 ; rdf:rest ex:l4-hist-fine-chart-edge-203 .
+  ex:l4-hist-fine-chart-edge-203 rdf:first 50.2 ; rdf:rest ex:l4-hist-fine-chart-edge-204 .
+  ex:l4-hist-fine-chart-edge-204 rdf:first 50.3 ; rdf:rest ex:l4-hist-fine-chart-edge-205 .
+  ex:l4-hist-fine-chart-edge-205 rdf:first 50.4 ; rdf:rest ex:l4-hist-fine-chart-edge-206 .
+  ex:l4-hist-fine-chart-edge-206 rdf:first 50.5 ; rdf:rest ex:l4-hist-fine-chart-edge-207 .
+  ex:l4-hist-fine-chart-edge-207 rdf:first 50.6 ; rdf:rest ex:l4-hist-fine-chart-edge-208 .
+  ex:l4-hist-fine-chart-edge-208 rdf:first 50.7 ; rdf:rest ex:l4-hist-fine-chart-edge-209 .
+  ex:l4-hist-fine-chart-edge-209 rdf:first 50.8 ; rdf:rest ex:l4-hist-fine-chart-edge-210 .
+  ex:l4-hist-fine-chart-edge-210 rdf:first 50.9 ; rdf:rest ex:l4-hist-fine-chart-edge-211 .
+  ex:l4-hist-fine-chart-edge-211 rdf:first 51.0 ; rdf:rest ex:l4-hist-fine-chart-edge-212 .
+  ex:l4-hist-fine-chart-edge-212 rdf:first 51.1 ; rdf:rest ex:l4-hist-fine-chart-edge-213 .
+  ex:l4-hist-fine-chart-edge-213 rdf:first 51.2 ; rdf:rest ex:l4-hist-fine-chart-edge-214 .
+  ex:l4-hist-fine-chart-edge-214 rdf:first 51.3 ; rdf:rest ex:l4-hist-fine-chart-edge-215 .
+  ex:l4-hist-fine-chart-edge-215 rdf:first 51.4 ; rdf:rest ex:l4-hist-fine-chart-edge-216 .
+  ex:l4-hist-fine-chart-edge-216 rdf:first 51.5 ; rdf:rest ex:l4-hist-fine-chart-edge-217 .
+  ex:l4-hist-fine-chart-edge-217 rdf:first 51.6 ; rdf:rest ex:l4-hist-fine-chart-edge-218 .
+  ex:l4-hist-fine-chart-edge-218 rdf:first 51.7 ; rdf:rest ex:l4-hist-fine-chart-edge-219 .
+  ex:l4-hist-fine-chart-edge-219 rdf:first 51.8 ; rdf:rest ex:l4-hist-fine-chart-edge-220 .
+  ex:l4-hist-fine-chart-edge-220 rdf:first 51.9 ; rdf:rest ex:l4-hist-fine-chart-edge-221 .
+  ex:l4-hist-fine-chart-edge-221 rdf:first 52.0 ; rdf:rest ex:l4-hist-fine-chart-edge-222 .
+  ex:l4-hist-fine-chart-edge-222 rdf:first 52.1 ; rdf:rest ex:l4-hist-fine-chart-edge-223 .
+  ex:l4-hist-fine-chart-edge-223 rdf:first 52.2 ; rdf:rest ex:l4-hist-fine-chart-edge-224 .
+  ex:l4-hist-fine-chart-edge-224 rdf:first 52.3 ; rdf:rest ex:l4-hist-fine-chart-edge-225 .
+  ex:l4-hist-fine-chart-edge-225 rdf:first 52.4 ; rdf:rest ex:l4-hist-fine-chart-edge-226 .
+  ex:l4-hist-fine-chart-edge-226 rdf:first 52.5 ; rdf:rest ex:l4-hist-fine-chart-edge-227 .
+  ex:l4-hist-fine-chart-edge-227 rdf:first 52.6 ; rdf:rest ex:l4-hist-fine-chart-edge-228 .
+  ex:l4-hist-fine-chart-edge-228 rdf:first 52.7 ; rdf:rest ex:l4-hist-fine-chart-edge-229 .
+  ex:l4-hist-fine-chart-edge-229 rdf:first 52.8 ; rdf:rest ex:l4-hist-fine-chart-edge-230 .
+  ex:l4-hist-fine-chart-edge-230 rdf:first 52.9 ; rdf:rest ex:l4-hist-fine-chart-edge-231 .
+  ex:l4-hist-fine-chart-edge-231 rdf:first 53.0 ; rdf:rest ex:l4-hist-fine-chart-edge-232 .
+  ex:l4-hist-fine-chart-edge-232 rdf:first 53.1 ; rdf:rest ex:l4-hist-fine-chart-edge-233 .
+  ex:l4-hist-fine-chart-edge-233 rdf:first 53.2 ; rdf:rest ex:l4-hist-fine-chart-edge-234 .
+  ex:l4-hist-fine-chart-edge-234 rdf:first 53.3 ; rdf:rest ex:l4-hist-fine-chart-edge-235 .
+  ex:l4-hist-fine-chart-edge-235 rdf:first 53.4 ; rdf:rest ex:l4-hist-fine-chart-edge-236 .
+  ex:l4-hist-fine-chart-edge-236 rdf:first 53.5 ; rdf:rest ex:l4-hist-fine-chart-edge-237 .
+  ex:l4-hist-fine-chart-edge-237 rdf:first 53.6 ; rdf:rest ex:l4-hist-fine-chart-edge-238 .
+  ex:l4-hist-fine-chart-edge-238 rdf:first 53.7 ; rdf:rest ex:l4-hist-fine-chart-edge-239 .
+  ex:l4-hist-fine-chart-edge-239 rdf:first 53.8 ; rdf:rest ex:l4-hist-fine-chart-edge-240 .
+  ex:l4-hist-fine-chart-edge-240 rdf:first 53.9 ; rdf:rest ex:l4-hist-fine-chart-edge-241 .
+  ex:l4-hist-fine-chart-edge-241 rdf:first 54.0 ; rdf:rest ex:l4-hist-fine-chart-edge-242 .
+  ex:l4-hist-fine-chart-edge-242 rdf:first 54.1 ; rdf:rest ex:l4-hist-fine-chart-edge-243 .
+  ex:l4-hist-fine-chart-edge-243 rdf:first 54.2 ; rdf:rest ex:l4-hist-fine-chart-edge-244 .
+  ex:l4-hist-fine-chart-edge-244 rdf:first 54.3 ; rdf:rest ex:l4-hist-fine-chart-edge-245 .
+  ex:l4-hist-fine-chart-edge-245 rdf:first 54.4 ; rdf:rest ex:l4-hist-fine-chart-edge-246 .
+  ex:l4-hist-fine-chart-edge-246 rdf:first 54.5 ; rdf:rest ex:l4-hist-fine-chart-edge-247 .
+  ex:l4-hist-fine-chart-edge-247 rdf:first 54.6 ; rdf:rest ex:l4-hist-fine-chart-edge-248 .
+  ex:l4-hist-fine-chart-edge-248 rdf:first 54.7 ; rdf:rest ex:l4-hist-fine-chart-edge-249 .
+  ex:l4-hist-fine-chart-edge-249 rdf:first 54.8 ; rdf:rest ex:l4-hist-fine-chart-edge-250 .
+  ex:l4-hist-fine-chart-edge-250 rdf:first 54.9 ; rdf:rest ex:l4-hist-fine-chart-edge-251 .
+  ex:l4-hist-fine-chart-edge-251 rdf:first 55.0 ; rdf:rest ex:l4-hist-fine-chart-edge-252 .
+  ex:l4-hist-fine-chart-edge-252 rdf:first 55.1 ; rdf:rest ex:l4-hist-fine-chart-edge-253 .
+  ex:l4-hist-fine-chart-edge-253 rdf:first 55.2 ; rdf:rest ex:l4-hist-fine-chart-edge-254 .
+  ex:l4-hist-fine-chart-edge-254 rdf:first 55.3 ; rdf:rest ex:l4-hist-fine-chart-edge-255 .
+  ex:l4-hist-fine-chart-edge-255 rdf:first 55.4 ; rdf:rest ex:l4-hist-fine-chart-edge-256 .
+  ex:l4-hist-fine-chart-edge-256 rdf:first 55.5 ; rdf:rest ex:l4-hist-fine-chart-edge-257 .
+  ex:l4-hist-fine-chart-edge-257 rdf:first 55.6 ; rdf:rest ex:l4-hist-fine-chart-edge-258 .
+  ex:l4-hist-fine-chart-edge-258 rdf:first 55.7 ; rdf:rest ex:l4-hist-fine-chart-edge-259 .
+  ex:l4-hist-fine-chart-edge-259 rdf:first 55.8 ; rdf:rest ex:l4-hist-fine-chart-edge-260 .
+  ex:l4-hist-fine-chart-edge-260 rdf:first 55.9 ; rdf:rest ex:l4-hist-fine-chart-edge-261 .
+  ex:l4-hist-fine-chart-edge-261 rdf:first 56.0 ; rdf:rest ex:l4-hist-fine-chart-edge-262 .
+  ex:l4-hist-fine-chart-edge-262 rdf:first 56.1 ; rdf:rest ex:l4-hist-fine-chart-edge-263 .
+  ex:l4-hist-fine-chart-edge-263 rdf:first 56.2 ; rdf:rest ex:l4-hist-fine-chart-edge-264 .
+  ex:l4-hist-fine-chart-edge-264 rdf:first 56.3 ; rdf:rest ex:l4-hist-fine-chart-edge-265 .
+  ex:l4-hist-fine-chart-edge-265 rdf:first 56.4 ; rdf:rest ex:l4-hist-fine-chart-edge-266 .
+  ex:l4-hist-fine-chart-edge-266 rdf:first 56.5 ; rdf:rest ex:l4-hist-fine-chart-edge-267 .
+  ex:l4-hist-fine-chart-edge-267 rdf:first 56.6 ; rdf:rest ex:l4-hist-fine-chart-edge-268 .
+  ex:l4-hist-fine-chart-edge-268 rdf:first 56.7 ; rdf:rest ex:l4-hist-fine-chart-edge-269 .
+  ex:l4-hist-fine-chart-edge-269 rdf:first 56.8 ; rdf:rest ex:l4-hist-fine-chart-edge-270 .
+  ex:l4-hist-fine-chart-edge-270 rdf:first 56.9 ; rdf:rest ex:l4-hist-fine-chart-edge-271 .
+  ex:l4-hist-fine-chart-edge-271 rdf:first 57.0 ; rdf:rest ex:l4-hist-fine-chart-edge-272 .
+  ex:l4-hist-fine-chart-edge-272 rdf:first 57.1 ; rdf:rest ex:l4-hist-fine-chart-edge-273 .
+  ex:l4-hist-fine-chart-edge-273 rdf:first 57.2 ; rdf:rest ex:l4-hist-fine-chart-edge-274 .
+  ex:l4-hist-fine-chart-edge-274 rdf:first 57.3 ; rdf:rest ex:l4-hist-fine-chart-edge-275 .
+  ex:l4-hist-fine-chart-edge-275 rdf:first 57.4 ; rdf:rest ex:l4-hist-fine-chart-edge-276 .
+  ex:l4-hist-fine-chart-edge-276 rdf:first 57.5 ; rdf:rest ex:l4-hist-fine-chart-edge-277 .
+  ex:l4-hist-fine-chart-edge-277 rdf:first 57.6 ; rdf:rest ex:l4-hist-fine-chart-edge-278 .
+  ex:l4-hist-fine-chart-edge-278 rdf:first 57.7 ; rdf:rest ex:l4-hist-fine-chart-edge-279 .
+  ex:l4-hist-fine-chart-edge-279 rdf:first 57.8 ; rdf:rest ex:l4-hist-fine-chart-edge-280 .
+  ex:l4-hist-fine-chart-edge-280 rdf:first 57.9 ; rdf:rest ex:l4-hist-fine-chart-edge-281 .
+  ex:l4-hist-fine-chart-edge-281 rdf:first 58.0 ; rdf:rest ex:l4-hist-fine-chart-edge-282 .
+  ex:l4-hist-fine-chart-edge-282 rdf:first 58.1 ; rdf:rest ex:l4-hist-fine-chart-edge-283 .
+  ex:l4-hist-fine-chart-edge-283 rdf:first 58.2 ; rdf:rest ex:l4-hist-fine-chart-edge-284 .
+  ex:l4-hist-fine-chart-edge-284 rdf:first 58.3 ; rdf:rest ex:l4-hist-fine-chart-edge-285 .
+  ex:l4-hist-fine-chart-edge-285 rdf:first 58.4 ; rdf:rest ex:l4-hist-fine-chart-edge-286 .
+  ex:l4-hist-fine-chart-edge-286 rdf:first 58.5 ; rdf:rest ex:l4-hist-fine-chart-edge-287 .
+  ex:l4-hist-fine-chart-edge-287 rdf:first 58.6 ; rdf:rest ex:l4-hist-fine-chart-edge-288 .
+  ex:l4-hist-fine-chart-edge-288 rdf:first 58.7 ; rdf:rest ex:l4-hist-fine-chart-edge-289 .
+  ex:l4-hist-fine-chart-edge-289 rdf:first 58.8 ; rdf:rest ex:l4-hist-fine-chart-edge-290 .
+  ex:l4-hist-fine-chart-edge-290 rdf:first 58.9 ; rdf:rest ex:l4-hist-fine-chart-edge-291 .
+  ex:l4-hist-fine-chart-edge-291 rdf:first 59.0 ; rdf:rest ex:l4-hist-fine-chart-edge-292 .
+  ex:l4-hist-fine-chart-edge-292 rdf:first 59.1 ; rdf:rest ex:l4-hist-fine-chart-edge-293 .
+  ex:l4-hist-fine-chart-edge-293 rdf:first 59.2 ; rdf:rest ex:l4-hist-fine-chart-edge-294 .
+  ex:l4-hist-fine-chart-edge-294 rdf:first 59.3 ; rdf:rest ex:l4-hist-fine-chart-edge-295 .
+  ex:l4-hist-fine-chart-edge-295 rdf:first 59.4 ; rdf:rest ex:l4-hist-fine-chart-edge-296 .
+  ex:l4-hist-fine-chart-edge-296 rdf:first 59.5 ; rdf:rest ex:l4-hist-fine-chart-edge-297 .
+  ex:l4-hist-fine-chart-edge-297 rdf:first 59.6 ; rdf:rest ex:l4-hist-fine-chart-edge-298 .
+  ex:l4-hist-fine-chart-edge-298 rdf:first 59.7 ; rdf:rest ex:l4-hist-fine-chart-edge-299 .
+  ex:l4-hist-fine-chart-edge-299 rdf:first 59.8 ; rdf:rest ex:l4-hist-fine-chart-edge-300 .
+  ex:l4-hist-fine-chart-edge-300 rdf:first 59.9 ; rdf:rest ex:l4-hist-fine-chart-edge-301 .
+  ex:l4-hist-fine-chart-edge-301 rdf:first 60.0 ; rdf:rest ex:l4-hist-fine-chart-edge-302 .
+  ex:l4-hist-fine-chart-edge-302 rdf:first 60.1 ; rdf:rest ex:l4-hist-fine-chart-edge-303 .
+  ex:l4-hist-fine-chart-edge-303 rdf:first 60.2 ; rdf:rest ex:l4-hist-fine-chart-edge-304 .
+  ex:l4-hist-fine-chart-edge-304 rdf:first 60.3 ; rdf:rest ex:l4-hist-fine-chart-edge-305 .
+  ex:l4-hist-fine-chart-edge-305 rdf:first 60.4 ; rdf:rest ex:l4-hist-fine-chart-edge-306 .
+  ex:l4-hist-fine-chart-edge-306 rdf:first 60.5 ; rdf:rest ex:l4-hist-fine-chart-edge-307 .
+  ex:l4-hist-fine-chart-edge-307 rdf:first 60.6 ; rdf:rest ex:l4-hist-fine-chart-edge-308 .
+  ex:l4-hist-fine-chart-edge-308 rdf:first 60.7 ; rdf:rest ex:l4-hist-fine-chart-edge-309 .
+  ex:l4-hist-fine-chart-edge-309 rdf:first 60.8 ; rdf:rest ex:l4-hist-fine-chart-edge-310 .
+  ex:l4-hist-fine-chart-edge-310 rdf:first 60.9 ; rdf:rest ex:l4-hist-fine-chart-edge-311 .
+  ex:l4-hist-fine-chart-edge-311 rdf:first 61.0 ; rdf:rest ex:l4-hist-fine-chart-edge-312 .
+  ex:l4-hist-fine-chart-edge-312 rdf:first 61.1 ; rdf:rest ex:l4-hist-fine-chart-edge-313 .
+  ex:l4-hist-fine-chart-edge-313 rdf:first 61.2 ; rdf:rest ex:l4-hist-fine-chart-edge-314 .
+  ex:l4-hist-fine-chart-edge-314 rdf:first 61.3 ; rdf:rest ex:l4-hist-fine-chart-edge-315 .
+  ex:l4-hist-fine-chart-edge-315 rdf:first 61.4 ; rdf:rest ex:l4-hist-fine-chart-edge-316 .
+  ex:l4-hist-fine-chart-edge-316 rdf:first 61.5 ; rdf:rest ex:l4-hist-fine-chart-edge-317 .
+  ex:l4-hist-fine-chart-edge-317 rdf:first 61.6 ; rdf:rest ex:l4-hist-fine-chart-edge-318 .
+  ex:l4-hist-fine-chart-edge-318 rdf:first 61.7 ; rdf:rest ex:l4-hist-fine-chart-edge-319 .
+  ex:l4-hist-fine-chart-edge-319 rdf:first 61.8 ; rdf:rest ex:l4-hist-fine-chart-edge-320 .
+  ex:l4-hist-fine-chart-edge-320 rdf:first 61.9 ; rdf:rest ex:l4-hist-fine-chart-edge-321 .
+  ex:l4-hist-fine-chart-edge-321 rdf:first 62.0 ; rdf:rest ex:l4-hist-fine-chart-edge-322 .
+  ex:l4-hist-fine-chart-edge-322 rdf:first 62.1 ; rdf:rest ex:l4-hist-fine-chart-edge-323 .
+  ex:l4-hist-fine-chart-edge-323 rdf:first 62.2 ; rdf:rest ex:l4-hist-fine-chart-edge-324 .
+  ex:l4-hist-fine-chart-edge-324 rdf:first 62.3 ; rdf:rest ex:l4-hist-fine-chart-edge-325 .
+  ex:l4-hist-fine-chart-edge-325 rdf:first 62.4 ; rdf:rest ex:l4-hist-fine-chart-edge-326 .
+  ex:l4-hist-fine-chart-edge-326 rdf:first 62.5 ; rdf:rest ex:l4-hist-fine-chart-edge-327 .
+  ex:l4-hist-fine-chart-edge-327 rdf:first 62.6 ; rdf:rest ex:l4-hist-fine-chart-edge-328 .
+  ex:l4-hist-fine-chart-edge-328 rdf:first 62.7 ; rdf:rest ex:l4-hist-fine-chart-edge-329 .
+  ex:l4-hist-fine-chart-edge-329 rdf:first 62.8 ; rdf:rest ex:l4-hist-fine-chart-edge-330 .
+  ex:l4-hist-fine-chart-edge-330 rdf:first 62.9 ; rdf:rest ex:l4-hist-fine-chart-edge-331 .
+  ex:l4-hist-fine-chart-edge-331 rdf:first 63.0 ; rdf:rest ex:l4-hist-fine-chart-edge-332 .
+  ex:l4-hist-fine-chart-edge-332 rdf:first 63.1 ; rdf:rest ex:l4-hist-fine-chart-edge-333 .
+  ex:l4-hist-fine-chart-edge-333 rdf:first 63.2 ; rdf:rest ex:l4-hist-fine-chart-edge-334 .
+  ex:l4-hist-fine-chart-edge-334 rdf:first 63.3 ; rdf:rest ex:l4-hist-fine-chart-edge-335 .
+  ex:l4-hist-fine-chart-edge-335 rdf:first 63.4 ; rdf:rest ex:l4-hist-fine-chart-edge-336 .
+  ex:l4-hist-fine-chart-edge-336 rdf:first 63.5 ; rdf:rest ex:l4-hist-fine-chart-edge-337 .
+  ex:l4-hist-fine-chart-edge-337 rdf:first 63.6 ; rdf:rest ex:l4-hist-fine-chart-edge-338 .
+  ex:l4-hist-fine-chart-edge-338 rdf:first 63.7 ; rdf:rest ex:l4-hist-fine-chart-edge-339 .
+  ex:l4-hist-fine-chart-edge-339 rdf:first 63.8 ; rdf:rest ex:l4-hist-fine-chart-edge-340 .
+  ex:l4-hist-fine-chart-edge-340 rdf:first 63.9 ; rdf:rest ex:l4-hist-fine-chart-edge-341 .
+  ex:l4-hist-fine-chart-edge-341 rdf:first 64.0 ; rdf:rest ex:l4-hist-fine-chart-edge-342 .
+  ex:l4-hist-fine-chart-edge-342 rdf:first 64.1 ; rdf:rest ex:l4-hist-fine-chart-edge-343 .
+  ex:l4-hist-fine-chart-edge-343 rdf:first 64.2 ; rdf:rest ex:l4-hist-fine-chart-edge-344 .
+  ex:l4-hist-fine-chart-edge-344 rdf:first 64.3 ; rdf:rest ex:l4-hist-fine-chart-edge-345 .
+  ex:l4-hist-fine-chart-edge-345 rdf:first 64.4 ; rdf:rest ex:l4-hist-fine-chart-edge-346 .
+  ex:l4-hist-fine-chart-edge-346 rdf:first 64.5 ; rdf:rest ex:l4-hist-fine-chart-edge-347 .
+  ex:l4-hist-fine-chart-edge-347 rdf:first 64.6 ; rdf:rest ex:l4-hist-fine-chart-edge-348 .
+  ex:l4-hist-fine-chart-edge-348 rdf:first 64.7 ; rdf:rest ex:l4-hist-fine-chart-edge-349 .
+  ex:l4-hist-fine-chart-edge-349 rdf:first 64.8 ; rdf:rest ex:l4-hist-fine-chart-edge-350 .
+  ex:l4-hist-fine-chart-edge-350 rdf:first 64.9 ; rdf:rest ex:l4-hist-fine-chart-edge-351 .
+  ex:l4-hist-fine-chart-edge-351 rdf:first 65.0 ; rdf:rest ex:l4-hist-fine-chart-edge-352 .
+  ex:l4-hist-fine-chart-edge-352 rdf:first 65.1 ; rdf:rest ex:l4-hist-fine-chart-edge-353 .
+  ex:l4-hist-fine-chart-edge-353 rdf:first 65.2 ; rdf:rest ex:l4-hist-fine-chart-edge-354 .
+  ex:l4-hist-fine-chart-edge-354 rdf:first 65.3 ; rdf:rest ex:l4-hist-fine-chart-edge-355 .
+  ex:l4-hist-fine-chart-edge-355 rdf:first 65.4 ; rdf:rest ex:l4-hist-fine-chart-edge-356 .
+  ex:l4-hist-fine-chart-edge-356 rdf:first 65.5 ; rdf:rest ex:l4-hist-fine-chart-edge-357 .
+  ex:l4-hist-fine-chart-edge-357 rdf:first 65.6 ; rdf:rest ex:l4-hist-fine-chart-edge-358 .
+  ex:l4-hist-fine-chart-edge-358 rdf:first 65.7 ; rdf:rest ex:l4-hist-fine-chart-edge-359 .
+  ex:l4-hist-fine-chart-edge-359 rdf:first 65.8 ; rdf:rest ex:l4-hist-fine-chart-edge-360 .
+  ex:l4-hist-fine-chart-edge-360 rdf:first 65.9 ; rdf:rest ex:l4-hist-fine-chart-edge-361 .
+  ex:l4-hist-fine-chart-edge-361 rdf:first 66.0 ; rdf:rest ex:l4-hist-fine-chart-edge-362 .
+  ex:l4-hist-fine-chart-edge-362 rdf:first 66.1 ; rdf:rest ex:l4-hist-fine-chart-edge-363 .
+  ex:l4-hist-fine-chart-edge-363 rdf:first 66.2 ; rdf:rest ex:l4-hist-fine-chart-edge-364 .
+  ex:l4-hist-fine-chart-edge-364 rdf:first 66.3 ; rdf:rest ex:l4-hist-fine-chart-edge-365 .
+  ex:l4-hist-fine-chart-edge-365 rdf:first 66.4 ; rdf:rest ex:l4-hist-fine-chart-edge-366 .
+  ex:l4-hist-fine-chart-edge-366 rdf:first 66.5 ; rdf:rest ex:l4-hist-fine-chart-edge-367 .
+  ex:l4-hist-fine-chart-edge-367 rdf:first 66.6 ; rdf:rest ex:l4-hist-fine-chart-edge-368 .
+  ex:l4-hist-fine-chart-edge-368 rdf:first 66.7 ; rdf:rest ex:l4-hist-fine-chart-edge-369 .
+  ex:l4-hist-fine-chart-edge-369 rdf:first 66.8 ; rdf:rest ex:l4-hist-fine-chart-edge-370 .
+  ex:l4-hist-fine-chart-edge-370 rdf:first 66.9 ; rdf:rest ex:l4-hist-fine-chart-edge-371 .
+  ex:l4-hist-fine-chart-edge-371 rdf:first 67.0 ; rdf:rest ex:l4-hist-fine-chart-edge-372 .
+  ex:l4-hist-fine-chart-edge-372 rdf:first 67.1 ; rdf:rest ex:l4-hist-fine-chart-edge-373 .
+  ex:l4-hist-fine-chart-edge-373 rdf:first 67.2 ; rdf:rest ex:l4-hist-fine-chart-edge-374 .
+  ex:l4-hist-fine-chart-edge-374 rdf:first 67.3 ; rdf:rest ex:l4-hist-fine-chart-edge-375 .
+  ex:l4-hist-fine-chart-edge-375 rdf:first 67.4 ; rdf:rest ex:l4-hist-fine-chart-edge-376 .
+  ex:l4-hist-fine-chart-edge-376 rdf:first 67.5 ; rdf:rest ex:l4-hist-fine-chart-edge-377 .
+  ex:l4-hist-fine-chart-edge-377 rdf:first 67.6 ; rdf:rest ex:l4-hist-fine-chart-edge-378 .
+  ex:l4-hist-fine-chart-edge-378 rdf:first 67.7 ; rdf:rest ex:l4-hist-fine-chart-edge-379 .
+  ex:l4-hist-fine-chart-edge-379 rdf:first 67.8 ; rdf:rest ex:l4-hist-fine-chart-edge-380 .
+  ex:l4-hist-fine-chart-edge-380 rdf:first 67.9 ; rdf:rest ex:l4-hist-fine-chart-edge-381 .
+  ex:l4-hist-fine-chart-edge-381 rdf:first 68.0 ; rdf:rest ex:l4-hist-fine-chart-edge-382 .
+  ex:l4-hist-fine-chart-edge-382 rdf:first 68.1 ; rdf:rest ex:l4-hist-fine-chart-edge-383 .
+  ex:l4-hist-fine-chart-edge-383 rdf:first 68.2 ; rdf:rest ex:l4-hist-fine-chart-edge-384 .
+  ex:l4-hist-fine-chart-edge-384 rdf:first 68.3 ; rdf:rest ex:l4-hist-fine-chart-edge-385 .
+  ex:l4-hist-fine-chart-edge-385 rdf:first 68.4 ; rdf:rest ex:l4-hist-fine-chart-edge-386 .
+  ex:l4-hist-fine-chart-edge-386 rdf:first 68.5 ; rdf:rest ex:l4-hist-fine-chart-edge-387 .
+  ex:l4-hist-fine-chart-edge-387 rdf:first 68.6 ; rdf:rest ex:l4-hist-fine-chart-edge-388 .
+  ex:l4-hist-fine-chart-edge-388 rdf:first 68.7 ; rdf:rest ex:l4-hist-fine-chart-edge-389 .
+  ex:l4-hist-fine-chart-edge-389 rdf:first 68.8 ; rdf:rest ex:l4-hist-fine-chart-edge-390 .
+  ex:l4-hist-fine-chart-edge-390 rdf:first 68.9 ; rdf:rest ex:l4-hist-fine-chart-edge-391 .
+  ex:l4-hist-fine-chart-edge-391 rdf:first 69.0 ; rdf:rest ex:l4-hist-fine-chart-edge-392 .
+  ex:l4-hist-fine-chart-edge-392 rdf:first 69.1 ; rdf:rest ex:l4-hist-fine-chart-edge-393 .
+  ex:l4-hist-fine-chart-edge-393 rdf:first 69.2 ; rdf:rest ex:l4-hist-fine-chart-edge-394 .
+  ex:l4-hist-fine-chart-edge-394 rdf:first 69.3 ; rdf:rest ex:l4-hist-fine-chart-edge-395 .
+  ex:l4-hist-fine-chart-edge-395 rdf:first 69.4 ; rdf:rest ex:l4-hist-fine-chart-edge-396 .
+  ex:l4-hist-fine-chart-edge-396 rdf:first 69.5 ; rdf:rest ex:l4-hist-fine-chart-edge-397 .
+  ex:l4-hist-fine-chart-edge-397 rdf:first 69.6 ; rdf:rest ex:l4-hist-fine-chart-edge-398 .
+  ex:l4-hist-fine-chart-edge-398 rdf:first 69.7 ; rdf:rest ex:l4-hist-fine-chart-edge-399 .
+  ex:l4-hist-fine-chart-edge-399 rdf:first 69.8 ; rdf:rest ex:l4-hist-fine-chart-edge-400 .
+  ex:l4-hist-fine-chart-edge-400 rdf:first 69.9 ; rdf:rest ex:l4-hist-fine-chart-edge-401 .
+  ex:l4-hist-fine-chart-edge-401 rdf:first 70.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-fine-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "The same 100 responses in 400 bins of width 0"@en ; cd:body "The same 100 responses in 400 bins of width 0.1 a.u. Most bars are empty or contain only one observation."@en ; cd:usesDataset ex:l4-shapes-bimodal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-fine-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-hist-origin-chart-edge-1 rdf:first 32.0 ; rdf:rest ex:l4-hist-origin-chart-edge-2 .
+  ex:l4-hist-origin-chart-edge-2 rdf:first 36.0 ; rdf:rest ex:l4-hist-origin-chart-edge-3 .
+  ex:l4-hist-origin-chart-edge-3 rdf:first 40.0 ; rdf:rest ex:l4-hist-origin-chart-edge-4 .
+  ex:l4-hist-origin-chart-edge-4 rdf:first 44.0 ; rdf:rest ex:l4-hist-origin-chart-edge-5 .
+  ex:l4-hist-origin-chart-edge-5 rdf:first 48.0 ; rdf:rest ex:l4-hist-origin-chart-edge-6 .
+  ex:l4-hist-origin-chart-edge-6 rdf:first 52.0 ; rdf:rest ex:l4-hist-origin-chart-edge-7 .
+  ex:l4-hist-origin-chart-edge-7 rdf:first 56.0 ; rdf:rest ex:l4-hist-origin-chart-edge-8 .
+  ex:l4-hist-origin-chart-edge-8 rdf:first 60.0 ; rdf:rest ex:l4-hist-origin-chart-edge-9 .
+  ex:l4-hist-origin-chart-edge-9 rdf:first 64.0 ; rdf:rest ex:l4-hist-origin-chart-edge-10 .
+  ex:l4-hist-origin-chart-edge-10 rdf:first 68.0 ; rdf:rest ex:l4-hist-origin-chart-edge-11 .
+  ex:l4-hist-origin-chart-edge-11 rdf:first 72.0 ; rdf:rest rdf:nil .
+  ex:l4-hist-origin-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "Same 100 responses and width 4 a"@en ; cd:body "Same 100 responses and width 4 a.u., but bin origin shifted from 30 to 32 a.u. Compare the preceding sensible-width plot."@en ; cd:usesDataset ex:l4-shapes-bimodal ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Observations per bin"@en ; cd:binEdges ex:l4-hist-origin-chart-edge-1 ; cd:histogramNormalization "count" ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-title a cd:Interpretation ; skos:prefLabel "Bin width too large: the structure is averaged away"@en ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**One change**\n\nSame two-cluster data; now **one bin from 30 to 70 a.u.**"@en ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**What survives?**\n\n- Count: **100**.\n- Gap and two occupied regions: **hidden**."@en ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Verdict for this question**\n\n==Too coarse.== A correct count can still be an unhelpful view."@en ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-title a cd:Interpretation ; skos:prefLabel "Bin width too small: occupancy becomes fragmented"@en ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**One change**\n\nSame 100 responses; **400 bins**, width **0.1 a.u.**"@en ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**What dominates?**\n\n- Most counts: **0 or 1**.\n- Individual gaps and spikes.\n- Not hundreds of demonstrated subpopulations."@en ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Verdict for this question**\n\nToo little aggregation. ==More bins is not automatically more information.=="@en ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-title a cd:Interpretation ; skos:prefLabel "A useful resolution: compare the same data again"@en ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**One change**\n\nSame 100 responses; **ten bins of width 4 a.u.**, spanning 30–70 a.u."@en ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**What can we see now?**\n\n- Two occupied regions.\n- A **sparse middle**.\n- Aggregation beyond individual spikes."@en ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Still check alternatives**\n\nUseful here, not universally optimal. Compare **neighboring widths** and the instrument's resolution."@en ; cd:authoredResource true .
+  ex:l4-histogram-origin-title a cd:Interpretation ; skos:prefLabel "Bin origin matters as well as width"@en ; cd:authoredResource true .
+  ex:l4-histogram-origin-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**One change**\n\nWidth stays **4 a.u.**; move the first edge **30 → 32**. All 100 responses remain covered."@en ; cd:authoredResource true .
+  ex:l4-histogram-origin-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Watch the boundaries**\n\nSome observations enter different bins and heights change. ==No measured value changed.=="@en ; cd:authoredResource true .
+  ex:l4-histogram-origin-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Comparison rule**\n\nTrust features that survive reasonable changes. Compare groups with **common edges and compatible normalization**."@en ; cd:authoredResource true .
+  ex:l4-hist-rules-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-hist-rules-formula-symbols ; cd:authoredResource true .
+  ex:l4-hist-rules-formula-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Names and symbols"@en ; cd:body "FD = Freedman–Diaconis; Scott = Scott's rule; Sturges = Sturges' rule. h: width; k: bin count; n: observations; s: sample SD. IQR uses linear interpolation."@en ; cd:authoredResource true .
+  ex:l4-histogram-rules-title a cd:Interpretation ; skos:prefLabel "Bin rules are starting points"@en ; cd:authoredResource true .
+  ex:l4-histogram-rules-intro a cd:Interpretation ; cd:body "Freedman–Diaconis (FD) uses IQR, Scott's rule uses SD, and Sturges' rule suggests a bin count."@en ; cd:authoredResource true .
+  ex:l4-histogram-rules-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-histogram-rules-points-1, ex:l4-histogram-rules-points-2 ; cd:authoredResource true .
+  ex:l4-histogram-rules-points-1 a cd:KeyPoint ; cd:position 1 ; cd:body "For h>0 start with **ceil((max−min)/h)** bins; convenient-edge rounding can change that count."@en ; cd:authoredResource true .
+  ex:l4-histogram-rules-points-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**IQR=0 gives FD width 0.** Handle ties/constant data explicitly; no rule is universally best."@en ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-title a cd:Interpretation ; skos:prefLabel "Apply a rule, then inspect neighboring choices"@en ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Explore the same 100 readings**\n\nSample SD **10**, linearly interpolated IQR **13.35**, observed span **51.59 a.u.** Change width and origin on the right."@en ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Starting rules**\n\n- **Freedman–Diaconis:** width ≈5.75.\n- **Scott:** width ≈7.54.\n- **Sturges:** 8 bins over the observed span."@en ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Try it**\n\nChoose a rule, move the sliders, then **Reset bins**. The covering grid may add a boundary bin. ==The count must stay 100.=="@en ; cd:authoredResource true .
+  ex:l4-hist-density-formula-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-hist-density-formula-symbols ; cd:authoredResource true .
+  ex:l4-hist-density-formula-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Reading the symbols"@en ; cd:body "b: edges; hⱼ: bin width; nⱼ: count; n: total. Density has inverse measurement units; bar area is the sample fraction."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-title a cd:Interpretation ; skos:prefLabel "Unequal bins: compare areas"@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-intro a cd:Interpretation ; cd:body "Equal widths are optional. Adaptive bins can be narrow in dense regions and wide in sparse tails."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-histogram-variable-width-points-1, ex:l4-histogram-variable-width-points-2 ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-points-1 a cd:KeyPoint ; cd:position 1 ; cd:body "Raw count heights would visually reward wide bins. Use **count / (n × bin width)** for relative-frequency density."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-points-2 a cd:KeyPoint ; cd:position 2 ; cd:body "The area of each bar is its sample fraction; total area is **1**. Density can exceed 1 without representing a probability above 100%."@en ; cd:authoredResource true .
+  ex:l4-hist-adaptive-chart-edge-1 rdf:first 39.930215496246 ; rdf:rest ex:l4-hist-adaptive-chart-edge-2 .
+  ex:l4-hist-adaptive-chart-edge-2 rdf:first 42.8350428083665 ; rdf:rest ex:l4-hist-adaptive-chart-edge-3 .
+  ex:l4-hist-adaptive-chart-edge-3 rdf:first 46.9193129202395 ; rdf:rest ex:l4-hist-adaptive-chart-edge-4 .
+  ex:l4-hist-adaptive-chart-edge-4 rdf:first 53.85876088150624 ; rdf:rest ex:l4-hist-adaptive-chart-edge-5 .
+  ex:l4-hist-adaptive-chart-edge-5 rdf:first 93.688205573471 ; rdf:rest rdf:nil .
+  ex:l4-hist-adaptive-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "100 synthetic right-skewed responses"@en ; cd:body "100 synthetic right-skewed responses. Edges are minimum, linearly interpolated quartiles and maximum; each bin contains 25 observations. Unequal-width density heights preserve areas."@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:xAxisLabel "Synthetic detector response"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Relative-frequency density"@en ; cd:yAxisUnit "1/a.u." ; cd:binEdges ex:l4-hist-adaptive-chart-edge-1 ; cd:histogramNormalization "density" ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-title a cd:Interpretation ; skos:prefLabel "Construct adaptive bins with quantile boundaries"@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Return to 100 readings**\n\nAfter the worked construction, use min, linearly interpolated Q₁, median, Q₃ and max as adaptive boundaries."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Edges and occupancy**\n\n- Edges ≈**39.93, 42.84, 46.92, 53.86, 93.69**.\n- **25 observations per bin**.\n- Different widths, different heights."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Area check**\n\n==Each area is 25%.== Height is 0.25/width. Merge repeated quantile edges instead of creating zero-width bins."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-title a cd:Interpretation ; skos:prefLabel "Adaptive bins: resolve the bulk without overstating the tail"@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-intro a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Application**\n\nResolve a dense low-response region while summarizing a sparse long upper tail."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-reading-1 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Benefit**\n\n- Narrow bins near the bulk.\n- Fewer almost-empty tail bins.\n- The low last bar still has **25% area**."@en ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-reading-2 a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Trade-off**\n\nWide bins hide tail detail. Disclose edges; use **common edges** for comparisons. Adaptive means data-dependent, not changing per observation."@en ; cd:authoredResource true .
+  ex:l4-hist-lab-title a cd:Interpretation ; skos:prefLabel "R lab: change bin width, not the observations"@en ; cd:authoredResource true .
+  ex:l4-hist-lab-task a cd:Exercise ; cd:body "Same **100 synthetic two-cluster responses**; only binning changes.\n\n- [!] **Run:** read both axes; inspect bin counts.\n- [!] **Change:** set **bin_width from 4 to 40**. Run again.\n- [?] **Explain:** which structure disappears without changing observations?\n\n==Check: all bin counts still sum to 100.==\n\nMay download ggplot2. Local execution; no learner-data upload."@en ; cd:authoredResource true .
+  ex:l4-hist-lab-answer a cd:ExpectedResult ; cd:body "At width 4 the plot has 10 bins spanning 30–70 a.u. and shows two occupied regions; total count is 100. At width 40 one bin contains all 100 observations and hides the gap. No observation was changed or lost. For unequal widths, map y=after_stat(density) and supply explicit breaks; then bar area, not raw count height, represents relative frequency."@en ; cd:authoredResource true .
+  ex:l4-hist-lab-task cd:hasExpectedResult ex:l4-hist-lab-answer ; cd:hasCodeExample ex:l4-hist-lab-code .
+  ex:l4-hist-lab-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:histogram, ex:l4-shapes-bimodal ; cd:code "if (!requireNamespace(\"ggplot2\", quietly = TRUE)) {\n  if (requireNamespace(\"webr\", quietly = TRUE)) webr::install(\"ggplot2\")\n  else stop(\"Install ggplot2 first\")\n}\nlibrary(ggplot2)\nx <- c(\n  36.203861904595, 36.968344965996, 37.373171342811, 37.663249348955, 37.894944427129, 38.090935235275, 38.262750520860, 38.417100222768, 38.558256085355, 38.689118543731,\n  38.811755599904, 38.927699911254, 39.038123973652, 39.143949102676, 39.245916271163, 39.344633882841, 39.440611031230, 39.534281313527, 39.626020324213, 39.716158820762,\n  39.804992871389, 39.892791871197, 39.979805043931, 40.066266872452, 40.152401787581, 40.238428371541, 40.324563286669, 40.411025115191, 40.498038287925, 40.585837287733,\n  40.674671338359, 40.764809834908, 40.856548845594, 40.950219127892, 41.046196276280, 41.144913887958, 41.246881056446, 41.352706185469, 41.463130247867, 41.579074559217,\n  41.701711615390, 41.832574073766, 41.973729936353, 42.128079638261, 42.299894923847, 42.495885731992, 42.727580810167, 43.017658816310, 43.422485193125, 44.186968254526,\n  55.813031745474, 56.577514806875, 56.982341183690, 57.272419189833, 57.504114268008, 57.700105076153, 57.871920361739, 58.026270063647, 58.167425926234, 58.298288384610,\n  58.420925440783, 58.536869752133, 58.647293814531, 58.753118943554, 58.855086112042, 58.953803723720, 59.049780872108, 59.143451154406, 59.235190165092, 59.325328661641,\n  59.414162712267, 59.501961712075, 59.588974884809, 59.675436713331, 59.761571628459, 59.847598212419, 59.933733127548, 60.020194956069, 60.107208128803, 60.195007128611,\n  60.283841179238, 60.373979675787, 60.465718686473, 60.559388968770, 60.655366117159, 60.754083728837, 60.856050897324, 60.961876026348, 61.072300088746, 61.188244400096,\n  61.310881456269, 61.441743914645, 61.582899777232, 61.737249479140, 61.909064764725, 62.105055572871, 62.336750651045, 62.626828657189, 63.031655034004, 63.796138095405\n)\nbin_width <- 4\np <- ggplot(data.frame(x), aes(x)) +\n  geom_histogram(breaks = seq(30, 70, by = bin_width), closed = \"left\") +\n  labs(x = \"Synthetic detector response (a.u.)\", y = \"Count\") +\n  theme_minimal(base_size = 16)\nprint(p)\nb <- ggplot_build(p)$data[[1]]\nb[c(\"xmin\", \"xmax\", \"count\", \"density\")]\nsum(b$count)" ; dct:hasPart ex:l4-hist-lab-functions ; cd:authoredResource true .
+  ex:l4-hist-lab-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-hist-lab-f1, ex:l4-hist-lab-f2 ; cd:authoredResource true .
+  ex:l4-hist-lab-f1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "geom_histogram(breaks=..., closed=\"left\")"@en ; cd:body "Specify numeric edges and the interval closure explicitly; do not silently discard observations outside the edges."@en ; cd:authoredResource true .
+  ex:l4-hist-lab-f2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ggplot_build(p)$data[[1]]"@en ; cd:body "Inspect xmin/xmax, count and density; verify sum(count)=length(x)."@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-box-extremes a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-box-extremes-item-1, ex:l4-box-extremes-item-2, ex:l4-box-extremes-item-3, ex:l4-box-extremes-item-4, ex:l4-box-extremes-item-5 ; cd:authoredResource true .
+  ex:l4-box-extremes-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-box-extremes-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-extremes-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-box-extremes-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-extremes-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-box-extremes-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-extremes-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-box-extremes-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-extremes-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-box-extremes-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-symmetric a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-box-symmetric-item-1, ex:l4-box-symmetric-item-2, ex:l4-box-symmetric-item-3, ex:l4-box-symmetric-item-4, ex:l4-box-symmetric-item-5 ; cd:authoredResource true .
+  ex:l4-box-symmetric-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-box-symmetric-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-symmetric-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-box-symmetric-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-symmetric-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-box-symmetric-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-symmetric-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-box-symmetric-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-symmetric-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-box-symmetric-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-skewed a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-box-skewed-item-1, ex:l4-box-skewed-item-2, ex:l4-box-skewed-item-3, ex:l4-box-skewed-item-4, ex:l4-box-skewed-item-5 ; cd:authoredResource true .
+  ex:l4-box-skewed-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-box-skewed-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-skewed-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-box-skewed-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-skewed-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-box-skewed-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-skewed-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-box-skewed-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-skewed-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-box-skewed-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-bimodal a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-box-bimodal-item-1, ex:l4-box-bimodal-item-2, ex:l4-box-bimodal-item-3, ex:l4-box-bimodal-item-4, ex:l4-box-bimodal-item-5 ; cd:authoredResource true .
+  ex:l4-box-bimodal-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-box-bimodal-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-bimodal-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-box-bimodal-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-bimodal-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-box-bimodal-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-bimodal-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-box-bimodal-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-bimodal-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-box-bimodal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-uniform a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-box-uniform-item-1, ex:l4-box-uniform-item-2, ex:l4-box-uniform-item-3, ex:l4-box-uniform-item-4, ex:l4-box-uniform-item-5 ; cd:authoredResource true .
+  ex:l4-box-uniform-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-box-uniform-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-uniform-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-box-uniform-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-uniform-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-box-uniform-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-uniform-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-box-uniform-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-box-uniform-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-box-uniform-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-intro a cd:SceneDefinition ; cd:focusConcept ex:histogram ; cd:hasSceneItem ex:l4-histogram-intro-item-1, ex:l4-histogram-intro-item-2, ex:l4-histogram-intro-item-3, ex:l4-histogram-intro-item-4, ex:l4-histogram-intro-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-intro-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-intro-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-intro-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-intro-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-intro-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-intro-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-intro-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-intro-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-intro-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-normal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-reading a cd:SceneDefinition ; cd:focusConcept ex:histogram ; cd:hasSceneItem ex:l4-histogram-reading-item-1, ex:l4-histogram-reading-item-2, ex:l4-histogram-reading-item-3, ex:l4-histogram-reading-item-4, ex:l4-histogram-reading-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-reading-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-reading-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-reading-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-reading-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-reading-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-reading-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-reading-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-reading-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-reading-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-normal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-skewed a cd:SceneDefinition ; cd:focusConcept ex:histogram ; cd:hasSceneItem ex:l4-histogram-skewed-item-1, ex:l4-histogram-skewed-item-2, ex:l4-histogram-skewed-item-3, ex:l4-histogram-skewed-item-4, ex:l4-histogram-skewed-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-skewed-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-skewed-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-skewed-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-skewed-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-skewed-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-skewed-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-skewed-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-skewed-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-skewed-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-skewed-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-bimodal a cd:SceneDefinition ; cd:focusConcept ex:histogram ; cd:hasSceneItem ex:l4-histogram-bimodal-item-1, ex:l4-histogram-bimodal-item-2, ex:l4-histogram-bimodal-item-3, ex:l4-histogram-bimodal-item-4, ex:l4-histogram-bimodal-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-bimodal-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-bimodal-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-bimodal-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-bimodal-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-bimodal-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-bimodal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-2d-intro a cd:SceneDefinition ; cd:focusConcept ex:histogram-2d ; cd:hasSceneItem ex:l4-histogram-2d-intro-item-1, ex:l4-histogram-2d-intro-item-2, ex:l4-histogram-2d-intro-item-3, ex:l4-histogram-2d-intro-item-4, ex:l4-histogram-2d-intro-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-2d-intro-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-2d-intro-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-2d-intro-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-2d-intro-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-intro-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-2d-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-2d-reading a cd:SceneDefinition ; cd:focusConcept ex:histogram-2d ; cd:hasSceneItem ex:l4-histogram-2d-reading-item-1, ex:l4-histogram-2d-reading-item-2, ex:l4-histogram-2d-reading-item-3, ex:l4-histogram-2d-reading-item-4, ex:l4-histogram-2d-reading-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-2d-reading-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-2d-reading-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-2d-reading-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-2d-reading-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-2d-reading-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-2d-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-too-coarse a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-too-coarse-item-1, ex:l4-histogram-too-coarse-item-2, ex:l4-histogram-too-coarse-item-3, ex:l4-histogram-too-coarse-item-4, ex:l4-histogram-too-coarse-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-too-coarse-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-too-coarse-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-too-coarse-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-too-coarse-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-coarse-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-coarse-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-too-fine a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-too-fine-item-1, ex:l4-histogram-too-fine-item-2, ex:l4-histogram-too-fine-item-3, ex:l4-histogram-too-fine-item-4, ex:l4-histogram-too-fine-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-too-fine-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-too-fine-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-too-fine-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-too-fine-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-too-fine-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-fine-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-sensible-width a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-sensible-width-item-1, ex:l4-histogram-sensible-width-item-2, ex:l4-histogram-sensible-width-item-3, ex:l4-histogram-sensible-width-item-4, ex:l4-histogram-sensible-width-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-sensible-width-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-sensible-width-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-sensible-width-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-sensible-width-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-sensible-width-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-bimodal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-origin a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-origin-item-1, ex:l4-histogram-origin-item-2, ex:l4-histogram-origin-item-3, ex:l4-histogram-origin-item-4, ex:l4-histogram-origin-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-origin-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-origin-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-origin-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-origin-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-origin-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-origin-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-origin-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-origin-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-origin-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-origin-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-rules a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-rules-item-1, ex:l4-histogram-rules-item-2, ex:l4-histogram-rules-item-3, ex:l4-histogram-rules-item-4 ; cd:authoredResource true .
+  ex:l4-histogram-rules-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-rules-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rules-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-rules-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rules-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-hist-rules-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rules-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-rules-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-rule-example a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-histogram-rule-example-item-1, ex:l4-histogram-rule-example-item-2, ex:l4-histogram-rule-example-item-3, ex:l4-histogram-rule-example-item-4, ex:l4-histogram-rule-example-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-rule-example-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-rule-example-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-rule-example-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-rule-example-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-rule-example-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-adjustable-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-variable-width a cd:SceneDefinition ; cd:focusConcept ex:histogram-density ; cd:hasSceneItem ex:l4-histogram-variable-width-item-1, ex:l4-histogram-variable-width-item-2, ex:l4-histogram-variable-width-item-3, ex:l4-histogram-variable-width-item-4 ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-variable-width-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-variable-width-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-hist-density-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-width-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-variable-width-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-variable-construction a cd:SceneDefinition ; cd:focusConcept ex:histogram-density ; cd:hasSceneItem ex:l4-histogram-variable-construction-item-1, ex:l4-histogram-variable-construction-item-2, ex:l4-histogram-variable-construction-item-3, ex:l4-histogram-variable-construction-item-4, ex:l4-histogram-variable-construction-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-variable-construction-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-variable-construction-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-variable-construction-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-variable-construction-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-construction-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-adaptive-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-variable-use a cd:SceneDefinition ; cd:focusConcept ex:histogram-density ; cd:hasSceneItem ex:l4-histogram-variable-use-item-1, ex:l4-histogram-variable-use-item-2, ex:l4-histogram-variable-use-item-3, ex:l4-histogram-variable-use-item-4, ex:l4-histogram-variable-use-item-5 ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-histogram-variable-use-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-histogram-variable-use-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-histogram-variable-use-reading-1 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-item-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-histogram-variable-use-reading-2 ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-histogram-variable-use-item-5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-hist-adaptive-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-histogram-lab a cd:SceneDefinition ; cd:focusConcept ex:histogram ; cd:hasSceneItem ex:l4-hist-lab-item-1, ex:l4-hist-lab-item-2, ex:l4-hist-lab-item-3 ; cd:authoredResource true .
+  ex:l4-hist-lab-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-hist-lab-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-hist-lab-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-hist-lab-task ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-hist-lab-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-hist-lab-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-step-box-extremes a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l4-scene-box-extremes ; cd:usesResource ex:l4-box-extremes-title, ex:l4-box-extremes-intro, ex:l4-box-extremes-reading-1, ex:l4-box-extremes-reading-2, ex:l4-box-extremes-chart ; cd:authoredResource true .
+  ex:l4-step-box-symmetric a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l4-scene-box-symmetric ; cd:usesResource ex:l4-box-symmetric-title, ex:l4-box-symmetric-intro, ex:l4-box-symmetric-reading-1, ex:l4-box-symmetric-reading-2, ex:l4-box-symmetric-chart ; cd:authoredResource true .
+  ex:l4-step-box-skewed a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l4-scene-box-skewed ; cd:usesResource ex:l4-box-skewed-title, ex:l4-box-skewed-intro, ex:l4-box-skewed-reading-1, ex:l4-box-skewed-reading-2, ex:l4-box-skewed-chart ; cd:authoredResource true .
+  ex:l4-step-box-bimodal a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l4-scene-box-bimodal ; cd:usesResource ex:l4-box-bimodal-title, ex:l4-box-bimodal-intro, ex:l4-box-bimodal-reading-1, ex:l4-box-bimodal-reading-2, ex:l4-box-bimodal-chart ; cd:authoredResource true .
+  ex:l4-step-box-uniform a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l4-scene-box-uniform ; cd:usesResource ex:l4-box-uniform-title, ex:l4-box-uniform-intro, ex:l4-box-uniform-reading-1, ex:l4-box-uniform-reading-2, ex:l4-box-uniform-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-intro a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l4-scene-histogram-intro ; cd:usesResource ex:l4-histogram-intro-title, ex:l4-histogram-intro-intro, ex:l4-histogram-intro-reading-1, ex:l4-histogram-intro-reading-2, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-reading a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l4-scene-histogram-reading ; cd:usesResource ex:l4-histogram-reading-title, ex:l4-histogram-reading-intro, ex:l4-histogram-reading-reading-1, ex:l4-histogram-reading-reading-2, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-skewed a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l4-scene-histogram-skewed ; cd:usesResource ex:l4-histogram-skewed-title, ex:l4-histogram-skewed-intro, ex:l4-histogram-skewed-reading-1, ex:l4-histogram-skewed-reading-2, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-bimodal a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l4-scene-histogram-bimodal ; cd:usesResource ex:l4-histogram-bimodal-title, ex:l4-histogram-bimodal-intro, ex:l4-histogram-bimodal-reading-1, ex:l4-histogram-bimodal-reading-2, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-2d-intro a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l4-scene-histogram-2d-intro ; cd:usesResource ex:l4-histogram-2d-intro-title, ex:l4-histogram-2d-intro-intro, ex:l4-histogram-2d-intro-reading-1, ex:l4-histogram-2d-intro-reading-2, ex:l4-hist-2d-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-2d-reading a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l4-scene-histogram-2d-reading ; cd:usesResource ex:l4-histogram-2d-reading-title, ex:l4-histogram-2d-reading-intro, ex:l4-histogram-2d-reading-reading-1, ex:l4-histogram-2d-reading-reading-2, ex:l4-hist-2d-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-too-coarse a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l4-scene-histogram-too-coarse ; cd:usesResource ex:l4-histogram-too-coarse-title, ex:l4-histogram-too-coarse-intro, ex:l4-histogram-too-coarse-reading-1, ex:l4-histogram-too-coarse-reading-2, ex:l4-hist-coarse-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-too-fine a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l4-scene-histogram-too-fine ; cd:usesResource ex:l4-histogram-too-fine-title, ex:l4-histogram-too-fine-intro, ex:l4-histogram-too-fine-reading-1, ex:l4-histogram-too-fine-reading-2, ex:l4-hist-fine-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-sensible-width a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l4-scene-histogram-sensible-width ; cd:usesResource ex:l4-histogram-sensible-width-title, ex:l4-histogram-sensible-width-intro, ex:l4-histogram-sensible-width-reading-1, ex:l4-histogram-sensible-width-reading-2, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-origin a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l4-scene-histogram-origin ; cd:usesResource ex:l4-histogram-origin-title, ex:l4-histogram-origin-intro, ex:l4-histogram-origin-reading-1, ex:l4-histogram-origin-reading-2, ex:l4-hist-origin-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-rules a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l4-scene-histogram-rules ; cd:usesResource ex:l4-histogram-rules-title, ex:l4-histogram-rules-intro, ex:l4-hist-rules-formula, ex:l4-histogram-rules-points ; cd:authoredResource true .
+  ex:l4-step-histogram-rule-example a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l4-scene-histogram-rule-example ; cd:usesResource ex:l4-histogram-rule-example-title, ex:l4-histogram-rule-example-intro, ex:l4-histogram-rule-example-reading-1, ex:l4-histogram-rule-example-reading-2, ex:l4-hist-adjustable-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-variable-width a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l4-scene-histogram-variable-width ; cd:usesResource ex:l4-histogram-variable-width-title, ex:l4-histogram-variable-width-intro, ex:l4-hist-density-formula, ex:l4-histogram-variable-width-points ; cd:authoredResource true .
+  ex:l4-step-histogram-variable-construction a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l4-scene-histogram-variable-construction ; cd:usesResource ex:l4-histogram-variable-construction-title, ex:l4-histogram-variable-construction-intro, ex:l4-histogram-variable-construction-reading-1, ex:l4-histogram-variable-construction-reading-2, ex:l4-hist-adaptive-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-variable-use a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l4-scene-histogram-variable-use ; cd:usesResource ex:l4-histogram-variable-use-title, ex:l4-histogram-variable-use-intro, ex:l4-histogram-variable-use-reading-1, ex:l4-histogram-variable-use-reading-2, ex:l4-hist-adaptive-chart ; cd:authoredResource true .
+  ex:l4-step-histogram-lab a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l4-scene-histogram-lab ; cd:usesResource ex:l4-hist-lab-title, ex:l4-hist-lab-task, ex:l4-hist-lab-code ; cd:authoredResource true .
+}

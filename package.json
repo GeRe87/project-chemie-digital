@@ -11,6 +11,8 @@
     "katex": "0.16.22"
   },
   "scripts": {
+    "preview:level4:generate": "python apps/pitch/scripts/generate-authoring-preview.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-quantiles-moments-shape --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-quantiles-moments-shape --path-id https://w3id.org/project-chemie-digital/resource/path-chemometrics-level4-distribution-shape-lecture --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture --scene-limit 65",
+    "preview:level4": "npm run preview:level4:generate && npm --workspace @project-chemie-digital/pitch exec -- vite --host 127.0.0.1 --port 5173 --strictPort",
     "check:json": "node scripts/check-json.mjs",
     "test:json-discovery": "node --test scripts/json-candidates.test.mjs",
     "check:semantics": "python scripts/validate_semantics.py",

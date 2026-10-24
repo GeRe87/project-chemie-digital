@@ -1,0 +1,37 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-unequal-worked> {
+  ex:l4-unequal-sort a cd:Interpretation ; skos:prefLabel "Unequal bins, step 1: sort and choose ranks"@en ; cd:bodyFormat "markdown" ; cd:body "**Small calculation, not an application-sized dataset**\n\nEight constructed concentrations: **1, 2, 3, 4, 5, 6, 10, 20 mg/L**. We want four bins following the occupied ranks, rather than equal measurement widths.\n\n- Choose boundaries at **minimum, Q₁, median, Q₃, maximum**.\n- For linear interpolation, h = 1 + (n−1)p. Here n = 8.\n- Interpolate between the observations at ranks floor(h) and floor(h)+1.\n\n==This is one data-dependent choice, not a unique correct partition.=="@en ; cd:authoredResource true .
+  ex:l4-unequal-interpolate a cd:Interpretation ; skos:prefLabel "Step 2: calculate the actual edges"@en ; cd:bodyFormat "markdown" ; cd:body "**Use n = 8 and x = 1, 2, 3, 4, 5, 6, 10, 20**\n\n- p = .25: h = **2.75** → Q₁ = 2 + .75(3−2) = **2.75**.\n- p = .50: h = **4.5** → median = 4 + .5(5−4) = **4.5**.\n- p = .75: h = **6.25** → Q₃ = 6 + .25(10−6) = **7**.\n\nEdges: **1, 2.75, 4.5, 7, 20 mg/L**. Widths: **1.75, 1.75, 2.5, 13 mg/L**.\n\n**Count once:** [1,2.75), [2.75,4.5), [4.5,7), [7,20]. Each contains two observations. With ties, equal counts are not guaranteed; merge repeated boundaries."@en ; cd:authoredResource true .
+  ex:l4-unequal-density a cd:Interpretation ; skos:prefLabel "Step 3: heights must preserve area"@en ; cd:bodyFormat "markdown" ; cd:body "**Same count, unequal width**\n\nEach bin contains **2/8 = 25%** of the observations. Density height = count / (n × width).\n\n- First two bins: .25/1.75 = **1/7 ≈ .14286**.\n- Third: .25/2.5 = **.10**.\n- Last: .25/13 = **1/52 ≈ .01923** (mg/L)⁻¹.\n\n==Height × width = .25 for every bar; total area = 1.== The tall first bar does not contain more observations than the wide last bar."@en ; cd:authoredResource true .
+  ex:l4-unequal-data a cd:Dataset ; skos:prefLabel "Eight constructed concentrations for hand calculation"@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-unequal-o1, ex:l4-unequal-o2, ex:l4-unequal-o3, ex:l4-unequal-o4, ex:l4-unequal-o5, ex:l4-unequal-o6, ex:l4-unequal-o7, ex:l4-unequal-o8 ; cd:authoredResource true .
+  ex:l4-unequal-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:l4-unequal-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l4-unequal-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:l4-unequal-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:l4-unequal-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l4-unequal-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 6.0 ; cd:authoredResource true .
+  ex:l4-unequal-o7 a cd:Observation ; cd:position 7 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-unequal-o8 a cd:Observation ; cd:position 8 ; cd:numericValue 20.0 ; cd:authoredResource true .
+  ex:l4-unequal-e1 rdf:first 1.0 ; rdf:rest ex:l4-unequal-e2 .
+  ex:l4-unequal-e2 rdf:first 2.75 ; rdf:rest ex:l4-unequal-e3 .
+  ex:l4-unequal-e3 rdf:first 4.5 ; rdf:rest ex:l4-unequal-e4 .
+  ex:l4-unequal-e4 rdf:first 7.0 ; rdf:rest ex:l4-unequal-e5 .
+  ex:l4-unequal-e5 rdf:first 20.0 ; rdf:rest rdf:nil .
+  ex:l4-unequal-chart a cd:ChartDefinition ; cd:chartType cd:Histogram ; skos:prefLabel "Four bins, each with area 0.25"@en ; cd:body "Widths 1.75, 1.75, 2.5, 13 mg/L. Counts 2, 2, 2, 2; height is density, not count."@en ; cd:usesDataset ex:l4-unequal-data ; cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Relative frequency density (mg/L)⁻¹"@en ; cd:binEdges ex:l4-unequal-e1 ; cd:histogramNormalization "density" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-unequal-sort a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-unequal-sort-h, ex:l4-unequal-sort-b ; cd:authoredResource true .
+  ex:l4-unequal-sort-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-unequal-sort ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-unequal-sort-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-unequal-sort ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-unequal-interpolate a cd:SceneDefinition ; cd:focusConcept ex:histogram-bin-width ; cd:hasSceneItem ex:l4-unequal-interpolate-h, ex:l4-unequal-interpolate-b ; cd:authoredResource true .
+  ex:l4-unequal-interpolate-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-unequal-interpolate ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-unequal-interpolate-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-unequal-interpolate ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-unequal-density a cd:SceneDefinition ; cd:focusConcept ex:histogram-density ; cd:hasSceneItem ex:l4-unequal-density-h, ex:l4-unequal-density-b, ex:l4-unequal-density-v ; cd:authoredResource true .
+  ex:l4-unequal-density-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-unequal-density ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-unequal-density-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-unequal-density ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-unequal-density-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-unequal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

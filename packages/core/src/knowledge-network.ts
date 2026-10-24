@@ -388,7 +388,7 @@ export function projectKnowledgeNetwork(
     const relationLines = edges.map((edge) => {
       const sourceNode = nodes.find((node) => node.id === edge.sourceNodeId)!;
       const targetNode = nodes.find((node) => node.id === edge.targetNodeId)!;
-      return `${sourceNode.label} — ${edge.label} → ${targetNode.label}`;
+      return `${sourceNode.label}: ${edge.label} → ${targetNode.label}`;
     });
     const staticFallback = [
       "Nodes:",

@@ -22,6 +22,22 @@ test("focused operation cards retain Enter/Space activation but do not swallow a
   assert.equal(stageDirectionForKey({ key: "Enter", target: button } as unknown as KeyboardEvent), undefined);
 });
 
+test("explicit interactive regions retain native keys without advancing the presentation", () => {
+  const target={tagName:"DIV",closest:(selector:string)=>selector.includes("data-presentation-interactive")?{}:null};
+  for(const key of ["ArrowRight","ArrowDown","PageDown"," ","ArrowLeft","ArrowUp"])
+    assert.equal(stageDirectionForKey({key,target} as unknown as KeyboardEvent),undefined);
+});
+
+test("wheel scrolling inside an explicit interactive region stays native",()=>{
+  let listener:((event:WheelEvent)=>void)|undefined;
+  const target={addEventListener(_type:string,callback:typeof listener){listener=callback;},removeEventListener(){listener=undefined;}} as unknown as HTMLElement;
+  let advanced=false,prevented=false;
+  const deck={getCurrentSlide:()=>({getAttribute:()=>"true"}),availableFragments:()=>({next:true,prev:false}),nextFragment:()=>{advanced=true;return true;}} as unknown as Parameters<typeof mountPresentationWheelNavigation>[0];
+  const destroy=mountPresentationWheelNavigation(deck,target,{view:"scroll"});
+  listener!({deltaY:120,target:{closest:(selector:string)=>selector.includes("data-presentation-interactive")?{}:null},preventDefault(){prevented=true;},stopImmediatePropagation(){}} as unknown as WheelEvent);
+  assert.equal(advanced,false);assert.equal(prevented,false);destroy();
+});
+
 test("wheel repeat is bounded without starving sustained input and listeners are disposed", () => {
   let listener: ((event: WheelEvent) => void) | undefined;
   const target = { addEventListener(_type: string, callback: typeof listener) { listener = callback; }, removeEventListener() { listener = undefined; } } as unknown as HTMLElement;

@@ -1,3 +1,11 @@
+import { validateObservationExplorer, type ObservationExplorerBlock } from "./observation-explorer.ts";
+import { boxPlotSummary, type BoxPlotBlock } from "./box-plot.ts";
+import { validateHistogram, type HistogramBlock, type Histogram2DBlock } from "./histogram.ts";
+export const SCENE_DOCUMENT_HISTOGRAM_VERSION = "1.10" as const;
+export const SCENE_DOCUMENT_EXPLORATION_VERSION = "1.11" as const;
+export const SCENE_DOCUMENT_MOMENT_VERSION = "1.12" as const;
+export const SCENE_DOCUMENT_BOX_PLOT_VERSION = "1.9" as const;
+export const SCENE_DOCUMENT_OBSERVATION_VERSION = "1.8" as const;
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
 export const SCENE_DOCUMENT_FLOW_VERSION = "1.1" as const;
 export const SCENE_DOCUMENT_CHART_VERSION = "1.2" as const;
@@ -15,7 +23,12 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_DEFINITION_LIST_VERSION
   | typeof SCENE_DOCUMENT_TABLE_VERSION
   | typeof SCENE_DOCUMENT_DOT_PLOT_VERSION
-  | typeof SCENE_DOCUMENT_DERIVATION_VERSION;
+  | typeof SCENE_DOCUMENT_DERIVATION_VERSION
+  | typeof SCENE_DOCUMENT_OBSERVATION_VERSION
+  | typeof SCENE_DOCUMENT_BOX_PLOT_VERSION
+  | typeof SCENE_DOCUMENT_HISTOGRAM_VERSION
+  | typeof SCENE_DOCUMENT_EXPLORATION_VERSION
+  | typeof SCENE_DOCUMENT_MOMENT_VERSION;
 
 export const VISUAL_MOTIF_KEYS = [
   "discussion",
@@ -479,6 +492,7 @@ export interface DotPlotGroup {
   readonly data: readonly { readonly id: string; readonly value: number; readonly label?: string; readonly source: readonly SourceReference[] }[];
   readonly x?: number;
   readonly summary?: ChartReferenceLine;
+  readonly interval?: {readonly id:string;readonly label:string;readonly lower:number;readonly upper:number;readonly source:readonly SourceReference[]};
 }
 
 export interface ChartReferenceLine {
@@ -509,13 +523,14 @@ export interface DotPlotBlock extends SceneBlockBase {
   readonly liveUpdate?: never;
 }
 
-export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock;
+export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
 
 export function dotPlotStaticFallback(block: DotPlotBlock): string {
   const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
   return [block.label, block.description,
     ...block.groups.flatMap((group) => group.data.map((datum) => `${group.label}${datum.label ? `, ${datum.label}` : ""}: ${datum.value}${unit}${block.drawStems && block.referenceLine ? `; deviation ${datum.value - block.referenceLine.value >= 0 ? "+" : ""}${datum.value - block.referenceLine.value}${unit}` : ""}`)),
     ...block.groups.flatMap(group => group.summary ? [`${group.label}, ${group.summary.label}: ${group.summary.value}${unit}`] : []),
+    ...block.groups.flatMap(g=>g.interval?[`${g.interval.label}: [${g.interval.lower}, ${g.interval.upper}]${unit}; closed interval contains ${g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length}/${g.data.length} observations (${100*g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length/g.data.length}%).`]:[]),
     ...(block.curves ?? []).flatMap(curve => curve.data.map(datum => `${curve.label}: x=${datum.x}, y=${datum.y}${unit}`)),
     ...(block.referenceLine ? [`${block.referenceLine.label}: ${block.referenceLine.value}${unit}`] : []),
   ].join("\n");
@@ -800,6 +815,24 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if(block.chartType==="histogram"||block.chartType==="histogram2d"){
+    try{validateHistogram(block);}catch(error){throw new SceneContractError(String(error));}return;
+  }
+  if (block.chartType === "observations") {
+    try { validateObservationExplorer(block); } catch (error) { throw new SceneContractError(String(error)); }
+    return;
+  }
+  if (block.chartType === "box") {
+    if(block.showObservations!==undefined&&typeof block.showObservations!=="boolean")throw new SceneContractError("Box-plot observation display must be boolean");
+    if(block.liveUpdate!==undefined)throw new SceneContractError("Box plots do not support live jitter");
+    if (block.quantileMethod!=="type7" || !block.yAxis.unit || !block.groups.length || !Number.isFinite(block.fenceMultiplier)) throw new SceneContractError("Box plots require type7, units, groups and a finite fence multiplier");
+    if(block.groups.some(g=>g.x!==undefined||g.summary!==undefined||g.interval!==undefined))throw new SceneContractError("Box plots require unmodified categorical observation groups");
+    // Reuse the ordinary categorical-observation provenance contract.
+    validateChart({...block,chartType:"dot"},label);
+    try { for(const group of block.groups)boxPlotSummary(group.data.map(d=>d.value),block.fenceMultiplier); }
+    catch(error){throw new SceneContractError(String(error));}
+    return;
+  }
   if (block.liveUpdate !== undefined) {
     if (!Number.isInteger(block.liveUpdate.intervalMs) || block.liveUpdate.intervalMs < 250) {
       throw new SceneContractError(`${label} live chart interval must be an integer >= 250 ms`);
@@ -864,6 +897,10 @@ function validateChart(block: ChartBlock, label: string): void {
       groupIds.add(group.id);
       requireNonEmpty(group.label, `${label} group label`);
       validateSource(group.source, `${label} group source`);
+      if(group.interval){
+        const i=group.interval;requireNonEmpty(i.id,`${label} interval id`);requireNonEmpty(i.label,`${label} interval label`);validateSource(i.source,`${label} interval source`);requireVisible(i.lower);requireVisible(i.upper);
+        if(i.lower>i.upper||block.xScale||block.drawStems)throw new SceneContractError("Intervals require ordered bounds on categorical groups");
+      }
       if (block.xScale === "linear" && !Number.isFinite(group.x)) throw new SceneContractError(`${label} numeric dot group requires x`);
       if (group.summary) {
         requireNonEmpty(group.summary.id, `${label} summary id`);
@@ -964,7 +1001,9 @@ function validateChart(block: ChartBlock, label: string): void {
   }
 }
 
-function validateBlocks(blocks: readonly SceneBlock[], label: string, version: SceneDocumentVersion): void {
+function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
+  // 1.8 is additive to 1.7; retain the declared version through nested groups.
+  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
   validateDisclosureOrders(blocks, label);
@@ -990,7 +1029,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       requireNonEmpty(block.disclosure.triggerResourceId, `${label} block ${block.id} disclosure triggerResourceId`);
     }
     if (block.kind === "group") {
-      validateBlocks(block.children, `${label} group ${block.id}`, version);
+      validateBlocks(block.children, `${label} group ${block.id}`, declaredVersion);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
     }
     if (block.kind === "list") {
@@ -1074,6 +1113,12 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, version: S
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
+      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION;
+      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
+      if(!exploration&&((block.chartType==="histogram"&&block.binAdjustment)||(block.chartType==="dot"&&block.groups.some(g=>g.interval))||(block.chartType==="observations"&&(block.compact!==undefined||block.interactive!==undefined||block.view==="ecdf"&&block.series.length>1))))throw new SceneContractError("Exploration options require SceneDocument 1.11");
+      if ((block.chartType==="histogram"||block.chartType==="histogram2d")&&declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration)throw new SceneContractError("Histograms require SceneDocument 1.10");
+      if (block.chartType === "box" && declaredVersion !== SCENE_DOCUMENT_BOX_PLOT_VERSION && declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration) throw new SceneContractError("Box plots require SceneDocument 1.9");
+      if (block.chartType === "observations" && declaredVersion !== SCENE_DOCUMENT_OBSERVATION_VERSION && declaredVersion !== SCENE_DOCUMENT_BOX_PLOT_VERSION && declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration) throw new SceneContractError("Observation explorers require SceneDocument 1.8");
         if (version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
         throw new SceneContractError(`${label} block ${block.id} chart requires SceneDocument ${SCENE_DOCUMENT_CHART_VERSION}`);
       }
@@ -1095,6 +1140,11 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_TABLE_VERSION
     && document.version !== SCENE_DOCUMENT_DOT_PLOT_VERSION
     && document.version !== SCENE_DOCUMENT_DERIVATION_VERSION
+    && document.version !== SCENE_DOCUMENT_OBSERVATION_VERSION
+    && document.version !== SCENE_DOCUMENT_BOX_PLOT_VERSION
+    && document.version !== SCENE_DOCUMENT_HISTOGRAM_VERSION
+    && document.version !== SCENE_DOCUMENT_EXPLORATION_VERSION
+    && document.version !== SCENE_DOCUMENT_MOMENT_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }

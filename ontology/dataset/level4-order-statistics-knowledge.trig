@@ -1,0 +1,19 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-order-statistics> {
+  ex:sample-range a cd:Concept ; skos:prefLabel "Spannweite"@de, "sample range"@en ; skos:related ex:statistical-dispersion, ex:order-statistic ; cd:hasDefinition ex:l4-def-sample-range ; cd:hasMathExpression ex:l4-formula-range ; cd:authoredResource true .
+  ex:l4-def-sample-range a cd:Definition ; cd:body "For a nonempty finite sample, range is maximum minus minimum, in the original measurement unit. It describes only the extrema."@en ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
+  ex:l4-formula-range a cd:MathExpression ; cd:formulaLabel "Observed span"@en ; cd:latex "R=x_{(n)}-x_{(1)},\\qquad n\\ge1" ; cd:hasSource ex:source-nist-dispersion ; cd:authoredResource true .
+  ex:l4-formula-quartile-positions a cd:MathExpression ; cd:formulaLabel "Three special sample quantiles"@en ; cd:latex "Q_1=\\widehat Q(0.25),\\quad Q_2=\\widehat Q(0.50),\\quad Q_3=\\widehat Q(0.75)" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:hasSource ex:l4-source-r-quantile ; cd:authoredResource true .
+  ex:l4-formula-quantile-interpolation a cd:MathExpression ; cd:formulaLabel "Linear interpolation"@en ; cd:latex "\\begin{gathered}h=1+(n-1)p,\\quad j=\\lfloor h\\rfloor,\\quad d=h-j\\\\\\widehat Q(p)=(1-d)x_{(j)}+d\\,x_{(j+1)}\\\\ n\\ge2,\\quad 0\\le p<1\\end{gathered}" ; cd:derivedFromResource ex:l4-formula-sample-quantile-type-7 ; cd:hasSource ex:l4-source-r-quantile ; cd:authoredResource true .
+  ex:l4-interpretation-ggplot-boxplot a cd:Interpretation ; skos:prefLabel "ggplot2 boxplot convention"@en ; cd:body "For equally weighted finite data, this lecture uses linearly interpolated quartiles and fences Q1−1.5 IQR and Q3+1.5 IQR, matching ggplot2's usual stat_boxplot calculation. Whiskers end at the most extreme observations within those fences. Base R boxplot.stats uses Tukey hinges and can differ, especially for small even n."@en ; cd:hasSource ex:l4-source-ggplot-boxplot ; cd:authoredResource true .
+  ex:l4-interpretation-boxplot-limits a cd:Interpretation ; skos:prefLabel "What a boxplot leaves out"@en ; cd:body "The median line is not the mean; the box spans the first to third quartile and is not a confidence interval. A boxplot suppresses individual observations and modality. With ties and interpolation, exact proportions of observations inside the box need not equal 50%. A flagged point is not automatically a measurement error."@en ; cd:hasSource ex:l4-source-ggplot-boxplot, ex:l4-source-r-quantile ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/level4-order-statistics> {
+  ex:source-nist-dispersion cd:supportsResource ex:l4-def-sample-range, ex:l4-formula-range .
+  ex:l4-source-ggplot-boxplot a cd:Source ; dct:title "ggplot2: A box and whiskers plot (in the style of Tukey)" ; dct:creator "ggplot2 authors" ; dct:identifier "l4-source-ggplot-boxplot" ; dct:source <https://ggplot2.tidyverse.org/reference/geom_boxplot.html> ; cd:supportsResource ex:l4-interpretation-ggplot-boxplot, ex:l4-interpretation-boxplot-limits ; cd:authoredResource true .
+  ex:l4-source-r-quantile cd:supportsResource ex:l4-formula-quartile-positions, ex:l4-formula-quantile-interpolation, ex:l4-interpretation-boxplot-limits .
+}

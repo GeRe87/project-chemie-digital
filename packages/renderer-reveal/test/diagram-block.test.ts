@@ -72,7 +72,7 @@ test("Reveal 1.1 preserves a complete static flow diagram instead of rejecting t
   assert.deepEqual(node.source, document.scenes[0]!.blocks[0]!.source);
   assert.deepEqual(node.nodes[1]!.source, [{ resourceId: "ex:processing", provenanceIds: ["graph:flow"], relationPath: "skos:prefLabel@en" }]);
   assert.deepEqual(node.edges[0]!.source, [{ resourceId: "ex:edge-data", provenanceIds: ["graph:flow"], relationPath: "skos:prefLabel@en" }]);
-  assert.match(node.staticFallback, /Measurement — produces data for → Data processing/);
+  assert.match(node.staticFallback, /Measurement: produces data for → Data processing/);
 });
 
 test("Pitch component projection retains the diagram as readable renderer-owned content", () => {
@@ -121,7 +121,7 @@ test("Reveal 1.3 preserves cloned sequence state semantics and readable fallback
   assert.notEqual(state?.participantBindings, authoredState.participantBindings);
   assert.notEqual(state?.participantBindings?.[0]?.source, authoredState.participantBindings?.[0]?.source);
   assert.match(node.staticFallback, /Participants:\n- Provider\n- Database/);
-  assert.match(node.staticFallback, /Provider — discover → Database/);
+  assert.match(node.staticFallback, /Provider: discover → Database/);
   assert.match(node.staticFallback, /Active messages: discover/);
   assert.match(node.staticFallback, /Provider: Package Template/);
 });

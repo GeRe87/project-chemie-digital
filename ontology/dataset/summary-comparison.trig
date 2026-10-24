@@ -1,0 +1,58 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/summary-comparison> {
+  cd:LearningDomain cdm:definesConcept cd:ComparisonStage ;
+    cdm:definesRelation cd:hasComparisonStage, cd:hasInvestigation, cd:comparisonCenter, cd:comparisonSpread, cd:comparisonVariance ;
+    cdm:definesAttribute cd:comparisonMode, cd:allowSeriesOverlay, cd:comparisonMinimum, cd:comparisonMaximum, cd:intervalLower, cd:intervalUpper .
+  cd:ComparisonStage a rdfs:Class, cdm:ConceptDescriptor .
+  cd:hasComparisonStage a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:ComparisonStage .
+  cd:hasInvestigation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ComparisonStage ; rdfs:range cd:ComparisonStage ; rdfs:comment "Optional independent probes of the current data, not subsequent lecture stages."@en .
+  cd:allowSeriesOverlay a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ComparisonStage ; rdfs:range xsd:boolean .
+  cd:comparisonCenter a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ObservationSeries ; rdfs:range cd:StatisticalResult .
+  cd:comparisonSpread a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ObservationSeries ; rdfs:range cd:StatisticalResult .
+  cd:comparisonVariance a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ObservationSeries ; rdfs:range cd:StatisticalResult .
+  cd:comparisonMode a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ComparisonStage ; rdfs:range xsd:string .
+  cd:comparisonMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:comparisonMaximum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:intervalLower a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:intervalUpper a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/summary-comparison> {
+  cd:ComparisonStageShape a sh:NodeShape ; sh:targetClass cd:ComparisonStage ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:comparisonMode ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "observations" "mean" "spread" "summaries" "overlay" "rank" "interval" "mirror" "topics" "distribution" ) ] ;
+    sh:property [ sh:path cd:allowSeriesOverlay ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:hasInvestigation ; sh:class cd:ComparisonStage ; sh:node [
+      sh:property [ sh:path cd:comparisonMode ; sh:in ( "rank" "interval" "mirror" ) ] ;
+      sh:property [ sh:path cd:hasInvestigation ; sh:maxCount 0 ]
+    ] ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ] .
+  cd:SummaryComparisonShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasComparisonStage ;
+    sh:property [ sh:path cd:observationView ; sh:hasValue "summary" ] ;
+    sh:property [ sh:path cd:hasObservationSeries ; sh:minCount 2 ; sh:class cd:ObservationSeries ] ;
+    sh:property [ sh:path cd:hasComparisonStage ; sh:minCount 1 ; sh:class cd:ComparisonStage ] ;
+    sh:property [ sh:path cd:comparisonMinimum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:comparisonMaximum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:intervalLower ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:intervalUpper ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:sparql [ sh:message "Comparison stage positions must be unique and contiguous." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        { $this cd:hasComparisonStage ?s, ?t . ?s cd:position ?p . ?t cd:position ?p . FILTER (?s != ?t) }
+        UNION { $this cd:hasComparisonStage ?s . ?s cd:position ?p . FILTER (?p > 1 && NOT EXISTS { $this cd:hasComparisonStage/cd:position ?previous . FILTER (?previous = ?p - 1) }) }
+      }""" ] ;
+    sh:sparql [ sh:message "Comparison summaries must refer to the plotted dataset and correct statistical property." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/> PREFIX ex: <https://w3id.org/project-chemie-digital/resource/>
+      SELECT $this WHERE {
+        $this cd:hasObservationSeries ?s . ?s cd:usesDataset ?d .
+        { FILTER NOT EXISTS { ?s cd:comparisonCenter ?r . ?r cd:usesDataset ?d ; cd:quantifiesProperty ex:arithmetic-mean } }
+        UNION { FILTER NOT EXISTS { ?s cd:comparisonSpread ?r . ?r cd:usesDataset ?d ; cd:quantifiesProperty ex:sample-standard-deviation } }
+        UNION { FILTER NOT EXISTS { ?s cd:comparisonVariance ?r . ?r cd:usesDataset ?d ; cd:quantifiesProperty ex:sample-variance } }
+      }""" ] .
+}

@@ -6,7 +6,7 @@
 
 # Synthetic, not real patient/sample data. Values are exact authored observations.
 <https://w3id.org/project-chemie-digital/graph/examples/level4-synthetic-qc> {
-  ex:l4-qc-example a cd:WorkedExample ; skos:prefLabel "Synthetic QC: identical robust summaries, different moments"@en ; cd:body "Two constructed seven-observation concentration series differ only in the last value (7 vs 30 mg/L). Under R type-7 sample quartiles both have Q1=4, median=5, Q3=5.5, IQR=1.5 and raw MAD=1 mg/L. Their means and second empirical central moments differ greatly. These are illustrative values, not evidence that a QC outlier is erroneous; determine the cause before exclusion."@en ; cd:usesDataset ex:l4-qc-reference, ex:l4-qc-extreme ; cd:hasSource ex:l4-source-r-quantile, ex:l4-source-r-mad ; cd:authoredResource true .
+  ex:l4-qc-example a cd:WorkedExample ; skos:prefLabel "Synthetic QC: identical robust summaries, different moments"@en ; cd:body "Two constructed seven-observation concentration series differ only in the last value (7 vs 30 mg/L). With linearly interpolated sample quartiles both have Q1=4, median=5, Q3=5.5, IQR=1.5 and raw MAD=1 mg/L. Their means and second empirical central moments differ greatly. These are illustrative values, not evidence that a QC outlier is erroneous; determine the cause before exclusion."@en ; cd:usesDataset ex:l4-qc-reference, ex:l4-qc-extreme ; cd:hasSource ex:l4-source-r-quantile, ex:l4-source-r-mad ; cd:authoredResource true .
   ex:interquartile-range cd:hasExample ex:l4-qc-example .
   ex:median-absolute-deviation cd:hasExample ex:l4-qc-example .
   ex:empirical-central-moment cd:hasExample ex:l4-qc-example .

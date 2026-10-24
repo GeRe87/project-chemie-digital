@@ -71,7 +71,7 @@ test("self-study 1.1 preserves flow structure, provenance and reading order", ()
   assert.deepEqual(node.source, document.scenes[0]!.blocks[0]!.source);
   assert.deepEqual(node.nodes.map((item) => item.id), ["node:measurement", "node:processing"]);
   assert.deepEqual(node.edges.map((item) => item.id), ["edge:data"]);
-  assert.match(node.staticFallback, /Measurement — produces data for → Data processing/);
+  assert.match(node.staticFallback, /Measurement: produces data for → Data processing/);
 });
 
 test("self-study HTML exposes a complete non-D3 diagram fallback with source identities", () => {
@@ -85,7 +85,7 @@ test("self-study HTML exposes a complete non-D3 diagram fallback with source ide
   assert.match(html, /data-diagram-edge-id="edge:data"/);
   assert.match(html, /data-resource-id="ex:edge-data"/);
   assert.match(html, /data-relation-path="skos:prefLabel@en"/);
-  assert.match(html, /Measurement — produces data for → Data processing/);
+  assert.match(html, /Measurement: produces data for → Data processing/);
 });
 
 test("legacy SceneDocument 1.0 remains self-study compatible", () => {
@@ -139,7 +139,7 @@ test("self-study 1.3 preserves sequence state semantics and renders their proven
   assert.notEqual(state?.activeMessageIds, authoredDiagram.states?.[0]?.activeMessageIds);
   assert.notEqual(state?.participantBindings?.[0]?.source, authoredDiagram.states?.[0]?.participantBindings?.[0]?.source);
   assert.match(node.staticFallback, /Participants:\n- Provider\n- Database/);
-  assert.match(node.staticFallback, /Provider — discover → Database/);
+  assert.match(node.staticFallback, /Provider: discover → Database/);
   assert.match(node.staticFallback, /Active messages: discover/);
   assert.match(node.staticFallback, /Provider: Package Template/);
 

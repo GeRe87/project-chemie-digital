@@ -51,6 +51,11 @@ export function semanticMultiViewStage(step: number): SemanticMultiViewStage {
 }
 
 export function semanticTableModel(block: ChartBlock): SemanticTableModel {
+  if (block.chartType === "observations") return {
+    label: block.label,
+    columns: ["Series", "Observation", axisLabel(block.xAxis.label, block.xAxis.unit)],
+    rows: block.series.flatMap(series => series.data.map(datum => ({id: `${series.id}:${datum.id}`, cells: [series.label, datum.label, String(datum.value)], source: uniqueSources([...series.source, ...datum.source])}))),
+  };
   if (block.chartType === "dot") return {
     label: block.label,
     columns: [block.xAxis.label, axisLabel(block.yAxis.label, block.yAxis.unit)],

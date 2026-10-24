@@ -13,3 +13,6 @@ apps/pitch/src/generated/course-manifest.json
 apps/pitch/public/course-runtime/
 apps/self-study/src/generated/canonical-runtime.json
 apps/pitch/public/vendor/
+# Disposable bounded authoring preview; canonical content remains TriG.
+apps/pitch/public/authoring-runtime.json
+apps/pitch/public/authoring-static.html

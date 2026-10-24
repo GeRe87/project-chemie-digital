@@ -1,0 +1,106 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+# Selection only. Composition remains inferred from ordinary content blocks.
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-data-concept a cd:SceneDefinition ; cd:focusConcept ex:order-statistic ; cd:hasSceneItem ex:l4-dc-h, ex:l4-dc-d, ex:l4-dc-f, ex:l4-dc-k ; cd:authoredResource true .
+  ex:l4-dc-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-data-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-dc-d a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-data-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-dc-f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-data-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-dc-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-data-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-order-notation-concept a cd:SceneDefinition ; cd:focusConcept ex:order-statistic ; cd:hasSceneItem ex:l4-on-h, ex:l4-on-d, ex:l4-on-f, ex:l4-on-k ; cd:authoredResource true .
+  ex:l4-on-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-order-notation-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-on-d a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-order-notation-intro ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-on-f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-order-notation-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-on-k a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-order-notation-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:l4-scene-range-applications a cd:SceneDefinition ; cd:focusConcept ex:sample-range ; cd:hasSceneItem ex:l4-ra-h, ex:l4-ra-s, ex:l4-ra-t, ex:l4-ra-p, ex:l4-ra-v ; cd:authoredResource true .
+  ex:l4-ra-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ra-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ra-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ra-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ra-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ra-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ra-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ra-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ra-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ra-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-range-limits a cd:SceneDefinition ; cd:focusConcept ex:sample-range ; cd:hasSceneItem ex:l4-rl-h, ex:l4-rl-s, ex:l4-rl-t, ex:l4-rl-p, ex:l4-rl-v ; cd:authoredResource true .
+  ex:l4-rl-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-rl-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-rl-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-rl-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-rl-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-rl-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-rl-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-rl-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-rl-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-rl-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-quartiles-applications a cd:SceneDefinition ; cd:focusConcept ex:quartile ; cd:hasSceneItem ex:l4-qa-h, ex:l4-qa-s, ex:l4-qa-t, ex:l4-qa-p, ex:l4-qa-v ; cd:authoredResource true .
+  ex:l4-qa-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-qa-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-qa-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-qa-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-qa-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-qa-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-qa-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-qa-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-qa-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-qa-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-quartiles-limits a cd:SceneDefinition ; cd:focusConcept ex:quartile ; cd:hasSceneItem ex:l4-ql-h, ex:l4-ql-s, ex:l4-ql-t, ex:l4-ql-p, ex:l4-ql-v ; cd:authoredResource true .
+  ex:l4-ql-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ql-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ql-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ql-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ql-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ql-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ql-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ql-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ql-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ql-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-quantiles-applications a cd:SceneDefinition ; cd:focusConcept ex:sample-quantile ; cd:hasSceneItem ex:l4-na-h, ex:l4-na-s, ex:l4-na-t, ex:l4-na-p, ex:l4-na-v ; cd:authoredResource true .
+  ex:l4-na-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-na-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-na-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-na-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-na-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-na-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-na-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-na-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-na-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-na-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-quantiles-limits a cd:SceneDefinition ; cd:focusConcept ex:sample-quantile ; cd:hasSceneItem ex:l4-nl-h, ex:l4-nl-s, ex:l4-nl-t, ex:l4-nl-p, ex:l4-nl-v ; cd:authoredResource true .
+  ex:l4-nl-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-nl-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-nl-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-nl-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-nl-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-nl-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-nl-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-nl-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-nl-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-nl-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-iqr-applications a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ; cd:hasSceneItem ex:l4-ia-h, ex:l4-ia-s, ex:l4-ia-t, ex:l4-ia-p, ex:l4-ia-v ; cd:authoredResource true .
+  ex:l4-ia-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ia-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ia-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ia-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ia-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ia-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ia-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ia-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ia-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ia-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-iqr-limits a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ; cd:hasSceneItem ex:l4-il-h, ex:l4-il-s, ex:l4-il-t, ex:l4-il-p, ex:l4-il-v ; cd:authoredResource true .
+  ex:l4-il-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-il-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-il-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-il-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-il-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-il-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-il-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-il-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-il-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-il-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-mad-applications a cd:SceneDefinition ; cd:focusConcept ex:median-absolute-deviation ; cd:hasSceneItem ex:l4-ma-h, ex:l4-ma-s, ex:l4-ma-t, ex:l4-ma-p, ex:l4-ma-v ; cd:authoredResource true .
+  ex:l4-ma-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ma-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ma-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ma-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ma-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ma-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ma-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ma-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ma-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ma-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-mad-limits a cd:SceneDefinition ; cd:focusConcept ex:median-absolute-deviation ; cd:hasSceneItem ex:l4-ml-h, ex:l4-ml-s, ex:l4-ml-t, ex:l4-ml-p, ex:l4-ml-v ; cd:authoredResource true .
+  ex:l4-ml-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ml-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ml-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ml-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ml-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ml-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ml-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ml-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ml-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ml-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-applications a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-ba-h, ex:l4-ba-s, ex:l4-ba-t, ex:l4-ba-p, ex:l4-ba-v ; cd:authoredResource true .
+  ex:l4-ba-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ba-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ba-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ba-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ba-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ba-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ba-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-ba-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ba-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-ba-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-box-limits a cd:SceneDefinition ; cd:focusConcept ex:boxplot ; cd:hasSceneItem ex:l4-bli-h, ex:l4-bl-s, ex:l4-bl-t, ex:l4-bl-p, ex:l4-bl-v ; cd:authoredResource true .
+  ex:l4-bli-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-bl-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-bl-s a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-bl-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-bl-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-bl-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-bl-p a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-bl-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-bl-v a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-bl-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-step-data-concept a cd:PathStep ; cd:position 2 ; cd:usesScene ex:l4-scene-data-concept ; cd:usesResource ex:l4-data-title, ex:l4-data-intro, ex:l4-data-formula, ex:l4-data-points ; cd:authoredResource true .
+  ex:l4-step-order-notation-concept a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l4-scene-order-notation-concept ; cd:usesResource ex:l4-order-notation-title, ex:l4-order-notation-intro, ex:l4-order-notation-formula, ex:l4-order-notation-points ; cd:authoredResource true .
+  ex:l4-step-range-applications a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l4-scene-range-applications ; cd:usesResource ex:l4-ra-title, ex:l4-ra-context, ex:l4-ra-table, ex:l4-ra-points, ex:l4-ra-chart ; cd:authoredResource true .
+  ex:l4-step-range-limits a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l4-scene-range-limits ; cd:usesResource ex:l4-rl-title, ex:l4-rl-context, ex:l4-rl-table, ex:l4-rl-points, ex:l4-rl-chart ; cd:authoredResource true .
+  ex:l4-step-quartiles-applications a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l4-scene-quartiles-applications ; cd:usesResource ex:l4-qa-title, ex:l4-qa-context, ex:l4-qa-table, ex:l4-qa-points, ex:l4-qa-chart ; cd:authoredResource true .
+  ex:l4-step-quartiles-limits a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l4-scene-quartiles-limits ; cd:usesResource ex:l4-ql-title, ex:l4-ql-context, ex:l4-ql-table, ex:l4-ql-points, ex:l4-ql-chart ; cd:authoredResource true .
+  ex:l4-step-quantiles-applications a cd:PathStep ; cd:position 11 ; cd:usesScene ex:l4-scene-quantiles-applications ; cd:usesResource ex:l4-na-title, ex:l4-na-context, ex:l4-na-table, ex:l4-na-points, ex:l4-na-chart ; cd:authoredResource true .
+  ex:l4-step-quantiles-limits a cd:PathStep ; cd:position 12 ; cd:usesScene ex:l4-scene-quantiles-limits ; cd:usesResource ex:l4-nl-title, ex:l4-nl-context, ex:l4-nl-table, ex:l4-nl-points, ex:l4-nl-chart ; cd:authoredResource true .
+  ex:l4-step-iqr-applications a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l4-scene-iqr-applications ; cd:usesResource ex:l4-ia-title, ex:l4-ia-context, ex:l4-ia-table, ex:l4-ia-points, ex:l4-ia-chart ; cd:authoredResource true .
+  ex:l4-step-iqr-limits a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l4-scene-iqr-limits ; cd:usesResource ex:l4-il-title, ex:l4-il-context, ex:l4-il-table, ex:l4-il-points, ex:l4-il-chart ; cd:authoredResource true .
+  ex:l4-step-mad-applications a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l4-scene-mad-applications ; cd:usesResource ex:l4-ma-title, ex:l4-ma-context, ex:l4-ma-table, ex:l4-ma-points, ex:l4-ma-chart ; cd:authoredResource true .
+  ex:l4-step-mad-limits a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l4-scene-mad-limits ; cd:usesResource ex:l4-ml-title, ex:l4-ml-context, ex:l4-ml-table, ex:l4-ml-points, ex:l4-ml-chart ; cd:authoredResource true .
+  ex:l4-step-box-applications a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l4-scene-box-applications ; cd:usesResource ex:l4-ba-title, ex:l4-ba-context, ex:l4-ba-table, ex:l4-ba-points, ex:l4-ba-chart ; cd:authoredResource true .
+  ex:l4-step-box-limits a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l4-scene-box-limits ; cd:usesResource ex:l4-bl-title, ex:l4-bl-context, ex:l4-bl-table, ex:l4-bl-points, ex:l4-bl-chart ; cd:authoredResource true .
+}

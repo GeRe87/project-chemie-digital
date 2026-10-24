@@ -5,7 +5,7 @@ import sys
 import unittest
 from pathlib import Path
 
-from rdflib import Literal, Namespace, RDF, URIRef
+from rdflib import Graph, Literal, Namespace, RDF, URIRef
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -26,18 +26,27 @@ PLACEMENT = EX["unit-placement-chemometrics-quantiles-moments-shape"]
 OFFERING = EX["teaching-offering-chemometrics-applied-statistics"]
 SECTION = EX["offering-section-chemometrics-data-characterization"]
 TOPICS = {
+    "histogram", "histogram-2d", "histogram-bin-width", "histogram-density",
+    "order-statistic", "sample-range", "quartile", "boxplot",
     "sample-quantile", "quantile-estimation-method", "empirical-cdf",
     "interquartile-range", "median-absolute-deviation", "potential-outlier",
     "empirical-central-moment", "skewness", "kurtosis", "sample-skewness",
     "sample-excess-kurtosis", "moment-estimation-convention",
 }
 SLUGS = (
-    "title", "population-sample", "empirical-cdf", "type-7",
-    "type-7-poll", "quantile-r", "iqr", "mad", "synthetic-qc",
-    "outlier-poll", "moments", "skewness", "kurtosis", "shape-r", "takeaways",
+    "summary-gap", "data-concept", "order-notation-concept",
+    "range-concept", "range-applications", "range-limits", "quartiles-concept", "quartiles-applications", "quartiles-limits",
+    "quantiles-concept", "quantiles-applications", "quantiles-limits", "iqr-concept", "iqr-applications", "iqr-limits", "mad-concept", "mad-applications", "mad-limits",
+    "spread-normal", "spread-skewed",
+    "box-construction", "box-applications", "box-limits", "box-extremes", "box-symmetric", "box-skewed", "box-bimodal", "box-uniform", "box-lab",
+    "histogram-intro", "histogram-reading", "histogram-skewed", "histogram-bimodal", "histogram-2d-intro", "histogram-2d-reading",
+    "histogram-too-coarse", "histogram-too-fine", "histogram-sensible-width", "histogram-origin", "histogram-rules", "histogram-rule-example",
+    "histogram-variable-width", "unequal-sort", "unequal-interpolate", "unequal-density", "histogram-variable-construction", "histogram-variable-use", "histogram-lab",
+    "ecdf-question", "ecdf-concept", "ecdf-worked", "ecdf-river", "ecdf-shapes", "ecdf-crossing", "ecdf-inverse",
+    "applied-mean", "mean-matrix", "applied-variance", "variance-matrix", "applied-skewness", "skewness-matrix", "applied-kurtosis", "kurtosis-matrix", "skew-zero", "moment-lab",
 )
 POLL_SLUGS = ("type-7", "outlier")
-CODE_SLUGS = ("quantile", "qc", "shape")
+CODE_SLUGS = ("qc", "shape")
 
 
 class Level4TeachingPathTests(unittest.TestCase):
@@ -46,7 +55,15 @@ class Level4TeachingPathTests(unittest.TestCase):
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
         cls.union = VALIDATION.dataset_union(cls.dataset)
         cls.paths = cls.dataset.graph(PATH_GRAPH)
-        cls.scenes = cls.dataset.graph(SCENES_GRAPH)
+        # Retired scene definitions remain reusable; validate the active selection.
+        authored_scenes = cls.dataset.graph(SCENES_GRAPH)
+        cls.retained_scenes = authored_scenes
+        cls.scenes = Graph()
+        for step in cls.paths.objects(PATH, CD.hasStep):
+            scene = next(cls.paths.objects(step, CD.usesScene))
+            for subject in [scene, *authored_scenes.objects(scene, CD.hasSceneItem)]:
+                for triple in authored_scenes.triples((subject, None, None)):
+                    cls.scenes.add(triple)
         cls.teaching = cls.dataset.graph(TEACHING_GRAPH)
 
     def test_fifth_learning_unit_is_placed_once_after_variance(self):
@@ -59,12 +76,12 @@ class Level4TeachingPathTests(unittest.TestCase):
         self.assertEqual({EX[x] for x in TOPICS}, focus)
         self.assertEqual(focus, set(self.paths.objects(PATH, CD.forTopic)))
 
-    def test_path_contains_exactly_fifteen_contiguous_single_scene_steps(self):
+    def test_path_contains_contiguous_single_scene_steps(self):
         self.assertEqual({PATH}, set(self.paths.subjects(RDF.type, CD.LearningPath)))
         steps = set(self.paths.objects(PATH, CD.hasStep))
         self.assertEqual(len(SLUGS), len(steps))
         for position, slug in enumerate(SLUGS, 1):
-            step = EX["l4-step-" + slug]
+            step = EX["l4-step-" + slug] if position<=18 else EX[f"l4-revised-{position}"] if position<=55 else EX[f"l4-applied-{position}"]
             scene = EX["l4-scene-" + slug]
             self.assertIn(step, steps)
             self.assertEqual({Literal(position)}, set(self.paths.objects(step, CD.position)))
@@ -115,11 +132,11 @@ class Level4TeachingPathTests(unittest.TestCase):
         item = EX["l4-synthetic-qc-i1"]
         title = EX["l4-qc-scene-heading"]
         example = EX["l4-qc-example"]
-        self.assertEqual({title}, set(self.scenes.objects(item, CD.selectsResource)))
+        self.assertEqual({title}, set(self.retained_scenes.objects(item, CD.selectsResource)))
         self.assertIn((title, RDF.type, CD.Interpretation), self.teaching)
         self.assertIn((title, CD.derivedFromResource, example), self.teaching)
         self.assertEqual({example},
-                         set(self.scenes.objects(EX["l4-synthetic-qc-i2"], CD.selectsResource)))
+                          set(self.retained_scenes.objects(EX["l4-synthetic-qc-i2"], CD.selectsResource)))
         self.assertIn((example, RDF.type, CD.WorkedExample), self.union)
         step = EX["l4-step-synthetic-qc"]
         self.assertEqual(
@@ -137,6 +154,10 @@ class Level4TeachingPathTests(unittest.TestCase):
             CD.FormulaRole: (CD.MathExpression, None, "cd:latex"),
             CD.CodeRole: (CD.CodeExample, None, "cd:hasCodeExample"),
             CD.PollRole: (CD.AudiencePoll, None, "cd:hasAudiencePoll"),
+            CD.ChartRole: (CD.ChartDefinition, None, "cd:body"),
+            CD.DefinitionListRole: (CD.DefinitionList, None, "cd:hasDefinitionListEntry"),
+            CD.TableRole: (CD.TableDefinition, None, "cd:hasTableRow"),
+            CD.KeyPointRole: (CD.Interpretation, None, "cd:hasKeyPoint"),
         }
         count = 0
         for scene in self.scenes.subjects(RDF.type, CD.SceneDefinition):
@@ -162,11 +183,11 @@ class Level4TeachingPathTests(unittest.TestCase):
                             primary in kinds or (alternative is not None and alternative in kinds),
                             f"{resource} has types {kinds}, incompatible with {role}",
                         )
-        self.assertEqual(55, count)
+        self.assertEqual(264, count)
 
     def test_summary_reuses_four_scientific_interpretations_without_copying_corrections(self):
         selected = [
-            next(self.scenes.objects(EX[f"l4-takeaways-i{i}"], CD.selectsResource))
+            next(self.retained_scenes.objects(EX[f"l4-takeaways-i{i}"], CD.selectsResource))
             for i in range(2, 6)
         ]
         expected = [
@@ -187,11 +208,11 @@ class Level4TeachingPathTests(unittest.TestCase):
 
     def test_existing_level4_scientific_formulas_are_selected_by_identity(self):
         expected = {
-            "l4-formula-empirical-cdf", "l4-formula-sample-quantile-type-1",
-            "l4-formula-sample-quantile-type-7", "l4-formula-interquartile-range",
-            "l4-formula-median-absolute-deviation", "l4-formula-normal-scaled-mad",
-            "l4-formula-empirical-second-central-moment",
-            "l4-formula-sample-skewness", "l4-formula-sample-excess-kurtosis",
+            "l4-data-formula", "l4-order-notation-formula",
+            "l4-hist-rules-formula", "l4-hist-density-formula",
+            "l4-formula-range", "l4-formula-quartile-positions", "l4-formula-quantile-interpolation", "l4-formula-interquartile-range",
+            "l4-formula-median-absolute-deviation",
+            "l4-formula-empirical-cdf", "l4-applied-mean-formula", "l4-applied-variance-formula", "l4-applied-kurtosis-formula", "l4-applied-skewness-formula",
         }
         actual = {
             str(resource).removeprefix(str(EX))
@@ -237,10 +258,10 @@ class Level4TeachingPathTests(unittest.TestCase):
             source = str(next(self.teaching.objects(code, CD.code)))
             self.assertNotIn("install.packages(", source)
             self.assertNotIn("library(", source)
-            items = list(self.scenes.subjects(CD.selectsResource, code))
+            items = list(self.retained_scenes.subjects(CD.selectsResource, code))
             self.assertEqual(1, len(items))
-            self.assertEqual({CD.CodeRole}, set(self.scenes.objects(items[0], CD.communicativeRole)))
-            self.assertEqual({Literal("cd:hasCodeExample")}, set(self.scenes.objects(items[0], CD.selectionPath)))
+            self.assertEqual({CD.CodeRole}, set(self.retained_scenes.objects(items[0], CD.communicativeRole)))
+            self.assertEqual({Literal("cd:hasCodeExample")}, set(self.retained_scenes.objects(items[0], CD.selectionPath)))
         qc = str(next(self.teaching.objects(EX["l4-code-qc"], CD.code)))
         self.assertIn("type = 7", qc)
         self.assertIn("mad(x, constant = 1)", qc)
@@ -264,7 +285,7 @@ class Level4TeachingPathTests(unittest.TestCase):
             if block["kind"] == "prompt" and block.get("responseMode") == "single-choice"
         ]
         authored_code_blocks = [block for block in blocks if block["kind"] == "code"]
-        self.assertEqual(2, len(authored_poll_blocks))
+        self.assertEqual(0, len(authored_poll_blocks))
         self.assertEqual(3, len(authored_code_blocks))
         for poll in authored_poll_blocks:
             self.assertEqual(3, len(poll["options"]))
@@ -274,7 +295,7 @@ class Level4TeachingPathTests(unittest.TestCase):
             self.assertEqual("r", code["language"])
             self.assertTrue(code["editable"])
             self.assertTrue(code["executable"])
-        scene = next(x for x in document["scenes"] if x["id"] == "ex:l4-scene-iqr--scene")
+        scene = next(x for x in document["scenes"] if x["id"] == "ex:l4-scene-iqr-concept--scene")
         self.assertIn("IQR", " ".join(b.get("expression", "") for b in scene["blocks"]))
 
     def test_path_order_and_named_provenance_do_not_depend_on_trig_source_order(self):

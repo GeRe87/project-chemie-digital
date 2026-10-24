@@ -72,7 +72,7 @@
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="prompt-code"]
   [data-component-kind="prompt"] .poll-prompt {
   margin: 0;
-  font: 760 .9em/1.42 Arial, Helvetica, sans-serif;
+  font: 400 .9em/1.42 Arial, Helvetica, sans-serif;
   text-align: left;
 }
 

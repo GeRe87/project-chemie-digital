@@ -24,6 +24,7 @@ from course_path_selection import (
 )
 from rdf_dataset import assemble_dataset, dataset_fingerprint
 from teaching_offering_runtime import project_teaching_offering_runtime_document
+from histogram_statistics import bins as histogram_bins, cells as histogram_cells
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
@@ -919,8 +920,14 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
                       "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
                       "source": [source_reference(dataset, observation, "cd:numericValue"),
                                  source_reference(dataset, chart_dataset, "cd:hasObservation")]}
-                     for observation in ordered(chart_dataset, "hasObservation")],
+                      for observation in ordered(chart_dataset, "hasObservation")],
         })
+        interval=one(dataset,group,iri(CD,"displayInterval"),required=False)
+        if interval is not None:
+            if not isinstance(interval,URIRef) or not is_resource_type(dataset,interval,"ObservationInterval") or literal(dataset,interval,iri(CD,"unit"))!=unit:raise ValueError("Display intervals require typed, same-unit bounds")
+            lower,upper=[decimal_number(dataset,interval,iri(CD,p)) for p in ("lowerBound","upperBound")]
+            if lower>upper:raise ValueError("Interval lower bound exceeds upper bound")
+            groups[-1]["interval"]={"id":compact(interval),"label":selected_label_reference(dataset,interval,language)[0],"lower":lower,"upper":upper,"source":[source_reference(dataset,group,"cd:displayInterval"),source_reference(dataset,interval,"cd:lowerBound"),source_reference(dataset,interval,"cd:upperBound"),source_reference(dataset,interval,"cd:unit")]}
         if one(dataset, group, iri(CD, "groupXValue"), required=False) is not None:
             groups[-1]["x"] = decimal_number(dataset, group, iri(CD, "groupXValue"))
             groups[-1]["source"].append(source_reference(dataset, group, "cd:groupXValue"))
@@ -1017,10 +1024,211 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
     }, label_path
 
 
+def observation_explorer_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    def sequence(subject, predicate):
+        values = sorted(set(objects(dataset, subject, predicate)), key=lambda item: integer(dataset, item, iri(CD, "position")))
+        if [integer(dataset, item, iri(CD, "position")) for item in values] != list(range(1, len(values) + 1)):
+            raise ValueError("Observation presentation positions must be unique and contiguous")
+        return values
+    view = literal(dataset, chart, iri(CD, "observationView"))
+    if view not in ("compare", "order", "count", "ecdf", "summary", "moments"):
+        raise ValueError("Unsupported observation view")
+    series = []
+    units = set()
+    for resource in sequence(chart, iri(CD, "hasObservationSeries")):
+        if not is_resource_type(dataset, resource, "ObservationSeries"):
+            raise ValueError("Observation series must have explicit type")
+        source_dataset = one(dataset, resource, iri(CD, "usesDataset"))
+        if not is_resource_type(dataset, source_dataset, "Dataset"):
+            raise ValueError("Observation series requires a Dataset")
+        units.add(literal(dataset, source_dataset, iri(CD, "unit")))
+        data = []
+        for placement in sequence(resource, iri(CD, "hasObservationPlacement")):
+            if not is_resource_type(dataset, placement, "ObservationPlacement"):
+                raise ValueError("Presentation placement must have explicit type")
+            observation = one(dataset, placement, iri(CD, "targetObservation"))
+            if observation not in objects(dataset, source_dataset, iri(CD, "hasObservation")):
+                raise ValueError("Observation placement refers outside its dataset")
+            if not is_resource_type(dataset, observation, "Observation"):
+                raise ValueError("Observation placement requires an Observation")
+            data.append({"id": compact(observation), "value": decimal_number(dataset, observation, iri(CD, "numericValue")),
+                         "label": f'O{integer(dataset, observation, iri(CD, "position"))}',
+                         "source": [source_reference(dataset, observation, "cd:numericValue"),
+                                    source_reference(dataset, observation, "cd:position"),
+                                    source_reference(dataset, placement, "cd:targetObservation")]})
+        if not data or len({d["id"] for d in data}) != len(data) or {d["id"] for d in data} != {compact(o) for o in objects(dataset, source_dataset, iri(CD, "hasObservation"))}:
+            raise ValueError("Presentation must retain every dataset observation exactly once")
+        label, label_path = selected_label_reference(dataset, resource, language)
+        series.append({"id": compact(resource), "datasetId": compact(source_dataset), "label": label, "data": data,
+                       "source": [source_reference(dataset, resource, label_path), source_reference(dataset, resource, "cd:usesDataset")]})
+        if view == "summary":
+            summaries = {}
+            for key, relation, property_name in (("mean", "comparisonCenter", "arithmetic-mean"), ("variance", "comparisonVariance", "sample-variance"), ("sd", "comparisonSpread", "sample-standard-deviation")):
+                result = one(dataset, resource, iri(CD, relation))
+                if not is_resource_type(dataset, result, "StatisticalResult") or source_dataset not in objects(dataset, result, iri(CD, "usesDataset")) or one(dataset, result, iri(CD, "quantifiesProperty")) != iri(EX, property_name):
+                    raise ValueError("Comparison result must quantify the declared statistic of the plotted dataset")
+                result_unit = literal(dataset, result, iri(CD, "unit"))
+                expected_unit = "(" + literal(dataset, source_dataset, iri(CD, "unit")) + ")^2" if key == "variance" else literal(dataset, source_dataset, iri(CD, "unit"))
+                if result_unit != expected_unit:
+                    raise ValueError("Comparison result has inconsistent units")
+                value = decimal_number(dataset, result, iri(CD, "numericValue"))
+                if key != "mean" and value < 0:
+                    raise ValueError("Comparison dispersion must be nonnegative")
+                summaries[key] = {"id": compact(result), "label": selected_literal(dataset, result, SKOS.prefLabel, "skos:prefLabel", language), "value": value, "unit": result_unit,
+                                  "propertyId": compact(iri(EX, property_name)), "source": [source_reference(dataset, resource, "cd:" + relation), source_reference(dataset, result, "cd:numericValue"), source_reference(dataset, result, "cd:quantifiesProperty"), source_reference(dataset, result, "skos:prefLabel"), source_reference(dataset, result, "cd:unit")]}
+            series[-1]["summaries"] = summaries
+    if not series or (view not in ("compare", "summary", "ecdf", "moments") and len(series) != 1) or (view == "summary" and len(series) < 2):
+        raise ValueError("Observation view has invalid series count")
+    unit = literal(dataset, chart, iri(CD, "xAxisUnit"))
+    if not unit or units != {unit}:
+        raise ValueError("Observation series and numeric axis must have identical units")
+    label, label_path = selected_label_reference(dataset, chart, language)
+    payload = {"chartType": "observations", "view": view, "label": label,
+               "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+               "xAxis": {"label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language), "unit": unit},
+               "yAxis": {"label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language)}, "series": series}
+    metric=literal(dataset,chart,iri(CD,"momentMetric"))
+    if view=="moments":
+        if metric not in ("mean","variance","kurtosis","skewness") or len(series)>6 or any(len(s["data"])<2 for s in series):raise ValueError("Moment view requires a known metric and 1–6 nontrivial series")
+        payload["momentMetric"]=metric
+    elif metric:raise ValueError("Moment metric requires a moment view")
+    compact_display=one(dataset,chart,iri(CD,"compactObservations"),required=False)
+    if compact_display is not None:
+        if view!="ecdf" or not isinstance(compact_display,Literal) or compact_display.datatype!=URIRef("http://www.w3.org/2001/XMLSchema#boolean"):raise ValueError("Compact observation display requires an ECDF and boolean")
+        payload["compact"]=compact_display.toPython()
+    interactive_display=one(dataset,chart,iri(CD,"interactiveObservations"),required=False)
+    if interactive_display is not None:
+        if view!="ecdf" or not isinstance(interactive_display,Literal) or interactive_display.datatype!=URIRef("http://www.w3.org/2001/XMLSchema#boolean") or not payload.get("compact"):raise ValueError("Static ECDF option requires a compact ECDF and boolean")
+        payload["interactive"]=interactive_display.toPython()
+    if view == "summary":
+        minimum, maximum, lower, upper = [decimal_number(dataset, chart, iri(CD, p)) for p in ("comparisonMinimum", "comparisonMaximum", "intervalLower", "intervalUpper")]
+        if not minimum <= lower <= upper <= maximum or minimum >= maximum or any(d["value"] < minimum or d["value"] > maximum for s in series for d in s["data"]):
+            raise ValueError("Invalid comparison domain or interval")
+        stages = []
+        for stage in sequence(chart, iri(CD, "hasComparisonStage")):
+            mode = literal(dataset, stage, iri(CD, "comparisonMode"))
+            if not is_resource_type(dataset, stage, "ComparisonStage") or mode not in ("observations", "mean", "spread", "summaries", "overlay", "rank", "interval", "mirror", "topics", "distribution"):
+                raise ValueError("Invalid comparison stage")
+            record = {"id": compact(stage), "mode": mode, "label": selected_literal(dataset, stage, SKOS.prefLabel, "skos:prefLabel", language),
+                      "prompt": selected_literal(dataset, stage, iri(CD, "body"), "cd:body", language),
+                      "source": [source_reference(dataset, stage, "cd:comparisonMode"), source_reference(dataset, stage, "cd:body"), source_reference(dataset, stage, "skos:prefLabel")]}
+            topics = sequence(stage, iri(CD, "hasKeyPoint"))
+            if topics:
+                record["topics"] = [{"text": selected_literal(dataset, topic, iri(CD, "body"), "cd:body", language), "source": [source_reference(dataset, topic, "cd:body")]} for topic in topics]
+            overlay = one(dataset, stage, iri(CD, "allowSeriesOverlay"), required=False)
+            if overlay is not None:
+                if not isinstance(overlay, Literal) or not isinstance(overlay.toPython(), bool):
+                    raise ValueError("Overlay permission must be boolean")
+                record["allowOverlay"] = overlay.toPython()
+                record["source"].append(source_reference(dataset, stage, "cd:allowSeriesOverlay"))
+            probes = sequence(stage, iri(CD, "hasInvestigation"))
+            if probes:
+                record["investigations"] = []
+                for probe in probes:
+                    probe_mode = literal(dataset, probe, iri(CD, "comparisonMode"))
+                    if not is_resource_type(dataset, probe, "ComparisonStage") or probe_mode not in ("rank", "interval", "mirror") or objects(dataset, probe, iri(CD, "hasInvestigation")):
+                        raise ValueError("Invalid optional investigation")
+                    record["investigations"].append({"id": compact(probe), "mode": probe_mode,
+                        "label": selected_literal(dataset, probe, SKOS.prefLabel, "skos:prefLabel", language),
+                        "prompt": selected_literal(dataset, probe, iri(CD, "body"), "cd:body", language),
+                        "source": [source_reference(dataset, stage, "cd:hasInvestigation"), source_reference(dataset, probe, "cd:comparisonMode"), source_reference(dataset, probe, "cd:body"), source_reference(dataset, probe, "skos:prefLabel")]})
+            stages.append(record)
+        if not stages:
+            raise ValueError("Summary comparison requires authored stages")
+        details = []
+        for part in objects(dataset, chart, DCTERMS.hasPart):
+            if is_resource_type(dataset, part, "MathExpression"):
+                details.append({"expression": literal(dataset, part, iri(CD, "latex")), "source": [source_reference(dataset, part, "cd:latex")]})
+            elif any(is_resource_type(dataset, part, kind) for kind in ("Definition", "WorkedExample", "Interpretation")):
+                details.append({"text": selected_literal(dataset, part, iri(CD, "body"), "cd:body", language), "source": [source_reference(dataset, part, "cd:body")]})
+            else:
+                raise ValueError("Unsupported comparison detail resource")
+        payload["comparison"] = {"minimum": minimum, "maximum": maximum, "interval": [lower, upper], "stages": stages, "details": details}
+    threshold_predicates = ("thresholdMinimum", "thresholdMaximum", "thresholdInitial", "thresholdStep")
+    if view in ("count", "ecdf"):
+        minimum, maximum, initial, step = [decimal_number(dataset, chart, iri(CD, p)) for p in threshold_predicates]
+        values = [d["value"] for s in series for d in s["data"]]
+        if not minimum < min(values) <= max(values) < maximum or not minimum <= initial <= maximum or step <= 0:
+            raise ValueError("Threshold domain must include both tails, a valid initial value and positive step")
+        payload["threshold"] = {"minimum": minimum, "maximum": maximum, "initial": initial, "step": step}
+    elif any(objects(dataset, chart, iri(CD, p)) for p in threshold_predicates):
+        raise ValueError("Only counting and ECDF views permit thresholds")
+    definition = one(dataset, chart, iri(CD, "formalDefinition"), required=False)
+    expression = one(dataset, chart, iri(CD, "formalExpression"), required=False)
+    if definition or expression:
+        if view != "ecdf" or not isinstance(definition, URIRef) or not isinstance(expression, URIRef) or not is_resource_type(dataset, definition, "Definition") or not is_resource_type(dataset, expression, "MathExpression"):
+            raise ValueError("Formalization requires an ECDF view and canonical definition/expression pair")
+        text = selected_literal(dataset, definition, iri(CD, "body"), "cd:body", language)
+        payload["formal"] = {"definition": text, "expression": literal(dataset, expression, iri(CD, "latex")), "spokenText": text,
+                             "source": [source_reference(dataset, chart, "cd:formalDefinition"), source_reference(dataset, chart, "cd:formalExpression"),
+                                        source_reference(dataset, definition, "cd:body"), source_reference(dataset, expression, "cd:latex")]}
+    return payload, label_path
+
+
+def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimensional: bool) -> tuple[dict[str, Any], str | None]:
+    def edge_list(predicate):
+        node=one(dataset,chart,iri(CD,predicate));seen=set();values=[]
+        while node != RDF.nil:
+            if node in seen or len(values)>513:raise ValueError("Invalid histogram edge list")
+            seen.add(node);value=one(dataset,node,RDF.first)
+            if not isinstance(value,Literal):raise ValueError("Histogram edges must be numeric literals")
+            values.append(float(value));node=one(dataset,node,RDF.rest)
+        return values
+    data_id=one(dataset,chart,iri(CD,"usesDataset"))
+    if not isinstance(data_id,URIRef) or not is_resource_type(dataset,data_id,"Dataset"):raise ValueError("Histogram requires one Dataset")
+    unit=literal(dataset,data_id,iri(CD,"unit"))
+    if not unit or literal(dataset,chart,iri(CD,"xAxisUnit"))!=unit:raise ValueError("Histogram dataset and numeric x-axis units must match")
+    observations=objects(dataset,data_id,iri(CD,"hasObservation"))
+    if any(not isinstance(o,URIRef) or not is_resource_type(dataset,o,"Observation") for o in observations):raise ValueError("Histogram requires canonical observations")
+    observations.sort(key=lambda o:integer(dataset,o,iri(CD,"position")))
+    if [integer(dataset,o,iri(CD,"position")) for o in observations] != list(range(1,len(observations)+1)):raise ValueError("Histogram positions must be contiguous")
+    label,label_path=selected_label_reference(dataset,chart,language)
+    payload={"chartType":"histogram2d" if two_dimensional else "histogram","label":label,"description":selected_literal(dataset,chart,iri(CD,"body"),"cd:body",language),
+        "xAxis":{"label":selected_literal(dataset,chart,iri(CD,"xAxisLabel"),"cd:xAxisLabel",language),"unit":unit},
+        "yAxis":{"label":selected_literal(dataset,chart,iri(CD,"yAxisLabel"),"cd:yAxisLabel",language)},"edges":edge_list("binEdges"),
+        "data":[{"id":compact(o),"value":decimal_number(dataset,o,iri(CD,"numericValue")),"source":[source_reference(dataset,o,"cd:numericValue"),source_reference(dataset,data_id,"cd:hasObservation")]} for o in observations]}
+    y_unit=literal(dataset,chart,iri(CD,"yAxisUnit"))
+    if y_unit:payload["yAxis"]["unit"]=y_unit
+    if two_dimensional:
+        if not y_unit or literal(dataset,data_id,iri(CD,"yMeasurementUnit"))!=y_unit:raise ValueError("2D histogram y units must match")
+        payload["yEdges"]=edge_list("yBinEdges")
+        for item,o in zip(payload["data"],observations):
+            item["y"]=decimal_number(dataset,o,iri(CD,"pairedValue"));item["source"].append(source_reference(dataset,o,"cd:pairedValue"))
+        histogram_cells(payload["data"],payload["edges"],payload["yEdges"])
+    else:
+        payload["normalization"]=literal(dataset,chart,iri(CD,"histogramNormalization"))
+        histogram_bins([d["value"] for d in payload["data"]],payload["edges"],payload["normalization"])
+        adjust=one(dataset,chart,iri(CD,"allowBinAdjustment"),required=False)
+        if adjust is not None:
+            if not isinstance(adjust,Literal) or adjust.toPython() is not True:raise ValueError("Bin adjustment requires explicit true")
+            minimum,maximum,step=[decimal_number(dataset,chart,iri(CD,p)) for p in ("binWidthMinimum","binWidthMaximum","binWidthStep")]
+            width=payload["edges"][1]-payload["edges"][0]
+            from histogram_statistics import equal_width
+            if minimum<=0 or maximum<minimum or step<=0 or not minimum<=width<=maximum or (payload["edges"][-1]-payload["edges"][0])/minimum>510 or not equal_width(payload["edges"]):raise ValueError("Invalid histogram adjustment bounds")
+            payload["binAdjustment"]={"minimumWidth":minimum,"maximumWidth":maximum,"widthStep":step}
+    return payload,label_path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "ObservationExplorer"):
+        return observation_explorer_payload(dataset, chart, language)
     if chart_type == iri(CD, "DotPlot"):
         return dot_plot_payload(dataset, chart, language)
+    if chart_type in (iri(CD,"Histogram"),iri(CD,"Histogram2D")):
+        return histogram_payload(dataset,chart,language,chart_type==iri(CD,"Histogram2D"))
+    if chart_type == iri(CD, "BoxPlot"):
+        if set(objects(dataset, chart, iri(CD, "dependsOn"))) != {iri(EX, "sample-quantile-type-7")}:
+            raise ValueError("Box plots require an explicit type-7 quantile method")
+        multiplier = decimal_number(dataset, chart, iri(CD, "fenceMultiplier"))
+        if multiplier < 0:
+            raise ValueError("Box plot fence multiplier must be nonnegative")
+        payload, label_path = dot_plot_payload(dataset, chart, language)
+        if set(payload) - {"chartType", "label", "description", "xAxis", "yAxis", "groups", "yMinimum"} or any(set(g) - {"id", "label", "source", "data"} for g in payload["groups"]):
+            raise ValueError("Box plots only support categorical dataset groups, without dot-specific options")
+        show=one(dataset,chart,iri(CD,"showObservations"),required=False)
+        if show is not None and (not isinstance(show,Literal) or show.datatype!=URIRef("http://www.w3.org/2001/XMLSchema#boolean")):raise ValueError("showObservations must be boolean")
+        return {**payload, "chartType": "box", "quantileMethod": "type7", "fenceMultiplier": multiplier, **({"showObservations":show.toPython()} if show is not None else {})}, label_path
     if chart_type == iri(CD, "BarChart"):
         payload, relation_path = bar_chart_payload(dataset, chart, language)
     elif chart_type == iri(CD, "LineChart"):
@@ -1075,7 +1283,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12}
     return required if versions[required] > versions[current] else current
 
 
@@ -1428,6 +1636,11 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = chart_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
+                if payload["chartType"] in ("histogram","histogram2d"):
+                    predicates=("cd:chartType","cd:usesDataset","cd:binEdges","cd:xAxisUnit")+(("cd:yBinEdges","cd:yAxisUnit") if payload["chartType"]=="histogram2d" else ("cd:histogramNormalization",))
+                    block_sources.extend(source_reference(dataset,selected,p) for p in predicates)
+                if payload["chartType"] == "box":
+                    block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:chartType", "cd:dependsOn", "cd:fenceMultiplier", "cd:yAxisUnit", "cd:hasChartGroup"))
                 if label_relation_path is not None and label_relation_path != relation_path:
                     block_sources.append(source_reference(dataset, selected, label_relation_path))
                 block = {
@@ -1439,7 +1652,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     "emphasis": "primary",
                     "intent": {"kind": "explain"},
                 }
-                document_version = promote_document_version(document_version, "1.6" if payload["chartType"] == "dot" else "1.2")
+                document_version = promote_document_version(document_version, "1.10" if payload["chartType"] in ("histogram","histogram2d") else "1.9" if payload["chartType"] == "box" else "1.8" if payload["chartType"] == "observations" else "1.6" if payload["chartType"] == "dot" else "1.2")
+                if payload.get("binAdjustment") or "compact" in payload or (payload["chartType"]=="observations" and payload["view"]=="ecdf" and len(payload["series"])>1) or any(g.get("interval") for g in payload.get("groups",[])):
+                    document_version=promote_document_version(document_version,"1.11")
+                if payload.get("view")=="moments":document_version=promote_document_version(document_version,"1.12")
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -1496,13 +1712,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         )
                         block["source"].append(source_reference(dataset, expected_result, "cd:body"))
                 else:
+                    body_format=literal(dataset,selected,iri(CD,"bodyFormat")) or "plain"
+                    if body_format not in ("plain","markdown"):raise ValueError("Unsupported authored body format")
                     block = {
                         "id": block_id, "kind": "prose",
                         "source": [source_reference(dataset, selected, relation_path)],
-                        "text": text, "format": "plain",
+                        "text": text, "format": body_format,
                         "disclosure": {"order": position - 1, "mode": "initial"},
                         "emphasis": "primary", "intent": {"kind": "explain"},
                     }
+                    if body_format!="plain":block["source"].append(source_reference(dataset,selected,"cd:bodyFormat"))
             elif is_resource_type(dataset, selected, "CodeExample"):
                 if role != "CodeRole":
                     raise ValueError(f"Code example {compact(selected)} requires CodeRole")
@@ -2101,7 +2320,35 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                         f'<ol class="chart-data">{value_items}</ol>'
                         f'<ul class="chart-annotations">{annotation_items}</ul>'
                     )
-                elif block["chartType"] == "dot":
+                elif block["chartType"] == "observations":
+                    rows = "".join(f'<li{fallback_attributes(datum["source"])}>{html.escape(series["label"])}: {html.escape(datum["label"])}: {datum["value"]} {html.escape(block["xAxis"]["unit"])}</li>' for series in block["series"] for datum in series["data"])
+                    extra = ""
+                    if block["view"]=="moments":
+                        for series in block["series"]:
+                            values=[d["value"] for d in series["data"]];n=len(values);mean=sum(values)/n
+                            m2,m3,m4=[sum((v-mean)**r for v in values)/n for r in (2,3,4)]
+                            skew=m3/m2**1.5 if m2>0 else "undefined";kurt=m4/m2**2 if m2>0 else "undefined"
+                            extra+=f'<p>{html.escape(series["label"])}: mean={mean}; m2={m2}; sample variance={m2*n/(n-1)}; skewness={skew}; kurtosis={kurt}. Point, linearly interpolated boxplot and common-bin histogram views retain all {n} observations.</p>'
+                    if "threshold" in block:
+                        initial = block["threshold"]["initial"]
+                        for series in block["series"]:
+                            values=sorted(d["value"] for d in series["data"]);count=sum(v<=initial for v in values)
+                            extra+=f'<p>{html.escape(series["label"])}: At x = {initial}: {count}/{len(values)} = {count/len(values)}. All ties enter together.</p><ul>'
+                            extra+="".join(f'<li>x = {v}: left limit {sum(x < v for x in values)/len(values)}; F_n(x) = {sum(x <= v for x in values)/len(values)}</li>' for v in sorted(set(values)))+'</ul><p>Below the minimum: 0; at and above the maximum: 1.</p>'
+                    elif block["view"] == "order":
+                        extra = '<p>Ordered observations (ties retained): ' + ", ".join(f'{d["label"]}={d["value"]}' for d in sorted(block["series"][0]["data"], key=lambda d: d["value"])) + '</p>'
+                    formal = block.get("formal")
+                    if "comparison" in block:
+                        extra += "".join(f'<p{fallback_attributes(r["source"])}>{html.escape(r["label"])}</p>' for s in block["series"] for r in s["summaries"].values())
+                        extra += "".join(f'<p{fallback_attributes(s["source"])}>{html.escape(s["label"])}: {html.escape(s["prompt"])}</p>' + ''.join(f'<p{fallback_attributes(t["source"])}>{html.escape(t["text"])}</p>' for t in s.get("topics", [])) + ''.join(f'<p{fallback_attributes(p["source"])}>Optional: {html.escape(p["label"])}: {html.escape(p["prompt"])}</p>' for p in s.get("investigations", [])) for s in block["comparison"]["stages"])
+                        extra += '<details><summary>Scientific details</summary>' + "".join('<p>' + html.escape(d.get("text", d.get("expression", ""))) + '</p>' for d in block["comparison"]["details"]) + '</details>'
+                    if formal:
+                        extra += f'<details><summary>Definition and formula</summary><p>{html.escape(formal["definition"])}</p><pre>{html.escape(formal["expression"])}</pre></details>'
+                    body = f'<ol>{rows}</ol>{extra}'
+                elif block["chartType"] in ("histogram","histogram2d"):
+                    records=histogram_cells(block["data"],block["edges"],block["yEdges"]) if block["chartType"]=="histogram2d" else histogram_bins([d["value"] for d in block["data"]],block["edges"],block["normalization"])
+                    body='<p>Bins are [lower, upper), with the final upper edge included. n='+str(len(block["data"]))+'</p><pre>'+html.escape(json.dumps(records,ensure_ascii=False,indent=2))+'</pre>'
+                elif block["chartType"] in ("dot", "box"):
                     unit = html.escape(block["yAxis"].get("unit", ""))
                     rows = "".join(
                         f'<li{fallback_attributes(datum["source"])}>{html.escape(group["label"])}: {datum["value"]} {unit}</li>'
@@ -2119,6 +2366,21 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                         for curve in block.get("curves", []) for datum in curve["data"]
                     )
                     body = f'<ol class="chart-data">{rows}{summaries}{curves}</ol>{annotation}'
+                    for group in block["groups"]:
+                        if "interval" in group:
+                            interval=group["interval"];count=sum(interval["lower"]<=d["value"]<=interval["upper"] for d in group["data"])
+                            body+=f'<p{fallback_attributes(interval["source"])}>{html.escape(interval["label"])}: [{interval["lower"]}, {interval["upper"]}] {unit}; {count}/{len(group["data"])} = {100*count/len(group["data"])}% in the closed interval.</p>'
+                    if block["chartType"] == "box":
+                        import statistics
+                        body += '<p>Linear interpolation; whiskers end at observations inside the fences, not at the fences.</p>'
+                        for group in block["groups"]:
+                            values = sorted(d["value"] for d in group["data"])
+                            q1, median, q3 = ([values[0]] * 3 if len(values) == 1 else statistics.quantiles(values, n=4, method="inclusive"))
+                            iqr = q3-q1
+                            lower, upper = q1-block["fenceMultiplier"]*iqr, q3+block["fenceMultiplier"]*iqr
+                            inside = [v for v in values if lower <= v <= upper]
+                            outliers = [v for v in values if v < lower or v > upper]
+                            body += f'<p>{html.escape(group["label"])}: Q1={q1}; median={median}; Q3={q3}; IQR={iqr}; fences=[{lower}, {upper}]; whiskers=[{min(inside)}, {max(inside)}]; flagged={outliers}</p>'
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-series-id="{html.escape(series["id"], quote=True)}"{fallback_attributes(series["source"])}>'
@@ -2157,7 +2419,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                         f'<li data-interaction-message-id="{html.escape(message["id"], quote=True)}" '
                         f'data-source-role-id="{html.escape(message["sourceRoleId"], quote=True)}" '
                         f'data-target-role-id="{html.escape(message["targetRoleId"], quote=True)}"{fallback_attributes(message["source"])}>'
-                        f'{html.escape(role_labels.get(message["sourceRoleId"], message["sourceRoleId"]))} — '
+                        f'{html.escape(role_labels.get(message["sourceRoleId"], message["sourceRoleId"]))}: '
                         f'{html.escape(message["label"])} → '
                         f'{html.escape(role_labels.get(message["targetRoleId"], message["targetRoleId"]))}</li>'
                         for message in block["messages"]
@@ -2205,7 +2467,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 )
                 edges = "".join(
                     f'<li data-diagram-edge-id="{html.escape(edge["id"], quote=True)}"{fallback_attributes(edge["source"])}>'
-                    f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))} — '
+                    f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))}: '
                     f'{html.escape(edge["label"])} → '
                     f'{html.escape(labels.get(edge["targetNodeId"], edge["targetNodeId"]))}'
                     f'</li>'

@@ -19,9 +19,11 @@
   ex:learning-unit-random-variables cd:hasThumbnail ex:world-variables-art .
   ex:learning-unit-mean-values cd:hasThumbnail ex:world-mean-art .
   ex:learning-unit-variance-dispersion cd:hasThumbnail ex:world-variance-art .
+  ex:learning-unit-quantiles-moments-shape cd:hasThumbnail ex:world-quantiles-moments-art .
 
   ex:world-introduction-art a cd:MediaAsset ; cd:uri "/course-world/introduction.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated starting island with a laboratory, a flask and a flag: an invitation to explore chemometrics."@en ; cd:authoredResource true .
   ex:world-variables-art a cd:MediaAsset ; cd:uri "/course-world/variables.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated observatory island with a die and coloured sample vials, suggesting chance and different kinds of variables. Decorative, not experimental data."@en ; cd:authoredResource true .
   ex:world-mean-art a cd:MediaAsset ; cd:uri "/course-world/mean-values.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated island with a balance and measurement markers gathering around a center, suggesting averages. Decorative, not a worked numerical example."@en ; cd:authoredResource true .
   ex:world-variance-art a cd:MediaAsset ; cd:uri "/course-world/variance.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated island with two groups of measurement markers at different spreads, suggesting variance and dispersion. Decorative, not experimental data."@en ; cd:authoredResource true .
+  ex:world-quantiles-moments-art a cd:MediaAsset ; cd:uri "/course-world/quantiles-moments.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrated floating island with a histogram, a quartile box and a stepped cumulative curve, suggesting quantiles and distribution shape. Decorative, not measurement data."@en ; cd:authoredResource true .
 }

@@ -31,9 +31,12 @@ import "./mathematical-derivation.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";
 import "./script-view.css";
+import "./observation-explorer.css";
+import "./summary-comparison.css";
 import { mountCodeOutputZoom } from "./code-output-zoom.ts";
 import { mountPresentationPageMotion, presentationBackgroundProgress } from "./presentation-page-motion.ts";
 import { mountScriptView } from "./script-view.ts";
+import { prependLectureTitle, resolveLectureTitle } from "./lecture-title.ts";
 import { mountMathematicalDerivations } from "./mathematical-derivation-runtime.ts";
 import { authoredSvgUris, mountTeachingSvgMedia } from "./teaching-svg-runtime.ts";
 import type { CanonicalRuntimeArtifact } from "./graph-scene-data.ts";
@@ -112,6 +115,11 @@ if (courseWorldModel) {
   appendPitchCourseLevelBoundarySlides(root, { ...courseWorldModel, units: courseWorldModel.units.filter(u => u.paths.some(p => selected.has(p.sceneDocumentId ?? ""))) });
 }
 
+const lectureTitles = documents.map(document => resolveLectureTitle(document,
+  artifact.sceneDocumentBindings ?? [], artifact.teachingOfferingDocuments ?? []));
+const unmountLectureTitles = documents.map((document, index) => lectureTitles[index]
+  ? prependLectureTitle(root, document, lectureTitles[index]!) : () => undefined);
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const unmountMathematicalDerivations = mountMathematicalDerivations(root, documents);
 const unmountDiagrams = mountPitchDiagrams(
@@ -156,7 +164,10 @@ const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities
   ? mountPresentationLaserPointer(presentation)
   : () => undefined;
 
-const nativePortraitViewport = appearance.profile.viewportPolicy === "native-portrait"
+// Interactive observation decks require real-sized form controls on portrait
+// screens rather than a scaled-down desktop canvas. Capability, not scene ID.
+const hasObservationExplorer = documents.some(document => document.scenes.some(scene => scene.blocks.some(block => block.kind === "chart" && block.chartType === "observations")));
+const nativePortraitViewport = (appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer)
   && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
 document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
 const nativeViewportWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
@@ -262,6 +273,21 @@ const deck = new Reveal({
     : { scrollActivationWidth: 0 }),
 });
 await deck.initialize();
+let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeViewportHeight}`;
+const syncNativeViewport = () => {
+  if (!hasObservationExplorer && appearance.profile.viewportPolicy !== "native-portrait") return;
+  const native = window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
+  const width = Math.max(320, Math.round(window.innerWidth));
+  const height = Math.max(560, Math.round(window.innerHeight));
+  document.body.classList.toggle("pcd-native-mobile", native);
+  const key = `${native}:${width}:${height}`;
+  if (key === viewportKey) return;
+  viewportKey = key;
+  deck.configure({width: native ? width : 1440, height: native ? height : 900, margin: native ? 0 : .04});
+  deck.layout();
+};
+window.addEventListener("resize", syncNativeViewport);
+syncNativeViewport();
 // Resolve authored deep links to native page boundaries. Reveal's proportional
 // scroll-trigger calculation can select a preceding page in fragment-rich decks.
 if (initialSceneId) {
@@ -426,7 +452,7 @@ if (connectedInteractive) {
 }
 
 const unmountCodeOutputZoom=mountCodeOutputZoom(root);
-const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck);
+const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
 
 const refreshInteractiveRuntime = (): void => {
   codeRuntime?.refresh();
@@ -444,8 +470,9 @@ const unmountShell = mountGraphSummaryShell({
 });
 
 window.addEventListener("pagehide", () => {
+  window.removeEventListener("resize", syncNativeViewport);
   deck.off("slidechanged",syncBackgroundPage);
-  unmountScriptView();unmountCodeOutputZoom();unmountPageMotion();
+  unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
   deck.off("slidechanged", refreshInteractiveRuntime);
   pollRuntime?.destroy();
   localPollRuntime?.destroy();

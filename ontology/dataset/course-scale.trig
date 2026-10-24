@@ -4,6 +4,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
+  ex:learning-unit-quantiles-moments-shape cd:hasFocusConcept ex:histogram, ex:histogram-2d, ex:histogram-bin-width, ex:histogram-density .
   ex:teaching-offering-digital-chemistry a cd:TeachingOffering ;
     skos:prefLabel "Digitalisierung in der Chemie: Datenmanagement, Prozesse, KI"@de ;
     cd:hasUnitPlacement ex:unit-placement-standard-deviation .
@@ -107,7 +108,7 @@
 
   ex:learning-unit-quantiles-moments-shape a cd:LearningUnit ;
     skos:prefLabel "Quantiles, Moments & Distribution Shape"@en ;
-    cd:hasFocusConcept ex:sample-quantile, ex:quantile-estimation-method, ex:empirical-cdf, ex:interquartile-range, ex:median-absolute-deviation, ex:potential-outlier, ex:empirical-central-moment, ex:skewness, ex:kurtosis, ex:sample-skewness, ex:sample-excess-kurtosis, ex:moment-estimation-convention .
+    cd:hasFocusConcept ex:order-statistic, ex:sample-range, ex:quartile, ex:boxplot, ex:sample-quantile, ex:quantile-estimation-method, ex:empirical-cdf, ex:interquartile-range, ex:median-absolute-deviation, ex:potential-outlier, ex:empirical-central-moment, ex:skewness, ex:kurtosis, ex:sample-skewness, ex:sample-excess-kurtosis, ex:moment-estimation-convention .
 
   ex:unit-placement-chemometrics-introduction a cd:UnitPlacement ;
     cd:position 10 ;

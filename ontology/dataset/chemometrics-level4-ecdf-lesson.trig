@@ -1,0 +1,100 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-ecdf-lesson> {
+  ex:l4-ecdf-small-chart cd:interactiveObservations false .
+  ex:l4-ecdf-river-chart cd:interactiveObservations false .
+  ex:l4-ecdf-shapes-chart cd:interactiveObservations false .
+  ex:l4-ecdf-question a cd:Interpretation ; skos:prefLabel "A bin-free view of the frequency distribution?"@en ; cd:bodyFormat "markdown" ; cd:body "**Same data, different histograms**\n\nBin width and origin change the picture, not the data. We want an empirical distribution view **without those choices**.\n\n- **Parameter-free counting:** no bins, bandwidth or assumed distribution family.\n- **Cumulative:** at each value, report the fraction **at or below it**.\n- **Objective for the same data:** no subjective bin selection; sampling bias and measurement limits remain.\n\n==The ECDF accumulates frequencies. It is not a density curve.=="@en ; cd:authoredResource true .
+  ex:l4-ecdf-concept a cd:Interpretation ; skos:prefLabel "ECDF: one cumulative count for every threshold"@en ; cd:bodyFormat "markdown" ; cd:body "**Empirical cumulative distribution function**\n\nFor each x, count every observation with xᵢ ≤ x and divide by n. The indicator in the formula is **1 when the condition holds, otherwise 0**.\n\n- Sort the data, retaining identities and ties.\n- At each observed value, add its multiplicity/n.\n- Hold the fraction constant until the next value.\n\n==No bins, no fitted population model.== Below the minimum the ECDF is 0; at and above the maximum it is 1. It includes the jump at x: **right-continuity**."@en ; cd:authoredResource true .
+  ex:l4-ecdf-worked a cd:Interpretation ; skos:prefLabel "Calculate an ECDF: include every tie"@en ; cd:bodyFormat "markdown" ; cd:body "**Seven-value hand calculation**\n\nSorted synthetic concentrations: **2, 4, 4, 5, 5, 6, 7 mg/L**.\n\n- At x = 3.9: 1 value included → **1/7**.\n- At x = 4: both tied 4s enter → **3/7**.\n- At x = 4.1: no new value → still **3/7**.\n\nThe jump at 4 is **2/7**, not 1/7. Filled endpoints are included; open endpoints are left limits. The vertical connector is not a set of intermediate function values."@en ; cd:authoredResource true .
+  ex:l4-ecdf-small-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "ecdf" ; cd:compactObservations true ; skos:prefLabel "Two tied values enter at x = 4"@en ; cd:body "At x = 4 mg/L, the two tied values enter together: Fₙ(4) = 3/7."@en ; cd:xAxisLabel "Threshold x"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Fₙ(x)"@en ; cd:thresholdMinimum 0.0 ; cd:thresholdMaximum 8.0 ; cd:thresholdInitial 4.0 ; cd:thresholdStep 0.1 ; cd:hasObservationSeries ex:l4-observation-reference ; cd:authoredResource true .
+  ex:l4-ecdf-river a cd:Interpretation ; skos:prefLabel "Answer the river question exactly"@en ; cd:bodyFormat "markdown" ; cd:body "**Scenario**\n\n50 constructed river concentrations: 0.5, 1.0, …, 25.0 mg/L. Not environmental evidence.\n\n**Interpretation**\n\nAt **12.3 mg/L**, 24 observations are included: **24/50 = 48%**. There are no observations between 12 and 12.5, so this segment is flat.\n\nAt 12.5: **25/50 = 50%**. For an interval (a,b], subtract Fₙ(a) from Fₙ(b). This is an observed sample fraction, not an estimate with guaranteed precision or a regulatory conclusion."@en ; cd:authoredResource true .
+  ex:l4-ecdf-river-series a cd:ObservationSeries ; skos:prefLabel "Synthetic river samples"@en ; cd:position 1 ; cd:usesDataset ex:l4-large-river ; cd:hasObservationPlacement ex:l4-er1, ex:l4-er2, ex:l4-er3, ex:l4-er4, ex:l4-er5, ex:l4-er6, ex:l4-er7, ex:l4-er8, ex:l4-er9, ex:l4-er10, ex:l4-er11, ex:l4-er12, ex:l4-er13, ex:l4-er14, ex:l4-er15, ex:l4-er16, ex:l4-er17, ex:l4-er18, ex:l4-er19, ex:l4-er20, ex:l4-er21, ex:l4-er22, ex:l4-er23, ex:l4-er24, ex:l4-er25, ex:l4-er26, ex:l4-er27, ex:l4-er28, ex:l4-er29, ex:l4-er30, ex:l4-er31, ex:l4-er32, ex:l4-er33, ex:l4-er34, ex:l4-er35, ex:l4-er36, ex:l4-er37, ex:l4-er38, ex:l4-er39, ex:l4-er40, ex:l4-er41, ex:l4-er42, ex:l4-er43, ex:l4-er44, ex:l4-er45, ex:l4-er46, ex:l4-er47, ex:l4-er48, ex:l4-er49, ex:l4-er50 ; cd:authoredResource true .
+  ex:l4-er1 a cd:ObservationPlacement ; cd:position 1 ; cd:targetObservation ex:l4-large-river-1 ; cd:authoredResource true .
+  ex:l4-er2 a cd:ObservationPlacement ; cd:position 2 ; cd:targetObservation ex:l4-large-river-2 ; cd:authoredResource true .
+  ex:l4-er3 a cd:ObservationPlacement ; cd:position 3 ; cd:targetObservation ex:l4-large-river-3 ; cd:authoredResource true .
+  ex:l4-er4 a cd:ObservationPlacement ; cd:position 4 ; cd:targetObservation ex:l4-large-river-4 ; cd:authoredResource true .
+  ex:l4-er5 a cd:ObservationPlacement ; cd:position 5 ; cd:targetObservation ex:l4-large-river-5 ; cd:authoredResource true .
+  ex:l4-er6 a cd:ObservationPlacement ; cd:position 6 ; cd:targetObservation ex:l4-large-river-6 ; cd:authoredResource true .
+  ex:l4-er7 a cd:ObservationPlacement ; cd:position 7 ; cd:targetObservation ex:l4-large-river-7 ; cd:authoredResource true .
+  ex:l4-er8 a cd:ObservationPlacement ; cd:position 8 ; cd:targetObservation ex:l4-large-river-8 ; cd:authoredResource true .
+  ex:l4-er9 a cd:ObservationPlacement ; cd:position 9 ; cd:targetObservation ex:l4-large-river-9 ; cd:authoredResource true .
+  ex:l4-er10 a cd:ObservationPlacement ; cd:position 10 ; cd:targetObservation ex:l4-large-river-10 ; cd:authoredResource true .
+  ex:l4-er11 a cd:ObservationPlacement ; cd:position 11 ; cd:targetObservation ex:l4-large-river-11 ; cd:authoredResource true .
+  ex:l4-er12 a cd:ObservationPlacement ; cd:position 12 ; cd:targetObservation ex:l4-large-river-12 ; cd:authoredResource true .
+  ex:l4-er13 a cd:ObservationPlacement ; cd:position 13 ; cd:targetObservation ex:l4-large-river-13 ; cd:authoredResource true .
+  ex:l4-er14 a cd:ObservationPlacement ; cd:position 14 ; cd:targetObservation ex:l4-large-river-14 ; cd:authoredResource true .
+  ex:l4-er15 a cd:ObservationPlacement ; cd:position 15 ; cd:targetObservation ex:l4-large-river-15 ; cd:authoredResource true .
+  ex:l4-er16 a cd:ObservationPlacement ; cd:position 16 ; cd:targetObservation ex:l4-large-river-16 ; cd:authoredResource true .
+  ex:l4-er17 a cd:ObservationPlacement ; cd:position 17 ; cd:targetObservation ex:l4-large-river-17 ; cd:authoredResource true .
+  ex:l4-er18 a cd:ObservationPlacement ; cd:position 18 ; cd:targetObservation ex:l4-large-river-18 ; cd:authoredResource true .
+  ex:l4-er19 a cd:ObservationPlacement ; cd:position 19 ; cd:targetObservation ex:l4-large-river-19 ; cd:authoredResource true .
+  ex:l4-er20 a cd:ObservationPlacement ; cd:position 20 ; cd:targetObservation ex:l4-large-river-20 ; cd:authoredResource true .
+  ex:l4-er21 a cd:ObservationPlacement ; cd:position 21 ; cd:targetObservation ex:l4-large-river-21 ; cd:authoredResource true .
+  ex:l4-er22 a cd:ObservationPlacement ; cd:position 22 ; cd:targetObservation ex:l4-large-river-22 ; cd:authoredResource true .
+  ex:l4-er23 a cd:ObservationPlacement ; cd:position 23 ; cd:targetObservation ex:l4-large-river-23 ; cd:authoredResource true .
+  ex:l4-er24 a cd:ObservationPlacement ; cd:position 24 ; cd:targetObservation ex:l4-large-river-24 ; cd:authoredResource true .
+  ex:l4-er25 a cd:ObservationPlacement ; cd:position 25 ; cd:targetObservation ex:l4-large-river-25 ; cd:authoredResource true .
+  ex:l4-er26 a cd:ObservationPlacement ; cd:position 26 ; cd:targetObservation ex:l4-large-river-26 ; cd:authoredResource true .
+  ex:l4-er27 a cd:ObservationPlacement ; cd:position 27 ; cd:targetObservation ex:l4-large-river-27 ; cd:authoredResource true .
+  ex:l4-er28 a cd:ObservationPlacement ; cd:position 28 ; cd:targetObservation ex:l4-large-river-28 ; cd:authoredResource true .
+  ex:l4-er29 a cd:ObservationPlacement ; cd:position 29 ; cd:targetObservation ex:l4-large-river-29 ; cd:authoredResource true .
+  ex:l4-er30 a cd:ObservationPlacement ; cd:position 30 ; cd:targetObservation ex:l4-large-river-30 ; cd:authoredResource true .
+  ex:l4-er31 a cd:ObservationPlacement ; cd:position 31 ; cd:targetObservation ex:l4-large-river-31 ; cd:authoredResource true .
+  ex:l4-er32 a cd:ObservationPlacement ; cd:position 32 ; cd:targetObservation ex:l4-large-river-32 ; cd:authoredResource true .
+  ex:l4-er33 a cd:ObservationPlacement ; cd:position 33 ; cd:targetObservation ex:l4-large-river-33 ; cd:authoredResource true .
+  ex:l4-er34 a cd:ObservationPlacement ; cd:position 34 ; cd:targetObservation ex:l4-large-river-34 ; cd:authoredResource true .
+  ex:l4-er35 a cd:ObservationPlacement ; cd:position 35 ; cd:targetObservation ex:l4-large-river-35 ; cd:authoredResource true .
+  ex:l4-er36 a cd:ObservationPlacement ; cd:position 36 ; cd:targetObservation ex:l4-large-river-36 ; cd:authoredResource true .
+  ex:l4-er37 a cd:ObservationPlacement ; cd:position 37 ; cd:targetObservation ex:l4-large-river-37 ; cd:authoredResource true .
+  ex:l4-er38 a cd:ObservationPlacement ; cd:position 38 ; cd:targetObservation ex:l4-large-river-38 ; cd:authoredResource true .
+  ex:l4-er39 a cd:ObservationPlacement ; cd:position 39 ; cd:targetObservation ex:l4-large-river-39 ; cd:authoredResource true .
+  ex:l4-er40 a cd:ObservationPlacement ; cd:position 40 ; cd:targetObservation ex:l4-large-river-40 ; cd:authoredResource true .
+  ex:l4-er41 a cd:ObservationPlacement ; cd:position 41 ; cd:targetObservation ex:l4-large-river-41 ; cd:authoredResource true .
+  ex:l4-er42 a cd:ObservationPlacement ; cd:position 42 ; cd:targetObservation ex:l4-large-river-42 ; cd:authoredResource true .
+  ex:l4-er43 a cd:ObservationPlacement ; cd:position 43 ; cd:targetObservation ex:l4-large-river-43 ; cd:authoredResource true .
+  ex:l4-er44 a cd:ObservationPlacement ; cd:position 44 ; cd:targetObservation ex:l4-large-river-44 ; cd:authoredResource true .
+  ex:l4-er45 a cd:ObservationPlacement ; cd:position 45 ; cd:targetObservation ex:l4-large-river-45 ; cd:authoredResource true .
+  ex:l4-er46 a cd:ObservationPlacement ; cd:position 46 ; cd:targetObservation ex:l4-large-river-46 ; cd:authoredResource true .
+  ex:l4-er47 a cd:ObservationPlacement ; cd:position 47 ; cd:targetObservation ex:l4-large-river-47 ; cd:authoredResource true .
+  ex:l4-er48 a cd:ObservationPlacement ; cd:position 48 ; cd:targetObservation ex:l4-large-river-48 ; cd:authoredResource true .
+  ex:l4-er49 a cd:ObservationPlacement ; cd:position 49 ; cd:targetObservation ex:l4-large-river-49 ; cd:authoredResource true .
+  ex:l4-er50 a cd:ObservationPlacement ; cd:position 50 ; cd:targetObservation ex:l4-large-river-50 ; cd:authoredResource true .
+  ex:l4-ecdf-river-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "ecdf" ; cd:compactObservations true ; skos:prefLabel "Exact threshold fractions for 50 samples"@en ; cd:body "Read horizontally from a threshold to its included cumulative fraction. Each single observation adds 1/50."@en ; cd:xAxisLabel "Nitrate threshold"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Fₙ(x)"@en ; cd:thresholdMinimum 0.0 ; cd:thresholdMaximum 26.0 ; cd:thresholdInitial 12.3 ; cd:thresholdStep 0.1 ; cd:hasObservationSeries ex:l4-ecdf-river-series ; cd:authoredResource true .
+  ex:l4-ecdf-shapes a cd:Interpretation ; skos:prefLabel "Different shapes, identical mean and SD"@en ; cd:bodyFormat "markdown" ; cd:body "**Scenario: four synthetic detector series**\n\n100 observations each; all have mean **50**, sample SD **10 a.u.**\n\n**Interpretation**\n\n- **Uniform:** nearly steady rise across its range.\n- **Normal-like:** faster rise near the centre, slower in the tails.\n- **Right-skewed:** rapid early rise, then a long upper tail.\n- **Bimodal:** two rising regions separated by a plateau.\n\nSteep regions mean many observations in a short interval; a plateau means none in that interval. An ECDF is not a density curve."@en ; cd:authoredResource true .
+  ex:l4-ecdf-crossing a cd:Interpretation ; skos:prefLabel "Crossing curves: which series is higher depends on x"@en ; cd:bodyFormat "markdown" ; cd:body "**Scenario: compare response distributions**\n\nFocus on the uniform and normal-like series, each n = 100. Compare the curves below and above 50 a.u.\n\n**Interpretation**\n\nTheir curves cross: one can include a larger fraction at a low threshold and a smaller fraction at a higher threshold. ==No single mean or universal ranking answers every threshold question.==\n\nA higher ECDF at x means **more values ≤ x**, not larger measurement values. This descriptive comparison is not a significance test or proof that one analytical method is better."@en ; cd:authoredResource true .
+  ex:l4-ecdf-shapes-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "ecdf" ; cd:compactObservations true ; skos:prefLabel "Four shapes as cumulative fractions"@en ; cd:body "100 observations per series. Compare threshold counts; the four curves are not fitted models."@en ; cd:xAxisLabel "Response threshold"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Fₙ(x)"@en ; cd:thresholdMinimum 20.0 ; cd:thresholdMaximum 100.0 ; cd:thresholdInitial 50.0 ; cd:thresholdStep 0.1 ; cd:hasObservationSeries ex:l4-shapes-uniform-series, ex:l4-shapes-normal-series, ex:l4-shapes-skewed-series, ex:l4-shapes-bimodal-series ; cd:authoredResource true .
+  ex:l4-ecdf-inverse a cd:Interpretation ; skos:prefLabel "Read backwards: inverse ECDF versus linear interpolation"@en ; cd:bodyFormat "markdown" ; cd:body "**Scenario: the same 50 river samples**\n\nAsk for the smallest observed x with Fₙ(x) ≥ **.25**. It is observation ceil(50 × .25) = **rank 13**, hence **6.5 mg/L**.\n\n**Interpretation**\n\nThe generalized inverse selects an observed value. Linear interpolation instead uses h = 1 + 49 × .25 = **13.25**, between 6.5 and 7: **6.625 mg/L**.\n\n==Both conventions are explicit, but they are not identical.== At p = 0, software conventions need separate care; the generalized inverse here is defined for 0 < p ≤ 1."@en ; cd:authoredResource true .
+
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-ecdf-question a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-eq-h, ex:l4-eq-b ; cd:authoredResource true .
+  ex:l4-eq-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-question ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-eq-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-question ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-concept a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-ec-h, ex:l4-ec-b, ex:l4-ec-f ; cd:authoredResource true .
+  ex:l4-ec-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-concept ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ec-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-concept ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ec-f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-formula-empirical-cdf ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-worked a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-ew-h, ex:l4-ew-b, ex:l4-ew-v ; cd:authoredResource true .
+  ex:l4-ew-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-worked ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ew-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-worked ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ew-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ecdf-small-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-river a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-er-h, ex:l4-er-b, ex:l4-er-v ; cd:authoredResource true .
+  ex:l4-er-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-river ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-er-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-river ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-er-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ecdf-river-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-shapes a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-es-h, ex:l4-es-b, ex:l4-es-v ; cd:authoredResource true .
+  ex:l4-es-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-shapes ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-es-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-shapes ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-es-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ecdf-shapes-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-crossing a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-ex-h, ex:l4-ex-b, ex:l4-ex-v ; cd:authoredResource true .
+  ex:l4-ex-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ecdf-shapes-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ex-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-crossing ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ex-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-crossing ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-scene-ecdf-inverse a cd:SceneDefinition ; cd:focusConcept ex:empirical-cdf ; cd:hasSceneItem ex:l4-ei-h, ex:l4-ei-b, ex:l4-ei-v ; cd:authoredResource true .
+  ex:l4-ei-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-ecdf-river-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ei-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-ecdf-inverse ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-ei-b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-ecdf-inverse ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

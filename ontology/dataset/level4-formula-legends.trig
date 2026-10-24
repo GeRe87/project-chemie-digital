@@ -1,0 +1,44 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-formula-legends> {
+  ex:l4-raw1-formula dct:hasPart ex:l4-raw1-legend .
+  ex:l4-raw2-formula dct:hasPart ex:l4-raw2-legend .
+  ex:l4-raw3-formula dct:hasPart ex:l4-raw3-legend .
+  ex:l4-raw4-formula dct:hasPart ex:l4-raw4-legend .
+  ex:l4-formula-empirical-central-moment dct:hasPart ex:l4-central-legend .
+  ex:l4-standardized-formula dct:hasPart ex:l4-standardized-legend .
+  ex:l4-formula-empirical-cdf dct:hasPart ex:l4-ecdf-legend .
+
+  ex:l4-moment-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σᵢ"@en ; cd:body "n: sample size; i: index 1 to n; Σᵢ: sum over all observations. Division by n forms the empirical average."@en ; cd:authoredResource true .
+  ex:l4-moment-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: value of observation i; x̄: arithmetic sample mean. Both use the measurement unit; xᵢ − x̄ is the deviation."@en ; cd:authoredResource true .
+  ex:l4-raw1-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "a₁"@en ; cd:body "a₁: first empirical raw moment, equal to x̄. The subscript 1 is the moment order. Raw moments take powers about the chosen zero; a₁ has the original measurement unit."@en ; cd:authoredResource true .
+  ex:l4-raw2-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "a₂ and m₂"@en ; cd:body "a₂: second empirical raw moment, the average of xᵢ². m₂: second empirical central moment, the average of (xᵢ − x̄)² with divisor n. Both have squared measurement units; m₂ is not the n−1 sample variance."@en ; cd:authoredResource true .
+  ex:l4-raw3-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "a₃, m₂ and m₃"@en ; cd:body "a₃: third empirical raw moment, average xᵢ³. m₂: average squared deviation (xᵢ − x̄)²; m₃: average cubed deviation (xᵢ − x̄)³. All averages use n. a₃ and m₃ have cubed units; m₂ has squared units."@en ; cd:authoredResource true .
+  ex:l4-raw4-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "a₄, m₂, m₃ and m₄"@en ; cd:body "a₄: fourth empirical raw moment, average xᵢ⁴. m₂, m₃ and m₄: averages of (xᵢ − x̄)², (xᵢ − x̄)³ and (xᵢ − x̄)⁴, respectively, each with divisor n. Their units follow the power; a₄ and m₄ have fourth-power units."@en ; cd:authoredResource true .
+  ex:l4-central-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "r and mᵣ"@en ; cd:body "r: positive integer moment order (here 1–4); mᵣ: rth empirical central moment, averaging the rth powers of deviations from x̄. Its unit is the measurement unit to power r; m₁ = 0 and m₂ uses divisor n."@en ; cd:authoredResource true .
+  ex:l4-standardized-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "r, mᵣ, m₂ and bᵣ"@en ; cd:body "r: positive integer order; mᵣ: divisor-n central moment of order r; m₂: average squared deviation; √m₂: divisor-n root-mean-square deviation. bᵣ: dimensionless standardized central moment. m₂ must be positive; otherwise bᵣ is undefined. b₃ is descriptive skewness and b₄ is kurtosis."@en ; cd:authoredResource true .
+  ex:l4-raw1-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-moment-sample-symbols, ex:l4-moment-value-symbols, ex:l4-raw1-symbols ; cd:authoredResource true .
+  ex:l4-raw2-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-r2-sample-symbols, ex:l4-r2-value-symbols, ex:l4-raw2-symbols ; cd:authoredResource true .
+  ex:l4-raw3-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-r3-sample-symbols, ex:l4-r3-value-symbols, ex:l4-raw3-symbols ; cd:authoredResource true .
+  ex:l4-raw4-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-r4-sample-symbols, ex:l4-r4-value-symbols, ex:l4-raw4-symbols ; cd:authoredResource true .
+  ex:l4-central-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-central-sample-symbols, ex:l4-central-value-symbols, ex:l4-central-symbols ; cd:authoredResource true .
+  ex:l4-standardized-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-standardized-sample-symbols, ex:l4-standardized-value-symbols, ex:l4-standardized-symbols ; cd:authoredResource true .
+  ex:l4-r2-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σᵢ"@en ; cd:body "n: sample size; i: observation index 1 to n; Σᵢ: sum over every observation. Division by n gives the empirical average."@en ; cd:authoredResource true .
+  ex:l4-r2-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: value of observation i; x̄: arithmetic sample mean. Both use the measurement unit. Squaring gives squared measurement units."@en ; cd:authoredResource true .
+  ex:l4-r3-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σᵢ"@en ; cd:body "n: sample size; i: observation index 1 to n; Σᵢ: sum over every observation. Division by n gives the empirical average."@en ; cd:authoredResource true .
+  ex:l4-r3-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: value of observation i; x̄: arithmetic sample mean. xᵢ − x̄ is its deviation. Cubing retains the sign and gives cubed measurement units."@en ; cd:authoredResource true .
+  ex:l4-r4-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σᵢ"@en ; cd:body "n: sample size; i: observation index 1 to n; Σᵢ: sum over every observation. Division by n gives the empirical average."@en ; cd:authoredResource true .
+  ex:l4-r4-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: value of observation i; x̄: arithmetic sample mean. Both use the measurement unit; powers and products in this identity all have fourth-power units."@en ; cd:authoredResource true .
+  ex:l4-central-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σ"@en ; cd:body "n: sample size; i: observation index from 1 to n; Σ: sum over those indices. Division by n forms a descriptive empirical moment."@en ; cd:authoredResource true .
+  ex:l4-central-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: value of observation i; x̄: arithmetic sample mean; xᵢ − x̄: deviation from that mean, in the measurement unit."@en ; cd:authoredResource true .
+  ex:l4-standardized-sample-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "n, i and Σᵢ"@en ; cd:body "n: sample size; i: index 1 to n; Σᵢ: sum over all n observations. Division by n averages the powered standardized deviations."@en ; cd:authoredResource true .
+  ex:l4-standardized-value-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ and x̄"@en ; cd:body "xᵢ: observed value i; x̄: sample mean; xᵢ − x̄: measured deviation. Division by √m₂ removes the measurement unit and scale."@en ; cd:authoredResource true .
+
+  ex:l4-ecdf-function-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Fₙ(x) and x"@en ; cd:body "Fₙ(x): unitless sample fraction at or below threshold x. The threshold x has the measurement unit."@en ; cd:authoredResource true .
+  ex:l4-ecdf-sample-symbols a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "xᵢ, n, i and Σ"@en ; cd:body "xᵢ: observed value i; n: sample size; i: index 1 to n; Σ: sum over every observation, including ties."@en ; cd:authoredResource true .
+  ex:l4-ecdf-indicator-symbols a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "1{xᵢ ≤ x}"@en ; cd:body "Indicator: 1 when xᵢ ≤ x, otherwise 0. Equality is included: tied values enter together. Dividing the count by n gives the fraction."@en ; cd:authoredResource true .
+  ex:l4-ecdf-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ecdf-function-symbols, ex:l4-ecdf-sample-symbols, ex:l4-ecdf-indicator-symbols ; cd:authoredResource true .
+}

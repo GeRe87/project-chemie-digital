@@ -186,8 +186,8 @@ class FlowDiagramProjectionTests(unittest.TestCase):
             fallback.index('data-diagram-edge-id="ex:flow-projection-edge-one"'),
             fallback.index('data-diagram-edge-id="ex:flow-projection-edge-two"'),
         )
-        self.assertIn("Eingang — führt zu → Ausgangstitel", fallback)
-        self.assertIn("Ausgangstitel — zurück zu → Eingang", fallback)
+        self.assertIn("Eingang: führt zu → Ausgangstitel", fallback)
+        self.assertIn("Ausgangstitel: zurück zu → Eingang", fallback)
         self.assertIn('data-resource-id="ex:flow-diagram-projection"', fallback)
         self.assertIn('data-relation-path="cd:body skos:prefLabel@de"', fallback)
         self.assertIn('data-resource-id="ex:flow-projection-node-two"', fallback)

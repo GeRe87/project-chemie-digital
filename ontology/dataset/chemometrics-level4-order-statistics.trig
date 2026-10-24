@@ -1,0 +1,215 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Semantic teaching resources only. Existing renderer rules compose the views.
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-order-teaching> {
+  ex:l4-range-title a cd:Interpretation ; skos:prefLabel "Range: the span of the observations"@en ; cd:authoredResource true .
+  ex:l4-range-example-title a cd:Interpretation ; skos:prefLabel "Range: one value changes the span"@en ; cd:authoredResource true .
+  ex:l4-quartiles-title a cd:Interpretation ; skos:prefLabel "Quartiles: three landmarks in ordered data"@en ; cd:authoredResource true .
+  ex:l4-quartiles-example-title a cd:Interpretation ; skos:prefLabel "Quartiles: the same landmarks, different extremes"@en ; cd:authoredResource true .
+  ex:l4-quantiles-title a cd:Interpretation ; skos:prefLabel "Quantiles: choose any probability"@en ; cd:authoredResource true .
+  ex:l4-quantiles-example-title a cd:Interpretation ; skos:prefLabel "Quantiles: look further into the upper tail"@en ; cd:authoredResource true .
+  ex:l4-iqr-title a cd:Interpretation ; skos:prefLabel "IQR: the distance between the outer quartiles"@en ; cd:authoredResource true .
+  ex:l4-iqr-example-title a cd:Interpretation ; skos:prefLabel "IQR: unchanged here, despite a larger range"@en ; cd:authoredResource true .
+  ex:l4-mad-title a cd:Interpretation ; skos:prefLabel "MAD: a median of absolute deviations"@en ; cd:authoredResource true .
+  ex:l4-mad-example-title a cd:Interpretation ; skos:prefLabel "MAD: sort the distances, then take their median"@en ; cd:authoredResource true .
+  ex:l4-box-construction-title a cd:Interpretation ; skos:prefLabel "Boxplots: construct and read the summary"@en ; cd:authoredResource true .
+  ex:l4-box-example-title a cd:Interpretation ; skos:prefLabel "Boxplots: the same box, a different whisker"@en ; cd:authoredResource true .
+  ex:l4-box-lab-title a cd:Interpretation ; skos:prefLabel "R lab: build and inspect a ggplot2 boxplot"@en ; cd:authoredResource true .
+
+  # Authored symbol/meaning legends reuse the formula-deck composition from Variance.
+  ex:l4-formula-range dct:hasPart ex:l4-range-legend .
+  ex:l4-formula-quartile-positions dct:hasPart ex:l4-quartiles-legend .
+  ex:l4-formula-quantile-interpolation dct:hasPart ex:l4-quantiles-legend .
+  ex:l4-formula-interquartile-range dct:hasPart ex:l4-iqr-legend .
+  ex:l4-formula-median-absolute-deviation dct:hasPart ex:l4-mad-legend .
+  ex:l4-range-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-range-symbols ; cd:authoredResource true .
+  ex:l4-range-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Order first"@en ; cd:body "x₍₁₎ is the minimum; x₍ₙ₎ is the maximum. R is a width, not the endpoint pair returned by R's range(x)."@en ; dct:references ex:order-statistic ; cd:authoredResource true .
+  ex:l4-quartiles-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-quartiles-symbols ; cd:authoredResource true .
+  ex:l4-quartiles-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Quarter, half, three quarters"@en ; cd:body "Q₁, Q₂ and Q₃ are the lower quartile, sample median and upper quartile. Q̂(p) is the linearly interpolated sample quantile at cumulative proportion p. The fractions 0.25, 0.50 and 0.75 are unitless; all quantile values have the measurement unit."@en ; dct:references ex:sample-quantile-type-7, ex:median ; cd:authoredResource true .
+  ex:l4-quantiles-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-quantiles-symbols ; cd:authoredResource true .
+  ex:l4-quantiles-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Interpolate between adjacent ranks"@en ; cd:body "p: unitless cumulative proportion; n: number of observations; h: fractional rank; floor(h): round h down to integer j; d: unitless interpolation weight h−j. x₍ⱼ₎ and x₍ⱼ₊₁₎ are adjacent ordered values; Q̂(p) is their weighted average, in the measurement unit. The factors 1−d and d sum to one. The displayed interior case requires n≥2 and p<1; at p=1 return the maximum, and for n=1 return the sole observation."@en ; dct:references ex:sample-quantile-type-7, ex:order-statistic ; cd:authoredResource true .
+  ex:l4-iqr-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-iqr-symbols ; cd:authoredResource true .
+  ex:l4-iqr-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A width in the original unit"@en ; cd:body "x₁,…,xₙ: observed values; n≥1: sample size. Q̂(p): linearly interpolated sample quantile at unitless proportion p. Subtract the lower quartile at 0.25 from the upper quartile at 0.75. IQR is this central width in the measurement unit, not the entire observed range."@en ; dct:references ex:quartile ; cd:authoredResource true .
+  ex:l4-mad-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-mad-symbols ; cd:authoredResource true .
+  ex:l4-mad-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two median operations"@en ; cd:body "First find the sample median; then find the median of all absolute distances to it. No squaring and no averaging of these distances."@en ; dct:references ex:median ; cd:authoredResource true .
+
+  ex:l4-range-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-range-k1, ex:l4-range-k2 ; cd:authoredResource true .
+  ex:l4-range-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Only the extrema matter**, not the arrangement between them."@en ; cd:authoredResource true .
+  ex:l4-range-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "One extreme value can change it strongly. Consider sample size and context."@en ; cd:authoredResource true .
+  ex:l4-quartiles-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-quartiles-k1, ex:l4-quartiles-k2 ; cd:authoredResource true .
+  ex:l4-quartiles-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Quartiles locate positions in ordered data; they are **not distances**."@en ; cd:authoredResource true .
+  ex:l4-quartiles-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Ties and interpolation:** the four parts need not contain exactly 25% each."@en ; cd:authoredResource true .
+  ex:l4-quantiles-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-quantiles-k1, ex:l4-quantiles-k2 ; cd:authoredResource true .
+  ex:l4-quantiles-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "The 90th percentile uses **p=0.90**, not p=90. Quartiles are special quantiles."@en ; cd:authoredResource true .
+  ex:l4-quantiles-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Declare the method: interpolated quantiles need not be observed values."@en ; cd:authoredResource true .
+  ex:l4-iqr-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-iqr-k1, ex:l4-iqr-k2 ; cd:authoredResource true .
+  ex:l4-iqr-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Less sensitive to some tail changes than range or SD; **not immune**."@en ; cd:authoredResource true .
+  ex:l4-iqr-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Same unit as SD, but not interchangeable with it or a confidence interval."@en ; cd:authoredResource true .
+  ex:l4-mad-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-mad-k1, ex:l4-mad-k2 ; cd:authoredResource true .
+  ex:l4-mad-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "R: **mad(x, constant=1)** is raw; the default scales by **1.4826**."@en ; cd:authoredResource true .
+  ex:l4-mad-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Ties can make raw MAD zero even when observations are not all equal."@en ; cd:authoredResource true .
+
+  # All hand examples reuse the same existing canonical QC observations, not copied datasets.
+  ex:l4-order-dots cd:yAxisMinimum "0"^^xsd:decimal .
+  ex:l4-order-boxes-one cd:yAxisMinimum "0"^^xsd:decimal .
+  ex:l4-order-boxes cd:yAxisMinimum "0"^^xsd:decimal .
+  ex:l4-order-group-reference a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Reference"@en ; cd:usesDataset ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-order-group-modified a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Modified"@en ; cd:usesDataset ex:l4-qc-extreme ; cd:authoredResource true .
+  ex:l4-order-dots a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Same seven observations, one changed endpoint"@en ; cd:body "Synthetic concentrations: reference 2, 4, 4, 5, 5, 6, 7; modified 2, 4, 4, 5, 5, 6, 30 mg/L. Every point is retained."@en ; cd:xAxisLabel "Series"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-order-group-reference, ex:l4-order-group-modified ; cd:authoredResource true .
+  ex:l4-order-box-reference a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Reference"@en ; cd:usesDataset ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-order-boxes-one a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "Construct the reference boxplot"@en ; cd:body "Linearly interpolated quartiles; 1.5 × IQR fences. Median line, quartile box, observed whisker endpoints. No confidence interval is shown."@en ; cd:xAxisLabel "Synthetic series"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-order-box-reference ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier "1.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-order-boxes a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "Same quartile box, different tail observations"@en ; cd:body "Linearly interpolated quartiles; 1.5 × IQR fences. The modified upper whisker ends at 6, not the fence 7.75 mg/L. The point at 30 is retained and flagged."@en ; cd:xAxisLabel "Synthetic series"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-order-group-reference, ex:l4-order-group-modified ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier "1.5"^^xsd:decimal ; cd:authoredResource true .
+
+  ex:l4-range-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-range-scenario-card ; cd:authoredResource true .
+  ex:l4-range-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: change only the maximum"@en ; cd:body "• Both synthetic series contain **seven values**.\n• Replace only **7 by 30 mg/L**.\n• How does the observed span respond?"@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+  ex:l4-quartiles-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-quartiles-scenario-card ; cd:authoredResource true .
+  ex:l4-quartiles-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: inspect ranks, not extrema"@en ; cd:body "• Use the same two **ordered** QC series.\n• For n=7, interpolation ranks are **2.5, 4 and 5.5**.\n• Interpolate adjacent values when needed."@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+  ex:l4-quantiles-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-quantiles-scenario-card ; cd:authoredResource true .
+  ex:l4-quantiles-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: compare the 90th percentiles"@en ; cd:body "• Linear interpolation at p=0.9 gives **h=6.4**.\n• Take **0.6 × rank 6 + 0.4 × rank 7**.\n• Now the changed final value matters."@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+  ex:l4-iqr-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-iqr-scenario-card ; cd:authoredResource true .
+  ex:l4-iqr-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: focus on the central spread"@en ; cd:body "• Both have **Q₁=4 and Q₃=5.5 mg/L**.\n• Subtract the **linearly interpolated quartiles**.\n• Compare with the ranges 5 and 28 mg/L."@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+  ex:l4-mad-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-mad-scenario-card ; cd:authoredResource true .
+  ex:l4-mad-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: measure distances to the median"@en ; cd:body "• Both sample medians are **5 mg/L**.\n• Compute every **absolute deviation**.\n• Sort those distances and take rank **4 of 7**."@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+  ex:l4-box-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-box-scenario-card ; cd:authoredResource true .
+  ex:l4-box-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Construction: declare the convention first"@en ; cd:body "Reference: **2,4,4,5,5,6,7 mg/L**.\n\n- **Quartiles:** use linear interpolation.\n- **Fences:** Q₁−1.5 IQR and Q₃+1.5 IQR.\n- **Whiskers:** last observed values inside.\n\n==Whiskers end at observations, not fences.=="@en ; dct:source ex:l4-qc-reference, ex:l4-formula-outlier-fence ; cd:authoredResource true .
+  ex:l4-box-example-scenario a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-box-example-scenario-card ; cd:authoredResource true .
+  ex:l4-box-example-scenario-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: read box, whiskers and flagged points"@en ; cd:body "• The same change: **7 → 30 mg/L**.\n• Quartiles and fences remain unchanged here.\n• Is the upper whisker now at **30, 7.75 or 6**?"@en ; dct:source ex:l4-qc-example ; cd:authoredResource true .
+
+  ex:l4-range-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-range-example-k ; cd:authoredResource true .
+  ex:l4-range-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "The range rises from **5 to 28 mg/L**, although six observations do not change. It tells us nothing about their arrangement."@en ; cd:authoredResource true .
+  ex:l4-quartiles-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-quartiles-example-k ; cd:authoredResource true .
+  ex:l4-quartiles-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "All three quartiles are **unchanged in this example**. That does not make the samples identical or quartiles immune to all changes."@en ; cd:authoredResource true .
+  ex:l4-quantiles-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-quantiles-example-k ; cd:authoredResource true .
+  ex:l4-quantiles-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "The **90th percentile changes** even though the median and quartiles agree. A few quantiles cannot determine the full distribution."@en ; cd:authoredResource true .
+  ex:l4-iqr-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-iqr-example-k ; cd:authoredResource true .
+  ex:l4-iqr-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "Both IQRs are **1.5 mg/L**: the central spread agrees while the tail changes. Retain a view of the individual observations."@en ; cd:authoredResource true .
+  ex:l4-mad-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-mad-example-k ; cd:authoredResource true .
+  ex:l4-mad-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "The fourth distance is **1 mg/L** in both samples. R's default mad(x) instead returns **1.4826 mg/L**; raw MAD needs constant=1."@en ; cd:authoredResource true .
+  ex:l4-box-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-box-k1, ex:l4-box-k2 ; cd:authoredResource true .
+  ex:l4-box-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Read **median → quartile box → whiskers → flagged points**. Box length shows IQR, not SD."@en ; cd:authoredResource true .
+  ex:l4-box-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "A boxplot does **not reveal modality**, sample size or every observation. Base R Tukey hinges can differ from ggplot2 quartiles."@en ; cd:authoredResource true .
+  ex:l4-box-example-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-box-example-k ; cd:authoredResource true .
+  ex:l4-box-example-k a cd:KeyPoint ; cd:position 1 ; cd:body "The modified whisker ends at **6 mg/L**, not at the fence. **30 remains plotted** as a diagnostic flag, not an automatic error verdict."@en ; cd:authoredResource true .
+
+  # The tables are authored semantic structures, never tab-separated code or renderer strings.
+  ex:l4-range-table a cd:TableDefinition ; skos:prefLabel "Range = maximum − minimum (mg/L)"@en ; cd:hasTableColumn ex:l4-range-c1, ex:l4-range-c2, ex:l4-range-c3 ; cd:hasTableRow ex:l4-range-r1, ex:l4-range-r2 ; cd:authoredResource true .
+  ex:l4-range-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-range-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Calculation"@en ; cd:authoredResource true .
+  ex:l4-range-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Range"@en ; cd:authoredResource true .
+  ex:l4-range-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-range-r1c1, ex:l4-range-r1c2, ex:l4-range-r1c3 ; cd:authoredResource true .
+  ex:l4-range-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-range-r2c1, ex:l4-range-r2c2, ex:l4-range-r2c3 ; cd:authoredResource true .
+  ex:l4-range-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+  ex:l4-range-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "7 − 2"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-range-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:l4-range-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:l4-range-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "30 − 2"@en ; dct:source ex:l4-qc-extreme ; cd:authoredResource true .
+  ex:l4-range-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "28"@en ; cd:authoredResource true .
+
+  ex:l4-quartiles-table a cd:TableDefinition ; skos:prefLabel "Quartiles, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-quartiles-c1, ex:l4-quartiles-c2, ex:l4-quartiles-c3, ex:l4-quartiles-c4 ; cd:hasTableRow ex:l4-quartiles-r1, ex:l4-quartiles-r2 ; cd:authoredResource true .
+  ex:l4-quartiles-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-quartiles-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Q₁"@en ; cd:authoredResource true .
+  ex:l4-quartiles-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Median"@en ; cd:authoredResource true .
+  ex:l4-quartiles-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Q₃"@en ; cd:authoredResource true .
+  ex:l4-quartiles-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-quartiles-r1c1, ex:l4-quartiles-r1c2, ex:l4-quartiles-r1c3, ex:l4-quartiles-r1c4 ; cd:authoredResource true .
+  ex:l4-quartiles-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-quartiles-r2c1, ex:l4-quartiles-r2c2, ex:l4-quartiles-r2c3, ex:l4-quartiles-r2c4 ; cd:authoredResource true .
+  ex:l4-quartiles-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+  ex:l4-quartiles-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "4"@en ; dct:source ex:l4-qc-reference-q1 ; cd:authoredResource true .
+  ex:l4-quartiles-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; dct:source ex:l4-qc-reference-median ; cd:authoredResource true .
+  ex:l4-quartiles-r1c4 a cd:TableCell ; cd:position 4 ; cd:body "5.5"@en ; dct:source ex:l4-qc-reference-q3 ; cd:authoredResource true .
+  ex:l4-quartiles-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:l4-quartiles-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "4"@en ; dct:source ex:l4-qc-extreme-q1 ; cd:authoredResource true .
+  ex:l4-quartiles-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; dct:source ex:l4-qc-extreme-median ; cd:authoredResource true .
+  ex:l4-quartiles-r2c4 a cd:TableCell ; cd:position 4 ; cd:body "5.5"@en ; dct:source ex:l4-qc-extreme-q3 ; cd:authoredResource true .
+
+  ex:l4-quantiles-table a cd:TableDefinition ; skos:prefLabel "Quantiles, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-quantiles-c1, ex:l4-quantiles-c2, ex:l4-quantiles-c3, ex:l4-quantiles-c4 ; cd:hasTableRow ex:l4-quantiles-r1, ex:l4-quantiles-r2 ; cd:authoredResource true .
+  ex:l4-quantiles-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-quantiles-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "p=0.10"@en ; cd:authoredResource true .
+  ex:l4-quantiles-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "p=0.50"@en ; cd:authoredResource true .
+  ex:l4-quantiles-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "p=0.90"@en ; cd:authoredResource true .
+  ex:l4-quantiles-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-quantiles-r1c1, ex:l4-quantiles-r1c2, ex:l4-quantiles-r1c3, ex:l4-quantiles-r1c4 ; cd:authoredResource true .
+  ex:l4-quantiles-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-quantiles-r2c1, ex:l4-quantiles-r2c2, ex:l4-quantiles-r2c3, ex:l4-quantiles-r2c4 ; cd:authoredResource true .
+  ex:l4-quantiles-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+  ex:l4-quantiles-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "3.2"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-quantiles-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; dct:source ex:l4-qc-reference-median ; cd:authoredResource true .
+  ex:l4-quantiles-r1c4 a cd:TableCell ; cd:position 4 ; cd:body "6.4"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-quantiles-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:l4-quantiles-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "3.2"@en ; dct:source ex:l4-qc-extreme ; cd:authoredResource true .
+  ex:l4-quantiles-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; dct:source ex:l4-qc-extreme-median ; cd:authoredResource true .
+  ex:l4-quantiles-r2c4 a cd:TableCell ; cd:position 4 ; cd:body "15.6"@en ; dct:source ex:l4-qc-extreme ; cd:authoredResource true .
+
+  ex:l4-iqr-example-table a cd:TableDefinition ; skos:prefLabel "IQR, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-iqr-e-c1, ex:l4-iqr-e-c2, ex:l4-iqr-e-c3 ; cd:hasTableRow ex:l4-iqr-e-r1, ex:l4-iqr-e-r2 ; cd:authoredResource true .
+  ex:l4-iqr-e-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Q₃ − Q₁"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "IQR"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-iqr-e-r1c1, ex:l4-iqr-e-r1c2, ex:l4-iqr-e-r1c3 ; cd:authoredResource true .
+  ex:l4-iqr-e-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-iqr-e-r2c1, ex:l4-iqr-e-r2c2, ex:l4-iqr-e-r2c3 ; cd:authoredResource true .
+  ex:l4-iqr-e-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "5.5 − 4"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "1.5"@en ; dct:source ex:l4-qc-reference-iqr ; cd:authoredResource true .
+  ex:l4-iqr-e-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "5.5 − 4"@en ; cd:authoredResource true .
+  ex:l4-iqr-e-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "1.5"@en ; dct:source ex:l4-qc-extreme-iqr ; cd:authoredResource true .
+
+  ex:l4-mad-example-table a cd:TableDefinition ; skos:prefLabel "Ordered absolute deviations (mg/L)"@en ; cd:hasTableColumn ex:l4-mad-e-c1, ex:l4-mad-e-c2, ex:l4-mad-e-c3 ; cd:hasTableRow ex:l4-mad-e-r1, ex:l4-mad-e-r2 ; cd:authoredResource true .
+  ex:l4-mad-e-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-mad-e-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Distances to 5"@en ; cd:authoredResource true .
+  ex:l4-mad-e-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "MAD"@en ; cd:authoredResource true .
+  ex:l4-mad-e-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-mad-e-r1c1, ex:l4-mad-e-r1c2, ex:l4-mad-e-r1c3 ; cd:authoredResource true .
+  ex:l4-mad-e-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-mad-e-r2c1, ex:l4-mad-e-r2c2, ex:l4-mad-e-r2c3 ; cd:authoredResource true .
+  ex:l4-mad-e-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+  ex:l4-mad-e-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "0, 0, 1, 1, 1, 2, 3"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-mad-e-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; dct:source ex:l4-qc-reference-mad ; cd:authoredResource true .
+  ex:l4-mad-e-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Modified"@en ; cd:authoredResource true .
+  ex:l4-mad-e-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "0, 0, 1, 1, 1, 3, 25"@en ; dct:source ex:l4-qc-extreme ; cd:authoredResource true .
+  ex:l4-mad-e-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; dct:source ex:l4-qc-extreme-mad ; cd:authoredResource true .
+
+  ex:l4-box-construction-table a cd:TableDefinition ; skos:prefLabel "Reference: calculate, then draw (mg/L)"@en ; cd:hasTableColumn ex:l4-box-c-c1, ex:l4-box-c-c2 ; cd:hasTableRow ex:l4-box-c-r1, ex:l4-box-c-r2, ex:l4-box-c-r3, ex:l4-box-c-r4 ; cd:authoredResource true .
+  ex:l4-box-c-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Component"@en ; cd:authoredResource true .
+  ex:l4-box-c-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Value / span"@en ; cd:authoredResource true .
+  ex:l4-box-c-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-box-c-r1c1, ex:l4-box-c-r1c2 ; cd:authoredResource true .
+  ex:l4-box-c-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-box-c-r2c1, ex:l4-box-c-r2c2 ; cd:authoredResource true .
+  ex:l4-box-c-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l4-box-c-r3c1, ex:l4-box-c-r3c2 ; cd:authoredResource true .
+  ex:l4-box-c-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l4-box-c-r4c1, ex:l4-box-c-r4c2 ; cd:authoredResource true .
+  ex:l4-box-c-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Median line"@en ; cd:authoredResource true .
+  ex:l4-box-c-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "5"@en ; dct:source ex:l4-qc-reference-median ; cd:authoredResource true .
+  ex:l4-box-c-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Box: Q₁ to Q₃"@en ; cd:authoredResource true .
+  ex:l4-box-c-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "4 to 5.5 (IQR 1.5)"@en ; dct:source ex:l4-qc-reference-q1, ex:l4-qc-reference-q3 ; cd:authoredResource true .
+  ex:l4-box-c-r3c1 a cd:TableCell ; cd:position 1 ; cd:body "Fences (not drawn)"@en ; cd:authoredResource true .
+  ex:l4-box-c-r3c2 a cd:TableCell ; cd:position 2 ; cd:body "1.75 and 7.75"@en ; cd:authoredResource true .
+  ex:l4-box-c-r4c1 a cd:TableCell ; cd:position 1 ; cd:body "Whisker endpoints"@en ; cd:authoredResource true .
+  ex:l4-box-c-r4c2 a cd:TableCell ; cd:position 2 ; cd:body "2 and 7"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+
+  ex:l4-box-example-table a cd:TableDefinition ; skos:prefLabel "Read the two boxplots (mg/L)"@en ; cd:hasTableColumn ex:l4-box-e-c1, ex:l4-box-e-c2, ex:l4-box-e-c3 ; cd:hasTableRow ex:l4-box-e-r1, ex:l4-box-e-r2, ex:l4-box-e-r3, ex:l4-box-e-r4 ; cd:authoredResource true .
+  ex:l4-box-e-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Component"@en ; cd:authoredResource true .
+  ex:l4-box-e-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Reference"@en ; cd:authoredResource true .
+  ex:l4-box-e-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Modified"@en ; cd:authoredResource true .
+  ex:l4-box-e-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-box-e-r1c1, ex:l4-box-e-r1c2, ex:l4-box-e-r1c3 ; cd:authoredResource true .
+  ex:l4-box-e-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-box-e-r2c1, ex:l4-box-e-r2c2, ex:l4-box-e-r2c3 ; cd:authoredResource true .
+  ex:l4-box-e-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l4-box-e-r3c1, ex:l4-box-e-r3c2, ex:l4-box-e-r3c3 ; cd:authoredResource true .
+  ex:l4-box-e-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l4-box-e-r4c1, ex:l4-box-e-r4c2, ex:l4-box-e-r4c3 ; cd:authoredResource true .
+  ex:l4-box-e-r1c1 a cd:TableCell ; cd:position 1 ; cd:body "Median"@en ; cd:authoredResource true .
+  ex:l4-box-e-r1c2 a cd:TableCell ; cd:position 2 ; cd:body "5"@en ; dct:source ex:l4-qc-reference-median ; cd:authoredResource true .
+  ex:l4-box-e-r1c3 a cd:TableCell ; cd:position 3 ; cd:body "5"@en ; dct:source ex:l4-qc-extreme-median ; cd:authoredResource true .
+  ex:l4-box-e-r2c1 a cd:TableCell ; cd:position 1 ; cd:body "Box"@en ; cd:authoredResource true .
+  ex:l4-box-e-r2c2 a cd:TableCell ; cd:position 2 ; cd:body "4 to 5.5"@en ; cd:authoredResource true .
+  ex:l4-box-e-r2c3 a cd:TableCell ; cd:position 3 ; cd:body "4 to 5.5"@en ; cd:authoredResource true .
+  ex:l4-box-e-r3c1 a cd:TableCell ; cd:position 1 ; cd:body "Whiskers"@en ; cd:authoredResource true .
+  ex:l4-box-e-r3c2 a cd:TableCell ; cd:position 2 ; cd:body "2 to 7"@en ; dct:source ex:l4-qc-reference ; cd:authoredResource true .
+  ex:l4-box-e-r3c3 a cd:TableCell ; cd:position 3 ; cd:body "2 to 6"@en ; dct:source ex:l4-qc-extreme ; cd:authoredResource true .
+  ex:l4-box-e-r4c1 a cd:TableCell ; cd:position 1 ; cd:body "Flagged points"@en ; cd:authoredResource true .
+  ex:l4-box-e-r4c2 a cd:TableCell ; cd:position 2 ; cd:body "None"@en ; cd:authoredResource true .
+  ex:l4-box-e-r4c3 a cd:TableCell ; cd:position 3 ; cd:body "30"@en ; dct:source ex:l4-qc-extreme-o7 ; cd:authoredResource true .
+
+  ex:l4-box-task a cd:Exercise ; cd:body "Synthetic recoveries: **50 preparations per group**.\n\n- [!] **Run:** compare methods, then matrices. Inspect **ggplot_build()**.\n- [!] **Change:** the final **110 to 140**. Predict box, whisker and flag first.\n- [?] **Explain:** why does the box stay unchanged?\n\n==A fence is not a whisker endpoint.== Flags do not remove observations.\n\nMay download ggplot2. Local execution; no learner-data upload."@en ; cd:hasCodeExample ex:l4-box-code ; cd:hasExpectedResult ex:l4-box-result ; cd:authoredResource true .
+  ex:l4-box-result a cd:ExpectedResult ; cd:body "50 synthetic preparations per group. Linearly interpolated Q1/median/Q3 (%): A/matrix1=97.55/100/102.45, B/matrix1=90.2/100/109.8, A/matrix2=80.6/90.4/100.2. Whiskers: 95.1–104.9, 80.4–119.6, 70.8–110; no flags initially. For A/matrix2 the upper fence is 129.6%. Changing its final 110 to 140 leaves the box unchanged, moves the upper whisker to the observed 109.2% and flags 140%; the fence is not a whisker endpoint. Synthetic grids do not establish method superiority or a causal matrix effect. Package installation requires network access; desktop R needs ggplot2 installed."@en ; cd:authoredResource true .
+  ex:l4-box-code a cd:CodeExample ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:boxplot, ex:l4-large-extract-a, ex:l4-large-extract-b, ex:l4-large-matrix, ex:l4-interpretation-ggplot-boxplot ; dct:hasPart ex:l4-box-functions ;
+    cd:code "if (!requireNamespace(\"ggplot2\", quietly = TRUE)) {\n  if (requireNamespace(\"webr\", quietly = TRUE)) webr::install(\"ggplot2\")\n  else stop(\"Install ggplot2 first: install.packages('ggplot2')\")\n}\nlibrary(ggplot2)\ngroups <- c(\"A / matrix 1\", \"B / matrix 1\", \"A / matrix 2\")\nd <- data.frame(series = rep(groups, each = 50),\n  value = c(seq(95.1, by=0.2, length.out=50),\n            seq(80.4, by=0.8, length.out=50),\n            seq(70.8, by=0.8, length.out=50)))\nd$value[150] <- 110\nd$series <- factor(d$series, levels = groups)\np <- ggplot(d, aes(series, value)) +\n  geom_boxplot(coef = 1.5) +\n  labs(x = \"Synthetic extraction / matrix\", y = \"Recovery (%)\") +\n  theme_minimal(base_size = 16)\nprint(p)\nggplot_build(p)$data[[1]][c(\"lower\", \"middle\", \"upper\", \"ymin\", \"ymax\", \"outliers\")]" ; cd:authoredResource true .
+  ex:l4-box-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-box-fn1, ex:l4-box-fn2, ex:l4-box-fn3 ; cd:authoredResource true .
+  ex:l4-box-fn1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ggplot() + aes()"@en ; cd:body "Map the extraction/matrix group to x and recovery (%) to y."@en ; cd:authoredResource true .
+  ex:l4-box-fn2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "geom_boxplot(coef=1.5)"@en ; cd:body "Use ggplot2's usual linearly interpolated quartiles and 1.5×IQR fences; flag rather than remove distant values."@en ; cd:authoredResource true .
+  ex:l4-box-fn3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "ggplot_build(p)$data[[1]]"@en ; cd:body "Inspect the computed quartiles, whisker endpoints and separately plotted observations."@en ; cd:authoredResource true .
+}
