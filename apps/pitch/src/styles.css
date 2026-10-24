@@ -74,6 +74,11 @@ body {
   background: var(--pcd-page-bg);
 }
 
+/* Reveal's viewport and scroll pages must follow the selected presentation
+   theme even when the animated background is disabled. */
+body[data-presentation-theme]:not(.pcd-background-active) { background: var(--pcd-page-bg); }
+body[data-presentation-theme]:not(.pcd-background-active) .scroll-page { background: var(--pcd-page-bg) !important; }
+
 .skip-link {
   position: absolute;
   left: -9999px;

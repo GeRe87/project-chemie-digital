@@ -263,8 +263,8 @@ function flowStaticFallback(block: DiagramBlock): string {
     block.description,
     "Nodes:",
     ...block.nodes.flatMap((node) => [
-      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? ` — ${node.description}` : ""}`,
-      ...(node.parts ?? []).map((part) => `  • ${part.label}${part.description ? ` — ${part.description}` : ""}`),
+      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? `: ${node.description}` : ""}`,
+      ...(node.parts ?? []).map((part) => `  • ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     ...((block.groups?.length ?? 0) > 0 ? [
       "Groups:",
@@ -272,7 +272,7 @@ function flowStaticFallback(block: DiagramBlock): string {
     ] : []),
     ...(block.edges.length > 0 ? [
       "Relations:",
-      ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+      ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ] : []),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,

@@ -1,5 +1,8 @@
 import katex from "katex";
-import { teachingTextMarkup, teachingInlineMarkup } from "./teaching-text.ts";
+import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
+import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
+import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
+import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
@@ -63,6 +66,9 @@ function blockPresentationAttributes(
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
+  if (block.chartType === "box") return boxPlotStaticFallback(block);
+  if (block.chartType === "observations") return observationExplorerFallback(block);
   if (block.chartType === "dot") return dotPlotStaticFallback(block);
   if (block.chartType === "bar") {
     const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
@@ -102,7 +108,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
-    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
   ].join("\n");
 }
 
@@ -238,6 +244,7 @@ function appendBlock(
       const term = dom.createElement("dt");
       term.className = "definition-list-term";
       if (entry.symbol) term.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
+      else if (/^[^\s]+(?:[, ]+(?:and )?[^\s]+)*$/u.test(entry.term)&&/[₀-₉ₐ-ₜᵢ-ᵥⱼΣ√\p{M}]|^[a-zA-Z]$/u.test(entry.term))term.innerHTML=symbolLegendMarkup(entry.term);
       else term.textContent = entry.term;
       term.setAttribute("data-definition-entry-id", entry.id);
       sourceAttributes(term, entry.source);
@@ -261,7 +268,11 @@ function appendBlock(
           .map((point) => point.trim())
           .filter((point) => point.length > 0);
 
-        if (authoredPoints.length > 1) {
+        if (/\n\s*\n/u.test(entry.description) && /^-\s+/mu.test(entry.description)) {
+          // Explicit paragraph/list authoring uses the same safe rich-text
+          // subset as prose cards. Legacy line-wise point spacing stays intact.
+          description.innerHTML = teachingTextMarkup(entry.description);
+        } else if (authoredPoints.length > 1) {
           description.setAttribute("data-adaptive-point-spacing", "true");
           const points = dom.createElement("div");
           points.className = "definition-list-points";
@@ -286,7 +297,7 @@ function appendBlock(
           }
           description.appendChild(points);
         } else {
-          description.innerHTML = teachingInlineMarkup(entry.description);
+          description.innerHTML = teachingInlineMarkup(entry.description,true);
         }
 
         entryShell.appendChild(description);
@@ -466,15 +477,22 @@ function appendBlock(
     return;
   }
   if (block.kind === "chart") {
+    const staticDistribution=block.chartType === "observations" && (block.view === "moments" || block.view === "summary"
+      && block.comparison?.stages.length === 1 && block.comparison.stages[0]?.mode === "distribution");
     const shell = dom.createElement("div");
-    shell.className = "d3-chart-host retro-neon-chart-window";
+    shell.className = block.chartType === "observations" && !staticDistribution ? "d3-chart-host observation-chart-host" : "d3-chart-host retro-neon-chart-window";
     blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
+    if (staticDistribution || block.chartType === "box" || block.chartType === "histogram" || block.chartType === "histogram2d") shell.setAttribute("data-chart-renderer", "dot");
+    if (block.chartType === "observations" && !staticDistribution && block.interactive!==false) {
+      shell.setAttribute("data-presentation-interactive", "true");
+      shell.setAttribute("tabindex", "0");
+    }
     if (block.liveUpdate) shell.setAttribute("data-live-chart", "true");
     const stageResourceIds = [
       ...block.source.map((source) => source.resourceId),
-      ...(block.annotations ?? []).flatMap((annotation) =>
+      ...("annotations" in block ? block.annotations ?? [] : []).flatMap((annotation) =>
         annotation.source.map((source) => source.resourceId)
       ),
     ];
@@ -604,6 +622,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         appendBlock(workbench, dom, codeFunctionUnit.code, headingId, compositionFit.density);
         const functionGlossary = appendBlock(workbench, dom, codeFunctionUnit.legend, headingId, compositionFit.density);
         functionGlossary?.setAttribute("tabindex", "0");
+        functionGlossary?.setAttribute("data-presentation-interactive", "true");
         functionGlossary?.setAttribute("aria-label", "Scrollable R function glossary");
         continue;
       }

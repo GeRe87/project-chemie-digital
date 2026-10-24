@@ -47,6 +47,20 @@ course stack and does not constitute a release or merge approval.
 
 ## Local validation
 
+For the bounded Level 4 preview, use `npm run preview:level4` and open
+`http://127.0.0.1:5173/authoring.html`. It contains the consolidated opening and
+two notation foundations, 50-point analytical examples, SD/IQR/MAD comparisons,
+boxplot/histogram readings, interactive bins, worked unequal widths, a rebuilt
+ECDF sequence and mean/variance/kurtosis/skewness with shared 3×3 views ending in
+a base-R lab (65 slides total), in shared compositions. Prepare
+the pinned assets with `npm run prepare:interactive-runtime` for the R lab; its
+first run may download ggplot2. Preview generation does not rewrite the ordinary
+course bundle. See [opening review](docs/chemometrics-level4-opening-review.md) and
+[histogram revision](docs/chemometrics-level4-histograms-review.md), followed by the
+[current ECDF/moments revision and focused checks](docs/chemometrics-level4-ecdf-moments-review.md).
+The latest [applied-moment grid review](docs/chemometrics-level4-applied-moments-review.md)
+records the revised 65-scene sequence and current verification.
+
 The repository is validated without GitHub Actions. The sole authorised automated provider is the local exact-head validator at `GeRe87/agent-workflow-validator`.
 
 Required commit-status context:

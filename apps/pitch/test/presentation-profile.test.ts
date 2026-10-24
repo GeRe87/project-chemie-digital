@@ -65,8 +65,8 @@ test("CogniFlow defaults to Eco City light and keeps the paired dark variant ava
   assert.equal(chemometricsPresentationProfile.projectionCapabilities, undefined);
   assert.equal(chemometricsPresentationProfile.viewportPolicy, undefined);
   assert.equal(chemometricsCityFamily.label, "Eco City");
-  assert.equal(chemometricsCityFamily.variants.light.label, "Eco City — Light");
-  assert.equal(chemometricsCityFamily.variants.dark.label, "Eco City — Dark");
+  assert.equal(chemometricsCityFamily.variants.light.label, "Eco City: Light");
+  assert.equal(chemometricsCityFamily.variants.dark.label, "Eco City: Dark");
   assert.deepEqual(resolved.diagnostics, []);
 
   const dark = resolvePresentationAppearance("?theme=dark", COGNIFLOW_SOURCE_PATH_ID);

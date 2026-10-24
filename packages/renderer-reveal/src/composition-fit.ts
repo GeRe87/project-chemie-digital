@@ -43,7 +43,8 @@ function tableDimensions(block: Extract<SceneBlock, { kind: "table" }>): {
 }
 
 function chartDatumCount(block: Extract<SceneBlock, { kind: "chart" }>): number {
-  if (block.chartType === "dot") return block.groups.reduce((total, group) => total + group.data.length, 0);
+  if(block.chartType==="histogram"||block.chartType==="histogram2d")return block.edges.length-1;
+  if (block.chartType === "dot" || block.chartType === "box") return block.groups.reduce((total, group) => total + group.data.length, 0);
   return block.chartType === "bar"
     ? block.data.length
     : block.series.reduce((total, series) => total + series.data.length, 0);

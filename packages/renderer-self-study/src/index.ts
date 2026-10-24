@@ -1,8 +1,18 @@
 import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
+import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
+import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import { observationExplorerFallback } from "../../core/src/observation-explorer.ts";
+import {empiricalMoments} from "../../core/src/moments.ts";
 import { renderDerivationDetail } from "../../renderer-reveal/src/mathematical-derivation.ts";
 import {
+  SCENE_DOCUMENT_OBSERVATION_VERSION,
+  SCENE_DOCUMENT_BOX_PLOT_VERSION,
+  SCENE_DOCUMENT_HISTOGRAM_VERSION,
+  SCENE_DOCUMENT_EXPLORATION_VERSION,
+  SCENE_DOCUMENT_MOMENT_VERSION,
   dotPlotStaticFallback,
   type DotPlotBlock,
+  type ChartBlock,
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
@@ -220,7 +230,12 @@ export interface SelfStudyDotChartPlan extends SelfStudyNodeBase {
   readonly chartType: "dot";
   readonly payload: DotPlotBlock;
 }
-export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan | SelfStudyDotChartPlan;
+export interface SelfStudyScientificChartPlan extends SelfStudyNodeBase {
+  readonly kind:"chart";
+  readonly chartType:"box"|"histogram"|"histogram2d"|"observations";
+  readonly payload:Exclude<ChartBlock,{chartType:"bar"|"line"|"dot"}>;
+}
+export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan | SelfStudyDotChartPlan | SelfStudyScientificChartPlan;
 
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
@@ -390,7 +405,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       "Participants:",
       ...(block.participantRoles ?? []).map((role) => `- ${role.label}`),
       "Messages:",
-      ...(block.messages ?? []).map((message) => `- ${roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId} — ${message.label} → ${roleLabels.get(message.targetRoleId) ?? message.targetRoleId}`),
+      ...(block.messages ?? []).map((message) => `- ${roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId}: ${message.label} → ${roleLabels.get(message.targetRoleId) ?? message.targetRoleId}`),
       ...(block.states ?? []).flatMap((state) => [
         `State: ${state.label}`,
         ...(state.activeMessageIds ? [`- Active messages: ${state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", ")}`] : []),
@@ -405,7 +420,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     "Nodes:",
     ...block.nodes.map((node) => `- ${node.label}`),
     "Relations:",
-    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
@@ -424,6 +439,10 @@ function chartAxisLabel(axis: { readonly label: string; readonly unit?: string }
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
+  if(block.chartType==="box")return boxPlotStaticFallback(block);
+  if(block.chartType==="dot")return dotPlotStaticFallback(block);
+  if(block.chartType==="observations")return observationExplorerFallback(block);
   const header = [
     block.label,
     block.description,
@@ -453,7 +472,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
       return { ...baseFor(block, position, block.text), kind: "prose", text: block.text, format: block.format ?? "plain" };
     case "math":
       return {
-        ...baseFor(block, position, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression} — ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
+        ...baseFor(block, position, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression}: ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
         kind: "math",
         expression: block.expression,
         spokenText: block.spokenText,
@@ -556,6 +575,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "chart":
+      if(["histogram","histogram2d","box","observations"].includes(block.chartType))return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block} as SelfStudyScientificChartPlan;
       if (block.chartType === "dot") return { ...baseFor(block,position,dotPlotStaticFallback(block)),kind:"chart",chartType:"dot",payload:block };
       if (block.chartType === "bar") {
         return {
@@ -679,7 +699,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -761,14 +781,23 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const roleLabels = new Map((node.participantRoles ?? []).map((role) => [role.id, role.label]));
   const messageLabels = new Map((node.messages ?? []).map((message) => [message.id, message.label]));
   const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
-  const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)} — ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
+  const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)}: ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
   const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${state.activeNodeIds ? ` data-active-node-ids="${escapeHtml(state.activeNodeIds.join(" "))}"` : ""}${state.activeEdgeIds ? ` data-active-edge-ids="${escapeHtml(state.activeEdgeIds.join(" "))}"` : ""}${state.activeGroupIds ? ` data-active-group-ids="${escapeHtml(state.activeGroupIds.join(" "))}"` : ""}${state.focusNodeId ? ` data-focus-node-id="${escapeHtml(state.focusNodeId)}"` : ""}${state.focusGroupId ? ` data-focus-group-id="${escapeHtml(state.focusGroupId)}"` : ""}${state.contextGroupIds ? ` data-context-group-ids="${escapeHtml(state.contextGroupIds.join(" "))}"` : ""}${state.activeMessageIds ? ` data-active-message-ids="${escapeHtml(state.activeMessageIds.join(" "))}"` : ""}${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.activeMessageIds ? `<p class="self-study-sequence-active-messages">Active messages: ${escapeHtml(state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", "))}</p>` : ""}${state.participantBindings?.length ? `<ul class="self-study-sequence-participant-bindings">${state.participantBindings.map((binding) => `<li data-participant-binding-role-id="${escapeHtml(binding.roleId)}" data-participant-id="${escapeHtml(binding.participantId)}"${sourceAttributes(binding.source)}>${escapeHtml(roleLabels.get(binding.roleId) ?? binding.roleId)}: ${escapeHtml(binding.label)}</li>`).join("")}</ul>` : ""}${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
   const participants = (node.participantRoles ?? []).map((role) => `<li data-participant-role-id="${escapeHtml(role.id)}"${sourceAttributes(role.source)}>${escapeHtml(role.label)}</li>`).join("");
-  const messages = (node.messages ?? []).map((message) => `<li data-interaction-message-id="${escapeHtml(message.id)}" data-source-role-id="${escapeHtml(message.sourceRoleId)}" data-target-role-id="${escapeHtml(message.targetRoleId)}"${sourceAttributes(message.source)}>${escapeHtml(roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId)} — ${escapeHtml(message.label)} → ${escapeHtml(roleLabels.get(message.targetRoleId) ?? message.targetRoleId)}</li>`).join("");
+  const messages = (node.messages ?? []).map((message) => `<li data-interaction-message-id="${escapeHtml(message.id)}" data-source-role-id="${escapeHtml(message.sourceRoleId)}" data-target-role-id="${escapeHtml(message.targetRoleId)}"${sourceAttributes(message.source)}>${escapeHtml(roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId)}: ${escapeHtml(message.label)} → ${escapeHtml(roleLabels.get(message.targetRoleId) ?? message.targetRoleId)}</li>`).join("");
   return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}</figure>`;
 }
 
 function renderChart(node: SelfStudyChartPlan): string {
+  if(node.chartType==="box"||node.chartType==="histogram"||node.chartType==="histogram2d"||node.chartType==="observations"){
+    const p=node.payload;
+    let table="";
+    if(p.chartType==="observations"&&p.view==="moments"){
+      const rows=p.series.map(s=>{const m=empiricalMoments(s.data.map(d=>d.value));const number=(v:number|null)=>v===null?"undefined":Number(v.toFixed(4)).toString();return `<tr><th scope="row">${escapeHtml(s.label)}</th>${[m.n,m.mean,m.m2,m.sampleVariance,m.skewness,m.kurtosis].map(v=>`<td>${number(v)}</td>`).join("")}</tr>`;}).join("");
+      table=`<table class="self-study-moment-table"><caption>Empirical descriptors; variances use squared measurement units</caption><thead><tr><th>Series</th><th>n</th><th>Mean</th><th>m₂ (n)</th><th>s² (n−1)</th><th>g₁</th><th>K</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+    return `<figure class="self-study-scientific-chart" data-chart-type="${escapeHtml(p.chartType)}"><figcaption>${escapeHtml(p.label)}</figcaption><p>${escapeHtml(p.description)}</p>${table}<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Data and numerical description</summary><pre>${escapeHtml(chartStaticFallback(p))}</pre></details></figure>`;
+  }
   if(node.chartType==="dot"){
     const p=node.payload;
     const references=[...(p.referenceLine?[p.referenceLine]:[]),...p.groups.flatMap(g=>g.summary?[g.summary]:[])];
@@ -878,7 +907,14 @@ function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: bo
       renderNode(node, interactive, pairs[index * 2 + 1]!)).join("");
     return `${heading ? renderNode(heading, interactive) : ""}${context ? renderNode(context, interactive) : ""}<div class="self-study-definition-list">${cards}</div>`;
   }
-  return nodes.map(node => renderNode(node, interactive)).join("");
+  const output:string[]=[];
+  for(let i=0;i<nodes.length;i++){
+    const node=nodes[i]!,next=nodes[i+1];
+    const linked=node.kind==="math"&&next?.kind==="definition-list"&&next.source.some(s=>s.relationPath==="dct:hasPart"&&node.source.some(m=>m.resourceId===s.resourceId));
+    if(linked){output.push(`<div class="self-study-formula-unit">${renderNode(node,interactive)}${renderNode(next!,interactive)}</div>`);i++;}
+    else output.push(renderNode(node,interactive));
+  }
+  return output.join("");
 }
 
 export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean; readonly narrative?: boolean }): string {

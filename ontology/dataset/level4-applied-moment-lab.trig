@@ -1,0 +1,68 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-applied-moments> {
+  ex:l4-moment-code cd:code """# Deterministic synthetic grids; same construction as the lecture
+p <- ((1:100) - 0.5) / 100
+standardize <- function(z) 50 + 10 * as.numeric(scale(z))
+series <- list(Uniform=standardize(p), Normal=standardize(qnorm(p)), Skewed=standardize(qexp(p)))
+offset <- 0
+scale_factor <- 1
+extreme <- FALSE
+metric <- 'variance'  # mean, variance, kurtosis, skewness
+stopifnot(metric %in% c('mean','variance','kurtosis','skewness'))
+series <- lapply(series, function(x) offset + scale_factor*x)
+if (extreme) series$Normal[100] <- series$Normal[100] + 50
+
+describe <- function(x) {
+  d <- x-mean(x); m2 <- mean(d^2)
+  c(mean=mean(x), m2=m2, sample_variance=var(x),
+    kurtosis=if(m2>0) mean(d^4)/m2^2 else NA_real_,
+    skewness=if(m2>0) mean(d^3)/m2^1.5 else NA_real_)
+}
+print(t(sapply(series, describe)))
+x <- series$Normal; m2 <- mean((x-mean(x))^2)
+cat('n =',length(x),'; sample variance =',var(x),'; m2 =',m2,'\\n')
+
+# Shared measurement axes and histogram edges
+limits <- range(unlist(series)); if(diff(limits)==0) limits <- limits+c(-1,1)
+edges <- seq(limits[1], limits[2], length.out=17)
+mark <- function(x) {
+  mu <- mean(x); root_m2 <- sqrt(mean((x-mu)^2))
+  abline(v=mu,col='deepskyblue3',lwd=2)
+  if(metric=='variance') abline(v=mu+c(-1,1)*root_m2,col='deepskyblue3',lty=3)
+  if(metric=='kurtosis') abline(v=mu+c(-2,2)*root_m2,col='orange3',lty=3)
+  if(metric=='skewness') abline(v=median(x),col='purple3',lty=2,lwd=2)
+}
+interpolated_box <- function(x) {
+  q <- quantile(x,c(.25,.5,.75),type=7)
+  width <- q[3]-q[1]
+  inside <- x[x>=q[1]-1.5*width & x<=q[3]+1.5*width]
+  flagged <- x[x<q[1]-1.5*width | x>q[3]+1.5*width]
+  plot(NA,xlim=limits,ylim=c(0,1),yaxt='n',ylab='',
+       main='Boxplot: linear interpolation',xlab='Response (a.u.)')
+  segments(min(inside),.5,max(inside),.5)
+  segments(c(min(inside),max(inside)),.4,c(min(inside),max(inside)),.6)
+  rect(q[1],.3,q[3],.7,col='lavender',border='purple3')
+  segments(q[2],.3,q[2],.7,lwd=2)
+  points(flagged,rep(.5,length(flagged)),pch=16,cex=.5,col='orange3')
+  mark(x)
+  print(c(Q1=q[1],median=q[2],Q3=q[3],
+          lower_whisker=min(inside),upper_whisker=max(inside)))
+}
+par(mfrow=c(3,3),mar=c(3,3,2.8,0.7),cex=0.7)
+for(name in names(series)) {
+  x <- series[[name]]; result <- describe(x)
+  key <- if(metric=='variance') 'm2' else metric
+  label <- paste(name,key,'=',round(result[key],3))
+  stripchart(x,method='stack',pch=16,cex=0.45,xlim=limits,
+             main=label,xlab='Response (a.u.)'); mark(x)
+  interpolated_box(x)
+  hist(x,breaks=edges,right=FALSE,include.lowest=TRUE,
+       main='Histogram: common edges',xlab='Response (a.u.)'); mark(x)
+}
+cat('Variance guide: mean +/- sqrt(m2); kurtosis guide: mean +/- 2*sqrt(m2). Neither is a universal coverage interval.\\n')
+a <- rep(c(-3,-1,2),c(5,25,20))
+cat('Counterexample: mean =',mean(a),'; m3 =',mean((a-mean(a))^3),'\\n')
+stopifnot(length(x)==100,isTRUE(all.equal(var(x),mean((x-mean(x))^2)*100/99)))
+""" .
+}

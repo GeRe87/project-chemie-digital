@@ -211,7 +211,7 @@ export function projectSceneKnowledgeNetwork(snapshot: RdfDatasetSnapshot, reque
         description: `Renderer-neutral one-hop scene network with ${nodes.length} nodes and ${edges.length} directed relations.`,
         nodeReadingOrder: Object.freeze(nodes.map((node) => node.id)),
         edgeReadingOrder: Object.freeze(edges.map((edge) => edge.id)),
-        staticFallback: ["Nodes:", ...nodes.map((node) => `- ${node.label} [${node.classification}] (${node.semanticEntityId})`), "Relations:", ...(edges.length ? edges.map((edge) => `- ${edge.sourceNodeId} — ${edge.label} → ${edge.targetNodeId}`) : ["- None"])].join("\n"),
+        staticFallback: ["Nodes:", ...nodes.map((node) => `- ${node.label} [${node.classification}] (${node.semanticEntityId})`), "Relations:", ...(edges.length ? edges.map((edge) => `- ${edge.sourceNodeId}: ${edge.label} → ${edge.targetNodeId}`) : ["- None"])].join("\n"),
       }),
       source: canonicalSources(snapshot.source),
       sceneContext: Object.freeze({ version: SCENE_KNOWLEDGE_NETWORK_VERSION, sceneId: canonicalRequest.sceneId, sceneRevision: canonicalRequest.sceneRevision, relationAllowlistVersion: canonicalRequest.directRelationAllowlist.version }),

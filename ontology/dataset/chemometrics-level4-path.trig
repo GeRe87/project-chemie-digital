@@ -1,0 +1,74 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> {
+  ex:path-chemometrics-level4-distribution-shape-lecture cd:forTopic ex:histogram, ex:histogram-2d, ex:histogram-bin-width, ex:histogram-density .
+  ex:path-chemometrics-level4-distribution-shape-lecture a cd:LearningPath ;
+    skos:prefLabel "Quantiles & Statistical Moments"@en ;
+    cd:forTopic ex:order-statistic, ex:sample-range, ex:quartile, ex:boxplot, ex:sample-quantile, ex:quantile-estimation-method, ex:empirical-cdf, ex:interquartile-range, ex:median-absolute-deviation, ex:potential-outlier, ex:empirical-central-moment, ex:skewness, ex:kurtosis, ex:sample-skewness, ex:sample-excess-kurtosis, ex:moment-estimation-convention ;
+    cd:forLearningUnit ex:learning-unit-quantiles-moments-shape ;
+    cd:hasStep ex:l4-step-summary-gap, ex:l4-step-data-concept, ex:l4-step-order-notation-concept, ex:l4-step-range-concept, ex:l4-step-range-applications, ex:l4-step-range-limits, ex:l4-step-quartiles-concept, ex:l4-step-quartiles-applications, ex:l4-step-quartiles-limits, ex:l4-step-quantiles-concept, ex:l4-step-quantiles-applications, ex:l4-step-quantiles-limits, ex:l4-step-iqr-concept, ex:l4-step-iqr-applications, ex:l4-step-iqr-limits, ex:l4-step-mad-concept, ex:l4-step-mad-applications, ex:l4-step-mad-limits ;
+    cd:authoredResource true .
+
+  ex:l4-step-summary-gap a cd:PathStep ; cd:position 1 ; cd:usesScene ex:l4-scene-summary-gap ; cd:usesResource ex:l4-gap-heading, ex:l4-shapes-context, ex:l4-shapes-table, ex:l4-shapes-conclusion, ex:l4-gap-chart ; cd:authoredResource true .
+  # Concepts retained; earlier two-QC-series example steps are now inactive.
+  # Foundations and analytical applications/limits are selected above and defined
+  # in chemometrics-level4-analytical-scenes.trig. No previous scene is deleted.
+  ex:l4-step-range-concept a cd:PathStep ; cd:position 4 ; cd:usesScene ex:l4-scene-range-concept ; cd:usesResource ex:l4-range-title, ex:l4-def-sample-range, ex:l4-formula-range, ex:l4-range-points ; cd:authoredResource true .
+  ex:l4-step-range-examples a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l4-scene-range-examples ; cd:usesResource ex:l4-range-example-title, ex:l4-range-scenario, ex:l4-range-table, ex:l4-range-example-points, ex:l4-order-dots ; cd:authoredResource true .
+  ex:l4-step-quartiles-concept a cd:PathStep ; cd:position 7 ; cd:usesScene ex:l4-scene-quartiles-concept ; cd:usesResource ex:l4-quartiles-title, ex:l4-def-quartile, ex:l4-formula-quartile-positions, ex:l4-quartiles-points ; cd:authoredResource true .
+  ex:l4-step-quartiles-examples a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l4-scene-quartiles-examples ; cd:usesResource ex:l4-quartiles-example-title, ex:l4-quartiles-scenario, ex:l4-quartiles-table, ex:l4-quartiles-example-points, ex:l4-order-dots ; cd:authoredResource true .
+  ex:l4-step-quantiles-concept a cd:PathStep ; cd:position 10 ; cd:usesScene ex:l4-scene-quantiles-concept ; cd:usesResource ex:l4-quantiles-title, ex:l4-def-sample-quantile, ex:l4-formula-quantile-interpolation, ex:l4-quantiles-points ; cd:authoredResource true .
+  ex:l4-step-quantiles-examples a cd:PathStep ; cd:position 7 ; cd:usesScene ex:l4-scene-quantiles-examples ; cd:usesResource ex:l4-quantiles-example-title, ex:l4-quantiles-scenario, ex:l4-quantiles-table, ex:l4-quantiles-example-points, ex:l4-order-dots ; cd:authoredResource true .
+  ex:l4-step-iqr-concept a cd:PathStep ; cd:position 13 ; cd:usesScene ex:l4-scene-iqr-concept ; cd:usesResource ex:l4-iqr-title, ex:l4-def-interquartile-range, ex:l4-formula-interquartile-range, ex:l4-iqr-points ; cd:authoredResource true .
+  ex:l4-step-iqr-examples a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l4-scene-iqr-examples ; cd:usesResource ex:l4-iqr-example-title, ex:l4-iqr-scenario, ex:l4-iqr-example-table, ex:l4-iqr-example-points, ex:l4-order-dots ; cd:authoredResource true .
+  ex:l4-step-mad-concept a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l4-scene-mad-concept ; cd:usesResource ex:l4-mad-title, ex:l4-def-median-absolute-deviation, ex:l4-formula-median-absolute-deviation, ex:l4-mad-points ; cd:authoredResource true .
+  ex:l4-step-mad-examples a cd:PathStep ; cd:position 11 ; cd:usesScene ex:l4-scene-mad-examples ; cd:usesResource ex:l4-mad-example-title, ex:l4-mad-scenario, ex:l4-mad-example-table, ex:l4-mad-example-points, ex:l4-order-dots ; cd:authoredResource true .
+  ex:l4-step-box-construction a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l4-scene-box-construction ; cd:usesResource ex:l4-box-construction-title, ex:l4-box-scenario, ex:l4-box-construction-table, ex:l4-box-points, ex:l4-order-boxes-one ; cd:authoredResource true .
+  ex:l4-step-box-examples a cd:PathStep ; cd:position 13 ; cd:usesScene ex:l4-scene-box-examples ; cd:usesResource ex:l4-box-example-title, ex:l4-box-example-scenario, ex:l4-box-example-table, ex:l4-box-example-points, ex:l4-order-boxes ; cd:authoredResource true .
+  ex:l4-step-box-lab a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l4-scene-box-lab ; cd:usesResource ex:l4-box-lab-title, ex:l4-box-task, ex:l4-box-code ; cd:authoredResource true .
+  # Previous continuation retained for provenance; revised selections live in
+  # chemometrics-level4-revised-path.trig in this same named graph.
+  ex:l4-step-observation-order a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l4-scene-observation-order ; cd:usesResource ex:l4-order-heading, ex:l4-order-chart ; cd:authoredResource true .
+  ex:l4-step-observation-count a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l4-scene-observation-count ; cd:usesResource ex:l4-count-heading, ex:l4-count-chart ; cd:authoredResource true .
+  ex:l4-step-observation-ecdf a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l4-scene-observation-ecdf ; cd:usesResource ex:l4-ecdf-heading, ex:l4-ecdf-chart ; cd:authoredResource true .
+  # Former type-7/IQR/MAD selections are unselected, not deleted; their definitions are reused above.
+  ex:l4-step-type-7 a cd:PathStep ; cd:position 5 ;
+    cd:usesScene ex:l4-scene-type-7 ;
+    cd:usesResource ex:sample-quantile-type-7, ex:l4-def-sample-quantile-type-7, ex:l4-formula-sample-quantile-type-7, ex:l4-interpretation-quartile-method ; cd:authoredResource true .
+  ex:l4-step-type-7-poll a cd:PathStep ; cd:position 6 ;
+    cd:usesScene ex:l4-scene-type-7-poll ;
+    cd:usesResource ex:quantile-estimation-method, ex:l4-poll-type-7 ; cd:authoredResource true .
+  ex:l4-step-quantile-r a cd:PathStep ; cd:position 7 ;
+    cd:usesScene ex:l4-scene-quantile-r ;
+    cd:usesResource ex:quantile-estimation-method, ex:l4-task-quantile, ex:l4-code-quantile ; cd:authoredResource true .
+  ex:l4-step-iqr a cd:PathStep ; cd:position 8 ;
+    cd:usesScene ex:l4-scene-iqr ;
+    cd:usesResource ex:interquartile-range, ex:l4-def-interquartile-range, ex:l4-formula-interquartile-range, ex:l4-interpretation-quartile-method ; cd:authoredResource true .
+  ex:l4-step-mad a cd:PathStep ; cd:position 9 ;
+    cd:usesScene ex:l4-scene-mad ;
+    cd:usesResource ex:median-absolute-deviation, ex:l4-def-median-absolute-deviation, ex:l4-formula-median-absolute-deviation, ex:l4-formula-normal-scaled-mad, ex:l4-interpretation-mad-consistency ; cd:authoredResource true .
+  ex:l4-step-observation-opening a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l4-scene-observation-opening ; cd:usesResource ex:l4-opening-heading, ex:l4-opening-chart ; cd:authoredResource true .
+  ex:l4-step-synthetic-qc a cd:PathStep ; cd:position 48 ;
+    cd:usesScene ex:l4-scene-synthetic-qc ;
+    cd:usesResource ex:l4-qc-scene-heading, ex:l4-qc-example, ex:l4-task-qc, ex:l4-code-qc ; cd:authoredResource true .
+  ex:l4-step-outlier-poll a cd:PathStep ; cd:position 49 ;
+    cd:usesScene ex:l4-scene-outlier-poll ;
+    cd:usesResource ex:potential-outlier, ex:l4-interpretation-outlier-diagnosis, ex:l4-poll-outlier ; cd:authoredResource true .
+  ex:l4-step-moments a cd:PathStep ; cd:position 50 ;
+    cd:usesScene ex:l4-scene-moments ;
+    cd:usesResource ex:empirical-central-moment, ex:l4-def-empirical-central-moment, ex:l4-formula-empirical-second-central-moment, ex:l4-interpretation-variance-denominator ; cd:authoredResource true .
+  ex:l4-step-skewness a cd:PathStep ; cd:position 51 ;
+    cd:usesScene ex:l4-scene-skewness ;
+    cd:usesResource ex:sample-skewness, ex:l4-def-sample-skewness, ex:l4-formula-sample-skewness, ex:l4-interpretation-shape-limits ; cd:authoredResource true .
+  ex:l4-step-kurtosis a cd:PathStep ; cd:position 52 ;
+    cd:usesScene ex:l4-scene-kurtosis ;
+    cd:usesResource ex:sample-excess-kurtosis, ex:l4-def-sample-excess-kurtosis, ex:l4-formula-sample-excess-kurtosis, ex:l4-interpretation-kurtosis-limits ; cd:authoredResource true .
+  ex:l4-step-shape-r a cd:PathStep ; cd:position 53 ;
+    cd:usesScene ex:l4-scene-shape-r ;
+    cd:usesResource ex:moment-estimation-convention, ex:l4-task-shape, ex:l4-code-shape ; cd:authoredResource true .
+  ex:l4-step-takeaways a cd:PathStep ; cd:position 54 ;
+    cd:usesScene ex:l4-scene-takeaways ;
+    cd:usesResource ex:l4-lesson-takeaways, ex:l4-interpretation-quartile-method, ex:l4-interpretation-outlier-diagnosis, ex:l4-interpretation-moment-sample-correction, ex:l4-interpretation-kurtosis-limits ; cd:authoredResource true .
+}

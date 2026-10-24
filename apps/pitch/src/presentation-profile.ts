@@ -51,7 +51,7 @@ export const COGNIFLOW_SOURCE_PATH_ID = "ex:path-cogniflow-standardized-data-pro
 const chemometricsCityDarkPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-city-dark",
-  label: "Eco City — Dark",
+  label: "Eco City: Dark",
   baseColor: "#07101f",
   layers: Object.freeze([
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-neon-city/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
@@ -65,7 +65,7 @@ const chemometricsCityDarkPack: BackgroundPack = Object.freeze({
 const chemometricsCityLightPack: BackgroundPack = Object.freeze({
   version: "1.0",
   id: "chemometrics-city-light",
-  label: "Eco City — Light",
+  label: "Eco City: Light",
   baseColor: "#dff4ff",
   layers: Object.freeze([
     Object.freeze({ id: "bg-skyline", asset: "/presentation-backgrounds/chemometrics-city/light/bg-skyline.webp", speed: 0.08, anchor: "center", repeat: "y", opacity: 1, blendMode: "normal", sizing: "cover-width" }),
@@ -99,7 +99,7 @@ export const chemometricsPresentationProfile: PresentationProfile = Object.freez
 
 export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
   id: "cogniflow-standardized-data-processing",
-  label: "From FAIR Data to FAIR Data Processing — Project CogniFlow",
+  label: "From FAIR Data to FAIR Data Processing: Project CogniFlow",
   defaultView: "scroll",
   defaultTheme: "light",
   defaultBackgroundFamilyId: chemometricsCityFamily.id,

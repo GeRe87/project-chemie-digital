@@ -33,6 +33,14 @@
 }
 .reveal .formula-with-legend > .definition-list .definition-list-term { font-size: .7em; text-transform: none; }
 .reveal .formula-with-legend > .definition-list .definition-list-description { font-size: .65em; }
+.formula-with-legend,.pcd-script-view { --symbol-color-1:var(--pcd-chart-series-1); --symbol-color-2:var(--pcd-chart-series-2); --symbol-color-3:var(--pcd-chart-series-3); --symbol-color-4:var(--pcd-chart-series-4); --symbol-color-5:var(--pcd-chart-series-5); }
+body[data-presentation-theme="light"] :is(.formula-with-legend,.pcd-script-view) { --symbol-color-1:#005a78; --symbol-color-2:#6b2cb1; --symbol-color-3:#4c4a8a; --symbol-color-4:#9a3e20; --symbol-color-5:#756000; }
+.reveal .slides .formula-with-legend .pcd-math-symbol-1,.pcd-script-view .pcd-math-symbol-1 { color:var(--symbol-color-1); }
+.reveal .slides .formula-with-legend .pcd-math-symbol-2,.pcd-script-view .pcd-math-symbol-2 { color:var(--symbol-color-2); }
+.reveal .slides .formula-with-legend .pcd-math-symbol-3,.pcd-script-view .pcd-math-symbol-3 { color:var(--symbol-color-3); }
+.reveal .slides .formula-with-legend .pcd-math-symbol-4,.pcd-script-view .pcd-math-symbol-4 { color:var(--symbol-color-4); }
+.reveal .slides .formula-with-legend .pcd-math-symbol-5,.pcd-script-view .pcd-math-symbol-5 { color:var(--symbol-color-5); }
+.formula-with-legend .definition-list-term:has(.katex) { color:var(--pcd-chart-series-2); }
 /* Formula units compare like with like. Available unit width, not resource
    identity, determines how their authored legend entries wrap. */
 .reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend {
@@ -45,6 +53,9 @@
   margin: .5rem 0 1.25rem;
   font-size: clamp(1.1em, 3cqi, 1.6em);
   overflow-x: auto;
+}
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend:has(.katex .mtable) > .math-display {
+  font-size: clamp(1em, 2.4cqi, 1.2em); margin: .25rem 0 .6rem;
 }
 .reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list {
   display: grid;
@@ -361,16 +372,16 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
   display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,20rem),1fr)); gap: .3rem 1rem; padding: .35rem 0;
 }
 .reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry {
-  display: flex; flex-direction: row; align-items: baseline; gap: .4rem; min-height: 0; min-width: 0;
+  display: flex; flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: .4rem; min-height: 0; min-width: 0;
   border: 0; background: none; box-shadow: none; padding: .1rem 0; margin: 0; font-size: .8em;
 }
 .reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry::before,
 .reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] > .definition-list-entry::after { content: none; display: none; }
 .reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] .definition-list-term {
-  flex: 0 0 auto; margin: 0; padding: 0; border: 0; font-size: 1em; font-weight: 750; color: var(--pcd-chart-series-3);
+  flex: 0 1 auto; max-width: 100%; overflow-wrap: anywhere; margin: 0; padding: 0; border: 0; font-size: 1em; font-weight: 750; color: var(--pcd-chart-series-3);
 }
 .reveal .slides section .formula-with-legend > .definition-list[data-symbol-legend="true"] .definition-list-description {
-  margin: 0; font-size: 1em; line-height: 1.25; font-weight: 400; color: var(--pcd-foreground);
+  flex: 1 1 28ch; min-width: 0; margin: 0; font-size: 1em; line-height: 1.25; font-weight: 400; color: var(--pcd-foreground);
 }
 .reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="prelude"] .keypoint-list,
 .reveal .slides section[data-composition-profile="data-visual"] > [data-composition-region-container="footer"] .keypoint-list {
@@ -387,6 +398,10 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .reveal .formula-with-legend .definition-list-term * { font-weight: 750 !important; color: var(--pcd-chart-series-3); }
 .reveal .definition-list-description, .reveal .definition-list-point { font-weight: 400 !important; }
 .reveal .definition-list-description strong { font-weight: 700 !important; }
+.reveal .definition-list-description:has(> .teaching-points) { white-space:normal; }
+.reveal .definition-list-description:has(> .teaching-points) > p { margin:.35em 0; }
+.reveal .definition-list-description > .teaching-points { margin:.4em 0; }
+.reveal .definition-list-description > .teaching-points li { margin:.3em 0; }
 .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="prelude"]) { grid-template-rows: auto auto minmax(0,1fr) auto; gap: .5rem; }
 .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="prelude"] { grid-row: 2; }
 .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="prelude"]) > [data-composition-region-container="main"] { grid-row: 3; }
@@ -395,7 +410,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .reveal .slides section[data-composition-profile="scenario-data-visual"] {
   display: grid !important; grid-template: auto auto minmax(0,1fr) auto / minmax(0,1fr) minmax(0,1fr); gap: .7rem 1.2rem; padding: 1.2rem 1.6rem !important;
 }
-.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="heading"] { grid-area: 1 / 1 / 2 / -1; }
+.reveal .slides section[data-composition-profile="scenario-data-visual"] > :is([data-composition-region="heading"],[data-composition-region-container="heading"]) { grid-area: 1 / 1 / 2 / -1; }
 .reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="prelude"] { grid-area: 2 / 1 / 3 / -1; max-width: 100ch; justify-self: center; }
 .reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] { grid-area: 3 / 1; display: flex; flex-direction: column; justify-content: center; gap: .8rem; min-height: 0; }
 .reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="secondary"] { grid-area: 3 / 2; display: flex; align-items: center; min-height: 0; }
@@ -432,9 +447,40 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .reveal .slides section[data-composition-profile="scenario-data-visual"] .definition-list-term { font-size: .8em; text-transform: none; }
 .reveal .slides section[data-composition-profile="scenario-data-visual"] .definition-list-description { font-size: .72em; }
 .reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] > .keypoint-list { padding: .7rem 1rem; border: 2px solid var(--pcd-accent); background: var(--pcd-surface-strong); box-sizing: border-box; max-width: 100%; }
-.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] table:has(th:nth-child(2):last-child) tbody tr:nth-child(odd) td:first-child { color: var(--pcd-chart-series-1); font-weight: 700; }
-.reveal .slides section[data-composition-profile="scenario-data-visual"] > [data-composition-region-container="primary"] table:has(th:nth-child(2):last-child) tbody tr:nth-child(even) td:first-child { color: var(--pcd-chart-series-2); font-weight: 700; }
+/* Default semantic-table palette, independent of column count and composition.
+   Text and row labels remain present; color is never the sole encoding. */
+.reveal table[data-component-kind="data-surface"] thead th { color: var(--pcd-accent); border-bottom: 2px solid var(--pcd-accent); }
+.reveal table[data-component-kind="data-surface"] tbody tr:nth-child(4n+1) { --pcd-table-row: var(--pcd-chart-series-1); }
+.reveal table[data-component-kind="data-surface"] tbody tr:nth-child(4n+2) { --pcd-table-row: var(--pcd-chart-series-2); }
+.reveal table[data-component-kind="data-surface"] tbody tr:nth-child(4n+3) { --pcd-table-row: var(--pcd-chart-series-3); }
+.reveal table[data-component-kind="data-surface"] tbody tr:nth-child(4n) { --pcd-table-row: var(--pcd-chart-series-4); }
+.reveal table[data-component-kind="data-surface"] tbody :is(td,th) { background: color-mix(in srgb,var(--pcd-table-row) 9%,transparent); }
+.reveal table[data-component-kind="data-surface"] tbody :is(td,th):first-child { color: var(--pcd-table-row); font-weight: 700; border-inline-start: 3px solid var(--pcd-table-row); }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem 2rem; align-items: center; }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) > .formula-with-legend { min-width: 0; }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) > .formula-with-legend:last-child { grid-column: 1 / -1; width: 65%; justify-self: center; }
 .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(3):last-child) .formula-with-legend > .math-display { margin: .2rem 0 .5rem; }
+body .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] > [data-composition-region-container="primary"] > [data-component-kind="info-surface"][data-composition-region="primary"] {
+  --pcd-info-tone:var(--pcd-chart-series-1); font-weight:400; line-height:1.3;
+  border:2px solid var(--pcd-info-tone); border-inline-start-width:6px;
+  background:color-mix(in srgb,var(--pcd-info-tone) 7%,var(--pcd-surface-strong));
+  box-shadow:none; padding:.6rem .8rem;
+}
+body .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] > [data-composition-region-container="primary"] > [data-component-kind="info-surface"][data-composition-region="primary"]:nth-child(3n+2) { --pcd-info-tone:var(--pcd-chart-series-2); }
+body .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] > [data-composition-region-container="primary"] > [data-component-kind="info-surface"][data-composition-region="primary"]:nth-child(3n) { --pcd-info-tone:var(--pcd-chart-series-4); }
+.reveal .slides section[data-composition-profile="info-visual"] [data-component-kind="info-surface"] > p { margin:.2em 0; font-weight:400; }
+.reveal .slides section[data-composition-profile="info-visual"] [data-component-kind="info-surface"] strong { font-weight:750; color:var(--pcd-info-tone,var(--pcd-accent)); }
+.reveal .slides section[data-composition-profile="info-visual"] .teaching-points { display:block; margin:.25em 0; padding-inline-start:1em; }
+.reveal .slides section[data-composition-profile="info-visual"] .teaching-points li { margin:.3em 0; font-weight:400; }
+body .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] > [data-composition-region-container="primary"] > [data-component-kind="info-surface"][data-composition-region="primary"] { font-size:22px; line-height:1.25; }
+body .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"] > [data-composition-region-container="secondary"]:has(> [data-component-kind="formula"]) { display:flex; flex-direction:column; justify-content:center; }
+/* One explanation and one formula/legend unit, without a footer: use the same
+   two-column teaching geometry rather than pushing the legend below the page. */
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="info-surface"]:only-child):has(> [data-composition-region-container="main"] > .formula-with-legend:only-child):not(:has(> [data-composition-region-container="footer"])) {
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); grid-template-rows:auto minmax(0,1fr);
+}
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="info-surface"]:only-child):has(> [data-composition-region-container="main"] > .formula-with-legend:only-child):not(:has(> [data-composition-region-container="footer"])) > [data-composition-region="heading"] { grid-column:1/-1; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="info-surface"]:only-child):has(> [data-composition-region-container="main"] > .formula-with-legend:only-child):not(:has(> [data-composition-region-container="footer"])) > [data-composition-region-container="prelude"] { grid-column:1; grid-row:2; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="info-surface"]:only-child):has(> [data-composition-region-container="main"] > .formula-with-legend:only-child):not(:has(> [data-composition-region-container="footer"])) > [data-composition-region-container="main"] { grid-column:2; grid-row:2; }
+.reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend > .definition-list > .definition-list-entry:last-child:nth-child(odd) { grid-column:1/-1; }
+.reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="info-surface"]:only-child):has(> [data-composition-region-container="main"] > .formula-with-legend:only-child):not(:has(> [data-composition-region-container="footer"])) .formula-with-legend .definition-list-description { font-size:.8em; }

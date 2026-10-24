@@ -1,0 +1,105 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Authored synthetic teaching data, NOT experimental evidence or validated methods.
+# Positions preserve acquisition order; observations are not silently sorted.
+<https://w3id.org/project-chemie-digital/graph/examples/level4-analytical-cases> {
+  ex:l4-ac-repeat a cd:Dataset ; dct:description "Synthetic nitrate repeat determinations of one prepared water sample; acquisition order; mg/L. Teaching data, not a precision validation."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-repeat-1, ex:l4-ac-repeat-2, ex:l4-ac-repeat-3, ex:l4-ac-repeat-4, ex:l4-ac-repeat-5 ; cd:authoredResource true .
+  ex:l4-ac-repeat-1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.2 ; cd:authoredResource true .
+  ex:l4-ac-repeat-2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.8 ; cd:authoredResource true .
+  ex:l4-ac-repeat-3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-repeat-4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-repeat-5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:l4-ac-river a cd:Dataset ; dct:description "Synthetic nitrate concentrations in five different river grab samples; mg/L. Describes these samples, not their temporal order or an entire river population."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-river-1, ex:l4-ac-river-2, ex:l4-ac-river-3, ex:l4-ac-river-4, ex:l4-ac-river-5 ; cd:authoredResource true .
+  ex:l4-ac-river-1 a cd:Observation ; cd:position 1 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:l4-ac-river-2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l4-ac-river-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:l4-ac-river-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:l4-ac-river-5 a cd:Observation ; cd:position 5 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:l4-ac-effluent a cd:Dataset ; dct:description "Synthetic nitrate concentrations in five effluent samples; mg/L. Small illustrative sample only."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-effluent-1, ex:l4-ac-effluent-2, ex:l4-ac-effluent-3, ex:l4-ac-effluent-4, ex:l4-ac-effluent-5 ; cd:authoredResource true .
+  ex:l4-ac-effluent-1 a cd:Observation ; cd:position 1 ; cd:numericValue 8.0 ; cd:authoredResource true .
+  ex:l4-ac-effluent-2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-effluent-3 a cd:Observation ; cd:position 3 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:l4-ac-effluent-4 a cd:Observation ; cd:position 4 ; cd:numericValue 14.0 ; cd:authoredResource true .
+  ex:l4-ac-effluent-5 a cd:Observation ; cd:position 5 ; cd:numericValue 20.0 ; cd:authoredResource true .
+  ex:l4-ac-tail a cd:Dataset ; dct:description "Synthetic nitrate samples with one high concentration; mg/L. A high value is not evidence of measurement error."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-tail-1, ex:l4-ac-tail-2, ex:l4-ac-tail-3, ex:l4-ac-tail-4, ex:l4-ac-tail-5 ; cd:authoredResource true .
+  ex:l4-ac-tail-1 a cd:Observation ; cd:position 1 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:l4-ac-tail-2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l4-ac-tail-3 a cd:Observation ; cd:position 3 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:l4-ac-tail-4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:l4-ac-tail-5 a cd:Observation ; cd:position 5 ; cd:numericValue 90.0 ; cd:authoredResource true .
+  ex:l4-ac-centre a cd:Dataset ; dct:description "Synthetic concentration series concentrated near the centre; mg/L. Constructed counterexample for range."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-centre-1, ex:l4-ac-centre-2, ex:l4-ac-centre-3, ex:l4-ac-centre-4, ex:l4-ac-centre-5 ; cd:authoredResource true .
+  ex:l4-ac-centre-1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l4-ac-centre-2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l4-ac-centre-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l4-ac-centre-4 a cd:Observation ; cd:position 4 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l4-ac-centre-5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-ends a cd:Dataset ; dct:description "Synthetic concentration series concentrated at the endpoints; mg/L. Same range as the centre-heavy series, not the same arrangement."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-ends-1, ex:l4-ac-ends-2, ex:l4-ac-ends-3, ex:l4-ac-ends-4, ex:l4-ac-ends-5 ; cd:authoredResource true .
+  ex:l4-ac-ends-1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l4-ac-ends-2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l4-ac-ends-3 a cd:Observation ; cd:position 3 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l4-ac-ends-4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-ends-5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-blank a cd:Dataset ; dct:description "Synthetic positive blank-equivalent nitrate signals, mg/L; five uncensored illustrative readings. Not a detection-limit study."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-blank-1, ex:l4-ac-blank-2, ex:l4-ac-blank-3, ex:l4-ac-blank-4, ex:l4-ac-blank-5 ; cd:authoredResource true .
+  ex:l4-ac-blank-1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l4-ac-blank-2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.1 ; cd:authoredResource true .
+  ex:l4-ac-blank-3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.2 ; cd:authoredResource true .
+  ex:l4-ac-blank-4 a cd:Observation ; cd:position 4 ; cd:numericValue 0.3 ; cd:authoredResource true .
+  ex:l4-ac-blank-5 a cd:Observation ; cd:position 5 ; cd:numericValue 0.4 ; cd:authoredResource true .
+  ex:l4-ac-blank-high a cd:Dataset ; dct:description "Synthetic second blank-equivalent signal series with one high reading; mg/L. Illustrates unstable high quantiles at n=5; no automatic exclusion."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-blank-high-1, ex:l4-ac-blank-high-2, ex:l4-ac-blank-high-3, ex:l4-ac-blank-high-4, ex:l4-ac-blank-high-5 ; cd:authoredResource true .
+  ex:l4-ac-blank-high-1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l4-ac-blank-high-2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.1 ; cd:authoredResource true .
+  ex:l4-ac-blank-high-3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.2 ; cd:authoredResource true .
+  ex:l4-ac-blank-high-4 a cd:Observation ; cd:position 4 ; cd:numericValue 0.3 ; cd:authoredResource true .
+  ex:l4-ac-blank-high-5 a cd:Observation ; cd:position 5 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-a a cd:Dataset ; dct:description "Synthetic spike recoveries for extraction A, five independent preparations in percent. Same fortification level; no claim of method validation."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-extract-a-1, ex:l4-ac-extract-a-2, ex:l4-ac-extract-a-3, ex:l4-ac-extract-a-4, ex:l4-ac-extract-a-5 ; cd:authoredResource true .
+  ex:l4-ac-extract-a-1 a cd:Observation ; cd:position 1 ; cd:numericValue 94.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-a-2 a cd:Observation ; cd:position 2 ; cd:numericValue 98.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-a-3 a cd:Observation ; cd:position 3 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-a-4 a cd:Observation ; cd:position 4 ; cd:numericValue 102.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-a-5 a cd:Observation ; cd:position 5 ; cd:numericValue 106.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-b a cd:Dataset ; dct:description "Synthetic spike recoveries for extraction B, five independent preparations in percent at the same fortification level as A."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-extract-b-1, ex:l4-ac-extract-b-2, ex:l4-ac-extract-b-3, ex:l4-ac-extract-b-4, ex:l4-ac-extract-b-5 ; cd:authoredResource true .
+  ex:l4-ac-extract-b-1 a cd:Observation ; cd:position 1 ; cd:numericValue 80.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-b-2 a cd:Observation ; cd:position 2 ; cd:numericValue 90.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-b-3 a cd:Observation ; cd:position 3 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-b-4 a cd:Observation ; cd:position 4 ; cd:numericValue 110.0 ; cd:authoredResource true .
+  ex:l4-ac-extract-b-5 a cd:Observation ; cd:position 5 ; cd:numericValue 120.0 ; cd:authoredResource true .
+  ex:l4-ac-control a cd:Dataset ; dct:description "Synthetic control-sample recoveries in chronological run order, percent; nominal target 100 percent. Strictly increasing on purpose to expose a trend."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-control-1, ex:l4-ac-control-2, ex:l4-ac-control-3, ex:l4-ac-control-4, ex:l4-ac-control-5 ; cd:authoredResource true .
+  ex:l4-ac-control-1 a cd:Observation ; cd:position 1 ; cd:numericValue 98.0 ; cd:authoredResource true .
+  ex:l4-ac-control-2 a cd:Observation ; cd:position 2 ; cd:numericValue 99.0 ; cd:authoredResource true .
+  ex:l4-ac-control-3 a cd:Observation ; cd:position 3 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l4-ac-control-4 a cd:Observation ; cd:position 4 ; cd:numericValue 101.0 ; cd:authoredResource true .
+  ex:l4-ac-control-5 a cd:Observation ; cd:position 5 ; cd:numericValue 102.0 ; cd:authoredResource true .
+  ex:l4-ac-biased a cd:Dataset ; dct:description "Synthetic tightly grouped control recoveries around 110 percent, versus a nominal target of 100 percent. Constructed bias counterexample."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-biased-1, ex:l4-ac-biased-2, ex:l4-ac-biased-3, ex:l4-ac-biased-4, ex:l4-ac-biased-5 ; cd:authoredResource true .
+  ex:l4-ac-biased-1 a cd:Observation ; cd:position 1 ; cd:numericValue 108.0 ; cd:authoredResource true .
+  ex:l4-ac-biased-2 a cd:Observation ; cd:position 2 ; cd:numericValue 109.0 ; cd:authoredResource true .
+  ex:l4-ac-biased-3 a cd:Observation ; cd:position 3 ; cd:numericValue 110.0 ; cd:authoredResource true .
+  ex:l4-ac-biased-4 a cd:Observation ; cd:position 4 ; cd:numericValue 111.0 ; cd:authoredResource true .
+  ex:l4-ac-biased-5 a cd:Observation ; cd:position 5 ; cd:numericValue 112.0 ; cd:authoredResource true .
+  ex:l4-ac-spike a cd:Dataset ; dct:description "Synthetic repeated nitrate determinations with one high reading, mg/L; possible contamination is a hypothesis to investigate, not an established cause."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-spike-1, ex:l4-ac-spike-2, ex:l4-ac-spike-3, ex:l4-ac-spike-4, ex:l4-ac-spike-5 ; cd:authoredResource true .
+  ex:l4-ac-spike-1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.8 ; cd:authoredResource true .
+  ex:l4-ac-spike-2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.9 ; cd:authoredResource true .
+  ex:l4-ac-spike-3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-spike-4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:l4-ac-spike-5 a cd:Observation ; cd:position 5 ; cd:numericValue 15.0 ; cd:authoredResource true .
+  ex:l4-ac-rounded a cd:Dataset ; dct:description "Synthetic nitrate readings reported to whole mg/L: 10,10,10,10,11. Illustrates ties after coarse rounding, not perfect instrument precision."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-ac-rounded-1, ex:l4-ac-rounded-2, ex:l4-ac-rounded-3, ex:l4-ac-rounded-4, ex:l4-ac-rounded-5 ; cd:authoredResource true .
+  ex:l4-ac-rounded-1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-rounded-2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-rounded-3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-rounded-4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l4-ac-rounded-5 a cd:Observation ; cd:position 5 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:l4-ac-matrix a cd:Dataset ; dct:description "Synthetic recoveries for extraction A in a second matrix, percent, same fortification level. Matrix-related shift is suggested, not causally proven by five observations."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-matrix-1, ex:l4-ac-matrix-2, ex:l4-ac-matrix-3, ex:l4-ac-matrix-4, ex:l4-ac-matrix-5 ; cd:authoredResource true .
+  ex:l4-ac-matrix-1 a cd:Observation ; cd:position 1 ; cd:numericValue 70.0 ; cd:authoredResource true .
+  ex:l4-ac-matrix-2 a cd:Observation ; cd:position 2 ; cd:numericValue 80.0 ; cd:authoredResource true .
+  ex:l4-ac-matrix-3 a cd:Observation ; cd:position 3 ; cd:numericValue 90.0 ; cd:authoredResource true .
+  ex:l4-ac-matrix-4 a cd:Observation ; cd:position 4 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l4-ac-matrix-5 a cd:Observation ; cd:position 5 ; cd:numericValue 110.0 ; cd:authoredResource true .
+  ex:l4-ac-shuffled a cd:Dataset ; dct:description "Synthetic control recoveries in run order: 100,98,102,99,101 percent. Same multiset as the increasing control series but different chronological arrangement."@en ; cd:unit "%" ; cd:hasObservation ex:l4-ac-shuffled-1, ex:l4-ac-shuffled-2, ex:l4-ac-shuffled-3, ex:l4-ac-shuffled-4, ex:l4-ac-shuffled-5 ; cd:authoredResource true .
+  ex:l4-ac-shuffled-1 a cd:Observation ; cd:position 1 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l4-ac-shuffled-2 a cd:Observation ; cd:position 2 ; cd:numericValue 98.0 ; cd:authoredResource true .
+  ex:l4-ac-shuffled-3 a cd:Observation ; cd:position 3 ; cd:numericValue 102.0 ; cd:authoredResource true .
+  ex:l4-ac-shuffled-4 a cd:Observation ; cd:position 4 ; cd:numericValue 99.0 ; cd:authoredResource true .
+  ex:l4-ac-shuffled-5 a cd:Observation ; cd:position 5 ; cd:numericValue 101.0 ; cd:authoredResource true .
+}

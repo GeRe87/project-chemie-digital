@@ -119,6 +119,17 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       }
       return;
     case "chart":
+      if (node.chartType === "box" || node.chartType === "histogram"
+        || node.chartType === "histogram2d" || node.chartType === "observations") {
+        const chart = node.payload;
+        visible(chart.label, `missing scientific chart label ${node.sourceBlockId}`);
+        visible(chart.description, `missing scientific chart description ${node.sourceBlockId}`);
+        // Scientific adapters carry a typed payload, not bar/line fields on the
+        // plan itself. Require the complete numeric alternative, not just chrome.
+        assert.ok(node.staticFallback.length > chart.label.length + chart.description.length);
+        visible(node.staticFallback, `missing scientific chart numeric fallback ${node.sourceBlockId}`);
+        return;
+      }
       if (node.chartType === "dot") {
         const chart = node.payload;
         visible(chart.label, `missing dot plot label ${node.sourceBlockId}`);

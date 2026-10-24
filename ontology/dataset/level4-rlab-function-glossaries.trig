@@ -1,0 +1,99 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# Same code/DefinitionList contract as the Variance labs. Every entry has one
+# owning list and contiguous positions; existing glossary identities are kept.
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-rlab-functions> {
+  ex:l4-box-functions cd:hasDefinitionListEntry
+    ex:l4-box-rfn-c, ex:l4-box-rfn-frame, ex:l4-box-rfn-seq, ex:l4-box-rfn-rep,
+    ex:l4-box-rfn-factor, ex:l4-box-rfn-namespace, ex:l4-box-rfn-install,
+    ex:l4-box-rfn-stop, ex:l4-box-rfn-library, ex:l4-box-rfn-print,
+    ex:l4-box-rfn-labs, ex:l4-box-rfn-theme, ex:l4-box-rfn-syntax .
+  ex:l4-box-rfn-c a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "c(...)"@en ; cd:body "**Combine** values or output-column names into a vector; does not sort them."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-frame a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "data.frame(...)"@en ; cd:body "Build a table with one row per synthetic observation and named series/value columns."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-seq a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "seq(...)"@en ; cd:body "Generate a synthetic grid: **by** sets its increment; **length.out** sets the number of values."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-rep a cd:DefinitionListEntry ; cd:position 7 ; skos:prefLabel "rep(groups, each=50)"@en ; cd:body "Repeat every group label **50 times**, aligning labels with the synthetic observations."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-factor a cd:DefinitionListEntry ; cd:position 8 ; skos:prefLabel "factor(..., levels=groups)"@en ; cd:body "Declare categories and their display order; the recovery values do not change."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-namespace a cd:DefinitionListEntry ; cd:position 9 ; skos:prefLabel "requireNamespace(..., quietly=TRUE)"@en ; cd:body "Check package availability without attaching it. TRUE/FALSE selects the setup branch."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-install a cd:DefinitionListEntry ; cd:position 10 ; skos:prefLabel "webr::install(\"ggplot2\")"@en ; cd:body "Download ggplot2 into browser R if missing. **Network required**; learner observations are not uploaded."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-stop a cd:DefinitionListEntry ; cd:position 11 ; skos:prefLabel "stop(...)"@en ; cd:body "Stop with a setup error. Desktop R needs ggplot2 installed separately."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-library a cd:DefinitionListEntry ; cd:position 12 ; skos:prefLabel "library(ggplot2)"@en ; cd:body "Attach the installed package so its functions can be called by name."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-print a cd:DefinitionListEntry ; cd:position 13 ; skos:prefLabel "print(p)"@en ; cd:body "Draw the ggplot object explicitly in the browser R runtime."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-labs a cd:DefinitionListEntry ; cd:position 14 ; skos:prefLabel "labs(x=..., y=...)"@en ; cd:body "Label axes, including the **recovery unit (%)**."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-theme a cd:DefinitionListEntry ; cd:position 15 ; skos:prefLabel "theme_minimal(base_size=16)"@en ; cd:body "Set the plot theme and base font size; **appearance only**, not a statistical calculation."@en ; cd:authoredResource true .
+  ex:l4-box-rfn-syntax a cd:DefinitionListEntry ; cd:position 16 ; skos:prefLabel "<-, $, [, [[, +, if / else, ! and ::"@en ; cd:body "**<-** assigns; **$** selects a column; **[** subsets; **[[** extracts a list element. **+** adds ggplot layers; **if/else** branches; **!** negates; **::** selects a package function."@en ; cd:authoredResource true .
+
+  ex:l4-hist-lab-functions cd:hasDefinitionListEntry
+    ex:l4-hist-rfn-mapping, ex:l4-hist-rfn-c, ex:l4-hist-rfn-frame, ex:l4-hist-rfn-seq,
+    ex:l4-hist-rfn-sum, ex:l4-hist-rfn-namespace, ex:l4-hist-rfn-install,
+    ex:l4-hist-rfn-stop, ex:l4-hist-rfn-library, ex:l4-hist-rfn-print,
+    ex:l4-hist-rfn-labs, ex:l4-hist-rfn-theme, ex:l4-hist-rfn-syntax .
+  ex:l4-hist-rfn-mapping a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "ggplot(..., aes(x))"@en ; cd:body "**ggplot()** creates the plot; **aes(x)** maps the observation column to the horizontal axis. The histogram layer computes counts."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-c a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "c(...)"@en ; cd:body "Combine the supplied responses or the selected output-column names into a vector."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-frame a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "data.frame(x)"@en ; cd:body "Put the response vector into a named table column for ggplot."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-seq a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "seq(30, 70, by=bin_width)"@en ; cd:body "Generate **explicit bin edges**. Changing bin_width changes these edges, not the observations."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-sum a cd:DefinitionListEntry ; cd:position 7 ; skos:prefLabel "sum(b$count)"@en ; cd:body "Add all bin counts. **Check against 100** so observations do not silently disappear outside the edges."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-namespace a cd:DefinitionListEntry ; cd:position 8 ; skos:prefLabel "requireNamespace(..., quietly=TRUE)"@en ; cd:body "Check package availability without attaching it; the logical result selects the setup branch."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-install a cd:DefinitionListEntry ; cd:position 9 ; skos:prefLabel "webr::install(\"ggplot2\")"@en ; cd:body "Download ggplot2 into browser R if missing. **Network required**, not an upload of learner observations."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-stop a cd:DefinitionListEntry ; cd:position 10 ; skos:prefLabel "stop(...)"@en ; cd:body "Stop with an explanatory setup error. Desktop R needs ggplot2 installed separately."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-library a cd:DefinitionListEntry ; cd:position 11 ; skos:prefLabel "library(ggplot2)"@en ; cd:body "Attach the installed plotting package so its functions are available by name."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-print a cd:DefinitionListEntry ; cd:position 12 ; skos:prefLabel "print(p)"@en ; cd:body "Draw the histogram explicitly in the browser R runtime."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-labs a cd:DefinitionListEntry ; cd:position 13 ; skos:prefLabel "labs(x=..., y=...)"@en ; cd:body "Label the measurement axis with its unit and the vertical axis as **Count**."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-theme a cd:DefinitionListEntry ; cd:position 14 ; skos:prefLabel "theme_minimal(base_size=16)"@en ; cd:body "Set the plot theme and font size; the bin counts do not change."@en ; cd:authoredResource true .
+  ex:l4-hist-rfn-syntax a cd:DefinitionListEntry ; cd:position 15 ; skos:prefLabel "<-, $, [, [[, +, if / else, ! and ::"@en ; cd:body "**<-** assigns; **$** selects a column; **[** subsets; **[[** extracts a list element. **+** adds plot layers; **if/else** branches; **!** negates; **::** selects a package function."@en ; cd:authoredResource true .
+
+  ex:l4-moment-code dct:hasPart ex:l4-moment-functions .
+  ex:l4-moment-functions a cd:DefinitionList ; cd:hasDefinitionListEntry
+    ex:l4-mfn-standardize, ex:l4-mfn-scale, ex:l4-mfn-numeric, ex:l4-mfn-qnorm, ex:l4-mfn-qexp,
+    ex:l4-mfn-c, ex:l4-mfn-list, ex:l4-mfn-lapply, ex:l4-mfn-sapply, ex:l4-mfn-t,
+    ex:l4-mfn-describe, ex:l4-mfn-mean, ex:l4-mfn-var, ex:l4-mfn-median, ex:l4-mfn-sqrt,
+    ex:l4-mfn-length, ex:l4-mfn-print, ex:l4-mfn-cat, ex:l4-mfn-unlist, ex:l4-mfn-range,
+    ex:l4-mfn-diff, ex:l4-mfn-seq, ex:l4-mfn-quantile, ex:l4-mfn-minmax, ex:l4-mfn-rep,
+    ex:l4-mfn-par, ex:l4-mfn-names, ex:l4-mfn-paste, ex:l4-mfn-round, ex:l4-mfn-stripchart,
+    ex:l4-mfn-plot, ex:l4-mfn-segments, ex:l4-mfn-rect, ex:l4-mfn-points, ex:l4-mfn-abline,
+    ex:l4-mfn-hist, ex:l4-mfn-mark, ex:l4-mfn-type7, ex:l4-mfn-check, ex:l4-mfn-equality,
+    ex:l4-mfn-syntax ; cd:authoredResource true .
+  ex:l4-mfn-standardize a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "standardize(z)"@en ; cd:body "Local helper: rescale a synthetic grid to **sample mean 50 and sample SD 10**. Not a fitted population model."@en ; cd:authoredResource true .
+  ex:l4-mfn-scale a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "scale(z)"@en ; cd:body "By default subtract the mean and divide by **sample SD**. Returns a matrix with scaling attributes."@en ; cd:authoredResource true .
+  ex:l4-mfn-numeric a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "as.numeric(...)"@en ; cd:body "Convert the scaled matrix to a plain numeric vector, dropping its matrix shape and attributes."@en ; cd:authoredResource true .
+  ex:l4-mfn-qnorm a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "qnorm(p)"@en ; cd:body "Return standard-normal quantiles at p. Here p is a **deterministic midpoint grid**, not random sampling."@en ; cd:authoredResource true .
+  ex:l4-mfn-qexp a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "qexp(p)"@en ; cd:body "Return exponential quantiles (default rate 1), supplying the right-skewed grid before standardization."@en ; cd:authoredResource true .
+  ex:l4-mfn-c a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "c(...)"@en ; cd:body "**Combine** values or named results into a vector; does not sort them."@en ; cd:authoredResource true .
+  ex:l4-mfn-list a cd:DefinitionListEntry ; cd:position 7 ; skos:prefLabel "list(...)"@en ; cd:body "Collect the three named series, retaining each as a separate numeric vector."@en ; cd:authoredResource true .
+  ex:l4-mfn-lapply a cd:DefinitionListEntry ; cd:position 8 ; skos:prefLabel "lapply(series, function(x) ...)"@en ; cd:body "Transform every series by the same offset/scale setting; return a **list** of transformed vectors."@en ; cd:authoredResource true .
+  ex:l4-mfn-sapply a cd:DefinitionListEntry ; cd:position 9 ; skos:prefLabel "sapply(series, describe)"@en ; cd:body "Run describe() on each series; simplify equally sized result vectors into a matrix."@en ; cd:authoredResource true .
+  ex:l4-mfn-t a cd:DefinitionListEntry ; cd:position 10 ; skos:prefLabel "t(...)"@en ; cd:body "Transpose the summary matrix so each printed **row is one series**."@en ; cd:authoredResource true .
+  ex:l4-mfn-describe a cd:DefinitionListEntry ; cd:position 11 ; skos:prefLabel "describe(x)"@en ; cd:body "Local helper: return mean, two variance conventions, skewness and **Pearson kurtosis K, not excess**. Constant data give undefined shape coefficients."@en ; cd:authoredResource true .
+  ex:l4-mfn-mean a cd:DefinitionListEntry ; cd:position 12 ; skos:prefLabel "mean(x)"@en ; cd:body "Calculate an arithmetic mean. Averaging powers of centred deviations gives **empirical moments with divisor n**."@en ; cd:authoredResource true .
+  ex:l4-mfn-var a cd:DefinitionListEntry ; cd:position 13 ; skos:prefLabel "var(x)"@en ; cd:body "Calculate **sample variance with divisor n−1**, not descriptive variance with divisor n."@en ; cd:authoredResource true .
+  ex:l4-mfn-median a cd:DefinitionListEntry ; cd:position 14 ; skos:prefLabel "median(x)"@en ; cd:body "Return the middle ordered value, averaging the two middle values for even n. Used for the dashed comparison line."@en ; cd:authoredResource true .
+  ex:l4-mfn-sqrt a cd:DefinitionListEntry ; cd:position 15 ; skos:prefLabel "sqrt(...)"@en ; cd:body "Take the nonnegative square root: convert descriptive variance into a spread guide in the **original unit**."@en ; cd:authoredResource true .
+  ex:l4-mfn-length a cd:DefinitionListEntry ; cd:position 16 ; skos:prefLabel "length(x)"@en ; cd:body "Count vector elements, including ties. Each teaching series should contain 100 observations."@en ; cd:authoredResource true .
+  ex:l4-mfn-print a cd:DefinitionListEntry ; cd:position 17 ; skos:prefLabel "print(...)"@en ; cd:body "Display computed result vectors or matrices explicitly in the text output."@en ; cd:authoredResource true .
+  ex:l4-mfn-cat a cd:DefinitionListEntry ; cd:position 18 ; skos:prefLabel "cat(...)"@en ; cd:body "Write labelled values and line breaks to the text output; does not return a table."@en ; cd:authoredResource true .
+  ex:l4-mfn-unlist a cd:DefinitionListEntry ; cd:position 19 ; skos:prefLabel "unlist(series)"@en ; cd:body "Flatten the list **only to find shared axis limits**; series stay separate for analysis."@en ; cd:authoredResource true .
+  ex:l4-mfn-range a cd:DefinitionListEntry ; cd:position 20 ; skos:prefLabel "range(...)"@en ; cd:body "Return the smallest and largest values across the series, defining shared measurement limits."@en ; cd:authoredResource true .
+  ex:l4-mfn-diff a cd:DefinitionListEntry ; cd:position 21 ; skos:prefLabel "diff(limits)"@en ; cd:body "Subtract consecutive values. For two limits this gives the axis width; zero triggers safe plotting expansion."@en ; cd:authoredResource true .
+  ex:l4-mfn-seq a cd:DefinitionListEntry ; cd:position 22 ; skos:prefLabel "seq(..., length.out=17)"@en ; cd:body "Generate 17 shared edges spanning the limits, giving **16 histogram bins** in every row."@en ; cd:authoredResource true .
+  ex:l4-mfn-quantile a cd:DefinitionListEntry ; cd:position 23 ; skos:prefLabel "quantile(x, ..., type=7)"@en ; cd:body "Compute quartiles by **linear interpolation**, not the alternative hinges of some boxplot implementations. The numeric argument selects this calculation in R."@en ; cd:authoredResource true .
+  ex:l4-mfn-minmax a cd:DefinitionListEntry ; cd:position 24 ; skos:prefLabel "min(inside), max(inside)"@en ; cd:body "**min()** selects the smallest and **max()** the largest observation inside the fences. Those observations end the whiskers."@en ; cd:authoredResource true .
+  ex:l4-mfn-rep a cd:DefinitionListEntry ; cd:position 25 ; skos:prefLabel "rep(...)"@en ; cd:body "Repeat point heights or values. A vector of counts sets each value's multiplicity in the asymmetric counterexample."@en ; cd:authoredResource true .
+  ex:l4-mfn-par a cd:DefinitionListEntry ; cd:position 26 ; skos:prefLabel "par(mfrow=c(3,3), ...)"@en ; cd:body "**mfrow** fills nine panels row by row; **mar** sets margins; **cex** sets text/symbol scaling."@en ; cd:authoredResource true .
+  ex:l4-mfn-names a cd:DefinitionListEntry ; cd:position 27 ; skos:prefLabel "names(series)"@en ; cd:body "Return the series names for iteration and labels."@en ; cd:authoredResource true .
+  ex:l4-mfn-paste a cd:DefinitionListEntry ; cd:position 28 ; skos:prefLabel "paste(...)"@en ; cd:body "Combine series name, descriptor name and value into a plot title."@en ; cd:authoredResource true .
+  ex:l4-mfn-round a cd:DefinitionListEntry ; cd:position 29 ; skos:prefLabel "round(..., 3)"@en ; cd:body "Round the **displayed label** to three decimals; calculations retain unrounded values."@en ; cd:authoredResource true .
+  ex:l4-mfn-stripchart a cd:DefinitionListEntry ; cd:position 30 ; skos:prefLabel "stripchart(..., method=\"stack\")"@en ; cd:body "Draw individual observations with stacking. Point height is **not time or a second measurement**."@en ; cd:authoredResource true .
+  ex:l4-mfn-plot a cd:DefinitionListEntry ; cd:position 31 ; skos:prefLabel "plot(NA, xlim=..., ylim=...)"@en ; cd:body "Create an empty frame for the custom boxplot, with explicit shared limits and axis labels."@en ; cd:authoredResource true .
+  ex:l4-mfn-segments a cd:DefinitionListEntry ; cd:position 32 ; skos:prefLabel "segments(...)"@en ; cd:body "Draw line segments for whiskers, end caps and the median."@en ; cd:authoredResource true .
+  ex:l4-mfn-rect a cd:DefinitionListEntry ; cd:position 33 ; skos:prefLabel "rect(...)"@en ; cd:body "Draw the box between the explicitly calculated first and third quartiles."@en ; cd:authoredResource true .
+  ex:l4-mfn-points a cd:DefinitionListEntry ; cd:position 34 ; skos:prefLabel "points(...)"@en ; cd:body "Add orange points for observations outside the fences; they remain in the sample."@en ; cd:authoredResource true .
+  ex:l4-mfn-abline a cd:DefinitionListEntry ; cd:position 35 ; skos:prefLabel "abline(v=..., col=..., lty=..., lwd=...)"@en ; cd:body "Add vertical reference lines: **v** position, **col** colour, **lty** dash style, **lwd** width. No probability is estimated."@en ; cd:authoredResource true .
+  ex:l4-mfn-hist a cd:DefinitionListEntry ; cd:position 36 ; skos:prefLabel "hist(..., breaks=edges, right=FALSE, include.lowest=TRUE)"@en ; cd:body "Use shared explicit bins. **right=FALSE** makes them left-closed; **include.lowest=TRUE** includes the terminal endpoint for this closure."@en ; cd:authoredResource true .
+  ex:l4-mfn-mark a cd:DefinitionListEntry ; cd:position 37 ; skos:prefLabel "mark(x)"@en ; cd:body "Local helper: draw the mean and metric-specific guides. **metric** selects the guide, not a new dataset or confidence interval."@en ; cd:authoredResource true .
+  ex:l4-mfn-type7 a cd:DefinitionListEntry ; cd:position 38 ; skos:prefLabel "interpolated_box(x)"@en ; cd:body "Local helper: draw linearly interpolated quartiles, observed whiskers and flagged points; print their numerical boundaries."@en ; cd:authoredResource true .
+  ex:l4-mfn-check a cd:DefinitionListEntry ; cd:position 39 ; skos:prefLabel "stopifnot(...)"@en ; cd:body "Stop if a check fails. The metric check limits allowed settings; the final check inspects the **last loop series**, not all three."@en ; cd:authoredResource true .
+  ex:l4-mfn-equality a cd:DefinitionListEntry ; cd:position 40 ; skos:prefLabel "isTRUE(all.equal(...))"@en ; cd:body "**all.equal()** compares with numerical tolerance, returning TRUE or a diagnostic; **isTRUE()** produces one logical pass/fail value."@en ; cd:authoredResource true .
+  ex:l4-mfn-syntax a cd:DefinitionListEntry ; cd:position 41 ; skos:prefLabel "function, for, if / else, <-, $, [, [[, %in% and arithmetic"@en ; cd:body "**function** defines helpers; **for** repeats; **if/else** branches. **<-** assigns; **$**, **[**, **[[** select data; **%in%** tests membership. **:** makes integer sequences; + − * / calculate; **^** raises powers. Comparisons return logical values; **& / |** combine them. **NA_real_** marks undefined numeric coefficients."@en ; cd:authoredResource true .
+}

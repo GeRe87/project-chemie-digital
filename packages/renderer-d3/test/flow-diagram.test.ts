@@ -49,7 +49,7 @@ test("maps a canonical DiagramBlock deterministically without mutating it", () =
   assert.equal(first.model.nodes[1]!.source[0]!.relationPath, "dct:title");
   assert.deepEqual(first.model.nodes[1]!.source[0]!.provenanceIds, ["prov:metadata"]);
   assert.match(first.model.staticFallback, /Raw data/);
-  assert.match(first.model.staticFallback, /Metadata — enables → Reusable result/);
+  assert.match(first.model.staticFallback, /Metadata: enables → Reusable result/);
 });
 
 test("space-filling edge paths preserve every renderer-owned orthogonal route point", () => {
@@ -243,7 +243,7 @@ test("projects structured diagram node parts and retains their provenance in the
   assert.ok(result.model);
   assert.deepEqual(result.model.nodes[1]!.parts?.map((part) => part.label), ["Preparation", "Measurement"]);
   assert.deepEqual(result.model.nodes[1]!.parts?.[0]?.source, [{ resourceId: "ex:prep" }]);
-  assert.match(result.model.staticFallback, /Preparation — Pipetting/);
+  assert.match(result.model.staticFallback, /Preparation: Pipetting/);
 });
 
 test("projects optional mathematical notation independently of prose", () => {
@@ -257,5 +257,5 @@ test("projects optional mathematical notation independently of prose", () => {
   assert.ok(result.model);
   assert.equal(result.model.nodes[1]!.notation, "σ²");
   assert.equal(result.model.nodes[1]!.description, "Signal variance");
-  assert.match(result.model.staticFallback, /Metadata \(σ²\) — Signal variance/);
+  assert.match(result.model.staticFallback, /Metadata \(σ²\): Signal variance/);
 });

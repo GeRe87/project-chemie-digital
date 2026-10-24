@@ -30,7 +30,7 @@ body[data-presentation-mode="script"] .reveal { visibility:hidden;pointer-events
 .pcd-script-view dl { font: .88em/1.55 Arial,Helvetica,sans-serif;margin:1rem 0; }
 .pcd-script-view .self-study-definition-entry { display:block;margin:0 0 .4rem;padding-left:.8rem;border-left:2px solid color-mix(in srgb,var(--pcd-accent) 25%,transparent); }
 .pcd-script-view dt { display:inline;font-weight:650; }
-.pcd-script-view dt::after { content:" — ";font-weight:400;opacity:.6; }
+.pcd-script-view dt::after { content:": ";font-weight:400;opacity:.6; }
 .pcd-script-view dd { display:inline;margin:0;opacity:.88; }
 .pcd-script-view dd:has(.self-study-math) { display:block; }
 .pcd-script-view .self-study-math { margin:1.5rem 0;padding:.6rem 1rem;background:color-mix(in srgb,var(--pcd-accent) 4%,transparent);border-radius:6px;overflow-x:auto; }
@@ -52,14 +52,53 @@ body[data-presentation-mode="script"] .reveal { visibility:hidden;pointer-events
 .pcd-script-view .self-study-chart-annotations { list-style:none;padding:0; }
 .pcd-script-view .visually-hidden { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0; }
 .pcd-script-toggle[aria-pressed="true"] { color:var(--pcd-accent);box-shadow:0 0 7px var(--pcd-accent); }
+.pcd-script-print[hidden] { display:none!important; }
+.pcd-script-print { font:700 11px/1 sans-serif; }
+.pcd-script-view .pcd-script-header h1 { font:700 2em/1.2 Arial,sans-serif; color:var(--pcd-accent); }
+.pcd-script-view .pcd-script-print-hint { font: .85em/1.5 Arial,sans-serif; opacity:.8; }
+.pcd-script-view .histogram-controls { display:none; }
+.pcd-script-view .moment-matrix .d3-chart-caption { display:block; font-size:15px; }
+.pcd-script-view .self-study-scientific-chart:has(.moment-matrix) { margin-inline:-180px; }
+@media(max-width:1200px) { .pcd-script-view .self-study-scientific-chart:has(.moment-matrix) { margin-inline:0; } }
 @media(max-width:700px) {
   .pcd-script-view { padding:24px 44px 64px 18px;font-size:16px; }
   .pcd-script-view h2 { font-size:1.3em; }
   .pcd-script-view :is(th,td) { padding:.35rem;overflow-wrap:anywhere; }
 }
 @media print {
+  @page { size:A4; margin:16mm 14mm 18mm; @bottom-right { content:counter(page) " / " counter(pages); font:9pt Arial,sans-serif; color:#444; } }
+  html,body.reveal-viewport { height:auto!important;overflow:visible!important;position:static!important; }
+  /* Fixed, z-indexed presentation backgrounds otherwise paint over the static
+     print flow. Isolate the script, including with native printer backgrounds off. */
+  body[data-presentation-mode="script"] > :not(.pcd-script-view) { display:none!important; }
+  html:has(body[data-presentation-mode="script"]),html body.reveal-viewport[data-presentation-mode="script"] { background:white!important; }
   body[data-presentation-mode="script"] .reveal { display:none; }
-  .pcd-script-view { position:static;overflow:visible;padding:0;color:#111;background:white; }
+  body[data-presentation-mode="script"] :is(.pcd-screen-controls,.pcd-return-world,.pcd-presentation-clock,.pcd-laser-pointer,.pcd-stage-navigation,.pcd-script-print-hint,#view-switch-shell) { display:none!important; }
+  .pcd-script-view { position:static;overflow:visible;padding:0;outline:none!important;color:#111;background:white;font-size:11pt;line-height:1.5;
+    --pcd-foreground:#111;--pcd-accent:#005a78;--pcd-surface:white;--pcd-surface-strong:white;--pcd-border:#89969c;
+    --pcd-chart-text:#111;--pcd-chart-axis:#67757c;--pcd-chart-grid:#bbc3c7;--pcd-chart-surface:white;
+    --pcd-chart-series-1:#005a78;--pcd-chart-series-2:#6b2cb1;--pcd-chart-series-3:#4c4a8a;--pcd-chart-series-4:#9a3e20;--pcd-chart-series-5:#756000;
+  }
+  .pcd-script-view .self-study-section { margin-bottom:1.5rem; }
+  .pcd-script-view,.pcd-script-view * { box-shadow:none!important;text-shadow:none!important;filter:none!important;backdrop-filter:none!important; }
   .pcd-script-view h2 { break-after:avoid; }
   .pcd-script-view :is(figure,.self-study-math) { break-inside:avoid; }
+  .pcd-script-view .self-study-formula-unit { break-inside:avoid; }
+  .pcd-script-view p { orphans:3;widows:3; }
+  .pcd-script-view :is(h3,caption,figcaption,thead) { break-after:avoid; }
+  .pcd-script-view :is(tr,.self-study-definition-entry) { break-inside:avoid; }
+  /* Keep paper A4 portrait even when a native driver ignores CSS named pages.
+     The full landscape plate fits inside it, with 6 mm horizontal and 19 mm
+     vertical slack relative to the declared printable area (182 × 263 mm). */
+  .pcd-script-view .pcd-script-matrix-page { position:relative;box-sizing:border-box;width:100%;max-width:182mm;margin:0;padding:0;height:244mm;break-before:page;break-after:page;break-inside:avoid; }
+  .pcd-script-view .self-study-scientific-chart.pcd-script-matrix-sheet { position:absolute;top:0;left:0;box-sizing:border-box;width:244mm;max-width:none;margin:0;padding:0;transform-origin:top left;transform:translateX(176mm) rotate(90deg);font-size:9pt;line-height:1.25; }
+  .pcd-script-view .pcd-script-matrix-sheet > p { margin:4pt 0 6pt;font-size:9pt; }
+  .pcd-script-view .pcd-script-matrix-sheet figure { margin:0; }
+  .pcd-script-view .pcd-script-matrix-sheet svg { display:block;width:100%;max-width:100%;height:auto; }
+  .pcd-script-view .self-study-moment-table { margin:6pt 0;font-size:8pt;line-height:1.2; }
+  .pcd-script-view .self-study-moment-table :is(th,td) { padding:3pt 5pt; }
+  .pcd-script-view .self-study-moment-table caption { margin-bottom:3pt; }
+  .pcd-script-view .self-study-chart-data,.pcd-script-view .oe-data { display:none; }
+  .pcd-script-view .self-study-code pre { break-inside:auto; font-size:8pt; }
+  .pcd-script-view .moment-matrix .d3-chart-caption { font-size:9pt;line-height:1.25; }
 }

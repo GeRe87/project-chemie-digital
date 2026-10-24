@@ -272,7 +272,7 @@ test("pitch preview creates a canonical renderer host and complete static fallba
   assert.equal(host.getAttribute("data-resource-id"), "ex:flow-scene");
   assert.equal(host.getAttribute("data-relation-path"), "cd:body");
   assert.match(host.children[0]!.textContent ?? "", /Input data/);
-  assert.match(host.children[0]!.textContent ?? "", /Input data — becomes → Reusable result/);
+  assert.match(host.children[0]!.textContent ?? "", /Input data: becomes → Reusable result/);
   destroy();
   assert.equal(root.children.length, 0);
 });

@@ -3,8 +3,27 @@ import test from "node:test";
 import { dotPlotGeometry, createD3DotPlotRenderModel } from "../src/dot-plot.ts";
 import { dotPlotStaticFallback, validateSceneDocument, type DotPlotBlock } from "../../core/src/scene-document.ts";
 import { inferRevealCompositionPlan } from "../../renderer-reveal/src/composition-policy.ts";
+import { dotSummaryDiamond } from "../src/dot-plot-primitives.ts";
 
 const source = [{ resourceId: "fixture:source" }];
+test("ordinary and distribution dot plots share identical summary marker geometry",()=>{
+  assert.equal(dotSummaryDiamond(10,20,3),"M10,17L13,20L10,23L7,20Z");
+});
+test("categorical intervals include closed endpoints and expand the numeric domain",()=>{
+  const chart:DotPlotBlock={id:"interval",kind:"chart",chartType:"dot",label:"Coverage",description:"Same data",source,xAxis:{label:"Choice"},yAxis:{label:"Signal",unit:"a.u."},groups:[{id:"g",label:"Interval",source,data:[1,2,3].map((value,i)=>({id:`o${i}`,value,source})),interval:{id:"i",label:"Bounds",lower:1,upper:2,source}}]};
+  const doc={version:"1.11" as const,id:"doc",sourcePathId:"path",scenes:[{id:"s",source,blocks:[chart],readingOrder:[chart.id]}]};
+  validateSceneDocument(doc);assert.throws(()=>validateSceneDocument({...doc,version:"1.10"}),/1.11/);
+  assert.match(dotPlotStaticFallback(chart),/2\/3 observations/);
+  const extended={...chart,groups:[{...chart.groups[0],interval:{...chart.groups[0].interval!,lower:-10,upper:20}}]};
+  const geometry=dotPlotGeometry(extended,900,500);assert(geometry.y.domain()[0]<=-10);assert(geometry.y.domain()[1]>=20);
+  assert.throws(()=>validateSceneDocument({...doc,scenes:[{...doc.scenes[0],blocks:[{...chart,groups:[{...chart.groups[0],interval:{...chart.groups[0].interval!,upper:0}}]}]}]}),/bounds|ordered/);
+});
+test("prose and a single formula reuse the generic two-column composition",()=>{
+  const prose={id:"p",kind:"prose" as const,text:"Meaning and calculation",format:"markdown" as const,source};
+  const formula={id:"f",kind:"math" as const,expression:"a_1",source};
+  const scene={id:"generic",source,blocks:[prose,formula],readingOrder:[prose.id,formula.id]};
+  const plan=inferRevealCompositionPlan(scene);assert.equal(plan.profile,"info-visual");assert.deepEqual(plan.placements.map(p=>p.region),["primary","secondary"]);
+});
 function block(): DotPlotBlock {
   return {
     id: "unrelated-measurement", kind: "chart", chartType: "dot", source,
