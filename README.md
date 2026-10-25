@@ -169,11 +169,12 @@ See [Talks build and Cloudflare Pages preparation](docs/talks-deployment.md) and
 [ADR-0020](docs/adr/0020-scientific-presentation-collections.md). Hosting configuration
 is an owner action; these commands do not deploy either site.
 
-The first talk also contains eight visual TED-GC-MS content scenes. Their
+The first talk also contains ten visual TED-GC-MS content scenes. Their
 knowledge, diagrams, synthetic chromatogram and scene selection are authored in
 `ontology/dataset/talks-ted-*.trig`; see the [content and scientific review record](docs/handoffs/issue-294-ted-introduction.md).
 Time-saving comparisons use the reusable [semantic timeline-chart standard](docs/timeline-charts.md),
 not slide-specific HTML or CSS.
+Calibration windows use the shared [regression-chart standard](docs/regression-charts.md).
 
 ## Repository principles
 

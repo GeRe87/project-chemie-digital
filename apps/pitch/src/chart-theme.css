@@ -20,10 +20,14 @@
 .d3-timeline-legend { fill: var(--pcd-chart-text); font: 20px system-ui, sans-serif; }
 .d3-timeline-interval { stroke: var(--pcd-chart-axis); stroke-width: .8; }
 .d3-timeline-run { fill: var(--pcd-chart-surface); stroke: var(--pcd-chart-text); stroke-width: 2px; paint-order: stroke; font: 700 17px system-ui, sans-serif; }
-.d3-chart-figure-timeline { min-width: 0; overflow-x: auto; }
-.d3-chart-figure-timeline:focus-visible { outline: 3px solid var(--pcd-focus); outline-offset: -3px; }
+.d3-chart-figure-scrollable { min-width: 0; overflow-x: auto; }
+.d3-chart-figure-scrollable:focus-visible { outline: 3px solid var(--pcd-focus); outline-offset: -3px; }
+.d3-regression-heading { fill: var(--pcd-chart-text); font: 700 23px system-ui, sans-serif; }
+.d3-regression-small { fill: var(--pcd-chart-text); font: 19px system-ui, sans-serif; }
+.d3-regression-fit { stroke: var(--pcd-chart-series-4); stroke-width: 4; }
+.d3-regression-point { stroke: var(--pcd-chart-text); stroke-width: 1.5; }
 @media (max-width: 700px) {
-  .d3-timeline-svg { min-width: 1000px; }
+  .d3-timeline-svg, .d3-regression-svg { min-width: 1000px; }
 }
 
 /* Context stays visible when an authored annotation selects another series. */

@@ -25,7 +25,7 @@
   ex:ude a schema:Organization ; schema:name "University of Duisburg-Essen" .
   ex:event-gerstel-microplastics a schema:Event ; schema:name "GERSTEL Microplastics Expert Meeting" .
   # No approved institutional image is available. Absence of contentUrl is an explicit placeholder.
-  ex:ude-logo-placeholder a schema:ImageObject ; schema:name "University of Duisburg-Essen — logo placeholder" ; schema:position 1 .
+  ex:ude-logo-placeholder a schema:ImageObject ; schema:name "University of Duisburg-Essen: logo placeholder" ; schema:position 1 .
   ex:microplastics-analysis a cd:Concept ; skos:prefLabel "Microplastics analysis"@en ;
     cd:hasDefinition ex:def-microplastics-analysis .
   ex:def-microplastics-analysis a cd:Definition, cd:LearningResource ;

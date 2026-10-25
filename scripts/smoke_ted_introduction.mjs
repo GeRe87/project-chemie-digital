@@ -11,7 +11,7 @@ assert.equal(manifest.documents.length,1);
 const entry=manifest.documents[0];
 const artifact=await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes=artifact.sceneDocuments[0].scenes;
-assert.equal(scenes.length,9,"Expected title + eight content scenes");
+assert.equal(scenes.length,11,"Expected title + ten content scenes");
 assert.ok(!/cogniflow/i.test(JSON.stringify(artifact)));
 const axe=axePath ? await fs.readFile(axePath,"utf8") : undefined;
 const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{})});
@@ -39,7 +39,9 @@ try {
           }
           const stage=current.locator("[data-presentation-step-count]");
           const steps=await stage.count() ? Number(await stage.first().getAttribute("data-presentation-step-count")):0;
-          for(let step=1;step<=steps;step++) {
+          const initial=steps ? Number(await stage.first().getAttribute("data-presentation-step")):0;
+          if(steps) assert.equal(initial,1,"visual slides must enter with their first stage already active");
+          for(let step=initial+1;step<=steps;step++) {
             await page.keyboard.press("ArrowRight");
             await page.waitForFunction(({id,step})=>document.getElementById(id)?.querySelector("[data-presentation-step-count]")?.dataset.presentationStep===String(step),{id:scene.id,step});
             assert.equal(await current.getAttribute("id"),scene.id,"stage navigation skipped a slide");

@@ -8,7 +8,7 @@
   # EIC is a schematic selected ion channel, not a named compound or polymer.
   # Its signal stays below the TIC at each time; no independent rescaling.
   ex:ted-marker-chromatogram a cd:ChartDefinition ;
-    skos:prefLabel "Schematic TIC → EIC — not measured data"@en ;
+    skos:prefLabel "Schematic TIC → EIC: not measured data"@en ;
     cd:body "Synthetic TIC → selected EIC · no measured sample or polymer assignment."@en ;
     cd:chartType cd:LineChart ; cd:xAxisLabel "Relative retention time"@en ;
     cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;

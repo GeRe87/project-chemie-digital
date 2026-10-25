@@ -2,6 +2,7 @@ import katex from "katex";
 import { renderScientificTitle } from "../../../packages/renderer-reveal/src/scientific-title.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
+import { regressionStaticFallback } from "../../../packages/core/src/regression-chart.ts";
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
 import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
@@ -67,6 +68,7 @@ function blockPresentationAttributes(
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if (block.chartType === "regression") return regressionStaticFallback(block);
   if (block.chartType === "timeline") return timelineStaticFallback(block);
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
   if (block.chartType === "box") return boxPlotStaticFallback(block);

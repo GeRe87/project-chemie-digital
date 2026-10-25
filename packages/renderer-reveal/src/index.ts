@@ -1,5 +1,6 @@
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import { regressionStaticFallback } from "../../core/src/regression-chart.ts";
 import {
   SCENE_DOCUMENT_OBSERVATION_VERSION,
   SCENE_DOCUMENT_BOX_PLOT_VERSION,
@@ -7,6 +8,7 @@ import {
   SCENE_DOCUMENT_EXPLORATION_VERSION,
   SCENE_DOCUMENT_MOMENT_VERSION,
   SCENE_DOCUMENT_TIMELINE_VERSION,
+  SCENE_DOCUMENT_REGRESSION_VERSION,
   timelineStaticFallback,
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
@@ -461,6 +463,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         interactive: options.interactionPolicy === "interactive-when-supported",
       };
     case "chart":
+      if (block.chartType === "regression") return {...baseFor(block, position, options, regressionStaticFallback(block)), kind: "prose", text: regressionStaticFallback(block), format: "plain"};
       if (block.chartType === "timeline") return { ...baseFor(block, position, options, timelineStaticFallback(block)), kind: "prose", text: timelineStaticFallback(block), format: "plain" };
       if(block.chartType==="histogram"||block.chartType==="histogram2d")return {...baseFor(block,position,options,histogramStaticFallback(block)),kind:"prose",text:histogramStaticFallback(block),format:"plain"};
       if (block.chartType === "box") return { ...baseFor(block, position, options, boxPlotStaticFallback(block)), kind: "prose", text: boxPlotStaticFallback(block), format: "plain" };
@@ -529,7 +532,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_TIMELINE_VERSION && version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
+  if (version !== SCENE_DOCUMENT_REGRESSION_VERSION && version !== SCENE_DOCUMENT_TIMELINE_VERSION && version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

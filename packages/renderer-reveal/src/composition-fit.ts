@@ -43,6 +43,7 @@ function tableDimensions(block: Extract<SceneBlock, { kind: "table" }>): {
 }
 
 function chartDatumCount(block: Extract<SceneBlock, { kind: "chart" }>): number {
+  if (block.chartType === "regression") return Math.max(...block.windows.map(w => w.datumIds.length));
   if (block.chartType === "timeline") return Math.max(...block.scenarios.map(s => s.lanes.length));
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return block.edges.length-1;
   if (block.chartType === "dot" || block.chartType === "box") return block.groups.reduce((total, group) => total + group.data.length, 0);

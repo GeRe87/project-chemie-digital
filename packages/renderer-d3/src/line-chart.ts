@@ -329,6 +329,28 @@ export function mountD3LineChart(
         group.append(label);
       }
       chartSvg.append(group);
+      if (annotation.kind === "point") {
+        const label = group.querySelector<SVGTextElement>(".d3-chart-annotation-label");
+        const connector = group.querySelector<SVGPathElement>(".d3-chart-annotation-connector");
+        const datum = series.data.find(candidate => candidate.id === annotation.datumId);
+        if (label && connector && datum) {
+          const px = x(datum.x), py = y(datum.y);
+          const measured = label.getComputedTextLength?.() ?? 0;
+          const textWidth = measured > 0 ? measured : annotation.label.length * 14;
+          const rightSpace = margin.left + plotWidth - px - 72;
+          const leftSpace = px - margin.left - 72;
+          const preferRight = label.getAttribute("text-anchor") === "start";
+          const useRight = preferRight ? rightSpace >= textWidth || rightSpace >= leftSpace
+            : !(leftSpace >= textWidth || leftSpace > rightSpace);
+          const desiredX = useRight ? px + 72 : px - 72 - textWidth;
+          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - textWidth - 12));
+          const labelY = Math.max(margin.top + 24, Math.min(Number(label.getAttribute("y")), margin.top + plotHeight - 20));
+          label.setAttribute("text-anchor", "start");
+          label.setAttribute("x", String(labelX)); label.setAttribute("y", String(labelY));
+          const endX = useRight ? labelX : labelX + textWidth;
+          connector.setAttribute("d", `M ${px} ${py} L ${(px + endX) / 2} ${(py + labelY) / 2} L ${endX} ${labelY - 6}`);
+        }
+      }
     });
 
     const axes = svg("g");

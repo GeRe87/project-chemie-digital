@@ -75,6 +75,11 @@ function numericStepCount(host: Element): number {
   return Number.isFinite(count) && count > 0 ? Math.trunc(count) : 0;
 }
 
+export function initialPresentationStep(host: Element): number {
+  const kind = host.getAttribute("data-presentation-step-host");
+  return kind === "chart" || kind === "diagram-state" ? Math.min(1, numericStepCount(host)) : 0;
+}
+
 function hostId(host: Element, fallbackIndex: number): string {
   return host.getAttribute("data-presentation-step-group")
     ?? host.getAttribute("data-derivation-block-id")
@@ -109,10 +114,11 @@ export function preparePresentationStepFragments(root: HTMLElement): void {
       slide.querySelectorAll<HTMLElement>(".pcd-presentation-step-fragment"),
     ).filter((fragment) => fragment.dataset.pcdStepFor === id);
 
-    if (existing.length === count) return;
+    const first = initialPresentationStep(host);
+    if (existing.length === count - first) return;
     for (const fragment of existing) fragment.remove();
 
-    for (let step = 1; step <= count; step += 1) {
+    for (let step = first + 1; step <= count; step += 1) {
       const fragment = document.createElement("span");
       fragment.className = "fragment pcd-presentation-step-fragment";
       fragment.dataset.pcdStepFor = id;
@@ -133,7 +139,7 @@ function currentStepForHost(host: HTMLElement): number {
     slide.querySelectorAll<HTMLElement>(".pcd-presentation-step-fragment.visible"),
   ).filter((fragment) => fragment.dataset.pcdStepFor === id).length;
 
-  return stepFromVisibleCount(visibleCount, count);
+  return stepFromVisibleCount(visibleCount + initialPresentationStep(host), count);
 }
 
 function resourceIdTokens(element: Element, attribute: string): ReadonlySet<string> {
@@ -181,7 +187,11 @@ export function mountPresentationStepRuntime(
 ): () => void {
   const update = (): void => {
     for (const host of root.querySelectorAll<HTMLElement>("[data-presentation-step-count]")) {
-      dispatchStep(host, currentStepForHost(host));
+      const slide = host.closest("section");
+      const active = root.querySelector("section.present");
+      // Hidden slides stay at zero, so entry triggers their first reveal rather
+      // than completing that animation off-screen during deck initialization.
+      dispatchStep(host, active && slide !== active ? 0 : currentStepForHost(host));
     }
   };
 

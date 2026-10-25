@@ -1,4 +1,4 @@
-# Issue #294 — visual TED-GC-MS introduction
+# Issue #294: visual TED-GC-MS introduction
 
 ## Scope and branch basis
 
@@ -13,18 +13,18 @@ changed. No automatic merge or deployment is authorized by this handoff.
 
 The existing title is preserved, followed by six English content scenes:
 
-1. **TED-GC-MS: the sample journey** — five authored diagram states follow heating,
+1. **TED-GC-MS: the sample journey**: five authored diagram states follow heating,
    capture, desorption/focusing/injection, GC separation and MS detection.
-2. **Thermal decomposition** — an original vector illustration of heating a
+2. **Thermal decomposition**: an original vector illustration of heating a
    crucible, evolving smaller products and leaving residue; three concise bullets.
-3. **Sorption and transfer** — gas-stream capture on the requested PDMS Twister
+3. **Sorption and transfer**: gas-stream capture on the requested PDMS Twister
    configuration and physical transfer of the loaded sorbent, not liquid SBSE.
-4. **Cryofocusing and injection** — three-part illustration separates thermal
+4. **Cryofocusing and injection**: three-part illustration separates thermal
    desorption, cold focusing and rapid release into the GC.
-5. **GC separation → MS detection** — three authored diagram states distinguish
+5. **GC separation → MS detection**: three authored diagram states distinguish
    compounds separating in the GC from ions forming in the MS and time-resolved
    signal acquisition.
-6. **Markers → polymer mass** — a synthetic line chart with two point annotations
+6. **Markers → polymer mass**: a synthetic line chart with two point annotations
    and one area annotation; short bullets distinguish identity evidence,
    calibrated area and polymer/matrix/sample validation.
 
@@ -155,6 +155,54 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 ```
 
 ## Remaining review and next content
+
+### Automatic first visual stage and calibration chapter
+
+The owner requested two lasting rules, now recorded in `AGENTS.md`: do not use
+Unicode U+2014 in authored presentation text/new prose, and do not enter an empty
+diagram. Talks text has been cleaned accordingly without rewriting unrelated
+historical collections. Chart and diagram-state hosts automatically start at stage
+1 on entry; fragments represent only the remaining stages. Inactive visual hosts
+stay at zero until entry so the first animation is not spent off-screen. Backward
+navigation never creates a blank initial plot. There are no scene-ID exceptions.
+The existing serial workflow therefore appears immediately on the comparison
+slide, and heating-study data appear immediately on their slide.
+
+Point-annotation labels in the shared line renderer now measure their text and
+choose/clamp their placement within the plot bounds. The marker candidate no
+longer collides with the y-axis title. No marker-specific CSS or coordinates were
+authored in RDF.
+
+Two calibration scenes append at positions 10 and 11:
+
+- Calibration overhead reuses the **same** optimized schedule with five standards
+  and five blanks. The correct derived completion time is **550 min, 9 h 10 min**.
+  A preliminary 551-minute statement was corrected during source-model comparison.
+  Schedule subsets can retain their original positive positions so reused
+  scenarios do not need duplicate resources just to start their positions at 1.
+- Balanced running calibration uses a new shared RegressionChart primitive with
+  a window-membership strip, paired observations/ordinary least-squares fit and
+  leave-one-out inverse-prediction errors. Data and explicit 5/15/shifted-15 windows
+  are TriG-authored. The plot is not a slide-specific layout, and has no independent
+  looping timer. SceneDocument 1.14 is additive; older documents remain accepted.
+
+All 44 mass/area pairs from the supplied CSV are retained in a balanced display
+order, not chronology. Source hashes and row identifiers are recorded without
+original measurement file names or dates. The source does not specify physical
+peak-area units. The old raw-peak panels, approximate confidence bands and claims
+about neighboring-session uncertainty are not adopted. Internal leave-one-out
+error is not independent validation and does not establish matrix equivalence,
+drift correction or permission to omit blanks. No equations are printed.
+The generated transport was compared to the supplied CSV: all 44 paired values
+match exactly, the derived ten-run completion is 550 minutes, and the selected
+artifact contains no Unicode U+2014 characters.
+
+`docs/regression-charts.md` documents the shared standard and source boundaries.
+Focused numerical/contract, content and automatic-entry checks are prepared for
+final validation. Runtime generation and a brief preview checked automatic stage
+1, marker placement, the new calibration views, advancing/reversing windows and
+returning directly to the preceding slide, without browser page errors. Full
+suites remain deferred. No merge, deployment or workflow-state changes.
 
 ### Throughput chapter and shared timeline standard
 

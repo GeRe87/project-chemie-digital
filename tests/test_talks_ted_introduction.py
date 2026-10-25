@@ -19,7 +19,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -89,7 +89,7 @@ class TedIntroductionTests(unittest.TestCase):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-nesting--scene")
         chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
         self.assertEqual(chart["chartType"], "timeline")
-        self.assertEqual(self.artifact["sceneDocuments"][0]["version"], "1.13")
+        self.assertEqual(self.artifact["sceneDocuments"][0]["version"], "1.14")
         totals = [max(i["end"] for lane in s["lanes"] for i in lane["intervals"]) for s in chart["scenarios"]]
         self.assertEqual(totals, [630, 423, 338])
         for scenario in chart["scenarios"]:
@@ -103,6 +103,18 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual([(p["x"], p["y"]) for p in chart["series"][0]["data"]], [(10, 34.6), (12.5, 27), (15, 25.3), (17.5, 29.2), (20, 34.1)])
         self.assertIn("Rajshree Jeewon", scene["narration"])
         self.assertIn("not stated", chart["description"])
+
+    def test_calibration_timing_and_windows_are_authored_without_em_dashes(self):
+        time_scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-calibration-time--scene")
+        time_chart = next(b for b in time_scene["blocks"] if b["kind"] == "chart")
+        self.assertEqual(max(i["end"] for l in time_chart["scenarios"][0]["lanes"] for i in l["intervals"]), 550)
+        self.assertEqual(sum(len(l["intervals"]) for l in time_chart["scenarios"][0]["lanes"]), 50)
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-running-calibration--scene")
+        chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
+        self.assertEqual(len(chart["data"]), 44)
+        self.assertEqual([len(w["datumIds"]) for w in chart["windows"]], [5, 15, 15])
+        self.assertEqual(chart["windows"][2]["datumIds"], [p["id"] for p in chart["data"][5:20]])
+        self.assertNotIn(chr(0x2014), json.dumps(self.artifact, ensure_ascii=False))
 
     def test_sources_and_method_boundaries_survive_public_export_and_static_fallback(self):
         serialized = json.dumps(self.artifact, ensure_ascii=False)

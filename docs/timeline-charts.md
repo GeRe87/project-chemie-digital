@@ -19,7 +19,8 @@ two instruments, minute units or a particular collection.
   unit through the existing chart vocabulary.
 - `cd:usesDataset` selects the primary `cd:Dataset, cd:TimelineSchedule`.
   Optional `dct:hasPart` links additional schedule datasets. Their `cd:position`
-  values give a unique contiguous comparison order starting at 1.
+  values give a unique positive comparison order. Selecting a subset retains its
+  original positions, so the same schedule can be reused in multiple charts.
 - `cd:hasTimelineCategory` lists ordered, labelled `cd:TimelineCategory` resources.
   This is the authored phase legend; renderer palette tokens are not identities.
 - `cd:hasTimelineRun` lists ordered, labelled `cd:TimelineRun` resources. Each lane
@@ -58,8 +59,9 @@ numeric `start`/`end`, `categoryId`, and `source`. Core validation rejects unkno
 categories, nonfinite/inverted/overlapping intervals and duplicate identities.
 Old SceneDocument versions remain supported; only timeline documents require 1.13.
 
-A single scenario is immediately visible. Comparisons use the existing
-presentation-step runtime to reveal scenarios cumulatively in authored order,
+A single scenario is immediately visible. Comparisons automatically reveal the
+first scenario on entry, then use the existing presentation-step runtime for the
+remaining scenarios cumulatively in authored order,
 including backward navigation. Their **shared time domain** remains fixed so
 shorter schedules cannot appear longer through independent rescaling. Displayed
 completion times derive from maximum interval ends, not separate label constants.

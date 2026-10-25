@@ -1217,12 +1217,13 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
 
 def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     """Expand authored periodic lane schedules; no TED identities or hidden timings."""
-    def ordered(values, expected_type):
+    def ordered(values, expected_type, contiguous=True):
         if any(not isinstance(v, URIRef) or not is_resource_type(dataset, v, expected_type) for v in values):
             raise ValueError(f"Timeline requires {expected_type} IRIs")
         records = sorted([(v, integer(dataset, v, iri(CD, "position"))) for v in values], key=lambda r: (r[1], str(r[0])))
-        if not records or [p for _, p in records] != list(range(1, len(records) + 1)):
-            raise ValueError("Timeline positions must be nonempty, unique and contiguous")
+        positions = [p for _, p in records]
+        if not records or min(positions) < 1 or len(set(positions)) != len(positions) or (contiguous and positions != list(range(1, len(records) + 1))):
+            raise ValueError("Timeline positions must be positive and unique; runs, lanes, phases and categories must also be contiguous")
         return [v for v, _ in records]
 
     def identity(resource):
@@ -1238,7 +1239,7 @@ def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tu
     categories = ordered(objects(dataset, chart, iri(CD, "hasTimelineCategory")), "TimelineCategory")
     runs = ordered(objects(dataset, chart, iri(CD, "hasTimelineRun")), "TimelineRun")
     primary = one(dataset, chart, iri(CD, "usesDataset"))
-    schedules = ordered([primary, *objects(dataset, chart, DCTERMS.hasPart)], "TimelineSchedule")
+    schedules = ordered([primary, *objects(dataset, chart, DCTERMS.hasPart)], "TimelineSchedule", contiguous=False)
     scenarios = []
     for schedule in schedules:
         lanes = []
@@ -1277,8 +1278,48 @@ def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tu
             "categories": [identity(c) for c in categories], "scenarios": scenarios}, label_path
 
 
+def regression_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError("Regression requires a Dataset")
+    def ordered(owner, relation, type_name):
+        values = objects(dataset, owner, iri(CD, relation))
+        if any(not isinstance(v, URIRef) or not is_resource_type(dataset, v, type_name) for v in values):
+            raise ValueError(f"Regression {relation} requires {type_name} IRIs")
+        records = sorted([(v, integer(dataset, v, iri(CD, "position"))) for v in values], key=lambda r: (r[1], str(r[0])))
+        if not records or [p for _, p in records] != list(range(1, len(records) + 1)):
+            raise ValueError("Regression positions must be nonempty, unique and contiguous")
+        return [v for v, _ in records]
+    observations = ordered(chart_dataset, "hasObservation", "Observation")
+    data = [{"id": compact(o), "x": decimal_number(dataset, o, iri(CD, "xValue")), "y": decimal_number(dataset, o, iri(CD, "numericValue")),
+             "source": [source_reference(dataset, o, p) for p in ("cd:xValue", "cd:numericValue", "cd:position")]} for o in observations]
+    windows = []
+    for window in ordered(chart, "hasRegressionWindow", "RegressionWindow"):
+        members = set(objects(dataset, window, iri(CD, "hasObservation")))
+        if not members.issubset(set(observations)) or len(members) < 3:
+            raise ValueError("Regression windows require at least three known observations")
+        points = [p for p, o in zip(data, observations) if o in members]
+        for excluded in range(-1, len(points)):
+            training = [p for i, p in enumerate(points) if i != excluded]
+            if len({p["x"] for p in training}) < 2:
+                raise ValueError("Every held-out regression fit requires predictor variation")
+        label, path = selected_label_reference(dataset, window, language)
+        windows.append({"id": compact(window), "label": label, "datumIds": [p["id"] for p in points],
+                        "source": [source_reference(dataset, window, p) for p in (path, "cd:position", "cd:hasObservation")]})
+    label, path = selected_label_reference(dataset, chart, language)
+    axes = {}
+    for axis in ("x", "y"):
+        unit = literal(dataset, chart, iri(CD, axis + "AxisUnit"))
+        if not unit:
+            raise ValueError("Regression axes require units")
+        axes[axis + "Axis"] = {"label": selected_literal(dataset, chart, iri(CD, axis + "AxisLabel"), "cd:" + axis + "AxisLabel", language), "unit": unit}
+    return {"chartType": "regression", "label": label, "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language), **axes, "data": data, "windows": windows}, path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "RegressionChart"):
+        return regression_chart_payload(dataset, chart, language)
     if chart_type == iri(CD, "TimelineChart"):
         return timeline_chart_payload(dataset, chart, language)
     if chart_type == iri(CD, "ObservationExplorer"):
@@ -1353,7 +1394,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13, "1.14":14}
     return required if versions[required] > versions[current] else current
 
 
@@ -1727,6 +1768,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if payload.get("binAdjustment") or "compact" in payload or (payload["chartType"]=="observations" and payload["view"]=="ecdf" and len(payload["series"])>1) or any(g.get("interval") for g in payload.get("groups",[])):
                     document_version=promote_document_version(document_version,"1.11")
                 if payload.get("view")=="moments":document_version=promote_document_version(document_version,"1.12")
+                if payload["chartType"] == "regression":
+                    document_version = promote_document_version(document_version, "1.14")
+                    block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:usesDataset", "cd:hasRegressionWindow"))
                 if payload["chartType"] == "timeline":
                     document_version = promote_document_version(document_version, "1.13")
                     block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:usesDataset", "cd:hasTimelineCategory", "cd:hasTimelineRun"))
@@ -2464,6 +2508,10 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                             inside = [v for v in values if lower <= v <= upper]
                             outliers = [v for v in values if v < lower or v > upper]
                             body += f'<p>{html.escape(group["label"])}: Q1={q1}; median={median}; Q3={q3}; IQR={iqr}; fences=[{lower}, {upper}]; whiskers=[{min(inside)}, {max(inside)}]; flagged={outliers}</p>'
+                elif block["chartType"] == "regression":
+                    body = '<ul class="chart-data">' + ''.join(
+                        f'<li{fallback_attributes(p["source"])}>{html.escape(p["id"])}: {p["x"]} {html.escape(block["xAxis"]["unit"])}; {p["y"]} {html.escape(block["yAxis"]["unit"])}</li>' for p in block["data"]
+                    ) + '</ul><ul>' + ''.join(f'<li{fallback_attributes(w["source"])}>{html.escape(w["label"])}: {html.escape(", ".join(w["datumIds"]))}</li>' for w in block["windows"]) + '</ul>'
                 elif block["chartType"] == "timeline":
                     body = '<ul class="chart-data">' + ''.join(
                         f'<li{fallback_attributes(interval["source"])}>{html.escape(scenario["label"])}; {html.escape(lane["label"])}; '

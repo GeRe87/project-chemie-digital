@@ -12,7 +12,7 @@ export function mountD3TimelineChart(host: HTMLElement, block: TimelineChartBloc
     host.setAttribute("data-presentation-step-count", String(block.scenarios.length));
     host.setAttribute("data-presentation-step-host", "chart");
   }
-  const figure = document.createElement("figure"); figure.className = "d3-chart-figure d3-chart-figure-timeline";
+  const figure = document.createElement("figure"); figure.className = "d3-chart-figure d3-chart-figure-timeline d3-chart-figure-scrollable";
   figure.tabIndex = 0;
   figure.setAttribute("data-presentation-interactive", "true");
   figure.setAttribute("aria-label", "Timeline comparison. Scroll horizontally on narrow screens.");

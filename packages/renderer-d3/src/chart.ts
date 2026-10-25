@@ -6,10 +6,15 @@ import { mountObservationExplorer } from "./observation-explorer.ts";
 import { mountD3BoxPlot } from "./box-plot.ts";
 import { mountD3Histogram } from "./histogram.ts";
 import { mountD3TimelineChart } from "./timeline-chart.ts";
+import { mountD3RegressionChart } from "./regression-chart.ts";
 
 export type D3ChartOptions = D3BarChartOptions & D3LineChartOptions;
 
 export function mountD3Chart(host: unknown, block: ChartBlock, options: D3ChartOptions) {
+  if (block.chartType === "regression") {
+    if (!(host instanceof HTMLElement)) throw new Error("Regression chart requires an HTML host");
+    return mountD3RegressionChart(host, block, options);
+  }
   if (block.chartType === "timeline") {
     if (!(host instanceof HTMLElement)) throw new Error("Timeline chart requires an HTML host");
     return mountD3TimelineChart(host, block, options);

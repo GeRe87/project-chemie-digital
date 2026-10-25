@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   applySemanticDisclosure,
   clampPresentationStep,
+  initialPresentationStep,
   consumePresentationStageNavigation,
   isStageLockedSlide,
   markStageLockedSlide,
@@ -58,6 +59,13 @@ test("presentation steps clamp deterministically in both directions", () => {
   assert.equal(clampPresentationStep(0, 3), 0);
   assert.equal(clampPresentationStep(2, 3), 2);
   assert.equal(clampPresentationStep(99, 3), 3);
+});
+
+test("charts and diagrams enter on their first stage without consuming a fragment", () => {
+  for (const [kind, expected] of [["chart", 1], ["diagram-state", 1], ["code", 0]] as const) {
+    const host = {getAttribute: (name: string) => name === "data-presentation-step-host" ? kind : name === "data-presentation-step-count" ? "3" : null} as unknown as Element;
+    assert.equal(initialPresentationStep(host), expected);
+  }
 });
 
 test("plain scroll pages use the same wheel command and instant boundary positioning", () => {

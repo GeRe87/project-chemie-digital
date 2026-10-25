@@ -68,6 +68,12 @@ The worker must:
 
 ### Teaching authoring invariant
 
+- Never use the em dash character (Unicode U+2014) in authored presentation text
+  or newly written project prose. Use a colon, comma, parentheses or a full stop.
+- Do not enter a slide with an empty diagram. The first chart/diagram stage starts
+  automatically on slide entry; navigation advances only the remaining stages.
+  Implement this in the shared stage runtime, not with scene-specific fragments.
+
 Every displayed formula must have a visible, authored symbol legend on the same
 slide. Explain every symbol, index, operator, unit and relevant convention; prior
 slides or prose elsewhere do not replace that legend. Link the legend to its
