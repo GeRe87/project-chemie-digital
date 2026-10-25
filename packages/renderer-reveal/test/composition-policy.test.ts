@@ -127,6 +127,18 @@ function unorderedList(id: string, count = 3): SceneBlock {
   };
 }
 
+test("prose and read-only code keep an on-demand diagram in the footer", () => {
+  const source = [{resourceId: "opaque:source"}];
+  const code: SceneBlock = {id: "serialization", kind: "code", language: "trig", code: "", fallback: "", editable: false, executable: false, source};
+  const diagram: SceneBlock = {id: "relations", kind: "diagram", diagramType: "network", label: "Graph", description: "Relations", presentation: "dialog", nodes: [], edges: [], source};
+  const blocks = [prose("heading", "introduce"), prose("story"), code, diagram];
+  const plan = inferRevealCompositionPlan({id: "arbitrary", blocks, source, readingOrder: blocks.map(block => block.id)});
+  assert.equal(plan.profile, "info-visual");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["story", "primary"], ["serialization", "secondary"], ["relations", "footer"],
+  ]);
+});
+
 test("scenario and evidence layouts depend only on ordered block kinds", () => {
   const railBlocks=[prose("heading","introduce"),definitions("scenario"),dataTable("observations"),unorderedList("conclusion"),barChart("stems")];
   const rail=inferRevealCompositionPlan({id:"opaque-rail",blocks:railBlocks,source:[],readingOrder:railBlocks.map(b=>b.id)});

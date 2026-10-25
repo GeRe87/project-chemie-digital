@@ -1,0 +1,32 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-fair> {
+  ex:ted-fair-processing a cd:Concept ; skos:prefLabel "Keep the whole pipeline FAIR"@en ; cd:hasDefinition ex:ted-fair-definition ; cd:hasSource ex:ted-source-fair ; cd:authoredResource true .
+  ex:ted-fair-definition a cd:Definition ; cd:body "FAIR means Findable, Accessible, Interoperable and Reusable. In a multi-step, multi-tool processing pipeline, data and metadata need persistent identifiers and searchable descriptions; retrieval through standard protocols with authentication where necessary; shared formal languages, FAIR vocabularies and qualified links; and rich descriptions, explicit reuse licenses, provenance and domain standards. Describe every step, input, output, parameter, unit, software version and execution with shared, machine-readable semantics that people can also interpret. Preserve those links across tool boundaries. This is central to interoperability and reuse but not sufficient on its own: RDF or TriG does not supply persistence, discoverability, access infrastructure, licenses or provenance automatically. FAIR does not require unrestricted public access, nor does it imply that every workflow is executable or reproducible without its software and environment."@en ; cd:hasSource ex:ted-source-fair ; cd:authoredResource true .
+  ex:ted-fair-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:ted-fair-f, ex:ted-fair-a, ex:ted-fair-i, ex:ted-fair-r ; cd:authoredResource true .
+  ex:ted-fair-f a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "F: Findable"@en ; cd:body "Persistent IDs + searchable metadata"@en ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-a a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "A: Accessible"@en ; cd:body "Standard access, with permissions when needed"@en ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-i a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "I: Interoperable"@en ; cd:body "Shared vocabulary + explicit links"@en ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-r a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "R: Reusable"@en ; cd:body "Context, provenance + clear reuse license"@en ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-points a cd:Interpretation ; cd:body "Multiple steps, multiple tools: preserve meaning across every handoff."@en ; cd:hasKeyPoint ex:ted-fair-p1, ex:ted-fair-p2, ex:ted-fair-p3 ; cd:authoredResource true .
+  ex:ted-fair-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Every step:** inputs, outputs, parameters, units, tool version"@en ; cd:authoredResource true .
+  ex:ted-fair-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Standardized semantics:** readable by humans and machines"@en ; cd:authoredResource true .
+  ex:ted-fair-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Preserve meaning and provenance across tools=="@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-fair> {
+  ex:ted-source-fair a cd:Source ; dct:title "The FAIR Guiding Principles for scientific data management and stewardship" ; dct:creator "Wilkinson et al." ; dct:identifier "https://doi.org/10.1038/sdata.2016.18" ; dct:date "2016" ; dct:description "FAIR principles F1-F4, A1-A2, I1-I3 and R1-R1.3; pipeline-specific examples are teaching applications, not a certification claim."@en ; cd:supportsResource ex:ted-fair-definition ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-fair-processing ; cd:hasStep ex:ted-step-fair .
+  ex:ted-step-fair a cd:PathStep ; cd:position 14 ; cd:usesResource ex:ted-fair-cards, ex:ted-fair-points ; cd:usesScene ex:ted-scene-fair ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-fair> {
+  ex:ted-scene-fair a cd:SceneDefinition ; cd:focusConcept ex:ted-fair-processing ; cd:hasSceneItem ex:ted-fair-heading, ex:ted-fair-card-item, ex:ted-fair-bullets ;
+    cd:narration "FAIR stands for Findable, Accessible, Interoperable and Reusable. Our processing contains multiple steps and possibly multiple tools. A file passed from one program to another is not enough: its meaning must survive. Give the data and metadata persistent identifiers and searchable descriptions; provide standard retrieval and explicit permissions; use shared, formal vocabularies and qualified links; retain context, provenance, licenses and community standards. Describe each process, its inputs and outputs, parameters and units, software version and execution so humans and machines can interpret the same statements. Standardized semantics is the bridge between tools, especially for interoperability and reuse, not a substitute for all other FAIR obligations. FAIR can include controlled access. Source: Wilkinson et al. (2016), doi:10.1038/sdata.2016.18. The next slide makes a semantic description concrete with a small everyday example."@en ; cd:authoredResource true .
+  ex:ted-fair-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-fair-processing ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-card-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-fair-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-fair-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}

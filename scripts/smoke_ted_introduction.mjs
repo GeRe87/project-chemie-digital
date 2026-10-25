@@ -11,7 +11,7 @@ assert.equal(manifest.documents.length,1);
 const entry=manifest.documents[0];
 const artifact=await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes=artifact.sceneDocuments[0].scenes;
-assert.equal(scenes.length,13,"Expected title + twelve content scenes");
+assert.equal(scenes.length,15,"Expected title + fourteen content scenes");
 assert.ok(!/cogniflow/i.test(JSON.stringify(artifact)));
 const axe=axePath ? await fs.readFile(axePath,"utf8") : undefined;
 const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{})});

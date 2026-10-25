@@ -4,6 +4,7 @@ import math
 import sys
 import unittest
 import xml.etree.ElementTree as ET
+from rdflib import Dataset, URIRef
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -20,7 +21,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -30,7 +31,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_every_content_scene_is_visual_first_and_bullets_are_concise(self):
         for scene in self.scenes[1:]:
-            self.assertTrue(any(block["kind"] in {"diagram", "chart", "media-reference"} for block in scene["blocks"]))
+            self.assertTrue(any(block["kind"] in {"diagram", "chart", "media-reference", "definition-list"} for block in scene["blocks"]))
             self.assertTrue(scene.get("narration"))
             self.assertFalse(any(block["kind"] == "math" for block in scene["blocks"]))
             for block in scene["blocks"]:
@@ -42,7 +43,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0])
+        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram["states"]:
@@ -59,6 +60,38 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertTrue(all(n["visualMotifRole"] == "highlight" for n in diagram["nodes"]))
         self.assertIn("GQD", diagram["nodes"][0]["description"])
         self.assertFalse(any(b["kind"] == "math" for b in scene["blocks"]))
+
+    def test_fair_principles_are_not_reduced_to_rdf_syntax(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-fair--scene")
+        cards = next(b for b in scene["blocks"] if b["kind"] == "definition-list")
+        self.assertEqual([e["term"] for e in cards["entries"]],
+                         ["F: Findable", "A: Accessible", "I: Interoperable", "R: Reusable"])
+        self.assertIn("not a substitute", scene["narration"])
+        self.assertIn("controlled access", scene["narration"])
+
+    def test_semantic_example_code_and_graph_preserve_the_same_assertions(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantics--scene")
+        code = next(b for b in scene["blocks"] if b["kind"] == "code")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        self.assertEqual(diagram["presentation"], "dialog")
+        self.assertEqual(len(diagram["nodes"]), 4)
+        self.assertEqual(len(diagram["edges"]), 4)
+        self.assertFalse(code["executable"])
+        parsed = Dataset()
+        parsed.parse(data=code["code"], format="trig")
+        dataset = R.assemble_dataset()
+        graph_id = URIRef("https://w3id.org/project-chemie-digital/graph/ted-demo-affiliations")
+        self.assertEqual(set(parsed.graph(graph_id)), set(dataset.graph(graph_id)))
+        self.assertEqual(len(parsed.graph(graph_id)), 9)
+        # Each diagram relation points back to exactly one assertion predicate.
+        cd = lambda name: R.iri(R.CD, name)
+        owners = {n["id"]: URIRef(n["source"][0]["resourceId"].replace("ex:", R.EX)) for n in diagram["nodes"]}
+        refs = {key: R.one(dataset, owner, R.DCTERMS.references) for key, owner in owners.items()}
+        for edge in diagram["edges"]:
+            owner = URIRef(edge["source"][0]["resourceId"].replace("ex:", R.EX))
+            predicate = R.one(dataset, owner, R.DCTERMS.references)
+            self.assertIn((refs[edge["sourceNodeId"]], predicate, refs[edge["targetNodeId"]]), dataset.graph(graph_id))
+        self.assertEqual(list(dataset.graph(graph_id).objects(URIRef("https://example.org/fair-demo/ude"), URIRef("https://schema.org/alternateName")))[0].toPython(), "UDE")
 
     def test_schematic_chromatogram_has_real_rdf_points_but_no_measurement_claim(self):
         marker_scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-markers--scene")

@@ -1818,6 +1818,12 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
+                presentation = literal(dataset, selected, iri(CD, "diagramPresentation"))
+                if presentation is not None:
+                    if presentation not in ("inline", "dialog"):
+                        raise ValueError("diagramPresentation must be inline or dialog")
+                    payload["presentation"] = presentation
+                    block_sources.append(source_reference(dataset, selected, "cd:diagramPresentation"))
                 if label_relation_path is not None and label_relation_path != relation_path:
                     block_sources.append(source_reference(dataset, selected, label_relation_path))
                 block = {

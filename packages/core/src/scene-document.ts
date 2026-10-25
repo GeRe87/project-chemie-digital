@@ -552,6 +552,8 @@ export interface TimelineChartBlock extends SceneBlockBase {
   readonly chartType: "timeline";
   readonly label: string;
   readonly description: string;
+  /** Optional on-demand presentation; static exports still include the graph. */
+  readonly presentation?: "inline" | "dialog";
   readonly xAxis: ChartAxis;
   readonly yAxis: ChartAxis;
   readonly categories: readonly { readonly id: string; readonly label: string; readonly source: readonly SourceReference[] }[];
@@ -725,6 +727,7 @@ function validateTable(block: TableBlock, label: string): void {
 }
 
 function validateDiagram(block: DiagramBlock, label: string): void {
+  if (block.presentation !== undefined && !["inline", "dialog"].includes(block.presentation)) throw new SceneContractError(`${label} diagram presentation must be inline or dialog`);
   requireNonEmpty(block.label, `${label} diagram label`);
   requireNonEmpty(block.description, `${label} diagram description`);
   if (block.diagramType !== "flow" && block.diagramType !== "network" && block.diagramType !== "sequence") throw new SceneContractError(`${label} diagram type must be flow, network or sequence`);

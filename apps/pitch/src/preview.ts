@@ -460,6 +460,7 @@ function appendBlock(
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
+    if (block.presentation === "dialog") shell.className = "pcd-diagram-dialog-launcher";
     blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);

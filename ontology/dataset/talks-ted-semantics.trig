@@ -1,0 +1,71 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix demo: <https://example.org/fair-demo/> .
+@prefix schema: <https://schema.org/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@base <https://w3id.org/project-chemie-digital/graph/> .
+
+# Illustrative assertions supplied by the speaker, not an institutional directory.
+# The CodeExample below serializes this exact named graph.
+<ted-demo-affiliations> {
+  demo:gerrit schema:name "Gerrit" ; schema:worksFor demo:ude ; org:memberOf demo:iac .
+  demo:ude schema:name "University of Duisburg-Essen" ; schema:alternateName "UDE" .
+  demo:iac schema:name "Instrumental Analytical Chemistry" ; org:unitOf demo:ude .
+  demo:schmidt schema:name "Torsten C. Schmidt" ; org:headOf demo:iac .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-semantics> {
+  ex:ted-semantic-description a cd:Concept ; skos:prefLabel "One story, three representations"@en ; cd:hasDefinition ex:ted-semantics-definition ; cd:hasSource ex:ted-source-semantics-example ; cd:authoredResource true .
+  ex:ted-semantics-definition a cd:Definition ; cd:body "A semantic description identifies entities independently of their display names and relates them with explicit, defined predicates. RDF statements connect a subject, predicate and object; the object can be another identified resource or a literal such as a name. Prefixes abbreviate IRIs, not their meaning. Here schema.org supplies name, alternateName and worksFor; the W3C Organization Ontology supplies memberOf, unitOf and headOf. UDE is another name for the same university, not a second university. The pronoun He is resolved to Gerrit, and the lab group is related to both its university and its head. TriG serializes an RDF Dataset with named graphs. The prose, TriG and diagram express the same illustrative affiliation story. This pedagogical example uses example.org identifiers and author-supplied affiliations, not persistent production identifiers or independently verified employment records. In processing, replace people and organizations with identified steps, tools and data, and use domain vocabularies for their inputs, outputs, parameters, units and provenance."@en ; cd:hasSource ex:ted-source-semantics-example, ex:ted-source-trig ; cd:authoredResource true .
+  ex:ted-semantics-prose a cd:Interpretation ; cd:body "**Prose**\n\nGerrit works at the University of Duisburg-Essen, also called UDE.\n\nHe works in Torsten C. Schmidt's lab group, Instrumental Analytical Chemistry.\n\n**Make the meaning explicit:** give entities IDs, use defined relationships, and attach aliases to the same entity.\n\n**Subject → predicate → object:**\nGerrit → worksFor → UDE."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+  ex:ted-semantics-code a cd:CodeExample ; skos:prefLabel "The same statements as TriG"@en ; cd:programmingLanguage "trig" ; cd:editable false ; cd:executable false ; cd:showsResource ex:ted-semantic-description ;
+    cd:code """@prefix : <https://example.org/fair-demo/> .
+@prefix schema: <https://schema.org/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@base <https://w3id.org/project-chemie-digital/graph/> .
+
+<ted-demo-affiliations> {
+  :gerrit schema:name "Gerrit" ;
+    schema:worksFor :ude ;
+    org:memberOf :iac .
+  :ude schema:name
+    "University of Duisburg-Essen" ;
+    schema:alternateName "UDE" .
+  :iac schema:name
+    "Instrumental Analytical Chemistry" ;
+    org:unitOf :ude .
+  :schmidt schema:name "Torsten C. Schmidt" ;
+    org:headOf :iac .
+}""" ; cd:hasSource ex:ted-source-semantics-example, ex:ted-source-trig ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-semantics> {
+  ex:ted-source-semantics-example a cd:Source ; dct:title "Speaker-supplied affiliation story for teaching RDF semantics" ; dct:creator "Gerrit Renner" ; dct:identifier "issue-294/semantic-description-example" ; dct:description "The two sentences supplied for this presentation. Affiliation and group leadership are illustrative author assertions, not independently checked personnel metadata."@en ; cd:supportsResource ex:ted-semantics-definition, ex:ted-semantics-code ; cd:authoredResource true .
+  ex:ted-source-trig a cd:Source ; dct:title "RDF 1.1 TriG: RDF Dataset Language" ; dct:creator "W3C" ; dct:identifier "https://www.w3.org/TR/trig/" ; dct:description "TriG syntax and preservation of named-graph identity. Predicate vocabularies: https://schema.org/ and https://www.w3.org/TR/vocab-org/."@en ; cd:supportsResource ex:ted-semantics-definition, ex:ted-semantics-code ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-semantics> {
+  ex:ted-affiliation-network a cd:NetworkDiagram ; skos:prefLabel "knowledge graph"@en ; cd:body "Four entities, four explicit relationships. UDE is an alternate name, not a separate university. Labels show names; arrows show the predicates from the TriG."@en ; cd:diagramPresentation "dialog" ;
+    cd:hasDiagramNode ex:ted-sem-node-gerrit, ex:ted-sem-node-ude, ex:ted-sem-node-iac, ex:ted-sem-node-schmidt ;
+    cd:hasDiagramEdge ex:ted-sem-edge-works, ex:ted-sem-edge-member, ex:ted-sem-edge-unit, ex:ted-sem-edge-head ; cd:hasSource ex:ted-source-semantics-example ; cd:authoredResource true .
+  ex:ted-sem-node-gerrit a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Gerrit"@en ; cd:body "Person · :gerrit"@en ; dct:references demo:gerrit ; cd:authoredResource true .
+  ex:ted-sem-node-ude a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "University of Duisburg-Essen (UDE)"@en ; cd:body "Also called UDE · :ude"@en ; dct:references demo:ude ; cd:authoredResource true .
+  ex:ted-sem-node-iac a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Instrumental Analytical Chemistry"@en ; cd:body "Lab group · :iac"@en ; dct:references demo:iac ; cd:authoredResource true .
+  ex:ted-sem-node-schmidt a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Torsten C. Schmidt"@en ; cd:body "Person · :schmidt"@en ; dct:references demo:schmidt ; cd:authoredResource true .
+  ex:ted-sem-edge-works a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:ted-sem-node-gerrit ; cd:targetNode ex:ted-sem-node-ude ; skos:prefLabel "schema:worksFor"@en ; dct:references schema:worksFor ; cd:authoredResource true .
+  ex:ted-sem-edge-member a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:ted-sem-node-gerrit ; cd:targetNode ex:ted-sem-node-iac ; skos:prefLabel "org:memberOf"@en ; dct:references org:memberOf ; cd:authoredResource true .
+  ex:ted-sem-edge-unit a cd:DiagramEdge ; cd:position 3 ; cd:sourceNode ex:ted-sem-node-iac ; cd:targetNode ex:ted-sem-node-ude ; skos:prefLabel "org:unitOf"@en ; dct:references org:unitOf ; cd:authoredResource true .
+  ex:ted-sem-edge-head a cd:DiagramEdge ; cd:position 4 ; cd:sourceNode ex:ted-sem-node-schmidt ; cd:targetNode ex:ted-sem-node-iac ; skos:prefLabel "org:headOf"@en ; dct:references org:headOf ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-semantic-description ; cd:hasStep ex:ted-step-semantics .
+  ex:ted-step-semantics a cd:PathStep ; cd:position 15 ; cd:usesResource ex:ted-semantics-prose, ex:ted-semantics-code, ex:ted-affiliation-network ; cd:usesScene ex:ted-scene-semantics ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-semantics> {
+  ex:ted-scene-semantics a cd:SceneDefinition ; cd:focusConcept ex:ted-semantic-description ; cd:hasSceneItem ex:ted-semantics-heading, ex:ted-semantics-text, ex:ted-semantics-code-item, ex:ted-semantics-network-item ;
+    cd:narration "Read the two everyday sentences first. He refers to Gerrit; UDE refers to the same university, not another organization. We identify four entities and use named relationships: Gerrit works for the university and belongs to the group, the group is a unit of the university, and Torsten C. Schmidt heads the group. These are the speaker's illustrative assertions, not verified personnel records. The TriG describes those relationships in a named graph. Prefixes abbreviate identifiers; a semicolon continues the same subject, and quoted strings are literal names. The graph button opens a larger view of exactly these entity-to-entity relationships; names and the UDE alias stay on their entities. In a data-processing pipeline, apply the same idea to identified inputs, outputs, operations, tools and executions. Shared vocabularies make the links interpretable across tools. TriG is one serialization, not FAIR compliance by itself."@en ; cd:authoredResource true .
+  ex:ted-semantics-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-semantic-description ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-semantics-text a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-semantics-prose ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-semantics-code-item a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-semantics-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:code" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-semantics-network-item a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:ted-affiliation-network ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

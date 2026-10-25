@@ -65,6 +65,20 @@
   tab-size: 2;
 }
 
+/* Read-only source beside prose should show a compact example without a hidden
+   lower half. Longer examples remain scrollable at the panel boundary. */
+.reveal .slides section[data-composition-profile="info-visual"] .code-block[data-editable="false"][data-executable="false"] .code-static-fallback {
+  max-height: 36rem;
+  font-size: 20px;
+  line-height: 1.25;
+}
+.reveal .slides section[data-composition-profile="info-visual"] .code-block[data-editable="false"][data-executable="false"] .code-static-fallback code {
+  max-height: none;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .reveal .code-editor-host {
   overflow: hidden;
   border: 2px solid var(--pcd-accent);

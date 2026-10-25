@@ -156,6 +156,42 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### FAIR principles and an everyday semantic-description example
+
+Added two scenes after processing, at path positions 14 and 15. The first
+explains Findable, Accessible, Interoperable and Reusable with concise cards and
+connects these principles to inputs, outputs, parameters, units, software versions
+and provenance across tools. Standardized semantics is central to interoperability
+and reuse, not a substitute for access, persistence, discovery and licensing.
+FAIR does not imply unrestricted public access. The scholarly source is recorded
+in TriG (Wilkinson et al., 2016).
+
+The second scene presents the speaker's two English affiliation sentences beside
+their TriG representation. Four entities and four relations form an optional
+knowledge-graph overlay. UDE remains an alternate name of the same university.
+The example's nine RDF statements are authored in a preserved named graph; the
+displayed CodeExample and diagram are checked against those assertions. The story
+is attributed to the speaker, not claimed as verified institutional metadata.
+
+Added a generic `cd:diagramPresentation` hint with SHACL, projection provenance
+and core enum validation. Pitch reuses its explanation-dialog and D3 primitives;
+the prose/code/dialog composition is based on block kinds, not scene identity.
+The graph mounts only after opening, supports Escape/focus restoration and
+reopening, and closes on hash navigation. Static alternatives retain all graph
+content. Shared compact-network layout and read-only source styling were adjusted
+to keep names and the complete small TriG example readable.
+
+Runtime generation succeeded. Brief dark-theme preview showed both slides and
+the four-node overlay without page errors; Escape restored focus and reopening
+retained exactly four nodes. A read-only RDF audit matched the nine serialized
+statements, graph identity and all four visual relations. Prepared guards now
+expect 15 scenes including the title. Full suites remain deferred by the owner.
+Light-theme/reduced-motion preview confirmed a fully visible code example without
+vertical scrolling, keyboard focus contained in the overlay and closure on hash
+navigation. Both overlay themes were visually inspected.
+See `docs/talks-fair-semantics.md` for contracts and limitations. No deployment
+or merge was performed.
+
 ### Stable FIFO transition and static processing overview
 
 The shared regression renderer reserves the FIFO controls row in every stage

@@ -628,7 +628,7 @@ function addEdgeLabel(
   const lineCount = Math.max(edge.labelLines.length, 1);
   const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
   const compactNetwork = strategy === "radial-network" || strategy === "triadic-network";
-  const panelWidth = textWidth + (compactNetwork ? 18 : 26);
+  const panelWidth = compactNetwork ? textWidth * 1.25 + 26 : textWidth + 26;
   const panelHeight = Math.max(compactNetwork ? 30 : 34, lineCount * (compactNetwork ? 20 : 22) + (compactNetwork ? 8 : 12));
   const group = document.createElementNS(namespace, "g");
   group.setAttribute("class", "d3-flow-edge-label-group");

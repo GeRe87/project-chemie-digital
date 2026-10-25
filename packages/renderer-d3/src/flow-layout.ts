@@ -1124,19 +1124,19 @@ function compactRadialNetworkLayout(
   const height = Math.max(320, Math.min(450, width * 0.9));
   const centerX = width / 2;
   const centerY = height / 2;
-  const nodeWidth = Math.max(146, Math.min(176, width * 0.39));
+  const nodeWidth = Math.max(146, Math.min(288, width * 0.30));
   const radiusX = Math.max(96, Math.min(width * 0.32, (width - nodeWidth) / 2 - 14));
   const radiusY = Math.max(96, Math.min(height * 0.34, (height - 68) / 2 - 16));
 
   const nodes = prepared.map((node, index): D3FlowLayoutNode => {
     const angle = -Math.PI / 2 + (2 * Math.PI * index) / prepared.length;
-    const labelLines = wrapFlowText(node.label, Math.max(118, nodeWidth - 28));
+    const labelLines = wrapFlowText(node.label, Math.max(118, nodeWidth - 32), structuredTitleTextMeasure);
     return {
       id: node.id,
       x: centerX + Math.cos(angle) * radiusX,
       y: centerY + Math.sin(angle) * radiusY,
       width: nodeWidth,
-      height: Math.max(62, 28 + labelLines.length * 21),
+      height: Math.max(62, 28 + labelLines.length * 24),
       labelLines,
       bodyLines: [],
     };
@@ -1757,7 +1757,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
           target,
           radial || triadic ? { x: geometry.width / 2, y: geometry.height / 2 } : undefined,
         ),
-        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        labelLines: wrapFlowText(edge.label, Math.max(EDGE_LABEL_MAX_WIDTH, Math.min(220, geometry.width * .22))),
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
     }

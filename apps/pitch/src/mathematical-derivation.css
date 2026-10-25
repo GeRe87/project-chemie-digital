@@ -48,6 +48,11 @@
 .pcd-rule-dialog-body { overflow: auto; overscroll-behavior: contain; max-height: calc(84vh - 5.5rem); padding: .7rem 1.5rem 1.4rem; }
 .pcd-rule-dialog-body h3 { font-size: 1.05em; margin: .7em 0 .3em; color: var(--pcd-accent); }
 .pcd-rule-dialog-body p { max-width: 70ch; }
+.pcd-diagram-dialog { width: min(76rem, 94vw); }
+.pcd-diagram-dialog-stage.reveal { height: auto; font-size: 22px; }
+.pcd-diagram-dialog .d3-diagram-host { width: 100%; height: min(65vh, 42rem); min-height: 20rem; }
+.pcd-diagram-open { font: inherit; color: var(--pcd-foreground); background: var(--pcd-surface-strong); border: 2px solid var(--pcd-accent); border-radius: .35rem; padding: .45rem 1rem; cursor: pointer; }
+.pcd-diagram-open:focus-visible { outline: 3px solid var(--pcd-accent); outline-offset: 4px; }
 .pcd-rule-dialog-body li { margin: .5em 0; }
 .pcd-rule-dialog-body .derivation-formula { font-size: 1.05em; overflow-x: auto; }
 @media (max-height: 760px) { .pcd-rule-dialog { font-size: 20px; } }
