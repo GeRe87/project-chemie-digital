@@ -1,0 +1,62 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/data/talks-ted-schematic> {
+  # Hand-authored teaching coordinates, not measured data or a polymer assignment.
+  # No real retention times, ion masses, calibration slopes or detection limits.
+  ex:ted-marker-chromatogram a cd:ChartDefinition ;
+    skos:prefLabel "Schematic chromatogram — not measured data"@en ;
+    cd:body "Synthetic trace · not measured data · no polymer assignment."@en ;
+    cd:chartType cd:LineChart ; cd:xAxisLabel "Relative retention time"@en ;
+    cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:ted-schematic-signal ;
+    cd:hasChartAnnotation ex:ted-marker-candidate-a, ex:ted-marker-matrix, ex:ted-marker-area ;
+    dct:references ex:ted-polymer-markers ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
+  ex:ted-schematic-signal a cd:Dataset ; skos:prefLabel "Synthetic signal; no measured sample"@en ;
+    dct:description "Illustrative coordinates only; arbitrary relative retention scale and arbitrary relative signal. No polymer identity or physical calibration can be inferred."@en ;
+    cd:hasObservation ex:ted-trace-01, ex:ted-trace-02, ex:ted-trace-03, ex:ted-trace-04, ex:ted-trace-05,
+      ex:ted-trace-06, ex:ted-trace-07, ex:ted-trace-08, ex:ted-trace-09, ex:ted-trace-10,
+      ex:ted-trace-11, ex:ted-trace-12, ex:ted-trace-13, ex:ted-trace-14, ex:ted-trace-15,
+      ex:ted-trace-16, ex:ted-trace-17, ex:ted-trace-18, ex:ted-trace-19, ex:ted-trace-20,
+      ex:ted-trace-21, ex:ted-trace-22, ex:ted-trace-23, ex:ted-trace-24, ex:ted-trace-25,
+      ex:ted-trace-26, ex:ted-trace-27, ex:ted-trace-28, ex:ted-trace-29, ex:ted-trace-30,
+      ex:ted-trace-31, ex:ted-trace-32, ex:ted-trace-33 ; cd:authoredResource true .
+  ex:ted-trace-01 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-02 a cd:Observation ; cd:position 2 ; cd:xValue 0.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-03 a cd:Observation ; cd:position 3 ; cd:xValue 1.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-04 a cd:Observation ; cd:position 4 ; cd:xValue 1.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-05 a cd:Observation ; cd:position 5 ; cd:xValue 1.8 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-trace-06 a cd:Observation ; cd:position 6 ; cd:xValue 2.0 ; cd:numericValue 0.3 ; cd:authoredResource true .
+  ex:ted-trace-07 a cd:Observation ; cd:position 7 ; cd:xValue 2.2 ; cd:numericValue 0.85 ; cd:authoredResource true .
+  ex:ted-trace-08 a cd:Observation ; cd:position 8 ; cd:xValue 2.4 ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:ted-trace-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.6 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-trace-10 a cd:Observation ; cd:position 10 ; cd:xValue 3.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-11 a cd:Observation ; cd:position 11 ; cd:xValue 3.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-12 a cd:Observation ; cd:position 12 ; cd:xValue 4.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-13 a cd:Observation ; cd:position 13 ; cd:xValue 4.3 ; cd:numericValue 0.15 ; cd:authoredResource true .
+  ex:ted-trace-14 a cd:Observation ; cd:position 14 ; cd:xValue 4.6 ; cd:numericValue 0.55 ; cd:authoredResource true .
+  ex:ted-trace-15 a cd:Observation ; cd:position 15 ; cd:xValue 4.9 ; cd:numericValue 0.28 ; cd:authoredResource true .
+  ex:ted-trace-16 a cd:Observation ; cd:position 16 ; cd:xValue 5.2 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-trace-17 a cd:Observation ; cd:position 17 ; cd:xValue 5.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-18 a cd:Observation ; cd:position 18 ; cd:xValue 6.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-19 a cd:Observation ; cd:position 19 ; cd:xValue 6.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-20 a cd:Observation ; cd:position 20 ; cd:xValue 6.8 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-trace-21 a cd:Observation ; cd:position 21 ; cd:xValue 7.0 ; cd:numericValue 0.2 ; cd:authoredResource true .
+  ex:ted-trace-22 a cd:Observation ; cd:position 22 ; cd:xValue 7.2 ; cd:numericValue 0.72 ; cd:authoredResource true .
+  ex:ted-trace-23 a cd:Observation ; cd:position 23 ; cd:xValue 7.4 ; cd:numericValue 0.95 ; cd:authoredResource true .
+  ex:ted-trace-24 a cd:Observation ; cd:position 24 ; cd:xValue 7.6 ; cd:numericValue 0.62 ; cd:authoredResource true .
+  ex:ted-trace-25 a cd:Observation ; cd:position 25 ; cd:xValue 7.8 ; cd:numericValue 0.22 ; cd:authoredResource true .
+  ex:ted-trace-26 a cd:Observation ; cd:position 26 ; cd:xValue 8.0 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-trace-27 a cd:Observation ; cd:position 27 ; cd:xValue 8.3 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-28 a cd:Observation ; cd:position 28 ; cd:xValue 8.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-29 a cd:Observation ; cd:position 29 ; cd:xValue 9.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-30 a cd:Observation ; cd:position 30 ; cd:xValue 9.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-31 a cd:Observation ; cd:position 31 ; cd:xValue 10.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-trace-32 a cd:Observation ; cd:position 32 ; cd:xValue 10.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-trace-33 a cd:Observation ; cd:position 33 ; cd:xValue 11.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
+  ex:ted-marker-candidate-a a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Marker candidate"@en ; cd:targetObservation ex:ted-trace-07 ; cd:authoredResource true .
+  ex:ted-marker-matrix a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "Matrix signal"@en ; cd:targetObservation ex:ted-trace-14 ; cd:authoredResource true .
+  ex:ted-marker-area a cd:ChartRangeAnnotation ; cd:position 3 ; cd:body "Area → calibration"@en ; cd:startObservation ex:ted-trace-20 ; cd:endObservation ex:ted-trace-27 ; cd:authoredResource true .
+}

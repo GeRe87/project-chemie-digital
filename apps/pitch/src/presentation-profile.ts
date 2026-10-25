@@ -110,6 +110,7 @@ export const talksPresentationProfile: PresentationProfile = {
   backgroundProgressAxis: "horizontal",
   supportedViews: ["deck"],
   backgroundFamilyIds: [talksLaboratoryFamily.id],
+  defaultReadability: "lecture",
   presenterCapabilities: { clock: true, laserPointer: true },
 };
 

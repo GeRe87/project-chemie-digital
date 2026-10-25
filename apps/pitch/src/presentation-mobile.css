@@ -10,6 +10,16 @@
     font-size: 16px;
   }
 
+  /* Keep the same lecture hierarchy at native phone size instead of inheriting
+     projector-sized heading tokens, which create an over-wide grid track. */
+  body.pcd-native-mobile[data-presentation-readability="lecture"] .reveal {
+    font-size: 20px;
+    --pcd-lecture-heading: clamp(1.7rem, 8.2vw, 2.15rem);
+    --pcd-lecture-body: 20px;
+    --pcd-lecture-secondary: 18px;
+    --pcd-lecture-caption: 16px;
+  }
+
   body.pcd-native-mobile .reveal .slides section {
     box-sizing: border-box;
     padding: .9rem .78rem 1rem !important;
@@ -21,6 +31,39 @@
     font-size: clamp(1.7rem, 8.2vw, 2.15rem) !important;
     line-height: 1.03 !important;
     text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  body.pcd-native-mobile:not(.reveal-scroll) .reveal .slides
+    section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.media-reference) {
+    height: 100%;
+    grid-template-rows: auto auto minmax(0, 1fr) !important;
+    gap: .5rem;
+  }
+  body.pcd-native-mobile:not(.reveal-scroll) .reveal .slides
+    section[data-composition-profile="info-visual"]:has(.media-reference)
+    > [data-composition-region-container="secondary"] {
+    display: grid;
+    min-height: 0;
+  }
+  body.pcd-native-mobile:not(.reveal-scroll) .reveal .slides
+    section[data-composition-profile="info-visual"] .keypoint-list {
+    margin: 0;
+    padding: .3rem .4rem;
+  }
+  body.pcd-native-mobile:not(.reveal-scroll) .reveal .slides
+    section[data-composition-profile="info-visual"] .media-reference {
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+  }
+  body.pcd-native-mobile:not(.reveal-scroll) .reveal .slides
+    section[data-composition-profile="info-visual"] .media-reference :is(svg, img) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    object-fit: contain;
   }
 
   body.pcd-native-mobile .reveal .slides section > h2 + .lead {

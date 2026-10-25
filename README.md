@@ -169,6 +169,10 @@ See [Talks build and Cloudflare Pages preparation](docs/talks-deployment.md) and
 [ADR-0020](docs/adr/0020-scientific-presentation-collections.md). Hosting configuration
 is an owner action; these commands do not deploy either site.
 
+The first talk also contains six visual TED-GC-MS introductory scenes. Their
+knowledge, diagrams, synthetic chromatogram and scene selection are authored in
+`ontology/dataset/talks-ted-*.trig`; see the [content and scientific review record](docs/handoffs/issue-294-ted-introduction.md).
+
 ## Repository principles
 
 - `main` remains reviewable and stable.

@@ -283,8 +283,10 @@ let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeView
 const syncNativeViewport = () => {
   if (!hasObservationExplorer && appearance.profile.viewportPolicy !== "native-portrait") return;
   const native = window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
-  const width = Math.max(320, Math.round(window.innerWidth));
-  const height = Math.max(560, Math.round(window.innerHeight));
+  // Native portrait means the actual presentation area, not the window plus
+  // the controls above it. Otherwise Reveal shrinks a phone-width slide again.
+  const width = Math.max(240, Math.round(presentation.clientWidth || window.innerWidth));
+  const height = Math.max(240, Math.round(presentation.clientHeight || window.innerHeight));
   document.body.classList.toggle("pcd-native-mobile", native);
   const key = `${native}:${width}:${height}`;
   if (key === viewportKey) return;
@@ -293,6 +295,8 @@ const syncNativeViewport = () => {
   deck.layout();
 };
 window.addEventListener("resize", syncNativeViewport);
+const nativeViewportObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(syncNativeViewport);
+nativeViewportObserver?.observe(presentation);
 syncNativeViewport();
 // Resolve authored deep links to native page boundaries. Reveal's proportional
 // scroll-trigger calculation can select a preceding page in fragment-rich decks.
@@ -479,6 +483,7 @@ const unmountShell = mountGraphSummaryShell({
 
 window.addEventListener("pagehide", () => {
   window.removeEventListener("resize", syncNativeViewport);
+  nativeViewportObserver?.disconnect();
   window.removeEventListener("resize", syncBackgroundPage);
   deck.off("slidechanged",syncBackgroundPage);
   unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();

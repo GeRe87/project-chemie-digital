@@ -845,7 +845,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       caption.textContent = model.description;
       const svg = document.createElementNS(namespace, "svg");
       svg.setAttribute("class", "d3-flow-svg");
-      svg.setAttribute("role", "img");
+      // An image makes descendants presentational; keyboard-operated nodes
+      // must remain exposed as separate controls to assistive technology.
+      svg.setAttribute("role", model.interactionPolicy === "keyboard" ? "group" : "img");
       svg.setAttribute("aria-label", model.label);
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       svg.setAttribute("width", "100%");

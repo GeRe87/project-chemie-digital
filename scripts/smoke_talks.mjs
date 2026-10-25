@@ -42,7 +42,7 @@ try {
         await button.focus(); await page.keyboard.press("Enter");
         await page.locator(".scientific-title").waitFor();
         await page.waitForTimeout(1200);
-        assert.equal(await page.locator(".reveal .slides > section").count(),1);
+        assert.ok(await page.locator(".reveal .slides > section").count() >= 1);
         assert.equal(await page.locator(".scientific-title h1").textContent(),title);
         assert.match(await page.locator(".scientific-title").textContent(),/Gerrit Renner/);
         assert.match(await page.locator(".scientific-title").textContent(),/Faculty of Chemistry/);
